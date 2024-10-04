@@ -202,21 +202,6 @@ export function CalculateYourBenefits({
               ? profile.attributes.section103Message
               : 'No'}
           </div>
-
-          <div className="vads-u-padding-bottom--1 small-screen-font">
-            <LearnMoreLabel
-              text="Yellow Ribbon Program"
-              onClick={() => {
-                dispatchShowModal('yribbon');
-              }}
-              buttonClassName="small-screen-font"
-              bold
-              buttonId="yellow-ribbon-additional-info-learn-more"
-            />
-            <strong>:</strong>
-            &nbsp;
-            {profile.attributes.yr ? 'Yes' : 'No'}
-          </div>
         </>
       )}
     </div>

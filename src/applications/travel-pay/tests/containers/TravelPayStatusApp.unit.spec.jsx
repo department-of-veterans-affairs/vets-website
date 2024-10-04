@@ -20,13 +20,16 @@ describe('App', () => {
   const getData = ({
     areFeatureTogglesLoading = true,
     hasFeatureFlag = true,
+    hasClaimDetailsFeatureFlag = true,
     isLoggedIn = true,
   } = {}) => {
     return {
       featureToggles: {
         loading: areFeatureTogglesLoading,
-        // eslint-disable-next-line camelcase
+        /* eslint-disable camelcase */
         travel_pay_power_switch: hasFeatureFlag,
+        travel_pay_view_claim_details: hasClaimDetailsFeatureFlag,
+        /* eslint-enable camelcase */
       },
       user: {
         login: {
@@ -195,6 +198,77 @@ describe('App', () => {
     await waitFor(async () => {
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
       expect(await screen.findByText('No travel claims to show.')).to.exist;
+    });
+  });
+
+  it('successfully fetches and displays claims', async () => {
+    global.fetch.restore();
+    mockApiRequest({
+      data: [
+        {
+          id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
+          claimNumber: 'TC0928098230498',
+          claimName: 'string',
+          claimStatus: 'In Process',
+          appointmentDateTime: aprDate,
+          appointmentName: 'more recent',
+          appointmentLocation: 'Cheyenne VA Medical Center',
+          createdOn: '2024-04-22T21:22:34.465Z',
+          modifiedOn: '2024-04-23T16:44:34.465Z',
+        },
+      ],
+    });
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(async () => {
+      expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(1);
+      expect(await screen.findByText('Travel reimbursement claim details')).to
+        .exist;
+    });
+  });
+
+  it("doesn't show claim details link if feature flag is disabled", async () => {
+    global.fetch.restore();
+    mockApiRequest({
+      data: [
+        {
+          id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
+          claimNumber: 'TC0928098230498',
+          claimName: 'string',
+          claimStatus: 'In Process',
+          appointmentDateTime: aprDate,
+          appointmentName: 'more recent',
+          appointmentLocation: 'Cheyenne VA Medical Center',
+          createdOn: '2024-04-22T21:22:34.465Z',
+          modifiedOn: '2024-04-23T16:44:34.465Z',
+        },
+      ],
+    });
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        hasClaimDetailsFeatureFlag: false,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(async () => {
+      expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(1);
+      expect(screen.queryByText('Travel reimbursement claim details')).to.be
+        .null;
     });
   });
 
