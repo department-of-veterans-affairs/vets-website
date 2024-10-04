@@ -461,3 +461,58 @@ export const getLastUpdatedText = (refreshStateStatus, extractType) => {
 
   return null;
 };
+
+/**
+ * @param {Object} nameObject {first, middle, last, suffix}
+ * @returns {String} formatted timestamp
+ */
+
+export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
+  let returnName = '';
+  if (!last) return null;
+
+  let firstName = `${first}`;
+  let lastName = `${last}`;
+
+  if (!first) {
+    return lastName;
+  }
+  if (middle) firstName += ` ${middle}`;
+  if (suffix) lastName += `, ${suffix}`;
+
+  returnName = `${firstName} ${lastName}`;
+
+  return returnName;
+};
+
+/**
+ * @param {Object} nameObject name
+ * @returns {String} formatted timestamp
+ */
+
+export const formatNameFirstToLast = name => {
+  try {
+    if (typeof name === 'object') {
+      if ('family' in name && 'given' in name) {
+        const firstname = name.given?.join(' ');
+        const lastname = name.family;
+        return `${firstname} ${lastname}`;
+      }
+
+      const parts = name?.text.split(',');
+      if (parts.length !== 2) {
+        return name;
+      }
+      const [lastname, firstname] = parts;
+      return `${firstname} ${lastname}`;
+    }
+    const parts = name.split(',');
+    if (parts.length !== 2) {
+      return name;
+    }
+    const [lastname, firstname] = parts;
+    return `${firstname} ${lastname}`;
+  } catch {
+    return name;
+  }
+};
