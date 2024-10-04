@@ -23,7 +23,7 @@ import StatementOfTruth from '../components/StatementOfTruth';
 import { transform } from './submit-transformer';
 import FormHelp from '../components/FormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
-import VeteranDescCustomPageReview from '../components/VeteranDescCustomPageReview';
+import CustomPageReview from '../components/CustomPageReview';
 
 const { fullName, email, usaPhone } = commonDefinitions;
 const formConfig = {
@@ -83,7 +83,15 @@ const formConfig = {
         veteranDesc: {
           title: 'Your personal information',
           path: 'applicant-information-1',
-          CustomPageReview: VeteranDescCustomPageReview,
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your personal information"
+              question="Which one best describes you?"
+              dataValue="veteranDesc"
+            />
+          ),
           uiSchema: veteranDesc.uiSchema,
           schema: veteranDesc.schema,
         },
@@ -136,12 +144,30 @@ const formConfig = {
         highestLevelOfEducation: {
           title: 'Your education and employment history',
           path: 'education-employment-history-1',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your education and employment history"
+              question="What’s the highest level of education you have completed?"
+              dataValue="highestLevelOfEducation.level"
+            />
+          ),
           uiSchema: highestLevelOfEducation.uiSchema,
           schema: highestLevelOfEducation.schema,
         },
         currentlyEmployed: {
           title: 'Your education and employment history',
           path: 'education-employment-history-2',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your education and employment history"
+              question="Are you currently employed?"
+              dataValue="currentlyEmployed"
+            />
+          ),
           uiSchema: {
             currentlyEmployed: {
               'ui:title': (
@@ -164,12 +190,30 @@ const formConfig = {
         currentAnnualSalary: {
           title: 'Your education and employment history',
           path: 'education-employment-history-3',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your education and employment history"
+              question="What’s your current annual salary?"
+              dataValue="currentAnnualSalary"
+            />
+          ),
           uiSchema: currentAnnualSalary.uiSchema,
           schema: currentAnnualSalary.schema,
         },
         isWorkingInTechIndustry: {
           title: 'Your education and employment history',
           path: 'education-employment-history-4',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your education and employment history"
+              question="Do you currently work in the technology industry?"
+              dataValue="isWorkingInTechIndustry"
+            />
+          ),
           uiSchema: {
             isWorkingInTechIndustry: {
               'ui:title': (
@@ -192,6 +236,17 @@ const formConfig = {
         techIndustryFocusArea: {
           title: 'Your education and employment history',
           path: 'education-employment-history-5',
+          CustomPageReview: props => {
+            return (
+              <CustomPageReview
+                data={props.data}
+                editPage={props.editPage}
+                title="Your education and employment history wafi"
+                question="What’s your main area of focus in the technology industry?"
+                dataValue="techIndustryFocusArea"
+              />
+            );
+          },
           uiSchema: techIndustryFocusArea.uiSchema,
           schema: techIndustryFocusArea.schema,
         },
@@ -199,4 +254,5 @@ const formConfig = {
     },
   },
 };
+
 export default formConfig;

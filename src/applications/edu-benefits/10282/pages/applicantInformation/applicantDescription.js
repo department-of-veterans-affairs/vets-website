@@ -13,9 +13,7 @@ const labels = {
     "I'm a member of the Individual Ready Reserve",
 };
 const uiTitle = (
-  <h3 className="vads-u-margin--0 vads-u-color--base">
-    Which of these best describes you?
-  </h3>
+  <h3 className="vads-u-margin--0 ">Which of these best describes you?</h3>
 );
 
 export const uiSchema = {

@@ -1,19 +1,24 @@
-// src/applications/edu-benefits/10282/components/CustomPageReview.js
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const CustomPageReview = ({ data, editPage }) => {
+const CustomPageReview = ({ data, editPage, title, question, dataValue }) => {
   const [editing, setEditing] = useState(false);
-
+  const getNestedValue = (obj, path) => {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  };
+  const value = dataValue.includes('.')
+    ? getNestedValue(data, dataValue) || ''
+    : data?.[dataValue] || '';
   const handleEdit = () => {
     setEditing(!editing);
     editPage();
   };
+
   return (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
-          Your personal information
+          {title}
         </h4>
         <va-button
           secondary
@@ -25,9 +30,9 @@ const CustomPageReview = ({ data, editPage }) => {
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>Which one best describes you?</dt>
+          <dt>{question}</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="veteranDesc">
-            <strong>{data.veteranDesc || ''}</strong>
+            <strong>{value || ''}</strong>
           </dd>
         </div>
       </dl>
@@ -35,7 +40,10 @@ const CustomPageReview = ({ data, editPage }) => {
   );
 };
 CustomPageReview.propTypes = {
-  data: PropTypes.object,
-  editPage: PropTypes.func,
+  data: PropTypes.object.isRequired,
+  dataValue: PropTypes.string.isRequired,
+  editPage: PropTypes.func.isRequired,
+  question: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 export default CustomPageReview;
