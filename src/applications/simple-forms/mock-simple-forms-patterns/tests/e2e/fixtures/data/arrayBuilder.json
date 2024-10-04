@@ -33,6 +33,10 @@
           "postalCode": "12345"
         }
       }
-    ]
+    ],
+    "view:hasEmploymentMinMaxSame": false,
+    "view:hasEmploymentMinMax": false,
+    "view:hasEmploymentMin": false,
+    "view:hasEmploymentMax": false
   }
 }

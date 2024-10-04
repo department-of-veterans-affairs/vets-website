@@ -33,7 +33,7 @@ const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
 
 const MaxItemsAlert = ({ children }) => (
   <div className="vads-u-margin-top--4">
-    <va-alert status="warning" tabIndex={-1} visible>
+    <va-alert status="info" tabIndex={-1} visible>
       <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
         {children}
       </p>
@@ -171,6 +171,11 @@ export default function ArrayBuilderSummaryPage({
 
     useEffect(
       () => {
+        if (!isReviewPage) {
+          // Default to nothing selected everytime we visit the page
+          props.setData({ ...props.data, [hasItemsKey]: null });
+        }
+
         if (
           (uiSchema &&
             schema?.properties &&

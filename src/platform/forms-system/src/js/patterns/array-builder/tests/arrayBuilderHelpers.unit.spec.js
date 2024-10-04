@@ -267,46 +267,136 @@ describe('arrayBuilderText', () => {
   expect(getText).to.be.a('function');
 });
 
-describe('maxItemsHint', () => {
-  let hint = helpers.maxItemsHint({
-    arrayData: [],
-    nounPlural: 'employers',
-    nounSingular: 'employer',
-    maxItems: 5,
+describe('minMaxItemsHint', () => {
+  describe('minItems and maxItems are the same', () => {
+    it('should return the correct hint', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        minItems: 5,
+        maxItems: 5,
+      });
+      expect(hint).to.eq('You need exactly 5 employers.');
+    });
   });
-  expect(hint).to.eq('You can add up to 5.');
 
-  hint = helpers.maxItemsHint({
-    arrayData: [{}],
-    nounPlural: 'employers',
-    nounSingular: 'employer',
-    maxItems: 5,
+  describe('minItems and maxItems are different', () => {
+    it('should return the correct hint', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        minItems: 2,
+        maxItems: 5,
+      });
+      expect(hint).to.eq('You need a minimum of 2 and maximum of 5 employers.');
+    });
   });
-  expect(hint).to.eq('You can add 4 more employers.');
 
-  hint = helpers.maxItemsHint({
-    arrayData: [{}, {}, {}, {}],
-    nounPlural: 'employers',
-    nounSingular: 'employer',
-    maxItems: 5,
-  });
-  expect(hint).to.eq('You can add 1 more employer.');
+  describe('minItems', () => {
+    it('should return the correct hint with no items', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        minItems: 3,
+      });
+      expect(hint).to.eq('You need at least 3 employers.');
+    });
 
-  hint = helpers.maxItemsHint({
-    arrayData: [{}, {}, {}, {}, {}],
-    nounPlural: 'employers',
-    nounSingular: 'employer',
-    maxItems: 5,
-  });
-  expect(hint).to.eq('You can add up to 5.');
+    it('should return the correct hint with one item', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [{}],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        minItems: 3,
+      });
+      expect(hint).to.eq('You need at least 2 more employers.');
+    });
 
-  hint = helpers.maxItemsHint({
-    arrayData: [],
-    nounPlural: 'employers',
-    nounSingular: 'employer',
-    maxItems: 1,
+    it('should return the correct hint with 1 less than min items', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [{}, {}],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        minItems: 3,
+      });
+      expect(hint).to.eq('You need at least 1 more employer.');
+    });
+
+    it('should return no hint when has min items', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [{}, {}, {}],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        minItems: 3,
+      });
+      expect(hint).to.eq('');
+    });
+
+    it('should return the correct hint with no items and a min of 1 item', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        minItems: 1,
+      });
+      expect(hint).to.eq('You need at least 1 employer.');
+    });
   });
-  expect(hint).to.eq('You can add up to 1.');
+
+  describe('maxItems', () => {
+    it('should return the correct hint with no items', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        maxItems: 5,
+      });
+      expect(hint).to.eq('You can add up to 5 employers.');
+    });
+
+    it('should return the correct hint with one item', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [{}],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        maxItems: 5,
+      });
+      expect(hint).to.eq('You can add 4 more employers.');
+    });
+
+    it('should return the correct hint with 1 less than max items', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [{}, {}, {}, {}],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        maxItems: 5,
+      });
+      expect(hint).to.eq('You can add 1 more employer.');
+    });
+
+    it('should return the correct hint with max items', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [{}, {}, {}, {}, {}],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        maxItems: 5,
+      });
+      expect(hint).to.eq('You can add up to 5 employers.');
+    });
+
+    it('should return the correct hint with no items and a max of 1 item', () => {
+      const hint = helpers.minMaxItemsHint({
+        arrayData: [],
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        maxItems: 1,
+      });
+      expect(hint).to.eq('You can add up to 1 employer.');
+    });
+  });
 });
 
 describe('getUpdatedItemFromPath', () => {

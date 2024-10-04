@@ -25,6 +25,11 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+import arrayMultipageVariationsPage from '../pages/mockArrayMultiPageVariations';
+import employersMaxItemsPages from '../pages/mockArrayMultiPageMaxItems';
+import employersMinItemsPages from '../pages/mockArrayMultiPageMinItems';
+import employersMinMaxItemsPages from '../pages/mockArrayMultiPageMinMaxItems';
+import employersMinMaxItemsSamePages from '../pages/mockArrayMultiPageMinMaxItemsSame';
 // import arrayAddresses from '../pages/mockArrayAddresses';
 
 import {
@@ -41,6 +46,7 @@ const chapterSelectInitialData = {
   chapterSelect: {
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
+    arrayMultiPageVariations: true,
     arraySinglePage: true,
     checkbox: true,
     date: true,
@@ -349,6 +355,21 @@ const formConfig = {
             depends: includeChapter('arrayMultiPageBuilder'),
           }),
         })),
+      },
+    },
+    arrayMultiPageVariations: {
+      title: 'Array Multi-Page Variations',
+      pages: {
+        arrayMultiPageVariations: {
+          title: 'Array multiple page variations',
+          path: 'array-multiple-page-variations',
+          uiSchema: arrayMultipageVariationsPage.uiSchema,
+          schema: arrayMultipageVariationsPage.schema,
+        },
+        ...employersMinMaxItemsSamePages,
+        ...employersMinMaxItemsPages,
+        ...employersMinItemsPages,
+        ...employersMaxItemsPages,
       },
     },
   },

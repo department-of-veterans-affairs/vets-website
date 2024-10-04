@@ -98,6 +98,11 @@ class IntroductionPage extends React.Component {
                 Array - multiple page - builder pattern
               </Link>
             </li>
+            <li>
+              <Link to="/array-multiple-page-variations">
+                Array - multiple page - variations - min and max items
+              </Link>
+            </li>
           </ul>
         </div>
         <SaveInProgressIntro
