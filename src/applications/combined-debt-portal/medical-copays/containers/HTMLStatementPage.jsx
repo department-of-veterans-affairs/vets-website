@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react';
-import { uniqBy } from 'lodash';
 
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format, isValid } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  setPageFocus,
-  sortStatementsByDate,
-} from '../../combined/utils/helpers';
+import { setPageFocus } from '../../combined/utils/helpers';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
@@ -25,18 +21,23 @@ const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
-  const sortedStatements = sortStatementsByDate(statements ?? []);
-  const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
-  const statementDate = moment(selectedCopay.pSStatementDate, 'MM-DD').format(
-    'MMMM D',
-  );
+
+  // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
+  const parsedStatementDate = new Date(selectedCopay.pSStatementDateOutput);
+  const statementDate = isValid(parsedStatementDate)
+    ? format(parsedStatementDate, 'MMMM d')
+    : '';
+
   const title = `${statementDate} statement`;
   const prevPage = `Copay bill for ${selectedCopay.station.facilityName}`;
   const fullName = userFullName.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
+  const acctNum = selectedCopay?.pHAccountNumber
+    ? selectedCopay?.pHAccountNumber.toString()
+    : selectedCopay?.pHCernerAccountNumber.toString();
 
   useHeaderPageTitle(title);
 
@@ -84,7 +85,7 @@ const HTMLStatementPage = ({ match }) => {
           paymentsReceived={selectedCopay.pHTotCredits}
           previousBalance={selectedCopay.pHPrevBal}
           statementDate={statementDate}
-          acctNum={statementsByUniqueFacility[0].pHAccountNumber}
+          acctNum={selectedCopay.pHAccountNumber}
         />
         <StatementCharges
           data-testid="statement-charges"
@@ -102,10 +103,7 @@ const HTMLStatementPage = ({ match }) => {
           data-testid="statement-addresses"
           copay={selectedCopay}
         />
-        <HowToPay
-          acctNum={statementsByUniqueFacility[0].pHAccountNumber}
-          facility={statementsByUniqueFacility[0].station}
-        />
+        <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
         <FinancialHelp />
         <DisputeCharges />
         <BalanceQuestions />
