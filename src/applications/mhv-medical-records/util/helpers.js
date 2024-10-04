@@ -469,7 +469,6 @@ export const getLastUpdatedText = (refreshStateStatus, extractType) => {
 
 export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
   let returnName = '';
-  if (!last) return null;
 
   let firstName = `${first}`;
   let lastName = `${last}`;
@@ -513,6 +512,6 @@ export const formatNameFirstToLast = name => {
     const [lastname, firstname] = parts;
     return `${firstname} ${lastname}`;
   } catch {
-    return name;
+    return null;
   }
 };
