@@ -5,11 +5,32 @@ import { ERROR_ELEMENTS } from '../constants';
 
 const { scroller } = Scroll;
 
+/**
+ * Checks for reduce motion preference
+ * @returns {bool}
+ */
+export const hasReducedMotion = () =>
+  window?.matchMedia('(prefers-reduced-motion: reduce)')?.matches;
+
+export const getElementTopPosition = (el, offset = 0) => {
+  const target =
+    typeof el === 'string'
+      ? document.querySelector('main').querySelector(el) // el inside <main>
+      : el;
+  const currentPosition =
+    window.pageYOffset ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop ||
+    0;
+  return target
+    ? target.getBoundingClientRect().top + currentPosition - offset
+    : currentPosition;
+};
+
 // Allows smooth scrolling to be overridden by our E2E tests
 export function getScrollOptions(additionalOptions) {
   const globals = window.Forms || {};
-  const reducedMotion = window?.matchMedia('(prefers-reduced-motion: reduce)')
-    ?.matches;
+  const reducedMotion = hasReducedMotion();
   const defaults = {
     duration: reducedMotion ? 0 : 500,
     delay: 0,
@@ -26,18 +47,29 @@ export function scrollToTop(position = 0, options = getScrollOptions()) {
   scroller.scrollTo(position, options);
 }
 
+/**
+ * Scroll an element into view (not using react-scroll)
+ * @param {String|Element} el - element to scroll to
+ * @param {Number} offset=0 - any vertical offset
+ */
+export function windowScrollToElement(el, offset = 0) {
+  window.scrollTo({
+    top: getElementTopPosition(el, offset),
+    left: 0,
+    behavior: hasReducedMotion() ? 'instant' : 'smooth',
+  });
+}
+
 // Duplicate of function in platform/forms-system/src/js/utilities/ui/index
-export function scrollToFirstError() {
+/**
+ * Scroll to first error on the page (using react-scroll)
+ * @param {Number} offset=0 - any vertical offset
+ */
+export function scrollToFirstError(offset) {
   // [error] will focus any web-components with an error message
   const errorEl = document.querySelector(ERROR_ELEMENTS.join(','));
   if (errorEl) {
-    // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
-    const currentPosition =
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-    const position = errorEl.getBoundingClientRect().top + currentPosition;
+    const position = getElementTopPosition(errorEl, offset);
     // Don't animate the scrolling if there is an open modal on the page. This
     // prevents the page behind the modal from scrolling if there is an error in
     // modal's form.
@@ -59,18 +91,17 @@ export function scrollToFirstError() {
     if (!isModalOpen) {
       Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
     }
-    focusElement(errorEl);
+    if (errorEl.tagName.startsWith('VA-')) {
+      focusElement('[role="alert"]', {}, errorEl);
+    } else {
+      focusElement(errorEl);
+    }
   }
 }
 
-export function scrollAndFocus(errorEl) {
+export function scrollAndFocus(errorEl, offset) {
   if (errorEl) {
-    const currentPosition =
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-    const position = errorEl.getBoundingClientRect().top + currentPosition;
+    const position = getElementTopPosition(errorEl, offset);
     Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
     focusElement(errorEl);
   }

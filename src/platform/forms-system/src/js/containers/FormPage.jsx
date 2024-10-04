@@ -356,7 +356,7 @@ class FormPage extends React.Component {
         </div>
       );
     }
-
+console.log(route.formConfig.formOptions)
     return (
       <div className={pageClasses}>
         {showNavLinks && (
@@ -378,6 +378,7 @@ class FormPage extends React.Component {
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}
           onSubmit={this.onSubmit}
+          showErrorList={route.formConfig.formOptions.showErrorList}
         >
           {pageContentBeforeButtons}
           {hideNavButtons ? (
@@ -469,6 +470,7 @@ FormPage.propTypes = {
       }),
       formOptions: PropTypes.shape({
         noBottomNav: PropTypes.bool,
+        showErrorList: PropTypes.bool,
       }),
       showSaveLinkAfterButtons: PropTypes.bool,
       useTopBackLink: PropTypes.bool,

@@ -23,6 +23,7 @@ export default function commonFieldMapping(props) {
     messageAriaDescribedby: uiOptions?.messageAriaDescribedby,
     minlength: childrenProps.schema.minLength,
     name: childrenProps.idSchema.$id,
+    id: childrenProps.idSchema.$id,
     pattern: childrenProps.schema.pattern,
     reflectInputError: uiOptions?.reflectInputError,
     required,

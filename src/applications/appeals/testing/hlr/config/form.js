@@ -107,6 +107,10 @@ const formConfig = {
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
+  formOptions: {
+    showErrorList: true,
+  },
+
   additionalRoutes: [
     {
       path: 'start',

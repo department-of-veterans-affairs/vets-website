@@ -2,11 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { merge, once } from 'lodash';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
+
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import set from '../../../../utilities/data/set';
 
 import { uiSchemaValidate, transformErrors } from '../validation';
 import FieldTemplate from './FieldTemplate';
+import ErrorList from './ErrorList';
 import * as reviewWidgets from '../review/widgets';
 import ReviewFieldTemplate from '../review/ReviewFieldTemplate';
 import StringField from '../review/StringField';
@@ -194,9 +196,11 @@ class SchemaForm extends React.Component {
       safeRenderCompletion,
       name,
       addNameAttribute,
+      showErrorList,
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
+    const errorList = uiSchema?.['ui:errorList'] || ErrorList;
 
     return (
       <Form
@@ -213,7 +217,8 @@ class SchemaForm extends React.Component {
         uiSchema={uiSchema}
         idSchema={idSchema}
         validate={once(this.validate)}
-        showErrorList={false}
+        showErrorList={showErrorList}
+        CustomErrorList={errorList}
         formData={data}
         widgets={useReviewMode ? reviewWidgets : widgets}
         fields={useReviewMode ? this.reviewFields : this.fields}
@@ -227,18 +232,25 @@ class SchemaForm extends React.Component {
 }
 
 SchemaForm.propTypes = {
+  idSchema: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
   schema: PropTypes.object.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
   uiSchema: PropTypes.object.isRequired,
-  data: PropTypes.any,
-  appStateData: PropTypes.object,
-  reviewMode: PropTypes.bool,
-  editModeOnReviewPage: PropTypes.bool,
-  onSubmit: PropTypes.func,
-  onChange: PropTypes.func,
-  hideTitle: PropTypes.bool,
   addNameAttribute: PropTypes.bool,
+  appStateData: PropTypes.object,
+  children: PropTypes.any,
+  data: PropTypes.any,
+  editModeOnReviewPage: PropTypes.bool,
+  errorList: PropTypes.element,
+  formContext: PropTypes.object,
+  hideTitle: PropTypes.bool,
+  pagePerItemIndex: PropTypes.number,
+  reviewMode: PropTypes.bool,
+  safeRenderCompletion: PropTypes.bool,
+  showErrorList: PropTypes.bool,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 SchemaForm.defaultProps = {

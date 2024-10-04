@@ -10,6 +10,7 @@ export const SCROLL_ELEMENT_SUFFIX = 'ScrollElement';
 
 // Focus on error message/component selectors
 export const ERROR_ELEMENTS = [
+  '#error-summary',
   '.usa-input-error',
   'input-error-date',
   '[error]',

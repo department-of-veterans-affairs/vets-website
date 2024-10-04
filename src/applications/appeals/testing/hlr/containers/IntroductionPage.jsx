@@ -30,7 +30,7 @@ export const IntroductionPage = props => {
     formId,
     gaStartEventName: 'decision-reviews-va20-0996-start-form',
     headingLevel: 2,
-    hideUnauthedStartLink: true,
+    hideUnauthedStartLink: false,
     messages: savedFormMessages,
     pageList,
     pathname: '/introduction',
