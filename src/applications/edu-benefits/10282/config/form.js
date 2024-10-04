@@ -136,6 +136,7 @@ const formConfig = {
           path: 'education-employment-history-1',
           uiSchema: highestLevelOfEducation.uiSchema,
           schema: highestLevelOfEducation.schema,
+          depends: formData => formData.raceAndGender === 'Yes',
         },
         currentlyEmployed: {
           title: 'Your education and employment history',
@@ -158,12 +159,14 @@ const formConfig = {
               },
             },
           },
+          depends: formData => formData.raceAndGender === 'Yes',
         },
         currentAnnualSalary: {
           title: 'Your education and employment history',
           path: 'education-employment-history-3',
           uiSchema: currentAnnualSalary.uiSchema,
           schema: currentAnnualSalary.schema,
+          depends: formData => formData.raceAndGender === 'Yes',
         },
         isWorkingInTechIndustry: {
           title: 'Your education and employment history',
@@ -186,12 +189,14 @@ const formConfig = {
               },
             },
           },
+          depends: formData => formData.raceAndGender === 'Yes',
         },
         techIndustryFocusArea: {
           title: 'Your education and employment history',
           path: 'education-employment-history-5',
           uiSchema: techIndustryFocusArea.uiSchema,
           schema: techIndustryFocusArea.schema,
+          depends: formData => formData.raceAndGender === 'Yes',
         },
       },
     },
