@@ -76,6 +76,7 @@ export default function ReferralReview() {
           data-testid="help-text"
           uswds
           trigger="If you already scheduled your appointment"
+          class="vads-u-margin-bottom--2"
         >
           <p>
             Contact your referring VA facility if you have already scheduled
