@@ -106,6 +106,7 @@ export class ConfirmationPage extends React.Component {
     if (key === 'All') {
       this.setState(() => ({
         benefits: this.props.results.data,
+        benefitsList: BENEFITS_LIST,
         resultsCount: this.props.results.data.length,
       }));
       return;
@@ -115,8 +116,12 @@ export class ConfirmationPage extends React.Component {
       const filteredBenefits = this.props.results.data.filter(benefit => {
         return benefit.category.includes(key);
       });
+      const filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
+        return benefit.category.includes(key);
+      });
       return {
         benefits: filteredBenefits,
+        benefitsList: filteredBenefitsList,
         resultsCount: filteredBenefits.length,
       };
     });
