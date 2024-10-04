@@ -7,11 +7,18 @@ const { scroller } = Scroll;
 
 /**
  * Checks for reduce motion preference
- * @returns {bool}
+ * @returns {Boolean}
  */
 export const hasReducedMotion = () =>
   window?.matchMedia('(prefers-reduced-motion: reduce)')?.matches;
 
+/**
+ * Returns targeted element top position, or if not found returns current
+ * document scroll position
+ * @param {String|Element} el - element to find top position of
+ * @param {Number} offset - any vertical offset to include in calculation
+ * @returns {Number}
+ */
 export const getElementTopPosition = (el, offset = 0) => {
   const target =
     typeof el === 'string'
