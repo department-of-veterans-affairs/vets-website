@@ -118,9 +118,9 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('/v0/user', user);
-      cy.login(user);
+      cy.intercept('GET', '/v0/user', user);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.login(user);
     },
   },
   manifest,
