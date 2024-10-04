@@ -4,8 +4,8 @@ import prescription from './fixtures/active-prescriptions-with-refills.json';
 import prescriptions from './fixtures/listOfPrescriptions.json';
 import successRequest from './fixtures/refill-success.json';
 
-describe('Medications Refill Submit Success Message Refill Page', () => {
-  it('visits Success Message on Refill page', () => {
+describe('Medications Refill Success Alert Message Link', () => {
+  it('visits Medications List Link on Success Alert', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
     site.login();
@@ -21,12 +21,6 @@ describe('Medications Refill Submit Success Message Refill Page', () => {
       successRequest,
     );
     refillPage.verifyRefillRequestSuccessConfirmationMessage();
-    refillPage.verifyMedicationRefillRequested(
-      prescription.data.attributes.prescriptionName,
-    );
-    refillPage.verifyNetworkResponseForSuccessfulRefillRequest(
-      prescription.data.attributes.prescriptionId,
-    );
-    refillPage.verifyRefillSuccessDescriptionText();
+    refillPage.clickMedicationsListPageLinkOnRefillSuccessAlertOnRefillsPage();
   });
 });
