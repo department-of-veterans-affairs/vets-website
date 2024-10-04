@@ -1,7 +1,8 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
+import debounce from 'lodash/debounce';
 
 const instructions =
   'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.';
@@ -15,56 +16,49 @@ const AutoComplete = ({
 }) => {
   const [value, setValue] = useState(formData);
   const [results, setResults] = useState([]);
+  const [resultAnnouncement, setResultAnnouncement] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const [resultAnnouncement, setResultAnnouncement] = useState('');
 
   const resultsRef = useRef([]);
 
-  const debouncedSearch = useMemo(
-    () => {
-      let timeout;
-      return inputValue => {
-        clearTimeout(timeout);
-        return new Promise(resolve => {
-          timeout = setTimeout(() => {
-            resolve(fullStringSimilaritySearch(inputValue, availableResults));
-          }, debounceTime);
-        });
-      };
-    },
-    [availableResults, debounceTime],
-  );
-
-  const closeDropdown = () => {
-    setIsOpen(false);
-    setResults([]);
-  };
-
-  const selectItem = item => {
-    const selection =
-      item === `Enter your condition as "${value}"` ? value : item;
-    setValue(selection);
-    onChange(selection);
-    closeDropdown();
-  };
-
-  const searchAndUpdateResults = async inputValue => {
-    const searchResults = await debouncedSearch(inputValue);
-    setResults([`Enter your condition as "${inputValue}"`, ...searchResults]);
-    setIsOpen(true);
-    setActiveIndex(0);
-
-    setTimeout(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const delayAnnouncement = useCallback(
+    debounce((inputValue, searchResults) => {
       setResultAnnouncement(
         `${searchResults.length + 1} result${
           searchResults.length + 1 > 1 ? 's' : ''
         } available for "${inputValue}"`,
       );
-    }, 1500);
+    }, 1500),
+    [],
+  );
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debounceSearch = useCallback(
+    debounce(async inputValue => {
+      const searchResults = fullStringSimilaritySearch(
+        inputValue,
+        availableResults,
+      );
+      setResults([`Enter your condition as "${inputValue}"`, ...searchResults]);
+      setIsOpen(true);
+      setActiveIndex(0);
+
+      delayAnnouncement(inputValue, searchResults);
+    }, debounceTime),
+    [availableResults, debounceTime],
+  );
+
+  const closeDropdown = () => {
+    debounceSearch.cancel();
+    delayAnnouncement.cancel();
+    setResults([]);
+    setIsOpen(false);
+    setResultAnnouncement('');
   };
 
-  const handleInputChange = async event => {
+  const handleInputChange = event => {
     const inputValue = event.target.value;
     setValue(inputValue);
     onChange(inputValue);
@@ -74,7 +68,7 @@ const AutoComplete = ({
       return;
     }
 
-    searchAndUpdateResults(inputValue);
+    debounceSearch(inputValue);
   };
 
   const scrollIntoView = index => {
@@ -95,6 +89,14 @@ const AutoComplete = ({
         : Math.max(activeIndex - 1, 0);
     setActiveIndex(newIndex);
     scrollIntoView(newIndex);
+  };
+
+  const selectItem = item => {
+    const selection =
+      item === `Enter your condition as "${value}"` ? value : item;
+    setValue(selection);
+    onChange(selection);
+    closeDropdown();
   };
 
   const handleKeyDown = e => {
@@ -118,9 +120,9 @@ const AutoComplete = ({
         onInput={handleInputChange}
         onKeyDown={handleKeyDown}
         onBlur={() => setTimeout(closeDropdown, 100)}
-        onFocus={async () => {
+        onFocus={() => {
           if (value) {
-            searchAndUpdateResults(value);
+            debounceSearch(value);
           }
         }}
         role="combobox"
