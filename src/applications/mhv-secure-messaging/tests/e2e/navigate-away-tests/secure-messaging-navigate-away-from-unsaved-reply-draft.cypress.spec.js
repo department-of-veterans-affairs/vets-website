@@ -44,7 +44,9 @@ describe('SM NAVIGATE AWAY FROM UNSAVED REPLY DRAFT', () => {
   });
 
   it('navigate away with required data', () => {
-    PatientComposePage.enterDataToMessageBody();
+    PatientComposePage.getMessageBodyField().type(`\nupdatedData`, {
+      force: true,
+    });
 
     FolderLoadPage.backToParentFolder();
 

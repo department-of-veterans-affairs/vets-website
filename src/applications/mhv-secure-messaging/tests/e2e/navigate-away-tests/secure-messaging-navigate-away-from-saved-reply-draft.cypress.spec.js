@@ -25,7 +25,7 @@ describe('SM NAVIGATE AWAY FROM SAVED REPLY DRAFT', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('navigate away with attachment', () => {
+  it('navigate away with no data changes and attachment', () => {
     PatientComposePage.attachMessageFromFile();
 
     FolderLoadPage.backToParentFolder();
@@ -74,6 +74,7 @@ describe('SM NAVIGATE AWAY FROM SAVED REPLY DRAFT', () => {
       Data.BUTTONS.EDIT_DRAFT,
       Data.BUTTONS.SAVE_DRAFT_WO_ATTCH,
     );
+
     PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
 
     cy.injectAxe();
