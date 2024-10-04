@@ -87,43 +87,11 @@ export class ConfirmationPage extends React.Component {
           return { benefits: [], benefitsList: [] };
         }
 
-        const sortedBenefits = [...prevState.benefits].sort((a, b) => {
-          let aValue = a[sortKey] || '';
-          let bValue = b[sortKey] || '';
-
-          if (sortKey === 'goal') {
-            aValue = a.mappings?.goals?.[0] || '';
-            bValue = b.mappings?.goals?.[0] || '';
-          }
-
-          if (typeof aValue === 'string' && typeof bValue === 'string') {
-            return aValue.localeCompare(bValue);
-          }
-
-          if (aValue < bValue) return -1;
-          if (aValue > bValue) return 1;
-
-          return 0;
-        });
-
-        const sortedBenefitsList = [...prevState.benefitsList].sort((a, b) => {
-          let aValue = a[sortKey] || '';
-          let bValue = b[sortKey] || '';
-
-          if (sortKey === 'goals') {
-            aValue = a.mappings?.goals?.[0] || ''; // Sort by the first goal in array
-            bValue = b.mappings?.goals?.[0] || ''; // Sort by the first goal in array
-          }
-
-          if (typeof aValue === 'string' && typeof bValue === 'string') {
-            return aValue.localeCompare(bValue);
-          }
-
-          if (aValue < bValue) return -1;
-          if (aValue > bValue) return 1;
-
-          return 0;
-        });
+        const sortedBenefits = this.sortBenefitObj(prevState.benefits, sortKey);
+        const sortedBenefitsList = this.sortBenefitObj(
+          prevState.benefitsList,
+          sortKey,
+        );
 
         return { benefits: sortedBenefits, benefitsList: sortedBenefitsList };
       });
@@ -159,6 +127,27 @@ export class ConfirmationPage extends React.Component {
 
     this.props.router.goBack();
   };
+
+  sortBenefitObj(sortBenefitObj, sortKey) {
+    return [...sortBenefitObj].sort((a, b) => {
+      let aValue = a[sortKey] || '';
+      let bValue = b[sortKey] || '';
+
+      if (sortKey === 'goal') {
+        aValue = a.mappings?.goals?.[0] || '';
+        bValue = b.mappings?.goals?.[0] || '';
+      }
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return aValue.localeCompare(bValue);
+      }
+
+      if (aValue < bValue) return -1;
+      if (aValue > bValue) return 1;
+
+      return 0;
+    });
+  }
 
   applyInitialSort() {
     const hasResults = !!this.props.results.data;
@@ -243,6 +232,7 @@ export class ConfirmationPage extends React.Component {
               name="filter-benefits"
               value={this.state.filterValue}
               onVaSelect={this.filterBenefits}
+              className="filter-benefits"
             >
               <option key="All" value="All">
                 All
@@ -274,7 +264,7 @@ export class ConfirmationPage extends React.Component {
               <option key="goal" value="goal">
                 Goal
               </option>
-              <option key="type" value="type">
+              <option key="type" value="category">
                 Type
               </option>
             </VaSelect>
