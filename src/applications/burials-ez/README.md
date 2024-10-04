@@ -1,6 +1,6 @@
 App Name: `Form 21P-530EZ`
 Application for Burial Benefits (Under 38 U.S.C. Chapter 23)
-Active engineers: Sean Midgley (front end), Dakota Larson (front end), Evan Smith (back end), Thomas Blackwell (back end)
+
 Form ID (if different from app name): `21P-530EZ`
 
 # Background
@@ -47,8 +47,7 @@ The default form configuration includes a `Review Application` step that gives t
 
 The form system uses Redux and thus we also use Redux in our form so we have a `/actions` and a `/reducers` folder to hold the respective Redux code.
 
-Each individual chapter of the form has it's own folder labeled 01 - 05 followed by the section name (`/config/chapters/). Each folder houses the individual pages for the corresponding chapter.
-All of the applications helper functions, labels, and additional validation is located in the utility folder (`/utils`). This includes submission, polling, and error handling.
+Each individual chapter of the form has it's own folder labeled 01 - 05 followed by the section name (`/config/chapters/). Each folder houses the individual pages for the corresponding chapter. All of the applications helper functions, labels, and additional validation is located in the utility folder (`/utils`). This includes submission, polling, and error handling.
 
 ## Callouts on how the front end works
 
@@ -56,19 +55,21 @@ The original form system is used to build this application and follows a pretty 
 
 ### Feature Toggles (front end)
 
-Active toggle names: 
+Active toggle names:
+
 - `burial_form_enabled`
 
-The form is built using `/config/form.js` which is imported and used inside `/BurialsApp.jsx` with the `<RoutedSavableApp />` component from the platform. 
-In `/BurialsApp.jsx` we dynamically render a loading indicator if the app is in an `isLoading` state from Redux. This allows us to show a loading indicator while we check the `BurialFormEnabled` feature toggle boolean to decide whether we show the form or not. 
-If the feature toggle is not enabled we display a deactivation page (`NoFormPage.jsx`) which explains 'the online form is not working right now' with a prompt and instructions to apply by mail or in person instead. 
+The form is built using `/config/form.js` which is imported and used inside `/BurialsApp.jsx` with the `<RoutedSavableApp />` component from the platform.
+In `/BurialsApp.jsx` we dynamically render a loading indicator if the app is in an `isLoading` state from Redux. This allows us to show a loading indicator while we check the `BurialFormEnabled` feature toggle boolean to decide whether we show the form or not.
+If the feature toggle is not enabled we display a deactivation page (`NoFormPage.jsx`) which explains 'the online form is not working right now' with a prompt and instructions to apply by mail or in person instead.
 If the feature toggle is enabled then the form renders a `<SaveInProgressIntro />` component from the platform and an introduction to start the form.
 Note: this was put in place in the event the form needs to be fully deactivated for any reason.
 
 This iteration of the form was built in 2024 and referred to as first `burials-v2`, then `burials-ez`.
-***explain redirect and flipper for redirect***
+**_explain redirect and flipper for redirect_**
 
 ### Custom Styling
+
 All custom styling in `/sass/burials.scss` is needed specifically to address WCAG contrast violations that the lighter colored "help text" or "hint" presents and fixes spacing in the Array Views.
 
 ### Saving Progress (back end)
