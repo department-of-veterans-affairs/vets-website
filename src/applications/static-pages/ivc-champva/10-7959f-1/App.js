@@ -17,7 +17,7 @@ const App = ({ formEnabled }) => {
           You can register online, by mail, or by fax. You’ll need your Social
           Security number or your VA claim number (also called VA file number).
           In most cases, your claim number and Social Security number are the
-          same.
+          same. HI RAY!
         </p>
         <p>
           <strong>Note</strong>: You don’t need to be enrolled in VA health care
@@ -66,7 +66,7 @@ const App = ({ formEnabled }) => {
         Fill out an FMP Registration Form (VA Form 10-7959f-1). You’ll need your
         Social Security number or your VA claim number (also called VA file
         number). In most cases, your claim number and Social Security number are
-        the same.
+        the same.HI RAY OFF
       </p>
       <p>
         <strong>Note</strong>: You don’t need to be enrolled in VA health care

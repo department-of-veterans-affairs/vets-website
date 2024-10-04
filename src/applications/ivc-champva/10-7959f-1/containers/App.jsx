@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   DowntimeNotification,
   externalServices,
@@ -6,9 +6,22 @@ import {
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import formConfig from '../config/form';
 
 export default function App({ location, children }) {
+  const { useToggleValue } = useFeatureToggle();
+  const formEnabled = useToggleValue('form107959f1');
+
+  useEffect(
+    () => {
+      if (!formEnabled) {
+        window.location.replace('/health-care/foreign-medical-program/');
+      }
+    },
+    [formEnabled],
+  );
+
   const breadcrumbList = [
     { href: '/', label: 'Home' },
     { href: '/health-care', label: 'Health care' },
