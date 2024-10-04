@@ -15,7 +15,7 @@ export const SELECTORS = {
   PAGINATION: 'va-pagination',
   HEADER_SEARCH_TRIGGER: 'button.sitewide-search-drop-down-panel-button',
   HEADER_SEARCH_FIELD: '.search-dropdown-input-field',
-  HEADER_TYPEAHEAD_DROPDOWN: '.search-dropdown-options',
+  HEADER_TYPEAHEAD_DROPDOWN: '[data-e2e-id="search-dropdown-options"]',
   HEADER_SEARCH_SUBMIT: '[data-e2e-id="sitewide-search-submit-button"]',
 };
 
