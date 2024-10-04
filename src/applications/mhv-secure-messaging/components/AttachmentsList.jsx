@@ -69,7 +69,7 @@ const AttachmentsList = props => {
 
   useEffect(
     () => {
-      const alertButton = attachFileAlertRef?.current?.shadowRoot.querySelector(
+      const alertButton = attachFileAlertRef?.current?.shadowRoot?.querySelector(
         '#close-success-alert-button',
       );
       if (attachFileSuccess && alertButton) {
