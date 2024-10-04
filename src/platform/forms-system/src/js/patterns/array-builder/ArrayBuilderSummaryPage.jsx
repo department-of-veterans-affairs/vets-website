@@ -138,8 +138,18 @@ export default function ArrayBuilderSummaryPage({
         }
       };
 
+      const resetYesNo = () => {
+        // We shouldn't persist the 'yes' answer after an item is entered/cancelled
+        // We should ask the yes/no question again after an item is entered/cancelled
+        // Since it is required, it shouldn't be left null/undefined
+        if (props.data[hasItemsKey]) {
+          props.setData({ ...props.data, [hasItemsKey]: undefined });
+        }
+      };
+
       cleanupEmptyItems();
       redirectToIntroIfEmpty();
+      resetYesNo();
     }, []);
 
     useEffect(
