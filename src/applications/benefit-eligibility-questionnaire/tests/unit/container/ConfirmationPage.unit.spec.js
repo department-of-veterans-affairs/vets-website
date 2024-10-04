@@ -179,8 +179,8 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     const benefitNames = wrapper
       .getAllByRole('listitem')
       .map(li => li.textContent);
-    expect(benefitNames).to.have.lengthOf(8);
-    expect(benefitNames[0]).to.contain('Education');
+    expect(benefitNames).to.have.lengthOf(5);
+    expect(benefitNames[0]).to.contain('Careers & Employment');
   });
 
   it('should show all benefits when "All" filter is selected', () => {
