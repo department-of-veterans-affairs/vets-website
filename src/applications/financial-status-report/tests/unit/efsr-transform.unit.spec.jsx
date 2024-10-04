@@ -5,7 +5,7 @@ import { transform } from '../../utils/transform';
 import inputObject from './efsr-unit-maximal.json';
 import {
   sumValues,
-  dateFormatter,
+  monthYearFormatter,
   getFsrReason,
   filterReduceByName,
   otherDeductionsAmt,
@@ -18,12 +18,12 @@ import { getMonthlyIncome } from '../../utils/calculateIncome';
 import { getMonthlyExpenses } from '../../utils/calculateExpenses';
 
 describe('efsr-fsr transform helper functions', () => {
-  describe('efsr-dateFormatter helper', () => {
+  describe('efsr-monthYearFormatter helper', () => {
     it('should return formatted date MM/YYYY', () => {
-      expect(dateFormatter('2004-10-XX')).to.equal('10/2004');
+      expect(monthYearFormatter('2004-10-XX')).to.equal('10/2004');
     });
     it('should return undefined if input is falsy', () => {
-      expect(dateFormatter('')).to.equal(undefined);
+      expect(monthYearFormatter('')).to.equal(undefined);
     });
   });
 

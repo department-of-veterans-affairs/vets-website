@@ -31,10 +31,11 @@ export const isNumber = value => {
   return pattern.test(value);
 };
 
-export const dateFormatter = date => {
-  if (!date) return undefined;
-  const formatDate = date?.slice(0, -3);
-  return moment(formatDate, 'YYYY-MM').format('MM/YYYY');
+export const monthYearFormatter = date => {
+  // Slicing off '-XX' from date string
+  // replacing - with / since date-fns will be off by 1 month if we don't
+  const newDate = new Date(date?.slice(0, -3).replace(/-/g, '/'));
+  return isValid(newDate) ? format(newDate, 'MM/yyyy') : undefined;
 };
 
 export const formatDate = date => {
@@ -219,8 +220,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
       ...defaultObj,
       veteranOrSpouse: 'VETERAN',
       occupationName: employment.type,
-      from: dateFormatter(employment.from),
-      to: employment.isCurrent ? '' : dateFormatter(employment.to),
+      from: monthYearFormatter(employment.from),
+      to: employment.isCurrent ? '' : monthYearFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,
       employerName: employment.employerName,
     }));
@@ -233,8 +234,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
       occupationName: employment.type,
-      from: dateFormatter(employment.from),
-      to: employment.isCurrent ? '' : dateFormatter(employment.to),
+      from: monthYearFormatter(employment.from),
+      to: employment.isCurrent ? '' : monthYearFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,
       employerName: employment.employerName,
     }));

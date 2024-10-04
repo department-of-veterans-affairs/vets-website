@@ -6,7 +6,7 @@ import {
 } from './streamlinedDepends';
 import {
   sumValues,
-  dateFormatter,
+  monthYearFormatter,
   getFsrReason,
   getEmploymentHistory,
   getTotalAssets,
@@ -232,7 +232,7 @@ export const transform = (formConfig, form) => {
       installmentContractsAndOtherDebts: installmentContractsAndCreditCards?.map(
         debt => ({
           ...debt,
-          dateStarted: dateFormatter(debt.dateStarted),
+          dateStarted: monthYearFormatter(debt.dateStarted),
           creditorAddress: {
             addresslineOne: '',
             addresslineTwo: '',
@@ -265,7 +265,7 @@ export const transform = (formConfig, form) => {
       additionalData: {
         bankruptcy: {
           hasBeenAdjudicatedBankrupt: questions?.hasBeenAdjudicatedBankrupt,
-          dateDischarged: dateFormatter(
+          dateDischarged: monthYearFormatter(
             additionalData?.bankruptcy?.dateDischarged,
           ),
           courtLocation: additionalData?.bankruptcy?.courtLocation,
