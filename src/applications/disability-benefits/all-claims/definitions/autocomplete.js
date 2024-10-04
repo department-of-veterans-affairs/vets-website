@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 
-import AutoComplete from '../components/AutoComplete';
+import AutoCompleteWrapper from '../components/AutoCompleteWrapper';
 
 /*
  * Create uiSchema for autocomplete
@@ -13,7 +13,7 @@ export function uiSchema(label, options = {}) {
     {},
     {
       'ui:title': label,
-      'ui:field': AutoComplete,
+      'ui:field': AutoCompleteWrapper,
     },
     options,
   );

@@ -1,12 +1,23 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 
-const AutoComplete = ({ availableResults, formData, label, onChange }) => {
+const instructions =
+  'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.';
+
+const AutoComplete = ({
+  availableResults,
+  debounceTime,
+  formData,
+  label,
+  onChange,
+}) => {
   const [value, setValue] = useState(formData);
   const [results, setResults] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [resultAnnouncement, setResultAnnouncement] = useState('');
 
   const resultsRef = useRef([]);
 
@@ -18,11 +29,11 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
         return new Promise(resolve => {
           timeout = setTimeout(() => {
             resolve(fullStringSimilaritySearch(inputValue, availableResults));
-          }, 200);
+          }, debounceTime);
         });
       };
     },
-    [availableResults],
+    [availableResults, debounceTime],
   );
 
   const closeDropdown = () => {
@@ -38,20 +49,32 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
     closeDropdown();
   };
 
+  const searchAndUpdateResults = async inputValue => {
+    const searchResults = await debouncedSearch(inputValue);
+    setResults([`Enter your condition as "${inputValue}"`, ...searchResults]);
+    setIsOpen(true);
+    setActiveIndex(0);
+
+    setTimeout(() => {
+      setResultAnnouncement(
+        `${searchResults.length + 1} result${
+          searchResults.length + 1 > 1 ? 's' : ''
+        } available for "${inputValue}"`,
+      );
+    }, 1500);
+  };
+
   const handleInputChange = async event => {
     const inputValue = event.target.value;
     setValue(inputValue);
     onChange(inputValue);
 
-    if (inputValue) {
-      const searchResults = await debouncedSearch(inputValue);
-      setResults([`Enter your condition as "${inputValue}"`, ...searchResults]);
-      setIsOpen(true);
-    } else {
+    if (!inputValue) {
       closeDropdown();
+      return;
     }
 
-    setActiveIndex(0);
+    searchAndUpdateResults(inputValue);
   };
 
   const scrollIntoView = index => {
@@ -83,35 +106,39 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
       selectItem(results[activeIndex]);
     } else if (e.key === 'Escape') {
       closeDropdown();
-    } else if (e.key === 'Tab') {
-      onChange(value);
     }
   };
 
   return (
-    <div
-      className="cc-autocomplete"
-      role="combobox"
-      aria-expanded={isOpen}
-      aria-controls="autocomplete-list"
-      aria-autocomplete="list"
-    >
-      <va-text-input
+    <div className="cc-autocomplete">
+      <VaTextInput
         label={label}
         required
-        name="autocomplete-input"
         value={value}
         onInput={handleInputChange}
         onKeyDown={handleKeyDown}
         onBlur={() => setTimeout(closeDropdown, 100)}
+        onFocus={async () => {
+          if (value) {
+            searchAndUpdateResults(value);
+          }
+        }}
+        role="combobox"
+        aria-activedescendant={
+          isOpen ? `autocomplete-option-${activeIndex}` : null
+        }
+        aria-expanded={isOpen}
+        aria-controls="autocomplete-list"
+        aria-autocomplete="list"
+        message-aria-describedby={value?.length > 0 ? null : instructions}
         data-testid="autocomplete-input"
       />
       {isOpen &&
         results.length > 0 && (
           <ul
-            id="autocomplete-list"
             role="listbox"
             className="cc-autocomplete__list"
+            id="autocomplete-list"
           >
             {results.map((item, index) => (
               <li
@@ -125,13 +152,17 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
                   activeIndex === index ? 'cc-autocomplete__option--active' : ''
                 }`}
                 onMouseEnter={() => setActiveIndex(index)}
+                id={`autocomplete-option-${index}`}
                 role="option"
                 aria-selected={activeIndex === index}
-                tabIndex="0"
+                data-testid={`autocomplete-option-${index}`}
               >
                 {item}
               </li>
             ))}
+            <div role="alert" className="vads-u-visibility--screen-reader">
+              {resultAnnouncement}
+            </div>
           </ul>
         )}
     </div>
@@ -140,25 +171,10 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
 
 AutoComplete.propTypes = {
   availableResults: PropTypes.array,
+  debounceTime: PropTypes.number,
   formData: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,
 };
 
-const AutoCompleteWrapper = props => (
-  <AutoComplete
-    availableResults={props.uiSchema['ui:options'].disabilityLabels}
-    label={props.uiSchema['ui:title']}
-    formData={props.formData}
-    onChange={props.onChange}
-  />
-);
-
-AutoCompleteWrapper.propTypes = {
-  formData: PropTypes.string,
-  idSchema: PropTypes.object,
-  uiSchema: PropTypes.object,
-  onChange: PropTypes.func,
-};
-
-export default AutoCompleteWrapper;
+export default AutoComplete;

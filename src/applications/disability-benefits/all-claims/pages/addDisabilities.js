@@ -50,7 +50,7 @@ export const uiSchema = {
       condition: autocomplete.uiSchema('Enter your condition', {
         'ui:reviewField': ({ children }) => children,
         'ui:options': {
-          debounceRate: 200,
+          debounceTime: 200,
           disabilityLabels: Object.values(disabilityLabelsRevised),
         },
         'ui:validations': [validateDisabilityName, limitNewDisabilities],
