@@ -85,13 +85,11 @@ export default function ReferralReview() {
         <va-additional-info
           data-testid="help-text"
           uswds
-          trigger="If you were approved for more than one appointment"
-          class="vads-u-margin-bottom--2"
+          trigger="If you already scheduled your appointment"
         >
           <p>
-            If you were approved for more than one appointment, schedule your
-            first appointment using this tool. You’ll need to schedule the
-            remaining appointments later with your community care provider.
+            Contact your referring VA facility if you have already scheduled
+            with a community care provider.
           </p>
         </va-additional-info>
         <ReferralAppLink linkText="Schedule your appointment" />
@@ -119,11 +117,13 @@ export default function ReferralReview() {
         <va-additional-info
           data-testid="help-text"
           uswds
-          trigger="If you already scheduled your appointment"
+          trigger="If you were approved for more than one appointment"
+          class="vads-u-margin-bottom--2"
         >
           <p>
-            Contact your referring VA facility if you have already scheduled
-            with a community care provider.
+            If you were approved for more than one appointment, schedule your
+            first appointment using this tool. You’ll need to schedule the
+            remaining appointments later with your community care provider.
           </p>
         </va-additional-info>
 
