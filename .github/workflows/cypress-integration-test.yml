@@ -8,7 +8,7 @@ on:
         branch:
           description: 'branch with currently failing e2e tests in CI'
           required: true
-      # TO-DO: add a commit input to allow devs to determine a commit point of failure in the branch
+        # TO-DO: add a commit input to allow devs to determine a commit point of failure in the branch
   
 env:
     BUILDTYPE: vagovprod
