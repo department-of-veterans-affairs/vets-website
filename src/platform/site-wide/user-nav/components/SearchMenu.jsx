@@ -177,7 +177,7 @@ export class SearchMenu extends React.Component {
   };
 
   makeForm = () => {
-    const { searchDropdownComponentEnabled } = this.props;
+    const { searchDropdownComponentEnabled = true } = this.props;
     const { handleInputChange, handleSearchEvent } = this;
 
     // default search experience
@@ -292,7 +292,7 @@ export class SearchMenu extends React.Component {
 
     return (
       <DropDownPanel
-        buttonText="SearchING"
+        buttonText="Search"
         clickHandler={clickHandler}
         cssClass={buttonClasses}
         dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
