@@ -25,12 +25,11 @@ describe('Secure Messaging Message Details', () => {
     );
   });
 
-  it('Expanded All Messages Contain all details without additional calls', () => {
-    // temporarily commented to avoid test failing. will be refactored later
-    // PatientMessageDetailsPage.verifyExpandedMessageTo(
-    //   mockParentMessageDetails,
-    //   0,
-    // );
+  it.skip('Expanded All Messages Contain all details without additional calls', () => {
+    PatientMessageDetailsPage.verifyExpandedMessageTo(
+      mockParentMessageDetails,
+      0,
+    );
 
     PatientMessageDetailsPage.expandAllThreadMessages();
 
