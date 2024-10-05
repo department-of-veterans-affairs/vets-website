@@ -90,6 +90,7 @@ const formConfig = {
               title="Your personal information"
               question="Which one best describes you?"
               dataValue="veteranDesc"
+              className="vads-u-margin-top--neg4"
             />
           ),
           uiSchema: veteranDesc.uiSchema,
@@ -104,6 +105,16 @@ const formConfig = {
         applicantCountry: {
           title: 'Your personal information',
           path: 'applicant-information-3',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="What country do you live in?"
+              question="Country"
+              dataValue="applicantCountry"
+              className="vads-u-margin-top--neg4"
+            />
+          ),
           uiSchema: applicantInformationCountry.uiSchema,
           schema: applicantInformationCountry.schema,
         },

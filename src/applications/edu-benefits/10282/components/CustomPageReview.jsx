@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const CustomPageReview = ({ data, editPage, title, question, dataValue }) => {
+const CustomPageReview = ({
+  data,
+  editPage,
+  title,
+  question,
+  dataValue,
+  className,
+}) => {
   const [editing, setEditing] = useState(false);
   const getNestedValue = (obj, path) => {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj);
@@ -16,7 +23,7 @@ const CustomPageReview = ({ data, editPage, title, question, dataValue }) => {
 
   return (
     <div className="form-review-panel-page">
-      <div className="form-review-panel-page-header-row">
+      <div className={`${className} form-review-panel-page-header-row`}>
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {title}
         </h4>
@@ -45,5 +52,6 @@ CustomPageReview.propTypes = {
   editPage: PropTypes.func.isRequired,
   question: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 export default CustomPageReview;
