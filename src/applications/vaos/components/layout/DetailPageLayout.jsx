@@ -99,8 +99,8 @@ Prepare.propTypes = {
   children: PropTypes.node,
 };
 
-export function Details({ reason, otherDetails, isRequest, level = 2 }) {
-  const heading = isRequest
+export function Details({ reason, otherDetails, request, level = 2 }) {
+  const heading = request
     ? 'Details you’d like to share with your provider'
     : 'Details you shared with your provider';
   return (
@@ -116,10 +116,10 @@ export function Details({ reason, otherDetails, isRequest, level = 2 }) {
   );
 }
 Details.propTypes = {
-  isRequest: PropTypes.bool,
   level: PropTypes.number,
   otherDetails: PropTypes.string,
   reason: PropTypes.string,
+  request: PropTypes.bool,
 };
 
 export function ClinicOrFacilityPhone({
