@@ -75,7 +75,7 @@ export default function VARequestLayout({ data: appointment }) {
             {!facilityPhone && <>Not available</>}
           </div>
         </Section>
-        <Details reason={reason} otherDetails={otherDetails} isRequest />
+        <Details reason={reason} otherDetails={otherDetails} request />
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />

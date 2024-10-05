@@ -83,7 +83,7 @@ export default function CCRequestLayout({ data: appointment }) {
         <Section heading="Language you’d prefer the provider speak">
           {preferredLanguage}
         </Section>
-        <Details reason={reason} otherDetails={otherDetails} isRequest />
+        <Details reason={reason} otherDetails={otherDetails} request />
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />
