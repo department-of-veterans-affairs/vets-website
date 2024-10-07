@@ -9,19 +9,12 @@ import minTestData from './fixtures/data/minimal-test.json';
 import {
   acceptPrivacyAgreement,
   goToNextPage,
+  selectDropdownWebComponent,
   shortFormSelfDisclosureToSubmit,
 } from './utils';
 
 const { data: testData } = minTestData;
 const disabilityRating = 90;
-export const selectDropdownWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-select[name="root_${fieldName}"]`)
-      .shadow()
-      .find('select')
-      .select(value);
-  }
-};
 
 describe('HCA-Shortform-Authenticated-High-Disability', () => {
   beforeEach(() => {
