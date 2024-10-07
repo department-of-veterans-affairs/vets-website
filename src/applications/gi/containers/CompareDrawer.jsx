@@ -7,7 +7,6 @@ import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { isSmallScreen } from '../utils/helpers';
 import { updateUrlParams } from '../selectors/compare';
-import Button from '../components/Button';
 
 export function CompareDrawer({
   compare,
@@ -132,7 +131,8 @@ export function CompareDrawer({
                 {institutions[facilityCode].name}
               </div>
               <div className="vads-u-padding-top--1p5">
-                <Button
+                {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+                <button
                   type="button"
                   className="va-button-link learn-more-button"
                   onClick={() => {
@@ -143,7 +143,7 @@ export function CompareDrawer({
                   } from comparison`}
                 >
                   Remove
-                </Button>
+                </button>
               </div>
             </div>
           </li>
@@ -294,7 +294,8 @@ export function CompareDrawer({
                     You can compare 2 to 3 institutions
                   </div>
                   <div className="vads-u-margin-right--2">
-                    <Button
+                    {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+                    <button
                       type="button"
                       tabIndex={0}
                       className="usa-button vads-u-width--full"
@@ -302,7 +303,7 @@ export function CompareDrawer({
                       onClick={openCompare}
                     >
                       Compare
-                    </Button>
+                    </button>
                   </div>
                 </div>
                 <ol id="compare-list-item" className="compare-list">

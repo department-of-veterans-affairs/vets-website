@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { filterChange } from '../actions';
-import Button from './Button';
 
 function ClearFiltersBtn({
   filters,
@@ -49,15 +48,16 @@ function ClearFiltersBtn({
   };
   return (
     <>
-      <Button
+      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+      <button
         className="clear-filters-btn"
         onClick={clearAllFilters}
-        dataTestId={testId}
+        data-testid={testId}
         onKeyDown={onKeyDown}
       >
         {' '}
         {children}
-      </Button>
+      </button>
     </>
   );
 }

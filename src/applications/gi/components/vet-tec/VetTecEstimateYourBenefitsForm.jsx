@@ -12,7 +12,6 @@ import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import VARadioButton from '../VARadioButton';
 import LearnMoreLabel from '../LearnMoreLabel';
-import Button from '../Button';
 
 class VetTecEstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -210,7 +209,8 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         {this.renderApprovedProgramsSelector()}
         {this.renderTuitionFees()}
         {this.renderScholarships()}
-        <Button
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+        <button
           type="button"
           id="calculate-button"
           className="vads-u-margin-top--2p5"
@@ -218,16 +218,17 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           disabled={!this.state.inputUpdated}
         >
           Update benefits
-        </Button>
+        </button>
         <div className="vads-u-padding-bottom--2p5">
-          <Button
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+          <button
             type="button"
             className="va-button-link learn-more-button eyb-skip-link"
             aria-label="Skip to your estimated benefits"
             onClick={this.handleEYBSkipLinkOnClick}
           >
             Skip to your estimated benefits
-          </Button>
+          </button>
         </div>
       </div>
     );
@@ -235,11 +236,10 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
 }
 
 VetTecEstimateYourBenefitsForm.propTypes = {
-  inputs: PropTypes.object,
-  showModal: PropTypes.func,
+  calculatorInputChange: PropTypes.func,
   institution: PropTypes.object,
   selectedProgram: PropTypes.string,
-  calculatorInputChange: PropTypes.func,
+  showModal: PropTypes.func,
 };
 
 export default VetTecEstimateYourBenefitsForm;

@@ -277,7 +277,7 @@ describe('<VetTecApprovedProgramsList/>', () => {
     instance.handleViewAllClicked = sinon.spy();
 
     wrapper
-      .find('Button')
+      .find('button')
       .at(0)
       .simulate('click');
 
@@ -285,7 +285,7 @@ describe('<VetTecApprovedProgramsList/>', () => {
     expect(instance.state.displayAmount).to.equal(programs.length);
 
     expect(instance.handleShowMoreClicked.calledOnce).to.be.false;
-    wrapper.find('Button').simulate('click');
+    wrapper.find('button').simulate('click');
     expect(instance.state.viewAll).to.equal(false);
     expect(instance.state.displayAmount).to.equal(5);
     expect(instance.handleViewAllClicked.calledOnce).to.be.false;
@@ -360,8 +360,8 @@ describe('<VetTecApprovedProgramsList/>', () => {
       <VetTecApprovedProgramsList programs={programs} viewAll />,
     );
 
-    expect(wrapper.find('Button')).to.have.lengthOf(2);
-    expect(wrapper.find('Button')).to.have.lengthOf(2);
+    expect(wrapper.find('button')).to.have.lengthOf(2);
+    expect(wrapper.find('button')).to.have.lengthOf(2);
     wrapper.unmount();
   });
 });

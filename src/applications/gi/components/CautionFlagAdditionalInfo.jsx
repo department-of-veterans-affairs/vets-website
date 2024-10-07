@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import JumpLink from './profile/JumpLink';
-import Button from './Button';
 
 export const CautionFlagAdditionalInfo = ({
   cautionFlags,
@@ -21,7 +20,8 @@ export const CautionFlagAdditionalInfo = ({
   return (
     <div className="vads-u-border-left--10px vads-u-border-color--gold vads-u-background-color--white vads-u-padding-x--0p5 vads-u-padding-y--2">
       <div>
-        <Button
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+        <button
           className="caution-flag-toggle"
           onClick={() => {
             toggleExpansion(!expanded);
@@ -49,7 +49,7 @@ export const CautionFlagAdditionalInfo = ({
               <va-icon icon="expand_more" size={3} />
             )}
           </div>
-        </Button>
+        </button>
 
         {expanded && (
           <div>

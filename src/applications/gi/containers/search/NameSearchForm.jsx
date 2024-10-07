@@ -20,7 +20,6 @@ import {
   isProductionOrTestProdEnv,
   validateSearchTermSubmit,
 } from '../../utils/helpers';
-import Button from '../../components/Button';
 
 export function NameSearchForm({
   autocomplete,
@@ -177,11 +176,12 @@ export function NameSearchForm({
             />
           </div>
           <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto name-search-button-container">
-            <Button
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+            <button
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button vads-u-display--flex vads-u-align-items--center"
               type="submit"
               onKeyPress={onKeyEnter}
-              dataTestId="search-btn"
+              data-testid="search-btn"
             >
               <va-icon
                 size={3}
@@ -190,7 +190,7 @@ export function NameSearchForm({
                 className="vads-u-margin-right--0p5"
               />
               Search
-            </Button>
+            </button>
           </div>
         </div>
       </form>

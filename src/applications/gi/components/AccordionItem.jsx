@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
-import Button from './Button';
 
 export default function AccordionItem({
   button,
@@ -39,10 +38,11 @@ export default function AccordionItem({
   return (
     <li className={section ? 'section-item' : 'accordion-item'} id={id}>
       {section && (
-        <Button
+        /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
+        <button
           id={`${id}-button`}
-          ariaExpanded={displayExpanded}
-          ariaControls={id}
+          aris-expanded={displayExpanded}
+          aria-controls={id}
           onClick={toggle}
           className="usa-accordion-button vads-u-margin--0"
         >
@@ -51,7 +51,7 @@ export default function AccordionItem({
           ) : (
             <span className="section-button-span">{button}</span>
           )}
-        </Button>
+        </button>
       )}
       {!section && (
         <h2
@@ -59,17 +59,18 @@ export default function AccordionItem({
             [headerClass]: headerClass,
           })}
         >
-          <Button
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+          <button
             id={`${id}-button`}
             onClick={toggle}
             className="usa-accordion-button"
-            ariaExpanded={displayExpanded}
-            ariaControls={id}
+            aria-expanded={displayExpanded}
+            aria-controls={id}
           >
             <span className="vads-u-font-family--sans vads-u-color--gray-dark">
               {button}
             </span>
-          </Button>
+          </button>
         </h2>
       )}
       <div

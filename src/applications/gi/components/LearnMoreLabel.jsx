@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import Button from './Button';
 
 export default function LearnMoreLabel({
   ariaLabel,
@@ -57,9 +56,10 @@ export default function LearnMoreLabel({
         })}
       >
         (
-        <Button
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+        <button
           id={buttonId}
-          ariaLabel={ariaLabel}
+          aria-label={ariaLabel}
           type="button"
           className={classNames(
             buttonClassName,
@@ -68,7 +68,7 @@ export default function LearnMoreLabel({
           onClick={onClick}
         >
           Learn more
-        </Button>
+        </button>
         )
       </span>
     </span>

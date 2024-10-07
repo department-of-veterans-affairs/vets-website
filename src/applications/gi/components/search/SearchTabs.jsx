@@ -6,7 +6,6 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 import NameSearchForm from '../../containers/search/NameSearchForm';
 import LocationSearchForm from '../../containers/search/LocationSearchForm';
 import { TABS } from '../../constants';
-import Button from '../Button';
 
 export default function SearchTabs({ onChange, search, dispatchError }) {
   const { tab } = search;
@@ -47,11 +46,12 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
     );
     const testId = label.replaceAll(' ', '-');
     return (
-      <Button
+      /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
+      <button
         type="button"
         className={tabClasses}
-        ariaSelected={activeTab}
-        dataTestId={testId}
+        aria-selected={activeTab}
+        data-testid={testId}
         role="tab"
         onClick={() => {
           onChange(tabName);
@@ -59,7 +59,7 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
         }}
       >
         {label}
-      </Button>
+      </button>
     );
   };
 

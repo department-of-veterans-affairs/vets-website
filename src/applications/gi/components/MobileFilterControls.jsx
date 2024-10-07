@@ -5,8 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 // import environment from 'platform/utilities/environment';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../containers/FilterYourResults';
-import Button from './Button';
-// import FilterBeforeResults from '../containers/search/FilterBeforeResults';
+// import FilterBeforeResults from '../containers/search/FilterBeforeResults'
 
 export default function MobileFilterControls({ className }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -49,15 +48,17 @@ export default function MobileFilterControls({ className }) {
         className,
       )}
     >
-      <Button
+      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+      <button
         className="usa-button-secondary"
         onClick={tuitionAndHousingEstimatesClick}
       >
         Update tuition, housing, and monthly benefit estimates
-      </Button>
-      <Button className="usa-button-secondary" onClick={filterClick}>
+      </button>
+      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+      <button className="usa-button-secondary" onClick={filterClick}>
         Filter your results
-      </Button>
+      </button>
       {tuitionAndHousingOpen && (
         <TuitionAndHousingEstimates
           smallScreen

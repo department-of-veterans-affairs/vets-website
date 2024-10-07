@@ -8,7 +8,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import CompareScroller from './CompareScroller';
-import Button from './Button';
 
 export default function CompareHeader({
   currentScroll,
@@ -123,7 +122,8 @@ export default function CompareHeader({
                       </Link>
                     </div>
                     <div className="compare-action">
-                      <Button
+                      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+                      <button
                         type="button"
                         className="usa-button-secondary"
                         onClick={() => {
@@ -134,7 +134,7 @@ export default function CompareHeader({
                         } from comparison`}
                       >
                         Remove
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 </div>

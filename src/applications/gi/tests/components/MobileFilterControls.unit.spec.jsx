@@ -13,7 +13,7 @@ describe('<MobileFilterControls/>', () => {
 
   it('should add class modal-open to body when filterClick button click', async () => {
     const wrapper = shallow(<MobileFilterControls />);
-    const btn = wrapper.find('Button.usa-button-secondary').last();
+    const btn = wrapper.find('button.usa-button-secondary').last();
     expect(btn.prop('children')).to.equal('Filter your results');
 
     await act(async () => {
@@ -26,7 +26,7 @@ describe('<MobileFilterControls/>', () => {
 
   it('should add class modal-open to body when tuitionAndHousingEstimatesClick button click', async () => {
     const wrapper = shallow(<MobileFilterControls />);
-    const btn = wrapper.find('Button.usa-button-secondary').first();
+    const btn = wrapper.find('button.usa-button-secondary').first();
     expect(btn.prop('children')).to.equal(
       'Update tuition, housing, and monthly benefit estimates',
     );

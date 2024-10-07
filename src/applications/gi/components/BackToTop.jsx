@@ -4,7 +4,6 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import Button from './Button';
 
 /**
  * This thing has a hack in it to make sure the when the element is floating at bottom of page it is on the right side
@@ -122,7 +121,8 @@ export default function BackToTop({
           style={backToTopContainerStyle}
         >
           <div className="usa-content">
-            <Button
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+            <button
               type="button"
               className="usa-button va-top-button-transition-in"
               onClick={() => {
@@ -141,7 +141,7 @@ export default function BackToTop({
                 <va-icon icon="arrow_upward" aria-hidden="true" role="img" />
               </span>
               <span>Back to top</span>
-            </Button>
+            </button>
           </div>
         </div>
       </div>

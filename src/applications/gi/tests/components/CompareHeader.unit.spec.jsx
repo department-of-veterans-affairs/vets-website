@@ -121,7 +121,7 @@ describe('<CompareHeader>', () => {
     );
 
     wrapper
-      .find('Button')
+      .find('button.usa-button-secondary')
       .at(0)
       .simulate('click');
 

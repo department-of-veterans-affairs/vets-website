@@ -355,7 +355,7 @@ describe('<NameSearchForm>', () => {
         userEvent.click(clearFilter);
       }
       if (applyFilter) {
-        const applyFilteBTN = getByTestId(testId);
+        const applyFilteBTN = getByTestId('update-filter-your-results-button');
         expect(applyFilteBTN).to.exist;
         userEvent.click(applyFilteBTN);
       }
@@ -462,7 +462,7 @@ describe('<NameSearchForm>', () => {
     });
     it('should call url when apply filters button is clicked ', async () => {
       const { expectedBaseUrl } = setupRTL(
-        'apply-filters',
+        '',
         'employers',
         null,
         'Apply filters',
@@ -470,7 +470,7 @@ describe('<NameSearchForm>', () => {
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=apply-filters&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
+        `${expectedBaseUrl}?name=&page=1&exclude_schools=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
       );
     });
   });

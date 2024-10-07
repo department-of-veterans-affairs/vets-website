@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 import ClearFiltersBtn from './ClearFiltersBtn';
-import Button from './Button';
 
 export default function SearchAccordion({
   expanded,
@@ -44,18 +43,19 @@ export default function SearchAccordion({
 
     return (
       <h2 className={headerClasses}>
-        <Button
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+        <button
           id={`${id}-button`}
           onClick={toggle}
           className="usa-accordion-button vads-u-font-size--md"
-          ariaExpanded={isExpanded}
-          ariaControls={id}
-          dataTestId="update-tuition-housing"
+          aria-expanded={isExpanded}
+          aria-controls={id}
+          data-testid="update-tuition-housing"
         >
           <span className="vads-u-font-family--serif accordion-button-text">
             {button}
           </span>
-        </Button>
+        </button>
       </h2>
     );
   };
@@ -78,15 +78,16 @@ export default function SearchAccordion({
           }
         >
           {' '}
-          <Button
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+          <button
             type="button"
             id={buttonId}
             className="update-results-button"
             onClick={buttonOnClick}
-            ariaDescribedBy={ariaDescribedBy}
+            aria-describedby={ariaDescribedBy}
           >
             {buttonLabel}
-          </Button>
+          </button>
           {isProductionOrTestProdEnv() && (
             <ClearFiltersBtn
               onClick={dispatchFocusSearch}

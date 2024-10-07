@@ -18,7 +18,7 @@ describe('<SearchAccordion/>', () => {
     };
     const wrapper = shallow(<SearchAccordion {...props} />);
     wrapper
-      .find('Button.usa-accordion-button.vads-u-font-size--md')
+      .find('button.usa-accordion-button.vads-u-font-size--md')
       .simulate('click');
     expect(props.expanded).to.be.false;
     wrapper.unmount();

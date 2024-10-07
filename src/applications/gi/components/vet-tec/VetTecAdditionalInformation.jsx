@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Button from '../Button';
 
 export const VetTecAdditionalInformation = ({
   institution: { facilityCode },
@@ -12,14 +11,15 @@ export const VetTecAdditionalInformation = ({
         <h3>Institution codes</h3>
         <div aria-live="off">
           <strong>
-            <Button
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+            <button
               id="facilityCode-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={() => showModal('facilityCode')}
             >
               VA facility code:
-            </Button>
+            </button>
             &nbsp;
           </strong>
           {facilityCode || 'N/A'}
