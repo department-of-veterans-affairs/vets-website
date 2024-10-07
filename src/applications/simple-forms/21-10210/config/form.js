@@ -59,7 +59,9 @@ const formConfig = {
   trackingPrefix: 'lay-witness-10210-',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
+  hideUnauthedStartLink: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {
