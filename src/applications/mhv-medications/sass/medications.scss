@@ -1,3 +1,4 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./prescription-details";
 @import "./print-download";
 
@@ -38,7 +39,7 @@
   justify-content: center;
 }
 .routes-container {
-  @media (max-width: var(--small-screen)) {
+  @media (max-width: $small-screen) {
     // .vads-l-grid-container adds 15px on left and right, this overwrites that
     padding-left: 12px;
     padding-right: 12px;
@@ -48,7 +49,7 @@
   padding: 0;
   margin-bottom: 40px;
 
-  @media (max-width: var(--small-screen)) {
+  @media (max-width: $small-screen) {
     max-width: 480px;
   }
 }
@@ -143,7 +144,7 @@
       }
     }
   }
-  @media (max-width: var(--small-screen)) {
+  @media (max-width: $small-screen) {
     padding-left: 0px;
     padding-right: 0px;
   }
@@ -259,12 +260,6 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
-  }
-}
-
-.vads-u-width--responsive{
-  @media (max-width: var(--small-screen)) {
-    width: 100% !important;
   }
 }
 

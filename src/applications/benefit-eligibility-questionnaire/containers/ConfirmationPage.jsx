@@ -121,6 +121,7 @@ export class ConfirmationPage extends React.Component {
     if (key === 'All') {
       this.setState(() => ({
         benefits: this.props.results.data,
+        resultsCount: this.props.results.data.length,
       }));
       return;
     }
@@ -146,20 +147,20 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <p>
-          Based on your goals and experiences, we recommend exploring the
-          benefits listed below. You may be eligible for these benefits, but
-          please double-check the eligibility requirements before applying.
+          <b>
+            Note: This tool is not an application for VA benefits and it doesn't
+            determine your eligibility for benefits.
+          </b>{' '}
+          After you use this tool, you can learn more about eligibility and how
+          to apply.
         </p>
         <p>
-          You can filter and sort the recommended benefits. If you want to copy
-          the link to your personalized results or email the results to
-          yourself, select the "Save your results" button.
+          To find VA benefits that may be relevant for you, answer a few
+          questions about your goals and experiences.
         </p>
         <p>
-          Please note that this is a recommendation tool, not an eligibility
-          determination tool. VA determines your eligibility once you apply for
-          a benefit. You'll need to review the eligibility requirements before
-          applying for VA benefits.
+          This is our first version. Right now, this tool focuses on education
+          and career benefits. We'll add more types of benefits soon.
         </p>
 
         <SaveResultsModal />
