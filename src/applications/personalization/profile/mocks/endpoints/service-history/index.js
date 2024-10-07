@@ -37,6 +37,10 @@ const generateServiceHistory = ({
             characterOfDischargeCode: dischargeCode,
           },
         ],
+        vetStatusEligibility: {
+          confirmed: true,
+          message: [],
+        },
       },
     },
   };

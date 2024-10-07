@@ -97,7 +97,7 @@ const ProofOfVeteranStatus = ({
     }
   };
 
-  const formattedMessage = vetStatusEligibility.message.map(item => {
+  const componentizedMessage = vetStatusEligibility.message.map(item => {
     const contactNumber = `${CONTACTS.DS_LOGON.slice(
       0,
       3,
@@ -140,10 +140,11 @@ const ProofOfVeteranStatus = ({
         </p>
 
         <Toggler
-          toggleName={Toggler.TOGGLE_NAMES.profileShowProofOfVeteranStatus}
+          toggleName={
+            Toggler.TOGGLE_NAMES.profileShowProofOfVeteranStatusEligible
+          }
         >
           <Toggler.Enabled>
-            <p>Toggler is ENABLED</p>
             {vetStatusEligibility.confirmed ? (
               <>
                 <div className="vads-u-font-size--md">
@@ -191,25 +192,25 @@ const ProofOfVeteranStatus = ({
                 </div>
               </>
             ) : null}
+
             {!vetStatusEligibility.confirmed &&
             vetStatusEligibility.message.length > 0 ? (
               <>
                 <div>
-                  TODO: YOU ARE HERE
                   <va-alert
                     close-btn-aria-label="Close notification"
                     status="warning"
                     visible
                   >
-                    {formattedMessage.map((m, i) => {
+                    {componentizedMessage.map((m, i) => {
                       if (i === 0) {
-                        return <p className="vads-u-margin-top--0">{m}</p>;
+                        return (
+                          <p key={i} className="vads-u-margin-top--0">
+                            {m}
+                          </p>
+                        );
                       }
-                      return (
-                        <>
-                          <p>{m}</p>
-                        </>
-                      );
+                      return <p key={i}>{m}</p>;
                     })}
                   </va-alert>
                 </div>
@@ -217,7 +218,6 @@ const ProofOfVeteranStatus = ({
             ) : null}
           </Toggler.Enabled>
           <Toggler.Disabled>
-            <p>Toggler is DISABLED</p>
             {serviceHistory.length > 0 && eligibilityMap.includes('Y') ? (
               <>
                 <div className="vads-u-font-size--md">
