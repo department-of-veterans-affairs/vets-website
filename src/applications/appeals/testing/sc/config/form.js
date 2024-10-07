@@ -141,6 +141,7 @@ const formConfig = {
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
   scrollAndFocusTarget: focusH3,
+  reviewEditFocusOnHeaders: true,
 
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
@@ -213,6 +214,9 @@ const formConfig = {
           uiSchema: otherHousingRisk.uiSchema,
           schema: otherHousingRisk.schema,
           depends: hasOtherHousingRisk,
+          initialData: {
+            'view:otherHousingRisk': {},
+          },
         },
         contact: {
           title: 'Your point of contact',

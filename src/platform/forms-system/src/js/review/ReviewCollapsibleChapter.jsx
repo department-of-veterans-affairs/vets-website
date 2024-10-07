@@ -8,25 +8,21 @@ import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import {
   ERROR_ELEMENTS,
-  FOCUSABLE_ELEMENTS,
   SCROLL_ELEMENT_SUFFIX,
 } from '../../../../utilities/constants';
+import { focusReview } from '../utilities/ui/focus-review';
 
 import ProgressButton from '../components/ProgressButton';
-import {
-  focusOnChange,
-  getFocusableElements,
-  fixSelector,
-} from '../utilities/ui';
+import { focusOnChange, fixSelector } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
 import { getPreviousPagePath, checkValidPagePath } from '../routing';
 
-import { focusableWebComponentList } from '../web-component-fields/webComponentList';
 import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
+
 /*
  * Displays all the pages in a chapter on the review page
  */
@@ -39,43 +35,11 @@ class ReviewCollapsibleChapter extends React.Component {
   handleEdit(key, editing, index = null) {
     if (editing || !this.hasValidationError(key, index)) {
       this.props.onEdit(key, editing, index);
-      const name = fixSelector(key);
-
-      // Wait for edit view to render
-      setTimeout(() => {
-        const scrollElement = document.querySelector(
-          `[name="${name}${SCROLL_ELEMENT_SUFFIX}"]`,
-        );
-
-        if (scrollElement && scrollElement?.nextElementSibling) {
-          const [target] = getFocusableElements(
-            scrollElement.nextElementSibling,
-            {
-              returnWebComponent: true,
-              focusableWebComponents: focusableWebComponentList,
-            },
-          );
-
-          if (target) {
-            let selector = target.tagName;
-            // File upload pages may only show a delete va-button (form 10182)
-            const shadowSelector = selector.startsWith('VA-')
-              ? [...FOCUSABLE_ELEMENTS, ...focusableWebComponentList].join(',')
-              : null;
-
-            // Sets focus on the first focusable error or element
-            if (target.id) {
-              // id may include a colon, e.g. #root_view:foo
-              selector = `#${target.id}`;
-            } else if (target.className) {
-              selector = `${target.tagName}.${target.className
-                .split(' ')
-                .join('.')}`;
-            }
-            focusOnChange(name, fixSelector(selector), shadowSelector);
-          }
-        }
-      }, 100);
+      focusReview(
+        fixSelector(`${key}${index ?? ''}`),
+        editing,
+        this.props.reviewEditFocusOnHeaders || false,
+      );
     }
   }
 
@@ -512,6 +476,7 @@ ReviewCollapsibleChapter.propTypes = {
     pathname: PropTypes.string,
   }),
   open: PropTypes.bool,
+  reviewEditFocusOnHeaders: PropTypes.bool,
   reviewErrors: PropTypes.shape({}),
   router: PropTypes.shape({
     push: PropTypes.func,
