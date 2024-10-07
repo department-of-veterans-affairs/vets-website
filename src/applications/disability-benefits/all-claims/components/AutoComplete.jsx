@@ -4,8 +4,8 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 import debounce from 'lodash/debounce';
 
-const instructions =
-  'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.';
+const INSTRUCTIONS =
+  'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures. Input is empty. Please enter a condition.';
 
 const AutoComplete = ({
   availableResults,
@@ -132,7 +132,7 @@ const AutoComplete = ({
             debounceSearch(value);
           }
         }}
-        message-aria-describedby={value?.length > 0 ? null : instructions}
+        message-aria-describedby={!value ? INSTRUCTIONS : null}
         data-testid="autocomplete-input"
       />
       {isOpen &&
@@ -140,8 +140,8 @@ const AutoComplete = ({
           <>
             <ul
               className="cc-autocomplete__list"
+              aria-hidden="true"
               data-testid="autocomplete-list"
-              role="listbox"
             >
               {results.map((item, index) => (
                 <li
@@ -165,12 +165,12 @@ const AutoComplete = ({
                 </li>
               ))}
             </ul>
-            <div role="alert" className="vads-u-visibility--screen-reader">
+            <p role="alert" className="vads-u-visibility--screen-reader">
               {resultsCountAnnouncement}
-            </div>
-            <div role="alert" className="vads-u-visibility--screen-reader">
+            </p>
+            <p role="alert" className="vads-u-visibility--screen-reader">
               {activeResultAnnouncement}
-            </div>
+            </p>
           </>
         )}
     </div>
