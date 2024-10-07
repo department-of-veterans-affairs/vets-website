@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import * as IntroductionPage from 'applications/form-renderer/containers/IntroductionPage';
 import { render } from '@testing-library/react';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
+import * as addressPatterns from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
 import {
   employmentQuestionnaire,
   normalizedForm,
@@ -154,13 +155,24 @@ describe('selectSchemas', () => {
   });
 
   context('with Address pattern', () => {
+    let addressSpy;
+    let noMiliarySpy;
+
+    beforeEach(() => {
+      addressSpy = sinon.spy(addressPatterns, 'addressSchema');
+      noMiliarySpy = sinon.spy(addressPatterns, 'addressNoMilitarySchema');
+    });
+
+    afterEach(() => {
+      addressSpy.restore();
+      noMiliarySpy.restore();
+    });
+
     context('when militaryAddressCheckbox is true', () => {
       it('calls addressSchema', () => {
         const schemas = selectSchemas(employmentQuestionnaire.chapters[2]);
 
-        expect(schemas.schema.properties.address).to.eq(
-          webComponentPatterns.addressSchema,
-        );
+        expect(addressSpy.calledOnce).to.eq(true);
         expect(schemas.uiSchema.address).to.not.eq(undefined);
       });
     });
@@ -169,9 +181,7 @@ describe('selectSchemas', () => {
       it('calls addressNoMilitarySchema', () => {
         const schemas = selectSchemas(normalizedForm.chapters[3]);
 
-        expect(schemas.schema.properties.address).to.eq(
-          webComponentPatterns.addressNoMilitarySchema,
-        );
+        expect(noMiliarySpy.calledOnce).to.eq(true);
         expect(schemas.uiSchema.address).to.not.eq(undefined);
       });
     });

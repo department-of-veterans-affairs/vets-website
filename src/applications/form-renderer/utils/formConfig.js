@@ -14,7 +14,7 @@ export const selectSchemas = ({ pageTitle, type, additionalFields }) => {
         schemas.schema = {
           type: 'object',
           properties: {
-            address: webComponentPatterns.addressNoMilitarySchema,
+            address: webComponentPatterns.addressNoMilitarySchema(),
           },
         };
         schemas.uiSchema.address = webComponentPatterns.addressNoMilitaryUI();
@@ -22,7 +22,7 @@ export const selectSchemas = ({ pageTitle, type, additionalFields }) => {
         schemas.schema = {
           type: 'object',
           properties: {
-            address: webComponentPatterns.addressSchema,
+            address: webComponentPatterns.addressSchema(),
           },
         };
         schemas.uiSchema.address = webComponentPatterns.addressUI();
