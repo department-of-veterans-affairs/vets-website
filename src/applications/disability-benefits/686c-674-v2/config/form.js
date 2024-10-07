@@ -1,5 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import environment from 'platform/utilities/environment';
+// import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+// import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -27,19 +30,20 @@ import {
   currentMarriageInformationPartTwo,
   currentMarriageInformationPartThree,
   currentMarriageInformationPartFour,
+  currentMarriageInformationPartFive,
   doesLiveWithSpouse,
   marriageAdditionalEvidence,
   spouseInformation,
   spouseInformationPartTwo,
   spouseInformationPartThree,
-  spouseMarriageHistory,
-  spouseMarriageHistoryPartTwo,
-  additionalQuestionsView,
-  spouseMarriageHistoryDetails,
-  spouseMarriageHistoryDetailsPartTwo,
-  spouseMarriageHistoryDetailsPartThree,
-  spouseMarriageHistoryDetailsPartFour,
-  spouseMarriageHistoryDetailsPartFive,
+  // spouseMarriageHistory,
+  // spouseMarriageHistoryPartTwo,
+  // additionalQuestionsView,
+  // spouseMarriageHistoryDetails,
+  // spouseMarriageHistoryDetailsPartTwo,
+  // spouseMarriageHistoryDetailsPartThree,
+  // spouseMarriageHistoryDetailsPartFour,
+  // spouseMarriageHistoryDetailsPartFive,
   veteranMarriageHistory,
   veteranMarriageHistoryPartTwo,
   veteranAdditionalQuestionsView,
@@ -49,6 +53,16 @@ import {
   veteranMarriageHistoryDetailsPartFour,
   veteranMarriageHistoryDetailsPartFive,
 } from './chapters/report-add-a-spouse';
+import {
+  spouseMarriageHistoryOptions,
+  spouseMarriageHistorySummaryPage,
+  formerMarriagePersonalInfoPage,
+  formerMarriageEndReasonPage,
+  formerMarriageStartDatePage,
+  formerMarriageEndDatePage,
+  formerMarriageStartLocationPage,
+  formerMarriageEndLocationPage,
+} from './chapters/report-add-a-spouse/addSpouseArrayPages';
 import {
   children,
   childPlaceOfBirth,
@@ -211,7 +225,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse: Spouse information',
-          path: 'add-spouse/identification-information',
+          path: 'add-spouse/personal-information',
           uiSchema: spouseInformationPartTwo.uiSchema,
           schema: spouseInformationPartTwo.schema,
         },
@@ -234,9 +248,10 @@ export const formConfig = {
         },
         currentMarriageInformation: {
           depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
           title: 'Information needed to add your spouse: Marriage information',
-          path: 'current-marriage-information/location-of-marriage',
+          path: 'current-marriage-information/spouse-address',
           uiSchema: currentMarriageInformation.uiSchema,
           schema: currentMarriageInformation.schema,
         },
@@ -244,123 +259,108 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse: Marriage information',
-          path: 'current-marriage-information/type-of-marriage',
+          path: 'current-marriage-information/spouse-income',
           uiSchema: currentMarriageInformationPartTwo.uiSchema,
           schema: currentMarriageInformationPartTwo.schema,
         },
         currentMarriageInformationPartThree: {
           depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse: Marriage information',
-          path: 'current-marriage-information/spouse-address',
+          path: 'current-marriage-information/location-of-marriage',
           uiSchema: currentMarriageInformationPartThree.uiSchema,
           schema: currentMarriageInformationPartThree.schema,
         },
         currentMarriageInformationPartFour: {
           depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/type-of-marriage',
+          uiSchema: currentMarriageInformationPartFour.uiSchema,
+          schema: currentMarriageInformationPartFour.schema,
+        },
+        currentMarriageInformationPartFive: {
+          depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
           title: 'Information needed to add your spouse: Marriage information',
           path: 'current-marriage-information/reason-for-living-separately',
-          uiSchema: currentMarriageInformationPartFour.uiSchema,
-          schema: currentMarriageInformationPartFour.schema,
+          uiSchema: currentMarriageInformationPartFive.uiSchema,
+          schema: currentMarriageInformationPartFive.schema,
         },
-        spouseMarriageHistory: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title:
-            'Information about your spouse’s former marriage(s): Marriage history',
-          path: 'current-spouse-marriage-history',
-          uiSchema: spouseMarriageHistory.uiSchema,
-          schema: spouseMarriageHistory.schema,
-        },
-        spouseMarriageHistoryPartTwo: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.spouseWasMarriedBefore,
-          title:
-            'Information about your spouse’s former marriage(s): Marriage history',
-          path: 'current-spouse-marriage-history/previous-marriage',
-          uiSchema: spouseMarriageHistoryPartTwo.uiSchema,
-          schema: spouseMarriageHistoryPartTwo.schema,
-        },
-        additionalQuestionsView: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.spouseWasMarriedBefore,
-          title:
-            'Information about your spouse’s former marriage(s): Marriage history details',
-          path:
-            'current-spouse-marriage-history/previous-marriage/additional-information',
-          uiSchema: additionalQuestionsView.uiSchema,
-          schema: additionalQuestionsView.schema,
-        },
-        spouseMarriageHistoryDetails: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.spouseWasMarriedBefore,
-          title:
-            'Information about your spouse’s former marriage(s): Marriage history details',
-          path:
-            'current-spouse-marriage-history/previous-marriage/:index/how-marriage-ended',
-          showPagePerItem: true,
-          arrayPath: 'spouseMarriageHistory',
-          uiSchema: spouseMarriageHistoryDetails.uiSchema,
-          schema: spouseMarriageHistoryDetails.schema,
-        },
-        spouseMarriageHistoryDetailsPartTwo: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.spouseWasMarriedBefore,
-          title:
-            'Information about your spouse’s former marriage(s): Marriage history details',
-          path:
-            'current-spouse-marriage-history/previous-marriage/:index/date-marriage-started',
-          showPagePerItem: true,
-          arrayPath: 'spouseMarriageHistory',
-          uiSchema: spouseMarriageHistoryDetailsPartTwo.uiSchema,
-          schema: spouseMarriageHistoryDetailsPartTwo.schema,
-        },
-        spouseMarriageHistoryDetailsPartThree: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.spouseWasMarriedBefore,
-          title:
-            'Information about your spouse’s former marriage(s): Marriage history details',
-          path:
-            'current-spouse-marriage-history/previous-marriage/:index/date-marriage-ended',
-          showPagePerItem: true,
-          arrayPath: 'spouseMarriageHistory',
-          uiSchema: spouseMarriageHistoryDetailsPartThree.uiSchema,
-          schema: spouseMarriageHistoryDetailsPartThree.schema,
-        },
-        spouseMarriageHistoryDetailsPartFour: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.spouseWasMarriedBefore,
-          title:
-            'Information about your spouse’s former marriage(s): Marriage history details',
-          path:
-            'current-spouse-marriage-history/previous-marriage/:index/location-where-marriage-started',
-          showPagePerItem: true,
-          arrayPath: 'spouseMarriageHistory',
-          uiSchema: spouseMarriageHistoryDetailsPartFour.uiSchema,
-          schema: spouseMarriageHistoryDetailsPartFour.schema,
-        },
-        spouseMarriageHistoryDetailsPartFive: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.spouseWasMarriedBefore,
-          title:
-            'Information about your spouse’s former marriage(s): Marriage history details',
-          path:
-            'current-spouse-marriage-history/previous-marriage/:index/location-where-marriage-ended',
-          showPagePerItem: true,
-          arrayPath: 'spouseMarriageHistory',
-          uiSchema: spouseMarriageHistoryDetailsPartFive.uiSchema,
-          schema: spouseMarriageHistoryDetailsPartFive.schema,
-        },
+
+        ...arrayBuilderPages(spouseMarriageHistoryOptions, pageBuilder => ({
+          spouseMarriageHistorySummary: pageBuilder.summaryPage({
+            title:
+              'Information needed to add your spouse: Former spouse information',
+            path: 'current-spouse-marriage-history',
+            uiSchema: spouseMarriageHistorySummaryPage.uiSchema,
+            schema: spouseMarriageHistorySummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartOne: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Former spouse information',
+            path:
+              'current-spouse-marriage-history/:index/former-spouse-information',
+            uiSchema: formerMarriagePersonalInfoPage.uiSchema,
+            schema: formerMarriagePersonalInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartTwo: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Reason former marriage ended',
+            path:
+              'current-spouse-marriage-history/:index/reason-former-marriage-ended',
+            uiSchema: formerMarriageEndReasonPage.uiSchema,
+            schema: formerMarriageEndReasonPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartThree: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Date former marriage started',
+            path:
+              'current-spouse-marriage-history/previous-marriage/:index/date-marriage-started',
+            uiSchema: formerMarriageStartDatePage.uiSchema,
+            schema: formerMarriageStartDatePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartFour: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Date former marriage ended',
+            path:
+              'current-spouse-marriage-history/previous-marriage/:index/date-marriage-ended',
+            uiSchema: formerMarriageEndDatePage.uiSchema,
+            schema: formerMarriageEndDatePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartFive: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Location where former marriage started',
+            path:
+              'current-spouse-marriage-history/previous-marriage/:index/location-where-marriage-started',
+            uiSchema: formerMarriageStartLocationPage.uiSchema,
+            schema: formerMarriageStartLocationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartSix: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Location where former marriage ended',
+            path:
+              'current-spouse-marriage-history/previous-marriage/:index/location-where-marriage-ended',
+            uiSchema: formerMarriageEndLocationPage.uiSchema,
+            schema: formerMarriageEndLocationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+        })),
+
         veteranMarriageHistory: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
@@ -451,6 +451,7 @@ export const formConfig = {
           uiSchema: veteranMarriageHistoryDetailsPartFive.uiSchema,
           schema: veteranMarriageHistoryDetailsPartFive.schema,
         },
+
         marriageAdditionalEvidence: {
           depends: formData =>
             typeof formData?.currentMarriageInformation?.type === 'string' &&
