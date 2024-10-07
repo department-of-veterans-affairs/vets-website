@@ -126,16 +126,16 @@ describe('selectSchemas', () => {
     });
 
     it('contains veteranId', () => {
-      expect(serviceNumberIncluded.schema.properties.veteranId).to.not.eq(
-        undefined,
+      expect(serviceNumberIncluded.schema.properties.veteranId).to.eq(
+        webComponentPatterns.ssnOrVaFileNumberSchema,
       );
       expect(serviceNumberIncluded.uiSchema.veteranId).to.not.eq(undefined);
     });
 
     context('when includeServiceNumber is true', () => {
       it('includes serviceNumber', () => {
-        expect(serviceNumberIncluded.schema.properties.serviceNumber).to.not.eq(
-          undefined,
+        expect(serviceNumberIncluded.schema.properties.serviceNumber).to.eq(
+          webComponentPatterns.serviceNumberSchema,
         );
         expect(serviceNumberIncluded.uiSchema.serviceNumber).to.not.eq(
           undefined,
@@ -155,11 +155,25 @@ describe('selectSchemas', () => {
 
   context('with Address pattern', () => {
     context('when militaryAddressCheckbox is true', () => {
-      it('calls addressSchema');
+      it('calls addressSchema', () => {
+        const schemas = selectSchemas(employmentQuestionnaire.chapters[2]);
+
+        expect(schemas.schema.properties.address).to.eq(
+          webComponentPatterns.addressSchema,
+        );
+        expect(schemas.uiSchema.address).to.not.eq(undefined);
+      });
     });
 
     context('when militaryAddressCheckbo is false', () => {
-      it('calls addressNoMilitarySchema');
+      it('calls addressNoMilitarySchema', () => {
+        const schemas = selectSchemas(normalizedForm.chapters[3]);
+
+        expect(schemas.schema.properties.address).to.eq(
+          webComponentPatterns.addressNoMilitarySchema,
+        );
+        expect(schemas.uiSchema.address).to.not.eq(undefined);
+      });
     });
   });
 });
