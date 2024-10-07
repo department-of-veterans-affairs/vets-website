@@ -4,8 +4,8 @@ export default function() {
   return (
     <>
       <p className="help-talk">
-        <strong>If you have trouble using this online form,</strong> call us at{' '}
-        <va-telephone contact="8006982411" /> (
+        <strong>If you are have trouble using this online form,</strong> call us
+        at <va-telephone contact="8006982411" /> (
         <va-telephone contact="711" tty />
         ). We&rsquo;re here 24/7.
       </p>
