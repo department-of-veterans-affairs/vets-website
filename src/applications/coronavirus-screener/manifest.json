@@ -1,0 +1,7 @@
+{
+  "appName": "COVID-19 Screener",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "covid19screen",
+  "rootUrl": "/covid19screen",
+  "productId": "a59d2f4f-469a-4ef8-9558-419442896df1"
+}
