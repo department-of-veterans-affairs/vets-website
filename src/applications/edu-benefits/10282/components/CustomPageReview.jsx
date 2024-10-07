@@ -8,6 +8,9 @@ const CustomPageReview = ({
   question,
   dataValue,
   className,
+  moreRow,
+  questionTwo,
+  dataValue2,
 }) => {
   const [editing, setEditing] = useState(false);
   const getNestedValue = (obj, path) => {
@@ -42,16 +45,32 @@ const CustomPageReview = ({
             <strong>{value || ''}</strong>
           </dd>
         </div>
+        {moreRow && (
+          <div className="review-row">
+            <dt>{questionTwo}</dt>
+            <dd className="dd-privacy-hidden" data-dd-action-name="veteranDesc">
+              <strong>{data?.[dataValue2]?.join(', ') || ''}</strong>
+            </dd>
+          </div>
+        )}
       </dl>
     </div>
   );
 };
 CustomPageReview.propTypes = {
-  data: PropTypes.object.isRequired,
-  dataValue: PropTypes.string.isRequired,
-  editPage: PropTypes.func.isRequired,
-  question: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
   className: PropTypes.string,
+  data: PropTypes.object,
+  dataValue: PropTypes.string,
+  dataValue2: PropTypes.string,
+  editPage: PropTypes.func,
+  moreRow: PropTypes.bool,
+  question: PropTypes.string,
+  questionTwo: PropTypes.string,
+  title: PropTypes.string,
 };
+CustomPageReview.defaultProps = {
+  data: {},
+  editPage: () => {},
+};
+
 export default CustomPageReview;
