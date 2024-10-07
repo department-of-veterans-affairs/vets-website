@@ -120,6 +120,26 @@ export const getFormSubtitle = formData => {
   return 'VA Forms 21-22 and 21-22a';
 };
 
+/**
+ * Setting submit url suffix based on rep type
+ */
+export const getFormSubmitUrlSuffix = formData => {
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
+
+  if (entityType === 'organization') {
+    return '2122';
+  }
+  if (entityType === 'individual') {
+    const { individualType } = entity.attributes;
+    if (individualType === 'representative') {
+      return '2122';
+    }
+    return '2122a';
+  }
+  return '2122';
+};
+
 export const getEntityAddressAsObject = formData => {
   const entity = formData['view:selectedRepresentative'];
 
