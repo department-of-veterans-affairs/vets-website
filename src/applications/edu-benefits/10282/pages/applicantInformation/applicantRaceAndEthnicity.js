@@ -6,7 +6,7 @@ const { ethnicity, orginRace } = fullSchema10282.properties;
 const uiSchema = {
   'ui:title': (
     <h3 className="vads-u-margin--0 vads-u-color--base">
-      Your ethnicity, race, or origin
+      Your ethnicity and race
     </h3>
   ),
   ethnicity: {
@@ -14,7 +14,7 @@ const uiSchema = {
     'ui:widget': 'radio',
   },
   orginRace: {
-    'ui:title': 'What is your race or origin?',
+    'ui:title': 'What is your race?',
     'ui:description': (
       <p className="vads-u-margin-top--0  vads-u-color--gray-medium">
         Select all that you identify with
