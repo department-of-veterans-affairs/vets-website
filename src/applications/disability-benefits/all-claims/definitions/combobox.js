@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 
-import ComboBox from '../components/ComboBoxFunctional';
+import { ComboBox } from '../components/ComboBox';
 // import { validateAutoSuggest } from 'src/platform/forms-system/src/js/validation'
 
 // don't use for enum fields, they need access to the
