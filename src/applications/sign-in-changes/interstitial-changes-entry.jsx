@@ -1,4 +1,4 @@
-import '@department-of-veterans-affairs/platform-polyfills';
+import 'platform/polyfills';
 
 import { startAppFromIndex } from '@department-of-veterans-affairs/platform-startup/exports';
 
