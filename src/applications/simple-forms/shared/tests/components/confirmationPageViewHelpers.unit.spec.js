@@ -286,6 +286,52 @@ const mockPagesFromStateAddress = {
   },
 };
 
+const mockChapterArraySingle = {
+  title: 'Array Single Page',
+  pages: {
+    arraySinglePage: {
+      path: 'array-single-page',
+      pageKey: 'arraySinglePage',
+      title: 'Information for Single Page', // for review page (has to be more than one word)
+      uiSchema: {
+        arrayData: {
+          'ui:options': {
+            itemName: 'Facility',
+          },
+          items: {
+            textField: textUI('Text Field'),
+          },
+        },
+      },
+      schema: {
+        type: 'object',
+        properties: {
+          arrayData: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                textField: textSchema,
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+const mockChapterArraySingleData = {
+  arrayData: [
+    {
+      textField: 'Text Field Value 1',
+    },
+    {
+      textField: 'Text Field Value 2',
+    },
+  ],
+};
+
 class MockChapter {
   constructor(chapterConfig, data, pagesFromState = {}) {
     this.chapterConfig = chapterConfig;
@@ -365,18 +411,18 @@ describe('confirmation page view helpers', () => {
     expect(title).to.equal('Review function title');
   });
 
-  // it('should show radio fields correctly', () => {
-  //   const chapter = new MockChapter(mockChapterRadio, mockChapterRadioData);
-  //   const fields = chapter.buildConfirmationFields();
-  //   const { getByText } = render(fields);
-  //   expect(getByText('Widget radio')).to.exist;
-  //   expect(getByText('Widget radio option 1')).to.exist;
-  //   expect(getByText('Web component radio')).to.exist;
-  //   expect(getByText('Web component radio option 1')).to.exist;
+  it('should show radio fields correctly', () => {
+    const chapter = new MockChapter(mockChapterRadio, mockChapterRadioData);
+    const fields = chapter.buildConfirmationFields();
+    const { getByText } = render(fields);
+    expect(getByText('Widget radio')).to.exist;
+    expect(getByText('Widget radio option 1')).to.exist;
+    expect(getByText('Web component radio')).to.exist;
+    expect(getByText('Web component radio option 1')).to.exist;
 
-  //   expect(getByText('Web component yes/no')).to.exist;
-  //   expect(getByText('Yes')).to.exist;
-  // });
+    expect(getByText('Web component yes/no')).to.exist;
+    expect(getByText('Yes')).to.exist;
+  });
 
   it('should show text fields correctly', () => {
     const chapter = new MockChapter(mockChapterText, mockChapterTextData);
@@ -446,5 +492,16 @@ describe('confirmation page view helpers', () => {
     expect(getByText('Chicago')).to.exist;
     expect(getByText('State')).to.exist;
     expect(getByText('IL')).to.exist;
+  });
+
+  it('should show array single page correctly', () => {
+    const chapter = new MockChapter(
+      mockChapterArraySingle,
+      mockChapterArraySingleData,
+    );
+    const fields = chapter.buildConfirmationFields();
+    const { getByText } = render(fields);
+    expect(getByText('Text Field Value 1')).to.exist;
+    expect(getByText('Text Field Value 2')).to.exist;
   });
 });

@@ -49,6 +49,26 @@ describe(`${appName} -- Status Page`, () => {
       .should('include.text', ' June 22, 2023');
   });
 
+  it('navigates to view claim details and back to status page', () => {
+    cy.get('h3[data-testid="travel-claim-details"]~a')
+      .first()
+      .click();
+
+    cy.location('pathname').should(
+      'eq',
+      '/my-health/travel-claim-status/498d60a7-fe33-4ea8-80a6-80a27d9fc212',
+    );
+
+    // TODO: update mock data to reflect proper claim number formatting
+    cy.get('.claim-details-claim-number').should(
+      'include.text',
+      'Claim number: d00606da-ee39-4a0c-b505-83f6aa052594',
+    );
+
+    cy.get('.claim-details-breadcrumb-wrapper .go-back-link').click();
+    cy.location('pathname').should('eq', '/my-health/travel-claim-status/');
+  });
+
   it('sorts the claims ordered by appointment date ascending on user action', () => {
     cy.get('select[name="claimsOrder"]').should('have.value', 'mostRecent');
     cy.get('select[name="claimsOrder"]').select('oldest');
