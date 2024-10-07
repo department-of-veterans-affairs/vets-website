@@ -1,7 +1,8 @@
 import path from 'path';
 import featureTogglesEnabled from './fixtures/toggle-covid-feature.json';
 
-describe('COVID-19 Research Form', () => {
+// TO-DO: Remove tests now that application has been removed
+describe.skip('COVID-19 Research Form', () => {
   describe('when entering valid information and submitting', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
