@@ -3,13 +3,14 @@ name: Cypress Integration Test Workflow
 on:
     workflow_dispatch:
       inputs:
+        # branch:
+        #   description: 'branch with currently failing e2e tests in CI'
+        #   required: true
         product:
           description: 'individual product to be tested'
           required: true
           # TO-DO: create a solution that maintains an updated list of active products within src/applications
-        branch:
-          description: 'branch with currently failing e2e tests in CI'
-          required: true
+        
         # TO-DO: add a commit input to allow devs to determine a commit point of failure in the branch
   
 env:
@@ -24,7 +25,7 @@ jobs:
         - name: Run integration helper script
           run: |
             chmod +x ./script/github-actions/cypress-integration-test.sh 
-            ./scripts/integration-helper.sh "${{ github.event.inputs.product }}"
+            ./scripts/integration-helper.sh "${{ github.ref }}"
   
     build: 
       name: Build
