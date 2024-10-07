@@ -47,6 +47,7 @@ import PhoneViewField from '../components/PhoneViewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
+import PersonalInformationReviewField from '../components/PersonalInformationReviewField';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -482,6 +483,7 @@ const formConfig = {
         reviewPersonalInformation: {
           path: 'review-personal-information',
           title: 'Review your Personal Information',
+          CustomPageReview: PersonalInformationReviewField,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
