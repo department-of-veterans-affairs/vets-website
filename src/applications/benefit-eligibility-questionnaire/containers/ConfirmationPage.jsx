@@ -267,6 +267,7 @@ export class ConfirmationPage extends React.Component {
                                 href={b.learnMoreURL}
                                 target="_blank"
                                 rel="noreferrer"
+                                aria-label={`Learn more about ${b.name}`}
                               >
                                 Learn more
                               </a>
@@ -279,6 +280,7 @@ export class ConfirmationPage extends React.Component {
                                 href={b.applyNowURL}
                                 target="_blank"
                                 rel="noreferrer"
+                                aria-label={`Apply now for ${b.name}`}
                               >
                                 Apply now
                               </a>
