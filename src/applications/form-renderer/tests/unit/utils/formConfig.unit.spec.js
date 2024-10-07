@@ -10,7 +10,7 @@ import {
   employmentQuestionnaire,
   normalizedForm,
 } from '../../../_config/formConfig';
-import { createFormConfig } from '../../../utils/formConfig';
+import { createFormConfig, selectSchemas } from '../../../utils/formConfig';
 import manifest from '../../../manifest.json';
 
 describe('createFormConfig', () => {
@@ -79,14 +79,16 @@ describe('createFormConfig', () => {
       `resBurden: ${normalizedForm.ombInfo.resBurden}`,
     );
   });
+});
 
+describe('selectSchemas', () => {
   context('with Name and Date of Birth pattern', () => {
     let dobIncluded;
     let nameOnly;
 
     beforeEach(() => {
-      dobIncluded = formConfig.chapters[158253].pages[158253];
-      nameOnly = formConfig.chapters[158254].pages[158254];
+      dobIncluded = selectSchemas(normalizedForm.chapters[0]);
+      nameOnly = selectSchemas(normalizedForm.chapters[1]);
     });
 
     it('contains fullName', () => {
@@ -114,10 +116,11 @@ describe('createFormConfig', () => {
     let vetIdOnly;
 
     beforeEach(() => {
-      serviceNumberIncluded = createFormConfig(employmentQuestionnaire)
-        .chapters[20002].pages[20002];
+      serviceNumberIncluded = selectSchemas(
+        employmentQuestionnaire.chapters[1],
+      );
 
-      vetIdOnly = formConfig.chapters[160592].pages[160592];
+      vetIdOnly = selectSchemas(normalizedForm.chapters[2]);
     });
 
     it('contains veteranId', () => {
@@ -143,6 +146,16 @@ describe('createFormConfig', () => {
         expect(vetIdOnly.schema.properties.serviceNumber).to.eq(undefined);
         expect(vetIdOnly.uiSchema.serviceNumber).to.eq(undefined);
       });
+    });
+  });
+
+  context('with Address pattern', () => {
+    context('when militaryAddressCheckbox is true', () => {
+      it('calls addressSchema');
+    });
+
+    context('when militaryAddressCheckbo is false', () => {
+      it('calls addressNoMilitarySchema');
     });
   });
 });

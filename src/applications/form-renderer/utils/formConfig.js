@@ -14,7 +14,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-const selectSchemas = ({ pageTitle, type, additionalFields }) => {
+export const selectSchemas = ({ pageTitle, type, additionalFields }) => {
   const schemas = {};
 
   if (type === 'digital_form_name_and_date_of_bi') {
