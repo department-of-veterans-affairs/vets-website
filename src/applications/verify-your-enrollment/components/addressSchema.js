@@ -21,6 +21,8 @@ const ADDRESS_FORM_VALUES = {
 
 const STREET_LINE_MAX_LENGTH = 20;
 
+// console.log(STREET_LINE_MAX_LENGTH)
+
 export const getFormSchema = (formData = {}) => {
   const defaultCountry =
     countries.find(
