@@ -15,7 +15,12 @@ describe('AuthApp', () => {
   const mockStore = {
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
-    getState: () => {},
+    getState: () => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_interstitial_enabled: false,
+      },
+    }),
   };
 
   before(() => {
@@ -145,8 +150,9 @@ describe('AuthApp', () => {
         />
       </Provider>,
     );
-
-    expect(queryByTestId('loading')).to.not.be.null;
+    await waitFor(() => {
+      expect(queryByTestId('loading')).to.not.be.null;
+    });
   });
 
   it('should call skipToRedirect when no error and return URL is external', async () => {
@@ -172,8 +178,9 @@ describe('AuthApp', () => {
         />
       </Provider>,
     );
-
-    expect(queryByTestId('loading')).to.not.be.null;
+    await waitFor(() => {
+      expect(queryByTestId('loading')).to.not.be.null;
+    });
   });
 
   it('should call the handleTokenRequest', async () => {
@@ -209,8 +216,9 @@ describe('AuthApp', () => {
         />
       </Provider>,
     );
-
-    expect(queryByTestId('loading')).to.not.be.null;
+    await waitFor(() => {
+      expect(queryByTestId('loading')).to.not.be.null;
+    });
   });
 
   it('should not call terms of use provisioning if a user is not authenticating with ssoe', async () => {
