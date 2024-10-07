@@ -129,6 +129,13 @@ jobs:
         with:
             ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
             env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+      - name: Checkout Cypress Integration Tests Workflow
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          repository: department-of-veterans-affairs/vagov-cypress-integration-tests
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN}}
+          path: vagov-cypress-integration-tests
+
 
       - name: Call Integration Test Workflow
         uses: vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
