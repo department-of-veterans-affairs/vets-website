@@ -220,7 +220,7 @@ describe('Attachments List component', () => {
     expect(screen.getByText(Alerts.Message.ATTACHMENT_SCAN_FAIL)).to.exist;
   });
 
-  it('renders error message when multiple attachments contain a virus', async () => {
+  it('renders error message when multiple attachments receive failed scan response', async () => {
     const customProps = {
       attachments: [
         {
