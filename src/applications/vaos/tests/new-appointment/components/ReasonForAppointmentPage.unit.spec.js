@@ -29,7 +29,8 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
   beforeEach(() => mockFetch());
 
   describe('VA requests', () => {
-    it('should show page for VA medical request', async () => {
+    // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/94470
+    it.skip('should show page for VA medical request', async () => {
       const store = createTestStore(initialState);
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
