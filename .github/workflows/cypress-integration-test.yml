@@ -88,7 +88,7 @@ jobs:
   
     call-integration-test-workflow:
       name: Call Integration Test Workflow
-      uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-test-integration-workflow.yml@main
+      uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
       secrets: inherit
   
     notify-failure:
