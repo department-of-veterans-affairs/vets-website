@@ -36,7 +36,7 @@ describe('focusElement', () => {
         <h2>test</h2>
       </div>,
     );
-    const h2 = screen.getByRole('heading', { levh2: 2 });
+    const h2 = screen.getByRole('heading', { level: 2 });
 
     expect(h2.tabIndex).to.eq(-1);
     expect(h2.getAttribute('tabindex')).to.be.null;
@@ -60,7 +60,7 @@ describe('focusElement', () => {
         <h2>test</h2>
       </div>,
     );
-    const h2 = screen.getByRole('heading', { levh2: 2 });
+    const h2 = screen.getByRole('heading', { level: 2 });
 
     expect(h2.tabIndex).to.eq(-1);
     expect(h2.getAttribute('tabindex')).to.be.null;

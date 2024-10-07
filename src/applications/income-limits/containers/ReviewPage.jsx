@@ -13,7 +13,6 @@ import {
   updateResultsValidationErrorText,
   updateResultsValidationServiceError,
 } from '../actions';
-import { customizeTitle } from '../utilities/customize-title';
 
 const ReviewPage = ({
   dependentsInput,
@@ -28,11 +27,6 @@ const ReviewPage = ({
   zipCodeInput,
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const H1 = 'Review your information';
-
-  useEffect(() => {
-    document.title = customizeTitle(H1);
-  });
 
   useEffect(() => {
     if (editMode) {
@@ -112,7 +106,7 @@ const ReviewPage = ({
 
   return (
     <>
-      <h1>{H1}</h1>
+      <h1>Review your information</h1>
       <p className="il-review">
         Make any edits that you may need to. Then select{' '}
         <strong>Continue</strong>.
