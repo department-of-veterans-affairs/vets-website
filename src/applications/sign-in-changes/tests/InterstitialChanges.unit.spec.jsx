@@ -45,7 +45,7 @@ describe('InterstitialChanges', () => {
     expect(screen.getByText(/After this date, we'll remove/i)).to.exist;
     expect(
       screen.container.querySelector(
-        'va-link[text="Continue with your MyHealtheVet account for now"]',
+        'va-link[text="Continue with your My HealtheVet account for now"]',
       ),
     ).to.have.attribute('href', expectedReturnUrl);
   });
@@ -93,7 +93,7 @@ describe('InterstitialChanges', () => {
     expect(screen.getByText(/After this date, we'll remove/i)).to.exist;
     expect(
       screen.container.querySelector(
-        'va-link[text="Continue with your MyHealtheVet account for now"]',
+        'va-link[text="Continue with your My HealtheVet account for now"]',
       ),
     ).to.have.attribute('href', expectedReturnUrl);
     sessionStorage.clear();
