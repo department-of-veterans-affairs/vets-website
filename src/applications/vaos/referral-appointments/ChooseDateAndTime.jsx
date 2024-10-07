@@ -68,52 +68,62 @@ export const ChooseDateAndTime = () => {
   };
   const tzLong = getTzName('longGeneric');
   const tzShort = getTzName('shortGeneric');
-  useEffect(
+  const hasConflict = useCallback(
     () => {
-      if (selectedDate && upcomingAppointments) {
-        const selectedMonth = format(new Date(selectedDate), 'yyyy-MM');
-        if (selectedMonth in upcomingAppointments) {
-          const selectedDay = format(new Date(selectedDate), 'dd');
-          const monthOfApts = upcomingAppointments[selectedMonth];
-          const daysWithApts = monthOfApts.map(apt => {
-            return format(new Date(apt.start), 'dd');
-          });
-          if (daysWithApts.includes(selectedDay)) {
-            const unavailableTimes = monthOfApts.map(upcomingAppointment => {
-              return {
-                start: zonedTimeToUtc(
-                  new Date(upcomingAppointment.start),
-                  upcomingAppointment.timezone,
-                ),
-                end: zonedTimeToUtc(
-                  addMinutes(
-                    new Date(upcomingAppointment.start),
-                    upcomingAppointment.minutesDuration,
-                  ),
-                  upcomingAppointment.timezone,
-                ),
-              };
-            });
-            unavailableTimes.forEach(range => {
-              if (
-                isWithinInterval(
-                  zonedTimeToUtc(new Date(selectedDate), referral.timezone),
-                  {
-                    start: range.start,
-                    end: range.end,
-                  },
-                )
-              ) {
-                setError(
-                  'You already have an appointment at this time. Please select another day or time.',
-                );
-              }
-            });
-          }
-        }
+      let conflict = false;
+      const selectedMonth = format(new Date(selectedDate), 'yyyy-MM');
+      if (!(selectedMonth in upcomingAppointments)) {
+        return conflict;
       }
+      const selectedDay = format(new Date(selectedDate), 'dd');
+      const monthOfApts = upcomingAppointments[selectedMonth];
+      const daysWithApts = monthOfApts.map(apt => {
+        return format(new Date(apt.start), 'dd');
+      });
+      if (!daysWithApts.includes(selectedDay)) {
+        return conflict;
+      }
+      const unavailableTimes = monthOfApts.map(upcomingAppointment => {
+        return {
+          start: zonedTimeToUtc(
+            new Date(upcomingAppointment.start),
+            upcomingAppointment.timezone,
+          ),
+          end: zonedTimeToUtc(
+            addMinutes(
+              new Date(upcomingAppointment.start),
+              upcomingAppointment.minutesDuration,
+            ),
+            upcomingAppointment.timezone,
+          ),
+        };
+      });
+      unavailableTimes.forEach(range => {
+        if (
+          isWithinInterval(
+            zonedTimeToUtc(new Date(selectedDate), referral.timezone),
+            {
+              start: range.start,
+              end: range.end,
+            },
+          )
+        ) {
+          conflict = true;
+        }
+      });
+      return conflict;
     },
     [selectedDate, upcomingAppointments],
+  );
+  useEffect(
+    () => {
+      if (selectedDate && upcomingAppointments && hasConflict()) {
+        setError(
+          'You already have an appointment at this time. Please select another day or time.',
+        );
+      }
+    },
+    [hasConflict, selectedDate, upcomingAppointments],
   );
   return (
     <FormLayout pageTitle={pageTitle}>
