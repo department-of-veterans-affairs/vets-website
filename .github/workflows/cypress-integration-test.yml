@@ -3,11 +3,11 @@ name: Cypress Integration Test Workflow
 on:
     workflow_dispatch:
       inputs:
-        # branch:
-        #   description: 'branch with currently failing e2e tests in CI'
-        #   required: true
+        branch:
+          description: 'select main in the above roster and then input the branch name with CI failures'
+          required: true
         product:
-          description: 'individual product to be tested'
+          description: 'your target product directory within src/applications'
           required: true
           # TO-DO: create a solution that maintains an updated list of active products within src/applications
         
@@ -54,6 +54,12 @@ jobs:
             aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws_region: us-gov-west-1
   
+        - name: Get va-vsp-bot token
+          uses: ./.github/workflows/inject-secrets
+          with:
+            ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+            env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
         - name: Get Mapbox Token
           uses: ./.github/workflows/inject-secrets
           with:
@@ -86,10 +92,17 @@ jobs:
             name: ${{ env.BUILDTYPE }}.tar.bz2
             path: ${{ env.BUILDTYPE }}.tar.bz2
             retention-days: 1
-  
+    checkout-target-repo:
+      name: Checkout Cypress Integration Tests repo
+      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+      with:
+         repository: department-of-veterans-affairs/vagov-cypress-integration-tests
+         token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+         path: vagov-cypress-integration-tests
+
     call-integration-test-workflow:
       name: Call Integration Test Workflow
-      uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
+      uses: vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
       secrets: inherit
   
     notify-failure:
