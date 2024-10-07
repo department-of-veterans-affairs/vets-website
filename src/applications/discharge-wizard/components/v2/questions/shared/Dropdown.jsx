@@ -155,7 +155,7 @@ const Dropdown = ({
         </va-alert-expandable>
       )}
       <VaButtonPair
-        class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
+        class="vads-u-margin-top--3 mobile-lg:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
