@@ -103,7 +103,9 @@ const SearchResult = ({
                 {representativeName}
               </h3>
               {accreditedOrganizations?.length === 1 && (
-                <p style={{ marginTop: 0 }}>{accreditedOrganizations[0]}</p>
+                <p style={{ marginTop: 0 }}>
+                  {accreditedOrganizations[0]?.attributes?.name}
+                </p>
               )}
             </>
           )}
