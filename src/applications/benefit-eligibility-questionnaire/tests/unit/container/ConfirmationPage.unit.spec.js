@@ -10,7 +10,8 @@ import formConfig from '../../../config/form';
 import { BENEFITS_LIST } from '../../../constants/benefits';
 
 describe('<ConfirmationPage>', () => {
-  const getData = () => ({
+  sinon.stub(Date, 'getTime');
+  const getData = resultsData => ({
     props: {
       formConfig,
       route: {
@@ -50,7 +51,7 @@ describe('<ConfirmationPage>', () => {
           },
         },
         results: {
-          data: [BENEFITS_LIST[0]],
+          data: resultsData,
           error: null,
           isError: false,
           isLoading: false,
@@ -68,7 +69,17 @@ describe('<ConfirmationPage>', () => {
     );
 
   it('should render results page', () => {
-    const { mockStore, props } = getData();
+    const { mockStore, props } = getData([BENEFITS_LIST[0]]);
+    const { container } = subject({ mockStore, props });
+
+    const ulQualified = container.querySelectorAll('ul.benefit-list');
+    expect(container.querySelector('#results-container')).to.exist;
+    expect(ulQualified[1].querySelectorAll('li')).to.have.lengthOf(1);
+  });
+
+  it('should render results page when query string is provided', () => {
+    const { mockStore, props } = getData([]);
+    props.location.query.benefits = 'SVC,FHV';
     const { container } = subject({ mockStore, props });
 
     expect(container.querySelector('#results-container')).to.exist;
@@ -77,7 +88,6 @@ describe('<ConfirmationPage>', () => {
   it('should handle back link', async () => {
     const { mockStore, props } = getData();
     const { container } = subject({ mockStore, props });
-    sinon.stub(Date, 'getTime');
 
     const backLink = container.querySelector('[data-testid="back-link"]');
     fireEvent.click(backLink);
@@ -116,6 +126,7 @@ const mockBenefits = [
 describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   let wrapper;
   let store;
+  let container;
 
   const setup = storeState => {
     store = mockStore(storeState);
@@ -129,11 +140,26 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     );
   };
 
+  it('should sort benefits by goal', () => {
+    wrapper = setup({ results: { data: mockBenefits } });
+    container = wrapper.container;
+
+    const sortSelect = container.querySelector('[name="sort-benefits"]');
+    sortSelect.__events.vaSelect({ target: { value: 'goal' } });
+
+    const benefitNames = wrapper
+      .getAllByRole('listitem')
+      .map(li => li.textContent);
+
+    expect(benefitNames[0]).to.contain('Careers & Employment');
+  });
+
   it('should sort benefits alphabetically', () => {
     wrapper = setup({ results: { data: mockBenefits } });
+    container = wrapper.container;
 
-    const sortSelect = wrapper.getByText(/Sort results by/i).nextSibling;
-    fireEvent.change(sortSelect, { target: { value: 'alphabetical' } });
+    const sortSelect = container.querySelector('[name="sort-benefits"]');
+    sortSelect.__events.vaSelect({ target: { value: 'alphabetical' } });
 
     const benefitNames = wrapper
       .getAllByRole('listitem')
@@ -145,22 +171,24 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
 
   it('should filter benefits by category', () => {
     wrapper = setup({ results: { data: mockBenefits } });
+    container = wrapper.container;
 
-    const filterSelect = wrapper.getByText(/Filter benefits by/i).nextSibling;
-    fireEvent.change(filterSelect, { target: { value: 'Employment' } });
+    const filterSelect = container.querySelector('[name="filter-benefits"]');
+    filterSelect.__events.vaSelect({ target: { value: 'Employment' } });
 
     const benefitNames = wrapper
       .getAllByRole('listitem')
       .map(li => li.textContent);
-    expect(benefitNames).to.have.lengthOf(8);
-    expect(benefitNames[0]).to.contain('Education');
+    expect(benefitNames).to.have.lengthOf(5);
+    expect(benefitNames[0]).to.contain('Careers & Employment');
   });
 
   it('should show all benefits when "All" filter is selected', () => {
     wrapper = setup({ results: { data: mockBenefits } });
+    container = wrapper.container;
 
-    const filterSelect = wrapper.getByText(/Filter benefits by/i).nextSibling;
-    fireEvent.change(filterSelect, { target: { value: 'All' } });
+    const filterSelect = container.querySelector('[name="filter-benefits"]');
+    filterSelect.__events.vaSelect({ target: { value: 'All' } });
 
     const benefitNames = wrapper
       .getAllByRole('listitem')

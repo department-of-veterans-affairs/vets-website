@@ -30,7 +30,7 @@ function ClearFiltersBtn({
       studentVeteran: false,
       yellowRibbonScholarship: false,
       employers: true,
-      vettec: true,
+      vettec: false,
       preferredProvider: false,
       country: 'ALL',
       state: 'ALL',

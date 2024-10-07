@@ -58,11 +58,11 @@ const renderOtherVA = (debtLength, debtError) => {
   if (debtError) {
     return (
       <>
-        <h3>Your other VA debts</h3>
+        <h2 className="vads-u-font-size--h3">Your other VA debts</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
-          <h4 slot="headline" className="vads-u-font-size--h3">
+          <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
-          </h4>
+          </h3>
           {alertInfo.body}
         </va-alert>
       </>
@@ -123,11 +123,7 @@ const OverviewPage = () => {
         <OnThisPageOverview multiple={statements?.length > 1} />
         <Balances statements={statementsByUniqueFacility} />
         {renderOtherVA(debts?.length, debtError)}
-        <HowToPay
-          isOverview="true"
-          acctNum={statementsByUniqueFacility[0].pHAccountNumber}
-          facility={statementsByUniqueFacility[0].station}
-        />
+        <HowToPay isOverview />
         <FinancialHelp />
         <DisputeCharges />
         <BalanceQuestions />

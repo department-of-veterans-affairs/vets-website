@@ -25,15 +25,15 @@ export function CautionaryInformation({ institution, showModal }) {
     if (!displayEmpty && !thisCampus && !allCampuses) return null;
     const bold = description === 'Total Complaints';
     return (
-      <va-table-row key={key}>
-        <span>
+      <tr key={key}>
+        <td>
           <strong>{description}</strong>
           <br />
           {definition}
-        </span>
-        <span>{bold ? <strong>{thisCampus}</strong> : thisCampus}</span>
-        <span>{bold ? <strong>{allCampuses}</strong> : allCampuses}</span>
-      </va-table-row>
+        </td>
+        <td>{bold ? <strong>{thisCampus}</strong> : thisCampus}</td>
+        <td>{bold ? <strong>{allCampuses}</strong> : allCampuses}</td>
+      </tr>
     );
   };
   const renderListRow = ({ description, key, value, definition }) => {
@@ -195,40 +195,48 @@ export function CautionaryInformation({ institution, showModal }) {
 
       <div>
         <div className="table">
-          <va-table class="vads-u-margin-bottom--2">
-            <va-table-row slot="headers">
-              <span />
-              <span>This campus</span>
-              <span>{allCampusesLink}</span>
-            </va-table-row>
-            {renderTableRow({
-              description: 'All student complaints',
-              displayEmpty: true,
-              thisCampus: allComplaints.thisCampus || 0,
-              allCampuses: allComplaints.allCampuses || 0,
-            })}
-          </va-table>
+          <table className="usa-table">
+            <thead>
+              <tr>
+                <th scope="col" />
+                <th scope="col">This campus</th>
+                <th scope="col">{allCampusesLink}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {renderTableRow({
+                description: 'All student complaints',
+                displayEmpty: true,
+                thisCampus: allComplaints.thisCampus || 0,
+                allCampuses: allComplaints.allCampuses || 0,
+              })}
+            </tbody>
+          </table>
 
           {!!complaints.mainCampusRollUp && (
-            <va-table class="vads-u-margin-bottom--2">
-              <va-table-row slot="headers">
-                <span>
-                  Complaints by type{' '}
-                  <span>(Each complaint can have multiple types)</span>
-                </span>
-                <span>This campus</span>
-                <span>{allCampusesLink}</span>
-              </va-table-row>
-              {complaintRows.map(c => {
-                return renderTableRow({
-                  key: c.description,
-                  description: c.description,
-                  thisCampus: c.thisCampus || 0,
-                  allCampuses: c.allCampuses || 0,
-                  definition: c.definition,
-                });
-              })}
-            </va-table>
+            <table className="usa-table">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    Complaints by type{' '}
+                    <span>(Each complaint can have multiple types)</span>
+                  </th>
+                  <th scope="col">This campus</th>
+                  <th scope="col">{allCampusesLink}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {complaintRows.map(c => {
+                  return renderTableRow({
+                    key: c.description,
+                    description: c.description,
+                    thisCampus: c.thisCampus || 0,
+                    allCampuses: c.allCampuses || 0,
+                    definition: c.definition,
+                  });
+                })}
+              </tbody>
+            </table>
           )}
         </div>
 

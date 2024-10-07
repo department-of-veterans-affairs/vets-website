@@ -71,7 +71,7 @@ class EducationWizard extends React.Component {
         url = `/education/apply-for-education-benefits/application/${form}`;
         break;
       case '5490':
-        url = `/education/survivor-dependent-education-benefit-22-5490`;
+        url = `/family-and-caregiver-benefits/education-and-careers/apply-dea-fry-form-22-5490`;
         break;
       default:
         url = `/education/apply-for-education-benefits/application/${form}`;

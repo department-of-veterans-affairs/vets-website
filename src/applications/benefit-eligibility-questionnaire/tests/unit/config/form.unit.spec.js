@@ -45,16 +45,40 @@ describe('Questionnaire Form - Title Function', () => {
       expect(title).to.equal('Your benefits and resources');
     });
 
-    it('should return "Review your entries" when on the review page', () => {
+    it('should return "Review your information" when on the review page', () => {
       const currentLocation = { pathname: '/review-and-submit' };
       const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Review your entries');
+      expect(title).to.equal('Review your information');
     });
 
-    it('should return "Complete the benefit eligibility questionnaire" by default', () => {
+    it('should return "Benefit and resource recommendation tool" by default', () => {
       const currentLocation = { pathname: '/some-other-page' };
       const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Complete the benefit eligibility questionnaire');
+      expect(title).to.equal('Benefit and resource recommendation tool');
+    });
+  });
+});
+
+describe('Questionnaire Form - SubTitle Function', () => {
+  describe('title function', () => {
+    it('should return blank when on the confirmation page', () => {
+      const currentLocation = { pathname: '/confirmation' };
+      const title = formConfig.subTitle({ currentLocation });
+      expect(title).to.equal('');
+    });
+
+    it('should return blank when on the review page', () => {
+      const currentLocation = { pathname: '/review-and-submit' };
+      const title = formConfig.subTitle({ currentLocation });
+      expect(title).to.equal('');
+    });
+
+    it('should return "Please answer the questions to help us recommend helpful resources and benefits." by default', () => {
+      const currentLocation = { pathname: '/some-other-page' };
+      const title = formConfig.subTitle({ currentLocation });
+      expect(title).to.equal(
+        'Please answer the questions to help us recommend helpful resources and benefits.',
+      );
     });
   });
 });
@@ -117,21 +141,50 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
       });
     });
 
-    it('should not call goPath if militaryServiceCurrentlyServing is not "Yes"', () => {
+    it('should call goPath if militaryServiceCurrentlyServing is "No"', () => {
       const formData = {
         militaryServiceCurrentlyServing: 'No',
       };
       let goPathCalled = false;
-      const goPathMock = () => {
+      let calledWith = '';
+      const goPathMock = arg => {
         goPathCalled = true;
+        calledWith = arg;
       };
 
       militaryServiceCompletedPage.onNavForward({
         formData,
         goPath: goPathMock,
       });
-      expect(goPathCalled).to.be.false;
+
+      expect(goPathCalled).to.be.true;
+      expect(calledWith).to.equal(
+        formConfig.chapters.chapter3.pages.separation.path,
+      );
     });
+  });
+
+  it('should call goPath if militaryServiceCurrentlyServing is "Yes"', () => {
+    const formData = {
+      militaryServiceCurrentlyServing: 'Yes',
+      militaryServiceCompleted: 'No',
+    };
+    let goPathCalled = false;
+    let calledWith = '';
+    const goPathMock = arg => {
+      goPathCalled = true;
+      calledWith = arg;
+    };
+
+    militaryServiceCompletedPage.onNavForward({
+      formData,
+      goPath: goPathMock,
+    });
+
+    expect(goPathCalled).to.be.true;
+    expect(calledWith).to.equal(
+      formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+    );
   });
 });
 

@@ -24,12 +24,12 @@ const DashboardCards = () => {
   const itemsPerPage = 4;
 
   const formatDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
+    const parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
     return format(parsedDate, 'MMM d, yyyy');
   };
 
   const formatLongDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
+    const parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
     return format(parsedDate, 'MMMM d, yyyy');
   };
 
@@ -127,7 +127,7 @@ const DashboardCards = () => {
                     {card.attributes.status}
                   </span>
                   <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
-                    {`Submitted on ${card.attributes.createdOn}`}
+                    {`Submitted on ${formatDate(card.attributes.createdOn)}`}
                   </span>
                 </h3>
                 <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">

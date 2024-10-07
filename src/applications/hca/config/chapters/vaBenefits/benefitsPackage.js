@@ -2,8 +2,8 @@ import {
   titleUI,
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import RegistrationOnlyDescription from '../../../components/FormDescriptions/RegistrationOnlyDescription';
 import HealthEnrollmentDescription from '../../../components/FormDescriptions/HealthEnrollmentDescription';
+import RegistrationOnlyNote from '../../../components/FormDescriptions/RegistrationOnlyNote';
 import { emptyObjectSchema } from '../../../definitions';
 import content from '../../../locales/en/content.json';
 
@@ -11,8 +11,9 @@ export default {
   uiSchema: {
     ...titleUI(
       content['benefits--reg-only-title'],
-      RegistrationOnlyDescription,
+      content['benefits--reg-only-description'],
     ),
+    ...descriptionUI(HealthEnrollmentDescription),
     'view:vaBenefitsPackage': {
       'ui:title': content['benefits--reg-only-label'],
       'ui:widget': 'radio',
@@ -23,18 +24,19 @@ export default {
         },
       },
     },
-    'view:healthEnrollmentDescription': {
-      ...descriptionUI(HealthEnrollmentDescription),
+    'view:registrationOnlyNote': {
+      ...descriptionUI(RegistrationOnlyNote),
     },
   },
   schema: {
     type: 'object',
+    required: ['view:vaBenefitsPackage'],
     properties: {
       'view:vaBenefitsPackage': {
         type: 'string',
         enum: ['fullPackage', 'regOnly'],
       },
-      'view:healthEnrollmentDescription': emptyObjectSchema,
+      'view:registrationOnlyNote': emptyObjectSchema,
     },
   },
 };

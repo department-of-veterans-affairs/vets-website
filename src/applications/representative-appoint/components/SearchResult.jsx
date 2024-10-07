@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
-import { parsePhoneNumber } from '../utilities/helpers';
+import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
+import fetchRepStatus from '../api/fetchRepStatus';
 
 const SearchResult = ({
   representativeName,
@@ -18,7 +19,7 @@ const SearchResult = ({
   phone,
   distance,
   email,
-  associatedOrgs,
+  accreditedOrganizations,
   representativeId,
   representative,
   query,
@@ -47,10 +48,26 @@ const SearchResult = ({
     // pending analytics event
   };
 
-  const handleSelect = selectedRepResult => {
+  const handleSelect = async selectedRepResult => {
+    let repStatus;
+
+    try {
+      const res = await fetchRepStatus();
+      repStatus = res.data;
+    } catch {
+      repStatus = null;
+    }
+
     const tempData = {
       ...formData,
       'view:selectedRepresentative': selectedRepResult,
+      'view:representativeStatus': repStatus,
+      // when a new representative is selected, we want to nil out the
+      //   selected organization to prevent weird states. For example,
+      //   we wouldn't want a user to select a representative, an organization,
+      //   go backwards to select an attorney, and then our state variables
+      //   say an attorney was selected with a non-null organization id
+      selectedAccreditedOrganizationId: null,
     };
 
     setFormData({
@@ -66,7 +83,7 @@ const SearchResult = ({
   };
 
   return (
-    <va-card class="representative-result-card vads-u-padding--4">
+    <va-card class="vads-u-padding--4">
       <div className="representative-result-card-content">
         <div className="representative-info-heading">
           {distance && (
@@ -79,50 +96,50 @@ const SearchResult = ({
           )}
           {representativeName && (
             <>
-              <div
-                className="vads-u-font-family--serif vads-u-margin-top--2p5"
-                id={`result-${representativeId}`}
+              <h3
+                className="vads-u-font-family--serif vads-u-margin-top--0p5"
+                aria-describedby={`representative-${representativeId}`}
               >
-                <h3 aria-describedby={`representative-${representativeId}`}>
-                  {representativeName}
-                </h3>
-              </div>
-              {associatedOrgs?.length === 1 && (
-                <p style={{ marginTop: 0 }}>{associatedOrgs[0]}</p>
+                {representativeName}
+              </h3>
+              {accreditedOrganizations?.length === 1 && (
+                <p style={{ marginTop: 0 }}>
+                  {accreditedOrganizations[0]?.attributes?.name}
+                </p>
               )}
             </>
           )}
         </div>
-        {associatedOrgs?.length > 1 && (
+        {accreditedOrganizations?.length > 1 && (
           <div className="associated-organizations-info vads-u-margin-top--1p5">
             <va-additional-info
-              trigger="See associated organizations"
+              trigger="Check Veterans Service Organizations"
               disable-border
               uswds
+              class="appoint-additional-info"
             >
-              {associatedOrgs?.map((org, index) => {
-                return (
-                  <>
-                    <p>{org}</p>
-                    {index < associatedOrgs.length - 1 ? (
-                      <br style={{ lineHeight: '0.625rem' }} />
-                    ) : null}
-                  </>
-                );
-              })}
+              <p>
+                This VSO representative is accredited with these organizations:
+              </p>
+              <ul className="appoint-ul">
+                {accreditedOrganizations?.map((org, index) => {
+                  return <li key={index}>{org.attributes.name}</li>;
+                })}
+              </ul>
             </va-additional-info>
           </div>
         )}
 
         <div className="representative-contact-section vads-u-margin-top--3">
           {addressExists && (
-            <div className="address-link">
+            <div className="address-link vads-u-display--flex">
+              <va-icon icon="location_on" size="3" />
               <a
                 href={`https://maps.google.com?saddr=${
                   query?.context?.location
                 }&daddr=${address}`}
                 tabIndex="0"
-                className="address-anchor"
+                className="address-anchor vads-u-margin-left--1"
                 onClick={() => recordContactLinkClick()}
                 target="_blank"
                 rel="noreferrer"
@@ -140,20 +157,25 @@ const SearchResult = ({
             </div>
           )}
           {contact && (
-            <div className="vads-u-margin-top--1p5">
-              <va-telephone
-                contact={contact}
-                extension={extension}
-                onClick={() => recordContactLinkClick()}
-                disable-analytics
-              />
+            <div className="vads-u-margin-top--1p5 vads-u-display--flex">
+              <va-icon icon="phone" size="3" />
+              <div className="vads-u-margin-left--1">
+                <va-telephone
+                  contact={contact}
+                  extension={extension}
+                  onClick={() => recordContactLinkClick()}
+                  disable-analytics
+                />
+              </div>
             </div>
           )}
           {email && (
-            <div className="vads-u-margin-top--1p5">
+            <div className="vads-u-margin-top--1p5 vads-u-display--flex">
+              <va-icon icon="mail" size="3" />
               <a
                 href={`mailto:${email}`}
                 onClick={() => recordContactLinkClick()}
+                className="vads-u-margin-left--1"
               >
                 {email}
               </a>
@@ -161,41 +183,54 @@ const SearchResult = ({
           )}
         </div>
 
-        <VaButton
-          data-testid="representative-search-btn"
-          text="Select"
-          onClick={() => handleSelect(representative)}
-        />
+        <div className="vads-u-margin-top--4">
+          <VaButton
+            data-testid="representative-search-btn"
+            text="Select this representative"
+            secondary
+            onClick={() => handleSelect(representative)}
+          />
+        </div>
       </div>
     </va-card>
   );
 };
 
 SearchResult.propTypes = {
+  accreditedOrganizations: PropTypes.array,
   addressLine1: PropTypes.string,
   addressLine2: PropTypes.string,
   addressLine3: PropTypes.string,
-  associatedOrgs: PropTypes.array,
   city: PropTypes.string,
   distance: PropTypes.string,
   email: PropTypes.string,
-  representativeName: PropTypes.string,
+  formData: PropTypes.object.isRequired,
+  location: PropTypes.object,
   phone: PropTypes.string,
+  query: PropTypes.shape({
+    context: PropTypes.shape({
+      location: PropTypes.string,
+    }),
+  }),
+  representative: PropTypes.object,
   representativeId: PropTypes.string,
-  stateCode: PropTypes.string,
-  type: PropTypes.string,
-  zipCode: PropTypes.string,
-  setFormData: PropTypes.func.isRequired,
+  representativeName: PropTypes.string,
   router: PropTypes.object,
   routes: PropTypes.array,
-  location: PropTypes.object,
+  setFormData: PropTypes.func.isRequired,
+  stateCode: PropTypes.string,
+  zipCode: PropTypes.string,
 };
+
+const mapStateToProps = state => ({
+  formData: state.form?.data || {},
+});
 
 const mapDispatchToProps = {
   setFormData: setData,
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(SearchResult);

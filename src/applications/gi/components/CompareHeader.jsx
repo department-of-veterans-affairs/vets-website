@@ -68,7 +68,7 @@ export default function CompareHeader({
     >
       <div className="small-screen:vads-l-col--3 compare-controls non-scroll-parent">
         <div className="non-scroll-label">
-          <div className="test-header compare-header vads-u-padding-right--1">
+          <div className="test-header compare-header vads-u-padding-right--1 vads-u-height--auto">
             <h1 className="compare-page-description-label">
               Institution comparison:
             </h1>

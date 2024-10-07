@@ -120,21 +120,6 @@ const OmbInfo = () => (
         1, 1975 and still in effect.
       </p>
     </va-omb-info>
-
-    <h3>If you experienced military sexual trauma (MST)</h3>
-    <p>
-      We provide free treatment for any physical or mental health conditions
-      related to your experiences of MST. You don’t need to have reported the
-      MST at the time or have other proof that the MST occurred to get care.
-    </p>
-    <p className="vads-u-margin-bottom--4">
-      <a
-        href="/health-care/health-needs-conditions/military-sexual-trauma/"
-        target="_blank"
-      >
-        Learn more about MST-related services (opens in new tab)
-      </a>
-    </p>
   </>
 );
 
