@@ -30,6 +30,7 @@ import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 import FormFooter from '../components/FormFooter';
 import EmailReviewField from '../components/EmailReviewField';
 import CustomPreSubmitInfo from '../components/PreSubmitInfo';
+import ObfuscateReviewField from '../components/ObfuscateReviewField';
 
 // pages
 import directDeposit from '../pages/directDeposit';
@@ -256,7 +257,10 @@ const formConfig = {
             dateOfBirth: {
               ...currentOrPastDateUI('Date of birth'),
             },
-            ssn: ssnUI,
+            ssn: {
+              ...ssnUI,
+              'ui:reviewField': ObfuscateReviewField,
+            },
           },
           schema: {
             type: 'object',
