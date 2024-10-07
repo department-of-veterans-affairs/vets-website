@@ -6,6 +6,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { pdfTransform } from '../utilities/pdfTransform';
+import { generatePDF } from '../api/generatePDF';
 
 import {
   authorizeMedical,
@@ -52,8 +53,14 @@ const formConfig = {
     appType: 'form',
     submitButtonText: 'Continue',
   },
-  submitUrl: `staging.va.gov/representation_management/v0/pdf_generator2122`,
-  transformForSubmit: pdfTransform,
+  submit: async form => {
+    const transformedFormData = pdfTransform(form.data);
+    const pdfResponse = await generatePDF(
+      transformedFormData,
+      formConfigFromService.submitUrl,
+    );
+    localStorage.setItem('formPdf', pdfResponse);
+  },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

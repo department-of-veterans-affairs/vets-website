@@ -15,9 +15,7 @@ function consentLimitsTransform(formData) {
     .map(([, value]) => value);
 }
 
-export function pdfTransform(_formconfig, form) {
-  const formData = form.data;
-
+export function pdfTransform(formData) {
   const {
     veteranFullName,
     veteranSocialSecurityNumber: ssn,
