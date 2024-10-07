@@ -5,9 +5,9 @@ const results = [
     title: 'Certification in Forensic Odontology',
     type: 'Certification',
     tests: [
-      { testName: 'Part 1', fee: 220.0 },
-      { testName: 'Part 2', fee: 220.0 },
-      { testName: 'Oral Exam', fee: 1000.0 },
+      { testName: 'Part 1', fee: 220 },
+      { testName: 'Part 2', fee: 220 },
+      { testName: 'Oral Exam', fee: 1000 },
     ],
     boardInfo: {
       name: 'AMERICAN BOARD OF FORENSIC ODONTOLOGY',
@@ -30,9 +30,9 @@ const results = [
     title: 'License in Forensic Dentistry',
     type: 'License',
     tests: [
-      { testName: 'Part 1', fee: 220.0 },
-      { testName: 'Part 2', fee: 220.0 },
-      { testName: 'Oral Exam', fee: 1000.0 },
+      { testName: 'Part I', fee: 300 },
+      { testName: 'Part II', fee: 150 },
+      { testName: 'Oral Exam', fee: 1500 },
     ],
     boardInfo: {
       name: 'AMERICAN BOARD OF FORENSIC ODONTOLOGY',
@@ -62,7 +62,7 @@ function LicenseCertificationSearchResults() {
             Licenses and Certifications Search Results
           </h1>
           <p className="vads-u-color--gray-dark lc-filter-options">
-            Showing 10 of 15 results for:
+            Showing 2 of 2 results for:
           </p>
           <p className="lc-filter-options">
             <strong>License/Certification Name: </strong>
@@ -83,7 +83,63 @@ function LicenseCertificationSearchResults() {
                   header={result.title}
                   subheader={result.type}
                 >
-                  <p>{result.type}</p>
+                  <div className="table-container">
+                    <va-table stacked={false} className="lc-table">
+                      <va-table-row slot="headers">
+                        <span className="table-header">Test</span>
+                        <span className="table-header"> Fee</span>
+                      </va-table-row>
+                      {result.tests.map((test, i) => {
+                        return (
+                          <va-table-row key={i}>
+                            <span>{test.testName}</span>
+                            <span>{test.fee}</span>
+                          </va-table-row>
+                        );
+                      })}
+                    </va-table>
+                  </div>
+                  <div className="provider-info-container">
+                    <span className="vads-u-display--flex">
+                      <va-icon
+                        icon="location_city"
+                        class="vads-u-display--flex vads-u-align-items--center icon"
+                      />
+                      <p>{result.boardInfo.name}</p>
+                    </span>
+                    <span className="vads-u-display--flex">
+                      <va-icon
+                        icon="phone"
+                        class="vads-u-display--flex vads-u-align-items--center icon"
+                      />
+                      <p>{result.boardInfo.phone}</p>
+                    </span>
+                  </div>
+                  <div className="address-container">
+                    <strong>
+                      Physical address and mailing address are the same
+                    </strong>
+                    <p className="va-address-block">
+                      {result.boardInfo.address.street}
+                      <br />
+                      {result.boardInfo.address.city}, {` `}
+                      {result.boardInfo.address.state} {` `}
+                      {result.boardInfo.address.zip}
+                      <br />
+                      {result.boardInfo.address.country}
+                    </p>
+                  </div>
+                  <div className="form-link-wrapper">
+                    <p>
+                      <strong>
+                        Print and fill out form Request for Reimbursement of
+                        Licensing or Certification Test Fees
+                      </strong>
+                    </p>
+                    <a href="/" className="">
+                      Link to VA Form 22-0803
+                    </a>
+                  </div>
                 </va-accordion-item>
               );
             })}
