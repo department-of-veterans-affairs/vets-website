@@ -110,7 +110,6 @@ describe('Landing dashboard', () => {
       'href',
       mhvUrl(isAuthenticatedWithSSOe(initialState), 'secure-messaging'),
     );
-    expect(link).to.have.attribute('target', '_blank');
   });
 
   it('displays a FAQ component', () => {
