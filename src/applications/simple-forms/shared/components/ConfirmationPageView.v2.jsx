@@ -221,14 +221,12 @@ export const ConfirmationPageView = props => {
         <p className="vads-u-margin-bottom--4">
           <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
         </p>
-        <p className="screen-only">
-          <a
-            className="vads-c-action-link--green vads-u-margin-bottom--4"
-            href="/"
-          >
-            Go back to VA.gov homepage
-          </a>
-        </p>
+
+        <va-link-action
+          href="/"
+          text="Go back to VA.gov homepage"
+          type="secondary"
+        />
       </div>
       <div className="help-footer-box">
         <h2 className="help-heading">Need help?</h2>
