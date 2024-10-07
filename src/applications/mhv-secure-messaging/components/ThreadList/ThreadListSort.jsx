@@ -88,7 +88,7 @@ const ThreadListSort = props => {
       </VaSelect>
 
       <va-button
-        class="small-screen:vads-u-margin-left--1 xsmall-screen:vads-u-display--block xsmall-screen:vads-u-margin-top--1p5"
+        class="desktop:vads-u-margin-left--1 xsmall-screen:vads-u-display--block mobile:vads-u-margin-top--1p5"
         text="Sort"
         data-testid="sort-button"
         data-dd-action-name="Sort Button"

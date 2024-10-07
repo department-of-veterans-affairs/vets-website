@@ -33,7 +33,7 @@ const MessageActionButtons = props => {
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
       {!hideReplyButton && (
-        <div className="vads-u-flex--3 xsmall-screen:vads-u-margin-right--1 reply-button-container">
+        <div className="vads-u-flex--3 mobile:vads-u-margin-right--1 reply-button-container">
           <ReplyButton
             key="replyButton"
             visible={!hideReplyButton}
@@ -42,7 +42,7 @@ const MessageActionButtons = props => {
         </div>
       )}
       {showEditDraftButton && (
-        <div className="vads-u-flex--3 xsmall-screen:vads-u-margin-right--1 reply-button-container">
+        <div className="vads-u-flex--3 mobile:vads-u-margin-right--1 reply-button-container">
           <button
             type="button"
             className="usa-button vads-u-width--full reply-button-in-body vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"

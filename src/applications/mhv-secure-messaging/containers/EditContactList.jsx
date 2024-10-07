@@ -289,7 +289,7 @@ const EditContactList = () => {
                 text="Save contact list"
                 class="
                     vads-u-margin-bottom--1
-                    small-screen:vads-u-margin-bottom--0
+                    desktop:vads-u-margin-bottom--0
                   "
                 onClick={e => handleSave(e)}
                 data-testid="contact-list-save"

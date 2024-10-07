@@ -569,7 +569,7 @@ const Prescriptions = () => {
                       className={`landing-page-content vads-u-margin-top--${
                         isShowingErrorNotification ? '5' : '3'
                       }
-                      small-screen:vads-u-margin-top--${
+                      desktop:vads-u-margin-top--${
                         isShowingErrorNotification ? '5' : '3'
                       }`}
                     >
