@@ -52,6 +52,7 @@ const MhvSecondaryNavItem = ({
         data-dd-action-name={actionName}
         className="vads-u-text-decoration--none"
         aria-label={abbreviation && ariaLabel}
+        aria-current={isActive ? 'page' : false}
         onClick={() => {
           recordEvent({
             event: 'nav-mhv-secondary',

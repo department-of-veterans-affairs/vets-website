@@ -73,7 +73,7 @@ export const formConfig = {
       return 'Your benefits and resources';
     }
     if (isOnReviewPage(currentLocation)) {
-      return 'Review your entries';
+      return 'Review your information';
     }
     return 'Benefit and resource recommendation tool';
   },
