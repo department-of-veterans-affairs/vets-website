@@ -48,21 +48,23 @@ describe('<FilesNeeded>', () => {
         suspenseDate: '2024-12-01',
       };
 
-      it('should render va-alert with item data and hide DueDate', () => {
-        const { queryByText, getByText } = renderWithRouter(
-          <Provider store={getStore()}>
-            <FilesNeeded item={item5103} />
-          </Provider>,
-        );
+      context('when evidenceWaiverSubmitted5103 is false', () => {
+        it('should render va-alert with item data and hide DueDate', () => {
+          const { queryByText, getByText } = renderWithRouter(
+            <Provider store={getStore()}>
+              <FilesNeeded item={item5103} />
+            </Provider>,
+          );
 
-        expect(queryByText('December 1, 2024')).to.not.exist;
-        expect(
-          queryByText(
-            'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
-          ),
-        ).to.exist;
-        getByText('Review evidence list');
-        getByText('Details');
+          expect(queryByText('December 1, 2024')).to.not.exist;
+          expect(
+            queryByText(
+              'We sent you a “List of evidence we may need (5103 notice)” letter. This letter lets you know if submitting additional evidence will help decide your claim.',
+            ),
+          ).to.exist;
+          expect(queryByText('Review evidence list (5103 notice)')).to.exist;
+          getByText('Details');
+        });
       });
     });
   });

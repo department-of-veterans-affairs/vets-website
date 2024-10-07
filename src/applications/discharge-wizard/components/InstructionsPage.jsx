@@ -1,7 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { ROUTES } from '../constants';
 
-const InstructionsPage = () => {
+const InstructionsPage = ({ router }) => {
+  const startForm = event => {
+    event.preventDefault();
+    router.push(ROUTES.QUESTIONS);
+  };
   return (
     <section
       className="dw-instructions"
@@ -49,9 +53,12 @@ const InstructionsPage = () => {
                     confidential.
                   </p>
                   <p>
-                    <Link className="vads-c-action-link--green" to="questions">
-                      Get started
-                    </Link>
+                    <va-link-action
+                      data-testid="duw-start"
+                      href="#"
+                      onClick={startForm}
+                      text="Get started"
+                    />
                   </p>
                 </div>
               </div>

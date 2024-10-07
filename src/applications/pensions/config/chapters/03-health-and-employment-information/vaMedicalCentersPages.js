@@ -17,7 +17,7 @@ const options = {
   required: false,
   isItemIncomplete: item => !item?.medicalCenter, // include all required fields here
   text: {
-    getItemName: item => item.medicalCenter,
+    getItemName: item => item?.medicalCenter,
     summaryTitleWithoutItems: 'Treatment from VA medical facilities',
   },
 };
@@ -50,6 +50,8 @@ const vaMedicalCenterPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'VA medical center',
       nounSingular: options.nounSingular,
+      lowerCase: false,
+      hasMultipleItemPages: false,
     }),
     medicalCenter: textUI('VA medical center'),
   },

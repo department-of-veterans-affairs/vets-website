@@ -46,9 +46,9 @@ import {
   showConferenceRepPages,
 } from '../utils/helpers';
 import { homelessPageTitle } from '../content/homeless';
-import NeedHelp from '../content/NeedHelp';
 import { formTitle, subTitle } from '../content/title';
 
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
@@ -125,6 +125,7 @@ const formConfig = {
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
   scrollAndFocusTarget: focusH3, // scroll and focus fallback
+  reviewEditFocusOnHeaders: true,
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
@@ -270,7 +271,7 @@ const formConfig = {
     },
   },
   footerContent: FormFooter,
-  getHelp: NeedHelp,
+  getHelp: GetFormHelp,
 };
 
 export default formConfig;

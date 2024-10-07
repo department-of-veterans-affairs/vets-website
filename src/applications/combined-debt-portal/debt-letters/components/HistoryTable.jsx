@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { renderLetterHistory } from '../const/diary-codes';
+import { formatDate } from '../../combined/utils/helpers';
 
 const HistoryTable = ({ history }) => {
   return (
@@ -12,9 +12,7 @@ const HistoryTable = ({ history }) => {
       </va-table-row>
       {history.map((debt, index) => (
         <va-table-row key={`${debt.date}-${index}`}>
-          <span className="vads-u-width--fit">
-            {moment(debt.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
-          </span>
+          <span className="vads-u-width--fit">{formatDate(debt.date)}</span>
           <span>
             <div className="vads-u-margin-top--0">
               {renderLetterHistory(debt.letterCode)}

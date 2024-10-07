@@ -17,7 +17,7 @@ const options = {
   required: false,
   isItemIncomplete: item => !item?.medicalCenter, // include all required fields here
   text: {
-    getItemName: item => item.medicalCenter,
+    getItemName: item => item?.medicalCenter,
     summaryTitleWithoutItems: 'Treatment from federal medical facilities',
   },
 };
@@ -52,6 +52,7 @@ const federalMedicalCenterPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Federal medical center',
       nounSingular: options.nounSingular,
+      hasMultipleItemPages: false,
     }),
     medicalCenter: textUI('Federal medical center'),
   },

@@ -16,6 +16,7 @@ describe('Medicaitons Print/Download button component', () => {
     list = false,
     onText = undefined,
     onPrint = undefined,
+    isLoading = undefined,
   ) => {
     return renderWithStoreAndRouter(
       <PrintDownload
@@ -24,6 +25,7 @@ describe('Medicaitons Print/Download button component', () => {
         onPrint={onPrint}
         isSuccess={success}
         list={list}
+        isLoading={isLoading}
       />,
       {
         path: '/',
@@ -70,6 +72,19 @@ describe('Medicaitons Print/Download button component', () => {
 
     const sucessMessage = screen.getByText('Download started');
     expect(sucessMessage).to.exist;
+  });
+
+  it('displays spinner when loading ', () => {
+    const screen = setup(
+      handleFullListDownload,
+      false,
+      false,
+      undefined,
+      undefined,
+      true,
+    );
+
+    expect(screen.getByTestId('print-download-loading-indicator')).to.exist;
   });
 
   it('button displays different text for list', () => {
