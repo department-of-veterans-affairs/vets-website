@@ -124,7 +124,7 @@ jobs:
       - name: Run integration helper script
         run: |
           chmod +x ./script/github-actions/cypress-integration-test.sh 
-          ./scripts/integration-helper.sh "${{ github.ref }}"
+          ./scripts/github-actions/cypress-integration-helper.sh "${{ github.event.inputs.branch }}"
             
       - name: Checkout Cypress Integration Tests Workflow
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
