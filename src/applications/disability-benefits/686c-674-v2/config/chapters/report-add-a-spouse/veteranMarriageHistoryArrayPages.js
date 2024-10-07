@@ -24,7 +24,7 @@ import {
   generateHelpText,
 } from '../../helpers';
 
-/* NOTE: 
+/* NOTE:
  * In "Add mode" of the array builder, formData represents the entire formData object.
  * In "Edit mode," formData represents the specific array item being edited.
  * As a result, the index param may sometimes come back null depending on which mode the user is in.
@@ -32,10 +32,10 @@ import {
  */
 
 /** @type {ArrayBuilderOptions} */
-export const spouseMarriageHistoryOptions = {
-  arrayPath: 'spouseMarriageHistory',
-  nounSingular: 'spouse',
-  nounPlural: 'spouses',
+export const veteranMarriageHistoryOptions = {
+  arrayPath: 'veteranMarriageHistory',
+  nounSingular: 'former marriage',
+  nounPlural: 'former marriages',
   required: false,
   isItemIncomplete: item =>
     !item?.fullName?.first ||
@@ -69,15 +69,15 @@ export const spouseMarriageHistoryOptions = {
 };
 
 /** @returns {PageSchema} */
-export const spouseMarriageHistorySummaryPage = {
+export const veteranMarriageHistorySummaryPage = {
   uiSchema: {
-    'view:completedSpouseFormerMarriage': arrayBuilderYesNoUI(
-      spouseMarriageHistoryOptions,
+    'view:completedVeteranFormerMarriage': arrayBuilderYesNoUI(
+      veteranMarriageHistoryOptions,
       {
-        title: 'Does your spouse have any previous marriages to report?',
+        title: 'Do you have any previous marriages to report?',
         labels: {
-          Y: 'Yes, they have another marriage to report',
-          N: 'No, they don’t have another marriage to report',
+          Y: 'Yes, I have a marriage to report',
+          N: 'No, I don’t have another marriage to report',
         },
       },
     ),
@@ -85,18 +85,18 @@ export const spouseMarriageHistorySummaryPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:completedSpouseFormerMarriage': arrayBuilderYesNoSchema,
+      'view:completedVeteranFormerMarriage': arrayBuilderYesNoSchema,
     },
-    required: ['view:completedSpouseFormerMarriage'],
+    required: ['view:completedVeteranFormerMarriage'],
   },
 };
 
 /** @returns {PageSchema} */
-export const formerMarriagePersonalInfoPage = {
+export const vetFormerMarriagePersonalInfoPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Spouse’s former marriage',
-      nounSingular: spouseMarriageHistoryOptions.nounSingular,
+      title: 'Your former marriage',
+      nounSingular: veteranMarriageHistoryOptions.nounSingular,
     }),
     fullName: fullNameNoSuffixUI(),
   },
@@ -109,25 +109,25 @@ export const formerMarriagePersonalInfoPage = {
 };
 
 /** @returns {PageSchema} */
-export const formerMarriageEndReasonPage = {
+export const vetFormerMarriageEndReasonPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Spouse’s former marriage';
+      return 'Your former marriage';
     }),
     reasonMarriageEnded: {
       ...radioUI({
-        title: 'How did their marriage end?',
+        title: 'How did your marriage end?',
         required: () => true,
         labels: spouseFormerMarriageLabels,
       }),
     },
     reasonMarriageEndedOther: {
-      ...textUI('Briefly describe how their marriage ended'),
+      ...textUI('Briefly describe how your marriage ended'),
       'ui:required': (formData, index) => {
         // See above comment
         const isEditMode = formData?.reasonMarriageEnded === 'Other';
         const isAddMode =
-          formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
+          formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===
           'Other';
 
         return isEditMode || isAddMode;
@@ -149,10 +149,10 @@ export const formerMarriageEndReasonPage = {
 };
 
 /** @returns {PageSchema} */
-export const formerMarriageStartDatePage = {
+export const vetFormerMarriageStartDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Spouse’s former marriage';
+      return 'Your former marriage';
     }),
     startDate: {
       ...currentOrPastDateUI('When did they get married?'),
@@ -167,10 +167,10 @@ export const formerMarriageStartDatePage = {
   },
 };
 
-export const formerMarriageEndDatePage = {
+export const vetFormerMarriageEndDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Spouse’s former marriage';
+      return 'Your former marriage';
     }),
     endDate: {
       ...currentOrPastDateUI('When did their marriage end?'),
@@ -185,10 +185,10 @@ export const formerMarriageEndDatePage = {
   },
 };
 
-export const formerMarriageStartLocationPage = {
+export const vetFormerMarriageStartLocationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Spouse’s former marriage';
+      return 'Your former marriage';
     }),
     startLocation: {
       'ui:title': 'Where did they get married?',
@@ -216,7 +216,7 @@ export const formerMarriageStartLocationPage = {
             // See above comment
             const isEditMode = formData?.startLocation?.outsideUsa;
             const isAddMode =
-              formData?.spouseMarriageHistory?.[index]?.startLocation
+              formData?.veteranMarriageHistory?.[index]?.startLocation
                 ?.outsideUsa;
 
             return !isAddMode && !isEditMode;
@@ -225,7 +225,7 @@ export const formerMarriageStartLocationPage = {
             hideIf: (formData, index) =>
               // See above comment
               formData?.startLocation?.outsideUsa ||
-              formData?.spouseMarriageHistory?.[index]?.startLocation
+              formData?.veteranMarriageHistory?.[index]?.startLocation
                 ?.outsideUsa,
           },
           'ui:errorMessages': {
@@ -243,10 +243,10 @@ export const formerMarriageStartLocationPage = {
   },
 };
 
-export const formerMarriageEndLocationPage = {
+export const vetFormerMarriageEndLocationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Spouse’s former marriage';
+      return 'Your former marriage';
     }),
     endLocation: {
       'ui:title': 'Where did the marriage end?',
@@ -254,7 +254,7 @@ export const formerMarriageEndLocationPage = {
         labelHeaderLevel: '4',
       },
       'ui:description': generateHelpText(
-        'If they got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed.',
+        'If you got a divorce or an annulment, we want to know where you filed the paperwork. If your former spouse died, we want to know where the death certificate was filed.',
       ),
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
@@ -277,7 +277,8 @@ export const formerMarriageEndLocationPage = {
             // See above comment
             const isEditMode = formData?.endLocation?.outsideUsa;
             const isAddMode =
-              formData?.spouseMarriageHistory?.[index]?.endLocation?.outsideUsa;
+              formData?.veteranMarriageHistory?.[index]?.endLocation
+                ?.outsideUsa;
 
             return !isAddMode && !isEditMode;
           },
@@ -285,7 +286,8 @@ export const formerMarriageEndLocationPage = {
             hideIf: (formData, index) =>
               // See above comment
               formData?.endLocation?.outsideUsa ||
-              formData?.spouseMarriageHistory?.[index]?.endLocation?.outsideUsa,
+              formData?.veteranMarriageHistory?.[index]?.endLocation
+                ?.outsideUsa,
           },
           'ui:errorMessages': {
             required: 'Select a state',
@@ -301,137 +303,3 @@ export const formerMarriageEndLocationPage = {
     },
   },
 };
-// export const deceasedDependentTypePage = {
-//   uiSchema: {
-//     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-//       const fullName = formData?.fullName || {};
-//       const { first = '', last = '' } = fullName;
-
-//       return first && last
-//         ? `Your relationship to ${capitalize(first)} ${capitalize(last)}`
-//         : 'Your relationship to the deceased dependent';
-//     }),
-//     dependentType: {
-//       ...radioUI({
-//         title: 'What was your relationship to the dependent?',
-//         required: () => true,
-//         labels: relationshipLabels,
-//       }),
-//     },
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       dependentType: radioSchema(relationshipEnums),
-//     },
-//   },
-// };
-
-// /** @returns {PageSchema} */
-// export const deceasedDependentChildTypePage = {
-//   uiSchema: {
-//     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-//       const fullName = formData?.fullName || {};
-//       const { first = '', last = '' } = fullName;
-
-//       return first && last
-//         ? `Your relationship to ${capitalize(first)} ${capitalize(last)}`
-//         : 'Your relationship to the deceased dependent';
-//     }),
-//     childStatus: {
-//       ...checkboxGroupUI({
-//         title: 'What type of child?',
-//         required: () => true,
-//         labels: childTypeLabels,
-//       }),
-//     },
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       childStatus: checkboxGroupSchema(childTypeEnums),
-//     },
-//   },
-// };
-
-// export const deceasedDependentDateOfDeathPage = {
-//   uiSchema: {
-//     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-//       const fullName = formData?.fullName || {};
-//       const { first = '', last = '' } = fullName;
-
-//       return first && last
-//         ? `When did ${capitalize(first)} ${capitalize(last)} die?`
-//         : 'When did the dependent die?';
-//     }),
-//     dependentDeathDate: currentOrPastDateUI({
-//       title: 'Date of death',
-//       required: () => true,
-//     }),
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       dependentDeathDate: currentOrPastDateSchema,
-//     },
-//   },
-// };
-
-// export const deceasedDependentLocationOfDeathPage = {
-//   uiSchema: {
-//     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-//       const fullName = formData?.fullName || {};
-//       const { first = '', last = '' } = fullName;
-
-//       return first && last
-//         ? `Where did ${capitalize(first)} ${capitalize(last)} die?`
-//         : 'Where did the dependent die?';
-//     }),
-//     dependentDeathLocation: {
-//       outsideUsa: {
-//         'ui:title': 'This occurred outside the U.S.',
-//         'ui:webComponentField': VaCheckboxField,
-//       },
-//       location: {
-//         city: {
-//           'ui:title': 'Enter a city',
-//           'ui:webComponentField': VaTextInputField,
-//           'ui:required': () => true,
-//           'ui:errorMessages': {
-//             required: 'Enter a city',
-//           },
-//         },
-//         state: {
-//           'ui:title': 'Select a state',
-//           'ui:webComponentField': VaSelectField,
-//           'ui:errorMessages': {
-//             required: 'Enter a state',
-//           },
-//           'ui:required': (formData, index) => {
-//             const isEditMode = formData?.dependentDeathLocation?.outsideUsa;
-//             const isAddMode =
-//               formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa;
-
-//             return !isAddMode && !isEditMode;
-//           },
-//           'ui:options': {
-//             // NOTE: formData while in Add mode of the array builder
-//             // will be the entire formData object
-//             // formData while in Edit mode will be the entire array item object
-//             // Because of this, index will sometimes be null
-//             // Check for both to cover both array builder modes
-//             hideIf: (formData, index) =>
-//               formData?.dependentDeathLocation?.outsideUsa ||
-//               formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa,
-//           },
-//         },
-//       },
-//     },
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       dependentDeathLocation: customLocationSchema,
-//     },
-//   },
-// };

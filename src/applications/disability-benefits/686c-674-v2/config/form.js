@@ -44,14 +44,14 @@ import {
   // spouseMarriageHistoryDetailsPartThree,
   // spouseMarriageHistoryDetailsPartFour,
   // spouseMarriageHistoryDetailsPartFive,
-  veteranMarriageHistory,
-  veteranMarriageHistoryPartTwo,
-  veteranAdditionalQuestionsView,
-  veteranMarriageHistoryDetails,
-  veteranMarriageHistoryDetailsPartTwo,
-  veteranMarriageHistoryDetailsPartThree,
-  veteranMarriageHistoryDetailsPartFour,
-  veteranMarriageHistoryDetailsPartFive,
+  // veteranMarriageHistory,
+  // veteranMarriageHistoryPartTwo,
+  // veteranAdditionalQuestionsView,
+  // veteranMarriageHistoryDetails,
+  // veteranMarriageHistoryDetailsPartTwo,
+  // veteranMarriageHistoryDetailsPartThree,
+  // veteranMarriageHistoryDetailsPartFour,
+  // veteranMarriageHistoryDetailsPartFive,
 } from './chapters/report-add-a-spouse';
 import {
   spouseMarriageHistoryOptions,
@@ -62,7 +62,17 @@ import {
   formerMarriageEndDatePage,
   formerMarriageStartLocationPage,
   formerMarriageEndLocationPage,
-} from './chapters/report-add-a-spouse/addSpouseArrayPages';
+} from './chapters/report-add-a-spouse/spouseMarriageHistoryArrayPages';
+import {
+  veteranMarriageHistoryOptions,
+  veteranMarriageHistorySummaryPage,
+  vetFormerMarriagePersonalInfoPage,
+  vetFormerMarriageEndReasonPage,
+  vetFormerMarriageStartDatePage,
+  vetFormerMarriageEndDatePage,
+  vetFormerMarriageStartLocationPage,
+  vetFormerMarriageEndLocationPage,
+} from './chapters/report-add-a-spouse/veteranMarriageHistoryArrayPages';
 import {
   children,
   childPlaceOfBirth,
@@ -323,7 +333,7 @@ export const formConfig = {
             title:
               'Information needed to add your spouse: Date former marriage started',
             path:
-              'current-spouse-marriage-history/previous-marriage/:index/date-marriage-started',
+              'current-spouse-marriage-history/:index/date-marriage-started',
             uiSchema: formerMarriageStartDatePage.uiSchema,
             schema: formerMarriageStartDatePage.schema,
             depends: formData =>
@@ -332,8 +342,7 @@ export const formConfig = {
           spouseMarriageHistoryPartFour: pageBuilder.itemPage({
             title:
               'Information needed to add your spouse: Date former marriage ended',
-            path:
-              'current-spouse-marriage-history/previous-marriage/:index/date-marriage-ended',
+            path: 'current-spouse-marriage-history/:index/date-marriage-ended',
             uiSchema: formerMarriageEndDatePage.uiSchema,
             schema: formerMarriageEndDatePage.schema,
             depends: formData =>
@@ -343,7 +352,7 @@ export const formConfig = {
             title:
               'Information needed to add your spouse: Location where former marriage started',
             path:
-              'current-spouse-marriage-history/previous-marriage/:index/location-where-marriage-started',
+              'current-spouse-marriage-history/:index/location-where-marriage-started',
             uiSchema: formerMarriageStartLocationPage.uiSchema,
             schema: formerMarriageStartLocationPage.schema,
             depends: formData =>
@@ -353,7 +362,7 @@ export const formConfig = {
             title:
               'Information needed to add your spouse: Location where former marriage ended',
             path:
-              'current-spouse-marriage-history/previous-marriage/:index/location-where-marriage-ended',
+              'current-spouse-marriage-history/:index/location-where-marriage-ended',
             uiSchema: formerMarriageEndLocationPage.uiSchema,
             schema: formerMarriageEndLocationPage.schema,
             depends: formData =>
@@ -361,96 +370,165 @@ export const formConfig = {
           }),
         })),
 
-        veteranMarriageHistory: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title:
-            'Information about your former marriage(s): Veteran marriage history',
-          path: 'veteran-marriage-history/marital-status',
-          uiSchema: veteranMarriageHistory.uiSchema,
-          schema: veteranMarriageHistory.schema,
-        },
-        veteranMarriageHistoryPartTwo: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.veteranWasMarriedBefore,
-          title:
-            'Information about your former marriage(s): Veteran marriage history',
-          path: 'veteran-marriage-history',
-          uiSchema: veteranMarriageHistoryPartTwo.uiSchema,
-          schema: veteranMarriageHistoryPartTwo.schema,
-        },
-        veteranAdditionalQuestionsView: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.veteranWasMarriedBefore,
-          title:
-            'Information about your former marriage(s): Marriage history details',
-          path: 'veteran-marriage-history/additional-information',
-          uiSchema: veteranAdditionalQuestionsView.uiSchema,
-          schema: veteranAdditionalQuestionsView.schema,
-        },
-        veteranMarriageHistoryDetails: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.veteranWasMarriedBefore,
-          title:
-            'Information about your former marriage(s): Veteran marriage history details',
-          path: 'veteran-marriage-history/:index/how-marriage-ended',
-          showPagePerItem: true,
-          arrayPath: 'veteranMarriageHistory',
-          uiSchema: veteranMarriageHistoryDetails.uiSchema,
-          schema: veteranMarriageHistoryDetails.schema,
-        },
-        veteranMarriageHistoryDetailsPartTwo: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.veteranWasMarriedBefore,
-          title:
-            'Information about your former marriage(s): Veteran marriage history details',
-          path: 'veteran-marriage-history/:index/date-marriage-started',
-          showPagePerItem: true,
-          arrayPath: 'veteranMarriageHistory',
-          uiSchema: veteranMarriageHistoryDetailsPartTwo.uiSchema,
-          schema: veteranMarriageHistoryDetailsPartTwo.schema,
-        },
-        veteranMarriageHistoryDetailsPartThree: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.veteranWasMarriedBefore,
-          title:
-            'Information about your former marriage(s): Veteran marriage history details',
-          path: 'veteran-marriage-history/:index/date-marriage-ended',
-          showPagePerItem: true,
-          arrayPath: 'veteranMarriageHistory',
-          uiSchema: veteranMarriageHistoryDetailsPartThree.uiSchema,
-          schema: veteranMarriageHistoryDetailsPartThree.schema,
-        },
-        veteranMarriageHistoryDetailsPartFour: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.veteranWasMarriedBefore,
-          title:
-            'Information about your former marriage(s): Veteran marriage history details',
-          path:
-            'veteran-marriage-history/:index/location-where-marriage-started',
-          showPagePerItem: true,
-          arrayPath: 'veteranMarriageHistory',
-          uiSchema: veteranMarriageHistoryDetailsPartFour.uiSchema,
-          schema: veteranMarriageHistoryDetailsPartFour.schema,
-        },
-        veteranMarriageHistoryDetailsPartFive: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.veteranWasMarriedBefore,
-          title:
-            'Information about your former marriage(s): Veteran marriage history details',
-          path: 'veteran-marriage-history/:index/location-where-marriage-ended',
-          showPagePerItem: true,
-          arrayPath: 'veteranMarriageHistory',
-          uiSchema: veteranMarriageHistoryDetailsPartFive.uiSchema,
-          schema: veteranMarriageHistoryDetailsPartFive.schema,
-        },
+        ...arrayBuilderPages(veteranMarriageHistoryOptions, pageBuilder => ({
+          veteranMarriageHistorySummary: pageBuilder.summaryPage({
+            title:
+              'Information needed to add your spouse: Former spouse information',
+            path: 'veteran-marriage-history',
+            uiSchema: veteranMarriageHistorySummaryPage.uiSchema,
+            schema: veteranMarriageHistorySummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartOne: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Former spouse information',
+            path: 'veteran-marriage-history/:index/former-spouse-information',
+            uiSchema: vetFormerMarriagePersonalInfoPage.uiSchema,
+            schema: vetFormerMarriagePersonalInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartTwo: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Reason former marriage ended',
+            path:
+              'veteran-marriage-history/:index/reason-former-marriage-ended',
+            uiSchema: vetFormerMarriageEndReasonPage.uiSchema,
+            schema: vetFormerMarriageEndReasonPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartThree: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Date former marriage started',
+            path: 'veteran-marriage-history/:index/date-marriage-started',
+            uiSchema: vetFormerMarriageStartDatePage.uiSchema,
+            schema: vetFormerMarriageStartDatePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartFour: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Date former marriage ended',
+            path: 'veteran-marriage-history/:index/date-marriage-ended',
+            uiSchema: vetFormerMarriageEndDatePage.uiSchema,
+            schema: vetFormerMarriageEndDatePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartFive: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Location where former marriage started',
+            path:
+              'veteran-marriage-history/:index/location-where-marriage-started',
+            uiSchema: vetFormerMarriageStartLocationPage.uiSchema,
+            schema: vetFormerMarriageStartLocationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartSix: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Location where former marriage ended',
+            path:
+              'veteran-marriage-history/:index/location-where-marriage-ended',
+            uiSchema: vetFormerMarriageEndLocationPage.uiSchema,
+            schema: vetFormerMarriageEndLocationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+        })),
+
+        // veteranMarriageHistory: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+        //   title:
+        //     'Information about your former marriage(s): Veteran marriage history',
+        //   path: 'veteran-marriage-history/marital-status',
+        //   uiSchema: veteranMarriageHistory.uiSchema,
+        //   schema: veteranMarriageHistory.schema,
+        // },
+        // veteranMarriageHistoryPartTwo: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+        //     formData?.veteranWasMarriedBefore,
+        //   title:
+        //     'Information about your former marriage(s): Veteran marriage history',
+        //   path: 'veteran-marriage-history',
+        //   uiSchema: veteranMarriageHistoryPartTwo.uiSchema,
+        //   schema: veteranMarriageHistoryPartTwo.schema,
+        // },
+        // veteranAdditionalQuestionsView: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+        //     formData?.veteranWasMarriedBefore,
+        //   title:
+        //     'Information about your former marriage(s): Marriage history details',
+        //   path: 'veteran-marriage-history/additional-information',
+        //   uiSchema: veteranAdditionalQuestionsView.uiSchema,
+        //   schema: veteranAdditionalQuestionsView.schema,
+        // },
+        // veteranMarriageHistoryDetails: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+        //     formData?.veteranWasMarriedBefore,
+        //   title:
+        //     'Information about your former marriage(s): Veteran marriage history details',
+        //   path: 'veteran-marriage-history/:index/how-marriage-ended',
+        //   showPagePerItem: true,
+        //   arrayPath: 'veteranMarriageHistory',
+        //   uiSchema: veteranMarriageHistoryDetails.uiSchema,
+        //   schema: veteranMarriageHistoryDetails.schema,
+        // },
+        // veteranMarriageHistoryDetailsPartTwo: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+        //     formData?.veteranWasMarriedBefore,
+        //   title:
+        //     'Information about your former marriage(s): Veteran marriage history details',
+        //   path: 'veteran-marriage-history/:index/date-marriage-started',
+        //   showPagePerItem: true,
+        //   arrayPath: 'veteranMarriageHistory',
+        //   uiSchema: veteranMarriageHistoryDetailsPartTwo.uiSchema,
+        //   schema: veteranMarriageHistoryDetailsPartTwo.schema,
+        // },
+        // veteranMarriageHistoryDetailsPartThree: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+        //     formData?.veteranWasMarriedBefore,
+        //   title:
+        //     'Information about your former marriage(s): Veteran marriage history details',
+        //   path: 'veteran-marriage-history/:index/date-marriage-ended',
+        //   showPagePerItem: true,
+        //   arrayPath: 'veteranMarriageHistory',
+        //   uiSchema: veteranMarriageHistoryDetailsPartThree.uiSchema,
+        //   schema: veteranMarriageHistoryDetailsPartThree.schema,
+        // },
+        // veteranMarriageHistoryDetailsPartFour: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+        //     formData?.veteranWasMarriedBefore,
+        //   title:
+        //     'Information about your former marriage(s): Veteran marriage history details',
+        //   path:
+        //     'veteran-marriage-history/:index/location-where-marriage-started',
+        //   showPagePerItem: true,
+        //   arrayPath: 'veteranMarriageHistory',
+        //   uiSchema: veteranMarriageHistoryDetailsPartFour.uiSchema,
+        //   schema: veteranMarriageHistoryDetailsPartFour.schema,
+        // },
+        // veteranMarriageHistoryDetailsPartFive: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+        //     formData?.veteranWasMarriedBefore,
+        //   title:
+        //     'Information about your former marriage(s): Veteran marriage history details',
+        //   path: 'veteran-marriage-history/:index/location-where-marriage-ended',
+        //   showPagePerItem: true,
+        //   arrayPath: 'veteranMarriageHistory',
+        //   uiSchema: veteranMarriageHistoryDetailsPartFive.uiSchema,
+        //   schema: veteranMarriageHistoryDetailsPartFive.schema,
+        // },
 
         marriageAdditionalEvidence: {
           depends: formData =>
