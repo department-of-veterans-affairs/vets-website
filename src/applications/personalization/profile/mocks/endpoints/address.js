@@ -94,26 +94,51 @@ const homeAddressUpdateSuccess = {
   },
 };
 
+// const addressValidation1 = {
+//   addresses: [
+//     {
+//       address: {
+//         addressLine1: '345 Home Address St',
+//         addressType: 'DOMESTIC',
+//         city: 'San Francisco',
+//         countryName: 'United States',
+//         countryCodeIso3: 'USA',
+//         stateCode: 'CA',
+//         zipCode: '94115',
+//       },
+//       addressMetaData: {
+//         confidenceScore: 88,
+//         addressType: 'Domestic',
+//         deliveryPointValidation: 'MISSING_ZIP',
+//       },
+//     },
+//   ],
+//   validationKey: -981994727,
+// };
+
 const addressValidation = {
   addresses: [
     {
       address: {
-        addressLine1: '345 Home Address St',
+        addressLine1: '16 Rockrose',
         addressType: 'DOMESTIC',
-        city: 'San Francisco',
+        city: 'Aliso Viejo',
         countryName: 'United States',
         countryCodeIso3: 'USA',
+        countyCode: '06059',
+        countyName: 'Orange County',
         stateCode: 'CA',
-        zipCode: '94115',
+        zipCode: '92656',
+        zipCodeSuffix: '2116',
       },
       addressMetaData: {
-        confidenceScore: 0,
+        confidenceScore: 88.0,
         addressType: 'Domestic',
         deliveryPointValidation: 'MISSING_ZIP',
+        // deliveryPointValidation: 'CONFIRMED',
       },
     },
   ],
-  validationKey: -981994727,
 };
 
 module.exports = {
