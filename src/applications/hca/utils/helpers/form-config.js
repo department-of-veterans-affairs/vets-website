@@ -193,6 +193,10 @@ export function includeTeraInformation(formData) {
  * @returns {Boolean} - true if the user was born in 1965 or earlier
  */
 export function includeRadiationCleanUpEfforts(formData) {
+  if (!formData['view:isTeraBranchingEnabled']) {
+    return includeTeraInformation(formData);
+  }
+
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isBefore(
     new Date(veteranDateOfBirth),
@@ -220,6 +224,10 @@ export function includeGulfWarServiceDates(formData) {
  * @returns {Boolean} - true if the user was born on or before July 31, 1965 or earlier
  */
 export function includeAgentOrangeExposure(formData) {
+  if (!formData['view:isTeraBranchingEnabled']) {
+    return includeTeraInformation(formData);
+  }
+
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isBefore(
     new Date(veteranDateOfBirth),

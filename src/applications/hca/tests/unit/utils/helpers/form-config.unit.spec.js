@@ -367,9 +367,19 @@ describe('hca form config helpers', () => {
   });
 
   context('when `includeRadiationCleanUpEfforts` executes', () => {
-    const getData = ({ veteranDateOfBirth = null, included = true }) => ({
+    const getData = ({
+      veteranDateOfBirth = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
       hasTeraResponse: included,
       veteranDateOfBirth,
+    });
+
+    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
+      const formData = getData({ included: true, enabled: false });
+      expect(includeRadiationCleanUpEfforts(formData)).to.be.true;
     });
 
     it('should return `true` when Veteran birthdate is before `Jan 1, 1966`', () => {
@@ -411,9 +421,19 @@ describe('hca form config helpers', () => {
   });
 
   context('when `includeAgentOrangeExposure` executes', () => {
-    const getData = ({ veteranDateOfBirth = null, included = true }) => ({
+    const getData = ({
+      veteranDateOfBirth = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
       hasTeraResponse: included,
       veteranDateOfBirth,
+    });
+
+    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
+      const formData = getData({ included: true, enabled: false });
+      expect(includeAgentOrangeExposure(formData)).to.be.true;
     });
 
     it('should return `true` when Veteran birthdate is before `Aug 1, 1965`', () => {

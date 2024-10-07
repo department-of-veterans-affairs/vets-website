@@ -1,5 +1,5 @@
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles-insurance.json';
+import featureToggles from './fixtures/mocks/feature-toggles-tera.json';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import { goToNextPage, splitDateStr } from './utils';
