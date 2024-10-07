@@ -56,7 +56,7 @@ const IntroductionPage = props => {
             prefillEnabled={formConfig.prefillEnabled}
             pageList={pageList}
             unauthStartText="Sign in or create an account"
-            startText="Fill out your form to request help"
+            startText="Request help from a VA accredited representative or VSO"
           />
         </>
       )}
@@ -134,7 +134,7 @@ const IntroductionPage = props => {
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}
         unauthStartText="Sign in or create an account"
-        startText="Fill out your form to request help"
+        startText="Request help from a VA accredited representative or VSO"
         verifiedPrefillAlert={<></>}
       />
       <p />

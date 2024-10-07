@@ -57,7 +57,7 @@ const VetCenterHours = props => {
     ));
 
     return (
-      <ul className="vads-u-flex--1 va-c-facility-hours-list vads-u-margin-top--0 vads-u-margin-bottom--1 desktop:vads-u-margin-bottom--0 vads-u-margin-right--3">
+      <ul className="vads-u-flex--1 va-c-facility-hours-list vads-u-margin-top--0 vads-u-margin-bottom--1 mobile-lg:vads-u-margin-bottom--0 vads-u-margin-right--3">
         {hoursListItems}
       </ul>
     );
@@ -66,7 +66,7 @@ const VetCenterHours = props => {
   return (
     <div id={props.vetCenterHoursId}>
       <h4 className={hoursH4Style}>Hours</h4>
-      <div className="vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--0">
+      <div className="vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row vads-u-margin-bottom--0">
         {buildHoursSection(props.hours)}
       </div>
     </div>

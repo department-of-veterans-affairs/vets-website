@@ -204,6 +204,7 @@ const PrescriptionDetailsDocumentation = () => {
             onText={downloadText}
             onDownload={downloadPdf}
             isSuccess={false}
+            isLoading={false}
           />
           <BeforeYouDownloadDropdown page={pageType.DOCUMENTATION} />
           <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-margin-y--5" />

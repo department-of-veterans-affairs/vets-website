@@ -248,7 +248,7 @@ class YourClaimsPageV2 extends React.Component {
             <ClaimLetterSection />
             <FeaturesWarning />
             <h2 id="what-if-i-dont-see-my-appeal">
-              What if I don’t see my appeal?
+              What if I can't find my claim or decision review?
             </h2>
             <p>
               If you submitted a Notice of Disagreement for an appeal within the
@@ -299,11 +299,31 @@ function mapStateToProps(state) {
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
 
   // TO-DO: Implement with reselect to save cycles
-  const sortedList = [
+  const closedClaims = [
     ...claimsV2Root.appeals,
     ...claimsV2Root.claims,
     ...stemClaims,
-  ].sort(sortByLastUpdated);
+  ]
+    .filter(
+      claim =>
+        claim.attributes.status === 'COMPLETE' ||
+        claim.attributes.claimType === 'STEM',
+    )
+    .sort(sortByLastUpdated);
+
+  const inProgressClaims = [
+    ...claimsV2Root.appeals,
+    ...claimsV2Root.claims,
+    ...stemClaims,
+  ]
+    .filter(
+      claim =>
+        claim.attributes.status !== 'COMPLETE' &&
+        claim.attributes.claimType !== 'STEM',
+    )
+    .sort(sortByLastUpdated);
+
+  const sortedList = [...inProgressClaims, ...closedClaims];
 
   return {
     appealsAvailable: claimsV2Root.v2Availability,
