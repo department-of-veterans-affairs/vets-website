@@ -92,6 +92,11 @@ jobs:
             name: ${{ env.BUILDTYPE }}.tar.bz2
             path: ${{ env.BUILDTYPE }}.tar.bz2
             retention-days: 1
+    
+    checkout-vets-website:
+      name: Checkout vets-website
+      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017        
+
     checkout-target-repo:
       name: Checkout Cypress Integration Tests repo
       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
