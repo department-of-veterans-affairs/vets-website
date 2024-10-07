@@ -4,7 +4,7 @@ import mockUser from './fixtures/mocks/mockUser';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import minTestData from './fixtures/data/minimal-test.json';
-import { goToNextPage } from './utils';
+import { goToNextPage, splitDateStr } from './utils';
 
 const { data: testData } = minTestData;
 const APIs = {
@@ -118,9 +118,7 @@ describe('HCA-Registration-Only-Guest-User', () => {
     cy.get('#root_firstName').type(testData.veteranFullName.first);
     cy.get('#root_lastName').type(testData.veteranFullName.last);
 
-    const [year, month, day] = testData.veteranDateOfBirth
-      .split('-')
-      .map(dateComponent => parseInt(dateComponent, 10).toString());
+    const [year, month, day] = splitDateStr(testData.veteranDateOfBirth);
     cy.get('#root_dobMonth').select(month);
     cy.get('#root_dobDay').select(day);
     cy.get('#root_dobYear').type(year);

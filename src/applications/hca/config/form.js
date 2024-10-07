@@ -24,7 +24,9 @@ import {
   showRegOnlyGuestConfirmation,
   dischargePapersRequired,
   includeTeraInformation,
+  includeRadiationCleanUpEfforts,
   includeGulfWarServiceDates,
+  includeAgentOrangeExposure,
   includeOtherExposureDates,
   includeOtherExposureDetails,
   showFinancialConfirmation,
@@ -352,7 +354,7 @@ const formConfig = {
         radiationCleanup: {
           path: 'military-service/radiation-cleanup-efforts',
           title: 'Radiation cleanup or response efforts',
-          depends: includeTeraInformation,
+          depends: includeRadiationCleanUpEfforts,
           uiSchema: radiationCleanup.uiSchema,
           schema: radiationCleanup.schema,
         },
@@ -380,7 +382,7 @@ const formConfig = {
         agentOrangeExposure: {
           path: 'military-service/agent-orange-exposure',
           title: 'Agent Orange exposure',
-          depends: includeTeraInformation,
+          depends: includeAgentOrangeExposure,
           uiSchema: agentOrangeExposure.uiSchema,
           schema: agentOrangeExposure.schema,
         },

@@ -2,6 +2,13 @@ import maxTestData from '../fixtures/data/maximal-test.json';
 
 const { data: testData } = maxTestData;
 
+export const splitDateStr = value => {
+  if (typeof date === 'undefined') return false;
+  return value
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+};
+
 export const acceptPrivacyAgreement = () => {
   cy.get('va-checkbox[name="privacyAgreementAccepted"]')
     .scrollIntoView()
@@ -25,12 +32,8 @@ export const fillGulfWarDateRange = () => {
   const { gulfWarStartDate, gulfWarEndDate } = testData[
     'view:gulfWarServiceDates'
   ];
-  const [startYear, startMonth] = gulfWarStartDate
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
-  const [endYear, endMonth] = gulfWarEndDate
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [startYear, startMonth] = splitDateStr(gulfWarStartDate);
+  const [endYear, endMonth] = splitDateStr(gulfWarEndDate);
   cy.get('[name="root_view:gulfWarServiceDates_gulfWarStartDateMonth"]').select(
     startMonth,
   );
@@ -49,12 +52,8 @@ export const fillToxicExposureDateRange = () => {
   const { toxicExposureStartDate, toxicExposureEndDate } = testData[
     'view:toxicExposureDates'
   ];
-  const [startYear, startMonth] = toxicExposureStartDate
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
-  const [endYear, endMonth] = toxicExposureEndDate
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [startYear, startMonth] = splitDateStr(toxicExposureStartDate);
+  const [endYear, endMonth] = splitDateStr(toxicExposureEndDate);
   cy.get(
     '[name="root_view:toxicExposureDates_toxicExposureStartDateMonth"]',
   ).select(startMonth);
@@ -136,16 +135,14 @@ export const fillDependentBasicInformation = dependent => {
   cy.get('#root_dependentRelation').select(dependentRelation);
   cy.get('#root_socialSecurityNumber').type(socialSecurityNumber);
 
-  const [birthYear, birthMonth, birthDay] = dateOfBirth
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [birthYear, birthMonth, birthDay] = splitDateStr(dateOfBirth);
   cy.get('#root_dateOfBirthMonth').select(birthMonth);
   cy.get('#root_dateOfBirthDay').select(birthDay);
   cy.get('#root_dateOfBirthYear').type(birthYear);
 
-  const [dependentYear, dependentMonth, dependentDay] = becameDependent
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [dependentYear, dependentMonth, dependentDay] = splitDateStr(
+    becameDependent,
+  );
   cy.get('#root_becameDependentMonth').select(dependentMonth);
   cy.get('#root_becameDependentDay').select(dependentDay);
   cy.get('#root_becameDependentYear').type(dependentYear);
@@ -165,16 +162,12 @@ export const fillSpousalBasicInformation = () => {
   cy.get('#root_spouseFullName_suffix').type(spouseFullName.suffix);
   cy.get('#root_spouseSocialSecurityNumber').type(spouseSocialSecurityNumber);
 
-  const [birthYear, birthMonth, birthDay] = spouseDateOfBirth
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [birthYear, birthMonth, birthDay] = splitDateStr(spouseDateOfBirth);
   cy.get('#root_spouseDateOfBirthMonth').select(birthMonth);
   cy.get('#root_spouseDateOfBirthDay').select(birthDay);
   cy.get('#root_spouseDateOfBirthYear').type(birthYear);
 
-  const [maritalYear, maritalMonth, maritalDay] = dateOfMarriage
-    .split('-')
-    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [maritalYear, maritalMonth, maritalDay] = splitDateStr(dateOfMarriage);
   cy.get('#root_dateOfMarriageMonth').select(maritalMonth);
   cy.get('#root_dateOfMarriageDay').select(maritalDay);
   cy.get('#root_dateOfMarriageYear').type(maritalYear);
