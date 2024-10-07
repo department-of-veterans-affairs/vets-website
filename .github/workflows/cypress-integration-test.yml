@@ -92,23 +92,46 @@ jobs:
             name: ${{ env.BUILDTYPE }}.tar.bz2
             path: ${{ env.BUILDTYPE }}.tar.bz2
             retention-days: 1
+            
     
-    checkout-vets-website:
-      name: Checkout vets-website
-      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017        
-
-    checkout-target-repo:
-      name: Checkout Cypress Integration Tests repo
-      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-      with:
-         repository: department-of-veterans-affairs/vagov-cypress-integration-tests
-         token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-         path: vagov-cypress-integration-tests
 
     call-integration-test-workflow:
-      name: Call Integration Test Workflow
-      uses: vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
-      secrets: inherit
+     name: Set up and call the integration test workflow
+     runs-on: ubuntu-latest
+     steps: 
+
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.inputs.branch }}
+  
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+  
+      - name: Configure AWS Credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+  
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+            ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+            env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Call Integration Test Workflow
+        uses: vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
+        # secrets: inherit
   
     notify-failure:
       name: Notify Failure
