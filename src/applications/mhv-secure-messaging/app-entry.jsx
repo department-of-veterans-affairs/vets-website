@@ -6,6 +6,7 @@ import './sass/search.scss';
 import './sass/secure-messaging.scss';
 import './sass/message-thread.scss';
 import './sass/dashboard.scss';
+// import './sass/uswds-theme.scss';
 
 import startApp from 'platform/startup/router';
 import routes from './routes';

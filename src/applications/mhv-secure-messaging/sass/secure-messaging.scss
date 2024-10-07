@@ -6,6 +6,10 @@
 @import "src/platform/mhv/secondary-nav/sass/mhv-sec-nav";
 @forward "usa-button-group";
 
+@forward "uswds-theme.scss";
+@forward "~@uswds/uswds/packages/uswds/_index.scss";
+@forward "usa-combo-box";
+
 .bottom-container {
   background-color: var(--vads-color-white);
 }
