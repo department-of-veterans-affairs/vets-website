@@ -6,6 +6,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as IntroductionPage from 'applications/form-renderer/containers/IntroductionPage';
 import { render } from '@testing-library/react';
+import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import {
   employmentQuestionnaire,
   normalizedForm,
@@ -84,27 +85,31 @@ describe('createFormConfig', () => {
 describe('selectSchemas', () => {
   context('with Name and Date of Birth pattern', () => {
     let dobIncluded;
-    let nameOnly;
 
     beforeEach(() => {
       dobIncluded = selectSchemas(normalizedForm.chapters[0]);
-      nameOnly = selectSchemas(normalizedForm.chapters[1]);
     });
 
     it('contains fullName', () => {
-      expect(dobIncluded.schema.properties.fullName).to.not.eq(undefined);
+      expect(dobIncluded.schema.properties.fullName).to.eq(
+        webComponentPatterns.fullNameSchema,
+      );
       expect(dobIncluded.uiSchema.fullName).to.not.eq(undefined);
     });
 
     context('when includeDateOfBirth is true', () => {
       it('contains dateOfBirth', () => {
-        expect(dobIncluded.schema.properties.dateOfBirth).to.not.eq(undefined);
+        expect(dobIncluded.schema.properties.dateOfBirth).to.eq(
+          webComponentPatterns.dateOfBirthSchema,
+        );
         expect(dobIncluded.uiSchema.dateOfBirth).to.not.eq(undefined);
       });
     });
 
     context('when includeDateOfBirth is false', () => {
       it('does not contain dateOfBirth', () => {
+        const nameOnly = selectSchemas(normalizedForm.chapters[1]);
+
         expect(nameOnly.schema.properties.dateOfBirth).to.eq(undefined);
         expect(nameOnly.uiSchema.dateOfBirth).to.eq(undefined);
       });
@@ -113,14 +118,11 @@ describe('selectSchemas', () => {
 
   context('with Identification Information pattern', () => {
     let serviceNumberIncluded;
-    let vetIdOnly;
 
     beforeEach(() => {
       serviceNumberIncluded = selectSchemas(
         employmentQuestionnaire.chapters[1],
       );
-
-      vetIdOnly = selectSchemas(normalizedForm.chapters[2]);
     });
 
     it('contains veteranId', () => {
@@ -143,6 +145,8 @@ describe('selectSchemas', () => {
 
     context('when includeServiceNumber is false', () => {
       it('does not include serviceNumber', () => {
+        const vetIdOnly = selectSchemas(normalizedForm.chapters[2]);
+
         expect(vetIdOnly.schema.properties.serviceNumber).to.eq(undefined);
         expect(vetIdOnly.uiSchema.serviceNumber).to.eq(undefined);
       });

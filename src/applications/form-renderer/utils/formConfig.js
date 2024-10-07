@@ -1,53 +1,46 @@
 import React from 'react';
-import {
-  dateOfBirthSchema,
-  dateOfBirthUI,
-  fullNameSchema,
-  fullNameUI,
-  serviceNumberSchema,
-  serviceNumberUI,
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 export const selectSchemas = ({ pageTitle, type, additionalFields }) => {
   const schemas = {};
+  const { titleUI } = webComponentPatterns;
 
   if (type === 'digital_form_name_and_date_of_bi') {
     schemas.schema = {
       type: 'object',
       properties: {
-        fullName: fullNameSchema,
+        fullName: webComponentPatterns.fullNameSchema,
       },
     };
     schemas.uiSchema = {
       ...titleUI(pageTitle),
-      fullName: fullNameUI(),
+      fullName: webComponentPatterns.fullNameUI(),
     };
 
     if (additionalFields.includeDateOfBirth) {
-      schemas.schema.properties.dateOfBirth = dateOfBirthSchema;
-      schemas.uiSchema.dateOfBirth = dateOfBirthUI();
+      schemas.schema.properties.dateOfBirth =
+        webComponentPatterns.dateOfBirthSchema;
+      schemas.uiSchema.dateOfBirth = webComponentPatterns.dateOfBirthUI();
     }
   } else if (type === 'digital_form_identification_info') {
     schemas.schema = {
       type: 'object',
       properties: {
-        veteranId: ssnOrVaFileNumberSchema,
+        veteranId: webComponentPatterns.ssnOrVaFileNumberSchema,
       },
     };
     schemas.uiSchema = {
       ...titleUI(pageTitle),
-      veteranId: ssnOrVaFileNumberUI(),
+      veteranId: webComponentPatterns.ssnOrVaFileNumberUI(),
     };
 
     if (additionalFields.includeServiceNumber) {
-      schemas.schema.properties.serviceNumber = serviceNumberSchema;
-      schemas.uiSchema.serviceNumber = serviceNumberUI();
+      schemas.schema.properties.serviceNumber =
+        webComponentPatterns.serviceNumberSchema;
+      schemas.uiSchema.serviceNumber = webComponentPatterns.serviceNumberUI();
     }
   }
 
