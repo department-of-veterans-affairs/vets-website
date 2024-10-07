@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
@@ -17,6 +18,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import get from 'platform/utilities/data/get';
+import { createSelector } from 'reselect';
 
 import fullSchema from '../22-5490-schema.json';
 
@@ -27,6 +29,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 import FormFooter from '../components/FormFooter';
 import EmailReviewField from '../components/EmailReviewField';
+import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 
 // pages
 import directDeposit from '../pages/directDeposit';
@@ -117,6 +120,8 @@ function phoneSchema() {
   };
 }
 
+const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -152,6 +157,11 @@ const formConfig = {
     usaPhone,
   },
   footerContent: FormFooter,
+  preSubmitInfo: {
+    CustomComponent: CustomPreSubmitInfo,
+    required: false,
+    field: 'privacyAgreementAccepted',
+  },
   chapters: {
     applicantInformationChapter: {
       title: 'Veteran or Service Member Information',
@@ -986,6 +996,7 @@ const formConfig = {
                   },
                 },
                 state: {
+                  'ui:title': 'State/County/Province',
                   'ui:required': formData =>
                     formData?.mailingAddressInput?.livesOnMilitaryBase ||
                     formData?.mailingAddressInput?.address?.country === 'USA',
@@ -1061,35 +1072,115 @@ const formConfig = {
                   homePhone: 'Home phone',
                   mail: 'Mail',
                 },
+                updateSchema: (() => {
+                  const filterContactMethods = createSelector(
+                    form => form?.mobilePhone?.phone,
+                    form => form?.homePhone?.phone,
+                    (mobilePhoneNumber, homePhoneNumber) => {
+                      const invalidContactMethods = [];
+                      if (!mobilePhoneNumber) {
+                        invalidContactMethods.push('Mobile Phone');
+                      }
+                      if (!homePhoneNumber) {
+                        invalidContactMethods.push('Home Phone');
+                      }
+
+                      return {
+                        enum: contactMethods.filter(
+                          method => !invalidContactMethods.includes(method),
+                        ),
+                      };
+                    },
+                  );
+
+                  return form => filterContactMethods(form);
+                })(),
               },
             },
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Choose how you want to get notifications?</h3>
-                  <p>
-                    We recommend that you opt in to text message notifications
-                    about your benefits. These notifications can prompt you to
-                    verify your enrollment so you’ll receive your education
-                    payments. You can verify your monthly enrollment easily this
-                    way.
-                  </p>
-                  <va-alert
-                    close-btn-aria-label="Close notification"
-                    status="info"
-                    visible
-                  >
-                    <p className="vads-u-margin-y--0">
-                      If you choose to get text message notifications from VA’s
-                      GI Bill program, message and data rates may apply. Two
-                      messages per month. At this time, we can only send text
-                      messages to U.S. mobile phone numbers. Text STOP to opt
-                      out or HELP for help. View Terms and Conditions and
-                      Privacy Policy.
+                  <div>
+                    <h3>Choose how you want to get notifications</h3>
+                    <p>
+                      We recommend that you opt into text message notifications
+                      about your benefits. These include notifications that
+                      prompt you to verify your enrollment so you’ll receive
+                      your education payments. This is an easy way to verify
+                      your monthly enrollment.
                     </p>
-                  </va-alert>
+                    <div className="meb-list-label">
+                      <strong>What to know about text notifications:</strong>
+                    </div>
+                    <ul>
+                      <li>We’ll send you 2 messages per month.</li>
+                      <li>Message and data rates may apply.</li>
+                      <li>If you want to opt out, text STOP.</li>
+                      <li>If you need help, text HELP.</li>
+                    </ul>
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/digital-notifications-terms-and-conditions/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our text notifications terms and conditions
+                      </a>
+                    </p>
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our privacy policy
+                      </a>
+                    </p>
+                    <p>
+                      <strong>Note</strong>: At this time, we can only send text
+                      messages to U.S. mobile phone numbers.
+                    </p>
+                  </div>
                 </>
               ),
+            },
+            'view:noMobilePhoneAlert': {
+              'ui:description': (
+                <va-alert
+                  background-only
+                  close-btn-aria-label="Close notification"
+                  show-icon
+                  status="warning"
+                  visible
+                >
+                  <div>
+                    <p className="vads-u-margin-y--0">
+                      We can’t send you text message notifications because we
+                      don’t have a mobile phone number on file for you
+                    </p>
+
+                    <Link
+                      aria-label="Go back and add a mobile phone number"
+                      to={{
+                        pathname: 'phone-email',
+                        search: '?redirect',
+                      }}
+                    >
+                      <va-button
+                        uswds
+                        onClick={() => {}}
+                        secondary
+                        text="Go back and add a mobile phone number"
+                      />
+                    </Link>
+                  </div>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  return !!formData?.mobilePhone?.phone;
+                },
+              },
             },
             notificationMethod: {
               'ui:title': 'Choose how you want to get notifications?',
