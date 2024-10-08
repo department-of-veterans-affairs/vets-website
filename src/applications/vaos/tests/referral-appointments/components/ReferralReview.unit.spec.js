@@ -6,7 +6,7 @@ import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { referral } from '../../../referral-appointments/temp-data/referral';
 
 describe('ReferralReview component', () => {
-  xit('should display the subtitle correctly given different numbers of appointments', async () => {
+  it('should display the subtitle correctly given different numbers of appointments', async () => {
     const store = createTestStore();
     const sandbox = sinon.createSandbox();
     sandbox.stub(referral, 'appointmentCount').value(1);
@@ -17,7 +17,7 @@ describe('ReferralReview component', () => {
     expect(subtitle).to.contain.text('1 appointment');
     sandbox.restore();
   });
-  xit('should display the subtitle correctly given 2 appointments', async () => {
+  it('should display the subtitle correctly given 2 appointments', async () => {
     const store = createTestStore();
     const sandbox = sinon.createSandbox();
     sandbox.stub(referral, 'appointmentCount').value(2);
