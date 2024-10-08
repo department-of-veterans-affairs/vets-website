@@ -86,7 +86,7 @@ jobs:
             
     
 
-    call-integration-test-workflow:
+    setup-integration-test-workflow:
      name: Set up and call the integration test workflow
      runs-on: ubuntu-latest
      needs: build
@@ -125,14 +125,6 @@ jobs:
         run: |
           chmod +x ./script/github-actions/cypress-integration-test.sh 
           ./scripts/github-actions/cypress-integration-helper.sh "${{ github.event.inputs.branch }}"
-            
-      - name: Checkout Cypress Integration Tests Workflow
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          repository: department-of-veterans-affairs/vagov-cypress-integration-tests
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN}}
-          path: vagov-cypress-integration-tests
-
 
     run-cypress-tests:
         uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
@@ -142,7 +134,7 @@ jobs:
       name: Notify Failure
       runs-on: ubuntu-latest
       if: ${{ failure() || cancelled() }}
-      needs: call-integration-test-workflow
+      needs: run-cypress-tests
 
       steps:
       - name: Checkout
