@@ -304,7 +304,7 @@ export const pageHooks = (cy, testOptions = {}) => ({
 
         // click on input and enter data
         // enterData() condition name into input
-        cy.get(`#root_newDisabilities_${index}_condition`)
+        cy.get('[data-testid="autocomplete-input"]')
           .shadow()
           .find('#inputField')
           .type(disability.condition, { force: true });
