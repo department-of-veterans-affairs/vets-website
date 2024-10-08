@@ -1,32 +1,11 @@
 import React from 'react';
 import Dropdown from './Dropdown';
 
-const dropdowns = [
-  {
-    label: 'Category',
-    options: [
-      { optionValue: 'License', optionLabel: 'License' },
-      { optionValue: 'Certification', optionLabel: 'Certification' },
-    ],
-    alt: 'Category Type',
-  },
-  {
-    label: 'Country',
-    options: [{ optionValue: 'Country', optionLabel: 'Country' }],
-    alt: 'Country',
-  },
-  {
-    label: 'State',
-    options: [{ optionValue: 'State', optionLabel: 'State' }],
-    alt: 'State',
-  },
-];
-
-function LicenseCertificationSearchFields() {
-  const handleChange = e => {
-    return e.target;
-  };
-
+// TODO - check for existing helper function
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+function LicenseCertificationSearchFields({ dropdowns, handleChange }) {
   return (
     <>
       <div className="row">
@@ -37,11 +16,11 @@ function LicenseCertificationSearchFields() {
           <div className="row" key={index}>
             <Dropdown
               disabled={false}
-              label={dropdown.label}
+              label={capitalizeFirstLetter(dropdown.label)}
               visible
-              name="Cateogry"
+              name={dropdown.label}
               options={dropdown.options}
-              value=""
+              value={dropdown.current.optionValue}
               onChange={handleChange}
               alt={dropdown.alt}
               selectClassName="lc-dropdown-filter"
