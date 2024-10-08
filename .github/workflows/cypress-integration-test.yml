@@ -134,9 +134,9 @@ jobs:
           path: vagov-cypress-integration-tests
 
 
-      - name: Call Integration Test Workflow
-        uses: vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
-        # secrets: inherit
+    run-cypress-tests:
+        uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
+        secrets: inherit
   
     notify-failure:
       name: Notify Failure
