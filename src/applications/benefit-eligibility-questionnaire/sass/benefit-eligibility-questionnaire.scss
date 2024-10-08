@@ -6,23 +6,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-#results-container {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  @media (max-width: $small-screen) {
-    flex-direction: column;
-  }
-}
-
 #filters-section-desktop {
   @media (min-width: $medium-screen) {
-    flex: 1 1 600px;
-    margin-right: 20px;
     border-right: 2px solid var(--vads-color-gray-medium);
     padding-right: 20px;
-    min-height: 200px;
-    text-align: left;
   }
 }
 
@@ -35,7 +22,6 @@
 }
 
 #filters-section-mobile-toggle {
-  flex: 1 1 auto;
   margin-bottom: 20px;
   @media (min-width: $small-screen) {
     display: none;
@@ -59,10 +45,6 @@
   width: 80%;
 }
 
-#results-section {
-  flex: 1 1 auto;
-}
-
 #root_characterOfDischarge-label .schemaform-required-span {
   display: none;
 }
@@ -84,8 +66,6 @@
 
 @media (max-width: 40.063em) {
   .vads-l-grid-container {
-    padding-left: 10px;
-    padding-right: 10px;
 
     .progress-box {
       padding-left: 0;
