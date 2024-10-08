@@ -175,7 +175,7 @@ const formConfig = {
       },
     },
     disabilityExamDetailsChapter: {
-      title: 'Disability exam details',
+      title: 'Claim exam details',
       pages: {
         disabilityExamDetailsPage: {
           depends: {
@@ -184,7 +184,7 @@ const formConfig = {
             },
           },
           path: 'disability-exam-details',
-          title: 'Disability exam details',
+          title: 'Claim exam details',
           uiSchema: disExamDetailsPg.uiSchema,
           schema: disExamDetailsPg.schema,
           pageClass: 'disability-exam-details',
