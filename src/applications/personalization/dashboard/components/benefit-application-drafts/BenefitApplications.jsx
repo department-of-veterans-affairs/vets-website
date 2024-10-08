@@ -42,7 +42,10 @@ const BenefitApplications = ({
   );
 
   return (
-    <div data-testid="dashboard-section-benefit-application-drafts">
+    <div
+      data-testid="dashboard-section-benefit-application-drafts"
+      id="benefit-applications"
+    >
       <h2>
         {isFormSubmissionStatusWork
           ? 'Benefit applications and forms'
