@@ -128,6 +128,8 @@ export default function VaCheckboxGroupField(props) {
   );
 }
 
+VaCheckboxGroupField.identifier = 'VaCheckboxGroupField';
+
 VaCheckboxGroupField.propTypes = {
   DescriptionField: PropTypes.any,
   childrenProps: PropTypes.oneOfType([

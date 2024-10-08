@@ -28,7 +28,6 @@ const ApplicationsInProgress = ({
   submittedForms,
   savedForms,
   hideH3,
-  isLOA1,
 }) => {
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
@@ -86,10 +85,7 @@ const ApplicationsInProgress = ({
   const isEmptyState = allForms.length === 0 && !submittedError;
   const hasForms = allForms.length > 0 && !submittedError;
 
-  // if LOA1 then show 'You have no benefit application drafts to show.', otherwise show 'You have no applications in progress.'
-  const emptyStateText = isLOA1
-    ? 'You have no benefit application drafts to show.'
-    : 'You have no applications in progress.';
+  const emptyStateText = 'You have no benefit applications or forms to show.';
 
   return (
     <div data-testid="applications-in-progress">
@@ -219,7 +215,6 @@ const ApplicationsInProgress = ({
 
 ApplicationsInProgress.propTypes = {
   hideH3: PropTypes.bool,
-  isLOA1: PropTypes.bool,
   savedForms: PropTypes.array,
   submittedError: PropTypes.bool, // bool error for _any_ error in request for "submitted forms"
   submittedForms: PropTypes.array,

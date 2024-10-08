@@ -59,11 +59,6 @@ const generateReviewEntryKey = (key, label, data) => {
 const reviewEntry = (description, key, uiSchema, label, data) => {
   if (!data) return null;
 
-  const textDescription = typeof description === 'string' ? description : null;
-  const DescriptionField = isReactComponent(description)
-    ? uiSchema['ui:description']
-    : null;
-
   const keyString = generateReviewEntryKey(key, label, data);
 
   const className = nextClass;
@@ -71,17 +66,14 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
 
   return (
     <li key={keyString} className={className}>
-      <div className="vads-u-color--gray">
-        {label}
-        {textDescription && <p>{textDescription}</p>}
-        {!textDescription && !DescriptionField && description}
-      </div>
+      <div className="vads-u-color--gray">{label}</div>
       <div>{data}</div>
     </li>
   );
 };
 
 const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
+  if (data === undefined || data === null) return null;
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
   if (schema.properties[key] === undefined || !uiSchema) return null;
 
@@ -100,17 +92,20 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
   // long term, make this a switch statement
   if (
-    uiSchema['ui:widget'] === 'radio' &&
-    uiSchema['ui:options']?.labels?.[refinedData]
-  ) {
-    refinedData = uiSchema['ui:options'].labels[refinedData];
-  }
-
-  if (
     uiSchema['ui:widget'] === 'yesNo' &&
     uiSchema['ui:options']?.labels?.[refinedData ? 'Y' : 'N']
   ) {
     refinedData = uiSchema['ui:options'].labels[refinedData ? 'Y' : 'N'];
+  } else if (uiSchema['ui:options']?.labels?.[refinedData]) {
+    refinedData = uiSchema['ui:options'].labels[refinedData];
+  } else if (
+    uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxGroupField'
+  ) {
+    refinedData = data;
+  } else if (
+    uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxField'
+  ) {
+    refinedData = refinedData ? 'Selected' : '';
   }
 
   const dataType = schema.properties[key].type;
