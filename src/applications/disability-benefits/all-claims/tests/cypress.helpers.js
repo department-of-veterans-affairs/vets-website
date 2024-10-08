@@ -327,11 +327,11 @@ export const pageHooks = (cy, testOptions = {}) => ({
             .should('have.value', disability.condition);
         } else {
           cy.get(option)
-            .eq(index)
+            .eq(1)
             .invoke('text')
             .then(selectedOption => {
               cy.get(option)
-                .eq(index)
+                .eq(1)
                 .click();
 
               cy.get(comboBox)

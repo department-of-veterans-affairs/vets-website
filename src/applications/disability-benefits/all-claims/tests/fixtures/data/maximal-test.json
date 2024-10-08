@@ -165,7 +165,7 @@
           "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
-        "condition": "Cranial nerve paralysis",
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
         "view:descriptionInfo": {}
       },
       {
@@ -174,7 +174,7 @@
           "worsenedDescription": "My knee was strained in the service",
           "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?"
         },
-        "condition": "ankylosis in knee",
+        "condition": "ankylosis in knee, bilateral",
         "view:descriptionInfo": {}
       },
       {
@@ -184,7 +184,7 @@
           "vaMistreatmentLocation": "Somewhereville",
           "vaMistreatmentDate": "A while ago"
         },
-        "condition": "heart attack",
+        "condition": "heart attack (myocardial infarction)",
         "view:descriptionInfo": {}
       }
     ],
