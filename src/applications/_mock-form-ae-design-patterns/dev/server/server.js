@@ -2,6 +2,8 @@
 const express = require('express');
 const { spawn } = require('child_process');
 const chalk = require('chalk');
+const path = require('path');
+const fs = require('fs').promises;
 
 const cors = require('./cors');
 const { killProcessOnPort } = require('./utils');
@@ -137,6 +139,48 @@ app.get('/status', (req, res) => {
     return acc;
   }, {});
   res.json(status);
+});
+
+app.post('/update-toggles-file', async (req, res) => {
+  const { updateToggle } = req.body;
+  const filePath = path.join(
+    __dirname,
+    '..',
+    '..',
+    'mocks',
+    'endpoints',
+    'feature-toggles',
+    'index.js',
+  );
+
+  console.log({ filePath });
+
+  try {
+    // Read the current file content
+    let content = await fs.readFile(filePath, 'utf8');
+
+    console.log(content);
+
+    // Update the content
+    const newDate = new Date().toISOString();
+    content = content.replace(/updated: .*,/, `updated: '${newDate}',`);
+
+    if (updateToggle) {
+      content += '\n// File updated via API';
+    }
+
+    // Write the updated content back to the file
+    await fs.writeFile(filePath, content, 'utf8');
+
+    res.json({ success: true, message: 'File updated successfully', newDate });
+  } catch (error) {
+    console.error('Error updating file:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating file',
+      error: error.message,
+    });
+  }
 });
 
 app.post('/stop', async (req, res) => {
