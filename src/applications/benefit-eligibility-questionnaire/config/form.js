@@ -73,7 +73,7 @@ export const formConfig = {
       return 'Your benefits and resources';
     }
     if (isOnReviewPage(currentLocation)) {
-      return 'Review your entries';
+      return 'Review your information';
     }
     return 'Benefit and resource recommendation tool';
   },
@@ -127,7 +127,14 @@ export const formConfig = {
           depends: formData =>
             formData.militaryServiceCurrentlyServing === 'Yes',
           onNavForward: ({ formData, goPath }) => {
-            if (formData.militaryServiceCurrentlyServing === 'Yes') {
+            if (
+              formData.militaryServiceCurrentlyServing === 'Yes' &&
+              formData.militaryServiceCompleted === 'No'
+            ) {
+              goPath(
+                formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+              );
+            } else {
               goPath(formConfig.chapters.chapter3.pages.separation.path);
             }
           },

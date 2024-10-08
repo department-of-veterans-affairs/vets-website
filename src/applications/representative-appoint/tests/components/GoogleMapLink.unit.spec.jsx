@@ -7,12 +7,12 @@ import GoogleMapLink from '../../components/GoogleMapLink';
 
 describe('GoogleMapLink Component', () => {
   const address = {
-    address1: '400 South 18th Street',
-    address2: 'Room 119',
-    address3: '',
+    addressLine1: '400 South 18th Street',
+    addressLine2: 'Room 119',
+    addressLine3: '',
     city: 'Newark',
-    state: 'NJ',
-    zip: '07102',
+    stateCode: 'NJ',
+    zipCode: '07102',
   };
   const mockRecordClick = () => {};
 

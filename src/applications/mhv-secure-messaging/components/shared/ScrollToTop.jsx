@@ -6,7 +6,7 @@ const ScrollToTop = props => {
   const location = useLocation();
   useEffect(
     () => {
-      if (!location.hash) {
+      if (!location.hash && !document.hasFocus()) {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     },

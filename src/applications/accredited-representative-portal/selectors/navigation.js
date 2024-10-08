@@ -1,1 +1,1 @@
-export const selectGoToSignIn = state => state.navigation.showLoginModal;
+export const selectShouldGoToSignIn = state => state.navigation.showLoginModal;

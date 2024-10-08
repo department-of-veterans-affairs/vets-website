@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
@@ -55,6 +56,7 @@ export default function LearnMoreLabel({
         })}
       >
         (
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
         <button
           id={buttonId}
           aria-label={ariaLabel}
@@ -72,3 +74,13 @@ export default function LearnMoreLabel({
     </span>
   );
 }
+LearnMoreLabel.propTypes = {
+  ariaLabel: PropTypes.string,
+  bold: PropTypes.bool,
+  buttonClassName: PropTypes.string,
+  buttonId: PropTypes.string,
+  dataTestId: PropTypes.string,
+  labelFor: PropTypes.string,
+  text: PropTypes.any,
+  onClick: PropTypes.func,
+};

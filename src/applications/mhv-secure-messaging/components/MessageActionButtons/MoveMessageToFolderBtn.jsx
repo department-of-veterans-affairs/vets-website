@@ -5,6 +5,7 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { datadogRum } from '@datadog/browser-rum';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { moveMessageThread } from '../../actions/messages';
@@ -50,6 +51,16 @@ const MoveMessageToFolderBtn = props => {
     },
     [folderInputError],
   );
+
+  const getDDRadioButtonLabel = folderId => {
+    const sortRadioMap = {
+      [Constants.DefaultFolders.INBOX.id]:
+        Constants.DefaultFolders.INBOX.header,
+      [Constants.DefaultFolders.DELETED.id]:
+        Constants.DefaultFolders.DELETED.header,
+    };
+    return sortRadioMap[folderId] || 'Custom Folder';
+  };
 
   const openModal = () => {
     setIsMoveModalVisible(true);
@@ -130,9 +141,12 @@ const MoveMessageToFolderBtn = props => {
           id="move-to-modal"
           data-testid="move-to-modal"
           modalTitle="Move conversation"
-          onCloseEvent={closeModal}
+          onCloseEvent={() => {
+            closeModal();
+            datadogRum.addAction('Move Conversation Modal Closed');
+          }}
           visible={isMoveModalVisible}
-          data-dd-action-name="Move To Modal Closed"
+          data-dd-action-name="Move Conversation Modal"
         >
           <p>Any replies to this message will appear in your inbox.</p>
           <VaRadio
@@ -162,6 +176,9 @@ const MoveMessageToFolderBtn = props => {
                     }
                     name="defaultName"
                     value={folder.id}
+                    data-dd-action-name={`${getDDRadioButtonLabel(
+                      selectedFolder,
+                    )} Radio in Move Conversation Modal`}
                   />
                 </>
               ))}
@@ -173,7 +190,7 @@ const MoveMessageToFolderBtn = props => {
                 name="defaultName"
                 value="newFolder"
                 checked={selectedFolder === 'newFolder'}
-                data-dd-action-name="Select Move to Radio Button"
+                data-dd-action-name="Create New Folder Radio in Move Conversation Modal"
               />
             </>
           </VaRadio>
@@ -184,20 +201,20 @@ const MoveMessageToFolderBtn = props => {
               move-folder-modal-buttons
               vads-u-display--flex
               vads-u-flex-direction--column
-              small-screen:vads-u-flex-direction--row
+              mobile-lg:vads-u-flex-direction--row
               "
           >
             <va-button
               text="Confirm"
               onClick={handleConfirmMoveFolderTo}
-              data-dd-action-name="Confirm Move to Button"
+              data-dd-action-name="Confirm Move Conversation Button"
             />
             <va-button
-              class="vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+              class="vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               secondary
               text="Cancel"
               onClick={closeModal}
-              data-dd-action-name="Cancel Move to Button"
+              data-dd-action-name="Cancel Move Conversation Button"
             />
           </div>
         </VaModal>
@@ -219,8 +236,9 @@ const MoveMessageToFolderBtn = props => {
         <button
           id="move-button"
           type="button"
-          className="usa-button-secondary small-screen:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button"
+          className="usa-button-secondary mobile-lg:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button"
           onClick={openModal}
+          data-dd-action-name="Move Button"
         >
           <div className="vads-u-margin-right--0p5">
             <va-icon icon="folder" aria-hidden="true" />

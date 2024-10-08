@@ -103,7 +103,7 @@ describe('Accessibility', () => {
     // Should be focused on right panel now
     cy.focused().should('contain.text', 'Access Enrollment Manager');
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Expand all +');
+    cy.focused().should('contain.text', 'Collapse all -');
     // Tab to 'Ask questions' section
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Ask questions');
