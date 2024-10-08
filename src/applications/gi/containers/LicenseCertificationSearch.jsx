@@ -23,7 +23,7 @@ const _dropdowns = [
       { optionValue: 'Japan', optionLabel: 'Japan' },
     ],
     alt: 'country',
-    current: { optionValue: 'Germany', optionLabel: 'Germany' },
+    current: { optionValue: 'US', optionLabel: 'US' },
   },
   {
     label: 'state',
