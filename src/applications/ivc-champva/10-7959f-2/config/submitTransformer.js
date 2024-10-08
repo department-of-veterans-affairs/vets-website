@@ -42,7 +42,7 @@ export default function transformForSubmit(formConfig, form) {
         transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
       phone_number: transformedData.veteranPhoneNumber || '',
       email_address: transformedData.veteranEmailAddress || '',
-      // send_payment: transformedData.sendPayment,
+      send_payment: transformedData.sendPayment,
     },
     statementOfTruthSignature: transformedData.statementOfTruthSignature,
     current_date: formatDateShort(new Date()),
