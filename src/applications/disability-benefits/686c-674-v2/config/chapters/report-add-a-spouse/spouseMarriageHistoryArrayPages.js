@@ -34,8 +34,8 @@ import {
 /** @type {ArrayBuilderOptions} */
 export const spouseMarriageHistoryOptions = {
   arrayPath: 'spouseMarriageHistory',
-  nounSingular: 'spouse’s former marriage',
-  nounPlural: 'spouse’s former marriages',
+  nounSingular: 'former marriage',
+  nounPlural: 'former marriages',
   required: false,
   isItemIncomplete: item =>
     !item?.fullName?.first ||
@@ -51,6 +51,7 @@ export const spouseMarriageHistoryOptions = {
       !item?.endLocation?.location?.state),
   maxItems: 7,
   text: {
+    summaryTitle: 'Review your spouse’s former marriages',
     getItemName: item =>
       `${capitalize(item.fullName?.first) || ''} ${capitalize(
         item.fullName?.last,
@@ -74,10 +75,17 @@ export const spouseMarriageHistorySummaryPage = {
     'view:completedSpouseFormerMarriage': arrayBuilderYesNoUI(
       spouseMarriageHistoryOptions,
       {
-        title: 'Does your spouse have any previous marriages to report?',
+        title: 'Does your spouse have any former marriages to add?',
         labels: {
-          Y: 'Yes, they have a marriage to report',
-          N: 'No, they don’t have another marriage to report',
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+      {
+        title: 'Does your spouse have any other marriages to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),

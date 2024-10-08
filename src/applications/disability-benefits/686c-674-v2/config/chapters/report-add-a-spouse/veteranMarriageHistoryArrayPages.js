@@ -74,10 +74,17 @@ export const veteranMarriageHistorySummaryPage = {
     'view:completedVeteranFormerMarriage': arrayBuilderYesNoUI(
       veteranMarriageHistoryOptions,
       {
-        title: 'Do you have any previous marriages to report?',
+        title: 'Do you have any former marriages to add?',
         labels: {
-          Y: 'Yes, I have a marriage to report',
-          N: 'No, I don’t have another marriage to report',
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+      {
+        title: 'Do you have any other marriages to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
