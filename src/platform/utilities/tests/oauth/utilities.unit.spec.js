@@ -540,9 +540,9 @@ describe('OAuth - Utilities', () => {
     });
 
     it('should not remove other cookies when removing `INFO_TOKEN`', () => {
-      document.cookie = `sessionID=xyz456;`;
-      document.cookie = `anotherCookie=value;`;
-      document.cookie = `${COOKIES.INFO_TOKEN}=some_token_value;`;
+      document.cookie = `sessionID=xyz456; secure;`;
+      document.cookie = `anotherCookie=value; secure;`;
+      document.cookie = `${COOKIES.INFO_TOKEN}=some_token_value; secure;`;
 
       const result = oAuthUtils.removeInfoToken();
 
