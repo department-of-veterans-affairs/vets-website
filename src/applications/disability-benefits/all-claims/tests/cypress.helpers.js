@@ -309,7 +309,9 @@ export const pageHooks = (cy, testOptions = {}) => ({
           .find('#inputField')
           .type(disability.condition, { force: true });
         // select the first option from the autosuggestions list
-        cy.get('.cc-combobox__option.cc-combobox__option--free').click();
+        cy.get('.cc-autocomplete__option')
+          .first()
+          .click();
         // click save
         cy.findByText(/save/i, { selector: 'button' }).click();
       });
