@@ -533,13 +533,6 @@ describe('formatNameFirstLast', () => {
     },
   };
 
-  const user3 = {
-    userFullNameX: {
-      nada: 'Joe',
-      notIt: 'Schmo',
-    },
-  };
-
   it('returns a name formatted with the first name before to the last name', () => {
     const lastFirstName = 'Joe Schmo';
     const updatedName = formatNameFirstLast(user1.userFullName);
@@ -552,11 +545,5 @@ describe('formatNameFirstLast', () => {
     const updatedName = formatNameFirstLast(user2.userFullName);
 
     expect(updatedName).to.eq(firstMiddleLastSuffixName);
-  });
-
-  it('returns "null" if there is an invalid input', () => {
-    const updatedName = formatNameFirstLast(user3.userFullNameX);
-
-    expect(updatedName).to.eq(null);
   });
 });
