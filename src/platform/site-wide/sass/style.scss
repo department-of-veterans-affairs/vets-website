@@ -3,12 +3,11 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 //~~~~~~~ Needed for now because we haven't transferred grid classes yet
 @import "~uswds/src/stylesheets/core/grid";
+//~~~~~~~
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
-//~~~~~~ Import the three below in css-library/stylesheets/core
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/shame";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/base/utils";
-//~~~~~~
+
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/uswds-typography";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-alert";
