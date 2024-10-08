@@ -63,35 +63,6 @@ export function CautionaryInformation({ institution, showModal }) {
     );
   };
 
-  // const renderListRow = ({ description, key, value, definition }) => {
-  //   if (value < 1) return null;
-  //   const bold = description === 'Total Complaints';
-  //   return (
-  //     <div className="row " key={key}>
-  //       <div className="small-11 columns">
-  //         <p className="vads-u-margin--0">
-  //           {description !== 'Other' ? (
-  //             <va-additional-info
-  //               trigger={
-  //                 bold ? <strong>{description}:</strong> : `${description}:`
-  //               }
-  //             >
-  //               <div>{definition}</div>
-  //             </va-additional-info>
-  //           ) : (
-  //             description
-  //           )}
-  //         </p>
-  //       </div>
-  //       <div className="small-1 columns">
-  //         <p className="number vads-u-margin--0">
-  //           {bold ? <strong>{value}</strong> : value}
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-  // };
-
   const renderCautionFlags = () => {
     if (!schoolClosing && cautionFlags.length === 0) {
       return null;
