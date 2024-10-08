@@ -348,7 +348,7 @@ describe('ComboBox Component', () => {
   });
 
   describe('Accessibility', () => {
-    it('should have combobox with message-aria-describedby', () => {
+    it('should have combobox with message-aria-describedby when input has no value', () => {
       const { getByTestId } = render(<ComboBox {...props} />);
 
       const combobox = getByTestId('combobox-input');
@@ -357,6 +357,9 @@ describe('ComboBox Component', () => {
         'message-aria-describedby',
         `\n      When autocomplete results are available use up and down arrows to\n      review and enter to select. Touch device users, explore by touch or\n      with swipe gestures.\n    `,
       );
+
+      simulateInputChange(combobox, 'acne');
+      expect(combobox).to.not.have.attribute('message-aria-describedby');
     });
 
     it('should have listbox with role and aria-label', () => {
@@ -369,6 +372,24 @@ describe('ComboBox Component', () => {
         'aria-label',
         'List of matching conditions',
       );
+    });
+
+    it('should have listbox with aria-hidden set based on input value', () => {
+      const { getByRole, getByTestId } = render(<ComboBox {...props} />);
+
+      const listbox = getByRole('listbox');
+      // Hidden on start with no input value / dropdown not open yet
+      expect(listbox).to.have.attribute('aria-hidden', 'true');
+
+      // Accessible to screenreaders when dropdown is open with options
+      const input = getByTestId('combobox-input');
+      simulateInputChange(input, 'back');
+      expect(listbox).to.have.attribute('aria-hidden', 'false');
+
+      // Back to hidden upon selection / dropdown close
+      fireEvent.keyDown(input, { key: 'ArrowDown' });
+      fireEvent.keyDown(input, { key: 'Enter' });
+      expect(listbox).to.have.attribute('aria-hidden', 'true');
     });
 
     it('should apply aria-activedescendant correctly when navigating the list', () => {
@@ -388,16 +409,39 @@ describe('ComboBox Component', () => {
       const searchTerm = 's';
       const searchResults = fullStringSimilaritySearch(searchTerm, items);
       const freeTextAndFilteredItemsCount = searchResults.length + 1;
-      const { getByTestId, getByText } = render(<ComboBox {...props} />);
+      const { getByTestId, getByText, getAllByRole, getByRole } = render(
+        <ComboBox {...props} />,
+      );
 
       const input = getByTestId('combobox-input');
       simulateInputChange(input, searchTerm);
-      const screenReaderMessage = getByText(
+      const resultsAvailableSRMessage = getByText(
         `${freeTextAndFilteredItemsCount} results available.`,
       );
 
-      expect(screenReaderMessage).to.exist;
-      expect(screenReaderMessage).to.have.attribute('role', 'alert');
+      expect(resultsAvailableSRMessage).to.exist;
+      expect(resultsAvailableSRMessage).to.have.attribute('role', 'alert');
+
+      const listbox = getByRole('listbox');
+      const listboxItems = getAllByRole('option');
+      expect(listbox).to.have.length(21);
+
+      fireEvent.click(listboxItems[1]);
+
+      expect(input).to.have.value(searchResults[0]);
+      expect(listbox).to.have.length(0);
+
+      // Check the aria-live announcement
+      const selectedItemSRMessage = getByText(
+        `${searchResults[0]} is selected.`,
+      );
+      expect(selectedItemSRMessage).to.exist;
+
+      simulateInputChange(input, '');
+      const emptyInputSRMessage = getByText(
+        'Input is empty. Please enter a condition.',
+      );
+      expect(emptyInputSRMessage).to.exist;
     });
   });
 
