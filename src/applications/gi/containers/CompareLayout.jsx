@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -578,7 +579,13 @@ const CompareLayout = ({
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
 };
-
+CompareLayout.propTypes = {
+  calculated: PropTypes.object.isRequired,
+  estimated: PropTypes.object.isRequired,
+  institutions: PropTypes.array.isRequired,
+  showDifferences: PropTypes.bool,
+  smallScreen: PropTypes.bool,
+};
 export default connect(
   null,
   mapDispatchToProps,

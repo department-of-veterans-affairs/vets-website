@@ -355,7 +355,7 @@ describe('<NameSearchForm>', () => {
         userEvent.click(clearFilter);
       }
       if (applyFilter) {
-        const applyFilteBTN = getByRole('button', { name: applyFilter });
+        const applyFilteBTN = getByTestId('update-filter-your-results-button');
         expect(applyFilteBTN).to.exist;
         userEvent.click(applyFilteBTN);
       }
