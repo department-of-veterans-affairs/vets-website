@@ -2,7 +2,7 @@ import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles-tera.json';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import maxTestData from './fixtures/data/maximal-test.json';
-import { goToNextPage, splitDateStr } from './utils';
+import { goToNextPage } from './utils';
 
 const { data: testData } = maxTestData;
 const APIs = {
@@ -29,7 +29,9 @@ describe('HCA-TERA-Branching', () => {
     cy.get('#root_firstName').type(testData.veteranFullName.first);
     cy.get('#root_lastName').type(testData.veteranFullName.last);
 
-    const [birthYear, birthMonth, birthDay] = splitDateStr(birthdate);
+    const [birthYear, birthMonth, birthDay] = birthdate
+      .split('-')
+      .map(dateComponent => parseInt(dateComponent, 10).toString());
     cy.get('#root_dobMonth').select(birthMonth);
     cy.get('#root_dobDay').select(birthDay);
     cy.get('#root_dobYear').type(birthYear);
@@ -62,16 +64,20 @@ describe('HCA-TERA-Branching', () => {
     goToNextPage('/military-service/service-information');
     cy.get('#root_lastServiceBranch').select(testData.lastServiceBranch);
 
-    const [entryYear, entryMonth, entryDay] = splitDateStr(
-      testData.lastEntryDate,
-    );
+    const [entryYear, entryMonth, entryDay] = testData.lastEntryDate
+      .split('-')
+      .map(dateComponent => parseInt(dateComponent, 10).toString());
     cy.get('#root_lastEntryDateMonth').select(entryMonth);
     cy.get('#root_lastEntryDateDay').select(entryDay);
     cy.get('#root_lastEntryDateYear').type(entryYear);
 
-    const [dischargeYear, dischargeMonth, dischargeDay] = splitDateStr(
-      testData.lastDischargeDate,
-    );
+    const [
+      dischargeYear,
+      dischargeMonth,
+      dischargeDay,
+    ] = testData.lastDischargeDate
+      .split('-')
+      .map(dateComponent => parseInt(dateComponent, 10).toString());
     cy.get('#root_lastDischargeDateMonth').select(dischargeMonth);
     cy.get('#root_lastDischargeDateDay').select(dischargeDay);
     cy.get('#root_lastDischargeDateYear').type(dischargeYear);

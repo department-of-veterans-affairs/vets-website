@@ -9,7 +9,6 @@ import {
   acceptPrivacyAgreement,
   goToNextPage,
   shortFormSelfDisclosureToSubmit,
-  splitDateStr,
 } from './utils';
 
 const { data: testData } = minTestData;
@@ -235,7 +234,9 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     cy.findByLabelText(/first name/i).type(testData.veteranFullName.first);
     cy.findByLabelText(/last name/i).type(testData.veteranFullName.last);
 
-    const [year, month, day] = splitDateStr(testData.veteranDateOfBirth);
+    const [year, month, day] = testData.veteranDateOfBirth
+      .split('-')
+      .map(dateComponent => parseInt(dateComponent, 10).toString());
     cy.findByLabelText(/month/i).select(month);
     cy.findByLabelText(/day/i).select(day);
     cy.findByLabelText(/year/i).type(year);

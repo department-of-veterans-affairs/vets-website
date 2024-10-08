@@ -7,7 +7,7 @@ import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockFacilities from './fixtures/mocks/mockFacilities.json';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import { acceptPrivacyAgreement, goToNextPage, splitDateStr } from './utils';
+import { acceptPrivacyAgreement, goToNextPage } from './utils';
 
 const testConfig = createTestConfig(
   {
@@ -28,7 +28,9 @@ const testConfig = createTestConfig(
           cy.findByLabelText(/first name/i).type(data.veteranFullName.first);
           cy.findByLabelText(/last name/i).type(data.veteranFullName.last);
 
-          const [year, month, day] = splitDateStr(data.veteranDateOfBirth);
+          const [year, month, day] = data.veteranDateOfBirth
+            .split('-')
+            .map(dateComponent => parseInt(dateComponent, 10).toString());
           cy.findByLabelText(/month/i).select(month);
           cy.findByLabelText(/day/i).select(day);
           cy.findByLabelText(/year/i).type(year);

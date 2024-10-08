@@ -3,7 +3,6 @@ import featureToggles from './fixtures/mocks/feature-toggles-insurance.json';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import {
-  splitDateStr,
   goToNextPage,
   fillTextWebComponent,
   selectYesNoWebComponent,
@@ -34,7 +33,9 @@ describe('HCA-Health-Insurance-Information', () => {
     cy.get('#root_firstName').type(testData.veteranFullName.first);
     cy.get('#root_lastName').type(testData.veteranFullName.last);
 
-    const [year, month, day] = splitDateStr(testData.veteranDateOfBirth);
+    const [year, month, day] = testData.veteranDateOfBirth
+      .split('-')
+      .map(dateComponent => parseInt(dateComponent, 10).toString());
     cy.get('#root_dobMonth').select(month);
     cy.get('#root_dobDay').select(day);
     cy.get('#root_dobYear').type(year);
