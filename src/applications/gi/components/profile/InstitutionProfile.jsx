@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import environment from 'platform/utilities/environment';
@@ -45,9 +45,7 @@ export default function InstitutionProfile({
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-
   const { type } = institution;
-
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
@@ -287,3 +285,18 @@ export default function InstitutionProfile({
     </div>
   );
 }
+InstitutionProfile.propTypes = {
+  calculator: PropTypes.object,
+  compare: PropTypes.object,
+  constants: PropTypes.object,
+  eligibility: PropTypes.object,
+  gibctEybBottomSheet: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf([null]),
+  ]),
+  institution: PropTypes.object,
+  isOJT: PropTypes.bool,
+  showModal: PropTypes.func,
+  smallScreen: PropTypes.bool,
+  version: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+};

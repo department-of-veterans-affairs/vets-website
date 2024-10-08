@@ -25,6 +25,8 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+import mockData from '../tests/e2e/fixtures/data/default.json';
+import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
 // import arrayAddresses from '../pages/mockArrayAddresses';
 
 import {
@@ -37,7 +39,7 @@ import {
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
 
-const chapterSelectInitialData = {
+const initialData = {
   chapterSelect: {
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
@@ -52,6 +54,13 @@ const chapterSelectInitialData = {
     textInput: true,
   },
 };
+
+// Prefill entire form with data:
+// Helpful for testing confirmation page
+if (environment.isLocalhost() && !window.Cypress) {
+  Object.assign(initialData, mockData.data);
+  Object.assign(initialData, mockArrayBuilderData.data);
+}
 
 function includeChapter(page) {
   return formData => formData?.chapterSelect[page];
@@ -89,7 +98,7 @@ const formConfig = {
           title: 'Chapter Select',
           path: 'chapter-select',
           ...chapterSelect,
-          initialData: chapterSelectInitialData,
+          initialData,
         },
       },
     },

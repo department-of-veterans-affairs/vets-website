@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
+import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
@@ -23,10 +24,134 @@ export class ConfirmationPage extends React.Component {
       benefitIds: [],
       sortValue: 'alphabetical',
       filterValue: 'All',
-      benefits: [], // Initial state for benefits
+      benefits: [],
+      benefitsList: BENEFITS_LIST,
+      showeMobileFilters: false,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
+  }
+
+  componentDidMount() {
+    scrollToTop('topScrollElement');
+    // Update query string based on results.
+    if (this.props.results.data && this.props.results.data.length > 0) {
+      this.handleResultsData();
+    } else if (
+      this.props.location.query &&
+      Object.keys(this.props.location.query).length > 0
+    ) {
+      // Display results based on query string.
+      const { benefits } = this.props.location.query;
+      const benefitIds = benefits.split(',');
+
+      this.props.displayResults(benefitIds);
+    }
+
+    const now = new Date().getTime();
+
+    this.props.setSubmission('status', false);
+    this.props.setSubmission('hasAttemptedSubmit', false);
+    this.props.setSubmission('timestamp', now);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.results.data &&
+      this.props.results.data.length > 0 &&
+      (!prevProps.results.data || prevProps.results.data.length === 0)
+    ) {
+      this.handleResultsData();
+    }
+  }
+
+  handleResultsData() {
+    const benefits = this.props.results.data.map(r => r.id).join(',');
+    const queryParams = { benefits };
+    const queryStringObj = appendQuery(
+      `${this.props.location.basename}${this.props.location.pathname}`,
+      queryParams,
+    );
+    browserHistory.replace(queryStringObj);
+
+    this.applyInitialSort();
+  }
+
+  sortBenefits = e => {
+    const key = e.target.value;
+    const sortKey = key === 'alphabetical' ? 'name' : key;
+
+    this.setState({ sortValue: key }, () => {
+      this.setState(prevState => {
+        if (!prevState.benefits || !Array.isArray(prevState.benefits)) {
+          return { benefits: [], benefitsList: [] };
+        }
+
+        const sortedBenefits = this.sortBenefitObj(prevState.benefits, sortKey);
+        const sortedBenefitsList = this.sortBenefitObj(
+          prevState.benefitsList,
+          sortKey,
+        );
+
+        return { benefits: sortedBenefits, benefitsList: sortedBenefitsList };
+      });
+    });
+  };
+
+  filterBenefits = e => {
+    const key = e.target.value;
+
+    this.setState(() => ({ filterValue: key }));
+
+    if (key === 'All') {
+      this.setState(() => ({
+        benefits: this.props.results.data,
+        benefitsList: BENEFITS_LIST,
+        resultsCount: this.props.results.data.length,
+      }));
+      return;
+    }
+
+    this.setState(() => {
+      const filteredBenefits = this.props.results.data.filter(benefit => {
+        return benefit.category.includes(key);
+      });
+      const filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
+        return benefit.category.includes(key);
+      });
+      return {
+        benefits: filteredBenefits,
+        benefitsList: filteredBenefitsList,
+        resultsCount: filteredBenefits.length,
+      };
+    });
+  };
+
+  handleClick = e => {
+    e.preventDefault();
+
+    this.props.router.goBack();
+  };
+
+  sortBenefitObj(sortBenefitObj, sortKey) {
+    return [...sortBenefitObj].sort((a, b) => {
+      let aValue = a[sortKey] || '';
+      let bValue = b[sortKey] || '';
+
+      if (sortKey === 'goal') {
+        aValue = a.mappings?.goals?.[0] || '';
+        bValue = b.mappings?.goals?.[0] || '';
+      }
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return aValue.localeCompare(bValue);
+      }
+
+      if (aValue < bValue) return -1;
+      if (aValue > bValue) return 1;
+
+      return 0;
+    });
   }
 
   applyInitialSort() {
@@ -55,106 +180,29 @@ export class ConfirmationPage extends React.Component {
     });
   }
 
-  componentDidMount() {
-    scrollToTop('topScrollElement');
-    // Update query string based on results.
-    if (this.props.results.data && this.props.results.data.length > 0) {
-      const benefits = this.props.results.data.map(r => r.id).join(',');
-      const queryParams = { benefits };
-      const queryStringObj = appendQuery(
-        `${this.props.location.basename}${this.props.location.pathname}`,
-        queryParams,
-      );
-      browserHistory.replace(queryStringObj);
-
-      this.applyInitialSort();
-    } else if (
-      this.props.location.query &&
-      Object.keys(this.props.location.query).length > 0
-    ) {
-      // Display results based on query string.
-      const { benefits } = this.props.location.query;
-      const benefitIds = benefits.split(',');
-
-      this.props.displayResults(benefitIds);
-    }
-
-    const now = new Date().getTime();
-
-    this.props.setSubmission('status', false);
-    this.props.setSubmission('hasAttemptedSubmit', false);
-    this.props.setSubmission('timestamp', now);
+  toggleMobileFiltersClass() {
+    const currentState = this.state.showeMobileFilters;
+    this.setState({ showeMobileFilters: !currentState });
   }
-
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.results.data &&
-      this.props.results.data.length > 0 &&
-      (!prevProps.results.data || prevProps.results.data.length === 0)
-    ) {
-      this.applyInitialSort();
-    }
-  }
-
-  sortBenefits = e => {
-    const key = e.target.value || 'alphabetical';
-
-    this.setState(() => ({ sortValue: key }));
-
-    this.setState(prevState => {
-      const sortedBenefits = prevState.benefits.sort((a, b) => {
-        if (a[key] < b[key]) return -1;
-        if (a[key] > b[key]) return 1;
-        return 0;
-      });
-      return { benefits: sortedBenefits };
-    });
-  };
-
-  filterBenefits = e => {
-    const key = e.target.value;
-
-    this.setState(() => ({ filterValue: key }));
-
-    if (key === 'All') {
-      this.setState(() => ({
-        benefits: this.props.results.data,
-      }));
-      return;
-    }
-
-    this.setState(() => {
-      const filteredBenefits = this.props.results.data.filter(benefit => {
-        return benefit.category.includes(key);
-      });
-      return { benefits: filteredBenefits };
-    });
-  };
-
-  handleClick = e => {
-    e.preventDefault();
-
-    this.props.router.goBack();
-  };
 
   render() {
     return (
       <div>
         <p>
-          Based on your goals and experiences, we recommend exploring the
-          benefits listed below. You may be eligible for these benefits, but
-          please double-check the eligibility requirements before applying.
+          <b>
+            Note: This tool is not an application for VA benefits and it doesn't
+            determine your eligibility for benefits.
+          </b>{' '}
+          After you use this tool, you can learn more about eligibility and how
+          to apply.
         </p>
         <p>
-          You can filter and sort the recommended benefits. If you want to copy
-          the link to your personalized results or email the results to
-          yourself, select the "Save your results" button.
+          To find VA benefits that may be relevant for you, answer a few
+          questions about your goals and experiences.
         </p>
         <p>
-          Please note that this is a recommendation tool, not an eligibility
-          determination tool. VA determines your eligibility once you apply for
-          a benefit. You'll need to review the eligibility requirements before
-          applying for VA benefits.
+          This is our first version. Right now, this tool focuses on education
+          and career benefits. We'll add more types of benefits soon.
         </p>
 
         <SaveResultsModal />
@@ -162,34 +210,70 @@ export class ConfirmationPage extends React.Component {
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
         <div id="results-container">
-          <div id="filters-section-desktop">
-            <b>Filters</b>
-            <p>Filter benefits by</p>
-            <select aria-label="Filter Benefits" onChange={this.filterBenefits}>
-              <option value="All">All</option>
-              <option value="Education">Education</option>
-              <option value="Employment">Employment</option>
-              <option value="Careers">Careers & Employment</option>
-              <option value="Support">More Support</option>
-            </select>
-            <b>Sort</b>
-            <p>Sort results by</p>
-            <select aria-label="Sort Benefits" onChange={this.sortBenefits}>
-              <option value="alphabetical">Alphabetical</option>
-              <option value="goal">Goal</option>
-              <option value="type">Type</option>
-            </select>
-          </div>
-
-          <div id="filters-section-mobile">
+          <div id="filters-section-mobile-toggle">
             <va-link-action
-              href="#"
               message-aria-describedby="Filter and sort"
               text="Filter and sort"
               type="secondary"
+              onClick={() => this.toggleMobileFiltersClass()}
+              omKeyDown={() => this.toggleMobileFiltersClass()}
+              role="button"
             />
           </div>
-
+          <div
+            id="filters-section-desktop"
+            className={
+              this.state.showeMobileFilters
+                ? 'show-filters-section-mobile'
+                : 'hide-filters-section-mobile'
+            }
+          >
+            <span>
+              <b>Filters</b>
+            </span>
+            <VaSelect
+              aria-label="Filter Benefits"
+              label="Filter by benefit type"
+              name="filter-benefits"
+              value={this.state.filterValue}
+              onVaSelect={this.filterBenefits}
+              className="filter-benefits"
+            >
+              <option key="All" value="All">
+                All
+              </option>
+              <option key="Education" value="Education">
+                Education
+              </option>
+              <option key="Careers" value="Careers">
+                Careers & Employment
+              </option>
+              <option key="Support" value="Support">
+                More Support
+              </option>
+            </VaSelect>
+            <br />
+            <span>
+              <b>Sort</b>
+            </span>
+            <VaSelect
+              aria-label="Sort Benefits"
+              label="Sort results by"
+              name="sort-benefits"
+              value={this.state.sortValue}
+              onVaSelect={this.sortBenefits}
+            >
+              <option key="alphabetical" value="alphabetical">
+                Alphabetical
+              </option>
+              <option key="goal" value="goal">
+                Goal
+              </option>
+              <option key="type" value="category">
+                Type
+              </option>
+            </VaSelect>
+          </div>
           <div id="results-section">
             <b>
               {this.state.hasResults &&
@@ -230,6 +314,7 @@ export class ConfirmationPage extends React.Component {
                                 href={b.learnMoreURL}
                                 target="_blank"
                                 rel="noreferrer"
+                                aria-label={`Learn more about ${b.name}`}
                               >
                                 Learn more
                               </a>
@@ -242,6 +327,7 @@ export class ConfirmationPage extends React.Component {
                                 href={b.applyNowURL}
                                 target="_blank"
                                 rel="noreferrer"
+                                aria-label={`Apply now for ${b.name}`}
                               >
                                 Apply now
                               </a>
@@ -282,7 +368,7 @@ export class ConfirmationPage extends React.Component {
                 id="show"
               >
                 <ul className="benefit-list">
-                  {BENEFITS_LIST.map(
+                  {this.state.benefitsList.map(
                     benefit =>
                       !this.state.benefitIds[benefit.id] && (
                         <li key={benefit.id}>
