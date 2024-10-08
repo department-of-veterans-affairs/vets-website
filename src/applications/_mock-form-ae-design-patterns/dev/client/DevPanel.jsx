@@ -1,6 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { format, parseISO } from 'date-fns';
 
 const API_BASE_URL = 'http://localhost:1337';
+
+const formatDate = dateString => {
+  try {
+    const date = parseISO(dateString);
+    return format(date, 'HH:mm:ss:aaaaa');
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error parsing date:', error);
+    return dateString; // Return original string if parsing fails
+  }
+};
+
+const DevPanelLineItem = ({ line }) => {
+  return (
+    <div
+      className="vads-u-margin-bottom--0p25"
+      style={{
+        fontFamily: 'monospace',
+        fontSize: '0.875rem',
+        transition: 'opacity 200ms ease-in',
+      }}
+    >
+      {line}
+    </div>
+  );
+};
 
 const DevPanel = () => {
   const [processes, setProcesses] = useState({});
@@ -16,7 +44,14 @@ const DevPanel = () => {
       const data = JSON.parse(event.data);
       setOutput(prev => ({
         ...prev,
-        [processName]: [...(prev[processName] || []), data],
+        [processName]: [
+          {
+            id: Date.now(),
+            friendlyDate: formatDate(new Date().toISOString()),
+            ...data,
+          },
+          ...(prev[processName] || []),
+        ],
       }));
     };
 
@@ -102,40 +137,70 @@ const DevPanel = () => {
     stopPort,
   ) => {
     return (
-      <div className="vads-l-col--6">
-        <h2 className="vads-u-font-size--h3">{displayName}</h2>
-        <button
-          className="usa-button"
-          onClick={() => startProcess(processName, startConfig)}
-        >
-          Start {displayName}
-        </button>
-        <button
-          className="usa-button usa-button-secondary"
-          onClick={() => stopProcess(processName, stopPort)}
-        >
-          Stop {displayName}
-        </button>
-        <div className="vads-u-margin-top--2">
-          Status: {processes[processName] ? 'Running' : 'Stopped'}
+      <div className="vads-l-col--6 vads-l-grid-container vads-u-padding--0">
+        <div className="vads-l-row vads-u-align-items--center">
+          <h2 className="vads-u-font-size--h4 vads-u-margin-y--0 vads-u-font-family--sans vads-u-font-weight--bold">
+            {displayName}
+          </h2>
+          {processes[processName] ? (
+            <>
+              <div className="vads-u-padding-x--1 vads-u-font-style--italic">
+                Status: Running 🍏
+              </div>
+              <va-button
+                className="usa-button usa-button-secondary"
+                onClick={() => stopProcess(processName, stopPort)}
+                text="stop process"
+                secondary
+              />
+            </>
+          ) : (
+            <>
+              <div className="vads-u-padding-x--1 vads-u-font-style--italic">
+                Status: Stopped 🍎
+              </div>
+              <va-button
+                className="usa-button"
+                onClick={() => startProcess(processName, startConfig)}
+                text="start process"
+                secondary
+              />
+            </>
+          )}
         </div>
-        <div className="vads-u-margin-top--4">
-          <h3 className="vads-u-font-size--h4">Process Output</h3>
+
+        <div className="vads-u-padding--1 vads-u-border--1px vads-u-margin--0p5">
+          <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-margin-bottom--0p25">
+            Process Output
+          </h3>
           <div
             className="usa-textarea"
-            style={{ height: '300px', overflowY: 'scroll' }}
+            style={{ height: '50vh', overflowY: 'scroll' }}
           >
-            {output[processName]?.map((msg, index) => (
-              <div
-                key={index}
-                className={`vads-u-margin-bottom--1 ${
-                  msg.type === 'stderr' ? 'vads-u-color--secondary' : ''
-                }`}
-              >
-                {msg.type === 'cache' && msg.data.map(line => line)}
-                {typeof msg.data === 'string' && msg.data}
-              </div>
-            ))}
+            <TransitionGroup>
+              {output[processName]?.flatMap((msg, index) => {
+                if (msg.type === 'cache') {
+                  return msg.data.map((line, cacheIndex) => (
+                    <DevPanelLineItem
+                      line={line}
+                      key={`${processName}-cache-${index}-${cacheIndex}`}
+                    />
+                  ));
+                }
+                return (
+                  <CSSTransition
+                    key={msg.id || `${processName}-${index}`}
+                    timeout={200}
+                    classNames="fade"
+                  >
+                    <DevPanelLineItem
+                      line={`[${msg.friendlyDate}] ${msg.data}`}
+                      key={`${processName}-${index}`}
+                    />
+                  </CSSTransition>
+                );
+              })}
+            </TransitionGroup>
           </div>
         </div>
       </div>

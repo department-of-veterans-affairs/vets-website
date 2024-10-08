@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs').promises;
 
 const cors = require('./cors');
-const { killProcessOnPort } = require('./utils');
+const { killProcessOnPort, stripAnsi } = require('./utils');
 
 const app = express();
 const port = 1337;
@@ -28,15 +28,16 @@ function addToCache(name, type, data) {
   if (!outputCache[name]) {
     outputCache[name] = [];
   }
-  outputCache[name].push(data.toString().trim());
+  const strippedData = stripAnsi(data.toString().trim());
+  outputCache[name].unshift(strippedData);
   if (outputCache[name].length > MAX_CACHE_LINES) {
-    outputCache[name].shift();
+    outputCache[name].pop();
   }
 
   // Send SSE to all connected clients for this process
   const clientsForProcess = clients.get(name) || [];
   clientsForProcess.forEach(client => {
-    sendSSE(client, { type, data: data.toString().trim() });
+    sendSSE(client, { type, data: strippedData });
   });
 }
 
@@ -68,7 +69,6 @@ function startProcess(procName, command, args, env = {}, color = 'green') {
     console.log(
       chalk.whiteBright.bgRed(`[${procName}] process CLOSED with code ${code}`),
     );
-    delete processes[procName];
     // Notify all clients that the process has ended
     const clientsForProcess = clients.get(procName) || [];
     clientsForProcess.forEach(client => {
@@ -77,11 +77,11 @@ function startProcess(procName, command, args, env = {}, color = 'green') {
         data: `Process exited with code ${code}`,
       });
     });
+    delete processes[procName];
   });
 
   childProcess.on('exit', code => {
     console.log(`[${procName}] process EXITED with code ${code}`);
-    delete processes[procName];
     // Notify all clients that the process has ended
     const clientsForProcess = clients.get(procName) || [];
     clientsForProcess.forEach(client => {
@@ -90,6 +90,7 @@ function startProcess(procName, command, args, env = {}, color = 'green') {
         data: `Process exited with code ${code}`,
       });
     });
+    delete processes[procName];
   });
 
   return { success: true, message: `Process ${procName} started` };
