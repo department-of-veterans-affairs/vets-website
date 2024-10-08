@@ -409,6 +409,8 @@ describe('OAuth - Utilities', () => {
     });
 
     it('should set localStorage from `infoTokenExists` when no `X-Session-Expiration` header is present and tokens are valid', () => {
+      infoTokenExistsStub.restore();
+      infoTokenExistsStub.returns(true);
       getInfoTokenStub.restore();
 
       const validEncodedToken =
@@ -424,13 +426,24 @@ describe('OAuth - Utilities', () => {
 
       const isSet = oAuthUtils.checkOrSetSessionExpiration(response);
 
+      const expectedAtExpires = new Date(
+        'Fri Mar 17 2023 15:38:06 GMT-0400',
+      ).getTime();
+      const actualAtExpires = new Date(
+        localStorage.getItem('atExpires'),
+      ).getTime();
+
       expect(isSet).to.be.true;
-      expect(localStorage.getItem('atExpires')).to.equal(
-        'Fri Mar 17 2023 15:38:06 GMT-0400 (Eastern Daylight Time)',
-      );
-      expect(localStorage.getItem('sessionExpiration')).to.equal(
-        'Fri Mar 17 2023 16:03:06 GMT-0400 (Eastern Daylight Time)',
-      );
+      expect(actualAtExpires).to.equal(expectedAtExpires);
+
+      const expectedSessionExpiration = new Date(
+        'Fri Mar 17 2023 16:03:06 GMT-0400',
+      ).getTime();
+      const actualSessionExpiration = new Date(
+        localStorage.getItem('sessionExpiration'),
+      ).getTime();
+
+      expect(actualSessionExpiration).to.equal(expectedSessionExpiration);
     });
 
     it('should not set localStorage if `infoTokenExists` returns true but token format is invalid', () => {
