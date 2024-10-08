@@ -114,7 +114,7 @@ jobs:
       - name: Run integration helper script
         run: |
           chmod +x ./script/github-actions/cypress-integration-test.sh 
-          ./scripts/github-actions/cypress-integration-test.sh "${{ github.event.inputs.branch }}"
+          ./script/github-actions/cypress-integration-test.sh "${{ github.event.inputs.branch }}"
 
     run-cypress-tests:
         uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
