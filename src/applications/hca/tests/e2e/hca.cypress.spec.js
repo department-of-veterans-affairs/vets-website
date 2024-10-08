@@ -7,16 +7,11 @@ import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockFacilities from './fixtures/mocks/mockFacilitiesV1.json';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import { acceptPrivacyAgreement, goToNextPage } from './utils';
-
-export const selectDropdownWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-select[name="root_${fieldName}"]`)
-      .shadow()
-      .find('select')
-      .select(value);
-  }
-};
+import {
+  acceptPrivacyAgreement,
+  goToNextPage,
+  selectDropdownWebComponent,
+} from './utils';
 
 const testConfig = createTestConfig(
   {

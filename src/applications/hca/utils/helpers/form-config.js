@@ -306,15 +306,6 @@ export function collectMedicareInformation(formData) {
 }
 
 /**
- * Helper that determines if we should display the Lighthouse facility list
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if viewfield is set to `true`
- */
-export function useLighthouseFacilityList(formData) {
-  return formData['view:isFacilitiesApiEnabled'];
-}
-
-/**
  * Helper that determines if we should display the hardcoded facility list
  * @param {Object} testItem (optional) - mocked sample data for unit testing purposes
  * @returns {Array} - array of override values for the Array Builder options
