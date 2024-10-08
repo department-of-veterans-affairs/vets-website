@@ -1,6 +1,16 @@
 import React from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
 
+let arrayMap = {};
+let nextClass = '';
+let reviewEntryKeys = {};
+
+function resetDefaults() {
+  arrayMap = {};
+  nextClass = '';
+  reviewEntryKeys = {};
+}
+
 export const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
   const onReviewPage = true;
 
@@ -17,32 +27,53 @@ export const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
   return chapterTitle || '';
 };
 
-const reviewEntry = (description, key, uiSchema, label, data) => {
-  if (!data) return null;
+const addMarginIfNewIndex = (arrayKey, index) => {
+  if (!arrayMap[arrayKey]) {
+    arrayMap[arrayKey] = new Set();
+  }
 
-  const textDescription = typeof description === 'string' ? description : null;
-  const DescriptionField = isReactComponent(description)
-    ? uiSchema['ui:description']
-    : null;
+  nextClass =
+    // eslint-disable-next-line no-unneeded-ternary
+    index > 0 && !arrayMap[arrayKey].has(index) ? 'vads-u-margin-top--4' : '';
 
-  const keyString = `review-${key}-${label}-${data}`
+  arrayMap[arrayKey].add(index);
+};
+
+const generateReviewEntryKey = (key, label, data) => {
+  let keyString = `review-${key}-${label}-${data}`
     .toLowerCase()
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '');
 
+  // increment if we find a duplicate
+  if (!Object.prototype.hasOwnProperty.call(reviewEntryKeys, keyString)) {
+    reviewEntryKeys[keyString] = 0;
+  } else {
+    reviewEntryKeys[keyString] += 1;
+    keyString += `-${reviewEntryKeys[keyString]}`;
+  }
+
+  return keyString;
+};
+
+const reviewEntry = (description, key, uiSchema, label, data) => {
+  if (!data) return null;
+
+  const keyString = generateReviewEntryKey(key, label, data);
+
+  const className = nextClass;
+  nextClass = '';
+
   return (
-    <li key={keyString}>
-      <div className="vads-u-color--gray">
-        {label}
-        {textDescription && <p>{textDescription}</p>}
-        {!textDescription && !DescriptionField && description}
-      </div>
+    <li key={keyString} className={className}>
+      <div className="vads-u-color--gray">{label}</div>
       <div>{data}</div>
     </li>
   );
 };
 
-const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
+const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
+  if (data === undefined || data === null) return null;
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
   if (schema.properties[key] === undefined || !uiSchema) return null;
 
@@ -53,23 +84,28 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
     'ui:reviewWidget': ReviewWidget,
   } = uiSchema;
 
-  const label = uiSchema['ui:title'] || schemaFromState?.properties[key].title;
+  const label =
+    uiSchema['ui:title'] || schemaFromState?.properties?.[key].title;
 
-  let refinedData = typeof data === 'object' ? data[key] : data;
+  let refinedData = Array.isArray(data) ? data[index] : data;
+  refinedData = typeof data === 'object' ? data[key] : data;
 
   // long term, make this a switch statement
-  if (
-    uiSchema['ui:widget'] === 'radio' &&
-    uiSchema['ui:options']?.labels?.[refinedData]
-  ) {
-    refinedData = uiSchema['ui:options'].labels[refinedData];
-  }
-
   if (
     uiSchema['ui:widget'] === 'yesNo' &&
     uiSchema['ui:options']?.labels?.[refinedData ? 'Y' : 'N']
   ) {
     refinedData = uiSchema['ui:options'].labels[refinedData ? 'Y' : 'N'];
+  } else if (uiSchema['ui:options']?.labels?.[refinedData]) {
+    refinedData = uiSchema['ui:options'].labels[refinedData];
+  } else if (
+    uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxGroupField'
+  ) {
+    refinedData = data;
+  } else if (
+    uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxField'
+  ) {
+    refinedData = refinedData ? 'Selected' : '';
   }
 
   const dataType = schema.properties[key].type;
@@ -92,8 +128,8 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
 
   if (
     uiSchema['ui:widget'] === 'date' ||
-    ['VaMemorableDate', 'VaDate'].includes(
-      uiSchema['ui:webComponentField']?.name,
+    ['VaMemorableDateField', 'VaDateField'].includes(
+      uiSchema['ui:webComponentField']?.identifier,
     )
   ) {
     const confirmData = new Date(`${refinedData}T00:00:00`).toLocaleDateString(
@@ -101,7 +137,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
       {
         year: 'numeric',
         month: 'long',
-        day: 'numeric',
+        ...(!uiSchema?.['ui:options']?.monthYearOnly && { day: 'numeric' }),
       },
     );
     return reviewEntry(description, key, uiSchema, label, confirmData);
@@ -126,77 +162,51 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
         objVal,
         data[objKey],
         schema.properties[key],
-        schemaFromState?.properties[key],
+        schemaFromState?.properties?.[key],
       ),
     );
   }
 
-  if (dataType === 'array' && data) {
-    return data.flatMap(dataPoint =>
-      Object.entries(uiSchema.items).flatMap(([arrKey, arrVal]) =>
-        fieldEntries(
-          arrKey,
-          arrVal,
-          dataPoint[arrKey],
-          schema.properties[key].items,
-          schemaFromState?.properties[key].items,
-        ),
-      ),
-    );
-    // let iterator = 0;
-    // return data.flatMap(dataPoint => {
-    //   // if (key.startsWith('view:') || key.startsWith('ui:')) return null;
+  if (dataType === 'array' && data && data.length) {
+    if (index == null) {
+      // single page array data
+      return data.flatMap((_, i) => {
+        return fieldEntries(key, uiSchema, data, schema, schemaFromState, i);
+      });
+    }
 
-    //   iterator += 1;
-
-    //   return (
-    //     <>
-    //       <h3>DataPoint {iterator}</h3>
-    //       {Object.entries(uiSchema.items).flatMap(([arrKey, arrVal]) => {
-    //         return (
-    //           <>
-    //             {fieldEntries(
-    //               arrKey,
-    //               arrVal,
-    //               dataPoint[arrKey],
-    //               schema.properties[key].items,
-    //             )}
-    //           </>
-    //         );
-    //       })}
-    //     </>
-    //   );
-    // });
+    // multi page array data
+    addMarginIfNewIndex(key, index);
+    return Object.entries(uiSchema?.items).flatMap(([arrKey, arrVal]) => {
+      return fieldEntries(
+        arrKey,
+        arrVal,
+        data[index][arrKey],
+        schema.properties[key].items,
+        schemaFromState?.properties?.[key].items?.[index],
+      );
+    });
   }
 
   return reviewEntry(description, key, uiSchema, label, refinedData);
 };
 
 export const buildFields = (chapter, formData, pagesFromState) => {
-  return chapter.expandedPages.flatMap(page =>
-    Object.entries(page.uiSchema).flatMap(([uiSchemaKey, uiSchemaValue]) => {
-      const data = formData[uiSchemaKey];
-      return fieldEntries(
-        uiSchemaKey,
-        uiSchemaValue,
-        data,
-        page.schema,
-        pagesFromState?.[page.pageKey]?.schema,
-      );
-    }),
-  );
-  // return chapter.expandedPages.flatMap(page => {
-  //   if (isReactComponent(page.CustomPageReview)) {
-  //     return page.CustomPageReview;
-  //   }
-
-  //   return Object.entries(page.uiSchema).flatMap(
-  //     ([uiSchemaKey, uiSchemaValue]) => {
-  //       const data = formData[uiSchemaKey];
-  //       return fieldEntries(uiSchemaKey, uiSchemaValue, data, page.schema);
-  //     },
-  //   );
-  // });
+  return chapter.expandedPages.flatMap(page => {
+    return Object.entries(page.uiSchema).flatMap(
+      ([uiSchemaKey, uiSchemaValue]) => {
+        const data = formData[uiSchemaKey];
+        return fieldEntries(
+          uiSchemaKey,
+          uiSchemaValue,
+          data,
+          page.schema,
+          pagesFromState?.[page.pageKey]?.schema,
+          page.index,
+        );
+      },
+    );
+  });
 };
 
 /**
@@ -217,6 +227,7 @@ export const ChapterSectionCollection = ({
   formConfig,
   pagesFromState,
 }) => {
+  resetDefaults();
   return chapters.map(chapter => {
     const chapterTitle = getChapterTitle(
       chapter.formConfig,

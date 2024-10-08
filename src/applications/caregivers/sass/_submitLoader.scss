@@ -13,7 +13,7 @@
     line-height: 40px;
   }
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     max-width: 75%;
   }
 }

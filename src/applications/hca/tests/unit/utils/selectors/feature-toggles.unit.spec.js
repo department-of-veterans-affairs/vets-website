@@ -21,7 +21,6 @@ describe('hca FeatureToggles selector', () => {
         isLoadingFeatureFlags: false,
         isBrowserMonitoringEnabled: true,
         isESOverrideEnabled: false,
-        isFacilitiesApiEnabled: false,
         isInsuranceV2Enabled: false,
         isRegOnlyEnabled: true,
         isSigiEnabled: false,

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
 
@@ -49,3 +50,14 @@ export default function CalculatorSheetResultRow({
     </div>
   ) : null;
 }
+CalculatorSheetResultRow.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  bold: PropTypes.bool,
+  boldLabel: PropTypes.bool,
+  boldValue: PropTypes.bool,
+  header: PropTypes.bool,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  plainTextValue: PropTypes.bool,
+  visible: PropTypes.bool,
+};

@@ -11,6 +11,7 @@ import CoeApp from './patterns/pattern2/TaskRed/form/containers/App';
 // import { Pattern2 } from './patterns/pattern2/containers/Pattern2';
 import { LandingPage } from './shared/components/pages/LandingPage';
 import { PatternConfigProvider } from './shared/context/PatternConfigContext';
+import { getPatterns, getTabs } from './utils/data/tabs';
 
 const pattern1Routes = [
   {
@@ -131,7 +132,11 @@ const routes = [
       <div className="vads-l-grid-container">
         <div className="vads-l-row">
           <div className="usa-width-two-thirds medium-8 columns">
-            <LandingPage {...props} />
+            <LandingPage
+              {...props}
+              getTabs={getTabs}
+              getPatterns={getPatterns}
+            />
           </div>
         </div>
       </div>

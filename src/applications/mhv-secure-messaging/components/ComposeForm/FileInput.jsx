@@ -186,9 +186,7 @@ const FileInput = props => {
               id={`attach-file-button${
                 draftSequence ? `-${draftSequence}` : ''
               }`}
-              data-dd-action-name={`Attach File Button${
-                draftSequence ? `-${draftSequence}` : ''
-              }`}
+              data-dd-action-name={`${attachText}${draftText} Button`}
             />
           </>
         )}
