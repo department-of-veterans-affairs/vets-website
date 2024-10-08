@@ -1197,6 +1197,25 @@ const formConfig = {
                   no: 'No, just send me email notifications',
                 },
               },
+              'ui:validations': [
+                (errors, field, formData) => {
+                  const isYes = field === 'yes';
+                  const phoneExist = !!formData?.mobilePhone.phone;
+                  const { isInternational } = formData?.mobilePhone;
+
+                  if (isYes) {
+                    if (!phoneExist) {
+                      errors.addError(
+                        "You can't select that response because we don't have a mobile phone number on file for you.",
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        "You can't select that response because you have an international mobile phone number",
+                      );
+                    }
+                  }
+                },
+              ],
             },
           },
           schema: {
@@ -1208,6 +1227,10 @@ const formConfig = {
                 enum: ['email', 'mobilePhone', 'homePhone', 'mail'],
               },
               'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              'view:noMobilePhoneAlert': {
                 type: 'object',
                 properties: {},
               },

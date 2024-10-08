@@ -24,6 +24,8 @@ function formatDateString(dateString) {
 const PersonalInformationReviewField = ({
   data,
   dateOfBirth,
+  editPage,
+  title,
   userFullName,
 }) => {
   const formattedDateOfBirth = formatDateString(dateOfBirth);
@@ -31,6 +33,14 @@ const PersonalInformationReviewField = ({
   return (
     <>
       <div className="form-review-panel-page">
+        <button
+          aria-label={`Edit ${title}`}
+          className="edit-btn primary-outline"
+          onClick={editPage}
+          type="button"
+        >
+          Edit
+        </button>
         <dl className="review">
           <div className="review-row">
             <p className="va-address-block">
@@ -52,6 +62,8 @@ const PersonalInformationReviewField = ({
 PersonalInformationReviewField.propTypes = {
   data: PropTypes.object,
   dateOfBirth: PropTypes.string,
+  editPage: PropTypes.func,
+  title: PropTypes.string,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,
