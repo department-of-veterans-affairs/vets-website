@@ -16,15 +16,17 @@ export default function LoginButton({
   ariaDescribedBy,
 }) {
   if (!csp) return null;
+  const text = `Sign in with ${SERVICE_PROVIDERS[csp].label}`;
   return (
+    // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
     <button
       type="button"
-      aria-label={`Sign in with ${SERVICE_PROVIDERS[csp].label}`}
       className={`usa-button ${csp}-button vads-u-margin-y--1p5 vads-u-padding-y--2`}
       data-csp={csp}
       onClick={() => onClick(csp, useOAuth)}
       aria-describedby={ariaDescribedBy}
     >
+      <span className="sr-only">{text}</span>
       {SERVICE_PROVIDERS[csp].image}
     </button>
   );
