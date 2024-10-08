@@ -50,10 +50,6 @@ const formConfig = {
           mobilePhoneKey: 'phone',
           contactInfoUiSchema: {},
           disableMockContactInfo: true,
-          // TODO: Work on skipping review page if possible in ticket created for this work
-          // onNavForward: ({ goPath }) => {
-          //   goPath('confirmation');
-          // },
         }),
       },
     },
