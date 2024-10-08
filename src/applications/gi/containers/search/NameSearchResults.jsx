@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -213,6 +214,15 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
+};
+
+NameSearchResults.propTypes = {
+  dispatchFetchSearchByNameResults: PropTypes.func.isRequired,
+  filters: PropTypes.object.isRequired,
+  filtersChanged: PropTypes.bool.isRequired,
+  preview: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
+  smallScreen: PropTypes.bool,
 };
 
 export default connect(
