@@ -491,10 +491,15 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('removeInfoToken', () => {
-    it('should return null when infoToken does not exist', () => {
-      const result = oAuthUtils.removeInfoToken();
+    it('should return null when infoToken does not exist or `infoTokenExists` returns false', () => {
+      infoTokenExistsStub.returns(false);
 
+      const result = oAuthUtils.removeInfoToken();
       expect(result).to.equal(null);
+
+      infoTokenExistsStub.restore();
+      const resultNoToken = oAuthUtils.removeInfoToken();
+      expect(resultNoToken).to.equal(null);
     });
 
     it('should remove INFO_TOKEN from cookies when it exists', () => {
@@ -514,7 +519,18 @@ describe('OAuth - Utilities', () => {
       expect(document.cookie).to.include('another_cookie=some_value');
     });
 
-    it('should not remove other cookies when INFO_TOKEN does not exist', () => {
+    it('should not remove other cookies, whether INFO_TOKEN exists or not', () => {
+      infoTokenExistsStub.returns(true);
+      document.cookie = `sessionID=xyz456; `;
+      document.cookie = `anotherCookie=value;`;
+      document.cookie = `${COOKIES.INFO_TOKEN}=${validCookie};`;
+      oAuthUtils.removeInfoToken();
+
+      expect(document.cookie).to.not.include(`${COOKIES.INFO_TOKEN}`);
+      expect(document.cookie).to.include('sessionID=xyz456');
+      expect(document.cookie).to.include('anotherCookie=value');
+
+      infoTokenExistsStub.restore();
       document.cookie = 'another_cookie=some_value;';
       document.cookie = 'third_cookie=another_value;';
 
@@ -539,30 +555,6 @@ describe('OAuth - Utilities', () => {
 
       expect(document.cookie).to.include('another_cookie=');
       expect(document.cookie).not.to.include(`${COOKIES.INFO_TOKEN}`);
-
-      infoTokenExists.restore();
-    });
-
-    it('should return null if `infoTokenExists` returns false', () => {
-      infoTokenExistsStub.returns(false);
-
-      const result = oAuthUtils.removeInfoToken();
-
-      expect(result).to.be.null;
-      expect(document.cookie).to.equal('');
-    });
-
-    it('should not remove other cookies when removing `INFO_TOKEN`', () => {
-      document.cookie = `sessionID=xyz456; secure;`;
-      document.cookie = `anotherCookie=value; secure;`;
-      document.cookie = `${COOKIES.INFO_TOKEN}=some_token_value; secure;`;
-
-      const result = oAuthUtils.removeInfoToken();
-
-      expect(result).to.be.undefined;
-      expect(document.cookie).to.not.include(`${COOKIES.INFO_TOKEN}`);
-      expect(document.cookie).to.include('sessionID=xyz456');
-      expect(document.cookie).to.include('anotherCookie=value');
     });
   });
 
