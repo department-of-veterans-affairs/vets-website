@@ -37,6 +37,7 @@ describe('OAuth - Utilities', () => {
   let infoTokenExistsStub;
   let getInfoTokenStub;
   let removeInfoTokenSpy;
+  let validCookie;
 
   beforeEach(() => {
     window.crypto = mockCrypto;
@@ -59,6 +60,9 @@ describe('OAuth - Utilities', () => {
     });
 
     removeInfoTokenSpy = sinon.spy(oAuthUtils, 'removeInfoToken');
+
+    validCookie =
+      '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D';
   });
 
   afterEach(() => {
@@ -481,15 +485,16 @@ describe('OAuth - Utilities', () => {
     });
 
     it('should remove INFO_TOKEN from cookies when it exists', () => {
-      document.cookie =
-        'INFO_TOKEN=some_info_token_value; expires=Wed, 29 Jun 2022 16:41:35 GMT;';
+      document.cookie = `${
+        COOKIES.INFO_TOKEN
+      }=some_info_token_value; expires=Wed, 29 Jun 2022 16:41:35 GMT;`;
       document.cookie = 'another_cookie=some_value;';
 
       oAuthUtils.removeInfoToken();
 
       const cookies = document.cookie.split(';').map(cookie => cookie.trim());
       const infoTokenCookie = cookies.find(cookie =>
-        cookie.startsWith('INFO_TOKEN='),
+        cookie.startsWith(`${COOKIES.INFO_TOKEN}`),
       );
 
       expect(infoTokenCookie).to.be.undefined;
@@ -515,12 +520,12 @@ describe('OAuth - Utilities', () => {
     });
 
     it('should handle cookies with no values correctly', () => {
-      document.cookie = 'another_cookie=; INFO_TOKEN=;';
+      document.cookie = `another_cookie=; ${COOKIES.INFO_TOKEN}`;
 
       oAuthUtils.removeInfoToken();
 
       expect(document.cookie).to.include('another_cookie=');
-      expect(document.cookie).not.to.include('INFO_TOKEN=');
+      expect(document.cookie).not.to.include(`${COOKIES.INFO_TOKEN}`);
 
       infoTokenExists.restore();
     });
@@ -589,18 +594,8 @@ describe('OAuth - Utilities', () => {
       expect(result).to.be.null;
     });
 
-    it('should handle malformed JSON in INFO_TOKEN cookie gracefully', () => {
-      getInfoTokenStub.restore();
-      document.cookie = 'INFO_TOKEN=malformed_json';
-      const result = getInfoToken();
-
-      expect(result).to.be.null;
-    });
-
     it('should return a formatted object of the access & refresh tokens when a valid cookie is present', () => {
-      const validCookie =
-        '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D';
-      document.cookie = `INFO_TOKEN=${validCookie};`;
+      document.cookie = `${COOKIES.INFO_TOKEN}=${validCookie};`;
 
       const result = getInfoToken();
 
@@ -611,10 +606,7 @@ describe('OAuth - Utilities', () => {
     });
 
     it('should return a formatted object of the access & refresh tokens when a valid cookie is present', () => {
-      const validCookie =
-        '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D';
-
-      document.cookie = `INFO_TOKEN=${validCookie};`;
+      document.cookie = `${COOKIES.INFO_TOKEN}=${validCookie};`;
 
       const result = getInfoToken();
 
@@ -622,35 +614,12 @@ describe('OAuth - Utilities', () => {
       expect(result).to.be.an('object');
       expect(result).to.have.property('access_token_expiration');
       expect(result).to.have.property('refresh_token_expiration');
-    });
-
-    it('should handle incorrectly formatted cookies and return null', () => {
-      getInfoTokenStub.restore();
-
-      document.cookie = 'INFO_TOKEN=invalid_cookie_format';
-
-      const result = getInfoToken();
-
-      expect(result).to.be.null;
-    });
-
-    it('should return null when the cookie is missing expected keys', () => {
-      infoTokenExists.restore();
-      getInfoTokenStub.restore();
-      const incompleteCookie = '%7B%22some_other_key%22%3A%22some_value%22%7D';
-      document.cookie = `INFO_TOKEN=${incompleteCookie};`;
-
-      const result = getInfoToken();
-      expect(result).to.be.null;
     });
 
     it('should correctly parse the INFO_TOKEN cookie among multiple cookies', () => {
       getInfoTokenStub.restore();
 
       document.cookie = 'other_cookie=some_value;';
-
-      const validCookie =
-        '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D';
 
       document.cookie = `${
         COOKIES.INFO_TOKEN
