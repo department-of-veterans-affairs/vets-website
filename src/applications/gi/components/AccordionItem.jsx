@@ -41,7 +41,7 @@ export default function AccordionItem({
         /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
         <button
           id={`${id}-button`}
-          aris-expanded={displayExpanded}
+          aria-expanded={displayExpanded}
           aria-controls={id}
           onClick={toggle}
           className="usa-accordion-button vads-u-margin--0"

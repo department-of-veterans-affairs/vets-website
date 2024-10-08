@@ -195,10 +195,11 @@ export function CautionaryInformation({ institution, showModal }) {
 
       <div>
         <div className="table">
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component */}
           <table className="usa-table">
             <thead>
               <tr>
-                <th scope="col" />
+                <th scope="col" aria-label="Empty header" />
                 <th scope="col">This campus</th>
                 <th scope="col">{allCampusesLink}</th>
               </tr>
@@ -214,6 +215,7 @@ export function CautionaryInformation({ institution, showModal }) {
           </table>
 
           {!!complaints.mainCampusRollUp && (
+            // eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component
             <table className="usa-table">
               <thead>
                 <tr>
