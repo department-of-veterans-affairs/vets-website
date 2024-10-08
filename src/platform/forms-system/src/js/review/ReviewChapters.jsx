@@ -88,6 +88,7 @@ class ReviewChapters extends React.Component {
             open={chapter.open}
             pageKeys={chapter.pageKeys}
             pageList={pageList}
+            reviewEditFocusOnHeaders={formConfig?.reviewEditFocusOnHeaders}
             setData={(...args) => this.handleSetData(...args)}
             hasUnviewedPages={chapter.hasUnviewedPages}
             uploadFile={this.props.uploadFile}

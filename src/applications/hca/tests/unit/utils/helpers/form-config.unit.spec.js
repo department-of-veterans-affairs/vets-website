@@ -28,8 +28,6 @@ import {
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   collectMedicareInformation,
-  useLighthouseFacilityList,
-  useJsonFacilityList,
   insuranceTextOverrides,
 } from '../../../../utils/helpers/form-config';
 import {
@@ -693,30 +691,6 @@ describe('hca form config helpers', () => {
     it('should return `false` when Veteran is not enrolled in Medicare', () => {
       const { formData } = getData({ enrolled: false });
       expect(collectMedicareInformation(formData)).to.be.false;
-    });
-  });
-
-  context('when `useLighthouseFacilityList` executes', () => {
-    it('should return `true` when viewfield is set to `true`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': true };
-      expect(useLighthouseFacilityList(formData)).to.be.true;
-    });
-
-    it('should return `false` when viewfield is set to `false`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': false };
-      expect(useLighthouseFacilityList(formData)).to.be.false;
-    });
-  });
-
-  context('when `useJsonFacilityList` executes', () => {
-    it('should return `false` when viewfield is set to `true`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': true };
-      expect(useJsonFacilityList(formData)).to.be.false;
-    });
-
-    it('should return `true` when viewfield is set to `false`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': false };
-      expect(useJsonFacilityList(formData)).to.be.true;
     });
   });
 

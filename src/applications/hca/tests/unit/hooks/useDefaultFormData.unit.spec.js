@@ -31,7 +31,6 @@ describe('hca `useDefaultFormData` hook', () => {
           hca_reg_only_enabled: false,
           hca_insurance_v2_enabled: false,
           hca_tera_branching_enabled: true,
-          hca_use_facilities_API: true,
           loading: false,
         },
       }),
@@ -56,7 +55,6 @@ describe('hca `useDefaultFormData` hook', () => {
       'view:isRegOnlyEnabled': false,
       'view:isInsuranceV2Enabled': false,
       'view:isTeraBranchingEnabled': true,
-      'view:isFacilitiesApiEnabled': true,
       'view:totalDisabilityRating': 0,
     };
 
@@ -75,7 +73,6 @@ describe('hca `useDefaultFormData` hook', () => {
       'view:isRegOnlyEnabled': false,
       'view:isInsuranceV2Enabled': false,
       'view:isTeraBranchingEnabled': true,
-      'view:isFacilitiesApiEnabled': true,
       'view:totalDisabilityRating': 0,
       'view:userDob': '12/14/1986',
     };
