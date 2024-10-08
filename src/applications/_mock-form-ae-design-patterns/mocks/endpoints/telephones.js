@@ -3,7 +3,7 @@ const homePhoneUpdateReceivedPrefillTaskPurple = {
     id: '',
     type: 'async_transaction_va_profile_telephone_transactions',
     attributes: {
-      transactionId: 'mock-update-home-phone-transaction-id',
+      transactionId: 'mock-update-home-phone-success-transaction-id',
       transactionStatus: 'RECEIVED',
       type: 'AsyncTransaction::VAProfile::TelephoneTransaction',
       metadata: [],
