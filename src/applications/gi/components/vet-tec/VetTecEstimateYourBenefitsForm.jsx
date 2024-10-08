@@ -209,6 +209,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         {this.renderApprovedProgramsSelector()}
         {this.renderTuitionFees()}
         {this.renderScholarships()}
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
         <button
           type="button"
           id="calculate-button"
@@ -219,6 +220,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           Update benefits
         </button>
         <div className="vads-u-padding-bottom--2p5">
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
           <button
             type="button"
             className="va-button-link learn-more-button eyb-skip-link"
@@ -234,11 +236,10 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
 }
 
 VetTecEstimateYourBenefitsForm.propTypes = {
-  inputs: PropTypes.object,
-  showModal: PropTypes.func,
+  calculatorInputChange: PropTypes.func,
   institution: PropTypes.object,
   selectedProgram: PropTypes.string,
-  calculatorInputChange: PropTypes.func,
+  showModal: PropTypes.func,
 };
 
 export default VetTecEstimateYourBenefitsForm;

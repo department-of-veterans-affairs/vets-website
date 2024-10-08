@@ -15,6 +15,9 @@ import { ariaLabels } from '../constants';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 
 export class VetTecEstimateYourBenefits extends React.Component {
+  housingAllowanceClassName =
+    'small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7';
+
   constructor(props) {
     super(props);
 
@@ -23,9 +26,6 @@ export class VetTecEstimateYourBenefits extends React.Component {
       scholarships: 0,
     };
   }
-
-  housingAllowanceClassName =
-    'small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7';
 
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) => (
     <LearnMoreLabel
