@@ -54,7 +54,6 @@ describe('hca `useDefaultFormData` hook', () => {
       'view:isSigiEnabled': false,
       'view:isRegOnlyEnabled': false,
       'view:isInsuranceV2Enabled': false,
-      'view:isFacilitiesApiEnabled': true,
       'view:totalDisabilityRating': 0,
     };
 
@@ -72,7 +71,6 @@ describe('hca `useDefaultFormData` hook', () => {
       'view:isSigiEnabled': false,
       'view:isRegOnlyEnabled': false,
       'view:isInsuranceV2Enabled': false,
-      'view:isFacilitiesApiEnabled': true,
       'view:totalDisabilityRating': 0,
       'view:userDob': '12/14/1986',
     };
