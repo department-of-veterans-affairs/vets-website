@@ -59,7 +59,9 @@ const formConfig = {
   trackingPrefix: 'lay-witness-10210-',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
+  hideUnauthedStartLink: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {
@@ -234,7 +236,7 @@ const formConfig = {
     },
     claimantPersonalInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
           ? 'Your personal information'
           : 'Claimant’s personal information',
@@ -253,7 +255,7 @@ const formConfig = {
     },
     claimantIdInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
           ? 'Your identification information'
           : 'Claimant’s identification information',
@@ -272,7 +274,7 @@ const formConfig = {
     },
     claimantAddrInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
           ? 'Your mailing address' // Flow 3
           : 'Claimant’s mailing address', // Flow 4
@@ -291,7 +293,7 @@ const formConfig = {
     },
     claimantContactInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
           ? 'Your contact information'
           : 'Claimant’s contact information',
@@ -328,7 +330,7 @@ const formConfig = {
     },
     veteranPersonalInfoChapter: {
       // for All flows
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your personal information'
@@ -345,7 +347,7 @@ const formConfig = {
     },
     veteranIdentificationInfo: {
       // for all Flows
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your identification information'
@@ -362,7 +364,7 @@ const formConfig = {
     },
     veteranMailingAddressInfo: {
       // for all Flows
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your mailing address'
@@ -379,7 +381,7 @@ const formConfig = {
     },
     veteranContactInfo: {
       // for all Flows
-      title: ({ formData } = {}) =>
+      title: ({ formData }) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your contact information'

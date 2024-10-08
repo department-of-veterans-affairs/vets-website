@@ -1,4 +1,6 @@
 import React from 'react';
+import get from 'platform/utilities/data/get';
+import { IncomeInformationAlert } from '../../../components/FormAlerts';
 
 export function doesHaveCareExpenses(formData) {
   return formData.hasCareExpenses === true;
@@ -14,6 +16,30 @@ export function ownsHome(formData) {
 
 export function doesReceiveIncome(formData) {
   return formData.receivesIncome === true;
+}
+
+export function otherExplanationRequired(formData, index) {
+  return get(['incomeSources', index, 'typeOfIncome'], formData) === 'OTHER';
+}
+
+export function dependentNameRequired(formData, index) {
+  return get(['incomeSources', index, 'receiver'], formData) === 'DEPENDENT';
+}
+
+export function childNameRequired(formData, index) {
+  return get(['careExpenses', index, 'recipients'], formData) === 'DEPENDENT';
+}
+
+export function IncomeSourceDescription() {
+  return (
+    <>
+      <p>
+        We want to know more about the gross monthly income you, your spouse,
+        and your dependents receive.
+      </p>
+      <IncomeInformationAlert />
+    </>
+  );
 }
 
 export function SupportingDocumentsNotice() {

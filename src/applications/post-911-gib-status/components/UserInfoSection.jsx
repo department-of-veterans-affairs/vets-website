@@ -42,8 +42,8 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
       enrollmentData.delimitingDate,
     );
   } else if (
-    enrollmentData.remainingEntitlement.months > 0 ||
-    enrollmentData.remainingEntitlement.days > 0
+    enrollmentData.remainingEntitlement?.months > 0 ||
+    enrollmentData.remainingEntitlement?.days > 0
   ) {
     benefitEndDate = benefitEndDateExplanation(
       'remainingEntitlement',

@@ -40,45 +40,79 @@ const goalTypes = {
 //   OVER_3_YEARS: 'over3yr',
 // };
 
-const separationTypes = {
-  UP_TO_6MO: 'upTo6mo',
-  UP_TO_1YR: 'upTo1yr',
-  UP_TO_2YRS: 'upTo2yr',
-  UP_TO_3YRS: 'upTo3yr',
-  OVER_3YRS: 'over3yr',
-};
+export const separationTypes = Object.freeze({
+  UP_TO_6MO: 'UP_TO_6MO',
+  UP_TO_1YR: 'UP_TO_1YR',
+  UP_TO_2YRS: 'UP_TO_2YRS',
+  UP_TO_3YRS: 'UP_TO_3YRS',
+  OVER_3YRS: 'OVER_3YRS',
+});
+
+export const separationTypeLabels = Object.freeze({
+  UP_TO_6MO: 'Within the past 6 months',
+  UP_TO_1YR: 'More than 6 months ago but less than 1 year ago',
+  UP_TO_2YRS: 'More than 1 year ago but less than 2 years ago',
+  UP_TO_3YRS: 'More than 2 years ago but less than 3 years ago',
+  OVER_3YRS: 'More than 3 years ago',
+});
 
 const expectedSparationTypes = {
   WITHIN_3MO: 'Within the next 3 months',
   FROM_3_TO_6_MO: 'More than 3 months but less than 6 months',
   FROM_6MO_TO_1YR: 'More than 6 months but less than 1 year',
   OVER_1YR: 'More than 1 year from now',
-  OVER_3YRS_AGO: 'More than 3 years ago',
+  OVER_3YRS_AGO: 'More than 3 years from now',
 };
 
-const disabilityTypes = {
+export const disabilityTypes = Object.freeze({
+  APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
+  SUBMITTED: 'SUBMITTED',
+  STARTED: 'STARTED',
+  NOT_APPLIED: 'NOT_APPLIED',
+});
+
+export const disabilityTypeLabels = Object.freeze({
   APPLIED_AND_RECEIVED: "I've applied and received a disability rating",
   SUBMITTED: "I've submitted but haven't received a rating yet",
   STARTED: "I've started the process but haven't submitted yet",
   NOT_APPLIED: "I haven't applied for a disability rating",
-};
+});
 
-const giBillTypes = {
+export const giBillTypes = Object.freeze({
+  APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
+  SUBMITTED: 'SUBMITTED',
+  STARTED: 'STARTED',
+  NOT_APPLIED: 'NOT_APPLIED',
+});
+
+export const giBillTypeLabels = Object.freeze({
   APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits",
   SUBMITTED: "I've submitted but haven't received a decision yet",
   STARTED: "I've started the process but haven't submitted yet",
   NOT_APPLIED: "I haven't applied for GI Bill benefits",
-};
+});
 
-const characterOfDischargeTypes = {
-  HONORABLE: 'honorable',
-  UNDER_HONORABLE_CONDITIONS_GENERAL: 'underHonorableConditionsGeneral',
-  UNDER_OTHER_THAN_HONORABLE_CONDITIONS: 'underOtherThanHonorableConditions',
-  BAD_CONDUCT: 'badConduct',
-  DISHONORABLE: 'dishonorable',
-  UNCHARACTERIZED: 'uncharacterized',
-  NOT_SURE: 'notSure',
-};
+export const characterOfDischargeTypes = Object.freeze({
+  HONORABLE: 'HONORABLE',
+  UNDER_HONORABLE_CONDITIONS_GENERAL: 'UNDER_HONORABLE_CONDITIONS_GENERAL',
+  UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+    'UNDER_OTHER_THAN_HONORABLE_CONDITIONS',
+  BAD_CONDUCT: 'BAD_CONDUCT',
+  DISHONORABLE: 'DISHONORABLE',
+  UNCHARACTERIZED: 'UNCHARACTERIZED',
+  NOT_SURE: 'NOT_SURE',
+});
+
+export const characterOfDischargeTypeLabels = Object.freeze({
+  HONORABLE: 'Honorable',
+  UNDER_HONORABLE_CONDITIONS_GENERAL: 'Under Honorable Conditions (General)',
+  UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+    'Under Other Than Honorable Conditions',
+  BAD_CONDUCT: 'Bad Conduct',
+  DISHONORABLE: 'Dishonorable',
+  UNCHARACTERIZED: 'Uncharacterized',
+  NOT_SURE: "I'm not sure",
+});
 
 export const mappingTypes = {
   GOALS: 'goals',

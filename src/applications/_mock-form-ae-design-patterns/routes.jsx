@@ -4,41 +4,65 @@ import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/
 import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
+import redTaskConfig from './patterns/pattern2/TaskRed/form/config/form';
 import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 import App from './App';
+import CoeApp from './patterns/pattern2/TaskRed/form/containers/App';
 // import { Pattern2 } from './patterns/pattern2/containers/Pattern2';
 import { LandingPage } from './shared/components/pages/LandingPage';
+import { PatternConfigProvider } from './shared/context/PatternConfigContext';
+import { getPatterns, getTabs } from './utils/data/tabs';
 
 const pattern1Routes = [
   {
     path: '/1/task-green',
-    component: App,
+    component: props => (
+      <PatternConfigProvider {...props}>
+        <App {...props} />
+      </PatternConfigProvider>
+    ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/1/task-green/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/1/task-green/introduction?loggedIn=false'),
     },
     childRoutes: createRoutesWithSaveInProgress(greenFormConfig),
   },
   {
     path: '/1/task-yellow',
-    component: App,
+    component: props => (
+      <PatternConfigProvider {...props}>
+        <App {...props} />
+      </PatternConfigProvider>
+    ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/1/task-yellow/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/1/task-yellow/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(yellowFormConfig),
   },
   {
     path: '/1/task-purple',
-    component: App,
+    component: props => (
+      <PatternConfigProvider {...props}>
+        <App {...props} />
+      </PatternConfigProvider>
+    ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/1/task-purple/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/1/task-purple/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
   },
   {
     path: '/1/ezr',
-    component: App,
+    component: props => (
+      <PatternConfigProvider {...props}>
+        <App {...props} />
+      </PatternConfigProvider>
+    ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/1/ezr/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/1/ezr/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(ezrFormConfig),
   },
@@ -46,42 +70,54 @@ const pattern1Routes = [
 
 const pattern2Routes = [
   {
-    path: '/2/task-blue',
-    component: App,
-    indexRoute: {
-      onEnter: (nextState, replace) => replace('/2/task-blue/introduction'),
-    },
-    childRoutes: createRoutesWithSaveInProgress(greenFormConfig),
-  },
-  {
     path: '/2/task-red',
-    component: App,
+    component: props => (
+      <PatternConfigProvider {...props}>
+        <CoeApp {...props} />
+      </PatternConfigProvider>
+    ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/2/task-red/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/2/task-red/introduction?loggedIn=true'),
     },
-    childRoutes: createRoutesWithSaveInProgress(yellowFormConfig),
+    childRoutes: createRoutesWithSaveInProgress(redTaskConfig),
   },
   {
     path: '/2/task-pink',
-    component: App,
+    component: props => (
+      <PatternConfigProvider {...props}>
+        <App {...props} />
+      </PatternConfigProvider>
+    ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/2/task-pink/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/2/task-pink/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
   },
   {
     path: '/2/task-orange',
-    component: App,
+    component: props => (
+      <PatternConfigProvider {...props}>
+        <App {...props} />
+      </PatternConfigProvider>
+    ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/2/task-orange/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/2/task-orange/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
   },
   {
     path: '/2/task-gray',
-    component: App,
+    component: props => (
+      <PatternConfigProvider {...props}>
+        <App {...props} />
+      </PatternConfigProvider>
+    ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/2/task-gray/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/2/task-gray/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
   },
@@ -96,7 +132,11 @@ const routes = [
       <div className="vads-l-grid-container">
         <div className="vads-l-row">
           <div className="usa-width-two-thirds medium-8 columns">
-            <LandingPage {...props} />
+            <LandingPage
+              {...props}
+              getTabs={getTabs}
+              getPatterns={getPatterns}
+            />
           </div>
         </div>
       </div>
