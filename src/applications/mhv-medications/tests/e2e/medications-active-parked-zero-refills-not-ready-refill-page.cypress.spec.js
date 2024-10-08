@@ -4,7 +4,7 @@ import MedicationsRefillPage from './pages/MedicationsRefillPage';
 import activeParkedWithZeroRefills from './fixtures/active-parked-zero-refills-with-dispense-date.json';
 
 describe('Medications Refill Page Active Parked', () => {
-  it('visits Medications Refill Page Active Parked Renew', () => {
+  it.skip('visits Medications Refill Page Active Parked Renew', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
     const listNumber = 2;

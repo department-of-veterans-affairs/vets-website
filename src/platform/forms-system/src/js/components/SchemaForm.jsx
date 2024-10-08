@@ -98,7 +98,7 @@ class SchemaForm extends React.Component {
       this.state.formContext,
     );
     this.setState({ formContext });
-    scrollToFirstError();
+    scrollToFirstError(this.props.formOptions);
   }
 
   onBlur(id) {
@@ -227,18 +227,24 @@ class SchemaForm extends React.Component {
 }
 
 SchemaForm.propTypes = {
+  idSchema: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
   schema: PropTypes.object.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
   uiSchema: PropTypes.object.isRequired,
-  data: PropTypes.any,
-  appStateData: PropTypes.object,
-  reviewMode: PropTypes.bool,
-  editModeOnReviewPage: PropTypes.bool,
-  onSubmit: PropTypes.func,
-  onChange: PropTypes.func,
-  hideTitle: PropTypes.bool,
   addNameAttribute: PropTypes.bool,
+  appStateData: PropTypes.object,
+  children: PropTypes.any,
+  data: PropTypes.any,
+  editModeOnReviewPage: PropTypes.bool,
+  formContext: PropTypes.shape({}),
+  formOptions: PropTypes.shape({}),
+  hideTitle: PropTypes.bool,
+  pagePerItemIndex: PropTypes.number,
+  reviewMode: PropTypes.bool,
+  safeRenderCompletion: PropTypes.bool,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 SchemaForm.defaultProps = {

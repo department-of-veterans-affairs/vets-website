@@ -92,4 +92,10 @@ export default {
     en: '/resources/what-to-bring-to-create-your-online-sign-in-account/',
     es: '/resources/what-to-bring-to-create-your-online-sign-in-account-esp/',
   },
+  survivorDependencyIndemnity: {
+    en:
+      '/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/',
+    es:
+      '/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation-esp/',
+  },
 };

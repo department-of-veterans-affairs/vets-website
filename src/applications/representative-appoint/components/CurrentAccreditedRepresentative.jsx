@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { parsePhoneNumber } from '../utilities/helpers';
+import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
 
 const CurrentAccreditedRepresentative = ({
   representativeName,

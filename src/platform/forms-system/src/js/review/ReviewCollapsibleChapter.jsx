@@ -8,25 +8,21 @@ import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import {
   ERROR_ELEMENTS,
-  FOCUSABLE_ELEMENTS,
   SCROLL_ELEMENT_SUFFIX,
 } from '../../../../utilities/constants';
+import { focusReview } from '../utilities/ui/focus-review';
 
 import ProgressButton from '../components/ProgressButton';
-import {
-  focusOnChange,
-  getFocusableElements,
-  fixSelector,
-} from '../utilities/ui';
+import { focusOnChange, fixSelector } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
 import { getPreviousPagePath, checkValidPagePath } from '../routing';
 
-import { focusableWebComponentList } from '../web-component-fields/webComponentList';
 import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
+
 /*
  * Displays all the pages in a chapter on the review page
  */
@@ -519,6 +515,7 @@ ReviewCollapsibleChapter.propTypes = {
     pathname: PropTypes.string,
   }),
   open: PropTypes.bool,
+  reviewEditFocusOnHeaders: PropTypes.bool,
   reviewErrors: PropTypes.shape({}),
   router: PropTypes.shape({
     push: PropTypes.func,
