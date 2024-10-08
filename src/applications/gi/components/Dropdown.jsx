@@ -66,9 +66,8 @@ const Dropdown = ({
 };
 
 Dropdown.propTypes = {
-  visible: PropTypes.bool.isRequired,
+  alt: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -77,8 +76,13 @@ Dropdown.propTypes = {
   ).isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  alt: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
+  hideArrows: PropTypes.bool,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  selectClassName: PropTypes.string,
+  visible: PropTypes.bool,
   onFocus: PropTypes.func,
 };
 
