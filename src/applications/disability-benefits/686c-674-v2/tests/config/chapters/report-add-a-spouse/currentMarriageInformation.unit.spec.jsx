@@ -19,14 +19,16 @@ const formData = (
     'view:selectable686Options': {
       addSpouse: true,
     },
-    spouseAddress: {
-      isMilitary,
+    doesLiveWithSpouse: {
+      address: {
+        isMilitary,
+      },
+      currentSpouseReasonForSeparation,
     },
     currentMarriageInformation: {
       outsideUsa,
       type,
     },
-    currentSpouseReasonForSeparation,
   };
 };
 

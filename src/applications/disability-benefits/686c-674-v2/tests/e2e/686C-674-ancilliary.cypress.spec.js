@@ -118,6 +118,38 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+
+      'current-spouse-marriage-history': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get(
+            'select#options[name="root_view:completedSpouseFormerMarriage"]',
+            { timeout: 1000 },
+          );
+          //   .should('be.visible')
+          //   .should('not.be.disabled');
+          // cy.get(
+          //   'select#options[name="root_veteranContactInformation_veteranAddress_state"]',
+          // ).select('AL');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'veteran-marriage-history': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get(
+            'select#options[name="root_veteranContactInformation_veteranAddress_state"]',
+            { timeout: 1000 },
+          )
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.get(
+            'select#options[name="root_veteranContactInformation_veteranAddress_state"]',
+          ).select('AL');
+          cy.get('.usa-button-primary').click();
+        });
+      },
     },
   },
 

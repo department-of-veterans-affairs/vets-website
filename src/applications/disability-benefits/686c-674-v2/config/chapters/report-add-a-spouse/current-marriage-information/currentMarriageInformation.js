@@ -7,18 +7,25 @@ import {
 export const schema = {
   type: 'object',
   properties: {
-    spouseAddress: addressSchema(),
+    doesLiveWithSpouse: {
+      type: 'object',
+      properties: {
+        address: addressSchema(),
+      },
+    },
   },
 };
 
 export const uiSchema = {
   ...titleUI('Spouse’s address'),
-  spouseAddress: {
-    ...addressUI({
-      labels: {
-        militaryCheckbox:
-          'Spouse receives mail outside of the United States on a U.S. military base.',
-      },
-    }),
+  doesLiveWithSpouse: {
+    address: {
+      ...addressUI({
+        labels: {
+          militaryCheckbox:
+            'Spouse receives mail outside of the United States on a U.S. military base.',
+        },
+      }),
+    },
   },
 };
