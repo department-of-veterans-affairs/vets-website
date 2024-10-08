@@ -87,7 +87,7 @@ jobs:
     
 
     setup-integration-test-workflow:
-     name: Set up and call the integration test workflow
+     name: Set up variables for the integration test workflow
      runs-on: ubuntu-latest
      needs: build
      steps: 
@@ -97,16 +97,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.inputs.branch }}
-  
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
   
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -124,7 +114,7 @@ jobs:
       - name: Run integration helper script
         run: |
           chmod +x ./script/github-actions/cypress-integration-test.sh 
-          ./scripts/github-actions/cypress-integration-helper.sh "${{ github.event.inputs.branch }}"
+          ./scripts/github-actions/cypress-integration-test.sh "${{ github.event.inputs.branch }}"
 
     run-cypress-tests:
         uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
