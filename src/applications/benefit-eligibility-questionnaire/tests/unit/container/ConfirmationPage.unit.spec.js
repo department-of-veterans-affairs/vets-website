@@ -140,6 +140,20 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     );
   };
 
+  it('should sort benefits by goal', () => {
+    wrapper = setup({ results: { data: mockBenefits } });
+    container = wrapper.container;
+
+    const sortSelect = container.querySelector('[name="sort-benefits"]');
+    sortSelect.__events.vaSelect({ target: { value: 'goal' } });
+
+    const benefitNames = wrapper
+      .getAllByRole('listitem')
+      .map(li => li.textContent);
+
+    expect(benefitNames[0]).to.contain('Careers & Employment');
+  });
+
   it('should sort benefits alphabetically', () => {
     wrapper = setup({ results: { data: mockBenefits } });
     container = wrapper.container;
@@ -165,8 +179,8 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     const benefitNames = wrapper
       .getAllByRole('listitem')
       .map(li => li.textContent);
-    expect(benefitNames).to.have.lengthOf(8);
-    expect(benefitNames[0]).to.contain('Education');
+    expect(benefitNames).to.have.lengthOf(5);
+    expect(benefitNames[0]).to.contain('Careers & Employment');
   });
 
   it('should show all benefits when "All" filter is selected', () => {
