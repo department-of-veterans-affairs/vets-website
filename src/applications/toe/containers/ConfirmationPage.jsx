@@ -1,5 +1,3 @@
-// src/applications/toe/containers/ConfirmationPage.jsx
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -27,20 +25,17 @@ export const ConfirmationPage = ({
   confirmationError,
 }) => {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
+  const [apiError, setApiError] = useState(false);
 
   useEffect(
     () => {
       if (!fetchedClaimStatus) {
-        getClaimStatus();
-        setFetchedClaimStatus(true);
+        getClaimStatus()
+          .catch(() => setApiError(true))
+          .finally(() => setFetchedClaimStatus(true));
       }
     },
-    [
-      fetchedClaimStatus,
-      getClaimStatus,
-      claimStatus,
-      user?.login?.currentlyLoggedIn,
-    ],
+    [fetchedClaimStatus, getClaimStatus],
   );
 
   const { first, last, middle, suffix } = user?.profile?.userFullName || {};
@@ -59,6 +54,23 @@ export const ConfirmationPage = ({
   const printPage = useCallback(() => {
     window.print();
   }, []);
+
+  // Handle case when API returns an error (e.g., 500)
+  if (apiError) {
+    return (
+      <DeniedConfirmation
+        user={claimantName}
+        claimantName={claimantName}
+        confirmationError={confirmationError}
+        confirmationLoading={confirmationLoading}
+        dateReceived={newReceivedDate}
+        printPage={printPage}
+        sendConfirmation={sendConfirmation}
+        userEmail={userEmail}
+        userFirstName={userFirstName}
+      />
+    );
+  }
 
   switch (claimStatus?.claimStatus) {
     case 'ELIGIBLE': {
