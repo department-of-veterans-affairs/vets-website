@@ -117,6 +117,15 @@ export function GiBillApp({
 
 GiBillApp.propTypes = {
   children: PropTypes.element.isRequired,
+  TESTVALUE: PropTypes.bool,
+  TESTVERSION: PropTypes.bool,
+  compare: PropTypes.object,
+  constants: PropTypes.object,
+  dispatchEnterPreviewMode: PropTypes.func,
+  dispatchExitPreviewMode: PropTypes.func,
+  dispatchFetchConstants: PropTypes.func,
+  dispatchUpdateQueryParams: PropTypes.func,
+  preview: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

@@ -82,7 +82,7 @@ export default function LoginActions({ externalApplication }) {
                 </span>
               </h3>
               <p>
-                You'll still be able to use you <strong>DS Logon</strong>{' '}
+                You'll still be able to use your <strong>DS Logon</strong>{' '}
                 account on Defense Department websites after this date.
               </p>
               <LoginButton
