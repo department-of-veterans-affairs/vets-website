@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
@@ -143,6 +144,28 @@ const mapDispatchToProps = {
   dispatchSetPageTitle: setPageTitle,
   dispatchShowModal: showModal,
   dispatchHideModal: hideModal,
+};
+
+ProfilePage.propTypes = {
+  calculator: PropTypes.object.isRequired,
+  compare: PropTypes.object.isRequired,
+  constants: PropTypes.object.isRequired,
+  dispatchFetchProfile: PropTypes.func.isRequired,
+  dispatchHideModal: PropTypes.func.isRequired,
+  dispatchShowModal: PropTypes.func.isRequired,
+  eligibility: PropTypes.object.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      facilityCode: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  profile: PropTypes.shape({
+    attributes: PropTypes.object,
+    error: PropTypes.any,
+    inProgress: PropTypes.bool,
+  }).isRequired,
+  gibctEybBottomSheet: PropTypes.object,
+  gibctSchoolRatings: PropTypes.object,
 };
 
 export default connect(
