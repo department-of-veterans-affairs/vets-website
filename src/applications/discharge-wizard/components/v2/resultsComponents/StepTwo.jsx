@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { determineBoardObj } from '../../../helpers';
+import { determineBoardObj, stepHeaderLevel } from '../../../helpers';
 
 import {
   SHORT_NAME_MAP,
@@ -143,8 +143,10 @@ const StepTwo = ({ formResponses }) => {
     default:
   }
 
+  const level = stepHeaderLevel(formResponses);
+
   return (
-    <va-process-list-item header="Add supporting information">
+    <va-process-list-item header="Add supporting information" level={level}>
       <p>
         To improve your chances of success, also include as many of the below
         documents as you can.

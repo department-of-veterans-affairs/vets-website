@@ -12,7 +12,6 @@ const OtherResources = () => {
       <h2 id="other-resources-for-schools">Other resources for schools</h2>
       <va-accordion uswds>
         <va-accordion-item
-          open
           level="3"
           header="Enrollment manager"
           subheader="Access enrollment manager  and essential training for VA student enrollment certifications and compliance."
@@ -74,7 +73,6 @@ const OtherResources = () => {
           </ul>
         </va-accordion-item>
         <va-accordion-item
-          open
           level="3"
           header="Payment and debt"
           subheader="Find information about managing debt related to VA education benefits."
@@ -95,7 +93,6 @@ const OtherResources = () => {
           </ul>
         </va-accordion-item>
         <va-accordion-item
-          open
           level="3"
           header="Veteran Readiness and Employment (VR&E) Chapter 31"
           subheader="The Veteran Readiness and Employment program assists Veterans with service-connected disabilities to explore employment options and address education and/or training needs."
@@ -141,7 +138,6 @@ const OtherResources = () => {
           </ul>
         </va-accordion-item>
         <va-accordion-item
-          open
           level="3"
           header="85/15"
           subheader="Information on the 85 percent rule, or 85/15 rule, which requires that at least 15 percent of students enrolled in an approved program are self-supported."
@@ -183,6 +179,10 @@ const OtherResources = () => {
               hrefText="85/15 FAQs"
               href="https://benefits.va.gov/gibill/85_15_faqs.asp"
             />
+            <LiSpanAndVaLink
+              hrefText="85/15 and Approved Rule 56"
+              href="https://benefits.va.gov/GIBILL/85_15/85-15-ar-56.asp"
+            />
           </ul>
         </va-accordion-item>
       </va-accordion>
@@ -214,6 +214,11 @@ const OtherResources = () => {
           href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/"
           hrefText="How to use GI Bill benefits"
           pText="Learn how students may use their GI Bill benefits to advance their education and training."
+        />
+        <LiSpanAndVaLinkAndPTag
+          href="https://benefits.va.gov/GIBILL/workstudy-site-supervisor-guidance.asp"
+          hrefText="Work study site supervisor guidance"
+          pText="Learn how to administer the VA work study program at your site."
         />
       </MainContentSubSection>
     </div>

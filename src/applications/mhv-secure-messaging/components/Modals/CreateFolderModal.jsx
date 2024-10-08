@@ -4,6 +4,7 @@ import {
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { datadogRum } from '@datadog/browser-rum';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { Alerts } from '../../util/constants';
 
@@ -60,9 +61,12 @@ const CreateFolderModal = props => {
       visible={isCreateNewModalVisible}
       large
       modalTitle={Alerts.Folder.CREATE_FOLDER_MODAL_HEADER}
-      onCloseEvent={closeNewModal}
+      onCloseEvent={() => {
+        closeNewModal();
+        datadogRum.addAction('Create New Folder Modal Closed');
+      }}
       data-testid="create-folder-modal"
-      data-dd-action-name="Create New Folder Modal Closed"
+      data-dd-action-name="Create New Folder Modal"
     >
       <VaTextInput
         data-dd-privacy="mask"

@@ -53,7 +53,7 @@ const renderOtherVA = (mcpLength, mcpError) => {
   if (mcpError) {
     return (
       <>
-        <h3>Your other VA bills</h3>
+        <h2>Your other VA bills</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h4 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
@@ -119,12 +119,12 @@ const DebtLettersSummary = () => {
         {renderOtherVA(mcpStatements?.length, mcpError)}
         {showDebtLetterDownload ? (
           <section>
-            <h3
+            <h2
               id="downloadDebtLetters"
               className="vads-u-margin-top--4 vads-u-font-size--h2"
             >
               Download debt letters
-            </h3>
+            </h2>
             <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
               You can download some of your letters for education, compensation
               and pension debt.

@@ -43,13 +43,7 @@ const NavCard = ({
         >
           {text} {isExternal && externalLinkText}
         </span>
-        {!isExternal && (
-          <va-icon
-            class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
-            icon="navigate_next"
-            size={4}
-          />
-        )}
+        {!isExternal && <va-icon icon="navigate_next" size={4} />}
       </a>
     </li>
   ));
@@ -83,7 +77,7 @@ const NavCard = ({
                 'usa-label',
                 'vads-u-background-color--primary',
                 'vads-u-display--none',
-                'small-desktop-screen:vads-u-display--block',
+                'desktop:vads-u-display--block',
               )}
             >
               {tag}
@@ -98,7 +92,7 @@ const NavCard = ({
               'usa-label',
               'vads-u-background-color--primary',
               'vads-u-display--inline-block',
-              'small-desktop-screen:vads-u-display--none',
+              'desktop:vads-u-display--none',
             )}
           >
             {tag}

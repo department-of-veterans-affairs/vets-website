@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getDocumentation } from '../api/rxApi';
 import { getPrescriptionDetails } from '../actions/prescriptions';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -170,6 +171,7 @@ const PrescriptionDetailsDocumentation = () => {
       if (!isLoadingDoc && !hasDocApiError && !isLoadingRx && htmlContent) {
         contentRef.current.innerHTML = htmlContent ?? '';
       }
+      focusElement(document.querySelector('h1'));
     },
     [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent],
   );
@@ -202,6 +204,7 @@ const PrescriptionDetailsDocumentation = () => {
             onText={downloadText}
             onDownload={downloadPdf}
             isSuccess={false}
+            isLoading={false}
           />
           <BeforeYouDownloadDropdown page={pageType.DOCUMENTATION} />
           <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-margin-y--5" />

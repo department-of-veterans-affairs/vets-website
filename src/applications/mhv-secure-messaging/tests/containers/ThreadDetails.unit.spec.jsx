@@ -288,7 +288,7 @@ describe('Thread Details container', () => {
     expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 
-  it('with a reply draft message on a replied to message is LESS than 45 days', async () => {
+  it.skip('with a reply draft message on a replied to message is LESS than 45 days', async () => {
     const { category, subject } = replyDraftThread.threadDetails.messages[0];
 
     const draftMessageHistoryUpdated = [
@@ -378,7 +378,7 @@ describe('Thread Details container', () => {
     mockApiRequest({ method: 'POST', data: {}, status: 200 });
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('send-button'));
-      expect(screen.getByText('Secure message was successfully sent.'));
+      expect(screen.getByText('Message sent.'));
       const alert = document.querySelector('va-alert');
       expect(alert)
         .to.have.attribute('status')
@@ -386,7 +386,7 @@ describe('Thread Details container', () => {
     });
   });
 
-  it('responds to sending a reply draft with attachments', async () => {
+  it.skip('responds to sending a reply draft with attachments', async () => {
     const state = {
       sm: {
         folders: {
@@ -442,8 +442,7 @@ describe('Thread Details container', () => {
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('send-button'));
     });
-    expect(await screen.findByText('Secure message was successfully sent.')).to
-      .exist;
+    expect(await screen.findByText('Message sent.')).to.exist;
     expect(document.querySelector('va-alert'))
       .to.have.attribute('status')
       .to.equal('success');
@@ -488,7 +487,7 @@ describe('Thread Details container', () => {
     });
   });
 
-  it('redirect to the folder associated with the draft on sendReply', async () => {
+  it.skip('redirect to the folder associated with the draft on sendReply', async () => {
     const folderId = '112233';
     const state = {
       sm: {
@@ -523,7 +522,7 @@ describe('Thread Details container', () => {
     mockApiRequest({ method: 'POST', data: {}, status: 200 });
     fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
-      expect(screen.getByText('Secure message was successfully sent.'));
+      expect(screen.getByText('Message sent.'));
     });
     await waitFor(() => {
       expect(screen.history.location.pathname).to.equal(

@@ -1,0 +1,405 @@
+{
+  "data": [
+    {
+      "id": "3885180",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3885180,
+        "category": "OTHER",
+        "subject": "test",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2024-08-29T16:21:13.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2343333,
+        "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3885180"
+      
+}
+    
+},
+    {
+      "id": "3623589",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3623589,
+        "category": "MEDICATIONS",
+        "subject": "hello",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2024-05-22T13:34:27.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2343333,
+        "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3623589"
+      
+}
+    
+},
+    {
+      "id": "3550443",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3550443,
+        "category": "OTHER",
+        "subject": "Draft",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2024-04-23T15:16:07.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 3550420,
+        "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3550443"
+      
+}
+    
+},
+    {
+      "id": "3549581",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3549581,
+        "category": "OTHER",
+        "subject": "DRAFT",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2024-04-23T13:10:15.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993579,
+        "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3549581"
+      
+}
+    
+},
+    {
+      "id": "3109074",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3109074,
+        "category": "OTHER",
+        "subject": "Test",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-11-03T17:05:05.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993382,
+        "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "readReceipt": null,
+        "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3109074"
+      
+}
+    
+},
+    {
+      "id": "3107712",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3107712,
+        "category": "OTHER",
+        "subject": "Test",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-11-02T23:14:14.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993382,
+        "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "readReceipt": null,
+        "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3107712"
+      
+}
+    
+},
+    {
+      "id": "3105880",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3105880,
+        "category": "OTHER",
+        "subject": "Test, please ignore",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-11-01T18:23:20.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2343333,
+        "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105880"
+      
+}
+    
+},
+    {
+      "id": "3105876",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3105876,
+        "category": "TEST_RESULTS",
+        "subject": "Test",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-11-01T18:20:34.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993382,
+        "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "readReceipt": null,
+        "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105876"
+      
+}
+    
+},
+    {
+      "id": "3105864",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3105864,
+        "category": "OTHER",
+        "subject": "Test",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-11-01T18:17:28.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 3004609,
+        "recipientName": "DETROIT: Pharmacy",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: Pharmacy",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3105864"
+      
+}
+    
+},
+    {
+      "id": "3090010",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3090010,
+        "category": "APPOINTMENTS",
+        "subject": "Reschedule Appointment",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-10-24T13:49:58.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993563,
+        "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3090010"
+      
+}
+    
+},
+    {
+      "id": "3064900",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3064900,
+        "category": "APPOINTMENTS",
+        "subject": "Appointment Request",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-10-12T13:09:49.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993563,
+        "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3064900"
+      
+}
+    
+},
+    {
+      "id": "3050986",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3050986,
+        "category": "OTHER",
+        "subject": "Test",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-10-04T18:03:13.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993571,
+        "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3050986"
+      
+}
+    
+},
+    {
+      "id": "3050231",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3050231,
+        "category": "OTHER",
+        "subject": "Annual Physical",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-10-04T16:30:56.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993579,
+        "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3050231"
+      
+}
+    
+},
+    {
+      "id": "3035127",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3035127,
+        "category": "MEDICATIONS",
+        "subject": "Refill Needed",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-09-25T21:42:28.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993571,
+        "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "readReceipt": null,
+        "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3035127"
+      
+}
+    
+},
+    {
+      "id": "3004574",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3004574,
+        "category": "APPOINTMENTS",
+        "subject": "Request Appt",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-09-07T14:10:13.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993382,
+        "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "readReceipt": null,
+        "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004574"
+      
+}
+    
+},
+    {
+      "id": "3004562",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3004562,
+        "category": "COVID",
+        "subject": "Booster shot",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-09-07T14:06:43.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientId": 2993382,
+        "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "readReceipt": null,
+        "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3004562"
+      
+}
+    
+}
+  
+]
+}

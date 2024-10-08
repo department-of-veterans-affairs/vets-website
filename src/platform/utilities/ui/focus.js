@@ -15,7 +15,7 @@ export const defaultFocusSelector =
  * @param {Element} root - root element for querySelector; would allow focusing
  *  on elements inside of shadow dom
  */
-export function focusElement(selectorOrElement, options, root) {
+export function focusElement(selectorOrElement, options = {}, root) {
   function applyFocus(el) {
     if (el) {
       // Use getAttribute to grab the "tabindex" attribute (returns string), not

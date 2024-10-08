@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -13,6 +14,7 @@ const SaveResultsModal = () => {
   const handleCopyClick = () => {
     navigator.clipboard.writeText(currentUrl);
     setShowAlert(true);
+    focusElement('#copy-alert');
   };
 
   return (
@@ -58,7 +60,7 @@ const SaveResultsModal = () => {
           full-width
           visible={showAlert}
         >
-          <p>URL has been copied to your clipboard.</p>
+          <p>Link copied</p>
         </va-alert>
       </VaModal>
     </div>

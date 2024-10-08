@@ -43,12 +43,10 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_1990: '22-1990',
   FORM_22_1990EMEB: '22-1990EMEB',
   FORM_22_1990EZ: '22-1990EZ',
-  FORM_22_1990N: '22-1990N',
   FORM_22_1995: '22-1995',
   FORM_22_1995S: '22-1995S',
   FORM_22_5490: '22-5490',
   FORM_22_5490E: '22-5490E',
-  FORM_22_5495: '22-5495',
   FORM_22_8794: '22-8794',
   FORM_26_1880: '26-1880',
   FORM_26_4555: '26-4555',
@@ -74,6 +72,8 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_VA_2346A: 'MDOT',
   FORM_XX_123: 'XX-123',
   FORM_MOCK_AE_DESIGN_PATTERNS: 'FORM-MOCK-AE-DESIGN-PATTERNS',
+  FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION:
+    'WELCOME_VA_SETUP_REVIEW_INFORMATION',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -141,10 +141,8 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_10203]: `${tryGetAppUrl('10203-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1990]: `${tryGetAppUrl('1990-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1990EZ]: `${tryGetAppUrl('1990ez-edu-benefits')}/`,
-    [VA_FORM_IDS.FORM_22_1990N]: `${tryGetAppUrl('1990n-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1995]: `${tryGetAppUrl('1995-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_5490]: `${tryGetAppUrl('5490-edu-benefits')}/`,
-    [VA_FORM_IDS.FORM_22_5495]: `${tryGetAppUrl('5495-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_26_1880]: `${tryGetAppUrl('coe')}/`,
     [VA_FORM_IDS.FORM_26_4555]: `${tryGetAppUrl('4555-adapted-housing')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900-chapter-31')}/`,
@@ -155,6 +153,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_40_10007]: `${tryGetAppUrl('pre-need')}/`,
     [VA_FORM_IDS.FORM_5655]: `${tryGetAppUrl('request-debt-help-form-5655')}/`,
     [VA_FORM_IDS.FORM_VA_2346A]: `${tryGetAppUrl('order-form-2346')}/`,
+    [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
+      'welcome-va-setup-review-information',
+    )}/`,
   };
 };
 
@@ -308,13 +309,6 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'edu-1990ez-',
   },
   {
-    id: VA_FORM_IDS.FORM_22_1990N,
-    benefit: 'education benefits',
-    title: 'education benefits (22-1990N)',
-    description: 'education benefits application (22-1990N)',
-    trackingPrefix: 'edu-1990n-',
-  },
-  {
     id: VA_FORM_IDS.FORM_22_1995,
     benefit: 'education benefits',
     title: 'education benefits (22-1995)',
@@ -327,13 +321,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'education benefits (22-5490)',
     description: 'education benefits application (22-5490)',
     trackingPrefix: 'edu-5490-',
-  },
-  {
-    id: VA_FORM_IDS.FORM_22_5495,
-    benefit: 'education benefits',
-    title: 'education benefits (22-5495)',
-    description: 'education benefits application (22-5495)',
-    trackingPrefix: 'edu-5495-',
   },
   {
     id: VA_FORM_IDS.FORM_22_10203,
@@ -471,6 +458,13 @@ export const MY_VA_SIP_FORMS = [
     title: `form upload flow`,
     description: '',
     trackingPrefix: '',
+  },
+  {
+    id: VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
+    benefit: 'welcome va setup review information form',
+    title: 'Welcome VA Setup Review Information Form',
+    description: 'welcome va setup review information form',
+    trackingPrefix: 'welcome-va-setup-review-information-',
   },
 ];
 

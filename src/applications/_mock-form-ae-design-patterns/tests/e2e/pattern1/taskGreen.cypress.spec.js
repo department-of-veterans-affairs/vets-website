@@ -5,9 +5,11 @@ import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-a
 describe('Prefill pattern - Green Task', () => {
   beforeEach(() => {
     cy.login(mockUsers.loa3User72);
-    cy.intercept('GET', '/v0/feature_toggles*', { loading: false }).as(
-      'mockFeatureToggles',
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [{ name: 'profile_use_experimental', value: true }],
+      },
+    }).as('mockFeatureToggles');
     cy.intercept('/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {
       statusCode: 200,
       body: mockPrefills.prefill,
@@ -112,7 +114,7 @@ describe('Prefill pattern - Green Task', () => {
 
     cy.findByText('Mitchell G Jenkins').should('exist');
 
-    cy.findByText('●●●–●●–3607').should('exist');
+    cy.findByText('●●●–●●–8321').should('exist');
 
     cy.findByText('March 04, 1949').should('exist');
 

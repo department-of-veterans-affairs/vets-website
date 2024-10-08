@@ -6,17 +6,47 @@ import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utiliti
 
 const COMBOBOX_LIST_MAX_HEIGHT = '440px';
 const defaultHighlightedIndex = -1;
-// helper function for results string. No `this.` so not in class.
-const getScreenReaderResults = (searchTerm, value, numResults) => {
+
+const getSelectionMessage = searchTerm => {
+  return searchTerm.trim() === '' ? '' : `${searchTerm} is selected.`;
+};
+
+const calculateResults = (searchTerm, value, numResults, selectionMade) => {
   let results = numResults;
-  const isFreeTextDrawn = searchTerm.length && searchTerm !== value;
-  if (isFreeTextDrawn) {
+  // Free text drawn
+  if (!selectionMade && searchTerm.length && searchTerm !== value) {
     results += 1;
   }
+  return results;
+};
+
+const formatResultsMessage = results => {
   if (results === 1) {
     return '1 result available.';
   }
   return `${results} results available.`;
+};
+
+// helper function for results string. No `this.` so not in class.
+const getScreenReaderResults = (
+  searchTerm,
+  value,
+  numResults,
+  selectionMade,
+) => {
+  if (searchTerm.trim() === '') {
+    return 'Input is empty. Please enter a condition.';
+  }
+  if (selectionMade) {
+    return getSelectionMessage(searchTerm);
+  }
+  const results = calculateResults(
+    searchTerm,
+    value,
+    numResults,
+    selectionMade,
+  );
+  return formatResultsMessage(results);
 };
 
 // This is a combobox component that is used in the revisedAddDisabilities page.
@@ -38,6 +68,7 @@ export class ComboBox extends React.Component {
       ariaLive1: '',
       ariaLive2: '',
       filteredOptions: [],
+      selectionMade: true,
     };
     this.inputRef = React.createRef();
     this.listRef = React.createRef();
@@ -60,10 +91,7 @@ export class ComboBox extends React.Component {
   handleClickOutsideList = e => {
     if (this.listRef.current && !this.listRef.current.contains(e.target)) {
       const { searchTerm } = this.state;
-      this.setState({
-        value: searchTerm,
-        filteredOptions: [],
-      });
+      this.setSelectedState(searchTerm);
       this.sendFocusToInput(this.inputRef);
     }
   };
@@ -76,6 +104,7 @@ export class ComboBox extends React.Component {
     this.setState({
       searchTerm: newTextValue,
       bump: !bump,
+      selectionMade: false,
     });
     this.props.onChange(newTextValue);
     // send focus back to input after selection in case user wants to append something else
@@ -87,12 +116,6 @@ export class ComboBox extends React.Component {
     this.setState({ highlightedIndex: optionIndex });
   }
 
-  sendFocusToInput = ref => {
-    const { shadowRoot } = ref.current;
-    const input = shadowRoot.querySelector('input');
-    input.focus();
-  };
-
   // Keyboard handling for combobox list options
   handleKeyPress = e => {
     const { highlightedIndex, searchTerm } = this.state;
@@ -103,12 +126,7 @@ export class ComboBox extends React.Component {
       // On Tab, user input should remain as-is, list should close, focus goes to save button.
       case 'Tab':
         if (list.children.length) {
-          this.setState({
-            value: searchTerm,
-            searchTerm,
-            filteredOptions: [],
-            highlightedIndex: defaultHighlightedIndex,
-          });
+          this.setSelectedState(searchTerm);
         }
         break;
       // Up and Down arrow keys should navigate to the respective next item in the list.
@@ -143,12 +161,7 @@ export class ComboBox extends React.Component {
         break;
       // On Escape, user input should remain as-is, list should collapse. Focus on text input.
       case 'Escape':
-        this.setState({
-          value: searchTerm,
-          searchTerm,
-          filteredOptions: [],
-          highlightedIndex: defaultHighlightedIndex,
-        });
+        this.setSelectedState(searchTerm);
         this.sendFocusToInput(this.inputRef);
         e.preventDefault();
         break;
@@ -166,23 +179,35 @@ export class ComboBox extends React.Component {
 
   // Filters list of conditions based on free-text input
   filterOptions = () => {
-    const { searchTerm, value, bump } = this.state;
+    const { searchTerm, value, bump, selectionMade } = this.state;
     const options = this.disabilitiesArr;
     let filtered = fullStringSimilaritySearch(searchTerm, options);
     if (searchTerm.length === 0) {
       filtered = [];
     }
-    if (searchTerm === value) {
+
+    if (selectionMade && searchTerm === value) {
       filtered = [];
     }
+
     let ariaLive1;
     let ariaLive2;
     if (bump) {
-      ariaLive1 = getScreenReaderResults(searchTerm, value, filtered.length);
+      ariaLive1 = getScreenReaderResults(
+        searchTerm,
+        value,
+        filtered.length,
+        selectionMade,
+      );
       ariaLive2 = '';
     } else {
       ariaLive1 = '';
-      ariaLive2 = getScreenReaderResults(searchTerm, value, filtered.length);
+      ariaLive2 = getScreenReaderResults(
+        searchTerm,
+        value,
+        filtered.length,
+        selectionMade,
+      );
     }
     this.setState({
       filteredOptions: filtered,
@@ -210,6 +235,25 @@ export class ComboBox extends React.Component {
     }
   };
 
+  setSelectedState(option) {
+    const itemSelectedMessage = getSelectionMessage(option);
+    this.setState({
+      value: option,
+      searchTerm: option,
+      filteredOptions: [],
+      highlightedIndex: defaultHighlightedIndex,
+      selectionMade: true,
+      ariaLive1: itemSelectedMessage,
+      ariaLive2: '',
+    });
+  }
+
+  sendFocusToInput = ref => {
+    const { shadowRoot } = ref.current;
+    const input = shadowRoot.querySelector('input');
+    input.focus();
+  };
+
   // Helpers for arrow key navigation
   decrementIndex = index => {
     if (index > 0) {
@@ -234,12 +278,7 @@ export class ComboBox extends React.Component {
 
   // Click handler for a list item
   selectOption(option) {
-    this.setState({
-      value: option,
-      searchTerm: option,
-      filteredOptions: [],
-      highlightedIndex: defaultHighlightedIndex,
-    });
+    this.setSelectedState(option);
     const { onChange } = this.props;
     onChange(option);
     // Send focus to input element for additional user input.
@@ -249,7 +288,7 @@ export class ComboBox extends React.Component {
   // Keyboard handler for a list item. Need to check index against list for selection via keyboard
   selectOptionWithKeyboard(e, index, list, searchTerm) {
     if (index > 0) {
-      this.selectOption(list.children[index].innerText);
+      this.selectOption(list.children[index].textContent);
     } else if (index === 0) {
       this.selectOption(searchTerm);
     }
@@ -267,9 +306,9 @@ export class ComboBox extends React.Component {
 
   // Creates the dynamic element for free text user entry.
   drawFreeTextOption(option) {
-    const { highlightedIndex, value } = this.state;
+    const { highlightedIndex, value, selectionMade } = this.state;
 
-    if (option === value || option.length < 1) {
+    if ((selectionMade && option === value) || option?.length < 1) {
       return null;
     }
 
@@ -303,7 +342,10 @@ export class ComboBox extends React.Component {
 
   render() {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
-    const autocompleteHelperText = `
+    const autocompleteHelperText =
+      searchTerm?.length > 0
+        ? null
+        : `
       When autocomplete results are available use up and down arrows to
       review and enter to select. Touch device users, explore by touch or
       with swipe gestures.
@@ -322,6 +364,7 @@ export class ComboBox extends React.Component {
           onKeyDown={this.handleKeyPress}
           ref={this.inputRef}
           message-aria-describedby={autocompleteHelperText}
+          data-testid="combobox-input"
         />
         <ul
           className={
@@ -332,6 +375,7 @@ export class ComboBox extends React.Component {
           style={{ maxHeight: COMBOBOX_LIST_MAX_HEIGHT }}
           role="listbox"
           ref={this.listRef}
+          aria-hidden={filteredOptions.length === 0}
           aria-label="List of matching conditions"
           id="combobox-list"
           aria-activedescendant={
@@ -395,11 +439,6 @@ export class ComboBox extends React.Component {
         >
           {ariaLive2}
         </div>
-        <span className="vads-u-visibility--screen-reader">
-          When autocomplete results are available use up and down arrows to
-          review and enter to select. Touch device users, explore by touch or
-          with swipe gestures.
-        </span>
       </div>
     );
   }

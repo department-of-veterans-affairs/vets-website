@@ -8,7 +8,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import { facilityTypes } from '../config';
 import {
-  MARKER_LETTERS,
   CLINIC_URGENTCARE_SERVICE,
   PHARMACY_RETAIL_SERVICE,
   LocationType,
@@ -42,18 +41,17 @@ export const ResultsList = ({
 }) => {
   const [resultsData, setResultsData] = useState(null);
   const searchResultTitle = useRef();
-  const markers = MARKER_LETTERS.values();
   const currentPage = pagination ? pagination.currentPage : 1;
 
   useEffect(
     () => {
       setResultsData(
-        results.map(result => ({
+        results.map((result, index) => ({
           ...result,
           resultItem: true,
           searchString,
           currentPage,
-          markerText: markers.next().value,
+          markerText: index + 1,
         })),
       );
     },

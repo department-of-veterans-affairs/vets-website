@@ -27,7 +27,6 @@ describe('SM Contact list', () => {
 
   it('verify base web-elements - single facility', () => {
     SecureMessagingSite.login(updatedFeatureToggle);
-    PatientInboxPage.loadInboxMessages();
     ContactListPage.loadContactList();
 
     ContactListPage.verifyHeaders();
@@ -48,7 +47,6 @@ describe('SM Contact list', () => {
       mockMixedCernerFacilitiesUser,
       mockFacilities,
     );
-    PatientInboxPage.loadInboxMessages();
     ContactListPage.loadContactList(mockMixRecipients);
 
     ContactListPage.verifyHeaders();

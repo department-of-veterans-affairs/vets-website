@@ -34,7 +34,8 @@
 h2#pagination-info {
   font-size: 1.06rem;
   font-weight: normal;
-  font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
   line-height: 1.5;
 }
 
@@ -50,5 +51,42 @@ h2#pagination-info {
 
 .claims-controller-title {
   font-size: 4rem;
+  font-weight: 700;
+}
+
+.claim-details-breadcrumb-wrapper {
+  display: flex;
+  align-items: center;
+
+  .back-arrow {
+    color: var(--vads-color-gray-medium);
+    padding-right: 2px;
+  }
+
+  //  Matches the padding on the usa-breadcrumbs, ensures
+  //  visual consistency between claims details and other pages
+  .go-back-link,
+  .back-arrow {
+    padding-top: 20px;
+    padding-bottom: 32px;
+  }
+
+  @media (min-width: 768px) {
+    .go-back-link,
+    .back-arrow {
+      padding-bottom: 48px;
+    }
+  }
+}
+
+.claim-details-claim-number {
+  // Matches styles for <h2>
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+.claim-details-h3 {
+  // Styling <h3>s to match <h2>s
+  font-size: 1.25rem;
   font-weight: 700;
 }

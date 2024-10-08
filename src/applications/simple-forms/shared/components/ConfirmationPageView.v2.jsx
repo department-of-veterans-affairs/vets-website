@@ -42,7 +42,13 @@ const PdfDownloadLink = ({ url, trackingPrefix }) => {
 
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
-  const { confirmationNumber, submitDate, formConfig, pdfUrl } = props;
+  const {
+    confirmationNumber,
+    formConfig,
+    pagesFromState,
+    pdfUrl,
+    submitDate,
+  } = props;
 
   useEffect(
     () => {
@@ -98,7 +104,12 @@ export const ConfirmationPageView = props => {
           width="300"
         />
       </div>
-      <VaAlert uswds status="success" ref={alertRef}>
+      <VaAlert
+        uswds
+        status="success"
+        ref={alertRef}
+        className="vads-u-margin-bottom--4"
+      >
         <h2 slot="headline">
           Form submission started on{' '}
           {isValid(submitDate) && format(submitDate, 'MMMM d, yyyy')}
@@ -121,6 +132,7 @@ export const ConfirmationPageView = props => {
           chapters={chapters}
           formData={formData}
           formConfig={formConfig}
+          pagesFromState={pagesFromState}
         />
       </div>
       <div className="screen-only">
@@ -136,7 +148,12 @@ export const ConfirmationPageView = props => {
             />
           </>
         )}
-        <VaAccordion bordered open-single uswds>
+        <VaAccordion
+          bordered
+          open-single
+          uswds
+          className="vads-u-margin-top--2"
+        >
           <VaAccordionItem
             header="Information you submitted on this form"
             id="info"
@@ -147,14 +164,13 @@ export const ConfirmationPageView = props => {
               chapters={chapters}
               formData={formData}
               formConfig={formConfig}
+              pagesFromState={pagesFromState}
             />
           </VaAccordionItem>
         </VaAccordion>
       </div>
       <div className="screen-only">
-        <h2 className="vads-u-font-size--h4 vads-u-margin-top--6">
-          Print this confirmation page
-        </h2>
+        <h2 className="vads-u-font-size--h4">Print this confirmation page</h2>
         <p>
           If you’d like to keep a copy of the information on this page, you can
           print it now.
@@ -165,10 +181,10 @@ export const ConfirmationPageView = props => {
         />
       </div>
       <div>
-        <h2>What to expect next</h2>
+        <h2>What to expect</h2>
         <VaProcessList>
           <VaProcessListItem
-            header="We’ll confirm that we’ve received your form"
+            header="Now, we’ll confirm that we’ve received your form"
             active
           >
             <p>
@@ -181,7 +197,7 @@ export const ConfirmationPageView = props => {
               </a>
             </p>
           </VaProcessListItem>
-          <VaProcessListItem header="We’ll review your form">
+          <VaProcessListItem pending header="Next, we’ll review your form">
             <p>
               If we need more information after reviewing your form, we’ll
               contact you.
@@ -225,6 +241,7 @@ export const ConfirmationPageView = props => {
 ConfirmationPageView.propTypes = {
   confirmationNumber: PropTypes.string.isRequired,
   formConfig: PropTypes.object.isRequired,
+  pagesFromState: PropTypes.object.isRequired,
   submitDate: PropTypes.object.isRequired,
   pdfUrl: PropTypes.string,
 };

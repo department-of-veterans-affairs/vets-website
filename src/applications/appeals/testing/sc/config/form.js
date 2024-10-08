@@ -86,7 +86,8 @@ import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
 import maximalData from '../tests/fixtures/data/prototype-test.json';
 
 import submissionError from '../../../shared/content/submissionError';
-import NeedHelp from '../../../shared/content/NeedHelp';
+
+import GetFormHelp from '../../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import {
   focusAlertH3,
@@ -140,6 +141,7 @@ const formConfig = {
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
   scrollAndFocusTarget: focusH3,
+  reviewEditFocusOnHeaders: true,
 
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
@@ -212,6 +214,9 @@ const formConfig = {
           uiSchema: otherHousingRisk.uiSchema,
           schema: otherHousingRisk.schema,
           depends: hasOtherHousingRisk,
+          initialData: {
+            'view:otherHousingRisk': {},
+          },
         },
         contact: {
           title: 'Your point of contact',
@@ -375,7 +380,7 @@ const formConfig = {
     },
   },
   footerContent: FormFooter,
-  getHelp: NeedHelp,
+  getHelp: GetFormHelp,
 };
 
 export default formConfig;
