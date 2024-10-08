@@ -62,7 +62,11 @@ export const PrimaryPhone = ({
   };
 
   const navButtons = onReviewPage ? (
-    <va-button text={content.update} onClick={updatePage} uswds />
+    <va-button
+      text={content.update}
+      onClick={updatePage}
+      label="update primary phone number"
+    />
   ) : (
     <>
       {contentBeforeButtons}

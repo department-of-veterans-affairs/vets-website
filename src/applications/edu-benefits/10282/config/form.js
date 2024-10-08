@@ -23,9 +23,9 @@ import StatementOfTruth from '../components/StatementOfTruth';
 import { transform } from './submit-transformer';
 import FormHelp from '../components/FormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
+import CustomPageReview from '../components/CustomPageReview';
 
 const { fullName, email, usaPhone } = commonDefinitions;
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -60,7 +60,7 @@ const formConfig = {
       'Please sign in again to continue your application for 	education benefits.',
   },
 
-  title: 'Apply for the IBM SkillsBuild Program',
+  title: 'Apply for the IBM SkillsBuild program',
   subTitle:
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
   footerContent: FormFooter,
@@ -75,27 +75,51 @@ const formConfig = {
     personalInformation: {
       title: 'Your personal information',
       pages: {
-        applicantName: applicantInformationName.applicantInformationField(),
+        applicantName: {
+          title: 'Your personal information',
+          path: 'applicant/information',
+          ...applicantInformationName.applicantInformationField(),
+        },
         veteranDesc: {
           title: 'Your personal information',
           path: 'applicant-information-1',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your relationship to Veteran"
+              question="Which one best describes you?"
+              dataValue="veteranDesc"
+              className="vads-u-margin-top--neg4"
+            />
+          ),
           uiSchema: veteranDesc.uiSchema,
           schema: veteranDesc.schema,
         },
         contactInfo: {
-          title: 'Your personal information',
+          title: 'Your contact information',
           path: 'applicant-information-2',
           uiSchema: applicantContactInfo.uiSchema,
           schema: applicantContactInfo.schema,
         },
         applicantCountry: {
-          title: 'Your personal information',
+          title: 'Your country of residence',
           path: 'applicant-information-3',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your country of residence"
+              question="Country"
+              dataValue="country"
+              className="vads-u-margin-top--neg4"
+            />
+          ),
           uiSchema: applicantInformationCountry.uiSchema,
           schema: applicantInformationCountry.schema,
         },
         applicantState: {
-          title: 'Your personal information',
+          title: 'Your state of residence',
           path: 'applicant-information-4',
           uiSchema: applicantState.uiSchema,
           schema: applicantState.schema,
@@ -104,21 +128,51 @@ const formConfig = {
           },
         },
         genderRaceQuestion: {
-          title: 'Your personal information',
+          title: 'Optional demographic information',
           path: 'applicant-information-5',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Optional demographic questions"
+              question="Do you want to answer these optional questions?"
+              dataValue="raceAndGender"
+            />
+          ),
           uiSchema: genderRaceQuestion.uiSchema,
           schema: genderRaceQuestion.schema,
         },
         applicantRaceAndEthnicity: {
           title: 'Your personal information',
           path: 'applicant-information-6',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your ethnicity and race"
+              question="What is your ethnicity?"
+              dataValue="ethnicity"
+              moreRow
+              questionTwo="What is your race?"
+              dataValue2="orginRace"
+            />
+          ),
           uiSchema: applicantRaceAndEthnicity.uiSchema,
           schema: applicantRaceAndEthnicity.schema,
           depends: formData => formData.raceAndGender === 'Yes',
         },
         applicantGender: {
-          title: 'Your personal information',
+          title: 'Your gender identity',
           path: 'applicant-information-7',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your gender identity"
+              question="How would you describe your gender?"
+              dataValue="gender"
+            />
+          ),
           uiSchema: applicantGender.uiSchema,
           schema: applicantGender.schema,
           depends: formData => formData.raceAndGender === 'Yes',
@@ -126,17 +180,35 @@ const formConfig = {
       },
     },
     educationAndEmploymentHistory: {
-      title: ' Your education and employment history',
+      title: 'Your education and employment history',
       pages: {
         highestLevelOfEducation: {
-          title: 'Your education and employment history',
+          title: 'Your education',
           path: 'education-employment-history-1',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your education"
+              question="What’s the highest level of education you have completed?"
+              dataValue="highestLevelOfEducation.level"
+            />
+          ),
           uiSchema: highestLevelOfEducation.uiSchema,
           schema: highestLevelOfEducation.schema,
         },
         currentlyEmployed: {
           title: 'Your education and employment history',
           path: 'education-employment-history-2',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your current employment"
+              question="Are you currently employed?"
+              dataValue="currentlyEmployed"
+            />
+          ),
           uiSchema: {
             currentlyEmployed: {
               'ui:title': (
@@ -157,14 +229,32 @@ const formConfig = {
           },
         },
         currentAnnualSalary: {
-          title: 'Your education and employment history',
+          title: 'Your current annual salary',
           path: 'education-employment-history-3',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your current annual salary"
+              question="What’s your current annual salary?"
+              dataValue="currentAnnualSalary"
+            />
+          ),
           uiSchema: currentAnnualSalary.uiSchema,
           schema: currentAnnualSalary.schema,
         },
         isWorkingInTechIndustry: {
-          title: 'Your education and employment history',
+          title: 'Your technology industry involvement',
           path: 'education-employment-history-4',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Your technology industry involvement"
+              question="Do you currently work in the technology industry?"
+              dataValue="isWorkingInTechIndustry"
+            />
+          ),
           uiSchema: {
             isWorkingInTechIndustry: {
               'ui:title': (
@@ -185,8 +275,20 @@ const formConfig = {
           },
         },
         techIndustryFocusArea: {
-          title: 'Your education and employment history',
+          title: 'Your main area of focus',
           path: 'education-employment-history-5',
+          CustomPageReview: props => {
+            const { data, editPage } = props;
+            return (
+              <CustomPageReview
+                data={data}
+                editPage={editPage}
+                title="Your main area of focus"
+                question="What’s your main area of focus in the technology industry?"
+                dataValue="techIndustryFocusArea"
+              />
+            );
+          },
           uiSchema: techIndustryFocusArea.uiSchema,
           schema: techIndustryFocusArea.schema,
         },
@@ -194,4 +296,5 @@ const formConfig = {
     },
   },
 };
+
 export default formConfig;

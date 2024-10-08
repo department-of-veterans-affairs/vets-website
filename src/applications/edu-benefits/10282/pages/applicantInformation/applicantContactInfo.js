@@ -18,6 +18,10 @@ export const uiSchema = {
       'ui:title': 'Email address',
       'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
+        format:
+          'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
+        pattern:
+          'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
         required: 'Please enter an email address',
       },
     },

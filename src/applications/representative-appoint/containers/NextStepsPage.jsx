@@ -2,74 +2,18 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { getFormSubtitle } from '../utilities/helpers';
 import AddressBlock from '../components/AddressBlock';
 import ContactCard from '../components/ContactCard';
 import NeedHelp from '../components/NeedHelp';
+import {
+  getFormSubtitle,
+  getOrgName,
+  getRepType,
+  getEntityAddressAsObject,
+} from '../utilities/helpers';
 
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
-  const repType =
-    formData['view:selectedRepresentative'].attributes?.individualType;
-  const address = {
-    addressLine1: (
-      formData['view:selectedRepresentative']?.addressLine1 || ''
-    ).trim(),
-    addressLine2: (
-      formData['view:selectedRepresentative']?.addressLine2 || ''
-    ).trim(),
-    addressLine3: (
-      formData['view:selectedRepresentative']?.addressLine3 || ''
-    ).trim(),
-    city: (formData['view:selectedRepresentative']?.city || '').trim(),
-    stateCode: (
-      formData['view:selectedRepresentative']?.stateCode || ''
-    ).trim(),
-    zipCode: (formData['view:selectedRepresentative']?.zipCode || '').trim(),
-  };
-  const isOrg =
-    formData['view:selectedRepresentative']?.type === 'organization';
-  const isAttorneyOrClaimsAgent =
-    repType === 'attorney' || repType === 'claimsAgent';
-
-  const getRepType = () => {
-    if (repType === 'attorney') {
-      return 'attorney';
-    }
-
-    if (repType === 'claimsAgent') {
-      return 'claims agent';
-    }
-
-    return 'VSO representative';
-  };
-
-  const getOrgName = () => {
-    if (isOrg) {
-      return formData['view:selectedRepresentative'].name;
-    }
-
-    if (isAttorneyOrClaimsAgent) {
-      return null;
-    }
-
-    const id = formData?.selectedAccreditedOrganizationId;
-    const orgs =
-      formData['view:selectedRepresentative']?.attributes
-        .accreditedOrganizations.data;
-    let orgName;
-
-    if (id && orgs) {
-      for (let i = 0; i < orgs.length; i += 1) {
-        if (orgs[i].id === id) {
-          orgName = orgs[i].attributes.name;
-          break;
-        }
-      }
-    }
-
-    return orgName;
-  };
 
   return (
     <div className="row">
@@ -80,13 +24,14 @@ export default function NextStepsPage() {
         />
         <h2 className="vads-u-font-size--h3">Your next steps</h2>
         <p>
-          Both you and the accredited {getRepType()} will need to sign your
-          form. You can bring your form to them in person or mail it to them.
+          Both you and the accredited {getRepType(formData)} will need to sign
+          your form. You can bring your form to them in person or mail it to
+          them.
         </p>
         <AddressBlock
           repName={formData['view:selectedRepresentative']?.fullName}
-          orgName={getOrgName()}
-          address={address}
+          orgName={getOrgName(formData)}
+          address={getEntityAddressAsObject(formData)}
         />
         <p>
           After your form is signed, you or the accredited {getRepType()} can
@@ -102,8 +47,8 @@ export default function NextStepsPage() {
         </p>
         <ContactCard
           repName={formData['view:selectedRepresentative']?.fullName}
-          orgName={getOrgName()}
-          address={address}
+          orgName={getOrgName(formData)}
+          address={getEntityAddressAsObject(formData)}
           phone={formData['view:selectedRepresentative']?.phone}
           email={formData['view:selectedRepresentative']?.email}
         />

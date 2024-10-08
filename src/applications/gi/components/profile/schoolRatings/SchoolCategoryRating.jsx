@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import RatingsAccordion from './RatingsAccordion';
 
 const SchoolCategoryRating = ({ titleObj, questionsObj }) => {
@@ -30,6 +31,13 @@ const SchoolCategoryRating = ({ titleObj, questionsObj }) => {
       </div>
     </div>
   );
+};
+
+SchoolCategoryRating.propTypes = {
+  questionsObj: PropTypes.object.isRequired,
+  titleObj: PropTypes.shape({
+    heading: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default SchoolCategoryRating;

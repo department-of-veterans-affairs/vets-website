@@ -101,7 +101,7 @@ describe('Landing dashboard', () => {
   it('displays a MHV URL Link', () => {
     const screen = setup();
     const link = screen.getByText(
-      `Go back to the previous version of secure messaging (opens in new tab)`,
+      `Go back to the previous version of secure messaging`,
       {
         selector: 'a',
       },
@@ -110,7 +110,6 @@ describe('Landing dashboard', () => {
       'href',
       mhvUrl(isAuthenticatedWithSSOe(initialState), 'secure-messaging'),
     );
-    expect(link).to.have.attribute('target', '_blank');
   });
 
   it('displays a FAQ component', () => {

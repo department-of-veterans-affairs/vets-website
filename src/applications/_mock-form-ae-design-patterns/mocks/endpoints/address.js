@@ -86,7 +86,7 @@ const mailingAddressUpdateReceivedPrefillTaskGreen = {
     id: '',
     type: 'async_transaction_va_profile_address_transactions',
     attributes: {
-      transactionId: 'mock-update-mailing-address-transaction-id',
+      transactionId: 'mock-update-mailing-address-success-transaction-id',
       transactionStatus: 'RECEIVED',
       type: 'AsyncTransaction::VAProfile::AddressTransaction',
       metadata: [],
