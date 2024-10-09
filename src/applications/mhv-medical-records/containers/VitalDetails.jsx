@@ -29,6 +29,7 @@ import {
   macroCase,
   makePdf,
   generateTextFile,
+  getLastUpdatedText,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -193,9 +194,18 @@ const VitalDetails = props => {
     [vitalType, vitalsList, dispatch],
   );
 
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.VPR,
+  );
+
   const generateVitalsPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVitalsIntro(records);
+
+    const { title, subject, preface } = generateVitalsIntro(
+      records,
+      lastUpdatedText,
+    );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVitalsContent(records) };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
@@ -240,6 +250,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
           {vitalDisplayName}
         </h1>
+
         <NewRecordsIndicator
           refreshState={refresh}
           extractType={refreshExtractTypes.VPR}
@@ -252,6 +263,7 @@ Provider notes: ${vital.notes}\n\n`,
             dispatch(reloadRecords());
           }}
         />
+
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
           downloadPdf={generateVitalsPdf}

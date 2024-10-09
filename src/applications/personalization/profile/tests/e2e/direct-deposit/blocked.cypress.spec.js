@@ -16,9 +16,7 @@ describe('Direct Deposit Consistently', () => {
 
     cy.login(loa3User72);
     directDeposit.setup({
-      featureToggles: generateFeatureToggles({
-        profileShowDirectDepositSingleForm: true,
-      }),
+      featureToggles: generateFeatureToggles(),
     });
   });
 

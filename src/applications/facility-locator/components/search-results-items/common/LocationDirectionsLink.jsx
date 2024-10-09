@@ -14,7 +14,7 @@ function LocationDirectionsLink({ location, from }) {
   }
 
   return (
-    <div className="vads-u-margin-bottom--1p5">
+    <p>
       {from === 'FacilityDetail' && <va-icon icon="directions" size="3" />}
       <va-link
         href={`https://maps.google.com?saddr=${
@@ -23,7 +23,7 @@ function LocationDirectionsLink({ location, from }) {
         text="Get directions on Google Maps"
         label={`Get directions on Google Maps to ${location.attributes.name}`}
       />
-    </div>
+    </p>
   );
 }
 

@@ -5,14 +5,15 @@ import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { pdfTransform } from '../utilities/pdfTransform';
+import { generatePDF } from '../api/generatePDF';
 
 import {
   authorizeMedical,
-  authorizeMedicalSelect,
+  // authorizeMedicalSelect,
   authorizeAddress,
   authorizeInsideVA,
   authorizeOutsideVA,
-  formToggle,
   authorizeOutsideVANames,
   claimantRelationship,
   claimantPersonalInformation,
@@ -26,6 +27,9 @@ import {
   veteranIdentification,
   veteranServiceInformation,
   selectAccreditedRepresentative,
+  replaceAccreditedRepresentative,
+  selectedAccreditedOrganizationId,
+  contactAccreditedRepresentative,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
@@ -50,7 +54,11 @@ const formConfig = {
     appType: 'form',
     submitButtonText: 'Continue',
   },
-  submit: (form, _formConfig) => Promise.resolve(form), // This function will have to be updated when we're ready to call the create PDF endpoint
+  submit: async form => {
+    const transformedFormData = pdfTransform(form.data);
+    const pdfResponse = await generatePDF(transformedFormData);
+    localStorage.setItem('formPdf', pdfResponse);
+  },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -83,7 +91,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for VA accredited representative appointment.',
   },
-  title: 'Fill out your form to appoint a VA accredited representative or VSO',
+  title: 'Request help from a VA accredited representative or VSO',
   subTitle: formConfigFromService.subTitle || 'VA Forms 21-22 and 21-22a',
   defaultDefinitions: {
     fullName,
@@ -93,17 +101,6 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    formToggle: {
-      title: ' ',
-      pages: {
-        repType: {
-          path: 'rep-type',
-          title: ' ',
-          uiSchema: formToggle.uiSchema,
-          schema: formToggle.schema,
-        },
-      },
-    },
     accreditedRepresentativeInformation: {
       title: 'Accredited representative information',
       pages: {
@@ -113,9 +110,43 @@ const formConfig = {
           uiSchema: selectAccreditedRepresentative.uiSchema,
           schema: selectAccreditedRepresentative.schema,
         },
+        contactAccreditedRepresentative: {
+          title: 'Representative Contact',
+          path: 'representative-contact',
+          uiSchema: contactAccreditedRepresentative.uiSchema,
+          schema: contactAccreditedRepresentative.schema,
+        },
+        selectAccreditedOrganization: {
+          path: 'representative-organization',
+          title: 'Organization Select',
+          depends: formData =>
+            !!formData['view:selectedRepresentative'] &&
+            formData['view:selectedRepresentative'].attributes
+              ?.individualType === 'representative' &&
+            formData['view:selectedRepresentative'].attributes
+              ?.accreditedOrganizations?.data?.length > 1,
+          uiSchema: selectedAccreditedOrganizationId.uiSchema,
+          schema: {
+            type: 'object',
+            properties: {
+              selectedAccreditedOrganizationId: {
+                type: 'string',
+              },
+            },
+          },
+        },
+        replaceAccreditedRepresentative: {
+          title: 'Representative Replace',
+          path: 'representative-replace',
+          depends: formData =>
+            !!formData['view:representativeStatus']?.id &&
+            !!formData['view:selectedRepresentative'],
+          uiSchema: replaceAccreditedRepresentative.uiSchema,
+          schema: replaceAccreditedRepresentative.schema,
+        },
       },
     },
-    claimant: {
+    claimantInfo: {
       title: 'Your information',
       pages: {
         claimantRelationship: {
@@ -164,7 +195,7 @@ const formConfig = {
           ],
           included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
           depends: formData => {
-            const { 'view:isLoggedIn': isLoggedIn } = formData;
+            const isLoggedIn = formData?.['view:isLoggedIn'] ?? false;
             const isNotVeteran = !preparerIsVeteran({ formData });
             return isLoggedIn && isNotVeteran;
           },
@@ -177,12 +208,6 @@ const formConfig = {
           schema: claimantContactMailing.schema,
           editModeOnReviewPage: true,
         },
-      },
-    },
-    veteranInfoForVeterans: {
-      title: 'Your Information',
-      depends: formData => preparerIsVeteran({ formData }),
-      pages: {
         veteranPersonalInformation: {
           title: `Your name and date of birth`,
           path: 'veteran-personal-information',
@@ -193,7 +218,7 @@ const formConfig = {
         },
         veteranContactMailing: {
           path: 'veteran-contact-mailing',
-          title: `Your  mailing address`,
+          title: `Your mailing address`,
           depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranContactMailing.uiSchema,
           schema: veteranContactMailing.schema,
@@ -225,8 +250,8 @@ const formConfig = {
         },
       },
     },
-    veteranInfoForNonVeterans: {
-      title: 'Veteran Information',
+    veteranInfo: {
+      title: 'Veteran information',
       depends: formData => !preparerIsVeteran({ formData }),
       pages: {
         veteranPersonalInformation: {
@@ -238,8 +263,8 @@ const formConfig = {
           editModeOnReviewPage: true,
         },
         veteranContactMailingClaimant: {
-          path: 'veteran-contact-mailing',
-          title: `Veteran's  mailing address`,
+          path: 'veteran-contact-mailing-address',
+          title: `The Veteran's mailing address`,
           depends: formData => !preparerIsVeteran({ formData }),
           uiSchema: veteranContactMailingClaimant.uiSchema,
           schema: veteranContactMailingClaimant.schema,
@@ -280,18 +305,18 @@ const formConfig = {
           uiSchema: authorizeMedical.uiSchema,
           schema: authorizeMedical.schema,
         },
-        authorizeMedicalSelect: {
-          path: 'authorize-medical/select',
-          depends: formData => {
-            return (
-              formData?.authorizationRadio ===
-              'Yes, but they can only access some of these types of records'
-            );
-          },
-          title: 'Authorization for Certain Medical Records - Select',
-          uiSchema: authorizeMedicalSelect.uiSchema,
-          schema: authorizeMedicalSelect.schema,
-        },
+        // authorizeMedicalSelect: {
+        //   path: 'authorize-medical/select',
+        //   depends: formData => {
+        //     return (
+        //       formData?.authorizationRadio ===
+        //       'Yes, but they can only access some of these types of records'
+        //     );
+        //   },
+        //   title: 'Authorization for Certain Medical Records - Select',
+        //   uiSchema: authorizeMedicalSelect.uiSchema,
+        //   schema: authorizeMedicalSelect.schema,
+        // },
         authorizeAddress: {
           path: 'authorize-address',
           title: 'Authorization to change your address',

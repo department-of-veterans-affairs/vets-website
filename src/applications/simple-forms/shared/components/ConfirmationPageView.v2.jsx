@@ -104,7 +104,12 @@ export const ConfirmationPageView = props => {
           width="300"
         />
       </div>
-      <VaAlert uswds status="success" ref={alertRef}>
+      <VaAlert
+        uswds
+        status="success"
+        ref={alertRef}
+        className="vads-u-margin-bottom--4"
+      >
         <h2 slot="headline">
           Form submission started on{' '}
           {isValid(submitDate) && format(submitDate, 'MMMM d, yyyy')}
@@ -143,7 +148,12 @@ export const ConfirmationPageView = props => {
             />
           </>
         )}
-        <VaAccordion bordered open-single uswds>
+        <VaAccordion
+          bordered
+          open-single
+          uswds
+          className="vads-u-margin-top--2"
+        >
           <VaAccordionItem
             header="Information you submitted on this form"
             id="info"
@@ -160,9 +170,7 @@ export const ConfirmationPageView = props => {
         </VaAccordion>
       </div>
       <div className="screen-only">
-        <h2 className="vads-u-font-size--h4 vads-u-margin-top--6">
-          Print this confirmation page
-        </h2>
+        <h2 className="vads-u-font-size--h4">Print this confirmation page</h2>
         <p>
           If you’d like to keep a copy of the information on this page, you can
           print it now.
@@ -173,10 +181,10 @@ export const ConfirmationPageView = props => {
         />
       </div>
       <div>
-        <h2>What to expect next</h2>
+        <h2>What to expect</h2>
         <VaProcessList>
           <VaProcessListItem
-            header="We’ll confirm that we’ve received your form"
+            header="Now, we’ll confirm that we’ve received your form"
             active
           >
             <p>
@@ -189,7 +197,7 @@ export const ConfirmationPageView = props => {
               </a>
             </p>
           </VaProcessListItem>
-          <VaProcessListItem header="We’ll review your form">
+          <VaProcessListItem pending header="Next, we’ll review your form">
             <p>
               If we need more information after reviewing your form, we’ll
               contact you.
@@ -202,9 +210,9 @@ export const ConfirmationPageView = props => {
           How to contact us if you have questions
         </h2>
         <p>
-          Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-          <va-telephone contact={CONTACTS[711]} />) We’re here Monday through
-          Friday, 8:00 a.m. to 8:00 p.m. ET.
+          Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+          <va-telephone tty="true" contact={CONTACTS[711]} />) We’re here Monday
+          through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
         <p>
           Or you can ask us a question online through Ask VA. Select the
@@ -213,14 +221,12 @@ export const ConfirmationPageView = props => {
         <p className="vads-u-margin-bottom--4">
           <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
         </p>
-        <p className="screen-only">
-          <a
-            className="vads-c-action-link--green vads-u-margin-bottom--4"
-            href="/"
-          >
-            Go back to VA.gov homepage
-          </a>
-        </p>
+
+        <va-link-action
+          href="/"
+          text="Go back to VA.gov homepage"
+          type="secondary"
+        />
       </div>
       <div className="help-footer-box">
         <h2 className="help-heading">Need help?</h2>

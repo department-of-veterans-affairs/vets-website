@@ -8,6 +8,7 @@ import validateConfig from './validate-config';
 
 import FormPage from './containers/FormPage';
 import ReviewPage from './review/ReviewPage';
+import ConfirmationPage from './containers/ConfirmationPage';
 /*
  * Returns the page list without conditional pages that have not satisfied
  * their dependencies and therefore should be skipped.
@@ -100,7 +101,7 @@ export function createRoutes(formConfig) {
     {
       path: 'confirmation',
       formConfig,
-      component: formConfig.confirmation,
+      component: ConfirmationPage,
       pageList,
     },
     {

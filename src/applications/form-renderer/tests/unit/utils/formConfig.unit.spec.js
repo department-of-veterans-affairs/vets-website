@@ -1,15 +1,45 @@
 /* eslint-disable prefer-destructuring */
 
+import React from 'react';
+import PropTypes from 'prop-types';
 import { expect } from 'chai';
-import { normalizedForm } from '../../../_config/formConfig';
+import sinon from 'sinon';
+import * as IntroductionPage from 'applications/form-renderer/containers/IntroductionPage';
+import { render } from '@testing-library/react';
+import {
+  employmentQuestionnaire,
+  normalizedForm,
+} from '../../../_config/formConfig';
 import { createFormConfig } from '../../../utils/formConfig';
 import manifest from '../../../manifest.json';
 
 describe('createFormConfig', () => {
   let formConfig;
+  let stub;
 
   beforeEach(() => {
+    const FakeComponent = ({ ombInfo }) => (
+      <div>
+        <p data-testid="exp-date">expDate: {ombInfo.expDate}</p>
+        <p data-testid="omb-number">ombNumber: {ombInfo.ombNumber}</p>
+        <p data-testid="res-burden">resBurden: {ombInfo.resBurden}</p>
+      </div>
+    );
+
+    FakeComponent.propTypes = {
+      ombInfo: PropTypes.shape({
+        expDate: PropTypes.string,
+        ombNumber: PropTypes.number,
+        resBurden: PropTypes.string,
+      }),
+    };
+    stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
+
     formConfig = createFormConfig(normalizedForm);
+  });
+
+  afterEach(() => {
+    stub.restore();
   });
 
   it('returns a properly formatted Form Config object', () => {
@@ -19,7 +49,9 @@ describe('createFormConfig', () => {
     expect(formConfig.title).to.eq('Form with Two Steps');
     expect(formConfig.formId).to.eq('2121212');
     expect(formConfig.subTitle).to.eq('VA Form 2121212');
-    expect(Object.keys(formConfig.chapters).length).to.eq(2);
+    expect(Object.keys(formConfig.chapters).length).to.eq(
+      normalizedForm.chapters.length,
+    );
   });
 
   it('properly formats each chapter', () => {
@@ -32,6 +64,20 @@ describe('createFormConfig', () => {
     expect(page.title).to.eq('Name and Date of Birth');
     expect(page.schema).not.to.eq(undefined);
     expect(page.uiSchema['ui:title']).not.to.eq(undefined);
+  });
+
+  it('sends ombInfo to the Introduction Page', () => {
+    const screen = render(formConfig.introduction());
+
+    expect(screen.getByTestId('exp-date')).to.have.text(
+      `expDate: ${normalizedForm.ombInfo.expDate}`,
+    );
+    expect(screen.getByTestId('omb-number')).to.have.text(
+      `ombNumber: ${normalizedForm.ombInfo.ombNumber}`,
+    );
+    expect(screen.getByTestId('res-burden')).to.have.text(
+      `resBurden: ${normalizedForm.ombInfo.resBurden}`,
+    );
   });
 
   context('with Name and Date of Birth pattern', () => {
@@ -59,6 +105,43 @@ describe('createFormConfig', () => {
       it('does not contain dateOfBirth', () => {
         expect(nameOnly.schema.properties.dateOfBirth).to.eq(undefined);
         expect(nameOnly.uiSchema.dateOfBirth).to.eq(undefined);
+      });
+    });
+  });
+
+  context('with Identification Information pattern', () => {
+    let serviceNumberIncluded;
+    let vetIdOnly;
+
+    beforeEach(() => {
+      serviceNumberIncluded = createFormConfig(employmentQuestionnaire)
+        .chapters[20002].pages[20002];
+
+      vetIdOnly = formConfig.chapters[160592].pages[160592];
+    });
+
+    it('contains veteranId', () => {
+      expect(serviceNumberIncluded.schema.properties.veteranId).to.not.eq(
+        undefined,
+      );
+      expect(serviceNumberIncluded.uiSchema.veteranId).to.not.eq(undefined);
+    });
+
+    context('when includeServiceNumber is true', () => {
+      it('includes serviceNumber', () => {
+        expect(serviceNumberIncluded.schema.properties.serviceNumber).to.not.eq(
+          undefined,
+        );
+        expect(serviceNumberIncluded.uiSchema.serviceNumber).to.not.eq(
+          undefined,
+        );
+      });
+    });
+
+    context('when includeServiceNumber is false', () => {
+      it('does not include serviceNumber', () => {
+        expect(vetIdOnly.schema.properties.serviceNumber).to.eq(undefined);
+        expect(vetIdOnly.uiSchema.serviceNumber).to.eq(undefined);
       });
     });
   });

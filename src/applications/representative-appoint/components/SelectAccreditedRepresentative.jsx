@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
+import { connect } from 'react-redux';
+import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import {
-  VaButton,
-  VaTextInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import SearchResult from './SearchResult';
 
@@ -14,25 +12,31 @@ const SelectAccreditedRepresentative = props => {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [representatives, setRepresentatives] = useState([]);
+  const representativeResults =
+    formData?.['view:representativeSearchResults'] || null;
 
-  const handleChange = e => {
+  const onInputChange = e => {
+    setError(null);
     setQuery(e.target.value);
   };
 
-  const handleClick = async () => {
+  const onSubmit = async () => {
     if (!query.trim()) {
-      setError('Search for a representative');
+      setError(
+        'Enter the name of the accredited representative or VSO you’d like to appoint',
+      );
       return;
     }
 
     setLoading(true);
     setError(null);
-    setRepresentatives(null);
 
     try {
-      const representativeResults = await fetchRepresentatives({ query });
-      setRepresentatives(representativeResults);
+      const res = await fetchRepresentatives({ query });
+      setFormData({
+        ...formData,
+        'view:representativeSearchResults': res,
+      });
     } catch (err) {
       setError(err.errorMessage);
     } finally {
@@ -40,21 +44,14 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  const goForward = () => {
-    const { pageList } = routes[1];
-    const { pathname } = location;
-    const nextPagePath = getNextPagePath(pageList, formData, pathname);
-    router.push(nextPagePath);
-  };
-
   const searchResults = () => {
     if (loading) {
       return <va-loading-indicator message="Loading..." set-focus />;
     }
-    if (representatives?.length) {
+    if (representativeResults?.length) {
       return (
         <>
-          {representatives.map((rep, index) => {
+          {representativeResults.map((rep, index) => {
             const representative = rep.data;
             return (
               <div key={index} className="vads-u-margin-y--4">
@@ -73,10 +70,15 @@ const SelectAccreditedRepresentative = props => {
                   phone={representative.attributes.phone}
                   email={representative.attributes.email}
                   representative={representative}
+                  accreditedOrganizations={
+                    representative.attributes?.accreditedOrganizations?.data
+                  }
                   representativeId={representative.id}
                   formData={formData}
                   setFormData={setFormData}
-                  goForward={goForward}
+                  router={router}
+                  routes={routes}
+                  location={location}
                 />
               </div>
             );
@@ -88,8 +90,8 @@ const SelectAccreditedRepresentative = props => {
   };
 
   return (
-    <>
-      <h3 className="vads-u-margin-y--5">
+    <div>
+      <h3 className="vads-u-margin-y--5 ">
         Select the accredited representative or VSO you’d like to appoint
       </h3>
       <p className="vads-u-margin-bottom--0">
@@ -98,30 +100,46 @@ const SelectAccreditedRepresentative = props => {
       </p>
       <div className="vads-u-display--flex vads-u-margin-bottom--3">
         <div className="vads-u-margin-right--2 vads-u-flex--1">
-          <VaTextInput
+          <va-text-input
             id="representative_search"
             name="representative_search"
             error={error}
-            onInput={handleChange}
+            onInput={onInputChange}
             required
+            onKeyPress={e => {
+              if (e.key === 'Enter') onSubmit();
+            }}
           />
         </div>
-        <div className="vads-u-margin-top--1">
+        <div
+          className={`vads-u-margin-top--${
+            error ? '8' : '1'
+          } vads-u-margin-bottom--1`}
+        >
           <VaButton
             data-testid="representative-search-btn"
             text="Search"
-            onClick={handleClick}
+            onClick={onSubmit}
           />
         </div>
       </div>
-
       {searchResults()}
+    </div>
+  );
+};
 
+export const AdditionalNote = () => {
+  return (
+    <>
       <p className="vads-u-margin-y--4">
-        <strong>Note:</strong> if you don’t know who you’d like to appoint, you
+        <strong>Note:</strong> If you don’t know who you’d like to appoint, you
         can use our online tool to search for an accredited attorney, claims
         agent, or VSO representative.
       </p>
+      <va-link
+        href="/get-help-from-accredited-representative/find-rep"
+        text="Find an accredited representative or VSO"
+      />
     </>
   );
 };
@@ -130,4 +148,17 @@ SelectAccreditedRepresentative.propTypes = {
   fetchRepresentatives: PropTypes.func,
 };
 
-export default withRouter(SelectAccreditedRepresentative);
+const mapStateToProps = state => ({
+  formData: state.form?.data || {},
+});
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SelectAccreditedRepresentative),
+);

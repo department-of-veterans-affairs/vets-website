@@ -1,6 +1,8 @@
 import * as Sentry from '@sentry/browser';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { fetchFormsApi } from '../../api';
-import DownloadPDFGuidance from './DownloadPDFGuidance';
+import DownloadHandler from './DownloadHandler';
 
 // HOF for reusable situations in Component.
 export function sentryLogger(form, formNumber, downloadUrl, message) {
@@ -12,25 +14,25 @@ export function sentryLogger(form, formNumber, downloadUrl, message) {
   });
 }
 
-export async function onDownloadLinkClick(event) {
+export async function onDownloadLinkClick(event, reduxStore) {
   // This function purpose is to determine if the PDF is valid on click.
-  // Once it's done, it passes information to DownloadPDFGuidance() which determines what to render.
+  // Once it's done, it passes information to DownloadHandler() which determines what to render.
   event.preventDefault();
+
   const link = event.target;
-  const downloadUrl = link.href;
-  const { formNumber } = link.dataset;
+  const { formNumber, href: downloadUrl } = link.dataset;
 
   // Default to true in case we encounter an error
   // determining validity through the API.
   let formPdfIsValid = true;
   let formPdfUrlIsValid = true;
-  let netWorkRequestError = false;
+  let networkRequestError = false;
   let form = null;
 
   try {
     const forms = await fetchFormsApi(formNumber);
 
-    form = forms.results.find(
+    form = forms?.results.find(
       f => f?.attributes?.formName === link?.dataset?.formNumber,
     );
 
@@ -45,10 +47,14 @@ export async function onDownloadLinkClick(event) {
         method: 'HEAD', // HEAD METHOD SHOULD NOT RETURN BODY, WE ONLY CARE IF REQ WAS SUCCESSFUL
       });
 
-      if (!response.ok) formPdfUrlIsValid = false;
+      if (!response.ok) {
+        formPdfUrlIsValid = false;
+      }
     }
   } catch (err) {
-    if (err) netWorkRequestError = true;
+    if (err) {
+      networkRequestError = true;
+    }
 
     sentryLogger(
       form,
@@ -58,23 +64,31 @@ export async function onDownloadLinkClick(event) {
     );
   }
 
-  return DownloadPDFGuidance({
+  return DownloadHandler({
+    clickedId: link.id,
     downloadUrl,
     form,
     formNumber,
     formPdfIsValid,
     formPdfUrlIsValid,
-    link,
-    netWorkRequestError,
+    networkRequestError,
+    reduxStore,
   });
 }
 
-export default widgetType => {
-  const downloadLinks = document.querySelectorAll(
-    `[data-widget-type="${widgetType}"]`,
-  );
+export default (reduxStore, widgetType) => {
+  const showFindFormsModal = state =>
+    toggleValues(state)[FEATURE_FLAG_NAMES.findFormsShowPDFModal];
 
-  for (const downloadLink of [...downloadLinks]) {
-    downloadLink.addEventListener('click', e => onDownloadLinkClick(e));
+  if (showFindFormsModal) {
+    const downloadLinks = document.querySelectorAll(
+      `[data-widget-type="${widgetType}"]`,
+    );
+
+    for (const downloadLink of [...downloadLinks]) {
+      downloadLink.addEventListener('click', e =>
+        onDownloadLinkClick(e, reduxStore),
+      );
+    }
   }
 };

@@ -330,13 +330,13 @@ export class ProfileInformationEditView extends Component {
                 analyticsSectionName={analyticsSectionName}
                 isLoading={isLoading}
               >
-                <div className="vads-u-display--block small-screen:vads-u-display--flex">
+                <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
                   <LoadingButton
                     data-action="save-edit"
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-margin-top--0 small-screen:vads-u-width--auto vads-u-width--full"
+                    className="vads-u-margin-top--0 mobile-lg:vads-u-width--auto vads-u-width--full"
                     onClick={onClickUpdateHandler}
                   >
                     {saveButtonText || 'Save'}
@@ -346,7 +346,7 @@ export class ProfileInformationEditView extends Component {
                     <va-button
                       data-testid="cancel-edit-button"
                       secondary
-                      class="vads-u-margin--0 vads-u-margin-top--0 vads-u-width--full small-screen:vads-u-width--auto"
+                      class="vads-u-margin--0 vads-u-margin-top--0 vads-u-width--full mobile-lg:vads-u-width--auto"
                       onClick={onCancel}
                       text={cancelButtonText || 'Cancel'}
                     />

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { URL, envUrl } from '../../constants';
-import { formatAddress } from '../../helpers';
+import { formatAddress } from '../../utils/helpers';
 
 const AddressValidationRadio = props => {
   const { formData, setFormData } = props;
