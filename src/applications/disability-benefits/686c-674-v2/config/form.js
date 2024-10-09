@@ -1,5 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import environment from 'platform/utilities/environment';
+// import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+// import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -69,23 +72,28 @@ import {
   stepchildren,
   stepchildInformation,
 } from './chapters/stepchild-no-longer-part-of-household';
+import // studentInformation,
+// studentAdditionalInformationView,
+// studentAdditionalInformation,
+// studentAdditionalInformationPartTwo,
+// studentAdditionalInformationPartThree,
+// studentAdditionalInformationPartFour,
+// studentAdditionalInformationPartFive,
+// studentAdditionalInformationPartSix,
+// studentAdditionalInformationPartSeven,
+// studentAdditionalInformationPartEight,
+// studentAdditionalInformationPartNine,
+// studentAdditionalInformationPartTen,
+// studentAdditionalInformationPartEleven,
+// studentAdditionalInformationPartTwelve,
+// studentAdditionalInformationPartThirteen,
+'./chapters/674';
 import {
-  studentInformation,
-  studentAdditionalInformationView,
-  studentAdditionalInformation,
-  studentAdditionalInformationPartTwo,
-  studentAdditionalInformationPartThree,
-  studentAdditionalInformationPartFour,
-  studentAdditionalInformationPartFive,
-  studentAdditionalInformationPartSix,
-  studentAdditionalInformationPartSeven,
-  studentAdditionalInformationPartEight,
-  studentAdditionalInformationPartNine,
-  studentAdditionalInformationPartTen,
-  studentAdditionalInformationPartEleven,
-  studentAdditionalInformationPartTwelve,
-  studentAdditionalInformationPartThirteen,
-} from './chapters/674';
+  addStudentsOptions,
+  addStudentsIntroPage,
+  addStudentsSummaryPage,
+  studentFullNamePage,
+} from './chapters/674/addStudentsArrayPages';
 import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
@@ -516,152 +524,179 @@ export const formConfig = {
     report674: {
       title: 'Add one or more students between ages 18 and 23',
       pages: {
-        studentInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/add-students',
-          uiSchema: studentInformation.uiSchema,
-          schema: studentInformation.schema,
-        },
-        studentAdditionalInformationView: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/additional-student-information',
-          uiSchema: studentAdditionalInformationView.uiSchema,
-          schema: studentAdditionalInformationView.schema,
-        },
-        studentAdditionalInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-identification',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformation.uiSchema,
-          schema: studentAdditionalInformation.schema,
-        },
-        studentAdditionalInformationPartTwo: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-address',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartTwo.uiSchema,
-          schema: studentAdditionalInformationPartTwo.schema,
-        },
-        studentAdditionalInformationPartThree: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-marriage',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartThree.uiSchema,
-          schema: studentAdditionalInformationPartThree.schema,
-        },
-        studentAdditionalInformationPartFour: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-education-benefits',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartFour.uiSchema,
-          schema: studentAdditionalInformationPartFour.schema,
-        },
-        studentAdditionalInformationPartFive: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/school-name',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartFive.uiSchema,
-          schema: studentAdditionalInformationPartFive.schema,
-        },
-        studentAdditionalInformationPartSix: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-attendance',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartSix.uiSchema,
-          schema: studentAdditionalInformationPartSix.schema,
-        },
-        studentAdditionalInformationPartSeven: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/school-accreditation',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartSeven.uiSchema,
-          schema: studentAdditionalInformationPartSeven.schema,
-        },
-        studentAdditionalInformationPartEight: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/school-term-dates',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartEight.uiSchema,
-          schema: studentAdditionalInformationPartEight.schema,
-        },
-        studentAdditionalInformationPartNine: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-previous-term',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartNine.uiSchema,
-          schema: studentAdditionalInformationPartNine.schema,
-        },
-        studentAdditionalInformationPartTen: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-income-at-school',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartTen.uiSchema,
-          schema: studentAdditionalInformationPartTen.schema,
-        },
-        studentAdditionalInformationPartEleven: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-expected-income-at-school',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartEleven.uiSchema,
-          schema: studentAdditionalInformationPartEleven.schema,
-        },
-        studentAdditionalInformationPartTwelve: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-assets',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartTwelve.uiSchema,
-          schema: studentAdditionalInformationPartTwelve.schema,
-        },
-        studentAdditionalInformationPartThirteen: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/additional-remarks',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartThirteen.uiSchema,
-          schema: studentAdditionalInformationPartThirteen.schema,
-        },
+        ...arrayBuilderPages(addStudentsOptions, pageBuilder => ({
+          addStudentsIntro: pageBuilder.introPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674',
+            uiSchema: addStudentsIntroPage.uiSchema,
+            schema: addStudentsIntroPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsSummary: pageBuilder.summaryPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students',
+            uiSchema: addStudentsSummaryPage.uiSchema,
+            schema: addStudentsSummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartOne: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-information',
+            uiSchema: studentFullNamePage.uiSchema,
+            schema: studentFullNamePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+        })),
+
+        // studentInformation: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/add-students',
+        //   uiSchema: studentInformation.uiSchema,
+        //   schema: studentInformation.schema,
+        // },
+        // studentAdditionalInformationView: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/additional-student-information',
+        //   uiSchema: studentAdditionalInformationView.uiSchema,
+        //   schema: studentAdditionalInformationView.schema,
+        // },
+        // studentAdditionalInformation: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/student-identification',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformation.uiSchema,
+        //   schema: studentAdditionalInformation.schema,
+        // },
+        // studentAdditionalInformationPartTwo: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/student-address',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartTwo.uiSchema,
+        //   schema: studentAdditionalInformationPartTwo.schema,
+        // },
+        // studentAdditionalInformationPartThree: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/student-marriage',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartThree.uiSchema,
+        //   schema: studentAdditionalInformationPartThree.schema,
+        // },
+        // studentAdditionalInformationPartFour: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/student-education-benefits',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartFour.uiSchema,
+        //   schema: studentAdditionalInformationPartFour.schema,
+        // },
+        // studentAdditionalInformationPartFive: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/school-name',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartFive.uiSchema,
+        //   schema: studentAdditionalInformationPartFive.schema,
+        // },
+        // studentAdditionalInformationPartSix: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/student-attendance',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartSix.uiSchema,
+        //   schema: studentAdditionalInformationPartSix.schema,
+        // },
+        // studentAdditionalInformationPartSeven: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/school-accreditation',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartSeven.uiSchema,
+        //   schema: studentAdditionalInformationPartSeven.schema,
+        // },
+        // studentAdditionalInformationPartEight: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/school-term-dates',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartEight.uiSchema,
+        //   schema: studentAdditionalInformationPartEight.schema,
+        // },
+        // studentAdditionalInformationPartNine: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/student-previous-term',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartNine.uiSchema,
+        //   schema: studentAdditionalInformationPartNine.schema,
+        // },
+        // studentAdditionalInformationPartTen: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/student-income-at-school',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartTen.uiSchema,
+        //   schema: studentAdditionalInformationPartTen.schema,
+        // },
+        // studentAdditionalInformationPartEleven: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/student-expected-income-at-school',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartEleven.uiSchema,
+        //   schema: studentAdditionalInformationPartEleven.schema,
+        // },
+        // studentAdditionalInformationPartTwelve: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/student-assets',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartTwelve.uiSchema,
+        //   schema: studentAdditionalInformationPartTwelve.schema,
+        // },
+        // studentAdditionalInformationPartThirteen: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title: 'Add one or more students between ages 18 and 23',
+        //   path: 'report-674/:index/additional-remarks',
+        //   arrayPath: 'studentInformation',
+        //   showPagePerItem: true,
+        //   uiSchema: studentAdditionalInformationPartThirteen.uiSchema,
+        //   schema: studentAdditionalInformationPartThirteen.schema,
+        // },
       },
     },
 
