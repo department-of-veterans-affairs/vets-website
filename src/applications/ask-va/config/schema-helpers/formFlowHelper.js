@@ -6,6 +6,7 @@ import {
   healthcareCategoryLabels,
   schoolInYourProfileOptions,
   yourRoleOptions,
+  whoIsYourQuestionAboutLabels,
 } from '../../constants';
 
 // Personal Information
@@ -207,8 +208,9 @@ const ch3Pages = {
     uiSchema: schoolInYourProfilePage.uiSchema,
     schema: schoolInYourProfilePage.schema,
     depends: form =>
-      form.yourRole === yourRoleOptions.SCO ||
-      form.yourRole === yourRoleOptions.TRAINING_OR_APPRENTICESHIP_SUP,
+      yourRoleOptions[form.yourRoleEducation] === yourRoleOptions.SCO ||
+      yourRoleOptions[form.yourRoleEducation] ===
+        yourRoleOptions.TRAINING_OR_APPRENTICESHIP_SUP,
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
@@ -379,18 +381,20 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formD
 
 const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
   return (
-    formData.whoIsYourQuestionAbout === 'Someone else' &&
+    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
+      'Someone else' &&
     formData.relationshipToVeteran !==
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-    formData.selectCategory === CategoryEducation
+    formData.selectCategory === 'Education benefits and work study'
   );
 };
 
 const generalQuestionCondition = formData => {
   return (
-    formData.whoIsYourQuestionAbout === "It's a general question" ||
-    (formData.selectCategory === CategoryEducation &&
-      formData.selectTopic === 'VEAP (Ch 32)')
+    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
+      "It's a general question" ||
+    (formData.selectCategory === 'Education benefits and work study' &&
+      formData.selectTopic === 'Veteran Readiness and Employment (Chapter 31)')
   );
 };
 

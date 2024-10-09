@@ -15,7 +15,7 @@ const {
 
 describe('whoIsYourQuestionAboutPage', () => {
   it('should render', () => {
-    const { container } = render(
+    const { container, getByLabelText } = render(
       <Provider store={{ ...getData().mockStore }}>
         <DefinitionTester
           definitions={{}}
@@ -35,10 +35,7 @@ describe('whoIsYourQuestionAboutPage', () => {
       "It's a general question",
     ];
 
-    const vaRadio = container.querySelector('va-radio');
-    expect(vaRadio.getAttribute('label')).to.equal(
-      'Who is your question about?',
-    );
+    expect(getByLabelText(/Who is your question about/)).to.exist;
 
     radioLabels.forEach(
       radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
