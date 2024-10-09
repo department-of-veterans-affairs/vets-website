@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 class VetTecApplicationProcess extends React.Component {
@@ -88,5 +89,15 @@ class VetTecApplicationProcess extends React.Component {
     );
   }
 }
+
+VetTecApplicationProcess.propTypes = {
+  institution: PropTypes.shape({
+    programs: PropTypes.arrayOf(
+      PropTypes.shape({
+        providerWebsite: PropTypes.string,
+      }),
+    ),
+  }).isRequired,
+};
 
 export default VetTecApplicationProcess;
