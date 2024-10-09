@@ -7,7 +7,6 @@ import { useDirectDeposit, useDirectDepositEffects } from '@@profile/hooks';
 import Headline from '@@profile/components/ProfileSectionHeadline';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
 import LoadFail from '@@profile/components/alerts/LoadFail';
-import { handleDowntimeForSection } from '@@profile/components/alerts/DowntimeBanner';
 
 import VerifyIdentity from '@@profile/components/direct-deposit/alerts/VerifyIdentity';
 import { TemporaryOutage } from '@@profile/components/direct-deposit/alerts/TemporaryOutage';
@@ -156,9 +155,8 @@ export const DirectDeposit = () => {
 
       <Wrapper>
         <DowntimeNotification
-          appTitle="direct deposit"
-          render={handleDowntimeForSection('direct deposit')}
-          dependencies={[externalServices.vaProfile]}
+          appTitle="direct deposit information page"
+          dependencies={[externalServices.LIGHTHOUSE_DIRECT_DEPOSIT]}
         >
           <ProfileInfoCard
             title="Bank account information"

@@ -83,7 +83,6 @@ const VACheckboxGroupGi = ({
 };
 
 VACheckboxGroupGi.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.shape({
@@ -94,9 +93,14 @@ VACheckboxGroupGi.propTypes = {
     ]),
   ).isRequired,
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func,
-  row: PropTypes.bool,
+  className: PropTypes.string,
+  colNum: PropTypes.string,
+  errorMessage: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  labelMargin: PropTypes.string,
   padding: PropTypes.bool,
+  row: PropTypes.bool,
+  onFocus: PropTypes.func,
 };
 
 VACheckboxGroupGi.defaultProps = {
