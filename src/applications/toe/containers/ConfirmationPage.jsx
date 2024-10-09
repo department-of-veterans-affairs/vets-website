@@ -25,14 +25,19 @@ export const ConfirmationPage = ({
   confirmationError,
 }) => {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
-  const [apiError, setApiError] = useState(false);
+  const [apiError, setApiError] = useState(false); // Track if a 400 or 500 error happens
 
   useEffect(
     () => {
       if (!fetchedClaimStatus) {
         getClaimStatus()
-          .catch(() => setApiError(true))
-          .finally(() => setFetchedClaimStatus(true));
+          .then(response => {
+            if (!response || response.status >= 400) {
+              setApiError(true);
+            }
+          })
+          .catch(() => setApiError(true)) // Catch any network errors
+          .finally(() => setFetchedClaimStatus(true)); // Ensure we set fetchedClaimStatus
       }
     },
     [fetchedClaimStatus, getClaimStatus],
@@ -55,7 +60,6 @@ export const ConfirmationPage = ({
     window.print();
   }, []);
 
-  // Handle case when API returns an error (e.g., 500)
   if (apiError) {
     return (
       <DeniedConfirmation
@@ -68,6 +72,17 @@ export const ConfirmationPage = ({
         sendConfirmation={sendConfirmation}
         userEmail={userEmail}
         userFirstName={userFirstName}
+      />
+    );
+  }
+
+  if (!fetchedClaimStatus) {
+    return (
+      <va-loading-indicator
+        class="vads-u-margin-y--5"
+        label="Loading"
+        message="Loading your results..."
+        set-focus
       />
     );
   }
