@@ -266,7 +266,7 @@ export const removeInfoToken = () => {
 
   document.cookie = `${
     COOKIES.INFO_TOKEN
-  }=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+  }=;expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
 
   return undefined;
 };
