@@ -86,7 +86,7 @@ jobs:
             
     
 
-    setup-integration-test-workflow:
+    integration-test-prep:
      name: Set up variables for the integration test workflow
      runs-on: ubuntu-latest
      needs: build
@@ -104,6 +104,12 @@ jobs:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2    
+        with:
+          mask-password: false
   
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -115,9 +121,13 @@ jobs:
         run: |
           chmod +x ./script/github-actions/cypress-integration-test.sh 
           ./script/github-actions/cypress-integration-test.sh "${{ github.event.inputs.branch }}"
+    outputs:      
+        ECR_USER: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+        ECR_PASSWORD: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+
 
     run-cypress-tests:
-        uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow.yml@main
+        uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow
         secrets: inherit
   
     notify-failure:
