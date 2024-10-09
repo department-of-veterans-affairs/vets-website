@@ -8,13 +8,13 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -108,7 +108,7 @@ const ConditionDetails = props => {
     const content = `
 ${crisisLineHeader}\n\n
 ${record.name} \n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n

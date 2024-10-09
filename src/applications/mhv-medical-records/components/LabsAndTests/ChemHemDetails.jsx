@@ -7,7 +7,6 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import {
   generatePdfScaffold,
   updatePageTitle,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
@@ -25,6 +24,7 @@ import {
   processList,
   generateTextFile,
   getNameDateAndTime,
+  formatNameFirstLast,
 } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -76,7 +76,7 @@ const ChemHemDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n

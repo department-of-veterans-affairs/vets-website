@@ -7,7 +7,6 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import {
   generatePdfScaffold,
   updatePageTitle,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
@@ -17,6 +16,7 @@ import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -71,7 +71,7 @@ const ProgressNoteDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${txtLine}\n\n

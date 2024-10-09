@@ -15,6 +15,8 @@ import {
   formatDate,
   extractContainedByRecourceType,
   getLastUpdatedText,
+  formatNameFirstToLast,
+  formatNameFirstLast,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
@@ -486,5 +488,62 @@ describe('getLastUpdatedText', () => {
     const result = getLastUpdatedText(refreshStateStatus, extractType);
 
     expect(result).to.be.null;
+  });
+});
+
+describe('formatNameFirstToLast', () => {
+  it('returns a name formatted with the first name before to the last name and no comma.', () => {
+    const lastFirstName = 'Schmo,Joe';
+    const firstLastName = 'Joe Schmo';
+    const updatedName = formatNameFirstToLast(lastFirstName);
+
+    expect(updatedName).to.eq(firstLastName);
+  });
+
+  it('returns a name formatted with the first name and middle initial before to the last name.', () => {
+    const lastFirstName = 'Schmo,Joe R';
+    const firstLastName = 'Joe R Schmo';
+    const updatedName = formatNameFirstToLast(lastFirstName);
+
+    expect(updatedName).to.eq(firstLastName);
+  });
+
+  it('returns original name if not formatted correctly.', () => {
+    const lastFirstName = 'Schmo Joe';
+    const updatedName = formatNameFirstToLast(lastFirstName);
+
+    expect(updatedName).to.eq(lastFirstName);
+  });
+});
+
+describe('formatNameFirstLast', () => {
+  const user1 = {
+    userFullName: {
+      first: 'Joe',
+      last: 'Schmo',
+    },
+  };
+
+  const user2 = {
+    userFullName: {
+      first: 'Joe',
+      last: 'Schmo',
+      middle: 'R',
+      suffix: 'Jr',
+    },
+  };
+
+  it('returns a name formatted with the first name before to the last name', () => {
+    const lastFirstName = 'Joe Schmo';
+    const updatedName = formatNameFirstLast(user1.userFullName);
+
+    expect(updatedName).to.eq(lastFirstName);
+  });
+
+  it('returns a name formatted with the first name and middle initial and suffix', () => {
+    const firstMiddleLastSuffixName = 'Joe R Schmo, Jr';
+    const updatedName = formatNameFirstLast(user2.userFullName);
+
+    expect(updatedName).to.eq(firstMiddleLastSuffixName);
   });
 });
