@@ -1,5 +1,5 @@
-import moment from 'moment';
 import * as Sentry from '@sentry/browser';
+import { formatDateShort } from 'platform/utilities/date';
 import {
   isStreamlinedShortForm,
   isStreamlinedLongForm,
@@ -175,7 +175,7 @@ export const transform = (formConfig, form) => {
           countryName: address.countryCodeIso2,
         },
         telephoneNumber: getFormattedPhone(mobilePhone),
-        dateOfBirth: moment(dateOfBirth, 'YYYY-MM-DD').format('MM/DD/YYYY'),
+        dateOfBirth: formatDateShort(dateOfBirth),
         married: questions.isMarried,
         spouseFullName: {
           first: spouseFirst,
@@ -278,7 +278,7 @@ export const transform = (formConfig, form) => {
       },
       applicantCertifications: {
         veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
-        veteranDateSigned: moment().format('MM/DD/YYYY'),
+        veteranDateSigned: formatDateShort(new Date()),
       },
       selectedDebtsAndCopays: [...selectedDebtsAndCopays],
       streamlined: streamlinedData,

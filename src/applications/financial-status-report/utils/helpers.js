@@ -1,7 +1,7 @@
-import moment from 'moment';
 import { addDays, format, isAfter, isFuture, isValid } from 'date-fns';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { formatDateLong } from 'platform/utilities/date';
 import { deductionCodes } from '../constants/deduction-codes';
 import { ignoreFields } from '../constants/ignoreFields';
 
@@ -45,13 +45,9 @@ export const monthYearFormatter = date => {
   return isValid(newDate) ? format(newDate, 'MM/yyyy') : undefined;
 };
 
-export const formatDate = date => {
-  return format(new Date(date), 'MMMM d, yyyy');
-};
-
 export const endDate = (date, days) => {
   return isValid(new Date(date))
-    ? formatDate(addDays(new Date(date), days))
+    ? formatDateLong(addDays(new Date(date), days))
     : '';
 };
 
@@ -252,14 +248,10 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   return history;
 };
 
-// receiving formatted date strings in the response
-// so we need to convert back to moment before sorting
 export const sortStatementsByDate = statements => {
-  const dateFormat = 'MM-DD-YYYY';
   return statements.sort(
     (a, b) =>
-      moment(b.pSStatementDate, dateFormat) -
-      moment(a.pSStatementDate, dateFormat),
+      new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
   );
 };
 

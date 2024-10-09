@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import moment from 'moment';
+import { formatDateShort } from 'platform/utilities/date';
 import { transform } from '../../utils/transform';
 // import inputObject from './unit-maximal.json';
 import inputObject from './efsr-unit-maximal.json';
@@ -1167,7 +1167,7 @@ describe('efsr-fsr transform information', () => {
         'Greg A Anderson',
       );
       expect(submissionObj.applicantCertifications.veteranDateSigned).to.equal(
-        moment().format('MM/DD/YYYY'),
+        formatDateShort(new Date()),
       );
     });
   });
