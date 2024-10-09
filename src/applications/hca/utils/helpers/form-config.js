@@ -1,5 +1,5 @@
 import { inRange } from 'lodash';
-import { isBefore } from 'date-fns';
+import { isAfter, isBefore } from 'date-fns';
 import { DEPENDENT_VIEW_FIELDS, HIGH_DISABILITY_MINIMUM } from '../constants';
 import { replaceStrValues } from './general';
 import content from '../../locales/en/content.json';
@@ -206,6 +206,25 @@ export function includeRadiationCleanUpEfforts(formData) {
 }
 
 /**
+ * Helper that determines if the form data indicates the user has a birthdate that
+ * makes them eligibile for gulf war service
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user was born on or before Aug 2, 1975
+ */
+export function includeGulfWarService(formData) {
+  if (!formData['view:isTeraBranchingEnabled']) {
+    return includeTeraInformation(formData);
+  }
+
+  const { veteranDateOfBirth } = formData;
+  const couldHaveServed = isBefore(
+    new Date(veteranDateOfBirth),
+    new Date(1975, 8, 2),
+  );
+  return includeTeraInformation(formData) && couldHaveServed;
+}
+
+/**
  * Helper that determines if the form data contains values that indicate the
  * user served in specific gulf war locations
  * @param {Object} formData - the current data object passed from the form
@@ -214,7 +233,50 @@ export function includeRadiationCleanUpEfforts(formData) {
  */
 export function includeGulfWarServiceDates(formData) {
   const { gulfWarService } = formData;
-  return includeTeraInformation(formData) && gulfWarService;
+  return (
+    includeTeraInformation(formData) &&
+    includeGulfWarService(formData) &&
+    gulfWarService
+  );
+}
+
+/**
+ * Helper that determines if the form data indicates the user has a birthdate that
+ * makes them eligibile for post-9/11 service
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user was born between Sept 11, 1986 and Aug 2, 1975
+ */
+export function includePostSept11Service(formData) {
+  if (!formData['view:isTeraBranchingEnabled']) {
+    return false;
+  }
+
+  const { veteranDateOfBirth } = formData;
+  const couldHaveServed = isAfter(
+    new Date(veteranDateOfBirth),
+    new Date(1986, 9, 10),
+  );
+  return includeTeraInformation(formData) && couldHaveServed;
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user served in specific post-9/11 locations
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they served in the specified
+ * post-9/11 locations
+ */
+export function includePostSept11ServiceDates(formData) {
+  if (!formData['view:isTeraBranchingEnabled']) {
+    return false;
+  }
+
+  const { gulfWarService } = formData;
+  return (
+    includeTeraInformation(formData) &&
+    includePostSept11Service(formData) &&
+    gulfWarService
+  );
 }
 
 /**

@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import {
   isLoggedOut,
   hasLowDisabilityRating,
@@ -17,7 +16,10 @@ import {
   hasDifferentHomeAddress,
   includeTeraInformation,
   includeRadiationCleanUpEfforts,
+  includeGulfWarService,
   includeGulfWarServiceDates,
+  includePostSept11Service,
+  includePostSept11ServiceDates,
   includeAgentOrangeExposure,
   includeOtherExposureDates,
   includeOtherExposureDetails,
@@ -396,10 +398,54 @@ describe('hca form config helpers', () => {
     });
   });
 
+  context('when `includeGulfWarService` executes', () => {
+    const getData = ({
+      veteranDateOfBirth = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
+      hasTeraResponse: included,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
+      const formData = getData({ included: true, enabled: false });
+      expect(includeGulfWarService(formData)).to.be.true;
+    });
+
+    it('should return `true` when Veteran birthdate is before `Aug 2, 1975`', () => {
+      const formData = getData({ veteranDateOfBirth: '1960-01-01' });
+      expect(includeGulfWarService(formData)).to.be.true;
+    });
+
+    it('should return `false` when Veteran birthdate is after Sept 11, 2001', () => {
+      const formData = getData({ veteranDateOfBirth: '2005-01-01' });
+      expect(includeGulfWarService(formData)).to.be.false;
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includeGulfWarService(formData)).to.be.false;
+    });
+  });
+
   context('when `includeGulfWarServiceDates` executes', () => {
-    const getData = ({ response = null, included = true }) => ({
+    const getData = ({
+      veteranDateOfBirth = '1960-01-01',
+      response = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
       hasTeraResponse: included,
       gulfWarService: response,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
+      const formData = getData({ included: true, enabled: false });
+      expect(includeGulfWarService(formData)).to.be.true;
     });
 
     it('should return `true` when response is `true`', () => {
@@ -412,9 +458,85 @@ describe('hca form config helpers', () => {
       expect(includeGulfWarServiceDates(formData)).to.be.false;
     });
 
+    it('should return `false` when Veteran birthdate is after Sept 11, 2001', () => {
+      const formData = getData({ veteranDateOfBirth: '2005-01-01' });
+      expect(includeGulfWarServiceDates(formData)).to.be.false;
+    });
+
     it('should return `false` when TERA response is `false`', () => {
       const formData = getData({ included: false });
       expect(includeGulfWarServiceDates(formData)).to.be.false;
+    });
+  });
+
+  context('when `includePostSept11Service` executes', () => {
+    const getData = ({
+      veteranDateOfBirth = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
+      hasTeraResponse: included,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when Veteran birthdate is after `Sept 11, 1986`', () => {
+      const formData = getData({ veteranDateOfBirth: '2005-01-01' });
+      expect(includePostSept11Service(formData)).to.be.true;
+    });
+
+    it('should return `false` when Veteran birthdate is before Aug 2, 1975', () => {
+      const formData = getData({ veteranDateOfBirth: '1960-01-01' });
+      expect(includePostSept11Service(formData)).to.be.false;
+    });
+
+    it('should return `false` when feature flag is disabled', () => {
+      const formData = getData({ enabled: false });
+      expect(includePostSept11Service(formData)).to.be.false;
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includePostSept11Service(formData)).to.be.false;
+    });
+  });
+
+  context('when `includePostSept11ServiceDates` executes', () => {
+    const getData = ({
+      veteranDateOfBirth = '2005-01-01',
+      response = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
+      hasTeraResponse: included,
+      gulfWarService: response,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when response is `true`', () => {
+      const formData = getData({ response: true });
+      expect(includePostSept11ServiceDates(formData)).to.be.true;
+    });
+
+    it('should return `false` when response is `false`', () => {
+      const formData = getData({ response: false });
+      expect(includePostSept11ServiceDates(formData)).to.be.false;
+    });
+
+    it('should return `false` when Veteran birthdate is before Aug 2, 1975', () => {
+      const formData = getData({ veteranDateOfBirth: '1960-01-01' });
+      expect(includePostSept11ServiceDates(formData)).to.be.false;
+    });
+
+    it('should return `false` when feature flag is disabled', () => {
+      const formData = getData({ enabled: false });
+      expect(includePostSept11ServiceDates(formData)).to.be.false;
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includePostSept11ServiceDates(formData)).to.be.false;
     });
   });
 
