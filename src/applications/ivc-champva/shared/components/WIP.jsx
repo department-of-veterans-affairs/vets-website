@@ -6,6 +6,7 @@ const WIP = ({ content }) => {
 
   return (
     <div className="row vads-u-margin-bottom--5">
+      <meta name="robots" content="noindex" />
       <div className="usa-width-two-thirds medium-8 columns">
         <va-alert status="warning">
           <h1 slot="headline" className="vads-u-font-size--h3">
