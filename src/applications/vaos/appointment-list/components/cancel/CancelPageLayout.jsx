@@ -95,6 +95,7 @@ export default function CancelPageLayout() {
             </>
           )}
           {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+          <br />
           <ClinicOrFacilityPhone
             clinicPhone={clinicPhone}
             clinicPhoneExtension={clinicPhoneExtension}
