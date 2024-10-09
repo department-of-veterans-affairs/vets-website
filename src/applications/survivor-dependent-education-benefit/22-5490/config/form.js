@@ -1201,7 +1201,8 @@ const formConfig = {
                 (errors, field, formData) => {
                   const isYes = field === 'yes';
                   const phoneExist = !!formData?.mobilePhone.phone;
-                  const { isInternational } = formData?.mobilePhone;
+                  const isInternational =
+                    formData?.mobilePhone?.isInternational;
 
                   if (isYes) {
                     if (!phoneExist) {
