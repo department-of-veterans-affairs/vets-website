@@ -127,7 +127,7 @@ jobs:
 
 
     run-cypress-tests:
-        uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-integration-test-workflow@main
+        uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/test.yml@baf920143d0f8313dfee860dcba9cc7bd77a9a1d
         secrets: inherit
   
     notify-failure:
