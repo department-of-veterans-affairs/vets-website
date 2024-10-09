@@ -134,14 +134,14 @@ const EvidenceSummary = ({
 
     onGoForward: () => {
       if (hasErrors) {
-        scrollToFirstError();
+        scrollToFirstError({ focusOnAlertRole: true });
       } else {
         goForward(data);
       }
     },
     onUpdate: () => {
       if (hasErrors) {
-        scrollToFirstError();
+        scrollToFirstError({ focusOnAlertRole: true });
       } else {
         updatePage();
       }
