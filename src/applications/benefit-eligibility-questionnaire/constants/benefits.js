@@ -17,20 +17,62 @@ export const blankType = {
 };
 
 export const yesNoType = {
-  YES: 'yes',
-  NO: 'no',
+  YES: true,
+  NO: false,
 };
 
-const goalTypes = {
-  PROGRESS: 'progressInMyMilitaryCareer',
-  PLAN: 'planForMyTransition',
-  NETWORK: 'buildMyNetwork',
-  JOBS: 'findACivilianJob',
-  CAREER_PATH: 'setACareerPath',
-  BUSINESS: 'startABusiness',
-  UNDERSTAND: 'understandMyBenefits',
-  DEGREE: 'earnDegreeOrCertificate',
-};
+export const goalTypes = Object.freeze({
+  DEGREE: 'DEGREE',
+  JOBS: 'JOBS',
+  PLAN: 'PLAN',
+  CAREER_PATH: 'CAREER_PATH',
+  BUSINESS: 'BUSINESS',
+  UNDERSTAND: 'UNDERSTAND',
+});
+
+export const goalTypeLabels = Object.freeze({
+  DEGREE: 'Earn a degree or certificate',
+  JOBS: 'Find a civilian job',
+  PLAN: 'Plan for my transition',
+  CAREER_PATH: 'Set a career path',
+  BUSINESS: 'Start a business',
+  UNDERSTAND: 'Understand my benefits',
+});
+
+export const militaryServiceTimeServedLabels = Object.freeze({
+  UP_TO_90_DAYS: 'Less than 90 days',
+  UP_TO_1_YEAR: 'More than 90 days but less than 1 year',
+  UP_TO_2_YEAR: 'More than 1 year but less than 2 years',
+  UP_TO_3_YEAR: 'More than 2 years but less than 3 years',
+  OVER_3_YEAR: 'More than 3 years',
+});
+
+export const militaryServiceTimeServedTypes = Object.freeze({
+  UP_TO_90_DAYS: 'UP_TO_90_DAYS',
+  UP_TO_1_YEAR: 'UP_TO_1_YEAR',
+  UP_TO_2_YEAR: 'UP_TO_2_YEAR',
+  UP_TO_3_YEAR: 'UP_TO_3_YEAR',
+  OVER_3_YEAR: 'OVER_3_YEAR',
+});
+
+export const expectedSeparationLabels = Object.freeze({
+  UP_TO_3_MONTHS: 'Within the next 3 months',
+  MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS:
+    'More than 3 months but less than 6 months',
+  MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR:
+    'More than 6 months but less than 1 year',
+  MORE_THAN_1_YEAR: 'More than 1 year from now',
+  MORE_THAN_3_YEAR: 'More than 3 years',
+});
+
+export const expectedSeparationTypes = Object.freeze({
+  UP_TO_3_MONTHS: 'UP_TO_3_MONTHS',
+  MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS:
+    'MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS',
+  MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR: 'MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR',
+  MORE_THAN_1_YEAR: 'MORE_THAN_1_YEAR',
+  MORE_THAN_3_YEAR: 'MORE_THAN_3_YEAR',
+});
 
 // const serviceLengthTypes = {
 //   UP_TO_90_DAYS: 'upTo90days',
