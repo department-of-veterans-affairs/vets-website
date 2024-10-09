@@ -8,17 +8,24 @@ process.on('SIGINT', () => {
 });
 
 const runCommand = cmd => {
-  const child = spawn(cmd, [], { shell: true, stdio: 'inherit' });
+  return new Promise((resolve, reject) => {
+    const child = spawn(cmd, [], { shell: true, stdio: 'inherit' });
 
-  // If the child process exits abnormally, exit parent with the same code
-  child.on('exit', code => {
-    if (code) {
-      process.exit(code);
-    }
+    child.on('exit', code => {
+      if (code === 0) {
+        resolve();
+      } else {
+        process.exit(code);
+      }
+    });
+
+    childProcesses.push(child);
+
+    child.on('error', err => {
+      reject(err);
+      process.exit(1);
+    });
   });
-
-  // When we ^C out of the parent Node script, also interrupt the child
-  childProcesses.push(child);
 };
 
 const runCommandSync = cmd => {
