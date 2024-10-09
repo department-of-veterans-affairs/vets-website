@@ -47,11 +47,10 @@ const BenefitApplications = ({
         const elt = document.querySelector('#benefit-applications');
         elt?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-
       return () => {};
     };
 
-    handleAnchorLink();
+    window.onload = handleAnchorLink();
   }, []);
 
   return (
