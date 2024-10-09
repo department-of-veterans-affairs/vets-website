@@ -1,6 +1,9 @@
 /* eslint-disable no-unused-vars */
+import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { within } from '@testing-library/dom';
+import { Provider } from 'react-redux';
 
 import {
   addressSchema,
@@ -25,6 +28,7 @@ import {
 
 import {
   buildFields,
+  ChapterSectionCollection,
   getChapterTitle,
 } from '../../components/confirmationPageViewHelpers';
 
@@ -70,6 +74,34 @@ const mockChapterRadio = {
       },
     },
   },
+};
+
+const mockRedux = ({ formData = {} } = {}) => {
+  return {
+    props: {
+      onChange: () => {},
+      formContext: {
+        onReviewPage: false,
+        reviewMode: false,
+        submitted: true,
+      },
+      formData,
+      setFormData: () => {},
+    },
+    mockStore: {
+      getState: () => ({
+        form: { data: formData },
+        formContext: {
+          onReviewPage: false,
+          reviewMode: false,
+          submitted: true,
+          touched: {},
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    },
+  };
 };
 
 const mockChapterRadioData = {
@@ -440,16 +472,16 @@ describe('confirmation page view helpers', () => {
     expect(getByText('987654321')).to.exist;
   });
 
-  // bug: checkboxGroupUI
-  // it('should show checkbox group correctly', () => {
-  //   const fields = buildConfirmationFields(
-  //     mockChapterCheckboxCollectionGroup,
-  //     mockFormData,
-  //   );
-  //   const { getByText } = render(fields);
-  //   expect(getByText('Checkbox group')).to.exist;
-  //   expect(getByText('Option A')).to.exist;
-  // });
+  it('should show checkbox group correctly', () => {
+    const chapter = new MockChapter(
+      mockChapterCheckboxGroup,
+      mockChapterCheckboxGroupData,
+    );
+    const fields = chapter.buildConfirmationFields();
+    const { getByText } = render(fields);
+    expect(getByText('Checkbox group')).to.exist;
+    expect(getByText('Option A')).to.exist;
+  });
 
   it('should show select fields correctly', () => {
     const chapter = new MockChapter(mockChapterSelect, mockChapterSelectData);
@@ -503,5 +535,80 @@ describe('confirmation page view helpers', () => {
     const { getByText } = render(fields);
     expect(getByText('Text Field Value 1')).to.exist;
     expect(getByText('Text Field Value 2')).to.exist;
+  });
+});
+
+describe('Component ChapterSectionCollection', () => {
+  it('should display', () => {
+    const { mockStore } = mockRedux({
+      formData: {
+        ...mockChapterRadioData,
+        ...mockChapterTextData,
+        ...mockChapterCheckboxGroupData,
+        ...mockChapterSelectData,
+        ...mockChapterDateData,
+        ...mockChapterAddressData,
+        ...mockChapterArraySingleData,
+      },
+    });
+
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ChapterSectionCollection
+          formConfig={{
+            chapters: {
+              radioChapter: mockChapterRadio,
+              textChapter: mockChapterText,
+              checkboxGroupChapter: mockChapterCheckboxGroup,
+              selectChapter: mockChapterSelect,
+              dateChapter: mockChapterDate,
+              addressChapter: mockChapterAddress,
+              arraySingleChapter: mockChapterArraySingle,
+            },
+          }}
+          header="Information you submitted on this form"
+        />
+        ,
+      </Provider>,
+    );
+
+    const view = container.querySelector('.screen-only');
+
+    expect(within(view).getByText('Radio chapter')).to.exist;
+    expect(within(view).getByText('Widget radio')).to.exist;
+    expect(within(view).getByText('Widget radio option 1')).to.exist;
+    expect(within(view).getByText('Web component radio')).to.exist;
+    expect(within(view).getByText('Web component radio option 1')).to.exist;
+    expect(within(view).getByText('Web component yes/no')).to.exist;
+    expect(within(view).getByText('Yes')).to.exist;
+
+    expect(within(view).getByText('Text chapter')).to.exist;
+    expect(within(view).getByText('Text field')).to.exist;
+    expect(within(view).getByText('Text field value')).to.exist;
+    expect(within(view).getByText('Web component text')).to.exist;
+    expect(within(view).getByText('Web component text value')).to.exist;
+    expect(within(view).getByText('Social Security number')).to.exist;
+    expect(within(view).getByText('VA file number')).to.exist;
+    expect(within(view).getByText('●●●-●●-6789')).to.exist;
+    expect(within(view).getByText('987654321')).to.exist;
+
+    expect(within(view).getByText('Checkbox group chapter')).to.exist;
+    expect(within(view).getByText('Checkbox group')).to.exist;
+    expect(within(view).getByText('Option A')).to.exist;
+
+    expect(within(view).getByText('Select chapter')).to.exist;
+    expect(within(view).getByText('Widget select')).to.exist;
+    expect(within(view).getByText('Option 1')).to.exist;
+    expect(within(view).getByText('Web component select')).to.exist;
+    expect(within(view).getByText('Option 2')).to.exist;
+
+    expect(within(view).getByText('Date chapter')).to.exist;
+    expect(within(view).getByText('Widget date')).to.exist;
+    expect(within(view).getByText('January 1, 2020')).to.exist;
+    expect(within(view).getByText('Web component date')).to.exist;
+    expect(within(view).getByText('February 2, 2022')).to.exist;
+    expect(within(view).getByText('Date range start')).to.exist;
+    expect(within(view).getByText('Date range end')).to.exist;
+    expect(within(view).getByText('January 1, 2023')).to.exist;
   });
 });
