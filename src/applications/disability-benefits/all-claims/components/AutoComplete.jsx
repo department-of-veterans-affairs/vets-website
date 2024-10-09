@@ -1,11 +1,14 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 import debounce from 'lodash/debounce';
+import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 
 const INSTRUCTIONS =
   'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures. Input is empty. Please enter a condition.';
+
+const createFreeTextItem = inputValue =>
+  `Enter your condition as "${inputValue}"`;
 
 const AutoComplete = ({
   availableResults,
@@ -17,52 +20,40 @@ const AutoComplete = ({
   const [value, setValue] = useState(formData);
   const [results, setResults] = useState([]);
   const [resultsCountAnnouncement, setResultsCountAnnouncement] = useState('');
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(null);
   const [activeResultAnnouncement, setActiveResultAnnouncement] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
 
+  const inputRef = useRef(null);
   const resultsRef = useRef([]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const delayAnnouncement = useCallback(
-    debounce((resultCount, freeTextResult) => {
-      const makePlural = resultCount > 1 ? 's' : '';
-      setResultsCountAnnouncement(
-        `${resultCount} result${makePlural}. ${freeTextResult}, (1 of ${resultCount})`,
-      );
-    }, 1500),
-    [],
-  );
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceSearch = useCallback(
+  const debouncedSearch = useRef(
     debounce(async inputValue => {
-      const freeTextResult = inputValue;
+      const freeTextResult = createFreeTextItem(inputValue);
       const searchResults = fullStringSimilaritySearch(
         inputValue,
         availableResults,
       );
       const updatedResults = [freeTextResult, ...searchResults];
       setResults(updatedResults);
-      setIsOpen(true);
       setActiveIndex(0);
 
-      delayAnnouncement(updatedResults.length, freeTextResult);
+      const resultCount = updatedResults.length;
+      const makePlural = resultCount > 1 ? 's' : '';
+      setResultsCountAnnouncement(
+        `${resultCount} result${makePlural}. ${freeTextResult}, (1 of ${resultCount})`,
+      );
     }, debounceTime),
-    [availableResults, debounceTime],
-  );
+  ).current;
 
   const closeList = () => {
-    debounceSearch.cancel();
-    delayAnnouncement.cancel();
+    debouncedSearch.cancel();
     setResults([]);
     setResultsCountAnnouncement('');
+    setActiveIndex(null);
     setActiveResultAnnouncement('');
-    setIsOpen(false);
   };
 
-  const handleInputChange = event => {
-    const inputValue = event.target.value;
+  const handleInputChange = inputValue => {
     setValue(inputValue);
     onChange(inputValue);
 
@@ -71,7 +62,7 @@ const AutoComplete = ({
       return;
     }
 
-    debounceSearch(inputValue);
+    debouncedSearch(inputValue);
   };
 
   const scrollIntoView = index => {
@@ -79,17 +70,19 @@ const AutoComplete = ({
     if (activeResult) {
       activeResult.scrollIntoView({
         block: 'nearest',
-        behavior: 'smooth',
+        behavior: 'auto',
       });
     }
   };
 
-  const navigateList = (e, direction) => {
+  const navigateList = (e, adjustment) => {
     e.preventDefault();
-    const newIndex =
-      direction === 'down'
-        ? Math.min(activeIndex + 1, results.length - 1)
-        : Math.max(activeIndex - 1, 0);
+    const newIndex = activeIndex + adjustment;
+
+    if (newIndex < 0 || newIndex > results.length - 1) {
+      return;
+    }
+
     setActiveIndex(newIndex);
     setActiveResultAnnouncement(
       `${results[newIndex]}, (${newIndex + 1} of ${results.length})`,
@@ -98,16 +91,19 @@ const AutoComplete = ({
   };
 
   const selectResult = result => {
-    setValue(result);
-    onChange(result);
+    const newValue = result === createFreeTextItem(value) ? value : result;
+    setValue(newValue);
+    onChange(newValue);
     closeList();
+
+    inputRef.current.shadowRoot.querySelector('input').focus();
   };
 
   const handleKeyDown = e => {
     if (e.key === 'ArrowDown') {
-      navigateList(e, 'down');
+      navigateList(e, 1);
     } else if (e.key === 'ArrowUp') {
-      navigateList(e, 'up');
+      navigateList(e, -1);
     } else if (e.key === 'Enter' && results.length) {
       selectResult(results[activeIndex]);
     } else if (e.key === 'Escape') {
@@ -121,61 +117,61 @@ const AutoComplete = ({
         label={label}
         required
         value={value}
-        onInput={handleInputChange}
+        onInput={e => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
         onBlur={() => setTimeout(closeList, 100)}
         onFocus={() => {
           if (value) {
-            debounceSearch(value);
+            debouncedSearch(value);
           }
         }}
         message-aria-describedby={!value ? INSTRUCTIONS : null}
         data-testid="autocomplete-input"
+        ref={inputRef}
       />
-      {isOpen &&
-        results.length > 0 && (
-          <>
-            <ul
-              className="cc-autocomplete__list"
-              aria-hidden="true"
-              data-testid="autocomplete-list"
-            >
-              {results.map((result, index) => (
-                <li
-                  key={result}
-                  ref={el => {
-                    resultsRef.current[index] = el;
-                  }}
-                  onClick={() => selectResult(result)}
-                  onKeyDown={handleKeyDown}
-                  className={`cc-autocomplete__option ${
-                    activeIndex === index
-                      ? 'cc-autocomplete__option--active'
-                      : ''
-                  }`}
-                  onMouseEnter={() => setActiveIndex(index)}
-                  role="option"
-                  aria-selected={activeIndex === index}
-                  data-testid={`autocomplete-option-${index}`}
-                >
-                  {index === 0 ? (
-                    <>
-                      Enter your condition as "<strong>{result}</strong>"
-                    </>
-                  ) : (
-                    result
-                  )}
-                </li>
-              ))}
-            </ul>
-            <p role="alert" className="vads-u-visibility--screen-reader">
-              {resultsCountAnnouncement}
-            </p>
-            <p role="alert" className="vads-u-visibility--screen-reader">
-              {activeResultAnnouncement}
-            </p>
-          </>
-        )}
+      {results.length > 0 && (
+        <>
+          <ul
+            className="cc-autocomplete__list"
+            aria-hidden="true"
+            data-testid="autocomplete-list"
+          >
+            {results.map((result, index) => (
+              <li
+                key={result}
+                ref={el => {
+                  resultsRef.current[index] = el;
+                }}
+                onClick={() => selectResult(result)}
+                onKeyDown={handleKeyDown}
+                className={`cc-autocomplete__option ${
+                  activeIndex === index ? 'cc-autocomplete__option--active' : ''
+                }`}
+                onMouseEnter={() => setActiveIndex(index)}
+                role="option"
+                aria-selected={activeIndex === index}
+                data-testid={`autocomplete-option-${index}`}
+              >
+                {result}
+              </li>
+            ))}
+          </ul>
+          <p
+            aria-live="polite"
+            aria-atomic="true"
+            className="vads-u-visibility--screen-reader"
+          >
+            {resultsCountAnnouncement}
+          </p>
+          <p
+            aria-live="polite"
+            aria-atomic="true"
+            className="vads-u-visibility--screen-reader"
+          >
+            {activeResultAnnouncement}
+          </p>
+        </>
+      )}
     </div>
   );
 };

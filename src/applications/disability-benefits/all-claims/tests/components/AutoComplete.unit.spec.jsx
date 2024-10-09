@@ -349,11 +349,12 @@ describe('AutoComplete Component', () => {
       await waitFor(
         () => {
           const screenReaderMessage = getByText(
-            `${resultCount} results. ${searchTerm}, (1 of ${resultCount})`,
+            `${resultCount} results. Enter your condition as "${searchTerm}", (1 of ${resultCount})`,
           );
 
           expect(screenReaderMessage).to.exist;
-          expect(screenReaderMessage).to.have.attribute('role', 'alert');
+          expect(screenReaderMessage).to.have.attribute('aria-live', 'polite');
+          expect(screenReaderMessage).to.have.attribute('aria-atomic', 'true');
         },
         { timeout: 1600 },
       );
