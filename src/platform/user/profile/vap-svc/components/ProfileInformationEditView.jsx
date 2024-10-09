@@ -308,7 +308,7 @@ export class ProfileInformationEditView extends Component {
               name="Contact Info Form"
               title="Contact Info Form"
               schema={field.formSchema}
-              data={field.value}
+              data={this.props?.shouldAutoFill ? field.value : {}}
               uiSchema={field.uiSchema}
               onChange={event =>
                 this.onInput(event, field.formSchema, field.uiSchema)
@@ -391,6 +391,7 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
+  shouldAutoFill: PropTypes.bool,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
