@@ -24,7 +24,9 @@ import {
   showRegOnlyGuestConfirmation,
   dischargePapersRequired,
   includeTeraInformation,
+  includeRadiationCleanUpEfforts,
   includeGulfWarServiceDates,
+  includeAgentOrangeExposure,
   includeOtherExposureDates,
   includeOtherExposureDetails,
   showFinancialConfirmation,
@@ -34,8 +36,6 @@ import {
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   collectMedicareInformation,
-  useJsonFacilityList,
-  useLighthouseFacilityList,
 } from '../utils/helpers/form-config';
 import { SHARED_PATHS } from '../utils/constants';
 import migrations from './migrations';
@@ -111,7 +111,6 @@ import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import general from './chapters/insuranceInformation/general';
 import insurancePolicyPages from './chapters/insuranceInformation/insurancePolicies';
-import vaFacilityJsonPage from './chapters/insuranceInformation/vaFacility_json';
 import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
 import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
 
@@ -352,7 +351,7 @@ const formConfig = {
         radiationCleanup: {
           path: 'military-service/radiation-cleanup-efforts',
           title: 'Radiation cleanup or response efforts',
-          depends: includeTeraInformation,
+          depends: includeRadiationCleanUpEfforts,
           uiSchema: radiationCleanup.uiSchema,
           schema: radiationCleanup.schema,
         },
@@ -380,7 +379,7 @@ const formConfig = {
         agentOrangeExposure: {
           path: 'military-service/agent-orange-exposure',
           title: 'Agent Orange exposure',
-          depends: includeTeraInformation,
+          depends: includeAgentOrangeExposure,
           uiSchema: agentOrangeExposure.uiSchema,
           schema: agentOrangeExposure.schema,
         },
@@ -584,23 +583,12 @@ const formConfig = {
           ...insurancePolicyPages.healthInsurancePolicyInformation,
           depends: formData => formData['view:isInsuranceV2Enabled'],
         },
-        vaFacilityJson: {
-          path: 'insurance-information/va-facility-json',
-          title: 'VA Facility',
-          initialData: {
-            isEssentialAcaCoverage: false,
-          },
-          depends: useJsonFacilityList,
-          uiSchema: vaFacilityJsonPage.uiSchema,
-          schema: vaFacilityJsonPage.schema,
-        },
         vaFacilityLighthouse: {
           path: 'insurance-information/va-facility-api',
           title: 'VA Facility',
           initialData: {
             isEssentialAcaCoverage: false,
           },
-          depends: useLighthouseFacilityList,
           uiSchema: vaFacilityApiPage.uiSchema,
           schema: vaFacilityApiPage.schema,
         },
