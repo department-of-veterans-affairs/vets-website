@@ -56,24 +56,6 @@ import BenefitApplications from './benefit-application-drafts/BenefitApplication
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 
 const DashboardHeader = ({ showNotifications, user }) => {
-  useEffect(() => {
-    const handleAnchorLink = () => {
-      if (document.location.hash === '#benefit-applications') {
-        const timeoutId = setTimeout(() => {
-          document
-            .querySelector('#benefit-applications')
-            .scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
-
-        return () => clearTimeout(timeoutId);
-      }
-
-      return () => {};
-    };
-
-    handleAnchorLink();
-  }, []);
-
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
     TOGGLE_NAMES.myVaHideNotificationsSection,

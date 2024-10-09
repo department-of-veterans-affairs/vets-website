@@ -41,6 +41,19 @@ const BenefitApplications = ({
     [getFormStatuses, isFormSubmissionStatusWork],
   );
 
+  useEffect(() => {
+    const handleAnchorLink = () => {
+      if (document.location.hash === '#benefit-applications') {
+        const elt = document.querySelector('#benefit-applications');
+        elt?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      return () => {};
+    };
+
+    handleAnchorLink();
+  }, []);
+
   return (
     <div
       data-testid="dashboard-section-benefit-application-drafts"
