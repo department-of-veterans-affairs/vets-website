@@ -33,7 +33,9 @@ const ProviderServiceDescription = ({ provider, details = false }) => {
     provider,
     [],
   ).map(s => s.name.trim());
+
   if (specialties.length === 0) return null;
+
   return (
     <div>
       {specialties.length >= 1 && (
