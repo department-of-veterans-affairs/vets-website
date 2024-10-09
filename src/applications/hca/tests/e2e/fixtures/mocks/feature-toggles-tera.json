@@ -7,7 +7,7 @@
         "value": false
       },
       {
-        "name": "hca_reg_only_enabled",
+        "name": "hca_tera_branching_enabled",
         "value": true
       },
       {
