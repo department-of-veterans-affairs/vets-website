@@ -158,3 +158,12 @@ export const APP_URLS = {
   verify: getAppUrl('verify'),
   facilities: getAppUrl('facilities'),
 };
+
+// declare prefix for use in GA events related to uploading attachments
+export const UPLOAD_ATTACHMENT_PREFIX = 'upload-attachment';
+
+export const UPLOAD_ATTACHMENT_ACTIONS = {
+  UPLOAD_ATTACHMENT_STARTED: 'UPLOAD_ATTACHMENT_STARTED',
+  UPLOAD_ATTACHMENT_SUCCEEDED: 'UPLOAD_ATTACHMENT_SUCCEEDED',
+  UPLOAD_ATTACHMENT_FAILED: 'UPLOAD_ATTACHMENT_FAILED',
+};

@@ -36,3 +36,11 @@ export function parseResponseErrors(response = {}) {
   }
   return { code: null, detail: null };
 }
+
+export function parseErrors(response = {}) {
+  if (response.errors) {
+    const error = response.errors[0];
+    return { code: error.status, detail: error.detail };
+  }
+  return { code: null, detail: null };
+}

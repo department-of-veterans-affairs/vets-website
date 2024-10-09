@@ -196,3 +196,12 @@ export const SHARED_PATHS = {
 
 // declare states without medical care serivces
 export const STATES_WITHOUT_MEDICAL = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];
+
+// declare prefix for use in GA events related to uploading attachments
+export const UPLOAD_ATTACHMENT_PREFIX = 'upload-attachment';
+
+export const UPLOAD_ATTACHMENT_ACTIONS = {
+  UPLOAD_ATTACHMENT_STARTED: 'UPLOAD_ATTACHMENT_STARTED',
+  UPLOAD_ATTACHMENT_SUCCEEDED: 'UPLOAD_ATTACHMENT_SUCCEEDED',
+  UPLOAD_ATTACHMENT_FAILED: 'UPLOAD_ATTACHMENT_FAILED',
+};
