@@ -16,7 +16,8 @@ export const URL = {
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
   GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
-  // GET_INQUIRIES: `${baseURL}/inquiries`,
+  INQUIRIES: `${baseURL}/inquiries`,
+  AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
 };
 
 export const CategoryEducation =
