@@ -718,3 +718,10 @@ div[data-widget-type="events"] {
     }
   }
 }
+
+// foundation/global.scss sets display and vertical align on img tags. This is most obviously seen in the footer image
+// in content-build
+img {
+  display: inline-block;
+  vertical-align: middle;
+}
