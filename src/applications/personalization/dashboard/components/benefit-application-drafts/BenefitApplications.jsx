@@ -50,7 +50,7 @@ const BenefitApplications = ({
       return () => {};
     };
 
-    window.onload = handleAnchorLink();
+    handleAnchorLink();
   }, []);
 
   return (
