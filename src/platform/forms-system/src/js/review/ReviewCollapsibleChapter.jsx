@@ -34,7 +34,12 @@ class ReviewCollapsibleChapter extends React.Component {
 
   // handleEdit(key, editing, index = null, path) {
   handleEdit(path) {
-    this.goToPath(`/1/ezr/${path}`);
+    window.sessionStorage.setItem('review', 'true');
+    const basePath = window.location.pathname
+      .split('/')
+      .slice(2, 4)
+      .join('/');
+    this.goToPath(`/${basePath}/${path}`);
     // if (editing || !this.hasValidationError(key, index)) {
     //   this.props.onEdit(key, editing, index, path);
     //   const name = fixSelector(key);

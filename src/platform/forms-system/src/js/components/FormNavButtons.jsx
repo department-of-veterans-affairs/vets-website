@@ -27,7 +27,8 @@ const FormNavButtons = ({ goBack, goForward, submitToContinue }) => (
       <ProgressButton
         submitButton={submitToContinue}
         onButtonClick={goForward}
-        buttonText="Continue"
+        // buttonText="Continue"
+        buttonText={sessionStorage.review ? 'Save & Return' : 'Continue'}
         buttonClass="usa-button-primary"
         afterText="»"
       />
