@@ -62,9 +62,8 @@ export const ConfirmationPage = ({
 
   if (apiError) {
     return (
-      <DeniedConfirmation
+      <UnderReviewConfirmation
         user={claimantName}
-        claimantName={claimantName}
         confirmationError={confirmationError}
         confirmationLoading={confirmationLoading}
         dateReceived={newReceivedDate}
