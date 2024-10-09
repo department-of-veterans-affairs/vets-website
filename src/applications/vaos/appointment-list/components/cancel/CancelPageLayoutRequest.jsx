@@ -3,8 +3,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { shallowEqual } from 'recompose';
+import Address from '../../../components/Address';
 import FacilityPhone from '../../../components/FacilityPhone';
-import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { selectRequestedAppointmentDetails } from '../../redux/selectors';
 import ListBestTimeToCall from '../ListBestTimeToCall';
 import { Details, Section } from '../../../components/layout/DetailPageLayout';
@@ -16,7 +16,6 @@ export default function CancelPageLayoutRequest() {
     bookingNotes,
     email,
     facility,
-    facilityId,
     facilityPhone,
     isCC,
     phone,
@@ -89,17 +88,19 @@ export default function CancelPageLayoutRequest() {
             <span>{preferredModality}</span>
           </Section>
           <Section heading="Facility" level={3}>
-            <VAFacilityLocation
-              facility={facility}
-              facilityName={facility?.name}
-              facilityId={facilityId}
-              isPhone={false}
-              showPhone={false}
-              showDirectionsLink={false}
-            />
+            {!!facility?.name && (
+              <>
+                {facility.name}
+                <br />
+              </>
+            )}
+            <Address address={facility?.address} />
           </Section>
           <Section heading="Phone" level={3}>
-            <FacilityPhone contact={facilityPhone} icon />
+            {facilityPhone && (
+              <FacilityPhone heading="Phone:" contact={facilityPhone} icon />
+            )}
+            {!facilityPhone && <>Not available</>}
           </Section>
         </>
       )}
