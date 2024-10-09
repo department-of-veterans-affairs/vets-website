@@ -352,6 +352,20 @@ const getNotificationMethod = notificationMethod => {
 //   };
 // };
 
+export function getAddressType(mailingAddress) {
+  if (!mailingAddress) {
+    return null;
+  }
+
+  if (mailingAddress?.livesOnMilitaryBase) {
+    return 'MILITARY_OVERSEAS';
+  }
+  if (mailingAddress?.address?.country === DEFAULT_SCHEMA_COUNTRY_CODE) {
+    return 'DOMESTIC';
+  }
+  return 'FOREIGN';
+}
+
 export function transform5490Form(_formConfig, form) {
   const formFieldUserFullName = form?.data?.fullName;
   const viewComponentUserFullName = form?.loadedData?.formData?.fullName;
@@ -383,9 +397,7 @@ export function transform5490Form(_formConfig, form) {
         city: form?.data?.mailingAddressInput?.address?.city,
         zipcode: form?.data?.mailingAddressInput?.address?.postalCode,
         emailAddress: form?.data?.email?.email,
-        addressType: form?.data?.mailingAddressInput?.livesOnMilitaryBase
-          ? 'MILITARY_OVERSEAS'
-          : 'mobilePhoneNumber',
+        addressType: getAddressType(form?.data?.mailingAddressInput),
         mobilePhoneNumber: form?.data?.mobilePhone,
         homePhoneNumber: form?.data?.homePhone,
         countryCode: getLTSCountryCode(
