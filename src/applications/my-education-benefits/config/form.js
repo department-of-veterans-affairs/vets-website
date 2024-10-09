@@ -21,6 +21,8 @@ import preFilledDirectDeposit33 from './chapters/33/bankAccountInfo/preFilledDir
 import benefitSelection from './chapters/benefitSelection';
 
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
+import AdditionalConsiderationsReviewPage from '../components/AdditionalConsiderationsReviewPage';
+import BenefitSelectionReviewPage from '../components/BenefitSelectionReviewPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ContactInformationReviewPanel from '../components/ContactInformationReviewPanel';
 
@@ -94,6 +96,7 @@ const formConfig = {
           depends: formData => formData?.meb160630Automation,
           uiSchema: benefitSelection.uiSchema,
           schema: benefitSelection.schema,
+          CustomPageReview: BenefitSelectionReviewPage,
         },
       },
     },
@@ -180,6 +183,7 @@ const formConfig = {
     },
     additionalConsiderationsChapter: {
       title: 'Additional considerations',
+      CustomPageReview: AdditionalConsiderationsReviewPage,
       pages: {
         ...additionalConsiderations33,
       },

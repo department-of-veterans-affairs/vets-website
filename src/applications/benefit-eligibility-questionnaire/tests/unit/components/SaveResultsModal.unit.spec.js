@@ -33,7 +33,9 @@ describe('<SaveResultsModal>', () => {
 
     await waitFor(() => {
       const alert = container.querySelector('#copy-alert');
+      const alertFocus = container.querySelector('#copy-alert:focus');
       expect(alert).to.exist;
+      expect(alertFocus).to.exist;
     });
   });
 });

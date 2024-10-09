@@ -17,6 +17,7 @@ const schema = {
   properties: {
     techIndustryFocusArea: {
       ...fullSchema10282.properties.techIndustryFocusArea,
+      enum: fullSchema10282.properties.techIndustryFocusArea.enum.sort(),
     },
   },
 };

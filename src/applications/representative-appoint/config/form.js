@@ -5,10 +5,12 @@ import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { pdfTransform } from '../utilities/pdfTransform';
+import { generatePDF } from '../api/generatePDF';
 
 import {
   authorizeMedical,
-  authorizeMedicalSelect,
+  // authorizeMedicalSelect,
   authorizeAddress,
   authorizeInsideVA,
   authorizeOutsideVA,
@@ -27,6 +29,7 @@ import {
   selectAccreditedRepresentative,
   replaceAccreditedRepresentative,
   selectedAccreditedOrganizationId,
+  contactAccreditedRepresentative,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
@@ -51,7 +54,11 @@ const formConfig = {
     appType: 'form',
     submitButtonText: 'Continue',
   },
-  submit: (form, _formConfig) => Promise.resolve(form), // This function will have to be updated when we're ready to call the create PDF endpoint
+  submit: async form => {
+    const transformedFormData = pdfTransform(form.data);
+    const pdfResponse = await generatePDF(transformedFormData);
+    localStorage.setItem('formPdf', pdfResponse);
+  },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -102,6 +109,12 @@ const formConfig = {
           path: 'representative-select',
           uiSchema: selectAccreditedRepresentative.uiSchema,
           schema: selectAccreditedRepresentative.schema,
+        },
+        contactAccreditedRepresentative: {
+          title: 'Representative Contact',
+          path: 'representative-contact',
+          uiSchema: contactAccreditedRepresentative.uiSchema,
+          schema: contactAccreditedRepresentative.schema,
         },
         selectAccreditedOrganization: {
           path: 'representative-organization',
@@ -292,18 +305,18 @@ const formConfig = {
           uiSchema: authorizeMedical.uiSchema,
           schema: authorizeMedical.schema,
         },
-        authorizeMedicalSelect: {
-          path: 'authorize-medical/select',
-          depends: formData => {
-            return (
-              formData?.authorizationRadio ===
-              'Yes, but they can only access some of these types of records'
-            );
-          },
-          title: 'Authorization for Certain Medical Records - Select',
-          uiSchema: authorizeMedicalSelect.uiSchema,
-          schema: authorizeMedicalSelect.schema,
-        },
+        // authorizeMedicalSelect: {
+        //   path: 'authorize-medical/select',
+        //   depends: formData => {
+        //     return (
+        //       formData?.authorizationRadio ===
+        //       'Yes, but they can only access some of these types of records'
+        //     );
+        //   },
+        //   title: 'Authorization for Certain Medical Records - Select',
+        //   uiSchema: authorizeMedicalSelect.uiSchema,
+        //   schema: authorizeMedicalSelect.schema,
+        // },
         authorizeAddress: {
           path: 'authorize-address',
           title: 'Authorization to change your address',
