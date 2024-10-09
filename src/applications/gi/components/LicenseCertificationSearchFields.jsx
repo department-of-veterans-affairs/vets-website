@@ -12,18 +12,21 @@ function LicenseCertificationSearchFields({ dropdowns, handleChange }) {
         <va-text-input label="License/Certification Name" />
       </div>
       {dropdowns.map((dropdown, index) => {
+        const { label, options, current, alt } = dropdown;
+
         return (
           <div className="row" key={index}>
             <Dropdown
               disabled={false}
-              label={capitalizeFirstLetter(dropdown.label)}
+              label={capitalizeFirstLetter(label)}
               visible
-              name={dropdown.label}
-              options={dropdown.options}
-              value={dropdown.current.optionValue}
+              name={label}
+              options={options}
+              value={current.optionValue}
               onChange={handleChange}
-              alt={dropdown.alt}
+              alt={alt}
               selectClassName="lc-dropdown-filter"
+              required={label === 'country' || label === 'category'}
             />
           </div>
         );
