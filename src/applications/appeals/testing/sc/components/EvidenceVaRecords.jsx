@@ -7,7 +7,7 @@ import { getIndex, hasErrors } from '../utils/evidence';
 import {
   validateVaLocation,
   validateVaIssues,
-  // validateVaDate,
+  validateVaDate,
   validateVaUnique,
   isEmptyVaEntry,
 } from '../validations/evidence';
@@ -87,7 +87,9 @@ const EvidenceVaRecords = ({
       data,
       currentIndex,
     )[0],
-    // treatmentDate: checkValidations([validateVaDate], currentData),
+    treatmentDate: currentData.noDate
+      ? null
+      : checkValidations([validateVaDate], currentData),
   };
 
   useEffect(

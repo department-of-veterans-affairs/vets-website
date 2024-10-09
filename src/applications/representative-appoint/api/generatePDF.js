@@ -2,7 +2,10 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import manifest from '../manifest.json';
 
-export const generatePDF = (transformedFormData, formNumber) => {
+export const generatePDF = transformedFormData => {
+  const isAttorneyOrClaimsAgent =
+    transformedFormData?.representative?.type === ('attorney' || 'claimsAgent');
+
   const apiSettings = {
     mode: 'cors',
     method: 'POST',
@@ -19,7 +22,9 @@ export const generatePDF = (transformedFormData, formNumber) => {
 
   const requestUrl = `${
     environment.BASE_URL
-  }/representation_management/v0/pdf_generator${formNumber}`;
+  }/representation_management/v0/pdf_generator${
+    isAttorneyOrClaimsAgent ? '2122a' : '2122'
+  }`;
 
   return new Promise((resolve, reject) => {
     apiRequest(requestUrl, apiSettings)

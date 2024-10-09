@@ -56,10 +56,7 @@ const formConfig = {
   },
   submit: async form => {
     const transformedFormData = pdfTransform(form.data);
-    const pdfResponse = await generatePDF(
-      transformedFormData,
-      formConfigFromService.submitUrl,
-    );
+    const pdfResponse = await generatePDF(transformedFormData);
     localStorage.setItem('formPdf', pdfResponse);
   },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',

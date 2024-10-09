@@ -38,7 +38,11 @@ import { getIssueTitle } from '../../../shared/content/areaOfDisagreement';
 import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import { appStateSelector } from '../../../shared/utils/issues';
 import reviewErrors from '../../../shared/content/reviewErrors';
-import { focusRadioH3, focusH3, focusIssue } from '../../../shared/utils/focus';
+import {
+  focusH3OrRadioError,
+  focusH3,
+  focusIssue,
+} from '../../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -74,6 +78,9 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  formOptions: {
+    focusOnAlertRole: true,
+  },
 
   version: migrations.length,
   migrations,
@@ -196,7 +203,7 @@ const formConfig = {
           title: 'Request an informal conference',
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
-          scrollAndFocusTarget: focusRadioH3,
+          scrollAndFocusTarget: focusH3OrRadioError,
         },
         representativeInfoV2: {
           // changing path from v1, but this shouldn't matter since the

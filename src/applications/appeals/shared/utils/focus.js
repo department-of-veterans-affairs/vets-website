@@ -101,13 +101,23 @@ export const focusRadioH3 = () => {
   }
 };
 
+// Testing focus on role="alert" inside web components
+export const focusH3OrRadioError = () => {
+  scrollTo('topContentElement');
+  const radio = $('va-radio, va-checkbox-group');
+  const hasError = radio.getAttribute('error');
+  const target = hasError ? '[role="alert"]' : 'h3';
+  const root = hasError ? radio.shadowRoot : document;
+  waitForRenderThenFocus(target, root);
+};
+
 // Temporary focus function for HLR homlessness question (page header is
 // dynamic); once 100% released, change homeless form config to use
 // `scrollAndFocusTarget: focusH3`
 export const focusToggledHeader = () => {
   scrollTo('topContentElement');
   const radio = $('va-radio');
-  if (sessionStorage.getItem('hlrUpdated') === 'false' && radio) {
+  if ((sessionStorage.getItem('hlrUpdated') || 'false') === 'false' && radio) {
     waitForRenderThenFocus('h3', radio.shadowRoot);
   } else {
     waitForRenderThenFocus('#main h3');

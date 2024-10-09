@@ -43,4 +43,9 @@ const referral = {
     phone: '555-555-5555',
   },
 };
+referral.slots.push({
+  end: '2024-11-22T16:30:00.000Z',
+  id: 35145,
+  start: '2024-11-22T16:00:00.000Z',
+});
 module.exports = { getAvailableSlots, referral };

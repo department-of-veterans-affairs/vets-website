@@ -216,11 +216,7 @@ class Profile extends Component {
           appTitle="profile"
           render={this.handleDowntimeApproaching}
           loadingIndicator={<RequiredLoginLoader />}
-          dependencies={[
-            externalServices.evss,
-            externalServices.mvi,
-            externalServices.vaProfile,
-          ]}
+          dependencies={[externalServices.VAPRO_PROFILE_PAGE]}
         >
           {this.renderContent()}
         </DowntimeNotification>

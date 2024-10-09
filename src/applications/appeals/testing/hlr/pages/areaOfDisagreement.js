@@ -20,6 +20,9 @@ const allDisagreementsLength =
 
 export default {
   uiSchema: {
+    'ui:options': {
+      focusOnAlertRole: true,
+    },
     areaOfDisagreement: {
       items: {
         'ui:title': issueTitle,

@@ -142,7 +142,7 @@ export function ResultCard({
 
   const containerClasses = classNames({
     'vads-u-margin-bottom--2': !location,
-    'small-screen:vads-u-margin-left--2p5': !location,
+    'mobile-lg:vads-u-margin-left--2p5': !location,
     'vads-u-margin--0': location,
     'vads-u-padding--0': location,
   });

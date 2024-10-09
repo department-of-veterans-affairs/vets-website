@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import DowntimeNotification, {
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
 
 import AccountSecurityContent from './AccountSecurityContent';
@@ -24,12 +20,7 @@ class AccountSecurity extends Component {
     return (
       <>
         <Headline>Account security</Headline>
-        <DowntimeNotification
-          render={handleDowntimeForSection('account security')}
-          dependencies={[externalServices.mvi]}
-        >
-          <AccountSecurityContent />
-        </DowntimeNotification>
+        <AccountSecurityContent />
       </>
     );
   }

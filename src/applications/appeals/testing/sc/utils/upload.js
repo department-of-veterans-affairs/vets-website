@@ -34,6 +34,7 @@ export const fileUploadUi = content => ({
     hideLabelText: !content.label,
     hideOnReview: true,
     attachmentName: false,
+    focusOnAlertRole: true,
   }),
   'ui:field': FileField,
   'ui:description': content.description,
