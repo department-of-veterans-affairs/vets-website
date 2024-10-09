@@ -121,10 +121,7 @@ jobs:
         run: |
           chmod +x ./script/github-actions/cypress-integration-test.sh 
           ./script/github-actions/cypress-integration-test.sh "${{ github.event.inputs.branch }}"
-    outputs:      
-        ECR_USER: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
-        ECR_PASSWORD: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
-
+ 
 
     run-cypress-tests:
         uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/test.yml@baf920143d0f8313dfee860dcba9cc7bd77a9a1d
