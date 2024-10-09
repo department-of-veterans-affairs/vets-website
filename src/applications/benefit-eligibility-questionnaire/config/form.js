@@ -125,11 +125,11 @@ export const formConfig = {
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
           depends: formData =>
-            formData.militaryServiceCurrentlyServing === 'Yes',
+            formData.militaryServiceCurrentlyServing === true,
           onNavForward: ({ formData, goPath }) => {
             if (
-              formData.militaryServiceCurrentlyServing === 'Yes' &&
-              formData.militaryServiceCompleted === 'No'
+              formData.militaryServiceCurrentlyServing === true &&
+              formData.militaryServiceCompleted === false
             ) {
               goPath(
                 formConfig.chapters.chapter4.pages.characterOfDischarge.path,
