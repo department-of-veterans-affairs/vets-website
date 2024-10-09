@@ -127,7 +127,7 @@ jobs:
 
 
     run-cypress-tests:
-        uses: department-of-veterans-affairs/vsp-github-actions/.github/workflows/cypress-integration-test@cypress-integration-test-migration
+        uses: department-of-veterans-affairs/vsp-github-actions/.github/workflows/cypress-integration-test/action.yml@cypress-integration-test-migration
         secrets: inherit
   
     notify-failure:
