@@ -212,8 +212,6 @@ export class ConfirmationPage extends React.Component {
           and career benefits. We'll add more types of benefits soon.
         </p>
 
-        <SaveResultsModal />
-
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
         <div
@@ -244,6 +242,7 @@ export class ConfirmationPage extends React.Component {
                 'hide-filters-section-mobile': !this.state.showMobileFilters,
               })}
             >
+              <SaveResultsModal />
               <span>
                 <b>Filters</b>
               </span>
