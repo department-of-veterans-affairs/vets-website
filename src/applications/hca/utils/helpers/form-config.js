@@ -267,10 +267,6 @@ export function includePostSept11Service(formData) {
  * post-9/11 locations
  */
 export function includePostSept11ServiceDates(formData) {
-  if (!formData['view:isTeraBranchingEnabled']) {
-    return false;
-  }
-
   const { gulfWarService } = formData;
   return (
     includeTeraInformation(formData) &&
