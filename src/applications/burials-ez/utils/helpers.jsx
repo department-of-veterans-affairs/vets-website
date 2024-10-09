@@ -60,32 +60,9 @@ function pollStatus(
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
-export function transformCountryCode(countryCode) {
-  switch (countryCode) {
-    case 'USA':
-      return 'US';
-    case 'MEX':
-      return 'MX';
-    case 'CAN':
-      return 'CA';
-    default:
-      return countryCode;
-  }
-}
-
 export function transform(formConfig, form) {
   const localTime = formatISO(new Date());
-  const correctedForm = {
-    ...form,
-    data: {
-      ...form?.data,
-      claimantAddress: {
-        ...form?.data?.claimantAddress,
-        country: transformCountryCode(form?.data?.claimantAddress?.country),
-      },
-    },
-  };
-  const formData = transformForSubmit(formConfig, correctedForm);
+  const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
     burialClaim: {
       form: formData,

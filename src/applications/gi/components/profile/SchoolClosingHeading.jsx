@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import AlertBox from '../AlertBox';
 
@@ -24,4 +25,8 @@ const SchoolClosingHeading = ({ schoolClosing, schoolClosingOn }) => {
   return null;
 };
 
+SchoolClosingHeading.propTypes = {
+  schoolClosing: PropTypes.bool,
+  schoolClosingOn: PropTypes.string,
+};
 export default SchoolClosingHeading;

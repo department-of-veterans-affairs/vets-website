@@ -323,6 +323,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     expect(screen.history.push.called).not.to.be.true;
   });
 
+  // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/94471
   it.skip('should fetch slots when moving between months', async () => {
     mockEligibilityFetches({
       facilityId: '983',
