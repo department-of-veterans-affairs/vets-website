@@ -236,10 +236,10 @@ To Save In Progress locally you must mock vets-api locally to intercept the fron
 2. View the example mock set up in [ivc-champva/10-7959C](https://github.com/department-of-veterans-affairs/vets-website/pull/29340)'s local-mock-responses file to get an idea of how to set up your responses and mocks files.
 3. To trigger the In-Progress state of the Intro-page's SIP-alert add the desired form-ID as a string into the `user.json`'s "in-progress-forms" array ([example here](https://github.com/department-of-veterans-affairs/vets-website/blob/8483a502755da0397e0a23ace2bd97d1791493de/src/applications/ivc-champva/10-7959C/tests/e2e/fixtures/mocks/user.json#L22)) -- e.g., `"in-progress-forms": ["10-7959C"]`, and the sip-get.json & sip-put.json support the SIP-alerts you see just above a form-pages back-continue buttons, as you input data into the fields
 4. Launch the mocked API using the following command
-    ```bash
-    # Run in vets-website
-    yarn mock-api --responses path/to/responses.js
-    ```
+   ```bash
+   # Run in vets-website
+   yarn mock-api --responses path/to/responses.js
+   ```
 5. To simulate a logged in user, visit the form locally in your browser and enter the following into the browser console:
 
    ```JavaScript
@@ -253,18 +253,21 @@ For an example of a functional API mock for SIP, see this [ivc-champva/10-7959C]
 
 IVC CHAMPVA forms rely on the Pega backend service for handling form submissions. Periodically, it may be necessary to schedule some downtime while if Pega will be taken down for maintenance or some other reason.
 
-To handle this, each IVC CHAMPVA form app is wrapped in a `DowntimeNotification` 
-component. These read the state of the [Pega service in Pager Duty](https://dsva.pagerduty.com/service-directory/P3ZJCBK).
+To handle this, each IVC CHAMPVA form app is wrapped in a `DowntimeNotification`
+component. These read the state of the Pega service in Pager Duty. There are two instances of this service - a [production service](https://dsva.pagerduty.com/service-directory/PQC81W3), and a [staging service](https://dsva.pagerduty.com/service-directory/P3ZJCBK).
+
+> [!NOTE]
+> The below instructions on creating a window can apply to both production and staging services. They are independent of one another and apply only in their respective environments. The steps are the same for either environment.
 
 ### Create a maintenance window
 
 When a maintenance window is known, it can be scheduled in advance and then
 automatically applied to the IVC CHAMPVA forms. To create a maintenance window,
-navigate to the [Pega service in Pager Duty](https://dsva.pagerduty.com/service-directory/P3ZJCBK):
+navigate to the appropriate Pega service in Pager Duty (either [production](https://dsva.pagerduty.com/service-directory/PQC81W3) or [staging](https://dsva.pagerduty.com/service-directory/P3ZJCBK)) - **this process is the same for both environments**:
 
 ![Image of Pega service in Pager Duty (staging)](images/pager_duty/pager_duty0.png 'Pega service in Pager Duty (staging)')
 
-Once on the service screen, scroll to the bottom where you will see the 
+Once on the service screen, scroll to the bottom where you will see the
 maintenance window section.
 
 ![Image of maintenance window section](images/pager_duty/pager_duty1.png 'Maintenance window section')
@@ -273,7 +276,7 @@ Click `Add a Maintenance Window`.
 
 ![Image of new maintenance window modal](images/pager_duty/create_window.png 'Add a maintenance window modal')
 
-Enter the details for the maintenance window and save. Once the maintenance 
+Enter the details for the maintenance window and save. Once the maintenance
 window is active, you will see a message indicating the active maintenance.
 
 |Scheduled|Active|

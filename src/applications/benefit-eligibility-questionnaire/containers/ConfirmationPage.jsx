@@ -186,6 +186,12 @@ export class ConfirmationPage extends React.Component {
     this.setState({ showMobileFilters: !currentState });
   }
 
+  handleClick = e => {
+    e.preventDefault();
+
+    this.props.router.goBack();
+  };
+
   render() {
     return (
       <div>
