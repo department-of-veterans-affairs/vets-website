@@ -14,7 +14,7 @@ const InstructionsPage = ({ router }) => {
     >
       <h1 itemProp="name">How to apply for a discharge upgrade</h1>
       <div className="row vads-u-margin--0">
-        <article className="usa-content columns xsmall-screen:vads-u-padding--0">
+        <article className="usa-content columns mobile:vads-u-padding--0">
           <div className="va-introtext">
             <p itemProp="description">
               Answer a series of questions to get customized step-by-step
