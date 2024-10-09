@@ -10,6 +10,8 @@ import {
   statementOfTruthFullName,
 } from '~/platform/forms/components/review/PreSubmitSection';
 import { autoSaveForm } from '~/platform/forms/save-in-progress/actions';
+import { $, focusElement } from '~/platform/forms-system/src/js/utilities/ui';
+
 import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';
 import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
@@ -80,6 +82,18 @@ class SubmitController extends Component {
       this.props.setSubmission('hasAttemptedSubmit', true);
       this.props.setSubmission('timestamp', now);
       // <PreSubmitSection/> is displaying an error for this case
+      // focus on va-privacy-agreement, or [show-error] (also
+      // va-privacy-agreement), or [error] (other web component, like statement
+      // of truth signature)
+      setTimeout(() => {
+        const error = $('va-privacy-agreement, [show-error], [error]');
+        if (formConfig?.formOptions?.focusOnAlertRole) {
+          const checkbox = $('va-checkbox', error?.shadowRoot);
+          focusElement('[role="alert"]', {}, checkbox?.shadowRoot);
+        } else {
+          focusElement(error);
+        }
+      }, 100);
       return;
     }
 
