@@ -529,11 +529,6 @@ describe('hca form config helpers', () => {
       expect(includePostSept11ServiceDates(formData)).to.be.false;
     });
 
-    it('should return `false` when feature flag is disabled', () => {
-      const formData = getData({ enabled: false });
-      expect(includePostSept11ServiceDates(formData)).to.be.false;
-    });
-
     it('should return `false` when TERA response is `false`', () => {
       const formData = getData({ included: false });
       expect(includePostSept11ServiceDates(formData)).to.be.false;
