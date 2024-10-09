@@ -32,6 +32,6 @@ describe('submit transformer', () => {
     const newTransformData = JSON.parse(
       transformForSubmit(formConfig, formData),
     );
-    expect(newTransformData.veteran.date_of_birth).to.equal('2004-02-19');
+    expect(newTransformData.veteran.date_of_birth).to.equal('02/19/2004');
   });
 });
