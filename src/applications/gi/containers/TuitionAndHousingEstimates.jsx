@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchAccordion from '../components/SearchAccordion';
@@ -167,6 +168,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchEligibilityChange: eligibilityChange,
+};
+TuitionAndHousingEstimates.propTypes = {
+  dispatchEligibilityChange: PropTypes.func.isRequired,
+  dispatchShowModal: PropTypes.func.isRequired,
+  eligibility: PropTypes.object.isRequired,
+  modalClose: PropTypes.func,
+  smallScreen: PropTypes.bool,
 };
 
 export default connect(

@@ -1231,3 +1231,15 @@ export const getTrackedItemDateFromStatus = item => {
       return item.requestedDate;
   }
 };
+
+// Many of the display names for tracked items provided by the API are rather
+//   esoteric, so we replace some of them to make them more user-friendly.
+const trackedItemsHumanReadableNames = new Map([
+  ['PMR Pending', 'Private Medical Record'],
+]);
+// Currently only being used by reducers/serialize, but it might need to be
+//   moved elsewhere if future application logic depends on the original
+//   `displayName` of the tracked item.
+export const getTrackedItemHumanReadableName = name => {
+  return trackedItemsHumanReadableNames.get(name) || name;
+};

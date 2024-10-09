@@ -96,7 +96,7 @@ describe('go bill CT before search by location', () => {
   it('should focuses on the input when the Apply filters button is clicked and show an error if input is empty', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('input[data-testid="ct-input"]').should('not.be.focused');
-    cy.get('button[id="update-filter-your-results-button"]').click();
+    cy.get('[data-testid="update-filter-your-results-button"]').click();
     cy.get('input[data-testid="ct-input"]').should('be.focused');
     cy.get('[id="search-error-message"]').should(
       'contain',

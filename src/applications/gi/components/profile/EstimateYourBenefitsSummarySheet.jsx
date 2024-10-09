@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CalculatorSheetResultRow from './CalculatorSheetResultRow';
 
 export const EstimateYourBenefitsSummarySheet = ({
@@ -10,9 +11,10 @@ export const EstimateYourBenefitsSummarySheet = ({
   yellowRibbon,
 }) => (
   <div className="vads-u-padding-bottom--1p5 vads-u-border-top--1px vads-u-border-color--gray-light">
+    {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
     <button
-      aria-expanded={expandEybSheet ? 'true' : 'false'}
-      aria-controls={showEybSheet && 'eyb-summary-sheet'}
+      aria-expanded={expandEybSheet}
+      aria-controls={showEybSheet ? 'eyb-summary-sheet' : undefined}
       className="eyb-button usa-accordion-button vads-u-padding-bottom--0"
       onClick={() => toggleEybExpansion()}
     >
@@ -138,5 +140,14 @@ export const EstimateYourBenefitsSummarySheet = ({
     </div>
   </div>
 );
+
+EstimateYourBenefitsSummarySheet.propTypes = {
+  expandEybSheet: PropTypes.bool,
+  outputs: PropTypes.object,
+  showEybSheet: PropTypes.bool,
+  toggleEybExpansion: PropTypes.func,
+  type: PropTypes.string,
+  yellowRibbon: PropTypes.bool,
+};
 
 export default EstimateYourBenefitsSummarySheet;
