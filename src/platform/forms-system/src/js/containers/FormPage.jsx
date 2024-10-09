@@ -378,6 +378,7 @@ class FormPage extends React.Component {
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}
           onSubmit={this.onSubmit}
+          formOptions={route.formConfig?.formOptions || {}}
         >
           {pageContentBeforeButtons}
           {hideNavButtons ? (

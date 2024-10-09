@@ -5,6 +5,14 @@ const SERVICES = {
   MVI: 'mvi',
   GLOBAL: 'global',
   VA_PROFILE: 'vet360',
+  // Sources for VA Profile services:
+  VAPRO_PROFILE_PAGE: 'vaproProfilePage',
+  VAPRO_CONTACT_INFO: 'vaproContactInformation',
+  LIGHTHOUSE_DIRECT_DEPOSIT: 'lighthouseDirectDeposit',
+  VAPRO_MILITARY_INFO: 'vaproMilitaryInformation',
+  VAPRO_NOTIFICATION_SETTINGS: 'vaproNotificationSettings',
+  VAPRO_HEALTH_CARE_CONTACTS: 'vaproPersonalHealthCareContacts',
+  VAPRO_PERSONAL_INFO: 'vaproPersonalInformation',
 };
 
 const beforeNow = moment()

@@ -10,7 +10,7 @@ export const selectFeatureToggles = state => {
     isESOverrideEnabled:
       toggles[FEATURE_FLAG_NAMES.hcaEnrollmentStatusOverrideEnabled],
     isInsuranceV2Enabled: toggles[FEATURE_FLAG_NAMES.hcaInsuranceV2Enabled],
-    isFacilitiesApiEnabled: toggles[FEATURE_FLAG_NAMES.hcaUseFacilitiesApi],
+    isTeraBranchingEnabled: toggles[FEATURE_FLAG_NAMES.hcaTeraBranchingEnabled],
     isRegOnlyEnabled: toggles[FEATURE_FLAG_NAMES.hcaRegOnlyEnabled],
     isSigiEnabled: toggles[FEATURE_FLAG_NAMES.hcaSigiEnabled],
   };
