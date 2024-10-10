@@ -1,6 +1,5 @@
 import React from 'react';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
-import Breadcrumbs from '../Breadcrumbs';
 import InfoAlert from '../InfoAlert';
 
 export default function AppUnavailable() {
@@ -8,7 +7,6 @@ export default function AppUnavailable() {
     <>
       <MhvSecondaryNav />
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
-        <Breadcrumbs />
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
             <InfoAlert

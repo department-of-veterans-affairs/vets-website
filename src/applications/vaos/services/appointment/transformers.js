@@ -15,19 +15,19 @@ import {
 } from '../../utils/appointment';
 
 function getAppointmentType(appt) {
+  const isBooked = appt.slot || appt.end;
   if (appt.kind === 'cc' && appt.start) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
-  if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
+  if (appt.kind === 'cc' && !isBooked) {
     return APPOINTMENT_TYPES.ccRequest;
   }
-  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
+  if (appt.kind !== 'cc' && !isBooked) {
     return APPOINTMENT_TYPES.request;
   }
 
   return APPOINTMENT_TYPES.vaAppointment;
 }
-
 /**
  * Gets the type of visit that matches our array of visit constant
  *

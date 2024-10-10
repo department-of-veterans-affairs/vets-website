@@ -92,7 +92,7 @@ export async function fetchAppointments({ startDate, endDate }) {
     ]);
 
     const filteredAppointments = allAppointments.data.filter(appt => {
-      return !appt.requestedPeriods;
+      return appt.slots || appt.end;
     });
 
     appointments.push(...transformVAOSAppointments(filteredAppointments), {
