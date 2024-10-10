@@ -57,8 +57,6 @@ export const Locators = {
   HEADER_FOLDER: '[data-testid*=folder-header]',
   ATTACH_FILE_INPUT: '[data-testid="attach-file-input"]',
   ATTACHMENT_COUNT: '[data-testid="attachments-count"]',
-  MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
-  MESSAGES_BODY: '[data-testid="message-body-field"]',
   MESSAGES_BODY_DRAFT: '.message-body-draft-preview',
   CERNER: '[data-testid="cerner-facility"]',
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',
@@ -82,7 +80,7 @@ export const Locators = {
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
-  BACK_TO: '.sm-breadcrumb-list-item',
+  BACK_TO: '.sm-breadcrumb-list-item > a',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -205,12 +203,13 @@ export const Locators = {
     CL_DELETE_AND_EXIT: `[data-testid="sm-route-navigation-guard-cancel-button"]`,
     ALERT_TEXT: `[data-testid="alert-text"]`,
     ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
+    DELETE_DRAFT: `[data-dd-action-name="Confirm Navigation Leaving Button"]`,
+    FIELD_ERROR: `#input-error-message`,
   },
   FIELDS: {
     RECIPIENT: '#select',
     SUBJECT: '#inputField',
     MESSAGE: '#textarea',
-    MESS_SUBJECT: '#message-subject',
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
     DATE_RANGE_DROPDOWN: '#date-range-dropdown',
@@ -220,6 +219,9 @@ export const Locators = {
     SEARCH_MESSAGE: '[data-testid="search-messages"] [aria-live="polite"]',
     FILTER_MESSAGE_TEXT: '[data-testid="search-form"] h2',
     NOT_FOR_PRINT_HEADER: '[data-testid="not-for-print-header"]',
+    EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
+    MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
+    MESSAGE_BODY: `[data-testid="message-body-field"]`,
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
@@ -282,6 +284,8 @@ export const Alerts = {
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
   VIRUS_ATTCH: `The file you attached has a virus. Remove the file to send your message.`,
   VIRUS_MULTI_ATTCH: `One or more of the files you attached has a virus. You’ll need to remove it to send your message.`,
+  SAVE_DRAFT: `Do you want to save your draft message?`,
+  SAVE_CHANGES: 'Do you want to save your changes to this draft?',
 };
 
 export const Data = {
@@ -333,11 +337,16 @@ export const Data = {
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   BUTTONS: {
+    SAVE_DRAFT: `Save draft`,
     EDIT_DRAFT: `Edit draft`,
+    SAVE_DRAFT_WO_ATTCH: `Save draft without attachments`,
     SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
     SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
     SAVE_AND_EXIT: `Save contact list`,
     GO_BACK: `Go back`,
+    SAVE_CHANGES: 'Save changes',
+    DELETE_CHANGES: 'Delete changes',
+    KEEP_EDITING: 'Keep editing',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
 };

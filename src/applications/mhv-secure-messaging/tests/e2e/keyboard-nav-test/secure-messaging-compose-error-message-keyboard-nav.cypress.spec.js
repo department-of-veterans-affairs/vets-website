@@ -12,15 +12,15 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     PatientInboxPage.navigateToComposePage();
   });
   afterEach(() => {
-    FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
+    FolderLoadPage.backToParentFolder();
+    PatientComposePage.clickDeleteDraftModalButton();
   });
 
   it('focus on error message for no provider', () => {
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
-    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_RECIPIENT);
     // PatientComposePage.verifyFocusOnErrorMessage();
 
@@ -34,7 +34,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     PatientComposePage.selectRecipient();
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
-    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_CATEGORY);
     // PatientComposePage.verifyFocusOnErrorMessage();
 
@@ -48,7 +48,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
-    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifyErrorText(Data.SUBJECT_CANNOT_BLANK);
     // PatientComposePage.verifyFocusOnErrorMessage();
 
@@ -64,7 +64,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT, {
       force: true,
     });
-    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifyErrorText(Data.BODY_CANNOT_BLANK);
     // PatientComposePage.verifyFocusOnErrorMessage();
 

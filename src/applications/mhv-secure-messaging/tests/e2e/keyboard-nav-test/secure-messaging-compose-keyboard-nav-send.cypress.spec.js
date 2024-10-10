@@ -19,7 +19,7 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
       force: true,
     });
-    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
     PatientComposePage.verifyHeader('Inbox');

@@ -1,0 +1,61 @@
+{
+  "data": [
+    {
+      "id": "7208913",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 7208913,
+        "category": "APPOINTMENT",
+        "subject": "Appointment Inquiry",
+        "body": "Test Compose Draft",
+        "attachment": null,
+        "sentDate": null,
+        "senderId": 6177,
+        "senderName": "MANIVASAGAM, RAJESH",
+        "recipientId": 6832726,
+        "recipientName": "TG-7410",
+        "readReceipt": null,
+        "triageGroupName": "TG-7410",
+        "proxySenderName": null,
+        "threadId": 2712820,
+        "folderId": -2,
+        "messageBody": "Test Compose Draft",
+        "draftDate": "2023-03-21T15:11:48.000+00:00",
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7177474"
+      }
+    },
+    {
+      "id": "3864673",
+      "type": "message_details",
+      "attributes": {
+        "messageId": 3864673,
+        "category": "APPOINTMENTS",
+        "subject": "Appointment Inquiry",
+        "body": "test reply - watch for success alert\n\n\nAbraham Lincoln\nVeteran",
+        "attachment": null,
+        "sentDate": "2024-08-21T18:29:22.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK",
+        "recipientId": 2938067,
+        "recipientName": "An_Test20230803",
+        "readReceipt": null,
+        "triageGroupName": "An_Test20230803",
+        "proxySenderName": null,
+        "threadId": 3768219,
+        "folderId": -1,
+        "messageBody": "test reply - watch for success alert\n\n\nAbraham Lincoln\nVeteran",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false,
+        "attachments": []
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3864673"
+      }
+    }
+  ]
+}
