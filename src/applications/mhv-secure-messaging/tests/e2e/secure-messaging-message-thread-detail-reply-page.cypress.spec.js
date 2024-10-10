@@ -20,9 +20,9 @@ describe('Secure Messaging Reply Message Details Thread', () => {
 
     PatientReplyPage.verifyExpandedMessageDate(testMessage);
     cy.get(
-      `[data-testid='expand-message-button-${
+      `[data-testid="expand-message-button-${
         testMessage.data.attributes.messageId
-      }']`,
+      }"]`,
     ).click({ waitforanimations: true, multiple: true });
     PatientReplyPage.verifyExpandedMessageDate(testMessage);
     PatientMessageDetailsPage.verifyExpandedMessageId(testMessage);
