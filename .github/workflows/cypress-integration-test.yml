@@ -50,13 +50,7 @@ jobs:
           with:
             ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
             env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-        - name: Get Mapbox Token
-          uses: ./.github/workflows/inject-secrets
-          with:
-            ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
-            env_variable_name: MAPBOX_TOKEN
-  
+            
         - name: Build
           run: yarn build --verbose --buildtype=${{ env.BUILDTYPE }}
           timeout-minutes: 30
