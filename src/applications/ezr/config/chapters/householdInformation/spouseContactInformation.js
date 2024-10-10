@@ -18,7 +18,7 @@ export default {
     ...titleUI(content['household-spouse-contact-info-title']),
     spouseAddress: addressUI({ omit: ['isMilitary'] }),
     spousePhone: {
-      ...phoneUI(content['household-sponse-phone-label']),
+      ...phoneUI(content['household-spouse-phone-label']),
       'ui:errorMessages': {
         required: content['phone-number-error-message'],
         pattern: content['phone-number-error-message'],
