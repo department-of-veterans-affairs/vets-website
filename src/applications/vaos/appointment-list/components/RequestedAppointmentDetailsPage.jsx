@@ -10,7 +10,7 @@ import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
-import { fetchRequestDetails } from '../redux/actions';
+import { closeCancelAppointment, fetchRequestDetails } from '../redux/actions';
 import CancelWarningPage from './cancel/CancelWarningPage';
 import CancelConfirmationPage from './cancel/CancelConfirmationPage';
 import { FETCH_STATUS } from '../../utils/constants';
@@ -26,6 +26,9 @@ export default function RequestedAppointmentDetailsPage() {
   useEffect(
     () => {
       dispatch(fetchRequestDetails(id));
+      return () => {
+        dispatch(closeCancelAppointment());
+      };
     },
     [dispatch, id],
   );
@@ -143,12 +146,7 @@ export default function RequestedAppointmentDetailsPage() {
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
     return (
       <PageLayout showNeedHelp isDetailPage>
-        <CancelConfirmationPage
-          {...{
-            appointment,
-            cancelInfo,
-          }}
-        />
+        <CancelConfirmationPage {...{ appointment, cancelInfo }} />
       </PageLayout>
     );
   }
