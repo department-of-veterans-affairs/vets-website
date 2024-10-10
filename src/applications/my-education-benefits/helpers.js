@@ -866,7 +866,7 @@ export const formPages = {
     },
     reserveKicker: {
       name: 'reserve-kicker',
-      order: 1,
+      order: 2,
       title:
         'Do you qualify for a reserve kicker, sometimes called a College Fund?',
       additionalInfo: {
@@ -877,13 +877,13 @@ export const formPages = {
     },
     militaryAcademy: {
       name: 'academy-commission',
-      order: 2,
+      order: 3,
       title:
         'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
     },
     seniorRotc: {
       name: 'rotc-commission',
-      order: 3,
+      order: 4,
       title: 'Were you commissioned as a result of Senior ROTC?',
       additionalInfo: {
         trigger: 'What is Senior ROTC?',
@@ -893,7 +893,7 @@ export const formPages = {
     },
     loanPayment: {
       name: 'loan-payment',
-      order: 4,
+      order: 5,
       title:
         'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
       additionalInfo: {
@@ -901,6 +901,12 @@ export const formPages = {
         info:
           "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
       },
+    },
+    sixHundredDollarBuyUp: {
+      name: 'six-hundred-dollar-buy-up',
+      order: 6,
+      title:
+        'Did you make additional contributions (up to $600) to increase the amount of your monthly benefits',
     },
   },
   directDeposit: 'directDeposit',
