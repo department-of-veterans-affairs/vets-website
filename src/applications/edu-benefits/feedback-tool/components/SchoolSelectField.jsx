@@ -9,8 +9,10 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
+
+import { Element } from 'platform/utilities/scroll';
+
 import {
   clearSearch,
   restoreFromPrefill,
@@ -41,8 +43,6 @@ import {
   displaySingleLineAddress,
   transformSearchToolAddress,
 } from '../helpers';
-
-const { Element } = Scroll;
 
 export class SchoolSelectField extends React.Component {
   constructor(props) {

@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Element } from 'react-scroll';
+import { Element } from 'platform/utilities/scroll';
+
 import classNames from 'classnames';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
