@@ -1,5 +1,6 @@
 import React from 'react';
 import last from 'lodash/last';
+import PropTypes from 'prop-types';
 import { deductionCodes } from '../const/deduction-codes';
 import { currency } from '../utils/page';
 
@@ -87,6 +88,10 @@ const PaymentHistoryTable = ({ currentDebt }) => {
       </va-table-row>
     </va-table>
   );
+};
+
+PaymentHistoryTable.propTypes = {
+  currentDebt: PropTypes.object.isRequired,
 };
 
 export default PaymentHistoryTable;

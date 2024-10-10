@@ -144,7 +144,7 @@ const DebtDetails = () => {
               Debt details
             </h2>
             <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
-              <div>
+              <div className="">
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
                     Current balance as of{' '}
@@ -155,7 +155,7 @@ const DebtDetails = () => {
                   </span>
                 </h3>
               </div>
-              <div className="vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
+              <div className="medium-screen:vads-u-margin-left--4 small-screen:vads-u-margin-top--0">
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
                     Original overpayment amount
@@ -177,11 +177,6 @@ const DebtDetails = () => {
             >
               Debt letter history
             </h2>
-            <p className="vads-u-margin-bottom--0">
-              {`You can check the status ${
-                showDebtLetterDownload ? `or download the letters for` : `of`
-              } this debt.`}
-            </p>
             <HistoryTable history={filteredHistory} />
             {showDebtLetterDownload ? (
               <>
