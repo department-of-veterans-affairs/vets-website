@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getAppData } from '../selectors';
-
+import { prefillTransformer } from '../helpers';
 import formConfig from '../config/form';
 
 import {
@@ -78,7 +78,7 @@ function App({
       }
 
       if (
-        formData?.mobilePhone &&
+        formData?.mobilePhone?.phone &&
         formData?.email &&
         !formData?.duplicateEmail &&
         !formData?.duplicatePhone
@@ -87,7 +87,7 @@ function App({
           [{ value: formData?.email?.email, dupe: '' }],
           [
             {
-              value: formData?.mobilePhone,
+              value: formData?.mobilePhone?.phone,
               dupe: '',
             },
           ],
@@ -108,7 +108,7 @@ const mapStateToProps = state => {
   return {
     ...getAppData(state),
     formData: state.form?.data || {},
-    claimant: state.data?.formData?.data?.attributes?.claimant,
+    claimant: prefillTransformer(null, null, null, state)?.formData,
     // fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     user: state.user,
   };
