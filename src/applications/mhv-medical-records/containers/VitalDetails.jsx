@@ -289,7 +289,7 @@ Provider notes: ${vital.notes}\n\n`,
             currentVitals?.map((vital, idx) => (
               <li
                 key={idx}
-                className="vads-u-margin--0 vads-u-padding-y--3 small-screen:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+                className="vads-u-margin--0 vads-u-padding-y--3 mobile-lg:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
               >
                 <h3
                   data-testid="vital-date"

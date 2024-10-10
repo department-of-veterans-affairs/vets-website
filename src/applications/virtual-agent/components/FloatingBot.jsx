@@ -81,7 +81,7 @@ function CornerBot() {
 
 export default function FloatingBot() {
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <ScrollToChatbot />
       <GoToChatbot />
       <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4 medium-screen:vads-u-display-none">

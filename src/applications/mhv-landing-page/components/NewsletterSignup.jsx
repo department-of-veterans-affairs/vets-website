@@ -5,7 +5,7 @@ const NewsletterSignup = () => {
     'https://public.govdelivery.com/accounts/USVHA/subscribers/qualify';
 
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <div className="vads-l-col--12 medium-screen:vads-l-col--8">
         <h2 className="vads-u-margin-bottom--0">
           Subscribe to the My HealtheVet newsletter

@@ -35,7 +35,7 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
   <div
     className={classnames(
       'vads-l-grid-container',
-      'large-screen:vads-u-padding-x--0',
+      'desktop-lg:vads-u-padding-x--0',
       'vads-u-margin-bottom--5',
     )}
     data-testid="mhvMedicalRecords"
