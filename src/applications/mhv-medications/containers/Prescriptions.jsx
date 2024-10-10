@@ -620,7 +620,6 @@ const Prescriptions = () => {
                     )}
                     {showFilterContent && (
                       <>
-                        <BeforeYouDownloadDropdown page={pageType.LIST} />
                         <PrintDownload
                           onDownload={handleFullListDownload}
                           isSuccess={
@@ -634,6 +633,7 @@ const Prescriptions = () => {
                           }
                           list
                         />
+                        <BeforeYouDownloadDropdown page={pageType.LIST} />
                       </>
                     )}
                   </div>
