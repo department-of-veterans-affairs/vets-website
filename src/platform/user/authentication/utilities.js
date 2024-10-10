@@ -221,6 +221,7 @@ export function sessionTypeUrl({
     codeChallengeMethod,
     clientId,
     scope,
+    verification: forceVerify,
   } = getQueryParams();
 
   const externalRedirect = isExternalRedirect();
@@ -241,6 +242,7 @@ export function sessionTypeUrl({
   // 3. The generated link type is for signup, and login only
   const requireVerification =
     allowVerification ||
+    forceVerify === 'required' ||
     (externalRedirect && (isLogin || isSignup) && config.requiresVerification)
       ? '_verified'
       : '';
@@ -273,6 +275,7 @@ export function sessionTypeUrl({
       },
       passedOptions: {
         isSignup,
+        forceVerify,
       },
     });
   }

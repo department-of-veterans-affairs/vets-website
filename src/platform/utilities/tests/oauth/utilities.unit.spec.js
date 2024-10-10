@@ -248,6 +248,20 @@ describe('OAuth - Utilities', () => {
       expect(url).to.include('scope=device_sso');
     });
 
+    it('should force the identity verification', async () => {
+      const url = await oAuthUtils.createOAuthRequest({
+        type: 'logingov',
+        passedOptions: { forceVerify: 'required' },
+      });
+      const url2 = await oAuthUtils.createOAuthRequest({
+        type: 'idme',
+        passedOptions: { forceVerify: 'required' },
+      });
+
+      expect(url).to.include('acr=ial2');
+      expect(url2).to.include('acr=loa3');
+    });
+
     ['idme_signup', 'logingov_signup'].forEach(csp => {
       it(`should generate the proper signup url for ${csp}`, async () => {
         const { oAuthOptions } = externalApplicationsConfig.default;

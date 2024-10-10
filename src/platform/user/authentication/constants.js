@@ -168,6 +168,7 @@ export const AUTH_PARAMS = {
   to: 'to',
   redirectUri: 'redirect_uri',
   scope: 'scope',
+  verification: 'verification',
 };
 
 export const OCC_MOBILE = {
