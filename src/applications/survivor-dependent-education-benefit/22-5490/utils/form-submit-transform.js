@@ -418,11 +418,11 @@ export function transform5490Form(_formConfig, form) {
     },
     directDeposit: {
       directDepositAccountType:
-        form?.data?.directDeposit?.bankAccount?.accountType,
+        form?.data['view:directDeposit']?.bankAccount?.accountType,
       directDepositAccountNumber:
-        form?.data?.directDeposit?.bankAccount?.accountNumber,
+        form?.data['view:directDeposit']?.bankAccount?.accountNumber,
       directDepositRoutingNumber:
-        form?.data?.directDeposit?.bankAccount?.routingNumber,
+        form?.data['view:directDeposit']?.bankAccount?.routingNumber,
     },
     additionalConsiderations: {
       outstandingFelony: form?.data?.felonyOrWarrant,
@@ -432,5 +432,6 @@ export function transform5490Form(_formConfig, form) {
       remarriageStatus: form?.data?.remarriageStatus,
     },
   };
+
   return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
 }
