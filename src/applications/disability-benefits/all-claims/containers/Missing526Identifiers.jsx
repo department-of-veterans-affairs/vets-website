@@ -48,7 +48,7 @@ const okMessageToDisplayText = missingIdentifiers => {
     .map(idName => READABLE_IDENTIFIER_MAPPING[idName]);
   if (readableIdentifiers.length === 0) return '';
 
-  return ` It's ok if you don't know your ${readableList(
+  return ` It's OK if you don't know your ${readableList(
     readableIdentifiers,
     'or',
   )}.`;

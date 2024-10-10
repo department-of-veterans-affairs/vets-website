@@ -7,7 +7,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
   describe('One identifier missing', () => {
     const props = {
       title: 'File for disability compensation',
-      form526RequiredIdentifers: {
+      form526RequiredIdentifiers: {
         participantId: true,
         birlsId: true,
         ssn: true,
@@ -38,7 +38,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
   describe('Two identifiers missing', () => {
     const props = {
       title: 'File for disability compensation',
-      form526RequiredIdentifers: {
+      form526RequiredIdentifiers: {
         participantId: true,
         birlsId: true,
         ssn: false,
@@ -70,7 +70,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
   describe('More than two identifiers missing', () => {
     const props = {
       title: 'File for disability compensation',
-      form526RequiredIdentifers: {
+      form526RequiredIdentifiers: {
         participantId: false,
         birlsId: true,
         ssn: false,
@@ -102,7 +102,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
   describe('birlsId Missing', () => {
     const props = {
       title: 'File for disability compensation',
-      form526RequiredIdentifers: {
+      form526RequiredIdentifiers: {
         participantId: true,
         birlsId: false,
         ssn: true,
@@ -124,7 +124,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
   describe('edipi Missing', () => {
     const props = {
       title: 'File for disability compensation',
-      form526RequiredIdentifers: {
+      form526RequiredIdentifiers: {
         participantId: true,
         birlsId: true,
         ssn: true,
@@ -146,7 +146,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
   describe('edipi and birlsId Missing', () => {
     const props = {
       title: 'File for disability compensation',
-      form526RequiredIdentifers: {
+      form526RequiredIdentifiers: {
         participantId: true,
         birlsId: false,
         ssn: true,
@@ -168,7 +168,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
   describe('edipi, birlsId, participant ID Missing', () => {
     const props = {
       title: 'File for disability compensation',
-      form526RequiredIdentifers: {
+      form526RequiredIdentifiers: {
         participantId: false,
         birlsId: false,
         ssn: true,
@@ -190,7 +190,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
   describe('ssn and birthDate Missing', () => {
     const props = {
       title: 'File for disability compensation',
-      form526RequiredIdentifers: {
+      form526RequiredIdentifiers: {
         participantId: true,
         birlsId: true,
         ssn: false,
