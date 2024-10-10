@@ -69,11 +69,11 @@ export default {
   tc: 'tc',
 
   // Sources for VA Profile services:
-  VAPRO_PROFILE_PAGE: 'vaproProfilePage',
-  VAPRO_CONTACT_INFO: 'vaproContactInformation',
-  LIGHTHOUSE_DIRECT_DEPOSIT: 'lighthouseDirectDeposit',
-  VAPRO_MILITARY_INFO: 'vaproMilitaryInformation',
-  VAPRO_NOTIFICATION_SETTINGS: 'vaproNotificationSettings',
-  VAPRO_HEALTH_CARE_CONTACTS: 'vaproPersonalHealthCareContacts',
-  VAPRO_PERSONAL_INFO: 'vaproPersonalInformation',
+  VAPRO_PROFILE_PAGE: 'vapro_profile_page',
+  VAPRO_CONTACT_INFO: 'vapro_contact_info',
+  LIGHTHOUSE_DIRECT_DEPOSIT: 'lighthouse_direct_deposit',
+  VAPRO_MILITARY_INFO: 'vapro_military_info',
+  VAPRO_NOTIFICATION_SETTINGS: 'vapro_notification_settings',
+  VAPRO_HEALTH_CARE_CONTACTS: 'vapro_health_care_contacts',
+  VAPRO_PERSONAL_INFO: 'vapro_personal_info',
 };
