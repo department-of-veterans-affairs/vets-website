@@ -42,6 +42,7 @@ export const Paths = {
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
+    MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
   },
 };
 
@@ -205,6 +206,7 @@ export const Locators = {
     CL_DELETE_AND_EXIT: `[data-testid="sm-route-navigation-guard-cancel-button"]`,
     ALERT_TEXT: `[data-testid="alert-text"]`,
     ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
+    VA_ALERT: `va-alert`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -269,6 +271,10 @@ export const Alerts = {
     FILE_IS_TOO_LARGE_TEXT:
       'Your file is too large. Try attaching a file smaller than 6MB.',
     ALREADY_ATTACHED_FILE: 'You have already attached this file.',
+  },
+  MAINTENANCE: {
+    ACTIVE: `Maintenance on My HealtheVet`,
+    UPCOMING: `Upcoming maintenance on My HealtheVet`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG: 'This conversation is too old for new replies',
