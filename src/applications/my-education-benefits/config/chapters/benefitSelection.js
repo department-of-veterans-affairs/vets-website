@@ -56,7 +56,7 @@ const benefitSelection = {
             </ul>
 
             <a
-              href="https://www.va.gov/education/survivor-dependent-benefits/post-9-11"
+              href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11"
               target="_blank"
               rel="noreferrer"
             >
@@ -99,15 +99,6 @@ const benefitSelection = {
             >
               Learn more about MGIB-AD
             </a>
-          </div>
-          <div>
-            <br />
-            <va-additional-info trigger="Which benefit should I choose?">
-              <p>
-                For each benefit, you should consider the amount you can
-                receive, how payments are made, and when they expire.
-              </p>
-            </va-additional-info>
           </div>
         </>
       ),
