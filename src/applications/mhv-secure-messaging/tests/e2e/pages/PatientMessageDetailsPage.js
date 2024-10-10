@@ -4,6 +4,8 @@ import defaultMockThread from '../fixtures/thread-response.json';
 import { dateFormat } from '../../../util/helpers';
 import { Locators, Paths } from '../utils/constants';
 import PatientInterstitialPage from './PatientInterstitialPage';
+import inboxMessages from '../fixtures/messages-response.json';
+import threadResponse from '../fixtures/thread-response-new-api.json';
 
 class PatientMessageDetailsPage {
   currentThread = defaultMockThread;
@@ -135,6 +137,31 @@ class PatientMessageDetailsPage {
     cy.wait('@full-thread');
   };
 
+  loadSingleThread = (
+    multiThreadsResponse = inboxMessages,
+    singleThreadResponse = threadResponse,
+  ) => {
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        multiThreadsResponse.data[0].attributes.messageId
+      }/thread*`,
+      singleThreadResponse,
+    ).as(`threadResponse`);
+
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }`,
+      singleThreadResponse.data[0],
+    ).as(`threadFirstMessageResponse`);
+
+    cy.get(
+      `#message-link-${inboxMessages.data[0].attributes.messageId}`,
+    ).click();
+  };
+
   getCurrentThread() {
     return this.currentThread;
   }
@@ -198,13 +225,10 @@ class PatientMessageDetailsPage {
   };
 
   expandAllThreadMessages = () => {
-    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGES}/**`, '{}').as(
-      'allMessageDetails',
-    );
     cy.get(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
     cy.get(Locators.ALERTS.THREAD_EXPAND)
       .shadow()
-      .contains('Collapse all -')
+      .find('button')
       .click();
   };
 
@@ -335,6 +359,16 @@ class PatientMessageDetailsPage {
     cy.get('[data-testid=reply-button-text]').click();
   };
 
+  verifyAccordionStatus = value => {
+    cy.get(Locators.BUTTONS.THREAD_EXPAND)
+      .find(`va-accordion-item`)
+      .each(el => {
+        cy.wrap(el)
+          .invoke(`prop`, 'open')
+          .should(`eq`, value);
+      });
+  };
+
   verifyUnexpandedMessageAttachment = (messageIndex = 0) => {
     cy.log(
       `message has attachments = ${
@@ -411,7 +445,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `To: ${messageDetails.data.attributes.recipientName}`,
+        `To: ${messageDetails.data[0].attributes.recipientName}`,
       );
   };
 

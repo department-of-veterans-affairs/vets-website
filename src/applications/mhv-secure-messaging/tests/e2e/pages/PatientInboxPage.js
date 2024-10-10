@@ -106,8 +106,9 @@ class PatientInboxPage {
   setInboxTestMessageDetails = mockMessage => {
     if (this.mockInboxMessages.data.length > 0) {
       cy.log(`mockInboxMessages size ${this.mockInboxMessages.data.length}`);
-      this.mockInboxMessages.data.at(0).attributes.sentDate =
-        mockMessage.data.attributes.sentDate;
+      this.mockInboxMessages.data.at(
+        0,
+      ).attributes.sentDate = new Date().toISOString();
       this.mockInboxMessages.data.at(0).attributes.messageId =
         mockMessage.data.attributes.messageId;
       this.mockInboxMessages.data.at(0).attributes.subject =
