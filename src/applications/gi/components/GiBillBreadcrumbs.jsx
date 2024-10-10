@@ -20,6 +20,10 @@ const GiBillBreadcrumbs = () => {
       href: '/education/gi-bill-comparison-tool/',
       label: crumbLiEnding,
     },
+    {
+      href: '/education/gi-bill-comparison-tool/lc-search',
+      label: 'Licensces and Certifications',
+    },
   ];
   if (profileMatch) {
     crumbs.push({

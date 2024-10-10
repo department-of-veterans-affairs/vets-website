@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import LicenseCertificationSearchFields from '../components/LicenseCertificationSearchFields';
 
 const _dropdowns = [
@@ -38,6 +39,11 @@ const _dropdowns = [
 
 function LicenseCertificationSearch() {
   const [dropdowns, setDropdowns] = useState(_dropdowns);
+  const history = useHistory();
+
+  const handleSubmit = () => {
+    history.push('/lc-search-results');
+  };
 
   const handleChange = e => {
     // identify the changed field
@@ -79,7 +85,7 @@ function LicenseCertificationSearch() {
           handleChange={handleChange}
         />
         <div className="button-wrapper row vads-u-padding-y--6">
-          <va-button text="Submit" />
+          <va-button text="Submit" onClick={handleSubmit} />
         </div>
       </section>
     </div>

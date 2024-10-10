@@ -4,8 +4,8 @@ import GiBillApp from './containers/GiBillApp';
 import SearchPage from './containers/SearchPage';
 import ComparePage from './containers/ComparePage';
 import ProfilePage from './containers/ProfilePage';
-import LicenseCertificationSearchResults from './containers/LicenseCertificationSearchResults';
 import LicenseCertificationSearch from './containers/LicenseCertificationSearch';
+import LicenseCertificationSearchResults from './containers/LicenseCertificationSearchResults';
 
 export const buildRoutes = () => {
   return (
