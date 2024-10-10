@@ -13,7 +13,7 @@ export default function PendingReferralCard({ referral }) {
   const isCanceled = referral.status === 'cancelled';
   const typeOfCareName = referral.typeOfCare;
 
-  const link = 'review-approved';
+  const link = '/referral-review/123456';
 
   return (
     <ListItem appointment={referral} borderBottom status="pending">
