@@ -943,15 +943,6 @@ export const veteranUI = {
       hint:
         'You can select more than one option, unless you prefer not to answer.',
       showFieldLabel: true,
-      // Custom logic to uncheck other options if "Prefer not to answer" is selected
-      onChange: (currentSelections, formData, onChange) => {
-        if (currentSelections.na) {
-          const clearedSelections = { na: true };
-          onChange(clearedSelections); // Clear other selections
-        } else {
-          onChange(currentSelections);
-        }
-      },
     },
   },
 
