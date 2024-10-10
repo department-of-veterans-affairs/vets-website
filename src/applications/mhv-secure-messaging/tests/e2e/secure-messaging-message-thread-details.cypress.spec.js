@@ -8,17 +8,14 @@ describe('SM THREAD SINGLE MESSAGE DETAILED VIEW', () => {
   const date = new Date();
   threadResponse.data[0].attributes.sentDate = date.toISOString();
 
-  before(() => {
+  it('verify expanded message details', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread();
-  });
 
-  it('verify expanded message details', () => {
     PatientMessageDetailsPage.verifyExpandedMessageFrom(threadResponse);
     PatientMessageDetailsPage.verifyExpandedMessageId(threadResponse);
     PatientMessageDetailsPage.verifyExpandedMessageDate(threadResponse);
-
     PatientMessageDetailsPage.verifyMessageAttachment(threadResponse);
 
     cy.injectAxe();

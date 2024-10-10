@@ -1,33 +1,28 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import PatientReplyPage from './pages/PatientReplyPage';
-
 import PatientInboxPage from './pages/PatientInboxPage';
-import mockMessages from './fixtures/messages-response.json';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import { AXE_CONTEXT } from './utils/constants';
+import threadResponse from './fixtures/thread-response-new-api.json';
 
-describe('Secure Messaging Reply Message Details Thread', () => {
-  it('Axe Check Message Reply Details', () => {
+describe('SM REPLY MESSAGE DETAILS', () => {
+  const date = new Date();
+  threadResponse.data[0].attributes.sentDate = date.toISOString();
+
+  it('VERIFY REPLY MESSAGE THREAD DETAILS', () => {
     SecureMessagingSite.login();
-    const testMessage = PatientInboxPage.getNewMessageDetails();
-    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
-    PatientMessageDetailsPage.loadMessageDetails(testMessage);
-    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
-    PatientInterstitialPage.getContinueButton().click({
-      waitForAnimations: true,
-    });
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDetailsPage.loadSingleThread();
 
-    PatientReplyPage.verifyExpandedMessageDate(testMessage);
-    cy.get(
-      `[data-testid='expand-message-button-${
-        testMessage.data.attributes.messageId
-      }']`,
-    ).click({ waitforanimations: true, multiple: true });
-    PatientReplyPage.verifyExpandedMessageDate(testMessage);
-    PatientMessageDetailsPage.verifyExpandedMessageId(testMessage);
-    PatientMessageDetailsPage.verifyExpandedMessageTo(testMessage);
-    PatientMessageDetailsPage.verifyUnexpandedMessageFrom(testMessage);
+    PatientMessageDetailsPage.loadReplyMessageThread();
+    PatientInterstitialPage.getContinueButton().click();
+
+    // TODO add verification for reply content (, header, buttons, signature (?))
+
+    PatientMessageDetailsPage.verifyExpandedMessageDate(threadResponse);
+    PatientMessageDetailsPage.verifyExpandedMessageId(threadResponse);
+    PatientMessageDetailsPage.verifyExpandedMessageTo(threadResponse);
+    PatientMessageDetailsPage.verifyExpandedMessageFrom(threadResponse);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});

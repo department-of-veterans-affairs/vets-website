@@ -168,6 +168,20 @@ class PatientMessageDetailsPage {
     return this.currentThread;
   }
 
+  loadReplyMessageThread = (singleThreadResponse = threadResponse) => {
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }/thread*`,
+      singleThreadResponse,
+    ).as(`threadResponse`);
+
+    cy.get(Locators.BUTTONS.REPLY)
+      .should('be.visible')
+      .click({ force: true });
+  };
+
   loadReplyPageDetails = (
     mockMessageDetails,
     mockThread = defaultMockThread,
