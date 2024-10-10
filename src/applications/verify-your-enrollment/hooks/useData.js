@@ -22,7 +22,10 @@ export const useData = () => {
   );
 
   const userInfo = response?.personalInfo?.['vye::UserInfo'];
-  const expirationDate = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
+  const expirationDate = translateDateIntoMonthDayYearFormat(
+    userInfo?.delDate,
+    true,
+  );
   const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
   const { month, day } = remainingBenefits(userInfo?.remEnt);
   return {
