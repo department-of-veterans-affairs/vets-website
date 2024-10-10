@@ -333,7 +333,7 @@ describe('AutoComplete Component', () => {
 
       expect(autocomplete).to.have.attribute(
         'message-aria-describedby',
-        'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures. Input is empty. Please enter a condition.',
+        'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
       );
     });
 

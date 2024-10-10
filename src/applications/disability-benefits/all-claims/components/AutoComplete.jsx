@@ -5,10 +5,9 @@ import debounce from 'lodash/debounce';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 
 const INSTRUCTIONS =
-  'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures. Input is empty. Please enter a condition.';
+  'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.';
 
-const createFreeTextItem = inputValue =>
-  `Enter your condition as "${inputValue}"`;
+const createFreeTextItem = val => `Enter your condition as "${val}"`;
 
 const AutoComplete = ({
   availableResults,
@@ -19,9 +18,8 @@ const AutoComplete = ({
 }) => {
   const [value, setValue] = useState(formData);
   const [results, setResults] = useState([]);
-  const [resultsCountAnnouncement, setResultsCountAnnouncement] = useState('');
   const [activeIndex, setActiveIndex] = useState(null);
-  const [activeResultAnnouncement, setActiveResultAnnouncement] = useState('');
+  const [ariaLiveText, setAriaLiveText] = useState('');
 
   const inputRef = useRef(null);
   const resultsRef = useRef([]);
@@ -39,7 +37,7 @@ const AutoComplete = ({
 
       const resultCount = updatedResults.length;
       const makePlural = resultCount > 1 ? 's' : '';
-      setResultsCountAnnouncement(
+      setAriaLiveText(
         `${resultCount} result${makePlural}. ${freeTextResult}, (1 of ${resultCount})`,
       );
     }, debounceTime),
@@ -48,9 +46,7 @@ const AutoComplete = ({
   const closeList = () => {
     debouncedSearch.cancel();
     setResults([]);
-    setResultsCountAnnouncement('');
     setActiveIndex(null);
-    setActiveResultAnnouncement('');
   };
 
   const handleInputChange = inputValue => {
@@ -59,6 +55,7 @@ const AutoComplete = ({
 
     if (!inputValue) {
       closeList();
+      setAriaLiveText('Input is empty. Please enter a condition.');
       return;
     }
 
@@ -84,7 +81,7 @@ const AutoComplete = ({
     }
 
     setActiveIndex(newIndex);
-    setActiveResultAnnouncement(
+    setAriaLiveText(
       `${results[newIndex]}, (${newIndex + 1} of ${results.length})`,
     );
     scrollIntoView(newIndex);
@@ -94,6 +91,7 @@ const AutoComplete = ({
     const newValue = result === createFreeTextItem(value) ? value : result;
     setValue(newValue);
     onChange(newValue);
+    setAriaLiveText(`${newValue} is selected`);
     closeList();
 
     inputRef.current.shadowRoot.querySelector('input').focus();
@@ -161,14 +159,7 @@ const AutoComplete = ({
             aria-atomic="true"
             className="vads-u-visibility--screen-reader"
           >
-            {resultsCountAnnouncement}
-          </p>
-          <p
-            aria-live="polite"
-            aria-atomic="true"
-            className="vads-u-visibility--screen-reader"
-          >
-            {activeResultAnnouncement}
+            {ariaLiveText}
           </p>
         </>
       )}
