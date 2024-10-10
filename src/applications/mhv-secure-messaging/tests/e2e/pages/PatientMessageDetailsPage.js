@@ -160,6 +160,8 @@ class PatientMessageDetailsPage {
     cy.get(
       `#message-link-${inboxMessages.data[0].attributes.messageId}`,
     ).click();
+    cy.wait(`@threadResponse`);
+    cy.wait(`@threadFirstMessageResponse`);
   };
 
   getCurrentThread() {
