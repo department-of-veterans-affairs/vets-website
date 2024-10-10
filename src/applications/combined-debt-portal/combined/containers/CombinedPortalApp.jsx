@@ -81,7 +81,7 @@ const CombinedPortalApp = ({ children }) => {
   }
 
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 vads-u-margin-bottom--5">
       <div className="vads-l-row">
         <DowntimeNotification
           appTitle="Debts and bills application"
