@@ -1,6 +1,4 @@
 import stub from '../../constants/stub.json';
-// import stubPage2 from '../../constants/stub-page-2.json';
-// import zeroResultsStub from '../../constants/stubZeroResults.json';
 import {
   SELECTORS as s,
   verifyRecommendationsLink,
