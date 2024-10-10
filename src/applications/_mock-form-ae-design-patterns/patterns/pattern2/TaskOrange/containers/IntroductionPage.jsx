@@ -3,7 +3,9 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
-import { showEduBenefits1990Wizard } from 'applications/edu-benefits/selectors/educationWizard';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
@@ -140,7 +142,7 @@ export class IntroductionPage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  showWizard: showEduBenefits1990Wizard(state),
+  showWizard: toggleValues(state)[FEATURE_FLAG_NAMES.showEduBenefits1990Wizard],
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
