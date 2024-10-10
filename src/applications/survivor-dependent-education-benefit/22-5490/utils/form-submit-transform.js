@@ -380,14 +380,10 @@ export function transform5490Form(_formConfig, form) {
 
   const payload = {
     formId: form?.formId,
-    '@type': 'Chapter35Submission',
+    '@type': 'Chapter35',
     chosenBenefit: form?.data?.chosenBenefit,
     claimant: {
       suffix: userFullName?.suffix,
-      // dateOfBirth,
-      // firstName: userFullName?.first,
-      // lastName: userFullName?.last,
-      // middleName: userFullName?.middle,
       notificationMethod: getNotificationMethod(
         form?.data['view:receiveTextMessages']?.receiveTextMessages,
       ),
@@ -421,9 +417,12 @@ export function transform5490Form(_formConfig, form) {
       highSchoolDiplomaOrCertificateDate: form?.data?.graduationDate,
     },
     directDeposit: {
-      directDepositAccountType: form?.data?.bankAccount?.accountType,
-      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
-      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
+      directDepositAccountType:
+        form?.data?.directDeposit?.bankAccount?.accountType,
+      directDepositAccountNumber:
+        form?.data?.directDeposit?.bankAccount?.accountNumber,
+      directDepositRoutingNumber:
+        form?.data?.directDeposit?.bankAccount?.routingNumber,
     },
     additionalConsiderations: {
       outstandingFelony: form?.data?.felonyOrWarrant,
