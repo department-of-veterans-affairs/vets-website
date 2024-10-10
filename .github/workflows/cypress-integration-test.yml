@@ -121,7 +121,7 @@ jobs:
 
 
     run-cypress-tests:
-        uses: department-of-veterans-affairs/vsp-github-actions/.github/workflows/cypress-integration-test/action.yml@e07e0b208ec5b31f4bddd23946e6f2a4572ee4e5
+        uses: department-of-veterans-affairs/vsp-github-actions/.github/workflows/cypress-integration-test@e07e0b208ec5b31f4bddd23946e6f2a4572ee4e5
   
     notify-failure:
       name: Notify Failure
