@@ -189,7 +189,7 @@ const DebtLettersSummary = () => {
         >
           {title}
         </h1>
-        <p className="va-introtext">
+        <p>
           Please note that payments may take up to 4 business days to reflect
           after processing.
         </p>
