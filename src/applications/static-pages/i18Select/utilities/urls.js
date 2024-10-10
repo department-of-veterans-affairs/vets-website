@@ -98,4 +98,8 @@ export default {
     es:
       '/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation-esp/',
   },
+  disasterHelp: {
+    en: '/resources/disaster-help/',
+    es: '/resources/disaster-help-esp/',
+  },
 };
