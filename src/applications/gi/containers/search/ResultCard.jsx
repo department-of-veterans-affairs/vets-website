@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
@@ -141,7 +142,7 @@ export function ResultCard({
 
   const containerClasses = classNames({
     'vads-u-margin-bottom--2': !location,
-    'small-screen:vads-u-margin-left--2p5': !location,
+    'mobile-lg:vads-u-margin-left--2p5': !location,
     'vads-u-margin--0': location,
     'vads-u-padding--0': location,
   });
@@ -403,6 +404,23 @@ const mapDispatchToProps = {
   dispatchAddCompareInstitution: addCompareInstitution,
   dispatchRemoveCompareInstitution: removeCompareInstitution,
   dispatchShowModal: showModal,
+};
+
+ResultCard.propTypes = {
+  compare: PropTypes.object.isRequired,
+  dispatchAddCompareInstitution: PropTypes.func.isRequired,
+  dispatchRemoveCompareInstitution: PropTypes.func.isRequired,
+  dispatchShowModal: PropTypes.func.isRequired,
+  estimated: PropTypes.object.isRequired,
+  institution: PropTypes.object.isRequired,
+  active: PropTypes.bool,
+  header: PropTypes.node,
+  location: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  paginationRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
+  version: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default connect(
