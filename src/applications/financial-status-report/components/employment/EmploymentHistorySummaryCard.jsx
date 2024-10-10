@@ -11,7 +11,7 @@ import {
   setJobButton,
   jobButtonConstants,
 } from '../../utils/session';
-import { dateFormatter, firstLetterLowerCase } from '../../utils/helpers';
+import { monthYearFormatter, firstLetterLowerCase } from '../../utils/helpers';
 
 const EmploymentHistorySummaryCard = ({
   job,
@@ -96,8 +96,8 @@ const EmploymentHistorySummaryCard = ({
       {/* Render date information */}
       <EmploymentCardBody
         label="Dates"
-        value={`${dateFormatter(from)} - ${
-          isCurrent ? 'Present' : dateFormatter(to)
+        value={`${monthYearFormatter(from)} - ${
+          isCurrent ? 'Present' : monthYearFormatter(to)
         }`}
       />
 
