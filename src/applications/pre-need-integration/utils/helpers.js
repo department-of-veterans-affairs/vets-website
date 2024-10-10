@@ -513,15 +513,13 @@ export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
   'Applicant is the Veteran or service member',
 );
 
-export const applicantDetailsCityTitle = 'Your birth city or county';
+export const applicantDetailsCityTitle = 'Your birth city';
 
-export const applicantDetailsStateTitle = 'Your birth state or territory';
+export const applicantDetailsStateTitle = 'Your birth state';
 
-export const applicantDetailsPreparerCityTitle =
-  'Applicant’s birth city or county';
+export const applicantDetailsPreparerCityTitle = 'Applicant’s birth city';
 
-export const applicantDetailsPreparerStateTitle =
-  'Applicant’s birth state or territory';
+export const applicantDetailsPreparerStateTitle = 'Applicant’s birth state';
 
 export const applicantDemographicsGenderTitle = 'What’s your sex?';
 
