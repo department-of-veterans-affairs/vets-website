@@ -70,7 +70,7 @@ const {
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
-  urlPrefix: '/',
+  urlPrefix: '/2/task-orange/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990`,
   trackingPrefix: 'edu-',
   formId: VA_FORM_IDS.FORM_22_1990,

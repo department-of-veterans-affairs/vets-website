@@ -5,6 +5,7 @@ const { snakeCase } = require('lodash');
 const profileToggles = {
   profileUseExperimental: true,
   coeAccess: true,
+  showEduBenefits1990Wizard: true,
 };
 
 const makeAllTogglesTrue = toggles => {
