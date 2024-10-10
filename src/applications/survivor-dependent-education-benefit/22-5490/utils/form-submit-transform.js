@@ -380,14 +380,10 @@ export function transform5490Form(_formConfig, form) {
 
   const payload = {
     formId: form?.formId,
-    '@type': 'Chapter35Submission',
+    '@type': 'Chapter35',
     chosenBenefit: form?.data?.chosenBenefit,
     claimant: {
       suffix: userFullName?.suffix,
-      // dateOfBirth,
-      // firstName: userFullName?.first,
-      // lastName: userFullName?.last,
-      // middleName: userFullName?.middle,
       notificationMethod: getNotificationMethod(
         form?.data['view:receiveTextMessages']?.receiveTextMessages,
       ),
