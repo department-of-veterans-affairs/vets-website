@@ -17,9 +17,9 @@ function CustomPhoneNumberField(props) {
     props?.setFormData({
       ...props?.formData,
       duplicatePhone: [{ value: '', dupe: '' }],
-      'view:phoneNumbers': {
-        ...props.formData['view:phoneNumbers'],
-        mobilePhoneNumber: event,
+      mobilePhone: {
+        ...props?.formData?.mobilePhone,
+        phone: event,
       },
     });
   }
@@ -29,7 +29,7 @@ function CustomPhoneNumberField(props) {
       <PhoneNumberWidget
         {...props}
         onChange={handleChange}
-        value={props?.mobilePhone}
+        value={props?.mobilePhone?.phone}
       />
     </>
   );
@@ -38,7 +38,7 @@ function CustomPhoneNumberField(props) {
 CustomPhoneNumberField.propTypes = {
   fetchDuplicateContactInfo: PropTypes.func,
   updateGlobalEmail: PropTypes.func,
-  mobilePhone: PropTypes.string,
+  mobilePhone: PropTypes.object,
 };
 
 const mapStateToProps = state => {
