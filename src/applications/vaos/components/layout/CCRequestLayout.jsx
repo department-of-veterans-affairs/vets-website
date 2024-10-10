@@ -5,7 +5,7 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
-import DetailPageLayout, { Section } from './DetailPageLayout';
+import DetailPageLayout, { Details, Section } from './DetailPageLayout';
 import ListBestTimeToCall from '../../appointment-list/components/ListBestTimeToCall';
 import PageLayout from '../../appointment-list/components/PageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
@@ -83,16 +83,7 @@ export default function CCRequestLayout({ data: appointment }) {
         <Section heading="Language you’d prefer the provider speak">
           {preferredLanguage}
         </Section>
-        <Section heading="Details you’d like to share with your provider">
-          <span>
-            Reason:{' '}
-            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-          </span>
-          <br />
-          <span className="vaos-u-word-break--break-word">
-            Other details: {`${otherDetails || 'Not available'}`}
-          </span>
-        </Section>
+        <Details reason={reason} otherDetails={otherDetails} request />
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />
