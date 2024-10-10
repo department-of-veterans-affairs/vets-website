@@ -5,7 +5,11 @@ import { formatDate } from '../../combined/utils/helpers';
 
 const HistoryTable = ({ history }) => {
   return (
-    <va-table table-title="Debt letter history" uswds table-type="bordered">
+    <va-table
+      table-title="Find dates and summaries for the letters sent to your address on file below."
+      uswds
+      table-type="bordered"
+    >
       <va-table-row slot="headers">
         <span>Date</span>
         <span>Letter</span>

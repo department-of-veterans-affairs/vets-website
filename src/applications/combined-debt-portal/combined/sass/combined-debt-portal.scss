@@ -57,3 +57,12 @@ h1:focus {
 .icon-color--success {
   color: var(--vads-color-success);
 }
+
+.debt-balance-details {
+  @media (min-width: $small-screen) {
+    margin-left: 32px;
+  }
+  @media (min-width: $medium-screen) {
+    margin-left: 40px;
+  }
+}

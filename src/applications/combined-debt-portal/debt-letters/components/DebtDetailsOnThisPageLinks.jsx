@@ -121,6 +121,7 @@ DebtDetailsOnThisPageLinks.propTypes = {
   hasHistory: PropTypes.bool,
   hasPaymentHistory: PropTypes.bool,
   isDetailsPage: PropTypes.bool,
+  shouldShowPaymentHistory: PropTypes.bool,
   showDebtLetterDownload: PropTypes.bool,
 };
 
