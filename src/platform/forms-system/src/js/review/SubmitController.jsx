@@ -82,13 +82,24 @@ class SubmitController extends Component {
       this.props.setSubmission('hasAttemptedSubmit', true);
       this.props.setSubmission('timestamp', now);
       // <PreSubmitSection/> is displaying an error for this case
-      // focus on va-privacy-agreement, or [show-error] (also
-      // va-privacy-agreement), or [error] (other web component, like statement
-      // of truth signature)
+      // focus on va-privacy-agreement[show-error],
+      // va-statement-of-truth with [input-error] or [checkbox-error], or
+      // any web component with an [error] (e.g., custom statement of truth in
+      // form 20-10207)
       setTimeout(() => {
-        const error = $('va-privacy-agreement, [show-error], [error]');
-        if (formConfig?.formOptions?.focusOnAlertRole) {
-          const checkbox = $('va-checkbox', error?.shadowRoot);
+        const error = $(
+          [
+            'va-privacy-agreement[show-error]:not([show-error=""])',
+            'va-statement-of-truth[input-error]:not([input-error=""])',
+            'va-statement-of-truth[checkbox-error]:not([checkbox-error=""])',
+            '[error]:not([error=""])',
+          ].join(','),
+        );
+        if (
+          error?.tagName.startsWith('VA-') &&
+          formConfig?.formOptions?.focusOnAlertRole
+        ) {
+          const checkbox = $('[error]:not([error=""])', error?.shadowRoot);
           focusElement('[role="alert"]', {}, checkbox?.shadowRoot);
         } else {
           focusElement(error);
