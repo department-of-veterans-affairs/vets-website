@@ -148,12 +148,16 @@ export function apiRequest(resource, optionalSettings, success, error) {
       if (environment.isProduction()) {
         const { pathname } = window.location;
 
+        // Improved condition to check for 401 response and session expiration
         const shouldRedirectToSessionExpired =
           response.status === 401 &&
           !pathname.includes('auth/login/callback') &&
-          sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
+          sessionStorage.getItem('shouldRedirectExpiredSession') === 'true' &&
+          !pathname.includes('/declined');
 
         if (shouldRedirectToSessionExpired) {
+          // Clear the flag after redirecting to avoid multiple redirects
+          sessionStorage.removeItem('shouldRedirectExpiredSession');
           window.location = '/session-expired';
         }
       }

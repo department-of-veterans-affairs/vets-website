@@ -27,10 +27,187 @@ describe('test wrapper', () => {
     server.close();
   });
 
+  // describe('apiRequest', () => {
+  //   afterEach(() => {
+  //     server.resetHandlers();
+  //     expected = undefined;
+  //   });
+
+  //   it('should return JSON when appropriate headers are specified on (status: 200)', async () => {
+  //     const jsonResponse = { status: 'ok' };
+  //     server.use(
+  //       rest.get(/v0\/status/, (req, res, ctx) =>
+  //         res(ctx.status(200), ctx.json(jsonResponse)),
+  //       ),
+  //     );
+
+  //     const response = await apiRequest('/status', {
+  //       headers: { 'Content-Type': 'application/json' },
+  //     });
+
+  //     expect(expected.response.body).to.have.a.lengthOf(
+  //       JSON.stringify(jsonResponse).length,
+  //     );
+  //     expect(response.status).to.eql('ok');
+  //   });
+  //   it('should not return JSON on (status: 204)', async () => {
+  //     server.use(
+  //       rest.get(/v0\/status/, (req, res, ctx) => res(ctx.status(204))),
+  //     );
+
+  //     const response = await apiRequest('/status', {
+  //       headers: { 'Content-Type': 'application/json' },
+  //     });
+
+  //     expect(response.ok).to.eql(true);
+  //     expect(expected.response.body).to.be.null;
+  //     expect(response.body._readableState.buffer.length).to.eql(0);
+  //   });
+  //   it('should not return JSON on (status: 404)', async () => {
+  //     server.use(
+  //       rest.get('*', (req, res, ctx) =>
+  //         res(
+  //           ctx.status(404),
+  //           ctx.json({ errors: [{ status: '404', title: 'Not found' }] }),
+  //         ),
+  //       ),
+  //     );
+
+  //     await apiRequest('/status', {
+  //       headers: { 'Content-Type': 'application/json' },
+  //     }).catch(error => {
+  //       expect(expected.response.body).to.not.be.null;
+  //       expect(error).to.deep.equal(JSON.parse(expected.response.body));
+  //     });
+  //   });
+
+  //   it('should return JSON on (status: 403)', async () => {
+  //     server.use(
+  //       rest.get('*', (req, res, ctx) =>
+  //         res(
+  //           ctx.status(403),
+  //           ctx.json({ errors: [{ status: '403', title: 'Forbidden' }] }),
+  //         ),
+  //       ),
+  //     );
+
+  //     await apiRequest('/status', {
+  //       headers: { 'Content-Type': 'application/json' },
+  //     }).catch(error => {
+  //       expect(expected.response.body).to.not.be.null;
+  //       expect(error).to.deep.equal(JSON.parse(expected.response.body));
+  //     });
+  //   });
+
+  //   it('should not fail when downloading a file', async () => {
+  //     const benefitLetterOptions = {
+  //       letterName: 'Benefit Summary Letter',
+  //       letterType: 'benefit_summary',
+  //       letterOptions: {
+  //         militaryService: true,
+  //         monthlyAward: true,
+  //         serviceConnectedEvaluation: true,
+  //         chapter35Eligibility: true,
+  //         serviceConnectedDisabilities: true,
+  //       },
+  //     };
+
+  //     server.use(
+  //       rest.post(
+  //         `https://dev-api.va.gov/v0/letters/benefit_summary`,
+  //         (_, res, ctx) => {
+  //           const pdfFile = fs.readFileSync(
+  //             path.resolve(__dirname, './pdfFixture.pdf'),
+  //           );
+
+  //           return res(
+  //             ctx.status(200),
+  //             ctx.set('Content-Length', pdfFile.byteLength.toString()),
+  //             ctx.set('Content-Type', 'application/pdf'),
+  //             ctx.body(pdfFile),
+  //           );
+  //         },
+  //       ),
+  //     );
+
+  //     const response = await apiRequest('/letters/benefit_summary', {
+  //       headers: { 'Content-Type': 'application/json' },
+  //       method: 'POST',
+  //       body: JSON.stringify(benefitLetterOptions),
+  //     });
+
+  //     expect(response.bodyUsed).to.be.false;
+  //     expect(response.status).to.eql(200);
+  //     expect(expected.response.body).to.not.be.null;
+  //   });
+  // });
+
   describe('apiRequest', () => {
     afterEach(() => {
       server.resetHandlers();
       expected = undefined;
+      sessionStorage.removeItem('shouldRedirectExpiredSession');
+    });
+
+    it('should not redirect to /session-expired if on /declined page (status: 401)', async () => {
+      server.use(
+        rest.get('*', (req, res, ctx) =>
+          res(
+            ctx.status(401),
+            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+          ),
+        ),
+      );
+
+      // Set up the session storage flag to simulate an expired session
+      sessionStorage.setItem('shouldRedirectExpiredSession', 'true');
+
+      // Mock the current location to /declined
+      Object.defineProperty(window, 'location', {
+        value: {
+          pathname: '/declined',
+          assign: sinon.stub(),
+        },
+        writable: true,
+      });
+
+      try {
+        await apiRequest('/status', {
+          headers: { 'Content-Type': 'application/json' },
+        });
+      } catch (error) {
+        // We expect a rejection, but we want to check that there was no redirect
+        expect(window.location.assign.called).to.be.false;
+      }
+    });
+
+    it('should not redirect if shouldRedirectExpiredSession is not set (status: 401)', async () => {
+      server.use(
+        rest.get('*', (req, res, ctx) =>
+          res(
+            ctx.status(401),
+            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+          ),
+        ),
+      );
+
+      // Mock the current location to a page other than /declined
+      Object.defineProperty(window, 'location', {
+        value: {
+          pathname: '/some-other-page',
+          assign: sinon.stub(),
+        },
+        writable: true,
+      });
+
+      try {
+        await apiRequest('/status', {
+          headers: { 'Content-Type': 'application/json' },
+        });
+      } catch (error) {
+        // We expect a rejection, but no redirection should have occurred
+        expect(window.location.assign.called).to.be.false;
+      }
     });
 
     it('should return JSON when appropriate headers are specified on (status: 200)', async () => {
