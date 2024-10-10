@@ -3,30 +3,57 @@ name: Cypress Integration Test Workflow
 on:
     workflow_dispatch:
       inputs:
-        branch:
-          description: 'select main in the above roster and then input the branch name with CI failures'
-          required: true
+        commit_sha:
+          description: 'Commit sha: rom your branch'  
         product:
-          description: 'your target product directory within src/applications'
+          description: 'App: Your target product directory within src/applications'
           required: true
-          # TO-DO: create a solution that maintains an updated list of active products within src/applications
-        
-        # TO-DO: add a commit input to allow devs to determine a commit point of failure in the branch
+        # TO-DO: create a solution that maintains an updated list of active products within src/applications
   
 env:
     BUILDTYPE: vagovprod
     VETS_WEBSITE_CHANNEL_ID: ''
   
-jobs:  
+jobs:
+    check-for-existing-build:
+      name: Check for archived build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Configure AWS Credentials
+          uses: ./.github/workflows/configure-aws-credentials
+          with:
+            aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws_region: us-gov-west-1
+
+        - name: Find the build
+          id: find-build
+          run: |
+            ARCHIVE_NAME=Z${{ github.event.inputs.commit_sha }}/vagovprod.tar.bz2
+            BUCKET_PATH=s3://vetsgov-website-builds-s3-upload/artifacts
+            TARGET_DIR=build/${{ env.BUILDTYPE }}
+
+            aws s3 cd $BUCKET_PATH$ARCHIVE_NAME .
+
+            if [ -f $ARCHIVE_NAME ]; then
+             mkdir -p $TARGET_DIR
+             tar -xvjf /vets-website/my_downloaded_image.tar.bz2 -C /vets-website
+             echo "BUILD_EXISTS=true" >> GITHUB_ENV
+
+             else
+              echo "Archive not found. Build job will be run now."   
+           
     build: 
       name: Build
       runs-on: ubuntu-latest
+      needs: check-for-existing-build
+      if: !env.BUILD_EXISTS
       steps:
         - name: Checkout
           uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
           with:
             fetch-depth: 0
-            ref: ${{ github.event.inputs.branch }}
+            ref: ${{ github.event.inputs.commit_sha }}
   
         - name: Install dependencies
           uses: ./.github/workflows/install
@@ -77,20 +104,12 @@ jobs:
             name: ${{ env.BUILDTYPE }}.tar.bz2
             path: ${{ env.BUILDTYPE }}.tar.bz2
             retention-days: 1
-            
-    
 
     integration-test-prep:
       name: Set up variables for the integration test workflow
       runs-on: ubuntu-latest
       needs: build
       steps: 
-
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.inputs.branch }}
   
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -111,6 +130,12 @@ jobs:
             ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
             env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
             
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.inputs.commit_sha }}
+          
       - name: Run integration helper script
         run: |
           chmod +x ./script/github-actions/cypress-integration-test.sh 
