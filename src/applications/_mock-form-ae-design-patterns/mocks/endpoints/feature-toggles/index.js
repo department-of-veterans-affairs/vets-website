@@ -6,6 +6,12 @@ const profileToggles = {
   profileUseExperimental: true,
   coeAccess: true,
   showEduBenefits1990Wizard: true,
+  showEduBenefits0994Wizard: true,
+  showEduBenefits1995Wizard: true,
+  showEduBenefits5495Wizard: true,
+  showEduBenefits1990nWizard: true,
+  showEduBenefits5490Wizard: true,
+  showEduBenefits1990eWizard: true,
 };
 
 const makeAllTogglesTrue = toggles => {
