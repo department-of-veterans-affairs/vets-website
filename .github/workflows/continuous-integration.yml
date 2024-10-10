@@ -736,6 +736,9 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
+      
+      - name: Install bzip2
+        run: apt-get update && apt-get install -y bzip2
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -770,7 +773,7 @@ jobs:
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=0.0.0.0 &
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -778,6 +781,8 @@ jobs:
         timeout-minutes: 120
         env:
           CYPRESS_CI: true
+          CYPRESS_baseUrl: "http://0.0.0.0:3001"
+          CYPRESS_debug: true
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
