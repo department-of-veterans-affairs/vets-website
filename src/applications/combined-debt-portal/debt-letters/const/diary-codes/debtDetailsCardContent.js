@@ -4,14 +4,12 @@ import { endDate } from '../../utils/helpers';
 
 const ContactDMC = () => (
   <>
-    <va-telephone contact={CONTACTS.DMC || '8008270648'} /> (or{' '}
-    <va-telephone
-      contact={CONTACTS.DMC_OVERSEAS || '6127136415'}
-      international
-    />{' '}
-    from overseas)
+    <va-telephone contact={CONTACTS.DMC} /> (or{' '}
+    <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+    overseas)
   </>
 );
+
 const createPaymentReminderText = endDateText => (
   <p>
     We’ll send you a letter with our decision. Please continue to make payments

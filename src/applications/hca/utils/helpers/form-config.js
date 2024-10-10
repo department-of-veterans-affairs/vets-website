@@ -1,5 +1,8 @@
 import { inRange } from 'lodash';
+import { isBefore } from 'date-fns';
 import { DEPENDENT_VIEW_FIELDS, HIGH_DISABILITY_MINIMUM } from '../constants';
+import { replaceStrValues } from './general';
+import content from '../../locales/en/content.json';
 
 /**
  * Helper that determines if user is unauthenticated
@@ -66,11 +69,14 @@ export function notShortFormEligible(formData) {
  * Helper that determines if the form data contains values that require users
  * to upload their military discharge papers
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user was not found in the MPI database
+ * @returns {Boolean} - true if the user is unauthenticated and was not found
+ * in the MPI database
  */
 export function dischargePapersRequired(formData) {
   const { 'view:isUserInMvi': isUserInMvi } = formData;
-  return notShortFormEligible(formData) && !isUserInMvi;
+  return (
+    isLoggedOut(formData) && notShortFormEligible(formData) && !isUserInMvi
+  );
 }
 
 /**
@@ -80,8 +86,9 @@ export function dischargePapersRequired(formData) {
  * @returns {Boolean} - true if the user is logged in and viewfield is empty
  */
 export function isMissingVeteranDob(formData) {
-  const { 'view:userDob': userDob } = formData;
-  return !isLoggedOut(formData) && !userDob;
+  const { 'view:veteranInformation': veteranInfo = {} } = formData;
+  const { veteranDateOfBirth } = veteranInfo;
+  return !isLoggedOut(formData) && !veteranDateOfBirth;
 }
 
 /**
@@ -149,7 +156,9 @@ export function includeRegOnlyGuestQuestions(formData) {
  */
 export function showRegOnlyAuthConfirmation(formData) {
   const { 'view:vaBenefitsPackage': vaBenefitsPackage } = formData;
-  return !isLoggedOut(formData) && vaBenefitsPackage === 'regOnly';
+  return (
+    includeRegOnlyAuthQuestions(formData) && vaBenefitsPackage === 'regOnly'
+  );
 }
 
 /**
@@ -161,7 +170,9 @@ export function showRegOnlyAuthConfirmation(formData) {
  */
 export function showRegOnlyGuestConfirmation(formData) {
   const { 'view:vaBenefitsPackage': vaBenefitsPackage } = formData;
-  return isLoggedOut(formData) && vaBenefitsPackage === 'regOnly';
+  return (
+    includeRegOnlyGuestQuestions(formData) && vaBenefitsPackage === 'regOnly'
+  );
 }
 
 /**
@@ -177,6 +188,25 @@ export function includeTeraInformation(formData) {
 }
 
 /**
+ * Helper that determines if the form data indicates the user has a birthdate that
+ * makes them eligibile for radiation clean-up efforts
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user was born in 1965 or earlier
+ */
+export function includeRadiationCleanUpEfforts(formData) {
+  if (!formData['view:isTeraBranchingEnabled']) {
+    return includeTeraInformation(formData);
+  }
+
+  const { veteranDateOfBirth } = formData;
+  const couldHaveServed = isBefore(
+    new Date(veteranDateOfBirth),
+    new Date(1965, 12, 31),
+  );
+  return includeTeraInformation(formData) && couldHaveServed;
+}
+
+/**
  * Helper that determines if the form data contains values that indicate the
  * user served in specific gulf war locations
  * @param {Object} formData - the current data object passed from the form
@@ -186,6 +216,25 @@ export function includeTeraInformation(formData) {
 export function includeGulfWarServiceDates(formData) {
   const { gulfWarService } = formData;
   return includeTeraInformation(formData) && gulfWarService;
+}
+
+/**
+ * Helper that determines if the form data indicates the user has a birthdate that
+ * makes them eligibile for agent orange exposure
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user was born on or before July 31, 1965 or earlier
+ */
+export function includeAgentOrangeExposure(formData) {
+  if (!formData['view:isTeraBranchingEnabled']) {
+    return includeTeraInformation(formData);
+  }
+
+  const { veteranDateOfBirth } = formData;
+  const couldHaveServed = isBefore(
+    new Date(veteranDateOfBirth),
+    new Date(1965, 7, 31),
+  );
+  return includeTeraInformation(formData) && couldHaveServed;
 }
 
 /**
@@ -297,19 +346,25 @@ export function collectMedicareInformation(formData) {
 }
 
 /**
- * Helper that determines if we should display the Lighthouse facility list
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if viewfield is set to `true`
- */
-export function useLighthouseFacilityList(formData) {
-  return formData['view:isFacilitiesApiEnabled'];
-}
-
-/**
  * Helper that determines if we should display the hardcoded facility list
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if viewfield is set to `false`
+ * @param {Object} testItem (optional) - mocked sample data for unit testing purposes
+ * @returns {Array} - array of override values for the Array Builder options
  */
-export function useJsonFacilityList(formData) {
-  return !useLighthouseFacilityList(formData);
+export function insuranceTextOverrides() {
+  return {
+    getItemName: item => item?.insuranceName || '—',
+    cardDescription: item =>
+      replaceStrValues(
+        content['insurance-info--card-description'],
+        item?.insurancePolicyHolderName || '—',
+      ),
+    cancelAddTitle: () => content['insurance-info--array-cancel-add-title'],
+    cancelEditTitle: () => content['insurance-info--array-cancel-edit-title'],
+    cancelEditDescription: () =>
+      content['insurance-info--array-cancel-edit-description'],
+    cancelEditReviewDescription: () =>
+      content['insurance-info--array-cancel-edit-review-description'],
+    cancelAddYes: () => content['insurance-info--array-cancel-add-yes'],
+    cancelEditYes: () => content['insurance-info--array-cancel-edit-yes'],
+  };
 }

@@ -5,18 +5,17 @@ import {
   VaIcon,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { format, parse } from 'date-fns';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import BreadCrumbs from '../components/BreadCrumbs';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import { ServerErrorAlert } from '../config/helpers';
-import { baseURL, envUrl, RESPONSE_PAGE, URL } from '../constants';
-import { mockInquiryData } from '../utils/mockData';
+import { RESPONSE_PAGE } from '../constants';
+import { formatDate } from '../utils/helpers';
+import { mockInquiryDataBusinessAndPersonal } from '../utils/mockData';
 
 const attachmentBox = fileName => (
   <div className="attachment-box vads-u-display--flex vads-u-justify-content--space-between vads-u-background-color--gray-light-alt">
@@ -36,7 +35,7 @@ const emptyMessage = message => (
 );
 const getReplySubHeader = messageType => messageType.split(':')[1].trim();
 
-const ResponseInboxPage = () => {
+const ResponseInboxPage = ({ router }) => {
   const [error, hasError] = useState(false);
   const [sendReply, setSendReply] = useState({ reply: '', attachments: [] });
   const [loading, isLoading] = useState(true);
@@ -48,52 +47,19 @@ const ResponseInboxPage = () => {
   };
   const inquiryId = getLastSegment();
 
-  const formatDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
-    return format(parsedDate, 'MMM d, yyyy');
-  };
-
-  const options = {
-    body: JSON.stringify(sendReply),
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  const postApiData = url => {
-    isLoading(true);
-    return apiRequest(url, options)
-      .then(() => {
-        isLoading(false);
-      })
-      .catch(() => {
-        isLoading(false);
-        hasError(true);
-      });
-  };
-
   const handlers = {
     onInput: event => {
       setSendReply({ ...sendReply, reply: event.target.value });
     },
 
-    onSubmit: () => {
-      if (sendReply.reply) {
-        // Using a temporary test id provided by BE, will be replaced once inquiry endpoint is complete
-        const temporaryTestInquiryId = 'A-20230305-306178';
-        postApiData(
-          `${envUrl}${baseURL}/inquiries/${temporaryTestInquiryId}${
-            URL.SEND_REPLY
-          }`,
-        );
-      }
+    onSubmit: event => {
+      event.preventDefault();
+      router.push('/response-sent');
     },
   };
 
   const getInquiryData = async () => {
-    // using Mock data till static data is updated
-    const inquiryMock = mockInquiryData.data.find(
+    const inquiryMock = mockInquiryDataBusinessAndPersonal.data.find(
       inquiry => inquiry.id === inquiryId,
     );
     setInquiryData(inquiryMock);
@@ -157,7 +123,7 @@ const ResponseInboxPage = () => {
             </dt>
             <dd className="vads-u-display--inline">
               {' '}
-              {inquiryData.attributes.category}
+              {inquiryData.attributes.categoryName}
             </dd>
           </div>
           <div>
@@ -289,6 +255,7 @@ const ResponseInboxPage = () => {
 };
 
 ResponseInboxPage.propTypes = {
+  router: PropTypes.object.isRequired,
   loggedIn: PropTypes.bool,
   params: PropTypes.object,
 };
@@ -299,4 +266,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ResponseInboxPage);
+export default connect(mapStateToProps)(withRouter(ResponseInboxPage));

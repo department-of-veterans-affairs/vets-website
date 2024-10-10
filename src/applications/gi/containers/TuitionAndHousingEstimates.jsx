@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchAccordion from '../components/SearchAccordion';
@@ -95,22 +96,28 @@ export function TuitionAndHousingEstimates({
         setMilitaryStatus={setMilitaryStatus}
         setSpouseActiveDuty={setSpouseActiveDuty}
       />
-      <LearnMoreLabel
-        text="Will you be taking any classes in person?"
-        onClick={() => {
-          dispatchShowModal('onlineOnlyDistanceLearning');
-        }}
-        ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
-        butttonId="classes-in-person-learn-more"
-      />
-      <VARadioButton
-        radioLabel=""
-        name="inPersonClasses"
-        initialValue={onlineClasses}
-        options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
-        onVaValueChange={handlers.onSelection}
-      />
-
+      <div>
+        <LearnMoreLabel
+          className="vads-u-margin-top--3"
+          text="Will you be taking any classes in person?"
+          dataTestId="in-person-classes-?"
+          onClick={() => {
+            dispatchShowModal('onlineOnlyDistanceLearning');
+          }}
+          ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
+          butttonId="classes-in-person-learn-more"
+        />
+        <VARadioButton
+          radioLabel=""
+          name="inPersonClasses"
+          initialValue={onlineClasses}
+          options={[
+            { value: 'no', label: 'Yes' },
+            { value: 'yes', label: 'No' },
+          ]}
+          onVaValueChange={handlers.onSelection}
+        />
+      </div>
       <div id="note" className="vads-u-padding-top--2">
         <b>Note:</b> Changing these settings modifies the tuition and housing
         benefits shown on the search cards.
@@ -161,6 +168,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchEligibilityChange: eligibilityChange,
+};
+TuitionAndHousingEstimates.propTypes = {
+  dispatchEligibilityChange: PropTypes.func.isRequired,
+  dispatchShowModal: PropTypes.func.isRequired,
+  eligibility: PropTypes.object.isRequired,
+  modalClose: PropTypes.func,
+  smallScreen: PropTypes.bool,
 };
 
 export default connect(

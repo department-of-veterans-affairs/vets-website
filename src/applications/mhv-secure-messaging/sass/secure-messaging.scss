@@ -42,8 +42,7 @@ va-modal va-radio {
   border-radius: 4px;
 }
 
-.send-button-top,
-.reply-button-top {
+.send-button-top {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,6 +77,12 @@ va-modal va-radio {
 .breadcrumb > i {
   margin-right: 6px;
   font-size: 0.6875rem;
+}
+
+.reply-button-container {
+  @media (min-width: $xsmall-screen) {
+    min-width: 15em;
+  }
 }
 
 .save-button {
@@ -344,3 +349,9 @@ va-loading-indicator {
     font-size: 20px;
   }
 }
+
+/* DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/
+#edit-preferences-button.vads-u-background-color--transparent {
+  background-color: transparent;
+}
+/* DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/

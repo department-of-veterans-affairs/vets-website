@@ -1,7 +1,6 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-import set from 'platform/utilities/data/set';
-import get from 'platform/utilities/data/get';
-import * as toursOfDuty from '../../definitions/toursOfDuty';
+import set from '~/platform/utilities/data/set';
+import get from '~/platform/utilities/data/get';
 
 const { applicantServed, isActiveDuty } = fullSchema1995.properties;
 
@@ -13,10 +12,6 @@ export const schema = {
     'view:newService': {
       type: 'boolean',
     },
-    toursOfDuty: toursOfDuty.schema(fullSchema1995, {
-      fields: ['serviceBranch', 'dateRange'],
-      required: ['serviceBranch', 'dateRange.from', 'dateRange.to'],
-    }),
   },
 };
 
@@ -89,19 +84,5 @@ export const uiSchema = {
         // N: { 'aria-describedby': 'different_id' },
       },
     },
-  },
-  toursOfDuty: {
-    ...toursOfDuty.uiSchema,
-    'ui:options': {
-      ...toursOfDuty.uiSchema['ui:options'],
-      expandUnder: 'view:newService',
-      updateSchema: (formData, _schema) => {
-        let finalSchema = { ..._schema };
-        finalSchema = setDateRangeRequired(formData, finalSchema);
-        finalSchema = setServiceBranchRequired(formData, finalSchema);
-        return finalSchema;
-      },
-    },
-    'ui:required': formData => get('view:newService', formData),
   },
 };

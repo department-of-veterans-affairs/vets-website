@@ -245,3 +245,46 @@
   background-color: rgba(255, 255, 255, 0.7);
   z-index: 10000;
 }
+
+.input-container-width {
+  width: 100% !important;
+}
+
+.yr-table-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  &:nth-of-type(2) {
+    width: inherit;
+    gap: 0;
+
+    @media (min-width: 900px) {
+      width: 15rem;
+      gap: 4rem;
+    }
+  }
+}
+
+.sort-icon {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.lc-dropdown-filter {
+  max-width: 30rem;
+}
+
+.lc-filter-options {
+  padding: 0.5rem;
+  margin: 0;
+}
+
+.provider-info-container > span {
+  gap: 1rem;
+}
+
+.required-label {
+  color: $color-red-dark;
+}

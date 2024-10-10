@@ -84,6 +84,7 @@ export class ConnectedApps extends Component {
     return (
       <div className="va-connected-apps">
         <Headline>Connected apps</Headline>
+
         {showHasConnectedApps && (
           <p className="va-introtext vads-u-font-size--md">
             Your VA.gov profile is connected to the third-party (non-VA) apps

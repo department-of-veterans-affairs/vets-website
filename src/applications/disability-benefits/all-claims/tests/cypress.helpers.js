@@ -298,18 +298,49 @@ export const pageHooks = (cy, testOptions = {}) => ({
   'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
+        const comboBox = '[data-testid="combobox-input"]';
+        const input = '#inputField';
+        const option = '[role="option"]';
+
+        // click add another if more than 1
         if (index > 0) {
           cy.findByText(/add another condition/i).click();
+
+          cy.findByText(/remove/i, { selector: 'button' }).should('be.visible');
         }
 
-        // click on input and enter data
-        // enterData() condition name into input
-        cy.get(`#root_newDisabilities_${index}_condition`)
+        // click on input and type search text
+        cy.get(comboBox)
           .shadow()
-          .find('#inputField')
+          .find(input)
           .type(disability.condition, { force: true });
-        // select the first option from the autosuggestions list
-        cy.get('.cc-combobox__option.cc-combobox__option--free').click();
+
+        // select the option based on loop index and then check that the value matches
+        if (index === 0) {
+          cy.get(option)
+            .first()
+            .click();
+
+          cy.get(comboBox)
+            .shadow()
+            .find(input)
+            .should('have.value', disability.condition);
+        } else {
+          cy.get(option)
+            .eq(1)
+            .invoke('text')
+            .then(selectedOption => {
+              cy.get(option)
+                .eq(1)
+                .click();
+
+              cy.get(comboBox)
+                .shadow()
+                .find(input)
+                .should('have.value', selectedOption);
+            });
+        }
+
         // click save
         cy.findByText(/save/i, { selector: 'button' }).click();
       });

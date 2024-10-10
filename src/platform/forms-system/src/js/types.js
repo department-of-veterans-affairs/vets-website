@@ -44,6 +44,7 @@
  * @property {boolean} [prefillEnabled]
  * @property {Function} [prefillTransformer]
  * @property {PreSubmitInfo} [preSubmitInfo]
+ * @property {boolean} [reviewEditFocusOnHeaders]
  * @property {Object} [reviewErrors]
  * @property {string} [rootUrl]
  * @property {SavedFormMessages} [savedFormMessages]
@@ -425,6 +426,7 @@
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryDescription?: (props: ArrayBuilderTextProps) => string,
  *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
  * }} ArrayBuilderText

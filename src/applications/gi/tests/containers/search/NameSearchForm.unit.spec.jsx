@@ -89,7 +89,7 @@ describe('<NameSearchForm>', () => {
     });
   });
   it('validates empty search term correctly', async () => {
-    const validateSearchTermSpy = sinon.spy();
+    const validateSearchTermSubmitSpy = sinon.spy();
     const props = {
       autocomplete: { nameSuggestions: [] },
       filters: {
@@ -99,7 +99,10 @@ describe('<NameSearchForm>', () => {
       search: { query: { name: 'some name' }, tab: null, loadFromUrl: false },
     };
     const screen = renderWithStoreAndRouter(
-      <NameSearchForm validateSearchTerm={validateSearchTermSpy} {...props} />,
+      <NameSearchForm
+        validateSearchTermSubmit={validateSearchTermSubmitSpy}
+        {...props}
+      />,
       {
         initialState: {
           constants: mockConstants(),
@@ -111,7 +114,7 @@ describe('<NameSearchForm>', () => {
     const submitButton = screen.getByRole('button', { name: 'Search' });
     userEvent.click(submitButton);
     await waitFor(() => {
-      expect(validateSearchTermSpy.calledWith('')).to.be.false;
+      expect(validateSearchTermSubmitSpy.calledWith('')).to.be.false;
       expect(
         screen.getByText(
           'Please fill in a school, employer, or training provider.',
@@ -120,11 +123,11 @@ describe('<NameSearchForm>', () => {
     });
   });
   it('validates with no filters selected', async () => {
-    const validateSearchTermSpy = sinon.spy();
+    const validateSearchTermSubmitSpy = sinon.spy();
     const doSearchSpy = sinon.spy();
     const screen = renderWithStoreAndRouter(
       <NameSearchForm
-        validateSearchTerm={validateSearchTermSpy}
+        validateSearchTermSubmit={validateSearchTermSubmitSpy}
         doSearch={doSearchSpy}
         filters={{
           ...noFilters,
@@ -154,12 +157,12 @@ describe('<NameSearchForm>', () => {
       userEvent.click(submitButton);
     });
     await waitFor(() => {
-      expect(validateSearchTermSpy.calledWith('')).to.be.false;
+      expect(validateSearchTermSubmitSpy.calledWith('')).to.be.false;
       expect(screen.queryByText('Please select at least one filter.')).to.exist;
     });
   });
   it('should call doSearch with search?.query?.name', () => {
-    const validateSearchTermSpy = sinon.spy();
+    const validateSearchTermSubmitSpy = sinon.spy();
     const doSearchSpy = sinon.spy();
     const props = {
       autocomplete: { nameSuggestions: [] },
@@ -172,7 +175,7 @@ describe('<NameSearchForm>', () => {
     };
     renderWithStoreAndRouter(
       <NameSearchForm
-        validateSearchTerm={validateSearchTermSpy}
+        validateSearchTermSubmit={validateSearchTermSubmitSpy}
         doSearch={doSearchSpy}
         {...props}
       />,
@@ -186,7 +189,7 @@ describe('<NameSearchForm>', () => {
     expect(doSearchSpy.calledWith('some name')).to.be.false;
   });
   it('should not call doSearch with search?.query?.name is null', () => {
-    const validateSearchTermSpy = sinon.spy();
+    const validateSearchTermSubmitSpy = sinon.spy();
     const doSearchSpy = sinon.spy();
     const props = {
       autocomplete: { nameSuggestions: [] },
@@ -199,7 +202,7 @@ describe('<NameSearchForm>', () => {
     };
     renderWithStoreAndRouter(
       <NameSearchForm
-        validateSearchTerm={validateSearchTermSpy}
+        validateSearchTermSubmit={validateSearchTermSubmitSpy}
         doSearch={doSearchSpy}
         {...props}
       />,
@@ -352,7 +355,7 @@ describe('<NameSearchForm>', () => {
         userEvent.click(clearFilter);
       }
       if (applyFilter) {
-        const applyFilteBTN = getByRole('button', { name: applyFilter });
+        const applyFilteBTN = getByTestId('update-filter-your-results-button');
         expect(applyFilteBTN).to.exist;
         userEvent.click(applyFilteBTN);
       }

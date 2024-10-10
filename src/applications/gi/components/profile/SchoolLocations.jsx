@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
@@ -45,7 +46,7 @@ export default function SchoolLocations({
       if (focusedElementIndex) {
         const newRowElements = [
           ...document.querySelectorAll(
-            'va-table.school-locations > va-table-row > span:first-child',
+            'table.sl-table > tbody > tr > td:first-child',
           ),
         ]
           .slice(focusedElementIndex + 1, totalRowCount + 1)
@@ -148,7 +149,7 @@ export default function SchoolLocations({
   const createRow = (inst, type, name = inst.institution) => {
     const estimatedHousing = (
       <div key="months">
-        <span>{estimatedHousingValue(inst)}</span>
+        {estimatedHousingValue(inst)}
         <span className="sr-only">per month</span>
         <span aria-hidden="true">/mo</span>
       </div>
@@ -254,20 +255,26 @@ export default function SchoolLocations({
     };
 
     return (
-      <va-table class="school-locations">
-        <va-table-row slot="headers" key="header">
-          <span>School name</span>
-          <span>Location</span>
-          <span>Estimated housing</span>
-        </va-table-row>
-        {data.map(row => (
-          <va-table-row key={row.key} class={row.rowClassName}>
-            <span role="cell">{renderSchoolName(row.schoolName)}</span>
-            <span role="cell">{row.location}</span>
-            <span role="cell">{row.estimatedHousing}</span>
-          </va-table-row>
-        ))}
-      </va-table>
+      <table className="usa-table sl-table">
+        <thead>
+          <tr>
+            <th scope="col">School name</th>
+            <th scope="col">Location</th>
+            <th scope="col">Estimated housing</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, idx) => {
+            return (
+              <tr key={idx}>
+                <td>{renderSchoolName(row.schoolName)}</td>
+                <td>{row.location}</td>
+                <td>{row.estimatedHousing}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     );
   };
 
@@ -330,7 +337,7 @@ export default function SchoolLocations({
   };
 
   return (
-    <div className="school-locations row">
+    <div>
       <span className="small-screen-font">
         Below are locations for {main.institution.institution}. The housing
         estimates shown here are based on a full-time student taking in-person
@@ -348,3 +355,12 @@ export default function SchoolLocations({
     </div>
   );
 }
+SchoolLocations.propTypes = {
+  calculator: PropTypes.object.isRequired,
+  constants: PropTypes.object.isRequired,
+  eligibility: PropTypes.object.isRequired,
+  facilityMap: PropTypes.object.isRequired,
+  institution: PropTypes.object.isRequired,
+  version: PropTypes.string,
+  onViewLess: PropTypes.func,
+};

@@ -5,15 +5,8 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { preparerIsVeteran } from '../../utilities/helpers';
-
 export const uiSchema = {
-  ...titleUI(
-    ({ formData }) =>
-      `${
-        preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
-      }  mailing address`,
-  ),
+  ...titleUI('Your mailing address'),
   veteranHomeAddress: addressUI({
     labels: {
       militaryCheckbox: `This address is on a United States military base outside of the U.S.`,

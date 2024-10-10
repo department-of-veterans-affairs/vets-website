@@ -20,12 +20,13 @@ const ConditionListItem = props => {
           {record.name} <span className="sr-only">on {record.date}</span>
         </span>
       </Link>
-      <h3
+      <span
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+        aria-hidden="true"
         data-dd-privacy="mask"
       >
         {record.name}
-      </h3>
+      </span>
 
       <p className="vads-u-margin--0">Date entered: {record?.date}</p>
     </va-card>

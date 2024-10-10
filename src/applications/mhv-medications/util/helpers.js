@@ -427,6 +427,8 @@ export const sanitizeKramesHtmlStr = htmlString => {
       return word;
     });
     h2.textContent = words.join(' ');
+    h2.setAttribute('id', h2.textContent);
+    h2.setAttribute('tabindex', '-1');
     heading.replaceWith(h2);
   });
 

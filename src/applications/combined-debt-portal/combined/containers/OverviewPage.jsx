@@ -9,9 +9,11 @@ import {
   calculateTotalBills,
 } from '../utils/balance-helpers';
 import DisasterAlert from '../components/DisasterAlert';
+import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const OverviewPage = () => {
   const title = 'Your VA debt and bills';
+  useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');
@@ -68,8 +70,9 @@ const OverviewPage = () => {
           <>
             <h2>Debt and bill overview</h2>
             <p>
-              Any payments you may have made will not be reflected here until
-              our systems are updated with your next monthly statement.
+              Any payments you may have made to your copay bills will not be
+              reflected here until our systems are updated with your next
+              monthly statement.
             </p>
             <Balances />
             <h2>What to do if you have questions about your debt and bills</h2>

@@ -33,18 +33,9 @@ const resolveLandingPageLinks = (
   unreadMessageAriaLabel,
   registered = false,
 ) => {
-  const messagesLinks = [
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[0],
-      ariaLabel: unreadMessageAriaLabel,
-    },
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[1],
-    },
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[2],
-    },
-  ];
+  const messagesLinks = [...HEALTH_TOOL_LINKS.MESSAGES];
+  if (messagesLinks.length > 0)
+    messagesLinks[0].ariaLabel = unreadMessageAriaLabel;
 
   const myVaHealthBenefitsLinks = [
     {
@@ -127,6 +118,15 @@ const resolveLandingPageLinks = (
     },
   ];
 
+  const paymentsLinks = [
+    HEALTH_TOOL_LINKS.PAYMENTS[0],
+    featureToggles[FEATURE_FLAG_NAMES.travelPayPowerSwitch] && {
+      href: '/my-health/travel-claim-status',
+      text: 'Check travel reimbursement claim status',
+    },
+    HEALTH_TOOL_LINKS.PAYMENTS[1],
+  ].filter(isLinkData);
+
   const cards = [
     {
       title: HEALTH_TOOL_HEADINGS.APPOINTMENTS,
@@ -147,15 +147,14 @@ const resolveLandingPageLinks = (
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
       introduction:
-        'Our new tool makes it easier to find, print, and download your medical records.',
+        'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
       links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
-      tag: 'NEW',
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
       icon: 'attach_money',
       iconClasses: 'vads-u-margin-right--0 vads-u-margin-left--neg0p5',
-      links: HEALTH_TOOL_LINKS.PAYMENTS,
+      links: paymentsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_SUPPLIES,

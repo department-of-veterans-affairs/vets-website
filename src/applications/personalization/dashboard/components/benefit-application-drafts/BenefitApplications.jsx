@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '@@profile/actions/paymentInformation';
 import PropTypes from 'prop-types';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
@@ -17,7 +16,6 @@ import ApplicationsInProgress from './ApplicationsInProgress';
 const BenefitApplications = ({
   getESREnrollmentStatus,
   getFormStatuses,
-  isLOA1,
   shouldGetESRStatus,
 }) => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -44,13 +42,16 @@ const BenefitApplications = ({
   );
 
   return (
-    <div data-testid="dashboard-section-benefit-application-drafts">
+    <div
+      data-testid="dashboard-section-benefit-application-drafts"
+      id="benefit-applications"
+    >
       <h2>
         {isFormSubmissionStatusWork
           ? 'Benefit applications and forms'
           : 'Benefit application drafts'}
       </h2>
-      <ApplicationsInProgress hideH3 isLOA1={isLOA1} />
+      <ApplicationsInProgress hideH3 />
     </div>
   );
 };
@@ -73,13 +74,11 @@ const mapStateToProps = state => {
 BenefitApplications.propTypes = {
   getESREnrollmentStatus: PropTypes.func,
   getFormStatuses: PropTypes.func,
-  isLOA1: PropTypes.bool,
   shouldGetESRStatus: PropTypes.bool,
 };
 
 const mapDispatchToProps = {
   getFormStatuses: fetchFormStatuses,
-  getDD4EDUStatus: fetchEDUPaymentInformationAction,
   getESREnrollmentStatus: getEnrollmentStatusAction,
 };
 

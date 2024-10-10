@@ -67,9 +67,9 @@ export class ConfirmationPage extends React.Component {
             onClick={window.print}
           />
         </div>
-        <h2>What to expect after you submit your form</h2>
+        <h2>What to expect next</h2>
         <p>
-          We'll review your registration form. This can take up to 60 days. If
+          We'll review your registration form. This can take up to 90 days. If
           you're eligible for this program, we'll send you a benefits
           authorization letter. This letter will list your service-connected
           conditions that we'll cover.
@@ -84,7 +84,7 @@ export class ConfirmationPage extends React.Component {
         <div>
           <p>
             If you have questions about your registration or an FMP claim, call
-            the FMP office at <va-telephone contact="8773458179" /> (
+            the FMP office at <va-telephone contact="8339300816" /> (
             <va-telephone tty contact="711" />
             ). We're here Monday through Friday, 8:05 a.m. to 6:45 p.m. ET.
           </p>

@@ -201,7 +201,9 @@ describe('ArrayBuilderSummaryPage', () => {
       maxItems: 5,
     });
 
-    expect(container.querySelector('va-radio')).to.exist;
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio).to.exist;
+    expect(vaRadio.getAttribute('value')).to.equal('false');
     expect(container.querySelector('va-card')).to.exist;
   });
 
@@ -360,5 +362,27 @@ describe('ArrayBuilderSummaryPage', () => {
     expect($legend).to.include.text('Custom summary review title');
     const description = $fieldset.querySelector('p');
     expect(description).to.not.exist;
+  });
+
+  it('should display summaryDescription text override when array has data', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      maxItems: 5,
+      text: {
+        summaryDescription: 'Custom summary description',
+        summaryTitle: 'Custom summary review title',
+      },
+    });
+
+    const $fieldset = container.querySelector('fieldset');
+    expect($fieldset).to.exist;
+    const $legend = $fieldset.querySelector('legend');
+    expect($legend).to.exist;
+    expect($legend).to.include.text('Custom summary review title');
+    const description = $fieldset.querySelector('span');
+    expect(description).to.exist;
+    expect(description).to.include.text('Custom summary description');
   });
 });

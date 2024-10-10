@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { head } from 'lodash';
@@ -13,6 +12,7 @@ import {
   setPageFocus,
   debtLettersShowLettersVBMS,
   showPaymentHistory,
+  formatDate,
 } from '../../combined/utils/helpers';
 import { getCurrentDebt, currency } from '../utils/page';
 import {
@@ -21,6 +21,7 @@ import {
 } from '../const/deduction-codes';
 import DebtDetailsCard from '../components/DebtDetailsCard';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
+import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
@@ -46,6 +47,9 @@ const DebtDetails = () => {
     personEntitled: currentDebt.personEntitled,
     deductionCode: currentDebt.deductionCode,
   };
+
+  const title = `Your ${deductionCodes[currentDebt.deductionCode]}`;
+  useHeaderPageTitle(title);
 
   const showDebtLetterDownload = useSelector(state =>
     debtLettersShowLettersVBMS(state),
@@ -99,7 +103,7 @@ const DebtDetails = () => {
             href: `/manage-va-debt/summary/debt-balances/details/${
               selectedDebt.compositeDebtId
             }`,
-            label: 'Debt details',
+            label: `${title}`,
           },
         ]}
         label="Breadcrumb"
@@ -107,15 +111,15 @@ const DebtDetails = () => {
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 className="vads-u-margin-bottom--2" tabIndex="-1">
-          Your {deductionCodes[currentDebt.deductionCode]}
+          {title}
         </h1>
         {dateUpdated && (
           <p className="va-introtext">
             Updated on
             <span className="vads-u-margin-left--0p5">
-              {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+              {formatDate(dateUpdated)}
             </span>
-            . Payments after this date will not be reflected here.
+            .
           </p>
         )}
         <DebtDetailsCard debt={currentDebt} />
@@ -139,7 +143,7 @@ const DebtDetails = () => {
             <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
               Debt details
             </h2>
-            <div className="small-screen:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
+            <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
               <div>
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">

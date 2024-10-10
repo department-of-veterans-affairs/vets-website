@@ -77,21 +77,25 @@ describe('ConfirmationPageV2', () => {
     const date = getReadableDate(data.form.submission.response);
 
     expect($('va-alert[status="success"]', container)).to.exist;
-    expect($('va-loading-indicator', container)).to.exist;
-
+    expect($('va-alert[status="success"]', container).innerHTML).to.contain(
+      `You submitted the request on ${date}`,
+    );
+    // expect($('va-loading-indicator', container)).to.exist;
     const h2s = $$('h2', container);
-    expect(h2s.length).to.eq(4);
+    expect(h2s.length).to.eq(5);
     expect(h2s.map(el => el.textContent)).to.deep.equal([
-      `You submitted your Board Appeal request on ${date}`,
+      // `You submitted your Board Appeal request on ${date}`,
+      'Request a Board Appeal', // print only header
+      'Your Board Appeal request submission is in progress',
       'What to expect next',
       'How to contact us if you have questions',
       'Your Board Appeal request',
     ]);
 
     const h3s = $$('h3', container);
-    expect(h3s.length).to.eq(5);
+    expect(h3s.length).to.eq(4); // 5 with PDF download code added
     expect(h3s.map(el => el.textContent)).to.deep.equal([
-      'Save a PDF copy of your Board Appeal request',
+      // 'Save a PDF copy of your Board Appeal request',
       'Print this confirmation page',
       'Personal information',
       'Issues for review',

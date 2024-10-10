@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import localStorage from 'platform/utilities/storage/localStorage';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import {
@@ -118,7 +117,6 @@ export async function createOAuthRequest({
     Web - Generate state & codeVerifier if default oAuth
   */
   const { state, codeVerifier } = isDefaultOAuth && saveStateAndVerifier(type);
-
   /*
     Mobile - Use passed code_challenge
     Web - Generate code_challenge
@@ -266,14 +264,10 @@ export const getInfoToken = () => {
 export const removeInfoToken = () => {
   if (!infoTokenExists()) return null;
 
-  const updatedCookie = document.cookie.split(';').reduce((_, cookie) => {
-    let tempCookieString = _;
-    if (!cookie.includes(COOKIES.INFO_TOKEN)) {
-      tempCookieString += `${cookie};`.trim();
-    }
-    return tempCookieString;
-  }, '');
-  document.cookie = updatedCookie;
+  document.cookie = `${
+    COOKIES.INFO_TOKEN
+  }=;expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+
   return undefined;
 };
 
