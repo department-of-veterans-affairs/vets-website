@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import LicenseCertificationSearchFields from '../components/LicenseCertificationSearchFields';
+import LicenseCertificationSearchFields from '../../components/LicenseCertificationSearchFields';
 
 // Should dropdownSchema be a piece of state in redux?
 // Are these values likely to change often?
