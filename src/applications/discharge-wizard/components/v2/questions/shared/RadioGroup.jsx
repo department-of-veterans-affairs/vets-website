@@ -137,7 +137,7 @@ const RadioGroup = ({
   return (
     <>
       <VaRadio
-        class="xsmall-screen:vads-u-margin-top--0"
+        class="mobile:vads-u-margin-top--0"
         data-testid={testId}
         form-heading={H1}
         form-heading-level={1}
@@ -168,7 +168,7 @@ const RadioGroup = ({
         </va-alert-expandable>
       )}
       <VaButtonPair
-        class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
+        class="vads-u-margin-top--3 mobile-lg:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}

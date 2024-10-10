@@ -53,7 +53,7 @@ function ScheduleNewAppointmentButton() {
   ) : (
     <button
       type="button"
-      className="xsmall-screen:vads-u-margin-bottom--3 vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4"
+      className="mobile:vads-u-margin-bottom--3 vaos-hide-for-print vads-u-margin--0 mobile-lg:vads-u-margin-bottom--4"
       aria-label="Start scheduling an appointment"
       id="schedule-button"
       onClick={handleClick(history, dispatch, typeOfCare)}
