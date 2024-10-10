@@ -86,6 +86,18 @@ export function getClinics({ locationId, clinicIds, typeOfCareId }) {
   ).then(parseApiList);
 }
 
+export function getPatientRelationships({ facilityId, typeOfCareId }) {
+  const url = '/vaos/v2/relationships';
+  return apiRequestWithUrl(
+    appendQuery(
+      url,
+      // eslint-disable-next-line camelcase
+      { facility_id: facilityId, clinical_service_id: typeOfCareId },
+      { removeNull: true },
+    ),
+  ).then(parseApiList);
+}
+
 export function getPatientEligibility(
   locationId,
   typeOfCareId,
