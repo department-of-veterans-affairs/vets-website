@@ -1,11 +1,11 @@
 const responses = {
-  22_1990: {
+  FORM_22_1990: {
     minimal: {
       formData: {
         veteranFullName: {
-          first: 'Johnnie',
-          middle: 'Leonard',
-          last: 'Weaver',
+          first: 'Mitchell',
+          middle: 'George',
+          last: 'Jenkins',
         },
         gender: 'M',
         veteranDateOfBirth: '1956-07-10',
