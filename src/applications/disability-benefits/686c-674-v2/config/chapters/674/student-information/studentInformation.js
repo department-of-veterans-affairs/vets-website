@@ -6,7 +6,7 @@ import {
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ArrayViewField from '../../../../components/ArrayViewField';
-import { NotificationText } from './helpers';
+import { AddStudentsIntro } from '../helpers';
 
 export const schema = {
   type: 'object',
@@ -36,7 +36,7 @@ export const uiSchema = {
     classNames: 'vads-u-color--black vads-u-margin-y--0',
   }),
   'view:674Information': {
-    'ui:description': NotificationText,
+    'ui:description': AddStudentsIntro,
     'ui:options': {
       classNames: 'vads-u-margin-top--0',
     },
