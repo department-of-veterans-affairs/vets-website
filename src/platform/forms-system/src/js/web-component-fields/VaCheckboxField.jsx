@@ -28,3 +28,5 @@ export default function VaCheckboxField(props) {
   const mappedProps = vaCheckboxFieldMapping(props);
   return <VaCheckbox {...mappedProps} />;
 }
+
+VaCheckboxField.identifier = 'VaCheckboxField';
