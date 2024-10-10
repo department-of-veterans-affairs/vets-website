@@ -11,7 +11,7 @@ export default function LoginBanners({
 }) {
   return (
     <div className="downtime-notification row">
-      <div className="columns small-12">
+      <div className="usa-width-two-thirds medium-8 columns print-full-width">
         <div className="form-warning-banner fed-warning--v2">
           <va-alert visible status={bannerType}>
             <h2 slot="headline">{headline}</h2>
