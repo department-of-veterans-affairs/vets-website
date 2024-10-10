@@ -147,6 +147,15 @@ export const normalizedForm = {
         includeServiceNumber: false,
       },
     },
+    {
+      id: 161344,
+      chapterTitle: 'Generated Address',
+      type: 'digital_form_address',
+      pageTitle: 'Address',
+      additionalFields: {
+        militaryAddressCheckbox: false,
+      },
+    },
   ],
 };
 
@@ -181,6 +190,15 @@ export const employmentQuestionnaire = {
       pageTitle: 'Identification Information',
       additionalFields: {
         includeServiceNumber: true,
+      },
+    },
+    {
+      id: 20003,
+      chapterTitle: "Veteran's mailing information",
+      type: 'digital_form_address',
+      pageTitle: 'Address',
+      additionalFields: {
+        militaryAddressCheckbox: true,
       },
     },
   ],
