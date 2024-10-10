@@ -417,9 +417,12 @@ export function transform5490Form(_formConfig, form) {
       highSchoolDiplomaOrCertificateDate: form?.data?.graduationDate,
     },
     directDeposit: {
-      directDepositAccountType: form?.data?.bankAccount?.accountType,
-      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
-      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
+      directDepositAccountType:
+        form?.data?.directDeposit?.bankAccount?.accountType,
+      directDepositAccountNumber:
+        form?.data?.directDeposit?.bankAccount?.accountNumber,
+      directDepositRoutingNumber:
+        form?.data?.directDeposit?.bankAccount?.routingNumber,
     },
     additionalConsiderations: {
       outstandingFelony: form?.data?.felonyOrWarrant,
