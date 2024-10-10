@@ -29,7 +29,7 @@ import { fileUpload } from './chapters/documents';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
-  urlPrefix: '/2/task-red/',
+  urlPrefix: '/2/task-gray/',
   submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
   transformForSubmit: customCOEsubmit,
   trackingPrefix: '26-1880-',

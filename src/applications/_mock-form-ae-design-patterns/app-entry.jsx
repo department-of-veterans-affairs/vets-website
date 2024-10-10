@@ -7,7 +7,7 @@ import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-import coeReducer from './patterns/pattern2/TaskRed/shared/reducers';
+import coeReducer from './patterns/pattern2/TaskGray/shared/reducers';
 
 const combinedReducers = {
   ...reducer,
