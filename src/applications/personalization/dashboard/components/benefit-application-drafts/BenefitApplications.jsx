@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -18,6 +18,7 @@ const BenefitApplications = ({
   getFormStatuses,
   shouldGetESRStatus,
 }) => {
+  const sectionRef = useRef(null);
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const isFormSubmissionStatusWork = useToggleValue(
     TOGGLE_NAMES.myVaFormSubmissionStatuses,
@@ -44,7 +45,7 @@ const BenefitApplications = ({
   useEffect(() => {
     const handleAnchorLink = () => {
       if (document.location.hash === '#benefit-applications') {
-        const elt = document.querySelector('#benefit-applications');
+        const elt = sectionRef.current;
         elt?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
       return () => {};
@@ -57,6 +58,7 @@ const BenefitApplications = ({
     <div
       data-testid="dashboard-section-benefit-application-drafts"
       id="benefit-applications"
+      ref={sectionRef}
     >
       <h2>
         {isFormSubmissionStatusWork
