@@ -32,16 +32,23 @@ class ReviewCollapsibleChapter extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
   }
 
-  handleEdit(key, editing, index = null) {
-    if (editing || !this.hasValidationError(key, index)) {
-      this.props.onEdit(key, editing, index);
-      focusReview(
-        fixSelector(`${key}${index ?? ''}`),
-        editing,
-        this.props.reviewEditFocusOnHeaders || false,
-      );
-    }
+  handleEdit(path) {
+    const basePath = window.location.pathname
+      .split('/')
+      .slice(2, 4)
+      .join('/');
+    this.goToPath(`/${basePath}/${path}?review=true`);
   }
+  // handleEdit(key, editing, index = null) {
+  //   if (editing || !this.hasValidationError(key, index)) {
+  //     this.props.onEdit(key, editing, index);
+  //     focusReview(
+  //       fixSelector(`${key}${index ?? ''}`),
+  //       editing,
+  //       this.props.reviewEditFocusOnHeaders || false,
+  //     );
+  //   }
+  // }
 
   onChange(formData, path = null, index = null) {
     let newData = formData;
@@ -242,7 +249,8 @@ class ReviewCollapsibleChapter extends React.Component {
           )}
           pagePerItemIndex={page.index}
           onBlur={this.props.onBlur}
-          onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+          // onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+          onEdit={() => this.handleEdit(page.path)}
           onSubmit={({ formData }) =>
             this.handleSubmit(
               formData,

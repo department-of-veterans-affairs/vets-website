@@ -11,7 +11,7 @@ import ProgressButton from './ProgressButton';
  * the `goForward` function to the form's `onSubmit` instead. Doing this will
  * navigate the user to the next page only if validation is successful.
  */
-const FormNavButtons = ({ goBack, goForward, submitToContinue }) => (
+const FormNavButtons = ({ goBack, goForward, submitToContinue, isReview }) => (
   <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
     <div className="small-6 medium-5 columns">
       {goBack && (
@@ -27,7 +27,8 @@ const FormNavButtons = ({ goBack, goForward, submitToContinue }) => (
       <ProgressButton
         submitButton={submitToContinue}
         onButtonClick={goForward}
-        buttonText="Continue"
+        // buttonText="Continue"
+        buttonText={isReview ? 'Save & Return' : 'Continue'}
         buttonClass="usa-button-primary"
         afterText="»"
       />

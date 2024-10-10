@@ -86,6 +86,11 @@ class FormPage extends React.Component {
     }
   }
 
+  isReview = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('review') === 'true';
+  };
+
   onChange = formData => {
     const { pageConfig } = this.props.route;
     let newData = formData;
@@ -245,6 +250,21 @@ class FormPage extends React.Component {
     }
   };
 
+  returnToReviewPage = () => {
+    const isReviewTrue = this.isReview();
+
+    if (isReviewTrue) {
+      const basePath = window.location.pathname
+        .split('/')
+        .slice(2, 4)
+        .join('/');
+      this.goToPath(`/${basePath}/review-and-submit`);
+
+      const url = new URL(window.location);
+      url.searchParams.delete('review');
+    }
+  };
+
   render() {
     const {
       route,
@@ -388,7 +408,11 @@ class FormPage extends React.Component {
               {contentBeforeNavButtons}
               <NavButtons
                 goBack={!isFirstRoutePage && this.goBack}
-                goForward={this.onContinue}
+                goForward={
+                  this.isReview() ? this.returnToReviewPage : this.onContinue
+                }
+                isReview={this.isReview()}
+                // goForward={this.onContinue}
                 submitToContinue
               />
               {contentAfterNavButtons}
