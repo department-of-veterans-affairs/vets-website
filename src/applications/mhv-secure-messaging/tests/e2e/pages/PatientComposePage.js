@@ -64,7 +64,6 @@ class PatientComposePage {
   };
 
   selectRecipient = (index = 1) => {
-    cy.get(Locators.ALERTS.REPT_SELECT).click();
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
@@ -426,8 +425,8 @@ class PatientComposePage {
       .should('be.visible');
   };
 
-  verifyDraftSaveButtonOnFocus = () => {
-    cy.get(Locators.BUTTONS.SAVE_DRAFT)
+  verifyAlertFocusFocus = () => {
+    cy.get(`.first-focuasable-child`)
       .should('exist')
       .and('be.focused');
   };
@@ -503,7 +502,6 @@ class PatientComposePage {
 
   backToInbox = () => {
     cy.get(Locators.BACK_TO).click();
-    cy.get('[visible=""] > [secondary=""]').click({ force: true });
   };
 }
 
