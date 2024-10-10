@@ -3,7 +3,14 @@ import { getRefreshStatus } from '../api/MrApi';
 
 export const fetchRefreshStatus = () => async dispatch => {
   const response = await getRefreshStatus();
-  window.localStorage.setItem('lastPhrRefreshDate', response?.lastRefreshDate);
+
+  const statusList = response?.facilityExtractStatusList || [];
+  const mostRecentLastRequested =
+    statusList.length > 0
+      ? Math.max(...statusList.map(extract => extract.lastRequested ?? 0))
+      : 0; // Fallback to 0 (beginning of time) if no valid data
+
+  window.localStorage.setItem('lastPhrRefreshDate', mostRecentLastRequested);
   dispatch({ type: Actions.Refresh.GET_STATUS, payload: response });
 };
 
