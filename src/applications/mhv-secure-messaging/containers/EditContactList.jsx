@@ -45,6 +45,10 @@ const EditContactList = () => {
 
   const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
 
+  const activeDraftId = useSelector(
+    state => state.sm.threadDetails?.drafts?.[0]?.messageId,
+  );
+
   const recipients = useSelector(state => state.sm.recipients);
   const {
     allFacilities,
@@ -82,7 +86,9 @@ const EditContactList = () => {
 
   const navigateBack = useCallback(
     () => {
-      if (previousUrl) {
+      if (previousUrl === Paths.COMPOSE && activeDraftId) {
+        history.push(`${Paths.MESSAGE_THREAD}${activeDraftId}/`);
+      } else if (previousUrl) {
         history.push(previousUrl);
       } else {
         history.push(Paths.INBOX);
