@@ -152,5 +152,5 @@ jobs:
         steps:
 
         - name: call action in vsp-github-actions
-          uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test/action.yaml@dc1094f87682a36aa9ac04575dc76162300f6654
+          uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test/action.yaml@b5aa97802fa28409c5a4d54fad4a8a635f096ba4
   
