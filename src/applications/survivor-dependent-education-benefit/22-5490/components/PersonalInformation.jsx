@@ -5,7 +5,7 @@ import { formatReadableDate } from '../helpers';
 function PersonalInformation({ claimant }) {
   const fullName = () => {
     const firstName = claimant?.userFullName?.first;
-    const middleName = claimant?.userFullName?.middle;
+    const middleName = claimant?.userFullName?.middle || '';
     const lastName = claimant?.userFullName?.last;
 
     if (firstName && lastName) {

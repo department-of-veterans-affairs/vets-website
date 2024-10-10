@@ -4,12 +4,13 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { compareAsc, compareDesc, format, parse } from 'date-fns';
+import { compareAsc, compareDesc, parse } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ServerErrorAlert } from '../config/helpers';
 import { URL, envUrl } from '../constants';
+import { formatDate } from '../utils/helpers';
 
 const DashboardCards = () => {
   const [error, hasError] = useState(false);
@@ -22,16 +23,6 @@ const DashboardCards = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
-
-  const formatDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
-    return format(parsedDate, 'MMM d, yyyy');
-  };
-
-  const formatLongDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
-    return format(parsedDate, 'MMMM d, yyyy');
-  };
 
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
@@ -118,7 +109,13 @@ const DashboardCards = () => {
 
     return (
       <>
-        <div className="dashboard-cards-grid">
+        <div
+          className={
+            hasBusinessLevelAuth
+              ? 'dashboard-cards-grid-with-business'
+              : 'dashboard-cards-grid'
+          }
+        >
           {currentInquiries.map(card => (
             <div key={card.id}>
               <va-card class="vacard">
@@ -143,12 +140,13 @@ const DashboardCards = () => {
                 <p className="vacardSubmitterQuestion">
                   {card.attributes.submitterQuestion}
                 </p>
-                <Link to={`/user/dashboard-mock/${card.id}`}>
+                <Link to={`${URL.DASHBOARD_ID}${card.id}`}>
                   <va-link
                     active
                     text="Check details"
-                    label={`Check details for question submitted on ${formatLongDate(
+                    label={`Check details for question submitted on ${formatDate(
                       card.attributes.createdOn,
+                      'long',
                     )}`}
                   />
                 </Link>
@@ -240,14 +238,16 @@ const DashboardCards = () => {
             </div>
           </div>
           {hasBusinessLevelAuth ? (
-            <Tabs onSelect={handleTabChange}>
-              <TabList>
-                <Tab className="small-6 tab">Business</Tab>
-                <Tab className="small-6 tab">Personal</Tab>
-              </TabList>
-              <TabPanel>{inquiriesGridView('Business')}</TabPanel>
-              <TabPanel>{inquiriesGridView('Personal')}</TabPanel>
-            </Tabs>
+            <div className="columns small-12 tabs">
+              <Tabs onSelect={handleTabChange}>
+                <TabList>
+                  <Tab className="small-6 tab">Business</Tab>
+                  <Tab className="small-6 tab">Personal</Tab>
+                </TabList>
+                <TabPanel>{inquiriesGridView('Business')}</TabPanel>
+                <TabPanel>{inquiriesGridView('Personal')}</TabPanel>
+              </Tabs>
+            </div>
           ) : (
             inquiriesGridView('Personal')
           )}

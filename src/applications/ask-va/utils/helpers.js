@@ -1,3 +1,4 @@
+import { format, isValid, parse } from 'date-fns';
 import React from 'react';
 import countries from '../config/countries.json';
 
@@ -112,3 +113,19 @@ export const inProgressOrReopenedIcon = (
     <va-icon icon="schedule" size={3} aria-hidden="true" />
   </span>
 );
+
+export const formatDate = (dateString, formatType = 'short') => {
+  let parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
+
+  if (!isValid(parsedDate)) {
+    parsedDate = parse(dateString, 'MM/dd/yyyy', new Date());
+  }
+
+  if (!isValid(parsedDate)) {
+    return dateString;
+  }
+
+  const dateFormat = formatType === 'long' ? 'MMMM d, yyyy' : 'MMM d, yyyy';
+
+  return format(parsedDate, dateFormat);
+};

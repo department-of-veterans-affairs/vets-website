@@ -6,7 +6,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { format, parse } from 'date-fns';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -15,7 +14,8 @@ import BreadCrumbs from '../components/BreadCrumbs';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import { ServerErrorAlert } from '../config/helpers';
 import { RESPONSE_PAGE } from '../constants';
-import { mockInquiryData } from '../utils/mockData';
+import { formatDate } from '../utils/helpers';
+import { mockInquiryDataBusinessAndPersonal } from '../utils/mockData';
 
 const attachmentBox = fileName => (
   <div className="attachment-box vads-u-display--flex vads-u-justify-content--space-between vads-u-background-color--gray-light-alt">
@@ -47,11 +47,6 @@ const ResponseInboxPage = ({ router }) => {
   };
   const inquiryId = getLastSegment();
 
-  const formatDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
-    return format(parsedDate, 'MMM d, yyyy');
-  };
-
   const handlers = {
     onInput: event => {
       setSendReply({ ...sendReply, reply: event.target.value });
@@ -64,7 +59,7 @@ const ResponseInboxPage = ({ router }) => {
   };
 
   const getInquiryData = async () => {
-    const inquiryMock = mockInquiryData.data.find(
+    const inquiryMock = mockInquiryDataBusinessAndPersonal.data.find(
       inquiry => inquiry.id === inquiryId,
     );
     setInquiryData(inquiryMock);

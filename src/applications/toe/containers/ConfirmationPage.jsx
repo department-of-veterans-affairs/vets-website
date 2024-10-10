@@ -1,5 +1,3 @@
-// src/applications/toe/containers/ConfirmationPage.jsx
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -27,20 +25,22 @@ export const ConfirmationPage = ({
   confirmationError,
 }) => {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
+  const [apiError, setApiError] = useState(false); // Track if a 400 or 500 error happens
 
   useEffect(
     () => {
       if (!fetchedClaimStatus) {
-        getClaimStatus();
-        setFetchedClaimStatus(true);
+        getClaimStatus()
+          .then(response => {
+            if (!response || response.status >= 400) {
+              setApiError(true);
+            }
+          })
+          .catch(() => setApiError(true)) // Catch any network errors
+          .finally(() => setFetchedClaimStatus(true)); // Ensure we set fetchedClaimStatus
       }
     },
-    [
-      fetchedClaimStatus,
-      getClaimStatus,
-      claimStatus,
-      user?.login?.currentlyLoggedIn,
-    ],
+    [fetchedClaimStatus, getClaimStatus],
   );
 
   const { first, last, middle, suffix } = user?.profile?.userFullName || {};
@@ -59,6 +59,32 @@ export const ConfirmationPage = ({
   const printPage = useCallback(() => {
     window.print();
   }, []);
+
+  if (apiError) {
+    return (
+      <UnderReviewConfirmation
+        user={claimantName}
+        confirmationError={confirmationError}
+        confirmationLoading={confirmationLoading}
+        dateReceived={newReceivedDate}
+        printPage={printPage}
+        sendConfirmation={sendConfirmation}
+        userEmail={userEmail}
+        userFirstName={userFirstName}
+      />
+    );
+  }
+
+  if (!fetchedClaimStatus) {
+    return (
+      <va-loading-indicator
+        class="vads-u-margin-y--5"
+        label="Loading"
+        message="Loading your results..."
+        set-focus
+      />
+    );
+  }
 
   switch (claimStatus?.claimStatus) {
     case 'ELIGIBLE': {

@@ -35,14 +35,14 @@ export default function RecentActivity({ claim }) {
     switch (item.status) {
       case 'NEEDED_FROM_YOU':
       case 'NEEDED_FROM_OTHERS':
-        return `We opened a request for "${displayName}"`;
+        return `We opened a request: "${displayName}"`;
       case 'NO_LONGER_REQUIRED':
-        return `We closed a request for "${displayName}"`;
+        return `We closed a request: "${displayName}"`;
       case 'SUBMITTED_AWAITING_REVIEW':
-        return `We received your document(s) for "${displayName}"`;
+        return `We received your document(s) for the request: "${displayName}"`;
       case 'INITIAL_REVIEW_COMPLETE':
       case 'ACCEPTED':
-        return `We completed a review for "${displayName}"`;
+        return `We completed a review for the request: "${displayName}"`;
       default:
         return 'There was an update to this item';
     }

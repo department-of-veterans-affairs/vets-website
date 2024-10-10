@@ -32,28 +32,13 @@ export class ServiceAvailabilityBanner extends React.Component {
         content = (
           <>
             <CallToActionWidget appId="gi-bill-benefits" />
-            <p>
-              <strong>Note:</strong> The tool is available Sunday through
-              Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00
-              p.m. ET.
-            </p>
           </>
         );
         break;
       }
       case SERVICE_AVAILABILITY_STATES.down:
       default: {
-        content = (
-          <VaAlert visible status="error">
-            <h3 slot="headline">
-              The Post-9/11 GI Bill Benefits tool is down for maintenance
-            </h3>
-            We’re sorry the tool isn’t available right now. The tool will be
-            available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET,
-            and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during
-            that time.
-          </VaAlert>
-        );
+        content = <VaAlert visible status="error" />;
       }
     }
 
