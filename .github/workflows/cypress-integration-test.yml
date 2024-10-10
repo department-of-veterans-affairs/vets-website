@@ -86,4 +86,4 @@ jobs:
       
         - name: Call reusable action
           id: cypress-action
-          uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test/action.yaml@b5aa97802fa28409c5a4d54fad4a8a635f096ba4
+          uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test/action.yaml@fc22f03d949bb0fde51f0708b2df3fffedaa7dfd
