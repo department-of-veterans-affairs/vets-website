@@ -1,6 +1,7 @@
 {
   "data": {
     "veteranWasMarriedBefore": true,
+    "view:completedVeteranFormerMarriage": false,
     "veteranMarriageHistory": [
       {
         "startDate": "2005-08-09",
@@ -27,6 +28,7 @@
       }
     ],
     "spouseWasMarriedBefore": true,
+    "view:completedSpouseFormerMarriage": false,
     "spouseMarriageHistory": [
       {
         "startDate": "2005-08-09",
