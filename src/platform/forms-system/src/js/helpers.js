@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import moment from 'moment';
+import { add, getYear } from 'date-fns';
 import { intersection, matches, merge, uniq } from 'lodash';
 import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
@@ -9,11 +9,9 @@ import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
 
 export const minYear = 1900;
-export const currentYear = moment().year();
+export const currentYear = getYear(new Date());
 // maxYear was previously set to 3000
-export const maxYear = moment()
-  .add(100, 'year')
-  .year();
+export const maxYear = getYear(add(currentYear, { years: 100 }));
 
 // For the DISPLAYED step-count on pages [in progress-bar and step-header], we need to subtract the number of progress-hidden chapters from the total number of chapters
 // Progress-hidden chapters are those that have a hideFormNavProgress prop set to true

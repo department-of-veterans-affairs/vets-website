@@ -1,7 +1,8 @@
 // Node modules.
-import moment from 'moment';
+import { isBefore } from 'date-fns';
 // Relative imports.
 import _config from './config';
+import { parseStringOrDate } from '../../utilities/date';
 
 // Checks if the announcement has started.
 const isStarted = announcement => {
@@ -13,16 +14,9 @@ const isStarted = announcement => {
   }
 
   // Derive if the announcement has started.
-  const startsAtDate = moment(startsAt);
-  const hasStarted = moment().isSameOrAfter(startsAtDate);
+  const startsAtDate = parseStringOrDate(startsAt);
 
-  // Announcement has not started.
-  if (!hasStarted) {
-    return false;
-  }
-
-  // Announcement has started.
-  return true;
+  return isBefore(startsAtDate, new Date());
 };
 
 // Checks if the announcement has expired.
@@ -35,16 +29,9 @@ const isNotExpired = announcement => {
   }
 
   // Derive if the announcement has expired.
-  const expiresAtDate = moment(expiresAt);
-  const hasExpired = moment().isSameOrAfter(expiresAtDate);
+  const expiresAtDate = parseStringOrDate(expiresAt);
 
-  // Announcement has not expired.
-  if (!hasExpired) {
-    return true;
-  }
-
-  // Announcement has expired.
-  return false;
+  return isBefore(new Date(), expiresAtDate);
 };
 
 export const selectAnnouncement = (
@@ -52,7 +39,7 @@ export const selectAnnouncement = (
   config = _config,
   path = document.location.pathname,
 ) => {
-  const announcements = state.announcements;
+  const { announcements } = state;
   let announcement;
 
   if (announcements.isInitialized) {
