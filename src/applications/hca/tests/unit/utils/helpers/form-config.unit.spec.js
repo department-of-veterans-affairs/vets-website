@@ -177,6 +177,13 @@ describe('hca form config helpers', () => {
   });
 
   context('when `isMissingVeteranDob` executes', () => {
+    it('should return `true` when veteran information is not populated', () => {
+      const formData = {
+        'view:isLoggedIn': true,
+      };
+      expect(isMissingVeteranDob(formData)).to.be.true;
+    });
+
     it('should return `true` when date of birth value is `null`', () => {
       const formData = {
         'view:isLoggedIn': true,

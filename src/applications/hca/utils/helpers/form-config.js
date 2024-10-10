@@ -86,7 +86,7 @@ export function dischargePapersRequired(formData) {
  * @returns {Boolean} - true if the user is logged in and viewfield is empty
  */
 export function isMissingVeteranDob(formData) {
-  const { 'view:veteranInformation': veteranInfo } = formData;
+  const { 'view:veteranInformation': veteranInfo = {} } = formData;
   const { veteranDateOfBirth } = veteranInfo;
   return !isLoggedOut(formData) && !veteranDateOfBirth;
 }
