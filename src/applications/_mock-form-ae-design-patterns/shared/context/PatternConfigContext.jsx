@@ -5,7 +5,7 @@ import greenFormConfig from '../../patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from '../../patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from '../../patterns/pattern1/TaskPurple/config/form';
 import ezrFormConfig from '../../patterns/pattern1/ezr/config/form';
-import redFormConfig from '../../patterns/pattern2/TaskRed/form/config/form';
+import redFormConfig from '../../patterns/pattern2/TaskGray/form/config/form';
 import fallbackForm from '../config/fallbackForm';
 import { TaskTabs } from '../components/TaskTabs';
 import { Portal } from '../components/Portal';
