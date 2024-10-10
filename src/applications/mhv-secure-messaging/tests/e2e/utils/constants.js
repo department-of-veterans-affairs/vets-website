@@ -240,6 +240,9 @@ export const Locators = {
     RECIPIENTS: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
   },
+  ICONS: {
+    ATTCH_ICON: '[data-testid="attachment-icon"]',
+  },
 };
 
 export const Alerts = {

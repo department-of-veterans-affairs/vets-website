@@ -192,6 +192,7 @@ class PatientMessageDetailsPage {
       mockMessageDetails.data.attributes.recipientId;
     this.currentThread.data.at(index).attributes.triageGroupName =
       mockMessageDetails.data.attributes.triageGroupName;
+
     cy.get(Locators.BUTTONS.REPLY)
       .should('be.visible')
       .click({ force: true });
@@ -371,21 +372,19 @@ class PatientMessageDetailsPage {
       });
   };
 
-  verifyUnexpandedMessageAttachment = (messageIndex = 0) => {
-    cy.log(
-      `message has attachments = ${
-        this.currentThread.data.at(messageIndex).attributes.hasAttachments
-      }`,
-    );
-    if (
-      this.currentThread.data.at(messageIndex + 1).attributes.hasAttachments
-    ) {
+  verifyMessageAttachment = (messageDetails, messageIndex = 0) => {
+    if (messageDetails.data.at(messageIndex).attributes.hasAttachments) {
       cy.log('message has attachment... checking for image');
-      cy.get('[data-testid="message-attachment-img')
-        .eq(messageIndex)
+      cy.get(
+        `[data-testid="expand-message-button-${
+          messageDetails.data[messageIndex].attributes.messageId
+        }"]`,
+      )
+        .find(Locators.ICONS.ATTCH_ICON)
         .should('be.visible');
+    } else {
+      cy.log('message does not have attachment');
     }
-    cy.log('message does not have attachment');
   };
 
   verifyUnexpandedMessageFrom = (messageDetails, messageIndex = 0) => {
@@ -436,8 +435,8 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
+        `From: ${messageDetails.data[messageIndex].attributes.senderName} (${
+          messageDetails.data[messageIndex].attributes.triageGroupName
         })`,
       );
   };
@@ -447,7 +446,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `To: ${messageDetails.data[0].attributes.recipientName}`,
+        `To: ${messageDetails.data[messageIndex].attributes.recipientName}`,
       );
   };
 
@@ -456,7 +455,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `Message ID: ${messageDetails.data.attributes.messageId}`,
+        `Message ID: ${messageDetails.data[messageIndex].attributes.messageId}`,
       );
   };
 
@@ -466,7 +465,7 @@ class PatientMessageDetailsPage {
       .should(
         'have.text',
         `Date: ${dateFormat(
-          messageDetails.data.attributes.sentDate,
+          messageDetails.data[messageIndex].attributes.sentDate,
           'MMMM D, YYYY [at] h:mm a z',
         )}`,
       );

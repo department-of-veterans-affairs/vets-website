@@ -1,11 +1,11 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import inboxFilterResponse from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
+import mockMessages from '../fixtures/messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Inbox page keyboard navigation for filter & sort features', () => {
   const filteredData = {
-    data: inboxFilterResponse.data.filter(item =>
+    data: mockMessages.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
     ),
   };
@@ -39,7 +39,7 @@ describe('Inbox page keyboard navigation for filter & sort features', () => {
     cy.axeCheck(AXE_CONTEXT);
 
     const testData = {
-      data: Array.from(inboxFilterResponse.data).sort(
+      data: Array.from(mockMessages.data).sort(
         (a, b) =>
           new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
       ),

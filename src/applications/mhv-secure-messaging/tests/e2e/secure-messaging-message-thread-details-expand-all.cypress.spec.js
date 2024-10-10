@@ -5,9 +5,8 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('SM EXPAND ALL ACCORDIONS', () => {
-  const updatedThreadResponse = threadResponse;
   const date = new Date();
-  updatedThreadResponse.data[0].attributes.sentDate = date.toISOString();
+  threadResponse.data[0].attributes.sentDate = date.toISOString();
 
   it('verify details of expanded messages', () => {
     SecureMessagingSite.login();
