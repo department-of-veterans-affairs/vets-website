@@ -78,7 +78,7 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
   return (
     <>
       {location.pathname === typeOfCareUrl && <MhvSecondaryNav />}
-      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
+      <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
         <Nav pageTitle={pageTitle} />
         {location.pathname.endsWith('new-appointment') && (
           <DowntimeNotification
