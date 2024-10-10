@@ -105,8 +105,8 @@ const IntroductionPage = props => {
 IntroductionPage.propTypes = {
   ombInfo: PropTypes.shape({
     expDate: PropTypes.string,
-    ombNumber: PropTypes.number,
-    resBurden: PropTypes.string,
+    ombNumber: PropTypes.string,
+    resBurden: PropTypes.number,
   }),
   route: PropTypes.shape({
     formConfig: PropTypes.shape({

@@ -13,12 +13,8 @@ const PharmacyResult = ({ provider, query }) => {
     <div className="facility-result" id={provider.id} key={provider.id}>
       <div>
         <LocationMarker markerText={provider.markerText} />
-        <span>
-          <h3 className="vads-u-margin-y--0">{name}</h3>
-          {provider.attributes.orgName && (
-            <h6>{provider.attributes.orgName}</h6>
-          )}
-        </span>
+        <h3 className="vads-u-margin-y--0">{name}</h3>
+        {provider.attributes.orgName && <h6>{provider.attributes.orgName}</h6>}
         <LocationDistance distance={provider.distance} />
         <LocationAddress location={provider} />
         <LocationDirectionsLink location={provider} from="SearchResult" />

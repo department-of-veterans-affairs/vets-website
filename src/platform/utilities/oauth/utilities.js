@@ -264,14 +264,10 @@ export const getInfoToken = () => {
 export const removeInfoToken = () => {
   if (!infoTokenExists()) return null;
 
-  const updatedCookie = document.cookie.split(';').reduce((_, cookie) => {
-    let tempCookieString = _;
-    if (!cookie.includes(COOKIES.INFO_TOKEN)) {
-      tempCookieString += `${cookie};`.trim();
-    }
-    return tempCookieString;
-  }, '');
-  document.cookie = updatedCookie;
+  document.cookie = `${
+    COOKIES.INFO_TOKEN
+  }=;expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+
   return undefined;
 };
 

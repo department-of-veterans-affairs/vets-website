@@ -15,13 +15,9 @@ const CCProviderResult = ({ provider, query }) => {
     <div className="facility-result" id={provider.id} key={provider.id}>
       <div>
         <LocationMarker markerText={provider.markerText} />
-        <span>
-          <ProviderServiceDescription provider={provider} query={query} />
-          <h3 className="vads-u-margin-y--0">{name}</h3>
-          {provider.attributes.orgName && (
-            <h6>{provider.attributes.orgName}</h6>
-          )}
-        </span>
+        <ProviderServiceDescription provider={provider} query={query} />
+        <h3 className="vads-u-margin-y--0">{name}</h3>
+        {provider.attributes.orgName && <h6>{provider.attributes.orgName}</h6>}
         <LocationDistance distance={provider.distance} />
         <ProviderTraining provider={provider} />
         <LocationAddress location={provider} />
