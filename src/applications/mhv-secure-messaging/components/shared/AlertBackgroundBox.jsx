@@ -16,13 +16,7 @@
  * since in this case there are no other content on screen.
  */
 
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -41,16 +35,6 @@ const AlertBackgroundBox = props => {
   const [alertContent, setAlertContent] = useState('');
   const alertRef = useRef();
   const [activeAlert, setActiveAlert] = useState(null);
-
-  const hideAlert = useMemo(
-    () =>
-      alertList.filter(
-        alert =>
-          alert.content === Alerts.Message.ATTACHMENT_SCAN_FAIL &&
-          alert.isActive,
-      ).length > 0,
-    [alertList],
-  );
 
   const {
     Message: { SERVER_ERROR_503 },
@@ -158,7 +142,7 @@ const AlertBackgroundBox = props => {
   return (
     <>
       {activeAlert &&
-        !hideAlert && (
+        activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
           <VaAlert
             uswds
             ref={alertRef}
