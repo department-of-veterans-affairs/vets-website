@@ -331,7 +331,6 @@ const SearchApp = ({
               </p>
               <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
                 <VaSearchInput
-                  aria-labelledby="h1-search-title"
                   class="vads-u-width--full"
                   id="search-results-page-dropdown-input-field"
                   data-e2e-id="search-results-page-dropdown-input-field"
