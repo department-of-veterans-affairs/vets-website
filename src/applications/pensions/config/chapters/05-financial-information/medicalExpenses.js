@@ -13,9 +13,10 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
-import { recipientTypeLabels } from '../../../labels';
+import { careFrequencyLabels, recipientTypeLabels } from '../../../labels';
 import { doesHaveMedicalExpenses } from './helpers';
 import ArrayDescription from '../../../components/ArrayDescription';
+import { showMultiplePageResponse } from '../../../helpers';
 
 const {
   childName,
@@ -23,12 +24,6 @@ const {
   purpose,
   paymentAmount,
 } = fullSchemaPensions.definitions.medicalExpenses.items.properties;
-
-const frequencyOptions = {
-  ONCE_MONTH: 'Once a month',
-  ONCE_YEAR: 'Once a year',
-  ONE_TIME: 'One-time',
-};
 
 const MedicalExpenseView = ({ formData }) => (
   <ListItemView title={formData.provider} />
@@ -44,7 +39,8 @@ MedicalExpenseView.propTypes = {
 export default {
   title: 'List of medical expenses and other unreimbursed expenses',
   path: 'financial/medical-expenses/add',
-  depends: doesHaveMedicalExpenses,
+  depends: formData =>
+    !showMultiplePageResponse() && doesHaveMedicalExpenses(formData),
   uiSchema: {
     ...titleUI(
       'List of medical expenses and other unreimbursed expenses',
@@ -92,7 +88,7 @@ export default {
         paymentDate: currentOrPastDateUI('What’s the date of the payment?'),
         paymentFrequency: radioUI({
           title: 'How often are the payments?',
-          labels: frequencyOptions,
+          labels: careFrequencyLabels,
           classNames: 'vads-u-margin-bottom--2',
         }),
         paymentAmount: merge({}, currencyUI('How much is each payment?'), {
@@ -126,7 +122,7 @@ export default {
             provider,
             purpose,
             paymentDate: currentOrPastDateSchema,
-            paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
+            paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
             paymentAmount,
           },
         },

@@ -25,6 +25,9 @@ import {
 import { childNameRequired } from './helpers';
 import { formatCurrency, showMultiplePageResponse } from '../../../helpers';
 
+// eslint-disable-next-line no-unused-vars
+const { ONE_TIME, ...careFrequencyLabelsWithoutOneTime } = careFrequencyLabels;
+
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'careExpenses',
@@ -56,7 +59,7 @@ const options = {
           <li>
             Payment frequency:{' '}
             <span className="vads-u-font-weight--bold">
-              {careFrequencyLabels[item.paymentFrequency]}
+              {careFrequencyLabelsWithoutOneTime[item.paymentFrequency]}
             </span>
           </li>
           <li>
@@ -97,7 +100,10 @@ const summaryPage = {
 /** @returns {PageSchema} */
 const careExpenseRecipient = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Care recipient'),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Care recipient',
+      nounSingular: options.nounSingular,
+    }),
     recipients: radioUI({
       title: 'Who receives care?',
       labels: recipientTypeLabels,
@@ -107,7 +113,8 @@ const careExpenseRecipient = {
       title: 'Enter the child’s name',
       expandUnder: 'recipients',
       expandUnderCondition: 'DEPENDENT',
-      required: childNameRequired,
+      required: (formData, index) =>
+        childNameRequired('careExpenses', formData, index),
     }),
   },
   schema: {
@@ -138,10 +145,7 @@ const careExpenseProvider = {
 /** @returns {PageSchema} */
 const careExpenseTypePage = {
   uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Care type',
-      nounSingular: options.nounSingular,
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI('Care type'),
     careType: radioUI({
       title: 'Choose the type of care:',
       labels: careTypeLabels,
@@ -178,10 +182,7 @@ const careExpenseTypePage = {
 /** @returns {PageSchema} */
 const careExpenseDatesPage = {
   uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Care dates',
-      nounSingular: options.nounSingular,
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI('Care dates'),
     careDateRange: currentOrPastDateRangeUI(
       'Care start date',
       'Care end date',
@@ -215,7 +216,7 @@ const careExpensePaymentPage = {
     }),
     paymentFrequency: radioUI({
       title: 'How often are the payments?',
-      labels: careFrequencyLabels,
+      labels: careFrequencyLabelsWithoutOneTime,
     }),
     paymentAmount: merge({}, currencyUI('How much is each payment?'), {
       'ui:options': {
@@ -226,7 +227,9 @@ const careExpensePaymentPage = {
   schema: {
     type: 'object',
     properties: {
-      paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
+      paymentFrequency: radioSchema(
+        Object.keys(careFrequencyLabelsWithoutOneTime),
+      ),
       paymentAmount: {
         type: 'number',
       },
