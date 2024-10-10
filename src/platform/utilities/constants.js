@@ -12,7 +12,7 @@ export const SCROLL_ELEMENT_SUFFIX = 'ScrollElement';
 export const ERROR_ELEMENTS = [
   '.usa-input-error',
   '.input-error-date',
-  '[error]',
+  '[error]:not([error=""])',
 ];
 
 // List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
