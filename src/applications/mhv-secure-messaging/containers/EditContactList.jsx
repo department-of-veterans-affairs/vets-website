@@ -34,6 +34,7 @@ const EditContactList = () => {
   const [allTriageTeams, setAllTriageTeams] = useState(null);
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
   const [checkboxError, setCheckboxError] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const [
     showBlockedTriageGroupAlert,
@@ -98,11 +99,16 @@ const EditContactList = () => {
 
   const handleSave = async e => {
     e.preventDefault();
+    if (isSaving) return;
+    setIsSaving(true);
     if (!isMinimumSelected) {
       await setCheckboxError(ErrorMessages.ContactList.MINIMUM_SELECTION);
       focusOnErrorField();
+      setIsSaving(false);
     } else {
-      dispatch(updateTriageTeamRecipients(allTriageTeams));
+      dispatch(updateTriageTeamRecipients(allTriageTeams)).finally(() => {
+        setIsSaving(false);
+      });
     }
   };
 
