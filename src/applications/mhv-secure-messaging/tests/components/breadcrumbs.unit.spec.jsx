@@ -236,4 +236,31 @@ describe('Breadcrumbs', () => {
 
     expect(screen.history.location.pathname).to.equal(Paths.DRAFTS);
   });
+
+  it('should redirect back to draft message if an active draft is present', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        breadcrumbs: {
+          previousUrl: Paths.COMPOSE,
+        },
+        threadDetails: {
+          drafts: [{ messageId: '123123' }],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.CONTACT_LIST,
+    });
+
+    fireEvent.click(screen.getByText('Back'));
+
+    expect(screen.history.location.pathname).to.equal(
+      `${Paths.MESSAGE_THREAD}123123/`,
+    );
+  });
 });
