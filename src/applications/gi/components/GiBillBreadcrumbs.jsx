@@ -6,6 +6,7 @@ import { giDocumentTitle } from '../utils/helpers';
 const GiBillBreadcrumbs = () => {
   const profileMatch = useRouteMatch('/institution/:facilityCode');
   const compareMatch = useRouteMatch('/compare');
+  const lcMatch = useRouteMatch('/lc-search');
   const crumbLiEnding = giDocumentTitle();
   const crumbs = [
     {
@@ -20,11 +21,8 @@ const GiBillBreadcrumbs = () => {
       href: '/education/gi-bill-comparison-tool/',
       label: crumbLiEnding,
     },
-    {
-      href: '/education/gi-bill-comparison-tool/lc-search',
-      label: 'Licensces and Certifications',
-    },
   ];
+
   if (profileMatch) {
     crumbs.push({
       href: `/institution/${profileMatch.params.facilityCode}`,
@@ -35,6 +33,12 @@ const GiBillBreadcrumbs = () => {
     crumbs.push({
       href: '/',
       label: 'Institution comparison',
+    });
+  }
+  if (lcMatch) {
+    crumbs.push({
+      href: '/education/gi-bill-comparison-tool/lc-search',
+      label: 'Licensces and Certifications',
     });
   }
 
