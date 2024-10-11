@@ -48,6 +48,7 @@ jobs:
           with:
              ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
              env_variable_name: AWS_FRONTEND_PROD_ROLE
+             aws_region: us-gov-west-1
    
         - name: Get AWS IAM role
           uses: ./.github/workflows/inject-secrets
