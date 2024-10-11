@@ -45,7 +45,8 @@ jobs:
             ARCHIVE_NAME=${{ github.event.inputs.commit_sha }}/vagovprod.tar.bz2
             BUCKET_PATH=s3://vetsgov-website-builds-s3-upload/
             TARGET_DIR=build/${{ env.BUILDTYPE }}
-
+            
+            df -H
             aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
 
             if [ -f $ARCHIVE_NAME ]; then
