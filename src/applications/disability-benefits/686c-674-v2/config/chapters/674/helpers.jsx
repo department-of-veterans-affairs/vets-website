@@ -84,3 +84,9 @@ export const TermDateHint = (
     </p>
   </va-additional-info>
 );
+
+export const studentIncomeNote = (
+  <p>
+    <strong>Note:</strong> Don’t report VA benefits as income
+  </p>
+);

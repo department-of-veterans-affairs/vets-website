@@ -3,7 +3,8 @@ import {
   numberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { StudentIncomeAtSchoolH3 } from './helpers';
-import { generateHelpText, studentIncomeNote } from '../../../helpers';
+import { generateHelpText } from '../../../helpers';
+import { studentIncomeNote } from '../helpers';
 
 export const schema = {
   type: 'object',

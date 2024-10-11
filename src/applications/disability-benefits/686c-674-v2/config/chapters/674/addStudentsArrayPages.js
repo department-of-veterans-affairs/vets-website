@@ -1,9 +1,10 @@
-// import { format, parseISO } from 'date-fns';
 import { capitalize } from 'lodash';
 import {
   titleUI,
   textUI,
   textSchema,
+  textareaUI,
+  textareaSchema,
   addressUI,
   addressSchema,
   arrayBuilderItemFirstPageTitleUI,
@@ -16,27 +17,18 @@ import {
   fullNameNoSuffixSchema,
   ssnUI,
   ssnSchema,
-  //   radioUI,
-  //   radioSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-// import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-// import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-// import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-// import //   marriageEnums,
-// //   spouseFormerMarriageLabels,
-// //   customLocationSchema,
-// //   generateHelpText,
-// '../../helpers';
 import {
   AccreditedSchool,
   AddStudentsIntro,
   benefitSchemaLabels,
   benefitUiLabels,
   ProgramExamples,
+  // studentIncomeNote,
   TermDateHint,
 } from './helpers';
 import { generateHelpText } from '../../helpers';
@@ -59,7 +51,32 @@ export const addStudentsOptions = {
     !item?.fullName?.last ||
     !item?.birthDate ||
     !item?.ssn ||
-    !item?.isParent,
+    (item?.isParent === true && !item?.isParent) ||
+    !item?.address?.country ||
+    !item?.address?.street ||
+    !item?.address?.city ||
+    !item?.address?.state ||
+    !item?.address?.postalCode ||
+    (item?.wasMarried === true && !item?.wasMarried) ||
+    (item?.tuitionIsPaidByGovAgency === true &&
+      !item?.tuitionIsPaidByGovAgency) ||
+    !item?.schoolInformation?.name ||
+    (item?.schoolInformation?.studentIsEnrolledFullTime === true &&
+      !item?.schoolInformation?.studentIsEnrolledFullTime) ||
+    !item?.schoolInformation?.isSchoolAccredited ||
+    !item?.schoolInformation?.currentTermDates?.officialSchoolStartDate ||
+    !item?.schoolInformation?.currentTermDates?.expectedStudentStartDate ||
+    !item?.schoolInformation?.currentTermDates?.expectedGraduationDate ||
+    (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
+      !item?.schoolInformation?.studentDidAttendSchoolLastTerm) ||
+    (item?.claimsOrReceivesPension === true &&
+      !item?.claimsOrReceivesPension) ||
+    (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
+      (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
+        !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
+    (item?.typeOfProgramOrBenefit &&
+      Object.values(item.typeOfProgramOrBenefit).includes(true) &&
+      !item?.benefitPaymentDate),
   maxItems: 7,
   text: {
     summaryTitle: 'Review your students',
@@ -67,68 +84,8 @@ export const addStudentsOptions = {
       `${capitalize(item.fullName?.first) || ''} ${capitalize(
         item.fullName?.last,
       ) || ''}`,
-    // cardDescription: item => {
-    //   const start = item?.startDate
-    //     ? format(parseISO(item.startDate), 'MM/dd/yyyy')
-    //     : 'Unknown';
-    //   const end = item?.endDate
-    //     ? format(parseISO(item.endDate), 'MM/dd/yyyy')
-    //     : 'Unknown';
-
-    //   return `${start} - ${end}`;
-    // },
   },
 };
-
-// "studentInformation": [
-//     {
-//       "view:pensionEarnings": {},
-//       "studentNetworthInformation": {},
-//       "studentExpectedEarningsNextYear": {},
-//       "view:incomeNote": {},
-//       "studentEarningsFromSchoolYear": {},
-//       "schoolInformation": {
-//         "studentDidAttendSchoolLastTerm": true,
-//         "lastTermSchoolInformation": {
-//           "termBegin": "2001-04-19",
-//           "dateTermEnded": "2003-03-19"
-//         },
-//         "currentTermDates": {
-//           "officialSchoolStartDate": "1991-01-19",
-//           "expectedStudentStartDate": "2000-10-19",
-//           "expectedGraduationDate": "1991-05-19"
-//         },
-//         "isSchoolAccredited": true,
-//         "view:accredited": {},
-//         "studentIsEnrolledFullTime": false,
-//         "name": "Trade program name"
-//       },
-//       "tuitionIsPaidByGovAgency": true,
-//       "view:programExamples": {},
-//       "typeOfProgramOrBenefit": {
-//         "ch35": true,
-//         "fry": true,
-//         "feca": true,
-//         "other": true
-//       },
-//       "wasMarried": true,
-//       "address": {
-//         "view:militaryBaseDescription": {},
-//         "country": "USA",
-//         "street": "123 Fake St.",
-//         "city": "Fakesville",
-//         "state": "AL",
-//         "postalCode": "12345"
-//       },
-//       "ssn": "333445555",
-//       "isParent": true,
-//       "fullName": {
-//         "first": "John",
-//         "last": "Doe"
-//       },
-//       "birthDate": "2008-06-19"
-//     }
-//   ],
 
 export const addStudentsIntroPage = {
   uiSchema: {
@@ -310,13 +267,22 @@ export const studentEducationBenefitsPage = {
 export const studentEducationBenefitsStartDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student’s education benefits',
+      () => 'Student’s education benefit payments',
     ),
     benefitPaymentDate: {
       ...currentOrPastDateUI(
         'When did the student start receiving education benefit payments?',
       ),
-      'ui:required': () => true,
+      'ui:required': (formData, index) => {
+        const addMode =
+          formData?.studentInformation?.[index]?.typeOfProgramOrBenefit;
+        const editMode = formData?.typeOfProgramOrBenefit;
+
+        return (
+          (addMode && Object.values(addMode).includes(true)) ||
+          (editMode && Object.values(editMode).includes(true))
+        );
+      },
     },
   },
   schema: {
@@ -331,13 +297,17 @@ export const studentEducationBenefitsStartDatePage = {
 export const studentProgramInfoPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student’s program or school',
+      () => 'Student’s education program or school',
     ),
     schoolInformation: {
       name: {
-        ...textUI(
-          'What’s the name of the school or trade program the student attends?',
-        ),
+        ...textUI({
+          title:
+            'What’s the name of the school or trade program the student attends?',
+          errorMessages: {
+            required: 'Enter the name of the school or trade program',
+          },
+        }),
         'ui:required': () => true,
         'ui:options': {
           width: 'xl',
@@ -501,25 +471,6 @@ export const previousTermQuestionPage = {
         ),
         required: () => true,
       }),
-      // lastTermSchoolInformation: {
-      //   // 'ui:options': {
-      //   //   hideIf: (formData, index) =>
-      //   //     !formData?.studentInformation[index]?.schoolInformation
-      //   //       ?.studentDidAttendSchoolLastTerm,
-      //   // },
-      //   termBegin: {
-      //     ...currentOrPastDateUI('When did the previous school term start?'),
-      //     // 'ui:required': (formData, index) =>
-      //     //   formData?.studentInformation[index]?.schoolInformation
-      //     //     ?.studentDidAttendSchoolLastTerm,
-      //   },
-      //   dateTermEnded: {
-      //     ...currentOrPastDateUI('When did the previous school term end?'),
-      //     // 'ui:required': (formData, index) =>
-      //     //   formData?.studentInformation[index]?.schoolInformation
-      //     //     ?.studentDidAttendSchoolLastTerm,
-      //   },
-      // },
     },
   },
   schema: {
@@ -529,13 +480,6 @@ export const previousTermQuestionPage = {
         type: 'object',
         properties: {
           studentDidAttendSchoolLastTerm: yesNoSchema,
-          // lastTermSchoolInformation: {
-          //   type: 'object',
-          //   properties: {
-          //     termBegin: currentOrPastDateSchema,
-          //     dateTermEnded: currentOrPastDateSchema,
-          //   },
-          // },
         },
       },
     },
@@ -544,20 +488,34 @@ export const previousTermQuestionPage = {
 
 export const previousTermDatesPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s term dates'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Student’s previous term dates',
+    ),
     schoolInformation: {
       lastTermSchoolInformation: {
         termBegin: {
           ...currentOrPastDateUI('When did the previous school term start?'),
-          // 'ui:required': (formData, index) =>
-          //   formData?.studentInformation[index]?.schoolInformation
-          //     ?.studentDidAttendSchoolLastTerm,
+          'ui:required': (formData, index) => {
+            const addMode =
+              formData?.studentInformation?.[index]?.schoolInformation
+                ?.studentDidAttendSchoolLastTerm;
+            const editMode =
+              formData?.schoolInformation?.studentDidAttendSchoolLastTerm;
+
+            return addMode || editMode;
+          },
         },
         dateTermEnded: {
           ...currentOrPastDateUI('When did the previous school term end?'),
-          // 'ui:required': (formData, index) =>
-          //   formData?.studentInformation[index]?.schoolInformation
-          //     ?.studentDidAttendSchoolLastTerm,
+          'ui:required': (formData, index) => {
+            const addMode =
+              formData?.studentInformation?.[index]?.schoolInformation
+                ?.studentDidAttendSchoolLastTerm;
+            const editMode =
+              formData?.schoolInformation?.studentDidAttendSchoolLastTerm;
+
+            return addMode || editMode;
+          },
         },
       },
     },
@@ -577,6 +535,140 @@ export const previousTermDatesPage = {
           },
         },
       },
+    },
+  },
+};
+
+export const claimsOrReceivesPensionPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s income'),
+    claimsOrReceivesPension: {
+      ...yesNoUI(
+        'Are you claiming or do you already receive Veterans Pension or Survivors Pension benefits?',
+      ),
+      'ui:description': generateHelpText(
+        'If yes, we’ll ask you questions about the student’s income. If no, we’ll skip questions about the student’s income',
+      ),
+      'ui:required': () => true,
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      claimsOrReceivesPension: yesNoSchema,
+    },
+  },
+};
+
+export const studentEarningsPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Student’s income in the year their current school term began',
+    ),
+    studentEarningsFromSchoolYear: {
+      earningsFromAllEmployment: textUI('Earnings from all employment'),
+      annualSocialSecurityPayments: textUI('Annual Social Security'),
+      otherAnnuitiesIncome: textUI('Other annuities'),
+      allOtherIncome: {
+        ...textUI('All other income'),
+        'ui:description': generateHelpText('i.e. interest, dividends, etc.'),
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      studentEarningsFromSchoolYear: {
+        type: 'object',
+        properties: {
+          earningsFromAllEmployment: textSchema,
+          annualSocialSecurityPayments: textSchema,
+          otherAnnuitiesIncome: textSchema,
+          allOtherIncome: textSchema,
+        },
+      },
+    },
+  },
+};
+
+export const studentFutureEarningsPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Student’s expected income next year',
+    ),
+    studentExpectedEarningsNextYear: {
+      earningsFromAllEmployment: textUI('Earnings from all employment'),
+      annualSocialSecurityPayments: textUI('Annual Social Security'),
+      otherAnnuitiesIncome: textUI('Other annuities'),
+      allOtherIncome: {
+        ...textUI('All other income'),
+        'ui:description': generateHelpText('i.e. interest, dividends, etc.'),
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      studentExpectedEarningsNextYear: {
+        type: 'object',
+        properties: {
+          earningsFromAllEmployment: textSchema,
+          annualSocialSecurityPayments: textSchema,
+          otherAnnuitiesIncome: textSchema,
+          allOtherIncome: textSchema,
+        },
+      },
+    },
+  },
+};
+
+export const studentAssetsPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Value of student’s assets'),
+    studentNetworthInformation: {
+      savings: {
+        ...textUI('Savings'),
+        'ui:description': generateHelpText('Includes cash'),
+      },
+      securities: textUI('Securities, bonds, etc.'),
+      realEstate: {
+        ...textUI('Real estate'),
+        'ui:description': generateHelpText(
+          'Don’t include the value of your primary home',
+        ),
+      },
+      otherAssets: textUI('All other assets'),
+      totalValue: textUI('All other assets'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      studentNetworthInformation: {
+        type: 'object',
+        properties: {
+          savings: textSchema,
+          securities: textSchema,
+          realEstate: textSchema,
+          otherAssets: textSchema,
+          totalValue: textSchema,
+        },
+      },
+    },
+  },
+};
+
+export const remarksPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Additional information'),
+    remarks: textareaUI(
+      'Is there any other information you’d like to add about this student?',
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      remarks: textareaSchema,
     },
   },
 };

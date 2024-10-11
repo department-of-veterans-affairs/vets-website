@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import environment from 'platform/utilities/environment';
-// import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-// import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -72,22 +72,6 @@ import {
   stepchildren,
   stepchildInformation,
 } from './chapters/stepchild-no-longer-part-of-household';
-import // studentInformation,
-// studentAdditionalInformationView,
-// studentAdditionalInformation,
-// studentAdditionalInformationPartTwo,
-// studentAdditionalInformationPartThree,
-// studentAdditionalInformationPartFour,
-// studentAdditionalInformationPartFive,
-// studentAdditionalInformationPartSix,
-// studentAdditionalInformationPartSeven,
-// studentAdditionalInformationPartEight,
-// studentAdditionalInformationPartNine,
-// studentAdditionalInformationPartTen,
-// studentAdditionalInformationPartEleven,
-// studentAdditionalInformationPartTwelve,
-// studentAdditionalInformationPartThirteen,
-'./chapters/674';
 import {
   addStudentsOptions,
   addStudentsIntroPage,
@@ -106,6 +90,11 @@ import {
   studentTermDatesPage,
   previousTermQuestionPage,
   previousTermDatesPage,
+  claimsOrReceivesPensionPage,
+  studentEarningsPage,
+  studentFutureEarningsPage,
+  studentAssetsPage,
+  remarksPage,
 } from './chapters/674/addStudentsArrayPages';
 import { householdIncome } from './chapters/household-income';
 
@@ -601,26 +590,26 @@ export const formConfig = {
             schema: studentEducationBenefitsPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            // onNavForward: ({
-            //   formData,
-            //   pathname,
-            //   urlParams,
-            //   goPath,
-            //   goNextPath,
-            // }) => {
-            //   console.log(urlParams);
-            //   if (formData.typeOfProgramOrBenefit !== null) {
-            //     const index = getArrayIndexFromPathName(pathname);
-            //     const urlParamsString = stringifyUrlParams(urlParams) || '';
-            //     console.log(urlParamsString);
-            //     goPath(
-            //       `/report-674/add-students/${index}/student-education-benefits/start-date${urlParamsString}`,
-            //     );
-            //   } else {
-            //     goNextPath(urlParams);
-            //   }
-            //   return goNextPath(urlParams);
-            // },
+            onNavForward: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (
+                Object.values(formData?.typeOfProgramOrBenefit).includes(true)
+              ) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/student-program-information${urlParamsString}`,
+                );
+              }
+            },
           }),
           addStudentsPartSeven: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -638,6 +627,26 @@ export const formConfig = {
             schema: studentProgramInfoPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavBack: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (
+                Object.values(formData?.typeOfProgramOrBenefit).includes(true)
+              ) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/student-education-benefits${urlParamsString}`,
+                );
+              }
+            },
           }),
           addStudentsPartNine: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -647,29 +656,24 @@ export const formConfig = {
             schema: studentAttendancePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            // onNavForward: ({
-            //   formData,
-            //   pathname,
-            //   urlParams,
-            //   goPath,
-            //   goNextPath,
-            // }) => {
-            //   console.log(urlParams);
+            onNavForward: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-            //   if (!formData.schoolInformation.studentIsEnrolledFullTime) {
-            //     const index = getArrayIndexFromPathName(pathname);
-            //     const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-            //     console.log(urlParamsString);
-
-            //     goPath(
-            //       `/report-674/add-students/${index}/date-student-stopped-attending${urlParamsString}`,
-            //     );
-            //   } else {
-            //     goNextPath(urlParams);
-            //   }
-            //   return goNextPath(urlParams);
-            // },
+              if (!formData?.schoolInformation?.studentIsEnrolledFullTime) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/school-or-program-accreditation${urlParamsString}`,
+                );
+              }
+            },
           }),
           addStudentsPartTen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -688,6 +692,24 @@ export const formConfig = {
             schema: schoolAccreditationPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavBack: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (!formData?.schoolInformation?.studentIsEnrolledFullTime) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/student-attendance-information${urlParamsString}`,
+                );
+              }
+            },
           }),
           addStudentsPartTwelve: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -704,6 +726,24 @@ export const formConfig = {
             schema: previousTermQuestionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavForward: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (formData?.schoolInformation?.studentDidAttendSchoolLastTerm) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
+                );
+              }
+            },
           }),
           addStudentsPartFourteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -712,6 +752,100 @@ export const formConfig = {
             schema: previousTermDatesPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartFifteen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/additional-student-income',
+            uiSchema: claimsOrReceivesPensionPage.uiSchema,
+            schema: claimsOrReceivesPensionPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavForward: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (formData?.claimsOrReceivesPension) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/additional-remarks${urlParamsString}`,
+                );
+              }
+            },
+            onNavBack: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (formData?.schoolInformation?.studentDidAttendSchoolLastTerm) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/student-previously-attended${urlParamsString}`,
+                );
+              }
+            },
+          }),
+          addStudentsPartSixteen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/all-student-income',
+            uiSchema: studentEarningsPage.uiSchema,
+            schema: studentEarningsPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartSeventeen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/expected-student-income',
+            uiSchema: studentFutureEarningsPage.uiSchema,
+            schema: studentFutureEarningsPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartEighteen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-assets',
+            uiSchema: studentAssetsPage.uiSchema,
+            schema: studentAssetsPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartNineteen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/additional-remarks',
+            uiSchema: remarksPage.uiSchema,
+            schema: remarksPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavBack: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (formData?.claimsOrReceivesPension) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
+                );
+              }
+            },
           }),
         })),
       },
