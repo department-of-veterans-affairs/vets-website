@@ -47,7 +47,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
   return (
     <div className="row">
-      <div className="columns small-12" id="sign-in-wrapper">
+      <div className="usa-width-two-thirds medium-8 columns print-full-width sign-in-wrapper">
         {reduceAllowedProviders(v2SignInProviders, isRegisteredApp).map(csp => (
           <LoginButton
             csp={csp}
@@ -63,13 +63,13 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
               <h2>Other sign-in options</h2>
               <h3 id="mhvH3">
                 My HealtheVet sign-in option
-                <span className="vads-u-display--block vads-u-font-size--base vads-u-font--sans">
+                <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
                   Available through January 31, 2025
                 </span>
               </h3>
               <p>
-                You'll still be able to use the <strong>My HealtheVet</strong>{' '}
-                website after this date. You'll just need to start signing in
+                You’ll still be able to use the <strong>My HealtheVet</strong>{' '}
+                website after this date. You’ll just need to start signing in
                 with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
                 account.
               </p>
@@ -83,13 +83,13 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 id="dslogonH3"
                 className="vads-u-margin-bottom--0 vads-u-margin-top--3"
               >
-                DS Logon sign-in-option
-                <span className="vads-u-display--block vads-u-font-size--base vads-u-font--sans">
+                DS Logon sign-in option
+                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-family--sans">
                   Available through September 30, 2025
                 </span>
               </h3>
               <p>
-                You'll still be able to use your <strong>DS Logon</strong>{' '}
+                You’ll still be able to use your <strong>DS Logon</strong>{' '}
                 account on Defense Department websites after this date.
               </p>
               <LoginButton
