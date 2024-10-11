@@ -19,6 +19,7 @@ jobs:
     check-for-existing-build:
       name: Check s3 for archived build
       runs-on: ubuntu-latest
+      permissions: write-all
       
       steps:
         - name: Checkout
