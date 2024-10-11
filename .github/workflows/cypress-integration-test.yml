@@ -25,6 +25,12 @@ jobs:
           uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
           with:
            fetch-depth: 0
+          
+        - name: Determine slackGroup and specPattern
+          id: helper
+          run: |
+             chmod +x ./script/github-actions/cypress-integration-test.sh 
+             ./script/github-actions/cypress-integration-test.sh "${{ github.event.inputs.product }}"
 
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v4.0.0
@@ -52,11 +58,7 @@ jobs:
             tar -xvjf vagovprod.tar.bz2 -C vets-website
             echo "2"
 
-        - name: Run integration helper script
-          id: helper
-          run: |
-            chmod +x ./script/github-actions/cypress-integration-test.sh 
-            ./script/github-actions/cypress-integration-test.sh "${{ github.event.inputs.product }}"
+        
       
         # - name: Call reusable action
         #   id: cypress-action
