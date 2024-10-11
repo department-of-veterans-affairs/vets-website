@@ -88,7 +88,6 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: dist-without-markdown
-            path: vagovprod.tar.bz2
 
         - name: Unpack artifact
           run: |
