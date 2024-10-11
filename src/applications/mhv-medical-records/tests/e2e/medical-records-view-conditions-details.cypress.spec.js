@@ -13,7 +13,8 @@ describe('Medical Records View Conditions', () => {
     ConditionsListPage.clickConditionsDetailsLink(1);
 
     ConditionDetailsPage.verifyProvider(
-      conditions.entry[0].resource.contained[0].name[0].text, // 'JOHN,SMITH'
+      // conditions.entry[0].resource.contained[0].name[0].text, // 'JOHN,SMITH'
+      'SMITH JOHN',
     );
     ConditionDetailsPage.verifyLocation(
       conditions.entry[0].resource.contained[1].name, // 'DAYTON'
