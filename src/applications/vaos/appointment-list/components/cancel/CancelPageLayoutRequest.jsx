@@ -9,6 +9,8 @@ import { selectRequestedAppointmentDetails } from '../../redux/selectors';
 import ListBestTimeToCall from '../ListBestTimeToCall';
 import { Details, Section } from '../../../components/layout/DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import { getRealFacilityId } from '../../../utils/appointment';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function CancelPageLayoutRequest() {
   const { id } = useParams();
@@ -16,6 +18,7 @@ export default function CancelPageLayoutRequest() {
     bookingNotes,
     email,
     facility,
+    facilityId,
     facilityPhone,
     isCC,
     phone,
@@ -84,13 +87,41 @@ export default function CancelPageLayoutRequest() {
             <span>{preferredModality}</span>
           </Section>
           <Section heading="Facility" level={3}>
-            {!!facility?.name && (
+            {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
+            {!facility &&
+              !facilityId && (
+                <>
+                  <span>Facility details not available</span>
+                  <br />
+                  <NewTabAnchor href="/find-locations">
+                    Find facility information
+                  </NewTabAnchor>
+                  <br />
+                </>
+              )}
+            {/* When the services return a null value for the facility (but receive the facility ID) */}
+            {!facility &&
+              !!facilityId && (
+                <>
+                  <span>Facility details not available</span>
+                  <br />
+                  <NewTabAnchor
+                    href={`/find-locations/facility/vha_${getRealFacilityId(
+                      facilityId,
+                    )}`}
+                  >
+                    View facility information
+                  </NewTabAnchor>
+                  <br />
+                </>
+              )}
+            {!!facility && (
               <>
-                {facility.name}
+                {facility?.name}
                 <br />
+                <Address address={facility?.address} />
               </>
             )}
-            <Address address={facility?.address} />
           </Section>
           <Section heading="Phone" level={3}>
             {facilityPhone && (
