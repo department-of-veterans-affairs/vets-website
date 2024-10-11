@@ -31,9 +31,9 @@ class PatientComposePage {
       });
   };
 
-  pushSendMessageWithKeyboardPress = () => {
+  sendMessageByKeyboard = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
-    cy.get(Locators.MESSAGES_BODY).click();
+    cy.get(Locators.FIELDS.MESSAGE_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SEND);
     cy.realPress(['Enter']);
   };
@@ -79,33 +79,33 @@ class PatientComposePage {
 
   getMessageSubjectField = () => {
     return cy
-      .get(Locators.MESSAGE_SUBJECT)
+      .get(Locators.FIELDS.MESSAGE_SUBJECT)
       .shadow()
-      .find('[name="message-subject"]');
+      .find(`#inPutField`);
   };
 
   getMessageBodyField = () => {
     return cy
-      .get(Locators.MESSAGES_BODY)
+      .get(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
-      .find('[name="compose-message-body"]');
+      .find(`#input-type-textarea`);
   };
 
   getElectronicSignatureField = () => {
-    return cy.get('va-card').find('#inputField');
+    return cy.get(Locators.FIELDS.EL_SIGN).find('#inputField');
   };
 
   enterDataToMessageSubject = (text = this.messageSubjectText) => {
-    cy.get(Locators.MESSAGE_SUBJECT)
+    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
       .shadow()
-      .find('[name="message-subject"]')
+      .find(`#inputField`)
       .type(text, { force: true });
   };
 
   enterDataToMessageBody = (text = this.messageBodyText) => {
-    cy.get(Locators.MESSAGES_BODY)
+    cy.get(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
-      .find('[name="compose-message-body"]')
+      .find(`#input-type-textarea`)
       .type(text, { force: true });
   };
 
@@ -135,15 +135,12 @@ class PatientComposePage {
   };
 
   keyboardNavToMessageBodyField = () => {
-    return cy
-      .get(Locators.MESSAGES_BODY)
-      .shadow()
-      .find('textarea');
+    return cy.get(Locators.FIELDS.MESSAGE_BODY);
   };
 
   keyboardNavToMessageSubjectField = () => {
     return cy
-      .tabToElement(Locators.MESSAGE_SUBJECT)
+      .tabToElement(Locators.FIELDS.MESSAGE_SUBJECT)
       .shadow()
       .find('#inputField');
   };
@@ -172,7 +169,7 @@ class PatientComposePage {
       `${Paths.SM_API_BASE}/message_drafts`,
       mockDraftResponse,
     ).as('draft_message');
-    cy.get(Locators.MESSAGES_BODY).click();
+    cy.get(Locators.FIELDS.MESSAGE_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SAVE_DRAFT);
     cy.realPress('Enter');
     cy.wait('@draft_message').then(xhr => {
@@ -180,8 +177,12 @@ class PatientComposePage {
     });
   };
 
-  saveDraftButton = () => {
-    return cy.get(Locators.BUTTONS.SAVE_DRAFT);
+  clickSaveDraftBtn = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ force: true });
+  };
+
+  clickSaveDraftWithoutAttachmentBtn = () => {
+    cy.contains(`without`).click({ force: true });
   };
 
   saveDraft = draftMessage => {
@@ -248,6 +249,10 @@ class PatientComposePage {
       .should(`have.css`, `border-left-width`, `4px`);
   };
 
+  closeAlertModal = () => {
+    cy.get(`.first-focusable-child`).click({ force: true });
+  };
+
   closeAttachmentErrorModal = () => {
     cy.get(Locators.ALERTS.ERROR_MODAL)
       .shadow()
@@ -263,9 +268,9 @@ class PatientComposePage {
       .click({ force: true });
   };
 
-  attachMessageFromFile = filename => {
-    const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
-    cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
+  attachMessageFromFile = (fileName = Data.TEST_IMAGE) => {
+    const filePath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${fileName}`;
+    cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filePath, {
       force: true,
     });
   };
@@ -307,11 +312,8 @@ class PatientComposePage {
       .should('have.focus');
   };
 
-  clickOnDeleteDraftButton = () => {
-    cy.get(Locators.BUTTONS.CONTINUE_EDITING)
-      .parent()
-      .find('va-button[text="Delete draft"]')
-      .click();
+  clickDeleteDraftModalButton = () => {
+    cy.get(Locators.ALERTS.DELETE_DRAFT).click();
   };
 
   clickOnContinueEditingButton = () => {
@@ -333,14 +335,13 @@ class PatientComposePage {
   };
 
   verifyComposePageValuesRetainedAfterContinueEditing = () => {
-    cy.get(Locators.FIELDS.MESS_SUBJECT).should(
-      'have.value',
-      this.messageSubjectText,
-    );
-    cy.get('#compose-message-body').should(
-      'have.value',
-      `\n\n\nName\nTitleTest${this.messageBodyText}`,
-    );
+    this.verifyRecipientNameText();
+    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+      .invoke(`val`)
+      .should(`contain`, this.messageSubjectText);
+    cy.get(Locators.FIELDS.MESSAGE_BODY)
+      .invoke(`val`)
+      .should(`contain`, this.messageBodyText);
   };
 
   verifyRecipientNameText = (recipient = mockRecipients.data[0].id) => {
@@ -351,17 +352,13 @@ class PatientComposePage {
       .should('contain', mockRecipients.data[0].attributes.name);
   };
 
-  verifySubjectFieldText = subject => {
-    cy.get(Locators.MESSAGE_SUBJECT).should('have.value', subject);
-  };
-
   verifyClickableURLinMessageBody = url => {
     const {
       signatureName,
       signatureTitle,
       includeSignature,
     } = mockSignature.data;
-    cy.get(Locators.MESSAGES_BODY).should(
+    cy.get(Locators.FIELDS.MESSAGE_BODY).should(
       'have.attr',
       'value',
       `${includeSignature &&
@@ -413,17 +410,15 @@ class PatientComposePage {
   };
 
   verifySubjectErrorMessage = () => {
-    cy.get(Locators.MESSAGES_BODY)
-      .shadow()
-      .find('[id=input-error-message]')
-      .should('be.visible');
+    cy.get(Locators.ALERTS.FIELD_ERROR)
+      .should('be.visible')
+      .and(`include.text`, Data.SUBJECT_CANNOT_BLANK);
   };
 
   verifyBodyErrorMessage = () => {
-    cy.get(Locators.MESSAGES_BODY)
-      .shadow()
-      .find('[id=input-error-message]')
-      .should('be.visible');
+    cy.get(Locators.ALERTS.FIELD_ERROR)
+      .should('be.visible')
+      .and(`include.text`, Data.BODY_CANNOT_BLANK);
   };
 
   verifyDraftSaveButtonOnFocus = () => {
@@ -503,7 +498,29 @@ class PatientComposePage {
 
   backToInbox = () => {
     cy.get(Locators.BACK_TO).click();
-    cy.get('[visible=""] > [secondary=""]').click({ force: true });
+  };
+
+  verifyCantSaveAlert = (
+    alertText,
+    firstBtnText = `Edit draft`,
+    secondBtnText = `Delete draft`,
+  ) => {
+    cy.get(`[status="warning"]`)
+      .find(`h2`)
+      .should('be.visible')
+      .and(`have.text`, alertText);
+    cy.get(`[status="warning"]`)
+      .find(`[text='${firstBtnText}']`)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and(`have.text`, firstBtnText);
+    cy.get(`[status="warning"]`)
+      .find(`[text='${secondBtnText}']`)
+      .shadow()
+      .find(`.last-focusable-child`)
+      .should('be.visible')
+      .and(`have.text`, secondBtnText);
   };
 }
 

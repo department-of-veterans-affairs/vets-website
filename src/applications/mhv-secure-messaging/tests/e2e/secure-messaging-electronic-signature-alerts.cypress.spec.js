@@ -10,7 +10,7 @@ describe('Secure Messaging Digital Signature Error flows', () => {
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient('Record Amendment Admin');
     PatientComposePage.selectCategory();
-    PatientComposePage.getMessageSubjectField().type(`DS test`);
+    PatientComposePage.getMessageSubjectField().type(`ES test`);
     PatientComposePage.getMessageBodyField().type(`\nDS tests text`, {
       force: true,
     });
@@ -47,7 +47,6 @@ describe('Secure Messaging Digital Signature Error flows', () => {
       force: true,
     });
 
-    // TODO clarify `unchecked save draft` behavior
     PatientComposePage.clickElectronicSignatureCheckbox();
 
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ force: true });

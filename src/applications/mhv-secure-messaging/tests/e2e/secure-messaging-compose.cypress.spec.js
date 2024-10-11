@@ -75,7 +75,7 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.getMessageSubjectField()
       .clear()
       .type(maxText, { waitForAnimations: true });
-    cy.get(Locators.FIELDS.MESS_SUBJECT).should(
+    cy.get(Locators.FIELDS.MESSAGE_SUBJECT).should(
       'have.attr',
       'value',
       `${maxText}`,
