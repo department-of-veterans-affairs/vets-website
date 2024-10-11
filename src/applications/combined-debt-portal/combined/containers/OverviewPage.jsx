@@ -40,7 +40,10 @@ const OverviewPage = () => {
   const bothZero =
     totalDebts === 0 && totalBills === 0 && !billError && !debtError;
 
-  const specialAlertDisplay = isBefore(new Date(), new Date('2024/12/09'));
+  const specialHurricaneAlertDisplay = isBefore(
+    new Date(),
+    new Date('2024/12/09'),
+  );
 
   return (
     <>
@@ -67,7 +70,7 @@ const OverviewPage = () => {
           charges from VA health care facilities. Find out how to make payments
           or request financial help.
         </p>
-        {specialAlertDisplay ? (
+        {specialHurricaneAlertDisplay ? (
           <SpecialHurricaneAlert />
         ) : (
           <GenericDisasterAlert />

@@ -13,6 +13,7 @@ import DebtCardsList from '../components/DebtCardsList';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import { SpecialHurricaneAlert } from '../../combined/components/DisasterAlert';
 
 const renderAlert = (alertType, statements) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
@@ -194,6 +195,7 @@ const DebtLettersSummary = () => {
           disability compensation, or pension benefits. Find out how to pay your
           debt and what to do if you need financial assistance.
         </p>
+        <SpecialHurricaneAlert />
         {renderContent()}
       </div>
     </>

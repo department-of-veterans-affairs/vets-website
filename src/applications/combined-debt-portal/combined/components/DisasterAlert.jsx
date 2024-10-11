@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { isBefore } from 'date-fns';
 
 const GenericDisasterAlert = () => {
   return (
@@ -34,8 +35,16 @@ const GenericDisasterAlert = () => {
 };
 
 const SpecialHurricaneAlert = () => {
-  return (
-    <va-alert status="info" uswds>
+  const specialHurricaneAlertDisplay = isBefore(
+    new Date(),
+    new Date('2024/12/09'),
+  );
+  return specialHurricaneAlertDisplay ? (
+    <va-alert-expandable
+      status="info"
+      trigger="Need help with VA Debt after a natural disaster?"
+      uswds
+    >
       <h2 id="hurricane-alert" slot="headline">
         Hurricane Disaster Help.
       </h2>
@@ -64,8 +73,8 @@ const SpecialHurricaneAlert = () => {
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
       </ul>
-    </va-alert>
-  );
+    </va-alert-expandable>
+  ) : null;
 };
 
 export { GenericDisasterAlert, SpecialHurricaneAlert };
