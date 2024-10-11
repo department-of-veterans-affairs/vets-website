@@ -128,41 +128,39 @@ const AutoComplete = ({
         ref={inputRef}
       />
       {results.length > 0 && (
-        <>
-          <ul
-            className="cc-autocomplete__list"
-            aria-hidden="true"
-            data-testid="autocomplete-list"
-          >
-            {results.map((result, index) => (
-              <li
-                key={result}
-                ref={el => {
-                  resultsRef.current[index] = el;
-                }}
-                onClick={() => selectResult(result)}
-                onKeyDown={handleKeyDown}
-                className={`cc-autocomplete__option ${
-                  activeIndex === index ? 'cc-autocomplete__option--active' : ''
-                }`}
-                onMouseEnter={() => setActiveIndex(index)}
-                role="option"
-                aria-selected={activeIndex === index}
-                data-testid={`autocomplete-option-${index}`}
-              >
-                {result}
-              </li>
-            ))}
-          </ul>
-          <p
-            aria-live="polite"
-            aria-atomic="true"
-            className="vads-u-visibility--screen-reader"
-          >
-            {ariaLiveText}
-          </p>
-        </>
+        <ul
+          className="cc-autocomplete__list"
+          aria-hidden="true"
+          data-testid="autocomplete-list"
+        >
+          {results.map((result, index) => (
+            <li
+              key={result}
+              ref={el => {
+                resultsRef.current[index] = el;
+              }}
+              onClick={() => selectResult(result)}
+              onKeyDown={handleKeyDown}
+              className={`cc-autocomplete__option ${
+                activeIndex === index ? 'cc-autocomplete__option--active' : ''
+              }`}
+              onMouseEnter={() => setActiveIndex(index)}
+              role="option"
+              aria-selected={activeIndex === index}
+              data-testid={`autocomplete-option-${index}`}
+            >
+              {result}
+            </li>
+          ))}
+        </ul>
       )}
+      <p
+        aria-live="polite"
+        aria-atomic="true"
+        className="vads-u-visibility--screen-reader"
+      >
+        {ariaLiveText}
+      </p>
     </div>
   );
 };
