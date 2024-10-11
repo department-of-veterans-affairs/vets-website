@@ -47,7 +47,8 @@ jobs:
             df -H
             aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
             echo "1"
-             
+            
+            mkdir vets-website
             tar -xvjf vagovprod.tar.bz2 -C build/vagovprod
             echo "2"
 
@@ -82,4 +83,4 @@ jobs:
       
         - name: Call reusable action
           id: cypress-action
-          uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test/action.yaml@ac010f2321280aeaf558939493557d0cf555f034
+          uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test/action.yaml@cypress-integration-test-migration
