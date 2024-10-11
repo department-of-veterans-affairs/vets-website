@@ -12,8 +12,8 @@ integrationHelper() {
   export INTEGRATION_APP_PATTERN="${app_path}"
 
   local slack_group
-  slack_group=$(jq -r --arg product "$product" '.apps[] | select(.rootFolder == $product) | .slackGroup' ./config/changed-apps-build.json)
-  
+  slack_group=$(grep -oP '"rootFolder":\s*"'$product'".*?"slackGroup":\s*"\K[^"]+' ./config/changed-apps-build.json)
+
   if [[ -z "$slack_group" ]]; then
     echo "Error: no slackGroup found for product '$product'"
     exit 1
