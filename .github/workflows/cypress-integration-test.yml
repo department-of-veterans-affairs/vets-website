@@ -29,7 +29,7 @@ jobs:
         - name: Configure AWS credentials (1)
           if: steps.check-deployability.outputs.is_deployable == 'true'
           uses: ./.github/workflows/configure-aws-credentials
-         with:
+          with:
             aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
             aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws_region: us-gov-west-1
