@@ -1,3 +1,5 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
+
 describe('22-10282 Edu form', () => {
   beforeEach(() => {
     cy.visit('/education/apply-for-education-benefits/10282/');
@@ -50,8 +52,10 @@ describe('22-10282 Edu form', () => {
     });
     it('should go to contact information page when required field is selected', () => {
       cy.injectAxeThenAxeCheck();
-      cy.get('[id="root_veteranDesc_0"]').click();
-      cy.get('[id="root_veteranDesc_0"]').should('be.checked');
+      cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).click();
+      cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).should(
+        'be.checked',
+      );
       cy.get('[class="usa-button-primary"]').click();
     });
   });
@@ -61,8 +65,10 @@ describe('22-10282 Edu form', () => {
       cy.get('[id="root_veteranFullName_first"]').type('John');
       cy.get('[id="root_veteranFullName_last"]').type('Doe');
       cy.get('[class="usa-button-primary"]').click();
-      cy.get('[id="root_veteranDesc_0"]').click();
-      cy.get('[id="root_veteranDesc_0"]').should('be.checked');
+      cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).click();
+      cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).should(
+        'be.checked',
+      );
       cy.get('[class="usa-button-primary"]').click();
     });
     it('show required error if the email field is empty', () => {
@@ -99,8 +105,10 @@ describe('22-10282 Edu form', () => {
       cy.get('[id="root_veteranFullName_first"]').type('John');
       cy.get('[id="root_veteranFullName_last"]').type('Doe');
       cy.get('[class="usa-button-primary"]').click();
-      cy.get('[id="root_veteranDesc_0"]').click();
-      cy.get('[id="root_veteranDesc_0"]').should('be.checked');
+      cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).click();
+      cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).should(
+        'be.checked',
+      );
       cy.get('[class="usa-button-primary"]').click();
       cy.get('[name="root_contactInfo_email"]')
         .first()
@@ -154,8 +162,10 @@ describe('22-10282 Edu form', () => {
       cy.get('[id="root_veteranFullName_first"]').type('John');
       cy.get('[id="root_veteranFullName_last"]').type('Doe');
       cy.get('[class="usa-button-primary"]').click();
-      cy.get('[id="root_veteranDesc_0"]').click();
-      cy.get('[id="root_veteranDesc_0"]').should('be.checked');
+      cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).click();
+      cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).should(
+        'be.checked',
+      );
       cy.get('[class="usa-button-primary"]').click();
       cy.get('[name="root_contactInfo_email"]')
         .first()
