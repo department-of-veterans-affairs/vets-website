@@ -35,19 +35,12 @@ jobs:
             path: |
               .cache/yarn
               node_modules
-        
-        - name: Get AWS IAM role
-          uses: ./.github/workflows/inject-secrets
-          with:
-             ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-             env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-             aws_region: us-gov-west-1
 
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v4.0.0
           with:
              aws-region: us-gov-west-1
-             role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+             role-to-assume: arn:aws-us-gov:iam::008577686731:role/gha-frontend-nonprod-role
 
         - name: Get va-vsp-bot token
           uses: ./.github/workflows/inject-secrets
@@ -83,19 +76,12 @@ jobs:
           with:
            fetch-depth: 0
            ref: ${{ github.event.inputs.commit_sha }}
-
-        - name: Get AWS IAM role
-          uses: ./.github/workflows/inject-secrets
-          with:
-            ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-            env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-            aws_region: us-gov-west-1
  
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v4.0.0
           with:
              aws-region: us-gov-west-1
-             role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+             role-to-assume: arn:aws-us-gov:iam::008577686731:role/gha-frontend-nonprod-role
   
         - name: Get va-vsp-bot token
           uses: ./.github/workflows/inject-secrets
