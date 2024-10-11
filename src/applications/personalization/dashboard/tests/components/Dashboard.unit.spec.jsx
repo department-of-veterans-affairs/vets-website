@@ -73,6 +73,25 @@ describe('<Dashboard />', () => {
     });
   });
 
+  it('renders the welcome modal for an LOA1 user', async () => {
+    mockFetch();
+    initialState.user.profile.loa.current = 1;
+    initialState.user.profile.loa.highest = 1;
+    initialState.featureToggles = {
+      [Toggler.TOGGLE_NAMES
+        .veteranOnboardingShowWelcomeMessageToNewUsers]: true,
+    };
+
+    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('welcome-modal')).to.exist;
+    });
+  });
+
   it('renders for an LOA3 user', async () => {
     mockFetch();
 
@@ -154,34 +173,6 @@ describe('<Dashboard />', () => {
 
     await waitFor(() => {
       expect(getByTestId('req-loader')).to.exist;
-    });
-  });
-
-  it('shows downtime va-alert and hides Claims, Debts, and Benefit payment sections', async () => {
-    mockFetch();
-    initialState.featureToggles = {
-      [Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage]: true,
-    };
-
-    const { getByTestId, queryByTestId } = renderInReduxProvider(
-      <Dashboard />,
-      {
-        initialState,
-        reducers,
-      },
-    );
-
-    await waitFor(() => {
-      expect(getByTestId('dashboard-title')).to.exist;
-      expect(getByTestId('downtime-alert')).to.exist;
-      expect(queryByTestId('dashboard-section-claims-and-appeals')).not.to
-        .exist;
-      expect(getByTestId('dashboard-section-health-care')).to.exist;
-      expect(queryByTestId('dashboard-section-debts')).not.to.exist;
-      expect(queryByTestId('dashboard-section-payment')).not.to.exist;
-      expect(getByTestId('dashboard-section-benefit-application-drafts')).to
-        .exist;
-      expect(getByTestId('dashboard-section-education-and-training')).to.exist;
     });
   });
 });

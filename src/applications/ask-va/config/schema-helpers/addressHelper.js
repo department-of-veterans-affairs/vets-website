@@ -1,16 +1,18 @@
-import { createSelector } from 'reselect';
 import { states } from '@department-of-veterans-affairs/platform-forms/address';
+import { createSelector } from 'reselect';
 
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import unset from '@department-of-veterans-affairs/platform-utilities/unset';
 import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  addressFields,
   postOfficeOptions,
   regionOptions,
-  addressFields,
 } from '../../constants';
-import { radioUI, radioSchema } from './radioHelper';
-
 import fullSchema from '../0873-schema.json';
 
 export const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
@@ -28,7 +30,7 @@ const canLabels = states.CAN.map(state => state.label);
 const mexStates = states.MEX.map(state => state.value);
 const mexLabels = states.MEX.map(state => state.label);
 
-function isMilitaryCity(city = '') {
+export function isMilitaryCity(city = '') {
   const lowerCity = city.toLowerCase().trim();
 
   return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
@@ -63,8 +65,8 @@ export function schema(
       militaryAddress: {
         type: 'object',
         properties: {
-          militaryPostOffice: radioSchema(Object.keys(postOfficeOptions)),
-          militaryState: radioSchema(Object.keys(regionOptions)),
+          militaryPostOffice: radioSchema(Object.values(postOfficeOptions)),
+          militaryState: radioSchema(Object.values(regionOptions)),
         },
       },
       postalCode: {

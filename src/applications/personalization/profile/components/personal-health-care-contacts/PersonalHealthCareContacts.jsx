@@ -5,6 +5,9 @@ import { selectProfileContacts } from '@@profile/selectors';
 import { fetchProfileContacts as fetchProfileContactsFn } from '@@profile/actions';
 import { focusElement } from '~/platform/utilities/ui';
 import { isVAPatient } from '~/platform/user/selectors';
+import DowntimeNotification, {
+  externalServices,
+} from '~/platform/monitoring/DowntimeNotification';
 import Contacts from './Contacts';
 import Loading from './Loading';
 import LoadFail from '../alerts/LoadFail';
@@ -40,15 +43,20 @@ const PersonalHealthCareContacts = ({
       >
         Personal health care contacts
       </h1>
-      {vaPatient ? (
-        <>
-          {error && <LoadFail />}
-          {!error && loading && <Loading />}
-          {!error && !loading && <Contacts data={data} />}
-        </>
-      ) : (
-        <NonVAPatientMessage />
-      )}
+      <DowntimeNotification
+        appTitle="personal health care contacts page"
+        dependencies={[externalServices.VAPRO_HEALTH_CARE_CONTACTS]}
+      >
+        {vaPatient ? (
+          <>
+            {error && <LoadFail />}
+            {!error && loading && <Loading />}
+            {!error && !loading && <Contacts data={data} />}
+          </>
+        ) : (
+          <NonVAPatientMessage />
+        )}
+      </DowntimeNotification>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
+import { getRealFacilityId } from '../../utils/appointment';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -13,22 +14,27 @@ import DetailPageLayout, {
   Where,
   Section,
   Who,
+  ClinicOrFacilityPhone,
+  Prepare,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import Address from '../Address';
 import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
-import FacilityPhone from '../FacilityPhone';
 
 export default function InPersonLayout({ data: appointment }) {
   const {
     clinicName,
     clinicPhysicalLocation,
+    clinicPhone,
+    clinicPhoneExtension,
     comment,
     facility,
     facilityPhone,
+    locationId,
     isPastAppointment,
+    practitionerName,
     startDate,
     status,
     typeOfCareName,
@@ -40,7 +46,7 @@ export default function InPersonLayout({ data: appointment }) {
   if (!appointment) return null;
 
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
-  const oracleHealthProviderName = null;
+  const facilityId = locationId;
 
   let heading = 'In-person appointment';
   if (isPastAppointment) heading = 'Past in-person appointment';
@@ -64,50 +70,88 @@ export default function InPersonLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName || 'Type of care information not available'}</What>
-      {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
+      <What>{typeOfCareName}</What>
+      <Who>{practitionerName}</Who>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
         }
       >
-        {!!facility === false && (
-          <>
-            <span>Facility details not available</span>
-            <br />
-            <NewTabAnchor href="/find-locations">
-              Find facility information
-            </NewTabAnchor>
-            <br />
-            <br />
-          </>
-        )}
+        {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
+        {!facility &&
+          !facilityId && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor href="/find-locations">
+                Find facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
+        {/* When the services return a null value for the facility (but receive the facility ID) */}
+        {!facility &&
+          !!facilityId && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor
+                href={`/find-locations/facility/vha_${getRealFacilityId(
+                  facilityId,
+                )}`}
+              >
+                View facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
         {!!facility && (
           <>
             {facility.name}
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-              <FacilityDirectionsLink location={facility} />
+              <FacilityDirectionsLink location={facility} icon />
             </div>
+            <br />
+            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
             <br />
           </>
         )}
-        <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
-        <br />
-        {facilityPhone && (
-          <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
-        )}
+        <ClinicOrFacilityPhone
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
+          facilityPhone={facilityPhone}
+        />
       </Where>
       <Section heading="Details you shared with your provider">
         <span>
           Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
         </span>
         <br />
-        <span>Other details: {`${otherDetails || 'Not available'}`}</span>
+        <span className="vaos-u-word-break--break-word">
+          Other details: {`${otherDetails || 'Not available'}`}
+        </span>
       </Section>
+      {!isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Bring your insurance cards. And bring a list of your medications
+              and other information to share with your provider.
+            </p>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              <va-link
+                text="Find a full list of things to bring to your appointment"
+                href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+              />
+            </p>
+          </Prepare>
+        )}
     </DetailPageLayout>
   );
 }

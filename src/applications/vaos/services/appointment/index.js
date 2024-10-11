@@ -81,15 +81,15 @@ function apptRequestSort(a, b) {
  * @param {Boolean} useV2CC Toggle fetching CC appointments via VAOS api services version 2
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
-export async function fetchAppointments({ startDate, endDate }) {
+export async function fetchAppointments({ startDate, endDate, avs = false }) {
   try {
     const appointments = [];
-    const allAppointments = await getAppointments(startDate, endDate, [
-      'booked',
-      'arrived',
-      'fulfilled',
-      'cancelled',
-    ]);
+    const allAppointments = await getAppointments(
+      startDate,
+      endDate,
+      ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      avs,
+    );
 
     const filteredAppointments = allAppointments.data.filter(appt => {
       return !appt.requestedPeriods;
@@ -179,9 +179,9 @@ export async function fetchRequestById({ id }) {
  * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id }) {
+export async function fetchBookedAppointment({ id, avs = true }) {
   try {
-    const appointment = await getAppointment(id);
+    const appointment = await getAppointment(id, avs);
     return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {
@@ -282,11 +282,11 @@ export function getVAAppointmentLocationId(appointment) {
  *
  * @export
  * @param {Appointment} appointment A FHIR appointment resource
- * @param {string} system A FHIR telecom system id
+ * @param {string} type A FHIR telecom type id
  * @returns {string} The patient telecom value
  */
-export function getPatientTelecom(appointment, system) {
-  return appointment?.contact?.telecom.find(t => t.system === system)?.value;
+export function getPatientTelecom(appointment, type) {
+  return appointment?.contact?.telecom.find(t => t.type === type)?.value;
 }
 
 /**

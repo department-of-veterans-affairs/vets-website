@@ -21,5 +21,8 @@ describe('Medications Refill Submit Error Message List Page', () => {
       failedRefill,
     );
     refillPage.verifyFailedRequestMessageAlertOnRefillPage();
+    refillPage.verifyNetworkResponseForFailedRefillRequest(
+      failedRequest.data.attributes.prescriptionId,
+    );
   });
 });

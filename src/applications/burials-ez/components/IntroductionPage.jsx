@@ -11,12 +11,13 @@ const IntroductionPage = ({ route }) => {
 
   return (
     <div className="schemaform-intro vads-u-margin-bottom--6">
-      <FormTitle title="Apply for burial benefits" />
+      <FormTitle title="Apply for a Veterans burial allowance and transportation benefits" />
       <p className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--neg3">
-        VA Form 21P-530EZ
+        Application for Burial Benefits (VA Form 21P-530EZ)
       </p>
       <h2 className="vads-u-font-size--h2">
-        Follow these steps to apply for burial benefits
+        Follow these steps to apply for a burial allowance and transportation
+        benefits
       </h2>
       <va-process-list uswds>
         <va-process-list-item header="Check your eligibility">
@@ -25,7 +26,7 @@ const IntroductionPage = ({ route }) => {
           </p>
           <va-link
             href="/burials-memorials/veterans-burial-allowance"
-            text="Find out if you’re eligible for a Veterans burial allowance"
+            text="Find out if you're eligible for a Veterans burial allowance and transportation benefits"
           />
         </va-process-list-item>
         <va-process-list-item header="Gather your information">
@@ -63,7 +64,7 @@ const IntroductionPage = ({ route }) => {
           </ul>
           <p>
             We also recommend providing a copy of the Veteran’s DD214 or other
-            separation documents, you can request these documents now.
+            separation documents including all their service periods.
           </p>
           <p>
             If you don’t have their DD214 or other separation documents, you can
@@ -75,6 +76,16 @@ const IntroductionPage = ({ route }) => {
             />
           </p>
           <p>
+            And if you’re claiming a burial allowance for a service-connected
+            death, you can submit additional supporting documents (like medical
+            records).
+            <br />
+            <va-link
+              href="/get-help-from-accredited-representative/"
+              text="Find out which supporting documents you can submit with your application"
+            />
+          </p>
+          <p>
             <strong>What if I need help with my application?</strong>
           </p>
           <p>
@@ -82,7 +93,7 @@ const IntroductionPage = ({ route }) => {
             (VSO), can help you fill out your application.
             <br />
             <va-link
-              href="/disability/get-help-filing-claim/"
+              href="/get-help-from-accredited-representative/"
               text="Learn more about getting help from an accredited representative"
             />
           </p>
@@ -105,7 +116,7 @@ const IntroductionPage = ({ route }) => {
         prefillEnabled={route.formConfig.prefillEnabled}
         pageList={route.pageList}
         downtime={route.formConfig.downtime}
-        startText="Start the Burial Benefits Application"
+        startText="Start the burial allowance and transportation benefits application"
       />
       <div className="omb-info--container vads-u-margin-top--3 vads-u-padding-left--0">
         <va-omb-info

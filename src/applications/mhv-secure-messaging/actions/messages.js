@@ -11,6 +11,7 @@ import {
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getLastSentMessage, isOlderThan } from '../util/helpers';
+import { getIsPilotFromState } from '.';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -44,10 +45,14 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  * @returns
  *
  */
-export const retrieveMessageThread = messageId => async dispatch => {
+export const retrieveMessageThread = messageId => async (
+  dispatch,
+  getState,
+) => {
+  const isPilot = getIsPilotFromState(getState);
   try {
     dispatch(clearThread());
-    const response = await getMessageThreadWithFullBody(messageId);
+    const response = await getMessageThreadWithFullBody({ messageId, isPilot });
 
     // finding last sent message in a thread to check if it is not too old for replies
     const lastSentDate = getLastSentMessage(response.data)?.attributes.sentDate;
@@ -164,6 +169,17 @@ export const sendMessage = (message, attachments) => async dispatch => {
           Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
         ),
       );
+    } else if (
+      e.errors &&
+      e.errors[0].code === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
+    ) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL,
+        ),
+      );
     } else
       dispatch(
         addAlert(
@@ -213,6 +229,17 @@ export const sendReply = (
       e.errors[0].code === Constants.Errors.Code.TG_NOT_ASSOCIATED
     ) {
       dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', e.errors[0].detail));
+    } else if (
+      e.errors &&
+      e.errors[0].code === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
+    ) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL,
+        ),
+      );
     } else {
       dispatch(
         addAlert(

@@ -10,6 +10,8 @@ import veteranInformation from './chapters/01-veteran-information';
 import claimantInformation from './chapters/02-claimant-information';
 import unassociatedIncomes from './chapters/03-unassociated-incomes';
 import associatedIncomes from './chapters/04-associated-incomes';
+import ownedAssets from './chapters/05-owned-assets';
+import royaltiesAndOtherProperties from './chapters/06-royalties-and-other-properties';
 
 // const { } = fullSchema.properties;
 
@@ -34,6 +36,9 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: false,
+  dev: {
+    disableWindowUnloadInCI: true,
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -54,6 +59,8 @@ const formConfig = {
     claimantInformation,
     unassociatedIncomes,
     associatedIncomes,
+    ownedAssets,
+    royaltiesAndOtherProperties,
   },
 };
 

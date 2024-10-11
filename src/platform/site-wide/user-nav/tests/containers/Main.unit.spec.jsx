@@ -1,45 +1,36 @@
 import React from 'react';
 import { expect } from 'chai';
+import { mockEventListeners } from 'platform/testing/unit/helpers';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-
-import { mockEventListeners } from 'platform/testing/unit/helpers';
-import localStorage from 'platform/utilities/storage/localStorage';
-import SignInModal from 'platform/user/authentication/components/SignInModal';
-import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
-import { Main, mapStateToProps } from '../../containers/Main';
+import {
+  Main,
+  shouldConfirmLeavingCheck,
+  mapStateToProps,
+} from '../../containers/Main';
 
 describe('<Main>', () => {
   const props = {
     currentlyLoggedIn: false,
-    formAutoSavedStatus: undefined,
-    isProfileLoading: false,
+    isHeaderV2: true,
     isLOA3: false,
-    userGreeting: null,
+    isProfileLoading: false,
+    shouldConfirmLeavingForm: false,
     showFormSignInModal: false,
     showLoginModal: false,
-    showNavLogin: true,
-    showTransitionSuccessModal: false,
-    showTransitionModal: false,
-    utilitiesMenuIsOpen: { search: false, help: false, account: false },
+    userGreeting: null,
     useSignInService: false,
+    utilitiesMenuIsOpen: { search: false, help: false, account: false },
     getBackendStatuses: sinon.spy(),
+    initializeProfile: sinon.spy(),
     toggleFormSignInModal: sinon.spy(),
     toggleLoginModal: sinon.spy(),
-    toggleAccountTransitionModal: sinon.spy(),
-    closeAccountTransitionModal: sinon.spy(),
-    toggleAccountTransitionSuccessModal: sinon.spy(),
-    closeAccountTransitionSuccessModal: sinon.spy(),
     toggleSearchHelpUserMenu: sinon.spy(),
     updateLoggedInStatus: sinon.spy(),
-    initializeProfile: sinon.spy(),
   };
 
-  let oldWindow = null;
-  const appendSpy = sinon.spy(Main.prototype, 'appendOrRemoveParameter');
-
+  const oldWindow = global.window;
   beforeEach(() => {
-    oldWindow = global.window;
     global.window = Object.create(global.window);
     Object.assign(
       global.window,
@@ -50,18 +41,12 @@ describe('<Main>', () => {
   });
 
   afterEach(() => {
-    appendSpy.reset();
     props.getBackendStatuses.reset();
     props.toggleFormSignInModal.reset();
     props.toggleLoginModal.reset();
-    props.toggleAccountTransitionModal.reset();
-    props.closeAccountTransitionModal.reset();
-    props.toggleAccountTransitionSuccessModal.reset();
-    props.closeAccountTransitionSuccessModal.reset();
     props.toggleSearchHelpUserMenu.reset();
     props.updateLoggedInStatus.reset();
     props.initializeProfile.reset();
-    props.showNavLogin = true;
     global.window = oldWindow;
     localStorage.clear();
   });
@@ -69,7 +54,7 @@ describe('<Main>', () => {
   it('should render', () => {
     const wrapper = shallow(<Main {...props} />, { context: { store: {} } });
     expect(wrapper.find('SearchHelpSignIn').exists()).to.be.true;
-    expect(wrapper.find(SignInModal).exists()).to.be.true;
+    expect(wrapper.find('SignInModal').exists()).to.be.true;
     wrapper.unmount();
   });
 
@@ -106,11 +91,12 @@ describe('<Main>', () => {
     });
 
     it('should attempt to initialize profile if there is an active session', () => {
-      localStorage.setItem('hasSession', true);
       const wrapper = shallow(<Main {...props} />);
+      localStorage.setItem('hasSession', true);
       global.window.simulate('load');
       expect(props.initializeProfile.calledOnce).to.be.true;
       expect(props.updateLoggedInStatus.called).to.be.false;
+      localStorage.clear();
       wrapper.unmount();
     });
 
@@ -123,76 +109,6 @@ describe('<Main>', () => {
       expect(props.updateLoggedInStatus.called).to.be.false;
       wrapper.unmount();
     });
-
-    it('should open the account transition modal when logged in, and user property mhvTransitionEligible is true', () => {
-      const mutatedProps = {
-        ...props,
-        currentlyLoggedIn: true,
-        user: {
-          mhvTransitionEligible: true,
-          mhvTransitionComplete: false,
-        },
-        signInServiceName: 'mhv',
-      };
-      const wrapper = shallow(<Main {...props} />);
-      global.window.simulate('load');
-      wrapper.setProps(mutatedProps);
-      expect(props.toggleAccountTransitionModal.calledWith(true)).to.be.true;
-      wrapper.unmount();
-    });
-
-    it('should set dismissed in storage when accountTransitionModal is closed', () => {
-      const mutatedProps = {
-        ...props,
-        currentlyLoggedIn: true,
-        user: {
-          mhvTransitionEligible: true,
-          mhvTransitionComplete: false,
-        },
-        signInServiceName: 'mhv',
-      };
-      const wrapper = shallow(<Main {...props} />);
-      global.window.simulate('load');
-      wrapper.setProps(mutatedProps);
-      expect(props.toggleAccountTransitionModal.calledWith(true)).to.be.true;
-      wrapper.instance().closeAccountTransitionModal();
-      expect(localStorage.getItem(ACCOUNT_TRANSITION_DISMISSED)).to.equal(
-        'true',
-      );
-      wrapper.unmount();
-    });
-
-    it('should not open the account transition modal if it has been previously dismissed', () => {
-      localStorage.setItem(ACCOUNT_TRANSITION_DISMISSED, true);
-      const mutatedProps = {
-        ...props,
-        currentlyLoggedIn: true,
-        user: {
-          mhvTransitionComplete: false,
-        },
-        signInServiceName: 'mhv',
-      };
-      const wrapper = shallow(<Main {...props} />);
-      global.window.simulate('load');
-      wrapper.setProps(mutatedProps);
-      expect(props.toggleAccountTransitionModal.notCalled).to.be.true;
-      wrapper.unmount();
-    });
-  });
-
-  it('should open the `TransitionSuccessModal` when `mhvTransitionComplete` is true and `signIn.serviceName` is `logingov`', () => {
-    const mutatedProps = {
-      ...props,
-      currentlyLoggedIn: true,
-      user: { mhvTransitionComplete: true },
-      signInServiceName: 'logingov',
-    };
-    const wrapper = shallow(<Main {...props} />);
-    global.window.simulate('load');
-    wrapper.setProps(mutatedProps);
-    expect(props.toggleAccountTransitionSuccessModal.calledWith(true)).to.be
-      .true;
-    wrapper.unmount();
   });
 
   it('should ignore any storage changes if the user is already logged out', () => {
@@ -251,42 +167,6 @@ describe('<Main>', () => {
     expect(props.getBackendStatuses.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledWith(true, 'header')).to.be.true;
-    wrapper.unmount();
-  });
-
-  it('should append ?next=loginModal when the login modal is opened', () => {
-    const wrapper = shallow(<Main {...props} />);
-    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
-    const signInModalProps = wrapper.find('SignInModal').props();
-    expect(signInModalProps.useSiS).to.be.false;
-    expect(props.getBackendStatuses.calledOnce).to.be.true;
-    expect(props.toggleLoginModal.calledOnce).to.be.true;
-    expect(props.toggleLoginModal.calledWith(true, 'header')).to.be.true;
-    expect(appendSpy.calledWith()).to.be.true;
-    expect(appendSpy.returnValues[0].next).to.equal('loginModal');
-
-    wrapper.unmount();
-  });
-
-  it('should append `&oauth=true` when the login modal is opened and signInServiceEnabled feature flag is true', () => {
-    const wrapper = shallow(<Main {...props} useSignInService />);
-    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
-    const signInModalProps = wrapper.find('SignInModal').props();
-    expect(signInModalProps.useSiS).to.be.true;
-    expect(appendSpy.returnValues[0].next).to.equal('loginModal');
-    expect(appendSpy.returnValues[0].oauth).to.equal(true);
-    wrapper.unmount();
-  });
-
-  it('should not append ?next=loginModal when the login modal is opened and a ?next parameter already exists', () => {
-    global.window.location.search = { next: 'account' };
-    const wrapper = shallow(<Main {...props} />);
-    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
-    expect(props.getBackendStatuses.calledOnce).to.be.true;
-    expect(props.toggleLoginModal.calledOnce).to.be.true;
-    expect(props.toggleLoginModal.calledWith(true, 'header')).to.be.true;
-    expect(appendSpy.calledWith()).to.be.true;
-    expect(appendSpy.returnValues[0]).to.be.null;
     wrapper.unmount();
   });
 
@@ -357,76 +237,80 @@ describe('<Main>', () => {
 });
 
 describe('mapStateToProps', () => {
-  // We have to mock out the login and profile because the user/selectors.js and
-  // user-nav/selectors.js are used in mapStateToProps and they do not fail
-  // gracefully when accessing properties of the login and profile objects.
   const state = {
     user: {
-      login: {},
+      login: {
+        currentlyLoggedIn: false,
+      },
       profile: {
+        loading: false,
         userFullName: {},
         loa: {},
       },
     },
+    form: {},
+    featureToggles: {
+      signInServiceEnabled: false,
+    },
   };
-  describe('shouldConfirmLeavingForm', () => {
-    let oldWindow;
-    beforeEach(() => {
-      oldWindow = global.window;
-      global.window = {
-        location: {
-          pathname: '',
-        },
-      };
+
+  it('should return an object with appopriate keys', () => {
+    expect(mapStateToProps(state)).to.have.keys(
+      'currentlyLoggedIn',
+      'isLOA3',
+      'isProfileLoading',
+      'shouldConfirmLeavingForm',
+      'user',
+      'useSignInService',
+      'userGreeting',
+    );
+  });
+});
+
+describe('shouldConfirmLeavingCheck', () => {
+  const generateState = ({ autoSavedStatus = '', additionalRoutes = [] }) => ({
+    ...(autoSavedStatus.length > 0 && { autoSavedStatus }),
+    ...(additionalRoutes.length > 0 && { additionalRoutes }),
+  });
+
+  let oldWindow;
+
+  beforeEach(() => {
+    oldWindow = global.window;
+    global.window = { location: { pathname: '' } };
+  });
+
+  afterEach(() => {
+    global.window = oldWindow;
+  });
+
+  it('should return false if user is not in the form app OR `state.form` is not an object', () => {
+    expect(shouldConfirmLeavingCheck(generateState({}))).to.be.false;
+    expect(shouldConfirmLeavingCheck([])).to.be.false;
+  });
+
+  it('should return false if `autoSavedStatus` is undefined', () => {
+    const formState = generateState({ autoSavedStatus: '' });
+    expect(shouldConfirmLeavingCheck(formState)).to.be.false;
+  });
+
+  it('should return false when users form is auto-saved', () => {
+    const formState = generateState({ autoSavedStatus: 'success' });
+    expect(shouldConfirmLeavingCheck(formState)).to.be.false;
+  });
+
+  it('should return true and the form has not saved', () => {
+    const formState = generateState({ autoSavedStatus: 'not-attempted' });
+    expect(shouldConfirmLeavingCheck(formState)).to.be.true;
+  });
+
+  it('should return false for non-form pages', () => {
+    global.window.location.pathname =
+      '/health-care/apply-for-health-care-form-10-10ez/id-page';
+    const formState = generateState({
+      autoSavedStatus: 'not-attempted',
+      additionalRoutes: [{ path: 'id-page' }],
     });
-    afterEach(() => {
-      global.window = oldWindow;
-    });
-    it('is true when the user is on a form page and the form has not saved', () => {
-      global.window.location.pathname =
-        '/health-care/apply-for-health-care-form-10-10ez/veteran-info';
-      const { shouldConfirmLeavingForm } = mapStateToProps({
-        ...state,
-        form: { autoSavedStatus: 'not-attempted' },
-      });
-      expect(shouldConfirmLeavingForm).to.be.true;
-    });
-    it.skip('is false when the user is on a form page page the form has auto-saved', () => {
-      global.window.location.pathname =
-        '/health-care/apply-for-health-care-form-10-10ez/veteran-info';
-      const { shouldConfirmLeavingForm } = mapStateToProps({
-        ...state,
-        form: {
-          autoSavedStatus: 'success',
-        },
-      });
-      expect(shouldConfirmLeavingForm).to.be.false;
-    });
-    it('is false when the user is on a standard non-form page', () => {
-      global.window.location.pathname =
-        '/health-care/apply-for-health-care-form-10-10ez/introduction';
-      const { shouldConfirmLeavingForm } = mapStateToProps({
-        ...state,
-        form: { autoSavedStatus: 'not-attempted' },
-      });
-      expect(shouldConfirmLeavingForm).to.be.false;
-    });
-    it('is false when the user is on a non-standard non-form page', () => {
-      global.window.location.pathname =
-        '/health-care/apply-for-health-care-form-10-10ez/id-page';
-      const { shouldConfirmLeavingForm } = mapStateToProps({
-        ...state,
-        form: {
-          autoSavedStatus: 'not-attempted',
-          additionalRoutes: [{ path: 'id-page' }],
-        },
-      });
-      expect(shouldConfirmLeavingForm).to.be.false;
-    });
-    it('is false when the user is not in the form app', () => {
-      global.window.location.pathname = '/health-care';
-      const { shouldConfirmLeavingForm } = mapStateToProps(state);
-      expect(shouldConfirmLeavingForm).to.be.false;
-    });
+    expect(shouldConfirmLeavingCheck(formState)).to.be.false;
   });
 });

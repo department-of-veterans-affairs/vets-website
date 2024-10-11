@@ -39,6 +39,8 @@ export default {
   mhvSm: 'mhv_sm',
   // My HealtheVet Medications
   mhvMeds: 'mhv_meds',
+  // PEGA form ingestion for IVC CHAMPVA forms (10-10d, 10-7959x)
+  pega: 'pega',
   // Search.gov API
   search: 'search',
   // The Image Management System (education forms)
@@ -65,4 +67,13 @@ export default {
   pcie: 'pcie',
   // Travel claim
   tc: 'tc',
+
+  // Sources for VA Profile services:
+  VAPRO_PROFILE_PAGE: 'vaproProfilePage',
+  VAPRO_CONTACT_INFO: 'vaproContactInformation',
+  LIGHTHOUSE_DIRECT_DEPOSIT: 'lighthouseDirectDeposit',
+  VAPRO_MILITARY_INFO: 'vaproMilitaryInformation',
+  VAPRO_NOTIFICATION_SETTINGS: 'vaproNotificationSettings',
+  VAPRO_HEALTH_CARE_CONTACTS: 'vaproPersonalHealthCareContacts',
+  VAPRO_PERSONAL_INFO: 'vaproPersonalInformation',
 };

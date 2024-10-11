@@ -24,10 +24,13 @@ const IntroductionPage = props => {
       />
       <p>
         If you’re a Veteran who gets medical care outside the U.S. for a
-        service-connected condition, we may cover the cost of your care. Use
-        this form to register for the Foreign Medical Program.
+        service-connected condition, we may cover the cost of your care through
+        the Foreign Medical Program (FMP). Use this form to register for the
+        Foreign Medical Program.
       </p>
-      <h3>What to know before you fill out this form</h3>
+      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+        What to know before you fill out this form
+      </h2>
       <div className="process schemaform-process">
         <ul>
           <li>
@@ -36,8 +39,7 @@ const IntroductionPage = props => {
           <li>
             After you register, we’ll send you a benefits authorization letter.
             This letter will list your service-connected conditions that we’ll
-            cover. Then you can file FMP claims for care related to the covered
-            conditions.
+            cover.
           </li>
         </ul>
       </div>
@@ -47,7 +49,13 @@ const IntroductionPage = props => {
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}
-        startText="Start"
+        alertTitle="Sign in now to save time and save your work in progress"
+        unauthStartText="Sign in to start your form"
+        formConfig={{
+          customText: {
+            appType: 'registration form',
+          },
+        }}
       />
 
       <va-omb-info

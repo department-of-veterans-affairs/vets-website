@@ -3,19 +3,15 @@ import PropTypes from 'prop-types';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import {
-  getClaimType,
   getClaimPhaseTypeHeaderText,
   buildDateFormatter,
   getStatusDescription,
   isDisabilityCompensationClaim,
+  generateClaimTitle,
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 
 const formatDate = buildDateFormatter();
-
-const getTitle = claim => {
-  return `Claim for ${getClaimType(claim).toLowerCase()}`;
-};
 
 const getLastUpdated = claim => {
   const updatedOn = formatDate(
@@ -84,7 +80,7 @@ export default function ClaimsListItem({ claim }) {
 
   return (
     <ClaimCard
-      title={getTitle(claim)}
+      title={generateClaimTitle(claim)}
       label={inProgress ? 'In Progress' : null}
       subtitle={`Received on ${formattedReceiptDate}`}
     >
@@ -105,8 +101,8 @@ export default function ClaimsListItem({ claim }) {
         <p>{getLastUpdated(claim)}</p>
       </div>
       {showAlert && (
-        <va-alert status="warning" slim>
-          An item in the claim needs your attention
+        <va-alert status="info" slim>
+          Open request: Check claim to see if action is needed from you or VA.
         </va-alert>
       )}
       <ClaimCard.Link ariaLabel={ariaLabel} href={href} />

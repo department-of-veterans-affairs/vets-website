@@ -85,6 +85,32 @@ export const sanitizeCernerParams = path => {
   return `${updatedPath}?authenticated=true`;
 };
 
+export const sanitizeOracleHealth = ({ application }) => {
+  const {
+    externalRedirectUrl,
+    alternateRedirectUrl,
+  } = externalApplicationsConfig[application];
+
+  const startingURL = new URL(window.location);
+  // return early if no `to` query param
+  if (!startingURL?.searchParams?.has('to')) {
+    return sanitizeUrl(externalRedirectUrl, sanitizeCernerParams());
+  }
+
+  const [_nestedPath, _nestedTo] = decodeURIComponent(
+    startingURL?.searchParams?.get('to'),
+  ).split('?');
+
+  const updatedStartingURL = _nestedTo?.includes(alternateRedirectUrl)
+    ? alternateRedirectUrl
+    : externalRedirectUrl;
+
+  return sanitizeUrl(
+    `${updatedStartingURL}`,
+    sanitizeCernerParams(_nestedPath),
+  );
+};
+
 export const generateReturnURL = returnUrl => {
   return [
     ``, // create account links don't have a authReturnUrl
@@ -123,7 +149,7 @@ export const createExternalApplicationUrl = () => {
       );
       break;
     case EXTERNAL_APPS.MY_VA_HEALTH:
-      URL = sanitizeUrl(`${externalRedirectUrl}`, sanitizeCernerParams(to));
+      URL = sanitizeOracleHealth({ application });
       break;
     case EXTERNAL_APPS.ARP:
       URL = sanitizeUrl(`${externalRedirectUrl}`);
@@ -194,6 +220,8 @@ export function sessionTypeUrl({
     codeChallenge,
     codeChallengeMethod,
     clientId,
+    scope,
+    verification: forceVerify,
   } = getQueryParams();
 
   const externalRedirect = isExternalRedirect();
@@ -214,6 +242,7 @@ export function sessionTypeUrl({
   // 3. The generated link type is for signup, and login only
   const requireVerification =
     allowVerification ||
+    forceVerify === 'required' ||
     (externalRedirect && (isLogin || isSignup) && config.requiresVerification)
       ? '_verified'
       : '';
@@ -242,9 +271,11 @@ export function sessionTypeUrl({
         codeChallenge,
         codeChallengeMethod,
         ...(gaClientId && { gaClientId }),
+        ...(scope && { scope }),
       },
       passedOptions: {
         isSignup,
+        forceVerify,
       },
     });
   }

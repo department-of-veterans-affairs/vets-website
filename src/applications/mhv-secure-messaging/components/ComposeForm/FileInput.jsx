@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   acceptedFileTypes,
@@ -7,7 +7,13 @@ import {
 } from '../../util/constants';
 
 const FileInput = props => {
-  const { attachments, setAttachments, setAttachFileSuccess } = props;
+  const {
+    attachments,
+    setAttachments,
+    setAttachFileSuccess,
+    draftSequence,
+    attachmentScanError,
+  } = props;
 
   const [error, setError] = useState();
   const fileInputRef = useRef();
@@ -48,11 +54,7 @@ const FileInput = props => {
       return;
     }
 
-    if (
-      attachments.filter(
-        a => a.name === selectedFile.name && a.size === selectedFile.size,
-      ).length > 0
-    ) {
+    if (attachments.filter(a => a.name === selectedFile.name).length > 0) {
       setError({
         message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_DUPLICATE,
       });
@@ -106,11 +108,40 @@ const FileInput = props => {
     setAttachFileSuccess(false);
   };
 
+  const draftText = useMemo(
+    () => {
+      if (draftSequence) {
+        return ` to draft ${draftSequence}`;
+      }
+      return '';
+    },
+    [draftSequence],
+  );
+  const attachText = useMemo(
+    () => {
+      if (attachments.length > 0) {
+        return 'Attach additional file';
+      }
+      return 'Attach file';
+    },
+    [attachments.length],
+  );
+
   return (
-    <div className="file-input vads-u-font-weight--bold vads-u-color--secondary-dark">
+    <div
+      className={`
+        file-input
+        vads-u-font-weight--bold
+        vads-u-color--secondary-dark
+        ${
+          error
+            ? 'vads-u-margin-left--neg2 vads-u-border-left--4px vads-u-border-color--secondary-dark vads-u-padding-left--2'
+            : ''
+        }`}
+    >
       {error && (
         <label
-          htmlFor="attachments"
+          htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
           id={`error-${selectedFileId}`}
           role="alert"
           data-testid="file-input-error-message"
@@ -122,40 +153,50 @@ const FileInput = props => {
         </label>
       )}
 
-      {attachments?.length < Attachments.MAX_FILE_COUNT && (
-        <>
-          {/* Wave plugin addressed this as an issue, label required */}
-          <label htmlFor="attachments" hidden>
-            Attachments input
-          </label>
-          <input
-            ref={fileInputRef}
-            type="file"
-            id="attachments"
-            name="attachments"
-            data-testid="attach-file-input"
-            onChange={handleFiles}
-            hidden
-          />
+      {attachments?.length < Attachments.MAX_FILE_COUNT &&
+        !attachmentScanError && (
+          <>
+            {/* Wave plugin addressed this as an issue, label required */}
+            <label
+              htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
+              hidden
+            >
+              Attachments input
+            </label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              id={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
+              name={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
+              data-testid={`attach-file-input${
+                draftSequence ? `-${draftSequence}` : ''
+              }`}
+              onChange={handleFiles}
+              hidden
+            />
 
-          <va-button
-            onClick={useFileInput}
-            secondary
-            text={
-              attachments.length > 0 ? 'Attach additional file' : 'Attach file'
-            }
-            class="attach-file-button"
-            data-testid="attach-file-button"
-            data-dd-action-name="Attach File Button"
-          />
-        </>
-      )}
+            <va-button
+              onClick={useFileInput}
+              secondary
+              text={`${attachText}${draftText}`}
+              class="attach-file-button"
+              data-testid={`attach-file-button${
+                draftSequence ? `-${draftSequence}` : ''
+              }`}
+              id={`attach-file-button${
+                draftSequence ? `-${draftSequence}` : ''
+              }`}
+              data-dd-action-name={`${attachText}${draftText} Button`}
+            />
+          </>
+        )}
     </div>
   );
 };
 
 FileInput.propTypes = {
   attachments: PropTypes.array,
+  draftSequence: PropTypes.number,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
 };

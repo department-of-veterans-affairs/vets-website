@@ -3,8 +3,13 @@ import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { format as dateFnsFormat, parseISO } from 'date-fns';
-import { EMPTY_FIELD, interpretationMap } from './constants';
+import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
+import {
+  EMPTY_FIELD,
+  interpretationMap,
+  refreshPhases,
+  VALID_REFRESH_DURATION,
+} from './constants';
 
 /**
  * @param {*} timestamp
@@ -19,14 +24,34 @@ export const dateFormat = (timestamp, format = null) => {
 };
 
 /**
- * @param {*} datetime (2017-08-02T09:50:57-04:00)
+ * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
 export const dateFormatWithoutTimezone = datetime => {
-  const withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
-  return moment(withoutTimezone).format('MMMM D, YYYY, h:mm a');
-};
+  let withoutTimezone = datetime;
+  if (typeof datetime === 'string' && datetime.includes('-')) {
+    // Check if datetime has a timezone and strip it off if present
+    if (datetime.includes('T')) {
+      withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+    } else {
+      // Handle the case where the datetime is just a date (e.g., "2000-08-09")
+      const parsedDate = parseISO(datetime);
+      if (isValid(parsedDate)) {
+        return dateFnsFormat(parsedDate, 'MMMM d, yyyy');
+      }
+    }
+  }
 
+  const parsedDateTime = parseISO(withoutTimezone);
+  if (isValid(parsedDateTime)) {
+    const formattedDate = dateFnsFormat(parsedDateTime, 'MMMM d, yyyy, h:mm a');
+    return formattedDate.replace(/AM|PM/, match =>
+      match.toLowerCase().replace('m', '.m.'),
+    );
+  }
+
+  return null;
+};
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
  * @returns {String} formatted timestamp
@@ -59,23 +84,6 @@ export const getReactions = record => {
  */
 export const isArrayAndHasItems = obj => {
   return Array.isArray(obj) && obj.length;
-};
-
-/**
- * Concatenate all the record.category[].text values in a FHIR record.
- *
- * @param {Object} record
- * @returns {String} list of text values, separated by a comma
- */
-export const concatCategoryCodeText = record => {
-  if (isArrayAndHasItems(record.category)) {
-    const textFields = record.category
-      .filter(category => category.text)
-      .map(category => category.text);
-
-    return textFields.join(', ');
-  }
-  return null;
 };
 
 /**
@@ -184,6 +192,34 @@ export const extractContainedResource = (resource, referenceId) => {
       containedItem => containedItem.id === strippedRefId,
     );
     return containedResource || null;
+  }
+  return null;
+};
+
+/**
+ * Extract a specimen resource from a FHIR resource's "contained" array.
+ * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
+ * @param {String} resourceType takes a resourceType to return a record from "contained"
+ * @param {Array} referenceArray takes an array to use as a reference
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractContainedByRecourceType = (
+  record,
+  resourceType,
+  referenceArray,
+) => {
+  if (record && resourceType && isArrayAndHasItems(referenceArray)) {
+    const refArray = [];
+    referenceArray.map(entry =>
+      refArray.push(entry.reference.replace('#', '')),
+    );
+    const returnRecord = isArrayAndHasItems(record.contained)
+      ? record.contained.find(
+          item =>
+            refArray.includes(item.id) && item.resourceType === resourceType,
+        )
+      : null;
+    return returnRecord || null;
   }
   return null;
 };
@@ -310,4 +346,118 @@ export const formatDate = str => {
     return dateFnsFormat(parseISO(str), 'MMMM, yyyy');
   }
   return formatDateLong(str);
+};
+
+/**
+ * Returns a date formatted into two parts -- a date portion and a time portion.
+ *
+ * @param {Date} date
+ */
+export const formatDateAndTime = date => {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? 'p.m.' : 'a.m.';
+  const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const timePart = `${formattedHours}:${formattedMinutes} ${period} ET`;
+
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const datePart = date.toLocaleDateString('en-US', options);
+
+  return {
+    date: datePart,
+    time: timePart,
+  };
+};
+
+/**
+ * Determine whether the PHR refresh for a particular extract is stale, in progress, current, or failed.
+ *
+ * @param {*} retrievedDate the timestamp (in ms) that the refresh status was retrieved
+ * @param {*} phrStatus the list of PHR status extracts
+ * @param {*} extractType the extract for which to return the phase (e.g. 'VPR')
+ * @returns {string|null} the current refresh phase, or null if parameters are invalid.
+ */
+export const getStatusExtractPhase = (
+  retrievedDate,
+  phrStatus,
+  extractType,
+) => {
+  if (!retrievedDate || !phrStatus || !extractType) return null;
+  const extractStatus = phrStatus.find(
+    status => status.extract === extractType,
+  );
+  if (
+    !extractStatus?.lastRequested ||
+    !extractStatus?.lastCompleted ||
+    !extractStatus?.lastSuccessfulCompleted
+  ) {
+    return null;
+  }
+  if (retrievedDate - extractStatus.lastCompleted > VALID_REFRESH_DURATION) {
+    return refreshPhases.STALE;
+  }
+  if (extractStatus.lastCompleted < extractStatus.lastRequested) {
+    return refreshPhases.IN_PROGRESS;
+  }
+  if (
+    extractStatus.lastCompleted.getTime() !==
+    extractStatus.lastSuccessfulCompleted.getTime()
+  ) {
+    return refreshPhases.FAILED;
+  }
+  return refreshPhases.CURRENT;
+};
+
+export const decodeBase64Report = data => {
+  if (data && typeof data === 'string') {
+    return Buffer.from(data, 'base64')
+      .toString('utf-8')
+      .replace(/\r\n|\r/g, '\n'); // Standardize line endings
+  }
+  return null;
+};
+const generateHash = async data => {
+  const dataBuffer = new TextEncoder().encode(data);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+};
+
+export const radiologyRecordHash = async record => {
+  const { procedureName, radiologist, stationNumber, eventDate } = record;
+  const dataString = `${procedureName}|${radiologist}|${stationNumber}|${eventDate}`;
+  return (await generateHash(dataString)).substring(0, 8);
+};
+
+/**
+ * @function getLastUpdatedText
+ * @description Generates a string that displays the last successful update for a given extract type.
+ * It checks the refresh state status and formats the time and date of the last update.
+ *
+ * @param {Array} refreshStateStatus - The array of refresh state objects containing extract types and their statuses.
+ * @param {string} extractType - The type of extract we want to find in the refresh state (e.g., CHEM_HEM).
+ *
+ * @returns {string|null} - Returns a formatted string with the time and date of the last update, or null if no update is found.
+ */
+export const getLastUpdatedText = (refreshStateStatus, extractType) => {
+  if (refreshStateStatus) {
+    const extract = refreshStateStatus.find(
+      status => status.extract === extractType,
+    );
+
+    if (extract?.lastSuccessfulCompleted) {
+      const lastSuccessfulUpdate = formatDateAndTime(
+        extract.lastSuccessfulCompleted,
+      );
+
+      if (lastSuccessfulUpdate) {
+        return `Last updated at ${lastSuccessfulUpdate.time} on ${
+          lastSuccessfulUpdate.date
+        }`;
+      }
+    }
+  }
+
+  return null;
 };

@@ -59,7 +59,7 @@ const StepOne = ({ formValues }) => {
     return null;
   };
 
-  const dd214Tips = (
+  const dd214Tips = formValues['1_branchOfService'] !== 'airForce' && (
     <ul>
       <li>
         Pay special attention to item 6, which asks for the reason for your
@@ -73,11 +73,13 @@ const StepOne = ({ formValues }) => {
 
   const nonDd2014Tips = (
     <ul>
-      <li>
-        Pay special attention to item 6, which asks for the reason for your
-        change. Most Veterans attach additional pages to answer this question.{' '}
-        {strongCaseTips()}
-      </li>
+      {formValues['1_branchOfService'] !== 'airForce' && (
+        <li>
+          Pay special attention to item 6, which asks for the reason for your
+          change. Most Veterans attach additional pages to answer this question.{' '}
+          {strongCaseTips()}
+        </li>
+      )}
       {formValues['10_prevApplicationType'] === '3' && (
         <li>
           Because you’re applying for reconsideration of a previous application,
@@ -101,23 +103,24 @@ const StepOne = ({ formValues }) => {
           the reason for PTSD.
         </li>
       )}
+      {boardToSubmit.abbr !== 'DRB' &&
+        formValues['1_branchOfService'] !== 'airForce' && (
+          <li>
+            Item 8 asks for the date when you discovered the error or injustice
+            you’re asking the Board to address. If it’s been more than 3 years
+            since you found this error or injustice, you’ll need to include a
+            reason why the Board should consider your application. Examples of
+            good reasons include new evidence you’ve found to support your
+            claim, or recent changes in policy (like liberal consideration for
+            PTSD, TBI, or military sexual assault or harassment). These kinds of
+            reasons will make it more likely for the Board to decide in your
+            favor. The 3-year time limit isn’t a strict rule, so don’t let it
+            keep you from applying if you think you have a strong case.
+          </li>
+        )}
       {boardToSubmit.abbr !== 'DRB' && (
         <li>
-          Item 8 asks for the date when you discovered the error or injustice
-          you’re asking the Board to address. If it’s been more than 3 years
-          since you found this error or injustice, you’ll need to include a
-          reason why the Board should consider your application. Examples of
-          good reasons include new evidence you’ve found to support your claim,
-          or recent changes in policy (like liberal consideration for PTSD, TBI,
-          or military sexual assault or harassment). These kinds of reasons will
-          make it more likely for the Board to decide in your favor. The 3-year
-          time limit isn’t a strict rule, so don’t let it keep you from applying
-          if you think you have a strong case.
-        </li>
-      )}
-      {boardToSubmit.abbr !== 'DRB' && (
-        <li>
-          Item 10 asks if you’re willing to appear in person before the Board in
+          Item 17 asks if you’re willing to appear in person before the Board in
           Washington, DC. The Board rarely asks Veterans to appear in person,
           but if you say you’re willing to do so, it may help show how serious
           you are about your case.

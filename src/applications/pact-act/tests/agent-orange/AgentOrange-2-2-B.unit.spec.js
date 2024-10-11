@@ -111,6 +111,7 @@ describe('displayConditionsAreMet', () => {
       BURN_PIT_2_1: NOT_SURE,
       BURN_PIT_2_1_1: NOT_SURE,
       BURN_PIT_2_1_2: NOT_SURE,
+      BURN_PIT_2_1_3: NOT_SURE,
       ORANGE_2_2_A: YES,
       SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
@@ -135,6 +136,7 @@ describe('displayConditionsAreMet', () => {
       BURN_PIT_2_1: NO,
       BURN_PIT_2_1_1: NO,
       BURN_PIT_2_1_2: NO,
+      BURN_PIT_2_1_3: NO,
       ORANGE_2_2_A: YES,
       SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
@@ -145,7 +147,7 @@ describe('displayConditionsAreMet', () => {
   it('ORANGE_2_2_B: should return true when the display conditions are met', () => {
     const formResponses = {
       BURN_PIT_2_1: YES,
-      BURN_PIT_2_1_1: null,
+      BURN_PIT_2_1_1: YES,
       BURN_PIT_2_1_2: null,
       ORANGE_2_2_A: YES,
       SERVICE_PERIOD: DURING_BOTH_PERIODS,

@@ -5,6 +5,7 @@ import {
   TOGGLE_FORM_SIGN_IN_MODAL,
   TOGGLE_LOGIN_MODAL,
   UPDATE_SEARCH_HELP_USER_MENU,
+  UPDATE_ROUTE,
 } from '../../actions';
 
 describe('User Navigation Reducer', () => {
@@ -16,89 +17,57 @@ describe('User Navigation Reducer', () => {
     expect(state.utilitiesMenuIsOpen.account).to.be.false;
   });
 
-  it('should hide the login modal', () => {
-    const state = reducer(undefined, {
-      type: TOGGLE_LOGIN_MODAL,
-      isOpen: false,
+  [true, false].forEach(isOpen => {
+    it(`should ${isOpen ? 'show' : 'hide'} the login modal`, () => {
+      const state = reducer(undefined, {
+        type: TOGGLE_LOGIN_MODAL,
+        isOpen,
+      });
+      expect(state.showLoginModal).to.eql(isOpen);
     });
-    expect(state.showLoginModal).to.be.false;
+
+    it(`should ${isOpen ? 'show' : 'hide'} the form sign-in modal`, () => {
+      const state = reducer(undefined, {
+        type: TOGGLE_FORM_SIGN_IN_MODAL,
+        isOpen,
+      });
+      expect(state.showFormSignInModal).to.eql(isOpen);
+    });
+
+    it(`should ${isOpen ? 'show' : 'hide'} the search menu`, () => {
+      const state = reducer(undefined, {
+        type: UPDATE_SEARCH_HELP_USER_MENU,
+        menu: 'search',
+        isOpen,
+      });
+      expect(state.utilitiesMenuIsOpen.search).to.eql(isOpen);
+    });
+
+    it(`should ${isOpen ? 'show' : 'hide'} help menu`, () => {
+      const state = reducer(undefined, {
+        type: UPDATE_SEARCH_HELP_USER_MENU,
+        menu: 'help',
+        isOpen,
+      });
+      expect(state.utilitiesMenuIsOpen.help).to.eql(isOpen);
+    });
+
+    it(`should ${isOpen ? 'show' : 'hide'} the account menu`, () => {
+      const state = reducer(undefined, {
+        type: UPDATE_SEARCH_HELP_USER_MENU,
+        menu: 'account',
+        isOpen,
+      });
+      expect(state.utilitiesMenuIsOpen.account).to.eql(isOpen);
+    });
   });
 
-  it('should show the login modal', () => {
-    const state = reducer(undefined, {
-      type: TOGGLE_LOGIN_MODAL,
-      isOpen: true,
-    });
-    expect(state.showLoginModal).to.be.true;
-  });
-
-  it('should hide the form sign-in modal', () => {
-    const state = reducer(undefined, {
-      type: TOGGLE_FORM_SIGN_IN_MODAL,
-      isOpen: false,
-    });
-    expect(state.showFormSignInModal).to.be.false;
-  });
-
-  it('should show the form sign-in modal', () => {
-    const state = reducer(undefined, {
-      type: TOGGLE_FORM_SIGN_IN_MODAL,
-      isOpen: true,
-    });
-    expect(state.showFormSignInModal).to.be.true;
-  });
-
-  it('should close the search menu', () => {
-    const state = reducer(undefined, {
-      type: UPDATE_SEARCH_HELP_USER_MENU,
-      menu: 'search',
-      isOpen: false,
-    });
-    expect(state.utilitiesMenuIsOpen.search).to.be.false;
-  });
-
-  it('should open the search menu', () => {
-    const state = reducer(undefined, {
-      type: UPDATE_SEARCH_HELP_USER_MENU,
-      menu: 'search',
-      isOpen: true,
-    });
-    expect(state.utilitiesMenuIsOpen.search).to.be.true;
-  });
-
-  it('should close the help menu', () => {
-    const state = reducer(undefined, {
-      type: UPDATE_SEARCH_HELP_USER_MENU,
-      menu: 'help',
-      isOpen: false,
-    });
-    expect(state.utilitiesMenuIsOpen.help).to.be.false;
-  });
-
-  it('should open the help menu', () => {
-    const state = reducer(undefined, {
-      type: UPDATE_SEARCH_HELP_USER_MENU,
-      menu: 'help',
-      isOpen: true,
-    });
-    expect(state.utilitiesMenuIsOpen.help).to.be.true;
-  });
-
-  it('should close the account menu', () => {
-    const state = reducer(undefined, {
-      type: UPDATE_SEARCH_HELP_USER_MENU,
-      menu: 'account',
-      isOpen: false,
-    });
-    expect(state.utilitiesMenuIsOpen.account).to.be.false;
-  });
-
-  it('should open the account menu', () => {
-    const state = reducer(undefined, {
-      type: UPDATE_SEARCH_HELP_USER_MENU,
-      menu: 'account',
-      isOpen: true,
-    });
-    expect(state.utilitiesMenuIsOpen.account).to.be.true;
+  it('should update route', () => {
+    const action = {
+      location: { base: 'testBase', path: '', search: 'testSearch', hash: '' },
+    };
+    const state = reducer(undefined, { type: UPDATE_ROUTE, ...action });
+    expect(state.route.base).to.eql('testBase');
+    expect(state.route.path).to.eql('');
   });
 });

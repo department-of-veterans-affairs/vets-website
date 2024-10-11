@@ -59,9 +59,15 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    expect(screen.queryByText('Apply for burial benefits')).to.exist;
     expect(
-      screen.queryByText('Follow these steps to apply for burial benefits'),
+      screen.queryByText(
+        'Apply for a Veterans burial allowance and transportation benefits',
+      ),
+    ).to.exist;
+    expect(
+      screen.queryByText(
+        'Follow these steps to apply for a burial allowance and transportation benefits',
+      ),
     ).to.exist;
   });
 });

@@ -6,6 +6,7 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { useSelector } from 'react-redux';
+import { isLOA1 } from '~/platform/user/selectors';
 import {
   BENEFITS_PROFILE_RELATIVE_URL,
   VERIFICATION_REVIEW_RELATIVE_URL,
@@ -15,12 +16,19 @@ import BenefitsProfileWrapper from './containers/BenefitsProfilePageWrapper';
 import VerificationReviewWrapper from './containers/VerificationReviewWrapper';
 import LoadFail from './components/LoadFail';
 import Loader from './components/Loader';
+import IdentityVerificationAlert from './components/IdentityVerificationAlert';
+import UnderMaintenance from './components/UnderMaintenance';
 
 const IsUserLoggedIn = () => {
   const user = useSelector(selectUser);
+  const isUserLOA1 = useSelector(isLOA1);
   const response = useSelector(state => state.personalInfo);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.toggleVyeApplication);
+  const mgibVerificationsMaintenance = useToggleValue(
+    TOGGLE_NAMES?.mgibVerificationsMaintenance,
+  );
+
   const serverError = response?.error?.errors
     ? response?.error?.errors[0]
     : response?.error;
@@ -53,11 +61,16 @@ const IsUserLoggedIn = () => {
     ),
     [],
   );
-  if (toggleValue === undefined && !window.isProduction) {
+  if (isUserLOA1) {
+    return <IdentityVerificationAlert />;
+  }
+  if (toggleValue === undefined) {
     return <Loader />;
   }
-
-  return toggleValue || window.isProduction ? (
+  if (mgibVerificationsMaintenance) {
+    return <UnderMaintenance />;
+  }
+  return toggleValue ? (
     <RequiredLoginView
       serviceRequired={backendServices.USER_PROFILE}
       user={user}
@@ -67,6 +80,7 @@ const IsUserLoggedIn = () => {
   ) : (
     <div className="not-found">
       <PageNotFound />
+      {/* <UnderMaintenance /> */}
     </div>
   );
 };

@@ -29,8 +29,6 @@ export const CLIENT_IDS = {
   VAWEB: 'vaweb',
   VAMOBILE: 'vamobile',
   VAMOCK: 'vamock',
-  // TODO: refactor `CLIENT_IDS` to vary by environment. This is the value for
-  // the ARP frontend on localhost calling the ARP backend on localhost.
   ARP: 'arp',
 };
 
@@ -61,6 +59,7 @@ export const OAUTH_ALLOWED_PARAMS = {
   S256: 'S256',
   AUTH_CODE: 'authorization_code',
   OPERATION: 'operation',
+  SCOPE: 'scope',
 };
 
 const generateOAuthKeysWithout = array =>
@@ -121,6 +120,13 @@ export const OAUTH_ERROR_RESPONSES = {
   'Refresh token is not defined': AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode,
   // Default | Unknown
   default: AUTH_ERRORS.OAUTH_DEFAULT_ERROR.errorCode,
+};
+
+export const FORCED_VERIFICATION_ACRS = {
+  idme: 'loa3',
+  mhv: 'loa3',
+  dslogon: 'loa3',
+  logingov: 'ial2',
 };
 
 export const APPROVED_OAUTH_APPS = ['arp'];

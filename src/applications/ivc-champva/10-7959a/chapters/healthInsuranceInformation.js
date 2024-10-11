@@ -193,7 +193,7 @@ const summaryPage = {
 // Main pages object
 export const insurancePages = arrayBuilderPages(options, pageBuilder => ({
   insuranceIntro: pageBuilder.introPage({
-    path: 'intro-page',
+    path: 'insurance-intro',
     title: '[noun plural]',
     depends: formData => get('hasOhi', formData),
     uiSchema: {

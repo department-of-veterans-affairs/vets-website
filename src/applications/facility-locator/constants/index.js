@@ -8,7 +8,7 @@ export const LocationType = {
   // Subtypes of VA_FACILITIES
   HEALTH: 'health',
   BENEFITS: 'benefits',
-  CEMETARY: 'cemetery',
+  CEMETERY: 'cemetery',
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
   URGENT_CARE_PHARMACIES: 'pharmacy',
@@ -20,7 +20,7 @@ export const LocationType = {
  */
 export const FacilityType = {
   VA_HEALTH_FACILITY: 'va_health_facility',
-  VA_CEMETARY: 'va_cemetery',
+  VA_CEMETERY: 'va_cemetery',
   VA_BENEFITS_FACILITY: 'va_benefits_facility',
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
@@ -34,7 +34,7 @@ export const FacilityType = {
  */
 export const PinNames = {
   [FacilityType.VA_HEALTH_FACILITY]: 'health',
-  [FacilityType.VA_CEMETARY]: 'cemetery',
+  [FacilityType.VA_CEMETERY]: 'cemetery',
   [FacilityType.VA_BENEFITS_FACILITY]: 'benefits',
   [FacilityType.VET_CENTER]: 'vet-centers',
   [FacilityType.URGENT_CARE]: 'health',
@@ -50,7 +50,7 @@ export const LOCATION_OPTIONS = [
   LocationType.URGENT_CARE,
   LocationType.CC_PROVIDER,
   LocationType.BENEFITS,
-  LocationType.CEMETARY,
+  LocationType.CEMETERY,
   LocationType.VET_CENTER,
   LocationType.EMERGENCY_CARE,
 ];
@@ -60,11 +60,6 @@ export const LOCATION_OPTIONS = [
  */
 export const BOUNDING_RADIUS = 0.75;
 export const EXPANDED_BOUNDING_RADIUS = 1.4;
-
-/**
- *Defines the marker letter list
- */
-export const MARKER_LETTERS = new Set('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''));
 
 /**
  * Enum for operating status.
@@ -144,5 +139,6 @@ export const MAX_SEARCH_AREA = 500;
  * Min radius search area in miles
  */
 export const MIN_RADIUS = 10;
+export const MIN_RADIUS_CCP = 20;
 
 export const Covid19Vaccine = 'Covid19Vaccine';

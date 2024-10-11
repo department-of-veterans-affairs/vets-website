@@ -85,9 +85,8 @@ describe('Feedback Tool Test', () => {
     cy.get('input[type="checkbox"]').should('exist');
     cy.axeCheck();
 
-    // checkbox to enter information manually
-    cy.get('label[id="option-label"]').click();
-
+    // Select checkbox to enter information manually
+    cy.get('va-checkbox').click();
     cy.get(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
       { timeout: Timeouts.slow },

@@ -1,8 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LETTER_URL, LETTER_ENDPOINT } from '../../constants';
+import LoadingIndicator from '../LoadingIndicator';
 
-export default function ApprovedConfirmation({ user, dateReceived }) {
+const ApprovedConfirmation = ({
+  confirmationError,
+  confirmationLoading,
+  dateReceived,
+  printPage,
+  sendConfirmation,
+  user,
+  userEmail,
+  userFirstName,
+}) => {
+  useEffect(
+    () => {
+      sendConfirmation({
+        claimStatus: 'ELIGIBLE',
+        email: userEmail,
+        firstName: userFirstName,
+      });
+    },
+    [sendConfirmation, userEmail, userFirstName],
+  );
+
+  if (confirmationLoading) {
+    return <LoadingIndicator message="Sending confirmation email..." />;
+  }
+
+  if (confirmationError) {
+    return (
+      <div>Error sending confirmation email: {confirmationError.message}</div>
+    );
+  }
+
   return (
     <>
       <div className="vads-u-margin-bottom--6">
@@ -20,7 +51,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             entitled to educational benefits under the Transfer of Entitlement
             for Post-9/11 GI Bill® (Chapter 33). Your decision letter is now
             available. A physical copy will also be mailed to your mailing
-            address.
+            address.{' '}
           </div>
           <div>
             <a
@@ -28,10 +59,9 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
               download
               href={LETTER_ENDPOINT}
             >
-              <i
-                className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
-                aria-hidden="true"
-              />
+              <span className="vads-u-display--inline-block vads-u-margin-right--1">
+                <va-icon icon="file_download" size={3} />
+              </span>
               Download your decision letter (PDF).
             </a>
           </div>
@@ -53,13 +83,13 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
               <strong>Date received</strong>
               {dateReceived}
             </div>
-            <button
-              type="button"
-              onClick={() => window.print()}
+            <br />
+            <va-button
+              uswds
               className="usa-button vads-u-margin-top--3 vads-u-width--auto"
-            >
-              Print this page
-            </button>
+              text="Print this page"
+              onClick={printPage}
+            />
           </div>
         </va-alert>
       </div>
@@ -126,9 +156,19 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
       </div>
     </>
   );
-}
+};
 
 ApprovedConfirmation.propTypes = {
+  claimantName: PropTypes.string.isRequired,
+  confirmationDate: PropTypes.string.isRequired,
+  confirmationError: PropTypes.bool.isRequired,
+  confirmationLoading: PropTypes.bool.isRequired,
+  printPage: PropTypes.func.isRequired,
+  sendConfirmation: PropTypes.func.isRequired,
+  userEmail: PropTypes.string.isRequired,
+  userFirstName: PropTypes.string.isRequired,
   dateReceived: PropTypes.string,
   user: PropTypes.string,
 };
+
+export default ApprovedConfirmation;

@@ -5,6 +5,12 @@ export const relationshipLabels = {
   PARENT: 'Parent',
 };
 
+export const childRelationshipLabels = {
+  BIOLOGICAL: "They're my biological child",
+  ADOPTED: "They're my adopted child",
+  STEP_CHILD: "They're my stepchild",
+};
+
 export const marriageTypeLabels = {
   CEREMONY:
     'In a civil or religious ceremony with an officiant who signed my marriage license',
@@ -40,4 +46,14 @@ export const typeOfIncomeLabels = {
   CIVIL_SERVICE: 'Civil Service',
   PENSION_RETIREMENT: 'Pension or retirement income',
   OTHER: 'Other income',
+};
+
+export const careTypeLabels = {
+  CARE_FACILITY: 'Care facility',
+  IN_HOME_CARE_PROVIDER: 'In-home care provider',
+};
+
+export const careFrequencyLabels = {
+  ONCE_MONTH: 'Once a month',
+  ONCE_YEAR: 'Once a year',
 };

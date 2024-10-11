@@ -12,20 +12,23 @@ import {
 const relationshipToVeteranPage = {
   uiSchema: {
     'ui:objectViewField': PageFieldSummary,
-    personalRelationship: radioUI({
+    relationshipToVeteran: radioUI({
       title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
       labelHeaderLevel: '3',
       labels: relationshipOptionsSomeoneElse,
       required: () => true,
+      errorMessages: {
+        required: 'Please select your relationship to the Veteran.',
+      },
     }),
     'ui:options': {
       updateSchema: (formData, formSchema) => {
-        if (formData.questionAbout === 'MYSELF') {
+        if (formData.whoIsYourQuestionAbout === 'Myself') {
           return {
             ...formSchema,
             properties: {
-              personalRelationship: radioSchema(
-                Object.keys(relationshipOptionsMyself),
+              relationshipToVeteran: radioSchema(
+                Object.values(relationshipOptionsMyself),
               ),
             },
           };
@@ -33,8 +36,8 @@ const relationshipToVeteranPage = {
         return {
           ...formSchema,
           properties: {
-            personalRelationship: radioSchema(
-              Object.keys(relationshipOptionsSomeoneElse),
+            relationshipToVeteran: radioSchema(
+              Object.values(relationshipOptionsSomeoneElse),
             ),
           },
         };
@@ -43,10 +46,10 @@ const relationshipToVeteranPage = {
   },
   schema: {
     type: 'object',
-    required: ['personalRelationship'],
+    required: ['relationshipToVeteran'],
     properties: {
-      personalRelationship: radioSchema(
-        Object.keys(relationshipOptionsSomeoneElse),
+      relationshipToVeteran: radioSchema(
+        Object.values(relationshipOptionsSomeoneElse),
       ),
     },
   },

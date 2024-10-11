@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   VaButtonPair,
-  VaNumberInput,
+  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,7 +10,6 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import { updateDependents, updateEditMode } from '../actions';
-import { customizeTitle } from '../utilities/customize-title';
 
 const DependentsPage = ({
   dependents,
@@ -30,10 +29,6 @@ const DependentsPage = ({
       ? `How many dependents did you have in ${year - 1}?`
       : `How many dependents did you have last year?`;
   };
-
-  useEffect(() => {
-    document.title = customizeTitle(determineH1());
-  });
 
   const dependentsValid = deps => {
     return deps?.match(/^[0-9]+$/) && deps >= 0 && deps <= 100;
@@ -78,6 +73,8 @@ const DependentsPage = ({
   const onBlurInput = () => {
     if (validDependents) {
       setError(false);
+    } else {
+      setError(true);
     }
   };
 
@@ -103,11 +100,12 @@ const DependentsPage = ({
     <>
       <h1>{determineH1()}</h1>
       <form>
-        <VaNumberInput
+        <VaTextInput
           className="vads-u-margin-bottom--1"
           data-testid="il-dependents"
           error={
-            (submitted && error && 'Enter a number between 0 and 100.') || null
+            ((submitted || error) && 'Enter a number between 0 and 100.') ||
+            null
           }
           hint={`Enter the total number of dependents for ${getPreviousYear(
             pastMode,

@@ -3,7 +3,7 @@ import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-for
 import formConfig from '../config/form';
 import { CONTESTABLE_ISSUES_API } from '../constants';
 
-import mockV2Data from './fixtures/data/maximal-test-v2.json';
+import mockV2p5Data from './fixtures/data/maximal-test-v2.5.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
@@ -21,7 +21,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
     resetStoredSubTask();
 
-    cy.wrap(mockV2Data.data).as('testData');
+    cy.wrap(mockV2p5Data.data).as('testData');
 
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockPrefill);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
@@ -37,7 +37,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       );
       cy.injectAxeThenAxeCheck();
 
-      // Subtask
+      // *** Subtask
       cy.url().should('include', '/start');
       cy.tabToElement('input#compensationinput'); // ID of va-radio-option input
       cy.realPress('Space');
@@ -45,12 +45,12 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.tabToElement('.subtask-navigation va-button');
       cy.realPress('Enter');
 
-      // Intro page
+      // *** Intro page
       cy.url().should('include', '/introduction');
       cy.tabToElement('.vads-c-action-link--green');
       cy.realPress('Enter');
 
-      // Veteran details
+      // *** Veteran details
       cy.url().should(
         'include',
         chapters.infoPages.pages.veteranInformation.path,
@@ -58,31 +58,33 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.wait('@getIssues');
       cy.tabToContinueForm();
 
-      // Homelessness radios
+      // *** Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
-      cy.tabToElement('input[name="root_homeless"]');
+      cy.tabToElement('input#root_homelessYesinput');
       cy.chooseRadio(data.homeless ? 'Y' : 'N');
       cy.tabToContinueForm();
 
-      // Contact info
+      // *** Contact info
       cy.url().should(
         'include',
         chapters.infoPages.pages.confirmContactInfo.path,
       );
       cy.tabToElementAndPressSpace('.usa-button-primary');
 
-      // Issues for review (sorted by random decision date) - only selecting one,
+      // *** Issues for review (sorted by random decision date) - only selecting one,
       // or more complex code is needed to find if the next checkbox is before or
       // after the first
       cy.url().should(
         'include',
         chapters.conditions.pages.contestableIssues.path,
       );
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
       cy.tabToElement('#root_contestedIssues_0'); // Tinnitus
       cy.realPress('Space');
       cy.tabToContinueForm();
 
-      // Area of disagreement for tinnitus
+      // *** Area of disagreement for tinnitus
       cy.url().should(
         'include',
         chapters.conditions.pages.areaOfDisagreementFollowUp.path.replace(
@@ -97,27 +99,29 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.get(':focus')
         .find('input')
         .type('Few words', { delay: 0 });
-      // For some reason, the Continue button is not consistently appearing in Cypress snapshot with `[type="submit"]`
-      // Both Back and Continue button have ids ending with -continueButton, so using .usa-button-primary to identify which button is submit
+      // For some reason, the Continue button is not consistently appearing in
+      // Cypress snapshot with `[type="submit"]`; Both Back and Continue button
+      // have ids ending with -continueButton, so using .usa-button-primary to
+      // identify which button is submit
       cy.tabToElement('.usa-button-primary[id$="-continueButton"]');
       cy.realPress('Space');
 
-      // Issue summary
+      // *** Issue summary
       cy.url().should('include', chapters.conditions.pages.issueSummary.path);
       cy.tabToContinueForm();
 
-      // Informal conference option
+      // *** Informal conference option
       cy.url().should(
         'include',
         chapters.informalConference.pages.requestConference.path,
       );
       // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(250); // wait for H3 focus before tabbing to radios
-      cy.tabToElement('input[name="root_informalConference"]');
+      cy.wait(100); // wait for H3 focus before tabbing to radios
+      cy.tabToElement('input[name="informalConference"]');
       cy.chooseRadio('rep');
       cy.tabToContinueForm();
 
-      // Rep name & contact info
+      // *** Rep name & contact info
       cy.url().should(
         'include',
         chapters.informalConference.pages.representativeInfoV2.path,
@@ -131,21 +135,24 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.typeInIfDataExists(`${repPrefix}email"]`, rep.email);
       cy.tabToContinueForm();
 
-      // Informal conference time
+      // *** Informal conference time
       cy.url().should(
         'include',
         chapters.informalConference.pages.conferenceTimeRep.path,
       );
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
       cy.tabToElement('[name="root_informalConferenceTime"]');
       cy.chooseRadio(data.informalConferenceTime);
       cy.tabToContinueForm();
 
-      // Review & submit page
+      // *** Review & submit page
       cy.url().should('include', 'review-and-submit');
       cy.tabToElement('va-checkbox');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 
+      // *** Confirmation page
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
       // Another instance where we need to specifically find the element inside of a shadow dom (va-button)

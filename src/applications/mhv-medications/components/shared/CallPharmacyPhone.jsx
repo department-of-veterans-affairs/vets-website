@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const CallPharmacyPhone = ({ cmopDivisionPhone, page }) => {
   const number = cmopDivisionPhone
@@ -13,7 +14,9 @@ const CallPharmacyPhone = ({ cmopDivisionPhone, page }) => {
           <va-telephone
             contact={number}
             data-testid="pharmacy-phone-number"
-            data-dd-action-name={`Pharmacy Phone Number Link - ${page}`}
+            data-dd-action-name={`${
+              dataDogActionNames.shared.PHARMACY_PHONE_NUMBER_LINK
+            }${page}`}
           />{' '}
           <span>
             (<va-telephone tty contact="711" />)

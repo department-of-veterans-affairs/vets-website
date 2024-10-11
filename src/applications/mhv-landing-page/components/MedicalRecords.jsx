@@ -52,7 +52,7 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
           'medium-screen:vads-u-margin--2',
         )}
       >
-        <span className="usa-label vads-u-background-color--hub-burials">
+        <span className="usa-label vads-u-background-color--primary">
           Coming soon
         </span>
       </div>
@@ -67,7 +67,7 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
         'medium-screen:vads-u-display--none',
       )}
     >
-      <span className="usa-label vads-u-background-color--hub-burials">
+      <span className="usa-label vads-u-background-color--primary">
         Coming soon
       </span>
     </div>

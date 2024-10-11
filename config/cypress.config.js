@@ -7,6 +7,7 @@ const cypressConfig = {
   fixturesFolder: 'src',
   waitForAnimations: false,
   chromeWebSecurity: false,
+  video: true,
   videoCompression: false,
   retries: {
     runMode: 2,
@@ -181,6 +182,9 @@ const cypressConfig = {
         height: 720,
       },
     ],
+    integration: {
+      specPattern: process.env.INTEGRATION_APP_PATH,
+    },
   },
   e2e: {
     setupNodeEvents(on, config) {

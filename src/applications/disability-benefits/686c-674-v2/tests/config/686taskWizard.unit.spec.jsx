@@ -1,59 +1,82 @@
-import React from 'react';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
-
+import React from 'react';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import {
   DefinitionTester,
-  selectCheckbox,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-
+  getFormDOM,
+} from 'platform/testing/unit/schemaform-utils';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
-describe('686 select workflows', () => {
-  const { schema, uiSchema } = formConfig.chapters.optionSelection.pages.wizard;
-  it('should render', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-      />,
-    );
-    expect(form.find('input').length).to.equal(8);
-    form.unmount();
-  });
+const defaultStore = createCommonStore();
 
-  it('should not progress without at least one option selected', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-      />,
-    );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
+describe('686c-674 Task Wizard: Add and Remove dependents page', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.optionSelection.pages.addOrRemoveDependents;
 
-  it('should progress with at least one option selected', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-      />,
+  it('should render Add and remove dependents selection', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{}}
+        />
+      </Provider>,
     );
-    selectCheckbox(form, 'root_view:selectable686Options_addChild', true);
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    const formDOM = getFormDOM(form);
+
+    expect($$('va-checkbox', formDOM).length).to.equal(2);
+  });
+});
+
+describe('686c-674 Task Wizard: Add dependents page', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.optionSelection.pages.addDependentOptions;
+
+  it('should render Add dependents selection', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{}}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    expect($$('va-checkbox', formDOM).length).to.equal(4);
+  });
+});
+
+describe('686c-674 Task Wizard: Remove dependents page', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.optionSelection.pages.removeDependentOptions;
+
+  it('should render Remove dependents selection', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{}}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    expect($$('va-checkbox', formDOM).length).to.equal(5);
   });
 });

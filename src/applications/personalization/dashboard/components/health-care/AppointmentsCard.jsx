@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { formatInTimeZone } from 'date-fns-tz';
 import recordEvent from '~/platform/monitoring/record-event';
 import CTALink from '../CTALink';
 import { getAppointmentTimezone } from '../../utils/date-formatting/timezone';
@@ -29,16 +29,12 @@ export const AppointmentsCard = ({ appointments }) => {
     <>
       <h3 className="vads-u-margin-top--0">Next appointment</h3>
       <p className="vads-u-margin-bottom--1">
-        {format(
-          utcToZonedTime(localStartTime, timeZoneId),
-          'eeee, MMMM d, yyyy',
-        )}
+        {formatInTimeZone(localStartTime, timeZoneId, 'eeee, MMMM d, yyyy')}
       </p>
       <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-        {`Time: ${format(
-          utcToZonedTime(localStartTime, timeZoneId),
-          'h:mm aaaa',
-        )} ${timeZone.abbreviation}`}
+        {`Time: ${formatInTimeZone(localStartTime, timeZoneId, 'h:mm aaaa')} ${
+          timeZone.abbreviation
+        }`}
       </p>
       {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
       <CTALink
@@ -61,7 +57,7 @@ export const AppointmentsCard = ({ appointments }) => {
     <div className="vads-u-margin-bottom--2p5">
       <va-card>
         <div
-          className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-padding--1"
+          className="vads-u-display--flex vads-u-flex-direction--column desktop-lg:vads-u-flex--1 vads-u-padding--1"
           data-testid="health-care-appointments-card"
         >
           {content}

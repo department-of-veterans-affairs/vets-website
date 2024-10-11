@@ -115,6 +115,108 @@ describe('startConvoAndTrackUtterances', () => {
       expect(processMicrophoneActivityStub.calledOnce).to.be.true;
       expect(nextSpy.calledOnce).to.be.true;
     });
+    it('should not call addActivityData for an unknown event if root-bot toggle off', async () => {
+      const store = { dispatch: 'fake-dispatch' };
+      const nextSpy = sinon.spy();
+      const action = { type: 'unknown' };
+
+      const addActivityDataSpy = sandbox.spy(
+        ActionHelpersModule,
+        'addActivityData',
+      );
+
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
+        csrfToken: 'csrfToken',
+        apiSession: 'apiSession',
+        apiURL: 'apiURL',
+        baseURL: 'baseURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isRootBotToggleOn: false,
+      })(store)(nextSpy)(action);
+
+      expect(addActivityDataSpy.notCalled).to.be.true;
+      expect(nextSpy.calledOnce).to.be.true;
+    });
+    it('should call addActivityData for an unknown event if root-bot toggle on', async () => {
+      const store = { dispatch: 'fake-dispatch' };
+      const nextSpy = sinon.spy();
+      const action = { type: 'unknown' };
+
+      const addActivityDataSpy = sandbox.spy(
+        ActionHelpersModule,
+        'addActivityData',
+      );
+
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
+        csrfToken: 'csrfToken',
+        apiSession: 'apiSession',
+        apiURL: 'apiURL',
+        baseURL: 'baseURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isRootBotToggleOn: true,
+      })(store)(nextSpy)(action);
+
+      expect(addActivityDataSpy.calledOnce).to.be.true;
+      expect(nextSpy.calledOnce).to.be.true;
+    });
+    it('should call addActivityData for a known event if root-bot toggle on', async () => {
+      const store = { dispatch: 'fake-dispatch' };
+      const nextSpy = sinon.spy();
+      const action = { type: 'WEB_CHAT/SET_DICTATE_STATE' };
+
+      sandbox.stub(
+        ActionHelpersModule,
+        ActionHelpersModule.processMicrophoneActivity.name,
+      );
+
+      const addActivityDataSpy = sandbox.spy(
+        ActionHelpersModule,
+        'addActivityData',
+      );
+
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
+        csrfToken: 'csrfToken',
+        apiSession: 'apiSession',
+        apiURL: 'apiURL',
+        baseURL: 'baseURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isRootBotToggleOn: true,
+      })(store)(nextSpy)(action);
+
+      expect(addActivityDataSpy.calledOnce).to.be.true;
+      expect(nextSpy.calledOnce).to.be.true;
+    });
+    it('should not call addActivityData for a known event if root-bot toggle off', async () => {
+      const store = { dispatch: 'fake-dispatch' };
+      const nextSpy = sinon.spy();
+      const action = { type: 'WEB_CHAT/SET_DICTATE_STATE' };
+
+      sandbox.stub(
+        ActionHelpersModule,
+        ActionHelpersModule.processMicrophoneActivity.name,
+      );
+
+      const addActivityDataSpy = sandbox.spy(
+        ActionHelpersModule,
+        'addActivityData',
+      );
+
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
+        csrfToken: 'csrfToken',
+        apiSession: 'apiSession',
+        apiURL: 'apiURL',
+        baseURL: 'baseURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isRootBotToggleOn: false,
+      })(store)(nextSpy)(action);
+
+      expect(addActivityDataSpy.notCalled).to.be.true;
+      expect(nextSpy.calledOnce).to.be.true;
+    });
     it('should not call any of the process function when action is unknown', async () => {
       const store = { dispatch: 'fake-dispatch' };
       const nextSpy = sinon.spy();

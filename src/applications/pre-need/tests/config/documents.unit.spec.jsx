@@ -8,8 +8,8 @@ import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form';
 import { render } from '@testing-library/react';
+import formConfig from '../../config/form';
 
 describe('Pre-need attachments', () => {
   const {
@@ -80,7 +80,7 @@ describe('Pre-need attachments', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.submitForm();
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -109,7 +109,7 @@ describe('Pre-need attachments', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.submitForm();
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
   it('should submit with valid data', () => {

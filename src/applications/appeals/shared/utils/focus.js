@@ -4,6 +4,7 @@ import {
   focusByOrder,
   scrollTo,
   waitForRenderThenFocus,
+  scrollAndFocus,
 } from '~/platform/utilities/ui';
 import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
@@ -91,7 +92,7 @@ export const focusCancelButton = root => {
 
 export const focusRadioH3 = () => {
   scrollTo('topContentElement');
-  const radio = $('va-radio');
+  const radio = $('va-radio, va-checkbox-group');
   if (radio) {
     // va-radio content doesn't immediately render
     waitForRenderThenFocus('h3', radio.shadowRoot);
@@ -100,14 +101,45 @@ export const focusRadioH3 = () => {
   }
 };
 
+// Testing focus on role="alert" inside web components
+export const focusH3OrRadioError = () => {
+  scrollTo('topContentElement');
+  const radio = $('va-radio, va-checkbox-group');
+  const hasError = radio.getAttribute('error');
+  const target = hasError ? '[role="alert"]' : 'h3';
+  const root = hasError ? radio.shadowRoot : document;
+  waitForRenderThenFocus(target, root);
+};
+
+// Temporary focus function for HLR homlessness question (page header is
+// dynamic); once 100% released, change homeless form config to use
+// `scrollAndFocusTarget: focusH3`
+export const focusToggledHeader = () => {
+  scrollTo('topContentElement');
+  const radio = $('va-radio');
+  if ((sessionStorage.getItem('hlrUpdated') || 'false') === 'false' && radio) {
+    waitForRenderThenFocus('h3', radio.shadowRoot);
+  } else {
+    waitForRenderThenFocus('#main h3');
+  }
+};
+
 export const focusH3 = () => {
   scrollTo('topContentElement');
-  focusByOrder(['#main h3', defaultFocusSelector]);
+  focusElement('#main h3');
 };
 
 export const focusAlertH3 = () => {
   scrollTo('topContentElement');
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
-  waitForRenderThenFocus('h3');
+  waitForRenderThenFocus('#main h3');
+};
+
+// Used for onContinue callback on the contestable issues page
+export const focusOnAlert = () => {
+  const alert = $('va-alert[status="error"] h3');
+  if (alert) {
+    scrollAndFocus(alert);
+  }
 };

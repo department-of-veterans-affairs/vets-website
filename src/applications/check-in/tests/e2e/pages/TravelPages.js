@@ -96,14 +96,8 @@ class TravelPages {
     }
   };
 
-  clickEditLink = () => {
-    cy.get(`a[data-testid="review-edit-link-mileage"]`).click({
-      waitForAnimations: true,
-    });
-  };
-
   clickStartOver = () => {
-    cy.get(`a[data-testid="review-edit-link-mileage"]`).click({
+    cy.get(`a[data-testid="review-edit-link"]`).click({
       waitForAnimations: true,
     });
   };

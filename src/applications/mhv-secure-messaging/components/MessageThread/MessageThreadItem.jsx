@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAccordionItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -37,6 +37,8 @@ const MessageThreadItem = props => {
 
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
+
+  const [isitemExpanded, setIsItemExpanded] = useState(false);
 
   const handleExpand = () => {
     // isSentOrReandOrDraft is most reliable prop to determine if message is read or unread
@@ -103,6 +105,14 @@ const MessageThreadItem = props => {
           ? `expand-message-button-for-print-${messageId}`
           : `expand-message-button-${messageId}`
       }
+      onClick={e => {
+        setIsItemExpanded(e.target?.getAttribute('open'));
+      }}
+      data-dd-action-name={`${
+        isitemExpanded
+          ? 'Accordion Expanded Message'
+          : 'Accordion Collapsed Message'
+      }`}
     >
       <h3 slot="headline">
         {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D [at] h:mm a z')}
@@ -112,7 +122,7 @@ const MessageThreadItem = props => {
           aria-hidden
           data-testid="unread-icon"
           role="img"
-          className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 unread-bubble"
+          className=" vads-u-margin-top--0p5 vads-u-margin-right--1 unread-bubble vads-u-display--inline-block"
           slot="icon"
           alt="Unread message icon"
         />

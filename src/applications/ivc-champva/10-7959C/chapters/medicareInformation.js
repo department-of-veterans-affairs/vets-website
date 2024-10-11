@@ -1,5 +1,4 @@
 import React from 'react';
-import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 import {
   titleUI,
   titleSchema,
@@ -157,7 +156,7 @@ export const applicantMedicarePartACarrierSchema = {
     applicantMedicarePartACarrier: textUI({
       title: 'Name of insurance carrier',
       hint:
-        'Your insurance is "Medicare Health Insurance" or your insurance company.',
+        'Your insurance carrier may be listed as "Medicare Health Insurance" on your insurance card.',
     }),
     applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part A effective date',
@@ -192,7 +191,7 @@ export const applicantMedicarePartBCarrierSchema = {
     applicantMedicarePartBCarrier: textUI({
       title: 'Name of insurance carrier',
       hint:
-        'Your insurance is "Medicare Health Insurance" or your insurance company.',
+        'Your insurance carrier may be listed as "Medicare Health Insurance" on your insurance card.',
     }),
     applicantMedicarePartBEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part B effective date',
@@ -235,10 +234,6 @@ export const applicantMedicareABUploadSchema = {
               </li>
               <li>Medicare PACE card</li>
             </ul>
-            You can also upload any other supporting documents you may have for
-            this Medicare plan.
-            <br />
-            <br />
             If you don’t have a copy to upload now, you can send it by mail or
             fax.
           </>
@@ -262,11 +257,7 @@ export const applicantMedicareABUploadSchema = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantMedicarePartAPartBCard: fileWithMetadataSchema(
-        [
-          'Front of Medicare card',
-          'Back of Medicare card',
-          'Other supporting document',
-        ],
+        ['Front of Medicare card', 'Back of Medicare card'],
         2,
       ),
     },
@@ -347,10 +338,6 @@ export const applicantMedicareDUploadSchema = {
           Medicare Part D card.
           <br />
           <br />
-          You can also upload any other supporting documents you may have for
-          this Medicare plan.
-          <br />
-          <br />
           If you don’t have a copy to upload now, you can send it by mail or
           fax.
         </>
@@ -373,38 +360,9 @@ export const applicantMedicareDUploadSchema = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantMedicarePartDCard: fileWithMetadataSchema(
-        [
-          'Front of Medicare Part D card',
-          'Back of Medicare Part D card',
-          'Other supporting document',
-        ],
+        ['Front of Medicare Part D card', 'Back of Medicare Part D card'],
         2,
       ),
-    },
-  },
-};
-
-export const applicantMedicareAdditionalCommentsSchema = {
-  uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        `${nameWording(
-          formData,
-          undefined,
-          undefined,
-          true,
-        )} Medicare additional comments`,
-    ),
-    applicantMedicareAdditionalComments: {
-      'ui:title': 'Any additional comments about this Medicare plan?',
-      'ui:webComponentField': VaTextareaField,
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      titleSchema,
-      applicantMedicareAdditionalComments: { type: 'string' },
     },
   },
 };

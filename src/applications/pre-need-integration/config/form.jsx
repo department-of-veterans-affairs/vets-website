@@ -6,7 +6,7 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import { fileUploadUi } from '../utils/upload';
 import * as applicantMilitaryHistorySelf from './pages/applicantMilitaryHistorySelf';
 import * as applicantMilitaryHistoryPreparer from './pages/applicantMilitaryHistoryPreparer';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
@@ -42,6 +42,8 @@ import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
 
+import transformForSubmit from './transformForSubmit';
+
 import Footer from '../components/Footer';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -55,7 +57,6 @@ import manifest from '../manifest.json';
 import {
   isVeteran,
   isAuthorizedAgent,
-  transform,
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
@@ -129,9 +130,9 @@ const formConfig = {
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'preneed-',
-  transformForSubmit: transform,
+  transformForSubmit,
   formId: VA_FORM_IDS.FORM_40_10007,
   saveInProgress: {
     messages: {
@@ -597,31 +598,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingFilesDescription,
             application: {
-              preneedAttachments: fileUploadUI('Select files to upload', {
-                buttonText: 'Upload file',
-                addAnotherLabel: 'Upload another file',
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/v0/preneeds/preneed_attachments`,
-                fileTypes: ['pdf'],
-                maxSize: 15728640,
-                hideLabelText: true,
-                createPayload: file => {
-                  const payload = new FormData();
-                  payload.append('preneed_attachment[file_data]', file);
-                  return payload;
-                },
-                parseResponse: (response, file) => ({
-                  name: file.name,
-                  confirmationCode: response.data.attributes.guid,
-                }),
-                attachmentSchema: {
-                  'ui:title': 'What kind of file is this?',
-                },
-                attachmentName: {
-                  'ui:title': 'File name',
-                },
-              }),
+              preneedAttachments: fileUploadUi({}),
             },
           },
           schema: {

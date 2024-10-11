@@ -2,9 +2,6 @@ import { isValidPhone } from '~/platform/forms/validations';
 
 import { errorMessages } from '../constants';
 
-export const isFirstConferenceTimeEmpty = formData =>
-  (formData?.informalConferenceTimes?.time1 || '') === '';
-
 export const checkConferenceTimes = (errors, values, formData) => {
   if (
     errors &&

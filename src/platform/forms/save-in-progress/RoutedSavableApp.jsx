@@ -1,8 +1,9 @@
 import React from 'react';
-import Scroll from 'react-scroll';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
+import { Element } from 'platform/utilities/scroll';
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
 import {
   getNextPagePath,
@@ -24,8 +25,6 @@ import {
 import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
-
-const { Element } = Scroll;
 
 /*
  * Primary component for a schema generated form app.
@@ -175,7 +174,21 @@ class RoutedSavableApp extends React.Component {
   }
 
   onbeforeunload = e => {
-    const { currentLocation, autoSavedStatus, formConfig } = this.props;
+    const { currentLocation = {}, autoSavedStatus, formConfig } = this.props;
+
+    const isCypressRunningInCI =
+      typeof Cypress !== 'undefined' && Cypress.env('CI');
+
+    // Disable browser window unload alert. This may prevent 40 minute timeout
+    // errors in CI
+    if (
+      formConfig.dev?.disableWindowUnloadInCI &&
+      (isCypressRunningInCI ||
+        currentLocation.href?.startsWith('http://localhost'))
+    ) {
+      return null;
+    }
+
     const { additionalRoutes = [] } = formConfig;
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
@@ -192,13 +205,18 @@ class RoutedSavableApp extends React.Component {
     return message;
   };
 
+  // eslint-disable-next-line class-methods-use-this
   getFirstNonIntroPagePath(props) {
     return getNextPagePath(
       props.routes[props.routes.length - 1].pageList,
       props.formData,
-      '/introduction',
+      `${props.formConfig?.urlPrefix || '/'}introduction`,
     );
   }
+
+  removeOnbeforeunload = () => {
+    window.removeEventListener('beforeunload', this.onbeforeunload);
+  };
 
   redirectOrLoad(props) {
     // Stop a user that's been redirected from being redirected again after
@@ -244,10 +262,6 @@ class RoutedSavableApp extends React.Component {
       props.router.replace(firstPagePath);
     }
   }
-
-  removeOnbeforeunload = () => {
-    window.removeEventListener('beforeunload', this.onbeforeunload);
-  };
 
   render() {
     const { currentLocation, formConfig, children, loadedStatus } = this.props;
@@ -314,5 +328,35 @@ export default withRouter(
     mapDispatchToProps,
   )(RoutedSavableApp),
 );
+
+RoutedSavableApp.propTypes = {
+  FormApp: PropTypes.any,
+  autoSavedStatus: PropTypes.string,
+  children: PropTypes.any,
+  currentLocation: PropTypes.shape({
+    href: PropTypes.string,
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+  }),
+  formConfig: PropTypes.shape({
+    additionalRoutes: PropTypes.array,
+    customText: PropTypes.shape({
+      appType: PropTypes.string,
+    }),
+    dev: PropTypes.shape({
+      disableWindowUnloadInCI: PropTypes.bool,
+    }),
+    disableSave: PropTypes.bool,
+    urlPrefix: PropTypes.string,
+  }),
+  loadedStatus: PropTypes.string,
+  location: PropTypes.object,
+  prefillStatus: PropTypes.string,
+  profileIsLoading: PropTypes.bool,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  savedStatus: PropTypes.string,
+};
 
 export { RoutedSavableApp };

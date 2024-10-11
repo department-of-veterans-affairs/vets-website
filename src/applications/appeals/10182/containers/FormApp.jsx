@@ -90,6 +90,7 @@ export const FormApp = ({
           // details.
           contestedIssues: getEligibleContestableIssues(
             contestableIssues?.issues,
+            { isNod: true },
           ),
         });
       }

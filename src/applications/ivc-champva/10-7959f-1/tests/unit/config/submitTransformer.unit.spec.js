@@ -7,7 +7,7 @@ describe('submit transformer', () => {
   it('should return expected data', () => {
     const formData = {
       data: {
-        veteranDOB: '2004-02-19',
+        veteranDateOfBirth: '2004-02-19',
         fullName: 'John Smith',
         physical_address: {
           street: '1 Main st',
@@ -33,6 +33,6 @@ describe('submit transformer', () => {
       transformForSubmit(formConfig, formData),
     );
     // eslint-disable-next-line no-console
-    expect(newTransformData.veteran.date_of_birth).to.equal('2004-02-19');
+    expect(newTransformData.veteran.date_of_birth).to.equal('02/19/2004');
   });
 });

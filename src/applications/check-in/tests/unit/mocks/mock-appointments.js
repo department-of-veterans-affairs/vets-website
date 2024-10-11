@@ -51,4 +51,55 @@ const multipleAppointments = [
   },
 ];
 
-module.exports = { singleAppointment, multipleAppointments };
+const singleUpcomingAppointment = [
+  {
+    id: '000000',
+    type: 'appointments',
+    attributes: {
+      status: 'booked',
+      serviceType: 'Primary Care',
+      locationId: '983',
+      clinic: 'TEST CLINIC',
+      kind: 'clinic',
+      start: '2023-09-26T14:00:00',
+      end: '2023-09-26T14:00:00',
+      minutesDuration: 60,
+      facilityName: 'LOMA LINDA VA CLINIC',
+      facilityVistaSite: '',
+      facilityTimezone: 'America/Los_Angeles',
+      facilityPhoneMain: '5551234567',
+      clinicServiceName: 'Primary Care',
+      clinicPhysicalLocation: 'SECOND FLOOR ROOM 2',
+      clinicFriendlyName: 'TEST CLINIC',
+    },
+  },
+];
+
+const multipleUpcomingAppointments = [
+  {
+    ...singleUpcomingAppointment[0],
+  },
+  {
+    ...singleUpcomingAppointment[0],
+    id: '000001',
+  },
+  {
+    ...singleUpcomingAppointment[0],
+    id: '000002',
+  },
+  {
+    ...singleUpcomingAppointment[0],
+    id: '000003',
+  },
+  {
+    ...singleUpcomingAppointment[0],
+    id: '000004',
+  },
+];
+
+module.exports = {
+  singleAppointment,
+  multipleAppointments,
+  singleUpcomingAppointment,
+  multipleUpcomingAppointments,
+};

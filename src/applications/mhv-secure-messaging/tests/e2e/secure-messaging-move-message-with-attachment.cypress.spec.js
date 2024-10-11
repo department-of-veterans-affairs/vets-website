@@ -8,7 +8,6 @@ import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 
 describe('Secure Messaging - Move Message with Attachment', () => {
   it('can move with attachment', () => {
-    const messageDetailsPage = new PatientMessageDetailsPage();
     SecureMessagingSite.login();
     mockMessagewithAttachment.data.id = '7192838';
     mockMessagewithAttachment.data.attributes.messageId = '7192838';
@@ -29,7 +28,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
       }/move?folder_id=-3`,
       mockMessagewithAttachment,
     ).as('moveMessagewithAttachment');
-    messageDetailsPage.loadMessageDetails(
+    PatientMessageDetailsPage.loadMessageDetails(
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );

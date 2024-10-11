@@ -54,12 +54,11 @@ function ClaimsStatusApp({
   loggedIn,
 }) {
   const { pathname } = useLocation();
-  useEffect(
-    () => {
+  useEffect(() => {
+    return () => {
       dispatchSetLastPage(pathname);
-    },
-    [pathname],
-  );
+    };
+  });
 
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring({

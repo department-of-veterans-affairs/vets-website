@@ -37,10 +37,9 @@ describe('Secure Messaging Move Message tests', () => {
   });
 
   it('move message from inbox to deleted', () => {
-    const messageDetailsPage = new PatientMessageDetailsPage();
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
-    messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
+    PatientMessageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
 
     FolderManagementPage.moveInboxFolderMessageToDifferentFolder();
 

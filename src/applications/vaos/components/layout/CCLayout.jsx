@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
-import DetailPageLayout, { Section, What, When } from './DetailPageLayout';
+import DetailPageLayout, {
+  Section,
+  What,
+  When,
+  Prepare,
+} from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
@@ -57,24 +62,25 @@ export default function CCLayout({ data: appointment }) {
               </div>
             )}
         </When>
-        <What>{typeOfCareName || 'Type of care not noted'}</What>
+        <What>{typeOfCareName}</What>
         <Section heading="Provider">
-          <span>{`${providerName || 'Provider name not noted'}`}</span>
+          <span>
+            {`${providerName || 'Provider information not available'}`}
+          </span>
           <br />
           <span>
-            {`${treatmentSpecialty || 'Treatment specialty not noted'}`}
+            {`${treatmentSpecialty || 'Treatment specialty not available'}`}
           </span>
           <br />
           {address && (
             <>
               <Address address={address} />
               <div className="vads-u-margin-top--1 vads-u-color--link-default">
-                <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-                <FacilityDirectionsLink location={address} />
+                <FacilityDirectionsLink location={{ address }} icon />
               </div>
             </>
           )}
-          {!address && <span>Address not noted</span>}
+          {!address && <span>Address not available</span>}
           {!!ccProvider && (
             <>
               <br />
@@ -84,11 +90,30 @@ export default function CCLayout({ data: appointment }) {
         </Section>
         <Section heading="Details you shared with your provider">
           <span>
-            Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+            Reason:{' '}
+            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
           </span>
           <br />
-          <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+          <span className="vaos-u-word-break--break-word">
+            Other details: {`${otherDetails || 'Not available'}`}
+          </span>
         </Section>
+        {!isPastAppointment &&
+          (APPOINTMENT_STATUS.booked === status ||
+            APPOINTMENT_STATUS.cancelled === status) && (
+            <Prepare>
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+                Bring your insurance cards. And bring a list of your medications
+                and other information to share with your provider.
+              </p>
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+                <va-link
+                  text="Find a full list of things to bring to your appointment"
+                  href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+                />
+              </p>
+            </Prepare>
+          )}
         {APPOINTMENT_STATUS.booked === status &&
           !isPastAppointment && (
             <Section heading="Need to make changes?">

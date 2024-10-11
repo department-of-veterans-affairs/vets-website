@@ -133,7 +133,9 @@ describe('Confirmation page', () => {
   it('should focus on H2 inside va-alert', async () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
-        <ConfirmationPage />
+        <main id="main">
+          <ConfirmationPage />
+        </main>
       </Provider>,
     );
     const h2 = $('va-alert h2', container);
@@ -151,6 +153,6 @@ describe('Confirmation page', () => {
     expect($$('ul', container).length).to.eq(4);
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
-    ).to.eq(10);
+    ).to.eq(9);
   });
 });

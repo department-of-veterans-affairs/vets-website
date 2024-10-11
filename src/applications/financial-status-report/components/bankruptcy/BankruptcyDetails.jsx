@@ -191,7 +191,7 @@ const BankruptcyDetails = ({
           {
             label: continueButtonText,
             onClick: onSubmit,
-            isSubmitting: true,
+            isSubmitting: 'prevent',
           },
         ]}
       />

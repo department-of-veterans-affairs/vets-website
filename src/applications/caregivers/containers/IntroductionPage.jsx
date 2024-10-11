@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { withRouter } from 'react-router';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   DowntimeNotification,
@@ -17,7 +15,7 @@ import ProcessTimeline from '../components/IntroductionPage/ProcessTimeline';
 import content from '../locales/en/content.json';
 
 export const IntroductionPage = props => {
-  const { route, router, formData, setFormData, useFacilitiesAPI } = props;
+  const { route, router } = props;
 
   const startForm = useCallback(
     () => {
@@ -37,17 +35,6 @@ export const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
-
-  useEffect(
-    () => {
-      setFormData({
-        ...formData,
-        'view:useFacilitiesAPI': useFacilitiesAPI,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [useFacilitiesAPI],
-  );
 
   return (
     <div className="caregivers-intro schemaform-intro">
@@ -82,25 +69,8 @@ export const IntroductionPage = props => {
 };
 
 IntroductionPage.propTypes = {
-  formData: PropTypes.object,
   route: PropTypes.object,
   router: PropTypes.object,
-  setFormData: PropTypes.func,
-  useFacilitiesAPI: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  formData: state.form.data,
-  useFacilitiesAPI: state.featureToggles?.caregiverUseFacilitiesApi,
-});
-
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-const introPageWithRouter = withRouter(IntroductionPage);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(introPageWithRouter);
+export default withRouter(IntroductionPage);

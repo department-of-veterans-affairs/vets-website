@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 // import environment from 'platform/utilities/environment';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../containers/FilterYourResults';
-import { isProductionOrTestProdEnv } from '../utils/helpers';
-// import FilterBeforeResults from '../containers/search/FilterBeforeResults';
+// import FilterBeforeResults from '../containers/search/FilterBeforeResults'
 
 export default function MobileFilterControls({ className }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -48,12 +48,14 @@ export default function MobileFilterControls({ className }) {
         className,
       )}
     >
+      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
       <button
         className="usa-button-secondary"
         onClick={tuitionAndHousingEstimatesClick}
       >
-        Update tuition and housing estimates
+        Update tuition, housing, and monthly benefit estimates
       </button>
+      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
       <button className="usa-button-secondary" onClick={filterClick}>
         Filter your results
       </button>
@@ -63,14 +65,12 @@ export default function MobileFilterControls({ className }) {
           modalClose={closeTuitionAndHousingEstimates}
         />
       )}
-      {filtersOpen &&
-        !isProductionOrTestProdEnv() && (
-          <FilterYourResults smallScreen modalClose={closeFilters} />
-        )}
-      {filtersOpen &&
-        isProductionOrTestProdEnv() && (
-          <FilterYourResults smallScreen modalClose={closeFilters} />
-        )}
+      {filtersOpen && (
+        <FilterYourResults smallScreen modalClose={closeFilters} />
+      )}
     </div>
   );
 }
+MobileFilterControls.propTypes = {
+  className: PropTypes.string,
+};

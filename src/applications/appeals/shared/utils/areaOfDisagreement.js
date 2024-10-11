@@ -71,7 +71,7 @@ export const calculateOtherMaxLength = areaOfDisagreement => {
   return MAX_LENGTH.DISAGREEMENT_REASON - stringLength;
 };
 
-export const disagreeWith = (data = {}) => {
+export const disagreeWith = (data = {}, { prefix = 'Disagree with' } = {}) => {
   const list = Object.keys(DISAGREEMENT_TYPES).map(type => {
     if (type === 'otherEntry') {
       return data?.otherEntry || '';
@@ -80,5 +80,5 @@ export const disagreeWith = (data = {}) => {
       ? DISAGREEMENT_TYPES[type]?.toLowerCase()
       : '';
   });
-  return `Disagree with ${readableList(list)}`;
+  return `${prefix} ${readableList(list)}`.trim();
 };

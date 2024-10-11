@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Element } from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
+import { Element } from 'platform/utilities/scroll';
 
 import { getFormattedPhone } from '../../utils/contactInformation';
 import { content } from '../../pages/veteran/contactInformationContent';
@@ -76,16 +76,13 @@ const ContactInfoReview = ({ data, editPage }) => {
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {content.title}
         </h4>
-        <button
-          type="button"
+        <va-button
           ref={editRef}
           id="confirmContactInformationEdit"
-          className="edit-page usa-button-secondary"
-          onClick={handlers.onEditPage}
           aria-label={content.editLabel}
-        >
-          {content.edit}
-        </button>
+          text={content.edit}
+          onClick={handlers.onEditPage}
+        />
       </div>
       {list.length ? <dl className="review">{list}</dl> : null}
     </div>

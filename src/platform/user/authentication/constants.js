@@ -5,13 +5,18 @@ import environment from '../../utilities/environment';
 import {
   eauthEnvironmentPrefixes,
   cernerEnvPrefixes,
+  oracleHealthEnvPrefixes,
 } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
 export const FORCE_NEEDED = 'force-needed';
 
-export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
-  `${environment.API_URL}/${version}/sessions/${type}/new`;
+export const API_SESSION_URL = ({ version = API_VERSION, type = null }) => {
+  if (!type) {
+    throw new Error('Attempted to call API_SESSION_URL without a type');
+  }
+  return `${environment.API_URL}/${version}/sessions/${type}/new`;
+};
 
 export const AUTH_EVENTS = {
   MOCK_LOGIN: 'mock-login-link-clicked-modal',
@@ -113,6 +118,12 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
 };
 
+export const EXTERNAL_REDIRECTS_ALT = {
+  [EXTERNAL_APPS.MY_VA_HEALTH]: `https://${
+    oracleHealthEnvPrefixes[environment.BUILDTYPE]
+  }patientportal.myhealth.va.gov`,
+};
+
 export const GA = {
   clientIdKey: 'clientId',
   trackingIdKey: 'trackingId',
@@ -156,6 +167,8 @@ export const AUTH_PARAMS = {
   clientId: 'client_id',
   to: 'to',
   redirectUri: 'redirect_uri',
+  scope: 'scope',
+  verification: 'verification',
 };
 
 export const OCC_MOBILE = {

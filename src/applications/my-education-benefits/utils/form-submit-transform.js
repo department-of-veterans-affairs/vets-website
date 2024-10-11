@@ -317,7 +317,7 @@ export function createContactInfo(submissionForm) {
     addressType: getAddressType(submissionForm[formFields.viewMailingAddress]),
     city: address?.city,
     countryCode: getLTSCountryCode(address?.country),
-    emailAddress: submissionForm.email.email,
+    emailAddress: submissionForm?.email?.email?.toLowerCase(),
     homePhoneNumber: phoneNumbers?.phoneNumber.phone,
     mobilePhoneNumber: phoneNumbers?.mobilePhoneNumber.phone,
     stateCode: address?.state,
@@ -375,7 +375,6 @@ export function createRelinquishedBenefit(submissionForm) {
   if (!submissionForm || !submissionForm[formFields.viewBenefitSelection]) {
     return {};
   }
-
   const benefitRelinquished =
     submissionForm[formFields.viewBenefitSelection][
       (formFields?.benefitRelinquished)
@@ -392,18 +391,10 @@ export function createRelinquishedBenefit(submissionForm) {
       effRelinquishDate: submissionForm[formFields.benefitEffectiveDate],
     };
   }
-  if (submissionForm?.showMebEnhancements09) {
-    return submissionForm?.showMebDgi42Features
-      ? {
-          relinquishedBenefit: 'NotEligible',
-        }
-      : {};
-  }
-  return submissionForm?.showMebDgi42Features
-    ? {
-        relinquishedBenefit: 'CannotRelinquish',
-      }
-    : {};
+  // Default case when no benefit is relinquished
+  return {
+    relinquishedBenefit: 'NotEligible',
+  };
 }
 
 function setAdditionalConsideration(consideration) {
@@ -449,6 +440,13 @@ export function createAdditionalConsiderations(submissionForm) {
         exclusionType: null,
       },
     };
+    // Only add the sixHundredDollarBuyUp if meb160630Automation is true
+    if (submissionForm.meb160630Automation) {
+      mapping.sixHundredDollarBuyUp = {
+        formKey: 'sixHundredDollarBuyUp',
+        exclusionType: null,
+      };
+    }
     return Object.entries(mapping).reduce(
       (acc, [key, { formKey, exclusionType }]) => {
         const value = submissionForm[formKey];
@@ -463,7 +461,8 @@ export function createAdditionalConsiderations(submissionForm) {
       {},
     );
   }
-  return {
+  // Default object when mebExclusionPeriodEnabled is not true
+  const additionalConsiderations = {
     activeDutyKicker: setAdditionalConsideration(
       submissionForm.activeDutyKicker,
     ),
@@ -480,6 +479,13 @@ export function createAdditionalConsiderations(submissionForm) {
       submissionForm.loanPayment,
     ),
   };
+  // Conditionally add sixHundredDollarBuyUp
+  if (submissionForm.meb160630Automation) {
+    additionalConsiderations.sixHundredDollarBuyUp = setAdditionalConsideration(
+      submissionForm.sixHundredDollarBuyUp,
+    );
+  }
+  return additionalConsiderations;
 }
 
 function getTodayDate() {
@@ -540,7 +546,7 @@ export function createDirectDeposit(submissionForm) {
 }
 
 export function createSubmissionForm(submissionForm, formId) {
-  return {
+  const submissionData = {
     formId,
     claimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
@@ -548,4 +554,9 @@ export function createSubmissionForm(submissionForm, formId) {
     comments: createComments(submissionForm),
     directDeposit: createDirectDeposit(submissionForm),
   };
+  // Conditionally add the @type (chosenBenefit) only if meb160630Automation is true
+  if (submissionForm?.meb160630Automation) {
+    submissionData['@type'] = submissionForm?.chosenBenefit;
+  }
+  return submissionData;
 }

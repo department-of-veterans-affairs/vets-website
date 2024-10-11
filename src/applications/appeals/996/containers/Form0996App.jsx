@@ -15,7 +15,6 @@ import {
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
-import forcedMigrations from '../migrations/forceMigrations';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
@@ -44,6 +43,7 @@ export const Form0996App = ({
   getContestableIssues,
   contestableIssues,
   legacyCount,
+  toggles,
 }) => {
   const { pathname } = location || {};
 
@@ -89,24 +89,13 @@ export const Form0996App = ({
             ) ||
               contestableIssues.legacyCount !== formData.legacyCount)
           ) {
-            /**
-             * Force HLR v2 update
-             * The migration itself should handle this, but it only calls the
-             * function if the save-in-progress version number changes (migration
-             * length in form config). Since Lighthouse is reporting seeing v1
-             * submissions still, we need to prevent v1 data from being submitted
-             */
-            const data = formData?.informalConferenceRep?.name
-              ? forcedMigrations(formData)
-              : formData;
-
             /** Update dynamic data:
              * user changed address, phone, email
              * user changed benefit type
              * changes to contestable issues (from a backend update)
              */
             setFormData({
-              ...data,
+              ...formData,
               contestedIssues: processContestableIssues(
                 contestableIssues?.issues,
               ),
@@ -147,6 +136,26 @@ export const Form0996App = ({
       subTaskBenefitType,
       pathname,
     ],
+  );
+
+  useEffect(
+    () => {
+      const isUpdated = toggles.hlrUpdateedContnet || false; // expected typo
+      if (
+        !toggles.loading &&
+        (typeof formData.hlrUpdatedContent === 'undefined' ||
+          formData.hlrUpdatedContent !== isUpdated)
+      ) {
+        setFormData({
+          ...formData,
+          hlrUpdatedContent: isUpdated,
+        });
+        // temp storage, used for homelessness page focus management
+        sessionStorage.setItem('hlrUpdated', isUpdated);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toggles, formData.hlrUpdatedContent],
   );
 
   let content = (
@@ -207,6 +216,10 @@ Form0996App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  toggles: PropTypes.shape({
+    hlrUpdateedContnet: PropTypes.bool, // Don't fix typo :(
+    loading: PropTypes.bool,
+  }),
 };
 
 const mapStateToProps = state => ({
@@ -216,6 +229,7 @@ const mapStateToProps = state => ({
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,
+  toggles: state.featureToggles,
 });
 
 const mapDispatchToProps = {

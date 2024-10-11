@@ -22,7 +22,7 @@
         },
         "applicantDependentStatus": { "status": "enrolled" },
         "applicantEnrolledInOHI": false,
-        "applicantDOB": "2003-01-04",
+        "applicantDob": "2003-01-04",
         "applicantName": {
           "first": "Johnny",
           "middle": "T",
@@ -43,7 +43,7 @@
       "first": "Joe",
       "last": "Johnson"
     },
-    "sponsorDOB": "1958-01-01",
+    "sponsorDob": "1958-01-01",
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
     "sponsorDeathConditions": false,

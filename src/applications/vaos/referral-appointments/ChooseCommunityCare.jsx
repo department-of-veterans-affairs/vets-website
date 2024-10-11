@@ -4,7 +4,7 @@ import { hi } from 'date-fns/locale';
 import { useHistory } from 'react-router-dom';
 import FormLayout from '../new-appointment/components/FormLayout';
 import ProviderAlert from './components/ProviderAlert';
-// import mockData from '../services/mocks/wellHive/providerServices.json';
+// import mockData from '../services/mocks/epsApi/providerServices.json';
 
 export default function ChooseCommunityCare() {
   const history = useHistory();
@@ -71,7 +71,6 @@ export default function ChooseCommunityCare() {
                 aria-label="Review available appointments"
                 text="Review available appointments"
                 data-testid="review-available-appointments-link"
-                tabindex="0"
               />
             </div>
           </va-card>
@@ -93,13 +92,13 @@ export default function ChooseCommunityCare() {
         <div className="vads-l-grid-container vads-u-padding--0 vads-u-margin-top--2">
           <div className="vads-l-row">
             <div className="vads-l-col vads-u-font-weight--bold">
-              <va-icon icon="filter_list" size={4} srtext="Filter icon" />{' '}
               <va-link
                 aria-label="Filter"
                 text="Filter"
                 data-testid="filter-link"
+                icon-name="filter_list"
+                icon-size={4}
                 onClick={goToFilterPage}
-                tabindex="0"
               />
             </div>
             <div className="vads-l-col vads-u-text-align--right">
@@ -119,7 +118,7 @@ export default function ChooseCommunityCare() {
                   aria-label={provider.reviewText}
                   text={provider.reviewText}
                   data-testid="review-available-appointments-link"
-                  tabindex="0"
+                  href="provider-choose-date-and-time"
                 />
               </div>
               <hr />
@@ -131,7 +130,6 @@ export default function ChooseCommunityCare() {
             aria-label="More available appointments"
             text={`+${providers.length - 1} more available appointments`}
             data-testid="more-available-appointments-link"
-            tabindex="0"
           />
         </div>
       </div>

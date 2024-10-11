@@ -33,7 +33,7 @@ const EducationAndTraining = ({ isLOA1, rE = recordEvent }) => {
             <>
               <IconCTALink
                 text="Compare GI Bill benefits by school"
-                icon="assignment"
+                icon="assessment"
                 href="/education/gi-bill-comparison-tool"
                 testId="compare-gi-benefits-from-cta"
                 onClick={() =>

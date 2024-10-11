@@ -23,8 +23,10 @@ import {
   appointmentWasCanceled,
   allAppointmentsCanceled,
   preCheckinAlreadyCompleted,
-  appointmentStartTimePast15,
 } from '../utils/appointment';
+
+import { isDemographicsUpToDate } from '../utils/demographics';
+
 import { useFormRouting } from './useFormRouting';
 import { useStorage } from './useStorage';
 import { URLS } from '../utils/navigation';
@@ -58,6 +60,7 @@ const useGetCheckInData = ({
 
   const refreshCheckInData = () => {
     setIsStale(true);
+    setIsComplete(false);
   };
 
   const setDayOfData = useCallback(
@@ -133,15 +136,12 @@ const useGetCheckInData = ({
           const { payload } = json;
           setPreCheckInData(payload);
 
-          if (payload.appointments?.length > 0) {
-            if (appointmentStartTimePast15(payload.appointments)) {
-              updateError('pre-check-in-past-appointment');
-              return;
-            }
-            if (preCheckinExpired(payload.appointments)) {
-              updateError('pre-check-in-expired');
-              return;
-            }
+          if (
+            payload.appointments?.length > 0 &&
+            preCheckinExpired(payload.appointments)
+          ) {
+            updateError('pre-check-in-expired');
+            return;
           }
 
           if (appointmentWasCanceled(payload.appointments)) {
@@ -156,6 +156,10 @@ const useGetCheckInData = ({
 
           if (preCheckinAlreadyCompleted(payload.appointments)) {
             setPreCheckinComplete(window, true);
+            jumpToPage(URLS.COMPLETE);
+          }
+
+          if (isDemographicsUpToDate(payload.patientDemographicsStatus)) {
             jumpToPage(URLS.COMPLETE);
           }
         })

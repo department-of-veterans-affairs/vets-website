@@ -5,6 +5,9 @@ import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
 
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
+
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -24,6 +27,7 @@ import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
+import jsonData from './Military Ranks.json';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -199,6 +203,38 @@ export function militaryDetailsSubHeader(formData) {
       )}
     </div>
   );
+}
+
+export const createPayload = (file, formId, password) => {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+};
+
+export function parseResponse({ data }) {
+  const { name } = data.attributes;
+  const focusFileCard = () => {
+    const target = $$('.schemaform-file-list li').find(entry =>
+      entry.textContent?.trim().includes(name),
+    );
+
+    if (target) {
+      focusElement(target);
+    }
+  };
+
+  setTimeout(() => {
+    focusFileCard();
+  }, 100);
+
+  return {
+    name,
+    confirmationCode: data.attributes.confirmationCode,
+  };
 }
 
 export const contactInfoDescription = (
@@ -1059,8 +1095,24 @@ export const preparerVeteranUI = {
 };
 
 export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
+  // Map the highestRank to the corresponding Rank Description from jsonData
+  const rankMap = jsonData.reduce((map, rank) => {
+    // eslint-disable-next-line no-param-reassign
+    map[rank['Rank Code'].toUpperCase()] = rank[
+      'Rank Description'
+    ].toUpperCase();
+    return map;
+  }, {});
+
+  // Create a list of valid rank descriptions
+  const validRanks = jsonData.map(rank =>
+    rank['Rank Description'].toUpperCase(),
+  );
+
   for (let index = 0; index < serviceRecords.length; index++) {
     const serviceRecord = serviceRecords[index];
+
+    // Check if serviceBranch is undefined and highestRank is defined
     if (
       serviceRecord.serviceBranch === undefined &&
       serviceRecord.highestRank !== undefined
@@ -1085,6 +1137,20 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
       }
     }
 
+    // Validate if highestRank is valid using Rank Description
+    const highestRank = serviceRecord.highestRank?.toUpperCase();
+    const highestRankDescription = rankMap[highestRank] || highestRank;
+
+    if (
+      highestRankDescription &&
+      !validRanks.includes(highestRankDescription)
+    ) {
+      errors[index].highestRank.addError(
+        'Enter a valid rank, or leave this field blank.',
+      );
+    }
+
+    // Date of birth validation
     let dob;
     let errorMessage;
 
@@ -1129,8 +1195,8 @@ export const selfServiceRecordsUI = {
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1143,8 +1209,8 @@ export const selfServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
+      'Service Start Date',
+      'Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1165,6 +1231,10 @@ export const selfServiceRecordsUI = {
     highestRank: {
       'ui:title': 'Highest rank attained',
       'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
@@ -1190,8 +1260,8 @@ export const preparerServiceRecordsUI = {
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1204,8 +1274,8 @@ export const preparerServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Applicant’s service start date',
-      'Applicant’s service end date',
+      'Applicant’s Service Start Date',
+      'Applicant’s Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1226,6 +1296,10 @@ export const preparerServiceRecordsUI = {
     highestRank: {
       'ui:title': 'Applicant’s highest rank attained',
       'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',

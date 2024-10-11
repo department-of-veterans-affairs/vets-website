@@ -56,7 +56,7 @@ const HealthCareCTA = ({
           <>
             <IconCTALink
               text="Go to your inbox"
-              icon="forum"
+              icon="inbox"
               dotIndicator={unreadMessagesCount > 0}
               ariaLabel={
                 unreadMessagesCount > 0 &&

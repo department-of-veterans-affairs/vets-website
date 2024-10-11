@@ -208,8 +208,6 @@ function CalculateYourBenefitsForm({
     recalculateBenefits();
   };
 
-  const [isDisabled] = useState(false);
-
   const updateEligibility = (e, name, number) => {
     if (number === 2) {
       const { value } = e.detail;
@@ -220,14 +218,6 @@ function CalculateYourBenefitsForm({
       });
       eligibilityChange({ [name]: value });
 
-      if (name === 'militaryStatus') {
-        /*
-        setIsDisabled(true);
-        if (value === 'spouse' || value === 'child') {
-          setIsDisabled(false);
-        } */
-        // eligibilityChange({ giBillChapter: '33a' });
-      }
       recalculateBenefits();
     }
 
@@ -240,14 +230,6 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
 
-    if (field === 'militaryStatus') {
-      /*
-      setIsDisabled(true);
-      if (value === 'spouse' || value === 'child') {
-        setIsDisabled(false);
-      } */
-      // eligibilityChange({ giBillChapter: '33a' });
-    }
     recalculateBenefits();
   };
 
@@ -390,7 +372,7 @@ function CalculateYourBenefitsForm({
 
     return (
       <>
-        <>
+        <div className="vads-u-margin-top--3">
           <LearnMoreLabel
             text={radioButtonsLabelText}
             onClick={() => showModal(modal)}
@@ -405,7 +387,7 @@ function CalculateYourBenefitsForm({
               handleInputChange(null, target, name)
             }
           />
-        </>
+        </div>
         {inputs.inState === 'no' && <>{renderInStateTuition()}</>}
       </>
     );
@@ -551,6 +533,7 @@ function CalculateYourBenefitsForm({
             />
           </div>
           <AlertBox
+            className="vads-u-margin-bottom--3"
             isVisible={showYellowRibbonDetails}
             key={inputs.yellowRibbonProgramIndex}
             status="info"
@@ -1047,7 +1030,7 @@ function CalculateYourBenefitsForm({
     }
 
     return (
-      <>
+      <div className="vads-u-margin-top--3">
         <LearnMoreLabel
           text={radioButtonsLabelText}
           onClick={() => showModal('onlineOnlyDistanceLearning')}
@@ -1065,7 +1048,7 @@ function CalculateYourBenefitsForm({
             handleInputChange(null, target, name);
           }}
         />
-      </>
+      </div>
     );
   };
 
@@ -1105,7 +1088,6 @@ function CalculateYourBenefitsForm({
             hideModal={hideModal}
             showModal={showModal}
             inputs={inputs}
-            optionDisabled={isDisabled}
             displayedInputs={displayedInputs}
             handleInputFocus={handleEYBInputFocus}
             giBillChapterOpen={[displayedInputs?.giBillBenefit]}
@@ -1177,7 +1159,7 @@ function CalculateYourBenefitsForm({
           toggleExpanded('learningFormatAndSchedule', isExpanded)
         }
       >
-        <div className="calculator-form">
+        <div className="calculator-form vads-u-margin-top--3">
           {renderExtensionBeneficiaryZIP()}
           {renderWorking()}
         </div>
@@ -1210,7 +1192,7 @@ function CalculateYourBenefitsForm({
           toggleExpanded('scholarshipsAndOtherFunding', isExpanded)
         }
       >
-        <div className="calculator-form">
+        <div className="calculator-form vads-u-margin-top--3">
           {renderYellowRibbon()}
           {renderTuitionAssist()}
           {renderKicker()}
@@ -1233,7 +1215,7 @@ function CalculateYourBenefitsForm({
         'estimate-your-benefits-form',
         'medium-5',
         'columns',
-        'small-screen:vads-u-padding-right--0',
+        'mobile-lg:vads-u-padding-right--0',
       )}
     >
       <div>

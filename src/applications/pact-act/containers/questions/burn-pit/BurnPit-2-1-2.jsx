@@ -13,15 +13,12 @@ import { pageSetup } from '../../../utilities/page-setup';
 
 export const locationList = (
   <ul>
-    <li>Afghanistan</li>
-    <li>Djibouti</li>
-    <li>Egypt</li>
-    <li>Jordan</li>
-    <li>Lebanon</li>
-    <li>Syria</li>
-    <li>Uzbekistan</li>
-    <li>Yemen</li>
-    <li>The airspace above any of these locations</li>
+    <li>Arabian Sea</li>
+    <li>Gulf of Aden</li>
+    <li>Gulf of Oman</li>
+    <li>The neutral zone on the border between Iraq and Saudi Arabia</li>
+    <li>Persian Gulf</li>
+    <li>Red Sea</li>
   </ul>
 );
 
@@ -81,11 +78,11 @@ const mapDispatchToProps = {
 
 BurnPit212.propTypes = {
   formResponses: PropTypes.object.isRequired,
-  setBurnPit212: PropTypes.func.isRequired,
-  viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
-  }),
+  }).isRequired,
+  setBurnPit212: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 export default connect(

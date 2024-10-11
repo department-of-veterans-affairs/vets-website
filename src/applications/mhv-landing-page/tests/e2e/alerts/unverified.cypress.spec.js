@@ -6,7 +6,7 @@ const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 
 // ID.me is LandingPage.visitPage default for serviceProvider
 const verifyIdentityHeading =
-  'Verify your identity to use your ID.me account on My HealtheVet';
+  'Verify and register your account to access My HealtheVet';
 
 describe(appName, () => {
   describe('Display content based on identity verification', () => {
@@ -24,6 +24,7 @@ describe(appName, () => {
         LandingPage.visit({
           registered: userIsRegistered,
           verified: userIsVerified,
+          showVerifyAndRegisterAlert: false,
         });
         cy.injectAxeThenAxeCheck();
 
@@ -36,10 +37,12 @@ describe(appName, () => {
         cy.findAllByTestId(/^mhv-link-group-card-/).should('not.exist');
 
         // Check the hubs are visible
-        cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
+        cy.findAllByTestId(/^mhv-link-group-hub-/).should('not.exist');
 
         // Test for the conditional heading for VA health benefits
-        cy.findByRole('heading', { name: 'VA health benefits' }).should.exist;
+        cy.findByRole('heading', { name: 'VA health benefits' }).should(
+          'not.exist',
+        );
       });
 
       it(`Shows landing page on ${size} screen`, () => {

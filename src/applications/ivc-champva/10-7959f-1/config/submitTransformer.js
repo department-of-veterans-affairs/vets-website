@@ -1,21 +1,35 @@
 /* eslint-disable camelcase */
+import { formatDateShort } from 'platform/utilities/date';
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { concatStreets } from '../../shared/utilities';
+
+// Take an address object and turn it into a string with line breaks
+function stringifyAddress(addr) {
+  return addr
+    ? `${concatStreets(addr, true).streetCombined}${addr.city}, ${
+        addr.state
+      }\n${addr.postalCode}`
+    : '';
+}
 
 export default function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
   );
+
   const dataPostTransform = {
     veteran: {
-      date_of_birth: transformedData.veteranDOB,
+      date_of_birth: formatDateShort(transformedData.veteranDateOfBirth),
       full_name: transformedData?.veteranFullName,
-      physical_address: transformedData.physicalAddress || {
-        country: 'NA',
-        street: 'NA',
-        city: 'NA',
-        state: 'NA',
-        postalCode: 'NA',
-      },
+      physical_address: transformedData.sameMailingAddress
+        ? transformedData.veteranAddress
+        : transformedData.physicalAddress || {
+            country: 'NA',
+            street: 'NA',
+            city: 'NA',
+            state: 'NA',
+            postalCode: 'NA',
+          },
       mailing_address: transformedData.veteranAddress || {
         country: 'NA',
         street: 'NA',
@@ -24,21 +38,33 @@ export default function transformForSubmit(formConfig, form) {
         postalCode: 'NA',
       },
       ssn: transformedData?.veteranSocialSecurityNumber?.ssn || '',
-      va_claim_number: transformedData?.vaFileNumber || '',
-      phone_number: transformedData.veteraPhoneNumber || '',
+      // file_number:
+      //   transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
+      va_claim_number:
+        transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
+      phone_number: transformedData.veteranPhoneNumber || '',
       email_address: transformedData.veteranEmailAddress || '',
     },
-    // statement_of_truth_signature: transformedData.fullName,
-    current_date: new Date().toJSON().slice(0, 10),
+    statementOfTruthSignature: transformedData.statementOfTruthSignature,
+    current_date: formatDateShort(new Date()),
     primaryContactInfo: {
       name: {
-        first: transformedData.firstName,
-        last: transformedData.lastName,
+        first: transformedData.veteranFullName?.first,
+        last: transformedData.veteranFullName?.last,
       },
-      email: transformedData.email_address,
-      phone: transformedData.phone_number,
+      email: transformedData.veteranEmailAddress,
+      phone: transformedData.veteranPhoneNumber,
     },
   };
+
+  // Stringify and format the addresses so they fit in the PDF fields properly
+  dataPostTransform.veteran.physicalAddressString = stringifyAddress(
+    dataPostTransform.veteran.physical_address,
+  );
+  dataPostTransform.veteran.mailingAddressString = stringifyAddress(
+    dataPostTransform.veteran.mailing_address,
+  );
+
   return JSON.stringify({
     ...dataPostTransform,
     form_number: formConfig.formId,

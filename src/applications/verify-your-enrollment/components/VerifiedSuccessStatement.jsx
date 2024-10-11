@@ -9,16 +9,7 @@ const VerifiedSuccessStatement = () => {
         visible
         id="success-alert"
       >
-        <div
-          slot="headline"
-          className="
-            vads-u-font-size--h2
-            vads-u-font-weight--bold
-            vye-h2-style-as-h3
-          "
-        >
-          You have successfully verified your enrollment
-        </div>
+        <h2 slot="headline">You have successfully verified your enrollment</h2>
         <p className="vads-u-margin-top--2">
           Your verification will be submitted for processing during the next
           regular business day. Your payment will be deposited within 4 to 6

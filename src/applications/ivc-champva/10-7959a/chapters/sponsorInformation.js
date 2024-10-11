@@ -15,11 +15,10 @@ export const sponsorNameSchema = {
   uiSchema: {
     ...titleUI('Sponsor information', ({ formData }) => {
       const isBeneficiary = formData?.certifierRole === 'applicant';
-      return `Enter the information for the sponsor (this is the Veteran or service member ${
-        isBeneficiary ? 'you’re' : 'the beneficiary'
-      } is connected to). We’ll use the sponsor’s information to verify ${
-        isBeneficiary ? 'your' : 'the beneficiary’s'
-      } eligibility`;
+      return `Enter the information for the sponsor (this is the Veteran or service member 
+        the beneficiary is connected to). We’ll use the sponsor’s information to verify ${
+          isBeneficiary ? 'your' : 'the beneficiary’s'
+        } eligibility.`;
     }),
     sponsorName: fullNameMiddleInitialUI,
   },

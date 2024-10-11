@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
@@ -5,6 +6,9 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView.v2';
+
+const USE_CONFIRMATION_PAGE_V2 = true;
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -17,8 +21,18 @@ export class ConfirmationPage extends React.Component {
     const { submission, /* formId, */ data } = form;
     const submitDate = submission.timestamp;
     const confirmationNumber = submission.response?.confirmationNumber;
-
     const { fullName } = data;
+
+    if (USE_CONFIRMATION_PAGE_V2) {
+      return (
+        <ConfirmationPageView
+          submitDate={submitDate}
+          confirmationNumber={confirmationNumber}
+          formConfig={this.props.route.formConfig}
+          pagesFromState={form.pages}
+        />
+      );
+    }
 
     return (
       <div>

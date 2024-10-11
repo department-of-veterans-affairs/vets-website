@@ -21,7 +21,7 @@ export default function UpcomingAppointmentLayout({
       return (
         <li
           key={key}
-          className={classNames('small-screen:vads-u-border-top--0', {
+          className={classNames('mobile-lg:vads-u-border-top--0', {
             'vads-u-border-bottom--1px': !isLastInMonth,
             'vads-u-border-color--gray-medium': !isLastInMonth,
           })}
@@ -51,22 +51,18 @@ export default function UpcomingAppointmentLayout({
                   >
                     <AppointmentRow
                       className={classNames(
-                        'xsmall-screen:vads-u-flex-direction--row',
+                        'mobile:vads-u-flex-direction--row',
                         'xsmall-screen:vads-u-margin-x--0p5',
                         'xsmall-screen:vads-u-margin-y--1',
                         'xsmall-screen:vaos-appts__column-gap--2',
 
-                        'small-screen:vads-u-padding-left--1',
+                        'mobile-lg:vads-u-padding-left--1',
 
                         'medium-screen:vads-u-margin-x--1p5',
                         'medium-screen:vads-u-margin-y--0',
                         'medium-screen:vads-u-padding--0',
-
-                        'small-desktop-screen:vads-u-margin-x--1',
-                        'small-desktop-screen:vads-u-margin-y--0',
                         {
                           'xsmall-screen:vads-u-margin-y--1': !isFirstInDay,
-                          // 'medium-screen:vads-u-padding-y--2': isFirstInDay,
                         },
                       )}
                     >
@@ -99,7 +95,7 @@ export default function UpcomingAppointmentLayout({
           key={appt.id}
           id={appt.id}
           className={classNames(
-            'small-screen:vads-u-border-top--0',
+            'mobile-lg:vads-u-border-top--0',
             'vaos-appts__listItem--clickable',
             {
               'vads-u-border-bottom--1px': !isLastInMonth,
@@ -110,20 +106,17 @@ export default function UpcomingAppointmentLayout({
           <AppointmentFlexGrid idClickable={idClickable} link={link}>
             <AppointmentRow
               className={classNames(
-                'xsmall-screen:vads-u-flex-direction--row',
+                'mobile:vads-u-flex-direction--row',
                 'xsmall-screen:vads-u-margin-x--0p5',
                 'xsmall-screen:vads-u-margin-y--1',
                 'xsmall-screen:vaos-appts__column-gap--2',
 
-                'small-screen:vads-u-padding-x--1',
-                'small-screen:vads-u-padding-y--2',
+                'mobile-lg:vads-u-padding-x--1',
+                'mobile-lg:vads-u-padding-y--2',
 
                 'medium-screen:vads-u-margin-x--1p5',
                 'medium-screen:vads-u-margin-y--0',
                 'medium-screen:vads-u-padding--0',
-
-                'small-desktop-screen:vads-u-margin-x--1',
-                'small-desktop-screen:vads-u-margin-y--0',
               )}
             >
               <AppointmentColumnLayout first data={appt} link={link} />

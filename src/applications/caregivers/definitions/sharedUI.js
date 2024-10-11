@@ -1,7 +1,6 @@
 import { merge } from 'lodash';
-import get from 'platform/utilities/data/get';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
+  textUI,
   radioUI,
   selectUI,
   dateOfBirthUI,
@@ -12,7 +11,12 @@ import {
   ssnUI as platformSsnUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { genderLabels } from 'platform/static-data/labels';
-import { validateSsnIsUnique, requireAddressFields } from '../utils/validation';
+import {
+  validateSsnIsUnique,
+  validateAddressFields,
+  validateCountyInput,
+} from '../utils/validation';
+import { setAddressCountry } from '../utils/helpers/schema';
 import { replaceStrValues } from '../utils/helpers';
 import AddressWithAutofill from '../components/FormFields/AddressWithAutofill';
 import CustomReviewField from '../components/FormReview/CustomReviewField';
@@ -29,38 +33,30 @@ export const addressUI = props => {
     country: {
       'ui:options': {
         hideOnReview: true,
-        updateSchema: (formData, _schema, uiSchema, _index, path) => {
-          const USA = { value: 'USA', label: 'United States' };
-          const addressPath = path.slice(0, -1);
-          const countryUI = uiSchema;
-          const addressFormData = get(addressPath, formData) ?? {};
-          countryUI['ui:options'].inert = true;
-          addressFormData.country = USA.value;
-          return {
-            enum: [USA.value],
-            enumNames: [USA.label],
-            default: USA.value,
-          };
-        },
+        updateSchema: setAddressCountry,
       },
     },
     street: {
       'ui:title': replaceStrValues(content['vet-address-street-label'], label),
       'ui:options': { hint },
     },
-    county: {
-      'ui:title': content['vet-address-county-label'],
-      'ui:description': countyDescription,
-      'ui:webComponentField': VaTextInputField,
-      'ui:reviewField': CustomReviewField,
-      'ui:required': () => requireCounty,
-    },
+    county: textUI({
+      title: content['vet-address-county-label'],
+      hint: content['form-address-county-hint'],
+      description: countyDescription,
+      reviewField: CustomReviewField,
+      required: () => requireCounty,
+      validations: [validateCountyInput],
+      errorMessages: {
+        required: content['validation-address--county-required'],
+      },
+    }),
   });
 };
 
 export const addressWithAutofillUI = () => ({
   'ui:field': AddressWithAutofill,
-  'ui:validations': [requireAddressFields],
+  'ui:validations': [validateAddressFields],
   'ui:options': {
     hideTextLabel: true,
   },

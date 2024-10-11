@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import {
@@ -13,7 +12,7 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+import { checkIncomeGmt } from '../../utils/streamlinedDepends';
 import ButtonGroup from '../shared/ButtonGroup';
 
 export const keyFieldsOtherIncome = ['amount', 'name'];
@@ -40,34 +39,10 @@ const OtherIncomeSummary = ({
       ? 'Continue to review page'
       : 'Continue';
 
-  // Calculate income properties as necessary
+  // Compare calculated income to thresholds
   useEffect(() => {
-    const calculateIncome = async () => {
-      if (questions?.isMarried || !gmtData?.isEligibleForStreamlined) return;
-
-      try {
-        const calculatedIncome = await calculateTotalAnnualIncome(data);
-
-        setFormData({
-          ...data,
-          gmtData: {
-            ...gmtData,
-            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-            incomeBelowOneFiftyGmt:
-              calculatedIncome < gmtData?.incomeUpperThreshold,
-          },
-        });
-      } catch (error) {
-        Sentry.withScope(scope => {
-          scope.setExtra('error', error);
-          Sentry.captureMessage(
-            `calculateTotalAnnualIncome failed in OtherIncomeSummary: ${error}`,
-          );
-        });
-      }
-    };
-
-    calculateIncome();
+    if (questions?.isMarried || !gmtData?.isEligibleForStreamlined) return;
+    checkIncomeGmt(data, setFormData);
   }, []);
 
   const onDelete = deleteIndex => {
@@ -168,7 +143,7 @@ const OtherIncomeSummary = ({
               {
                 label: continueButtonText,
                 onClick: onSubmit,
-                isSubmitting: true, // If this button submits a form
+                isSubmitting: 'prevent', // If this button submits a form
               },
             ]}
           />

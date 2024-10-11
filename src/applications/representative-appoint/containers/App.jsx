@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { isLoggedIn } from 'platform/user/selectors';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
-
 import formConfig from '../config/form';
 import configService from '../utilities/configService';
 
-function App({ location, children, formData }) {
-  const subTitle = useSelector(() => {
-    switch (formData.repTypeRadio) {
-      case 'Veterans Service Organization (VSO)':
-        return 'VA Form 21-22';
-      case 'Attorney':
-      case 'Claims Agent':
-        return 'VA Form 21-22a';
-      default:
-        return 'VA Forms 21-22 and 21-22a';
-    }
-  });
+import { getFormSubtitle } from '../utilities/helpers';
+
+function App({ loggedIn, location, children, formData, setFormData }) {
+  const subTitle = getFormSubtitle(formData);
+
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
 
@@ -28,6 +22,19 @@ function App({ location, children, formData }) {
       setUpdatedFormConfig(configService.getFormConfig());
     },
     [subTitle],
+  );
+
+  useEffect(
+    () => {
+      const defaultViewFields = {
+        'view:isLoggedIn': loggedIn,
+      };
+      setFormData({
+        ...formData,
+        ...defaultViewFields,
+      });
+    },
+    [loggedIn],
   );
 
   const content = (
@@ -43,21 +50,25 @@ function App({ location, children, formData }) {
   );
 }
 
-App.propTypes = {
-  children: PropTypes.object,
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
+const mapStateToProps = state => ({
+  profile: state.user.profile,
+  formData: state.form?.data || {},
+  loggedIn: isLoggedIn(state),
+});
+
+const mapDispatchToProps = {
+  setFormData: setData,
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-    flow: state.flow,
-    formData: state.form?.data || {},
-  };
-}
+App.propTypes = {
+  children: PropTypes.node,
+  formData: PropTypes.object,
+  loggedIn: PropTypes.bool,
+  location: PropTypes.object,
+  setFormData: PropTypes.func,
+};
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(App);

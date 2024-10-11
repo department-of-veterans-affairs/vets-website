@@ -108,10 +108,12 @@ export default function CancelPageLayout() {
         <span>Details you shared with your provider</span>
       </h3>
       <span>
-        Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+        Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
       </span>
       <br />
-      <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+      <span className="vaos-u-word-break--break-word">
+        Other details: {`${otherDetails || 'Not available'}`}
+      </span>
     </>
   );
 }

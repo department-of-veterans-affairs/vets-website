@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
+import { Provider } from 'react-redux';
 
 import * as authUtilities from '../../../authentication/utilities';
 import LoginActions from '../../../authentication/components/LoginActions';
@@ -9,6 +10,16 @@ import { CSP_IDS } from '../../../authentication/constants';
 
 describe('login DOM ', () => {
   const sandbox = sinon.createSandbox();
+  const mockStore = {
+    dispatch: sinon.spy(),
+    subscribe: sinon.spy(),
+    getState: () => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        sign_in_modal_v2: false,
+      },
+    }),
+  };
 
   beforeEach(function() {
     sandbox.spy(authUtilities, 'login');
@@ -19,7 +30,11 @@ describe('login DOM ', () => {
   });
 
   it('login buttons should properly call login method', () => {
-    const loginButtons = mount(<LoginActions />);
+    const loginButtons = mount(
+      <Provider store={mockStore}>
+        <LoginActions />
+      </Provider>,
+    );
 
     const testButton = button => {
       const loginCSP = button.prop('data-csp');
@@ -50,7 +65,11 @@ describe('login DOM ', () => {
       global.window.location = new URL(
         'https://dev.va.gov/sign-in/?application=vaoccmobile&redirect_uri=AHBurnPitRegistry&oauth=false',
       );
-      const loginButtons = mount(<LoginActions externalApplication={csp} />);
+      const loginButtons = mount(
+        <Provider store={mockStore}>
+          <LoginActions externalApplication={csp} />
+        </Provider>,
+      );
       expect(loginButtons.find('[data-csp="dslogon"]').exists()).to.be.true;
       expect(loginButtons.find('#create-account').exists()).to.be.false;
       loginButtons.unmount();
@@ -59,10 +78,14 @@ describe('login DOM ', () => {
       global.window.location = new URL(
         'https://dev.va.gov/sign-in/?application=vaoccmobile',
       );
-      const loginButtons = mount(<LoginActions externalApplication={csp} />);
+      const loginButtons = mount(
+        <Provider store={mockStore}>
+          <LoginActions externalApplication={csp} />
+        </Provider>,
+      );
       expect(loginButtons.find('button').length).to.eql(4);
       expect(loginButtons.find('#create-account').exists()).to.be.true;
-      expect(loginButtons.find('a').length).to.eql(2);
+      expect(loginButtons.find('a').length).to.eql(3);
       loginButtons.unmount();
     });
   });

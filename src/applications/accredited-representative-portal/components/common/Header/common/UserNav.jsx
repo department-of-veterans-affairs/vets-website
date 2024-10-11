@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
 import {
   selectUserProfile,
-  selectUserIsLoading,
+  selectIsUserLoading,
 } from '../../../../selectors/user';
 
 const generateUniqueId = () =>
@@ -15,7 +15,7 @@ const generateUniqueId = () =>
 
 const UserNav = ({ isMobile }) => {
   const profile = useSelector(selectUserProfile);
-  const isLoading = useSelector(selectUserIsLoading);
+  const isLoading = useSelector(selectIsUserLoading);
   const uniqueId = useRef(generateUniqueId());
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -52,7 +52,6 @@ const UserNav = ({ isMobile }) => {
         <va-loading-indicator
           data-testid="user-nav-loading-icon"
           label="Loading"
-          message="Loading"
         />
       </div>
     );
@@ -79,7 +78,7 @@ const UserNav = ({ isMobile }) => {
   } else if (profile) {
     content = (
       <div className="va-dropdown" ref={dropdownRef}>
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
         <button
           data-testid="user-nav-dropdown-panel-button"
           className="sign-in-drop-down-panel-button va-btn-withicon va-dropdown-trigger"

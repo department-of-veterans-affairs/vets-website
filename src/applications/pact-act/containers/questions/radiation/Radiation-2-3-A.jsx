@@ -75,11 +75,11 @@ const mapDispatchToProps = {
 
 Radiation23A.propTypes = {
   formResponses: PropTypes.object.isRequired,
-  setRadiation23A: PropTypes.func.isRequired,
-  viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
-  }),
+  }).isRequired,
+  setRadiation23A: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 export default connect(

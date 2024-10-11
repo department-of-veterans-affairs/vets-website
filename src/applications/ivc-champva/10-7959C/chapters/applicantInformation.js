@@ -2,8 +2,6 @@ import { cloneDeep } from 'lodash';
 import {
   addressUI,
   addressSchema,
-  dateOfBirthUI,
-  dateOfBirthSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
@@ -24,20 +22,14 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
 export const applicantNameDobSchema = {
   uiSchema: {
-    ...titleUI('Name and date of birth'),
+    ...titleUI('Beneficiary’s name'),
     applicantName: fullNameMiddleInitialUI,
-    applicantDOB: dateOfBirthUI({
-      required: true,
-      hint: 'For example: January 19 2000',
-    }),
   },
   schema: {
     type: 'object',
-    required: ['applicantDOB'],
     properties: {
       titleSchema,
       applicantName: fullNameSchema,
-      applicantDOB: dateOfBirthSchema,
     },
   },
 };
@@ -93,7 +85,7 @@ export const applicantAddressInfoSchema = {
             )} mailing address changed since their last CHAMPVA form submission?`,
             'ui:options': {
               labels,
-              hint: `If yes, we will update our records with the new mailing address`,
+              hint: `If yes, we will update our records with the new mailing address.`,
             },
           };
         },

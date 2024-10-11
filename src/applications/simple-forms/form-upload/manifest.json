@@ -1,6 +1,6 @@
 {
   "appName": "Form Upload",
-  "entryFile": "./form-upload-entry.jsx",
+  "entryFile": "./app-entry.jsx",
   "entryName": "form-upload-flow",
   "rootUrl": "/form-upload",
   "productId": "88558f52-5c6c-447f-ab78-e006b01a32db"

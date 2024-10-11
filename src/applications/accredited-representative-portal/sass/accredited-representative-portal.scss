@@ -1,50 +1,24 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "../accreditation/21a/sass/21a";
 
-.homepage-hero {
-  &__look-and-feel {
-    background: linear-gradient(
-      to left,
-      var(--vads-color-primary-alt)10%,
-      var(--vads-color-primary-alt-dark) 40%,
-      var(--vads-color-primary-alt-darkest)
-    );
-  }
-}
-
-.arp-full-width-alert {
-  width: 100%;
-
-  &__questions {
-    font-weight: 700;
-  }
-}
-
-.poa-requests-page-table-container {
+.container {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  min-height: 100%;
 }
 
-.limitations-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.arp-footer {
+  background-color: var(--vads-color-primary-darker);
+  min-width: 100%;
 
-  &__warning-icon {
-    color: var(--vads-color-action-focus-on-light);
+  a:hover {
+    color: var(--vads-color-warning) !important;
   }
 }
 
-.relationship-row {
-  display: block;
-  font-size: 14px;
-  line-height: 1;
+// There is a div in content-build accredited-representative-portal.html that
+// would require changes to platform code to remove. For now this scss hides it.
+.arp-footer-hidden {
+  display: none;
 }
 
-.arp-full-width-alert {
-  width: 100%;
-
-  &__questions {
-    font-weight: 700;
-  }
-}

@@ -15,15 +15,7 @@ const GetHelp = () => (
       <strong>You can call the VA Caregiver Support Line</strong> at{' '}
       <va-telephone contact={CONTACTS.CAREGIVER} /> (
       <va-telephone contact={CONTACTS['711']} tty />
-      ). We’re here Monday through Friday, 8:00 a.m. to 10:00 p.m.{' '}
-      <dfn>
-        <abbr title="Eastern Time">ET</abbr>
-      </dfn>
-      , and Saturday, 8:00 a.m. to 5:00 p.m.{' '}
-      <dfn>
-        <abbr title="Eastern Time">ET</abbr>
-      </dfn>
-      . Or you can contact a Caregiver Support Program Team.{' '}
+      ). Or you can contact a Caregiver Support Program Team.{' '}
       <a
         target="_blank"
         rel="noopener noreferrer"

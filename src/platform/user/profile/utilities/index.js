@@ -1,7 +1,7 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from 'platform/utilities/api';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { ssoKeepAliveSession } from 'platform/utilities/sso';
 import { removeInfoToken } from 'platform/utilities/oauth/utilities';
 import {
@@ -45,6 +45,7 @@ export function mapRawUserDataToState(json) {
           multifactor,
           verified,
           claims,
+          edipi,
         },
         services,
         vaProfile,
@@ -76,6 +77,7 @@ export function mapRawUserDataToState(json) {
     },
     verified,
     claims,
+    edipi,
     vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},

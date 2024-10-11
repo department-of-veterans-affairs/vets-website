@@ -1,51 +1,23 @@
 import React from 'react';
 
-export const DescriptionText = () => (
-  <div>
-    <p>
-      <strong>If you’re adding children,</strong> they must be under 18,{' '}
-      <strong>or</strong> under 24 and attending school. They must also be
-      unmarried in order to be considered a dependent child for VA purposes.
-    </p>
-    <p>
-      Children automatically are removed when they turn 18. You may need to add
-      them again if they are attending school.
-    </p>
-    <p>
-      <strong>If you’re adding a child 18 to 23</strong> years old who’ll be
-      attending school, <strong>and</strong> If you never received benefits for
-      this child, you must <strong>also</strong> select the “Add a child or
-      children under 18 and unmarried” checkbox so they can be added to the
-      system. You <strong>will</strong> enter this child twice.
-    </p>
-  </div>
-);
+export const addDependentOptions = {
+  addSpouse: 'My spouse',
+  addChild: 'An unmarried child under 18',
+  report674:
+    'An unmarried child between ages 18 and 23, and who attends school',
+  addDisabledChild:
+    'An unmarried child of any age who has a permanent mental or physical disability ',
+};
 
-export const AddChildTitle = (
-  <p className="vads-u-margin-y--0">
-    Add a child or children <strong>under 18 and unmarried</strong>
-  </p>
-);
-
-export const Student674Title = (
-  <p className="vads-u-margin-y--0">
-    Add a child <strong>18 to 23 years old</strong> who’ll be attending school
-    (VA Form 21-674)
-  </p>
-);
-
-export const StepchildTitle = (
-  <p className="vads-u-margin-y--0">
-    Remove a stepchild who has left your household
-  </p>
-);
-
-export const ChildAttendingSchool = (
-  <p className="vads-u-margin-y--0">
-    Remove a child <strong>18 to 23 years old</strong> who has stopped attending
-    school
-  </p>
-);
+export const removeDependentOptions = {
+  reportDivorce: 'A spouse I divorced',
+  reportDeath: 'A spouse, child, or parent who died',
+  reportStepchildNotInHousehold:
+    'A stepchild who doesn’t live with me or receive financial support from me anymore',
+  reportMarriageOfChildUnder18: 'A child who got married',
+  reportChild18OrOlderIsNotAttendingSchool:
+    'A child between ages 18 and 23 because they left school',
+};
 
 export const validateAtLeastOneSelected = (errors, fieldData) => {
   if (!Object.values(fieldData).some(val => val === true)) {

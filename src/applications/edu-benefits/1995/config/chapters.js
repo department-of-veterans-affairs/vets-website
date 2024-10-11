@@ -1,5 +1,6 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
+import createApplicantInformationPage from '~/platform/forms/pages/applicantInformation';
+import get from '~/platform/utilities/data/get';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
@@ -15,6 +16,7 @@ import {
   newSchoolUpdate,
   servicePeriods,
   servicePeriodsUpdate,
+  tourOfDuty,
   sponsorInfo,
 } from '../pages';
 
@@ -112,7 +114,52 @@ export const serviceHistoryTitle = (automatedTest = false) => {
   }
   return 'Applicant service history';
 };
+const militaryService = {
+  title: serviceHistoryTitle(),
+  pages: {
+    servicePeriods: {
+      path: 'military/service',
+      title: 'Service periods',
+      uiSchema: servicePeriodsUiSchema(),
+      schema: servicePeriodsSchema(),
+    },
+    toursOfDutyIsActiveDutyTrue: {
+      path: 'military/service-tour-of-duty-isActiveDuty-true',
+      title: 'Service periods tour Of Duty',
+      depends: form => {
+        return (
+          get('view:newService', form) &&
+          form.applicantServed === 'Yes' &&
+          form.isActiveDuty
+        );
+      },
+      uiSchema: tourOfDuty.uiSchema,
+      schema: tourOfDuty.schemaIsActiveDuty,
+    },
+    toursOfDutyIsActiveDutyFalse: {
+      path: 'military/service-tour-of-duty-isActiveDuty-false',
+      title: 'Service periods tour Of Duty',
+      depends: form => {
+        return (
+          get('view:newService', form) &&
+          form.applicantServed === 'Yes' &&
+          !form.isActiveDuty
+        );
+      },
+      uiSchema: tourOfDuty.uiSchema,
+      schema: tourOfDuty.schema,
+    },
+  },
+};
 
+if (isProductionOfTestProdEnv()) {
+  militaryService.pages.militaryHistory = {
+    title: 'Military history',
+    path: 'military/history',
+    uiSchema: militaryHistory.uiSchema,
+    schema: militaryHistory.schema,
+  };
+}
 export const chapters = {
   applicantInformation: {
     title: 'Applicant information',
@@ -143,24 +190,7 @@ export const chapters = {
       sponsorInformation: sponsorInfo(fullSchema1995),
     },
   },
-  militaryService: {
-    title: serviceHistoryTitle(),
-    pages: {
-      servicePeriods: {
-        path: 'military/service',
-        title: 'Service periods',
-        uiSchema: servicePeriodsUiSchema(),
-        schema: servicePeriodsSchema(),
-      },
-      militaryHistory: {
-        title: 'Military history',
-        depends: () => isProductionOfTestProdEnv(),
-        path: 'military/history',
-        uiSchema: militaryHistory.uiSchema,
-        schema: militaryHistory.schema,
-      },
-    },
-  },
+  militaryService,
   schoolSelection: {
     title: isProductionOfTestProdEnv()
       ? 'School selection'

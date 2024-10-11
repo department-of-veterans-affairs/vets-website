@@ -367,3 +367,69 @@ export const filterKeys = [
   'specialMissionPBI',
   'specialMissionTRIBAL',
 ];
+
+export const POST_911_ARRAY = [
+  { optionValue: 'veteran', optionLabel: 'Veteran' },
+  { optionValue: 'active duty', optionLabel: 'Active Duty' },
+  {
+    optionValue: 'national guard / reserves',
+    optionLabel: 'National Guard / Reserves',
+  },
+];
+
+export const FRY_SCHOLARSHIP_ARRAY = [
+  { optionValue: 'spouse', optionLabel: 'Surviving Spouse' },
+  { optionValue: 'child', optionLabel: 'Child' },
+];
+
+export const MONTGOMERY_GI_BILL_ARRAY = [
+  { optionValue: 'veteran', optionLabel: 'Veteran' },
+  { optionValue: 'active duty', optionLabel: 'Active Duty' },
+];
+
+export const SELECT_RESERVE_GI_BILL_ARRAY = [
+  {
+    optionValue: 'national guard / reserves',
+    optionLabel: 'National Guard / Reserves',
+  },
+];
+
+export const VETERAN_READINESS_ARRAY = [
+  { optionValue: 'veteran', optionLabel: 'Veteran' },
+];
+
+export const SURVIVOR_AND_DEPENDENT_ARRAY = [
+  { optionValue: 'spouse', optionLabel: 'Spouse' },
+  { optionValue: 'child', optionLabel: 'Child' },
+];
+
+export const yellowRibbonColumns = {
+  degree: {
+    id: 0,
+    description: 'Degree Level',
+    key: 'degreeLevel',
+  },
+  program: {
+    id: 1,
+    description: 'School or Program',
+    key: 'divisionProfessionalSchool',
+  },
+  students: {
+    id: 2,
+    description: 'Funding available (for students)',
+    key: 'numberOfStudents',
+  },
+  funding: {
+    id: 3,
+    description: 'Maximum Yellow Ribbon funding amount (per student, per year)',
+    key: 'contributionAmount',
+  },
+};
+
+export const ERROR_MESSAGES = {
+  searchByNameInputEmpty:
+    'Please fill in a school, employer, or training provider.',
+  searchbyLocationInputEmpty: 'Please fill in a city, state, or postal code.',
+  invalidZipCode: 'Please enter a valid postal code.',
+  checkBoxFilterEmpty: 'Please select at least one filter.',
+};

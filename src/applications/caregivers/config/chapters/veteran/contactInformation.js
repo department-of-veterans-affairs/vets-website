@@ -1,9 +1,8 @@
-// import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { emailUI, phoneUI } from '../../../definitions/sharedUI';
 import ContactInfoDescription from '../../../components/FormDescriptions/VeteranContactInfoDescription';
+import { fullSchema } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
-import fullSchema from '../../10-10CG-schema.json';
 
 const { email, phone } = fullSchema.definitions;
 const inputLabel = content['vet-input-label'];
