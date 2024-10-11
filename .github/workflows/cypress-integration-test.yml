@@ -63,7 +63,7 @@ jobs:
             echo "1"
             
             mkdir vets-website
-            tar -xvjf vagovprod.tar.bz2 -C vets-website
+            tar -xjf vagovprod.tar.bz2 -C vets-website
             echo "2"
       
     run-cypress-test:
