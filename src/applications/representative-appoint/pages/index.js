@@ -12,7 +12,7 @@ import * as confirmClaimantPersonalInformation from './claimant/confirmClaimantP
 import * as claimantContactMailing from './claimant/claimantContactMailing';
 import * as veteranPersonalInformation from './veteran/veteranPersonalInformation';
 import * as veteranContactPhoneEmail from './veteran/veteranContactPhoneEmail';
-import * as veteranContactPhoneEmailForNonVeteranClaiment from './veteran/veteranContactPhoneEmailForNonVeteranClaiment';
+import * as veteranContactPhoneEmailForNonVeteranClaimant from './veteran/veteranContactPhoneEmailForNonVeteranClaimant';
 import * as veteranContactMailing from './veteran/veteranContactMailing';
 import * as veteranContactMailingClaimant from './veteran/veteranContactMailingClaimant';
 import * as veteranIdentification from './veteran/veteranIdentification';
@@ -37,7 +37,7 @@ export {
   claimantContactMailing,
   veteranPersonalInformation,
   veteranContactPhoneEmail,
-  veteranContactPhoneEmailForNonVeteranClaiment,
+  veteranContactPhoneEmailForNonVeteranClaimant,
   veteranContactMailing,
   veteranContactMailingClaimant,
   veteranIdentification,
