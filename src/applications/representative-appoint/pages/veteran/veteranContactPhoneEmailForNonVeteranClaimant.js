@@ -7,8 +7,6 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export const blankSchema = { type: 'object', properties: {} };
-
 export const uiSchema = {
   ...titleUI(() => 'Veteran’s phone number and email address'),
   'Primary phone': phoneUI({
