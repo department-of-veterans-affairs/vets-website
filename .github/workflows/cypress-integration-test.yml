@@ -16,6 +16,7 @@ env:
   
 jobs:
     ecr-login:
+      name: Login to ECR
       runs-on: ubuntu-latest
       permissions: write-all
       outputs:
@@ -35,7 +36,7 @@ jobs:
             mask-password: false
 
     integration-test:
-      name: Test setup
+      name: Run Cypress Tests
       runs-on: ubuntu-latest
       permissions: write-all
       needs: ecr-login
@@ -50,11 +51,11 @@ jobs:
           with:
            fetch-depth: 0
           
-        - name: Determine slackGroup and specPattern
-          id: helper
-          run: |
-             chmod +x ./script/github-actions/cypress-integration-test.sh 
-             ./script/github-actions/cypress-integration-test.sh "${{ github.event.inputs.product }}"
+        # - name: Determine slackGroup and specPattern
+        #   id: helper
+        #   run: |
+        #      chmod +x ./script/github-actions/cypress-integration-test.sh 
+        #      ./script/github-actions/cypress-integration-test.sh "${{ github.event.inputs.product }}"
 
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v4.0.0
