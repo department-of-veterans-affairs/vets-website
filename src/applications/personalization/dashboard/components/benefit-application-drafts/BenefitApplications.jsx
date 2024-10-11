@@ -48,7 +48,6 @@ const BenefitApplications = ({
         const elt = sectionRef.current;
         elt?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      return () => {};
     };
 
     handleAnchorLink();
