@@ -262,7 +262,7 @@ class PatientComposePage {
       .click({ force: true });
   };
 
-  attachMessageFromFile = filename => {
+  attachMessageFromFile = (filename = Data.TEST_IMAGE) => {
     const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
     cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
       force: true,
@@ -423,12 +423,6 @@ class PatientComposePage {
       .shadow()
       .find('[id=input-error-message]')
       .should('be.visible');
-  };
-
-  verifyAlertFocusFocus = () => {
-    cy.get(`.first-focusable-child`)
-      .should('exist')
-      .and('be.focused');
   };
 
   verifyAttachmentInfo = data => {
