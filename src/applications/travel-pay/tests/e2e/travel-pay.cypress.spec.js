@@ -54,6 +54,7 @@ describe(`${appName} -- Status Page`, () => {
       .first()
       .click();
 
+    // TODO: update mockdata to use opaque ids?
     cy.location('pathname').should(
       'eq',
       '/my-health/travel-claim-status/498d60a7-fe33-4ea8-80a6-80a27d9fc212',
