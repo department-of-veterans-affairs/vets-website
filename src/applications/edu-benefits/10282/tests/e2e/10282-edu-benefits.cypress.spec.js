@@ -12,7 +12,7 @@ describe('22-10282 Edu form', () => {
     cy.get('[data-testid="full-name"]').should('exist');
     cy.location('href').should('contain', '/applicant/information');
   });
-  it('should show errors if Continue button is clicked and First name or last Name fields empty"', () => {
+  it('should show errors if the Continue button is clicked while the First Name or Last Name fields are empty"', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[text="Start your application"]').click();
     cy.get('[data-testid="full-name"]').should('exist');
@@ -33,7 +33,7 @@ describe('22-10282 Edu form', () => {
       cy.get('[id="root_veteranFullName_last"]').type('Doe');
       cy.get('[class="usa-button-primary"]').click();
     });
-    it('should go to next page when required field not empty', () => {
+    it('It should proceed to the next page when required fields are not empty', () => {
       cy.injectAxeThenAxeCheck();
       cy.get('[data-dtestid="veteran-description"]').should(
         'contain',
@@ -48,7 +48,7 @@ describe('22-10282 Edu form', () => {
         'You must select one of the options',
       );
     });
-    it('should go to contact information page when required field is selceted', () => {
+    it('should go to contact information page when required field is selected', () => {
       cy.injectAxeThenAxeCheck();
       cy.get('[id="root_veteranDesc_0"]').click();
       cy.get('[id="root_veteranDesc_0"]').should('be.checked');
@@ -65,7 +65,7 @@ describe('22-10282 Edu form', () => {
       cy.get('[id="root_veteranDesc_0"]').should('be.checked');
       cy.get('[class="usa-button-primary"]').click();
     });
-    it('show required error if email field is empty', () => {
+    it('show required error if the email field is empty', () => {
       cy.injectAxeThenAxeCheck();
       cy.get('[class="usa-button-primary"]').click();
       cy.get('[id="input-error-message"]').should(
@@ -84,7 +84,7 @@ describe('22-10282 Edu form', () => {
         'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
       );
     });
-    it('shoud show Country field when there is no errors with email', () => {
+    it('shoud show Country field when there are no errors in the email field', () => {
       cy.injectAxeThenAxeCheck();
       cy.get('[name="root_contactInfo_email"]')
         .first()
@@ -166,9 +166,10 @@ describe('22-10282 Edu form', () => {
         .select('Canada');
       cy.get('[class="usa-button-primary"]').click();
     });
-    it('should skip demographic question to education question if no or nothing is selected', () => {
+    it('should skip demographic questions and proceed to education questions if no or nothing is selected', () => {
       cy.injectAxeThenAxeCheck();
       cy.get('[class="usa-button-primary"]').click();
+      cy.get('[ data-testid="ethnicity-and-race"]').should('not.exist');
     });
     it('should show the question about demographic if yes is selected', () => {
       cy.injectAxeThenAxeCheck();
