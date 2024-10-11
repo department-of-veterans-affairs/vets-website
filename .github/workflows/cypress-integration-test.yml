@@ -58,6 +58,12 @@ jobs:
             tar -xvjf vagovprod.tar.bz2 -C vets-website
             echo "2"
       
-        - name: Call reusable action
-          id: cypress-action
-          uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test@cypress-integration-test-migration
+    run-cypress-test:
+      runs-on: ubuntu-latest
+      needs: integration-test
+      container: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      steps:
+
+      - name: Call reusable action
+        id: cypress-action
+        uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test@cypress-integration-test-migration
