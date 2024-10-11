@@ -417,9 +417,12 @@ export function transform5490Form(_formConfig, form) {
       highSchoolDiplomaOrCertificateDate: form?.data?.graduationDate,
     },
     directDeposit: {
-      directDepositAccountType: form?.data?.bankAccount?.accountType,
-      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
-      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
+      directDepositAccountType:
+        form?.data['view:directDeposit']?.bankAccount?.accountType,
+      directDepositAccountNumber:
+        form?.data['view:directDeposit']?.bankAccount?.accountNumber,
+      directDepositRoutingNumber:
+        form?.data['view:directDeposit']?.bankAccount?.routingNumber,
     },
     additionalConsiderations: {
       outstandingFelony: form?.data?.felonyOrWarrant,
@@ -429,5 +432,6 @@ export function transform5490Form(_formConfig, form) {
       remarriageStatus: form?.data?.remarriageStatus,
     },
   };
+
   return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
 }

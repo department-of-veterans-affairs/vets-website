@@ -101,8 +101,9 @@ export class ConfirmationPage extends React.Component {
 
   filterBenefits = e => {
     const key = e.target.value;
+    const filterString = key === 'Careers' ? 'Careers & Employment' : key;
 
-    this.setState(() => ({ filterValue: key }));
+    this.setState(() => ({ filterValue: filterString }));
 
     if (key === 'All') {
       this.setState(() => ({
@@ -291,19 +292,16 @@ export class ConfirmationPage extends React.Component {
               id="results-section"
               className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
             >
-              <b>
-                {this.state.hasResults &&
-                  `Showing ${this.state.resultsCount} ${
-                    this.state.resultsText
-                  }, filtered to show ${
-                    this.state.filterValue
-                  } results, sorted ${
-                    this.state.sortValue === 'alphabetical'
-                      ? this.state.sortValue
-                      : `by ${this.state.sortValue}`
-                  }`}
-              </b>
-
+              {this.state.hasResults && (
+                <>
+                  Showing {this.state.resultsCount} {this.state.resultsText},
+                  filtered to show <b>{this.state.filterValue} results</b>,
+                  sorted{' '}
+                  {this.state.sortValue === 'alphabetical'
+                    ? 'alphabetically'
+                    : `by ${this.state.sortValue}`}
+                </>
+              )}
               <p>
                 <va-link
                   data-testid="back-link"
@@ -382,7 +380,7 @@ export class ConfirmationPage extends React.Component {
 
               <va-accordion>
                 <va-accordion-item
-                  header="Show benefits that I may not qualify for"
+                  header="Benefits that I may not qualify for"
                   id="show"
                 >
                   <ul className="benefit-list">
