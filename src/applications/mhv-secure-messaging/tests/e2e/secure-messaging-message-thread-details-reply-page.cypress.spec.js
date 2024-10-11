@@ -2,8 +2,10 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
+import PatientReplyPage from './pages/PatientReplyPage';
 import { AXE_CONTEXT } from './utils/constants';
 import threadResponse from './fixtures/thread-response-new-api.json';
+import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 
 describe('SM REPLY MESSAGE DETAILS', () => {
   const date = new Date();
@@ -17,7 +19,13 @@ describe('SM REPLY MESSAGE DETAILS', () => {
     PatientMessageDetailsPage.loadReplyMessageThread();
     PatientInterstitialPage.getContinueButton().click();
 
-    // TODO add verification for reply content (, header, buttons, signature (?))
+    PatientReplyPage.verifyReplyHeader();
+    PatientReplyPage.verifyeditReplyDraftBtn();
+
+    PatientMessageDraftsPage.verifyAttachFileBtn();
+    PatientMessageDraftsPage.verifySendDraftBtn();
+    PatientMessageDraftsPage.verifySaveDraftBtn();
+    PatientMessageDraftsPage.verifyDeleteDraftBtn();
 
     PatientMessageDetailsPage.verifyExpandedMessageDate(threadResponse);
     PatientMessageDetailsPage.verifyExpandedMessageId(threadResponse);
@@ -25,6 +33,6 @@ describe('SM REPLY MESSAGE DETAILS', () => {
     PatientMessageDetailsPage.verifyExpandedMessageFrom(threadResponse);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

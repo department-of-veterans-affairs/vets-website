@@ -2,7 +2,7 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Data, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
@@ -303,7 +303,6 @@ class PatientMessageDraftsPage {
     cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
   };
 
-  // method below could be deleted after refactoring associated specs
   verifyDeleteConfirmationMessage = () => {
     cy.get('[data-testid="alert-text"]').should(
       'contain.text',
@@ -431,10 +430,6 @@ class PatientMessageDraftsPage {
     cy.wait('@draft_message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
-  };
-
-  verifyFocusOnConfirmationMessage = () => {
-    cy.get('.last-save-time').should('have.focus');
   };
 
   inputFilterDataText = text => {
@@ -605,19 +600,6 @@ class PatientMessageDraftsPage {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
 
-  verifyMessagesBodyText = (index, MessageBody) => {
-    cy.get(`[subheader="draft #${index}..."]`)
-      .should('have.attr', 'value')
-      .and('eq', MessageBody);
-  };
-
-  verifyDraftMessageBodyText = MessagesBodyDraft => {
-    cy.get(Locators.MESSAGES_BODY_DRAFT).should(
-      'have.text',
-      `${MessagesBodyDraft}`,
-    );
-  };
-
   verifySavedMessageAlertText = MESSAGE_WAS_SAVED => {
     cy.get(Locators.ALERTS.SAVE_DRAFT).should(
       'include.text',
@@ -702,6 +684,34 @@ class PatientMessageDraftsPage {
     cy.get('va-modal[visible]')
       .find('.va-modal-close')
       .click();
+  };
+
+  verifyAttachFileBtn = () => {
+    cy.get(Locators.BUTTONS.ATTACH_FILE)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`have.text`, Data.BUTTONS.ATTACH_FILE);
+  };
+
+  verifySendDraftBtn = () => {
+    cy.get(Locators.BUTTONS.SEND)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`contain.text`, Data.BUTTONS.SEND);
+  };
+
+  verifySaveDraftBtn = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT)
+      .should(`be.visible`)
+      .and('contain.text', Data.BUTTONS.SAVE_DRAFT);
+  };
+
+  verifyDeleteDraftBtn = () => {
+    cy.get(Locators.BUTTONS.DELETE_DRAFT)
+      .should(`be.visible`)
+      .and(`contain.text`, Data.BUTTONS.DELETE_DRAFT);
   };
 }
 
