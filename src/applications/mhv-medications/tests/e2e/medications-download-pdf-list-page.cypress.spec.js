@@ -18,6 +18,7 @@ describe('Medications Download PDF on List Page', () => {
     listPage.clickDownloadListAsPDFButtonOnListPage();
     listPage.verifyLoadingSpinnerForDownloadOnListPage();
     listPage.verifyDownloadCompleteSuccessMessageBanner();
+    listPage.verifyFocusOnPrintDownloadDropDownButton();
     site.verifyDownloadedPdfFile(
       'VA-medications-list-Safari-Mhvtp',
       moment(),

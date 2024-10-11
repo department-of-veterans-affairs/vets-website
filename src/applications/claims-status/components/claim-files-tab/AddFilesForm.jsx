@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Scroll from 'react-scroll';
 
 import {
   VaFileInput,
@@ -19,6 +18,8 @@ import {
 } from 'platform/forms-system/src/js/utilities/file';
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+
+import { Element } from 'platform/utilities/scroll';
 
 import { displayFileSize, DOC_TYPES } from '../../utils/helpers';
 import { setFocus } from '../../utils/page';
@@ -43,8 +44,6 @@ const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
   scrollTo(`documentScroll${position}`, options);
 };
-
-const { Element } = Scroll;
 
 class AddFilesForm extends React.Component {
   constructor(props) {

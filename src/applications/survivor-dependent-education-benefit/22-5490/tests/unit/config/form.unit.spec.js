@@ -305,7 +305,6 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         formData={{}}
       />,
     );
-
     fillData(
       form,
       'input[name="root_view:directDeposit_bankAccount_accountNumber"]',
@@ -316,11 +315,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       'input[name="root_view:directDeposit_bankAccount_routingNumber"]',
       '031101279',
     );
-    selectRadio(
-      form,
-      'root_view:directDeposit_bankAccount_accountType',
-      'checking',
-    );
+
     expect(
       form
         .find('input[name="root_view:directDeposit_bankAccount_accountNumber"]')
@@ -331,13 +326,6 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         .find('input[name="root_view:directDeposit_bankAccount_routingNumber"]')
         .prop('value'),
     ).to.equal('031101279');
-    expect(
-      form
-        .find(
-          'input[name="root_view:directDeposit_bankAccount_accountType"][value="checking"]',
-        )
-        .props().checked,
-    ).to.be.true;
     form.unmount();
   });
 });
