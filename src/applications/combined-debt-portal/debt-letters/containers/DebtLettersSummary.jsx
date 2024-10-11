@@ -173,7 +173,7 @@ const DebtLettersSummary = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current VA debt',
+            label: 'Current debts',
           },
         ]}
         label="Breadcrumb"

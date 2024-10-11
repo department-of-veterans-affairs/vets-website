@@ -94,7 +94,18 @@ const PaymentHistoryTable = ({ currentDebt }) => {
 };
 
 PaymentHistoryTable.propTypes = {
-  currentDebt: PropTypes.object.isRequired,
+  currentDebt: PropTypes.shape({
+    fiscalTransactionData: PropTypes.arrayOf(
+      PropTypes.shape({
+        transactionDate: PropTypes.string.isRequired,
+        transactionDescription: PropTypes.string.isRequired,
+        transactionTotalAmount: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+    deductionCode: PropTypes.string,
+    benefitType: PropTypes.string,
+    originalAr: PropTypes.string,
+  }),
 };
 
 export default PaymentHistoryTable;
