@@ -92,6 +92,8 @@ jobs:
 
         - name: Unpack artifact
           run: |
+            ls 
+            pwd
             mkdir vets-website
             tar -xjf vagovprod.tar.bz2 -C vets-website
             echo "2"
