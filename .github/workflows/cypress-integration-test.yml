@@ -12,7 +12,6 @@ on:
         # TO-DO: create a solution that maintains an updated list of active products within src/applications
   
 env:
-    BUILDTYPE: vagovprod
     VETS_WEBSITE_CHANNEL_ID: ''
   
 jobs:
@@ -48,16 +47,9 @@ jobs:
             df -H
             aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
             echo "1"
-
-            if [ -f $ARCHIVE_NAME ]; then
-             echo "2" 
-             tar -xvjf $ARCHIVE_NAME -C /vets-website
-             echo "BUILD_EXISTS=true" >> $GITHUB_ENV
-             echo "3"
-
-             else
-              echo "Requested build not found. Workflow cannot run."
-              exit 1 
+             
+            tar -xvjf $ARCHIVE_NAME -C build/vagovprod
+            echo "2"
 
     integration-test:
        name: Set up variables and then run the integration tests.
