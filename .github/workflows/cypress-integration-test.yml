@@ -52,8 +52,8 @@ jobs:
         - name: Find the build
           id: find-build
           run: |
-            ARCHIVE_NAME=Z${{ github.event.inputs.commit_sha }}/vagovprod.tar.bz2
-            BUCKET_PATH=s3://vetsgov-website-builds-s3-upload/artifacts/
+            ARCHIVE_NAME=${{ github.event.inputs.commit_sha }}/vagovprod.tar.bz2
+            BUCKET_PATH=s3://vetsgov-website-builds-s3-upload/
             TARGET_DIR=build/${{ env.BUILDTYPE }}
 
             aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
