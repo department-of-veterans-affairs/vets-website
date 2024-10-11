@@ -15,7 +15,7 @@ env:
     VETS_WEBSITE_CHANNEL_ID: ''
   
 jobs:
-    ecr-login:
+    ecr-login-and-find-build:
       name: Login to ECR
       runs-on: ubuntu-latest
       permissions: write-all
@@ -34,6 +34,23 @@ jobs:
           uses: aws-actions/amazon-ecr-login@v2    
           with:
             mask-password: false
+           
+        - name: Find the build
+          id: find-build
+          run: |
+            ARCHIVE_NAME=${{ github.event.inputs.commit_sha }}/vagovprod.tar.bz2
+            BUCKET_PATH=s3://vetsgov-website-builds-s3-upload/
+              
+            df -H
+            aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
+            echo "1"
+              
+        - name: Archive production artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: dist-without-markdown
+            path: vagovprod.tar.bz2
+            retention-days: 1
 
     integration-test:
       name: Run Cypress Tests
@@ -67,16 +84,14 @@ jobs:
             ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
             env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-        - name: Find the build
-          id: find-build
+        - name: Download artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: dist-without-markdown
+            path: vagovprod.tar.bz2
+
+        - name: Unpack artifact
           run: |
-            ARCHIVE_NAME=${{ github.event.inputs.commit_sha }}/vagovprod.tar.bz2
-            BUCKET_PATH=s3://vetsgov-website-builds-s3-upload/
-            
-            df -H
-            aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
-            echo "1"
-            
             mkdir vets-website
             tar -xjf vagovprod.tar.bz2 -C vets-website
             echo "2"
