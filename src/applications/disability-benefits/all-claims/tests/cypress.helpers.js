@@ -298,7 +298,7 @@ export const pageHooks = (cy, testOptions = {}) => ({
   'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
-        const comboBox = '[data-testid="combobox-input"]';
+        const comboBox = '[data-testid="autocomplete-input"]';
         const input = '#inputField';
         const option = '[role="option"]';
 
