@@ -44,15 +44,16 @@ jobs:
           run: |
             ARCHIVE_NAME=${{ github.event.inputs.commit_sha }}/vagovprod.tar.bz2
             BUCKET_PATH=s3://vetsgov-website-builds-s3-upload/
-            TARGET_DIR=build/${{ env.BUILDTYPE }}
             
             df -H
             aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
+            echo "1"
 
             if [ -f $ARCHIVE_NAME ]; then
-             mkdir -p $TARGET_DIR
+             echo "2" 
              tar -xvjf $ARCHIVE_NAME -C /vets-website
              echo "BUILD_EXISTS=true" >> $GITHUB_ENV
+             echo "3"
 
              else
               echo "Requested build not found. Workflow cannot run."
