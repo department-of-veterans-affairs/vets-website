@@ -128,7 +128,7 @@ export const Locators = {
     SORT: '[data-testid="sort-button"]',
     ATTACH_FILE: '[data-testid="attach-file-button"]',
     REMOVE_ATTACHMENT: '[data-testid="remove-attachment-button"]',
-    REMOVE_ALL_ATTCH: `[data-testid="attachment-virus-alert"]>button`,
+    REMOVE_ALL_ATTCH: `[data-testid="remove-all-attachments-button"]`,
     CONFIRM_REMOVE_ATTACHMENT:
       '[data-testid="confirm-remove-attachment-button"]',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
