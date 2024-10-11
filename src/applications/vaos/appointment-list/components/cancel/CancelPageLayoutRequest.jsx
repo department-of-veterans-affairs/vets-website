@@ -36,7 +36,7 @@ export default function CancelPageLayoutRequest() {
     reason = null;
     otherDetails = bookingNotes;
   }
-  const { providerName, treatmentSpecialty } = preferredProvider || {};
+  const { providerName } = preferredProvider || {};
 
   return (
     <>
@@ -68,10 +68,6 @@ export default function CancelPageLayoutRequest() {
           </Section>
           <Section heading="Preferred community care provider" level={3}>
             <span>{`${providerName || 'Provider name not available'}`}</span>
-            <br />
-            <span>
-              {`${treatmentSpecialty || 'Treatment specialty not available'}`}
-            </span>
             <br />
             {providerAddress && <span>{providerAddress.line[0]}</span>}
             {!providerAddress && <span>Address not available</span>}
