@@ -48,7 +48,7 @@ jobs:
             aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
             echo "1"
              
-            tar -xvjf $ARCHIVE_NAME -C build/vagovprod
+            tar -xvjf vagovprod.tar.bz2 -C build/vagovprod
             echo "2"
 
     integration-test:
