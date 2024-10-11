@@ -15,13 +15,35 @@ env:
     VETS_WEBSITE_CHANNEL_ID: ''
   
 jobs:
-    integration-test:
-      name: Test setup
+    ecr-login:
       runs-on: ubuntu-latest
       permissions: write-all
       outputs:
         ECR_USERNAME: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
         ECR_PASSWORD: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+      steps:
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4.0.0
+          with:
+             aws-region: us-gov-west-1
+             role-to-assume: arn:aws-us-gov:iam::008577686731:role/gha-frontend-nonprod-role
+        
+        - name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v2    
+          with:
+            mask-password: false
+
+    integration-test:
+      name: Test setup
+      runs-on: ubuntu-latest
+      permissions: write-all
+      needs: ecr-login
+      container: 
+        image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+        credentials: 
+          username: ${{ needs.ecr-login.outputs.ECR_USERNAME }}
+          password: ${{ needs.ecr-login.outputs.ECR_PASSWORD }}
       steps:
         - name: Checkout
           uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -39,12 +61,6 @@ jobs:
           with:
              aws-region: us-gov-west-1
              role-to-assume: arn:aws-us-gov:iam::008577686731:role/gha-frontend-nonprod-role
-        
-        - name: Login to Amazon ECR
-          id: login-ecr
-          uses: aws-actions/amazon-ecr-login@v2    
-          with:
-            mask-password: false
 
         - name: Get va-vsp-bot token
           uses: ./.github/workflows/inject-secrets
@@ -65,18 +81,7 @@ jobs:
             mkdir vets-website
             tar -xjf vagovprod.tar.bz2 -C vets-website
             echo "2"
-      
-    run-cypress-test:
-      name: 
-      runs-on: ubuntu-latest
-      needs: integration-test
-      container: 
-        image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
-        credentials: 
-          username: ${{ needs.integration-test.outputs.ECR_USERNAME }}
-          password: ${{ needs.integration-test.outputs.ECR_PASSWORD }}
-      steps:
 
-      - name: Call reusable action
-        id: cypress-action
-        uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test@cypress-integration-test-migration
+        - name: Call reusable action
+          id: cypress-action
+          uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test@cypress-integration-test-migration
