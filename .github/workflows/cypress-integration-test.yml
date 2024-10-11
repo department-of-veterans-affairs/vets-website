@@ -35,42 +35,19 @@ jobs:
             path: |
               .cache/yarn
               node_modules
-
-        - name: Configure AWS credentials (1)
-          uses: ./.github/workflows/configure-aws-credentials
-          with:
-            aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws_region: us-gov-west-1
         
         - name: Get AWS IAM role
           uses: ./.github/workflows/inject-secrets
           with:
-             ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
-             env_variable_name: AWS_FRONTEND_PROD_ROLE
+             ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+             env_variable_name: AWS_FRONTEND_NONPROD_ROLE
              aws_region: us-gov-west-1
-   
-        - name: Get AWS IAM role
-          uses: ./.github/workflows/inject-secrets
-          with:
-             ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
-             env_variable_name: AWS_FRONTEND_PROD_ROLE
 
-        - name: Configure AWS Credentials (2)
-          uses: ./.github/workflows/configure-aws-credentials
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4.0.0
           with:
-            aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws_region: us-gov-west-1
-            role: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
-            role_duration: 1200
-            session_name: vsp-frontendteam-githubaction
-            
-        - name: Login to Amazon ECR
-          id: login-ecr
-          uses: aws-actions/amazon-ecr-login@v2    
-          with:
-            mask-password: false
+             aws-region: us-gov-west-1
+             role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
 
         - name: Get va-vsp-bot token
           uses: ./.github/workflows/inject-secrets
@@ -107,18 +84,18 @@ jobs:
            fetch-depth: 0
            ref: ${{ github.event.inputs.commit_sha }}
 
-        - name: Configure AWS Credentials
-          uses: ./.github/workflows/configure-aws-credentials
+        - name: Get AWS IAM role
+          uses: ./.github/workflows/inject-secrets
           with:
-            aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+            env_variable_name: AWS_FRONTEND_NONPROD_ROLE
             aws_region: us-gov-west-1
-
-        - name: Login to Amazon ECR
-          id: login-ecr
-          uses: aws-actions/amazon-ecr-login@v2    
+ 
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4.0.0
           with:
-            mask-password: false
+             aws-region: us-gov-west-1
+             role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
   
         - name: Get va-vsp-bot token
           uses: ./.github/workflows/inject-secrets
