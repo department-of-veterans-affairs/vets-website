@@ -43,7 +43,7 @@ const MissingApplicationHelp = () => (
           Authorize VA to release your information to a third-party source (VA
           Form 21-0845)
         </li>
-        <li>Submit an intent to file (VA Form 21-0966)</li>
+        {/* <li>Submit an intent to file (VA Form 21-0966)</li> */}
         <li>
           Request priority processing for an existing claim (VA Form 20-10207)
         </li>
