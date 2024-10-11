@@ -49,7 +49,7 @@ jobs:
             echo "1"
             
             mkdir vets-website
-            tar -xvjf vagovprod.tar.bz2 -C build/vagovprod
+            tar -xvjf vagovprod.tar.bz2 -C vets-website
             echo "2"
 
     integration-test:
