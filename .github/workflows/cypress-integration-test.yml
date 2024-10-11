@@ -66,11 +66,11 @@ jobs:
         - name: Checkout
           uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
           
-        # - name: Determine slackGroup and specPattern
-        #   id: helper
-        #   run: |
-        #      chmod +x ./script/github-actions/cypress-integration-test.sh 
-        #      ./script/github-actions/cypress-integration-test.sh "${{ github.event.inputs.product }}"
+        - name: Determine slackGroup and specPattern
+          id: helper
+          run: |
+             chmod +x ./script/github-actions/cypress-integration-test.sh 
+             ./script/github-actions/cypress-integration-test.sh "${{ github.event.inputs.product }}"
 
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v4.0.0
