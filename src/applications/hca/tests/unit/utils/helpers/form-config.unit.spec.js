@@ -177,15 +177,27 @@ describe('hca form config helpers', () => {
   });
 
   context('when `isMissingVeteranDob` executes', () => {
-    it('should return `true` when viewfield is `null`', () => {
-      const formData = { 'view:isLoggedIn': true, 'view:userDob': null };
+    it('should return `true` when veteran information is not populated', () => {
+      const formData = {
+        'view:isLoggedIn': true,
+      };
       expect(isMissingVeteranDob(formData)).to.be.true;
     });
 
-    it('should return `false` when viewfield is populated', () => {
+    it('should return `true` when date of birth value is `null`', () => {
       const formData = {
         'view:isLoggedIn': true,
-        'view:userDob': '1990-01-01',
+        'view:veteranInformation': { veteranDateOfBirth: null },
+      };
+      expect(isMissingVeteranDob(formData)).to.be.true;
+    });
+
+    it('should return `false` when date of birth value is populated', () => {
+      const formData = {
+        'view:isLoggedIn': true,
+        'view:veteranInformation': {
+          veteranDateOfBirth: '1990-01-01',
+        },
       };
       expect(isMissingVeteranDob(formData)).to.be.false;
     });
