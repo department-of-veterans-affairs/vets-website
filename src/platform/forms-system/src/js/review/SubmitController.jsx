@@ -99,8 +99,8 @@ class SubmitController extends Component {
           error?.tagName.startsWith('VA-') &&
           formConfig?.formOptions?.focusOnAlertRole
         ) {
-          const checkbox = $('[error]:not([error=""])', error?.shadowRoot);
-          focusElement('[role="alert"]', {}, checkbox?.shadowRoot);
+          const webComponent = $('[error]:not([error=""])', error?.shadowRoot);
+          focusElement('[role="alert"]', {}, webComponent?.shadowRoot);
         } else {
           focusElement(error);
         }
