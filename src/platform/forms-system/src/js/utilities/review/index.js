@@ -45,15 +45,15 @@ export const openAndEditChapter = error => {
     `va-accordion-item[data-chapter="${error.chapterKey}"`,
   );
 
-  const accordionItemButton = accordionItem.shadowRoot.querySelector(
+  const accordionItemButton = accordionItem?.shadowRoot.querySelector(
     "button[aria-controls='content']",
   );
 
-  accordionItemButton.click();
+  accordionItemButton?.click();
 
   const pageTarget = findTargets(error).scroll;
 
-  const editButton = pageTarget.parentNode.querySelector('va-button');
+  const editButton = pageTarget?.parentNode.querySelector('va-button');
 
   // editButton will be undefined if it's already in the edit state
   editButton?.click();
