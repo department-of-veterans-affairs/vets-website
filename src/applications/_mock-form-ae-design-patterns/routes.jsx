@@ -5,6 +5,7 @@ import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
 import redTaskConfig from './patterns/pattern2/TaskRed/form/config/form';
+import blueFormConfig from './patterns/pattern2/TaskBlue/config/form';
 import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 import App from './App';
 import CoeApp from './patterns/pattern2/TaskRed/form/containers/App';
@@ -51,7 +52,8 @@ const pattern1Routes = [
       onEnter: (nextState, replace) =>
         replace('/1/task-purple/introduction?loggedIn=true'),
     },
-    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
+    // childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
+    childRoutes: createRoutesWithSaveInProgress(blueFormConfig),
   },
   {
     path: '/1/ezr',
