@@ -72,9 +72,7 @@ const RequestDetailsCard = ({ data, response }) => {
       <p className="vads-u-margin-bottom--0">
         <strong>Date submitted</strong>
       </p>
-      <p className="vads-u-margin-top--0p5">
-        {formatDateLong(response.timestamp)}
-      </p>
+      <p className="vads-u-margin-top--0p5">{formatDateLong(new Date())}</p>
       <p className="vads-u-margin-bottom--0p5">
         <va-button text={buttonText} onClick={windowPrint} />
         <DownloadFormPDF pdfContent={response.content} />
