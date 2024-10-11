@@ -23,8 +23,6 @@ const options = {
         ? formatFullName(item.previousFullName)
         : undefined,
     summaryTitleWithoutItems: 'Other Service names',
-    deleteTitle: 'Delete previous name',
-    cancelEditTitle: 'Cancel editing this previous name',
   },
 };
 
