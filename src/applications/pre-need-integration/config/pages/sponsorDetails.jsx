@@ -48,10 +48,10 @@ export const uiSchema = {
       },
       dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
       cityOfBirth: {
-        'ui:title': "Sponsor's birth city",
+        'ui:title': 'Sponsor’s birth city',
       },
       stateOfBirth: {
-        'ui:title': "Sponsor's birth state",
+        'ui:title': 'Sponsor’s birth state',
       },
     }),
   },
