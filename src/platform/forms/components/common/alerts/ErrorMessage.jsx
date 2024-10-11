@@ -1,7 +1,7 @@
 // libs
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
+import { focusElement } from 'platform/utilities/ui/focus';
 
 /**
  * A column layout component
@@ -17,7 +17,7 @@ function ErrorMessage(props) {
   useEffect(
     () => {
       if (active && alertRef?.current) {
-        waitForRenderThenFocus('.schemaform-failure-alert');
+        focusElement('.schemaform-failure-alert');
       }
     },
     [active, alertRef],
