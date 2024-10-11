@@ -25,6 +25,15 @@ jobs:
           uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
           with:
            fetch-depth: 0
+
+        - name: Configure AWS credentials (1)
+          if: steps.check-deployability.outputs.is_deployable == 'true'
+          uses: ./.github/workflows/configure-aws-credentials
+         with:
+            aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws_region: us-gov-west-1
+        
         - name: Get AWS IAM role
           uses: ./.github/workflows/inject-secrets
           with:
@@ -37,7 +46,7 @@ jobs:
              ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
              env_variable_name: AWS_FRONTEND_PROD_ROLE
 
-        - name: Configure AWS Credentials
+        - name: Configure AWS Credentials (2)
           uses: ./.github/workflows/configure-aws-credentials
           with:
             aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
