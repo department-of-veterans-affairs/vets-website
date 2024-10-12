@@ -38,12 +38,8 @@ export const deviewifyFields = formData => {
   return newFormData;
 };
 
-export const preparerIsVeteran = ({ formData } = {}) => {
-  if (formData) {
-    return formData['view:applicantIsVeteran'] === 'Yes';
-  }
-  return false;
-};
+export const preparerIsVeteran = ({ formData } = {}) =>
+  formData?.['view:applicantIsVeteran'] === 'Yes';
 
 export const isLoggedIn = ({ formData } = {}) => {
   if (formData) {
