@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
@@ -31,41 +30,20 @@ const BenefitsProfileWrapper = ({ children }) => {
     pendingDocuments,
     latestAddress,
     indicator,
+    claimantId,
+    profile,
   } = useData();
+
   const applicantName = latestAddress?.veteranName;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(
     TOGGLE_NAMES.toggleVyeAddressDirectDepositForms,
   );
-  const [userData, setUserData] = useState({});
+
+  const signIn = profile?.signIn;
   useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const {
-          data: {
-            attributes: { profile },
-          },
-        } = await apiRequest('/user', {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        setUserData(profile);
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-    getUserData();
+    focusElement('h1');
   }, []);
-  const { signIn } = userData;
-  useEffect(
-    () => {
-      focusElement('h1');
-    },
-    [userData],
-  );
   return (
     <>
       <div />
@@ -93,7 +71,7 @@ const BenefitsProfileWrapper = ({ children }) => {
               applicantChapter={applicantChapter}
               applicantName={applicantName}
             />
-            {toggleValue || window.isProduction ? (
+            {(toggleValue || window.isProduction) && !claimantId ? (
               <>
                 <ChangeOfAddressWrapper
                   loading={loading}

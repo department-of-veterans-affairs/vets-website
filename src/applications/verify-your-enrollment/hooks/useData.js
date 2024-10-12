@@ -5,20 +5,23 @@ import {
   remainingBenefits,
   translateDateIntoMonthDayYearFormat,
 } from '../helpers';
-import { fetchPersonalInfo } from '../actions';
+import { fetchClaimantId, fetchPersonalInfo } from '../actions';
 
 export const useData = () => {
   // This custom hook is for fetching and preparing user data from the Redux state.
   const dispatch = useDispatch();
   const response = useSelector(state => state.personalInfo);
-  const { data: enrollmentResponse } = useSelector(
-    state => state.verifyEnrollment,
-  );
+  const claimantIdResponse = useSelector(state => state.checkClaimant);
+
   useEffect(
     () => {
-      dispatch(fetchPersonalInfo());
+      const fetchData = async () => {
+        await dispatch(fetchClaimantId());
+        await dispatch(fetchPersonalInfo());
+      };
+      fetchData();
     },
-    [dispatch, enrollmentResponse],
+    [dispatch],
   );
 
   const userInfo = response?.personalInfo?.['vye::UserInfo'];
@@ -34,5 +37,7 @@ export const useData = () => {
     day,
     month,
     ...userInfo,
+    claimantId: claimantIdResponse?.claimantId,
+    profile: claimantIdResponse?.profile,
   };
 };

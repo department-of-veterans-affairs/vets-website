@@ -28,6 +28,9 @@ export const ADDRESS_VALIDATION_START = 'ADDRESS_VALIDATION_START';
 export const ADDRESS_VALIDATION_SUCCESS = 'ADDRESS_VALIDATION_SUCCESS';
 export const ADDRESS_VALIDATION_FAIL = 'ADDRESS_VALIDATION_FAIL';
 export const SET_SUGGESTED_ADDRESS_PICKED = 'SET_SUGGESTED_ADDRESS_PICKED';
+export const CHECK_CLAIMANT_START = 'CHECK_CLAIMANT_START';
+export const CHECK_CLAIMANT_SUCCESS = 'CHECK_CLAIMANT_SUCCESS';
+export const CHECK_CLAIMANT_FAIL = 'CHECK_CLAIMANT_FAIL';
 
 export const handleSuggestedAddressPicked = value => ({
   type: SET_SUGGESTED_ADDRESS_PICKED,
@@ -61,9 +64,80 @@ export const updateVerifications = verifications => ({
   payload: verifications,
 });
 
-export const fetchPersonalInfo = () => {
+export const fetchClaimantId = () => {
   return async dispatch => {
+    dispatch({ type: CHECK_CLAIMANT_START });
+    let profile = null
+    try {
+      const {
+        data: {
+          attributes: { profile: profileData },
+        },
+      } = await apiRequest('/user', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      profile = profileData;
+      const response = await apiRequest(
+        'http://localhost:8080/dgi/vye/claimantLookup',
+        {
+          method: 'POST',
+          body: JSON.stringify({ idNumber: profile?.birlsId }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      dispatch({
+        type: CHECK_CLAIMANT_SUCCESS,
+        claimantId: response.claimantId,
+        profile,
+      });
+    } catch (errors) {
+      dispatch({
+        type: CHECK_CLAIMANT_FAIL,
+        errors,
+        profile,
+      });
+    }
+  };
+};
+export const fetchPersonalInfo = () => {
+  return async (dispatch, getState) => {
     dispatch({ type: FETCH_PERSONAL_INFO });
+    const {
+      checkClaimant: { claimantId },
+    } = getState();
+    if (claimantId) {
+      const [statusResponse, recordResponse] = await Promise.all([
+        apiRequest(
+          `http://localhost:8080/verifications/vye/${claimantId}/status`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        ),
+        apiRequest(
+          `http://localhost:8080/verifications/vye/${claimantId}/verification-record`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        ),
+      ]);
+      console.log(
+        statusResponse,
+        recordResponse,
+        'statusResponse, recordResponse',
+      );
+    }
     return apiRequest(API_URL, {
       headers: {
         'Content-Type': 'application/json',
