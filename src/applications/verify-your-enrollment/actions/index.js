@@ -67,7 +67,7 @@ export const updateVerifications = verifications => ({
 export const fetchClaimantId = () => {
   return async dispatch => {
     dispatch({ type: CHECK_CLAIMANT_START });
-    let profile = null
+    let profile = null;
     try {
       const {
         data: {
