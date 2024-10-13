@@ -206,4 +206,58 @@ describe('22-10282 Edu form', () => {
       );
     });
   });
+  describe('education and employment history', () => {
+    beforeEach(() => {
+      cy.get('[text="Start your application"]').click();
+      cy.get('[id="root_veteranFullName_first"]').type('John');
+      cy.get('[id="root_veteranFullName_last"]').type('Doe');
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).click();
+      cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).should(
+        'be.checked',
+      );
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[name="root_contactInfo_email"]')
+        .first()
+        .type('someEmail@mail.com', { delay: 0, waitForAnimations: false });
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[name="root_country"]')
+        .first()
+        .select('Canada');
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+    });
+    it('Should have education and employment questions', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get('[data-testid="optional-education"]').should(
+        'contain',
+        'What’s the highest level of education you have completed?',
+      );
+    });
+    it("should show a textbox if 'something else' option is selected", () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get('[id="root_highestLevelOfEducation_level_5"]').click();
+      cy.get('[data-testid="something-else-edu"]').should(
+        'contain',
+        'Enter the highest level of education you’ve completed.',
+      );
+    });
+    it('should show currently employed question', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[data-testid="currently-employed"]').should('exist');
+    });
+    it('should show annual salary question', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[data-testid="annual-salary"]').should('exist');
+    });
+    it('should show technology question', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[data-testid="current-technology"]').should('exist');
+    });
+  });
 });
