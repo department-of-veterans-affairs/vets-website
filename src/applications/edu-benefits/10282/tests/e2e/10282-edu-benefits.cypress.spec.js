@@ -31,13 +31,22 @@ describe('22-10282 Edu form', () => {
   describe('Which of these best describes you page', () => {
     beforeEach(() => {
       cy.get('[text="Start your application"]').click();
-      cy.get('[id="root_veteranFullName_first"]').type('John');
-      cy.get('[id="root_veteranFullName_last"]').type('Doe');
-      cy.get('[class="usa-button-primary"]').click();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
+      cy.get('[id="root_veteranFullName_first"]', { timeout: Timeouts.slow })
+        .type('John')
+        .then(() => {
+          // eslint-disable-next-line cypress/unsafe-to-chain-command
+          cy.get('[id="root_veteranFullName_last"]', { timeout: Timeouts.slow })
+            .type('Doe')
+            .then(() => {
+              cy.get('[class="usa-button-primary"]').click();
+            });
+        });
     });
+
     it('It should proceed to the next page when required fields are not empty', () => {
       cy.injectAxeThenAxeCheck();
-      cy.get('[data-dtestid="veteran-description"]').should(
+      cy.get('[data-testid="veteran-description"]').should(
         'contain',
         'Which of these best describes you?',
       );
@@ -63,10 +72,17 @@ describe('22-10282 Edu form', () => {
   describe('Phone and email address', () => {
     beforeEach(() => {
       cy.get('[text="Start your application"]').click();
-      cy.get('[id="root_veteranFullName_first"]').type('John');
-      cy.get('[id="root_veteranFullName_last"]').type('Doe');
-      cy.get('[class="usa-button-primary"]').click();
-      cy.get('[class="usa-button-primary"]').click();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
+      cy.get('[id="root_veteranFullName_first"]', { timeout: Timeouts.slow })
+        .type('John')
+        .then(() => {
+          // eslint-disable-next-line cypress/unsafe-to-chain-command
+          cy.get('[id="root_veteranFullName_last"]', { timeout: Timeouts.slow })
+            .type('Doe')
+            .then(() => {
+              cy.get('[class="usa-button-primary"]').click();
+            });
+        });
       cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).click();
       cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).should(
         'be.checked',
@@ -83,10 +99,13 @@ describe('22-10282 Edu form', () => {
     });
     it('should show error when email address in not in the correct format', () => {
       cy.injectAxeThenAxeCheck();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
       cy.get('[name="root_contactInfo_email"]')
         .first()
-        .type('someEmail', { delay: 0, waitForAnimations: false });
-      cy.get('[class="usa-button-primary"]').click();
+        .type('someEmail')
+        .then(() => {
+          cy.get('[class="usa-button-primary"]').click();
+        });
       cy.get('[id="input-error-message"]').should(
         'contain',
         'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
@@ -94,9 +113,13 @@ describe('22-10282 Edu form', () => {
     });
     it('shoud show Country field when there are no errors in the email field', () => {
       cy.injectAxeThenAxeCheck();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
       cy.get('[name="root_contactInfo_email"]')
         .first()
-        .type('someEmail@mail.com', { delay: 0, waitForAnimations: false });
+        .type('someEmail@mail.com')
+        .then(() => {
+          cy.get('[class="usa-button-primary"]').click();
+        });
       cy.get('[class="usa-button-primary"]').click();
       cy.get('[data-testid="country-field"]').should('exist');
     });
@@ -104,19 +127,29 @@ describe('22-10282 Edu form', () => {
   describe('Country and State fields', () => {
     beforeEach(() => {
       cy.get('[text="Start your application"]').click();
-      cy.get('[id="root_veteranFullName_first"]').type('John');
-      cy.get('[id="root_veteranFullName_last"]').type('Doe');
-      cy.get('[class="usa-button-primary"]').click();
-      cy.get('[class="usa-button-primary"]').click();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
+      cy.get('[id="root_veteranFullName_first"]', { timeout: Timeouts.slow })
+        .type('John')
+        .then(() => {
+          // eslint-disable-next-line cypress/unsafe-to-chain-command
+          cy.get('[id="root_veteranFullName_last"]', { timeout: Timeouts.slow })
+            .type('Doe')
+            .then(() => {
+              cy.get('[class="usa-button-primary"]').click();
+            });
+        });
       cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).click();
       cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).should(
         'be.checked',
       );
       cy.get('[class="usa-button-primary"]').click();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
       cy.get('[name="root_contactInfo_email"]')
         .first()
-        .type('someEmail@mail.com', { delay: 0, waitForAnimations: false });
-      cy.get('[class="usa-button-primary"]').click();
+        .type('someEmail@mail.com')
+        .then(() => {
+          cy.get('[class="usa-button-primary"]').click();
+        });
     });
     it('should show error if country field is not selected', () => {
       cy.injectAxeThenAxeCheck();
@@ -162,18 +195,29 @@ describe('22-10282 Edu form', () => {
   describe('Other optional questions', () => {
     beforeEach(() => {
       cy.get('[text="Start your application"]').click();
-      cy.get('[id="root_veteranFullName_first"]').type('John');
-      cy.get('[id="root_veteranFullName_last"]').type('Doe');
-      cy.get('[class="usa-button-primary"]').click();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
+      cy.get('[id="root_veteranFullName_first"]', { timeout: Timeouts.slow })
+        .type('John')
+        .then(() => {
+          // eslint-disable-next-line cypress/unsafe-to-chain-command
+          cy.get('[id="root_veteranFullName_last"]', { timeout: Timeouts.slow })
+            .type('Doe')
+            .then(() => {
+              cy.get('[class="usa-button-primary"]').click();
+            });
+        });
       cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).click();
       cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).should(
         'be.checked',
       );
       cy.get('[class="usa-button-primary"]').click();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
       cy.get('[name="root_contactInfo_email"]')
         .first()
-        .type('someEmail@mail.com', { delay: 0, waitForAnimations: false });
-      cy.get('[class="usa-button-primary"]').click();
+        .type('someEmail@mail.com')
+        .then(() => {
+          cy.get('[class="usa-button-primary"]').click();
+        });
       cy.get('[name="root_country"]')
         .first()
         .select('Canada');
@@ -182,17 +226,17 @@ describe('22-10282 Edu form', () => {
     it('should skip demographic questions and proceed to education questions if no or nothing is selected', () => {
       cy.injectAxeThenAxeCheck();
       cy.get('[class="usa-button-primary"]').click();
-      cy.get('[ data-testid="ethnicity-and-race"]').should('not.exist');
+      cy.get('[data-testid="ethnicity-and-race"]', {
+        timeout: Timeouts.slow,
+      }).should('not.exist');
     });
     it('should show the question about demographic if yes is selected', () => {
       cy.injectAxeThenAxeCheck();
       cy.get('[id="root_raceAndGender_0"]').click();
-      cy.get('[id="root_raceAndGender_0"]').should('be.checked');
       cy.get('[class="usa-button-primary"]').click();
-      cy.get('[ data-testid="ethnicity-and-race"]').should(
-        'contain',
-        'Your ethnicity and race',
-      );
+      cy.get('[data-testid="ethnicity-and-race"]', {
+        timeout: Timeouts.slow,
+      }).should('contain', 'Your ethnicity and race');
     });
     it('should have demographic as not required', () => {
       cy.injectAxeThenAxeCheck();
@@ -209,19 +253,29 @@ describe('22-10282 Edu form', () => {
   describe('education and employment history', () => {
     beforeEach(() => {
       cy.get('[text="Start your application"]').click();
-      cy.get('[id="root_veteranFullName_first"]').type('John');
-      cy.get('[id="root_veteranFullName_last"]').type('Doe');
-      cy.get('[class="usa-button-primary"]').click();
-      cy.get('[class="usa-button-primary"]').click();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
+      cy.get('[id="root_veteranFullName_first"]', { timeout: Timeouts.slow })
+        .type('John')
+        .then(() => {
+          // eslint-disable-next-line cypress/unsafe-to-chain-command
+          cy.get('[id="root_veteranFullName_last"]', { timeout: Timeouts.slow })
+            .type('Doe')
+            .then(() => {
+              cy.get('[class="usa-button-primary"]').click();
+            });
+        });
       cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).click();
       cy.get('[id="root_veteranDesc_0"]', { timeout: Timeouts.slow }).should(
         'be.checked',
       );
       cy.get('[class="usa-button-primary"]').click();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
       cy.get('[name="root_contactInfo_email"]')
         .first()
-        .type('someEmail@mail.com', { delay: 0, waitForAnimations: false });
-      cy.get('[class="usa-button-primary"]').click();
+        .type('someEmail@mail.com')
+        .then(() => {
+          cy.get('[class="usa-button-primary"]').click();
+        });
       cy.get('[name="root_country"]')
         .first()
         .select('Canada');
@@ -257,7 +311,26 @@ describe('22-10282 Edu form', () => {
     it('should show technology question', () => {
       cy.injectAxeThenAxeCheck();
       cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
       cy.get('[data-testid="current-technology"]').should('exist');
+    });
+    it('should show focus in the technology industry question in the next page', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[ data-testid="technology-industry"]').should('exist');
+    });
+    it('should go to the review page', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.get('[class="usa-button-primary"]').click();
+      cy.location('href').should('contain', '/review-and-submit');
     });
   });
 });

@@ -13,7 +13,7 @@ const labels = {
     "I'm a member of the Individual Ready Reserve",
 };
 const uiTitle = (
-  <h3 className="vads-u-margin--0 " data-dtestid="veteran-description">
+  <h3 className="vads-u-margin--0 " data-testid="veteran-description">
     Which of these best describes you?
   </h3>
 );
