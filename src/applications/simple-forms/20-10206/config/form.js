@@ -31,15 +31,15 @@ import { getMockData } from '../helpers';
 
 const mockData = testData.data;
 
-// export isLocalhost() to facilitate unit-testing
-export function isLocalhost() {
-  return environment.isLocalhost();
+export function isLocalhostOrDev() {
+  return environment.isLocalhost() || environment.isDev();
 }
 
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: !window.Cypress,
+    showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -94,7 +94,7 @@ const formConfig = {
           title: 'Preparer type',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData: getMockData(mockData, isLocalhost),
+          initialData: getMockData(mockData, isLocalhostOrDev),
           uiSchema: preparerTypePg.uiSchema,
           schema: preparerTypePg.schema,
           pageClass: 'preparer-type-page',
