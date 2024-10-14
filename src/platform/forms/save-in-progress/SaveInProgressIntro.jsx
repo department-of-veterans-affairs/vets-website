@@ -331,7 +331,7 @@ class SaveInProgressIntro extends React.Component {
     const data = formData || {};
     // pathname is only provided when the first page is conditional
     if (pathname) return getNextPagePath(pageList, data, pathname);
-    return pageList[1].path;
+    return pageList[1]?.path;
   };
 
   handleClick = () => {
@@ -362,8 +362,8 @@ class SaveInProgressIntro extends React.Component {
   render() {
     const { formConfig, buttonOnly, devOnly } = this.props;
     const devOnlyForceShowFormControls =
-      environment.isLocalhost() &&
-      !window.Cypress &&
+      (environment.isLocalhost() || environment.isDev()) &&
+      !environment.isTest() &&
       devOnly?.forceShowFormControls;
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const { profile, login } = this.props.user;
