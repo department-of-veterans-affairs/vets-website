@@ -80,7 +80,7 @@ const SearchResult = ({
       ...tempData,
     });
 
-    if (isReviewPage) {
+    if (isReviewPage()) {
       // logic here will be extended for various conditional paths depending on new representative type
       goToPath('/review-and-submit');
     } else {
