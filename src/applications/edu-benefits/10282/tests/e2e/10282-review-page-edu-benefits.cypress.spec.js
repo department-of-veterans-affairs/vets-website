@@ -112,7 +112,9 @@ describe('10282 Review Page', () => {
   });
   it('should submit the application successfully if the name matches', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[id="inputField"]')
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
+    cy.get('va-text-input')
+      .find('input')
       .type('John Doe')
       .then(() => {
         cy.get(
