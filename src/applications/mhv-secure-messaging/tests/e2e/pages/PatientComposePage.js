@@ -174,9 +174,7 @@ class PatientComposePage {
     cy.get(Locators.MESSAGES_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SAVE_DRAFT);
     cy.realPress('Enter');
-    cy.wait('@draft_message').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
+    cy.wait('@draft_message');
   };
 
   saveDraftButton = () => {
