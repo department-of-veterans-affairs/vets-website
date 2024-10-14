@@ -15,9 +15,9 @@ export default function ProfileNotUpdatedNote({
       {isLoggedIn(formData) && (
         <>
           <p>
-            {includePrefix && <strong>Note: </strong>} This is the information
-            we have in your VA.gov profile. Any changes you make on this screen
-            will only affect this application.
+            {includePrefix && <strong>Note: </strong>}
+            This is the information we have in your VA.gov profile. Any changes
+            you make on this screen will only affect this application.
           </p>
           {includePhone && (
             <>
