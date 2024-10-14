@@ -88,11 +88,18 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
  * the initial fetch request.
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
  */
-export function apiRequest(resource, optionalSettings, success, error) {
+export function apiRequest(
+  resource,
+  optionalSettings,
+  success,
+  error,
+  env = environment,
+) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');
+  const isProd = env.isProduction();
 
   if (success) {
     // eslint-disable-next-line no-console
@@ -145,18 +152,16 @@ export function apiRequest(resource, optionalSettings, success, error) {
         return data;
       }
 
-      if (environment.isProduction()) {
+      if (isProd) {
         const { pathname } = window.location;
 
-        // Improved condition to check for 401 response and session expiration
         const shouldRedirectToSessionExpired =
           response.status === 401 &&
           !pathname.includes('auth/login/callback') &&
           sessionStorage.getItem('shouldRedirectExpiredSession') === 'true' &&
-          !pathname.includes('/declined');
+          !pathname.includes('/terms-of-use/declined');
 
         if (shouldRedirectToSessionExpired) {
-          // Clear the flag after redirecting to avoid multiple redirects
           sessionStorage.removeItem('shouldRedirectExpiredSession');
           window.location = '/session-expired';
         }
