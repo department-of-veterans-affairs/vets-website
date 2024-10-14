@@ -34,6 +34,7 @@ const EditContactList = () => {
   const [allTriageTeams, setAllTriageTeams] = useState(null);
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
   const [checkboxError, setCheckboxError] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const [
     showBlockedTriageGroupAlert,
@@ -43,6 +44,10 @@ const EditContactList = () => {
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
 
   const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
+
+  const activeDraftId = useSelector(
+    state => state.sm.threadDetails?.drafts?.[0]?.messageId,
+  );
 
   const recipients = useSelector(state => state.sm.recipients);
   const {
@@ -81,7 +86,9 @@ const EditContactList = () => {
 
   const navigateBack = useCallback(
     () => {
-      if (previousUrl) {
+      if (previousUrl === Paths.COMPOSE && activeDraftId) {
+        history.push(`${Paths.MESSAGE_THREAD}${activeDraftId}/`);
+      } else if (previousUrl) {
         history.push(previousUrl);
       } else {
         history.push(Paths.INBOX);
@@ -92,11 +99,16 @@ const EditContactList = () => {
 
   const handleSave = async e => {
     e.preventDefault();
+    if (isSaving) return;
+    setIsSaving(true);
     if (!isMinimumSelected) {
       await setCheckboxError(ErrorMessages.ContactList.MINIMUM_SELECTION);
       focusOnErrorField();
+      setIsSaving(false);
     } else {
-      dispatch(updateTriageTeamRecipients(allTriageTeams));
+      dispatch(updateTriageTeamRecipients(allTriageTeams)).finally(() => {
+        setIsSaving(false);
+      });
     }
   };
 

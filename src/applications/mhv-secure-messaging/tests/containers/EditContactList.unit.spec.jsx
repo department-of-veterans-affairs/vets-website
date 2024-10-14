@@ -387,4 +387,30 @@ describe('Edit Contact List container', async () => {
 
     screen.unmount();
   });
+
+  it('should redirect to draft message on go back button click if an active draft is present', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        breadcrumbs: {
+          previousUrl: Paths.COMPOSE,
+        },
+        threadDetails: {
+          drafts: [{ messageId: '123123' }],
+        },
+      },
+    };
+
+    const screen = setup(customState);
+
+    const cancelButton = await screen.findByTestId('contact-list-go-back');
+    fireEvent.click(cancelButton);
+
+    expect(screen.history.location.pathname).to.equal(
+      `${Paths.MESSAGE_THREAD}123123/`,
+    );
+
+    screen.unmount();
+  });
 });
