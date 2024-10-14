@@ -202,10 +202,10 @@ class PatientMessageDetailsPage {
       'allMessageDetails',
     );
     cy.get(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
-    // cy.get(Locators.ALERTS.THREAD_EXPAND)
-    //   .shadow()
-    //   .contains('Collapse all -')
-    //   .click();
+    cy.get(Locators.ALERTS.THREAD_EXPAND)
+      .shadow()
+      .find('button')
+      .click();
   };
 
   expandThreadMessageDetails = (mockThread, index = 1) => {
