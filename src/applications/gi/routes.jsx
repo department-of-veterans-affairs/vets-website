@@ -4,8 +4,7 @@ import GiBillApp from './containers/GiBillApp';
 import SearchPage from './containers/SearchPage';
 import ComparePage from './containers/ComparePage';
 import ProfilePage from './containers/ProfilePage';
-import LicenseCertificationSearch from './containers/LicenseCertificationSearch';
-import LicenseCertificationSearchResults from './containers/LicenseCertificationSearchResults';
+import SearchLicensesCertificationsPage from './containers/SearchLicensesCertificationsPage';
 
 export const buildRoutes = () => {
   return (
@@ -25,12 +24,8 @@ export const buildRoutes = () => {
         />
         <Route
           path="/lc-search"
-          render={({ match }) => <LicenseCertificationSearch match={match} />}
-        />
-        <Route
-          path="/lc-search-results"
           render={({ match }) => (
-            <LicenseCertificationSearchResults match={match} />
+            <SearchLicensesCertificationsPage match={match} />
           )}
         />
         <Route path="/" render={({ match }) => <SearchPage match={match} />} />
