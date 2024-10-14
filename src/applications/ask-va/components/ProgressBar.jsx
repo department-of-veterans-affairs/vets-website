@@ -69,7 +69,6 @@ const ProgressBar = ({ pathname }) => {
     () => {
       // Scroll back to the top of the form
       scrollTo('topScrollElement');
-
       setViewedPages([...viewedPages, currentPath]);
 
       if (!viewedPages.includes(currentPath) && percent < 100) {
