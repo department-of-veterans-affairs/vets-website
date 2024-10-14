@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { CHAPTER_1, CHAPTER_2, CHAPTER_3 } from '../constants';
 import {
   aboutMyselfRelationshipVeteranPages,
@@ -67,7 +67,7 @@ const ProgressBar = ({ pathname }) => {
 
   useEffect(
     () => {
-      focusElement('.ava-progress-bar > h2');
+      scrollTo('topScrollElement');
       setViewedPages([...viewedPages, currentPath]);
 
       if (!viewedPages.includes(currentPath) && percent < 100) {
