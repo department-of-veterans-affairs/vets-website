@@ -79,14 +79,18 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 /**
  *
  * @param {string} resource - The URL to fetch. If it starts with a leading "/"
- * it will be appended to the baseUrl. Otherwise it will be used as an absolute
+ * it will be appended to the baseUrl. Otherwise, it will be used as an absolute
  * URL.
  * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
- * the fetch request. Will be mixed with, and potentially override, the
- * defaultSettings
+ * the fetch request. These will be merged with, and potentially override, the
+ * default settings.
  * @param {Function} **(DEPRECATED)** success - Callback to execute after successfully resolving
- * the initial fetch request.
+ * the initial fetch request. Prefer using a promise chain instead.
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
+ * Prefer using a promise chain instead.
+ * @param {Object} [env=environment] - **Environment configuration object** used to determine
+ * whether the code is running in production or non-production mode. If no environment object is provided, the function defaults to using the
+ * global `environment` object.
  */
 export function apiRequest(
   resource,
