@@ -125,35 +125,16 @@ const determineInquiryDetails = data => {
 
 export default function submitTransformer(formData, uploadFiles) {
   const inquiryDetails = determineInquiryDetails(formData);
-
   return {
-    AreYouTheDependent: null,
-    AttachmentPresent: null,
+    AreYouTheDependent: false,
+    AttachmentPresent: false,
     BranchOfService: formData.branchOfService,
-    City: formData.address.city,
     ContactMethod: formData.contactPreference,
-    Country: formData.country,
-    DaytimePhone: formData.phoneNumber,
-    DependantCity: null,
-    DependantCountry: null,
     DependantDOB: formData.aboutTheFamilyMember.dateOfBirth,
-    DependantEmail: null,
     DependantFirstName: formData.aboutTheFamilyMember.first,
-    DependantGender: null,
     DependantLastName: formData.aboutTheFamilyMember.last,
     DependantMiddleName: formData.aboutTheFamilyMember.middle,
-    DependantProvince: null,
-    DependantRelationship: formData.aboutTheFamilyMember.first
-      ? inquiryDetails.dependentRelationship
-      : null,
-    DependantSSN: null,
-    DependantState: formData.familyMembersLocationOfResidence,
-    DependantStreetAddress: null,
-    DependantZipCode: formData.postalCode,
-    EmailAddress: formData.emailAddress,
-    EmailConfirmation: formData.emailAddress,
-    FirstName: formData.aboutYourself.first,
-    Gender: null,
+    DependantRelationship: inquiryDetails.dependentRelationship,
     InquiryAbout: inquiryDetails.inquiryAbout,
     InquiryCategory: formData.selectCategory,
     InquirySource: 'AVA',
@@ -161,68 +142,24 @@ export default function submitTransformer(formData, uploadFiles) {
     InquirySummary: formData.subject,
     InquiryTopic: formData.selectTopic,
     InquiryType: null,
-    IsVAEmployee: null,
-    IsVeteran: null,
-    IsVeteranAnEmployee: true,
     IsVeteranDeceased: formData.isVeteranDeceased,
     LevelOfAuthentication: inquiryDetails.levelOfAuthentication,
-    MedicalCenter: null,
-    MiddleName: formData.aboutYourself.middle,
-    PreferredName: formData.preferredName,
-    Pronouns: formData.pronouns,
-    ResponseType: formData.contactPreference,
-    StreetAddress2: formData.address.street2,
-    SubmitterDOB: formData.aboutYourself.dateOfBirth,
-    SubmitterProvince: null,
-    SubmitterQuestion: 'I would like to know more about my claims',
-    SubmittersDodIdEdipiNumber: null,
-    SubmitterSSN: formData.aboutYourself.ssn,
-    SubmitterState: formData.address.state,
-    SubmitterStateOfResidency: formData.yourLocationOfResidences,
-    SubmitterStateOfSchool: formData.stateOfTheSchool,
-    SubmitterStateProperty: null,
-    SubmitterStreetAddress: formData.address.street,
-    SubmitterVetCenter: null,
-    SubmitterZipCodeOfResidency: formData.postalCode,
-    Suffix: formData.aboutYourself.suffix,
-    UntrustedFlag: null,
-    VeteranClaimNumber: null,
-    VeteranDateOfDeath: null,
-    VeteranDOB: formData.aboutTheVeteran.dateOfBirth,
-    VeteranDodIdEdipiNumber: null,
-    VeteranEmail: null,
-    VeteranEmailConfirmation: null,
-    VeteranEnrolled: null,
-    VeteranFirstName: formData.aboutTheVeteran.first,
-    VeteranICN: null,
-    VeteranLastName: formData.aboutTheVeteran.last,
-    VeteranMiddleName: formData.aboutTheVeteran.middle,
-    VeteranPhone: null,
-    VeteranPreferedName: null,
-    VeteranPronouns: null,
-    VeteranProvince: null,
-    VeteranRelationship: formData.aboutTheVeteran.first
-      ? inquiryDetails.veteranRelationship
-      : null,
-    VeteranServiceEndDate: null,
-    VeteranServiceNumber: null,
-    VeteranServiceStartDate: null,
-    VeteranSSN: formData.aboutTheVeteran.socialOrServiceNum.ssn,
-    VeteransState: null,
-    VeteranStreetAddress: null,
-    VeteranSuffix: formData.aboutTheVeteran.suffix,
-    VeteranSuiteAptOther: null,
-    VeteranZipCode: formData.VeteranPostalCode,
-    WhoWasTheirCounselor: null,
-    YourLastName: formData.aboutYourself.last,
-    ZipCode: formData.postalCode,
-    School: {
-      City: null,
-      InstitutionName: getSchoolInfo(formData.school)?.name, // may also come from ava profile prefill
-      SchoolFacilityCode: getSchoolInfo(formData.school)?.code, // may also come from ava profile prefill
-      StateAbbreviation: formData.stateOfTheSchool || null,
-      RegionalOffice: null,
+    MedicalCenter: null, // No corresponding field in current payload
+    SchoolObj: {
+      City: formData.school.city,
+      InstitutionName: getSchoolInfo(formData.school)?.name,
+      SchoolFacilityCode: getSchoolInfo(formData.school)?.code,
+      StateAbbreviation: formData.stateOfTheSchool,
+      RegionalOffice: null, // No corresponding field in current payload
     },
+    SubmitterQuestion: 'I would like to know more about my claims',
+    StateOfRouting: formData.stateOfTheSchool,
+    SubmitterStateOfSchool: formData.stateOfTheSchool,
+    SubmitterStateProperty: null, // No corresponding field in current payload
+    SubmitterZipCodeOfResidency: formData.postalCode,
+    UntrustedFlag: null, // No corresponding field in current payload
+    VeteranRelationship: inquiryDetails.veteranRelationship,
+    WhoWasTheirCounselor: null, // No corresponding field in current payload
     ListOfAttachments: getFiles(uploadFiles),
     SubmitterProfile: {
       FirstName: formData.aboutYourself.first,
@@ -238,20 +175,21 @@ export default function submitTransformer(formData, uploadFiles) {
       State: formData.address.state,
       ZipCode: formData.postalCode,
       Province: formData.province,
-      BusinessPhone: null,
+      BusinessPhone: null, // No corresponding field in current payload
       PersonalPhone: formData.phoneNumber,
       PersonalEmail: formData.emailAddress,
       SSN: formData.aboutYourself.ssn,
-      BusinessEmail: null,
+      BusinessEmail: null, // No corresponding field in current payload
       SchoolState: formData.stateOfTheSchool,
       SchoolFacilityCode: getSchoolInfo(formData.school)?.code,
-      ServiceNumber: null,
-      ClaimNumber: null,
-      VeteranServiceStateDate: null,
-      VeteranServiceEndDate: null,
+      SchoolId: '00000000-0000-0000-0000-000000000000', // No corresponding field in current payload
+      ServiceNumber: null, // No corresponding field in current payload
+      ClaimNumber: null, // No corresponding field in current payload
+      VeteranServiceStateDate: null, // No corresponding field in current payload
+      VeteranServiceEndDate: null, // No corresponding field in current payload
       DateOfBirth: formData.aboutYourself.dateOfBirth,
-      EDIPI: null,
-      ICN: null,
+      EDIPI: null, // No corresponding field in current payload
+      ICN: null, // No corresponding field in current payload
     },
     VeteranProfile: {
       FirstName: formData.aboutTheVeteran.first,
@@ -274,13 +212,14 @@ export default function submitTransformer(formData, uploadFiles) {
       BusinessEmail: formData.aboutTheVeteran.businessEmail,
       SchoolState: formData.aboutTheVeteran.schoolState,
       SchoolFacilityCode: formData.aboutTheVeteran.schoolFacilityCode,
+      SchoolId: '00000000-0000-0000-0000-000000000000', // No corresponding field in current payload
       ServiceNumber: formData.aboutTheVeteran.serviceNumber,
       ClaimNumber: formData.aboutTheVeteran.claimNumber,
       VeteranServiceStateDate: formData.aboutTheVeteran.serviceStartDate,
       VeteranServiceEndDate: formData.aboutTheVeteran.serviceEndDate,
       DateOfBirth: formData.aboutTheVeteran.dateOfBirth,
-      EDIPI: null,
-      ICN: null,
+      EDIPI: null, // No corresponding field in current payload
+      ICN: null, // No corresponding field in current payload
     },
   };
 }

@@ -31,7 +31,10 @@ const SubTopicSelectPage = props => {
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
-    onChange({ ...formData, selectSubtopic: selectedValue });
+    const selected = apiData.find(
+      subtopic => subtopic.attributes.name === selectedValue,
+    );
+    onChange({ ...formData, selectSubtopic: selected.id });
   };
 
   const getApiData = url => {

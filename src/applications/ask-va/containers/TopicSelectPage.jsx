@@ -61,7 +61,7 @@ const TopicSelectPage = props => {
       topic => topic.attributes.name === selectedValue,
     );
     dispatch(setTopicID(selected.id));
-    onChange({ ...formData, selectTopic: selectedValue });
+    onChange({ ...formData, selectTopic: selected.id });
     if (requireSignInTopics.includes(selectedValue) && !loggedIn)
       setShowModal({ show: true, selected: selectedValue });
   };
