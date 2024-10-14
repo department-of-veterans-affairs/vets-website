@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default function ProfileNotUpdatedNote({
-  includePrefix = true,
-  includePhone = true,
-  includeLink = true,
+  includePrefix = false,
+  includePhone = false,
+  includeLink = false,
 }) {
   return (
     <>
