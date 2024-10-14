@@ -98,6 +98,4 @@ jobs:
         - name: Call reusable action
           id: cypress-action
           uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test@cypress-integration-test-migration
-          with: 
-            ECR_USERNAME: ${{ needs.ecr-login.outputs.ECR_USERNAME }}
-            ECR_PASSWORD: ${{ needs.ecr-login.outputs.ECR_PASSWORD }}
+          
