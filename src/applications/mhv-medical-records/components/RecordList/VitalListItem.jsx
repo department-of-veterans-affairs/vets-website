@@ -22,7 +22,7 @@ const VitalListItem = props => {
 
   return (
     <va-card
-      class="record-list-item vads-u-border--0 vads-u-padding-left--0 vads-u-padding-top--1 small-screen:vads-u-padding-top--2"
+      class="record-list-item vads-u-border--0 vads-u-padding-left--0 vads-u-padding-top--1 mobile-lg:vads-u-padding-top--2"
       data-testid="record-list-item"
     >
       <h2

@@ -21,7 +21,7 @@ export const generatePDF = transformedFormData => {
   const startTime = new Date().getTime();
 
   const requestUrl = `${
-    environment.BASE_URL
+    environment.API_URL
   }/representation_management/v0/pdf_generator${
     isAttorneyOrClaimsAgent ? '2122a' : '2122'
   }`;
