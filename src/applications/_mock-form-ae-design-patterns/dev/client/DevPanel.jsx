@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { format, parseISO } from 'date-fns';
+import { ApplicationSelector } from './ApplicationSelector';
 
 const API_BASE_URL = 'http://localhost:1337';
 
@@ -137,7 +138,7 @@ const DevPanel = () => {
     stopPort,
   ) => {
     return (
-      <div className="vads-l-col--6 vads-l-grid-container vads-u-padding--0">
+      <div className="vads-l-col--5 vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row vads-u-align-items--center">
           <h2 className="vads-u-font-size--h4 vads-u-margin-y--0 vads-u-font-family--sans vads-u-font-weight--bold">
             {displayName}
@@ -212,6 +213,9 @@ const DevPanel = () => {
       <h1 className="vads-u-font-size--h2">Dev Panel</h1>
 
       <div className="vads-l-row">
+        <div className="vads-l-col--2 vads-l-grid-container vads-u-padding--0">
+          <ApplicationSelector />
+        </div>
         {renderProcessColumn(
           'fe-dev-server',
           'Frontend Dev Server',
