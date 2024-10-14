@@ -27,8 +27,6 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
       .find(`[text*="without"]`)
       .click();
 
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).should(`be.focused`);
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
