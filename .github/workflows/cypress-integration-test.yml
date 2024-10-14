@@ -58,7 +58,7 @@ jobs:
       permissions: write-all
       needs: ecr-login
       container: 
-        image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+        image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
         credentials: 
           username: ${{ needs.ecr-login.outputs.ECR_USERNAME }}
           password: ${{ needs.ecr-login.outputs.ECR_PASSWORD }}
