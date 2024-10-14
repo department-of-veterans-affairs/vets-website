@@ -25,6 +25,7 @@ const getFiles = files => {
 };
 
 const determineInquiryDetails = data => {
+
   const {
     selectCategory,
     selectTopic,
@@ -122,9 +123,9 @@ const determineInquiryDetails = data => {
 
   return inquiryDetails;
 };
-
-export default function submitTransformer(formData, uploadFiles) {
-  const inquiryDetails = determineInquiryDetails(formData);
+// eslint-disable-next-line sonarjs/no-extra-arguments
+export default function submitTransformer(formData, uploadFiles, askVAStore) {
+  const inquiryDetails = determineInquiryDetails(formData, askVAStore);
   return {
     AreYouTheDependent: false,
     AttachmentPresent: false,
@@ -136,17 +137,17 @@ export default function submitTransformer(formData, uploadFiles) {
     DependantMiddleName: formData.aboutTheFamilyMember.middle,
     DependantRelationship: inquiryDetails.dependentRelationship,
     InquiryAbout: inquiryDetails.inquiryAbout,
-    InquiryCategory: formData.selectCategory,
+    InquiryCategory: askVAStore.categoryID,
     InquirySource: 'AVA',
-    InquirySubtopic: formData.selectSubtopic,
+    InquirySubtopic: askVAStore.subtopicID,
     InquirySummary: formData.subject,
-    InquiryTopic: formData.selectTopic,
+    InquiryTopic: askVAStore.topicID,
     InquiryType: null,
     IsVeteranDeceased: formData.isVeteranDeceased,
     LevelOfAuthentication: inquiryDetails.levelOfAuthentication,
     MedicalCenter: null, // No corresponding field in current payload
     SchoolObj: {
-      City: formData.school.city,
+      City: formData.school?.city,
       InstitutionName: getSchoolInfo(formData.school)?.name,
       SchoolFacilityCode: getSchoolInfo(formData.school)?.code,
       StateAbbreviation: formData.stateOfTheSchool,

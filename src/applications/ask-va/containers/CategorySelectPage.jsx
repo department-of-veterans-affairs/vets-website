@@ -45,7 +45,7 @@ const CategorySelectPage = props => {
       setShowModal({ show: true, selected: `${selectedValue}` });
     } else {
       dispatch(setCategoryID(selected.id));
-      onChange({ ...formData, selectCategory: selected.id });
+      onChange({ ...formData, selectCategory: selectedValue });
     }
   };
 

@@ -1,5 +1,6 @@
 export const SET_CATEGORY_ID = 'SET_CATEGORY_ID';
 export const SET_TOPIC_ID = 'SET_TOPIC_ID';
+export const SET_SUBTOPIC_ID = 'SET_SUBTOPIC_ID';
 export const SET_UPDATED_IN_REVIEW = 'SET_UPDATED_IN_REVIEW';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
@@ -11,6 +12,10 @@ export function setCategoryID(id) {
 
 export function setTopicID(id) {
   return { type: SET_TOPIC_ID, payload: id };
+}
+
+export function setSubtopicID(id) {
+  return { type: SET_SUBTOPIC_ID, payload: id };
 }
 
 export function setUpdatedInReview(page) {
