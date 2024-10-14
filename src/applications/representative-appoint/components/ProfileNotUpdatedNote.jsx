@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn } from '../utilities/helpers';
 
 export default function ProfileNotUpdatedNote({
+  formData,
   includePrefix = false,
   includePhone = false,
   includeLink = false,
 }) {
   return (
     <>
-      {isLoggedIn && (
+      {isLoggedIn(formData) && (
         <>
           <p>
             {includePrefix && <strong>Note: </strong>} This is the information
@@ -45,6 +46,7 @@ export default function ProfileNotUpdatedNote({
 }
 
 ProfileNotUpdatedNote.propTypes = {
+  formData: PropTypes.object,
   includeLink: PropTypes.bool,
   includePhone: PropTypes.bool,
   includePrefix: PropTypes.bool,
