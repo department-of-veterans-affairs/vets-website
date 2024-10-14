@@ -25,6 +25,7 @@ import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
 import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
 import YellowRibbonTable from './YellowRibbonTable';
+import Programs from './Programs';
 
 export default function InstitutionProfile({
   institution,
@@ -40,6 +41,9 @@ export default function InstitutionProfile({
 }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.showYellowRibbonTable);
+
+  // Mock categories
+  const programs = ['Undergraduate', 'Graduate', 'OJT'];
 
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
@@ -296,6 +300,11 @@ export default function InstitutionProfile({
           <Academics institution={institution} onShowModal={showModal} />
         </ProfileSection>
       )}
+
+      <ProfileSection label="Programs" id="programs">
+        <Programs programCategories={programs} />
+        {/* <Programs programs={institution.programs}/> */}
+      </ProfileSection>
       {!isOJT && (
         <ProfileSection
           label="Veteran programs and support"
