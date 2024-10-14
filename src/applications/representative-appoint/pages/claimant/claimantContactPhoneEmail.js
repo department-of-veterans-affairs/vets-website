@@ -10,8 +10,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
-export const blankSchema = { type: 'object', properties: {} };
-
 export const uiSchema = {
   ...titleUI('Your phone number and email address'),
   profileNotUpdatedNote: {
