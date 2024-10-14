@@ -59,7 +59,7 @@ export const ConfirmationPageView = props => {
 
   const DevOnlyButtons = useDevOnlyButtons({
     formData: form.data,
-    mockData: devOnly.simulatedFormData,
+    mockData: devOnly?.simulatedFormData,
     setPdfUrl,
     setConfirmationNumber,
     setSubmitDate,
@@ -88,7 +88,9 @@ export const ConfirmationPageView = props => {
 
   return (
     <div>
-      {devOnly && !environment.isProduction() && <DevOnlyButtons />}
+      {devOnly &&
+        !environment.isProduction() &&
+        !environment.isStaging() && <DevOnlyButtons />}
       <div className="print-only">
         <img
           src="https://www.va.gov/img/design/logo/logo-black-and-white.png"

@@ -10,8 +10,9 @@ import { ConfirmationPageView as NewConfirmationPageView } from '../../shared/co
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
 
 let mockData;
-if (!environment.isProduction()) {
+if (!environment.isProduction() && !environment.isStaging()) {
   mockData = require('../tests/e2e/fixtures/data/flow1.json');
+  mockData = mockData?.data;
 }
 
 const getPreparerFullName = formData => {
