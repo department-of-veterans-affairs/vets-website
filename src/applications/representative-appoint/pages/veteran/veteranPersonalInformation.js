@@ -22,7 +22,6 @@ export const uiSchema = {
   profileNotUpdatedNote: {
     'ui:description': () => <ProfileNotUpdatedNote includePhone />,
   },
-
   veteranFullName: fullNameUI(),
   veteranDateOfBirth: dateOfBirthUI(),
 };
