@@ -6,7 +6,7 @@ import requestBody from '../fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 describe('SM SAVING DRAFT BY KEYBOARD', () => {
-  it('save draft with attachment', () => {
+  it('verify draft saved', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
