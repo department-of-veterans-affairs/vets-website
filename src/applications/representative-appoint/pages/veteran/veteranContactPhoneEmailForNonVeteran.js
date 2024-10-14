@@ -13,7 +13,9 @@ import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 export const uiSchema = {
   ...titleUI(() => 'Veteran’s phone number and email address'),
   profileNotUpdatedNote: {
-    'ui:description': () => <ProfileNotUpdatedNote includePhone />,
+    'ui:description': formData => (
+      <ProfileNotUpdatedNote formData={formData} includePhone />
+    ),
   },
   'Primary phone': phoneUI({
     required: false,

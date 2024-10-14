@@ -15,7 +15,9 @@ export const blankSchema = { type: 'object', properties: {} };
 export const uiSchema = {
   ...titleUI('Your phone number and email address'),
   profileNotUpdatedNote: {
-    'ui:description': () => <ProfileNotUpdatedNote includePhone />,
+    'ui:description': formData => (
+      <ProfileNotUpdatedNote formData={formData} includePhone />
+    ),
   },
   applicantPhone: phoneUI({
     required: true,

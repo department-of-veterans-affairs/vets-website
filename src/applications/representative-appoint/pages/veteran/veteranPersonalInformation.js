@@ -20,7 +20,9 @@ export const uiSchema = {
       } name and date of birth`,
   ),
   profileNotUpdatedNote: {
-    'ui:description': () => <ProfileNotUpdatedNote includePhone />,
+    'ui:description': formData => (
+      <ProfileNotUpdatedNote formData={formData} includePhone />
+    ),
   },
   veteranFullName: fullNameUI(),
   veteranDateOfBirth: dateOfBirthUI(),

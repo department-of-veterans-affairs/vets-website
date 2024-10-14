@@ -13,7 +13,9 @@ export const uiSchema = {
     'We’ll send any important information about your form to this address.',
   ),
   profileNotUpdatedNote: {
-    'ui:description': () => <ProfileNotUpdatedNote includePrefix includeLink />,
+    'ui:description': formData => (
+      <ProfileNotUpdatedNote formData={formData} includePrefix includeLink />
+    ),
   },
   homeAddress: addressUI({
     labels: {
