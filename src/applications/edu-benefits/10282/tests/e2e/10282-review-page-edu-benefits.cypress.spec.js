@@ -8,10 +8,12 @@ describe('10282 Review Page', () => {
     cy.get('[text="Start your application"]').click();
     // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('[id="root_veteranFullName_first"]')
+      .focus()
       .type('John')
       .then(() => {
         // eslint-disable-next-line cypress/unsafe-to-chain-command
         cy.get('[id="root_veteranFullName_last"]')
+          .focus()
           .type('Doe')
           .then(() => {
             cy.get('[class="usa-button-primary"]').click();
@@ -91,7 +93,10 @@ describe('10282 Review Page', () => {
   });
   it('should show an error if name does not match the name entred in the form', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[id="inputField"]').type('some other name');
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
+    cy.get('[id="inputField"]')
+      .focus()
+      .type('some other name');
     cy.get(
       '[label="I certify the information above is correct and true to the best of my knowledge and belief."]',
     ).click();
@@ -103,18 +108,10 @@ describe('10282 Review Page', () => {
   });
   it('should submit the application successfully if the name matches', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[id="inputField"]', { timeout: Timeouts.slow }).type('John Doe');
-    cy.get(
-      '[label="I certify the information above is correct and true to the best of my knowledge and belief."]',
-    ).click();
-    cy.get('[class="usa-button-primary"]').click();
-    cy.get('[status="success"]').should('be.visible');
-  });
-  it('should submit the application successfully if the name matches', () => {
-    cy.injectAxeThenAxeCheck();
     // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('va-text-input')
       .find('input')
+      .focus()
       .type('John Doe')
       .then(() => {
         cy.get(

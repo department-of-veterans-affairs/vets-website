@@ -5,12 +5,12 @@ const startApplication = () => {
 };
 
 const fillFullName = (firstName, lastName) => {
-  cy.get('[id="root_veteranFullName_first"]', { timeout: Timeouts.slow }).type(
-    firstName,
-  );
-  cy.get('[id="root_veteranFullName_last"]', { timeout: Timeouts.slow }).type(
-    lastName,
-  );
+  cy.get('[id="root_veteranFullName_first"]', { timeout: Timeouts.slow })
+    .focus()
+    .type(firstName);
+  cy.get('[id="root_veteranFullName_last"]', { timeout: Timeouts.slow })
+    .focus()
+    .type(lastName);
   cy.get('[class="usa-button-primary"]').click();
 };
 
