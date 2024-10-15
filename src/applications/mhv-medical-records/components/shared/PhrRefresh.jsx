@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import {
-  fetchRefreshStatus,
-  setStatusPollBeginDate,
-} from '../../actions/refresh';
+import { fetchRefreshStatus } from '../../actions/refresh';
 import { STATUS_POLL_INTERVAL, refreshPhases } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 
@@ -13,74 +9,61 @@ import { Actions } from '../../util/actionTypes';
  *
  * @returns null
  */
-const PhrRefresh = ({ statusPollBeginDate }) => {
+const PhrRefresh = () => {
   const dispatch = useDispatch();
   const refresh = useSelector(state => state.mr.refresh);
-
-  // State to manage the dynamic backoff polling interval
-  const [pollInterval, setPollInterval] = useState(STATUS_POLL_INTERVAL);
+  const [endPollingDate, setEndPollingDate] = useState(null);
 
   /** How long to poll the status endpoint, in milliseconds */
   const POLL_DURATION = 120000;
 
   useEffect(
     /**
-     * This hook hits the PHR status endpoint. It always does so once, then polls periodically
-     * for as long as necessary.
+     * Fetch the refresh status from the backend when the app loads.
      */
     () => {
-      const getEndPollingDate = () => {
-        const lastRefreshDate = parseInt(
-          localStorage.getItem('lastPhrRefreshDate'),
-          10,
-        );
-        const beginDate =
-          (!Number.isNaN(lastRefreshDate) && lastRefreshDate) ||
-          statusPollBeginDate ||
-          Date.now();
-        return beginDate + POLL_DURATION;
-      };
+      dispatch(fetchRefreshStatus())
+        .then(() => {
+          setEndPollingDate(new Date(new Date().getTime() + POLL_DURATION));
+        })
+        .catch(() => {
+          // If needed in the future, we can set a timer on failure to try again later.
+        });
+    },
+    [dispatch],
+  );
 
+  useEffect(
+    /**
+     * If the status has been fetched and the refresh phase is anything other than current, continue
+     * polling the status endpoint until the refresh is current or until the endPollingDate is reached.
+     */
+    () => {
       let timeoutId;
-      if (!statusPollBeginDate) {
-        // Note the time that we started polling the status endpoint.
-        dispatch(setStatusPollBeginDate(Date.now()));
-        // Run the status check if it has not yet been run since the app was loaded/refreshed. The
-        // state update will re-trigger this useEffect and begin the polling cycle, if needed.
-        dispatch(fetchRefreshStatus());
-      } else {
-        // Update the polling timeout from localStorage. Do this every time, because that date may
-        // change when the action is dispatched.
-        const endPollingDate = getEndPollingDate();
-        const now = Date.now();
-        if (
-          refresh.status &&
-          refresh.phase !== refreshPhases.CURRENT &&
-          now <= endPollingDate
-        ) {
+      if (
+        endPollingDate &&
+        refresh.status &&
+        refresh.phase !== refreshPhases.CURRENT
+      ) {
+        if (new Date() <= endPollingDate) {
           timeoutId = setTimeout(() => {
             dispatch(fetchRefreshStatus());
-            // Increase the polling interval by 5% on each iteration
-            setPollInterval(prevInterval => prevInterval * 1.05);
-          }, pollInterval);
-        }
-        if (now > endPollingDate) {
+          }, STATUS_POLL_INTERVAL);
+        } else {
           dispatch({ type: Actions.Refresh.TIMED_OUT });
         }
       }
-      // Clear the timeout if the component unmounts.
-      return () => timeoutId && clearTimeout(timeoutId);
+      return () => {
+        // Clear the timeout if the component unmounts.
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+      };
     },
-    // Don't add "pollInterval"--it runs the hook more than needed.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [statusPollBeginDate, refresh.status, refresh.phase, dispatch],
+    [refresh.status, refresh.phase, endPollingDate, dispatch],
   );
 
   return null;
 };
 
 export default PhrRefresh;
-
-PhrRefresh.propTypes = {
-  statusPollBeginDate: PropTypes.number,
-};
