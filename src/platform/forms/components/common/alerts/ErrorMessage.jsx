@@ -1,5 +1,5 @@
 // libs
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui/focus';
 
@@ -12,20 +12,26 @@ import { focusElement } from 'platform/utilities/ui/focus';
  */
 function ErrorMessage(props) {
   const { active, children, message, testId, title } = props;
-  const alertRef = useRef(null);
+  // const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (active && alertRef?.current) {
-        focusElement('.schemaform-failure-alert');
-      }
-    },
-    [active, alertRef],
-  );
+  // useEffect(
+  //   () => {
+  //     if (active && alertRef?.current) {
+  //       focusElement('.schemaform-failure-alert');
+  //     }
+  //   },
+  //   [active, alertRef],
+  // );
+
+  setTimeout(() => {
+    if (active) {
+      focusElement('.schemaform-failure-alert');
+    }
+  }, 100);
 
   return !active ? null : (
     <va-alert
-      ref={alertRef}
+      // ref={alertRef}
       status="error"
       class="schemaform-failure-alert vads-u-margin-top--4"
       data-testid={testId}
