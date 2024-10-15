@@ -7,7 +7,7 @@ import defaultMockThread from './fixtures/thread-response.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe.skip('Secure Messaging Message Details', () => {
+describe('Secure Messaging Message Details', () => {
   const messageDetails = mockMessageDetails;
   const date = new Date();
 
