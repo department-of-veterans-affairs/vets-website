@@ -7,7 +7,7 @@ on:
           description: 'Commit sha: from your branch' 
           required: true 
         platform-or-application:
-          description: 'Is your test in /applications/ or /platfom/'
+          description: 'Is your test in /applications/ or /platform/?'
           type: choice
           options: 
             - applications
