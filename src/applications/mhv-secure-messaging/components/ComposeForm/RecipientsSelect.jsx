@@ -78,17 +78,16 @@ const RecipientsSelect = ({
 
   const handleRecipientSelect = useCallback(
     e => {
-      const recipient = recipientsList?.find(r => +r.id === +e.detail.value);
-
-      if (e.detail.value === '') {
+      if (!+e.detail.value) {
         setSelectedRecipient({});
+        return;
       }
 
-      if (e.detail.value !== '') {
-        setSelectedRecipient(recipient);
-      }
+      const recipient =
+        recipientsList?.find(r => +r.id === +e.detail.value) || {};
+      setSelectedRecipient(recipient);
 
-      if (recipient?.signatureRequired || isSignatureRequired) {
+      if (recipient.signatureRequired || isSignatureRequired) {
         setAlertDisplayed(true);
       }
     },
