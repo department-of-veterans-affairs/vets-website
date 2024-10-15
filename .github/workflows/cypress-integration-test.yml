@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
       inputs:
         commit_sha:
-          description: 'Commit sha: from your branch' 
+          description: "Commit SHA: from your branch's latest build" 
           required: true 
         platform-or-application:
           description: 'Is your test in /applications/ or /platform/?'
