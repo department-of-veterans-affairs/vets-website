@@ -1,8 +1,8 @@
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { formatDateShort } from 'platform/utilities/date';
 
 const VeteranInfoBox = ({
   first,
@@ -30,9 +30,9 @@ const VeteranInfoBox = ({
           </p>
           <p className="vads-u-margin--1px">VA File number: {fileNumber}</p>
           <p className="vads-u-margin--1px">
-            Date of birth:
+            Date of birth:{' '}
             <span className="vads-u-margin-left--0p5">
-              {moment(dateOfBirth, 'YYYY-MM-DD').format('DD/MM/YYYY')}
+              {formatDateShort(dateOfBirth)}
             </span>
           </p>
         </div>
