@@ -116,7 +116,7 @@ export const ConfirmationPageView = props => {
           confirmation number is ${confirmationNumber}.`}
         </p>
         <VaLinkAction
-          href="/my-va"
+          href="/my-va#benefit-applications"
           text="Check the status of your form on My VA"
           onClick={onCheckVaStatusClick}
         />
@@ -162,7 +162,10 @@ export const ConfirmationPageView = props => {
               update the status on My VA.
             </p>
             <p>
-              <a href="/my-va" onClick={onCheckVaStatusClick}>
+              <a
+                href="/my-va#benefit-applications"
+                onClick={onCheckVaStatusClick}
+              >
                 Check the status of your form on My VA
               </a>
             </p>
