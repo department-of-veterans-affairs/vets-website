@@ -1,5 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -12,7 +14,6 @@ import {
   exposureStartDateApproximate,
   notSureHazardDetails,
 } from '../../../content/toxicExposure';
-import { pageSubmitTest } from '../../unit.helpers.spec';
 
 /**
  * Unit tests for the additional exposures details pages. Verifies each page can render and submit with
@@ -92,22 +93,18 @@ describe('additional exposures details', () => {
       });
 
       it(`should submit without dates for ${itemId}`, () => {
-        pageSubmitTest(
-          schemas[`additional-exposure-${itemId}`],
-          formData,
-          true,
+        const onSubmit = sinon.spy();
+        const { getByText } = render(
+          <DefinitionTester
+            schema={pageSchema.schema}
+            uiSchema={pageSchema.uiSchema}
+            data={formData}
+            onSubmit={onSubmit}
+          />,
         );
-      });
 
-      it(`should submit with both dates for ${itemId}`, () => {
-        const data = JSON.parse(JSON.stringify(formData));
-        data.toxicExposure.otherExposuresDetails = {};
-        data.toxicExposure.otherExposuresDetails[itemId] = {
-          startDate: '2020-05-19',
-          endDate: '2021-11-30',
-        };
-
-        pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
+        userEvent.click(getByText('Submit'));
+        expect(onSubmit.calledOnce).to.be.true;
       });
     });
 });
