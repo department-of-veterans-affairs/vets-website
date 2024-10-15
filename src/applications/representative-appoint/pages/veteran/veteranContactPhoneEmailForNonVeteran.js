@@ -1,34 +1,36 @@
 import React from 'react';
 
 import {
-  addressSchema,
-  addressUI,
+  phoneUI,
+  phoneSchema,
+  emailUI,
+  emailSchema,
   titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
 export const uiSchema = {
-  ...titleUI('Your mailing address'),
+  ...titleUI(() => 'Veteran’s phone number and email address'),
   profileNotUpdatedNote: {
     'ui:description': formData => (
-      <ProfileNotUpdatedNote formData={formData} includePrefix includeLink />
+      <ProfileNotUpdatedNote formData={formData} includePhone />
     ),
   },
-  veteranHomeAddress: addressUI({
-    labels: {
-      militaryCheckbox: `This address is on a United States military base outside of the U.S.`,
-    },
+  'Primary phone': phoneUI({
+    required: false,
   }),
+  veteranEmail: emailUI(),
 };
 
 export const schema = {
   type: 'object',
+  required: [],
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    veteranHomeAddress: addressSchema({
-      omit: ['street3'],
-    }),
+
+    'Primary phone': phoneSchema,
+    veteranEmail: emailSchema,
   },
 };
