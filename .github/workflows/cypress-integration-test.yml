@@ -48,9 +48,7 @@ jobs:
             ARCHIVE_NAME=${{ github.event.inputs.commit_sha }}/vagovprod.tar.bz2
             BUCKET_PATH=s3://vetsgov-website-builds-s3-upload/
               
-            df -H
             aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
-            echo "1"
               
         - name: Archive production artifacts
           uses: actions/upload-artifact@v4
@@ -100,11 +98,6 @@ jobs:
           run: |
             mkdir vets-website
             tar -xjf vagovprod.tar.bz2 -C vets-website
-            echo "2"
-
-        # - name: Call reusable action
-        #   id: cypress-action
-        #   uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test@cypress-integration-test-migration
         
         - name: Install dependencies
           uses: ./.github/workflows/install
@@ -127,6 +120,4 @@ jobs:
 
         - name: Run Cypress tests
           run: |
-            
             npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/${{ inputs.platform-or-application }}/${{ inputs.product }}/**/*.cypress.spec.js'
-          
