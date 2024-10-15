@@ -85,7 +85,7 @@ const DebtLettersSummary = () => {
   const { statements: mcpStatements, error: mcpError } = mcp;
   const allDebtsEmpty =
     !debtError && debts.length === 0 && debtLinks.length === 0;
-  const title = 'Current VA debt';
+  const title = 'Current debts';
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -173,7 +173,7 @@ const DebtLettersSummary = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current VA debt',
+            label: 'Current debts',
           },
         ]}
         label="Breadcrumb"
@@ -189,10 +189,9 @@ const DebtLettersSummary = () => {
         >
           {title}
         </h1>
-        <p className="va-introtext">
-          Check the details of VA debt you might have related to your education,
-          disability compensation, or pension benefits. Find out how to pay your
-          debt and what to do if you need financial assistance.
+        <p>
+          Please note that payments may take up to 4 business days to reflect
+          after processing.
         </p>
         {renderContent()}
       </div>
