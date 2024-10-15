@@ -102,7 +102,13 @@ export default function ClaimsListItem({ claim }) {
       </div>
       {showAlert && (
         <va-alert status="info" slim>
-          Open request: Check claim to see if action is needed from you or VA.
+          <span className="vads-u-font-weight--bold">
+            We requested more information from you:
+          </span>{' '}
+          Check the claim details to learn more.
+          <div className="vads-u-margin-top--2">
+            This message will go away when we finish reviewing your response.
+          </div>
         </va-alert>
       )}
       <ClaimCard.Link ariaLabel={ariaLabel} href={href} />

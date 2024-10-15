@@ -9,8 +9,9 @@ import { useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView.v2';
 
 let mockData;
-if (!environment.isProduction()) {
+if (!environment.isProduction() && !environment.isStaging()) {
   mockData = require('../tests/e2e/fixtures/data/default.json');
+  mockData = mockData?.data;
 }
 
 const USE_CONFIRMATION_PAGE_V2 = true;
@@ -35,7 +36,7 @@ const ConfirmationPage = ({ route }) => {
         confirmationNumber={confirmationNumber}
         formConfig={route.formConfig}
         pdfUrl={pdfUrl}
-        devOnly={{ simulatedFormData: mockData.data }}
+        devOnly={{ simulatedFormData: mockData }}
       />
     );
   }

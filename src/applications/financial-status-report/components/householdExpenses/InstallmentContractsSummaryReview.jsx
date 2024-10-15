@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import { currency as currencyFormatter } from '../../utils/helpers';
+import {
+  currency as currencyFormatter,
+  monthYearFormatter,
+} from '../../utils/helpers';
 
 const renderContractType = contract => {
   return (
@@ -56,15 +58,8 @@ const renderMinMonthlyPayment = contract => {
   );
 };
 
-const formatDate = date => {
-  // dates are currently formatted as YYYY-MM-DD
-  //  however, we only want to display the month and year and
-  //  day is populated with XX which does not play well with formatters
-  return moment(new Date(date?.substring(0, 8))).format('MMMM YYYY');
-};
-
 const renderLoanStartDate = contract => {
-  const startDate = formatDate(contract.dateStarted);
+  const startDate = monthYearFormatter(contract.dateStarted);
 
   return (
     <div className="review-row">
