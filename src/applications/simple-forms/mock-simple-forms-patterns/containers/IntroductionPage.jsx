@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
