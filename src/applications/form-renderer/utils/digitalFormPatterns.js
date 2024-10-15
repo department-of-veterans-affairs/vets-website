@@ -74,6 +74,7 @@ export const digitalFormPhoneAndEmail = ({ additionalFields, pageTitle }) => {
       homePhone: webComponentPatterns.phoneSchema,
       mobilePhone: webComponentPatterns.phoneSchema,
     },
+    required: ['homePhone'],
   };
   const uiSchema = {
     ...webComponentPatterns.titleUI(pageTitle),
