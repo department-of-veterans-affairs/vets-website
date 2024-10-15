@@ -6,8 +6,8 @@ import { commonReducer } from 'platform/startup/store';
 import { configureStore } from '@reduxjs/toolkit';
 
 /**
- * Creates a Redux store and merges the provided reducer with commonReducer. It also
- * sets up the Redux devtools in development and adds redux-thunk as middleware.
+ * Creates a Redux store and merges the provided reducer with commonReducer.
+ * Sets up the Redux devtools in development and adds redux middleware.
  *
  * @param {Object} [appReducer={}] An object with reducer functions as properties
  * @param {Array} analyticsEvents A list of analytics events to capture when redux actions are fired
