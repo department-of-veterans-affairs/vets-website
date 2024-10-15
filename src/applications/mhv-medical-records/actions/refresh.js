@@ -14,7 +14,7 @@ export const fetchRefreshStatus = () => async dispatch => {
   dispatch({ type: Actions.Refresh.GET_STATUS, payload: response });
 };
 
-export const setStatusPollBeginDate = statusPollBeginDate => async dispatch => {
+export const setStatusPollBeginDate = statusPollBeginDate => dispatch => {
   dispatch({
     type: Actions.Refresh.SET_STATUS_POLL_BEGIN,
     payload: statusPollBeginDate,

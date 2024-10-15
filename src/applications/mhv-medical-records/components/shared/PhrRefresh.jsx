@@ -25,7 +25,7 @@ const PhrRefresh = ({ statusPollBeginDate }) => {
 
   useEffect(
     /**
-     * This hook hits the PHR status endpoint. It always does so once, then polls every two seconds
+     * This hook hits the PHR status endpoint. It always does so once, then polls periodically
      * for as long as necessary.
      */
     () => {
