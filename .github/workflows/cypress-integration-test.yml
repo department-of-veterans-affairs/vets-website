@@ -120,5 +120,5 @@ jobs:
 
         - name: Run Cypress tests
           run: |
-            npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/applications/burials-ez/**/*.cypress.spec.js'
+            npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/applications/burial-poc-v6/**/*.cypress.spec.js'
           
