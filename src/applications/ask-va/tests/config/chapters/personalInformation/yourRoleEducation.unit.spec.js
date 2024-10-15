@@ -30,6 +30,13 @@ describe('youRoleEducationPage', () => {
 
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = [
+      'Accredited representative (such as an accredited attorney, claims agent, or Veterans Service Officer)',
+      'Fiduciary',
+      'Funeral director',
+      'On-the-job training or apprenticeship supervisor',
+      'School Certifying Official (SCO)',
+      'VA employee',
+      'Work study site supervisor',
       'On-the-job training or apprenticeship supervisor',
       'School Certifying Official (SCO)',
       'VA employee',
