@@ -1,9 +1,15 @@
 import React, { useState, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import processConfig from '../server/processConfig';
+import { setSelectedApps as setApps } from '../../slice';
 
 export const ApplicationSelector = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedApps, setSelectedApps] = useState([]);
+
+  const dispatch = useDispatch();
+  const setSelectedApps = payload => dispatch(setApps(payload));
+
+  const selectedApps = useSelector(state => state.vadx.selectedApps);
 
   const filteredApps = useMemo(
     () => {
@@ -77,6 +83,13 @@ export const ApplicationSelector = () => {
           ))}
         </ul>
       </div>
+
+      <button
+        className="vads-button vads-button--primary"
+        onClick={() => setSelectedApps(selectedApps)}
+      >
+        Test
+      </button>
     </div>
   );
 };

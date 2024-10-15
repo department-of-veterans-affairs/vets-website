@@ -3,7 +3,7 @@ const { snakeCase } = require('lodash');
 // add and remove feature toggles here by name, but generally keep all values as false
 // instead use generateFeatureToggles in server.js to set the toggle values
 const profileToggles = {
-  profileUseExperimental: true,
+  profileUseExperimental: false,
   coeAccess: true,
   updated: '2024-10-08T05:02:34.754Z',
 };

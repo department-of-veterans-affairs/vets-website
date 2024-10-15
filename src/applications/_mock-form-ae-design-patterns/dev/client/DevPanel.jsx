@@ -210,7 +210,7 @@ const DevPanel = () => {
 
   return (
     <div className="vads-l-grid-container--full vads-u-padding--4">
-      <h1 className="vads-u-font-size--h2">Dev Panel</h1>
+      <h1 className="vads-u-font-size--h2">VADX - Tools</h1>
 
       <div className="vads-l-row">
         <div className="vads-l-col--2 vads-l-grid-container vads-u-padding--0">
