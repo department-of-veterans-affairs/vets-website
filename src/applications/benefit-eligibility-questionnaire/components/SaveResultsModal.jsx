@@ -18,7 +18,7 @@ const SaveResultsModal = () => {
   };
 
   return (
-    <div>
+    <div className="vads-u-margin-bottom--2">
       <va-button
         id="save-your-results"
         message-aria-describedby="Save your results"
@@ -39,8 +39,8 @@ const SaveResultsModal = () => {
         <va-text-input
           id="url-input"
           hint={null}
-          aria-label="Copy link"
-          label="Copy link"
+          aria-label="Copy and save this link to your results"
+          label="Copy and save this link to your results"
           name="url-input"
           type="url"
           onChange={() => {}}
