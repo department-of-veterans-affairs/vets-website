@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -16,6 +16,9 @@ import { Actions } from '../../util/actionTypes';
 const PhrRefresh = ({ statusPollBeginDate }) => {
   const dispatch = useDispatch();
   const refresh = useSelector(state => state.mr.refresh);
+
+  // State to manage the dynamic backoff polling interval
+  const [pollInterval, setPollInterval] = useState(STATUS_POLL_INTERVAL);
 
   /** How long to poll the status endpoint, in milliseconds */
   const POLL_DURATION = 120000;
@@ -57,7 +60,9 @@ const PhrRefresh = ({ statusPollBeginDate }) => {
         ) {
           timeoutId = setTimeout(() => {
             dispatch(fetchRefreshStatus());
-          }, STATUS_POLL_INTERVAL);
+            // Increase the polling interval by 5% on each iteration
+            setPollInterval(prevInterval => prevInterval * 1.05);
+          }, pollInterval);
         }
         if (now > endPollingDate) {
           dispatch({ type: Actions.Refresh.TIMED_OUT });
@@ -66,6 +71,8 @@ const PhrRefresh = ({ statusPollBeginDate }) => {
       // Clear the timeout if the component unmounts.
       return () => timeoutId && clearTimeout(timeoutId);
     },
+    // Don't add "pollInterval"--it runs the hook more than needed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [statusPollBeginDate, refresh.status, refresh.phase, dispatch],
   );
 
