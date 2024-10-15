@@ -232,11 +232,6 @@ export const yourRoleOptionsEducation = {
   OTHER: 'Other',
 };
 
-export const yourRoleOptionsPlusYourRoleOptionsEducationCombined = {
-  ...yourRoleOptions,
-  ...yourRoleOptionsEducation,
-};
-
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
   CHAPTER_TITLE: 'Category and topic',
