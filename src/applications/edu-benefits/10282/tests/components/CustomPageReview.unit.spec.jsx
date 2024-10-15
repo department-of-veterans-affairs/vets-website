@@ -3,32 +3,10 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import CustomPageReview from '../../components/CustomPageReview';
+import maximalData from '../fixtures/data/maximal.json';
 
 const props = {
-  data: {
-    techIndustryFocusArea: 'Computer software',
-    highestLevelOfEducation: {
-      level: 'A high school diploma or GED',
-    },
-    isWorkingInTechIndustry: 'No',
-    currentAnnualSalary: 'Less than $20,000',
-    currentlyEmployed: 'No',
-    gender: 'Prefer not to answer',
-    contactInfo: {
-      email: 'janedoe@gmail.com',
-    },
-    veteranDesc: "I'm a Veteran",
-    veteranFullName: {
-      first: 'Jane',
-      last: 'Doe',
-    },
-    ethnicity: 'Prefer not to answer',
-    orginRace: ['Prefer not to answer'],
-    state: 'Virginia',
-    country: 'United States',
-    raceAndGender: 'Yes',
-    signature: '',
-  },
+  ...maximalData,
   className: 'vads-u-margin-top--neg4',
   dataValue: '',
   moreRow: true,

@@ -13,7 +13,7 @@ import formConfig from '../../config/form';
 
 const definitions = formConfig.defaultDefinitions;
 
-describe('Edu 10282 applicantContactInfo', () => {
+describe('Edu 10282 applicantName', () => {
   const {
     schema,
     uiSchema,
