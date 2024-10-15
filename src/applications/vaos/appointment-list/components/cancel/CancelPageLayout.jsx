@@ -61,7 +61,7 @@ export default function CancelPageLayout() {
   );
 
   const heading = getHeading(appointment);
-  const [reason, otherDetails] = bookingNotes.split(':');
+  const [reason, otherDetails] = bookingNotes.split('|');
   const facilityId = locationId;
 
   return (

@@ -215,7 +215,7 @@ export function transformVAOSAppointment(appt) {
       )?.short;
   const patientComments = appt.reasonCode ? appt.patientComments : null;
   if (reasonForAppointment && patientComments) {
-    comment = `${reasonForAppointment}: ${patientComments}`;
+    comment = `${reasonForAppointment}| ${patientComments}`;
   } else if (reasonForAppointment) {
     comment = reasonForAppointment;
   } else {

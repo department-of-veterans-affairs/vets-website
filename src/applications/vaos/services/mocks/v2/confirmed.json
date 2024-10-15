@@ -294,9 +294,9 @@
       "locationId": "984",
       "clinic": "4570",
       "reasonCode": {
-        "text": "reasonCode:QUESTIONMEDS|comments:test appointment scheduling TESTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        "text": "reasonCode:QUESTIONMEDS|comments:test:appointment:scheduling:TEST"
       },
-      "patientComments": "test appointment scheduling TESTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "patientComments": "test:appointment:scheduling:TEST",
       "reasonForAppointment": "Medication concern",
       "practitioners": [
           {

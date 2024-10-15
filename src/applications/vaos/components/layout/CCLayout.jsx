@@ -37,7 +37,7 @@ export default function CCLayout({ data: appointment }) {
   if (!appointment) return null;
 
   const { address, providerName, treatmentSpecialty } = ccProvider;
-  const [reason, otherDetails] = comment ? comment?.split(':') : [];
+  const [reason, otherDetails] = comment ? comment?.split('|') : [];
 
   let heading = 'Community care appointment';
   if (isPastAppointment) heading = 'Past community care appointment';
