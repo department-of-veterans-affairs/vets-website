@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { uniqBy, head } from 'lodash';
-import { format, isValid } from 'date-fns';
+import { isValid } from 'date-fns';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { formatDateShort } from 'platform/utilities/date';
 import { setFocus } from '../../utils/fileValidation';
 
 import { getStatements } from '../../actions/copays';
@@ -156,7 +157,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
     const dates = debt?.debtHistory?.map(m => new Date(m.date)) ?? [];
     const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
     const mostRecentDate = isValid(head(sortedHistory))
-      ? format(head(sortedHistory), 'MM/dd/yyyy')
+      ? formatDateShort(head(sortedHistory))
       : '';
     const dateby = endDate(mostRecentDate, 30);
     return dateby ? `Pay or request help by ${dateby}` : '';
