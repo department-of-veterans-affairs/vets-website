@@ -6,8 +6,15 @@ on:
         commit_sha:
           description: 'Commit sha: from your branch' 
           required: true 
+        platform-or-application:
+          description: 'Is your test in /applications/ or /platfom/'
+          type: choice
+          options: 
+            - applications
+            - platform
+          required: true
         product:
-          description: 'App: Your target product directory within src/applications'
+          description: "App: Your tests' target directory within src/applications or src/platform"
           required: true
         # TO-DO: create a solution that maintains an updated list of active products within src/applications
   
@@ -70,7 +77,7 @@ jobs:
           id: helper
           run: |
              chmod +x ./script/github-actions/cypress-integration-test.sh 
-             ./script/github-actions/cypress-integration-test.sh "${{ github.event.inputs.product }}"
+             ./script/github-actions/cypress-integration-test.sh "${{ inputs.product }}"
 
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v4.0.0
@@ -121,5 +128,5 @@ jobs:
         - name: Run Cypress tests
           run: |
             
-            npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/applications/ezr/**/*.cypress.spec.js'
+            npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/${{ inputs.platform-or-application }}/${{ inputs.product }}/**/*.cypress.spec.js'
           
