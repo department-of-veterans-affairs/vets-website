@@ -51,12 +51,12 @@ export default function UpcomingAppointmentLayout({
                   >
                     <AppointmentRow
                       className={classNames(
-                        'xsmall-screen:vads-u-flex-direction--row',
+                        'mobile:vads-u-flex-direction--row',
                         'xsmall-screen:vads-u-margin-x--0p5',
                         'xsmall-screen:vads-u-margin-y--1',
                         'xsmall-screen:vaos-appts__column-gap--2',
 
-                        'small-screen:vads-u-padding-left--1',
+                        'mobile-lg:vads-u-padding-left--1',
 
                         'medium-screen:vads-u-margin-x--1p5',
                         'medium-screen:vads-u-margin-y--0',
@@ -106,13 +106,13 @@ export default function UpcomingAppointmentLayout({
           <AppointmentFlexGrid idClickable={idClickable} link={link}>
             <AppointmentRow
               className={classNames(
-                'xsmall-screen:vads-u-flex-direction--row',
+                'mobile:vads-u-flex-direction--row',
                 'xsmall-screen:vads-u-margin-x--0p5',
                 'xsmall-screen:vads-u-margin-y--1',
                 'xsmall-screen:vaos-appts__column-gap--2',
 
-                'small-screen:vads-u-padding-x--1',
-                'small-screen:vads-u-padding-y--2',
+                'mobile-lg:vads-u-padding-x--1',
+                'mobile-lg:vads-u-padding-y--2',
 
                 'medium-screen:vads-u-margin-x--1p5',
                 'medium-screen:vads-u-margin-y--0',

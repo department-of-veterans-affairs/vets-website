@@ -39,9 +39,6 @@
   "covidVaccineUpdatesDisableAuth": "covid_vaccine_registration_frontend_hide_auth",
   "covidVaccineUpdatesEnableExpandedEligibility": "covid_vaccine_registration_frontend_enable_expanded_eligibility",
   "covidVaccineUpdatesForm": "covid_vaccine_registration_frontend",
-  "covidVolunteerIntakeBackendEnabled": "covid_volunteer_intake_backend_enabled",
-  "covidVolunteerIntakeEnabled": "covid_volunteer_intake_enabled",
-  "covidVolunteerUpdateEnabled": "covid_volunteer_update_enabled",
   "cst5103UpdateEnabled": "cst_5103_update_enabled",
   "cstClaimPhases": "cst_claim_phases",
   "cstIncludeDdl5103Letters": "cst_include_ddl_5103_letters",
@@ -83,6 +80,7 @@
   "form107959c": "form107959c",
   "form107959a": "form107959a",
   "form107959F1": "form107959f1",
+  "form107959f2": "form107959f2",
   "form2010206": "form2010206",
   "form2010207": "form2010207",
   "form210845": "form210845",
@@ -180,6 +178,7 @@
   "profileShowNewHealthCareCopayBillNotificationSetting": "profile_show_new_health_care_copay_bill_notification_setting",
   "profileShowPrivacyPolicy": "profile_show_privacy_policy",
   "profileShowPronounsAndSexualOrientation": "profile_show_pronouns_and_sexual_orientation",
+  "profileShowProofOfVeteranStatusEligible": "profile_show_proof_of_veteran_status_eligible",
   "profileShowQuickSubmitNotificationSetting": "profile_show_quick_submit_notification_setting",
   "profileUseExperimental": "profile_use_experimental",
   "pwEhrCtaUseSlo": "pw_ehr_cta_use_slo",
@@ -286,5 +285,7 @@
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentVoice": "virtual_agent_voice",
   "vyeLoginWidget": "vye_login_widget",
-  "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search"
+  "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search",
+  "showYellowRibbonTable": "show_yellow_ribbon_table",
+  "showLcInComparisonTool": "show_lc_in_comparison_tool"
 }

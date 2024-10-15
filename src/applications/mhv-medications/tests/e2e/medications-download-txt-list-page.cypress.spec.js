@@ -13,8 +13,11 @@ describe('Medications Download Txt on List Page', () => {
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     listPage.clickPrintOrDownloadThisListDropDown();
+    listPage.verifyFocusOnPrintDownloadDropDownButton();
     listPage.clickDownloadListAsTxtButtonOnListPage();
+    listPage.verifyLoadingSpinnerForDownloadOnListPage();
     listPage.verifyDownloadCompleteSuccessMessageBanner();
+    listPage.verifyFocusOnPrintDownloadDropDownButton();
     listPage.verifyDownloadTextFileHeadless('Safari', 'Mhvtp', 'Mhvtp, Safari');
   });
 });

@@ -340,11 +340,11 @@ class PatientInboxPage {
   navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
-      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
-      mockSignature,
-    ).as('signature');
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
-    cy.wait('@signature');
+    // cy.wait('@signature');
     if (checkFocusOnVcl) {
       PatientInterstitialPage.CheckFocusOnVcl();
     }
@@ -736,6 +736,23 @@ class PatientInboxPage {
           expect(el.toUpperCase()).to.be.oneOf(data);
         });
     });
+  };
+
+  maintenanceWindowResponse = (startDate, endDate) => {
+    return {
+      data: [
+        {
+          id: '139',
+          type: 'maintenance_windows',
+          attributes: {
+            externalService: 'mhv_sm',
+            description: 'Description for mhv_sm',
+            startTime: startDate,
+            endTime: endDate,
+          },
+        },
+      ],
+    };
   };
 }
 

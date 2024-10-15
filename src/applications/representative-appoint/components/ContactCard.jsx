@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Email from './Email';
 import Phone from './Phone';
 import GoogleMapLink from './GoogleMapLink';
-import parsePhoneNumber from '../utilities/parsePhoneNumber';
+import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
 
 export default function ContactCard({
   repName,
@@ -15,7 +15,10 @@ export default function ContactCard({
 }) {
   const { contact, extension } = parsePhoneNumber(phone);
   const addressExists =
-    address.address1 && address.city && address.state && address.zip;
+    address.addressLine1 &&
+    address.city &&
+    address.stateCode &&
+    address.zipCode;
 
   const recordContactLinkClick = () => {
     // pending analytics event

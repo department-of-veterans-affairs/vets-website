@@ -24,20 +24,6 @@ export const tabsConfig = {
   ],
   pattern2: [
     {
-      name: 'Red',
-      path: '/2/task-red',
-      description: 'Pattern 2 - Red Task',
-      bgColor: '--vads-color-secondary-darkest',
-      textColor: '--vads-color-white',
-    },
-    {
-      name: 'Pink',
-      path: '/2/task-pink',
-      description: 'Pattern 2 - Pink Task',
-      bgColor: '--vads-color-secondary-light',
-      textColor: '--vads-color-black',
-    },
-    {
       name: 'Orange',
       path: '/2/task-orange',
 
@@ -54,3 +40,12 @@ export const tabsConfig = {
     },
   ],
 };
+
+export const getTabs = location => {
+  const patternNumber = location?.pathname.match(/(\d+)/)?.[1];
+  const patternKey = `pattern${patternNumber || 'Fallback'}`;
+  return tabsConfig[patternKey] || [];
+};
+
+export const getPatterns = () =>
+  Object.keys(tabsConfig).map(key => key.replace('pattern', ''));

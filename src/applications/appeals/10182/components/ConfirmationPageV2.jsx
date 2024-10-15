@@ -48,6 +48,7 @@ export const ConfirmationPageV2 = () => {
           alt="VA logo"
           width="300"
         />
+        <h2 className="vads-u-margin-top--0">Request a Board Appeal</h2>
       </div>
 
       <va-alert status="success" ref={alertRef} uswds>
@@ -58,7 +59,7 @@ export const ConfirmationPageV2 = () => {
         <p>
           You submitted the request on {submitDate}. It can take a few days for
           the Board to receive your request. We’ll send you a confirmation
-          letter, once we’ve read your request.
+          letter, once we’ve processed your request.
         </p>
       </va-alert>
 

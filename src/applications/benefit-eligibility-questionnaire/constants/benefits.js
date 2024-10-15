@@ -17,68 +17,128 @@ export const blankType = {
 };
 
 export const yesNoType = {
-  YES: 'yes',
-  NO: 'no',
+  YES: true,
+  NO: false,
 };
 
-const goalTypes = {
-  PROGRESS: 'progressInMyMilitaryCareer',
-  PLAN: 'planForMyTransition',
-  NETWORK: 'buildMyNetwork',
-  JOBS: 'findACivilianJob',
-  CAREER_PATH: 'setACareerPath',
-  BUSINESS: 'startABusiness',
-  UNDERSTAND: 'understandMyBenefits',
-  DEGREE: 'earnDegreeOrCertificate',
-};
+export const goalTypes = Object.freeze({
+  DEGREE: 'DEGREE',
+  JOBS: 'JOBS',
+  PLAN: 'PLAN',
+  CAREER_PATH: 'CAREER_PATH',
+  BUSINESS: 'BUSINESS',
+  UNDERSTAND: 'UNDERSTAND',
+});
 
-// const serviceLengthTypes = {
-//   UP_TO_90_DAYS: 'upTo90days',
-//   UP_TO_1_YEAR: 'upTo1yr',
-//   UP_TO_2_YEARS: 'upTo2yr',
-//   UP_TO_3_YEARS: 'upTo3yr',
-//   OVER_3_YEARS: 'over3yr',
-// };
+export const goalTypeLabels = Object.freeze({
+  DEGREE: 'Earn a degree or certificate',
+  JOBS: 'Find a civilian job',
+  PLAN: 'Plan for my transition',
+  CAREER_PATH: 'Set a career path',
+  BUSINESS: 'Start a business',
+  UNDERSTAND: 'Understand my benefits',
+});
 
-const separationTypes = {
-  UP_TO_6MO: 'upTo6mo',
-  UP_TO_1YR: 'upTo1yr',
-  UP_TO_2YRS: 'upTo2yr',
-  UP_TO_3YRS: 'upTo3yr',
-  OVER_3YRS: 'over3yr',
-};
+export const militaryServiceTimeServedLabels = Object.freeze({
+  UP_TO_3_MONTHS: '0 to 3 months',
+  UP_TO_6_MONTHS: '4 to 6 months',
+  UP_TO_1_YEAR: '7 months to 1 year',
+  UP_TO_2_YEARS: '1 to 2 years',
+  UP_TO_3_YEARS: '2 to 3 years',
+  OVER_3_YEARS: '3+ years',
+});
 
-const expectedSparationTypes = {
-  WITHIN_3MO: 'Within the next 3 months',
-  FROM_3_TO_6_MO: 'More than 3 months but less than 6 months',
-  FROM_6MO_TO_1YR: 'More than 6 months but less than 1 year',
-  OVER_1YR: 'More than 1 year from now',
-  OVER_3YRS_AGO: 'More than 3 years ago',
-};
+export const militaryServiceTimeServedTypes = Object.freeze({
+  UP_TO_3_MONTHS: 'UP_TO_3_MONTHS',
+  UP_TO_6_MONTHS: 'UP_TO_6_MONTHS',
+  UP_TO_1_YEAR: 'UP_TO_1_YEAR',
+  UP_TO_2_YEARS: 'UP_TO_2_YEARS',
+  UP_TO_3_YEARS: 'UP_TO_3_YEARS',
+  OVER_3_YEARS: 'OVER_3_YEARS',
+});
 
-const disabilityTypes = {
-  APPLIED_AND_RECEIVED: "I've applied and received a disability rating",
-  SUBMITTED: "I've submitted but haven't received a rating yet",
-  STARTED: "I've started the process but haven't submitted yet",
-  NOT_APPLIED: "I haven't applied for a disability rating",
-};
+export const expectedSeparationLabels = Object.freeze({
+  UP_TO_3_MONTHS: '0 to 3 months',
+  MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS: '4 to 6 months',
+  MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR: '7 months to 1 year',
+  MORE_THAN_1_YEAR: '1+ year',
+});
 
-const giBillTypes = {
-  APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits",
-  SUBMITTED: "I've submitted but haven't received a decision yet",
-  STARTED: "I've started the process but haven't submitted yet",
-  NOT_APPLIED: "I haven't applied for GI Bill benefits",
-};
+export const expectedSeparationTypes = Object.freeze({
+  UP_TO_3_MONTHS: 'UP_TO_3_MONTHS',
+  MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS:
+    'MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS',
+  MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR: 'MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR',
+  MORE_THAN_1_YEAR: 'MORE_THAN_1_YEAR',
+});
 
-const characterOfDischargeTypes = {
-  HONORABLE: 'honorable',
-  UNDER_HONORABLE_CONDITIONS_GENERAL: 'underHonorableConditionsGeneral',
-  UNDER_OTHER_THAN_HONORABLE_CONDITIONS: 'underOtherThanHonorableConditions',
-  BAD_CONDUCT: 'badConduct',
-  DISHONORABLE: 'dishonorable',
-  UNCHARACTERIZED: 'uncharacterized',
-  NOT_SURE: 'notSure',
-};
+export const separationTypes = Object.freeze({
+  UP_TO_3_MONTHS: 'UP_TO_3_MONTHS',
+  UP_TO_6_MONTHS: 'UP_TO_6_MONTHS',
+  UP_TO_1_YEAR: 'UP_TO_1_YEAR',
+  UP_TO_2_YEARS: 'UP_TO_2_YEARS',
+  UP_TO_3_YEARS: 'UP_TO_3_YEARS',
+  OVER_3_YEARS: 'OVER_3_YEARS',
+});
+
+export const separationTypeLabels = Object.freeze({
+  UP_TO_3_MONTHS: '0 to 3 months',
+  UP_TO_6_MONTHS: '4 to 6 months',
+  UP_TO_1_YEAR: '7 months to 1 year',
+  UP_TO_2_YEARS: '1 to 2 years',
+  UP_TO_3_YEARS: '2 to 3 years',
+  OVER_3_YEARS: '3+ years',
+});
+
+export const disabilityTypes = Object.freeze({
+  APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
+  SUBMITTED: 'SUBMITTED',
+  STARTED: 'STARTED',
+  NOT_APPLIED: 'NOT_APPLIED',
+});
+
+export const disabilityTypeLabels = Object.freeze({
+  APPLIED_AND_RECEIVED: "I've applied and received a disability rating.",
+  SUBMITTED: "I've submitted but haven't received a rating yet.",
+  STARTED: "I've started the process but haven't submitted yet.",
+  NOT_APPLIED: "I haven't applied for a disability rating.",
+});
+
+export const giBillTypes = Object.freeze({
+  APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
+  SUBMITTED: 'SUBMITTED',
+  STARTED: 'STARTED',
+  NOT_APPLIED: 'NOT_APPLIED',
+});
+
+export const giBillTypeLabels = Object.freeze({
+  APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits.",
+  SUBMITTED: "I've submitted but haven't received a decision yet.",
+  STARTED: "I've started the process but haven't submitted yet.",
+  NOT_APPLIED: "I haven't applied for GI Bill benefits.",
+});
+
+export const characterOfDischargeTypes = Object.freeze({
+  HONORABLE: 'HONORABLE',
+  UNDER_HONORABLE_CONDITIONS_GENERAL: 'UNDER_HONORABLE_CONDITIONS_GENERAL',
+  UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+    'UNDER_OTHER_THAN_HONORABLE_CONDITIONS',
+  BAD_CONDUCT: 'BAD_CONDUCT',
+  DISHONORABLE: 'DISHONORABLE',
+  UNCHARACTERIZED: 'UNCHARACTERIZED',
+  NOT_SURE: 'NOT_SURE',
+});
+
+export const characterOfDischargeTypeLabels = Object.freeze({
+  HONORABLE: 'Honorable',
+  UNDER_HONORABLE_CONDITIONS_GENERAL: 'Under Honorable Conditions (General)',
+  UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+    'Under Other Than Honorable Conditions',
+  BAD_CONDUCT: 'Bad Conduct',
+  DISHONORABLE: 'Dishonorable',
+  UNCHARACTERIZED: 'Uncharacterized',
+  NOT_SURE: "I'm not sure",
+});
 
 export const mappingTypes = {
   GOALS: 'goals',
@@ -164,14 +224,14 @@ export const BENEFITS_LIST = [
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [
-        expectedSparationTypes.WITHIN_3MO,
-        expectedSparationTypes.FROM_3_TO_6_MO,
+        expectedSeparationTypes.UP_TO_3_MONTHS,
+        expectedSeparationTypes.MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS,
         blankType.BLANK,
       ],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
-        separationTypes.UP_TO_6MO,
-        separationTypes.UP_TO_1YR,
+        separationTypes.UP_TO_6_MONTHS,
+        separationTypes.UP_TO_1_YEAR,
         blankType.BLANK,
       ],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [

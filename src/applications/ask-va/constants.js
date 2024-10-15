@@ -8,15 +8,14 @@ export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
   GET_CATEGORIESTOPICS: `${baseURL}/categories`,
   GET_TOPICS: `topics?user_mock_data=true`,
-  // TODO update
   GET_SUBTOPICS: `${baseURL}/topics`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
-  GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
-  // GET_INQUIRIES: `${baseURL}/inquiries`,
+  GET_INQUIRIES: `${baseURL}/inquiries`,
+  DASHBOARD_ID: `/user/dashboard/`,
 };
 
 export const CategoryEducation =
@@ -24,6 +23,7 @@ export const CategoryEducation =
 
 export const requireSignInCategories = [
   CategoryEducation,
+  'Education benefits and work study',
   'Disability compensation',
   'Debt for benefit overpayments and health care copay bills',
   'Benefits issues outside the U.S.',
