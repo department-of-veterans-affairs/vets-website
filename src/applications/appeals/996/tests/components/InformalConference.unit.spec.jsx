@@ -164,18 +164,13 @@ describe('<InformalConference>', () => {
         setSpy.calledWith({
           hlrUpdatedContent: true,
           informalConferenceChoice: 'yes',
-          informalConference: undefined,
         }),
       ).to.be.true;
     });
 
     it('should set form data with "no"', () => {
       const setSpy = sinon.spy();
-      const { container } = setup({
-        toggle: true,
-        setFormData: setSpy,
-        data: { informalConference: 'me' },
-      });
+      const { container } = setup({ toggle: true, setFormData: setSpy });
       $('va-radio', container).__events.vaValueChange({
         detail: { value: 'no' },
       });
@@ -183,26 +178,6 @@ describe('<InformalConference>', () => {
         setSpy.calledWith({
           hlrUpdatedContent: true,
           informalConferenceChoice: 'no',
-          informalConference: 'me',
-        }),
-      ).to.be.true;
-    });
-
-    it('should set form data with "no"', () => {
-      const setSpy = sinon.spy();
-      const { container } = setup({
-        toggle: true,
-        setFormData: setSpy,
-        data: { informalConference: 'no' },
-      });
-      $('va-radio', container).__events.vaValueChange({
-        detail: { value: 'yes' },
-      });
-      expect(
-        setSpy.calledWith({
-          hlrUpdatedContent: true,
-          informalConferenceChoice: 'yes',
-          informalConference: '', // will clear informalConference if set to "no"
         }),
       ).to.be.true;
     });

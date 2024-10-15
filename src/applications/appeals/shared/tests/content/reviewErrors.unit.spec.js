@@ -21,11 +21,11 @@ describe('reviewErrors override', () => {
     const error = { __errors: [errorMessages.missingDisagreement] };
     expect(override('0', error)).to.be.deep.equal({
       chapterKey: 'conditions',
-      pageKey: 'areaOfDisagreementFollowUp',
+      pageKey: 'areaOfDisagreementFollowUp0',
     });
     expect(override('11', error)).to.be.deep.equal({
       chapterKey: 'conditions',
-      pageKey: 'areaOfDisagreementFollowUp',
+      pageKey: 'areaOfDisagreementFollowUp11',
     });
   });
 });

@@ -20,7 +20,8 @@ const reviewErrors = {
     ) {
       return {
         chapterKey: 'conditions',
-        pageKey: 'areaOfDisagreementFollowUp',
+        // include page index to match fullPageKey in ReviewCollapsibleChapter
+        pageKey: `areaOfDisagreementFollowUp${err}`,
       };
     }
     // overrides for contact info page

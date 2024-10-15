@@ -93,11 +93,6 @@ export const InformalConference = ({
         goForward(data);
       }
     },
-    onUpdatePage: event => {
-      if (!checkErrors(data) && conference !== '') {
-        updatePage(event);
-      }
-    },
     onSelectionOriginal: event => {
       const { value } = event?.detail || {};
       if (value) {
@@ -111,11 +106,9 @@ export const InformalConference = ({
     onSelectionNew: event => {
       const { value } = event?.detail || {};
       if (value) {
-        const conf = data.informalConference;
         const formData = {
           ...data,
           informalConferenceChoice: value,
-          informalConference: value !== 'no' && conf === 'no' ? '' : conf,
         };
         update(formData, value, newInformalConferenceLabels[value]);
       }
@@ -125,7 +118,7 @@ export const InformalConference = ({
   const navButtons = onReviewPage ? (
     <va-button
       text={updateButtonText}
-      onClick={handlers.onUpdatePage}
+      onClick={updatePage}
       class="vads-u-margin-bottom--4"
     />
   ) : (

@@ -20,9 +20,10 @@ const InformalConferenceReview = ({ data, editPage }) => {
 
   // show 'me', 'rep' or 'no' for original content
   // show 'yes' or 'no' for new content
-  const value = showNewContent
-    ? data.informalConferenceChoice
-    : data.informalConference;
+  const value =
+    showNewContent && ['me', 'rep'].includes(data.informalConference)
+      ? data.informalConferenceChoice
+      : data.informalConference;
   const title = showNewContent
     ? newInformalConferenceTitle
     : informalConferenceTitle;

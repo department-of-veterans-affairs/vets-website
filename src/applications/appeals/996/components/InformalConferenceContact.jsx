@@ -58,11 +58,6 @@ export const InformalConferenceContact = ({
         goForward(data);
       }
     },
-    onUpdatePage: event => {
-      if (!checkErrors() && conference !== '') {
-        updatePage(event);
-      }
-    },
     onSelection: event => {
       const { value } = event?.detail || {};
       if (value) {
@@ -84,7 +79,7 @@ export const InformalConferenceContact = ({
   const navButtons = onReviewPage ? (
     <va-button
       text={updateButtonText}
-      onClick={handlers.onUpdatePage}
+      onClick={updatePage}
       class="vads-u-margin-bottom--4"
     />
   ) : (

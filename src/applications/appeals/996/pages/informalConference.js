@@ -12,24 +12,20 @@ import {
   informalConferenceLabels,
   informalConferenceDescriptions,
 } from '../content/InformalConference';
-import { validateConferenceChoice } from '../validations';
 
 const informalConference = {
   uiSchema: {
     'ui:description': InformalConferenceDescription,
-    informalConference: {
-      ...radioUI({
-        title: informalConferenceTitle,
-        hint: informalConferenceHint,
-        labels: informalConferenceLabels,
-        descriptions: informalConferenceDescriptions,
-        enableAnalytics: true,
-        errorMessages: {
-          required: errorMessages.informalConferenceContactChoice,
-        },
-      }),
-      'ui:validations': [validateConferenceChoice],
-    },
+    informalConference: radioUI({
+      title: informalConferenceTitle,
+      hint: informalConferenceHint,
+      labels: informalConferenceLabels,
+      descriptions: informalConferenceDescriptions,
+      enableAnalytics: true,
+      errorMessages: {
+        required: errorMessages.informalConferenceContactChoice,
+      },
+    }),
   },
   schema: {
     type: 'object',
