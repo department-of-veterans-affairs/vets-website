@@ -114,12 +114,11 @@ jobs:
             yarn install
 
         - name: Start server
-          shell: bash
-         run: |
+          run: |
            mkdir build
            node src/platform/testing/e2e/test-server.js --buildtype=../vets-website --port=3001 &
+           
         - name: Run Cypress tests
-          shell: bash
           run: |
             npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/applications/burials-ez/**/*.cypress.spec.js'
           
