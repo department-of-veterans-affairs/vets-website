@@ -23,6 +23,7 @@ export const CategoryEducation =
 
 export const requireSignInCategories = [
   CategoryEducation,
+  'Education benefits and work study',
   'Disability compensation',
   'Debt for benefit overpayments and health care copay bills',
   'Benefits issues outside the U.S.',
