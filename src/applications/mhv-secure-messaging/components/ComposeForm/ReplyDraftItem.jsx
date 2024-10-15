@@ -263,12 +263,14 @@ const ReplyDraftItem = props => {
   );
   const sendMessageHandler = useCallback(
     async e => {
+      const { messageValid } = checkMessageValidity();
+
       await setMessageInvalid(false);
-      if (checkMessageValidity()) {
+      if (messageValid) {
         setSendMessageFlag(true);
         setNavigationError(null);
         setLastFocusableElement(e.target);
-      }
+      } else focusOnErrorField();
     },
     [checkMessageValidity, setLastFocusableElement],
   );
