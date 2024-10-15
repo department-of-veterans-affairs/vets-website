@@ -7,6 +7,7 @@ import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
 import { routeToNextReferralPage } from '../flow';
 import { selectCurrentPage } from '../redux/selectors';
+import { referral } from '../temp-data/referral';
 
 function ReferralAppLinkComponent({ linkText }) {
   const currentPage = useSelector(selectCurrentPage);
@@ -18,7 +19,7 @@ function ReferralAppLinkComponent({ linkText }) {
       recordEvent({
         event: `${GA_PREFIX}-review-upcoming-link`,
       });
-      routeToNextReferralPage(history, currentPage);
+      routeToNextReferralPage(history, currentPage, referral.id);
     };
   };
 
