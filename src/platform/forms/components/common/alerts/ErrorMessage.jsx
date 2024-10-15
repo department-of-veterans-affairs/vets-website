@@ -1,7 +1,7 @@
 // libs
 import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui/focus';
+// import { focusElement } from 'platform/utilities/ui/focus';
 
 /**
  * A column layout component
@@ -22,12 +22,6 @@ function ErrorMessage(props) {
   //   },
   //   [active, alertRef],
   // );
-
-  setTimeout(() => {
-    if (active) {
-      focusElement('.schemaform-failure-alert');
-    }
-  }, 100);
 
   return !active ? null : (
     <va-alert
