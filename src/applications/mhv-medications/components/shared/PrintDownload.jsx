@@ -9,7 +9,8 @@ const PrintDownload = props => {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [printIndex, setPrintIndex] = useState(0);
-  const menu = useRef(null);
+  const containerEl = useRef(null);
+  const toggleButton = useRef(null);
   let toggleMenuButtonClasses =
     'toggle-menu-button vads-u-justify-content--space-between';
   let menuOptionsClasses = 'menu-options';
@@ -20,8 +21,14 @@ const PrintDownload = props => {
   }
 
   const handleDownload = async format => {
+    setMenuOpen(!menuOpen);
+    toggleButton.current.focus();
+    if (!navigator.onLine) {
+      setIsError(true);
+      return;
+    }
+
     try {
-      setMenuOpen(!menuOpen);
       setIsError(false);
       if (format === DOWNLOAD_FORMAT.TXT && onText) {
         onText();
@@ -43,7 +50,11 @@ const PrintDownload = props => {
   };
 
   const closeMenu = e => {
-    if (menu.current && menuOpen && !menu.current.contains(e.target)) {
+    if (
+      containerEl.current &&
+      menuOpen &&
+      !containerEl.current.contains(e.target)
+    ) {
       setMenuOpen(false);
     }
   };
@@ -77,23 +88,27 @@ const PrintDownload = props => {
       {isLoading && (
         <va-loading-indicator
           message="Loading..."
-          setFocus
           data-testid="print-download-loading-indicator"
         />
       )}
-      {isSuccess && (
-        <div
-          className="vads-u-margin-bottom--3"
-          data-testid="download-success-banner"
-        >
-          <va-alert role="alert" status="success" background-only uswds>
-            <h2 slot="headline">Download started</h2>
-            <p className="vads-u-margin--0">
-              Check your device’s downloads location for your file.
-            </p>
-          </va-alert>
-        </div>
-      )}
+      {isSuccess &&
+        !isError && (
+          <div
+            className="vads-u-margin-bottom--3"
+            data-testid="download-success-banner"
+          >
+            <va-alert role="alert" status="success" background-only uswds>
+              <h2 slot="headline">Download started</h2>
+              <p className="vads-u-margin--0">
+                Check your device’s downloads location for your file.
+              </p>
+            </va-alert>
+          </div>
+        )}
+      {/* hack to generate va-alert and va-telephone web components in case there is no network at the time of download */}
+      <va-alert visible="false" uswds>
+        <va-telephone />
+      </va-alert>
       {isError && (
         <div className="vads-u-margin-bottom--3">
           <va-alert role="alert" status="error" uswds>
@@ -119,7 +134,7 @@ const PrintDownload = props => {
         className="print-download vads-u-margin-y--2 no-print"
         role="none"
         onKeyDown={handleUserKeyPress}
-        ref={menu}
+        ref={containerEl}
         onFocus={handleFocus}
       >
         <button
@@ -131,6 +146,7 @@ const PrintDownload = props => {
           onClick={() => setMenuOpen(!menuOpen)}
           data-testid="print-records-button"
           aria-expanded={menuOpen}
+          ref={toggleButton}
         >
           <span>Print or download</span>
           <va-icon

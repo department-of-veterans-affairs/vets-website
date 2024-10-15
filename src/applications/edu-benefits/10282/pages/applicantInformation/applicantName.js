@@ -40,7 +40,9 @@ const applicantInformationField = () => {
       fields: ['veteranFullName'],
       required: ['veteranFullName'],
     }),
-    uiSchema,
+    uiSchema: {
+      ...uiSchema,
+    },
   };
 };
 export { uiSchema, applicantInformationField };
