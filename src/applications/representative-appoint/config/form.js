@@ -22,6 +22,7 @@ import {
   claimantContactMailing,
   veteranPersonalInformation,
   veteranContactPhoneEmail,
+  veteranContactPhoneEmailForNonVeteran,
   veteranContactMailing,
   veteranContactMailingClaimant,
   veteranIdentification,
@@ -37,6 +38,8 @@ import { preparerIsVeteran } from '../utilities/helpers';
 
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
+import SelectAccreditedRepresentative from '../components/SelectAccreditedRepresentative';
+import SelectedAccreditedRepresentativeReview from '../components/SelectAccreditedRepresentativeReview';
 
 // import { prefillTransformer } from '../prefill-transformer';
 // import ClaimantType from '../components/ClaimantType';
@@ -56,10 +59,7 @@ const formConfig = {
   },
   submit: async form => {
     const transformedFormData = pdfTransform(form.data);
-    const pdfResponse = await generatePDF(
-      transformedFormData,
-      formConfigFromService.submitUrl,
-    );
+    const pdfResponse = await generatePDF(transformedFormData);
     localStorage.setItem('formPdf', pdfResponse);
   },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
@@ -110,18 +110,22 @@ const formConfig = {
         selectAccreditedRepresentative: {
           title: 'Representative Select',
           path: 'representative-select',
+          CustomPage: SelectAccreditedRepresentative,
+          CustomPageReview: SelectedAccreditedRepresentativeReview,
           uiSchema: selectAccreditedRepresentative.uiSchema,
           schema: selectAccreditedRepresentative.schema,
         },
         contactAccreditedRepresentative: {
           title: 'Representative Contact',
           path: 'representative-contact',
+          hideOnReview: true,
           uiSchema: contactAccreditedRepresentative.uiSchema,
           schema: contactAccreditedRepresentative.schema,
         },
         selectAccreditedOrganization: {
           path: 'representative-organization',
           title: 'Organization Select',
+          hideOnReview: true,
           depends: formData =>
             !!formData['view:selectedRepresentative'] &&
             formData['view:selectedRepresentative'].attributes
@@ -141,6 +145,7 @@ const formConfig = {
         replaceAccreditedRepresentative: {
           title: 'Representative Replace',
           path: 'representative-replace',
+          hideOnReview: true,
           depends: formData =>
             !!formData['view:representativeStatus']?.id &&
             !!formData['view:selectedRepresentative'],
@@ -233,6 +238,14 @@ const formConfig = {
           depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranContactPhoneEmail.uiSchema,
           schema: veteranContactPhoneEmail.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranContactPhoneEmailForNonVeteran: {
+          path: 'veteran-contact-phone-email-for-non-veteran',
+          title: `Veteran’s phone number and email address`,
+          depends: formData => !preparerIsVeteran({ formData }),
+          uiSchema: veteranContactPhoneEmailForNonVeteran.uiSchema,
+          schema: veteranContactPhoneEmailForNonVeteran.schema,
           editModeOnReviewPage: true,
         },
         veteranIdentification: {

@@ -17,13 +17,19 @@ const Dropdown = ({
   selectClassName,
   value,
   visible,
+  required,
 }) => {
   if (!visible) {
     return null;
   }
 
   const dropdownId = `${name}-dropdown`;
-  const labelElement = <label htmlFor={name}>{label}</label>;
+  const labelElement = (
+    <label htmlFor={name}>
+      {label}{' '}
+      {required ? <span className="required-label">(*Required)</span> : null}{' '}
+    </label>
+  );
 
   const selectClasses = classNames('vads-u-color--gray', selectClassName, {
     hideArrows,
@@ -84,12 +90,14 @@ Dropdown.propTypes = {
   selectClassName: PropTypes.string,
   visible: PropTypes.bool,
   onFocus: PropTypes.func,
+  required: PropTypes.bool,
 };
 
 Dropdown.defaultProps = {
   className: 'form-group top-aligned',
   visible: false,
   onFocus: handleScrollOnInputFocus,
+  required: false,
 };
 
 export default Dropdown;
