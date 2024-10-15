@@ -921,29 +921,18 @@ export const veteranUI = {
       'ui:title': 'Other',
     },
     'ui:validations': [
-      // require at least one value to be true/checked + custom validation to ensure that "Prefer not to answer" is not selected along with other options
+      // require at least one value to be true/checked
       (errors, fields) => {
-        const { na, ...otherFields } = fields;
-        const otherSelected = Object.values(otherFields).some(
-          val => val === true,
-        );
-
-        if (na && otherSelected) {
-          errors.addError(
-            'When selecting Prefer not to answer, you can’t have another option.',
-          );
-        } else if (!na && !otherSelected) {
-          errors.addError('Please provide a response.');
+        if (!Object.values(fields).some(val => val === true)) {
+          errors.addError('Please provide a response');
         }
       },
     ],
     'ui:options': {
-      hint:
-        'You can select more than one option, unless you prefer not to answer.',
+      hint: 'You can select more than one option.',
       showFieldLabel: true,
     },
   },
-
   raceComment: {
     'ui:title': 'Enter the race that best describes you',
     'ui:widget': 'textarea',
