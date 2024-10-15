@@ -209,7 +209,7 @@ export function includeRadiationCleanUpEfforts(formData) {
  * Helper that determines if the form data indicates the user has a birthdate that
  * makes them eligibile for gulf war service
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user was born on or before Aug 2, 1975
+ * @returns {Boolean} - true if the user was born on or before Feb 28, 1976
  */
 export function includeGulfWarService(formData) {
   if (!formData['view:isTeraBranchingEnabled']) {
@@ -219,7 +219,7 @@ export function includeGulfWarService(formData) {
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isBefore(
     new Date(veteranDateOfBirth),
-    new Date(1975, 8, 2),
+    new Date(1976, 2, 28),
   );
   return includeTeraInformation(formData) && couldHaveServed;
 }
@@ -244,7 +244,7 @@ export function includeGulfWarServiceDates(formData) {
  * Helper that determines if the form data indicates the user has a birthdate that
  * makes them eligibile for post-9/11 service
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user was born between Sept 11, 1986 and Aug 2, 1975
+ * @returns {Boolean} - true if the user was born after Feb 28, 1976
  */
 export function includePostSept11Service(formData) {
   if (!formData['view:isTeraBranchingEnabled']) {
@@ -254,7 +254,7 @@ export function includePostSept11Service(formData) {
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isAfter(
     new Date(veteranDateOfBirth),
-    new Date(1986, 9, 10),
+    new Date(1976, 2, 28),
   );
   return includeTeraInformation(formData) && couldHaveServed;
 }
