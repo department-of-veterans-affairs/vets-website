@@ -8,16 +8,16 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const uiSchema = {
-  ...titleUI(() => 'Your phone number and email address'),
+  ...titleUI(() => 'Veteran’s phone number and email address'),
   'Primary phone': phoneUI({
-    required: true,
+    required: false,
   }),
   veteranEmail: emailUI(),
 };
 
 export const schema = {
   type: 'object',
-  required: ['Primary phone'],
+  required: [],
   properties: {
     titleSchema,
     'Primary phone': phoneSchema,
