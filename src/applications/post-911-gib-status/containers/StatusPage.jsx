@@ -50,7 +50,7 @@ class StatusPage extends React.Component {
     }
 
     return (
-      <div className="gib-info vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="gib-info vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--9">
             <h1>Your Post-9/11 GI Bill Statement of Benefits</h1>

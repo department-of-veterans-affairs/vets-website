@@ -2,15 +2,26 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
-import moment from 'moment-timezone';
 import {
   getConfirmedAppointmentDetailsInfo,
   selectIsCanceled,
   selectIsInPerson,
   selectIsPhone,
 } from '../../redux/selectors';
-import VAFacilityLocation from '../../../components/VAFacilityLocation';
-import FacilityPhone from '../../../components/FacilityPhone';
+import {
+  ClinicOrFacilityPhone,
+  Details,
+  Section,
+  What,
+  When,
+  Where,
+  Who,
+} from '../../../components/layout/DetailPageLayout';
+import { AppointmentDate, AppointmentTime } from '../AppointmentDateTime';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+import { getRealFacilityId } from '../../../utils/appointment';
+import FacilityDirectionsLink from '../../../components/FacilityDirectionsLink';
+import Address from '../../../components/Address';
 
 function getHeading(appointment) {
   const isCanceled = selectIsCanceled(appointment);
@@ -35,13 +46,14 @@ export default function CancelPageLayout() {
     bookingNotes,
     clinicName,
     clinicPhone,
+    clinicPhoneExtension,
     clinicPhysicalLocation,
     facility,
-    facilityId,
+    locationId,
     facilityPhone,
     isPhone,
+    practitionerName,
     startDate,
-    timeZoneAbbr,
     typeOfCareName,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
@@ -50,70 +62,121 @@ export default function CancelPageLayout() {
 
   const heading = getHeading(appointment);
   const [reason, otherDetails] = bookingNotes.split(':');
-  const provider = null;
+  const facilityId = locationId;
 
   return (
     <>
       <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">{heading}</h2>
-      <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">When</h3>
-      {moment(startDate).format('ddd, MMMM D, YYYY')} <br />
-      {moment(startDate).format('HH:mm:ss')} {timeZoneAbbr}
-      <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">What</h3>
-      {typeOfCareName || 'Type of care information not available'}
-      <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">Who</h3>
-      {provider || 'Provider information not available'}
-      <br />
+      <When level={3}>
+        <AppointmentDate date={startDate} />
+        <br />
+        <AppointmentTime appointment={appointment} />
+        <br />
+      </When>
+      <What level={3}>{typeOfCareName}</What>
+      <Who level={3}>{practitionerName}</Who>
       {isPhone && (
-        <>
-          <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
-            Scheduling facility
-          </h3>
-          <span>Facility: {facility?.name}</span>
+        <Section heading="Scheduling facility" level={3}>
+          {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
+          {!facility &&
+            !facilityId && (
+              <>
+                <span>Facility details not available</span>
+                <br />
+                <NewTabAnchor href="/find-locations">
+                  Find facility information
+                </NewTabAnchor>
+                <br />
+                <br />
+              </>
+            )}
+          {/* When the services return a null value for the facility (but receive the facility ID) */}
+          {!facility &&
+            !!facilityId && (
+              <>
+                <span>Facility details not available</span>
+                <br />
+                <NewTabAnchor
+                  href={`/find-locations/facility/vha_${getRealFacilityId(
+                    facilityId,
+                  )}`}
+                >
+                  View facility information
+                </NewTabAnchor>
+                <br />
+                <br />
+              </>
+            )}
+          {!!facility && (
+            <>
+              {facility.name}
+              <br />
+              <Address address={facility?.address} />
+            </>
+          )}
+          {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
           <br />
-          <span>Clinic: {clinicName || `Not available`}</span>
-          <br />
-          <span>Location: {clinicPhysicalLocation || `Not available`}</span>
-          <br />
-          <FacilityPhone
-            contact={clinicPhone || facilityPhone}
-            heading={`${clinicPhone ? 'Clinic phone:' : 'Phone:'}`}
+          <ClinicOrFacilityPhone
+            clinicPhone={clinicPhone}
+            clinicPhoneExtension={clinicPhoneExtension}
+            facilityPhone={facilityPhone}
           />
-        </>
+        </Section>
       )}
       {!isPhone && (
-        <>
-          <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
-            <span>Where</span>
-          </h3>
-          <VAFacilityLocation
-            facility={facility}
-            facilityName={facility?.name}
-            facilityId={facilityId}
-            isPhone={false}
-            showPhone={false}
-            showDirectionsLink={false}
+        <Where level={3}>
+          {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
+          {!facility &&
+            !facilityId && (
+              <>
+                <span>Facility details not available</span>
+                <br />
+                <NewTabAnchor href="/find-locations">
+                  Find facility information
+                </NewTabAnchor>
+                <br />
+                <br />
+              </>
+            )}
+          {/* When the services return a null value for the facility (but receive the facility ID) */}
+          {!facility &&
+            !!facilityId && (
+              <>
+                <span>Facility details not available</span>
+                <br />
+                <NewTabAnchor
+                  href={`/find-locations/facility/vha_${getRealFacilityId(
+                    facilityId,
+                  )}`}
+                >
+                  View facility information
+                </NewTabAnchor>
+                <br />
+                <br />
+              </>
+            )}
+          {!!facility && (
+            <>
+              {facility.name}
+              <br />
+              <Address address={facility?.address} />
+              <div className="vads-u-margin-top--1 vads-u-color--link-default">
+                <FacilityDirectionsLink location={facility} icon />
+              </div>
+              <br />
+              <span>Clinic: {clinicName || 'Not available'}</span> <br />
+              <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
+              <br />
+            </>
+          )}
+          <ClinicOrFacilityPhone
+            clinicPhone={clinicPhone}
+            clinicPhoneExtension={clinicPhoneExtension}
+            facilityPhone={facilityPhone}
           />
-          <br />
-          <span>Clinic: {clinicName || `Not available`}</span>
-          <br />
-          <span>Location: {clinicPhysicalLocation || `Not available`}</span>
-          <br />
-          <FacilityPhone
-            contact={clinicPhone || facilityPhone}
-            heading={`${clinicPhone ? 'Clinic phone:' : 'Phone:'}`}
-          />
-        </>
+        </Where>
       )}
-      <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
-        <span>Details you shared with your provider</span>
-      </h3>
-      <span>
-        Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-      </span>
-      <br />
-      <span className="vaos-u-word-break--break-word">
-        Other details: {`${otherDetails || 'Not available'}`}
-      </span>
+      <Details reason={reason} otherDetails={otherDetails} level={3} />
     </>
   );
 }

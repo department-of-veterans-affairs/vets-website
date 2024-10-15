@@ -204,7 +204,7 @@ class PatientMessageDetailsPage {
     cy.get(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
     cy.get(Locators.ALERTS.THREAD_EXPAND)
       .shadow()
-      .contains('Collapse all -')
+      .find('button')
       .click();
   };
 

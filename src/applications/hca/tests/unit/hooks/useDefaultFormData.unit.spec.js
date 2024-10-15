@@ -74,7 +74,9 @@ describe('hca `useDefaultFormData` hook', () => {
       'view:isInsuranceV2Enabled': false,
       'view:isTeraBranchingEnabled': true,
       'view:totalDisabilityRating': 0,
-      'view:userDob': '12/14/1986',
+      'view:veteranInformation': {
+        veteranDateOfBirth: '12/14/1986',
+      },
     };
 
     subject({ mockStore });
