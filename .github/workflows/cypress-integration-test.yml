@@ -4,10 +4,10 @@ on:
     workflow_dispatch:
       inputs:
         commit_sha:
-          description: "Commit SHA: from your branch's latest build" 
+          description: "Commit SHA: from your branch's latest, completed prod build" 
           required: true 
         platform-or-application:
-          description: 'Is your test in /applications/ or /platform/?'
+          description: 'Are your failing tests in /applications/ or /platform/?'
           type: choice
           options: 
             - applications
