@@ -17,52 +17,78 @@ export const blankType = {
 };
 
 export const yesNoType = {
-  YES: 'yes',
-  NO: 'no',
+  YES: true,
+  NO: false,
 };
 
-const goalTypes = {
-  PROGRESS: 'progressInMyMilitaryCareer',
-  PLAN: 'planForMyTransition',
-  NETWORK: 'buildMyNetwork',
-  JOBS: 'findACivilianJob',
-  CAREER_PATH: 'setACareerPath',
-  BUSINESS: 'startABusiness',
-  UNDERSTAND: 'understandMyBenefits',
-  DEGREE: 'earnDegreeOrCertificate',
-};
+export const goalTypes = Object.freeze({
+  DEGREE: 'DEGREE',
+  JOBS: 'JOBS',
+  PLAN: 'PLAN',
+  CAREER_PATH: 'CAREER_PATH',
+  BUSINESS: 'BUSINESS',
+  UNDERSTAND: 'UNDERSTAND',
+});
 
-// const serviceLengthTypes = {
-//   UP_TO_90_DAYS: 'upTo90days',
-//   UP_TO_1_YEAR: 'upTo1yr',
-//   UP_TO_2_YEARS: 'upTo2yr',
-//   UP_TO_3_YEARS: 'upTo3yr',
-//   OVER_3_YEARS: 'over3yr',
-// };
+export const goalTypeLabels = Object.freeze({
+  DEGREE: 'Earn a degree or certificate',
+  JOBS: 'Find a civilian job',
+  PLAN: 'Plan for my transition',
+  CAREER_PATH: 'Set a career path',
+  BUSINESS: 'Start a business',
+  UNDERSTAND: 'Understand my benefits',
+});
+
+export const militaryServiceTimeServedLabels = Object.freeze({
+  UP_TO_3_MONTHS: '0 to 3 months',
+  UP_TO_6_MONTHS: '4 to 6 months',
+  UP_TO_1_YEAR: '7 months to 1 year',
+  UP_TO_2_YEARS: '1 to 2 years',
+  UP_TO_3_YEARS: '2 to 3 years',
+  OVER_3_YEARS: '3+ years',
+});
+
+export const militaryServiceTimeServedTypes = Object.freeze({
+  UP_TO_3_MONTHS: 'UP_TO_3_MONTHS',
+  UP_TO_6_MONTHS: 'UP_TO_6_MONTHS',
+  UP_TO_1_YEAR: 'UP_TO_1_YEAR',
+  UP_TO_2_YEARS: 'UP_TO_2_YEARS',
+  UP_TO_3_YEARS: 'UP_TO_3_YEARS',
+  OVER_3_YEARS: 'OVER_3_YEARS',
+});
+
+export const expectedSeparationLabels = Object.freeze({
+  UP_TO_3_MONTHS: '0 to 3 months',
+  MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS: '4 to 6 months',
+  MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR: '7 months to 1 year',
+  MORE_THAN_1_YEAR: '1+ year',
+});
+
+export const expectedSeparationTypes = Object.freeze({
+  UP_TO_3_MONTHS: 'UP_TO_3_MONTHS',
+  MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS:
+    'MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS',
+  MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR: 'MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR',
+  MORE_THAN_1_YEAR: 'MORE_THAN_1_YEAR',
+});
 
 export const separationTypes = Object.freeze({
-  UP_TO_6MO: 'UP_TO_6MO',
-  UP_TO_1YR: 'UP_TO_1YR',
-  UP_TO_2YRS: 'UP_TO_2YRS',
-  UP_TO_3YRS: 'UP_TO_3YRS',
-  OVER_3YRS: 'OVER_3YRS',
+  UP_TO_3_MONTHS: 'UP_TO_3_MONTHS',
+  UP_TO_6_MONTHS: 'UP_TO_6_MONTHS',
+  UP_TO_1_YEAR: 'UP_TO_1_YEAR',
+  UP_TO_2_YEARS: 'UP_TO_2_YEARS',
+  UP_TO_3_YEARS: 'UP_TO_3_YEARS',
+  OVER_3_YEARS: 'OVER_3_YEARS',
 });
 
 export const separationTypeLabels = Object.freeze({
-  UP_TO_6MO: 'Within the past 6 months',
-  UP_TO_1YR: 'More than 6 months ago but less than 1 year ago',
-  UP_TO_2YRS: 'More than 1 year ago but less than 2 years ago',
-  UP_TO_3YRS: 'More than 2 years ago but less than 3 years ago',
-  OVER_3YRS: 'More than 3 years ago',
+  UP_TO_3_MONTHS: '0 to 3 months',
+  UP_TO_6_MONTHS: '4 to 6 months',
+  UP_TO_1_YEAR: '7 months to 1 year',
+  UP_TO_2_YEARS: '1 to 2 years',
+  UP_TO_3_YEARS: '2 to 3 years',
+  OVER_3_YEARS: '3+ years',
 });
-
-const expectedSparationTypes = {
-  WITHIN_3MO: 'Within the next 3 months',
-  FROM_3_TO_6_MO: 'More than 3 months but less than 6 months',
-  FROM_6MO_TO_1YR: 'More than 6 months but less than 1 year',
-  OVER_1YR: 'More than 1 year from now',
-  OVER_3YRS_AGO: 'More than 3 years from now',
-};
 
 export const disabilityTypes = Object.freeze({
   APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
@@ -72,10 +98,10 @@ export const disabilityTypes = Object.freeze({
 });
 
 export const disabilityTypeLabels = Object.freeze({
-  APPLIED_AND_RECEIVED: "I've applied and received a disability rating",
-  SUBMITTED: "I've submitted but haven't received a rating yet",
-  STARTED: "I've started the process but haven't submitted yet",
-  NOT_APPLIED: "I haven't applied for a disability rating",
+  APPLIED_AND_RECEIVED: "I've applied and received a disability rating.",
+  SUBMITTED: "I've submitted but haven't received a rating yet.",
+  STARTED: "I've started the process but haven't submitted yet.",
+  NOT_APPLIED: "I haven't applied for a disability rating.",
 });
 
 export const giBillTypes = Object.freeze({
@@ -86,10 +112,10 @@ export const giBillTypes = Object.freeze({
 });
 
 export const giBillTypeLabels = Object.freeze({
-  APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits",
-  SUBMITTED: "I've submitted but haven't received a decision yet",
-  STARTED: "I've started the process but haven't submitted yet",
-  NOT_APPLIED: "I haven't applied for GI Bill benefits",
+  APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits.",
+  SUBMITTED: "I've submitted but haven't received a decision yet.",
+  STARTED: "I've started the process but haven't submitted yet.",
+  NOT_APPLIED: "I haven't applied for GI Bill benefits.",
 });
 
 export const characterOfDischargeTypes = Object.freeze({
@@ -198,14 +224,14 @@ export const BENEFITS_LIST = [
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [
-        expectedSparationTypes.WITHIN_3MO,
-        expectedSparationTypes.FROM_3_TO_6_MO,
+        expectedSeparationTypes.UP_TO_3_MONTHS,
+        expectedSeparationTypes.MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS,
         blankType.BLANK,
       ],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
-        separationTypes.UP_TO_6MO,
-        separationTypes.UP_TO_1YR,
+        separationTypes.UP_TO_6_MONTHS,
+        separationTypes.UP_TO_1_YEAR,
         blankType.BLANK,
       ],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [

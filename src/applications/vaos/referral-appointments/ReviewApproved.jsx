@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormLayout from '../new-appointment/components/FormLayout';
 import ReferralAppLink from './components/ReferralAppLink';
 import { getReferralById } from '../services/referral';
+import { setFormCurrentPage } from './redux/actions';
 
 export default function ReviewApproved() {
   const [patientData, setPatientData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('referralReview'));
+    },
+    [location, dispatch],
+  );
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -107,10 +119,7 @@ export default function ReviewApproved() {
         </div>
         <hr className="vads-u-margin-y--2" />
         <div>
-          <ReferralAppLink
-            linkText="Start scheduling your community care appointment"
-            linkPath="/choose-community-care-appointment"
-          />
+          <ReferralAppLink linkText="Start scheduling your community care appointment" />
         </div>
       </div>
     </FormLayout>

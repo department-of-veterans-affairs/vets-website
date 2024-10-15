@@ -63,7 +63,7 @@ if (environment.isLocalhost() && !window.Cypress) {
 }
 
 function includeChapter(page) {
-  return formData => formData?.chapterSelect[page];
+  return formData => formData?.chapterSelect?.[page];
 }
 
 /** @type {FormConfig} */

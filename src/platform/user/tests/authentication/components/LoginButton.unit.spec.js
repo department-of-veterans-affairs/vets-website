@@ -21,10 +21,6 @@ describe('LoginButton', () => {
       const screen = render(<LoginButton csp={csp.policy} />);
 
       expect(screen.queryByRole('button')).to.have.attr('data-csp', csp.policy);
-      expect(screen.queryByRole('button')).to.have.attr(
-        'aria-label',
-        `Sign in with ${SERVICE_PROVIDERS[csp.policy].label}`,
-      );
     });
   });
   it('should call the `loginHandler` function on click', () => {

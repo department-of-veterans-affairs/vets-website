@@ -122,4 +122,11 @@ export const OAUTH_ERROR_RESPONSES = {
   default: AUTH_ERRORS.OAUTH_DEFAULT_ERROR.errorCode,
 };
 
+export const FORCED_VERIFICATION_ACRS = {
+  idme: 'loa3',
+  mhv: 'loa3',
+  dslogon: 'loa3',
+  logingov: 'ial2',
+};
+
 export const APPROVED_OAUTH_APPS = ['arp'];

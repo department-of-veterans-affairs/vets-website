@@ -1,22 +1,19 @@
 import React from 'react';
-
 import ExclusionPeriodsWidget from '../../../../components/ExclusionPeriodsWidget';
-
 import { formFields } from '../../../../constants';
-
 import { formPages } from '../../../../helpers';
 
 function additionalConsiderationsQuestionTitleText(
-  benefitSelection,
   order,
   rudisillFlag,
+  meb160630Automation,
+  chosenBenefit, // Include chosenBenefit here
   pageName,
 ) {
-  const isUnsure = !benefitSelection || benefitSelection === 'NotEligible';
   let pageNumber;
   let totalPages;
-
-  if (rudisillFlag) {
+  // Handle when rudisillFlag is true and meb160630Automation is false (5 questions)
+  if (rudisillFlag && !meb160630Automation) {
     const pageOrder = {
       'active-duty-kicker': 1,
       'reserve-kicker': 2,
@@ -27,26 +24,36 @@ function additionalConsiderationsQuestionTitleText(
     pageNumber = pageOrder[pageName] || order;
     totalPages = 5;
   } else {
-    pageNumber = isUnsure ? order - 1 : order;
-    totalPages = isUnsure ? 3 : 4;
+    // Handle when meb160630Automation is true, but chosenBenefit is NOT chapter30 (still show 5 questions)
+    const pageOrder = {
+      'active-duty-kicker': 1,
+      'reserve-kicker': 2,
+      'academy-commission': 3,
+      'rotc-commission': 4,
+      'loan-payment': 5,
+      'additional-contributions': 6, // This question only appears for chapter30
+    };
+    // Show 6 questions only if meb160630Automation is enabled AND chosenBenefit is 'chapter30'
+    pageNumber = pageOrder[pageName] || order;
+    totalPages = meb160630Automation && chosenBenefit === 'chapter30' ? 6 : 5;
   }
-
   return `Question ${pageNumber} of ${totalPages}`;
 }
-
+// Function to render the question title on the form
 function additionalConsiderationsQuestionTitle(
-  benefitSelection,
   order,
   rudisillFlag,
+  meb160630Automation,
+  chosenBenefit,
   pageName,
 ) {
   const titleText = additionalConsiderationsQuestionTitleText(
-    benefitSelection,
     order,
     rudisillFlag,
+    meb160630Automation,
+    chosenBenefit,
     pageName,
   );
-
   return (
     <>
       <h3 className="meb-additional-considerations-title meb-form-page-only">
@@ -62,7 +69,7 @@ function additionalConsiderationsQuestionTitle(
     </>
   );
 }
-
+// Template for additional considerations pages
 function AdditionalConsiderationTemplate(page, formField, options = {}) {
   const { title, additionalInfo } = page;
   const additionalInfoViewName = `view:${page.name}AdditionalInfo`;
@@ -73,7 +80,6 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
   };
   const displayType = displayTypeMapping[formField] || '';
   let additionalInfoView;
-
   const uiDescription = (
     <>
       {options.includeExclusionWidget && (
@@ -96,19 +102,17 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
       },
     };
   }
-
   return {
     path: page.name,
     title: data => {
       const rudisillFlag = data?.dgiRudisillHideBenefitsSelectionStep;
+      const meb160630Automation = data?.meb160630Automation;
+      const chosenBenefit = data?.formData?.chosenBenefit;
       return additionalConsiderationsQuestionTitleText(
-        (data[(formFields?.viewBenefitSelection)] &&
-          data[(formFields?.viewBenefitSelection)][
-            (formFields?.benefitRelinquished)
-          ]) ||
-          'NotEligible',
         page.order,
         rudisillFlag,
+        meb160630Automation,
+        chosenBenefit,
         page.name,
       );
     },
@@ -116,12 +120,13 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
       'ui:description': data => {
         const rudisillFlag =
           data.formData?.dgiRudisillHideBenefitsSelectionStep;
+        const meb160630Automation = data?.formData?.meb160630Automation;
+        const chosenBenefit = data?.formData?.chosenBenefit;
         return additionalConsiderationsQuestionTitle(
-          data.formData[formFields.viewBenefitSelection][
-            formFields.benefitRelinquished
-          ],
           page.order,
           rudisillFlag,
+          meb160630Automation,
+          chosenBenefit,
           page.name,
         );
       },
@@ -147,29 +152,21 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
     },
   };
 }
-
+// Define the additional considerations pages with correct dependencies
 const additionalConsiderations33 = {
   [formPages.additionalConsiderations.activeDutyKicker.name]: {
     ...AdditionalConsiderationTemplate(
       formPages.additionalConsiderations.activeDutyKicker,
       formFields.activeDutyKicker,
     ),
-    depends: formData =>
-      formData.dgiRudisillHideBenefitsSelectionStep ||
-      formData?.[formFields.viewBenefitSelection]?.[
-        formFields.benefitRelinquished
-      ] === 'Chapter30',
+    depends: formData => formData.dgiRudisillHideBenefitsSelectionStep,
   },
   [formPages.additionalConsiderations.reserveKicker.name]: {
     ...AdditionalConsiderationTemplate(
       formPages.additionalConsiderations.reserveKicker,
       formFields.selectedReserveKicker,
     ),
-    depends: formData =>
-      formData.dgiRudisillHideBenefitsSelectionStep ||
-      formData?.[formFields.viewBenefitSelection]?.[
-        formFields.benefitRelinquished
-      ] === 'Chapter1606',
+    depends: formData => formData.dgiRudisillHideBenefitsSelectionStep,
   },
   [formPages.additionalConsiderations.militaryAcademy.name]: {
     ...AdditionalConsiderationTemplate(
@@ -192,6 +189,13 @@ const additionalConsiderations33 = {
       { includeExclusionWidget: true },
     ),
   },
+  [formPages.additionalConsiderations.sixHundredDollarBuyUp.name]: {
+    ...AdditionalConsiderationTemplate(
+      formPages.additionalConsiderations.sixHundredDollarBuyUp,
+      formFields.sixHundredDollarBuyUp,
+    ),
+    depends: formData =>
+      formData?.chosenBenefit === 'chapter30' && formData?.meb160630Automation,
+  },
 };
-
 export default additionalConsiderations33;
