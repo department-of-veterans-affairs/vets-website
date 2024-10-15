@@ -81,8 +81,13 @@ export class ConfirmationPage extends React.Component {
   sortBenefits = e => {
     const key = e.target.value;
     const sortKey = key === 'alphabetical' ? 'name' : key;
+    const sortStrings = {
+      alphabetical: 'alphabetical',
+      goal: 'goal',
+      category: 'type',
+    };
 
-    this.setState({ sortValue: key }, () => {
+    this.setState({ sortValue: sortStrings[key] }, () => {
       this.setState(prevState => {
         if (!prevState.benefits || !Array.isArray(prevState.benefits)) {
           return { benefits: [], benefitsList: [] };
@@ -101,9 +106,14 @@ export class ConfirmationPage extends React.Component {
 
   filterBenefits = e => {
     const key = e.target.value;
-    const filterString = key === 'Careers' ? 'Careers & Employment' : key;
+    const filterStrings = {
+      All: 'All',
+      Education: 'Education',
+      Careers: 'Careers & Employment',
+      Support: 'More Support',
+    };
 
-    this.setState(() => ({ filterValue: filterString }));
+    this.setState(() => ({ filterValue: filterStrings[key] }));
 
     if (key === 'All') {
       this.setState(() => ({
@@ -135,8 +145,8 @@ export class ConfirmationPage extends React.Component {
     this.props.router.goBack();
   };
 
-  sortBenefitObj(sortBenefitObj, sortKey) {
-    return [...sortBenefitObj].sort((a, b) => {
+  sortBenefitObj(benefitObj, sortKey) {
+    return [...benefitObj].sort((a, b) => {
       let aValue = a[sortKey] || '';
       let bValue = b[sortKey] || '';
 
@@ -186,12 +196,6 @@ export class ConfirmationPage extends React.Component {
     const currentState = this.state.showMobileFilters;
     this.setState({ showMobileFilters: !currentState });
   }
-
-  handleClick = e => {
-    e.preventDefault();
-
-    this.props.router.goBack();
-  };
 
   render() {
     return (
