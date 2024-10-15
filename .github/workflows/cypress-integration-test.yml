@@ -104,9 +104,9 @@ jobs:
           with:
             key: ${{ hashFiles('yarn.lock') }}
             yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+            path: |
+              .cache/yarn
+              node_modules
 
         - name: Install server dependencies
           working-directory: vets-website
@@ -117,7 +117,7 @@ jobs:
           run: |
            mkdir build
            node src/platform/testing/e2e/test-server.js --buildtype=../vets-website --port=3001 &
-           
+
         - name: Run Cypress tests
           run: |
             npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/applications/burials-ez/**/*.cypress.spec.js'
