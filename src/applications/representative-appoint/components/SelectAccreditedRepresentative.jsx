@@ -8,7 +8,7 @@ import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import SearchResult from './SearchResult';
 
 const SelectAccreditedRepresentative = props => {
-  const { setFormData, formData, router, routes, location } = props;
+  const { setFormData, formData, router, routes, location, goToPath } = props;
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -79,6 +79,7 @@ const SelectAccreditedRepresentative = props => {
                   router={router}
                   routes={routes}
                   location={location}
+                  goToPath={goToPath}
                 />
               </div>
             );

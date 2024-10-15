@@ -16,6 +16,7 @@ import {
   APPROVED_OAUTH_APPS,
   CLIENT_IDS,
   COOKIES,
+  FORCED_VERIFICATION_ACRS,
   OAUTH_ALLOWED_PARAMS,
   OAUTH_ENDPOINTS,
   OAUTH_KEYS,
@@ -113,6 +114,11 @@ export async function createOAuthRequest({
     ? type.slice(0, type.indexOf('_'))
     : type;
 
+  const usedAcr =
+    passedOptions?.forceVerify === 'required'
+      ? FORCED_VERIFICATION_ACRS[type]
+      : acr ?? oAuthOptions.acr[type];
+
   /*
     Web - Generate state & codeVerifier if default oAuth
   */
@@ -130,7 +136,7 @@ export async function createOAuthRequest({
   // Build the authorization URL query params from config
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
-    [OAUTH_KEYS.ACR]: acr ?? oAuthOptions.acr[type],
+    [OAUTH_KEYS.ACR]: usedAcr,
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {
