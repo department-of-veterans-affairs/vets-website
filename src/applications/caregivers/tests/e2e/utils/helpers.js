@@ -185,11 +185,11 @@ export const pageHooks = {
   confirmation: ({ afterHook }) => {
     afterHook(() => {
       cy.get('va-link')
-        .contains('Download your completed application (PDF)')
+        .contains(content['button-download'])
         .click();
 
       cy.wait('@downloadPdf').then(() => {
-        cy.get('va-link').contains('Download your completed application (PDF)');
+        cy.get('va-link').contains(content['button-download']);
       });
     });
   },
