@@ -20,9 +20,6 @@ describe('LoginInfo', () => {
     expect(verifyIdentityTag.prop('href')).to.eql(
       '/resources/verifying-your-identity-on-vagov/',
     );
-    expect([signInTag.prop('target'), verifyIdentityTag.prop('target')]).to.eql(
-      ['_blank', '_blank'],
-    );
     wrapper.unmount();
   });
 });

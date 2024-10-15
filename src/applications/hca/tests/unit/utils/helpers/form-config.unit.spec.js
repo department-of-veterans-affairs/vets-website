@@ -16,7 +16,9 @@ import {
   isSigiEnabled,
   hasDifferentHomeAddress,
   includeTeraInformation,
+  includeRadiationCleanUpEfforts,
   includeGulfWarServiceDates,
+  includeAgentOrangeExposure,
   includeOtherExposureDates,
   includeOtherExposureDetails,
   showFinancialConfirmation,
@@ -26,8 +28,6 @@ import {
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   collectMedicareInformation,
-  useLighthouseFacilityList,
-  useJsonFacilityList,
   insuranceTextOverrides,
 } from '../../../../utils/helpers/form-config';
 import {
@@ -177,15 +177,27 @@ describe('hca form config helpers', () => {
   });
 
   context('when `isMissingVeteranDob` executes', () => {
-    it('should return `true` when viewfield is `null`', () => {
-      const formData = { 'view:isLoggedIn': true, 'view:userDob': null };
+    it('should return `true` when veteran information is not populated', () => {
+      const formData = {
+        'view:isLoggedIn': true,
+      };
       expect(isMissingVeteranDob(formData)).to.be.true;
     });
 
-    it('should return `false` when viewfield is populated', () => {
+    it('should return `true` when date of birth value is `null`', () => {
       const formData = {
         'view:isLoggedIn': true,
-        'view:userDob': '1990-01-01',
+        'view:veteranInformation': { veteranDateOfBirth: null },
+      };
+      expect(isMissingVeteranDob(formData)).to.be.true;
+    });
+
+    it('should return `false` when date of birth value is populated', () => {
+      const formData = {
+        'view:isLoggedIn': true,
+        'view:veteranInformation': {
+          veteranDateOfBirth: '1990-01-01',
+        },
       };
       expect(isMissingVeteranDob(formData)).to.be.false;
     });
@@ -364,6 +376,38 @@ describe('hca form config helpers', () => {
     });
   });
 
+  context('when `includeRadiationCleanUpEfforts` executes', () => {
+    const getData = ({
+      veteranDateOfBirth = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
+      hasTeraResponse: included,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
+      const formData = getData({ included: true, enabled: false });
+      expect(includeRadiationCleanUpEfforts(formData)).to.be.true;
+    });
+
+    it('should return `true` when Veteran birthdate is before `Jan 1, 1966`', () => {
+      const formData = getData({ veteranDateOfBirth: '1960-01-01' });
+      expect(includeRadiationCleanUpEfforts(formData)).to.be.true;
+    });
+
+    it('should return `false` when Veteran birthdate is after Dec 31, 1965', () => {
+      const formData = getData({ veteranDateOfBirth: '1990-01-01' });
+      expect(includeRadiationCleanUpEfforts(formData)).to.be.false;
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includeRadiationCleanUpEfforts(formData)).to.be.false;
+    });
+  });
+
   context('when `includeGulfWarServiceDates` executes', () => {
     const getData = ({ response = null, included = true }) => ({
       hasTeraResponse: included,
@@ -383,6 +427,38 @@ describe('hca form config helpers', () => {
     it('should return `false` when TERA response is `false`', () => {
       const formData = getData({ included: false });
       expect(includeGulfWarServiceDates(formData)).to.be.false;
+    });
+  });
+
+  context('when `includeAgentOrangeExposure` executes', () => {
+    const getData = ({
+      veteranDateOfBirth = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
+      hasTeraResponse: included,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
+      const formData = getData({ included: true, enabled: false });
+      expect(includeAgentOrangeExposure(formData)).to.be.true;
+    });
+
+    it('should return `true` when Veteran birthdate is before `Aug 1, 1965`', () => {
+      const formData = getData({ veteranDateOfBirth: '1960-01-01' });
+      expect(includeAgentOrangeExposure(formData)).to.be.true;
+    });
+
+    it('should return `false` when Veteran birthdate is after Jul 31, 1965', () => {
+      const formData = getData({ veteranDateOfBirth: '1990-01-01' });
+      expect(includeAgentOrangeExposure(formData)).to.be.false;
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includeAgentOrangeExposure(formData)).to.be.false;
     });
   });
 
@@ -627,30 +703,6 @@ describe('hca form config helpers', () => {
     it('should return `false` when Veteran is not enrolled in Medicare', () => {
       const { formData } = getData({ enrolled: false });
       expect(collectMedicareInformation(formData)).to.be.false;
-    });
-  });
-
-  context('when `useLighthouseFacilityList` executes', () => {
-    it('should return `true` when viewfield is set to `true`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': true };
-      expect(useLighthouseFacilityList(formData)).to.be.true;
-    });
-
-    it('should return `false` when viewfield is set to `false`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': false };
-      expect(useLighthouseFacilityList(formData)).to.be.false;
-    });
-  });
-
-  context('when `useJsonFacilityList` executes', () => {
-    it('should return `false` when viewfield is set to `true`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': true };
-      expect(useJsonFacilityList(formData)).to.be.false;
-    });
-
-    it('should return `true` when viewfield is set to `false`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': false };
-      expect(useJsonFacilityList(formData)).to.be.true;
     });
   });
 

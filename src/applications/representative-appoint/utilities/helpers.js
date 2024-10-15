@@ -38,12 +38,8 @@ export const deviewifyFields = formData => {
   return newFormData;
 };
 
-export const preparerIsVeteran = ({ formData } = {}) => {
-  if (formData) {
-    return formData['view:applicantIsVeteran'] === 'Yes';
-  }
-  return false;
-};
+export const preparerIsVeteran = ({ formData } = {}) =>
+  formData?.['view:applicantIsVeteran'] === 'Yes';
 
 export const isLoggedIn = ({ formData } = {}) => {
   if (formData) {
@@ -118,6 +114,26 @@ export const getFormSubtitle = formData => {
     return 'VA Form 21-22a';
   }
   return 'VA Forms 21-22 and 21-22a';
+};
+
+/**
+ * Setting submit url suffix based on rep type
+ */
+export const getFormSubmitUrlSuffix = formData => {
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
+
+  if (entityType === 'organization') {
+    return '2122';
+  }
+  if (entityType === 'individual') {
+    const { individualType } = entity.attributes;
+    if (individualType === 'representative') {
+      return '2122';
+    }
+    return '2122a';
+  }
+  return '2122';
 };
 
 export const getEntityAddressAsObject = formData => {
@@ -196,9 +212,9 @@ export const getFormName = formData => {
 const isOrg = formData =>
   formData['view:selectedRepresentative']?.type === 'organization';
 
-const isAttorneyOrClaimsAgent = formData => {
+export const isAttorneyOrClaimsAgent = formData => {
   const repType =
-    formData['view:selectedRepresentative'].attributes?.individualType;
+    formData['view:selectedRepresentative']?.attributes?.individualType;
 
   return repType === 'attorney' || repType === 'claimsAgent';
 };
@@ -228,4 +244,15 @@ export const getOrgName = formData => {
   }
 
   return orgName;
+};
+
+export const convertRepType = input => {
+  const mapping = {
+    representative: 'VSO',
+    attorney: 'Attorney',
+    /* eslint-disable-next-line camelcase */
+    claims_agent: 'Claims Agent',
+  };
+
+  return mapping[input] || input;
 };
