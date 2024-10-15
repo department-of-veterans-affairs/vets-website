@@ -21,6 +21,7 @@ import {
   currentOrPastDateSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
+  numberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   AccreditedSchool,
@@ -28,7 +29,6 @@ import {
   benefitSchemaLabels,
   benefitUiLabels,
   ProgramExamples,
-  // studentIncomeNote,
   TermDateHint,
 } from './helpers';
 import { generateHelpText } from '../../helpers';
@@ -39,6 +39,11 @@ import { generateHelpText } from '../../helpers';
  * As a result, the index param may sometimes come back null depending on which mode the user is in.
  * To handle both modes, ensure that you check both via RJSF like these pages do.
  */
+
+const numberSchema = {
+  type: 'string',
+  pattern: '^\\$?\\d+(\\.\\d{2})?$',
+};
 
 /** @type {ArrayBuilderOptions} */
 export const addStudentsOptions = {
@@ -89,12 +94,7 @@ export const addStudentsOptions = {
 
 export const addStudentsIntroPage = {
   uiSchema: {
-    ...titleUI(
-      'Your students',
-      //   'In the next few questions, we’ll ask you about your unmarried children between ages 18 and 23 who attend school. ' +
-      //     'You’ll need to complete this section of the form, equal to a Request for Approval of School Attendance (VA Form 21-674). ' +
-      //     'You must add at least one student. You can add up to 7 students. If we asked you to enter this information in a previous section, you’ll need to enter it again.',
-    ),
+    ...titleUI('Your students'),
     'ui:description': AddStudentsIntro,
   },
   schema: {
@@ -566,11 +566,11 @@ export const studentEarningsPage = {
       () => 'Student’s income in the year their current school term began',
     ),
     studentEarningsFromSchoolYear: {
-      earningsFromAllEmployment: textUI('Earnings from all employment'),
-      annualSocialSecurityPayments: textUI('Annual Social Security'),
-      otherAnnuitiesIncome: textUI('Other annuities'),
+      earningsFromAllEmployment: numberUI('Earnings from all employment'),
+      annualSocialSecurityPayments: numberUI('Annual Social Security'),
+      otherAnnuitiesIncome: numberUI('Other annuities'),
       allOtherIncome: {
-        ...textUI('All other income'),
+        ...numberUI('All other income'),
         'ui:description': generateHelpText('i.e. interest, dividends, etc.'),
       },
     },
@@ -581,10 +581,10 @@ export const studentEarningsPage = {
       studentEarningsFromSchoolYear: {
         type: 'object',
         properties: {
-          earningsFromAllEmployment: textSchema,
-          annualSocialSecurityPayments: textSchema,
-          otherAnnuitiesIncome: textSchema,
-          allOtherIncome: textSchema,
+          earningsFromAllEmployment: numberSchema,
+          annualSocialSecurityPayments: numberSchema,
+          otherAnnuitiesIncome: numberSchema,
+          allOtherIncome: numberSchema,
         },
       },
     },
