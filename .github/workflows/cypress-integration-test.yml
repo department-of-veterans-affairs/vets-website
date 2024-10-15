@@ -95,7 +95,31 @@ jobs:
             tar -xjf vagovprod.tar.bz2 -C vets-website
             echo "2"
 
-        - name: Call reusable action
-          id: cypress-action
-          uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test@cypress-integration-test-migration
+        # - name: Call reusable action
+        #   id: cypress-action
+        #   uses: department-of-veterans-affairs/vsp-github-actions/cypress-integration-test@cypress-integration-test-migration
+        
+        - name: Install dependencies
+          uses: ./.github/workflows/install
+          with:
+            key: ${{ hashFiles('yarn.lock') }}
+            yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+        - name: Install server dependencies
+          working-directory: vets-website
+          run: |
+            yarn install
+
+        - name: Start server
+          shell: bash
+         run: |
+           mkdir build
+           node src/platform/testing/e2e/test-server.js --buildtype=../vets-website --port=3001 &
+        - name: Run Cypress tests
+          shell: bash
+          run: |
+            npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/applications/burials-ez/**/*.cypress.spec.js'
           
