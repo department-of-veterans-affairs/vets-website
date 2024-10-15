@@ -137,24 +137,29 @@ export const fetchPersonalInfo = () => {
         recordResponse,
         'statusResponse, recordResponse',
       );
-    }
-    return apiRequest(API_URL, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => {
-        dispatch({
-          type: FETCH_PERSONAL_INFO_SUCCESS,
-          response,
-        });
-      })
-      .catch(errors => {
-        dispatch({
-          type: FETCH_PERSONAL_INFO_FAILED,
-          errors,
-        });
+      dispatch({
+        type: FETCH_PERSONAL_INFO_SUCCESS,
+        response: { statusResponse, recordResponse }, // Include responses in the success action
       });
+    } else {
+      return apiRequest(API_URL, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          dispatch({
+            type: FETCH_PERSONAL_INFO_SUCCESS,
+            response,
+          });
+        })
+        .catch(errors => {
+          dispatch({
+            type: FETCH_PERSONAL_INFO_FAILED,
+            errors,
+          });
+        });
+    }
   };
 };
 const customHeaders = {
