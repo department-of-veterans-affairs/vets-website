@@ -98,7 +98,7 @@ export function pdfTransform(formData) {
       }
     : { organizationName: formData.selectedAccreditedOrganizationId || '' };
 
-  const result = {
+  return {
     veteran,
     recordConsent: authorizationRadio || '',
     consentAddressChange: authorizeAddressRadio || '',
@@ -106,6 +106,4 @@ export function pdfTransform(formData) {
     representative,
     ...(formData['view:applicantIsVeteran'] === 'No' && { claimant }),
   };
-
-  return JSON.stringify(result);
 }
