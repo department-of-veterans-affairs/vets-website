@@ -6,6 +6,7 @@ import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-for
 import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
+
 import unset from '../../../utilities/data/unset';
 
 export const minYear = 1900;
@@ -101,7 +102,6 @@ export function createFormPageList(formConfig) {
 }
 
 export function createPageListByChapter(formConfig) {
-  if (!formConfig?.chapters) return {};
   return Object.keys(formConfig.chapters).reduce((chapters, chapter) => {
     const pages = Object.keys(formConfig.chapters[chapter].pages).map(page => ({
       ...formConfig.chapters[chapter].pages[page],
