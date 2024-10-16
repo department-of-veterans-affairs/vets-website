@@ -91,7 +91,7 @@ export const ConfirmationPageView = props => {
     <div>
       {devOnly &&
         (environment.isLocalhost() || environment.isDev()) &&
-        !environment.isTest() && <DevOnlyButtons />}
+        !environment.isStaging() && <DevOnlyButtons />}
       <div className="print-only">
         <img
           src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
