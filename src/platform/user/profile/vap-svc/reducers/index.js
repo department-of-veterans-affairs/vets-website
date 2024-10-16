@@ -27,7 +27,6 @@ import {
   ADDRESS_VALIDATION_INITIALIZE,
   ADDRESS_VALIDATION_UPDATE,
   COPY_ADDRESS_MODAL,
-  UPDATE_SAVE_TO_PROFILE,
 } from '../actions';
 
 const initialAddressValidationState = {
@@ -65,7 +64,6 @@ const initialState = {
     ...initialAddressValidationState,
   },
   copyAddressModal: null,
-  saveToProfile: null,
 };
 
 export default function vapService(state = initialState, action) {
@@ -276,12 +274,6 @@ export default function vapService(state = initialState, action) {
         fieldTransactionMap,
       };
     }
-    case UPDATE_SAVE_TO_PROFILE: {
-      return {
-        ...state,
-        saveToProfile: action.payload,
-      };
-    }
 
     case UPDATE_PROFILE_FORM_FIELD: {
       const formFields = {
@@ -320,7 +312,6 @@ export default function vapService(state = initialState, action) {
         formFields,
         hasUnsavedEdits,
         initialFormFields,
-        // saveToProfile: action.payload,
       };
     }
 

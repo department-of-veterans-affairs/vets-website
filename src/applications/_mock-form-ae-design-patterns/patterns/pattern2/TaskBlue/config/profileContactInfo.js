@@ -1,4 +1,5 @@
 import ContactInfoReview from 'platform/forms-system/src/js/components/ContactInfoReview';
+import React from 'react';
 import {
   getContent,
   CONTACT_INFO_PATH,
@@ -158,15 +159,24 @@ const profileContactInfo = ({
     [contactInfoPageKey]: {
       title: content.title,
       path: contactPath,
-      CustomPage: props =>
-        ContactInfo({
-          ...props,
-          content,
-          contactPath,
-          keys,
-          requiredKeys: contactInfoRequiredKeys,
-          contactInfoPageKey,
-        }),
+      CustomPage: props => (
+        <ContactInfo
+          {...props}
+          content={content}
+          contactPath={contactPath}
+          keys={keys}
+          requiredKeys={contactInfoRequiredKeys}
+          contactInfoPageKey={contactInfoPageKey}
+        />
+      ),
+      // ContactInfo({
+      //   ...props,
+      //   content,
+      //   contactPath,
+      //   keys,
+      //   requiredKeys: contactInfoRequiredKeys,
+      //   contactInfoPageKey,
+      // }),
       CustomPageReview: props =>
         ContactInfoReview({
           ...props,

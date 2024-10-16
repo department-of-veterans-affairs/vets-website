@@ -24,7 +24,7 @@ import ReviewObjectField from 'platform/forms-system/src/js/review/ObjectField';
 import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui/index';
 import getFormDataFromSchemaId from 'platform/forms-system/src/js/utilities/data/getFormDataFromSchemaId';
 import YesNoWidget from './YesNoWidget';
-import { updateSaveToProfile } from 'platform/user/profile/vap-svc/actions';
+import { updateSaveToProfile } from '../../../actions/actions';
 import content from '../../../shared/locales/en/content.json';
 
 /*
@@ -48,7 +48,7 @@ class SchemaForm extends React.Component {
     };
     this.state = {
       ...this.getEmptyState(props),
-      saveToProfile: null,
+      saveToProfile: true,
     };
 
     this.onChangeProfile = this.onChangeProfile.bind(this);
@@ -60,6 +60,10 @@ class SchemaForm extends React.Component {
       address: ReviewObjectField,
       StringField,
     };
+  }
+
+  componentDidMount() {
+    this.onChangeProfile(this.state.saveToProfile);
   }
 
   /* eslint-disable-next-line camelcase */
@@ -112,19 +116,8 @@ class SchemaForm extends React.Component {
         saveToProfile: saveToProfileValue,
       };
       this.props.dispatch(updateSaveToProfile(saveToProfileValue));
-      this.props.onChange(newFormData); // Update the form data
+      this.props.onChange(newFormData);
     });
-
-    // this.setState({ saveToProfile: saveToProfileValue }, () => {
-    //   console.log('Updated saveToProfile:', this.state.saveToProfile);
-    //   this.props.dispatch(updateSaveToProfile(saveToProfileValue));
-    //   this.setState(prevState => ({
-    //     formContext: {
-    //       ...prevState.formContext,
-    //       saveToProfile: saveToProfileValue,
-    //     },
-    //   }));
-    // });
   };
 
   onError(hasSubmitted = true) {
@@ -284,7 +277,6 @@ class SchemaForm extends React.Component {
 }
 const mapStateToProps = state => ({
   profile: state.user.profile,
-  saveToProfile: state.user.profile.saveToProfile,
 });
 
 SchemaForm.propTypes = {

@@ -2,14 +2,6 @@ import pickBy from 'lodash/pickBy';
 import VaTextInputField from '~/platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import { PHONE_TYPE, USA } from 'platform/user/profile/vap-svc/constants';
-import {
-  yesNoUI,
-  yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  radioSchema,
-  radioUI,
-} from '../../../patterns/pattern2/TaskBlue/web-component-patterns/radioPattern';
 
 export const phoneFormSchema = {
   type: 'object',
@@ -29,21 +21,6 @@ export const phoneFormSchema = {
       pattern: '^\\s*[0-9-]{0,6}\\s*$',
       maxLength: 6,
     },
-    // saveToProfile: {
-    //   type: 'object',
-    //   properties: {
-    //     type: radioSchema(Object.keys(radioLabels)),
-    //   },
-    // },
-    // saveToProfile: {
-    //   type: 'object',
-    //   properties: {
-    //     saveToProfile: yesNoSchema,
-    //   },
-    // },
-    // saveToProfile: {
-    //   type: 'boolean',
-    // },
   },
   required: ['inputPhoneNumber', 'saveToProfile'],
 };
@@ -79,18 +56,6 @@ export const phoneUiSchema = fieldName => {
         pattern: 'You must enter a valid extension up to 6 digits.',
       },
     },
-    // saveToProfile: yesNoUI({
-    //   title:
-    //     'Do you also want to save this updated home phone number to your VA.gov profile?',
-    //   errorMessages: {
-    //     required: 'Please select yes or no.',
-    //   },
-    // }),
-    // saveToProfile: {
-    //   'ui:title':
-    //     'Do you also want to save this updated home phone number to your VA.gov profile?',
-    //   'ui:widget': 'yesNo',
-    // },
   };
 };
 

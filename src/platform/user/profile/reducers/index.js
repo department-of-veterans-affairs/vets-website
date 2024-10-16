@@ -11,7 +11,6 @@ import {
   FETCH_MHV_ACCOUNT_SUCCESS,
   REMOVING_SAVED_FORM_SUCCESS,
   PROFILE_ERROR,
-  UPDATE_SAVE_TO_PROFILE,
 } from '../actions';
 
 const initialState = {
@@ -47,7 +46,6 @@ const initialState = {
   session: {},
   mhvTransitionEligible: false,
   errors: false,
-  saveToProfile: null,
 };
 
 const updateMhvAccountState = (state, mhvAccount) =>
@@ -69,13 +67,6 @@ function profileInformation(state = initialState, action) {
       return {
         ...state,
         ...newState,
-      };
-    }
-
-    case UPDATE_SAVE_TO_PROFILE: {
-      return {
-        ...state,
-        saveToProfile: action.payload,
       };
     }
 

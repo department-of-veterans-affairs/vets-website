@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
@@ -67,6 +67,7 @@ const ContactInfo = ({
   uiSchema,
   testContinueAlert = false,
   contactInfoPageKey,
+  saveToProfile,
 }) => {
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
@@ -99,7 +100,7 @@ const ContactInfo = ({
     ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
     : [];
 
-  const [isHomePhoneCardVisible, setHomePhoneCardVisible] = useState(true);
+  const [isMobilePhoneCardVisible, setMobilePhoneCardVisible] = useState(true);
 
   const handlers = {
     onSubmit: event => {
@@ -129,17 +130,17 @@ const ContactInfo = ({
         updatePage();
       }
     },
-    deleteHomePhone: () => {
-      if (data.veteran && data.veteran.homePhone) {
+    deleteMobilePhone: () => {
+      if (data.veteran && data.veteran.mobilePhone) {
         const updatedData = {
           ...data,
           veteran: {
             ...data.veteran,
-            homePhone: undefined,
+            mobilePhone: undefined,
           },
         };
         setFormData(updatedData);
-        setHomePhoneCardVisible(false);
+        setMobilePhoneCardVisible(false);
       }
     },
   };
@@ -233,8 +234,9 @@ const ContactInfo = ({
       background-only
       role="alert"
     >
-      <h2 slot="headline">We’ve updated your home phone number</h2>
-      {profile.saveToProfile ? (
+      <h2 slot="headline">We’ve updated your mobile phone number</h2>
+      {/* {profile.saveToProfile ? ( */}
+      {saveToProfile ? (
         <p className="vads-u-margin-y--0">
           We’ve made these changes to this form and your VA.gov profile.
         </p>
@@ -251,7 +253,7 @@ const ContactInfo = ({
   // Loop to separate pages when editing
   // Each Link includes an ID for focus management on the review & submit page
   const contactSection = [
-    keys.homePhone && isHomePhoneCardVisible ? (
+    keys.homePhone ? (
       <va-card
         show-shadow
         data-testid="mini-summary-card"
@@ -283,40 +285,13 @@ const ContactInfo = ({
           </Link>
           <va-button-icon
             button-type="delete"
-            onClick={handlers.deleteHomePhone}
             class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
           />
         </div>
       </va-card>
     ) : null,
-    //   <React.Fragment key="home">
-    //     <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
-    //       {content.homePhone}
-    //     </Headers>
-    //     {/* {showSuccessAlert('home-phone', content.homePhone)} */}
-    //     <span className="dd-privacy-hidden" data-dd-action-name="home phone">
-    //       {renderTelephone(dataWrap[keys.homePhone])}
-    //     </span>
-    //     {loggedIn && (
-    //       <p className="vads-u-margin-top--0p5">
-    //         <Link
-    //           id="edit-home-phone"
-    //           to="2/task-blue/veteran-information/edit-home-phone"
-    //           aria-label={content.editHomePhone}
-    //         >
-    //           {editText}
-    //           <va-icon
-    //             icon="chevron_right"
-    //             size="2"
-    //             style={{ position: 'relative', top: '-5px', left: '-1px' }}
-    //           />
-    //         </Link>
-    //       </p>
-    //     )}
-    //   </React.Fragment>
-    // ) : null,
 
-    keys.mobilePhone ? (
+    keys.mobilePhone && isMobilePhoneCardVisible ? (
       <va-card
         show-shadow
         data-testid="mini-summary-card"
@@ -346,34 +321,12 @@ const ContactInfo = ({
           </Link>
           <va-button-icon
             button-type="delete"
+            onClick={handlers.deleteMobilePhone}
             class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
           />
         </div>
       </va-card>
-    ) : // <React.Fragment key="mobile">
-    //   <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
-    //   {/* {showSuccessAlert('mobile-phone', content.mobilePhone)} */}
-    //   <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
-    //     {renderTelephone(dataWrap[keys.mobilePhone])}
-    //   </span>
-    //   {loggedIn && (
-    //     <p className="vads-u-margin-top--0p5">
-    //       <Link
-    //         id="edit-mobile-phone"
-    //         to="1/task-purple/veteran-information/edit-mobile-phone"
-    //         aria-label={content.editMobilePhone}
-    //       >
-    //         {editText}
-    //         <va-icon
-    //           icon="chevron_right"
-    //           size="2"
-    //           style={{ position: 'relative', top: '-5px', left: '-1px' }}
-    //         />
-    //       </Link>
-    //     </p>
-    //   )}
-    // </React.Fragment>
-    null,
+    ) : null,
 
     keys.email ? (
       <va-card
@@ -409,30 +362,7 @@ const ContactInfo = ({
           />
         </div>
       </va-card>
-    ) : // <React.Fragment key="email">
-    //   <Headers className={headerClassNames}>{content.email}</Headers>
-    //   {/* {showSuccessAlert('email', content.email)} */}
-    //   <span className="dd-privacy-hidden" data-dd-action-name="email">
-    //     {dataWrap[keys.email] || ''}
-    //   </span>
-    //   {loggedIn && (
-    //     <p className="vads-u-margin-top--0p5">
-    //       <Link
-    //         id="edit-email"
-    //         to="1/task-purple/veteran-information/edit-email-address"
-    //         aria-label={content.editEmail}
-    //       >
-    //         {editText}
-    //         <va-icon
-    //           icon="chevron_right"
-    //           size="2"
-    //           style={{ position: 'relative', top: '-5px', left: '-1px' }}
-    //         />
-    //       </Link>
-    //     </p>
-    //   )}
-    // </React.Fragment>
-    null,
+    ) : null,
 
     keys.address ? (
       <va-card
@@ -466,28 +396,7 @@ const ContactInfo = ({
           />
         </div>
       </va-card>
-    ) : // <React.Fragment key="mailing">
-    //   <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
-    //   {/* {showSuccessAlert('address', content.mailingAddress)} */}
-    //   <AddressView data={dataWrap[keys.address]} />
-    //   {loggedIn && (
-    //     <p className="vads-u-margin-top--0p5">
-    //       <Link
-    //         id="edit-address"
-    //         to="1/task-purple/veteran-information/edit-mailing-address"
-    //         aria-label={content.editMailingAddress}
-    //       >
-    //         {editText}
-    //         <va-icon
-    //           icon="chevron_right"
-    //           size="2"
-    //           style={{ position: 'relative', top: '-5px', left: '-1px' }}
-    //         />
-    //       </Link>
-    //     </p>
-    //   )}
-    // </React.Fragment>
-    null,
+    ) : null,
   ];
 
   const navButtons = onReviewPage ? (
@@ -519,7 +428,7 @@ const ContactInfo = ({
           >
             {content.title}
           </MainHeader>
-          {showSuccessAlert('home-phone')}
+          {showSuccessAlert('mobile-phone')}
           {content.description}
           {!loggedIn && (
             <strong className="usa-input-error-message">
@@ -587,6 +496,10 @@ const ContactInfo = ({
   );
 };
 
+const mapStateToProps = state => ({
+  saveToProfile: state.form.saveToProfile,
+});
+
 ContactInfo.propTypes = {
   contactInfoPageKey: contactInfoPropTypes.contactInfoPageKey,
   contactPath: PropTypes.string,
@@ -608,4 +521,5 @@ ContactInfo.propTypes = {
   onReviewPage: PropTypes.bool,
 };
 
-export default ContactInfo;
+// export default ContactInfo;
+export default connect(mapStateToProps)(ContactInfo);
