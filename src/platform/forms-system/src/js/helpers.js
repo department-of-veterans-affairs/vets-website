@@ -115,8 +115,6 @@ export function createPageListByChapter(formConfig) {
 export function createPageList(formConfig, formPages) {
   let pageList = formPages;
 
-  if (!formConfig) return [];
-
   if (formConfig.additionalRoutes) {
     pageList = formConfig.additionalRoutes.concat(pageList);
   }
