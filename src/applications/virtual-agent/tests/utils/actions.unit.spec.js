@@ -689,7 +689,33 @@ describe('actions', () => {
   });
 
   describe('addActivityData', () => {
-    it('should add values to the activity', () => {
+    it('should add values to the activity when value is a string', () => {
+      const action = {
+        payload: {
+          activity: {
+            value: 'fake-value',
+          },
+        },
+      };
+      const updatedAction = addActivityData(action, {
+        apiSession: 'apiSession',
+        csrfToken: 'csrfToken',
+        apiURL: 'apiURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isMobile: 'isMobile',
+      });
+      expect(updatedAction.payload.activity.value).to.deep.equal({
+        value: 'fake-value',
+        apiSession: 'apiSession',
+        csrfToken: 'csrfToken',
+        apiURL: 'apiURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isMobile: 'isMobile',
+      });
+    });
+    it('should add values to the activity when value is an object', () => {
       const action = {
         payload: {
           activity: {
@@ -703,6 +729,7 @@ describe('actions', () => {
         apiURL: 'apiURL',
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
+        isMobile: 'isMobile',
       });
       expect(updatedAction.payload.activity.value).to.deep.equal({
         language: 'en-US',
@@ -711,6 +738,7 @@ describe('actions', () => {
         apiURL: 'apiURL',
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
+        isMobile: 'isMobile',
       });
     });
   });
