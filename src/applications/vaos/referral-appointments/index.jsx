@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import AppointmentNotificationPage from './AppointmentNotificationsPage';
 import ReferralReview from './ReferralReview';
-import FilterPage from './FilterPage';
 import ConfirmApprovedPage from './ConfirmApprovedPage';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
@@ -12,7 +11,6 @@ export default function ReferralList() {
   const basePath = useRouteMatch();
   return (
     <Switch>
-      <Route path={`${basePath}/filter-page`} component={FilterPage} />
       <Route
         path={`${basePath.url}/appointment-notifications`}
         component={AppointmentNotificationPage}
