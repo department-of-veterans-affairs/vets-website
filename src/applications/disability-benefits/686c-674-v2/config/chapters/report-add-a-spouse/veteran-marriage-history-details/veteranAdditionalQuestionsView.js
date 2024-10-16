@@ -1,4 +1,4 @@
-import React from 'react';
+import { generateTransition } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -12,10 +12,8 @@ export const schema = {
 
 export const uiSchema = {
   'view:additionalQuestionsMessage': {
-    'ui:description': (
-      <p className="vads-u-margin-y--6">
-        Now we’ll ask you about each of your former marriages.
-      </p>
+    'ui:description': generateTransition(
+      'Now we’ll ask you about each of your former marriages.',
     ),
     'ui:options': {
       hideOnReview: true,
