@@ -89,7 +89,7 @@ export const ConfirmationPageView = props => {
 
   return (
     <div>
-      {devOnly?.showButtons &&
+      {devOnly &&
         (environment.isLocalhost() || environment.isDev()) &&
         !environment.isTest() && <DevOnlyButtons />}
       <div className="print-only">

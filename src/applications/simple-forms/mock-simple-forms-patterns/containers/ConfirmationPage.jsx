@@ -36,10 +36,7 @@ const ConfirmationPage = ({ route }) => {
         confirmationNumber={confirmationNumber}
         formConfig={route.formConfig}
         pdfUrl={pdfUrl}
-        devOnly={{
-          showButtons: true,
-          simulatedFormData: mockData,
-        }}
+        devOnly={{ simulatedFormData: mockData }}
       />
     );
   }
