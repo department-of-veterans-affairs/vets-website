@@ -345,7 +345,7 @@ const benefitOptionText = {
  * @param {String} date - ISO 8601 date format
  * @returns {String} - ISO 8601 date format
  */
-const stripOffTime = date => {
+export const stripOffTime = date => {
   const [ymd] = (date || '').split('T');
   return ymd || '';
 };
