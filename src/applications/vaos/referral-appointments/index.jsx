@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import AppointmentNotificationPage from './AppointmentNotificationsPage';
 import ReferralReview from './ReferralReview';
 import ConfirmApprovedPage from './ConfirmApprovedPage';
 import ChooseDateAndTime from './ChooseDateAndTime';
@@ -11,10 +10,6 @@ export default function ReferralList() {
   const basePath = useRouteMatch();
   return (
     <Switch>
-      <Route
-        path={`${basePath.url}/appointment-notifications`}
-        component={AppointmentNotificationPage}
-      />
       <Route
         path={`${basePath.url}/confirm-approved`}
         component={ConfirmApprovedPage}
