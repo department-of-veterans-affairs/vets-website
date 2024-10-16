@@ -2,7 +2,6 @@ import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';

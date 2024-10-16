@@ -24,7 +24,6 @@ import associatedVARegionalOfficePg from '../pages/associatedVARegionalOffice';
 import { PREPARER_TYPES, RECORD_TYPES, SUBTITLE, TITLE } from './constants';
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
-
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
 import { getMockData } from '../helpers';

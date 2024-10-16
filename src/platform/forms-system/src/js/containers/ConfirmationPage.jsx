@@ -10,7 +10,6 @@ const ConfirmationPage = props => {
   const Confirmation = formConfig.confirmation || null;
   return <Confirmation {...props} />;
 };
-
 ConfirmationPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
