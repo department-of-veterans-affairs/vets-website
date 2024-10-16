@@ -130,6 +130,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/meb_api/v0/forms_submit_claim`,
   transformForSubmit: transform5490Form,
   trackingPrefix: 'edu-22-5490-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
@@ -494,13 +495,20 @@ const formConfig = {
                     updates you make will change the information for your
                     education benefits only. If you want to update your personal
                     information for other VA benefits, update your information
-                    on your <a href="/profile/personal-information">profile</a>.
+                    on your{' '}
+                    <a target="_blank" href="/profile/personal-information">
+                      profile
+                    </a>
+                    .
                   </p>
                   <p>
                     <strong>Note:</strong> If you want to request that we change
                     your name or date of birth, you will need to send additional
                     information. Learn more on how to change your legal name{' '}
-                    <a href="/resources/how-to-change-your-legal-name-on-file-with-va/?_ga=2.13947071.963379013.1690376239-159354255.1663160782">
+                    <a
+                      target="_blank"
+                      href="/resources/how-to-change-your-legal-name-on-file-with-va/?_ga=2.13947071.963379013.1690376239-159354255.1663160782"
+                    >
                       on file with VA.
                     </a>
                   </p>
@@ -788,7 +796,11 @@ const formConfig = {
                     profile.
                   </p>
                   <p>
-                    <a href="https://www.va.gov/resources/managing-your-vagov-profile/">
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/resources/managing-your-vagov-profile/"
+                      rel="noreferrer"
+                    >
                       Go to your profile
                     </a>
                   </p>
@@ -878,7 +890,7 @@ const formConfig = {
                     profile.
                   </p>
                   <p>
-                    <a href="/profile/personal-information">
+                    <a target="_blank" href="/profile/personal-information">
                       Go to your profile
                     </a>
                   </p>
