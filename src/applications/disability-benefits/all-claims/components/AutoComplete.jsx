@@ -24,6 +24,17 @@ const AutoComplete = ({
   const inputRef = useRef(null);
   const resultsRef = useRef([]);
 
+  // Delays screen reader result count reading to avoid interruption by input content reading
+  const debouncedSetAriaLiveText = useRef(
+    debounce((resultCount, freeTextResult) => {
+      const makePlural = resultCount > 1 ? 's' : '';
+
+      setAriaLiveText(
+        `${resultCount} result${makePlural}. ${freeTextResult}, (1 of ${resultCount})`,
+      );
+    }, 700),
+  ).current;
+
   const debouncedSearch = useRef(
     debounce(async inputValue => {
       const freeTextResult = createFreeTextItem(inputValue);
@@ -35,16 +46,13 @@ const AutoComplete = ({
       setResults(updatedResults);
       setActiveIndex(0);
 
-      const resultCount = updatedResults.length;
-      const makePlural = resultCount > 1 ? 's' : '';
-      setAriaLiveText(
-        `${resultCount} result${makePlural}. ${freeTextResult}, (1 of ${resultCount})`,
-      );
+      debouncedSetAriaLiveText(updatedResults.length, freeTextResult);
     }, debounceTime),
   ).current;
 
   const closeList = () => {
     debouncedSearch.cancel();
+    debouncedSetAriaLiveText.cancel();
     setResults([]);
     setActiveIndex(null);
   };
@@ -98,14 +106,16 @@ const AutoComplete = ({
   };
 
   const handleKeyDown = e => {
-    if (e.key === 'ArrowDown') {
-      navigateList(e, 1);
-    } else if (e.key === 'ArrowUp') {
-      navigateList(e, -1);
-    } else if (e.key === 'Enter' && results.length) {
-      selectResult(results[activeIndex]);
-    } else if (e.key === 'Escape') {
-      closeList();
+    if (results.length > 0) {
+      if (e.key === 'ArrowDown') {
+        navigateList(e, 1);
+      } else if (e.key === 'ArrowUp') {
+        navigateList(e, -1);
+      } else if (e.key === 'Enter') {
+        selectResult(results[activeIndex]);
+      } else if (e.key === 'Escape') {
+        closeList();
+      }
     }
   };
 
@@ -117,7 +127,7 @@ const AutoComplete = ({
         value={value}
         onInput={e => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
-        onBlur={() => setTimeout(closeList, 100)}
+        onBlur={() => setTimeout(closeList, 100)} // Enables clicking option from list
         onFocus={() => {
           if (value) {
             debouncedSearch(value);
@@ -140,7 +150,7 @@ const AutoComplete = ({
                 resultsRef.current[index] = el;
               }}
               onClick={() => selectResult(result)}
-              onKeyDown={handleKeyDown}
+              onKeyDown={handleKeyDown} // Keydown is handled on the input; this is never fired and prevents eslint error
               className={`cc-autocomplete__option ${
                 activeIndex === index ? 'cc-autocomplete__option--active' : ''
               }`}
@@ -154,11 +164,7 @@ const AutoComplete = ({
           ))}
         </ul>
       )}
-      <p
-        aria-live="polite"
-        aria-atomic="true"
-        className="vads-u-visibility--screen-reader"
-      >
+      <p aria-live="polite" className="vads-u-visibility--screen-reader">
         {ariaLiveText}
       </p>
     </div>

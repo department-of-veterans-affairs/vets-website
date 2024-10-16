@@ -354,7 +354,6 @@ describe('AutoComplete Component', () => {
 
           expect(screenReaderMessage).to.exist;
           expect(screenReaderMessage).to.have.attribute('aria-live', 'polite');
-          expect(screenReaderMessage).to.have.attribute('aria-atomic', 'true');
         },
         { timeout: 1600 },
       );
