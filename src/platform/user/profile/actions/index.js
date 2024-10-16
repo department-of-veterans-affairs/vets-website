@@ -13,10 +13,16 @@ export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
+export const UPDATE_SAVE_TO_PROFILE = 'UPDATE_SAVE_TO_PROFILE';
 
 export * from './mhv';
 
 const baseUrl = '/user';
+
+export const updateSaveToProfile = value => ({
+  type: UPDATE_SAVE_TO_PROFILE,
+  payload: value,
+});
 
 export function updateProfileFields(payload) {
   return {

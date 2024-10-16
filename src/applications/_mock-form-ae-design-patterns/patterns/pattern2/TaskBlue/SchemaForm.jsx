@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { merge, once } from 'lodash';
+import classNames from 'classnames';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import set from 'platform/utilities/data/set';
@@ -22,6 +23,9 @@ import TitleField from 'platform/forms-system/src/js/fields/TitleField';
 import ReviewObjectField from 'platform/forms-system/src/js/review/ObjectField';
 import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui/index';
 import getFormDataFromSchemaId from 'platform/forms-system/src/js/utilities/data/getFormDataFromSchemaId';
+import YesNoWidget from './YesNoWidget';
+import { updateSaveToProfile } from 'platform/user/profile/vap-svc/actions';
+import content from '../../../shared/locales/en/content.json';
 
 /*
  * Each page uses this component and passes in config. This is where most of the page level
@@ -36,13 +40,18 @@ class SchemaForm extends React.Component {
     this.transformErrors = this.transformErrors.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.setTouched = this.setTouched.bind(this);
-    this.state = this.getEmptyState(props);
     this.fields = {
       ObjectField,
       ArrayField,
       BasicArrayField,
       TitleField,
     };
+    this.state = {
+      ...this.getEmptyState(props),
+      saveToProfile: null,
+    };
+
+    this.onChangeProfile = this.onChangeProfile.bind(this);
 
     this.reviewFields = {
       ObjectField: ReviewObjectField,
@@ -94,6 +103,30 @@ class SchemaForm extends React.Component {
     return true;
   }
 
+  onChangeProfile = value => {
+    const saveToProfileValue = value;
+
+    this.setState({ saveToProfile: saveToProfileValue }, () => {
+      const newFormData = {
+        ...this.props.data,
+        saveToProfile: saveToProfileValue,
+      };
+      this.props.dispatch(updateSaveToProfile(saveToProfileValue));
+      this.props.onChange(newFormData); // Update the form data
+    });
+
+    // this.setState({ saveToProfile: saveToProfileValue }, () => {
+    //   console.log('Updated saveToProfile:', this.state.saveToProfile);
+    //   this.props.dispatch(updateSaveToProfile(saveToProfileValue));
+    //   this.setState(prevState => ({
+    //     formContext: {
+    //       ...prevState.formContext,
+    //       saveToProfile: saveToProfileValue,
+    //     },
+    //   }));
+    // });
+  };
+
   onError(hasSubmitted = true) {
     const formContext = set(
       'submitted',
@@ -132,6 +165,7 @@ class SchemaForm extends React.Component {
       hideHeaderRow,
       formContext,
       trackingPrefix,
+      saveToProfile,
     } = props;
     return {
       formContext: {
@@ -148,6 +182,7 @@ class SchemaForm extends React.Component {
         uploadFile,
         onError: this.onError,
         trackingPrefix,
+        saveToProfile,
         ...formContext,
       },
     };
@@ -197,22 +232,9 @@ class SchemaForm extends React.Component {
       safeRenderCompletion,
       name,
       addNameAttribute,
-      profile,
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
-
-    const profileData = profile || {};
-    const contactInfo = profileData.vapContactInfo || {};
-
-    const inputPhoneNumber = document.querySelector(
-      'va-text-input[name="root_inputPhoneNumber"]',
-    );
-    const initialValue = contactInfo.homePhone.phoneNumber;
-
-    if (inputPhoneNumber?.value.includes(initialValue)) {
-      inputPhoneNumber.value = '';
-    }
 
     return (
       <Form
@@ -236,6 +258,25 @@ class SchemaForm extends React.Component {
         transformErrors={this.transformErrors}
         name={addNameAttribute ? name : null}
       >
+        <legend
+          className={classNames({
+            'schemaform-label': true,
+            'usa-input-error-label': this.state.error,
+          })}
+        >
+          Do you also want to save this updated home phone number to your VA.gov
+          profile?
+          <span className="schemaform-required-span">
+            {content['validation-required-label']}
+          </span>
+        </legend>
+        <div className="schemaform-widget-wrapper">
+          <YesNoWidget
+            id="saveToProfile"
+            value={this.state.saveToProfile}
+            onChange={this.onChangeProfile}
+          />
+        </div>
         {children}
       </Form>
     );
@@ -243,6 +284,7 @@ class SchemaForm extends React.Component {
 }
 const mapStateToProps = state => ({
   profile: state.user.profile,
+  saveToProfile: state.user.profile.saveToProfile,
 });
 
 SchemaForm.propTypes = {
@@ -257,6 +299,7 @@ SchemaForm.propTypes = {
   hideTitle: PropTypes.bool,
   profile: PropTypes.object,
   reviewMode: PropTypes.bool,
+  saveToProfile: PropTypes.bool,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
 };

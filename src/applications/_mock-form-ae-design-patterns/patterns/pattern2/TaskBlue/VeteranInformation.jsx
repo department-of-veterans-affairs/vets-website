@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isValid, format } from 'date-fns';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
 import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 
@@ -13,6 +11,8 @@ import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-s
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from './constants';
 
 import { parseDateToDateObj } from '../../../utils/dates';
+
+import { APP_URLS } from '../../../utils/constants';
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
@@ -25,7 +25,7 @@ const mask = value => {
 };
 
 const VeteranInformation = ({ formData }) => {
-  const { ssnLastFour, vaFileLastFour } = formData?.veteran || {};
+  const { veteranSocialSecurityNumber } = formData || {};
   const { dob, gender, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
 
@@ -36,7 +36,7 @@ const VeteranInformation = ({ formData }) => {
       <h3 className="vads-u-margin-y--2">
         Confirm the personal information we have on file for you.
       </h3>
-      <div className="blue-bar-block">
+      <va-card background="true">
         <strong
           className="name dd-privacy-hidden"
           data-dd-action-name="Veteran's name"
@@ -44,30 +44,30 @@ const VeteranInformation = ({ formData }) => {
           {`${first || ''} ${middle || ''} ${last || ''}`}
           {suffix ? `, ${suffix}` : null}
         </strong>
-        {ssnLastFour ? (
+        {veteranSocialSecurityNumber ? (
           <p className="ssn">
-            Social Security number:{' '}
+            <strong>Social Security number: </strong>
             <span
               className="dd-privacy-mask"
               data-dd-action-name="Veteran's SSN"
             >
-              {mask(ssnLastFour)}
+              {mask(veteranSocialSecurityNumber)}
             </span>
           </p>
         ) : null}
-        {vaFileLastFour ? (
-          <p className="vafn">
-            VA file number:{' '}
-            <span
-              className="dd-privacy-mask"
-              data-dd-action-name="Veteran's VA file number"
-            >
-              {mask(vaFileLastFour)}
-            </span>
-          </p>
-        ) : null}
+        {/* {vaFileLastFour ? ( */}
+        {/* <p className="vafn">
+          VA file number:{' '}
+          <span
+            className="dd-privacy-mask"
+            data-dd-action-name="Veteran's VA file number"
+          >
+            {mask(vaFileLastFour)}
+          </span>
+        </p>
+        ) : null} */}
         <p>
-          Date of birth:{' '}
+          <strong>Date of birth: </strong>
           {isValid(dobDateObj) ? (
             <span
               className="dob dd-privacy-mask"
@@ -78,7 +78,7 @@ const VeteranInformation = ({ formData }) => {
           ) : null}
         </p>
         <p>
-          Gender:{' '}
+          <strong>Gender: </strong>
           <span
             className="gender dd-privacy-hidden"
             data-dd-action-name="Veteran's gender"
@@ -86,18 +86,19 @@ const VeteranInformation = ({ formData }) => {
             {genderLabels?.[gender] || ''}
           </span>
         </p>
-      </div>
+      </va-card>
 
       <br role="presentation" />
 
       <p>
-        <strong>Note:</strong> If you need to update your personal information,
-        you can call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
-        We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
-        <dfn>
-          <abbr title="Eastern Time">ET</abbr>
-        </dfn>
-        .
+        <strong>Note:</strong> To protect your personal information, we don’t
+        allow online changes to your name, date of birth, or Social Security
+        number. If you need to change this information for your health benefits,
+        call your VA health facility.{' '}
+        <va-link
+          href={APP_URLS.facilities}
+          text="Find your VA health facility"
+        />
       </p>
     </>
   );
@@ -105,10 +106,11 @@ const VeteranInformation = ({ formData }) => {
 
 VeteranInformation.propTypes = {
   formData: PropTypes.shape({
-    veteran: PropTypes.shape({
-      ssnLastFour: PropTypes.string,
-      vaFileLastFour: PropTypes.string,
-    }),
+    // veteran: PropTypes.shape({
+    //   ssnLastFour: PropTypes.string,
+    //   vaFileLastFour: PropTypes.string,
+    // }),
+    // veteran: PropTypes.object,
   }),
 };
 

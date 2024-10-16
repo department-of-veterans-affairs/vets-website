@@ -34,6 +34,7 @@ import {
   convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
 } from '../../../utils/data/task-purple/profile';
+import { PrefillAlert } from '../../../shared/components/alerts/PrefillAlert';
 
 /**
  * Render contact info page
@@ -98,6 +99,8 @@ const ContactInfo = ({
     ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
     : [];
 
+  const [isHomePhoneCardVisible, setHomePhoneCardVisible] = useState(true);
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -124,6 +127,19 @@ const ContactInfo = ({
       } else {
         setReturnState('true');
         updatePage();
+      }
+    },
+    deleteHomePhone: () => {
+      if (data.veteran && data.veteran.homePhone) {
+        const updatedData = {
+          ...data,
+          veteran: {
+            ...data.veteran,
+            homePhone: undefined,
+          },
+        };
+        setFormData(updatedData);
+        setHomePhoneCardVisible(false);
       }
     },
   };
@@ -201,9 +217,12 @@ const ContactInfo = ({
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = onReviewPage ? 'h5' : 'h4';
-  const headerClassNames = ['vads-u-font-size--h4', 'vads-u-width--auto'].join(
-    ' ',
-  );
+  const headerClassNames = [
+    'vads-u-font-size--h4',
+    'vads-u-width--auto',
+    'vads-u-margin-top--0',
+    'vads-u-margin-bottom--2',
+  ].join(' ');
 
   const showSuccessAlert = id => (
     <va-alert
@@ -215,9 +234,15 @@ const ContactInfo = ({
       role="alert"
     >
       <h2 slot="headline">We’ve updated your home phone number</h2>
-      <p className="vads-u-margin-y--0">
-        We’ve only made these changes to this form.
-      </p>
+      {profile.saveToProfile ? (
+        <p className="vads-u-margin-y--0">
+          We’ve made these changes to this form and your VA.gov profile.
+        </p>
+      ) : (
+        <p className="vads-u-margin-y--0">
+          We’ve only made these changes to this form.
+        </p>
+      )}
     </va-alert>
   );
 
@@ -226,109 +251,243 @@ const ContactInfo = ({
   // Loop to separate pages when editing
   // Each Link includes an ID for focus management on the review & submit page
   const contactSection = [
-    keys.homePhone ? (
-      <React.Fragment key="home">
+    keys.homePhone && isHomePhoneCardVisible ? (
+      <va-card
+        show-shadow
+        data-testid="mini-summary-card"
+        class="vads-u-margin-y--3"
+        key="home"
+        uswds
+      >
         <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
           {content.homePhone}
         </Headers>
-        {/* {showSuccessAlert('home-phone', content.homePhone)} */}
         <span className="dd-privacy-hidden" data-dd-action-name="home phone">
           {renderTelephone(dataWrap[keys.homePhone])}
         </span>
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-home-phone"
-              to="1/task-purple/veteran-information/edit-home-phone"
-              aria-label={content.editHomePhone}
-            >
-              {editText}
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--1 vads-u-margin-bottom--neg1">
+          <Link
+            id="edit-home-phone"
+            to="2/task-blue/veteran-information/edit-home-phone"
+            aria-label={content.editHomePhone}
+            className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5"
+          >
+            <span>
+              <strong>{editText}</strong>
               <va-icon
-                icon="chevron_right"
-                size="2"
-                style={{ position: 'relative', top: '-5px', left: '-1px' }}
+                icon="navigate_next"
+                size={3}
+                className="vads-u-padding-left--0p5"
               />
-            </Link>
-          </p>
-        )}
-      </React.Fragment>
+            </span>
+          </Link>
+          <va-button-icon
+            button-type="delete"
+            onClick={handlers.deleteHomePhone}
+            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
+          />
+        </div>
+      </va-card>
     ) : null,
+    //   <React.Fragment key="home">
+    //     <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
+    //       {content.homePhone}
+    //     </Headers>
+    //     {/* {showSuccessAlert('home-phone', content.homePhone)} */}
+    //     <span className="dd-privacy-hidden" data-dd-action-name="home phone">
+    //       {renderTelephone(dataWrap[keys.homePhone])}
+    //     </span>
+    //     {loggedIn && (
+    //       <p className="vads-u-margin-top--0p5">
+    //         <Link
+    //           id="edit-home-phone"
+    //           to="2/task-blue/veteran-information/edit-home-phone"
+    //           aria-label={content.editHomePhone}
+    //         >
+    //           {editText}
+    //           <va-icon
+    //             icon="chevron_right"
+    //             size="2"
+    //             style={{ position: 'relative', top: '-5px', left: '-1px' }}
+    //           />
+    //         </Link>
+    //       </p>
+    //     )}
+    //   </React.Fragment>
+    // ) : null,
 
     keys.mobilePhone ? (
-      <React.Fragment key="mobile">
+      <va-card
+        show-shadow
+        data-testid="mini-summary-card"
+        class="vads-u-margin-y--3"
+        key="mobile"
+        uswds
+      >
         <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
-        {/* {showSuccessAlert('mobile-phone', content.mobilePhone)} */}
         <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
           {renderTelephone(dataWrap[keys.mobilePhone])}
         </span>
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-mobile-phone"
-              to="1/task-purple/veteran-information/edit-mobile-phone"
-              aria-label={content.editMobilePhone}
-            >
-              {editText}
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--1 vads-u-margin-bottom--neg1">
+          <Link
+            id="edit-mobile-phone"
+            to="2/task-blue/veteran-information/edit-mobile-phone"
+            aria-label={content.editmobilePhone}
+            className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5"
+          >
+            <span>
+              <strong>{editText}</strong>
               <va-icon
-                icon="chevron_right"
-                size="2"
-                style={{ position: 'relative', top: '-5px', left: '-1px' }}
+                icon="navigate_next"
+                size={3}
+                className="vads-u-padding-left--0p5"
               />
-            </Link>
-          </p>
-        )}
-      </React.Fragment>
-    ) : null,
+            </span>
+          </Link>
+          <va-button-icon
+            button-type="delete"
+            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
+          />
+        </div>
+      </va-card>
+    ) : // <React.Fragment key="mobile">
+    //   <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
+    //   {/* {showSuccessAlert('mobile-phone', content.mobilePhone)} */}
+    //   <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
+    //     {renderTelephone(dataWrap[keys.mobilePhone])}
+    //   </span>
+    //   {loggedIn && (
+    //     <p className="vads-u-margin-top--0p5">
+    //       <Link
+    //         id="edit-mobile-phone"
+    //         to="1/task-purple/veteran-information/edit-mobile-phone"
+    //         aria-label={content.editMobilePhone}
+    //       >
+    //         {editText}
+    //         <va-icon
+    //           icon="chevron_right"
+    //           size="2"
+    //           style={{ position: 'relative', top: '-5px', left: '-1px' }}
+    //         />
+    //       </Link>
+    //     </p>
+    //   )}
+    // </React.Fragment>
+    null,
 
     keys.email ? (
-      <React.Fragment key="email">
+      <va-card
+        show-shadow
+        data-testid="mini-summary-card"
+        class="vads-u-margin-y--3"
+        key="email"
+        uswds
+      >
         <Headers className={headerClassNames}>{content.email}</Headers>
-        {/* {showSuccessAlert('email', content.email)} */}
         <span className="dd-privacy-hidden" data-dd-action-name="email">
           {dataWrap[keys.email] || ''}
         </span>
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-email"
-              to="1/task-purple/veteran-information/edit-email-address"
-              aria-label={content.editEmail}
-            >
-              {editText}
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--1 vads-u-margin-bottom--neg1">
+          <Link
+            id="edit-email"
+            to="2/task-blue/veteran-information/edit-edit-email-address"
+            aria-label={content.editEmail}
+            className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5"
+          >
+            <span>
+              <strong>{editText}</strong>
               <va-icon
-                icon="chevron_right"
-                size="2"
-                style={{ position: 'relative', top: '-5px', left: '-1px' }}
+                icon="navigate_next"
+                size={3}
+                className="vads-u-padding-left--0p5"
               />
-            </Link>
-          </p>
-        )}
-      </React.Fragment>
-    ) : null,
+            </span>
+          </Link>
+          <va-button-icon
+            button-type="delete"
+            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
+          />
+        </div>
+      </va-card>
+    ) : // <React.Fragment key="email">
+    //   <Headers className={headerClassNames}>{content.email}</Headers>
+    //   {/* {showSuccessAlert('email', content.email)} */}
+    //   <span className="dd-privacy-hidden" data-dd-action-name="email">
+    //     {dataWrap[keys.email] || ''}
+    //   </span>
+    //   {loggedIn && (
+    //     <p className="vads-u-margin-top--0p5">
+    //       <Link
+    //         id="edit-email"
+    //         to="1/task-purple/veteran-information/edit-email-address"
+    //         aria-label={content.editEmail}
+    //       >
+    //         {editText}
+    //         <va-icon
+    //           icon="chevron_right"
+    //           size="2"
+    //           style={{ position: 'relative', top: '-5px', left: '-1px' }}
+    //         />
+    //       </Link>
+    //     </p>
+    //   )}
+    // </React.Fragment>
+    null,
 
     keys.address ? (
-      <React.Fragment key="mailing">
+      <va-card
+        show-shadow
+        data-testid="mini-summary-card"
+        class="vads-u-margin-y--3"
+        key="mailing"
+        uswds
+      >
         <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
-        {/* {showSuccessAlert('address', content.mailingAddress)} */}
         <AddressView data={dataWrap[keys.address]} />
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-address"
-              to="1/task-purple/veteran-information/edit-mailing-address"
-              aria-label={content.editMailingAddress}
-            >
-              {editText}
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--1 vads-u-margin-bottom--neg1">
+          <Link
+            id="edit-mailing-address"
+            to="2/task-blue/veteran-information/edit-mailing-address"
+            aria-label={content.editMailingAddress}
+            className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5"
+          >
+            <span>
+              <strong>{editText}</strong>
               <va-icon
-                icon="chevron_right"
-                size="2"
-                style={{ position: 'relative', top: '-5px', left: '-1px' }}
+                icon="navigate_next"
+                size={3}
+                className="vads-u-padding-left--0p5"
               />
-            </Link>
-          </p>
-        )}
-      </React.Fragment>
-    ) : null,
+            </span>
+          </Link>
+          <va-button-icon
+            button-type="delete"
+            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
+          />
+        </div>
+      </va-card>
+    ) : // <React.Fragment key="mailing">
+    //   <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
+    //   {/* {showSuccessAlert('address', content.mailingAddress)} */}
+    //   <AddressView data={dataWrap[keys.address]} />
+    //   {loggedIn && (
+    //     <p className="vads-u-margin-top--0p5">
+    //       <Link
+    //         id="edit-address"
+    //         to="1/task-purple/veteran-information/edit-mailing-address"
+    //         aria-label={content.editMailingAddress}
+    //       >
+    //         {editText}
+    //         <va-icon
+    //           icon="chevron_right"
+    //           size="2"
+    //           style={{ position: 'relative', top: '-5px', left: '-1px' }}
+    //         />
+    //       </Link>
+    //     </p>
+    //   )}
+    // </React.Fragment>
+    null,
   ];
 
   const navButtons = onReviewPage ? (
@@ -345,81 +504,86 @@ const ContactInfo = ({
   );
 
   return (
-    <div className="vads-u-margin-y--2">
-      <Element name={`${contactInfoPageKey}ScrollElement`} />
-      <form onSubmit={handlers.onSubmit}>
-        <MainHeader
-          id={`${contactInfoPageKey}Header`}
-          className="vads-u-margin-top--0"
-        >
-          {content.title}
-        </MainHeader>
-        {showSuccessAlert('home-phone')}
-        {content.description}
-        {!loggedIn && (
-          <strong className="usa-input-error-message">
-            You must be logged in to enable view and edit this page.
-          </strong>
-        )}
-        <div ref={wrapRef}>
-          {hadError &&
-            missingInfo.length === 0 &&
-            validationErrors.length === 0 && (
-              <div className="vads-u-margin-top--1p5">
-                <va-alert status="success" background-only>
-                  <div className="vads-u-font-size--base">
-                    {content.alertContent}
-                  </div>
-                </va-alert>
-              </div>
-            )}
-          {missingInfo.length > 0 && (
-            <>
-              <p className="vads-u-margin-top--1p5">
-                <strong>Note:</strong>
-                {missingInfo[0].startsWith('e') ? ' An ' : ' A '}
-                {list} {plural ? 'are' : 'is'} required for this application.
-              </p>
-              {submitted && (
-                <div className="vads-u-margin-top--1p5" role="alert">
-                  <va-alert status="error" background-only>
+    <>
+      <PrefillAlert>
+        <strong>Note:</strong> We’ve prefilled some of your information from
+        your account. If you need to correct anything, you can edit the form
+        fields below.
+      </PrefillAlert>
+      <div className="vads-u-margin-y--2">
+        <Element name={`${contactInfoPageKey}ScrollElement`} />
+        <form onSubmit={handlers.onSubmit}>
+          <MainHeader
+            id={`${contactInfoPageKey}Header`}
+            className="vads-u-margin-top--0"
+          >
+            {content.title}
+          </MainHeader>
+          {showSuccessAlert('home-phone')}
+          {content.description}
+          {!loggedIn && (
+            <strong className="usa-input-error-message">
+              You must be logged in to enable view and edit this page.
+            </strong>
+          )}
+          <div ref={wrapRef}>
+            {hadError &&
+              missingInfo.length === 0 &&
+              validationErrors.length === 0 && (
+                <div className="vads-u-margin-top--1p5">
+                  <va-alert status="success" background-only>
                     <div className="vads-u-font-size--base">
-                      We still don’t have your {list}. Please edit and update
-                      the field.
+                      {content.alertContent}
                     </div>
                   </va-alert>
                 </div>
               )}
-              <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="warning" background-only>
-                  <div className="vads-u-font-size--base">
-                    Your {list} {plural ? 'are' : 'is'} missing. Please edit and
-                    update the {plural ? 'fields' : 'field'}.
+            {missingInfo.length > 0 && (
+              <>
+                <p className="vads-u-margin-top--1p5">
+                  <strong>Note:</strong>
+                  {missingInfo[0].startsWith('e') ? ' An ' : ' A '}
+                  {list} {plural ? 'are' : 'is'} required for this application.
+                </p>
+                {submitted && (
+                  <div className="vads-u-margin-top--1p5" role="alert">
+                    <va-alert status="error" background-only>
+                      <div className="vads-u-font-size--base">
+                        We still don’t have your {list}. Please edit and update
+                        the field.
+                      </div>
+                    </va-alert>
                   </div>
-                </va-alert>
-              </div>
-            </>
-          )}
-          {submitted &&
-            missingInfo.length === 0 &&
-            validationErrors.length > 0 && (
-              <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="error" background-only>
-                  <div className="vads-u-font-size--base">
-                    {validationErrors[0]}
-                  </div>
-                </va-alert>
-              </div>
+                )}
+                <div className="vads-u-margin-top--1p5" role="alert">
+                  <va-alert status="warning" background-only>
+                    <div className="vads-u-font-size--base">
+                      Your {list} {plural ? 'are' : 'is'} missing. Please edit
+                      and update the {plural ? 'fields' : 'field'}.
+                    </div>
+                  </va-alert>
+                </div>
+              </>
             )}
-        </div>
-        <div className="blue-bar-block vads-u-margin-top--4">
+            {submitted &&
+              missingInfo.length === 0 &&
+              validationErrors.length > 0 && (
+                <div className="vads-u-margin-top--1p5" role="alert">
+                  <va-alert status="error" background-only>
+                    <div className="vads-u-font-size--base">
+                      {validationErrors[0]}
+                    </div>
+                  </va-alert>
+                </div>
+              )}
+          </div>
           <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
             {contactSection}
           </div>
-        </div>
-      </form>
-      <div className="vads-u-margin-top--4">{navButtons}</div>
-    </div>
+        </form>
+        <div className="vads-u-margin-top--4">{navButtons}</div>
+      </div>
+    </>
   );
 };
 

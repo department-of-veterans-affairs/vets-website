@@ -6,7 +6,7 @@ export const customText = {
   continueAppButtonText: 'Continue your request',
   startNewAppButtonText: 'Start a new request',
   appSavedSuccessfullyMessage: 'Your request has been saved.',
-  finishAppLaterMessage: 'Finish this request later',
+  finishAppLaterMessage: 'Finish this application later',
   reviewPageTitle: 'Review your request',
   submitButtonText: 'Submit request',
 };

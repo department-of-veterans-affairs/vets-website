@@ -58,7 +58,7 @@ export const BuildPage = props => {
 
   // const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
   // const returnPath = onReviewPage ? '/review-and-submit' : `${contactPath}`;
-  const returnPath = '/1/task-purple/veteran-information';
+  const returnPath = '/2/task-blue/veteran-information';
 
   const handlers = {
     onSubmit: event => {
@@ -78,27 +78,17 @@ export const BuildPage = props => {
 
   return (
     <>
+      <PrefillAlert>
+        <strong>Note:</strong> We’ve prefilled some of your information from
+        your account. If you need to correct anything, you can edit the form
+        fields below.
+      </PrefillAlert>
       <h2
         ref={headerRef}
         className="vads-u-margin-top--1 vads-u-margin-bottom--3"
       >
         {title}
       </h2>
-      <PrefillAlert>
-        <strong>Note:</strong> We’ve prefilled some of your information from
-        your account. If you need to correct anything, you can edit the form
-        fields below.
-      </PrefillAlert>
-      {/* <va-card background>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-font-weight--bold">
-          Current home phone number
-        </p>
-        <p className="vads-u-margin-bottom--0">
-          {props.data.veteran.homePhone.areaCode}-
-          {props.data.veteran.homePhone.phoneNumber.slice(0, 3)}-
-          {props.data.veteran.homePhone.phoneNumber.slice(3, 7)}
-        </p>
-      </va-card> */}
       <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
         <InitializeVAPServiceID>
           {subTitle && <p className="vads-u-color--gray-medium">{subTitle}</p>}

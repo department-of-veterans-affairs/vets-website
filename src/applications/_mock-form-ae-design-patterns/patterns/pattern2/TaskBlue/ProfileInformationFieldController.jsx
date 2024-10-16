@@ -38,7 +38,6 @@ import {
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util/index';
 import { recordCustomProfileEvent } from 'platform/user/profile/vap-svc/util/analytics';
 // import { getInitialFormValues } from 'platform/user/profile/vap-svc/util/contact-information/formValues';
-import getProfileInfoFieldAttributes from 'platform/user/profile/vap-svc/util/getProfileInfoFieldAttributes';
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
 //
@@ -60,6 +59,7 @@ import ConfirmRemoveModal from 'platform/user/profile/vap-svc/components/Contact
 import UpdateSuccessAlert from 'platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
 import ProfileInformationView from 'platform/user/profile/vap-svc/components/ProfileInformationView';
+import getProfileInfoFieldAttributes from '../../../utils/data/task-blue/getProfileInfoFieldAttributes';
 import { getInitialFormValues } from '../../../utils/data/task-purple/formValues';
 import ProfileInformationEditView from './ProfileInformationEditView';
 

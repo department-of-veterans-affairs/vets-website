@@ -8,9 +8,11 @@ import IntroductionPage from '../IntroductionPage';
 import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 import { GetFormHelp } from '../GetFormHelp';
 
+import veteranInfo from '../pages/veteranInfo';
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
-  urlPrefix: '/1/task-purple/',
+  urlPrefix: '/2/task-blue/',
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
@@ -30,7 +32,7 @@ const formConfig = {
   prefillTransformer(pages, formData, metadata) {
     const transformedData = {
       veteranSocialSecurityNumber:
-        formData?.data?.attributes?.veteran?.ssn || null,
+        formData?.veteranSocialSecurityNumber || null,
     };
     return {
       metadata,
@@ -53,6 +55,12 @@ const formConfig = {
     contactInfo: {
       title: 'Veteran information',
       pages: {
+        veteranInformation: {
+          title: 'Veteran information',
+          path: 'veteran-details',
+          uiSchema: veteranInfo.uiSchema,
+          schema: veteranInfo.schema,
+        },
         ...profileContactInfo({
           contactInfoPageKey: 'confirmContactInfo3',
           contactPath: 'veteran-information',

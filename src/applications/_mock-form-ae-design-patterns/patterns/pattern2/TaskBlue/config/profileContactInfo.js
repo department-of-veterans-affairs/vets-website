@@ -7,7 +7,7 @@ import {
   profileAddressSchema,
   blankSchema,
   clearReturnState,
-} from '../../../../utils/data/task-purple/profile';
+} from '../../../../utils/data/task-blue/profile';
 import {
   EditAddress,
   EditEmail,
