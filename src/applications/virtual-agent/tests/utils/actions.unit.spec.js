@@ -703,6 +703,7 @@ describe('actions', () => {
         apiURL: 'apiURL',
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
+        isMobile: 'isMobile',
       });
       expect(updatedAction.payload.activity.value).to.deep.equal({
         language: 'en-US',
@@ -711,6 +712,7 @@ describe('actions', () => {
         apiURL: 'apiURL',
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
+        isMobile: 'isMobile',
       });
     });
   });
