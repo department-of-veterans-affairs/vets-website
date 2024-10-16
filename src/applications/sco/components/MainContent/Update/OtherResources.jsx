@@ -39,22 +39,18 @@ const OtherResources = () => {
           Quick Start Guides
           <ul>
             <LiSpanAndVaLink
-              download
               hrefText="Download Flight - enrollment manager Quick Start Guide (PDF, 4 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/flight-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
-              download
               hrefText="Download institutions of higher learning - enrollment manager Quick Start Guide (PDF, 3 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ihl-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
-              download
               hrefText="Download non-college degree programs - enrollment manager Quick Start Guide (PDF, 3 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ncd-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
-              download
               hrefText="Download on-the-job training/apprenticeship - enrollment manager Quick Start Guide (PDF, 4 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ojtapp-quick-start-guide.pdf"
             />
@@ -66,7 +62,6 @@ const OtherResources = () => {
               href="https://benefits.va.gov/GIBILL/enrollment-manager/enrollment-manager-system-updates.asp"
             />
             <LiSpanAndVaLink
-              download
               hrefText="Download VA Paper-Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)"
               href="https://benefits.va.gov/GIBILL/enrollment-manager/paper-based-enrollment-manager-crosswalk.pptx"
             />
@@ -108,7 +103,6 @@ const OtherResources = () => {
               href="https://authentication.tungsten-network.com/login"
             />
             <LiSpanAndVaLink
-              download
               hrefText="Download VR&amp;E Tungsten invoicing (PDF, 14 pages)"
               href="https://www.benefits.va.gov/GIBILL/docs/job_aids/VRE_Tungsten_Invoicing.pdf"
             />
