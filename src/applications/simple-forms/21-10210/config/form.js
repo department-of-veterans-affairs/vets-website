@@ -36,6 +36,7 @@ import {
 // noStmtInfo.json for all flows [manually select claimOwnership, claimantType,
 // & witnessRelationshipWithClaimant via UI]
 import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
+import { isTest } from '../../shared/components/helpers';
 
 const mockData = testData.data;
 
@@ -127,7 +128,9 @@ const formConfig = {
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
-            !!mockData && environment.isLocalhost() && !window.Cypress
+            !!mockData &&
+            (environment.isLocalhost() || environment.isDev()) &&
+            !isTest()
               ? mockData
               : undefined,
           uiSchema: claimOwnershipPg.uiSchema,
