@@ -17,6 +17,7 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import { genderLabels } from 'platform/static-data/labels';
 import fullNameUI from 'platform/forms/definitions/fullName';
+import { omit } from 'lodash';
 import PreSubmitInfo from '../pages/PreSubmitInfo';
 import contactInformationPage from '../pages/contactInformation';
 import GetFormHelp from '../components/GetFormHelp';
@@ -461,5 +462,13 @@ const formConfig = {
     },
   },
 };
+
+// trying something different here and omitting the pages that we don't want to show
+// in the orange task instead of manipulating the orig formConfig object
+export const formConfigForOrangeTask = omit(formConfig, [
+  'chapters.militaryHistory',
+  'chapters.benefitsEligibility',
+  'chapters.personalInformation.pages.directDeposit',
+]);
 
 export default formConfig;

@@ -24,7 +24,7 @@ function PreSubmitNotice({
               </li>
             )}
           {/* if applicant is on active duty, show below <li> */
-          formData.currentlyActiveDuty.yes === true && (
+          formData?.currentlyActiveDuty?.yes === true && (
             <li>
               As an active-duty service member, you have consulted with an
               Education Service Officer (ESO) regarding your education program

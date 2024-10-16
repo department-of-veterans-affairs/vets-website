@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import formConfig from './config/form';
+import { PatternConfigContext } from '../../../shared/context/PatternConfigContext';
 
 export default function Form1990Entry({ location, children }) {
   /* This useEffect is to add custom class to remove the extra margin-top for radio buttons
@@ -20,6 +20,9 @@ export default function Form1990Entry({ location, children }) {
     },
     [location.pathname],
   );
+
+  const formConfig = useContext(PatternConfigContext);
+
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
