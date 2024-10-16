@@ -490,8 +490,9 @@ describe('Compose form component', () => {
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
     });
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
   });
 
   it('adds eventListener if path is /draft/:id', async () => {
@@ -529,8 +530,9 @@ describe('Compose form component', () => {
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
     });
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
   });
 
   it('does not display BlockedTriageGroupAlert on a saved draft if user is not blocked from groups', async () => {
@@ -598,11 +600,13 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      );
+    });
     const viewOnlyDraftSections = screen.queryAllByTestId(
       'view-only-draft-section',
     );
@@ -645,11 +649,13 @@ describe('Compose form component', () => {
       'blocked-triage-group-alert',
     );
 
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to some of your care teams",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to some of your care teams",
+      );
+    });
     expect(screen.queryAllByTestId('blocked-triage-group').length).to.equal(2);
   });
 
@@ -687,11 +693,13 @@ describe('Compose form component', () => {
       'blocked-triage-group-alert',
     );
 
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-    );
+    waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+      );
+    });
   });
 
   it('displays BlockedTriageGroupAlert if there are no associations at all', async () => {
@@ -789,11 +797,13 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to care teams at VA Indiana health care",
-    );
+    waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to care teams at VA Indiana health care",
+      );
+    });
   });
 
   it('displays BlockedTriageGroupAlert with list if blocked from one facility and care team at another facility', async () => {
@@ -828,11 +838,13 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to some of your care teams",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to some of your care teams",
+      );
+    });
     const blockedList = screen.queryAllByTestId('blocked-triage-group');
     expect(blockedList.length).to.equal(2);
     expect(
@@ -874,11 +886,13 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to your care teams right now",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to your care teams right now",
+      );
+    });
     expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 

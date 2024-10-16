@@ -5,6 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import { datadogRum } from '@datadog/browser-rum';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
@@ -33,6 +38,7 @@ import {
   RecipientStatus,
   BlockedTriageAlertStyles,
   FormLabels,
+  downtimeNotificationParams,
   Alerts,
 } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
@@ -743,6 +749,12 @@ const ComposeForm = props => {
       <h1 className="page-title vads-u-margin-top--0" ref={headerRef}>
         {pageTitle}
       </h1>
+
+      <DowntimeNotification
+        appTitle={downtimeNotificationParams.appTitle}
+        dependencies={[externalServices.mhvPlatform, externalServices.mhvSm]}
+        render={renderMHVDowntime}
+      />
 
       {showBlockedTriageGroupAlert &&
       (noAssociations || allTriageGroupsBlocked) ? (
