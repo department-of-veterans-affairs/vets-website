@@ -87,6 +87,7 @@ const profileContactInfo = ({
   // depends callback for contact info page
   depends = null,
   contactInfoUiSchema = {},
+  disableMockContactInfo = false,
 } = {}) => {
   const config = {};
   const wrapperProperties = {};
@@ -162,6 +163,7 @@ const profileContactInfo = ({
           keys,
           requiredKeys: contactInfoRequiredKeys,
           contactInfoPageKey,
+          disableMockContactInfo,
         }),
       CustomPageReview: props =>
         ContactInfoReview({

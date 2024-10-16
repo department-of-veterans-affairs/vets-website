@@ -23,7 +23,7 @@ export function pdfTransform(formData) {
     veteranDateOfBirth: dateOfBirth,
     serviceNumber,
     veteranHomeAddress: homeAddress,
-    PrimaryPhone: phone,
+    'Primary phone': phone,
     veteranEmail: email,
     'view:selectedRepresentative': selectedRep,
     applicantName,
@@ -67,7 +67,7 @@ export function pdfTransform(formData) {
   // construct claimant object (or reuse veteran)
   const claimant =
     formData['view:applicantIsVeteran'] === 'Yes'
-      ? veteran
+      ? null
       : {
           name: {
             first: applicantName?.first || '',
@@ -83,6 +83,7 @@ export function pdfTransform(formData) {
 
   // transform representative data
   const repAttributes = selectedRep?.attributes || {};
+
   const representative = isAttorneyOrClaimsAgent(formData)
     ? {
         name: {
@@ -95,16 +96,14 @@ export function pdfTransform(formData) {
         phone: repAttributes.phone || '',
         email: repAttributes.email || '',
       }
-    : { organizationName: repAttributes.name || '' };
+    : { organizationName: formData.selectedAccreditedOrganizationId || '' };
 
-  const result = {
+  return {
     veteran,
-    claimant,
     recordConsent: authorizationRadio || '',
     consentAddressChange: authorizeAddressRadio || '',
     consentLimits: consentLimitsTransform(formData),
     representative,
+    ...(formData['view:applicantIsVeteran'] === 'No' && { claimant }),
   };
-
-  return JSON.stringify(result);
 }
