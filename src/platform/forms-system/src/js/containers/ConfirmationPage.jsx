@@ -14,7 +14,10 @@ const ConfirmationPage = props => {
 ConfirmationPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
-      confirmation: PropTypes.element,
+      confirmation: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.elementType,
+      ]),
     }),
   }),
 };
