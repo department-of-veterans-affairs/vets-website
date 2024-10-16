@@ -18,6 +18,7 @@ import clearBotSessionStorageEventListener from '../event-listeners/clearBotSess
 import signOutEventListener from '../event-listeners/signOutEventListener';
 
 // Middleware
+import { activityMiddleware } from '../middleware/activityMiddleware';
 import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
 
 // Selectors
@@ -29,6 +30,7 @@ import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedI
 import MarkdownRenderer from '../utils/markdownRenderer';
 import handleTelemetry from '../utils/telemetry';
 import validateParameters from '../utils/validateParameters';
+import UnloadEventListener from '../event-listeners/unloadEventListener';
 
 const styleOptions = {
   hideUploadButton: true,
@@ -65,7 +67,12 @@ const WebChat = ({
   apiSession,
   setParamLoadingStatus,
 }) => {
-  const { ReactWebChat, createDirectLine, createStore } = webChatFramework;
+  const {
+    createDirectLine,
+    createStore,
+    Components: { BasicWebChat, Composer },
+    hooks: { useSendEvent },
+  } = webChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
 
   const userFirstName = useSelector(selectUserFirstName);
@@ -117,8 +124,9 @@ const WebChat = ({
 
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
-      <ReactWebChat
+      <Composer
         cardActionMiddleware={cardActionMiddleware}
+        activityMiddleware={activityMiddleware}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}
@@ -127,7 +135,10 @@ const WebChat = ({
         {...isRXSkill === 'true' && {
           webSpeechPonyfillFactory: speechPonyfill,
         }}
-      />
+      >
+        <BasicWebChat />
+        <UnloadEventListener useSendEvent={useSendEvent} />
+      </Composer>
     </div>
   );
 };
@@ -139,7 +150,12 @@ WebChat.propTypes = {
   webChatFramework: PropTypes.shape({
     createDirectLine: PropTypes.func.isRequired,
     createStore: PropTypes.func.isRequired,
-    ReactWebChat: PropTypes.func.isRequired,
+    Components: PropTypes.shape({
+      BasicWebChat: PropTypes.func.isRequired,
+      Composer: PropTypes.func.isRequired,
+    }),
+    hooks: PropTypes.shape({ useSendEvent: PropTypes.func.isRequired })
+      .isRequired,
   }).isRequired,
 };
 

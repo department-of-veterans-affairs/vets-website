@@ -202,7 +202,7 @@ export const processMicrophoneActivity = ({ action }) => () => {
 
 export function addActivityData(
   action,
-  { apiSession, csrfToken, apiURL, userFirstName, userUuid },
+  { apiSession, csrfToken, apiURL, userFirstName, userUuid, isMobile },
 ) {
   const updatedAction = action;
   if (updatedAction.payload?.activity) {
@@ -213,6 +213,7 @@ export function addActivityData(
       apiURL,
       userFirstName,
       userUuid,
+      isMobile,
     };
   }
   return updatedAction;
