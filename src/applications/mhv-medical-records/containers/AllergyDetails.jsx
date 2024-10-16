@@ -7,7 +7,6 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
-  formatName,
   updatePageTitle,
   crisisLineHeader,
   reportGeneratedBy,
@@ -19,7 +18,12 @@ import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  formatNameFirstLast,
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+} from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -95,7 +99,7 @@ const AllergyDetails = props => {
     const content = `
 ${crisisLineHeader}\n\n
 ${allergy.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Date entered: ${allergy.date} \n
