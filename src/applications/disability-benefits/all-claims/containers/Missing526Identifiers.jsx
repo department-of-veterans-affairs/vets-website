@@ -24,9 +24,9 @@ const titleLowerCase = (title = '') => {
   return title;
 };
 
-const filterMissingIdentifiers = form526RequiredIdentifers => {
-  return Object.keys(form526RequiredIdentifers).filter(
-    idName => form526RequiredIdentifers[idName] === false,
+const filterMissingIdentifiers = form526RequiredIdentifiers => {
+  return Object.keys(form526RequiredIdentifiers).filter(
+    idName => form526RequiredIdentifiers[idName] === false,
   );
 };
 
@@ -70,9 +70,9 @@ Alert.propTypes = {
   title: PropTypes.string,
 };
 
-const displayContent = (title, form526RequiredIdentifers) => {
+const displayContent = (title, form526RequiredIdentifiers) => {
   const missingIdentifiers = filterMissingIdentifiers(
-    form526RequiredIdentifers,
+    form526RequiredIdentifiers,
   );
   const itsOkDisplayMessage = okMessageToDisplayText(missingIdentifiers);
 
@@ -110,15 +110,18 @@ const displayContent = (title, form526RequiredIdentifers) => {
   );
 };
 
-export const Missing526Identifiers = ({ title, form526RequiredIdentifers }) => {
-  const alertContent = displayContent(title, form526RequiredIdentifers);
+export const Missing526Identifiers = ({
+  title,
+  form526RequiredIdentifiers,
+}) => {
+  const alertContent = displayContent(title, form526RequiredIdentifiers);
 
   return <Alert title={title}>{alertContent}</Alert>;
 };
 
 Missing526Identifiers.propTypes = {
   title: PropTypes.string.isRequired,
-  form526RequiredIdentifers: PropTypes.arrayOf(
+  form526RequiredIdentifiers: PropTypes.arrayOf(
     PropTypes.shape({
       participantId: PropTypes.bool.isRequired,
       birlsId: PropTypes.bool.isRequired,

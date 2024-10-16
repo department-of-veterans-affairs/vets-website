@@ -116,7 +116,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
       const messageParagraph = tree.container.querySelector('p');
 
       expect(messageParagraph.textContent).match(
-        /It's ok if you don't know your BIRLS ID./,
+        /It's OK if you don't know your BIRLS ID./,
       );
     });
   });
@@ -138,7 +138,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
       const messageParagraph = tree.container.querySelector('p');
 
       expect(messageParagraph.textContent).match(
-        /It's ok if you don't know your EDIPI./,
+        /It's OK if you don't know your EDIPI./,
       );
     });
   });
@@ -160,7 +160,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
       const messageParagraph = tree.container.querySelector('p');
 
       expect(messageParagraph.textContent).match(
-        /It's ok if you don't know your BIRLS ID or EDIPI./,
+        /It's OK if you don't know your BIRLS ID or EDIPI./,
       );
     });
   });
@@ -182,7 +182,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
       const messageParagraph = tree.container.querySelector('p');
 
       expect(messageParagraph.textContent).match(
-        /It's ok if you don't know your Participant ID, BIRLS ID, or EDIPI./,
+        /It's OK if you don't know your Participant ID, BIRLS ID, or EDIPI./,
       );
     });
   });
@@ -203,7 +203,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
       const tree = render(<Missing526Identifiers {...props} />);
       const messageParagraph = tree.container.querySelector('p');
 
-      expect(messageParagraph.textContent).not.match(/It's ok/);
+      expect(messageParagraph.textContent).not.match(/It's OK/);
     });
   });
 });
