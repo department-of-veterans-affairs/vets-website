@@ -101,6 +101,7 @@ export function createFormPageList(formConfig) {
 }
 
 export function createPageListByChapter(formConfig) {
+  if (!formConfig?.chapters) return {};
   return Object.keys(formConfig.chapters).reduce((chapters, chapter) => {
     const pages = Object.keys(formConfig.chapters[chapter].pages).map(page => ({
       ...formConfig.chapters[chapter].pages[page],
@@ -113,6 +114,8 @@ export function createPageListByChapter(formConfig) {
 
 export function createPageList(formConfig, formPages) {
   let pageList = formPages;
+
+  if (!formConfig) return [];
 
   if (formConfig.additionalRoutes) {
     pageList = formConfig.additionalRoutes.concat(pageList);
