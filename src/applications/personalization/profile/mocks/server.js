@@ -153,7 +153,6 @@ const responses = {
     //     maintenanceWindows.SERVICES.VAPRO_NOTIFICATION_SETTINGS,
     //     maintenanceWindows.SERVICES.VAPRO_HEALTH_CARE_CONTACTS,
     //     maintenanceWindows.SERVICES.VAPRO_PERSONAL_INFO,
-    //     maintenanceWindows.SERVICES.UNKNOWN,
     //   ]),
     // );
   },

@@ -6,6 +6,7 @@ export const uiSchema = {
     'ui:widget': ContactAccreditedRepresentative,
     'ui:options': {
       hideLabelText: true,
+      hideOnReview: true,
     },
   },
 };

@@ -1,26 +1,23 @@
-import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
 import { format, isValid } from 'date-fns';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
-  VaAccordion,
-  VaAccordionItem,
   VaAlert,
   VaLinkAction,
   VaProcessList,
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  createPageListByChapter,
-  getActiveChapters,
-  getActiveExpandedPages,
-} from '~/platform/forms-system/exportsFile';
 import { PropTypes } from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { useSelector } from 'react-redux';
+import environment from 'platform/utilities/environment';
 import GetFormHelp from './GetFormHelp';
-import { ChapterSectionCollection } from './confirmationPageViewHelpers';
+import {
+  ChapterSectionCollection,
+  useDevOnlyButtons,
+} from './confirmationPageViewHelpers';
 
 const PdfDownloadLink = ({ url, trackingPrefix }) => {
   const onClick = () => {
@@ -40,15 +37,33 @@ const PdfDownloadLink = ({ url, trackingPrefix }) => {
   );
 };
 
+/**
+ * @param {Object} props
+ * @param {Object} props.formConfig
+ * @param {{
+ *  simulatedFormData: Object
+ * }} props.devOnly
+ * @param {string} props.pdfUrl
+ * @param {string} props.confirmationNumber
+ * @param {Date} props.submitDate
+ */
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
-  const {
-    confirmationNumber,
-    formConfig,
-    pagesFromState,
-    pdfUrl,
-    submitDate,
-  } = props;
+  const { formConfig, devOnly } = props;
+  const { form } = useSelector(state => state);
+  const [pdfUrl, setPdfUrl] = useState(props.pdfUrl);
+  const [confirmationNumber, setConfirmationNumber] = useState(
+    props.confirmationNumber,
+  );
+  const [submitDate, setSubmitDate] = useState(props.submitDate || null);
+
+  const DevOnlyButtons = useDevOnlyButtons({
+    formData: form.data,
+    mockData: devOnly?.simulatedFormData,
+    setPdfUrl,
+    setConfirmationNumber,
+    setSubmitDate,
+  });
 
   useEffect(
     () => {
@@ -59,30 +74,6 @@ export const ConfirmationPageView = props => {
       }
     },
     [alertRef],
-  );
-
-  const form = useSelector(state => state.form);
-  const formData = form.data;
-  const chapterNames = getActiveChapters(formConfig, formData);
-  const pagesByChapter = createPageListByChapter(formConfig);
-
-  const chapters = useSelector(state =>
-    chapterNames.map(chapterName => {
-      const pages = pagesByChapter[chapterName];
-      const expandedPages = getActiveExpandedPages(pages, formData);
-      const chapterFormConfig = formConfig.chapters[chapterName];
-
-      return {
-        expandedPages: expandedPages.map(
-          page =>
-            page.appStateSelector
-              ? { ...page, appStateData: page.appStateSelector(state) }
-              : page,
-        ),
-        formConfig: chapterFormConfig,
-        name: chapterName,
-      };
-    }),
   );
 
   const onPrintPageClick = () => {
@@ -97,6 +88,9 @@ export const ConfirmationPageView = props => {
 
   return (
     <div>
+      {devOnly &&
+        !environment.isProduction() &&
+        !environment.isStaging() && <DevOnlyButtons />}
       <div className="print-only">
         <img
           src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
@@ -122,19 +116,11 @@ export const ConfirmationPageView = props => {
           confirmation number is ${confirmationNumber}.`}
         </p>
         <VaLinkAction
-          href="/my-va"
+          href="/my-va#benefit-applications"
           text="Check the status of your form on My VA"
           onClick={onCheckVaStatusClick}
         />
       </VaAlert>
-      <div className="print-only">
-        <ChapterSectionCollection
-          chapters={chapters}
-          formData={formData}
-          formConfig={formConfig}
-          pagesFromState={pagesFromState}
-        />
-      </div>
       <div className="screen-only">
         {pdfUrl && (
           <>
@@ -148,27 +134,11 @@ export const ConfirmationPageView = props => {
             />
           </>
         )}
-        <VaAccordion
-          bordered
-          open-single
-          uswds
-          className="vads-u-margin-top--2"
-        >
-          <VaAccordionItem
-            header="Information you submitted on this form"
-            id="info"
-            bordered
-            uswds
-          >
-            <ChapterSectionCollection
-              chapters={chapters}
-              formData={formData}
-              formConfig={formConfig}
-              pagesFromState={pagesFromState}
-            />
-          </VaAccordionItem>
-        </VaAccordion>
       </div>
+      <ChapterSectionCollection
+        formConfig={formConfig}
+        header="Information you submitted on this form"
+      />
       <div className="screen-only">
         <h2 className="vads-u-font-size--h4">Print this confirmation page</h2>
         <p>
@@ -192,7 +162,10 @@ export const ConfirmationPageView = props => {
               update the status on My VA.
             </p>
             <p>
-              <a href="/my-va" onClick={onCheckVaStatusClick}>
+              <a
+                href="/my-va#benefit-applications"
+                onClick={onCheckVaStatusClick}
+              >
                 Check the status of your form on My VA
               </a>
             </p>
@@ -237,9 +210,16 @@ export const ConfirmationPageView = props => {
 };
 
 ConfirmationPageView.propTypes = {
-  confirmationNumber: PropTypes.string.isRequired,
-  formConfig: PropTypes.object.isRequired,
-  pagesFromState: PropTypes.object.isRequired,
-  submitDate: PropTypes.object.isRequired,
+  confirmationNumber: PropTypes.string,
+  devOnly: PropTypes.shape({
+    simulatedFormData: PropTypes.object,
+  }),
+  formConfig: PropTypes.object,
   pdfUrl: PropTypes.string,
+  submitDate: PropTypes.any,
+};
+
+PdfDownloadLink.propTypes = {
+  trackingPrefix: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 };
