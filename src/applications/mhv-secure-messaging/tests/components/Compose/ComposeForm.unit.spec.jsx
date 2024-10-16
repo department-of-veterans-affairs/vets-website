@@ -490,8 +490,9 @@ describe('Compose form component', () => {
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
     });
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
   });
 
   it('adds eventListener if path is /draft/:id', async () => {
@@ -529,8 +530,9 @@ describe('Compose form component', () => {
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
     });
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
   });
 
   it('does not display BlockedTriageGroupAlert on a saved draft if user is not blocked from groups', async () => {
