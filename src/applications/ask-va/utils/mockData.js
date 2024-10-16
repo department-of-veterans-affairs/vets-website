@@ -1155,408 +1155,479 @@ export const mockInquiryDataBusinessAndPersonal = {
         submitterQuestion:
           'I received approval for a claim for dependency on September 2, 2024. After that I received the increase in the monthly allowance, but I have yet to receive the back pay owed. Any idea on when that will be paid?',
         schoolFacilityCode: '0123',
-        category: 'Disability compensation',
+        categoryName: 'Disability compensation',
         topic: 'Claim status',
         veteranRelationship: 'self',
+        reply: {
+          data: [
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
+              modifiedOn: 'Sept. 17, 2024 at 2:32 p.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'I received approval for a claim for dependency on September 2, 2024. After that I received the increase in the monthly allowance, but I have yet to receive the back pay owed. Any idea on when that will be paid?',
+                attachmentNames: [],
+              },
+            },
+          ],
+        },
       },
     },
     {
       id: '2',
       type: 'inquiry',
       attributes: {
-        inquiryNumber: 'A-2',
-        attachments: [
-          {
-            id: '2',
-            name: 'testfile.txt',
-          },
-        ],
+        inquiryNumber: 'A-20240824-306412',
+        attachments: [],
         correspondences: null,
-        hasAttachments: true,
+        hasAttachments: false,
         hasBeenSplit: true,
         levelOfAuthentication: 'Personal',
-        lastUpdate: '1/20/23',
-        createdOn: '12/15/22',
-        status: 'In Progress',
-        submitterQuestion: 'How do I update my address?',
+        lastUpdate: '9/12/24',
+        createdOn: '8/24/24',
+        status: 'Reopened',
+        submitterQuestion:
+          "How do I go about getting my spouse a VA card, since I'm a Veteran and I already have mine?",
         schoolFacilityCode: '0123',
-        category: 'Disability compensation',
-        topic: 'All other Questions',
+        categoryName: 'Veteran ID Card (VIC)',
+        topic:
+          'Veteran Health Identification Card (VHIC) for health appointments',
         veteranRelationship: 'self',
+        reply: {
+          data: [
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
+              modifiedOn: 'Aug. 24, 2024 at 1:14 p.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  "How do I go about getting my spouse a VA card, since I'm a Veteran and I already have mine?",
+                attachmentNames: [],
+              },
+            },
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
+              modifiedOn: 'Sept. 2, 2024 at 9:08 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Response from VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Thank you for your inquiry. The Digital Veterans ID Card (VIC) is currently only available to Veterans. For information on benefits and services available to family members, please visit www.va.gov.',
+                attachmentNames: [],
+              },
+            },
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e108',
+              modifiedOn: 'Sept. 12, 2024 at 11:04 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your reply to VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Does that mean at some point it will be available for spouses of Veterans?',
+                attachmentNames: [],
+              },
+            },
+          ],
+        },
       },
     },
     {
       id: '3',
       type: 'inquiry',
       attributes: {
-        inquiryNumber: 'A-3',
-        attachments: [
-          {
-            id: '3',
-            name: 'testfile.txt',
-          },
-        ],
+        inquiryNumber: 'A-20240304-301312',
+        attachments: [],
         correspondences: null,
-        hasAttachments: true,
+        hasAttachments: false,
         hasBeenSplit: true,
         levelOfAuthentication: 'Personal',
-        lastUpdate: '2/20/23',
-        createdOn: '1/18/23',
-        status: 'Closed',
-        submitterQuestion: 'How do I change my caretaker?',
+        lastUpdate: '3/8/24',
+        createdOn: '3/4/24',
+        status: 'Replied',
+        submitterQuestion:
+          'How can I view my dependents information? I cannot see them on my end on the VA website. I have three dependents.',
         schoolFacilityCode: '0123',
-        category: 'Pension',
-        topic: 'All other Questions',
+        categoryName: 'Sign in and technical issues',
+        topic: 'Technical issues on VA.gov',
         veteranRelationship: 'self',
+        reply: {
+          data: [
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
+              modifiedOn: 'Mar. 24, 2024 at 11:20 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'How can I view my dependents information? I cannot see them on my end on the VA website. I have three dependents.',
+                attachmentNames: [],
+              },
+            },
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
+              modifiedOn: 'Mar. 8, 2024 at 9:32 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Response from VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'I apologize for the inconvenience. The VA is reporting that it is aware of an issue where Veterans’ profiles are populating without dependents. We are currently researching the common cause.  We have verified that your dependents are on your award(spouse and two children).If you require specific letters that detail this information, please contact us at 800-698 - 2411 while we make corrections to VA.gov.',
+                attachmentNames: [],
+              },
+            },
+          ],
+        },
       },
     },
     {
       id: '4',
       type: 'inquiry',
       attributes: {
-        inquiryNumber: 'A-4',
-        attachments: [
-          {
-            id: '4',
-            name: 'testfile.txt',
-          },
-        ],
+        inquiryNumber: 'A-20231106-300239',
+        attachments: [],
         correspondences: null,
-        hasAttachments: true,
+        hasAttachments: false,
         hasBeenSplit: true,
         levelOfAuthentication: 'Personal',
-        lastUpdate: '3/20/23',
-        createdOn: '2/25/23',
-        status: 'Reopened',
-        submitterQuestion: 'What is compensation?',
+        lastUpdate: '11/14/23',
+        createdOn: '11/6/23',
+        status: 'Replied',
+        submitterQuestion:
+          'When I click on benefits in the VA app and then check on a current claim status, the app shuts down. I didn’t have this issue a week ago. I can navigate through the entire app with no issues except claim status. Can someone help?',
         schoolFacilityCode: '0123',
-        category: 'Life insurance',
-        topic: 'All other Questions',
+        categoryName: 'Sign in and technical issues',
+        topic: 'Technical issues on VA.gov',
         veteranRelationship: 'self',
+        reply: {
+          data: [
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
+              modifiedOn: 'Nov. 6, 2024 at 3:20 p.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'When I click on benefits in the VA app and then check on a current claim status, the app shuts down. I didn’t have this issue a week ago. I can navigate through the entire app with no issues except claim status. Can someone help?',
+                attachmentNames: [],
+              },
+            },
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
+              modifiedOn: 'Nov. 14, 2024 at 10:24 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Response from VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Your claims are currently in the decision phase of processing. We apologize for the error. Some claim types are not visible in our claims tracker at each stage of processing. If not further information or evidence is needed, a decision will be made and you will be notified in writing.\n\nWe understand it may seem like it’s taking a while. We assure you, we are working to complete your claim as quickly as possible. Please understand that the time your claim takes to complete is complete based on the specifics of your claim and VA’s pending workload. For a detailed status, or for escalation options, we recommend you contacting your assigned VA Regional Office. You can find their contact information here:\nhttps://www.va.gov/DIRECTORY/GUIDE/home.asp.\n\nRespectfully,\n\nVeterans Benefits Administration\n\nThe Insignia Team, EVSS',
+                attachmentNames: [],
+              },
+            },
+          ],
+        },
       },
     },
     {
       id: '5',
       type: 'inquiry',
       attributes: {
-        inquiryNumber: 'A-5',
-        attachments: [
-          {
-            id: '5',
-            name: 'testfile.txt',
-          },
-        ],
+        inquiryNumber: 'A-20230424-300125',
+        attachments: [],
         correspondences: null,
-        hasAttachments: true,
+        hasAttachments: false,
         hasBeenSplit: true,
         levelOfAuthentication: 'Personal',
-        lastUpdate: '4/20/23',
-        createdOn: '3/10/23',
-        status: 'Archived',
+        lastUpdate: '5/2/23',
+        createdOn: '4/24/23',
+        status: 'Replied',
         submitterQuestion:
-          'How do I find more information about my compensation?',
+          "I'm trying to get my COE for a VA Loan. Could your office assist with this? Thank you.",
         schoolFacilityCode: '0123',
-        category: 'Center for Women Veterans',
-        topic: 'All other Questions',
+        categoryName: 'Housing assistance and home loans',
+        topic: 'Technical issues on VA.gov',
         veteranRelationship: 'self',
+        reply: {
+          data: [
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
+              modifiedOn: 'Apr. 24, 2023 at 10:22 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  "I'm trying to get my COE for a VA Loan. Could your office assist with this? Thank you.",
+                attachmentNames: [],
+              },
+            },
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
+              modifiedOn: 'May. 2, 2023 at 11.47 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Response from VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Hello. Here are some ways to get a COE: VA Portal: You order a COE using the VA portal if you have access to the LGYHub. Call or text: You can request a COE by calling 988 and pressing 1, or texting 838255. Visit a VA location: You can visit a medical center or regional office. Work with a mortgage originator: You can work with a mortgage originator to get a COE.',
+                attachmentNames: [],
+              },
+            },
+          ],
+        },
       },
     },
     {
       id: '6',
       type: 'inquiry',
       attributes: {
-        inquiryNumber: 'A-6',
-        attachments: [
-          {
-            id: '6',
-            name: 'testfile.txt',
-          },
-        ],
+        inquiryNumber: 'B-20240918-406567',
+        attachments: ['contract_review.pdf'],
         correspondences: null,
         hasAttachments: true,
         hasBeenSplit: true,
-        levelOfAuthentication: 'Personal',
-        lastUpdate: '5/20/23',
-        createdOn: '4/15/23',
+        levelOfAuthentication: 'Business',
+        lastUpdate: '9/18/24',
+        createdOn: '9/18/24',
         status: 'In Progress',
-        submitterQuestion: 'What is the status of my pending claim?',
-        schoolFacilityCode: '0123',
-        category: 'Center for Minority Veterans',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
+        submitterQuestion:
+          'We have received confirmation of a claim for an employee’s compensation adjustment on September 3, 2024. Could you provide details on when the retroactive payments will be issued?',
+        schoolFacilityCode: '0456',
+        categoryName: 'Compensation and benefits',
+        topic: 'Retroactive payment inquiry',
+        veteranRelationship: 'employee',
+        reply: {
+          data: [
+            {
+              id: 'b2c4af2b-ec8c-ee11-8178-001dd804e206',
+              modifiedOn: 'Sept. 18, 2024 at 3:15 p.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'We have received confirmation of a claim for an employee’s compensation adjustment on September 3, 2024. Could you provide details on when the retroactive payments will be issued?',
+                attachmentNames: ['contract_review.pdf'],
+              },
+            },
+          ],
+        },
       },
     },
     {
       id: '7',
       type: 'inquiry',
       attributes: {
-        inquiryNumber: 'A-7',
-        attachments: [
-          {
-            id: '7',
-            name: 'testfile.txt',
-          },
-        ],
+        inquiryNumber: 'B-20240825-406513',
+        attachments: ['request_info.pdf'],
         correspondences: null,
         hasAttachments: true,
         hasBeenSplit: true,
         levelOfAuthentication: 'Business',
-        lastUpdate: '6/20/23',
-        createdOn: '5/30/23',
-        status: 'In Progress',
-        submitterQuestion: 'What is the status of my pending claim?',
-        schoolFacilityCode: '0123',
-        category: 'Survivor Benefits',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
+        lastUpdate: '9/13/24',
+        createdOn: '8/25/24',
+        status: 'Reopened',
+        submitterQuestion:
+          'Is there a process to apply for VA benefits for dependents of veterans within our organization? We are looking for more information to support spouses of Veterans.',
+        schoolFacilityCode: '0456',
+        categoryName: 'Employee benefits',
+        topic: 'Veteran family benefits',
+        veteranRelationship: 'dependent',
+        reply: {
+          data: [
+            {
+              id: 'b2c4af2b-ec8c-ee11-8178-001dd804e207',
+              modifiedOn: 'Aug. 25, 2024 at 4:20 p.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Is there a process to apply for VA benefits for dependents of veterans within our organization? We are looking for more information to support spouses of Veterans.',
+                attachmentNames: ['request_info.pdf'],
+              },
+            },
+            {
+              id: 'b2c4af2b-ec8c-ee11-8178-001dd804e208',
+              modifiedOn: 'Sept. 2, 2024 at 9:35 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Response from VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Thank you for your inquiry. Currently, benefits for spouses of Veterans are not available. We encourage you to check back for any changes in policy.',
+                attachmentNames: [],
+              },
+            },
+            {
+              id: 'b2c4af2b-ec8c-ee11-8178-001dd804e209',
+              modifiedOn: 'Sept. 13, 2024 at 11:15 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your reply to VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Understood. Please keep us updated if this policy changes in the future.',
+                attachmentNames: [],
+              },
+            },
+          ],
+        },
       },
     },
     {
       id: '8',
       type: 'inquiry',
       attributes: {
-        inquiryNumber: 'A-8',
-        attachments: [],
+        inquiryNumber: 'B-20240305-401315',
+        attachments: ['employee_info.pdf'],
         correspondences: null,
         hasAttachments: true,
         hasBeenSplit: true,
         levelOfAuthentication: 'Business',
-        lastUpdate: '7/20/23',
-        createdOn: '6/25/23',
-        status: 'In Progress',
-        submitterQuestion: 'What is the status of my claim?',
-        schoolFacilityCode: '0123',
-        category: 'Survivor Benefits',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
+        lastUpdate: '3/10/24',
+        createdOn: '3/5/24',
+        status: 'Replied',
+        submitterQuestion:
+          'We are unable to view our employees’ dependent information on the VA website. Could you assist us in resolving this issue?',
+        schoolFacilityCode: '0456',
+        categoryName: 'Technical support',
+        topic: 'Dependent information access',
+        veteranRelationship: 'employee',
+        reply: {
+          data: [
+            {
+              id: 'b2c4af2b-ec8c-ee11-8178-001dd804e210',
+              modifiedOn: 'Mar. 5, 2024 at 9:00 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'We are unable to view our employees’ dependent information on the VA website. Could you assist us in resolving this issue?',
+                attachmentNames: ['employee_info.pdf'],
+              },
+            },
+            {
+              id: 'b2c4af2b-ec8c-ee11-8178-001dd804e211',
+              modifiedOn: 'Mar. 10, 2024 at 1:30 p.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Response from VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Thank you for reaching out. There is a known issue with the VA system regarding dependent information. We are working on a resolution and will update you as soon as it is fixed.',
+                attachmentNames: [],
+              },
+            },
+          ],
+        },
       },
     },
     {
       id: '9',
       type: 'inquiry',
       attributes: {
-        inquiryNumber: 'A-9',
-        attachments: [
-          {
-            id: '8',
-            name: 'part_of_inquiry_9.pdf',
-          },
-          {
-            id: '9',
-            name: 'part_of_inquiry_9.pdf',
-          },
-          {
-            id: '10',
-            name: 'part_of_inquiry_9.pdf',
-          },
-          {
-            id: '11',
-            name: 'part_of_inquiry_9.pdf',
-          },
-          {
-            id: '14',
-            name: 'txt_file_for_inquiry_9.txt',
-          },
-        ],
+        inquiryNumber: 'B-20231107-401240',
+        attachments: ['error_log.pdf'],
         correspondences: null,
         hasAttachments: true,
         hasBeenSplit: true,
         levelOfAuthentication: 'Business',
-        lastUpdate: '8/20/23',
-        createdOn: '7/30/23',
-        status: 'In Progress',
+        lastUpdate: '11/15/23',
+        createdOn: '11/7/23',
+        status: 'Replied',
         submitterQuestion:
-          'I am inquiring about the current status of my claim, specifically regarding its processing stage, any outstanding requirements, and the estimated timeline for completion. Could you please provide a detailed update?',
-        schoolFacilityCode: '0123',
-        category: 'Survivor Benefits',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
+          'Our organization has experienced app crashes when trying to access claim statuses for employees. Can you assist in resolving this technical issue?',
+        schoolFacilityCode: '0456',
+        categoryName: 'Technical support',
+        topic: 'App crashes on claim status',
+        veteranRelationship: 'admin',
+        reply: {
+          data: [
+            {
+              id: 'b2c4af2b-ec8c-ee11-8178-001dd804e212',
+              modifiedOn: 'Nov. 7, 2023 at 11:10 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Our organization has experienced app crashes when trying to access claim statuses for employees. Can you assist in resolving this technical issue?',
+                attachmentNames: ['error_log.pdf'],
+              },
+            },
+            {
+              id: 'b2c4af2b-ec8c-ee11-8178-001dd804e213',
+              modifiedOn: 'Nov. 15, 2023 at 10:50 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Response from VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'We are aware of the app crashes affecting claim status checks. Our technical team is investigating the issue, and we will provide updates once resolved.',
+                attachmentNames: [],
+              },
+            },
+          ],
+        },
       },
     },
     {
       id: '10',
       type: 'inquiry',
       attributes: {
-        inquiryNumber: 'A-10',
-        attachments: [],
+        inquiryNumber: 'B-20230425-401130',
+        attachments: ['loan_info.pdf'],
         correspondences: null,
         hasAttachments: true,
         hasBeenSplit: true,
         levelOfAuthentication: 'Business',
-        lastUpdate: '9/20/23',
-        createdOn: '8/10/23',
-        status: 'In Progress',
+        lastUpdate: '5/3/23',
+        createdOn: '4/25/23',
+        status: 'Replied',
         submitterQuestion:
-          'I am currently exploring options to increase my compensation and would greatly appreciate detailed guidance on the process. Could you please provide the necessary steps, required documentation, and any pertinent deadlines or criteria for eligibility?',
-        schoolFacilityCode: '0123',
-        category: 'Survivor Benefits',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
-      },
-    },
-    {
-      id: '11',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-11',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: true,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '10/20/23',
-        createdOn: '9/15/23',
-        status: 'In Progress',
-        submitterQuestion:
-          'What is the process for vets to plan for the National Cemetery?',
-        schoolFacilityCode: '0123',
-        category: 'Survivor Benefits',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
-      },
-    },
-    {
-      id: '12',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-12',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: true,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '10/20/23',
-        createdOn: '9/20/23',
-        status: 'In Progress',
-        submitterQuestion:
-          'Where can depends find more info on Burial Benefits?',
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
-      },
-    },
-    {
-      id: '13',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-13',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: true,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '10/20/23',
-        createdOn: '9/25/23',
-        status: 'In Progress',
-        submitterQuestion:
-          'What is the process for a vet to transfer their benefits to their dependents?',
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
-      },
-    },
-    {
-      id: '14',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-14',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: true,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '10/20/23',
-        createdOn: '9/30/23',
-        status: 'In Progress',
-        submitterQuestion:
-          'Where can I find more informoation on Education Debt?',
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
-      },
-    },
-    {
-      id: '15',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-15',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: true,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '11/20/23',
-        createdOn: '10/10/23',
-        status: 'In Progress',
-        submitterQuestion:
-          'Where can I find more informoation on Education Debt?',
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
-      },
-    },
-    {
-      id: '16',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-16',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: true,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '11/20/23',
-        createdOn: '10/15/23',
-        status: 'In Progress',
-        submitterQuestion: 'We have a major breakout! What do we do?',
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
-      },
-    },
-    {
-      id: '17',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-17',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: true,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '11/20/23',
-        createdOn: '10/17/23',
-        status: 'In Progress',
-        submitterQuestion: 'We have a major breakout! What do we do?',
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
-      },
-    },
-    {
-      id: '18',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-18',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: true,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '11/20/23',
-        createdOn: '10/25/23',
-        status: 'In Progress',
-        submitterQuestion: "Is it possible to do the 'wave' across America?",
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'All other Questions',
-        veteranRelationship: 'self',
+          'Could you provide assistance with obtaining a Certificate of Eligibility (COE) for our employee’s VA loan?',
+        schoolFacilityCode: '0456',
+        categoryName: 'Housing and home loans',
+        topic: 'COE request for employees',
+        veteranRelationship: 'employer',
+        reply: {
+          data: [
+            {
+              id: 'b2c4af2b-ec8c-ee11-8178-001dd804e214',
+              modifiedOn: 'Apr. 25, 2023 at 10:00 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Could you provide assistance with obtaining a Certificate of Eligibility (COE) for our employee’s VA loan?',
+                attachmentNames: ['loan_info.pdf'],
+              },
+            },
+            {
+              id: 'b2c4af2b-ec8c-ee11-8178-001dd804e215',
+              modifiedOn: 'May. 3, 2023 at 12:40 p.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Response from VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'We recommend that your employee request a COE directly through the VA portal or through their mortgage provider.',
+                attachmentNames: [],
+              },
+            },
+          ],
+        },
       },
     },
   ],
@@ -1811,419 +1882,4 @@ export const mockInquiryData = {
       },
     },
   ],
-};
-
-export const mockInquiryDataWithBusiness = {
-  data: [
-    {
-      id: '1',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-20240917-306466',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: false,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Personal',
-        lastUpdate: '9/17/24',
-        createdOn: '9/17/24',
-        status: 'In Progress',
-        submitterQuestion:
-          'I received approval for a claim for dependency on September 2, 2024. After that I received the increase in the monthly allowance, but I have yet to receive the back pay owed. Any idea on when that will be paid?',
-        schoolFacilityCode: '0123',
-        category: 'Disability compensation',
-        topic: 'Claim status',
-        veteranRelationship: 'self',
-        reply: {
-          data: [
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
-              modifiedOn: 'Sept. 17, 2024 at 2:32 p.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Your question',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'I received approval for a claim for dependency on September 2, 2024. After that I received the increase in the monthly allowance, but I have yet to receive the back pay owed. Any idea on when that will be paid?',
-                attachmentNames: [],
-              },
-            },
-          ],
-        },
-      },
-    },
-    {
-      id: '2',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-20240824-306412',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: false,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Personal',
-        lastUpdate: '9/12/24',
-        createdOn: '8/24/24',
-        status: 'Reopened',
-        submitterQuestion:
-          "How do I go about getting my wife a VA card, since I'm a Veteran and I already have mine?",
-        schoolFacilityCode: '0123',
-        category: 'Veteran ID Card (VIC)',
-        topic:
-          'Veteran Health Identification Card (VHIC) for health appointments',
-        veteranRelationship: 'self',
-        reply: {
-          data: [
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
-              modifiedOn: 'Aug. 24, 2024 at 1:14 p.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Your question',
-              enableReply: true,
-              attributes: {
-                reply:
-                  "How do I go about getting my wife a VA card, since I'm a Veteran and I already have mine?",
-                attachmentNames: [],
-              },
-            },
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
-              modifiedOn: 'Sept. 2, 2024 at 9:08 a.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Response from VA',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'Thank you for your inquiry. The Digital Veterans ID Card (VIC) is currently only available to Veterans. For information on benefits and services available to family members, please visit www.va.gov.',
-                attachmentNames: [],
-              },
-            },
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e108',
-              modifiedOn: 'Sept. 12, 2024 at 11:04 a.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Your reply to VA',
-              enableReply: true,
-              attributes: {
-                reply: 'Would she be able to get a physical card?',
-                attachmentNames: [],
-              },
-            },
-          ],
-        },
-      },
-    },
-    {
-      id: '3',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-20240304-301312',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: false,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Personal',
-        lastUpdate: '3/8/24',
-        createdOn: '3/4/24',
-        status: 'Replied',
-        submitterQuestion:
-          'How can I view my dependents information? I cannot see them on my end on the VA website. I have three dependents.',
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'Technical issues on VA.gov',
-        veteranRelationship: 'self',
-        reply: {
-          data: [
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
-              modifiedOn: 'Mar. 24, 2024 at 11:20 a.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Your question',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'How can I view my dependents information? I cannot see them on my end on the VA website. I have three dependents.',
-                attachmentNames: [],
-              },
-            },
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
-              modifiedOn: 'Mar. 8, 2024 at 9:32 a.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Response from VA',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'I apologize for the inconvenience. The VA is reporting that it is aware of an issue where Veterans’ profiles are populating without dependents. We are currently researching the common cause.  We have verified that your dependents are on your award(spouse and two children).If you require specific letters that detail this information, please contact us at 800-698 - 2411 while we make corrections to VA.gov.',
-                attachmentNames: [],
-              },
-            },
-          ],
-        },
-      },
-    },
-    {
-      id: '4',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-20231106-300239',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: false,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Personal',
-        lastUpdate: '11/14/24',
-        createdOn: '11/6/24',
-        status: 'Replied',
-        submitterQuestion:
-          'When I click on benefits in the VA app and then check on a current claim status, the app shuts down. I didn’t have this issue a week ago. I can navigate through the entire app with no issues except claim status. Can someone help?',
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'Technical issues on VA.gov',
-        veteranRelationship: 'self',
-        reply: {
-          data: [
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
-              modifiedOn: 'Nov. 6, 2024 at 3:20 p.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Your question',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'When I click on benefits in the VA app and then check on a current claim status, the app shuts down. I didn’t have this issue a week ago. I can navigate through the entire app with no issues except claim status. Can someone help?',
-                attachmentNames: [],
-              },
-            },
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
-              modifiedOn: 'Nov. 14, 2024 at 10:24 a.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Response from VA',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'Your claims are currently in the decision phase of processing. We apologize for the error. Some claim types are not visible in our claims tracker at each stage of processing. If not further information or evidence is needed, a decision will be made and you will be notified in writing.\n\nWe understand it may seem like it’s taking a while. We assure you, we are working to complete your claim as quickly as possible. Please understand that the time your claim takes to complete is complete based on the specifics of your claim and VA’s pending workload. For a detailed status, or for escalation options, we recommend you contacting your assigned VA Regional Office. You can find their contact information here:\nhttps://www.va.gov/DIRECTORY/GUIDE/home.asp.\n\nRespectfully,\n\nVeterans Benefits Administration\n\nThe Insignia Team, EVSS',
-                attachmentNames: [],
-              },
-            },
-          ],
-        },
-      },
-    },
-    {
-      id: '5',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-20240917-306466',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: false,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '9/17/24',
-        createdOn: '9/17/24',
-        status: 'In Progress',
-        submitterQuestion:
-          'I received approval for a claim for dependency on September 2, 2024. After that I received the increase in the monthly allowance, but I have yet to receive the back pay owed. Any idea on when that will be paid?',
-        schoolFacilityCode: '0123',
-        category: 'Disability compensation',
-        topic: 'Claim status',
-        veteranRelationship: 'self',
-        reply: {
-          data: [
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
-              modifiedOn: 'Sept. 17, 2024 at 2:32 p.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Your question',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'I received approval for a claim for dependency on September 2, 2024. After that I received the increase in the monthly allowance, but I have yet to receive the back pay owed. Any idea on when that will be paid?',
-                attachmentNames: [],
-              },
-            },
-          ],
-        },
-      },
-    },
-    {
-      id: '6',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-20240824-306412',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: false,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '9/12/24',
-        createdOn: '8/24/24',
-        status: 'Reopened',
-        submitterQuestion:
-          "How do I go about getting my wife a VA card, since I'm a Veteran and I already have mine?",
-        schoolFacilityCode: '0123',
-        category: 'Veteran ID Card (VIC)',
-        topic:
-          'Veteran Health Identification Card (VHIC) for health appointments',
-        veteranRelationship: 'self',
-        reply: {
-          data: [
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
-              modifiedOn: 'Aug. 24, 2024 at 1:14 p.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Your question',
-              enableReply: true,
-              attributes: {
-                reply:
-                  "How do I go about getting my wife a VA card, since I'm a Veteran and I already have mine?",
-                attachmentNames: [],
-              },
-            },
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
-              modifiedOn: 'Sept. 2, 2024 at 9:08 a.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Response from VA',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'Thank you for your inquiry. The Digital Veterans ID Card (VIC) is currently only available to Veterans. For information on benefits and services available to family members, please visit www.va.gov.',
-                attachmentNames: [],
-              },
-            },
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e108',
-              modifiedOn: 'Sept. 12, 2024 at 11:04 a.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Your reply to VA',
-              enableReply: true,
-              attributes: {
-                reply: 'Would she be able to get a physical card?',
-                attachmentNames: [],
-              },
-            },
-          ],
-        },
-      },
-    },
-    {
-      id: '7',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-20240304-301312',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: false,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '3/8/24',
-        createdOn: '3/4/24',
-        status: 'Replied',
-        submitterQuestion:
-          'How can I view my dependents information? I cannot see them on my end on the VA website. I have three dependents.',
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'Technical issues on VA.gov',
-        veteranRelationship: 'self',
-        reply: {
-          data: [
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
-              modifiedOn: 'Mar. 24, 2024 at 11:20 a.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Your question',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'How can I view my dependents information? I cannot see them on my end on the VA website. I have three dependents.',
-                attachmentNames: [],
-              },
-            },
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
-              modifiedOn: 'Mar. 8, 2024 at 9:32 a.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Response from VA',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'I apologize for the inconvenience. The VA is reporting that it is aware of an issue where Veterans’ profiles are populating without dependents. We are currently researching the common cause.  We have verified that your dependents are on your award(spouse and two children).If you require specific letters that detail this information, please contact us at 800-698 - 2411 while we make corrections to VA.gov.',
-                attachmentNames: [],
-              },
-            },
-          ],
-        },
-      },
-    },
-    {
-      id: '8',
-      type: 'inquiry',
-      attributes: {
-        inquiryNumber: 'A-20231106-300239',
-        attachments: [],
-        correspondences: null,
-        hasAttachments: false,
-        hasBeenSplit: true,
-        levelOfAuthentication: 'Business',
-        lastUpdate: '11/14/24',
-        createdOn: '11/6/24',
-        status: 'Replied',
-        submitterQuestion:
-          'When I click on benefits in the VA app and then check on a current claim status, the app shuts down. I didn’t have this issue a week ago. I can navigate through the entire app with no issues except claim status. Can someone help?',
-        schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
-        topic: 'Technical issues on VA.gov',
-        veteranRelationship: 'self',
-        reply: {
-          data: [
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
-              modifiedOn: 'Nov. 6, 2024 at 3:20 p.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Your question',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'When I click on benefits in the VA app and then check on a current claim status, the app shuts down. I didn’t have this issue a week ago. I can navigate through the entire app with no issues except claim status. Can someone help?',
-                attachmentNames: [],
-              },
-            },
-            {
-              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
-              modifiedOn: 'Nov. 14, 2024 at 10:24 a.m. E.T.',
-              statusReason: 'Completed/Sent',
-              messageType: '722310001: Response from VA',
-              enableReply: true,
-              attributes: {
-                reply:
-                  'Your claims are currently in the decision phase of processing. We apologize for the error. Some claim types are not visible in our claims tracker at each stage of processing. If not further information or evidence is needed, a decision will be made and you will be notified in writing.\n\nWe understand it may seem like it’s taking a while. We assure you, we are working to complete your claim as quickly as possible. Please understand that the time your claim takes to complete is complete based on the specifics of your claim and VA’s pending workload. For a detailed status, or for escalation options, we recommend you contacting your assigned VA Regional Office. You can find their contact information here:\nhttps://www.va.gov/DIRECTORY/GUIDE/home.asp.\n\nRespectfully,\n\nVeterans Benefits Administration\n\nThe Insignia Team, EVSS',
-                attachmentNames: [],
-              },
-            },
-          ],
-        },
-      },
-    },
-  ],
-  meta: {
-    meta: {
-      pagination: {
-        currentPage: 1,
-        prevPage: null,
-        nextPage: null,
-        totalPages: 1,
-        totalEntries: 4,
-      },
-    },
-    links: {
-      self: 'http://localhost:3000/ask_va_api/v0/inquiries?page=1&per_page=10',
-      first: 'http://localhost:3000/ask_va_api/v0/inquiries?page=1&per_page=10',
-      prev: null,
-      next: null,
-      last: 'http://localhost:3000/ask_va_api/v0/inquiries?page=1&per_page=10',
-    },
-  },
 };

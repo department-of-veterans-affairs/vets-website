@@ -1,5 +1,19 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 import { isReactComponent } from '~/platform/utilities/ui';
+import {
+  createPageListByChapter,
+  getActiveChapters,
+  getActiveExpandedPages,
+} from '~/platform/forms-system/exportsFile';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  VaAccordion,
+  VaAccordionItem,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { setData } from 'platform/forms-system/src/js/actions';
+import environment from 'platform/utilities/environment';
 
 let arrayMap = {};
 let nextClass = '';
@@ -59,11 +73,6 @@ const generateReviewEntryKey = (key, label, data) => {
 const reviewEntry = (description, key, uiSchema, label, data) => {
   if (!data) return null;
 
-  const textDescription = typeof description === 'string' ? description : null;
-  const DescriptionField = isReactComponent(description)
-    ? uiSchema['ui:description']
-    : null;
-
   const keyString = generateReviewEntryKey(key, label, data);
 
   const className = nextClass;
@@ -71,17 +80,14 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
 
   return (
     <li key={keyString} className={className}>
-      <div className="vads-u-color--gray">
-        {label}
-        {textDescription && <p>{textDescription}</p>}
-        {!textDescription && !DescriptionField && description}
-      </div>
+      <div className="vads-u-color--gray">{label}</div>
       <div>{data}</div>
     </li>
   );
 };
 
 const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
+  if (data === undefined || data === null) return null;
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
   if (schema.properties[key] === undefined || !uiSchema) return null;
 
@@ -100,17 +106,20 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
   // long term, make this a switch statement
   if (
-    uiSchema['ui:widget'] === 'radio' &&
-    uiSchema['ui:options']?.labels?.[refinedData]
-  ) {
-    refinedData = uiSchema['ui:options'].labels[refinedData];
-  }
-
-  if (
     uiSchema['ui:widget'] === 'yesNo' &&
     uiSchema['ui:options']?.labels?.[refinedData ? 'Y' : 'N']
   ) {
     refinedData = uiSchema['ui:options'].labels[refinedData ? 'Y' : 'N'];
+  } else if (uiSchema['ui:options']?.labels?.[refinedData]) {
+    refinedData = uiSchema['ui:options'].labels[refinedData];
+  } else if (
+    uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxGroupField'
+  ) {
+    refinedData = data;
+  } else if (
+    uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxField'
+  ) {
+    refinedData = refinedData ? 'Selected' : '';
   }
 
   const dataType = schema.properties[key].type;
@@ -214,26 +223,57 @@ export const buildFields = (chapter, formData, pagesFromState) => {
   });
 };
 
+const useChapterSectionCollection = formConfig => {
+  const form = useSelector(state => state.form);
+  const formData = form.data;
+  const chapterNames = getActiveChapters(formConfig, formData);
+  const pagesByChapter = createPageListByChapter(formConfig);
+  const pagesFromState = form.pages;
+
+  const chapters = useSelector(state =>
+    chapterNames.map(chapterName => {
+      const pages = pagesByChapter[chapterName];
+      const expandedPages = getActiveExpandedPages(pages, formData);
+      const chapterFormConfig = formConfig.chapters[chapterName];
+
+      return {
+        expandedPages: expandedPages.map(
+          page =>
+            page.appStateSelector
+              ? { ...page, appStateData: page.appStateSelector(state) }
+              : page,
+        ),
+        formConfig: chapterFormConfig,
+        name: chapterName,
+      };
+    }),
+  );
+
+  return { chapters, formData, pagesFromState };
+};
+
 /**
  * @param {{
- *   chapters: {
- *     name: string,
- *     formConfig: Object,
- *     expandedPages: Object[]
- *   }[],
- *   formData: Object,
  *   formConfig: Object
+ *   header: string
+ *   collapsible?: boolean
+ *   className?: string
  * }} props
  * @returns {JSX.Element[]}
  */
 export const ChapterSectionCollection = ({
-  chapters,
-  formData,
   formConfig,
-  pagesFromState,
+  collapsible = true,
+  header,
+  className,
 }) => {
+  const { chapters, formData, pagesFromState } = useChapterSectionCollection(
+    formConfig,
+  );
+
   resetDefaults();
-  return chapters.map(chapter => {
+
+  const content = chapters.map(chapter => {
     const chapterTitle = getChapterTitle(
       chapter.formConfig,
       formData,
@@ -253,4 +293,80 @@ export const ChapterSectionCollection = ({
       )
     );
   });
+
+  if (collapsible && content.length) {
+    return (
+      <div className={className || 'vads-u-margin-top--2'}>
+        <div className="print-only">{content}</div>
+        <div className="screen-only">
+          <VaAccordion bordered open-single uswds>
+            <VaAccordionItem header={header} id="info" bordered uswds>
+              {content}
+            </VaAccordionItem>
+          </VaAccordion>
+        </div>
+      </div>
+    );
+  }
+
+  return content;
+};
+
+export const useDevOnlyButtons = ({
+  formData,
+  mockData,
+  setPdfUrl,
+  setConfirmationNumber,
+  setSubmitDate,
+}) => {
+  const dispatch = useDispatch();
+
+  const simulateSubmission = () => {
+    dispatch(
+      setData({
+        ...formData,
+        ...mockData,
+      }),
+    );
+    setConfirmationNumber(
+      Math.random()
+        .toString()
+        .replace('.', ''),
+    );
+    setSubmitDate(new Date());
+    setPdfUrl('/');
+  };
+
+  const simulateReload = () => {
+    dispatch(setData({}));
+    setConfirmationNumber(null);
+    setSubmitDate(null);
+    setPdfUrl(null);
+  };
+
+  if (environment.isProduction()) {
+    return null;
+  }
+
+  return () => {
+    return (
+      <div className="vads-u-margin-bottom--2">
+        <VaButton
+          onClick={simulateSubmission}
+          text="Dev only: Simulate submission"
+        />
+        <VaButton
+          onClick={simulateReload}
+          text="Dev only: Simulate page reload"
+        />
+      </div>
+    );
+  };
+};
+
+ChapterSectionCollection.propTypes = {
+  formConfig: PropTypes.object.isRequired,
+  header: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  collapsible: PropTypes.bool,
 };
