@@ -63,7 +63,7 @@ export const ChooseDateAndTime = () => {
   );
 
   const onBack = () => {
-    routeToPreviousReferralPage(history, currentPage);
+    routeToPreviousReferralPage(history, currentPage, referral.id);
   };
 
   const onSubmit = () => {
