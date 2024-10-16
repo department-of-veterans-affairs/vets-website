@@ -68,7 +68,7 @@ describe('VAOS Component: CCLayout', () => {
         screen.getByText((content, element) => {
           return (
             element.tagName.toLowerCase() === 'span' &&
-            content === 'Other details: Not available'
+            content === 'Other details: none' // Bug: https://github.com/department-of-veterans-affairs/va.gov-team/issues/94689
           );
         }),
       );
@@ -157,10 +157,12 @@ describe('VAOS Component: CCLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(screen.getByText(/Reason: Not available/i));
+      expect(
+        screen.getByText(
+          /Other details: This is a test:Additional information/i,
+        ),
+      );
 
       expect(
         screen.getByRole('heading', {
