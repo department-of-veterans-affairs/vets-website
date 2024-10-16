@@ -6,6 +6,8 @@ import { updateRoute } from 'platform/site-wide/user-nav/actions';
 import startReactApp from 'platform/startup/react';
 import asyncSetUpCommonFunctionality from './asyncSetUpCommonFunctionality';
 
+// this allows an async function to be passed in to create the routes
+// and store, and then start the app
 export async function asyncStartApp({
   routes,
   createAsyncRoutesWithStore,

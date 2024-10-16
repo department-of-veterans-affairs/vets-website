@@ -466,9 +466,10 @@ const formConfig = {
 // trying something different here and omitting the pages that we don't want to show
 // in the orange task instead of manipulating the orig formConfig object
 export const formConfigForOrangeTask = omit(formConfig, [
-  'chapters.militaryHistory',
   'chapters.benefitsEligibility',
   'chapters.personalInformation.pages.directDeposit',
 ]);
+
+// export const formConfigForOrangeTask = formConfig;
 
 export default formConfig;

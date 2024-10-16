@@ -5,7 +5,8 @@ import startSitewideComponents from 'platform/site-wide';
 import createRtkCommonStore from './rtkStore';
 
 /**
- * Wrapper for creating a store and sitewide components, used across all apps
+ * Wrapper for creating a store and sitewide components, this async version is used
+ * so that the feature toggles can fully load before the store is returned
  *
  * @param {object} appInfo The UI and business logic of your React application
  * @param {string} appInfo.entryName The name of the app being built

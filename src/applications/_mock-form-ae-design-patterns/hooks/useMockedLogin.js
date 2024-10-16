@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
-import { teardownProfileSession } from 'platform/user/exportsFile';
-import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import { useDispatch } from 'react-redux';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { teardownProfileSession } from 'platform/user/profile/utilities';
+import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+
 import { useLocalStorage } from './useLocalStorage';
 
 export const useMockedLogin = location => {
@@ -10,6 +12,11 @@ export const useMockedLogin = location => {
 
   useEffect(
     () => {
+      // don't run this in production or staging as a precaution
+      if (environment.isProduction() || environment.isStaging()) {
+        return;
+      }
+
       if (location?.query?.loggedIn === 'true') {
         setHasSession('true');
         dispatch(updateLoggedInStatus(true));

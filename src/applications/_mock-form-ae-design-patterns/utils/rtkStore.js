@@ -25,8 +25,15 @@ export default function createRtkCommonStore(
 
   const store = configureStore({
     reducer,
-    middleware: getDefaultMiddleware =>
-      getDefaultMiddleware().concat(createAnalyticsMiddleware(analyticsEvents)),
+    middleware: getDefaultMiddleware => {
+      // there is an issue with one of the applications (ask VA app) using a Set within their state
+      // which causes the serializableCheck to fail
+      // setting serializableCheck: false is a temporary fix until the issue is resolved
+      // if this is removed prior to fix, the application will report lots of warnings/errors in the console
+      return getDefaultMiddleware({
+        serializableCheck: false,
+      }).concat(createAnalyticsMiddleware(analyticsEvents));
+    },
     devTools:
       !environment.isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__,
   });

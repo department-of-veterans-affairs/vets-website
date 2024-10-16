@@ -24,9 +24,11 @@ export default function Form1990Entry({ location, children }) {
   const formConfig = useContext(PatternConfigContext);
 
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <div className="vads-u-margin-top--4">
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </div>
   );
 }
 
