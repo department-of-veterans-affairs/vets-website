@@ -22,7 +22,9 @@ describe('Gibs Test', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('a[href="/education/check-post-9-11-gi-bill-benefits/status"]', {
       timeout: Timeouts.slow,
-    }).click();
+    })
+      .focus()
+      .click();
 
     cy.get('#gibs-full-name').should('contain', 'First Last');
 
