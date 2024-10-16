@@ -17,16 +17,32 @@
         "dateMarried": "2008-04-05"
       }
     ],
+    "view:completedDependent": false,
     "deaths": [
-      {
-        "date": "2020-05-09",
-        "location": { "isOutsideUs": false, "state": "GA", "city": "asdfdsa" },
-        "fullName": { "first": "Jane", "last": "Doe" },
-        "ssn": "123321234",
-        "birthDate": "1991-04-05",
-        "dependentType": "DEPENDENT_PARENT"
-      }
-    ],
+    {
+      "dependentDeathLocation": {
+        "outsideUsa": false,
+        "location": {
+          "city": "Fakesville",
+          "state": "AK"
+        }
+      },
+      "dependentDeathDate": "1991-01-19",
+      "childStatus": {
+        "childUnder18": false,
+        "stepChild": true,
+        "disabled": false,
+        "childOver18InSchool": true
+      },
+      "dependentType": "child",
+      "fullName": {
+        "first": "Tom",
+        "last": "Riddle"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-01-19"
+    }
+  ],
     "stepChildren": [
       {
         "supportingStepchild": true,
