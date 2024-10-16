@@ -123,7 +123,7 @@ DetailsVA.propTypes = {
     }),
     location: PropTypes.shape({
       vistaId: PropTypes.string.isRequired,
-      clinicId: PropTypes.string.isRequired,
+      clinicId: PropTypes.string,
       stationId: PropTypes.string.isRequired,
       clinicName: PropTypes.string,
       clinicPhysicalLocation: PropTypes.string,

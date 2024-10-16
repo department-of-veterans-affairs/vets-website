@@ -57,7 +57,10 @@ const initialData = {
 
 // Prefill entire form with data:
 // Helpful for testing confirmation page
-if (environment.isLocalhost() && !window.Cypress) {
+if (
+  (environment.isLocalhost() || environment.isDev()) &&
+  !environment.isTest()
+) {
   Object.assign(initialData, mockData.data);
   Object.assign(initialData, mockArrayBuilderData.data);
 }
