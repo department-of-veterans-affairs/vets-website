@@ -20,7 +20,7 @@ describe('Gibs Test', () => {
     cy.visit('/education/gi-bill/post-9-11/ch-33-benefit');
     cy.get('body').should('be.visible');
     cy.injectAxeThenAxeCheck();
-    cy.get('a[href="/education/gi-bill/post-9-11/ch-33-benefit/status"]', {
+    cy.get('a[href="/education/check-post-9-11-gi-bill-benefits/status"]', {
       timeout: Timeouts.slow,
     }).click();
 
