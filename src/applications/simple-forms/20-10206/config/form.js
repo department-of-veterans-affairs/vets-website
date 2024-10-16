@@ -31,7 +31,6 @@ import { getMockData } from '../helpers';
 
 const mockData = testData.data;
 
-// export isLocalhost() to facilitate unit-testing
 export function isLocalhost() {
   return environment.isLocalhost();
 }
@@ -39,7 +38,8 @@ export function isLocalhost() {
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: !window.Cypress,
+    showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

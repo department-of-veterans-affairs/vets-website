@@ -33,6 +33,9 @@
     "disabilityExams": [
       {
         "disabilityExamDate": "2019-01-01"
+      },
+      {
+        "disabilityExamDate": "2021-04-15"
       }
     ],
     "otherCompAndPenDetails": "Other Comp&Pen details",

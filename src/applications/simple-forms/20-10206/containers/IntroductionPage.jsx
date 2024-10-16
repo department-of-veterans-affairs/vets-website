@@ -132,6 +132,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       childContent={childContent}
       userIdVerified={userIdVerified}
       userLoggedIn={userLoggedIn}
+      devOnly={{
+        forceShowFormControls: true,
+      }}
     />
   );
 };
