@@ -138,8 +138,8 @@ class PatientMessageDetailsPage {
   };
 
   loadSingleThread = (
-    multiThreadsResponse = inboxMessages,
     singleThreadResponse = threadResponse,
+    multiThreadsResponse = inboxMessages,
   ) => {
     cy.intercept(
       `GET`,
