@@ -1,11 +1,9 @@
 {
   "data": {
-    "isEssentialAcaCoverage": true,
     "view:preferredFacility": {
       "view:facilityState": "MA",
       "vaMedicalFacility": "631"
     },
-    "view:locator": {},
     "wantsInitialVaContact": true,
     "isCoveredByHealthInsurance": true,
     "providers": [

@@ -27,7 +27,7 @@ describe('hca VaFacilityLighthouse config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
+    expect(formDOM.querySelectorAll('input, va-select').length).to.equal(4);
   });
 
   it('should not submit empty form', () => {
