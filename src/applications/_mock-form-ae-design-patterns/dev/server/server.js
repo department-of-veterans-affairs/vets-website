@@ -55,12 +55,12 @@ function startProcess(procName, command, args, env = {}, color = 'green') {
   processes[procName] = childProcess;
 
   childProcess.stdout.on('data', data => {
-    console.log(chalk[color](`[${procName}] stdout: ${data}`));
+    console.log(`${chalk[color](`[${procName}] stdout:`)} ${data}`);
     addToCache(procName, 'stdout', data);
   });
 
   childProcess.stderr.on('data', data => {
-    console.error(chalk.red`[${procName}] stderr: ${data}`);
+    console.log(`${chalk.red(`[${procName}] stderr:`)} ${data}`);
     addToCache(procName, 'stderr', data);
   });
 
