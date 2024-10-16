@@ -282,12 +282,10 @@ export const validateAddress = (
   let response;
 
   try {
-    // response = isVAProfileServiceConfigured()
-    //   ? await apiRequest('/profile/address_validation', options)
-    //   : await localVAProfileService.addressValidationSuccess();
-    response = await apiRequest('/profile/address_validation', options);
+    response = isVAProfileServiceConfigured()
+      ? await apiRequest('/profile/address_validation', options)
+      : await localVAProfileService.addressValidationSuccess();
     const { addresses, validationKey } = response;
-
     const suggestedAddresses = addresses
       // sort highest confidence score to lowest confidence score
       .sort(
