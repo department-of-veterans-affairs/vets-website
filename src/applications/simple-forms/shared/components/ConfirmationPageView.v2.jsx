@@ -41,6 +41,7 @@ const PdfDownloadLink = ({ url, trackingPrefix }) => {
  * @param {Object} props
  * @param {Object} props.formConfig
  * @param {{
+ *  showButtons: boolean
  *  simulatedFormData: Object
  * }} props.devOnly
  * @param {string} props.pdfUrl
@@ -58,7 +59,7 @@ export const ConfirmationPageView = props => {
   const [submitDate, setSubmitDate] = useState(props.submitDate || null);
 
   const DevOnlyButtons = useDevOnlyButtons({
-    formData: form.data,
+    formData: form?.data,
     mockData: devOnly?.simulatedFormData,
     setPdfUrl,
     setConfirmationNumber,
@@ -88,9 +89,9 @@ export const ConfirmationPageView = props => {
 
   return (
     <div>
-      {devOnly &&
-        !environment.isProduction() &&
-        !environment.isStaging() && <DevOnlyButtons />}
+      {devOnly?.showButtons &&
+        (environment.isLocalhost() || environment.isDev()) &&
+        !environment.isTest() && <DevOnlyButtons />}
       <div className="print-only">
         <img
           src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
@@ -212,6 +213,7 @@ export const ConfirmationPageView = props => {
 ConfirmationPageView.propTypes = {
   confirmationNumber: PropTypes.string,
   devOnly: PropTypes.shape({
+    showButtons: PropTypes.bool,
     simulatedFormData: PropTypes.object,
   }),
   formConfig: PropTypes.object,
