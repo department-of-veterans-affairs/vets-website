@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaRadioFieldMapping from './vaRadioFieldMapping';
 
@@ -31,15 +33,15 @@ function optionsList(schema) {
  * @param {WebComponentFieldProps} props */
 export default function VaRadioField(props) {
   const mappedProps = vaRadioFieldMapping(props);
-  const enumOptions =
-    Array.isArray(props.childrenProps.schema.enum) &&
-    optionsList(props.childrenProps.schema);
   const labels = props.uiOptions?.labels || {};
+  const { schema } = props.childrenProps;
+  // For non-required options, schema enum should be left undefined
+  const enumOptions =
+    (Array.isArray(schema.enum) && schema.enum.length && optionsList(schema)) ||
+    Object.entries(labels).map(([value, label]) => ({ label, value }));
   const descriptions = props.uiOptions.descriptions || {};
 
-  const selectedValue =
-    props.childrenProps.formData ?? props.childrenProps.schema.default ?? null;
-
+  const selectedValue = props.childrenProps.formData ?? schema.default ?? null;
   return (
     <VaRadio
       {...mappedProps}
@@ -66,3 +68,23 @@ export default function VaRadioField(props) {
     </VaRadio>
   );
 }
+
+VaRadioField.propTypes = {
+  childrenProps: PropTypes.shape({
+    formData: PropTypes.shape({}),
+    idSchema: PropTypes.shape({
+      $id: PropTypes.string,
+    }),
+    onChange: PropTypes.func,
+    schema: PropTypes.shape({
+      default: PropTypes.any,
+      enum: PropTypes.array,
+    }),
+    uiSchema: PropTypes.shape({}),
+  }),
+  uiOptions: PropTypes.shape({
+    descriptions: PropTypes.shape({}),
+    labels: PropTypes.shape({}),
+    tile: PropTypes.bool,
+  }),
+};

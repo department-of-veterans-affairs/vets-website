@@ -1,7 +1,4 @@
-import {
-  radioUI,
-  radioSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
   optionIndicatorDescription,
@@ -12,6 +9,7 @@ import {
 
 import { isOnReviewPage } from '../../../shared/utils/helpers';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'view:vhaContent': {
@@ -23,7 +21,7 @@ export default {
       enableAnalytics: true,
       labelHeaderLevel: '3',
       labels: optionIndicatorChoices,
-      required: false,
+      required: () => false,
       updateUiSchema: () => ({
         'ui:options': {
           labelHeaderLevel: isOnReviewPage() ? 4 : 3,
@@ -33,12 +31,15 @@ export default {
   },
   schema: {
     type: 'object',
+    required: [],
     properties: {
       'view:vhaContent': {
         type: 'object',
         properties: {},
       },
-      optionIndicator: radioSchema(Object.keys(optionIndicatorChoices)),
+      optionIndicator: {
+        type: 'string',
+      },
     },
   },
 };
