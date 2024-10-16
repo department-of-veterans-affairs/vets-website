@@ -5,7 +5,7 @@ import Address from './Address';
 
 export default function AddressBlock({ repName, orgName, address }) {
   return (
-    <p className="va-address-block">
+    <p className="va-address-block vads-u-margin-left--0 vads-u-margin-bottom--3">
       {repName && orgName ? (
         <>
           <strong>{repName}</strong>
