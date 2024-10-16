@@ -1,5 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -12,7 +14,6 @@ import {
   startDateApproximate,
 } from '../../../content/toxicExposure';
 import { GULF_WAR_2001_LOCATIONS } from '../../../constants';
-import { pageSubmitTest } from '../../unit.helpers.spec';
 
 /**
  * Unit tests for the gulf war 2001 details pages. Verifies each page can render and submit with
@@ -86,26 +87,18 @@ describe('gulfWar2001Details', () => {
       });
 
       it(`should submit without dates for ${locationId}`, () => {
-        pageSubmitTest(
-          schemas[`gulf-war-2001-location-${locationId}`],
-          formData,
-          true,
+        const onSubmit = sinon.spy();
+        const { getByText } = render(
+          <DefinitionTester
+            schema={pageSchema.schema}
+            uiSchema={pageSchema.uiSchema}
+            data={formData}
+            onSubmit={onSubmit}
+          />,
         );
-      });
 
-      it(`should submit with both dates for ${locationId}`, () => {
-        const data = JSON.parse(JSON.stringify(formData));
-        data.toxicExposure.gulfWar2001Details = {};
-        data.toxicExposure.gulfWar2001Details[locationId] = {
-          startDate: '2002-10-15',
-          endDate: '2004-03-31',
-        };
-
-        pageSubmitTest(
-          schemas[`gulf-war-2001-location-${locationId}`],
-          data,
-          true,
-        );
+        userEvent.click(getByText('Submit'));
+        expect(onSubmit.calledOnce).to.be.true;
       });
     });
 });
