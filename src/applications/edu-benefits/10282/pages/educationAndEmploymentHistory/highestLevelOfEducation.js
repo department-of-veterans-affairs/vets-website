@@ -6,7 +6,10 @@ const { highestLevelOfEducation } = fullSchema10282.properties;
 const uiSchema = {
   highestLevelOfEducation: {
     'ui:title': (
-      <h3 className="vads-u-margin--0 vads-u-color--base">
+      <h3
+        className="vads-u-margin--0 vads-u-color--base"
+        data-testid="optional-education"
+      >
         What’s the highest level of education you have completed?
       </h3>
     ),
@@ -20,7 +23,7 @@ const uiSchema = {
     },
     otherEducation: {
       'ui:title': (
-        <p className="vads-u-margin--0">
+        <p className="vads-u-margin--0" data-testid="something-else-edu">
           Enter the highest level of education you’ve completed.
         </p>
       ),
