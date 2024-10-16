@@ -127,7 +127,9 @@ const formConfig = {
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
-            !!mockData && environment.isLocalhost() && !window.Cypress
+            !!mockData &&
+            (environment.isLocalhost() || environment.isDev()) &&
+            !environment.isTest()
               ? mockData
               : undefined,
           uiSchema: claimOwnershipPg.uiSchema,
