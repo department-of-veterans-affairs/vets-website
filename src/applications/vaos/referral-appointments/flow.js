@@ -5,7 +5,7 @@
  * @param {boolean} state - New COVID appointment state
  * @returns {object} Referral appointment workflow object
  */
-export default function getPageFlow() {
+export default function getPageFlow(referralId) {
   return {
     appointments: {
       url: '/appointments',
@@ -20,7 +20,7 @@ export default function getPageFlow() {
       previous: 'appointments',
     },
     referralReview: {
-      url: '/review-approved',
+      url: `/referral-review/${referralId}`,
       label: 'Review your referral',
       next: 'scheduleAppointment',
       previous: 'activeReferrals',
@@ -46,8 +46,8 @@ export default function getPageFlow() {
   };
 }
 
-export function routeToPageInFlow(history, current, action) {
-  const pageFlow = getPageFlow();
+export function routeToPageInFlow(history, current, action, referralId) {
+  const pageFlow = getPageFlow(referralId);
   const nextPageString = pageFlow[current][action];
   const nextPage = pageFlow[nextPageString];
 
@@ -60,12 +60,16 @@ export function routeToPageInFlow(history, current, action) {
   }
 }
 
-export function routeToPreviousReferralPage(history, current) {
-  return routeToPageInFlow(history, current, 'previous');
+export function routeToPreviousReferralPage(
+  history,
+  current,
+  referralId = null,
+) {
+  return routeToPageInFlow(history, current, 'previous', referralId);
 }
 
-export function routeToNextReferralPage(history, current) {
-  return routeToPageInFlow(history, current, 'next');
+export function routeToNextReferralPage(history, current, referralId = null) {
+  return routeToPageInFlow(history, current, 'next', referralId);
 }
 
 /* Function to get label from the flow
