@@ -362,8 +362,8 @@ class SaveInProgressIntro extends React.Component {
   render() {
     const { formConfig, buttonOnly, devOnly } = this.props;
     const devOnlyForceShowFormControls =
-      (environment.isLocalhost() || environment.isDev()) &&
-      !environment.isTest() &&
+      environment.isLocalhost() &&
+      !window.Cypress &&
       devOnly?.forceShowFormControls;
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const { profile, login } = this.props.user;
