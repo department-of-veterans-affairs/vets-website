@@ -301,10 +301,8 @@ class PatientComposePage {
     });
   };
 
-  verifyRemoveAttachmentButtonHasFocus = (_attachmentIndex = 0) => {
-    cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT)
-      .eq(_attachmentIndex)
-      .should('have.focus');
+  verifyAttachButtonHasFocus = () => {
+    cy.get(Locators.BUTTONS.ATTACH_FILE).should(`be.focused`);
   };
 
   clickOnDeleteDraftButton = () => {
