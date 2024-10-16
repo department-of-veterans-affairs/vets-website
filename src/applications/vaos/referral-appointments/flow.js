@@ -20,19 +20,19 @@ export default function getPageFlow(referralId) {
       previous: 'appointments',
     },
     referralReview: {
-      url: `/referral-review/${referralId}`,
+      url: `/schedule-referral/${referralId}`,
       label: 'Review your referral',
       next: 'scheduleAppointment',
       previous: 'activeReferrals',
     },
     scheduleAppointment: {
-      url: '/provider-choose-date-and-time',
+      url: '/schedule-referral/date-time',
       label: 'Schedule and appointment with your provider',
       next: 'confirmAppointment',
       previous: 'referralReview',
     },
     confirmAppointment: {
-      url: '/confirm-approved',
+      url: '/schedule-referral/review',
       label: 'Confirm your appointment',
       next: 'appointments',
       previous: 'scheduleAppointment',
