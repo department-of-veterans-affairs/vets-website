@@ -10,12 +10,13 @@ const props = {
   schema: {
     type: 'text',
   },
+  onBlur: () => {},
 };
 
 describe('Schemaform <VAFileNumberWidget>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
-      <VAFileNumberWidget value="12345678" />,
+      <VAFileNumberWidget value="12345678" {...props} />,
     );
     expect(tree.subTree('TextWidget').props.value).to.equal('12345678');
   });
@@ -24,7 +25,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
     it('should remove dashes on change', () => {
       const onChange = sinon.spy();
       const tree = SkinDeep.shallowRender(
-        <VAFileNumberWidget value="" onChange={onChange} />,
+        <VAFileNumberWidget value="" onChange={onChange} {...props} />,
       );
       tree.subTree('TextWidget').props.onChange('123-45-5677');
       expect(onChange.calledWith('123455677')).to.be.true;
@@ -33,7 +34,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
     it('should call onChange with undefined if the value is blank', () => {
       const onChange = sinon.spy();
       const tree = SkinDeep.shallowRender(
-        <VAFileNumberWidget value="123121234" onChange={onChange} />,
+        <VAFileNumberWidget value="123121234" onChange={onChange} {...props} />,
       );
       tree.subTree('TextWidget').props.onChange('');
       expect(onChange.calledWith(undefined)).to.be.true;
@@ -42,7 +43,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
     it('should call onChange with the value if available', () => {
       const onChange = sinon.spy();
       const tree = SkinDeep.shallowRender(
-        <VAFileNumberWidget value="456431098" onChange={onChange} />,
+        <VAFileNumberWidget value="456431098" onChange={onChange} {...props} />,
       );
       tree.subTree('TextWidget').props.onChange('432549877');
       expect(onChange.calledWith('432549877')).to.be.true;
