@@ -500,33 +500,18 @@ export const SpouseFinancialSupportDescription = (
 );
 
 /** CHAPTER 5: Insurance Information */
-export const EssentialCoverageDescription = (
-  <va-additional-info
-    trigger="Learn more about minimum essential coverage."
-    class="vads-u-margin-y--2 vads-u-margin-left--4"
-    uswds
-  >
-    To avoid the penalty for not having insurance, you must be enrolled in a
-    health plan that qualifies as minimum essential coverage. Being signed up
-    for VA health care meets the minimum essential coverage requirement under
-    the Affordable Care Act.
-  </va-additional-info>
-);
-
 export const FacilityLocatorDescription = (
   <>
     <p>
-      OR{' '}
       <a href={APP_URLS.facilities} rel="noopener noreferrer" target="_blank">
         Find locations with the VA Facility Locator
       </a>
     </p>
-
     <p>
       If you’re looking for medical care outside the continental U.S. or Guam,
       you’ll need to sign up for our Foreign Medical Program.{' '}
       <a
-        href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"
+        href="/health-care/foreign-medical-program/"
         rel="noopener noreferrer"
         target="_blank"
       >
