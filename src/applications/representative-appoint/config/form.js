@@ -7,6 +7,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { pdfTransform } from '../utilities/pdfTransform';
 import { generatePDF } from '../api/generatePDF';
+import NextStepsPage from '../containers/NextStepsPage';
 
 import {
   authorizeMedical,
@@ -86,6 +87,13 @@ const formConfig = {
       component: ClaimantType,
       pageKey: 'claimant-type',
       depends: () => true,
+    },
+    {
+      path: 'next-steps',
+      component: NextStepsPage,
+      pageKey: 'next-steps',
+      depends: () => false,
+      hideFormNavProgress: true,
     },
   ],
   savedFormMessages: {
