@@ -44,6 +44,8 @@ import * as burialCemetery from './pages/burialCemetery';
 import {
   servicePeriodsPagesVeteran,
   servicePeriodsPagesNonVeteran,
+  servicePeriodsPagesPreparerVeteran,
+  servicePeriodsPagesPreparerNonVeteran,
 } from './pages/servicePeriodsPages';
 
 import transformForSubmit from './transformForSubmit';
@@ -608,9 +610,17 @@ const formConfig = {
       //   },
       // },
     },
+    militaryHistoryPreparerVeteran: {
+      title: 'Applicant’s service period(s)',
+      pages: servicePeriodsPagesPreparerVeteran,
+    },
     militaryHistoryNonVeteran: {
       title: 'Sponsor service period(s)',
       pages: servicePeriodsPagesNonVeteran,
+    },
+    militaryHistoryPreparerNonVeteran: {
+      title: 'Sponsor service period(s)',
+      pages: servicePeriodsPagesPreparerNonVeteran,
     },
     burialBenefits: {
       title: 'Burial benefits',
