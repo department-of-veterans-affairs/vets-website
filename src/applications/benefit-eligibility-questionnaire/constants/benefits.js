@@ -98,10 +98,10 @@ export const disabilityTypes = Object.freeze({
 });
 
 export const disabilityTypeLabels = Object.freeze({
-  APPLIED_AND_RECEIVED: "I've applied and received a disability rating",
-  SUBMITTED: "I've submitted but haven't received a rating yet",
-  STARTED: "I've started the process but haven't submitted yet",
-  NOT_APPLIED: "I haven't applied for a disability rating",
+  APPLIED_AND_RECEIVED: "I've applied and received a disability rating.",
+  SUBMITTED: "I've submitted but haven't received a rating yet.",
+  STARTED: "I've started the process but haven't submitted yet.",
+  NOT_APPLIED: "I haven't applied for a disability rating.",
 });
 
 export const giBillTypes = Object.freeze({
@@ -112,10 +112,10 @@ export const giBillTypes = Object.freeze({
 });
 
 export const giBillTypeLabels = Object.freeze({
-  APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits",
-  SUBMITTED: "I've submitted but haven't received a decision yet",
-  STARTED: "I've started the process but haven't submitted yet",
-  NOT_APPLIED: "I haven't applied for GI Bill benefits",
+  APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits.",
+  SUBMITTED: "I've submitted but haven't received a decision yet.",
+  STARTED: "I've started the process but haven't submitted yet.",
+  NOT_APPLIED: "I haven't applied for GI Bill benefits.",
 });
 
 export const characterOfDischargeTypes = Object.freeze({

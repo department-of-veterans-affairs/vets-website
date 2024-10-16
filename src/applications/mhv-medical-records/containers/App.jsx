@@ -55,6 +55,10 @@ const App = ({ children }) => {
     state => state.featureToggles['mhv-mock-session'],
   );
 
+  const statusPollBeginDate = useSelector(
+    state => state.mr.refresh.statusPollBeginDate,
+  );
+
   useEffect(
     () => {
       if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
@@ -212,7 +216,7 @@ const App = ({ children }) => {
             )}
             <va-back-to-top hidden={isHidden} />
             <ScrollToTop />
-            <PhrRefresh />
+            <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
           </div>
         </>
       )}

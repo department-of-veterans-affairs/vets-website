@@ -39,7 +39,7 @@ const DebtLettersDownload = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current VA debt',
+            label: 'Current debts',
           },
           {
             href: '/manage-va-debt/summary/debt-balances/letters',
