@@ -36,7 +36,7 @@ describe(`Verify virus attachment scan alerts`, () => {
         .and(`include.text`, Alerts.VIRUS_ATTCH);
 
       cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
-      // cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).should('be.focused');
+      cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).should('be.focused');
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -54,6 +54,8 @@ describe(`Verify virus attachment scan alerts`, () => {
         });
 
       cy.get(Locators.ATTACH_FILE_INPUT).should(`exist`);
+
+      // TODO add focus assertions
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -80,9 +82,7 @@ describe(`Verify virus attachment scan alerts`, () => {
         .should(`be.visible`)
         .and(`include.text`, Alerts.VIRUS_MULTI_ATTCH);
       cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
-      // cy.get(Locators.BUTTONS.REMOVE_ALL_ATTCH).should(
-      //   'be.focused',
-      // );
+      cy.get(Locators.BUTTONS.REMOVE_ALL_ATTCH).should('be.focused');
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -99,6 +99,8 @@ describe(`Verify virus attachment scan alerts`, () => {
         });
 
       cy.get(Locators.ATTACH_FILE_INPUT).should(`exist`);
+
+      // TODO add focus assertions
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
