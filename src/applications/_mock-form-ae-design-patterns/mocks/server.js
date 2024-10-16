@@ -1,8 +1,6 @@
 const delay = require('mocker-api/lib/delay');
 
 const user = require('./endpoints/user');
-const handleUserUpdate = require('./endpoints/user/handleUserUpdate');
-
 const address = require('./endpoints/address');
 const emailAddress = require('./endpoints/email-addresses');
 const phoneNumber = require('./endpoints/phone-number');
@@ -21,6 +19,7 @@ const {
 const mockFormAeDesignPatterns = require('./endpoints/in-progress-forms/mock-form-ae-design-patterns');
 
 const prefill261880 = require('./endpoints/in-progress-forms/26-1880');
+const { FORM_22_1990 } = require('./endpoints/in-progress-forms/22-1990');
 
 // transaction status that is used for address, email, phone number update flows
 const {
@@ -41,12 +40,8 @@ const genericErrors = {
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
 // utils
-const {
-  delaySingleResponse,
-  logRequest,
-  requestHistory,
-  boot,
-} = require('./script/utils');
+const { delaySingleResponse, logRequest, boot } = require('./script/utils');
+const { updateMemDb } = require('./script/mem-db');
 
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {
@@ -76,6 +71,11 @@ const responses = {
     delaySingleResponse(() => res.json(prefill261880.response), secondsOfDelay);
   },
 
+  'GET /v0/in_progress_forms/22-1990': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(() => res.json(FORM_22_1990.minimal), secondsOfDelay);
+  },
+
   'PUT /v0/in_progress_forms/:id': (req, res) => {
     const secondsOfDelay = 1;
     delaySingleResponse(
@@ -85,21 +85,14 @@ const responses = {
   },
 
   'GET /v0/coe/status': generateCoeEligibleResponse(),
-  'GET /v0/user': (_req, res) => {
+  'GET /v0/user': (req, res) => {
     const shouldError = false; // set to true to test error response
     if (shouldError) {
       return res.status(500).json(genericErrors.error500);
     }
 
-    const [shouldReturnUser, updatedUserResponse] = handleUserUpdate(
-      requestHistory,
-    );
-
-    if (shouldReturnUser) {
-      return res.json(updatedUserResponse);
-    }
     // example user data cases
-    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    return res.json(updateMemDb(req, user.loa3User72)); // default user LOA3 w/id.me (success)
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
@@ -143,18 +136,26 @@ const responses = {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
     }
-    return res.json(telephone.homePhoneUpdateReceivedPrefillTaskPurple);
+    return res.json(
+      updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),
+    );
     // return res.status(200).json(phoneNumber.transactions.received);
   },
-  'POST /v0/profile/telephones': (_req, res) => {
+  'POST /v0/profile/telephones': (req, res) => {
     // return res.status(200).json(phoneNumber.transactions.received);
-    return res.json(telephone.homePhoneUpdateReceivedPrefillTaskPurple);
+    return res.json(
+      updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),
+    );
   },
-  'POST /v0/profile/email_addresses': (_req, res) => {
-    return res.status(200).json(emailAddress.transactions.received);
+  'POST /v0/profile/email_addresses': (req, res) => {
+    return res
+      .status(200)
+      .json(updateMemDb(req, emailAddress.transactions.received));
   },
-  'PUT /v0/profile/email_addresses': (_req, res) => {
-    return res.status(200).json(emailAddress.transactions.received);
+  'PUT /v0/profile/email_addresses': (req, res) => {
+    return res
+      .status(200)
+      .json(updateMemDb(req, emailAddress.transactions.received));
   },
   'PUT /v0/profile/addresses': (req, res) => {
     // uncomment to test 401 error
@@ -191,10 +192,12 @@ const responses = {
     // }
 
     // default response
-    return res.json(address.mailingAddressUpdateReceivedPrefillTaskGreen);
+    return res.json(
+      updateMemDb(req, address.mailingAddressUpdateReceivedPrefillTaskGreen),
+    );
   },
   'POST /v0/profile/addresses': (req, res) => {
-    return res.json(address.homeAddressUpdateReceived);
+    return res.json(updateMemDb(req, address.homeAddressUpdateReceived));
   },
   'DELETE /v0/profile/addresses': (_req, res) => {
     const secondsOfDelay = 1;

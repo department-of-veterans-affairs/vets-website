@@ -4,8 +4,10 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import WIP from '../../shared/components/WIP';
 import formConfig from '../config/form';
 
 export default function App({ location, children }) {
@@ -23,17 +25,38 @@ export default function App({ location, children }) {
   ];
   const bcString = JSON.stringify(breadcrumbList);
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <va-breadcrumbs breadcrumb-list={bcString} />
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        <DowntimeNotification
-          appTitle={`CHAMPVA Form ${formConfig.formId}`}
-          dependencies={[externalServices.pega]}
-        >
-          {children}
-        </DowntimeNotification>
-      </RoutedSavableApp>
-    </div>
+    <>
+      <meta content="noindex" />
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959F1}>
+          <Toggler.Enabled>
+            <va-breadcrumbs breadcrumb-list={bcString} />
+            <RoutedSavableApp
+              formConfig={formConfig}
+              currentLocation={location}
+            >
+              <DowntimeNotification
+                appTitle={`CHAMPVA Form ${formConfig.formId}`}
+                dependencies={[externalServices.pega]}
+              >
+                {children}
+              </DowntimeNotification>
+            </RoutedSavableApp>
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            <br />
+            <WIP
+              content={{
+                description: `We’re working on a new online registration form for the Foreign Medical Program (FMP). Check back soon. If you want to register for FMP now, you can use our PDF form.`,
+                redirectLink:
+                  'https://www.va.gov/health-care/foreign-medical-program',
+                redirectText: 'Learn about FMP and how to register',
+              }}
+            />
+          </Toggler.Disabled>
+        </Toggler>
+      </div>
+    </>
   );
 }
 

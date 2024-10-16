@@ -2,7 +2,6 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import React from 'react';
 import FormElementTitle from '../../../components/FormElementTitle';
 import YourSchool from '../../../components/FormFields/YourSchool';
 import PageFieldSummary from '../../../components/PageFieldSummary';
@@ -14,7 +13,7 @@ const schoolInYourProfilePage = {
     'ui:description': YourSchool,
     'ui:objectViewField': PageFieldSummary,
     useSchoolInProfile: radioUI({
-      title: <strong>{CHAPTER_3.USE_THIS_SCHOOL.QUESTION_1}</strong>,
+      title: 'Do you want to use the school in your profile?',
       labels: schoolInYourProfileOptions,
     }),
   },

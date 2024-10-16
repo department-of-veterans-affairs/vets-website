@@ -2,31 +2,29 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Element } from 'react-scroll';
+import { Element } from 'platform/utilities/scroll';
+
 import classNames from 'classnames';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import {
   ERROR_ELEMENTS,
-  FOCUSABLE_ELEMENTS,
   SCROLL_ELEMENT_SUFFIX,
 } from '../../../../utilities/constants';
+import { focusReview } from '../utilities/ui/focus-review';
 
 import ProgressButton from '../components/ProgressButton';
-import {
-  focusOnChange,
-  getFocusableElements,
-  fixSelector,
-} from '../utilities/ui';
+import { focusOnChange, fixSelector } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
 import { getPreviousPagePath, checkValidPagePath } from '../routing';
 
-import { focusableWebComponentList } from '../web-component-fields/webComponentList';
 import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
+import { getPageKey } from '../utilities/review';
+
 /*
  * Displays all the pages in a chapter on the review page
  */
@@ -39,43 +37,11 @@ class ReviewCollapsibleChapter extends React.Component {
   handleEdit(key, editing, index = null) {
     if (editing || !this.hasValidationError(key, index)) {
       this.props.onEdit(key, editing, index);
-      const name = fixSelector(key);
-
-      // Wait for edit view to render
-      setTimeout(() => {
-        const scrollElement = document.querySelector(
-          `[name="${name}${SCROLL_ELEMENT_SUFFIX}"]`,
-        );
-
-        if (scrollElement && scrollElement?.nextElementSibling) {
-          const [target] = getFocusableElements(
-            scrollElement.nextElementSibling,
-            {
-              returnWebComponent: true,
-              focusableWebComponents: focusableWebComponentList,
-            },
-          );
-
-          if (target) {
-            let selector = target.tagName;
-            // File upload pages may only show a delete va-button (form 10182)
-            const shadowSelector = selector.startsWith('VA-')
-              ? [...FOCUSABLE_ELEMENTS, ...focusableWebComponentList].join(',')
-              : null;
-
-            // Sets focus on the first focusable error or element
-            if (target.id) {
-              // id may include a colon, e.g. #root_view:foo
-              selector = `#${target.id}`;
-            } else if (target.className) {
-              selector = `${target.tagName}.${target.className
-                .split(' ')
-                .join('.')}`;
-            }
-            focusOnChange(name, fixSelector(selector), shadowSelector);
-          }
-        }
-      }, 100);
+      focusReview(
+        fixSelector(`${key}${index ?? ''}`),
+        editing,
+        this.props.reviewEditFocusOnHeaders || false,
+      );
     }
   }
 
@@ -137,10 +103,13 @@ class ReviewCollapsibleChapter extends React.Component {
 
     // check if current page has any errors; reviewErrors override needed for
     // custom pages
-    const pageKey = reviewErrors?.__override?.(key) || key;
+    const pageKey =
+      reviewErrors?._override?.(key, { pageKey: key, index })?.pageKey ||
+      scrollElementKey;
     const hasErrors = cleanedErrors.some(error => {
       const errorPageKey =
-        reviewErrors?.__override?.(error.pageKey) || error.pageKey;
+        reviewErrors?._override?.(error.pageKey, error)?.pageKey ||
+        getPageKey(error);
       return errorPageKey === pageKey;
     });
 
@@ -230,7 +199,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
 
     const hasError = props.form.formErrors?.errors?.some(
-      err => fullPageKey === err.pageKey,
+      err => fullPageKey === getPageKey(err),
     );
 
     const classes = classNames('form-review-panel-page', {
@@ -311,13 +280,7 @@ class ReviewCollapsibleChapter extends React.Component {
                 // update page button - needed to dynamically update
                 // accordion headers
                 if (!this.hasValidationError(page.pageKey, page.index)) {
-                  focusOnChange(
-                    `${page.pageKey}${
-                      typeof page.index === 'number' ? page.index : ''
-                    }`,
-                    'va-button',
-                    'button',
-                  );
+                  focusOnChange(getPageKey(page), 'va-button', 'button');
                 }
               }}
               buttonText="Update page"
@@ -373,7 +336,7 @@ class ReviewCollapsibleChapter extends React.Component {
       pageUiSchema = pageSchemaObjects.uiSchema;
     }
 
-    const fullPageKey = `${page.pageKey}${page.index ?? ''}`;
+    const fullPageKey = getPageKey(page);
 
     if (editing) {
       // noop defined as a function for unit tests
@@ -407,8 +370,17 @@ class ReviewCollapsibleChapter extends React.Component {
       );
     }
 
+    const hasError = props.form.formErrors?.errors?.some(
+      err => fullPageKey === getPageKey(err),
+    );
+
+    const classes = classNames('form-review-panel-page', {
+      'schemaform-review-page-error':
+        hasError || !props.viewedPages.has(fullPageKey),
+    });
+
     return (
-      <React.Fragment key={fullPageKey}>
+      <div key={`${fullPageKey}`} className={classes}>
         <Element name={`${fullPageKey}${SCROLL_ELEMENT_SUFFIX}`} />
         <div>
           <page.CustomPageReview
@@ -422,7 +394,7 @@ class ReviewCollapsibleChapter extends React.Component {
             recalculateErrors={this.hasValidationError}
           />
         </div>
-      </React.Fragment>
+      </div>
     );
   };
 
@@ -512,6 +484,7 @@ ReviewCollapsibleChapter.propTypes = {
     pathname: PropTypes.string,
   }),
   open: PropTypes.bool,
+  reviewEditFocusOnHeaders: PropTypes.bool,
   reviewErrors: PropTypes.shape({}),
   router: PropTypes.shape({
     push: PropTypes.func,

@@ -1,0 +1,123 @@
+name: Cypress Integration Test Workflow
+
+on:
+    workflow_dispatch:
+      inputs:
+        commit_sha:
+          description: "Commit SHA: from your branch's latest, completed prod build" 
+          required: true 
+        platform-or-application:
+          description: 'Are your failing tests in /applications/ or /platform/?'
+          type: choice
+          options: 
+            - applications
+            - platform
+          required: true
+        product:
+          description: "App: Your tests' target directory within src/applications or src/platform"
+          required: true
+        # TO-DO: create a solution that maintains an updated list of active products within src/applications
+  
+env:
+    VETS_WEBSITE_CHANNEL_ID: ''
+  
+jobs:
+    ecr-login:
+      name: Login to ECR
+      runs-on: ubuntu-latest
+      permissions: write-all
+      outputs:
+        ECR_USERNAME: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+        ECR_PASSWORD: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+      steps:
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4.0.0
+          with:
+             aws-region: us-gov-west-1
+             role-to-assume: arn:aws-us-gov:iam::008577686731:role/gha-frontend-nonprod-role
+        
+        - name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v2    
+          with:
+            mask-password: false
+           
+        - name: Find the build
+          id: find-build
+          run: |
+            ARCHIVE_NAME=${{ github.event.inputs.commit_sha }}/vagovprod.tar.bz2
+            BUCKET_PATH=s3://vetsgov-website-builds-s3-upload/
+              
+            aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
+              
+        - name: Archive production artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: dist-without-markdown
+            path: vagovprod.tar.bz2
+            retention-days: 1
+
+    integration-test:
+      name: Run Cypress Tests
+      runs-on: ubuntu-latest
+      permissions: write-all
+      needs: ecr-login
+      container: 
+        image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+        credentials: 
+          username: ${{ needs.ecr-login.outputs.ECR_USERNAME }}
+          password: ${{ needs.ecr-login.outputs.ECR_PASSWORD }}
+      steps:
+        - name: Checkout
+          uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+          
+        - name: Determine slackGroup and specPattern
+          id: helper
+          run: |
+             chmod +x ./script/github-actions/cypress-integration-test.sh 
+             ./script/github-actions/cypress-integration-test.sh "${{ inputs.product }}"
+
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4.0.0
+          with:
+             aws-region: us-gov-west-1
+             role-to-assume: arn:aws-us-gov:iam::008577686731:role/gha-frontend-nonprod-role
+
+        - name: Get va-vsp-bot token
+          uses: ./.github/workflows/inject-secrets
+          with:
+            ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+            env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+        - name: Download artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: dist-without-markdown
+
+        - name: Unpack artifact
+          run: |
+            mkdir vets-website
+            tar -xjf vagovprod.tar.bz2 -C vets-website
+        
+        - name: Install dependencies
+          uses: ./.github/workflows/install
+          with:
+            key: ${{ hashFiles('yarn.lock') }}
+            yarn_cache_folder: .cache/yarn
+            path: |
+              .cache/yarn
+              node_modules
+
+        - name: Install server dependencies
+          working-directory: vets-website
+          run: |
+            yarn install
+
+        - name: Start server
+          run: |
+           mkdir build
+           node src/platform/testing/e2e/test-server.js --buildtype=../vets-website --port=3001 &
+
+        - name: Run Cypress tests
+          run: |
+            npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/${{ inputs.platform-or-application }}/${{ inputs.product }}/**/*.cypress.spec.js'
