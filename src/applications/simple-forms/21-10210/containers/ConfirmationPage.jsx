@@ -57,7 +57,6 @@ export const ConfirmationPage = props => {
       formConfig={formConfig}
       pdfUrl={submission.response?.pdfUrl}
       devOnly={{
-        showButtons: true,
         simulatedFormData: mockData,
       }}
     />
