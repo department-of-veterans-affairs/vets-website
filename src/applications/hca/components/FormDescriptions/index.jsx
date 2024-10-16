@@ -504,7 +504,7 @@ export const FacilityLocatorDescription = (
   <>
     <p>
       <a href={APP_URLS.facilities} rel="noopener noreferrer" target="_blank">
-        Find locations with the VA Facility Locator
+        Find locations with the VA Facility Locator (opens in new tab)
       </a>
     </p>
     <p>
@@ -515,7 +515,7 @@ export const FacilityLocatorDescription = (
         rel="noopener noreferrer"
         target="_blank"
       >
-        Learn more about the Foreign Medical Program
+        Learn more about the Foreign Medical Program (opens in new tab)
       </a>
       .
     </p>
@@ -526,7 +526,7 @@ export const FacilityLocatorDescription = (
         rel="noopener noreferrer"
         target="_blank"
       >
-        Veterans Living Abroad
+        Veterans Living Abroad (opens in new tab)
       </a>
       .
     </p>
