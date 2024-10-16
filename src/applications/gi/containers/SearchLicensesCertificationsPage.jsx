@@ -3,7 +3,11 @@ import LicenseCertificationSearch from './search/LicenseCertificationSearch';
 import LicenseCertificationSearchResults from './search/LicenseCertificationSearchResults';
 
 function SearchLicensesCertificationsPage() {
-  const [results] = useState(null);
+  const [hasFetchedOnce] = useState(false);
+
+  const handleSearch = () => {
+    return 'search';
+  };
 
   return (
     <div className="lc-search-page">
@@ -12,10 +16,10 @@ function SearchLicensesCertificationsPage() {
         {/* sidebar */}
       </div>
       <div className="content-wrapper">
-        {results === null ? (
-          <LicenseCertificationSearch />
-        ) : (
+        {hasFetchedOnce ? (
           <LicenseCertificationSearchResults />
+        ) : (
+          <LicenseCertificationSearch handleSearch={handleSearch} />
         )}
       </div>
     </div>
