@@ -116,7 +116,7 @@ export function transformErrors(errors, uiSchema) {
  *        currentData:                  Data for the field
  *        formData:                     Current form data
  *        schema:                       Current JSON Schema for the field
- *        uiSchema['ui:errorMessages']: Error messsage object (if available) for the field
+ *        uiSchema['ui:errorMessages']: Error message object (if available) for the field
  *        currentIndex:                 Used to select the correct field data to validate against
  *    - Objects should have two properties, 'options' and 'validator'
  *        options:   Object (or anything, really) that will be passed to your validation function.
@@ -251,7 +251,7 @@ export function errorSchemaIsValid(errorSchema) {
  * Use third-party jsonschema validator to validate the formData against the
  * schema
  * @param {Object} form - the entire form object from Redux state
- * @param {Obect[]} pageList - Page list array from the router
+ * @param {Object[]} pageList - Page list array from the router
  * @param {Boolean} isTesting - Testing flag used to return the modified form
  *  data to verify the correct changes were made
  * @returns {IsValidForm~results}
