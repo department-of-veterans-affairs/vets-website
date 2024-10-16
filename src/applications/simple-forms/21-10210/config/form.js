@@ -36,6 +36,7 @@ import {
 // noStmtInfo.json for all flows [manually select claimOwnership, claimantType,
 // & witnessRelationshipWithClaimant via UI]
 import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
+import { isTest } from '../../shared/components/helpers';
 
 const mockData = testData.data;
 
@@ -129,7 +130,7 @@ const formConfig = {
           initialData:
             !!mockData &&
             (environment.isLocalhost() || environment.isDev()) &&
-            !environment.isTest()
+            !isTest()
               ? mockData
               : undefined,
           uiSchema: claimOwnershipPg.uiSchema,

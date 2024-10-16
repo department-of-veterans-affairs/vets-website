@@ -18,6 +18,7 @@ import {
   ChapterSectionCollection,
   useDevOnlyButtons,
 } from './confirmationPageViewHelpers';
+import { isTest } from './helpers';
 
 const PdfDownloadLink = ({ url, trackingPrefix }) => {
   const onClick = () => {
@@ -91,7 +92,7 @@ export const ConfirmationPageView = props => {
     <div>
       {devOnly?.showButtons &&
         (environment.isLocalhost() || environment.isDev()) &&
-        !environment.isTest() && <DevOnlyButtons />}
+        !isTest() && <DevOnlyButtons />}
       <div className="print-only">
         <img
           src="https://www.va.gov/img/design/logo/logo-black-and-white.png"

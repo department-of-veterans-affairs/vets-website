@@ -38,6 +38,7 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
+import { isTest } from '../../shared/components/helpers';
 
 const initialData = {
   chapterSelect: {
@@ -57,10 +58,7 @@ const initialData = {
 
 // Prefill entire form with data:
 // Helpful for testing confirmation page
-if (
-  (environment.isLocalhost() || environment.isDev()) &&
-  !environment.isTest()
-) {
+if ((environment.isLocalhost() || environment.isDev()) && !isTest()) {
   Object.assign(initialData, mockData.data);
   Object.assign(initialData, mockArrayBuilderData.data);
 }
