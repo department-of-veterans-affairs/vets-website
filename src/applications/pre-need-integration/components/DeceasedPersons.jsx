@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
-import Scroll from 'react-scroll';
 import {
   toIdSchema,
   getDefaultFormState,
@@ -19,12 +18,11 @@ import {
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
 import {
   CurrentlyBurriedPersonsDescriptionWrapper,
   currentlyBuriedPersonsTitle,
 } from '../utils/helpers';
-
-const { Element } = Scroll;
 
 /* Non-review growable table (array) field */
 export default class DeceasedPersons extends React.Component {
