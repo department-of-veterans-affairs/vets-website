@@ -12,6 +12,7 @@ import {
   clearAllergiesError,
   fillPrescription,
   setPrescriptionDetails,
+  clearFillNotification,
 } from '../../actions/prescriptions';
 
 describe('Get prescription list action', () => {
@@ -100,5 +101,12 @@ describe('Fill prescription action', () => {
     return fillPrescription()(dispatch).then(async () => {
       expect(typeof dispatch.firstCall.args[0]).to.equal('object');
     });
+  });
+  it('should clear notification data', async () => {
+    const dispatch = sinon.spy();
+    await clearFillNotification()(dispatch);
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.Prescriptions.CLEAR_FILL_NOTIFICATION,
+    );
   });
 });

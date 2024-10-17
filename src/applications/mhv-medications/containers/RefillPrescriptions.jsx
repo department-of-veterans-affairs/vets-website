@@ -55,6 +55,9 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
   );
+  const refillNotificationData = useSelector(
+    state => state.rx.prescriptions?.refillNotification,
+  );
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showFilterContent = useSelector(selectFilterFlag);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
@@ -118,7 +121,9 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   };
 
   useEffect(() => {
-    dispatch(clearFillNotification);
+    if (refillNotificationData) {
+      dispatch(clearFillNotification());
+    }
     sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
   }, []);
 
