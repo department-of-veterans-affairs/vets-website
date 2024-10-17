@@ -182,9 +182,6 @@ const cypressConfig = {
         height: 720,
       },
     ],
-    integration: {
-      specPattern: process.env.INTEGRATION_APP_PATH,
-    },
   },
   e2e: {
     setupNodeEvents(on, config) {
