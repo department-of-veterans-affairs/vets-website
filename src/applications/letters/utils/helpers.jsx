@@ -131,7 +131,7 @@ export const bslHelpInstructions = (
   <div>
     <p>
       If your service period or disability status information is incorrect,
-      please send us a message through
+      please send us a message through{' '}
       <a target="_blank" rel="noopener noreferrer" href="https://ask.va.gov/">
         Ask VA
       </a>
@@ -345,10 +345,16 @@ const benefitOptionText = {
  * @param {String} date - ISO 8601 date format
  * @returns {String} - ISO 8601 date format
  */
-export function stripOffTime(date) {
+export const stripOffTime = date => {
   const [ymd] = (date || '').split('T');
   return ymd || '';
-}
+};
+
+export const getFormattedDate = dateTime => {
+  if (typeof dateTime !== 'string') return 'Invalid Date';
+
+  return formatDateShort(stripOffTime(dateTime));
+};
 
 export function getBenefitOptionText(
   option,
@@ -386,8 +392,7 @@ export function getBenefitOptionText(
         {awardEffectiveDate && (
           <div>
             The effective date of the last change to your current award was{' '}
-            <strong>{formatDateShort(stripOffTime(awardEffectiveDate))}</strong>
-            .
+            <strong>{getFormattedDate(awardEffectiveDate)}</strong>.
           </div>
         )}
       </div>
