@@ -1,30 +1,31 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
+import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import requestBody from '../fixtures/message-compose-request-body.json';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 
-describe('Check confirmation message after save draft', () => {
-  it('Check confirmation message after save draft', () => {
+describe('SM SAVING DRAFT BY KEYBOARD', () => {
+  it('verify draft saved', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
     PatientInboxPage.navigateToComposePage(true);
-    PatientComposePage.selectRecipient(requestBody.recipientId);
-    PatientComposePage.selectCategory(requestBody.category);
+    PatientComposePage.selectRecipient();
+    PatientComposePage.selectCategory();
 
     PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);
-    PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {
-      force: true,
-    });
+    PatientComposePage.getMessageBodyField().type(`${requestBody.body}`);
+
     PatientComposePage.saveDraftByKeyboard();
+
+    PatientMessageDraftsPage.verifySavedMessageAlertText();
+
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).should(`be.focused`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientComposePage.verifyDraftSaveButtonOnFocus();
-    cy.get('.sm-breadcrumb-list-item')
-      .find('a')
-      .click();
+    cy.get(Locators.BACK_TO).click();
   });
 });

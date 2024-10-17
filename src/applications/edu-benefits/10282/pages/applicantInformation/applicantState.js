@@ -7,7 +7,10 @@ const { state } = fullSchema10282.definitions;
 
 export const uiSchema = {
   'ui:title': (
-    <h3 className="vads-u-margin--0 vads-u-color--base">
+    <h3
+      className="vads-u-margin--0 vads-u-color--base"
+      data-testid="state-title"
+    >
       What state do you live in?
     </h3>
   ),

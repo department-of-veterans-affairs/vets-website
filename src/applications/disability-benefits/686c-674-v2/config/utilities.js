@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import _ from 'platform/utilities/data';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import {
   filterInactivePageData,
@@ -103,7 +103,7 @@ export {
 export function customTransformForSubmit(formConfig, form) {
   const payload = cloneDeep(form);
   // manually delete view:confirmEmail, since in our case we actually want the other view fields
-  delete payload.data.veteranContactInformation['view:confirmEmail'];
+  // delete payload.data.veteranContactInformation['view:confirmEmail'];
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     payload.data,

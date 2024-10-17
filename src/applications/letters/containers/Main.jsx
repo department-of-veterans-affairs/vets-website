@@ -9,7 +9,7 @@ import {
   getLetterListAndBSLOptions,
   profileHasEmptyAddress,
 } from '../actions/letters';
-import noAddressBanner from '../components/NoAddressBanner';
+import NoAddressBanner from '../components/NoAddressBanner';
 import systemDownMessage from '../components/systemDownMessage';
 import { lettersUseLighthouse, lettersCheckDiscrepancies } from '../selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
@@ -60,7 +60,7 @@ export class Main extends React.Component {
       case letterEligibilityError:
         return <Outlet />;
       case hasEmptyAddress:
-        return noAddressBanner;
+        return <NoAddressBanner />;
       case unavailable: // fall-through to default
       case backendServiceError: // fall-through to default
       default:
