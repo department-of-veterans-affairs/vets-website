@@ -62,7 +62,6 @@ export const ApplicantInformation = ({
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} />
       {contentAfterButtons}
-      <pre>{JSON.stringify(data, null, 2)}</pre>
     </>
   );
 };
