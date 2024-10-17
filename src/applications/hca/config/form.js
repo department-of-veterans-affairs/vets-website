@@ -25,7 +25,10 @@ import {
   dischargePapersRequired,
   includeTeraInformation,
   includeRadiationCleanUpEfforts,
+  includeGulfWarService,
   includeGulfWarServiceDates,
+  includePostSept11Service,
+  includePostSept11ServiceDates,
   includeAgentOrangeExposure,
   includeOtherExposureDates,
   includeOtherExposureDetails,
@@ -80,6 +83,8 @@ import toxicExposure from './chapters/militaryService/toxicExposure';
 import radiationCleanup from './chapters/militaryService/radiationCleanup';
 import gulfWarService from './chapters/militaryService/gulfWarService';
 import gulfWarServiceDates from './chapters/militaryService/gulfWarServiceDates';
+import postSept11Service from './chapters/militaryService/postSept11Service';
+import postSept11ServiceDates from './chapters/militaryService/postSept11ServiceDates';
 import combatOperationService from './chapters/militaryService/combatOperationService';
 import agentOrangeExposure from './chapters/militaryService/agentOrangeExposure';
 import otherToxicExposure from './chapters/militaryService/otherToxicExposure';
@@ -357,17 +362,31 @@ const formConfig = {
         },
         gulfWarService: {
           path: 'military-service/gulf-war-service',
-          title: 'Gulf War service locations',
-          depends: includeTeraInformation,
+          title: 'Service after August 2, 1990',
+          depends: includeGulfWarService,
           uiSchema: gulfWarService.uiSchema,
           schema: gulfWarService.schema,
         },
         gulfWarServiceDates: {
           path: 'military-service/gulf-war-service-dates',
-          title: 'Gulf War service dates',
+          title: 'Service dates after August 2, 1990',
           depends: includeGulfWarServiceDates,
           uiSchema: gulfWarServiceDates.uiSchema,
           schema: gulfWarServiceDates.schema,
+        },
+        postSept11Service: {
+          path: 'military-service/post-sept-11-service',
+          title: 'Service post-9/11',
+          depends: includePostSept11Service,
+          uiSchema: postSept11Service.uiSchema,
+          schema: postSept11Service.schema,
+        },
+        postSept11ServiceDates: {
+          path: 'military-service/post-sept-11-service-dates',
+          title: 'Post-9/11 service dates',
+          depends: includePostSept11ServiceDates,
+          uiSchema: postSept11ServiceDates.uiSchema,
+          schema: postSept11ServiceDates.schema,
         },
         combatOperationService: {
           path: 'military-service/operation-support',
