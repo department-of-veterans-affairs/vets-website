@@ -10,7 +10,10 @@ describe('Secure Messaging Digital Signature Error flows', () => {
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient('Record Amendment Admin');
     PatientComposePage.selectCategory();
-    PatientComposePage.getMessageSubjectField().type(`ES test`);
+    // PatientComposePage.getMessageSubjectField().type(`ES test`);
+    PatientComposePage.getMessageSubjectField().type(`DS test`, {
+      force: true,
+    });
     PatientComposePage.getMessageBodyField().type(`\nDS tests text`, {
       force: true,
     });

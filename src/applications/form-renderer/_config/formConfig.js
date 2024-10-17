@@ -156,6 +156,15 @@ export const normalizedForm = {
         militaryAddressCheckbox: false,
       },
     },
+    {
+      id: 161351,
+      chapterTitle: 'Generated Phone',
+      type: 'digital_form_phone_and_email',
+      pageTitle: 'Phone and email address',
+      additionalFields: {
+        includeEmail: false,
+      },
+    },
   ],
 };
 
@@ -199,6 +208,15 @@ export const employmentQuestionnaire = {
       pageTitle: 'Address',
       additionalFields: {
         militaryAddressCheckbox: true,
+      },
+    },
+    {
+      id: 20004,
+      chapterTitle: "Veteran's contact information",
+      type: 'digital_form_phone_and_email',
+      pageTitle: 'Phone and email address',
+      additionalFields: {
+        includeEmail: true,
       },
     },
   ],

@@ -157,7 +157,7 @@ const ReplyDraftItem = props => {
         messageValid = false;
       }
       setMessageInvalid(!messageValid);
-      return messageValid;
+      return { messageValid };
     },
     [messageBody],
   );
@@ -184,18 +184,17 @@ const ReplyDraftItem = props => {
         return;
       }
 
-      const isValidMessage = checkMessageValidity();
+      const { messageValid } = checkMessageValidity();
 
       if (type === 'manual') {
-        setMessageInvalid(false);
-        if (isValidMessage) {
+        if (messageValid) {
           setLastFocusableElement(e.target);
         }
         if (attachments.length) {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-        }
+        } else focusOnErrorField();
         setNavigationError(
           attachments.length
             ? {
@@ -225,7 +224,7 @@ const ReplyDraftItem = props => {
         body: messageBody,
       };
 
-      if (isValidMessage) {
+      if (messageValid) {
         if (!draftId) {
           setFieldsString(newFieldsString);
           dispatch(saveReplyDraft(replyMessage.messageId, formData, type));
@@ -255,12 +254,14 @@ const ReplyDraftItem = props => {
   );
   const sendMessageHandler = useCallback(
     async e => {
+      const { messageValid } = checkMessageValidity();
+
       await setMessageInvalid(false);
-      if (checkMessageValidity()) {
+      if (messageValid) {
         setSendMessageFlag(true);
         setNavigationError(null);
         setLastFocusableElement(e.target);
-      }
+      } else focusOnErrorField();
     },
     [checkMessageValidity, setLastFocusableElement],
   );
