@@ -180,7 +180,8 @@ export class ConfirmationPage extends React.Component {
     this.props.router.goBack();
   };
 
-  sortBenefitObj(benefitObj, sortKey) {
+  /* eslint-disable class-methods-use-this */
+  static sortBenefitObj(benefitObj, sortKey) {
     return [...benefitObj].sort((a, b) => {
       let aValue = a[sortKey] || '';
       let bValue = b[sortKey] || '';
@@ -384,47 +385,75 @@ export class ConfirmationPage extends React.Component {
               </p>
 
               <div className="vads-u-margin-y--2">
-                <va-alert-expandable
-                  status="info"
-                  trigger="Time-sensitive benefits"
-                >
-                  <ul className="benefit-list">
-                    {this.state &&
-                      this.state.benefits
-                        .filter(benefit => benefit.isTimeSensitive)
-                        .map(b => (
-                          <li key={b.id}>
-                            <strong>{b.name}</strong>
-                            <p>{b.description}</p>
-                            {b.learnMoreURL ? (
-                              <div>
-                                <a
-                                  href={b.learnMoreURL}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  aria-label={`Learn more about ${b.name}`}
-                                >
-                                  Learn more
-                                </a>
-                              </div>
-                            ) : null}
+                {this.state && this.state.benefits.length > 0 ? (
+                  <va-alert-expandable
+                    status="info"
+                    trigger="Time-sensitive benefits"
+                  >
+                    <ul className="benefit-list">
+                      {this.state &&
+                        this.state.benefits
+                          .filter(benefit => benefit.isTimeSensitive)
+                          .map(b => (
+                            <li key={b.id}>
+                              <strong>{b.name}</strong>
+                              <p>{b.description}</p>
+                              {b.learnMoreURL ? (
+                                <div>
+                                  <a
+                                    href={b.learnMoreURL}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label={`Learn more about ${b.name}`}
+                                  >
+                                    Learn more
+                                  </a>
+                                </div>
+                              ) : null}
 
-                            {b.applyNowURL ? (
-                              <div>
-                                <a
-                                  href={b.applyNowURL}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  aria-label={`Apply now for ${b.name}`}
-                                >
-                                  Apply now
-                                </a>
-                              </div>
-                            ) : null}
-                          </li>
-                        ))}
-                  </ul>
-                </va-alert-expandable>
+                              {b.applyNowURL ? (
+                                <div>
+                                  <a
+                                    href={b.applyNowURL}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label={`Apply now for ${b.name}`}
+                                  >
+                                    Apply now
+                                  </a>
+                                </div>
+                              ) : null}
+                            </li>
+                          ))}
+                    </ul>
+                  </va-alert-expandable>
+                ) : (
+                  <va-banner
+                    className="response-no-results"
+                    headline="No Results Found"
+                    type="warning"
+                    visible
+                  >
+                    <p>
+                      <>
+                        {this.props.results.data &&
+                        this.props.results.data.length > 0
+                          ? "We're unable to recomend benefits based on your responses. You can "
+                          : "We're unable to recomend benefits that maych your filters. You can adjust your filters or "}
+                      </>
+                      <va-link
+                        data-testid="back-link-banner"
+                        href="#"
+                        onClick={this.handleClick}
+                        text="Go back review and update your entries"
+                      />
+                    </p>
+                    <p>
+                      We're adding more benefits, so we encourage you to try
+                      again in the future.
+                    </p>
+                  </va-banner>
+                )}
               </div>
 
               <div>
@@ -449,27 +478,45 @@ export class ConfirmationPage extends React.Component {
                   </ul>
                 )}
               </div>
-
-              <va-accordion>
-                <va-accordion-item
-                  header="Benefits that I may not qualify for"
-                  id="show"
-                >
-                  <ul className="benefit-list">
-                    {this.state.benefitsList.map(
-                      benefit =>
-                        !this.state.benefitIds[benefit.id] && (
-                          <li key={benefit.id}>
-                            <BenefitCard
-                              benefit={benefit}
-                              className="vads-u-margin-bottom--2"
-                            />
-                          </li>
-                        ),
-                    )}
-                  </ul>
-                </va-accordion-item>
-              </va-accordion>
+              {this.state.benefitsList.length > 0 ? (
+                <va-accordion>
+                  <va-accordion-item
+                    header="Benefits that I may not qualify for"
+                    id="show"
+                  >
+                    <ul className="benefit-list">
+                      {this.state.benefitsList.map(
+                        benefit =>
+                          !this.state.benefitIds[benefit.id] && (
+                            <li key={benefit.id}>
+                              <BenefitCard
+                                benefit={benefit}
+                                className="vads-u-margin-bottom--2"
+                              />
+                            </li>
+                          ),
+                      )}
+                    </ul>
+                  </va-accordion-item>
+                </va-accordion>
+              ) : (
+                <va-banner headline="No Results Found" type="warning" visible>
+                  <p>
+                    We're unable to recomend benefits based on your responses.
+                    You can adjust your filters or{' '}
+                    <va-link
+                      data-testid="back-link-banner"
+                      href="#"
+                      onClick={this.handleClick}
+                      text="Go back and review your entries"
+                    />
+                  </p>
+                  <p>
+                    We're adding more benefits, so we encourage you to try again
+                    in the future.
+                  </p>
+                </va-banner>
+              )}
             </div>
           </div>
         </div>
