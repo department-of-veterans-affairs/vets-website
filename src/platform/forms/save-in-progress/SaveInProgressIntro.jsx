@@ -331,7 +331,7 @@ class SaveInProgressIntro extends React.Component {
     const data = formData || {};
     // pathname is only provided when the first page is conditional
     if (pathname) return getNextPagePath(pageList, data, pathname);
-    return pageList[1].path;
+    return pageList[1]?.path;
   };
 
   handleClick = () => {

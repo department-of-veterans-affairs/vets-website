@@ -7,7 +7,7 @@ describe('getOrgName', () => {
     const mockFormData = {
       'view:selectedRepresentative': {
         type: 'organization',
-        name: 'Disabled American Veterans',
+        attributes: { name: 'Disabled American Veterans' },
       },
     };
 
@@ -35,6 +35,24 @@ describe('getOrgName', () => {
           accreditedOrganizations: {
             data: [
               { id: '1', attributes: { name: 'Disabled American Veterans' } },
+              { id: '3', attributes: { name: 'Fake Organization Name' } },
+            ],
+          },
+        },
+      },
+    };
+
+    const result = getOrgName(mockFormData);
+    expect(result).to.equal('Disabled American Veterans');
+  });
+
+  it('should return the only accredited organization name when there is one organization', () => {
+    const mockFormData = {
+      'view:selectedRepresentative': {
+        attributes: {
+          accreditedOrganizations: {
+            data: [
+              { id: '1', attributes: { name: 'Disabled American Veterans' } },
             ],
           },
         },
@@ -53,6 +71,7 @@ describe('getOrgName', () => {
           accreditedOrganizations: {
             data: [
               { id: '1', attributes: { name: 'Disabled American Veterans' } },
+              { id: '3', attributes: { name: 'Fake Organization Name' } },
             ],
           },
         },

@@ -1,68 +1,27 @@
 import React from 'react';
-import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import {
+  digitalFormAddress,
+  digitalFormIdentificationInfo,
+  digitalFormNameAndDoB,
+  digitalFormPhoneAndEmail,
+} from './digitalFormPatterns';
 
-export const selectSchemas = ({ pageTitle, type, additionalFields }) => {
-  const { titleUI } = webComponentPatterns;
-  const schemas = { uiSchema: { ...titleUI(pageTitle) } };
-
-  switch (type) {
+export const selectSchemas = chapter => {
+  switch (chapter.type) {
     case 'digital_form_address':
-      if (additionalFields.militaryAddressCheckbox === false) {
-        schemas.schema = {
-          type: 'object',
-          properties: {
-            address: webComponentPatterns.addressNoMilitarySchema(),
-          },
-        };
-        schemas.uiSchema.address = webComponentPatterns.addressNoMilitaryUI();
-      } else {
-        schemas.schema = {
-          type: 'object',
-          properties: {
-            address: webComponentPatterns.addressSchema(),
-          },
-        };
-        schemas.uiSchema.address = webComponentPatterns.addressUI();
-      }
-      break;
+      return digitalFormAddress(chapter);
     case 'digital_form_name_and_date_of_bi':
-      schemas.schema = {
-        type: 'object',
-        properties: {
-          fullName: webComponentPatterns.fullNameSchema,
-        },
-      };
-      schemas.uiSchema.fullName = webComponentPatterns.fullNameUI();
-
-      if (additionalFields.includeDateOfBirth) {
-        schemas.schema.properties.dateOfBirth =
-          webComponentPatterns.dateOfBirthSchema;
-        schemas.uiSchema.dateOfBirth = webComponentPatterns.dateOfBirthUI();
-      }
-      break;
+      return digitalFormNameAndDoB(chapter);
     case 'digital_form_identification_info':
-      schemas.schema = {
-        type: 'object',
-        properties: {
-          veteranId: webComponentPatterns.ssnOrVaFileNumberSchema,
-        },
-      };
-      schemas.uiSchema.veteranId = webComponentPatterns.ssnOrVaFileNumberUI();
-
-      if (additionalFields.includeServiceNumber) {
-        schemas.schema.properties.serviceNumber =
-          webComponentPatterns.serviceNumberSchema;
-        schemas.uiSchema.serviceNumber = webComponentPatterns.serviceNumberUI();
-      }
-      break;
+      return digitalFormIdentificationInfo(chapter);
+    case 'digital_form_phone_and_email':
+      return digitalFormPhoneAndEmail(chapter);
     default:
-      break;
+      return {};
   }
-
-  return schemas;
 };
 
 const formatChapters = chapters =>

@@ -11,6 +11,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { isCernerLocation } from '../../../services/location';
 import NoAddressNote from '../NoAddressNote';
 import { useOHDirectScheduling } from '../../hooks/useOHDirectScheduling';
+import { useOHRequestScheduling } from '../../hooks/useOHRequestScheduling';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 /*
@@ -67,6 +68,7 @@ export default function FacilitiesRadioWidget({
   });
 
   const useOHDirectSchedule = useOHDirectScheduling();
+  const useOHRequestSchedule = useOHRequestScheduling();
 
   useEffect(
     () => {
@@ -164,7 +166,7 @@ export default function FacilitiesRadioWidget({
                   </span>
                 )}
                 {isCerner &&
-                  !useOHDirectSchedule && (
+                  (!useOHDirectSchedule && !useOHRequestSchedule) && (
                     <a href={getCernerURL('/pages/scheduling/upcoming')}>
                       Schedule online at <strong>My VA Health</strong>
                     </a>
