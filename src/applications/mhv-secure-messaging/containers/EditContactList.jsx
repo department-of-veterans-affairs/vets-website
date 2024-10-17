@@ -297,6 +297,7 @@ const EditContactList = () => {
                   mobile-lg:vads-u-align-content--flex-start
                 "
             >
+              <GoBackButton />
               <va-button
                 text="Save contact list"
                 class="
@@ -307,7 +308,6 @@ const EditContactList = () => {
                 data-testid="contact-list-save"
                 data-dd-action-name="Contact List Save Button"
               />
-              <GoBackButton />
             </div>
             <GetFormHelp />
           </form>
