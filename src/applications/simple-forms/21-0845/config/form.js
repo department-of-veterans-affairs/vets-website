@@ -1,7 +1,6 @@
 // this form does NOT use JSON schema for its data model
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
-
 import manifest from '../manifest.json';
 import transformForSubmit from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';

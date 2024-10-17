@@ -14,6 +14,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { useSelector } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import GetFormHelp from './GetFormHelp';
+
 import {
   ChapterSectionCollection,
   useDevOnlyButtons,

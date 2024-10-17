@@ -5,7 +5,6 @@ import footerContent from 'platform/forms/components/FormFooter';
 import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
 import getHelp from '../../shared/components/GetFormHelp';
-
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';

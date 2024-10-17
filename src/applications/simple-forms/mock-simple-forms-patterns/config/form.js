@@ -4,7 +4,6 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-// pages
 import chapterSelect from '../pages/chapterSelect';
 import textInput from '../pages/mockTextInput';
 import textEmailPhone from '../pages/mockTextEmailPhone';
