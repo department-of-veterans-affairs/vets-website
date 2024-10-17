@@ -20,7 +20,7 @@ const reviewErrors = {
       if (err.includes(PRIMARY_PHONE)) {
         return {
           chapterKey: 'infoPages',
-          pageKey: 'confirmContactInfo',
+          pageKey: 'choosePrimaryPhone',
         };
       }
     }
