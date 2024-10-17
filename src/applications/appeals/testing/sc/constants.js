@@ -78,6 +78,7 @@ export const errorMessages = {
   },
 
   missingPrimaryPhone: 'You must choose a primary phone number',
+  missingPrimaryPhoneReview: 'Missing primary phone',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
