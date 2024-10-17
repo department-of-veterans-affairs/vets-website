@@ -2,11 +2,12 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import requestBody from '../fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 describe('SM SAVING DRAFT BY KEYBOARD', () => {
-  it('verify draft saved', () => {
+  it('verify draft saved without attachment', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
@@ -16,16 +17,21 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
 
     PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);
     PatientComposePage.getMessageBodyField().type(`${requestBody.body}`);
+    PatientComposePage.attachMessageFromFile();
 
     PatientComposePage.saveDraftByKeyboard();
 
-    PatientMessageDraftsPage.verifySavedMessageAlertText();
+    PatientMessageDraftsPage.verifySaveWithAttachmentAlert();
 
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).should(`be.focused`);
+    cy.get(`[data-testid="quit-compose-double-dare"]`)
+      .find(`[text*="without"]`)
+      .click();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
     cy.get(Locators.BACK_TO).click();
+    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+    GeneralFunctionsPage.verifyUrl(`inbox`);
   });
 });
