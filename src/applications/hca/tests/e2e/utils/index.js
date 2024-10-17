@@ -69,6 +69,15 @@ export const fillToxicExposureDateRange = () => {
   );
 };
 
+export const selectDropdownWebComponent = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(`va-select[name="root_${fieldName}"]`)
+      .shadow()
+      .find('select')
+      .select(value);
+  }
+};
+
 export const advanceToHousehold = () => {
   cy.get('[href="#start"]')
     .first()
@@ -110,10 +119,13 @@ export const advanceFromHouseholdToReview = () => {
   cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
 
   goToNextPage('/insurance-information/va-facility');
-  cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
+  selectDropdownWebComponent(
+    'view:preferredFacility_view:facilityState',
     testData['view:preferredFacility']['view:facilityState'],
   );
-  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
+  cy.wait('@getFacilities');
+  selectDropdownWebComponent(
+    'view:preferredFacility_vaMedicalFacility',
     testData['view:preferredFacility'].vaMedicalFacility,
   );
 
@@ -210,10 +222,13 @@ export const shortFormSelfDisclosureToSubmit = () => {
 
   // va facility
   goToNextPage('/insurance-information/va-facility');
-  cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
+  selectDropdownWebComponent(
+    'view:preferredFacility_view:facilityState',
     testData['view:preferredFacility']['view:facilityState'],
   );
-  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
+  cy.wait('@getFacilities');
+  selectDropdownWebComponent(
+    'view:preferredFacility_vaMedicalFacility',
     testData['view:preferredFacility'].vaMedicalFacility,
   );
 

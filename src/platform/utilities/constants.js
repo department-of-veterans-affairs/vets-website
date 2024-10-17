@@ -11,8 +11,8 @@ export const SCROLL_ELEMENT_SUFFIX = 'ScrollElement';
 // Focus on error message/component selectors
 export const ERROR_ELEMENTS = [
   '.usa-input-error',
-  'input-error-date',
-  '[error]',
+  '.input-error-date',
+  '[error]:not([error=""])',
 ];
 
 // List from https://html.spec.whatwg.org/dev/dom.html#interactive-content

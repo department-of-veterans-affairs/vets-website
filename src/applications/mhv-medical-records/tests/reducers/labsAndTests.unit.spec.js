@@ -190,7 +190,7 @@ describe('extractPractitioner', () => {
         },
       ],
     };
-    expect(extractPractitioner(record, svcReq)).to.equal('DOE, JANE A');
+    expect(extractPractitioner(record, svcReq)).to.equal('JANE A DOE');
   });
 
   it('should return null if the practitioner is not found', () => {

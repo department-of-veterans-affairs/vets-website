@@ -17,8 +17,10 @@ const getAvailableSlots = (number = 2) => {
   return slots;
 };
 const referral = {
+  id: 123456,
   providerName: 'Dr. Face',
   typeOfCare: 'Dermatology',
+  appointmentCount: 2,
   orgName: 'New Skin Technologies',
   orgAddress: {
     street1: '111 Lori Ln.',
@@ -34,6 +36,17 @@ const referral = {
   slots: getAvailableSlots(),
   preferredDate: new Date(),
   timezone: 'America/Denver',
+  expirationDate: dateFns.addDays(new Date(), 30),
+  location: 'New skin technologies bldg 2',
+  referralNumber: '1234567890',
+  referringFacility: {
+    name: 'Syracuse VA Medical Center',
+    phone: '555-555-5555',
+  },
 };
-
+referral.slots.push({
+  end: '2024-11-22T16:30:00.000Z',
+  id: 35145,
+  start: '2024-11-22T16:00:00.000Z',
+});
 module.exports = { getAvailableSlots, referral };

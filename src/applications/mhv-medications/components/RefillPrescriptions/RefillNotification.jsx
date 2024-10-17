@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useSelector } from 'react-redux';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { selectFilterFlag } from '../../util/selectors';
 
 const RefillNotification = ({ refillStatus }) => {
   // Selectors
@@ -13,6 +14,9 @@ const RefillNotification = ({ refillStatus }) => {
   const failedMeds = useSelector(
     state => state.rx.prescriptions?.refillNotification?.failedMeds,
   );
+
+  // Feature flags
+  const showFilterContent = useSelector(selectFilterFlag);
 
   useEffect(
     () => {
@@ -128,7 +132,9 @@ const RefillNotification = ({ refillStatus }) => {
           data-testid="success-message-description"
         >
           <p>
-            For updates on your refill requests, go to your medications list.
+            {showFilterContent
+              ? 'To check the status of your refill requests, go to your medications list and filter by “recently requested.”'
+              : 'For updates on your refill requests, go to your medications list.'}
           </p>
           <Link
             data-testid="back-to-medications-page-link"
