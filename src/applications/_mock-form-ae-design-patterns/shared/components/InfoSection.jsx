@@ -20,9 +20,11 @@ const SubHeading = ({ text, level, editLink = null }) => {
     <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center vads-u-border-bottom--1px vads-u-margin-bottom--2">
       <H className="vads-u-margin--0">{text}</H>
       {editLink && (
-        <a href={editLink} className="vads-u-text-decoration--none">
-          Edit
-        </a>
+        <va-link
+          href={editLink}
+          className="vads-u-text-decoration--none"
+          text="Edit"
+        />
       )}
     </div>
   );

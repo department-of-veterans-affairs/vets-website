@@ -1,5 +1,6 @@
 import React from 'react';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { Debug } from '../../../../shared/components/Debug';
 import { formatPhoneNumber } from '../../../../utils/helpers/general';
 import { InfoSection } from '../../../../shared/components/InfoSection';
 
@@ -16,18 +17,12 @@ export const PersonalInformationContact = ({
 
   return (
     <>
-      <h1>Apply for education benefits</h1>
-      <p>Form 22-1990</p>
-
-      <va-progress-bar current="4" total="5" label="Personal information" />
-
       <p>We’ll save your application on every change.</p>
 
       <va-alert status="info">
-        <h4 slot="headline">Note:</h4>
-        We’ve prefilled some of your information from your account. If you need
-        to correct anything, you can select edit below. All updates will be made
-        only to this form.
+        <strong>Note:</strong> We’ve prefilled some of your information from
+        your account. If you need to correct anything, you can select edit
+        below. All updates will be made only to this form.
       </va-alert>
       <div className="vads-u-margin-top--4">
         <InfoSection>
@@ -72,6 +67,8 @@ export const PersonalInformationContact = ({
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} />
       {contentAfterButtons}
+
+      <Debug data={data} />
     </>
   );
 };
