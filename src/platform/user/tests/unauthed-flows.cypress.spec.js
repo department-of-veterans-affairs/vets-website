@@ -2,7 +2,7 @@ describe('Unauthed User Flow Test', () => {
   it('Provides the correct experience', () => {
     const appPaths = [
       // While the page is in maintenance, it doesn't need authed
-      '/education/check-post-9-11-gi-bill-benefits/status',
+      // '/education/check-post-9-11-gi-bill-benefits/status',
       '/records/download-va-letters/letters',
       '/track-claims',
     ];
