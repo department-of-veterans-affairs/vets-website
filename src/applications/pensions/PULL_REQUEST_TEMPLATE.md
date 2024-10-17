@@ -3,7 +3,6 @@
 ## Are you removing, renaming or moving a folder in this PR?
 
 - [ ] No, I'm not changing any folders (skip to TeamSites and delete the rest of this section)
-
 - [ ] Yes, I'm removing, renaming or moving a folder
 
 If the folder you changed contains a `manifest.json`, search for its `entryName` in the content-build [registry.json](https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json) (the `entryName` there will match).
@@ -29,7 +28,6 @@ Examples of a TeamSite: https://va.gov/health and https://benefits.va.gov/benefi
 ## Did you change site-wide styles, platform utilities or other infrastructure?
 
 - [ ] No
-
 - [ ] Yes, and I used the [proxy-rewrite steps](https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/applications/proxy-rewrite#that-sounds-normal-so-whats-the-proxy-all-about) to test the injected header scenario
 
 ## Summary
@@ -43,13 +41,11 @@ Summary of changes on the Pension Benefits form (21P-527EZ)
 ## Related issue(s)
 
 - _Link to previous change of the code/bug (if applicable)_
-
 - _Link to epic if not included in ticket_
 
 ## Associated Pull Request(s)
 
 - _Link to associated vets-website, vets-api or vets-json-schema PR (if applicable)_
-
 - _Link to previous changes (if applicable)_
 
 ## How to run in local environment
@@ -86,29 +82,19 @@ Pension Benefits Application
 ### Quality Assurance & Testing
 
 - [ ] New unit tests (if applicable)
-
 - [ ] New E2E tests added (if applicable)
-
 - [ ] Existing unit tests and integration tests are passing
-
 - [ ] Existing E2E tests are passing
-
 - [ ] No sensitive information (i.e. PII/credentials/internal URLs/etc.) is captured in logging, hardcoded, or specs
-
 - [ ] Linting warnings have been addressed
-
 - [ ] Documentation has been updated ([link to documentation](#) \*if necessary)
-
 - [ ] Screenshot style, layout and content matches the design references
-
 - [ ] [Accessibility testing](https://depo-platform-documentation.scrollhelp.site/developer-docs/wcag-2-1-success-criteria-and-foundational-testing) has been performed
 
 ### Error Handling
 
 - [ ] Browser console contains no warnings or errors.
-
 - [ ] Events are being sent to the appropriate logging solution
-
 - [ ] Feature/bug has a monitor built into Datadog or Grafana (if applicable)
 
 ### Authentication
