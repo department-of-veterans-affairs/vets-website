@@ -8,7 +8,7 @@ const initDDRum = () => {
 
   const { sessionSampleRate, sessionReplaySampleRate } = {
     vagovstaging: { sessionSampleRate: 20, sessionReplaySampleRate: 1 },
-    vagovprod: { sessionSampleRate: 100, sessionReplaySampleRate: 10 },
+    vagovprod: { sessionSampleRate: 20, sessionReplaySampleRate: 10 },
   }[env];
 
   datadogRum.init({
