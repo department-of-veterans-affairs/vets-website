@@ -1,7 +1,7 @@
 export function transform(formConfig, form) {
   return JSON.stringify({
     educationBenefitsClaim: {
-      form: form.data,
+      form: JSON.stringify(form.data),
     },
   });
 }

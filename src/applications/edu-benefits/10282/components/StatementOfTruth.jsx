@@ -8,7 +8,7 @@ import FormSignature from 'platform/forms-system/src/js/components/FormSignature
  * @param {object} formData standard formData object
  * @returns Either a string representing an error, or undefined (representing a match)
  */
-function signatureValidator(signatureName, formData) {
+export function signatureValidator(signatureName, formData) {
   const fullNmae = `${formData?.veteranFullName.first} ${
     formData?.veteranFullName.last
   }`;
