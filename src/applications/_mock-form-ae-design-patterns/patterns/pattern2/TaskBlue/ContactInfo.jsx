@@ -234,8 +234,7 @@ const ContactInfo = ({
       background-only
       role="alert"
     >
-      <h2 slot="headline">We’ve updated your mobile phone number</h2>
-      {/* {profile.saveToProfile ? ( */}
+      <h3 slot="headline">We’ve updated your mobile phone number</h3>
       {saveToProfile ? (
         <p className="vads-u-margin-y--0">
           We’ve made these changes to this form and your VA.gov profile.
@@ -415,6 +414,9 @@ const ContactInfo = ({
   return (
     <>
       <PrefillAlert>
+        <h3 className="vads-u-margin-top--0">
+          We can prefill some of your information
+        </h3>
         <strong>Note:</strong> We’ve prefilled some of your information from
         your account. If you need to correct anything, you can edit the form
         fields below.

@@ -252,7 +252,7 @@ class SchemaForm extends React.Component {
         name={addNameAttribute ? name : null}
       >
         <legend
-          className={classNames({
+          className={classNames('vads-u-margin-top--3', {
             'schemaform-label': true,
             'usa-input-error-label': this.state.error,
           })}
@@ -263,7 +263,7 @@ class SchemaForm extends React.Component {
             {content['validation-required-label']}
           </span>
         </legend>
-        <div className="schemaform-widget-wrapper">
+        <div className="schemaform-widget-wrapper vads-u-margin-bottom--3">
           <YesNoWidget
             id="saveToProfile"
             value={this.state.saveToProfile}

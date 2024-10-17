@@ -79,16 +79,19 @@ export const BuildPage = props => {
   return (
     <>
       <PrefillAlert>
+        <h3 className="vads-u-margin-top--0">
+          We’ve prefilled some of your information
+        </h3>
         <strong>Note:</strong> We’ve prefilled some of your information from
         your account. If you need to correct anything, you can edit the form
         fields below.
       </PrefillAlert>
-      <h2
+      <h3
         ref={headerRef}
-        className="vads-u-margin-top--1 vads-u-margin-bottom--3"
+        className="vads-u-margin-top--3 vads-u-margin-bottom--3"
       >
         {title}
-      </h2>
+      </h3>
       <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
         <InitializeVAPServiceID>
           {subTitle && <p className="vads-u-color--gray-medium">{subTitle}</p>}
