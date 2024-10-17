@@ -37,10 +37,14 @@ const AttachmentsList = props => {
   useEffect(
     () => {
       if (attachmentScanError) {
-        setFocusedElement(
-          attachments.length > 1
-            ? document.querySelector('#remove-all-attachments-button')
-            : document.querySelector('remove-attachment-button'),
+        setTimeout(
+          () =>
+            setFocusedElement(
+              attachments.length > 1
+                ? document.querySelector('#remove-all-attachments-button')
+                : document.querySelector('remove-attachment-button'),
+            ),
+          400,
         );
       }
     },
@@ -102,24 +106,32 @@ const AttachmentsList = props => {
     setIsAttachmentRemoved(true);
     setAttachFileSuccess(false);
 
-    setFocusedElement(
-      document
-        .querySelector('.attach-file-button')
-        .shadowRoot.querySelector('button'),
-    );
-
     if (newAttArr.some(item => item.name !== file.name)) {
       setRecentlyRemovedFile(true);
     }
+
+    setTimeout(
+      () =>
+        setFocusedElement(
+          document
+            .querySelector('.attach-file-button')
+            .shadowRoot.querySelector('button'),
+        ),
+      400,
+    );
   };
 
   const handleRemoveAllAttachments = () => {
     setAttachments([]);
     dispatch(closeAlert()).then(() =>
-      setFocusedElement(
-        document
-          .querySelector('.attach-file-button')
-          .shadowRoot.querySelector('button'),
+      setTimeout(
+        () =>
+          setFocusedElement(
+            document
+              .querySelector('.attach-file-button')
+              .shadowRoot.querySelector('button'),
+          ),
+        300,
       ),
     );
   };
