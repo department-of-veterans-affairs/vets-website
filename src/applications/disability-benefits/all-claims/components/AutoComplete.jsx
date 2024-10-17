@@ -13,6 +13,7 @@ const AutoComplete = ({
   availableResults,
   debounceTime,
   formData,
+  id,
   label,
   onChange,
 }) => {
@@ -122,6 +123,7 @@ const AutoComplete = ({
   return (
     <div className="cc-autocomplete">
       <VaTextInput
+        id={id}
         label={label}
         required
         value={value}
@@ -175,6 +177,7 @@ AutoComplete.propTypes = {
   availableResults: PropTypes.array,
   debounceTime: PropTypes.number,
   formData: PropTypes.string,
+  id: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,
 };

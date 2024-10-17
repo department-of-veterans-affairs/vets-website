@@ -251,21 +251,6 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   }
 }
 
-/* addDisabilities autocomplete styles */
-
-// Adjusts labels in the ArrayField around autocomplete groups.
-.cc-autocomplete-container {
-  .schemaform-label,
-  .va-growable-expanded legend {
-    display: none !important; // there is an !important elsewhere in the cascade that needs overruled here
-  }
-
-  // Overrides spacing coming from foundation-sites.scss breaking layout.
-  .row {
-    margin: 0;
-  }
-}
-
 /* addDisabilities combo-box styles */
 .cc-combobox {
   position: relative
@@ -319,6 +304,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   margin: 0;
 }
 
+/* addDisabilities autocomplete styles */
 .cc-autocomplete {
   position: relative;
 

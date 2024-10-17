@@ -7,6 +7,7 @@ const AutoCompleteWrapper = props => (
   <AutoComplete
     availableResults={props.uiSchema['ui:options'].disabilityLabels}
     debounceTime={props.uiSchema['ui:options'].debounceTime}
+    id={props.idSchema.$id}
     label={props.uiSchema['ui:title']}
     formData={props.formData}
     onChange={props.onChange}
