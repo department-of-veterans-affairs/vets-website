@@ -13,6 +13,10 @@ const escapedCharacterReplacer = (_key, value) => {
 };
 
 export default function transformForSubmit(formConfig, form) {
+  // eslint-disable-next-line no-param-reassign
+  form.data.application.veteran.serviceRecords = form.data.serviceRecords;
+  // eslint-disable-next-line no-param-reassign
+  delete form.data.serviceRecords;
   const transformedData = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
   );
