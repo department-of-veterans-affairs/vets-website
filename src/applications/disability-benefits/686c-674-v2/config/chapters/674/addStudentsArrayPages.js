@@ -62,9 +62,9 @@ export const addStudentsOptions = {
     !item?.address?.city ||
     !item?.address?.state ||
     !item?.address?.postalCode ||
-    (item?.wasMarried === true && !item?.wasMarried) ||
-    (item?.tuitionIsPaidByGovAgency === true &&
-      !item?.tuitionIsPaidByGovAgency) ||
+    // (item?.wasMarried === true && !item?.wasMarried) ||
+    // (item?.tuitionIsPaidByGovAgency === true &&
+    //   !item?.tuitionIsPaidByGovAgency) ||
     !item?.schoolInformation?.name ||
     (item?.schoolInformation?.studentIsEnrolledFullTime === true &&
       !item?.schoolInformation?.studentIsEnrolledFullTime) ||
