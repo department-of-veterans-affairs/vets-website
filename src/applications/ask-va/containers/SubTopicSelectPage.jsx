@@ -49,7 +49,7 @@ const SubTopicSelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(getApiUrl(URL.GET_TOPIC, { PARENT_ID: topicID }));
+      getApiData(getApiUrl(URL.GET_SUBTOPIC, { PARENT_ID: topicID }));
       focusElement('h2');
     },
     [loggedIn, topicID],
