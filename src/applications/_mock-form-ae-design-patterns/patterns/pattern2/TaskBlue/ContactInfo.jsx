@@ -413,14 +413,16 @@ const ContactInfo = ({
 
   return (
     <>
-      <PrefillAlert>
-        <h3 className="vads-u-margin-top--0">
-          We can prefill some of your information
-        </h3>
-        <strong>Note:</strong> We’ve prefilled some of your information from
-        your account. If you need to correct anything, you can edit the form
-        fields below.
-      </PrefillAlert>
+      {editState !== 'mobile-phone,updated' ? (
+        <PrefillAlert>
+          <h3 className="vads-u-margin-top--0">
+            We’ve prefilled some of your information
+          </h3>
+          <strong>Note:</strong> We’ve prefilled some of your information from
+          your account. If you need to correct anything, you can edit the form
+          fields below.
+        </PrefillAlert>
+      ) : null}
       <div className="vads-u-margin-y--2">
         <Element name={`${contactInfoPageKey}ScrollElement`} />
         <form onSubmit={handlers.onSubmit}>
@@ -513,6 +515,7 @@ ContactInfo.propTypes = {
   goForward: PropTypes.func,
   keys: contactInfoPropTypes.keys,
   requiredKeys: PropTypes.shape([PropTypes.string]),
+  saveToProfile: PropTypes.object,
   setFormData: PropTypes.func,
   testContinueAlert: PropTypes.bool, // for unit testing only
   uiSchema: PropTypes.shape({
