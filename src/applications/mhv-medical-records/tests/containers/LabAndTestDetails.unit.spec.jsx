@@ -60,7 +60,7 @@ describe('LabsAndTests details container', () => {
   });
 
   it('displays who the test was ordered by', () => {
-    expect(screen.getByText('DOE, JANE A', { exact: false })).to.exist;
+    expect(screen.getByText('JANE A DOE', { exact: false })).to.exist;
   });
 
   it('displays the location', () => {

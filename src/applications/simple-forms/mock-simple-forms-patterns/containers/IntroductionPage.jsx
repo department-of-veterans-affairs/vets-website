@@ -98,6 +98,9 @@ class IntroductionPage extends React.Component {
                 Array - multiple page - builder pattern
               </Link>
             </li>
+            <li>
+              <Link to="/confirmation">Confirmation page</Link>
+            </li>
           </ul>
         </div>
         <SaveInProgressIntro

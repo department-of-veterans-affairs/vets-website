@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import { startOfMonth, format, addMinutes, isWithinInterval } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
-import { useHistory } from 'react-router-dom';
 import CalendarWidget from '../components/calendar/CalendarWidget';
 import FormLayout from '../new-appointment/components/FormLayout';
 import { onCalendarChange } from '../new-appointment/redux/actions';
@@ -10,6 +10,9 @@ import FormButtons from '../components/FormButtons';
 import { referral } from './temp-data/referral';
 import { getSelectedDate } from '../new-appointment/redux/selectors';
 import { selectUpcomingAppointments } from '../appointment-list/redux/selectors';
+import { routeToNextReferralPage, routeToPreviousReferralPage } from './flow';
+import { setFormCurrentPage } from './redux/actions';
+import { selectCurrentPage } from './redux/selectors';
 
 export const ChooseDateAndTime = () => {
   const history = useHistory();
@@ -17,6 +20,8 @@ export const ChooseDateAndTime = () => {
   const upcomingAppointments = useSelector(state =>
     selectUpcomingAppointments(state),
   );
+  const location = useLocation();
+  const currentPage = useSelector(selectCurrentPage);
   const dispatch = useDispatch();
   const startMonth = format(startOfMonth(referral.preferredDate), 'yyyy-MM');
   const [error, setError] = useState('');
@@ -49,9 +54,21 @@ export const ChooseDateAndTime = () => {
     },
     [dispatch],
   );
+
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('scheduleAppointment'));
+    },
+    [location, dispatch],
+  );
+
+  const onBack = () => {
+    routeToPreviousReferralPage(history, currentPage, referral.id);
+  };
+
   const onSubmit = () => {
     if (selectedDate && !error) {
-      history.push('/confirm-approved');
+      routeToNextReferralPage(history, currentPage);
     } else if (!selectedDate) {
       setError(
         'Please choose your preferred date and time for your appointment',
@@ -223,9 +240,8 @@ export const ChooseDateAndTime = () => {
           />
         </div>
         <FormButtons
-          onBack={() => history.push('/choose-community-care-appointment')}
+          onBack={() => onBack()}
           onSubmit={() => onSubmit()}
-          // pageChangeInProgress={pageChangeInProgress}
           loadingText="Page change in progress"
         />
       </>

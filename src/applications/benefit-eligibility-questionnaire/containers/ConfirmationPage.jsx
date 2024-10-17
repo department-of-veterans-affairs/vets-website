@@ -81,8 +81,13 @@ export class ConfirmationPage extends React.Component {
   sortBenefits = e => {
     const key = e.target.value;
     const sortKey = key === 'alphabetical' ? 'name' : key;
+    const sortStrings = {
+      alphabetical: 'alphabetical',
+      goal: 'goal',
+      category: 'type',
+    };
 
-    this.setState({ sortValue: key }, () => {
+    this.setState({ sortValue: sortStrings[key] }, () => {
       this.setState(prevState => {
         if (!prevState.benefits || !Array.isArray(prevState.benefits)) {
           return { benefits: [], benefitsList: [] };
@@ -101,9 +106,14 @@ export class ConfirmationPage extends React.Component {
 
   filterBenefits = e => {
     const key = e.target.value;
-    const filterString = key === 'Careers' ? 'Careers & Employment' : key;
+    const filterStrings = {
+      All: 'All',
+      Education: 'Education',
+      Careers: 'Careers & Employment',
+      Support: 'More Support',
+    };
 
-    this.setState(() => ({ filterValue: filterString }));
+    this.setState(() => ({ filterValue: filterStrings[key] }));
 
     if (key === 'All') {
       this.setState(() => ({
@@ -135,8 +145,8 @@ export class ConfirmationPage extends React.Component {
     this.props.router.goBack();
   };
 
-  sortBenefitObj(sortBenefitObj, sortKey) {
-    return [...sortBenefitObj].sort((a, b) => {
+  sortBenefitObj(benefitObj, sortKey) {
+    return [...benefitObj].sort((a, b) => {
       let aValue = a[sortKey] || '';
       let bValue = b[sortKey] || '';
 
@@ -187,12 +197,6 @@ export class ConfirmationPage extends React.Component {
     this.setState({ showMobileFilters: !currentState });
   }
 
-  handleClick = e => {
-    e.preventDefault();
-
-    this.props.router.goBack();
-  };
-
   render() {
     return (
       <div>
@@ -213,12 +217,13 @@ export class ConfirmationPage extends React.Component {
           and career benefits. We'll add more types of benefits soon.
         </p>
 
-        <SaveResultsModal />
-
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
         <div id="results-container" className="vads-l-grid-container">
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12">
+              <SaveResultsModal />
+            </div>
             <div
               className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
               id="filters-section-mobile-toggle"
