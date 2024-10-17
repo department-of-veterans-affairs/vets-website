@@ -47,7 +47,7 @@ const EducationAndTraining = ({ isLOA1, rE = recordEvent }) => {
               <IconCTALink
                 text="Check your Post-9/11 GI Bill benefits"
                 icon="attach_money"
-                href="/education/gi-bill/post-9-11/ch-33-benefit/status"
+                href="/education/check-post-9-11-gi-bill-benefits/status"
                 testId="check-gi-bill-benefits-from-cta"
                 onClick={() =>
                   rE({
