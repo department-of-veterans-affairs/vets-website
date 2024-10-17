@@ -26,7 +26,6 @@ export default function PhoneLayout({ data: appointment }) {
     clinicName,
     clinicPhone,
     clinicPhoneExtension,
-    comment,
     facility,
     facilityPhone,
     isPastAppointment,
@@ -39,7 +38,7 @@ export default function PhoneLayout({ data: appointment }) {
     shallowEqual,
   );
 
-  const [reason, otherDetails] = comment ? comment?.split(':') : [];
+  const { reasonForAppointment, patientComments } = appointment || {};
 
   let heading = 'Phone appointment';
   if (isPastAppointment) heading = 'Past phone appointment';
@@ -98,7 +97,7 @@ export default function PhoneLayout({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Section>
-      <Details reason={reason} otherDetails={otherDetails} />
+      <Details reason={reasonForAppointment} otherDetails={patientComments} />
       {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
