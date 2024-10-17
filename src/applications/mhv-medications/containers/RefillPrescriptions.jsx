@@ -16,6 +16,7 @@ import {
   getRefillablePrescriptionsList,
   getAllergiesList,
   fillPrescriptions,
+  clearFillNotification,
 } from '../actions/prescriptions';
 import { dateFormat } from '../util/helpers';
 import { selectRefillContentFlag, selectFilterFlag } from '../util/selectors';
@@ -117,6 +118,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   };
 
   useEffect(() => {
+    dispatch(clearFillNotification);
     sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
   }, []);
 
