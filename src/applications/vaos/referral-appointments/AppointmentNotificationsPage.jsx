@@ -14,7 +14,7 @@ export default function AppointmentNotificationPage() {
       <div>
         <ReferralAppLink
           linkText="Start scheduling"
-          linkPath="/review-approved"
+          linkPath="/referral-review"
         />
       </div>
     </PageLayout>

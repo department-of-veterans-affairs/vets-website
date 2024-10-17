@@ -4701,6 +4701,182 @@
       }
     },
     {
+      "id": "CERN53943037",
+      "type": "appointments",
+      "attributes": {
+          "id": "CERN53943037",
+          "kind": "clinic",
+          "status": "booked",
+          "reasonCode": {
+              "coding": [],
+              "text": "VEText Manually Created Appointment"
+          },
+          "locationId": "668",
+          "start": "2024-11-21T17:00:00Z",
+          "end": "2024-08-21T17:30:00Z",
+          "requestedPeriods": [
+              {
+                  "start": "2024-08-21T17:00:00Z",
+                  "end": "2024-08-21T17:30:00Z"
+              }
+          ],
+          "cancellable": true,
+          "patientInstruction": "Preparations:\n- If you have any non-VA medical records, including radiology images, related to this appointment, please bring them with you.\r\nIf you have other health insurance, please bring your insurance card.\r\nYou can log into the patient portal, My VA Health to view or cancel your appointment.\r\nIf you need to cancel or reschedule your appointment, please call us at (509) 434-7026.\r\nOur clinic is located on the 1st floor, Bldg 27, Primary Care",
+          "localStartTime": "2024-08-21T10:00:00.000-07:00",
+          "station": null,
+          "ien": null,
+          "avsPath": null,
+          "preferredDates": [
+              "Wed, August 21, 2024 in the afternoon"
+          ],
+          "location": {
+              "id": "668",
+              "type": "appointments",
+              "attributes": {
+                  "id": "668",
+                  "facilitiesApiId": "vha_668",
+                  "vistaSite": "668",
+                  "vastParent": "668",
+                  "type": "va_health_facility",
+                  "name": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+                  "classification": "VA Medical Center (VAMC)",
+                  "timezone": {
+                      "timeZoneId": "America/Los_Angeles"
+                  },
+                  "lat": 47.701927,
+                  "long": -117.475624,
+                  "website": "https://www.va.gov/spokane-health-care/locations/mann-grandstaff-department-of-veterans-affairs-medical-center/",
+                  "phone": {
+                      "main": "509-434-7000",
+                      "fax": "509-434-7100",
+                      "pharmacy": "509-434-7011",
+                      "afterHours": "509-434-7000",
+                      "patientAdvocate": "509-434-7504",
+                      "mentalHealthClinic": "1-509-434-7013",
+                      "enrollmentCoordinator": "509-434-7506"
+                  },
+                  "hoursOfOperation": [
+                      {
+                          "daysOfWeek": "sun",
+                          "openingTime": "24/7",
+                          "closingTime": "24/7"
+                      },
+                      {
+                          "daysOfWeek": "mon",
+                          "openingTime": "24/7",
+                          "closingTime": "24/7"
+                      },
+                      {
+                          "daysOfWeek": "tue",
+                          "openingTime": "24/7",
+                          "closingTime": "24/7"
+                      },
+                      {
+                          "daysOfWeek": "wed",
+                          "openingTime": "24/7",
+                          "closingTime": "24/7"
+                      },
+                      {
+                          "daysOfWeek": "thu",
+                          "openingTime": "24/7",
+                          "closingTime": "24/7"
+                      },
+                      {
+                          "daysOfWeek": "fri",
+                          "openingTime": "24/7",
+                          "closingTime": "24/7"
+                      },
+                      {
+                          "daysOfWeek": "sat",
+                          "openingTime": "24/7",
+                          "closingTime": "24/7"
+                      }
+                  ],
+                  "physicalAddress": {
+                      "type": "physical",
+                      "line": [
+                          "4815 North Assembly Street",
+                          null,
+                          null
+                      ],
+                      "city": "Spokane",
+                      "state": "WA",
+                      "postalCode": "99205-6185"
+                  },
+                  "mobile": false,
+                  "healthService": [
+                      "Addiction",
+                      "AdviceNurse",
+                      "Audiology",
+                      "Cardiology",
+                      "CaregiverSupport",
+                      "Chiropractic",
+                      "ColonSurgery",
+                      "ComplementaryHealth",
+                      "Covid19Vaccine",
+                      "CriticalCare",
+                      "Dental",
+                      "Dermatology",
+                      "Diabetic",
+                      "EmploymentPrograms",
+                      "Gastroenterology",
+                      "Geriatrics",
+                      "Gynecology",
+                      "Hematology",
+                      "Homeless",
+                      "Hospice",
+                      "HospitalMedicine",
+                      "Laboratory",
+                      "Lgbtq",
+                      "MilitarySexualTrauma",
+                      "MinorityCare",
+                      "MyHealtheVetCoordinator",
+                      "Neurology",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "OutpatientSurgery",
+                      "PatientAdvocates",
+                      "Pharmacy",
+                      "PhysicalTherapy",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "Prosthetics",
+                      "Psychiatry",
+                      "Ptsd",
+                      "PulmonaryMedicine",
+                      "Radiology",
+                      "RegistryExams",
+                      "Rehabilitation",
+                      "Rheumatology",
+                      "SleepMedicine",
+                      "Smoking",
+                      "SocialWork",
+                      "SuicidePrevention",
+                      "Surgery",
+                      "Telehealth",
+                      "ToxicExposureScreening",
+                      "TransitionCounseling",
+                      "TravelReimbursement",
+                      "UrgentCare",
+                      "Urology",
+                      "Vision",
+                      "WeightManagement",
+                      "WholeHealth",
+                      "WomensHealth",
+                      "Wound"
+                  ],
+                  "operatingStatus": {
+                      "code": "NORMAL"
+                  },
+                  "visn": "20",
+                  "ehrSystem": "Oracle"
+              }
+          }
+      }
+  },
+    {
       "id": "50096",
       "type": "appointments",
       "attributes": {
