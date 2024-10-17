@@ -67,3 +67,11 @@ $font-size: 16.96px;
 .u-list-no-bullets {
   list-style-type: none;
 }
+
+// Break long words on modals, see
+// https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3355
+va-modal {
+  @include media-maxwidth($small-screen) {
+    word-break: break-word;
+  }
+}
