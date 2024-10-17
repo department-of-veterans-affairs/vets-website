@@ -235,6 +235,7 @@ describe('Compose form component', () => {
       fireEvent.click(screen.getByTestId('send-button'));
       expect(sendMessageSpy.calledOnce).to.be.true;
     });
+    sendMessageSpy.restore();
   });
 
   it('renders sending message spinner without errors', async () => {

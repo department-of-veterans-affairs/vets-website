@@ -83,13 +83,14 @@ describe('Breadcrumbs', () => {
     });
 
     const breadcrumbs = $('va-breadcrumbs', screen.container);
+    await waitFor(() => expect(breadcrumbs).to.exist);
     const { breadcrumbList } = breadcrumbs;
 
     // Validate the props
-    await waitFor(() =>
-      expect(breadcrumbList[breadcrumbList.length - 1]).to.deep.equal(
-        Breadcrumbs.DRAFTS,
-      ),
+    const lastBreadcrumb = breadcrumbList[breadcrumbList.length - 1];
+    await waitFor(
+      () => expect(lastBreadcrumb).to.exist,
+      expect(lastBreadcrumb).to.deep.equal(Breadcrumbs.DRAFTS),
     );
   });
 
