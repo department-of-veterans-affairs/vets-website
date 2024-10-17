@@ -1,34 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { useDefaultFormData } from '../hooks/useDefaultFormData';
 import formConfig from '../config/form';
 import content from '../locales/en/content.json';
 
 const App = props => {
   const { location, children } = props;
-  const { data: formData } = useSelector(state => state.form);
-  const { isLoadingFeatureFlags: loading, useFacilitiesApi } = useSelector(
-    selectFeatureToggles,
-  );
-  const dispatch = useDispatch();
+  const { isLoadingFeatureFlags: loading } = useSelector(selectFeatureToggles);
 
-  // set feature toggle values in form data
-  useEffect(
-    () => {
-      dispatch(
-        setData({
-          ...formData,
-          'view:useFacilitiesAPI': useFacilitiesApi,
-        }),
-      );
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [useFacilitiesApi],
-  );
+  // Set default view fields within the form data
+  useDefaultFormData();
 
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
