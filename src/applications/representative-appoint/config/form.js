@@ -7,6 +7,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { pdfTransform } from '../utilities/pdfTransform';
 import { generatePDF } from '../api/generatePDF';
+import NextStepsPage from '../containers/NextStepsPage';
 
 import {
   authorizeMedical,
@@ -38,6 +39,8 @@ import { preparerIsVeteran } from '../utilities/helpers';
 
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
+import SelectAccreditedRepresentative from '../components/SelectAccreditedRepresentative';
+import SelectedAccreditedRepresentativeReview from '../components/SelectAccreditedRepresentativeReview';
 
 // import { prefillTransformer } from '../prefill-transformer';
 // import ClaimantType from '../components/ClaimantType';
@@ -85,6 +88,13 @@ const formConfig = {
       pageKey: 'claimant-type',
       depends: () => true,
     },
+    {
+      path: 'next-steps',
+      component: NextStepsPage,
+      pageKey: 'next-steps',
+      depends: () => false,
+      hideFormNavProgress: true,
+    },
   ],
   savedFormMessages: {
     notFound:
@@ -108,18 +118,22 @@ const formConfig = {
         selectAccreditedRepresentative: {
           title: 'Representative Select',
           path: 'representative-select',
+          CustomPage: SelectAccreditedRepresentative,
+          CustomPageReview: SelectedAccreditedRepresentativeReview,
           uiSchema: selectAccreditedRepresentative.uiSchema,
           schema: selectAccreditedRepresentative.schema,
         },
         contactAccreditedRepresentative: {
           title: 'Representative Contact',
           path: 'representative-contact',
+          hideOnReview: true,
           uiSchema: contactAccreditedRepresentative.uiSchema,
           schema: contactAccreditedRepresentative.schema,
         },
         selectAccreditedOrganization: {
           path: 'representative-organization',
           title: 'Organization Select',
+          hideOnReview: true,
           depends: formData =>
             !!formData['view:selectedRepresentative'] &&
             formData['view:selectedRepresentative'].attributes
@@ -139,6 +153,7 @@ const formConfig = {
         replaceAccreditedRepresentative: {
           title: 'Representative Replace',
           path: 'representative-replace',
+          hideOnReview: true,
           depends: formData =>
             !!formData['view:representativeStatus']?.id &&
             !!formData['view:selectedRepresentative'],

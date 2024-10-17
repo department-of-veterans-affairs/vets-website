@@ -1,45 +1,57 @@
+import React from 'react';
 import {
+  radioSchema,
+  radioUI,
   textUI,
   textSchema,
-  radioUI,
-  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { separationLabelArr, separationLabels } from './helpers';
+import { addSpouse } from '../../../utilities';
+import {
+  marriageTypeLabels,
+  marriageTypeArr,
+  SupportingEvidenceNeeded,
+} from './helpers';
+
+const { currentMarriageInformation } = addSpouse.properties;
 
 export const schema = {
   type: 'object',
   properties: {
-    doesLiveWithSpouse: {
+    currentMarriageInformation: {
       type: 'object',
       properties: {
-        currentSpouseReasonForSeparation: {
-          ...radioSchema(separationLabelArr),
-        },
-        other: textSchema,
+        type: radioSchema(marriageTypeArr),
+        typeOther: textSchema,
+        'view:marriageTypeInformation':
+          currentMarriageInformation.properties['view:marriageTypeInformation'],
       },
     },
   },
 };
 
 export const uiSchema = {
-  doesLiveWithSpouse: {
-    currentSpouseReasonForSeparation: radioUI({
-      title: 'Reason you live separately from your spouse',
-      labelHeaderLevel: '3',
-      labels: separationLabels,
+  currentMarriageInformation: {
+    type: radioUI({
+      title: 'How did you get married?',
+      labels: marriageTypeLabels,
       required: () => true,
-      classNames: 'vads-u-margin-top--4',
+      labelHeaderLevel: '3',
+      errorMessages: {
+        required: 'Select the type of marriage',
+      },
+      classNames: 'vads-u-margin-bottom--2 vads-u-margin-top--5',
     }),
-    other: textUI({
-      title: 'Briefly describe why you live separately',
+    typeOther: textUI({
+      title: 'Other type of marriage',
       required: formData =>
-        formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation ===
-        'OTHER',
-      expandUnder: 'currentSpouseReasonForSeparation',
+        formData?.currentMarriageInformation?.type === 'OTHER',
+      expandUnder: 'type',
       expandUnderCondition: 'OTHER',
       showFieldLabel: true,
       keepInPageOnReview: true,
-      classNames: 'vads-u-margin-top--2',
     }),
+    'view:marriageTypeInformation': {
+      'ui:description': <SupportingEvidenceNeeded />,
+    },
   },
 };
