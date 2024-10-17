@@ -170,7 +170,7 @@ export default function EstimatedBenefits({
     />
   );
   return (
-    <div className="medium-6 columns profile-page">
+    <div className="medium-6 columns">
       <div className="your-estimated-benefits">
         <h3
           ref={estimatedBenefitsRef}
