@@ -3,110 +3,121 @@ name: Cypress Integration Test Workflow
 on:
     workflow_dispatch:
       inputs:
+        commit_sha:
+          description: "Commit SHA: from your branch's latest, completed prod build" 
+          required: true 
+        platform-or-application:
+          description: 'Are your failing tests in /applications/ or /platform/?'
+          type: choice
+          options: 
+            - applications
+            - platform
+          required: true
         product:
-          description: 'individual product to be tested'
+          description: "App: Your tests' target directory within src/applications or src/platform"
           required: true
-          # TO-DO: create a solution that maintains an updated list of active products within src/applications
-        branch:
-          description: 'branch with currently failing e2e tests in CI'
-          required: true
-        # TO-DO: add a commit input to allow devs to determine a commit point of failure in the branch
+        # TO-DO: create a solution that maintains an updated list of active products within src/applications
   
 env:
-    BUILDTYPE: vagovprod
     VETS_WEBSITE_CHANNEL_ID: ''
   
 jobs:
-    validate-and-set-product-selection:
-      name: Set product directory for testing
+    ecr-login:
+      name: Login to ECR
       runs-on: ubuntu-latest
+      permissions: write-all
+      outputs:
+        ECR_USERNAME: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+        ECR_PASSWORD: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
       steps:
-        - name: Run integration helper script
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4.0.0
+          with:
+             aws-region: us-gov-west-1
+             role-to-assume: arn:aws-us-gov:iam::008577686731:role/gha-frontend-nonprod-role
+        
+        - name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v2    
+          with:
+            mask-password: false
+           
+        - name: Find the build
+          id: find-build
           run: |
-            chmod +x ./script/github-actions/cypress-integration-test.sh 
-            ./scripts/integration-helper.sh "${{ github.event.inputs.product }}"
-  
-    build: 
-      name: Build
+            ARCHIVE_NAME=${{ github.event.inputs.commit_sha }}/vagovprod.tar.bz2
+            BUCKET_PATH=s3://vetsgov-website-builds-s3-upload/
+              
+            aws s3 cp $BUCKET_PATH$ARCHIVE_NAME .
+              
+        - name: Archive production artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: dist-without-markdown
+            path: vagovprod.tar.bz2
+            retention-days: 1
+
+    integration-test:
+      name: Run Cypress Tests
       runs-on: ubuntu-latest
+      permissions: write-all
+      needs: ecr-login
+      container: 
+        image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+        credentials: 
+          username: ${{ needs.ecr-login.outputs.ECR_USERNAME }}
+          password: ${{ needs.ecr-login.outputs.ECR_PASSWORD }}
       steps:
         - name: Checkout
           uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+          
+        - name: Determine slackGroup and specPattern
+          id: helper
+          run: |
+             chmod +x ./script/github-actions/cypress-integration-test.sh 
+             ./script/github-actions/cypress-integration-test.sh "${{ inputs.product }}"
+
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4.0.0
           with:
-            fetch-depth: 0
-            ref: ${{ github.event.inputs.branch }}
-  
+             aws-region: us-gov-west-1
+             role-to-assume: arn:aws-us-gov:iam::008577686731:role/gha-frontend-nonprod-role
+
+        - name: Get va-vsp-bot token
+          uses: ./.github/workflows/inject-secrets
+          with:
+            ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+            env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+        - name: Download artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: dist-without-markdown
+
+        - name: Unpack artifact
+          run: |
+            mkdir vets-website
+            tar -xjf vagovprod.tar.bz2 -C vets-website
+        
         - name: Install dependencies
           uses: ./.github/workflows/install
-          timeout-minutes: 30
           with:
             key: ${{ hashFiles('yarn.lock') }}
             yarn_cache_folder: .cache/yarn
             path: |
               .cache/yarn
               node_modules
-  
-        - name: Configure AWS Credentials
-          uses: ./.github/workflows/configure-aws-credentials
-          with:
-            aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws_region: us-gov-west-1
-  
-        - name: Get Mapbox Token
-          uses: ./.github/workflows/inject-secrets
-          with:
-            ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
-            env_variable_name: MAPBOX_TOKEN
-  
-        - name: Build
-          run: yarn build --verbose --buildtype=${{ env.BUILDTYPE }}
-          timeout-minutes: 30
-  
-        - name: Generate build details
+
+        - name: Install server dependencies
+          working-directory: vets-website
           run: |
-            cat > build/${{ env.BUILDTYPE }}/BUILD.txt << EOF
-            BUILDTYPE=${{ env.BUILDTYPE }}
-            NODE_ENV=production
-            BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
-            CHANGE_TARGET=null
-            RUN_ID=${{ github.run_id }}
-            RUN_NUMBER=${{ github.run_number }}
-            REF=${{ github.sha }}
-            BUILDTIME=$(date +%s)
-            EOF
-  
-        - name: Compress and archive build
-          run: tar -C build/${{ env.BUILDTYPE }} -cjf ${{ env.BUILDTYPE }}.tar.bz2 .
-  
-        - name: Upload build artifact
-          uses: ./.github/workflows/upload-artifact
-          with:
-            name: ${{ env.BUILDTYPE }}.tar.bz2
-            path: ${{ env.BUILDTYPE }}.tar.bz2
-            retention-days: 1
-  
-    call-integration-test-workflow:
-      name: Call Integration Test Workflow
-      uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-test-integration-workflow.yml@main
-      secrets: inherit
-  
-    notify-failure:
-      name: Notify Failure
-      runs-on: ubuntu-latest
-      if: ${{ failure() || cancelled() }}
-      needs: call-integration-test-workflow
+            yarn install
 
-      steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        - name: Start server
+          run: |
+           mkdir build
+           node src/platform/testing/e2e/test-server.js --buildtype=../vets-website --port=3001 &
 
-      - name: Notify Slack
-        uses: ./.github/workflows/slack-notify
-        continue-on-error: true
-        with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website manual dev/staging deploy failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  
+        - name: Run Cypress tests
+          run: |
+            npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/${{ inputs.platform-or-application }}/${{ inputs.product }}/**/*.cypress.spec.js'

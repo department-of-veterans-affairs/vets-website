@@ -5,7 +5,10 @@ const { raceAndGender } = fullSchema10282.definitions;
 
 const uiTitle = (
   <>
-    <h3 className="vads-u-margin--0 vads-u-color--base">
+    <h3
+      className="vads-u-margin--0 vads-u-color--base"
+      data-testid="optional-demographic"
+    >
       Optional demographic information
     </h3>
     <p>

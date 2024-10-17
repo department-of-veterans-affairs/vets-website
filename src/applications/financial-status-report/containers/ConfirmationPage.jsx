@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { formatDateLong } from 'platform/utilities/date';
 import GetFormHelp from '../components/shared/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/shared/DownloadFormPDF';
@@ -72,9 +72,7 @@ const RequestDetailsCard = ({ data, response }) => {
       <p className="vads-u-margin-bottom--0">
         <strong>Date submitted</strong>
       </p>
-      <p className="vads-u-margin-top--0p5">
-        {moment(response.timestamp).format('MMMM D, YYYY')}
-      </p>
+      <p className="vads-u-margin-top--0p5">{formatDateLong(new Date())}</p>
       <p className="vads-u-margin-bottom--0p5">
         <va-button text={buttonText} onClick={windowPrint} />
         <DownloadFormPDF pdfContent={response.content} />

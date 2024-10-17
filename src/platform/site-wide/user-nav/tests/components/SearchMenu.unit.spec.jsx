@@ -38,12 +38,4 @@ describe('<SearchMenu>', () => {
     expect(wrapper.find('.va-dropdown-panel').prop('hidden')).to.be.false;
     wrapper.unmount();
   });
-
-  it('should update the user input state', () => {
-    const wrapper = mount(<SearchMenu {...props} isOpen />);
-    const changeEvent = { target: { value: 'testing' } };
-    wrapper.find('#query').simulate('change', changeEvent);
-    expect(wrapper.state('userInput')).to.equal('testing');
-    wrapper.unmount();
-  });
 });

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -8,6 +10,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { preparerIsVeteran } from '../../utilities/helpers';
+import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
 export const uiSchema = {
   ...titleUI(
@@ -16,6 +19,11 @@ export const uiSchema = {
         preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
       } name and date of birth`,
   ),
+  profileNotUpdatedNote: {
+    'ui:description': formData => (
+      <ProfileNotUpdatedNote formData={formData} includePhone />
+    ),
+  },
   veteranFullName: fullNameUI(),
   veteranDateOfBirth: dateOfBirthUI(),
 };
@@ -24,6 +32,7 @@ export const schema = {
   type: 'object',
   properties: {
     titleSchema,
+    profileNotUpdatedNote: { type: 'object', properties: {} },
     veteranFullName: fullNameSchema,
     veteranDateOfBirth: dateOfBirthSchema,
   },
