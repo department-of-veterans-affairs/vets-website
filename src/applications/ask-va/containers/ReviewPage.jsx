@@ -108,7 +108,7 @@ const ReviewPage = props => {
     const transformedData = submitTransformer(
       props.formData,
       JSON.parse(files),
-      props.askVA
+      props.askVA,
     );
 
     if (props.loggedIn) {
@@ -474,7 +474,7 @@ function mapStateToProps(state, ownProps) {
     viewedPages,
     loggedIn,
     openChapterList: state.askVA.reviewPageView.openChapters,
-    askVA: state.askVA
+    askVA: state.askVA,
   };
 }
 
