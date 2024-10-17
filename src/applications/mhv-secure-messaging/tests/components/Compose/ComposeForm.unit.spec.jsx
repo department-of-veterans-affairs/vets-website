@@ -34,6 +34,7 @@ import {
   inputVaTextInput,
   selectVaRadio,
   selectVaSelect,
+  checkVaCheckbox,
 } from '../../../util/testUtils';
 import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
@@ -351,10 +352,12 @@ describe('Compose form component', () => {
   });
 
   it('displays an error on attempt to save a draft with attachments', async () => {
-    const screen = setup(initialState, Paths.COMPOSE, {
+    const customProps = {
+      ...draftMessage,
+      messageValid: true,
       isSignatureRequired: false,
-      messageValid: false,
-    });
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
@@ -371,7 +374,6 @@ describe('Compose form component', () => {
       modal = screen.queryByTestId('quit-compose-double-dare');
       expect(modal).to.exist;
     });
-
     expect(modal).to.have.attribute(
       'modal-title',
       "We can't save attachments in a draft message",
@@ -896,7 +898,7 @@ describe('Compose form component', () => {
     expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
-  it('displays alerts in Electronic Signature component if signature and checkbox is required', async () => {
+  it('displays alerts in Electronic Signature component if signature is required', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={initialState.sm.recipients} />,
       {
@@ -934,17 +936,40 @@ describe('Compose form component', () => {
     );
     inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
     expect(signatureTextField).to.have.attribute('error', '');
+  });
 
-    const checkboxSelector = `va-checkbox[label='${
-      ElectronicSignatureBox.CHECKBOX_LABEL
-    }']`;
-    const checkbox = screen.container.querySelector(checkboxSelector);
-    const sendButton = screen.getByTestId('save-draft-button');
-
-    fireEvent.click(sendButton);
-    expect(checkbox).to.have.attribute(
-      'error',
-      `${ErrorMessages.ComposeForm.CHECKBOX_REQUIRED}`,
+  it('displays an error in Electronic Signature component if checkbox is not checked', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={initialState.sm.recipients} />,
+      {
+        initialState,
+        reducers: reducer,
+      },
     );
+    // Enters value for all other compose form fields first
+    const tgRecipient = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+    selectVaSelect(screen.container, tgRecipient);
+
+    const checkboxSelector = `va-checkbox[label="${
+      ElectronicSignatureBox.CHECKBOX_LABEL
+    }"]`;
+
+    await waitFor(() => {
+      const sendButton = screen.getByTestId('send-button');
+      const checkbox = screen.container.querySelector(checkboxSelector);
+      checkVaCheckbox(checkbox, false);
+
+      // after clicking send, validation checks on Electronic Signature component runs
+      fireEvent.click(sendButton);
+      expect(checkbox).to.have.attribute(
+        'error',
+        `${ErrorMessages.ComposeForm.CHECKBOX_REQUIRED}`,
+      );
+
+      checkVaCheckbox(checkbox, true);
+      expect(checkbox).to.have.attribute('error', '');
+    });
   });
 });

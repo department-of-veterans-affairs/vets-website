@@ -56,7 +56,12 @@ function getEventName(action) {
   return action?.payload?.activity?.name ?? '';
 }
 
-function getEventValue(action) {
+function getEventValue(action, isRootBotToggleOn) {
+  // if toggle on then use this if off the just do action?.payload?.activity?.value
+  if (isRootBotToggleOn) {
+    return action?.payload?.activity?.value.value ?? '';
+  }
+
   return action?.payload?.activity?.value ?? '';
 }
 
@@ -64,9 +69,14 @@ function isEventRxSkill(eventValue) {
   return eventValue === 'va_vha_healthassistant_bot';
 }
 
-function handleRxSkillEvent(action, eventName, isRxSkillState) {
+function handleRxSkillEvent(
+  action,
+  eventName,
+  isRxSkillState,
+  isRootBotToggleOn,
+) {
   const actionEventName = getEventName(action);
-  const eventValue = getEventValue(action);
+  const eventValue = getEventValue(action, isRootBotToggleOn);
 
   if (actionEventName === eventName && isEventRxSkill(eventValue)) {
     setIsRxSkill(isRxSkillState);
@@ -74,9 +84,9 @@ function handleRxSkillEvent(action, eventName, isRxSkillState) {
   }
 }
 
-function handleSkillEntryEvent(action) {
+function handleSkillEntryEvent(action, isRootBotToggleOn) {
   const actionEventName = getEventName(action);
-  const eventValue = getEventValue(action);
+  const eventValue = getEventValue(action, isRootBotToggleOn);
   const apiName = `Chatbot Skill Entry - ${eventValue}`;
   if (actionEventName === 'Skill_Entry') {
     setEventSkillValue(eventValue);
@@ -86,17 +96,6 @@ function handleSkillEntryEvent(action) {
       topic: eventValue,
       'api-status': 'successful',
     });
-  }
-}
-
-function handleSkillExitEvent(action) {
-  const actionEventName = getEventName(action);
-  if (
-    action.payload.activity.text === 'Returning to the main chatbot...' ||
-    action.payload.activity.text === 'Did that answer your question?' ||
-    actionEventName === 'Skill_Exit'
-  ) {
-    setEventSkillValue(undefined);
   }
 }
 
@@ -142,6 +141,7 @@ export const processIncomingActivity = ({
   action,
   dispatch,
   isComponentToggleOn,
+  isRootBotToggleOn,
 }) => () => {
   const isAtBeginningOfConversation = !getIsTrackingUtterances();
   const data = action.payload.activity;
@@ -179,10 +179,9 @@ export const processIncomingActivity = ({
     sendWindowEventWithActionPayload('webchat-message-activity', action);
   }
 
-  handleRxSkillEvent(action, 'Skill_Entry', true);
-  handleRxSkillEvent(action, 'Skill_Exit', false);
-  handleSkillEntryEvent(action);
-  handleSkillExitEvent(action);
+  handleRxSkillEvent(action, 'Skill_Entry', true, isRootBotToggleOn);
+  handleRxSkillEvent(action, 'Skill_Exit', false, isRootBotToggleOn);
+  handleSkillEntryEvent(action, isRootBotToggleOn);
 };
 
 export const processMicrophoneActivity = ({ action }) => () => {
@@ -206,14 +205,25 @@ export function addActivityData(
 ) {
   const updatedAction = action;
   if (updatedAction.payload?.activity) {
-    updatedAction.payload.activity.value = {
-      ...updatedAction.payload.activity.value,
-      apiSession,
-      csrfToken,
-      apiURL,
-      userFirstName,
-      userUuid,
-    };
+    if (typeof updatedAction.payload.activity.value === 'string') {
+      updatedAction.payload.activity.value = {
+        value: updatedAction.payload.activity.value,
+        apiSession,
+        csrfToken,
+        apiURL,
+        userFirstName,
+        userUuid,
+      };
+    } else {
+      updatedAction.payload.activity.value = {
+        ...updatedAction.payload.activity.value,
+        apiSession,
+        csrfToken,
+        apiURL,
+        userFirstName,
+        userUuid,
+      };
+    }
   }
   return updatedAction;
 }

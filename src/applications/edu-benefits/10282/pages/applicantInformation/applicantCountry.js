@@ -6,7 +6,10 @@ const { country } = fullSchema10282.definitions;
 
 export const uiSchema = {
   'ui:title': (
-    <h3 className="vads-u-margin--0 vads-u-color--base">
+    <h3
+      className="vads-u-margin--0 vads-u-color--base"
+      data-testid="country-field"
+    >
       What country do you live in?
     </h3>
   ),
