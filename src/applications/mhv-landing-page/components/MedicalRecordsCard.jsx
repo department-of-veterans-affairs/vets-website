@@ -32,7 +32,7 @@ const MedicalRecordsCard = ({ href }) => {
               'usa-label',
               'vads-u-background-color--primary',
               'vads-u-display--none',
-              'desktop:vads-u-display--block',
+              'mhv-desktop-screen:vads-u-display--block',
             )}
           >
             Coming soon
@@ -45,7 +45,7 @@ const MedicalRecordsCard = ({ href }) => {
             'usa-label',
             'vads-u-background-color--primary',
             'vads-u-display--inline-block',
-            'desktop:vads-u-display--none',
+            'mhv-desktop-screen:vads-u-display--none',
           )}
         >
           Coming soon
