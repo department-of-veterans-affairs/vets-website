@@ -33,7 +33,7 @@ export const useDatadogRum = () => {
     // 1. Prevents RUM from running on local/CI environments.
     // 2. Prevents re-initializing the SDK.
     if (
-      (environment.isStaging() || environment.isProd()) &&
+      (environment.isStaging() || environment.isProduction()) &&
       !window.DD_RUM?.getInitConfiguration() &&
       !window.Mocha
     ) {
