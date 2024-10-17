@@ -34,7 +34,7 @@ export default function CancelPageLayoutRequest() {
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  let [reason, otherDetails] = bookingNotes.split(':');
+  let [reason, otherDetails] = bookingNotes.split('|');
   if (isCC) {
     reason = null;
     otherDetails = bookingNotes;

@@ -45,7 +45,7 @@ export default function InPersonLayout({ data: appointment }) {
 
   if (!appointment) return null;
 
-  const [reason, otherDetails] = comment ? comment?.split(':') : [];
+  const [reason, otherDetails] = comment ? comment?.split('|') : [];
   const facilityId = locationId;
 
   let heading = 'In-person appointment';

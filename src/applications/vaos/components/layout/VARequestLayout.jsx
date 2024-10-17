@@ -34,7 +34,7 @@ export default function VARequestLayout({ data: appointment }) {
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
   const preferredModality = appointment?.preferredModality;
-  const [reason, otherDetails] = bookingNotes?.split(':') || [];
+  const [reason, otherDetails] = bookingNotes?.split('|') || [];
 
   let heading = 'We have received your request';
   if (isPendingAppointment && !showConfirmMsg)

@@ -39,7 +39,7 @@ export default function PhoneLayout({ data: appointment }) {
     shallowEqual,
   );
 
-  const [reason, otherDetails] = comment ? comment?.split(':') : [];
+  const [reason, otherDetails] = comment ? comment?.split('|') : [];
 
   let heading = 'Phone appointment';
   if (isPastAppointment) heading = 'Past phone appointment';

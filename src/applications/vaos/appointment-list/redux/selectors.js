@@ -213,7 +213,7 @@ export function selectAppointmentDetails(appointment) {
     return comment || 'none';
   }
   return appointment.reasonForAppointment && comment
-    ? `${appointment.reasonForAppointment}: ${comment}`
+    ? `${appointment.reasonForAppointment}| ${comment}`
     : comment ||
         (appointment.reasonForAppointment
           ? appointment.reasonForAppointment
@@ -237,7 +237,7 @@ export function selectComment(appointment) {
     return comment || 'none';
   }
   return appointment.reason && comment
-    ? `${appointment.reason}: ${comment}`
+    ? `${appointment.reason}| ${comment}`
     : comment || (appointment.reason ? appointment.reason : null);
 }
 
