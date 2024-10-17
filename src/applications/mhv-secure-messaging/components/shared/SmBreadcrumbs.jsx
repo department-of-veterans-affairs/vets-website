@@ -171,6 +171,12 @@ const SmBreadcrumbs = () => {
           className="breadcrumbs vads-u-padding-y--4"
         >
           <span className="sm-breadcrumb-list-item">
+            <va-icon
+              icon="arrow_back"
+              size={1}
+              style={{ position: 'relative', top: '-5px', left: '-1px' }}
+              class="vads-u-color--gray-medium"
+            />
             {backBreadcrumb ? (
               // eslint-disable-next-line jsx-a11y/anchor-is-valid
               <Link
