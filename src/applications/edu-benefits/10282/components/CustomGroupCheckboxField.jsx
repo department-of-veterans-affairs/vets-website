@@ -28,6 +28,7 @@ const CustomGroupCheckboxField = ({
       <VaCheckboxGroup error={null} onVaChange={handleChange}>
         {labels.map((label, index) => (
           <va-checkbox
+            data-testid={`${label}`}
             key={`${label}-${index}`}
             data-index={index}
             id={`${idSchema?.$id || ''}_${index}`}
