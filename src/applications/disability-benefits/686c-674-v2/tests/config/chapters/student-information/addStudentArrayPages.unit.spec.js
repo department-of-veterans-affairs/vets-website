@@ -32,8 +32,8 @@ describe('addStudentsOptions', () => {
       ssn: '',
       isParent: true,
       address: { country: '', street: '', city: '', state: '', postalCode: '' },
-      wasMarried: undefined, // Set to undefined for incomplete check
-      tuitionIsPaidByGovAgency: undefined, // Set to undefined for incomplete check
+      wasMarried: undefined,
+      tuitionIsPaidByGovAgency: undefined,
       schoolInformation: {
         name: '',
         studentIsEnrolledFullTime: true,
@@ -69,8 +69,8 @@ describe('addStudentsOptions', () => {
           state: 'IL',
           postalCode: '62701',
         },
-        wasMarried: false, // Set to false correctly
-        tuitionIsPaidByGovAgency: false, // Set to false correctly
+        wasMarried: false,
+        tuitionIsPaidByGovAgency: false,
         schoolInformation: {
           name: 'Springfield High',
           studentIsEnrolledFullTime: true,
@@ -96,20 +96,10 @@ describe('addStudentsOptions', () => {
       expect(addStudentsOptions.isItemIncomplete(item)).to.be.true;
     });
 
-    // it('should return false when wasMarried is false and set correctly', () => {
-    //   const item = { ...incompleteItem, wasMarried: false }; // Set to false correctly
-    //   expect(addStudentsOptions.isItemIncomplete(item)).to.be.false; // Should return false
-    // });
-
     it('should return true when tuitionIsPaidByGovAgency is true but not set correctly', () => {
       const item = { ...incompleteItem, tuitionIsPaidByGovAgency: true }; // Missing required field for tuition
       expect(addStudentsOptions.isItemIncomplete(item)).to.be.true; // Expects true for being incomplete
     });
-
-    // it('should return false when tuitionIsPaidByGovAgency is false and set correctly', () => {
-    //   const item = { ...incompleteItem, tuitionIsPaidByGovAgency: false }; // Set to false correctly
-    //   expect(addStudentsOptions.isItemIncomplete(item)).to.be.false; // Should return false
-    // });
 
     it('should return true when maximum items exceeded', () => {
       const items = Array.from({ length: 8 }, (_, i) => ({
