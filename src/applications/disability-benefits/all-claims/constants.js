@@ -337,6 +337,8 @@ export const CHAR_LIMITS = [
 export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
+export const SHOW_ADD_DISABILITIES_ENHANCEMENT =
+  'showAddDisabilitiesEnhancement';
 
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';

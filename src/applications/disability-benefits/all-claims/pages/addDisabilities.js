@@ -1,8 +1,8 @@
-// import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import * as combobox from '../definitions/combobox';
 import * as autocomplete from '../definitions/autocomplete';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import NewDisability from '../components/NewDisability';
@@ -23,11 +23,56 @@ import {
 } from '../utils';
 import {
   addDisabilitiesInstructions,
+  getShowAddDisabilitiesEnhancement,
   increaseAndNewAlertRevised,
   newOnlyAlertRevised,
 } from '../content/addDisabilities';
 
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
+
+const autocompleteUiSchema = autocomplete.uiSchema('Enter your condition', {
+  'ui:reviewField': ({ children }) => children,
+  'ui:options': {
+    debounceTime: 200,
+    disabilityLabels: Object.values(disabilityLabelsRevised),
+  },
+  'ui:validations': [validateDisabilityName, limitNewDisabilities],
+  'ui:required': () => true,
+  'ui:errorMessages': {
+    required: missingConditionMessage,
+  },
+});
+
+const comboboxUiSchema = combobox.uiSchema('Enter your condition', {
+  'ui:reviewField': ({ children }) => children,
+  'ui:options': {
+    debounceRate: 200,
+    freeInput: true,
+    inputTransformers: [
+      // Replace a bunch of things that aren't valid with valid equivalents
+      input => input.replace(/["”’]/g, `'`),
+      input => input.replace(/[;–]/g, ' -- '),
+      input => input.replace(/[&]/g, ' and '),
+      input => input.replace(/[\\]/g, '/'),
+      // TODO: Remove the period replacer once permanent fix in place
+      input => input.replace(/[.]/g, ' '),
+      // Strip out everything that's not valid and doesn't need to be replaced
+      // TODO: Add period back into allowed chars regex
+      input => input.replace(/([^a-zA-Z0-9\-',/() ]+)/g, ''),
+      // Get rid of extra whitespace characters
+      input => input.trim(),
+      input => input.replace(/\s{2,}/g, ' '),
+    ],
+    // options for the combobox dropdown
+    listItems: Object.values(disabilityLabelsRevised),
+  },
+  // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
+  'ui:validations': [validateDisabilityName, limitNewDisabilities],
+  'ui:required': () => true,
+  'ui:errorMessages': {
+    required: missingConditionMessage,
+  },
+});
 
 export const uiSchema = {
   newDisabilities: {
@@ -47,18 +92,9 @@ export const uiSchema = {
     // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
     items: {
-      condition: autocomplete.uiSchema('Enter your condition', {
-        'ui:reviewField': ({ children }) => children,
-        'ui:options': {
-          debounceTime: 200,
-          disabilityLabels: Object.values(disabilityLabelsRevised),
-        },
-        'ui:validations': [validateDisabilityName, limitNewDisabilities],
-        'ui:required': () => true,
-        'ui:errorMessages': {
-          required: missingConditionMessage,
-        },
-      }),
+      condition: getShowAddDisabilitiesEnhancement()
+        ? autocompleteUiSchema
+        : comboboxUiSchema,
       // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
       // disabled until design changes have been approved
       'ui:objectViewField': ConditionReviewField,
