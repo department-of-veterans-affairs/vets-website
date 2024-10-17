@@ -10,7 +10,7 @@ import ErrorMessage from './components/ErrorMessage';
 import FullWidthLayout from './components/FullWidthLayout';
 import { AppointmentList } from './appointment-list';
 import EnrolledRoute from './components/EnrolledRoute';
-import ReferralList from './referral-appointments';
+import ReferralAppointments from './referral-appointments';
 
 // Handles errors loading components by doing one page reload and showing
 // an error message otherwise
@@ -61,7 +61,10 @@ export default function createRoutesWithStore(store) {
                 .catch(handleLoadError),
             )}
           />
-          <EnrolledRoute path={communityCarePaths} component={ReferralList} />
+          <EnrolledRoute
+            path={communityCarePaths}
+            component={ReferralAppointments}
+          />
           <Redirect
             from="/new-covid-19-vaccine-booking"
             to="/new-appointment"

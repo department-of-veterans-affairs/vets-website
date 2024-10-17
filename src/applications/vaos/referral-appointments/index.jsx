@@ -5,7 +5,7 @@ import ConfirmApprovedPage from './ConfirmApprovedPage';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 
-export default function ReferralList() {
+export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
   return (
