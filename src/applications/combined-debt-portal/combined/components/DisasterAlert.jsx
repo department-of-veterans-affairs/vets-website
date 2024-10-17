@@ -42,35 +42,41 @@ const SpecialHurricaneAlert = () => {
   return specialHurricaneAlertDisplay ? (
     <va-alert-expandable
       status="info"
-      trigger="Need help with VA Debt after a natural disaster?"
+      trigger="Need help with VA debt after a natural disaster?"
       uswds
     >
-      <h2 id="hurricane-alert" slot="headline">
-        Hurricane Disaster Help.
-      </h2>
-      <p>
-        VA is aware of the current disasters surrounding Hurricane Helene and
-        Hurricane Milton. If you have been impacted by these hurricanes or any
-        other disaster, VA wants to help.
-      </p>
       <ul>
         <li>
-          <strong>For help with VA benefit debt:</strong> Contact our Debt
-          Management Center by calling <va-telephone contact={CONTACTS.DMC} />{' '}
-          (or <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />{' '}
-          from overseas) to request temporary financial relief or via Ask VA
-          (select "Veterans Affairs-Debt" as the category). We’re here Monday
-          through Friday, 7:30 a.m. to 7:00 p.m. ET. If you have hearing loss,
-          call <va-telephone contact={CONTACTS[711]} tty />.
+          <strong>
+            For temporary help with debt from benefit overpayments
+          </strong>
+          <p className="vads-u-margin-top--0">
+            Call our Debt Management Center at{' '}
+            <va-telephone contact={CONTACTS.DMC} /> (
+            <va-telephone contact={CONTACTS[711]} tty />
+            ). If you’re outside the U.S., call{' '}
+            <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />.
+            We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+          </p>
+          <p>
+            Or contact us online through Ask VA. Select "Veterans Affairs -
+            Debt" as the category.
+          </p>
+          <va-link
+            href="https://ask.va.gov"
+            text="Contact us online through Ask VA"
+          />
         </li>
         <li>
           <strong>
-            For help with VA debt related to medical care and pharmacy services:{' '}
+            For temporary help with debt from health care copay bills
           </strong>
-          Call our Health Resource Center at{' '}
-          <va-telephone contact="8664001238" /> (
-          <va-telephone contact={CONTACTS[711]} tty />
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          <p className="vads-u-margin-top--0">
+            Call our Health Resource Center at{' '}
+            <va-telephone contact="8664001238" /> (
+            <va-telephone contact={CONTACTS[711]} tty />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </p>
         </li>
       </ul>
     </va-alert-expandable>
