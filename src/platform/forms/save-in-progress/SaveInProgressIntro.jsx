@@ -15,6 +15,7 @@ import environment from 'platform/utilities/environment';
 import recordEvent from '~/platform/monitoring/record-event';
 
 import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
+
 import DowntimeNotification, {
   externalServiceStatus,
 } from '~/platform/monitoring/DowntimeNotification';
