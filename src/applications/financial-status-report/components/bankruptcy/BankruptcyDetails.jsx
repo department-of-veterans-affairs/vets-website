@@ -132,6 +132,7 @@ const BankruptcyDetails = ({
           name="date-discharged"
           onDateBlur={() => handleDateBlur()}
           onDateChange={({ target }) => {
+            setDateError(null);
             setDateDischarged(target.value);
           }}
           value={dateDischarged}

@@ -160,7 +160,6 @@ class ContactListPage {
       .find(`a[href*="contact"]`)
       .click({ force: true });
 
-    cy.contains(`Delete draft`).click({ force: true });
     cy.url().should(`include`, `${Paths.UI_MAIN}/contact-list`);
   };
 
