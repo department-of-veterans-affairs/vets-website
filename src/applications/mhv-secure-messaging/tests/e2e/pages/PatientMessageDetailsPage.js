@@ -241,9 +241,6 @@ class PatientMessageDetailsPage {
   };
 
   expandAllThreadMessages = () => {
-    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGES}/**`, '{}').as(
-      'allMessageDetails',
-    );
     cy.get(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
     cy.get(Locators.ALERTS.THREAD_EXPAND)
       .shadow()
