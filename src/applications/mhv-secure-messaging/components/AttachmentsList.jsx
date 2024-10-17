@@ -219,8 +219,8 @@ const AttachmentsList = props => {
             status="error"
           >
             <p className="vads-u-margin--0 vads-u-margin-bottom--1">
-              One or more of the files you attached has a virus. You’ll need to
-              remove it to send your message.
+              Your message failed to send. One or more of your files failed our
+              scan. Try sending your message without any attachments.
             </p>
             <va-button
               text="Remove all attachments"

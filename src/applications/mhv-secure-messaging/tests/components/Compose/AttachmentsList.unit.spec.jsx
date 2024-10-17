@@ -255,7 +255,7 @@ describe('Attachments List component', () => {
     expect(screen.findByTestId('attachment-virus-alert')).to.exist;
     expect(
       screen.getByText(
-        'One or more of the files you attached has a virus. You’ll need to remove it to send your message.',
+        'Your message failed to send. One or more of your files failed our scan. Try sending your message without any attachments.',
       ),
     ).to.exist;
 
