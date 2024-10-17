@@ -11,7 +11,7 @@ const initDDRum = () => {
     service: 'identity',
     env: environment.vspEnvironment(),
     sampleRate: 1,
-    sessionReplaySampleRate: 5,
+    sessionReplaySampleRate: 10,
     trackInteractions: true,
     trackFrustrations: true,
     trackResources: true,
