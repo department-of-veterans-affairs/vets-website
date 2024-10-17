@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data, Locators, Paths, Alerts } from './utils/constants';
 
-describe(`Verify virus attachment scan alerts`, () => {
+describe(`SM ATTACHMENT WITH VIRUS TESTS`, () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -14,7 +14,6 @@ describe(`Verify virus attachment scan alerts`, () => {
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
       force: true,
-      waitforanimations: true,
     });
   });
 
@@ -36,6 +35,7 @@ describe(`Verify virus attachment scan alerts`, () => {
         .and(`include.text`, Alerts.VIRUS_ATTCH);
 
       cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
+      cy.focused().should('be.visible');
       cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).should('be.focused');
 
       cy.injectAxe();
@@ -53,9 +53,8 @@ describe(`Verify virus attachment scan alerts`, () => {
           });
         });
 
-      cy.get(Locators.ATTACH_FILE_INPUT).should(`exist`);
-
-      // TODO add focus assertions
+      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`exist`);
+      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`be.focused`);
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -98,9 +97,8 @@ describe(`Verify virus attachment scan alerts`, () => {
           });
         });
 
-      cy.get(Locators.ATTACH_FILE_INPUT).should(`exist`);
-
-      // TODO add focus assertions
+      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`exist`);
+      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`be.focused`);
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
