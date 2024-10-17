@@ -19,7 +19,7 @@ export default function ScheduleReferral() {
 
   useEffect(
     () => {
-      dispatch(setFormCurrentPage('referralReview'));
+      dispatch(setFormCurrentPage('scheduleReferral'));
     },
     [location, dispatch],
   );
