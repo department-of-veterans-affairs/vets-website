@@ -108,3 +108,7 @@ export const fillPrescriptions = prescriptions => async dispatch => {
     return error;
   }
 };
+
+export const clearFillNotification = async dispatch => {
+  dispatch({ type: Actions.Prescriptions.CLEAR_FILL_NOTIFICATION });
+};
