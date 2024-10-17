@@ -10,7 +10,7 @@ const initDDRum = () => {
     site: 'ddog-gov.com',
     service: 'identity',
     env: environment.vspEnvironment(),
-    sampleRate: 1,
+    sessionSampleRate: 100,
     sessionReplaySampleRate: 10,
     trackInteractions: true,
     trackFrustrations: true,
