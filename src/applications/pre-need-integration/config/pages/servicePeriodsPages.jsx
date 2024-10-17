@@ -33,6 +33,8 @@ const options = {
     getItemName: item => {
       return item?.serviceBranch ? serviceLabels[item.serviceBranch] : null;
     },
+    alertMaxItems: () =>
+      'You have added the maximum number of allowed service periods for this application. You may edit or delete a service period or choose to continue in the application.',
     cardDescription: item => {
       const dateRangeFrom = item?.dateRange?.from;
       const dateRangeTo = item?.dateRange?.to;
@@ -65,13 +67,15 @@ const options = {
     deleteTitle: props => {
       const servicePeriodName = props.getItemName(props.itemData);
 
-      return `Are you sure want to remove this ${servicePeriodName} service period?`;
+      return `Are you sure you want to remove this ${servicePeriodName} service period?`;
     },
     deleteDescription: props => {
       const servicePeriodName = props.getItemName(props.itemData);
 
       return `This will remove ${servicePeriodName} and all the information from the service period records.`;
     },
+    deleteNeedAtLeastOneDescription: () =>
+      'If you remove this service period, we’ll take you to a screen where you can add another service period. You’ll need to list at least one service period for us to process this form.',
     deleteYes: () => 'Yes, remove this',
     deleteNo: () => 'No, keep this',
     cancelEditTitle: props => {
@@ -159,6 +163,7 @@ function servicePeriodInformationPage(isVet, isPrep) {
             ? 'Applicant’s service period(s)'
             : 'Your service period(s)'
           : 'Sponsor’s service periods(s)',
+        nounSingular: 'service period',
         servicePeriod: options.servicePeriod,
       }),
       // application: {
