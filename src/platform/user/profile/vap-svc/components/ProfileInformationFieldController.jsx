@@ -410,6 +410,7 @@ class ProfileInformationFieldController extends React.Component {
           forceEditView={forceEditView}
           cancelButtonText={this.props?.cancelButtonText}
           saveButtonText={this.props?.saveButtonText}
+          shouldAutoFill={this.props?.shouldAutoFill}
         />
       );
     }
@@ -486,6 +487,7 @@ const shouldShowUpdateSuccessAlert = (state, field) => {
 
 ProfileInformationFieldController.defaultProps = {
   isDeleteDisabled: false,
+  shouldAutoFill: true,
 };
 
 ProfileInformationFieldController.propTypes = {
@@ -522,6 +524,7 @@ ProfileInformationFieldController.propTypes = {
   refreshTransaction: PropTypes.func,
   refreshTransactionRequest: PropTypes.func,
   saveButtonText: PropTypes.string,
+  shouldAutoFill: PropTypes.bool,
   showRemoveModal: PropTypes.bool,
   showUpdateSuccessAlert: PropTypes.bool,
   successCallback: PropTypes.func,
