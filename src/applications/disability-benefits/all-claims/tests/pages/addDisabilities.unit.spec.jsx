@@ -1,4 +1,3 @@
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
@@ -104,21 +103,6 @@ const addAConditionWithKeyboard = (
 };
 
 describe('Add Disabilities Page', () => {
-  let showAddDisabilitiesEnhancement;
-
-  before(() => {
-    const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-    showAddDisabilitiesEnhancement = useToggleValue(
-      TOGGLE_NAMES.allClaimsAddDisabilitiesEnhancement,
-    );
-  });
-
-  beforeEach(() => {
-    if (showAddDisabilitiesEnhancement) {
-      this.skip();
-    }
-  });
-
   describe('Default Rendering', () => {
     it('should render page heading and directions', () => {
       const { getByRole, getByText } = createScreen();
