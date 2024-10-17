@@ -1,6 +1,7 @@
 import React, { createContext } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchInProgressForm } from 'platform/forms/exportsFile';
 import greenFormConfig from '../../patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from '../../patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from '../../patterns/pattern1/TaskPurple/config/form';
@@ -29,7 +30,7 @@ export const getFormConfig = location => {
     return ezrFormConfig;
   }
 
-  if (location.pathname.includes('/2/task-red')) {
+  if (location.pathname.includes('/2/task-gray')) {
     return grayFormConfig;
   }
 
@@ -48,6 +49,27 @@ export const PatternConfigProvider = ({ location, children }) => {
 
   const dispatch = useDispatch();
   dispatch({ type: 'SET_NEW_FORM_CONFIG', formConfig });
+
+  // go get the form data if it hasn't been loaded yet
+  // this is used when the form is refreshed on an inner page
+  const loadedData = useSelector(state => state?.form?.loadedData);
+  const isIntroductionPage = location.pathname.includes('introduction');
+
+  if (loadedData) {
+    const { formId, prefillEnabled, prefillTransformer } = formConfig;
+    const migrations = formConfig?.migrations || [];
+    const { metadata } = loadedData;
+    if (Object.keys(metadata).length === 0 && !isIntroductionPage) {
+      dispatch(
+        fetchInProgressForm(
+          formId,
+          migrations,
+          prefillEnabled,
+          prefillTransformer,
+        ),
+      );
+    }
+  }
 
   // we need to get the header element to append the tabs to it
   const header = document.getElementById('header-default');
