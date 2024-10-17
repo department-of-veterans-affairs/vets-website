@@ -64,7 +64,10 @@ function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS: {
       const newState = mapRawUserDataToState(action.payload);
-      return { ...state, ...newState };
+      return {
+        ...state,
+        ...newState,
+      };
     }
 
     case PROFILE_LOADING_FINISHED:

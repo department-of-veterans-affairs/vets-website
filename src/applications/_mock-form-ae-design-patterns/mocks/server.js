@@ -144,7 +144,11 @@ const responses = {
   'POST /v0/profile/telephones': (req, res) => {
     // return res.status(200).json(phoneNumber.transactions.received);
     return res.json(
-      updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),
+      updateMemDb(
+        req,
+        // telephone.homePhoneUpdateReceivedPrefillTaskPurple,
+        telephone.mobilePhoneUpdateReceivedPrefillTaskBlue,
+      ),
     );
   },
   'POST /v0/profile/email_addresses': (req, res) => {

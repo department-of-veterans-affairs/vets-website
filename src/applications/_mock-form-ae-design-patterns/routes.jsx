@@ -10,6 +10,7 @@ import grayTaskConfig from './patterns/pattern2/TaskGray/form/config/form';
 import CoeApp from './patterns/pattern2/TaskGray/form/containers/App';
 import Form1990Entry from './patterns/pattern2/TaskOrange/Form1990App';
 import orangeTaskConfig from './patterns/pattern2/TaskOrange/config/form';
+import blueFormConfig from './patterns/pattern2/TaskBlue/config/form';
 
 import App from './App';
 
@@ -110,7 +111,7 @@ const pattern2Routes = [
       onEnter: (nextState, replace) =>
         replace('/2/task-blue/introduction?loggedIn=true'),
     },
-    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
+    childRoutes: createRoutesWithSaveInProgress(blueFormConfig),
   },
 ];
 
