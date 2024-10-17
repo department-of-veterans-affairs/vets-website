@@ -162,7 +162,7 @@ export const Alerts = {
       'We’re sorry. We couldn’t load this page. Try again later.',
     SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',
     ATTACHMENT_SCAN_FAIL:
-      'The file you attached has a virus. Remove the file to send your message.',
+      'Your message failed to send. Your file failed our scan. Try sending your message without any attachments.',
   },
 
   Folder: {
@@ -198,6 +198,9 @@ export const Alerts = {
   ContactList: {
     CANNOT_SAVE:
       "We're sorry. We couldn't save your changes. Try saving again.",
+  },
+  Headers: {
+    HIDE_ALERT: 'HIDE_ALERT',
   },
 };
 
