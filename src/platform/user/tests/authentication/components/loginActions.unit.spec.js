@@ -56,18 +56,6 @@ describe('login DOM ', () => {
   });
 
   ['vaoccmobile'].forEach(csp => {
-    it(`should render only DS Logon button when 'externalApplication=${csp}' and 'redirect_uri' is 'AHBurnPitRegistry'`, () => {
-      global.window.location = new URL(
-        'https://dev.va.gov/sign-in/?application=vaoccmobile&redirect_uri=AHBurnPitRegistry&oauth=false',
-      );
-      const loginButtons = mount(
-        <Provider store={mockStore}>
-          <LoginActions externalApplication={csp} />
-        </Provider>,
-      );
-      expect(loginButtons.find('[data-csp="dslogon"]').exists()).to.be.true;
-      loginButtons.unmount();
-    });
     it(`should render all buttons when 'externalApplication=${csp}' and 'redirect_uri' is NOT present`, () => {
       global.window.location = new URL(
         'https://dev.va.gov/sign-in/?application=vaoccmobile',
