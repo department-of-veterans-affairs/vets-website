@@ -1,6 +1,7 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import createApplicantInformationPage from '~/platform/forms/pages/applicantInformation';
 import get from '~/platform/utilities/data/get';
+import { hasSession } from 'platform/user/profile/utilities';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
@@ -23,6 +24,28 @@ import {
 import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 import guardianInformation from '../pages/guardianInformation';
 
+/**
+ * Adds additional schema to the Applicant Information if the
+ * user is authenticated which contains EDIPI and ICN fields.
+ */
+const updateApplicantInformationPage = page =>
+  hasSession()
+    ? {
+        ...page,
+        schema: {
+          ...page.schema,
+          properties: {
+            ...page.schema.properties,
+            ...applicantInformationUpdate.additionalSchema,
+          },
+        },
+        uiSchema: {
+          ...page.uiSchema,
+          ...applicantInformationUpdate.additionalUiSchema,
+        },
+      }
+    : page;
+
 export const applicantInformationField = (automatedTest = false) => {
   if (isProductionOfTestProdEnv(automatedTest)) {
     return {
@@ -38,7 +61,7 @@ export const applicantInformationField = (automatedTest = false) => {
       }),
     };
   }
-  return {
+  const applicantInformationPage = {
     ...createApplicantInformationPage(fullSchema1995, {
       isVeteran: true,
       fields: [
@@ -58,6 +81,7 @@ export const applicantInformationField = (automatedTest = false) => {
     }),
     uiSchema: applicantInformationUpdate.uiSchema,
   };
+  return updateApplicantInformationPage(applicantInformationPage);
 };
 
 export const benefitSelectionUiSchema = (automatedTest = false) => {
