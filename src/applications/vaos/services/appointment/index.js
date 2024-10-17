@@ -844,7 +844,7 @@ export function getLink({ featureBreadcrumbUrlUpdate, appointment }) {
       ? `${isPastAppointment ? '/past' : ''}/cc/${appointment.id}`
       : `${isPastAppointment ? '/past' : ''}/va/${appointment.id}`;
   }
-  return `${isPastAppointment ? 'past' : ''}/${appointment.id}`;
+  return `${isPastAppointment ? 'past' : 'upcoming'}/${appointment.id}`;
 }
 
 export function getPractitionerName(appointment) {
