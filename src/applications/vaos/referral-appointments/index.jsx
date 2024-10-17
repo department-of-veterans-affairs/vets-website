@@ -10,10 +10,7 @@ export default function ReferralList() {
   const basePath = useRouteMatch();
   return (
     <Switch>
-      <Route
-        path={`${basePath.url}/confirm-approved`}
-        component={ConfirmApprovedPage}
-      />
+      <Route path={`${basePath.url}/review`} component={ConfirmApprovedPage} />
       <Route path={`${basePath.url}/date-time`} component={ChooseDateAndTime} />
       <Route path={`${basePath.url}/:id`} component={ScheduleReferral} />
     </Switch>
