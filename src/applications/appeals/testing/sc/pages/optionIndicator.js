@@ -1,4 +1,7 @@
-import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  radioOptionalUI,
+  radioOptionalSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
   optionIndicatorDescription,
@@ -15,13 +18,12 @@ export default {
     'view:vhaContent': {
       'ui:description': optionIndicatorDescription,
     },
-    optionIndicator: radioUI({
+    optionIndicator: radioOptionalUI({
       title: optionIndicatorLabel,
       hint: optionIndicatorHint,
       enableAnalytics: true,
       labelHeaderLevel: '3',
       labels: optionIndicatorChoices,
-      required: () => false,
       updateUiSchema: () => ({
         'ui:options': {
           labelHeaderLevel: isOnReviewPage() ? 4 : 3,
@@ -37,9 +39,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      optionIndicator: {
-        type: 'string',
-      },
+      optionIndicator: radioOptionalSchema(),
     },
   },
 };

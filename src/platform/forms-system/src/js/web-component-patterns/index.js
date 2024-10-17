@@ -10,6 +10,7 @@ export * from './fullNamePattern';
 export * from './numberPattern';
 export * from './phonePatterns';
 export * from './radioPattern';
+export * from './radioOptionalPattern';
 export * from './relationshipToVeteranPattern';
 export * from './selectPattern';
 export * from './ssnPattern';

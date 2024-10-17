@@ -30,6 +30,25 @@ function optionsList(schema) {
  * ```js
  * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])
  * ```
+ *
+ * Usage for an optional radio pattern:
+ *
+ * ```js
+ * exampleRadio: radioOptionalUI({
+ *  title: 'Select animal',
+ *  labels: {
+ *      dog: 'Dog',
+ *      cat: 'Cat',
+ *      octopus: 'Octopus',
+ *  }
+ * })
+ * ```
+ *
+ * Usage optional schema:
+ * ```js
+ * exampleRadio: radioOptionalSchema()
+ * ```
+ *
  * @param {WebComponentFieldProps} props */
 export default function VaRadioField(props) {
   const mappedProps = vaRadioFieldMapping(props);
