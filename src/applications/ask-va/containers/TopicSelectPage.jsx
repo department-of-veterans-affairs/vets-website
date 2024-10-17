@@ -16,7 +16,7 @@ import { ServerErrorAlert } from '../config/helpers';
 import {
   CHAPTER_1,
   URL,
-  envUrl,
+  getApiUrl,
   requireSignInTopics,
   requiredForSubtopicPage,
 } from '../constants';
@@ -81,11 +81,9 @@ const TopicSelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(
-        `${envUrl}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${URL.GET_TOPICS}`,
-      );
+      getApiData(getApiUrl(URL.GET_TOPIC, { PARENT_ID: categoryID }));
     },
-    [loggedIn],
+    [loggedIn, categoryID],
   );
 
   useEffect(
