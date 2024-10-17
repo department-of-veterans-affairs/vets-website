@@ -97,8 +97,8 @@ describe('addStudentsOptions', () => {
     });
 
     it('should return true when tuitionIsPaidByGovAgency is true but not set correctly', () => {
-      const item = { ...incompleteItem, tuitionIsPaidByGovAgency: true }; // Missing required field for tuition
-      expect(addStudentsOptions.isItemIncomplete(item)).to.be.true; // Expects true for being incomplete
+      const item = { ...incompleteItem, tuitionIsPaidByGovAgency: true };
+      expect(addStudentsOptions.isItemIncomplete(item)).to.be.true;
     });
 
     it('should return true when maximum items exceeded', () => {
