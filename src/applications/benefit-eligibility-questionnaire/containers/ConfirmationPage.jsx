@@ -180,7 +180,6 @@ export class ConfirmationPage extends React.Component {
     this.props.router.goBack();
   };
 
-  /* eslint-disable class-methods-use-this */
   static sortBenefitObj(benefitObj, sortKey) {
     return [...benefitObj].sort((a, b) => {
       let aValue = a[sortKey] || '';
