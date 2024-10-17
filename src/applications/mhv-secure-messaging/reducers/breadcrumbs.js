@@ -1,5 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import { Breadcrumbs } from '../util/constants';
+import { Breadcrumbs, Paths } from '../util/constants';
 
 const defaultCrumbsList = [
   {
@@ -20,20 +20,30 @@ const defaultCrumbsList = [
 const initialState = {
   list: {},
   crumbsList: defaultCrumbsList,
+  previousUrl: Paths.INBOX,
 };
 
 export const breadcrumbsReducer = (state = initialState, action) => {
-  if (action.type === Actions.Breadcrumbs.SET_BREAD_CRUMBS) {
-    if (action.payload.crumbs[0] === undefined) {
+  switch (action.type) {
+    case Actions.Breadcrumbs.SET_BREAD_CRUMBS:
+      if (action.payload.crumbs[0] === undefined) {
+        return {
+          ...state,
+          list: Breadcrumbs.MESSAGES,
+          crumbsList: defaultCrumbsList,
+        };
+      }
       return {
-        list: Breadcrumbs.MESSAGES,
-        crumbsList: defaultCrumbsList,
+        ...state,
+        list: action.payload.crumbs[0],
+        crumbsList: [...defaultCrumbsList, ...action.payload.crumbs],
       };
-    }
-    return {
-      list: action.payload.crumbs[0],
-      crumbsList: [...defaultCrumbsList, ...action.payload.crumbs],
-    };
+    case Actions.Breadcrumbs.SET_PREVIOUS_URL:
+      return {
+        ...state,
+        previousUrl: action.payload,
+      };
+    default:
+      return state;
   }
-  return state;
 };

@@ -1,7 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { ROUTES } from '../constants';
 
-const InstructionsPage = () => {
+const InstructionsPage = ({ router }) => {
+  const startForm = event => {
+    event.preventDefault();
+    router.push(ROUTES.QUESTIONS);
+  };
   return (
     <section
       className="dw-instructions"
@@ -10,7 +14,7 @@ const InstructionsPage = () => {
     >
       <h1 itemProp="name">How to apply for a discharge upgrade</h1>
       <div className="row vads-u-margin--0">
-        <article className="usa-content columns xsmall-screen:vads-u-padding--0">
+        <article className="usa-content columns mobile:vads-u-padding--0">
           <div className="va-introtext">
             <p itemProp="description">
               Answer a series of questions to get customized step-by-step
@@ -49,9 +53,12 @@ const InstructionsPage = () => {
                     confidential.
                   </p>
                   <p>
-                    <Link className="vads-c-action-link--green" to="questions">
-                      Get started
-                    </Link>
+                    <va-link-action
+                      data-testid="duw-start"
+                      href="#"
+                      onClick={startForm}
+                      text="Get started"
+                    />
                   </p>
                 </div>
               </div>

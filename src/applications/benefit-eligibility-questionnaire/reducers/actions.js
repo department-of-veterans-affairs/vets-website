@@ -21,7 +21,7 @@ const fetchResultsFailure = error => ({
   error,
 });
 
-const checkExtraConditions = (benefit, formData) => {
+export const checkExtraConditions = (benefit, formData) => {
   let result = true;
 
   if (benefit.extraConditions) {
@@ -46,7 +46,7 @@ const checkExtraConditions = (benefit, formData) => {
   return result;
 };
 
-const mapBenefitFromFormInputData = (benefit, formData) => {
+export const mapBenefitFromFormInputData = (benefit, formData) => {
   if (checkExtraConditions(benefit, formData) === false) return false;
 
   const mappingKeys = Object.keys(mappingTypes);

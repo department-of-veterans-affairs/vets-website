@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { head } from 'lodash';
@@ -13,6 +12,7 @@ import {
   setPageFocus,
   debtLettersShowLettersVBMS,
   showPaymentHistory,
+  formatDate,
 } from '../../combined/utils/helpers';
 import { getCurrentDebt, currency } from '../utils/page';
 import {
@@ -97,7 +97,7 @@ const DebtDetails = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current VA debt',
+            label: 'Current debts',
           },
           {
             href: `/manage-va-debt/summary/debt-balances/details/${
@@ -117,9 +117,9 @@ const DebtDetails = () => {
           <p className="va-introtext">
             Updated on
             <span className="vads-u-margin-left--0p5">
-              {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+              {formatDate(dateUpdated)}
             </span>
-            . Payments after this date will not be reflected here.
+            .
           </p>
         )}
         <DebtDetailsCard debt={currentDebt} />
@@ -143,24 +143,26 @@ const DebtDetails = () => {
             <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
               Debt details
             </h2>
-            <div className="small-screen:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
+            <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
               <div>
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
                     Current balance as of{' '}
-                    {getLatestPaymentDateFromCurrentDebt(currentDebt)}
+                    {formatDate(
+                      getLatestPaymentDateFromCurrentDebt(currentDebt),
+                    )}
                   </span>
-                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
                     {formatCurrency(currentDebt.currentAr)}
                   </span>
                 </h3>
               </div>
-              <div className="vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
+              <div className="debt-balance-details small-screen:vads-u-margin-top--0">
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
                     Original overpayment amount
                   </span>
-                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
                     {formatCurrency(currentDebt.originalAr)}
                   </span>
                 </h3>
@@ -177,11 +179,6 @@ const DebtDetails = () => {
             >
               Debt letter history
             </h2>
-            <p className="vads-u-margin-bottom--0">
-              {`You can check the status ${
-                showDebtLetterDownload ? `or download the letters for` : `of`
-              } this debt.`}
-            </p>
             <HistoryTable history={filteredHistory} />
             {showDebtLetterDownload ? (
               <>

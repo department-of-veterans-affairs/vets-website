@@ -1,7 +1,11 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, loadStates } from '../util/constants';
-import { isArrayAndHasItems, extractContainedResource } from '../util/helpers';
+import {
+  isArrayAndHasItems,
+  extractContainedResource,
+  formatNameFirstToLast,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -60,7 +64,7 @@ export const extractProvider = condition => {
     // Use the reference inside "recorder" to get the value from "contained".
     const org = extractContainedResource(condition, ref);
     if (org?.name) {
-      return org.name[0].text;
+      return formatNameFirstToLast(org.name[0]);
     }
   }
   return EMPTY_FIELD;

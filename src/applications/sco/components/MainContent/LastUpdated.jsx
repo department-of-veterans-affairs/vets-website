@@ -9,8 +9,8 @@ const LastUpdated = () => {
   };
 
   return (
-    <div className="last-updated usa-content vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
-      <div className="small-screen:vads-u-display--flex above-footer-elements-container">
+    <div className="last-updated usa-content vads-u-padding-x--1 desktop-lg:vads-u-padding-x--0">
+      <div className="mobile-lg:vads-u-display--flex above-footer-elements-container">
         <div className="vads-u-flex--auto">
           <span className="vads-u-text-align--justify">
             <p>

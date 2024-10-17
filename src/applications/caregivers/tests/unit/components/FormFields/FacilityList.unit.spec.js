@@ -14,7 +14,7 @@ describe('CG <FacilityList>', () => {
     error = undefined,
   }) => ({
     props: {
-      facilities: mockFetchFacilitiesResponse,
+      facilities: mockFetchFacilitiesResponse.facilities,
       formContext: { reviewMode, submitted },
       onChange: sinon.spy(),
       query: 'Tampa',
@@ -74,7 +74,7 @@ describe('CG <FacilityList>', () => {
       const { selectors } = subject({ props });
       expect(selectors().vaRadio).to.have.attr(
         'error',
-        content['validation-facialities--default-required'],
+        content['validation-facilities--default-required'],
       );
     });
 

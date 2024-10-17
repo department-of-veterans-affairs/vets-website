@@ -138,6 +138,33 @@ export const normalizedForm = {
         includeDateOfBirth: false,
       },
     },
+    {
+      id: 160592,
+      chapterTitle: 'Generated Identification Information',
+      type: 'digital_form_identification_info',
+      pageTitle: 'Identification Information',
+      additionalFields: {
+        includeServiceNumber: false,
+      },
+    },
+    {
+      id: 161344,
+      chapterTitle: 'Generated Address',
+      type: 'digital_form_address',
+      pageTitle: 'Address',
+      additionalFields: {
+        militaryAddressCheckbox: false,
+      },
+    },
+    {
+      id: 161351,
+      chapterTitle: 'Generated Phone',
+      type: 'digital_form_phone_and_email',
+      pageTitle: 'Phone and email address',
+      additionalFields: {
+        includeEmail: false,
+      },
+    },
   ],
 };
 
@@ -163,6 +190,33 @@ export const employmentQuestionnaire = {
       pageTitle: 'Name and Date of Birth',
       additionalFields: {
         includeDateOfBirth: true,
+      },
+    },
+    {
+      id: 20002,
+      chapterTitle: 'Identification information',
+      type: 'digital_form_identification_info',
+      pageTitle: 'Identification Information',
+      additionalFields: {
+        includeServiceNumber: true,
+      },
+    },
+    {
+      id: 20003,
+      chapterTitle: "Veteran's mailing information",
+      type: 'digital_form_address',
+      pageTitle: 'Address',
+      additionalFields: {
+        militaryAddressCheckbox: true,
+      },
+    },
+    {
+      id: 20004,
+      chapterTitle: "Veteran's contact information",
+      type: 'digital_form_phone_and_email',
+      pageTitle: 'Phone and email address',
+      additionalFields: {
+        includeEmail: true,
       },
     },
   ],

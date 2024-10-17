@@ -5,6 +5,7 @@ import environment from '../../utilities/environment';
 import {
   eauthEnvironmentPrefixes,
   cernerEnvPrefixes,
+  oracleHealthEnvPrefixes,
 } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
@@ -117,6 +118,12 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
 };
 
+export const EXTERNAL_REDIRECTS_ALT = {
+  [EXTERNAL_APPS.MY_VA_HEALTH]: `https://${
+    oracleHealthEnvPrefixes[environment.BUILDTYPE]
+  }patientportal.myhealth.va.gov`,
+};
+
 export const GA = {
   clientIdKey: 'clientId',
   trackingIdKey: 'trackingId',
@@ -161,6 +168,7 @@ export const AUTH_PARAMS = {
   to: 'to',
   redirectUri: 'redirect_uri',
   scope: 'scope',
+  verification: 'verification',
 };
 
 export const OCC_MOBILE = {

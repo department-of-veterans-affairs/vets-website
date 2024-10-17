@@ -4,6 +4,9 @@ import {
   CHAPTER_2,
   CHAPTER_3,
   healthcareCategoryLabels,
+  schoolInYourProfileOptions,
+  yourRoleOptions,
+  whoIsYourQuestionAboutLabels,
 } from '../../constants';
 
 // Personal Information
@@ -23,11 +26,14 @@ import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeter
 import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
 import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
 import relationshipToVeteranPage from '../chapters/personalInformation/relationshipToVeteran';
+import schoolInYourProfilePage from '../chapters/personalInformation/schoolInYourProfile';
 import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
 import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
 import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
 import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
+import theirVRECounselorPage from '../chapters/personalInformation/theirVRECounselor';
+import theirVREInformationPage from '../chapters/personalInformation/theirVREInformation';
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
 import veteransPostalCodePage from '../chapters/personalInformation/veteransPostalCode';
@@ -38,6 +44,8 @@ import yourMailingAddressPage from '../chapters/personalInformation/yourMailingA
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
+import yourVRECounselorPage from '../chapters/personalInformation/yourVRECounselor';
+import yourVREInformationPage from '../chapters/personalInformation/yourVREInformation';
 
 export const flowPaths = {
   aboutMyselfRelationshipVeteran: 'about-myself-relationship-veteran',
@@ -165,6 +173,7 @@ const ch3Pages = {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: searchSchoolsPage.uiSchema,
     schema: searchSchoolsPage.schema,
+    depends: form => form.useSchoolInProfile === schoolInYourProfileOptions.NO,
   },
   schoolStOrResidency: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -175,6 +184,11 @@ const ch3Pages = {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: stateOfSchoolPage.uiSchema,
     schema: stateOfSchoolPage.schema,
+    depends: form =>
+      form.school === 'My facility is not listed' ||
+      form.yourRole === yourRoleOptions.VA_EMPLOYEE ||
+      form.yourRole === yourRoleOptions.WORK_STUDY_SUP ||
+      form.yourRole === yourRoleOptions.OTHER,
   },
   stateOrFacility: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -185,6 +199,18 @@ const ch3Pages = {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: useThisSchoolPage.uiSchema,
     schema: useThisSchoolPage.schema,
+    depends: form =>
+      form.useSchoolInProfile === schoolInYourProfileOptions.NO &&
+      form.school !== 'My facility is not listed',
+  },
+  schoolInYourProfile: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: schoolInYourProfilePage.uiSchema,
+    schema: schoolInYourProfilePage.schema,
+    depends: form =>
+      yourRoleOptions[form.yourRoleEducation] === yourRoleOptions.SCO ||
+      yourRoleOptions[form.yourRoleEducation] ===
+        yourRoleOptions.TRAINING_OR_APPRENTICESHIP_SUP,
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
@@ -266,6 +292,28 @@ const ch3Pages = {
     },
     uiSchema: {}, // UI schema is completely ignored
   },
+  yourVREInformation: {
+    title: CHAPTER_3.YOUR_VRE_INFORMATION.TITLE,
+    uiSchema: yourVREInformationPage.uiSchema,
+    schema: yourVREInformationPage.schema,
+  },
+  yourVRECounselor: {
+    title: CHAPTER_3.YOUR_VRE_COUNSELOR.TITLE,
+    uiSchema: yourVRECounselorPage.uiSchema,
+    schema: yourVRECounselorPage.schema,
+    depends: form => form.yourVREInformation === true,
+  },
+  theirVREInformation: {
+    title: CHAPTER_3.THEIR_VRE_INFORMATION.TITLE,
+    uiSchema: theirVREInformationPage.uiSchema,
+    schema: theirVREInformationPage.schema,
+  },
+  theirVRECounselor: {
+    title: CHAPTER_3.THEIR_VRE_COUNSELOR.TITLE,
+    uiSchema: theirVRECounselorPage.uiSchema,
+    schema: theirVRECounselorPage.schema,
+    depends: form => form.theirVREInformation === true,
+  },
 };
 
 const aboutMyselfRelationshipVeteranCondition = formData => {
@@ -323,26 +371,30 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formData => {
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
   return (
-    formData.whoIsYourQuestionAbout === 'Someone else' &&
+    // Using VEAP (Ch 32) for testing - Will swap it out for VR&E when added to Topics
     formData.relationshipToVeteran ===
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-    formData.selectCategory === CategoryEducation
+    formData.selectCategory === CategoryEducation &&
+    formData.selectTopic !== 'VEAP (Ch 32)'
   );
 };
 
 const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
   return (
-    formData.whoIsYourQuestionAbout === 'Someone else' &&
+    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
+      'Someone else' &&
     formData.relationshipToVeteran !==
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-    formData.selectCategory === CategoryEducation
+    formData.selectCategory === 'Education benefits and work study'
   );
 };
 
 const generalQuestionCondition = formData => {
   return (
-    formData.whoIsYourQuestionAbout === "It's a general question" ||
-    formData.selectCategory === CategoryEducation
+    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
+      "It's a general question" ||
+    (formData.selectCategory === 'Education benefits and work study' &&
+      formData.selectTopic === 'Veteran Readiness and Employment (Chapter 31)')
   );
 };
 
@@ -403,7 +455,8 @@ export const flowPages = (obj, list, path) => {
 const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'yourVREInformation',
+  'yourVRECounselor',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -423,7 +476,8 @@ const aboutMyselfRelationshipFamilyMember = [
   'dateOfDeath',
   'aboutYourselfRelationshipFamilyMember',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'yourVREInformation',
+  'yourVRECounselor',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -442,7 +496,8 @@ const aboutSomeoneElseRelationshipVeteran = [
   'familyMembersLocationOfResidence',
   'familyMembersPostalCode',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'theirVREInformation',
+  'theirVRECounselor',
   'aboutYourself',
   'yourContactInformation',
   'yourMailingAddress',
@@ -471,7 +526,8 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
   'veteransLocationOfResidence',
   'veteransPostalCode',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'theirVREInformation',
+  'theirVRECounselor',
   'aboutYourselfRelationshipFamilyMember',
   'yourContactInformation',
   'yourMailingAddress',
@@ -489,7 +545,8 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'familyMembersLocationOfResidence',
   'familyMembersPostalCode',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'theirVREInformation',
+  'theirVRECounselor',
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
@@ -522,7 +579,8 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'veteransLocationOfResidence',
   'veteransPostalCode',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'theirVREInformation',
+  'theirVRECounselor',
   'aboutYourself',
   'yourContactInformation',
   'yourMailingAddress',
@@ -535,8 +593,11 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkPages = flowPages(
 );
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducation = [
-  'yourRole',
+  'yourRoleEducation',
+  'schoolInYourProfile',
   'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'aboutYourself',
   'yourContactInformation',
 ];
@@ -549,7 +610,8 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = fl
 const generalQuestion = [
   'aboutYourselfGeneral',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'yourVREInformation',
+  'yourVRECounselor',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',

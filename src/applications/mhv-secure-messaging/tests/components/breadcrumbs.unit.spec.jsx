@@ -2,12 +2,12 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
-import { Breadcrumbs } from '../../util/constants';
+import { Breadcrumbs, Paths } from '../../util/constants';
 
 let initialState;
 describe('Breadcrumbs', () => {
@@ -194,6 +194,73 @@ describe('Breadcrumbs', () => {
       await screen.findByText('Back to trash', {
         exact: true,
       }),
+    );
+  });
+
+  it('should navigate to the INBOX if the previousUrl is contact list', () => {
+    const customState = {
+      sm: {
+        breadcrumbs: {
+          previousUrl: Paths.CONTACT_LIST,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.COMPOSE,
+    });
+
+    fireEvent.click(screen.getByText('Back'));
+
+    expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+  });
+
+  it('should navigate to the previousUrl if the previousUrl is not contact list', () => {
+    const customState = {
+      sm: {
+        breadcrumbs: {
+          previousUrl: Paths.DRAFTS,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.COMPOSE,
+    });
+
+    fireEvent.click(screen.getByText('Back'));
+
+    expect(screen.history.location.pathname).to.equal(Paths.DRAFTS);
+  });
+
+  it('should redirect back to draft message if an active draft is present', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        breadcrumbs: {
+          previousUrl: Paths.COMPOSE,
+        },
+        threadDetails: {
+          drafts: [{ messageId: '123123' }],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.CONTACT_LIST,
+    });
+
+    fireEvent.click(screen.getByText('Back'));
+
+    expect(screen.history.location.pathname).to.equal(
+      `${Paths.MESSAGE_THREAD}123123/`,
     );
   });
 });

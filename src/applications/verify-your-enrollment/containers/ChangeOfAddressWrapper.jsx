@@ -51,6 +51,10 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const scrollToTopOfForm = () => {
     scrollToElement('Contact information');
   };
+  useEffect(() => {
+    document.title =
+      'Your Montgomery GI Bill benefits information | Veterans Affairs';
+  }, []);
 
   // This Effcet to defalut setNewAddress to mailingAddress
   useEffect(
@@ -63,10 +67,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     () => {
       setFormData({});
       if (confidenceScore === 100 && response) {
-        const isUSA = address.countryCodeIso3 === 'USA';
         const stateAndZip = {
-          stateCode: isUSA ? address.stateCode : address.province,
-          zipCode: isUSA ? address.zipCode : address.internationalPostalCode,
+          stateCode: address.stateCode,
+          zipCode: address.zipCode,
         };
         setNewAddress({
           street: `${address.addressLine1} ${address.addressLine2 || ''}`,

@@ -6,6 +6,7 @@ import {
   selectCernerFacilityIds,
   selectEhrDataByVhaId,
 } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { getRealFacilityId } from '../utils/appointment';
 
 export const selectRegisteredCernerFacilityIds = state => {
   const patientFacilities = selectPatientFacilities(state);
@@ -13,7 +14,10 @@ export const selectRegisteredCernerFacilityIds = state => {
 
   return (
     patientFacilities?.reduce((accumulator, current) => {
-      if (cernerFacilityIds.includes(current.facilityId) || current.isCerner)
+      if (
+        cernerFacilityIds.includes(getRealFacilityId(current.facilityId)) ||
+        current.isCerner
+      )
         return [...accumulator, current.facilityId];
       return accumulator;
     }, []) || []
@@ -101,9 +105,6 @@ export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 
 export const selectFeatureRecentLocationsFilter = state =>
   toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
-
-export const selectFeatureMedReviewInstructions = state =>
-  toggleValues(state).vaOnlineSchedulingMedReviewInstructions;
 
 export const selectFeatureOHDirectSchedule = state =>
   toggleValues(state).vaOnlineSchedulingOhDirectSchedule;

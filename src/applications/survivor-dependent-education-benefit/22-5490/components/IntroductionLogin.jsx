@@ -112,7 +112,11 @@ function IntroductionLogin({
             </va-alert>
             <p className="vads-u-margin-top--4">
               If you don't want to sign in, you can{' '}
-              <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
+              <a
+                target="_blank"
+                href="https://www.vba.va.gov/pubs/forms/VBA-22-5490-ARE.pdf"
+                rel="noreferrer"
+              >
                 apply using the paper form
               </a>
               . Please expect longer processing time for decisions when opting

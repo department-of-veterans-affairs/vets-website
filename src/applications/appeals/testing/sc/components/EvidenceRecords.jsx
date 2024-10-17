@@ -116,6 +116,7 @@ export const IssueAndDates = ({
           id="txdate"
           name="txdate"
           monthYearOnly
+          error={showError('treatmentDate')}
           label={content.treatmentDate}
           hint={content.treatmentHint}
           onDateChange={handlers.onChange}
