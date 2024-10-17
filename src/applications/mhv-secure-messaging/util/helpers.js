@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import DOMPurify from 'dompurify';
 import {
   DefaultFolders as Folders,
   Paths,
@@ -145,6 +146,21 @@ export const titleCase = str => {
 
 export const httpRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi; // Accepts 'http'
 export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/gi; // Accepts www and https
+
+export const decodeHtmlEntities = str => {
+  const parser = new DOMParser();
+  const decodedStr = str
+    .replace(/&quot;/g, '"') // Replace &quot; with "
+    .replace(/&#x22;/g, '"') // Replace &#x22; with "
+    .replace(/&lt;/g, '<') // Replace &lt; with <
+    .replace(/&gt;/g, '>') // Replace &gt; with >
+    .replace(/&amp;/g, '&'); // Replace &amp; with &
+
+  const sanitizedStr = DOMPurify.sanitize(decodedStr);
+
+  return parser.parseFromString(sanitizedStr, 'text/html').documentElement
+    .innerText;
+};
 
 /**
  * Comparing a timestampt to current date and time, if older than days return true
