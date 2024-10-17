@@ -25,9 +25,14 @@ export const useData = () => {
   );
 
   const userInfo = response?.personalInfo?.['vye::UserInfo'];
-  const expirationDate = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
+  const expirationDate = translateDateIntoMonthDayYearFormat(
+    userInfo?.delDate || response?.personalInfo?.recordResponse?.delimitingDate,
+  );
   const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
   const { month, day } = remainingBenefits(userInfo?.remEnt);
+  const fullName = `${claimantIdResponse.profile?.firstName} ${
+    claimantIdResponse.profile?.middleName
+  } ${claimantIdResponse.profile?.lastName}`;
   return {
     personalInfo: response?.personalInfo,
     errorMessage: response,
@@ -39,5 +44,6 @@ export const useData = () => {
     ...userInfo,
     claimantId: claimantIdResponse?.claimantId,
     profile: claimantIdResponse?.profile,
+    fullName,
   };
 };

@@ -32,6 +32,7 @@ const BenefitsProfileWrapper = ({ children }) => {
     indicator,
     claimantId,
     profile,
+    fullName,
   } = useData();
 
   const applicantName = latestAddress?.veteranName;
@@ -69,7 +70,7 @@ const BenefitsProfileWrapper = ({ children }) => {
             <PayeeInformationWrapper
               loading={loading}
               applicantChapter={applicantChapter}
-              applicantName={applicantName}
+              applicantName={applicantName || fullName}
             />
             {(toggleValue || window.isProduction) && !claimantId ? (
               <>
@@ -95,10 +96,12 @@ const BenefitsProfileWrapper = ({ children }) => {
                 )}
               </>
             ) : null}
-            <PendingDocuments
-              loading={loading}
-              pendingDocuments={pendingDocuments}
-            />
+            {!claimantId && (
+              <PendingDocuments
+                loading={loading}
+                pendingDocuments={pendingDocuments}
+              />
+            )}
             {children}
             <MoreInfoCard
               marginTop="7"

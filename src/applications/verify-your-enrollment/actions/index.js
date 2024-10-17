@@ -85,7 +85,7 @@ export const fetchClaimantId = () => {
         'http://localhost:8080/dgi/vye/claimantLookup',
         {
           method: 'POST',
-          body: JSON.stringify({ idNumber: profile?.birlsId }),
+          body: JSON.stringify({ ssn: profile?.birlsId }),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -139,7 +139,7 @@ export const fetchPersonalInfo = () => {
       );
       dispatch({
         type: FETCH_PERSONAL_INFO_SUCCESS,
-        response: { statusResponse, recordResponse }, // Include responses in the success action
+        response: { statusResponse, recordResponse },
       });
     } else {
       return apiRequest(API_URL, {

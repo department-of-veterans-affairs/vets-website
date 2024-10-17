@@ -164,6 +164,7 @@ export const getPendingDocumentDescription = docType => {
   return { documentDisplayName, documentExplanation };
 };
 export const remainingBenefits = remEnt => {
+  // const
   const month = parseInt(remEnt?.slice(0, 2), 10);
   const rest = parseFloat(`0.${remEnt?.slice(2)}`);
   const day = Math.round(rest * 30);
