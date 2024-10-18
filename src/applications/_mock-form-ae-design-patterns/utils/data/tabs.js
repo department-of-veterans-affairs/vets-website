@@ -38,6 +38,13 @@ export const tabsConfig = {
       bgColor: '--vads-color-gray-warm-dark',
       textColor: '--vads-color-white',
     },
+    {
+      name: 'Blue',
+      path: '/2/task-blue',
+      description: 'Pattern 2 - Blue Task',
+      bgColor: '--vads-color-primary-dark',
+      textColor: '--vads-color-white',
+    },
   ],
 };
 
