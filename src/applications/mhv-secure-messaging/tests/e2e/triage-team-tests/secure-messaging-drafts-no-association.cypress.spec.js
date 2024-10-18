@@ -5,7 +5,7 @@ import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
-import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
+// import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 
 describe('Verify drafts - No association with particular Triage Group', () => {
@@ -149,25 +149,42 @@ describe('Verify drafts - No association with particular Triage Group', () => {
   });
 
   it('single new draft', () => {
-    const mockSingleDraftThread = {
-      ...mockDraftsRespone,
+    const mockDraftNew = {
       data: [
         {
-          ...mockDraftsRespone.data[0],
+          id: '4016875',
+          type: 'message_details',
           attributes: {
-            ...mockDraftsRespone.data[0].attributes,
-            recipientName: mockRecipients.data[0].attributes.name,
-            triageGroupName: mockRecipients.data[0].attributes.name,
-            recipientId: mockRecipients.data[0].attributes.triageTeamId,
+            messageId: 4016875,
+            category: 'COVID',
+            subject: 'dustyTest',
+            body: '\n\n\nJohn Dow\nVeteran',
+            attachment: null,
+            sentDate: null,
+            senderId: 251391,
+            senderName: 'MHVDAYMARK, MARK',
+            recipientId: 2416527,
+            recipientName: '###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###',
+            readReceipt: null,
+            triageGroupName: '###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###',
+            proxySenderName: null,
+            threadId: 4016874,
+            folderId: -2,
+            messageBody: '\n\n\nJohn Dow\nVeteran',
+            draftDate: newDate,
+            toDate: null,
+            hasAttachments: false,
+            attachments: [],
+          },
+          links: {
+            self:
+              'https://staging-api.va.gov/my_health/v1/messaging/messages/4016875',
           },
         },
       ],
     };
 
-    cy.log(JSON.stringify(mockSingleDraftThread));
-
-    PatientMessageDraftsPage.loadDrafts();
-    PatientMessageDraftsPage.loadSingleDraft(mockSingleDraftThread);
+    PatientMessageDraftsPage.loadSingleDraft(mockDraftNew);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
