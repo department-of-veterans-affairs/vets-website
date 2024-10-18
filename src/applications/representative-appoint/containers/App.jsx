@@ -37,6 +37,15 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     [loggedIn],
   );
 
+  // resetting user query between sessions
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      'view:representativeQuery': '',
+      'view:representativeSearchResults': [],
+    });
+  }, []);
+
   const content = (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
       {children}
