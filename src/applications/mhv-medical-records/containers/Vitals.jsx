@@ -165,6 +165,7 @@ const Vitals = () => {
       <h1 data-testid="vitals" className="vads-u-margin--0">
         Vitals
       </h1>
+      <h2 className="sr-only">List of Vitals</h2>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
         {`Vitals are basic health numbers your providers check at your
         appointments. ${vitals?.length === 0 ? 'Vitals include:' : ''}`}
