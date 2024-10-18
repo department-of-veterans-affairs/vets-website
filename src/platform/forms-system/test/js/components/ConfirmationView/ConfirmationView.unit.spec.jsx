@@ -82,7 +82,8 @@ describe('Confirmation view', () => {
       .to.exist;
     expect(container.querySelector('.confirmation-print-this-page-section')).to
       .exist;
-    expect(container.querySelector('.confirmation-contact-section')).to.exist;
+    expect(container.querySelector('.confirmation-how-to-contact-section')).to
+      .exist;
     expect(container.querySelector('.confirmation-go-back-link-section')).to
       .exist;
   });
@@ -117,7 +118,8 @@ describe('Confirmation view', () => {
       .to.exist;
     expect(container.querySelector('.confirmation-print-this-page-section')).to
       .exist;
-    expect(container.querySelector('.confirmation-contact-section')).to.exist;
+    expect(container.querySelector('.confirmation-how-to-contact-section')).to
+      .exist;
     expect(container.querySelector('.confirmation-go-back-link-section')).to
       .exist;
   });
