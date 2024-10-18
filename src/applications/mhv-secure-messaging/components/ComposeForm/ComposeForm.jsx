@@ -171,17 +171,23 @@ const ComposeForm = props => {
       ) {
         setNavigationError({
           ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-          confirmButtonText:
-            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
-          cancelButtonText:
-            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
         });
       }
       if (typeOfError === ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR) {
         setNavigationError({
           ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-          confirmButtonText: 'Continue editing',
-          cancelButtonText: 'Delete draft',
+        });
+      }
+      if (typeOfError === ErrorMessages.Navigation.CONT_SAVING_DRAFT_ERROR) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT,
+        });
+      }
+      if (
+        typeOfError === ErrorMessages.Navigation.CONT_SAVING_DRAFT_CHANGES_ERROR
+      ) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
         });
       }
     },
@@ -474,6 +480,7 @@ const ComposeForm = props => {
         (isSignatureRequired && messageValid && saveError !== null)
       ) {
         dispatch(saveDraft(formData, type, draftId));
+        setSavedDraft(true);
       }
     },
     [
@@ -527,6 +534,7 @@ const ComposeForm = props => {
     [checkMessageValidity, isSignatureRequired],
   );
 
+  // Navigation error effect
   useEffect(
     () => {
       const isBlankForm = () =>
@@ -536,38 +544,61 @@ const ComposeForm = props => {
         category === null &&
         attachments.length === 0;
 
-      const isSavedEdits = () =>
+      const isEditedSaved = () =>
         messageBody === draft?.body &&
         Number(selectedRecipientId) === draft?.recipientId &&
         category === draft?.category &&
         subject === draft?.subject;
 
-      const isEditPopulatedForm = () =>
+      const isEditedForm = () =>
         (messageBody !== draft?.body ||
           selectedRecipientId !== draft?.recipientId ||
           category !== draft?.category ||
           subject !== draft?.subject) &&
         !isBlankForm() &&
-        !isSavedEdits();
+        !isEditedSaved();
 
-      const unsavedDraft = isEditPopulatedForm() && !deleteButtonClicked;
-      if (!isEditPopulatedForm() || !isSavedEdits()) {
-        setSavedDraft(false);
-      }
+      const isFormFilled = () =>
+        messageBody !== '' &&
+        subject !== '' &&
+        selectedRecipientId !== null &&
+        category !== null;
+
+      // const unsavedDraft = isEditPopulatedForm() && !deleteButtonClicked;
+      // if (!isEditPopulatedForm() || !isSavedEdits()) {
+      //   setSavedDraft(false);
+      // }
 
       let error = null;
-      if (isBlankForm() || savedDraft) {
+
+      const partiallySavedDraft =
+        !isFormFilled() && (!isBlankForm() || attachments.length > 0);
+
+      const unsavedFilledDraft =
+        isFormFilled() && !isEditedSaved() && !savedDraft;
+
+      const savedDraftWithEdits =
+        savedDraft && !isEditedSaved() && isEditedForm();
+
+      const savedDraftWithNoEdits = savedDraft && !isEditedForm();
+
+      if (isBlankForm()) {
         error = null;
-      } else {
-        if (unsavedDraft) {
-          setSavedDraft(false);
-          error = ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR;
-        }
-        if (unsavedDraft && attachments.length > 0) {
-          error =
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
-          updateModalVisible(false);
-        }
+      } else if (partiallySavedDraft) {
+        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR;
+        updateModalVisible(false);
+      } else if (
+        attachments.length > 0 &&
+        (unsavedFilledDraft || savedDraftWithEdits || savedDraftWithNoEdits)
+      ) {
+        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
+        updateModalVisible(false);
+      } else if (unsavedFilledDraft && !attachments.length) {
+        error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_ERROR;
+        updateModalVisible(false);
+      } else if (savedDraftWithEdits && !attachments.length) {
+        error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_CHANGES_ERROR;
+        updateModalVisible(false);
       }
       setUnsavedNavigationError(error);
     },
