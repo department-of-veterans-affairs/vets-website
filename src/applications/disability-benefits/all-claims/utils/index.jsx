@@ -760,10 +760,17 @@ export const formSubtitle = subtitle => (
 /**
  * Formats a raw date using month and year only. For example: 'January 2000'
  *
- * @param {string} rawDate - Assuming a date in the format 'YYYY-MM-DD'
+ * @param {string} rawDate - Assuming a date in the format 'YYYY-MM', but we could have IPF's with 'YYYY-MM-DD'.
  * @returns {string} A friendly date string if a valid date. Empty string otherwise.
  */
 export const formatMonthYearDate = (rawDate = '') => {
+  // if year only, return year
+  if (rawDate.match('^(\\d{4})-XX') || rawDate.match('^(\\d{4})-XX-XX')) {
+    return rawDate.substring(0, 4);
+  }
+
+  // TODO: handle scenario of 2000-01-XX. this whole function likely needs to be redone
+  // if we have year and month, display both, converting from numeric to long (name) month
   const date = new Date(rawDate.split('-').join('/')).toLocaleDateString(
     'en-US',
     {

@@ -1,5 +1,4 @@
-import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { currentOrPastMonthYearDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   dateRangeAdditionalInfo,
@@ -14,6 +13,12 @@ import {
   teSubtitle,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
+
+const TE_DATE_SCHEMA = {
+  pattern:
+    '^(?:19|20)[0-9][0-9]-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1])$|^(?:19|20)[0-9][0-9]-(0[1-9]|1[0-2])$',
+  type: 'string',
+};
 
 /**
  * Make the uiSchema for each gulf war 1990 details page
@@ -34,10 +39,10 @@ function makeUiSchema(locationId) {
     toxicExposure: {
       gulfWar1990Details: {
         [locationId]: {
-          startDate: currentOrPastDateUI({
+          startDate: currentOrPastMonthYearDateUI({
             title: startDateApproximate,
           }),
-          endDate: currentOrPastDateUI({
+          endDate: currentOrPastMonthYearDateUI({
             title: endDateApproximate,
           }),
           'view:notSure': {
@@ -74,8 +79,8 @@ function makeSchema(locationId) {
               [locationId]: {
                 type: 'object',
                 properties: {
-                  startDate: full526EZSchema.definitions.minimumYearDate,
-                  endDate: full526EZSchema.definitions.minimumYearDate,
+                  startDate: TE_DATE_SCHEMA,
+                  endDate: TE_DATE_SCHEMA,
                   'view:notSure': {
                     type: 'boolean',
                   },
