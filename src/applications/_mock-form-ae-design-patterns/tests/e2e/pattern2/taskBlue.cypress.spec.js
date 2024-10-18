@@ -1,5 +1,4 @@
 import manifest from '../../../manifest.json';
-import { mockInterceptors } from '../helpers';
 // eslint-disable-next-line import/no-duplicates
 import mockUsers from '../../../mocks/endpoints/user';
 import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-ae-design-patterns';
@@ -22,7 +21,7 @@ describe('Prefill pattern - Blue Task', () => {
         addresses: [
           {
             address: {
-              addressLine1: '123 Spooner St.',
+              addressLine1: '345 Mailing Address St.',
               addressType: 'DOMESTIC',
               city: 'Fulton',
               countryCodeIso3: 'USA',
@@ -59,30 +58,25 @@ describe('Prefill pattern - Blue Task', () => {
       },
     });
 
+    cy.intercept('GET', '/v0/user?now=*', loa3UserWithUpdatedMailingAddress).as(
+      'mockUserUpdated',
+    );
+
     cy.intercept('GET', '/v0/profile/status/*', {
       statusCode: 200,
       body: {
         data: {
+          id: '',
+          type: 'async_transaction_va_profile_mock_transactions',
           attributes: {
-            data: {
-              id: '',
-              type: 'async_transaction_va_profile_mock_transactions',
-              attributes: {
-                transactionId:
-                  'mock-update-mailing-address-success-transaction-id',
-                transactionStatus: 'COMPLETED_SUCCESS',
-                type: 'AsyncTransaction::VAProfile::MockTransaction',
-                metadata: [],
-              },
-            },
+            transactionId: 'mock-update-mailing-address-success-transaction-id',
+            transactionStatus: 'COMPLETED_SUCCESS',
+            type: 'AsyncTransaction::VAProfile::MockTransaction',
+            metadata: [],
           },
         },
       },
     });
-
-    cy.intercept('GET', '/v0/user?now=*', loa3UserWithUpdatedMailingAddress).as(
-      'mockUserUpdated',
-    );
   });
 
   it('should show user as authenticated from the start', () => {
@@ -163,7 +157,7 @@ describe('Prefill pattern - Blue Task', () => {
       .as('addressInput');
 
     cy.get('@addressInput').clear();
-    cy.get('@addressInput').type('645 Spooner St.');
+    cy.get('@addressInput').type('345 Mailing Address St.');
 
     // confirming save to profile ques is selected yes by default
     cy.contains(
@@ -177,6 +171,8 @@ describe('Prefill pattern - Blue Task', () => {
 
     cy.findByTestId('save-edit-button').click();
 
+    cy.wait('@mockUserUpdated'); // Make sure this intercept matches the actual API call.
+
     // redirect to previous page and show save alert
     cy.url().should('contain', '/veteran-information');
     cy.findByText('We’ve updated your mailing address').should('exist');
@@ -186,7 +182,7 @@ describe('Prefill pattern - Blue Task', () => {
     cy.findByText('Mailing address').should('exist');
     cy.get('div[data-dd-action-name="street"]').should(
       'have.text',
-      '645 Spooner St.',
+      '345 Mailing Address St.',
     );
 
     // once the task is complete it should redirect to the pattern landing page

@@ -84,7 +84,7 @@ const ContactInfo = ({
   const email = dataWrap[keys.email] || '';
   const homePhone = dataWrap[keys.homePhone] || {};
   const mobilePhone = dataWrap[keys.mobilePhone] || {};
-  const address = dataWrap[keys.address] || {};
+  const address = contactInfo[keys.address] || {};
 
   const missingInfo = getMissingInfo({
     data: dataWrap,
@@ -371,10 +371,7 @@ const ContactInfo = ({
         uswds
       >
         <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
-        <AddressView
-          className="vads-u-margin--2"
-          data={dataWrap[keys.address]}
-        />
+        <AddressView className="vads-u-margin--2" data={address} />
         <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--1 vads-u-margin-bottom--neg1">
           <Link
             id="edit-mailing-address"
