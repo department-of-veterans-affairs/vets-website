@@ -9,6 +9,7 @@ import {
   SET_NEW_FORM_CONFIG,
   UPDATE_SAVE_TO_PROFILE,
 } from '../actions/actions';
+import { vadxReducer } from '../slice';
 
 const reducer = (state = { saveToProfile: null }, action) => {
   if (action.type === SET_NEW_FORM_CONFIG) {
@@ -41,4 +42,5 @@ const reducer = (state = { saveToProfile: null }, action) => {
 export default {
   form: reducer,
   vapService,
+  vadx: vadxReducer,
 };
