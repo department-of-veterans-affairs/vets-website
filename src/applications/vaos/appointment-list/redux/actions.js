@@ -31,7 +31,6 @@ import {
   cancelAppointment,
 } from '../../services/appointment';
 
-import { getClaim } from '../../services/claim';
 import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -67,10 +66,6 @@ export const FETCH_CONFIRMED_DETAILS_FAILED =
   'vaos/FETCH_CONFIRMED_DETAILS_FAILED';
 export const FETCH_CONFIRMED_DETAILS_SUCCEEDED =
   'vaos/FETCH_CONFIRMED_DETAILS_SUCCEEDED';
-
-export const FETCH_CLAIM = 'vaos/FETCH_CLAIM';
-export const FETCH_CLAIM_SUCCEEDED = 'vaos/FETCH_CLAIM_STATUS_SUCCEEDED';
-export const FETCH_CLAIM_FAILED = 'vaos/FETCH_CLAIM_STATUS_FAILED';
 
 export const FETCH_PROVIDER_SUCCEEDED = 'vaos/FETCH_PROVIDER_SUCCEEDED';
 
@@ -365,7 +360,7 @@ export function fetchPastAppointments(
   startDate,
   endDate,
   selectedIndex,
-  travelClaim = false,
+  fetchClaimStatus = false,
 ) {
   return async (dispatch, getState) => {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
@@ -386,7 +381,7 @@ export function fetchPastAppointments(
         startDate,
         endDate,
         avs: true,
-        travelClaim,
+        fetchClaimStatus,
       });
 
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
@@ -488,39 +483,11 @@ export function fetchRequestDetails(id) {
   };
 }
 
-export function fetchClaim(appointmentId, appointment) {
-  return async dispatch => {
-    try {
-      if (!appointment.claimId) {
-        dispatch({
-          type: FETCH_CLAIM,
-        });
-        const { claimId } = await getClaim(appointment.start);
-        dispatch({
-          type: FETCH_CLAIM_SUCCEEDED,
-          id: appointmentId,
-          claimId,
-        });
-      }
-    } catch (e) {
-      if (e.issue.code === '404') {
-        captureError(e);
-        dispatch({
-          type: FETCH_CLAIM_SUCCEEDED,
-          id: appointmentId,
-          claimId: 'Not found',
-        });
-      } else {
-        captureError(e);
-        dispatch({
-          type: FETCH_CLAIM_FAILED,
-        });
-      }
-    }
-  };
-}
-
-export function fetchConfirmedAppointmentDetails(id, type) {
+export function fetchConfirmedAppointmentDetails(
+  id,
+  type,
+  fetchClaimStatus = false,
+) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
@@ -555,6 +522,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           id,
           type,
           useV2,
+          fetchClaimStatus,
         });
       }
 

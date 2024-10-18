@@ -20,7 +20,6 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import {
   closeCancelAppointment,
   fetchConfirmedAppointmentDetails,
-  fetchClaim,
 } from '../../redux/actions';
 import {
   getConfirmedAppointmentDetailsInfo,
@@ -38,7 +37,6 @@ export default function ConfirmedAppointmentDetailsPage() {
   const {
     appointment,
     appointmentDetailsStatus,
-    fetchClaimStatus,
     facilityData,
     useV2,
   } = useSelector(
@@ -53,46 +51,28 @@ export default function ConfirmedAppointmentDetailsPage() {
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const appointmentDate = moment.parseZone(appointment?.start);
-
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
+  const fetchClaimStatus = featureFetchClaimStatus && isPast && isVA;
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
   useEffect(
     () => {
-      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
+      dispatch(
+        fetchConfirmedAppointmentDetails(
+          id,
+          appointmentTypePrefix,
+          fetchClaimStatus,
+        ),
+      );
       scrollAndFocus();
       return () => {
         dispatch(closeCancelAppointment());
       };
     },
-    [id, dispatch, appointmentTypePrefix],
-  );
-
-  useEffect(
-    () => {
-      if (
-        featureFetchClaimStatus &&
-        isPast &&
-        appointmentDetailsStatus === FETCH_STATUS.succeeded &&
-        fetchClaimStatus !== FETCH_STATUS.loading
-      ) {
-        dispatch(fetchClaim(id, appointment));
-        scrollAndFocus();
-      }
-    },
-    [
-      id,
-      appointmentDate,
-      dispatch,
-      appointmentDetailsStatus,
-      fetchClaimStatus,
-      featureFetchClaimStatus,
-      appointment,
-      isPast,
-    ],
+    [id, dispatch, appointmentTypePrefix, fetchClaimStatus],
   );
 
   useEffect(
@@ -173,8 +153,7 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
-    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment) ||
-    fetchClaimStatus === FETCH_STATUS.failed
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
   ) {
     return (
       <PageLayout showBreadcrumbs showNeedHelp>
@@ -182,13 +161,7 @@ export default function ConfirmedAppointmentDetailsPage() {
       </PageLayout>
     );
   }
-  if (
-    !appointment ||
-    appointmentDetailsStatus === FETCH_STATUS.loading ||
-    (featureFetchClaimStatus &&
-      isPast &&
-      (!appointment?.claimId || fetchClaimStatus === FETCH_STATUS.loading))
-  ) {
+  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
         <va-loading-indicator set-focus message="Loading your appointment..." />
