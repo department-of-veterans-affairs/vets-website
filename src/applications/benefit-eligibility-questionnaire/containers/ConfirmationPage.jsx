@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -34,6 +34,7 @@ export class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
+    focusElement('h1');
     scrollToTop('topScrollElement');
     // Update query string based on results.
     if (this.props.results.data && this.props.results.data.length > 0) {
@@ -217,12 +218,13 @@ export class ConfirmationPage extends React.Component {
           and career benefits. We'll add more types of benefits soon.
         </p>
 
-        <SaveResultsModal />
-
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
         <div id="results-container" className="vads-l-grid-container">
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12">
+              <SaveResultsModal />
+            </div>
             <div
               className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
               id="filters-section-mobile-toggle"

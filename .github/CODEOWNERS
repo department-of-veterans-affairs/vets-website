@@ -100,7 +100,7 @@ src/applications/static-pages/coe-access @department-of-veterans-affairs/benefit
 src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Pensions
-src/applications/pensions @department-of-veterans-affairs/pensions @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/pensions @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
 
 
 # Dependent Benefits Experience
@@ -245,24 +245,26 @@ src/applications/static-pages/health-care-manage-benefits/schedule-view-va-appoi
 src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers
 
 # Income and Asset Statement
-src/applications/income-and-asset-statement @department-of-veterans-affairs/pensions
+src/applications/income-and-asset-statement @department-of-veterans-affairs/pension-and-burials
+
+# Ask VA
+src/applications/ask-va @department-of-veterans-affairs/ask-va-devs @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/ask-va @department-of-veterans-affairs/ask-va-devs @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Virtual Agent Chatbot
+src/applications/virtual-agent @department-of-veterans-affairs/vfs-virtual-agent-chatbot @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Other
-
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/virtual-agent @department-of-veterans-affairs/orchid @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need-integration @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/widget-creators @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Need more specific owners
-
 src/applications/ask-a-question @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/ask-va @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/e-folders @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/messages @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mock-sip-form @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/third-party-app-directory @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/analytics @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/ask-va @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/download-1095b @department-of-veterans-affairs/va-platform-cop-frontend

@@ -79,20 +79,31 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 /**
  *
  * @param {string} resource - The URL to fetch. If it starts with a leading "/"
- * it will be appended to the baseUrl. Otherwise it will be used as an absolute
+ * it will be appended to the baseUrl. Otherwise, it will be used as an absolute
  * URL.
  * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
- * the fetch request. Will be mixed with, and potentially override, the
- * defaultSettings
+ * the fetch request. These will be merged with, and potentially override, the
+ * default settings.
  * @param {Function} **(DEPRECATED)** success - Callback to execute after successfully resolving
- * the initial fetch request.
+ * the initial fetch request. Prefer using a promise chain instead.
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
+ * Prefer using a promise chain instead.
+ * @param {Object} [env=environment] - **Environment configuration object** used to determine
+ * whether the code is running in production or non-production mode. If no environment object is provided, the function defaults to using the
+ * global `environment` object.
  */
-export function apiRequest(resource, optionalSettings, success, error) {
+export function apiRequest(
+  resource,
+  optionalSettings,
+  success,
+  error,
+  env = environment,
+) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');
+  const isProd = env.isProduction();
 
   if (success) {
     // eslint-disable-next-line no-console
@@ -145,15 +156,17 @@ export function apiRequest(resource, optionalSettings, success, error) {
         return data;
       }
 
-      if (environment.isProduction()) {
+      if (isProd) {
         const { pathname } = window.location;
 
         const shouldRedirectToSessionExpired =
           response.status === 401 &&
           !pathname.includes('auth/login/callback') &&
-          sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
+          sessionStorage.getItem('shouldRedirectExpiredSession') === 'true' &&
+          !pathname.includes('/terms-of-use/declined');
 
         if (shouldRedirectToSessionExpired) {
+          sessionStorage.removeItem('shouldRedirectExpiredSession');
           window.location = '/session-expired';
         }
       }

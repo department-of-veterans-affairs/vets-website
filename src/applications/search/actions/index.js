@@ -16,6 +16,7 @@ export function fetchSearchResults(query, page, options) {
     if (page) {
       queryString = queryString.concat(`&page=${page}`);
     }
+
     if (!query) {
       return dispatch({
         type: FETCH_SEARCH_RESULTS_EMPTY,
@@ -34,7 +35,6 @@ export function fetchSearchResults(query, page, options) {
             'search-results-total-pages':
               response?.meta?.pagination?.totalPages,
             'search-selection': 'All VA.gov',
-            'search-typeahead-enabled': options?.typeaheadEnabled,
             'search-location': options?.searchLocation,
             'sitewide-search-app-used': options?.sitewideSearch,
             'type-ahead-option-keyword-selected': options?.keywordSelected,
