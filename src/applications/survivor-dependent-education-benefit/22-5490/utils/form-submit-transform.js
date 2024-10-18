@@ -298,9 +298,9 @@ const trimObjectValuesWhiteSpace = (key, value) => {
 
 const getNotificationMethod = notificationMethod => {
   switch (notificationMethod) {
-    case 'Yes, send me text message notifications':
+    case 'yes':
       return 'TEXT';
-    case 'No, just send me email notifications':
+    case 'no':
       return 'EMAIL';
     default:
       return 'NONE';
@@ -384,9 +384,7 @@ export function transform5490Form(_formConfig, form) {
     chosenBenefit: form?.data?.chosenBenefit,
     claimant: {
       suffix: userFullName?.suffix,
-      notificationMethod: getNotificationMethod(
-        form?.data['view:receiveTextMessages']?.receiveTextMessages,
-      ),
+      notificationMethod: getNotificationMethod(form?.data?.notificationMethod),
       contactInfo: {
         addressLine1: form?.data?.mailingAddressInput?.address?.street,
         addressLine2: form?.data?.mailingAddressInput?.address?.street2,
