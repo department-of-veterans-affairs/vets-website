@@ -41,8 +41,8 @@ const AttachmentsList = props => {
           () =>
             setFocusedElement(
               attachments.length > 1
-                ? document.querySelector('#remove-all-attachments-button')
-                : document.querySelector('remove-attachment-button'),
+                ? document.getElementById('remove-all-attachments-button')
+                : document.getElementById('remove-attachment-button'),
             ),
           400,
         );
@@ -79,7 +79,7 @@ const AttachmentsList = props => {
       if (attachFileSuccess && alertButton) {
         setTimeout(() => {
           setFocusedElement(alertButton);
-        }, 300);
+        }, 400);
       }
     },
     [attachFileSuccess, attachments, attachFileAlertRef],
@@ -131,7 +131,7 @@ const AttachmentsList = props => {
               .querySelector('.attach-file-button')
               .shadowRoot.querySelector('button'),
           ),
-        300,
+        400,
       ),
     );
   };
@@ -226,6 +226,7 @@ const AttachmentsList = props => {
               text="Remove all attachments"
               secondary
               className="usa-button-secondary vads-u-margin-bottom--0 vads-u-margin-right--0"
+              id="remove-all-attachments-button"
               data-testid="remove-all-attachments-button"
               onClick={() => {
                 handleRemoveAllAttachments();
@@ -289,6 +290,7 @@ const AttachmentsList = props => {
                     }}
                     aria-label={`remove ${file.name}`}
                     data-testid="remove-attachment-button"
+                    id="remove-attachment-button"
                     data-dd-action-name="Remove Attachment Button"
                     className="remove-attachment-button vads-u-flex--auto vads-u-margin-right--1p5 vads-u-padding-y--2"
                   >
