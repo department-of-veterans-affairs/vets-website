@@ -114,7 +114,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'report-674/0/student-address': ({ afterHook }) => {
+      'report-674/add-students/0/student-address': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
           cy.get('select#options[name="root_address_state"]', { timeout: 1000 })
