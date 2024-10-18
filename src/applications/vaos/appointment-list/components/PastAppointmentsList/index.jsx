@@ -115,7 +115,7 @@ export default function PastAppointmentsListNew() {
     selectFeatureTravelPayViewClaimDetails(state),
   );
 
-  const travelClaim = featureTravelPayViewClaimDetails;
+  const fetchClaimStatus = featureTravelPayViewClaimDetails;
 
   useEffect(() => {
     if (pastStatus === FETCH_STATUS.notStarted) {
@@ -125,7 +125,7 @@ export default function PastAppointmentsListNew() {
           selectedDateRange.startDate,
           selectedDateRange.endDate,
           pastSelectedIndex,
-          travelClaim,
+          fetchClaimStatus,
         ),
       );
     }
@@ -152,7 +152,7 @@ export default function PastAppointmentsListNew() {
         selectedDateRange.startDate,
         selectedDateRange.endDate,
         index,
-        travelClaim,
+        fetchClaimStatus,
       ),
     );
   };

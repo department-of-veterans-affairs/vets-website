@@ -77,13 +77,13 @@ function apptRequestSort(a, b) {
  * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @param {Boolean} travelClaim Boolean to fetch travel claim data
+ * @param {Boolean} fetchClaimStatus Boolean to fetch travel claim data
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
 export async function fetchAppointments({
   startDate,
   endDate,
-  travelClaim = false,
+  fetchClaimStatus = false,
 }) {
   try {
     const appointments = [];
@@ -91,7 +91,7 @@ export async function fetchAppointments({
       startDate,
       endDate,
       ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      travelClaim,
+      fetchClaimStatus,
     );
 
     const filteredAppointments = allAppointments.data.filter(appt => {
@@ -182,9 +182,9 @@ export async function fetchRequestById({ id }) {
  * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id }) {
+export async function fetchBookedAppointment({ id, fetchClaimStatus }) {
   try {
-    const appointment = await getAppointment(id);
+    const appointment = await getAppointment(id, fetchClaimStatus);
     return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {

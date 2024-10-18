@@ -32,13 +32,13 @@ export function putAppointment(id, appointment) {
   }).then(parseApiObject);
 }
 
-export function getAppointments(start, end, statuses = [], travelClaim) {
+export function getAppointments(start, end, statuses = [], fetchClaimStatus) {
   const options = {
     method: 'GET',
   };
 
   let includes = 'facilities,clinics';
-  includes = travelClaim ? includes.concat(',claims') : includes;
+  includes = fetchClaimStatus ? includes.concat(',claims') : includes;
 
   return apiRequestWithUrl(
     `/vaos/v2/appointments?_include=${includes}&start=${start}&end=${end}&${statuses
@@ -48,14 +48,18 @@ export function getAppointments(start, end, statuses = [], travelClaim) {
   ).then(parseApiListWithErrors);
 }
 
-export function getAppointment(id) {
+export function getAppointment(id, fetchClaimStatus) {
   const options = {
     method: 'GET',
   };
-  return apiRequestWithUrl(
-    `/vaos/v2/appointments/${id}?_include=facilities,clinics`,
-    { ...options, ...acheronHeader },
-  ).then(parseApiObject);
+
+  let includes = 'facilities,clinics';
+  includes = fetchClaimStatus ? includes.concat(',claims') : includes;
+
+  return apiRequestWithUrl(`/vaos/v2/appointments/${id}?_include=${includes}`, {
+    ...options,
+    ...acheronHeader,
+  }).then(parseApiObject);
 }
 
 export function getFacilities(ids, children = false) {
