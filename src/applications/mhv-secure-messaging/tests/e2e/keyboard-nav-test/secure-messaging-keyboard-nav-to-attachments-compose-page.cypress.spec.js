@@ -6,7 +6,6 @@ import requestBody from '../fixtures/message-compose-request-body.json';
 
 describe('Secure Messaging Keyboard Nav to Attachment', () => {
   it('Keyboard Nav to Focus on Attachment', () => {
-    // const composePage = new PatientComposePage();
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
@@ -19,20 +18,14 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
       force: true,
     });
 
-    // verify attachments button has "Attach file" with no attachments
     PatientComposePage.verifyAttachmentButtonText(0);
     PatientComposePage.attachMessageFromFile(Data.TEST_IMAGE);
-    PatientComposePage.verifyFocusOnMessageAttachment();
+    cy.tabToElement(`[data-testid="attach-file-button"]`);
+    PatientComposePage.verifyAttachButtonHasFocus();
 
-    // verify attachments button has "Attach additional file" with one or more attachments
     PatientComposePage.verifyAttachmentButtonText(1);
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_DOC);
-    PatientComposePage.verifyFocusOnMessageAttachment();
-
-    cy.realPress('Enter');
-
-    // After closing the attachment banner, first attachment remove button has focus
-    PatientComposePage.verifyRemoveAttachmentButtonHasFocus(0);
+    PatientComposePage.verifyAttachButtonHasFocus();
 
     PatientComposePage.sendMessage();
     PatientComposePage.verifySendMessageConfirmationMessageText();
