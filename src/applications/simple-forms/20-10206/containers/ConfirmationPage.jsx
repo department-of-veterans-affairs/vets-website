@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { connect, useSelector } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import environment from 'platform/utilities/environment';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
@@ -12,12 +11,11 @@ const content = {
     'After we review your request, we’ll contact you to tell you what happens next in the request process.',
 };
 
+// TODO: remove when ready. Test on dev before enabling on prod
+const useConfirmationPageV2 = environment.isLocalhost() || environment.isDev();
+
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
-  const useConfirmationPageV2 = useSelector(
-    state =>
-      toggleValues(state)[FEATURE_FLAG_NAMES.confirmationPageNew] || false,
-  );
   const { submission } = form;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
