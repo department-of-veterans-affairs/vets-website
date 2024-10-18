@@ -380,7 +380,7 @@ export function transform5490Form(_formConfig, form) {
 
   const payload = {
     formId: form?.formId,
-    '@type': 'Chapter35',
+    '@type': 'Chapter35Submission',
     chosenBenefit: form?.data?.chosenBenefit,
     claimant: {
       suffix: userFullName?.suffix,
@@ -403,7 +403,6 @@ export function transform5490Form(_formConfig, form) {
       },
       preferredContact: form?.data?.contactMethod,
     },
-    // parentOrGuardianSignature: form?.data?.parentGuardianSponsor,
     serviceMember: {
       firstName: userFullName?.first,
       lastName: userFullName?.last,
