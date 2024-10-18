@@ -32,12 +32,16 @@ export function putAppointment(id, appointment) {
   }).then(parseApiObject);
 }
 
-export function getAppointments(start, end, statuses = []) {
+export function getAppointments(start, end, statuses = [], travelClaim) {
   const options = {
     method: 'GET',
   };
+
+  let includes = 'facilities,clinics';
+  includes = travelClaim ? includes.concat(',claims') : includes;
+
   return apiRequestWithUrl(
-    `/vaos/v2/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
+    `/vaos/v2/appointments?_include=${includes}&start=${start}&end=${end}&${statuses
       .map(status => `statuses[]=${status}`)
       .join('&')}`,
     { ...options, ...acheronHeader },
