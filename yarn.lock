@@ -6164,10 +6164,10 @@ bl@^4.0.3, bl@^4.1.0:
     inherits "^2.0.4"
     readable-stream "^3.4.0"
 
-blob-polyfill@^5.0.20210201:
-  version "5.0.20210201"
-  resolved "https://registry.yarnpkg.com/blob-polyfill/-/blob-polyfill-5.0.20210201.tgz#0024bfa5dcc3440eb5a2f1e5991cb1612a558465"
-  integrity sha512-SrH6IG6aXL9pCgSysBCiDpGcAJ1j6/c1qCwR3sTEQJhb+MTk6FITNA6eW6WNYQDNZVi4Z9GjxH5v2MMTv59CrQ==
+blob-polyfill@^9.0.20240710:
+  version "9.0.20240710"
+  resolved "https://registry.yarnpkg.com/blob-polyfill/-/blob-polyfill-9.0.20240710.tgz#2ef075a207311ea327704f04dc4a98cbefe4143b"
+  integrity sha512-DPUO/EjNANCgSVg0geTy1vmUpu5hhp9tV2F7xUSTUd1jwe4XpwupGB+lt5PhVUqpqAk+zK1etqp6Pl/HVf71Ug==
 
 blob-stream@^0.1.3:
   version "0.1.3"
