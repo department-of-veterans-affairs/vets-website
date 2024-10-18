@@ -105,3 +105,25 @@ export const uiSchema = {
     },
   },
 };
+
+export const additionalSchema = {
+  icn: {
+    type: 'string',
+  },
+  edipi: {
+    type: 'string',
+  },
+};
+
+export const additionalUiSchema = {
+  edipi: {
+    'ui:options': {
+      hideIf: () => true,
+    },
+  },
+  icn: {
+    'ui:options': {
+      hideIf: () => true,
+    },
+  },
+};
