@@ -392,8 +392,8 @@ export function transform5490Form(_formConfig, form) {
         zipcode: form?.data?.mailingAddressInput?.address?.postalCode,
         emailAddress: form?.data?.email?.email,
         addressType: getAddressType(form?.data?.mailingAddressInput),
-        mobilePhoneNumber: form?.data?.mobilePhone,
-        homePhoneNumber: form?.data?.homePhone,
+        mobilePhoneNumber: form?.data?.mobilePhone?.phone,
+        homePhoneNumber: form?.data?.homePhone?.phone,
         countryCode: getLTSCountryCode(
           form?.data?.mailingAddressInput?.address?.country,
         ),
