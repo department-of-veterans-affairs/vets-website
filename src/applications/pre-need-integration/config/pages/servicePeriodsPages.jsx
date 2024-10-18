@@ -165,6 +165,7 @@ function servicePeriodInformationPage(isVet, isPrep) {
           : 'Sponsor’s service periods(s)',
         nounSingular: 'service period',
         servicePeriod: options.servicePeriod,
+        hasMultipleItemPages: false,
       }),
       // application: {
       //   veteran: {
