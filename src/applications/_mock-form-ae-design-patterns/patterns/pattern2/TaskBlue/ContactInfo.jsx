@@ -100,7 +100,7 @@ const ContactInfo = ({
     ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
     : [];
 
-  const [isMobilePhoneCardVisible, setMobilePhoneCardVisible] = useState(true);
+  const [isAddressCardVisible, setAddressCardVisible] = useState(true);
 
   const handlers = {
     onSubmit: event => {
@@ -130,17 +130,17 @@ const ContactInfo = ({
         updatePage();
       }
     },
-    deleteMobilePhone: () => {
-      if (data.veteran && data.veteran.mobilePhone) {
+    deleteMailingAddress: () => {
+      if (data.veteran && data.veteran.mailingAddress) {
         const updatedData = {
           ...data,
           veteran: {
             ...data.veteran,
-            mobilePhone: undefined,
+            mailingAddress: undefined,
           },
         };
         setFormData(updatedData);
-        setMobilePhoneCardVisible(false);
+        setAddressCardVisible(false);
       }
     },
   };
@@ -234,7 +234,7 @@ const ContactInfo = ({
       background-only
       role="alert"
     >
-      <h3 slot="headline">We’ve updated your mobile phone number</h3>
+      <h3 slot="headline">We’ve updated your mailing address</h3>
       {saveToProfile ? (
         <p className="vads-u-margin-y--0">
           We’ve made these changes to this form and your VA.gov profile.
@@ -290,7 +290,7 @@ const ContactInfo = ({
       </va-card>
     ) : null,
 
-    keys.mobilePhone && isMobilePhoneCardVisible ? (
+    keys.mobilePhone ? (
       <va-card
         show-shadow
         data-testid="mini-summary-card"
@@ -320,7 +320,6 @@ const ContactInfo = ({
           </Link>
           <va-button-icon
             button-type="delete"
-            onClick={handlers.deleteMobilePhone}
             class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
           />
         </div>
@@ -363,7 +362,7 @@ const ContactInfo = ({
       </va-card>
     ) : null,
 
-    keys.address ? (
+    keys.address && isAddressCardVisible ? (
       <va-card
         show-shadow
         data-testid="mini-summary-card"
@@ -372,7 +371,10 @@ const ContactInfo = ({
         uswds
       >
         <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
-        <AddressView data={dataWrap[keys.address]} />
+        <AddressView
+          className="vads-u-margin--2"
+          data={dataWrap[keys.address]}
+        />
         <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--1 vads-u-margin-bottom--neg1">
           <Link
             id="edit-mailing-address"
@@ -391,6 +393,7 @@ const ContactInfo = ({
           </Link>
           <va-button-icon
             button-type="delete"
+            onClick={handlers.deleteMailingAddress}
             class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
           />
         </div>
@@ -413,7 +416,7 @@ const ContactInfo = ({
 
   return (
     <>
-      {editState !== 'mobile-phone,updated' ? (
+      {editState !== 'address,updated' ? (
         <PrefillAlert>
           <h3 className="vads-u-margin-top--0">
             We’ve prefilled some of your information
@@ -432,7 +435,7 @@ const ContactInfo = ({
           >
             {content.title}
           </MainHeader>
-          {showSuccessAlert('mobile-phone')}
+          {showSuccessAlert('address')}
           {content.description}
           {!loggedIn && (
             <strong className="usa-input-error-message">

@@ -257,7 +257,7 @@ class SchemaForm extends React.Component {
             'usa-input-error-label': this.state.error,
           })}
         >
-          Do you also want to save this updated home phone number to your VA.gov
+          Do you also want to save this updated mailing address to your VA.gov
           profile?
           <span className="schemaform-required-span">
             {content['validation-required-label']}
