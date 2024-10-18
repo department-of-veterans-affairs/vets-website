@@ -1,5 +1,6 @@
 // Style for schemaform
-@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as mixins;
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as variables;
 
 .va-growable-background {
   padding: 1em;
@@ -88,7 +89,7 @@ dl.review {
     column-gap: 0.9375rem;
     > dd {
       font-weight: bold;
-      @media (min-width: $xsmall-screen) {
+      @media (min-width: variables.$xsmall-screen) {
         text-align: right;
       }
     }
@@ -96,7 +97,7 @@ dl.review {
       margin-top: 0;
       margin-bottom: 0;
     }
-    @media (min-width: $xsmall-screen) {
+    @media (min-width: variables.$xsmall-screen) {
       flex-direction: row;
     }
   }
@@ -120,7 +121,7 @@ dl.review-auto-margin {
       margin-top: 0;
       margin-bottom: 0;
     }
-    @media (min-width: $small-screen) {
+    @media (min-width: variables.$small-screen) {
       flex-direction: row;
       > dd {
         padding-left: 5px;
@@ -232,7 +233,7 @@ label {
 }
 
 .schemaform-array-row-title:focus {
-  @include focus-gold-light-outline;
+  @include mixins.focus-gold-light-outline;
   display: inline-block;
 }
 
@@ -256,7 +257,7 @@ label {
   }
 }
 .schemaform-block-title {
-  font-family: $font-serif;
+  font-family: variables.$font-family-serif;
   font-size: 1.125rem;
 }
 .schemaform-block-subtitle {
@@ -337,7 +338,7 @@ fieldset.schemaform-field-template {
 //duplicated/renamed from claims-status.scss
 .help-footer-box {
   padding: 2em 0;
-  @include media($medium-screen) {
+  @include mixins.media(variables.$medium-screen) {
     padding-top: 0.6em;
     // padding-left: inherit;
   }
@@ -609,7 +610,7 @@ va-accordion-item[data-unviewed-pages="true"] {
   left: 0;
   z-index: 1;
 
-  @include media-maxwidth($small-screen) {
+  @include mixins.media-maxwidth(variables.$small-screen) {
     font-size: 0.8125rem;
   }
 }
@@ -642,11 +643,11 @@ va-accordion-item[data-unviewed-pages="true"] {
 }
 
 .schemaform-confirmation-section-header {
-  font-size: $h3-font-size;
+  font-size: var(--font-size-h3);
 }
 
 .schemaform-confirmation-claim-header {
-  font-size: $h4-font-size;
+  font-size: var(--font-size-h4);
   margin-top: 1em;
 }
 
@@ -742,13 +743,13 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
   .rjsf-web-component-field.#{$element}::part(header) {
     font-size: $desktop-font-size;
 
-    @media (max-width: $small-screen) {
+    @media (max-width: variables.$small-screen) {
       font-size: $mobile-font-size;
     }
   }
 }
 
-@include header-style("rjsf-wc-header--h1", $h1-font-size, $h2-font-size);
-@include header-style("rjsf-wc-header--h2", $h2-font-size, $h3-font-size);
-@include header-style("rjsf-wc-header--h3", $h3-font-size, $h4-font-size);
-@include header-style("rjsf-wc-header--h4", $h4-font-size, $h5-font-size);
+@include header-style("rjsf-wc-header--h1", variables.$font-size-h1, variables.$font-size-h2);
+@include header-style("rjsf-wc-header--h2", variables.$font-size-h2, variables.$font-size-h3);
+@include header-style("rjsf-wc-header--h3", variables.$font-size-h3, variables.$font-size-h4);
+@include header-style("rjsf-wc-header--h4", variables.$font-size-h4, variables.$font-size-h5);
