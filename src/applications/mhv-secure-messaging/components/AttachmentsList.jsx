@@ -42,7 +42,7 @@ const AttachmentsList = props => {
             setFocusedElement(
               attachments.length > 1
                 ? document.getElementById('remove-all-attachments-button')
-                : document.getElementById('remove-attachment-button'),
+                : document.querySelector('.remove-attachment-button'),
             ),
           400,
         );
@@ -290,7 +290,6 @@ const AttachmentsList = props => {
                     }}
                     aria-label={`remove ${file.name}`}
                     data-testid="remove-attachment-button"
-                    id="remove-attachment-button"
                     data-dd-action-name="Remove Attachment Button"
                     className="remove-attachment-button vads-u-flex--auto vads-u-margin-right--1p5 vads-u-padding-y--2"
                   >
