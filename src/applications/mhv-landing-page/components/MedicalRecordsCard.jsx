@@ -17,22 +17,24 @@ const MedicalRecordsCard = ({ href }) => {
       )}
       data-testid="mhv-mr-coming-soon-card"
     >
-      <div className="vads-u-display--flex vads-u-align-items--center">
-        <div className="vads-u-flex--auto vads-u-margin-right--1p5 small-screen:vads-u-margin-top--0p5">
-          <va-icon icon="note_add" size={4} />
+      <div className="vads-l-row vads-u-margin-right--neg1">
+        <div className="vads-u-display--flex vads-u-align-items--center">
+          <div className="vads-u-flex--auto vads-u-margin-right--1p5 small-screen:vads-u-margin-top--0p5">
+            <va-icon icon="note_add" size={4} />
+          </div>
+          <div className="vads-u-flex--fill vads-u-margin-right--1p5">
+            <h2 className="vads-u-margin--0" id={slug}>
+              Medical records
+            </h2>
+          </div>
         </div>
-        <div className="vads-u-flex--fill">
-          <h2 className="vads-u-margin--0" id={slug}>
-            Medical records
-          </h2>
-        </div>
-        <div className="vads-u-flex--auto">
+        <div className="vads-u-margin-top--1">
           <span
             className={classnames(
               'usa-label',
               'vads-u-background-color--primary',
               'vads-u-display--none',
-              'mhv-desktop-screen:vads-u-display--block',
+              'medium-screen:vads-u-display--block',
             )}
           >
             Coming soon
@@ -45,7 +47,7 @@ const MedicalRecordsCard = ({ href }) => {
             'usa-label',
             'vads-u-background-color--primary',
             'vads-u-display--inline-block',
-            'mhv-desktop-screen:vads-u-display--none',
+            'medium-screen:vads-u-display--none',
           )}
         >
           Coming soon

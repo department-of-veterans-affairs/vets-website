@@ -1,7 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 $anchor-font-size: 1.25rem; // == 20px
-$mhv-desktop-screen: 1008px;
 
 // Font smoothing adjustment for macOS users
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/54087
@@ -12,15 +11,6 @@ $mhv-desktop-screen: 1008px;
   h3 {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-  }
-}
-
-@media (min-width: $mhv-desktop-screen) {
-  .mhv-desktop-screen\:vads-u-display--block {
-    display: block !important;
-  }
-  .mhv-desktop-screen\:vads-u-display--none {
-    display: none !important;
   }
 }
 
