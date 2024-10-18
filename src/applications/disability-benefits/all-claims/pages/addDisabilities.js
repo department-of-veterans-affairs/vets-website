@@ -1,9 +1,10 @@
+import React from 'react';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import * as combobox from '../definitions/combobox';
-import * as autocomplete from '../definitions/autocomplete';
+import AutoComplete from '../components/AutoComplete';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
@@ -30,18 +31,24 @@ import {
 
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
-const autocompleteUiSchema = autocomplete.uiSchema('Enter your condition', {
+const autocompleteUiSchema = {
   'ui:reviewField': ({ children }) => children,
-  'ui:options': {
-    debounceTime: 200,
-    disabilityLabels: Object.values(disabilityLabelsRevised),
-  },
+  'ui:field': data => (
+    <AutoComplete
+      availableResults={Object.values(disabilityLabelsRevised)}
+      debounceDelay={200}
+      id={data.idSchema.$id}
+      label="Enter your condition"
+      formData={data.formData}
+      onChange={data.onChange}
+    />
+  ),
   'ui:validations': [validateDisabilityName, limitNewDisabilities],
   'ui:required': () => true,
   'ui:errorMessages': {
     required: missingConditionMessage,
   },
-});
+};
 
 const comboboxUiSchema = combobox.uiSchema('Enter your condition', {
   'ui:reviewField': ({ children }) => children,

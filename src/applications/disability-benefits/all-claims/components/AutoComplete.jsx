@@ -11,7 +11,7 @@ const createFreeTextItem = val => `Enter your condition as "${val}"`;
 
 const AutoComplete = ({
   availableResults,
-  debounceTime,
+  debounceDelay,
   formData,
   id,
   label,
@@ -48,7 +48,7 @@ const AutoComplete = ({
       setActiveIndex(0);
 
       debouncedSetAriaLiveText(updatedResults.length, freeTextResult);
-    }, debounceTime),
+    }, debounceDelay),
   ).current;
 
   const closeList = () => {
@@ -73,12 +73,9 @@ const AutoComplete = ({
 
   const scrollIntoView = index => {
     const activeResult = resultsRef.current[index];
-    if (activeResult) {
-      activeResult.scrollIntoView({
-        block: 'nearest',
-        behavior: 'auto',
-      });
-    }
+    activeResult?.scrollIntoView({
+      block: 'nearest',
+    });
   };
 
   const navigateList = (e, adjustment) => {
@@ -130,11 +127,7 @@ const AutoComplete = ({
         onInput={e => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
         onBlur={() => setTimeout(closeList, 100)} // Enables clicking option from list
-        onFocus={() => {
-          if (value) {
-            debouncedSearch(value);
-          }
-        }}
+        onFocus={() => value && debouncedSearch(value)}
         message-aria-describedby={!value ? INSTRUCTIONS : null}
         data-testid="autocomplete-input"
         ref={inputRef}
@@ -175,7 +168,7 @@ const AutoComplete = ({
 
 AutoComplete.propTypes = {
   availableResults: PropTypes.array,
-  debounceTime: PropTypes.number,
+  debounceDelay: PropTypes.number,
   formData: PropTypes.string,
   id: PropTypes.string,
   label: PropTypes.string,

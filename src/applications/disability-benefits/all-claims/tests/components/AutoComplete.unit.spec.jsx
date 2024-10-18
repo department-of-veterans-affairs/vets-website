@@ -30,8 +30,9 @@ describe('AutoComplete Component', () => {
   beforeEach(() => {
     props = {
       availableResults: results,
-      debounceTime: 0, // Decreased from 200ms to speed up tests
+      debounceDelay: 0, // Decreased from 200ms to speed up tests
       formData: '',
+      id: 'test-id',
       label: 'Test label',
       onChange: sinon.spy(),
     };
