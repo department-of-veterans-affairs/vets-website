@@ -407,7 +407,7 @@ export function transform5490Form(_formConfig, form) {
       firstName: userFullName?.first,
       lastName: userFullName?.last,
       middleName: userFullName?.middle,
-      sponsorRelationship: form?.data?.relationShipToMember,
+      relationship: form?.data?.relationShipToMember,
       dateOfBirth: form?.data?.relativeDateOfBirth,
       ssn: form?.data?.relativeSocialSecurityNumber,
     },
