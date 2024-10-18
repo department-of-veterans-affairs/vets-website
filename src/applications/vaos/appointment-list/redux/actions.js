@@ -361,7 +361,12 @@ export function fetchPendingAppointments() {
   };
 }
 
-export function fetchPastAppointments(startDate, endDate, selectedIndex) {
+export function fetchPastAppointments(
+  startDate,
+  endDate,
+  selectedIndex,
+  travelClaim = false,
+) {
   return async (dispatch, getState) => {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       getState(),
@@ -381,6 +386,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         startDate,
         endDate,
         avs: true,
+        travelClaim,
       });
 
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));

@@ -32,13 +32,22 @@ export function putAppointment(id, appointment) {
   }).then(parseApiObject);
 }
 
-export function getAppointments(start, end, statuses = [], avs = false) {
+export function getAppointments(
+  start,
+  end,
+  statuses = [],
+  avs = false,
+  travelClaim,
+) {
   const options = {
     method: 'GET',
   };
   const includeParams = ['facilities', 'clinics'];
   if (avs) {
     includeParams.push('avs');
+  }
+  if (travelClaim) {
+    includeParams.push('claims');
   }
   return apiRequestWithUrl(
     `/vaos/v2/appointments?_include=${includeParams
