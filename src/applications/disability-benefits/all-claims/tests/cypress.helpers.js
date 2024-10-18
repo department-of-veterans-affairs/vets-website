@@ -298,7 +298,7 @@ export const pageHooks = (cy, testOptions = {}) => ({
   'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
-        const comboBox = '[data-testid="combobox-input"]';
+        const comboBox = `[id="root_newDisabilities_${index}_condition"]`;
         const input = '#inputField';
         const option = '[role="option"]';
 
