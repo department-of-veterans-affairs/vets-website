@@ -240,6 +240,9 @@ export const Locators = {
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',
   },
+  SUBHEADERS: {
+    NUMBER_OF_THREADS: `[data-testid="displaying-number-of-threads"]`,
+  },
   DROPDOWN: {
     RECIPIENTS: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
