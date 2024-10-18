@@ -1,0 +1,54 @@
+{
+  "data": {
+    "id": "",
+    "type": "search_results_responses",
+    "attributes": {
+      "body": {
+        "query": "benefits",
+        "web": {
+          "total": 12,
+          "nextOffset": 20,
+          "spellingCorrection": null,
+          "results": [
+            {
+              "title": "Burial Benefits - Compensation",
+              "url": "https://benefits.va.gov/COMPENSATION/claims-special-burial.asp",
+              "snippet": "Apply for and manage the VA benefits and services you’ve earned as a Veteran...expand a main menu option (Health, Benefits, etc). 3. To enter and activate the...Effective Dates Fully",
+              "publicationDate": "2023-06-27"
+            },
+            {
+              "title": "Direct deposit for your VA benefit payments",
+              "url": "https://www.va.gov/resources/direct-deposit-for-your-va-benefit-payments/",
+              "snippet": "Learn about getting your VA benefit payments through direct deposit. If you...have a bank account, the Veterans Benefits Banking Program (VBBP) can connect...for your VA benefit pa",
+              "publicationDate": "2021-04-20"
+            }
+          ]
+        },
+        "textBestBets": [],
+        "graphicBestBets": [],
+        "healthTopics": [],
+        "jobOpenings": [],
+        "recentTweets": [
+          {
+            "text": "VA burial benefits can help service members, Veterans, and their family members plan and pay for a burial or memori… https://t.co/4J1VxPLupP",
+            "url": "https://twitter.com/VAVetBenefits/status/1374374650268950531",
+            "name": "Veterans Benefits",
+            "screenName": "VAVetBenefits",
+            "profileImageUrl": "https://pbs.twimg.com/profile_images/344513261572743396/a9fcce7feb947b2ec498491c6c6d6985_normal.png",
+            "createdAt": "2021-03-23T14:57:05+00:00"
+          }
+        ],
+        "federalRegisterDocuments": [],
+        "relatedSearchTerms": []
+      }
+    }
+  },
+  "meta": {
+    "pagination": {
+      "currentPage": 2,
+      "perPage": 10,
+      "totalPages": 2,
+      "totalEntries": 12
+    }
+  }
+}

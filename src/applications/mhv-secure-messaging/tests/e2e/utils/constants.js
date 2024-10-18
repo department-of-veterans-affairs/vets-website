@@ -142,6 +142,7 @@ export const Locators = {
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
     CL_SAVE: `[data-testid="contact-list-save"]`,
     CL_GO_BACK: '[data-testid="contact-list-go-back"]',
+    ALERT_CLOSE: `.first-focusable-child`,
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -150,6 +151,7 @@ export const Locators = {
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
+    CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
   },
   ALERTS: {

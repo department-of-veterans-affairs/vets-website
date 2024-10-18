@@ -8,8 +8,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-// necessary styles for the search dropdown component
-import 'applications/search/components/SearchDropdown/SearchDropdownStyles.scss';
 import './sass/user-nav.scss';
 import startReactApp from '../../startup/react';
 import Main from './containers/Main';

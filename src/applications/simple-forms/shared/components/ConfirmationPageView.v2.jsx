@@ -41,6 +41,7 @@ const PdfDownloadLink = ({ url, trackingPrefix }) => {
  * @param {Object} props
  * @param {Object} props.formConfig
  * @param {{
+ *  showButtons: boolean
  *  simulatedFormData: Object
  * }} props.devOnly
  * @param {string} props.pdfUrl
@@ -58,7 +59,7 @@ export const ConfirmationPageView = props => {
   const [submitDate, setSubmitDate] = useState(props.submitDate || null);
 
   const DevOnlyButtons = useDevOnlyButtons({
-    formData: form.data,
+    formData: form?.data,
     mockData: devOnly?.simulatedFormData,
     setPdfUrl,
     setConfirmationNumber,
@@ -88,9 +89,9 @@ export const ConfirmationPageView = props => {
 
   return (
     <div>
-      {devOnly &&
-        !environment.isProduction() &&
-        !environment.isStaging() && <DevOnlyButtons />}
+      {devOnly?.showButtons &&
+        (environment.isLocalhost() || environment.isDev()) &&
+        !environment.isTest() && <DevOnlyButtons />}
       <div className="print-only">
         <img
           src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
@@ -116,7 +117,7 @@ export const ConfirmationPageView = props => {
           confirmation number is ${confirmationNumber}.`}
         </p>
         <VaLinkAction
-          href="/my-va"
+          href="/my-va#benefit-applications"
           text="Check the status of your form on My VA"
           onClick={onCheckVaStatusClick}
         />
@@ -162,7 +163,10 @@ export const ConfirmationPageView = props => {
               update the status on My VA.
             </p>
             <p>
-              <a href="/my-va" onClick={onCheckVaStatusClick}>
+              <a
+                href="/my-va#benefit-applications"
+                onClick={onCheckVaStatusClick}
+              >
                 Check the status of your form on My VA
               </a>
             </p>
@@ -209,6 +213,7 @@ export const ConfirmationPageView = props => {
 ConfirmationPageView.propTypes = {
   confirmationNumber: PropTypes.string,
   devOnly: PropTypes.shape({
+    showButtons: PropTypes.bool,
     simulatedFormData: PropTypes.object,
   }),
   formConfig: PropTypes.object,
