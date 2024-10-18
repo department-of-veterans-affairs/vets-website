@@ -54,10 +54,12 @@ describe('Root property names', () => {
   it('should not be duplicated', () => {
     const properties = new Map();
     const duplicatedProperties = {};
+
+    // these properties are used on the original claim and BDD evidence type pages
     const duplicatedPropertiesToIgnore = [
       'view:hasEvidence',
-      'view:hasEvidenceFollowUp',
-      'view:newDisabilityErrors',
+      'view:selectableEvidenceTypes',
+      'view:evidenceTypeHelp',
     ];
 
     Object.keys(pages).forEach(pageName => {

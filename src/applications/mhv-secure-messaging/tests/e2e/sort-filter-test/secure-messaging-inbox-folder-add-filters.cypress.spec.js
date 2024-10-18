@@ -1,18 +1,9 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessages from '../fixtures/messages-response.json';
-import mockCategories from '../fixtures/categories-response.json';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Arrays } from '../utils/constants';
 
 describe('Secure Messaging Inbox Folder add filter checks', () => {
-  const dateRange = [
-    'ANY',
-    'LAST 3 MONTHS',
-    'LAST 6 MONTHS',
-    'LAST 12 MONTHS',
-    'CUSTOM',
-  ];
-
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages);
@@ -26,11 +17,9 @@ describe('Secure Messaging Inbox Folder add filter checks', () => {
 
     PatientInboxPage.clickAdditionalFilterButton();
 
-    PatientInboxPage.verifyFilterCategoryDropdown(
-      mockCategories.data.attributes.messageCategoryType,
-    );
+    PatientInboxPage.verifyFilterCategoryDropdown(Arrays.Categories);
 
-    PatientInboxPage.verifyFilterdateRangeDropdown(dateRange);
+    PatientInboxPage.verifyFilterdateRangeDropdown(Arrays.FilterDateRange);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

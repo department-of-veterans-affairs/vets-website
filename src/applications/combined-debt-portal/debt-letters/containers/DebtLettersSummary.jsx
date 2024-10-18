@@ -13,6 +13,7 @@ import DebtCardsList from '../components/DebtCardsList';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import { SpecialHurricaneAlert } from '../../combined/components/DisasterAlert';
 
 const renderAlert = (alertType, statements) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
@@ -53,7 +54,7 @@ const renderOtherVA = (mcpLength, mcpError) => {
   if (mcpError) {
     return (
       <>
-        <h3>Your other VA bills</h3>
+        <h2>Your other VA bills</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h4 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
@@ -85,7 +86,7 @@ const DebtLettersSummary = () => {
   const { statements: mcpStatements, error: mcpError } = mcp;
   const allDebtsEmpty =
     !debtError && debts.length === 0 && debtLinks.length === 0;
-  const title = 'Current VA debt';
+  const title = 'Current debts';
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -119,12 +120,12 @@ const DebtLettersSummary = () => {
         {renderOtherVA(mcpStatements?.length, mcpError)}
         {showDebtLetterDownload ? (
           <section>
-            <h3
+            <h2
               id="downloadDebtLetters"
               className="vads-u-margin-top--4 vads-u-font-size--h2"
             >
               Download debt letters
-            </h3>
+            </h2>
             <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
               You can download some of your letters for education, compensation
               and pension debt.
@@ -173,7 +174,7 @@ const DebtLettersSummary = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current VA debt',
+            label: 'Current debts',
           },
         ]}
         label="Breadcrumb"
@@ -189,11 +190,11 @@ const DebtLettersSummary = () => {
         >
           {title}
         </h1>
-        <p className="va-introtext">
-          Check the details of VA debt you might have related to your education,
-          disability compensation, or pension benefits. Find out how to pay your
-          debt and what to do if you need financial assistance.
+        <p>
+          Please note that payments may take up to 4 business days to reflect
+          after processing.
         </p>
+        <SpecialHurricaneAlert />
         {renderContent()}
       </div>
     </>

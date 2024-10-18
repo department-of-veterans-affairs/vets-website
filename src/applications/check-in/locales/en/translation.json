@@ -163,7 +163,6 @@
   "is-this-your-current-next-of-kin-information": "Is this your current next of kin information?",
   "its-time-to-check-in-for-your-time-appointment": "It’s time to check in for your appointment",
   "latest-update": "<bold>Latest update:</bold> {{ date, longAtTime }}",
-  "learn-how-file-claims-other-expenses": "Learn how to file claims for other expenses",
   "loading": "Loading...",
   "loading-your-appointment-details": "Loading your appointment details",
   "loading-your-appointment-information": "Loading your appointment information…",
@@ -447,5 +446,11 @@
   "if-you-need-submit-receipts-other-expenses--UPDATE": "<0>If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). You can also file by mail or in person using VA Form 10-3542.",
   "if-you-need-to-submit-receipts-for-other-expenses--helptext--UPDATE": "If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim now. But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). You can also file by mail or in person using VA Form 10-3542.",
   "if-you-traveled-by-bus-train-taxi-or-other-authorized--help-text--UPDATE": "<0>If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). You can also file by mail or in person using VA Form 10-3542.",
-  "if-you-traveled-from-a-different-address-you--helptext--UPDATE": "<0>If you traveled from a different address, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). You can also file by mail or in person using VA Form 10-3542."
+  "if-you-traveled-from-a-different-address-you--helptext--UPDATE": "<0>If you traveled from a different address, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). You can also file by mail or in person using VA Form 10-3542.",
+  "you-can-only-use-this-tool-to-file-claims-for-todays": "You can only use this tool to file claims for today’s appointments at VA facilities. And you can only claim mileage in this tool, not other expenses.",
+  "youll-need-to-use-a-different-option-to-file": "You’ll need to use a different option to file these types of claims:",
+  "claims-for-past-va-appointments": "Claims for past VA appointments that happened before today",
+  "claims-for-community-care-appointments": "Claims for community care appointments",
+  "claims-for-other-expenses": "Claims for other expenses, like lodging, meals, or tolls",
+  "learn-how-to-file-other-types-of-claims": "Learn how to file other types of claims"
 }

@@ -45,10 +45,10 @@ describe('Questionnaire Form - Title Function', () => {
       expect(title).to.equal('Your benefits and resources');
     });
 
-    it('should return "Review your entries" when on the review page', () => {
+    it('should return "Review your information" when on the review page', () => {
       const currentLocation = { pathname: '/review-and-submit' };
       const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Review your entries');
+      expect(title).to.equal('Review your information');
     });
 
     it('should return "Benefit and resource recommendation tool" by default', () => {
@@ -111,14 +111,14 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
   describe('depends function for militaryServiceCompleted', () => {
     it('should return true if militaryServiceCurrentlyServing is "Yes"', () => {
       const formData = {
-        militaryServiceCurrentlyServing: 'Yes',
+        militaryServiceCurrentlyServing: true,
       };
       expect(militaryServiceCompletedPage.depends(formData)).to.be.true;
     });
 
     it('should return false if militaryServiceCurrentlyServing is not "Yes"', () => {
       const formData = {
-        militaryServiceCurrentlyServing: 'No',
+        militaryServiceCurrentlyServing: false,
       };
       expect(militaryServiceCompletedPage.depends(formData)).to.be.false;
     });
@@ -127,7 +127,7 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
   describe('onNavForward function for militaryServiceCompleted', () => {
     it('should navigate to separation page if militaryServiceCurrentlyServing is "Yes"', () => {
       const formData = {
-        militaryServiceCurrentlyServing: 'Yes',
+        militaryServiceCurrentlyServing: true,
       };
       const goPathMock = path => {
         expect(path).to.equal(
@@ -141,21 +141,50 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
       });
     });
 
-    it('should not call goPath if militaryServiceCurrentlyServing is not "Yes"', () => {
+    it('should call goPath if militaryServiceCurrentlyServing is "No"', () => {
       const formData = {
         militaryServiceCurrentlyServing: 'No',
       };
       let goPathCalled = false;
-      const goPathMock = () => {
+      let calledWith = '';
+      const goPathMock = arg => {
         goPathCalled = true;
+        calledWith = arg;
       };
 
       militaryServiceCompletedPage.onNavForward({
         formData,
         goPath: goPathMock,
       });
-      expect(goPathCalled).to.be.false;
+
+      expect(goPathCalled).to.be.true;
+      expect(calledWith).to.equal(
+        formConfig.chapters.chapter3.pages.separation.path,
+      );
     });
+  });
+
+  it('should call goPath if militaryServiceCurrentlyServing is "Yes"', () => {
+    const formData = {
+      militaryServiceCurrentlyServing: true,
+      militaryServiceCompleted: false,
+    };
+    let goPathCalled = false;
+    let calledWith = '';
+    const goPathMock = arg => {
+      goPathCalled = true;
+      calledWith = arg;
+    };
+
+    militaryServiceCompletedPage.onNavForward({
+      formData,
+      goPath: goPathMock,
+    });
+
+    expect(goPathCalled).to.be.true;
+    expect(calledWith).to.equal(
+      formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+    );
   });
 });
 

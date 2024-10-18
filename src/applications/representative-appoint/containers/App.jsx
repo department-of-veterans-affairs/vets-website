@@ -37,6 +37,15 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     [loggedIn],
   );
 
+  // resetting user query between sessions
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      'view:representativeQuery': '',
+      'view:representativeSearchResults': [],
+    });
+  }, []);
+
   const content = (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
       {children}
@@ -61,10 +70,10 @@ const mapDispatchToProps = {
 };
 
 App.propTypes = {
-  loggedIn: PropTypes.bool,
-  location: PropTypes.object,
   children: PropTypes.node,
   formData: PropTypes.object,
+  loggedIn: PropTypes.bool,
+  location: PropTypes.object,
   setFormData: PropTypes.func,
 };
 

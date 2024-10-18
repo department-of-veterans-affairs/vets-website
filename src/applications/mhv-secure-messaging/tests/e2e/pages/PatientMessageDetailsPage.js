@@ -1,6 +1,8 @@
 import mockMessage from '../fixtures/message-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
+import threadResponse from '../fixtures/thread-response-new-api.json';
+import inboxMessages from '../fixtures/messages-response.json';
 import { dateFormat } from '../../../util/helpers';
 import { Locators, Paths } from '../utils/constants';
 import PatientInterstitialPage from './PatientInterstitialPage';
@@ -204,7 +206,7 @@ class PatientMessageDetailsPage {
     cy.get(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
     cy.get(Locators.ALERTS.THREAD_EXPAND)
       .shadow()
-      .contains('Expand all +')
+      .find('button')
       .click();
   };
 
@@ -544,6 +546,33 @@ class PatientMessageDetailsPage {
 
     cy.get(Locators.BUTTONS.REPLY).click({ force: true });
     PatientInterstitialPage.getContinueButton().click();
+  };
+
+  loadSingleThread = (
+    singleThreadResponse = threadResponse,
+    multiThreadsResponse = inboxMessages,
+  ) => {
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        multiThreadsResponse.data[0].attributes.messageId
+      }/thread*`,
+      singleThreadResponse,
+    ).as(`threadResponse`);
+
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }`,
+      singleThreadResponse.data[0],
+    ).as(`threadFirstMessageResponse`);
+
+    cy.get(
+      `#message-link-${inboxMessages.data[0].attributes.messageId}`,
+    ).click();
+    cy.wait(`@threadResponse`);
+    cy.wait(`@threadFirstMessageResponse`);
   };
 }
 

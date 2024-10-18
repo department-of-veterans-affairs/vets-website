@@ -1,35 +1,18 @@
-import React from 'react';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
-    militaryServiceCompleted: {
-      'ui:title': (
-        <>
-          <p>
-            <b>
-              Have you ever completed a previous period of military service?
-            </b>
-          </p>
-        </>
-      ),
-      'ui:widget': 'radio',
-      'ui:options': {
-        widgetProps: {
-          yes: { militaryServiceThree: 'yes' },
-          no: {
-            militaryServiceThree: 'no',
-          },
-        },
-      },
-    },
+    militaryServiceCompleted: yesNoUI({
+      title: 'Have you ever completed a previous period of military service?',
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      militaryServiceCompleted: {
-        type: 'string',
-        enum: ['Yes', 'No'],
-      },
+      militaryServiceCompleted: yesNoSchema,
     },
   },
 };

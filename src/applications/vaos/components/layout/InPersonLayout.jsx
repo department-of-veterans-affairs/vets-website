@@ -9,10 +9,10 @@ import {
 } from '../../appointment-list/components/AppointmentDateTime';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, {
+  Details,
   When,
   What,
   Where,
-  Section,
   Who,
   ClinicOrFacilityPhone,
   Prepare,
@@ -127,15 +127,7 @@ export default function InPersonLayout({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Where>
-      <Section heading="Details you shared with your provider">
-        <span>
-          Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-        </span>
-        <br />
-        <span className="vaos-u-word-break--break-word">
-          Other details: {`${otherDetails || 'Not available'}`}
-        </span>
-      </Section>
+      <Details reason={reason} otherDetails={otherDetails} />
       {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (

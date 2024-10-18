@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { subMonths } from 'date-fns';
+import { formatDate } from '../../combined/utils/helpers';
 
 const StatementCharges = ({ copay }) => {
   const initialDate = new Date();
-  const today = moment(initialDate).format('MMMM D, YYYY');
-  const previousCopaysStartDate = moment(initialDate)
-    .subtract(1, 'month')
-    .format('MMMM D, YYYY');
+  const today = formatDate(initialDate);
+  const previousCopaysStartDate = formatDate(subMonths(initialDate, 1));
 
   const tableData = copay.details.map(item => {
     return (

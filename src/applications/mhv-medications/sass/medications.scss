@@ -153,6 +153,10 @@
 .renew-card-details > p {
   margin: 0px;
 }
+//fixed misaligned icon for filter component
+#filter > span {
+  vertical-align: top;
+}
 
 .pagination {
   max-width: 500px;
@@ -256,12 +260,6 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
-  }
-}
-
-.vads-u-width--responsive{
-  @media (max-width: $small-screen) {
-    width: 100% !important;
   }
 }
 

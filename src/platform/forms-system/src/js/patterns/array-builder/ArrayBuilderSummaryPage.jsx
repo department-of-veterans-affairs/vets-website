@@ -138,8 +138,18 @@ export default function ArrayBuilderSummaryPage({
         }
       };
 
+      const resetYesNo = () => {
+        // We shouldn't persist the 'yes' answer after an item is entered/cancelled
+        // We should ask the yes/no question again after an item is entered/cancelled
+        // Since it is required, it shouldn't be left null/undefined
+        if (props.data[hasItemsKey]) {
+          props.setData({ ...props.data, [hasItemsKey]: undefined });
+        }
+      };
+
       cleanupEmptyItems();
       redirectToIntroIfEmpty();
+      resetYesNo();
     }, []);
 
     useEffect(
@@ -264,7 +274,7 @@ export default function ArrayBuilderSummaryPage({
       // alert
       setShowUpdatedAlert(false);
 
-      setRemovedItemText(getText('alertItemDeleted', item));
+      setRemovedItemText(getText('alertItemDeleted', item, props.data));
       setRemovedItemIndex(index);
       setShowRemovedAlert(true);
       requestAnimationFrame(() => {
@@ -292,7 +302,7 @@ export default function ArrayBuilderSummaryPage({
         className="vads-u-color--gray-dark vads-u-margin-top--0"
         data-title-for-noun-singular={nounSingular}
       >
-        {getText(textType, updatedItemData)}
+        {getText(textType, updatedItemData, props.data)}
       </Heading>
     );
 
@@ -304,7 +314,7 @@ export default function ArrayBuilderSummaryPage({
               onDismiss={onDismissUpdatedAlert}
               nounSingular={nounSingular}
               index={updateItemIndex}
-              text={getText('alertItemUpdated', updatedItemData)}
+              text={getText('alertItemUpdated', updatedItemData, props.data)}
             />
           ) : null}
         </div>
@@ -352,7 +362,11 @@ export default function ArrayBuilderSummaryPage({
         <UpdatedAlert show={showUpdatedAlert} />
         <ReviewErrorAlert show={showReviewErrorAlert} />
         <ArrayBuilderCards
-          cardDescription={getText('cardDescription', updatedItemData)}
+          cardDescription={getText(
+            'cardDescription',
+            updatedItemData,
+            props.data,
+          )}
           arrayPath={arrayPath}
           nounSingular={nounSingular}
           nounPlural={nounPlural}
@@ -380,12 +394,14 @@ export default function ArrayBuilderSummaryPage({
                   className="form-review-panel-page-header vads-u-font-size--h5"
                   data-title-for-noun-singular={`${nounSingular}`}
                 >
-                  {getText('summaryTitle', updatedItemData)}
+                  {getText('summaryTitle', updatedItemData, props.data)}
                 </h4>
               </div>
               <dl className="review">
                 <div className="review-row">
-                  <dt>{getText('yesNoBlankReviewQuestion')}</dt>
+                  <dt>
+                    {getText('yesNoBlankReviewQuestion', null, props.data)}
+                  </dt>
                   <dd>
                     <span
                       className="dd-privacy-hidden"
@@ -398,9 +414,9 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
-          {getText('summaryDescription') && (
+          {getText('summaryDescription', null, props.data) && (
             <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
-              {getText('summaryDescription')}
+              {getText('summaryDescription', null, props.data)}
             </span>
           )}
           <Cards />
@@ -408,7 +424,11 @@ export default function ArrayBuilderSummaryPage({
             <div className="vads-u-margin-top--2">
               <va-button
                 data-action="add"
-                text={getText('reviewAddButtonText', updatedItemData)}
+                text={getText(
+                  'reviewAddButtonText',
+                  updatedItemData,
+                  props.data,
+                )}
                 onClick={addAnotherItemButtonClick}
                 name={`${nounPlural}AddButton`}
                 primary
@@ -424,14 +444,14 @@ export default function ArrayBuilderSummaryPage({
       uiSchema['ui:title'] = (
         <>
           <Title textType="summaryTitle" />
-          {getText('summaryDescription') && (
+          {getText('summaryDescription', null, props.data) && (
             <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
-              {getText('summaryDescription')}
+              {getText('summaryDescription', null, props.data)}
             </span>
           )}
           {isMaxItemsReached && (
             <MaxItemsAlert>
-              {getText('alertMaxItems', updatedItemData)}
+              {getText('alertMaxItems', updatedItemData, props.data)}
             </MaxItemsAlert>
           )}
         </>
@@ -441,7 +461,8 @@ export default function ArrayBuilderSummaryPage({
     } else {
       uiSchema['ui:title'] = <Title textType="summaryTitleWithoutItems" />;
       uiSchema['ui:description'] =
-        getText('summaryDescriptionWithoutItems') || undefined;
+        getText('summaryDescriptionWithoutItems', null, props.data) ||
+        undefined;
     }
 
     if (schema?.properties && maxItems && arrayData?.length >= maxItems) {

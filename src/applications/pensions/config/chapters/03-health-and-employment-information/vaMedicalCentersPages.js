@@ -50,6 +50,8 @@ const vaMedicalCenterPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'VA medical center',
       nounSingular: options.nounSingular,
+      lowerCase: false,
+      hasMultipleItemPages: false,
     }),
     medicalCenter: textUI('VA medical center'),
   },

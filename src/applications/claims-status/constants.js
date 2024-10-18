@@ -125,7 +125,7 @@ export const addOrRemoveDependentClaimTypeCodes = [
   '130SCHEBNREJ',
 ];
 
-// The Standard 5103 Notice Response doesnt come through as a tracked item from our API until it is closed so we need to make a
+// The Standard 5103 Notice Response doesn't come through as a tracked item from our API until it is closed so we need to make a
 // mocked item with information.
 export const standard5103Item = {
   displayName: 'Review evidence list (5103 notice)',

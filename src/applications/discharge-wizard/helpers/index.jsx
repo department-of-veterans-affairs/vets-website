@@ -363,8 +363,8 @@ export const determineBoardObj = (formResponses, noDRB) => {
   const oldDischarge = determineOldDischarge(dischargeMonth, dischargeYear);
 
   const failureToExhaust = [
-    RESPONSES.FAILURE_TO_EXHAUST_1A,
-    RESPONSES.FAILURE_TO_EXHAUST_1B,
+    RESPONSES.FAILURE_TO_EXHAUST_BCMR_YES,
+    RESPONSES.FAILURE_TO_EXHAUST_BCNR_YES,
   ].includes(formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST]);
 
   let boardObj = {
@@ -404,6 +404,129 @@ export const determineBoardObj = (formResponses, noDRB) => {
   return boardObj;
 };
 
+// Determines address for discharge paperwork
+export const determineVenueAddress = (formResponses, noDRB) => {
+  if (!formResponses) return null;
+
+  const boardData = determineBoardObj(formResponses);
+
+  if (
+    !noDRB &&
+    boardData &&
+    (boardData.abbr === DRB || boardData.abbr === AFDRB)
+  ) {
+    switch (formResponses[SHORT_NAME_MAP.SERVICE_BRANCH]) {
+      case RESPONSES.ARMY:
+        return (
+          <p className="va-address-block">
+            Army Review Boards Agency
+            <br />
+            251 18th Street South
+            <br />
+            Suite 385
+            <br />
+            Arlington, VA 22202-3531
+            <br />
+          </p>
+        );
+      case RESPONSES.AIR_FORCE:
+        return (
+          <p className="va-address-block">
+            Air Force Discharge Review Board
+            <br />
+            SAF/MRBP (AFDRB)
+            <br />
+            3351 Celmers Lane
+            <br />
+            Joint Base Andrews, MD 20762-6435
+            <br />
+          </p>
+        );
+      case RESPONSES.COAST_GUARD:
+        return (
+          <p className="va-address-block">
+            Commandant (CG-133)
+            <br />
+            Attn: Office of Military Personnel
+            <br />
+            US Coast Guard Stop 7907
+            <br />
+            2703 Martin Luther King, Jr. Ave., S.E.
+            <br />
+            Washington, DC 20593-7907
+            <br />
+          </p>
+        );
+      default:
+        // Navy or Marines
+        return (
+          <p className="va-address-block">
+            Secretary of the Navy Council of Review Boards
+            <br />
+            ATTN: Naval Discharge Review Board
+            <br />
+            720 Kennon Ave S.E., Suite 309
+            <br />
+            Washington Navy Yard, DC 20374-5023
+            <br />
+          </p>
+        );
+    }
+  } else {
+    switch (formResponses[SHORT_NAME_MAP.SERVICE_BRANCH]) {
+      case RESPONSES.ARMY:
+        return (
+          <p className="va-address-block">
+            Army Review Boards Agency
+            <br />
+            251 18th Street South
+            <br />
+            Suite 385
+            <br />
+            Arlington, VA 22202-3531
+            <br />
+          </p>
+        );
+      case RESPONSES.AIR_FORCE:
+        return (
+          <p className="va-address-block">
+            Air Force Board for Correction of Military Records
+            <br />
+            3351 Celmers Lane
+            <br />
+            Joint Base Andrews, MD 20762-6435
+            <br />
+          </p>
+        );
+      case RESPONSES.COAST_GUARD:
+        return (
+          <p className="va-address-block">
+            DHS Office of the General Counsel
+            <br />
+            Board for Correction of Military Records, Stop 0485
+            <br />
+            2707 Martin Luther King Jr. Ave., SE
+            <br />
+            Washington, DC 20528
+            <br />
+          </p>
+        );
+      default:
+        // Navy or Marines
+        return (
+          <p className="va-address-block">
+            Board for Correction of Naval Records (BCNR)
+            <br />
+            701 S. Courthouse Road, Suite 1001
+            <br />
+            Arlington, VA 22204-2490
+            <br />
+          </p>
+        );
+    }
+  }
+};
+
 // Determines specific form data Veterans will need to fill out based on form responses.
 export const determineFormData = formResponses => {
   const boardData = determineBoardObj(formResponses);
@@ -425,3 +548,165 @@ export const determineAirForceAFRBAPortal = formResponses =>
   formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
   determineBoardObj(formResponses).abbr === BCMR &&
   determineFormData(formResponses).num === 149;
+
+// Determines step header level.
+export const stepHeaderLevel = formResponses => {
+  if (
+    [
+      RESPONSES.PRIOR_SERVICE_PAPERWORK_NO,
+      RESPONSES.PRIOR_SERVICE_PAPERWORK_YES,
+    ].includes(formResponses[SHORT_NAME_MAP.PRIOR_SERVICE])
+  ) {
+    return 3;
+  }
+  return 2;
+};
+
+export const determineIsAirForceAFRBAPortal = formResponses =>
+  formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
+  determineBoardObj(formResponses).abbr === BCMR &&
+  determineFormData(formResponses).num === 149;
+
+const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
+  if (
+    ![
+      RESPONSES.PREV_APPLICATION_BCMR,
+      RESPONSES.PREV_APPLICATION_BCNR,
+    ].includes(prevAppType)
+  ) {
+    return oldDischarge
+      ? `the ${
+          boardToSubmit.name
+        }. The Board handles all cases from 15 or more years ago.`
+      : 'the Discharge Review Board (DRB). The DRB was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.';
+  }
+  if (
+    [RESPONSES.PREV_APPLICATION_BCMR, RESPONSES.PREV_APPLICATION_BCNR].includes(
+      prevAppType,
+    )
+  ) {
+    return `the ${boardToSubmit.name}. The ${
+      boardToSubmit.abbr
+    } was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.`;
+  }
+  return '';
+};
+
+export const isPreviousApplicationYear = prevAppYear => {
+  return [
+    RESPONSES.PREV_APPLICATION_BEFORE_2011,
+    RESPONSES.PREV_APPLICATION_BEFORE_2014,
+    RESPONSES.PREV_APPLICATION_BEFORE_2017,
+  ].includes(prevAppYear);
+};
+
+const shouldReapplyToBoard = (prevAppType, formResponses) => {
+  return (
+    [RESPONSES.PREV_APPLICATION_BCMR, RESPONSES.PREV_APPLICATION_BCNR].includes(
+      prevAppType,
+    ) &&
+    [
+      RESPONSES.FAILURE_TO_EXHAUST_BCMR_YES,
+      RESPONSES.FAILURE_TO_EXHAUST_BCNR_YES,
+    ].includes(formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST])
+  );
+};
+
+const isDocumentaryOrNotSure = prevAppType => {
+  return [
+    RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY,
+    RESPONSES.NOT_SURE,
+  ].includes(prevAppType);
+};
+
+const handleDRBExplanation = (boardToSubmit, serviceBranch, prevAppType) => {
+  const boardName =
+    boardToSubmit.abbr === DRB
+      ? 'Discharge Review Board (DRB)'
+      : 'Air Force Discharge Review Board (AFDRB)';
+
+  return `the ${boardName} for the ${serviceBranch}. The ${
+    boardToSubmit.abbr
+  } is a panel of commissioned officers, or a combination of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the ${
+    boardToSubmit.abbr
+  } is 15 years after your date of discharge; after this time period, you must apply to a different board. ${
+    prevAppType === RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY
+      ? `Because your application was rejected by the ${
+          boardToSubmit.abbr
+        } on Documentary Review, you must apply for a Personal Appearance Review.`
+      : ''
+  }`;
+};
+
+export const getBoardExplanation = formResponses => {
+  const reason = formResponses[SHORT_NAME_MAP.REASON];
+  const noPrevApp =
+    formResponses[SHORT_NAME_MAP.PREV_APPLICATION] === RESPONSES.NO;
+  const prevAppType = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE];
+  const prevAppYear = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_YEAR];
+  const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
+  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 1;
+  const oldDischarge =
+    new Date().getFullYear() -
+      new Date(dischargeYear, dischargeMonth).getFullYear() >
+    15;
+
+  const boardToSubmit = determineBoardObj(formResponses);
+  const serviceBranch = determineBranchOfService(
+    formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
+  );
+  const { abbr, name } = boardToSubmit;
+
+  if (reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214) {
+    return handleDD215Update(boardToSubmit, prevAppType, oldDischarge);
+  }
+
+  if (isPreviousApplicationYear(prevAppYear) && abbr === DRB) {
+    return `the Discharge Review Board (DRB) for the ${serviceBranch}. In general, the DRB does not handle appeals for previously denied applications. However, because new rules have recently come out regarding discharges like yours, the Boards may treat your application as a new case. If possible, review the new policies and state in your application how the change in the policy is relevant to your case. If the DRB decides that the new rules don’t apply to your situation, you will likely have to send an appeal to a different Board.`;
+  }
+
+  if (formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST] && abbr === DRB) {
+    return `the Discharge Review Board (DRB) for the ${serviceBranch}. The ${name} previously rejected your application because you did not apply to the DRB first. For applications like yours, the ${abbr} can review only cases that have already been rejected by the DRB. The DRB is a panel of commissioned officers, or a mix of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge. After this time period, you must apply to a different board. 
+    ${
+      prevAppType === RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY
+        ? `Because your application was rejected by the ${abbr} on Documentary Review, you must apply for a Personal Appearance Review.`
+        : ''
+    }`;
+  }
+
+  if (prevAppType === RESPONSES.PREV_APPLICATION_DRB_PERSONAL) {
+    return `the ${abbr} for the ${serviceBranch} to appeal that decision. This is because your application was denied by the Discharge Review Board (DRB) on a Personal Appearance Review.`;
+  }
+
+  if (shouldReapplyToBoard(prevAppType, formResponses)) {
+    return `the ${abbr}. If you’ve applied before, you must re-apply to the ${abbr} for reconsideration.`;
+  }
+
+  if (
+    (noPrevApp ||
+      isDocumentaryOrNotSure(prevAppType) ||
+      isPreviousApplicationYear(prevAppYear)) &&
+    oldDischarge
+  ) {
+    return `the ${abbr} for the ${serviceBranch}. This is because the Board handles all cases from 15 or more years ago.`;
+  }
+
+  if (
+    formResponses[SHORT_NAME_MAP.COURT_MARTIAL] === RESPONSES.COURT_MARTIAL_YES
+  ) {
+    return `the ${abbr} for the ${serviceBranch}. This is because your discharge was the result of a general court-martial.`;
+  }
+
+  if (
+    reason === RESPONSES.REASON_TRANSGENDER ||
+    formResponses[SHORT_NAME_MAP.INTENTION] === RESPONSES.INTENTION_YES
+  ) {
+    return `the ${abbr} for the ${serviceBranch}. This is because you want to change information other than your characterization of discharge, re-enlistment code, separation code, and narrative reason for discharge.`;
+  }
+
+  if (abbr === DRB || abbr === AFDRB) {
+    return handleDRBExplanation(boardToSubmit, serviceBranch, prevAppType);
+  }
+
+  return '';
+};

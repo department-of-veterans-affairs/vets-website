@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '@@profile/actions/paymentInformation';
 import PropTypes from 'prop-types';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
@@ -17,9 +16,9 @@ import ApplicationsInProgress from './ApplicationsInProgress';
 const BenefitApplications = ({
   getESREnrollmentStatus,
   getFormStatuses,
-  isLOA1,
   shouldGetESRStatus,
 }) => {
+  const sectionRef = useRef(null);
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const isFormSubmissionStatusWork = useToggleValue(
     TOGGLE_NAMES.myVaFormSubmissionStatuses,
@@ -43,14 +42,29 @@ const BenefitApplications = ({
     [getFormStatuses, isFormSubmissionStatusWork],
   );
 
+  useEffect(() => {
+    const handleAnchorLink = () => {
+      if (document.location.hash === '#benefit-applications') {
+        const elt = sectionRef.current;
+        elt?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    handleAnchorLink();
+  }, []);
+
   return (
-    <div data-testid="dashboard-section-benefit-application-drafts">
+    <div
+      data-testid="dashboard-section-benefit-application-drafts"
+      id="benefit-applications"
+      ref={sectionRef}
+    >
       <h2>
         {isFormSubmissionStatusWork
           ? 'Benefit applications and forms'
           : 'Benefit application drafts'}
       </h2>
-      <ApplicationsInProgress hideH3 isLOA1={isLOA1} />
+      <ApplicationsInProgress hideH3 />
     </div>
   );
 };
@@ -73,13 +87,11 @@ const mapStateToProps = state => {
 BenefitApplications.propTypes = {
   getESREnrollmentStatus: PropTypes.func,
   getFormStatuses: PropTypes.func,
-  isLOA1: PropTypes.bool,
   shouldGetESRStatus: PropTypes.bool,
 };
 
 const mapDispatchToProps = {
   getFormStatuses: fetchFormStatuses,
-  getDD4EDUStatus: fetchEDUPaymentInformationAction,
   getESREnrollmentStatus: getEnrollmentStatusAction,
 };
 

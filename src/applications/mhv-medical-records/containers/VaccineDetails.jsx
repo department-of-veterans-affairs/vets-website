@@ -8,19 +8,17 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
-  processList,
 } from '../util/helpers';
-import ItemList from '../components/shared/ItemList';
 import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -102,13 +100,12 @@ const VaccineDetails = props => {
     const content = `
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
-Location: ${record.location}\n
-Provider notes: ${processList(record.notes)}\n`;
+Location: ${record.location}\n`;
 
     const fileName = `VA-vaccines-details-${getNameDateAndTime(user)}`;
 
@@ -167,10 +164,6 @@ Provider notes: ${processList(record.notes)}\n`;
               Reactions recorded by provider
             </h2>
             <ItemList list={record.reactions} /> */}
-            <h2 className="vads-u-margin-top--2 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-              Provider notes
-            </h2>
-            <ItemList list={record.notes} />
           </div>
         </>
       );

@@ -38,7 +38,7 @@ export function transform(formConfig, form) {
       },
       // HLR v2.5 gives no choice; default to true (when feature toggle enabled)
       // Lighthouse v2 & v2.5 has this value as required
-      socOptIn: showNewHlrContent(formData) || formData.socOptIn,
+      socOptIn: showNewHlrContent(formData) || formData.socOptIn || false,
     };
 
     const included = addAreaOfDisagreement(

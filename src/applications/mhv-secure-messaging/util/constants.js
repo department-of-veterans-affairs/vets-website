@@ -156,11 +156,13 @@ export const Alerts = {
     DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
-    SEND_MESSAGE_SUCCESS: 'Secure message was successfully sent.',
+    SEND_MESSAGE_SUCCESS: 'Message Sent.',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',
     SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',
+    ATTACHMENT_SCAN_FAIL:
+      'The file you attached has a virus. Remove the file to send your message.',
   },
 
   Folder: {
@@ -193,6 +195,10 @@ export const Alerts = {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
     THREAD_NOT_FOUND_ERROR: 'This conversation was not found.',
   },
+  ContactList: {
+    CANNOT_SAVE:
+      "We're sorry. We couldn't save your changes. Try saving again.",
+  },
 };
 
 export const Errors = {
@@ -201,6 +207,7 @@ export const Errors = {
     BLOCKED_USER2: 'SM151',
     TG_NOT_ASSOCIATED: 'SM129',
     SERVICE_OUTAGE: '503',
+    ATTACHMENT_SCAN_FAIL: 'SM172',
   },
 };
 

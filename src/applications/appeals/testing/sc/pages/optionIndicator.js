@@ -10,6 +10,8 @@ import {
   optionIndicatorChoices,
 } from '../content/optionIndicator';
 
+import { isOnReviewPage } from '../../../shared/utils/helpers';
+
 export default {
   uiSchema: {
     'view:vhaContent': {
@@ -22,6 +24,11 @@ export default {
       labelHeaderLevel: '3',
       labels: optionIndicatorChoices,
       required: false,
+      updateUiSchema: () => ({
+        'ui:options': {
+          labelHeaderLevel: isOnReviewPage() ? 4 : 3,
+        },
+      }),
     }),
   },
   schema: {

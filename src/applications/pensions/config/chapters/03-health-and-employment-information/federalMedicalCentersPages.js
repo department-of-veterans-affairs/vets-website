@@ -52,6 +52,7 @@ const federalMedicalCenterPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Federal medical center',
       nounSingular: options.nounSingular,
+      hasMultipleItemPages: false,
     }),
     medicalCenter: textUI('Federal medical center'),
   },

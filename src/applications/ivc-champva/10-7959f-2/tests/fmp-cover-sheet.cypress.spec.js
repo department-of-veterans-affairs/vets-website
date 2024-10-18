@@ -8,12 +8,12 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import {
   fillAddressWebComponentPattern,
-  // reviewAndSubmitPageFlow, // TODO: add this when we have a signature block added to review page
+  reviewAndSubmitPageFlow,
   verifyAllDataWasSubmitted,
   getAllPages,
 } from '../../shared/tests/helpers';
 
-import mockFeatureToggles from './fixtures/mocks/featureToggles.json';
+import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
 
 // For intercepting file uploads:
 const UPLOAD_URL = `${
@@ -25,9 +25,9 @@ const ALL_PAGES = getAllPages(formConfig);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataDir: path.join(__dirname, 'fixtures', 'data'),
+    dataDir: path.join(__dirname, 'e2e', 'fixtures', 'data'),
     // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
+    dataSets: ['test-data.json'],
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
@@ -67,7 +67,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
-              path.join(__dirname, 'fixtures/data/example_upload.png'),
+              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
               'testing',
             )
             .get('.schemaform-file-uploading')
@@ -78,23 +78,15 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(_data => {
-            // Press the submit button:
-            // TODO: remove this when we have a statement of truth block:
-            cy.findByText('Submit application', {
-              selector: 'button',
-            }).click();
-            // TODO: uncomment this when the above submit button logic is removed
-            // reviewAndSubmitPageFlow(
-            //   data.statementOfTruthSignature,
-            //   `Submit application`,
-            // );
+          cy.get('@testData').then(data => {
+            reviewAndSubmitPageFlow(data.statementOfTruthSignature, `Submit`);
           });
         });
       },
     },
 
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
       cy.intercept('POST', `${UPLOAD_URL}*`, {
         statusCode: 200,
         body: {
@@ -108,7 +100,6 @@ const testConfig = createTestConfig(
           },
         },
       });
-      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(dataPreTransform => {
           // Runs the test-data through transformForSubmit and compares it

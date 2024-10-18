@@ -1,31 +1,17 @@
 import React from 'react';
-
-import { pageTitle } from '../utils/helpers';
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { disabilityTypes, disabilityTypeLabels } from '../constants/benefits';
 
 export default {
   uiSchema: {
-    disabilityRating: {
-      'ui:title': pageTitle('Do you have a VA disability rating?'),
-      'ui:widget': 'radio',
-      'ui:options': {
-        widgetProps: {
-          appliedAndReceived: {
-            disabilityRating: "I've applied and received a disability rating",
-          },
-          submitted: {
-            disabilityRating:
-              "I've submitted but haven't received a rating yet",
-          },
-          started: {
-            disabilityRating:
-              "I've started the process but haven't submitted yet",
-          },
-          notApplied: {
-            disabilityRating: "I haven't applied for a disability rating",
-          },
-        },
-      },
-    },
+    disabilityRating: radioUI({
+      title: 'Do you have a VA disability rating?',
+      labels: disabilityTypeLabels,
+      required: () => false,
+    }),
     'view:disabilityEligibility': {
       'ui:description': (
         <div>
@@ -34,9 +20,8 @@ export default {
             target="_blank"
             rel="noreferrer"
           >
-            Learn more about disability ratings.
+            Learn more about disability ratings (opens in a new tab)
           </a>{' '}
-          <span> (opens in a new tab)</span>
         </div>
       ),
     },
@@ -44,15 +29,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      disabilityRating: {
-        type: 'string',
-        enum: [
-          "I've applied and received a disability rating",
-          "I've submitted but haven't received a rating yet",
-          "I've started the process but haven't submitted yet",
-          "I haven't applied for a disability rating",
-        ],
-      },
+      disabilityRating: radioSchema(Object.keys(disabilityTypes)),
       'view:disabilityEligibility': {
         type: 'object',
         properties: {},

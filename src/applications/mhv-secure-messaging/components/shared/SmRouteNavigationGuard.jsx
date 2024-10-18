@@ -74,7 +74,7 @@ const SmRouteNavigationGuard = ({
       window.onbeforeunload = () => signOutMessage;
       e.returnValue = signOutMessage; // Included for legacy support, e.g. Chrome/Edge < 119
     },
-    [when, signOutMessage],
+    [signOutMessage],
   );
 
   // Update blocking state based on the `when` prop

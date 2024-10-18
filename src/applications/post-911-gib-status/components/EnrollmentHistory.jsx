@@ -11,8 +11,8 @@ function EnrollmentHistory({ enrollmentData = {} }) {
   // History explanation box
   let historyExplanationBox;
   const noEnrollmentHistory =
-    enrollmentData.usedEntitlement.months === 0 &&
-    enrollmentData.usedEntitlement.days === 0;
+    enrollmentData.usedEntitlement?.months === 0 &&
+    enrollmentData.usedEntitlement?.days === 0;
 
   if (noEnrollmentHistory) {
     historyExplanationBox = enrollmentHistoryExplanation.noEnrollmentHistory;

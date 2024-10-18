@@ -18,6 +18,7 @@ const BenefitCard = ({ benefit }) => {
                 href={learnMoreURL}
                 text="Learn more"
                 type="secondary"
+                label={`Learn more about ${name}`}
               />
             )}
           </div>
@@ -27,6 +28,7 @@ const BenefitCard = ({ benefit }) => {
                 href={applyNowURL}
                 text="Apply now"
                 type="secondary"
+                label={`Apply now for ${name}`}
               />
             )}
           </div>

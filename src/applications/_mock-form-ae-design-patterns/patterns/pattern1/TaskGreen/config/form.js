@@ -11,6 +11,7 @@ import { VIEW_FIELD_SCHEMA } from '../../../../utils/constants';
 
 import IntroductionPage from '../../../../shared/components/pages/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
+import { prefillTransformer } from '../../../../utils/helpers/prefill-transformer';
 
 import { EditAddress } from '../EditContactInfoTaskGreen';
 import { GetFormHelp } from '../../../../shared/components/GetFormHelp';
@@ -68,16 +69,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillTransformer(pages, formData, metadata) {
-    const transformedData = {
-      veteranSocialSecurityNumber: formData?.data?.attributes?.veteran?.ssn,
-    };
-    return {
-      metadata,
-      formData: transformedData,
-      pages,
-    };
-  },
+  prefillTransformer,
   prefillEnabled: true,
   savedFormMessages: {
     notFound:

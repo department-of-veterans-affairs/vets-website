@@ -1,0 +1,91 @@
+{
+  "lgyCoeClaim": {
+    "form": {
+      "fullName": {
+        "first": "Mark",
+        "last": "Webb",
+        "suffix": "Jr."
+      },
+      "dateOfBirth": "1950-10-04",
+      "applicantAddress": {
+        "country": "USA",
+        "street": "123 Faker Street",
+        "city": "Bogusville",
+        "state": "GA",
+        "postalCode": "30058"
+      },
+      "contactPhone": "4445551212",
+      "contactEmail": "test2@test1.net",
+      "identity": "VETERAN",
+      "periodsOfService": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": {
+            "from": "2001-03-21T00:00:00.000Z",
+            "to": "2014-07-21T00:00:00.000Z"
+          }
+        },
+        {
+          "serviceBranch": "Air Force Reserve",
+          "dateRange": {
+            "from": "2014-07-22T00:00:00.000Z",
+            "to": "2016-07-22T00:00:00.000Z"
+          }
+        }
+      ],
+      "vaLoanIndicator": true,
+      "relevantPriorLoans": [
+        {
+          "intent": "ONETIMERESTORATION",
+          "dateRange": {
+            "from": "2015-01-01T00:00:00.000Z",
+            "to": "2020-01-01T00:00:00.000Z"
+          },
+          "propertyAddress": {
+            "propertyAddress1": "345 Main St",
+            "propertyAddress2": "Apt 3",
+            "propertyCity": "Blank",
+            "propertyState": "AK",
+            "propertyZip": "85274"
+          },
+          "vaLoanNumber": "123456789012",
+          "propertyOwned": true
+        },
+        {
+          "intent": "REFI",
+          "dateRange": {
+            "from": "2020-01-01T00:00:00.000Z",
+            "to": ""
+          },
+          "propertyAddress": {
+            "propertyAddress1": "346 Main St",
+            "propertyAddress2": "Apt 4",
+            "propertyCity": "Blank",
+            "propertyState": "AK",
+            "propertyZip": "85274"
+          },
+          "vaLoanNumber": "210987654321",
+          "propertyOwned": true
+        }
+      ],
+      "files": [
+        {
+          "name": "Test.pdf",
+          "size": 33016,
+          "confirmationCode": "some-UUID",
+          "isEncrypted": false,
+          "attachmentType": "Other",
+          "attachmentDescription": "Other description"
+        },
+        {
+          "name": "Test2.pdf",
+          "size": 35016,
+          "confirmationCode": "some-UUID2",
+          "isEncrypted": false,
+          "attachmentType": "ALTA statement"
+        }
+      ],
+      "privacyAgreementAccepted": true
+    }
+  }
+}

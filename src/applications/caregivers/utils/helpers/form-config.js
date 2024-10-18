@@ -18,9 +18,9 @@ export const hideCaregiverRequiredAlert = formData => {
 
 export const hideUploadWarningAlert = formData => {
   const { signAsRepresentativeDocumentUpload: upload } = formData;
-  const hasDocument = upload?.length;
+  const hasDocument = !!upload?.length;
 
-  if (!hasDocument) return false;
+  if (!hasDocument) return true;
 
   const { guid, name, errorMessage } = upload[0];
   return !(guid && name && !errorMessage);

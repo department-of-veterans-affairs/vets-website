@@ -21,12 +21,13 @@ import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import DraftCard from './DraftCard';
 import MissingApplicationHelp from './MissingApplicationHelp';
 import SubmissionCard from './SubmissionCard';
+import Error from './Error';
 
 const ApplicationsInProgress = ({
+  submittedError,
   submittedForms,
   savedForms,
   hideH3,
-  isLOA1,
 }) => {
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
@@ -81,10 +82,10 @@ const ApplicationsInProgress = ({
     [transformedSavedForms, transformedStatusForms],
   );
 
-  // if LOA1 then show 'You have no benefit application drafts to show.', otherwise show 'You have no applications in progress.'
-  const emptyStateText = isLOA1
-    ? 'You have no benefit application drafts to show.'
-    : 'You have no applications in progress.';
+  const isEmptyState = allForms.length === 0 && !submittedError;
+  const hasForms = allForms.length > 0 && !submittedError;
+
+  const emptyStateText = 'You have no benefit applications or forms to show.';
 
   return (
     <div data-testid="applications-in-progress">
@@ -99,7 +100,18 @@ const ApplicationsInProgress = ({
 
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormSubmissionStatuses}>
         <DashboardWidgetWrapper>
-          {allForms.length > 0 ? (
+          {submittedError && <Error />}
+          {isEmptyState && (
+            <>
+              <p data-testid="applications-in-progress-empty-state">
+                {emptyStateText}
+              </p>
+              <Toggler.Enabled>
+                <MissingApplicationHelp />
+              </Toggler.Enabled>
+            </>
+          )}
+          {hasForms && (
             <div>
               <Toggler.Enabled>
                 {allForms.map(form => {
@@ -190,15 +202,11 @@ const ApplicationsInProgress = ({
                   );
                 })}
               </Toggler.Disabled>
+              <Toggler.Enabled>
+                <MissingApplicationHelp />
+              </Toggler.Enabled>
             </div>
-          ) : (
-            <p data-testid="applications-in-progress-empty-state">
-              {emptyStateText}
-            </p>
           )}
-          <Toggler.Enabled>
-            <MissingApplicationHelp />
-          </Toggler.Enabled>
         </DashboardWidgetWrapper>
       </Toggler>
     </div>
@@ -207,15 +215,20 @@ const ApplicationsInProgress = ({
 
 ApplicationsInProgress.propTypes = {
   hideH3: PropTypes.bool,
-  isLOA1: PropTypes.bool,
   savedForms: PropTypes.array,
+  submittedError: PropTypes.bool, // bool error for _any_ error in request for "submitted forms"
   submittedForms: PropTypes.array,
 };
 
 const mapStateToProps = state => {
+  // normalize full vs. partial errors into a single true/false value and provide as prop
+  const submittedError =
+    !!state.submittedForms.error || state.submittedForms.errors?.length > 0;
+
   return {
     savedForms: selectProfile(state).savedForms || [],
     submittedForms: state.submittedForms.forms || [],
+    submittedError,
   };
 };
 

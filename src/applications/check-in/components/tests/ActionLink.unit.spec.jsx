@@ -24,7 +24,8 @@ describe('unified check-in experience', () => {
           />
         </CheckInProvider>,
       );
-      expect(getByTestId('action-link')).to.have.text(
+      expect(getByTestId('action-link')).to.have.attribute(
+        'text',
         'Review your information now',
       );
     });
@@ -38,7 +39,10 @@ describe('unified check-in experience', () => {
           />
         </CheckInProvider>,
       );
-      expect(getByTestId('action-link')).to.have.text('Check in now');
+      expect(getByTestId('action-link')).to.have.attribute(
+        'text',
+        'Check in now',
+      );
     });
     it('calls action method once when clicked', () => {
       const actionSpy = sinon.spy();
@@ -65,8 +69,8 @@ describe('unified check-in experience', () => {
           />
         </CheckInProvider>,
       );
-      expect(getByTestId('action-link')).to.have.attr(
-        'aria-label',
+      expect(getByTestId('action-link')).to.have.attribute(
+        'label',
         'Check in now for appointment on Sunday, January 1 at 10:00 a.m.',
       );
     });

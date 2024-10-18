@@ -7,7 +7,7 @@ const SecondaryRequiredAlert = () => {
   }, []);
 
   return (
-    <div className="caregiver-error-message">
+    <div className="caregiver-error-message vads-u-margin-bottom--4">
       <va-alert status="error">
         <h3 slot="headline">You need to add a Family Caregiver</h3>
         <p>

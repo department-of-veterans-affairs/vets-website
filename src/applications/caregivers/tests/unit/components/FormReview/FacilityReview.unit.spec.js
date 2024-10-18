@@ -7,7 +7,7 @@ import { mockFetchFacilitiesResponse } from '../../../mocks/responses';
 import FacilityReview from '../../../../components/FormReview/FacilityReview';
 
 describe('CG <FacilityReview>', () => {
-  const facilities = mockFetchFacilitiesResponse;
+  const { facilities } = mockFetchFacilitiesResponse;
   const selectedFacility = facilities[0];
   const caregiverFacility = facilities[1];
   const goToPath = sinon.spy();

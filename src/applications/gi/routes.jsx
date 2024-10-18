@@ -1,7 +1,7 @@
-import GiBillApp from './containers/GiBillApp';
-import SearchPage from './containers/SearchPage';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import React from 'react';
+import GiBillApp from './containers/GiBillApp';
+import SearchPage from './containers/SearchPage';
 import ComparePage from './containers/ComparePage';
 import ProfilePage from './containers/ProfilePage';
 

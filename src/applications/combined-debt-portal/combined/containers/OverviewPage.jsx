@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { isBefore } from 'date-fns';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -8,7 +9,10 @@ import {
   calculateTotalDebts,
   calculateTotalBills,
 } from '../utils/balance-helpers';
-import DisasterAlert from '../components/DisasterAlert';
+import {
+  GenericDisasterAlert,
+  SpecialHurricaneAlert,
+} from '../components/DisasterAlert';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const OverviewPage = () => {
@@ -36,6 +40,11 @@ const OverviewPage = () => {
   const bothZero =
     totalDebts === 0 && totalBills === 0 && !billError && !debtError;
 
+  const specialHurricaneAlertDisplay = isBefore(
+    new Date(),
+    new Date('2024/12/09'),
+  );
+
   return (
     <>
       <VaBreadcrumbs
@@ -61,7 +70,11 @@ const OverviewPage = () => {
           charges from VA health care facilities. Find out how to make payments
           or request financial help.
         </p>
-        <DisasterAlert />
+        {specialHurricaneAlertDisplay ? (
+          <SpecialHurricaneAlert />
+        ) : (
+          <GenericDisasterAlert />
+        )}
         {bothError || bothZero ? (
           <ComboAlerts
             alertType={bothError ? ALERT_TYPES.ERROR : ALERT_TYPES.ZERO}
@@ -69,10 +82,6 @@ const OverviewPage = () => {
         ) : (
           <>
             <h2>Debt and bill overview</h2>
-            <p>
-              Any payments you may have made will not be reflected here until
-              our systems are updated with your next monthly statement.
-            </p>
             <Balances />
             <h2>What to do if you have questions about your debt and bills</h2>
             <h3>Questions about benefit debt</h3>

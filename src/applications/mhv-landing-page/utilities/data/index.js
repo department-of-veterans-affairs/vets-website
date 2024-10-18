@@ -59,7 +59,7 @@ const resolveLandingPageLinks = (
       text: 'Update health benefits info (10-10EZR)',
     },
     {
-      href: mhvUrl(authdWithSSOe, 'health-information-card'),
+      href: '/health-care/get-health-id-card/',
       text: 'Veteran health information card',
     },
     // {
@@ -118,6 +118,15 @@ const resolveLandingPageLinks = (
     },
   ];
 
+  const paymentsLinks = [
+    HEALTH_TOOL_LINKS.PAYMENTS[0],
+    featureToggles[FEATURE_FLAG_NAMES.travelPayPowerSwitch] && {
+      href: '/my-health/travel-claim-status',
+      text: 'Check travel reimbursement claim status',
+    },
+    HEALTH_TOOL_LINKS.PAYMENTS[1],
+  ].filter(isLinkData);
+
   const cards = [
     {
       title: HEALTH_TOOL_HEADINGS.APPOINTMENTS,
@@ -145,7 +154,7 @@ const resolveLandingPageLinks = (
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
       icon: 'attach_money',
       iconClasses: 'vads-u-margin-right--0 vads-u-margin-left--neg0p5',
-      links: HEALTH_TOOL_LINKS.PAYMENTS,
+      links: paymentsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_SUPPLIES,

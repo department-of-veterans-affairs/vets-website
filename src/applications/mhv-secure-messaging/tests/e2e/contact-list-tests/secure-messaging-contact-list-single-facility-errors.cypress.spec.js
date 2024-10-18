@@ -38,8 +38,13 @@ describe('SM Single Facility Contact list', () => {
   });
 
   it(`user won't see the alert after saving changes`, () => {
-    ContactListPage.selectCheckBox(`ABC`);
-    ContactListPage.clickSaveContactListButton();
+    const selectedTeam = [`ABC`];
+    const updatedRecipientsList = ContactListPage.setPreferredTeams(
+      mockRecipients,
+      selectedTeam,
+    );
+    ContactListPage.selectCheckBox(selectedTeam[0]);
+    ContactListPage.saveContactList(updatedRecipientsList);
     ContactListPage.verifyContactListSavedAlert();
     ContactListPage.clickBackToInbox();
     GeneralFunctionsPage.verifyUrl(`inbox`);

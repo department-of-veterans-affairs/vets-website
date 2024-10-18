@@ -42,11 +42,19 @@ describe('User Nav Actions', () => {
         const state = store.getState();
         expect(state.showLoginModal).to.eql(isOpen);
         expect(state.modalInformation).to.eql({
-          startingLocation: window.location.pathname,
-          redirectLocation: window.location.pathname,
           trigger: options.trigger,
         });
       });
+    });
+
+    it('should append `verification=required` when dispatched as such', async () => {
+      expect(global.window.location.href.includes('localhost')).to.be.true;
+      await toggleLoginModal(true, '', true)(store.dispatch, () => ({
+        ...featureToggleNotEnabled,
+      }));
+
+      expect(global.window.location.href.includes('verification=required')).to
+        .be.true;
     });
 
     it('should append `?next=loginModal` query parameter when opened', async () => {

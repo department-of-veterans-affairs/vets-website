@@ -14,7 +14,7 @@ describe('CG <FacilityList>', () => {
     error = undefined,
   }) => ({
     props: {
-      facilities: mockFetchFacilitiesResponse,
+      facilities: mockFetchFacilitiesResponse.facilities,
       formContext: { reviewMode, submitted },
       onChange: sinon.spy(),
       query: 'Tampa',

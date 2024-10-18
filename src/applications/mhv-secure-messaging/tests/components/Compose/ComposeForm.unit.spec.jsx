@@ -34,6 +34,7 @@ import {
   inputVaTextInput,
   selectVaRadio,
   selectVaSelect,
+  checkVaCheckbox,
 } from '../../../util/testUtils';
 import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
@@ -230,9 +231,10 @@ describe('Compose form component', () => {
       recipients: customState.sm.recipients,
     });
 
+    fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('send-button'));
       expect(sendMessageSpy.calledOnce).to.be.true;
+      sendMessageSpy.restore();
     });
   });
 
@@ -351,10 +353,12 @@ describe('Compose form component', () => {
   });
 
   it('displays an error on attempt to save a draft with attachments', async () => {
-    const screen = setup(initialState, Paths.COMPOSE, {
+    const customProps = {
+      ...draftMessage,
+      messageValid: true,
       isSignatureRequired: false,
-      messageValid: false,
-    });
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
@@ -371,7 +375,6 @@ describe('Compose form component', () => {
       modal = screen.queryByTestId('quit-compose-double-dare');
       expect(modal).to.exist;
     });
-
     expect(modal).to.have.attribute(
       'modal-title',
       "We can't save attachments in a draft message",
@@ -490,8 +493,9 @@ describe('Compose form component', () => {
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
     });
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
   });
 
   it('adds eventListener if path is /draft/:id', async () => {
@@ -529,8 +533,9 @@ describe('Compose form component', () => {
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
     });
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
   });
 
   it('does not display BlockedTriageGroupAlert on a saved draft if user is not blocked from groups', async () => {
@@ -598,11 +603,13 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      );
+    });
     const viewOnlyDraftSections = screen.queryAllByTestId(
       'view-only-draft-section',
     );
@@ -645,11 +652,13 @@ describe('Compose form component', () => {
       'blocked-triage-group-alert',
     );
 
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to some of your care teams",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to some of your care teams",
+      );
+    });
     expect(screen.queryAllByTestId('blocked-triage-group').length).to.equal(2);
   });
 
@@ -687,11 +696,13 @@ describe('Compose form component', () => {
       'blocked-triage-group-alert',
     );
 
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-    );
+    waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+      );
+    });
   });
 
   it('displays BlockedTriageGroupAlert if there are no associations at all', async () => {
@@ -789,11 +800,13 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to care teams at VA Indiana health care",
-    );
+    waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to care teams at VA Indiana health care",
+      );
+    });
   });
 
   it('displays BlockedTriageGroupAlert with list if blocked from one facility and care team at another facility', async () => {
@@ -828,11 +841,13 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to some of your care teams",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to some of your care teams",
+      );
+    });
     const blockedList = screen.queryAllByTestId('blocked-triage-group');
     expect(blockedList.length).to.equal(2);
     expect(
@@ -874,15 +889,17 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to your care teams right now",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to your care teams right now",
+      );
+    });
     expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
-  it('displays alerts in Electronic Signature component if signature and checkbox is required', async () => {
+  it('displays alerts in Electronic Signature component if signature is required', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={initialState.sm.recipients} />,
       {
@@ -920,17 +937,40 @@ describe('Compose form component', () => {
     );
     inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
     expect(signatureTextField).to.have.attribute('error', '');
+  });
 
-    const checkboxSelector = `va-checkbox[label='${
-      ElectronicSignatureBox.CHECKBOX_LABEL
-    }']`;
-    const checkbox = screen.container.querySelector(checkboxSelector);
-    const sendButton = screen.getByTestId('save-draft-button');
-
-    fireEvent.click(sendButton);
-    expect(checkbox).to.have.attribute(
-      'error',
-      `${ErrorMessages.ComposeForm.CHECKBOX_REQUIRED}`,
+  it('displays an error in Electronic Signature component if checkbox is not checked', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={initialState.sm.recipients} />,
+      {
+        initialState,
+        reducers: reducer,
+      },
     );
+    // Enters value for all other compose form fields first
+    const tgRecipient = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+    selectVaSelect(screen.container, tgRecipient);
+
+    const checkboxSelector = `va-checkbox[label="${
+      ElectronicSignatureBox.CHECKBOX_LABEL
+    }"]`;
+
+    await waitFor(() => {
+      const sendButton = screen.getByTestId('send-button');
+      const checkbox = screen.container.querySelector(checkboxSelector);
+      checkVaCheckbox(checkbox, false);
+
+      // after clicking send, validation checks on Electronic Signature component runs
+      fireEvent.click(sendButton);
+      expect(checkbox).to.have.attribute(
+        'error',
+        `${ErrorMessages.ComposeForm.CHECKBOX_REQUIRED}`,
+      );
+
+      checkVaCheckbox(checkbox, true);
+      expect(checkbox).to.have.attribute('error', '');
+    });
   });
 });

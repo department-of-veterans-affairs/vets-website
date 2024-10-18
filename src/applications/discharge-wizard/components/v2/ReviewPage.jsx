@@ -84,7 +84,7 @@ const ReviewPage = ({
               </p>
               <span>
                 <va-link
-                  data-testid="duw-edit-link"
+                  data-testid={`duw-edit-link-${shortName}`}
                   href="#"
                   onClick={event => {
                     event.preventDefault();

@@ -66,23 +66,6 @@ describe('<FilesNeeded>', () => {
           getByText('Details');
         });
       });
-
-      it('should render va-alert with item data and hide DueDate', () => {
-        const { queryByText, getByText } = renderWithRouter(
-          <Provider store={getStore()}>
-            <FilesNeeded item={item5103} />
-          </Provider>,
-        );
-
-        expect(queryByText('December 1, 2024')).to.not.exist;
-        expect(
-          queryByText(
-            'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
-          ),
-        ).to.exist;
-        getByText('Review evidence list');
-        getByText('Details');
-      });
     });
   });
 

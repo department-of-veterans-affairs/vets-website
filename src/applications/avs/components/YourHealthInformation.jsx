@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { parse } from 'date-fns';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
@@ -12,8 +13,9 @@ import { isAuthenticatedWithSSOe } from '@department-of-veterans-affairs/platfor
 
 import {
   fieldHasValue,
+  formatImmunizationDate,
   getFormattedAppointmentDate,
-  parseVistaDate,
+  parseProblemDateTime,
   parseVistaDateTime,
 } from '../utils';
 import {
@@ -152,7 +154,7 @@ const renderImmunization = immunization => {
     <p>
       {immunization.name}
       <br />
-      Date: {formatDateLong(parseVistaDate(immunization.date))}
+      Date: {formatImmunizationDate(immunization.date)}
       <br />
       Facility: {immunization.facility}
     </p>
@@ -165,7 +167,7 @@ const renderProblem = problem => {
   return (
     <p>
       {problemName} <br />
-      Last updated: {formatDateLong(problem.lastUpdated)}
+      Last updated: {formatDateLong(parseProblemDateTime(problem.lastUpdated))}
     </p>
   );
 };
@@ -175,7 +177,8 @@ const renderAllergy = allergy => {
     <p>
       {allergy.allergen}
       <br />
-      Verified date: {formatDateLong(parseVistaDate(allergy.verifiedDate))}
+      Verified date:{' '}
+      {formatDateLong(parse(allergy.verifiedDate, 'MM/dd/yyyy', new Date()))}
       <br />
       Severity: {allergy.severity || 'None noted'}
       <br />

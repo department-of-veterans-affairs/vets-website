@@ -22,7 +22,7 @@ export const Notice5103Description = ({ onReviewPage }) => {
   const hideAlert = () => {
     setVisibleAlert(false);
     recordEvent({ ...analyticsEvent, event: 'int-alert-box-close' });
-    setTimeout(focusH3AfterAlert);
+    setTimeout(() => focusH3AfterAlert({ name: 'notice5103', onReviewPage }));
   };
   if (visibleAlert) {
     recordEvent({ ...analyticsEvent, event: 'visible-alert-box' });

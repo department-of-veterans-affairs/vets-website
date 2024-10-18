@@ -33,7 +33,7 @@ const InnerNavigation = () => {
           vads-u-display--flex
           vads-u-flex-wrap--wrap
           vads-u-flex--fill
-          small-screen:vads-u-flex--auto
+          mobile-lg:vads-u-flex--auto
           vads-u-border-bottom--1px
           vads-u-border-color--gray-lightest
         "

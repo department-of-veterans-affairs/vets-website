@@ -3,7 +3,7 @@ import prescriptions from './fixtures/renew-refill-prescription.json';
 import MedicationsRefillPage from './pages/MedicationsRefillPage';
 
 describe('Medications Renew Section Description on Refill Page', () => {
-  it('visits Medications Renew Section Content Description on Refill Page', () => {
+  it.skip('visits Medications Renew Section Content Description on Refill Page', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
 

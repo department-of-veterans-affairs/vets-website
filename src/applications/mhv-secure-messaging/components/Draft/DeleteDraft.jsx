@@ -147,6 +147,9 @@ const DeleteDraft = props => {
         data-testid={`delete-draft-button${
           draftSequence ? `-${draftSequence}` : ''
         }`}
+        data-dd-action-name={`Delete Draft Button${
+          draftSequence ? `-${draftSequence}` : ''
+        }`}
         onClick={() => {
           if (
             newMessageNavErr ||

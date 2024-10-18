@@ -14,7 +14,7 @@ const {
   uiSchema,
 } = formConfig.chapters.disabilityExamDetailsChapter.pages.disabilityExamDetailsPage;
 
-const pageTitle = 'Disability exam details';
+const pageTitle = 'Claim exam details';
 
 const expectedNumberOfFields = 1;
 testNumberOfWebComponentFields(

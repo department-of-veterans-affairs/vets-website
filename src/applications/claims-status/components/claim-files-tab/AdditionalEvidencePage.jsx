@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import { Toggler } from '~/platform/utilities/feature-toggles';
+import { Element } from 'platform/utilities/scroll';
 
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
@@ -45,8 +45,6 @@ const scrollToError = () => {
     setFocus('.usa-alert-error');
   });
 };
-
-const { Element } = Scroll;
 
 const filesPath = `../files`;
 

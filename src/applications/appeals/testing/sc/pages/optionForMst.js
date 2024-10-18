@@ -6,6 +6,8 @@ import {
 import { optionForMstTitle, supportInfo } from '../content/optionForMst';
 import { MST_OPTION } from '../constants';
 
+import { isOnReviewPage } from '../../../shared/utils/helpers';
+
 export default {
   uiSchema: {
     [MST_OPTION]: yesNoUI({
@@ -17,6 +19,11 @@ export default {
         N: 'No',
       },
       required: false,
+      updateUiSchema: () => ({
+        'ui:options': {
+          labelHeaderLevel: isOnReviewPage() ? 4 : 3,
+        },
+      }),
     }),
 
     'view:supportInfo': {

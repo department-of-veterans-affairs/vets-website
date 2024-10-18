@@ -24,7 +24,6 @@ export function KeywordSearch({
   required,
   suggestions,
   version,
-  filters,
   dispatchError,
   errorReducer,
   type,
@@ -94,9 +93,7 @@ export function KeywordSearch({
       if (value !== '') {
         debouncedFetchSuggestion(value);
       }
-      if (validateSearchTerm) {
-        validateSearchTerm(value, dispatchError, error, filters, type);
-      }
+      validateSearchTerm(value, dispatchError, error, type);
     }
   };
 
@@ -221,10 +218,11 @@ const mapDispatchToProps = {
 KeywordSearch.propTypes = {
   className: PropTypes.string,
   dispatchError: PropTypes.func,
-  errorReducer: PropTypes.object,
   error: PropTypes.string,
-  inputValue: PropTypes.string,
+  errorReducer: PropTypes.object,
+  filters: PropTypes.object,
   inputRef: PropTypes.object,
+  inputValue: PropTypes.string,
   label: PropTypes.string,
   labelAdditional: PropTypes.object,
   required: PropTypes.any,

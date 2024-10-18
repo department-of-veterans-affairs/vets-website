@@ -14,6 +14,7 @@ import { generateVaccinesContent } from './vaccines';
 import { generateAllergiesContent } from './allergies';
 import { generateConditionContent } from './conditions';
 import { generateVitalsContentByType } from './vitals';
+import { isArrayAndHasItems } from '../helpers';
 
 export const generateBlueButtonData = ({
   labsAndTests,
@@ -25,7 +26,7 @@ export const generateBlueButtonData = ({
 }) => {
   const data = [];
 
-  if (labsAndTests.length) {
+  if (isArrayAndHasItems(labsAndTests) && labsAndTests.length > 0) {
     data.push({
       type: recordType.LABS_AND_TESTS,
       title: 'Lab and test results',

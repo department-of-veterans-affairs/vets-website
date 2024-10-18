@@ -10,9 +10,7 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -27,7 +25,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
-import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
 import CustomEmailField from '../components/CustomEmailField';
 import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailViewField from '../components/EmailViewField';
@@ -47,7 +45,6 @@ import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 import {
   addWhitespaceOnlyError,
-  applicantIsChildOfSponsor,
   isOnlyWhitespace,
   prefillTransformer,
   applicantIsaMinor,
@@ -57,22 +54,15 @@ import { transformTOEForm } from '../utils/form-submit-transform';
 
 import { phoneSchema, phoneUISchema } from '../schema';
 import {
-  isValidGivenName,
-  isValidLastName,
   isValidPhoneField,
-  nameErrorMessage,
   validateAccountNumber,
   validateEmail,
   validateRoutingNumber,
 } from '../utils/validation';
-import {
-  formFields,
-  SPONSOR_RELATIONSHIP,
-  YOUR_PROFILE_URL,
-} from '../constants';
+import { formFields } from '../constants';
 import ObfuscateReviewField from '../ObfuscateReviewField';
 
-const { fullName, date, email } = commonDefinitions;
+const { date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const checkImageSrc = (() => {
   const bucket = environment.isProduction()
@@ -129,107 +119,12 @@ const formConfig = {
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Review your personal information</h3>
-                  <p>
-                    We have this personal information on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
-                    only.
-                  </p>
-                  <p>
-                    <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits,{' '}
-                    <a href={YOUR_PROFILE_URL}>
-                      update your information on your profile
-                    </a>
-                    .
-                  </p>
-                </>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
-            },
             'view:applicantInformation': {
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.showMebEnhancements06 || !formData.isLOA3,
-              },
               'ui:description': (
                 <>
                   <ApplicantIdentityView />
                 </>
               ),
-            },
-            [formFields.viewUserFullName]: {
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
-              [formFields.userFullName]: {
-                'ui:options': {
-                  hideIf: formData => formData.showMebEnhancements06,
-                },
-                'ui:required': formData => !formData?.showMebEnhancements06,
-                ...fullNameUI,
-                first: {
-                  ...fullNameUI.first,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:title': 'Your first name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage(20));
-                      }
-                    },
-                  ],
-                },
-                middle: {
-                  ...fullNameUI.middle,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:title': 'Your middle name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage(20));
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:title': 'Your last name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidLastName(field)) {
-                        errors.addError(nameErrorMessage(26));
-                      }
-                    },
-                  ],
-                },
-              },
-            },
-            [formFields.dateOfBirth]: {
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
-              'ui:required': formData => !formData?.showMebEnhancements06,
-              ...currentOrPastDateUI('Your date of birth'),
             },
             'view:dateOfBirthUnder18Alert': {
               'ui:description': (
@@ -248,43 +143,36 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  if (!formData || !formData[formFields.dateOfBirth]) {
+                  // If formData is empty, hide the alert
+                  if (!formData) {
                     return true;
                   }
 
-                  const dateParts =
-                    formData && formData[formFields.dateOfBirth].split('-');
-
-                  if (!dateParts || dateParts.length !== 3) {
-                    return true;
-                  }
-                  const birthday = new Date(
-                    dateParts[0],
-                    dateParts[1] - 1,
-                    dateParts[2],
-                  );
-                  const today18YearsAgo = new Date(
-                    new Date(
-                      new Date().setFullYear(new Date().getFullYear() - 18),
-                    ).setHours(0, 0, 0, 0),
-                  );
-
-                  return (
-                    !isValidCurrentOrPastDate(
-                      dateParts[2],
-                      dateParts[1],
-                      dateParts[0],
-                    ) || birthday.getTime() <= today18YearsAgo.getTime()
-                  );
+                  // Use applicantIsaMinor to determine if the alert should be hidden
+                  return !applicantIsaMinor(formData);
                 },
               },
             },
             [formFields.parentGuardianSponsor]: {
               'ui:title': 'Parent / Guardian signature',
               'ui:options': {
-                hideIf: formData => !applicantIsaMinor(formData),
+                hideIf: formData => {
+                  // If formData is empty, hide the field
+                  if (!formData) {
+                    return true;
+                  }
+
+                  return !applicantIsaMinor(formData);
+                },
               },
-              'ui:required': formData => applicantIsaMinor(formData),
+              'ui:required': formData => {
+                // If formData is empty, the field is not required
+                if (!formData) {
+                  return false;
+                }
+
+                return applicantIsaMinor(formData);
+              },
               'ui:validations': [
                 (errors, field) => {
                   addWhitespaceOnlyError(
@@ -292,7 +180,6 @@ const formConfig = {
                     errors,
                     'Please enter a parent/guardian signature',
                   );
-                  // Add validation for character limit
                   if (field && field.length > 46) {
                     errors.addError('Signature must be 46 characters or less');
                   }
@@ -304,29 +191,44 @@ const formConfig = {
             },
             [formFields.highSchoolDiploma]: {
               'ui:options': {
-                hideIf: formData =>
-                  !formData.toeHighSchoolInfoChange ||
-                  !applicantIsaMinor(formData),
+                hideIf: formData => {
+                  if (!formData || !formData.toeHighSchoolInfoChange) {
+                    return true;
+                  }
+
+                  return !applicantIsaMinor(formData);
+                },
               },
-              'ui:required': formData =>
-                formData.toeHighSchoolInfoChange && applicantIsaMinor(formData),
+              'ui:required': formData => {
+                return (
+                  formData.toeHighSchoolInfoChange &&
+                  applicantIsaMinor(formData)
+                );
+              },
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
             },
             [formFields.highSchoolDiplomaDate]: {
               'ui:options': {
-                hideIf: formData =>
-                  !formData.toeHighSchoolInfoChange ||
-                  !(
+                hideIf: formData => {
+                  if (!formData || !formData.toeHighSchoolInfoChange) {
+                    return true;
+                  }
+
+                  return !(
                     applicantIsaMinor(formData) &&
                     formData[formFields.highSchoolDiploma] === 'Yes'
-                  ),
+                  );
+                },
               },
-              'ui:required': formData =>
-                formData.toeHighSchoolInfoChange &&
-                applicantIsaMinor(formData) &&
-                formData[formFields.highSchoolDiploma] === 'Yes',
+              'ui:required': formData => {
+                return (
+                  formData.toeHighSchoolInfoChange &&
+                  applicantIsaMinor(formData) &&
+                  formData[formFields.highSchoolDiploma] === 'Yes'
+                );
+              },
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
               ),
@@ -335,31 +237,10 @@ const formConfig = {
           schema: {
             type: 'object',
             required: [
-              formFields.dateOfBirth,
               formFields.highSchoolDiploma,
               formFields.highSchoolDiplomaDate,
             ],
             properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.viewUserFullName]: {
-                type: 'object',
-                properties: {
-                  [formFields.userFullName]: {
-                    ...fullName,
-                    properties: {
-                      ...fullName.properties,
-                      middle: {
-                        ...fullName.properties.middle,
-                        maxLength: 30,
-                      },
-                    },
-                  },
-                },
-              },
-              [formFields.dateOfBirth]: date,
               'view:dateOfBirthUnder18Alert': {
                 type: 'object',
                 properties: {},
@@ -449,157 +330,6 @@ const formConfig = {
             },
           },
         },
-        sponsorInformation: {
-          title: 'Enter your sponsor’s information',
-          path: 'sponsor-information',
-          depends: formData =>
-            formData.showMebEnhancements08
-              ? false
-              : !formData.sponsors?.sponsors?.length ||
-                formData.sponsors?.someoneNotListed,
-          uiSchema: {
-            'view:noSponsorWarning': {
-              'ui:description': (
-                <va-alert
-                  class="vads-u-margin-bottom--5"
-                  close-btn-aria-label="Close notification"
-                  status="warning"
-                  visible
-                >
-                  <h3 slot="headline">
-                    We don’t have any sponsor information on file
-                  </h3>
-                  <p>
-                    If you think this is incorrect, reach out to your sponsor so
-                    they can{' '}
-                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
-                      update this information on the DoD milConnect website
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    You may still continue this application and enter your
-                    sponsor’s information manually.
-                  </p>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData => formData.sponsors?.sponsors?.length,
-              },
-            },
-            'view:sponsorNotOnFileWarning': {
-              'ui:description': (
-                <va-alert
-                  class="vads-u-margin-bottom--5"
-                  close-btn-aria-label="Close notification"
-                  status="warning"
-                  visible
-                >
-                  <h3 slot="headline">Your selected sponsor isn’t on file</h3>
-                  <p>
-                    If you think this is incorrect, reach out to your sponsor so
-                    they can{' '}
-                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
-                      update this information on the DoD milConnect website
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    You may still continue this application and enter your
-                    sponsor’s information manually.
-                  </p>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData => !formData.sponsors?.sponsors?.length,
-              },
-            },
-            'view:enterYourSponsorsInformationHeading': {
-              'ui:description': (
-                <h3 className="vads-u-margin-bottom--3">
-                  Enter your sponsor’s information
-                </h3>
-              ),
-            },
-            [formFields.relationshipToServiceMember]: {
-              'ui:title':
-                'What’s your relationship to the Veteran or service member whose benefit has been transferred to you?',
-              'ui:widget': 'radio',
-            },
-            'view:yourSponsorsInformationHeading': {
-              'ui:description': <h4>Your sponsor’s information</h4>,
-            },
-            [formFields.sponsorFullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:validations': [
-                  (errors, field) =>
-                    addWhitespaceOnlyError(
-                      field,
-                      errors,
-                      'Please enter a first name',
-                    ),
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:validations': [
-                  (errors, field) =>
-                    addWhitespaceOnlyError(
-                      field,
-                      errors,
-                      'Please enter a last name',
-                    ),
-                ],
-              },
-            },
-            [formFields.sponsorDateOfBirth]: {
-              ...currentOrPastDateUI('Date of birth'),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              formFields.relationshipToServiceMember,
-              formFields.sponsorDateOfBirth,
-            ],
-            properties: {
-              'view:noSponsorWarning': {
-                type: 'object',
-                properties: {},
-              },
-              'view:sponsorNotOnFileWarning': {
-                type: 'object',
-                properties: {},
-              },
-              'view:enterYourSponsorsInformationHeading': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.relationshipToServiceMember]: {
-                type: 'string',
-                enum: [SPONSOR_RELATIONSHIP.SPOUSE, SPONSOR_RELATIONSHIP.CHILD],
-              },
-              'view:yourSponsorsInformationHeading': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.sponsorFullName]: {
-                ...fullName,
-                required: ['first', 'last'],
-                properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
-                  },
-                },
-              },
-              [formFields.sponsorDateOfBirth]: date,
-            },
-          },
-        },
         firstSponsorSelection: {
           title: 'Choose your first sponsor',
           path: 'first-sponsor',
@@ -669,8 +399,7 @@ const formConfig = {
           title: 'Verify your high school education',
           path: 'high-school',
           depends: formData =>
-            applicantIsChildOfSponsor(formData) &&
-            !formData.toeHighSchoolInfoChange,
+            applicantIsaMinor(formData) && !formData.toeHighSchoolInfoChange,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -682,9 +411,8 @@ const formConfig = {
                   >
                     <h3 slot="headline">We need additional information</h3>
                     <div>
-                      Since you indicated that you are the child of your
-                      sponsor, please include information about your high school
-                      education.
+                      Since you are under 18 years old, please include
+                      information about your high school education.
                     </div>
                   </va-alert>
                   <h3>Verify your high school education</h3>
@@ -716,7 +444,7 @@ const formConfig = {
           title: 'Verify your high school graduation date',
           path: 'high-school-completion',
           depends: formData =>
-            applicantIsChildOfSponsor(formData) &&
+            applicantIsaMinor(formData) &&
             formData[formFields.highSchoolDiplomaLegacy] === 'Yes' &&
             !formData.toeHighSchoolInfoChange,
           uiSchema: {
@@ -730,12 +458,12 @@ const formConfig = {
                   >
                     <h3 slot="headline">We need additional information</h3>
                     <div>
-                      Since you indicated that you are the child of your
-                      sponsor, please include information about your high school
-                      education.
+                      Since you are under 18 years old and indicated that you
+                      earned a high school diploma, please verify your high
+                      school graduation date.
                     </div>
                   </va-alert>
-                  <h3>Verify your high school education</h3>
+                  <h3>Verify your high school graduation date</h3>
                 </>
               ),
             },
@@ -1193,6 +921,7 @@ const formConfig = {
                         }}
                       >
                         <va-button
+                          uswds
                           onClick={() => {}}
                           secondary
                           text="Go back and add a mobile phone number"

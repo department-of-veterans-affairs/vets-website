@@ -30,6 +30,10 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
   const enrollmentData = personalInfo;
   const [expandedEnrollmentData, setExpandedEnrollmentData] = useState({});
+  useEffect(() => {
+    document.title =
+      'Montgomery GI Bill enrollment verification | Veterans Affairs';
+  }, []);
 
   useEffect(
     () => {
@@ -129,7 +133,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
   return (
     <>
       <div name="topScrollElement" />
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <EnrollmentVerificationBreadcrumbs />
