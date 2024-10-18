@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
-
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import environment from 'platform/utilities/environment';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView.v2';
 
 let mockData;
 if (!environment.isProduction() && !environment.isStaging()) {
@@ -14,10 +15,12 @@ if (!environment.isProduction() && !environment.isStaging()) {
   mockData = mockData?.data;
 }
 
-const USE_CONFIRMATION_PAGE_V2 = true;
-
 const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
+  const showNewConfirmationPage = useSelector(
+    state =>
+      toggleValues(state)[FEATURE_FLAG_NAMES.confirmationPageNew] || false,
+  );
   const { submission, data } = form;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
@@ -29,16 +32,16 @@ const ConfirmationPage = ({ route }) => {
     scrollToTop('topScrollElement');
   }, []);
 
-  if (USE_CONFIRMATION_PAGE_V2) {
+  if (showNewConfirmationPage) {
     return (
-      <ConfirmationPageView
+      <ConfirmationView
         submitDate={submitDate}
         confirmationNumber={confirmationNumber}
         formConfig={route.formConfig}
         pdfUrl={pdfUrl}
         devOnly={{
           showButtons: true,
-          simulatedFormData: mockData,
+          mockData,
         }}
       />
     );
