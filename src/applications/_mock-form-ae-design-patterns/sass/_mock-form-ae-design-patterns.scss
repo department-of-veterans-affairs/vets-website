@@ -5,35 +5,4 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
-// @import "./custom";
-
-[data-action="save-edit"] {
-    line-height: .9;
-    padding: 0.75rem 1.25rem;
-  }
-
-  .nav-tabs li{
-    flex: 1 1 auto;
-  }
-
-  [data-location="2/task-blue/veteran-information/edit-home-phone"] {
-    .schemaform-first-field {
-      margin-top: 1.875rem !important;
-    }
-  }
-
-  [data-testid="mini-summary-card"] {
-    @include media($medium-screen) {
-      width: 18.8rem;
-      height: 8.8rem;
-    }
-    &:nth-of-type(4) {
-      @include media($medium-screen) {
-        height: 11.4rem;
-      }
-    }
-  }
-
-  [data-dd-action-name="street"] {
-    margin-bottom: 1rem;
-  }
+@import "./custom";
