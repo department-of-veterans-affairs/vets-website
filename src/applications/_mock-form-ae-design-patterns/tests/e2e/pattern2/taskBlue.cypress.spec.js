@@ -1,26 +1,88 @@
 import manifest from '../../../manifest.json';
 import { mockInterceptors } from '../helpers';
+// eslint-disable-next-line import/no-duplicates
+import mockUsers from '../../../mocks/endpoints/user';
+import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-ae-design-patterns';
+// eslint-disable-next-line import/no-duplicates
+import { loa3UserWithUpdatedMailingAddress } from '../../../mocks/endpoints/user';
 
 describe('Prefill pattern - Blue Task', () => {
   beforeEach(() => {
-    mockInterceptors();
+    // mockInterceptors();
+    cy.login(mockUsers.loa3User72);
 
-    // intercept for phone api calls
-    cy.intercept('/v0/profile/telephones', {
+    cy.intercept('/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {
+      statusCode: 200,
+      body: mockPrefills.prefill,
+    }).as('mockSip');
+
+    cy.intercept('/v0/profile/address_validation', {
+      statusCode: 200,
+      body: {
+        addresses: [
+          {
+            address: {
+              addressLine1: '123 Spooner St.',
+              addressType: 'DOMESTIC',
+              city: 'Fulton',
+              countryCodeIso3: 'USA',
+              stateCode: 'NY',
+              zipCode: '97063',
+              addressPou: 'CORRESPONDENCE',
+            },
+            addressMetaData: {
+              confidenceScore: 100,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'CONFIRMED',
+              residentialDeliveryIndicator: 'RESIDENTIAL',
+            },
+          },
+        ],
+        validationKey: -1565212962,
+      },
+    });
+
+    cy.intercept('PUT', '/v0/profile/addresses', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'async_transaction_va_profile_mock_transactions',
+          type:
+            'async_transaction_va_profile_asynctransaction::vaprofile::addresstransaction_transactions',
           attributes: {
-            transactionId: 'mock-update-phone-transaction-id',
+            transactionId: 'mock-update-mailing-address-success-transaction-id',
             transactionStatus: 'RECEIVED',
-            type: 'AsyncTransaction::VAProfile::MockTransaction',
+            type: 'AsyncTransaction::VAProfile::AddressTransaction',
             metadata: [],
           },
         },
       },
     });
+
+    cy.intercept('GET', '/v0/profile/status/*', {
+      statusCode: 200,
+      body: {
+        data: {
+          attributes: {
+            data: {
+              id: '',
+              type: 'async_transaction_va_profile_mock_transactions',
+              attributes: {
+                transactionId:
+                  'mock-update-mailing-address-success-transaction-id',
+                transactionStatus: 'COMPLETED_SUCCESS',
+                type: 'AsyncTransaction::VAProfile::MockTransaction',
+                metadata: [],
+              },
+            },
+          },
+        },
+      },
+    });
+
+    cy.intercept('GET', '/v0/user?now=*', loa3UserWithUpdatedMailingAddress).as(
+      'mockUserUpdated',
+    );
   });
 
   it('should show user as authenticated from the start', () => {
@@ -53,7 +115,8 @@ describe('Prefill pattern - Blue Task', () => {
     cy.url().should('contain', '/veteran-information');
   });
 
-  it('should successfully show prefill data on the form and allow updating mobile phone', () => {
+  it('should successfully show prefill data on the form and allow updating mailing address', () => {
+    // cy.visit(`${manifest.rootUrl}/2/task-blue/veteran-information`);
     cy.visit(`${manifest.rootUrl}/2/task-blue/introduction?loggedIn=true`);
 
     cy.injectAxeThenAxeCheck();
@@ -64,6 +127,12 @@ describe('Prefill pattern - Blue Task', () => {
     })
       .first()
       .click();
+
+    cy.wait('@mockSip');
+
+    cy.url().should('contain', '/veteran-details');
+
+    cy.findByRole('button', { name: /continue/i }).click();
 
     cy.wait('@mockSip');
 
@@ -84,24 +153,41 @@ describe('Prefill pattern - Blue Task', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    // update phone number and save form
-    cy.findByLabelText('Edit mobile phone number').click();
+    // update mailing address and save form
+    cy.findByLabelText('Edit mailing address').click();
 
     // need this to access the input in the web component shadow dom
-    cy.get('va-text-input[name="root_inputPhoneNumber"]')
+    cy.get('va-text-input[name="root_addressLine1"]')
       .shadow()
       .find('input')
-      .as('mobilePhoneInput');
+      .as('addressInput');
 
-    cy.get('@mobilePhoneInput').clear();
-    cy.get('@mobilePhoneInput').type('6192334567');
+    cy.get('@addressInput').clear();
+    cy.get('@addressInput').type('645 Spooner St.');
+
+    // confirming save to profile ques is selected yes by default
+    cy.contains(
+      'legend',
+      'Do you also want to save this updated mailing address to your VA.gov profile?',
+    ).should('exist');
+    // cy.findByText(
+    //   'Do you also want to save this updated mailing address to your VA.gov profile',
+    // ).should('exist');
+    cy.get('#saveToProfileYes').should('be.checked');
+
     cy.findByTestId('save-edit-button').click();
 
     // redirect to previous page and show save alert
     cy.url().should('contain', '/veteran-information');
-    cy.findByText('We’ve updated your mobile phone number').should('exist');
-    cy.findByText('Mobile phone number').should('exist');
-    cy.get('va-telephone[contact="6192334567"]').should('exist');
+    cy.findByText('We’ve updated your mailing address').should('exist');
+    cy.findByText(
+      'We’ve made these changes to this form and your VA.gov profile.',
+    ).should('exist');
+    cy.findByText('Mailing address').should('exist');
+    cy.get('div[data-dd-action-name="street"]').should(
+      'have.text',
+      '645 Spooner St.',
+    );
 
     // once the task is complete it should redirect to the pattern landing page
     cy.findByRole('button', { name: /Continue/i }).click();
