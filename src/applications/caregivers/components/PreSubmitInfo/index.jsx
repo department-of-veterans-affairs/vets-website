@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { cloneDeep } from 'lodash';
-
 import { setData } from 'platform/forms-system/src/js/actions';
+import {
+  hasPrimaryCaregiver,
+  hasSecondaryCaregiverOne,
+  hasSecondaryCaregiverTwo,
+} from '../../utils/helpers/form-config';
 import { SIGNATURE_CERTIFICATION_STATEMENTS } from '../../utils/constants';
 import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
@@ -18,9 +22,9 @@ const PreSubmitCheckboxGroup = props => {
     submission,
     setFormData,
   } = props;
-  const hasPrimary = formData['view:hasPrimaryCaregiver'];
-  const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
-  const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
+  const hasPrimary = hasPrimaryCaregiver(formData);
+  const hasSecondaryOne = hasSecondaryCaregiverOne(formData);
+  const hasSecondaryTwo = hasSecondaryCaregiverTwo(formData);
   const hasSubmittedForm = !!submission.status;
   const showRepresentativeSignatureBox =
     formData.signAsRepresentativeYesNo === 'yes';
