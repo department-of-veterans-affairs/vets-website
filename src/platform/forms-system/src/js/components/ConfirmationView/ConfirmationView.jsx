@@ -143,13 +143,16 @@ export const ConfirmationView = props => {
 };
 
 ConfirmationView.propTypes = {
+  formConfig: PropTypes.shape({
+    trackingPrefix: PropTypes.string,
+    chapters: PropTypes.object,
+  }).isRequired,
   children: PropTypes.node,
   confirmationNumber: PropTypes.string,
   devOnly: PropTypes.shape({
     showButtons: PropTypes.bool,
     mockData: PropTypes.object,
   }),
-  formConfig: PropTypes.string,
   pdfUrl: PropTypes.string,
   submitDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.instanceOf(Date)]),
 };
