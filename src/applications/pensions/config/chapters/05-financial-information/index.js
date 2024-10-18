@@ -11,6 +11,7 @@ import hasCareExpenses from './hasCareExpenses';
 import careExpenses from './careExpenses';
 import { careExpensesPages } from './careExpensesPages';
 import hasMedicalExpenses from './hasMedicalExpenses';
+import { medicalExpensesPages } from './medicalExpensesPages';
 import medicalExpenses from './medicalExpenses';
 import homeAcreageValue from './homeAcreageValue';
 import hasOver25kAssets from './hasOver25kAssets';
@@ -36,5 +37,6 @@ export default {
     ...careExpensesPages,
     hasMedicalExpenses,
     medicalExpenses,
+    ...medicalExpensesPages,
   },
 };
