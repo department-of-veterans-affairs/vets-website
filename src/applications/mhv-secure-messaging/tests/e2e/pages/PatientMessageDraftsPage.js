@@ -707,6 +707,7 @@ class PatientMessageDraftsPage {
       .eq(index)
       .should(`be.visible`)
       .and(`have.text`, mockResponse.data[index].attributes.recipientName);
+  };
 
   verifyAttachFileBtn = () => {
     cy.get(Locators.BUTTONS.ATTACH_FILE)
@@ -734,7 +735,6 @@ class PatientMessageDraftsPage {
     cy.get(Locators.BUTTONS.DELETE_DRAFT)
       .should(`be.visible`)
       .and(`contain.text`, Data.BUTTONS.DELETE_DRAFT);
-
   };
 }
 
