@@ -164,10 +164,14 @@ export const getPendingDocumentDescription = docType => {
   return { documentDisplayName, documentExplanation };
 };
 export const remainingBenefits = remEnt => {
-  // const
-  const month = parseInt(remEnt?.slice(0, 2), 10);
+  const remainingEntitlement = remEnt?.split('-');
+  const month =
+    parseInt(remEnt?.slice(0, 2), 10) ||
+    (remainingEntitlement ? remainingEntitlement[0] : undefined);
   const rest = parseFloat(`0.${remEnt?.slice(2)}`);
-  const day = Math.round(rest * 30);
+  const day =
+    Math.round(rest * 30) ||
+    (remainingEntitlement ? Number(remainingEntitlement[1]) : undefined);
 
   return { month, day };
 };
@@ -264,6 +268,57 @@ export const getPeriodsToVerify = pendingEnrollments => {
       );
     })
     .reverse();
+};
+export const isVerificationEndDateValid = verificationEndDate => {
+  const today = new Date();
+  const endDate = new Date(verificationEndDate);
+
+  return endDate <= today;
+};
+export const getPeriodsToVerify2 = (pendingEnrollments, reverse = false) => {
+  const enrollments = pendingEnrollments.map(enrollmentToBeVerified => {
+    const {
+      verificationBeginDate,
+      verificationEndDate,
+      lastDepositAmount,
+      totalCreditHours,
+      verificationMethod,
+    } = enrollmentToBeVerified;
+    const myUUID = uuidv4();
+
+    return (
+      <div key={`Enrollment-to-be-verified-${myUUID}`}>
+        {!verificationMethod &&
+          isVerificationEndDateValid(verificationEndDate) && (
+            <div className="vads-u-margin-y--2">
+              <p className={enrollmentInfoClassName}>
+                <span className="vads-u-font-weight--bold">
+                  {translateDatePeriod(
+                    verificationBeginDate,
+                    verificationEndDate,
+                  )}
+                </span>
+              </p>
+              <p className={enrollmentInfoClassName}>
+                <span className="vads-u-font-weight--bold">
+                  Total credit hours:
+                </span>{' '}
+                {totalCreditHours === null
+                  ? 'Hours unavailable'
+                  : totalCreditHours}
+              </p>
+              <p className={enrollmentInfoClassName}>
+                <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
+                {lastDepositAmount === null
+                  ? 'Rate unavailable'
+                  : formatCurrency(lastDepositAmount)}
+              </p>
+            </div>
+          )}
+      </div>
+    );
+  });
+  return reverse ? enrollments.reverse() : enrollments;
 };
 
 export const getGroupedPreviousEnrollments = month => {

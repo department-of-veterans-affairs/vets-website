@@ -28,8 +28,15 @@ export const useData = () => {
   const expirationDate = translateDateIntoMonthDayYearFormat(
     userInfo?.delDate || response?.personalInfo?.recordResponse?.delimitingDate,
   );
+  const remainingEntitlement =
+    response?.personalInfo?.recordResponse?.enrollmentVerifications[0]
+      .remainingEntitlement;
+  const enrollmentVerifications =
+    response?.personalInfo?.recordResponse?.enrollmentVerifications;
   const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
-  const { month, day } = remainingBenefits(userInfo?.remEnt);
+  const { month, day } = remainingBenefits(
+    userInfo?.remEnt || remainingEntitlement,
+  );
   const fullName = `${claimantIdResponse.profile?.firstName} ${
     claimantIdResponse.profile?.middleName
   } ${claimantIdResponse.profile?.lastName}`;
@@ -45,5 +52,6 @@ export const useData = () => {
     claimantId: claimantIdResponse?.claimantId,
     profile: claimantIdResponse?.profile,
     fullName,
+    enrollmentVerifications,
   };
 };

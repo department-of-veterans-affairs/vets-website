@@ -21,13 +21,16 @@ import {
   VERIFY_ENROLLMENT_FAILURE,
 } from '../actions';
 import { isSameMonth, getDateRangesBetween } from '../helpers';
+import DGIBEnrollmentCard from '../components/DGIBEnrollmentCard';
 
 const VerificationReviewWrapper = ({
   children,
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchVerifyEnrollmentAction,
+  enrollmentVerifications,
 }) => {
   useScrollToTop();
+  // console.log('enrollmentVerifications', enrollmentVerifications?.personalInfo?.recordResponse);
   const [isChecked, setIsChecked] = useState(false);
   const [showError, setShowError] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
@@ -116,7 +119,7 @@ const VerificationReviewWrapper = ({
         // setEnrollmentPeriodsToVerify(pendingVerifications);
       }
     },
-    [enrollmentData],
+    [enrollmentData, enrollmentVerifications],
   );
 
   useEffect(
@@ -163,6 +166,12 @@ const VerificationReviewWrapper = ({
             ) : (
               <>
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
+                <DGIBEnrollmentCard
+                  enrollmentVerifications={
+                    enrollmentVerifications?.personalInfo?.recordResponse
+                      ?.enrollmentVerifications
+                  }
+                />
                 <div className="vads-u-margin-top--2">
                   <div
                     className={`${
@@ -231,6 +240,7 @@ const VerificationReviewWrapper = ({
 
 const mapStateToProps = state => ({
   verifyEnrollment: state.verifyEnrollment,
+  enrollmentVerifications: state.personalInfo,
 });
 
 const mapDispatchToProps = {
@@ -246,6 +256,7 @@ VerificationReviewWrapper.propTypes = {
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
+  enrollmentVerifications: PropTypes.object,
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
   mockData: PropTypes.object,

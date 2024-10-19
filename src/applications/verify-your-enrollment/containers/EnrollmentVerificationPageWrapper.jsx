@@ -20,16 +20,33 @@ import MoreInfoCard from '../components/MoreInfoCard';
 import NeedHelp from '../components/NeedHelp';
 import Loader from '../components/Loader';
 import PeriodsToVerify from '../components/PeriodsToVerify';
-import { isSameMonth, getDateRangesBetween } from '../helpers';
+import {
+  isSameMonth,
+  getDateRangesBetween,
+  translateDateIntoMonthYearFormat,
+  isVerificationEndDateValid,
+} from '../helpers';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
-  const { expirationDate, updated, month, day, loading, indicator } = useData();
+  const {
+    expirationDate,
+    updated,
+    month,
+    day,
+    loading,
+    indicator,
+    enrollmentVerifications,
+    claimantId,
+  } = useData();
   const response = useSelector(state => state.personalInfo);
   const personalInfo = response?.personalInfo?.['vye::UserInfo'];
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
   const enrollmentData = personalInfo;
   const [expandedEnrollmentData, setExpandedEnrollmentData] = useState({});
+  const showEnrollmentVerifications = enrollmentVerifications?.some(
+    verification => !verification.verificationMethod,
+  );
   useEffect(() => {
     document.title =
       'Montgomery GI Bill enrollment verification | Veterans Affairs';
@@ -148,6 +165,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
               <>
                 <PeriodsToVerify
                   enrollmentData={expandedEnrollmentData}
+                  enrollmentVerifications={enrollmentVerifications}
                   link={() => (
                     <PageLink
                       linkText="Start enrollment verification"
@@ -176,10 +194,52 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 />
               </>
             )}
-            <PreviousEnrollmentVerifications
-              enrollmentData={expandedEnrollmentData}
-            />
-
+            {claimantId && showEnrollmentVerifications ? (
+              <>
+                {enrollmentVerifications?.map((enrollment, index) => {
+                  const {
+                    verificationEndDate,
+                    verificationMethod,
+                  } = enrollment;
+                  return (
+                    <div key={`enrollment-${index}`}>
+                      {!verificationMethod &&
+                        isVerificationEndDateValid(verificationEndDate) && (
+                          <>
+                            <h3 className="vads-u-font-size--h4">
+                              {translateDateIntoMonthYearFormat(
+                                verificationEndDate,
+                              )}
+                            </h3>
+                            <va-alert
+                              background-only
+                              class="vads-u-margin-bottom--3"
+                              close-btn-aria-label="Close notification"
+                              disable-analytics="true"
+                              full-width="false"
+                              status="info"
+                              visible="true"
+                              slim
+                            >
+                              <p
+                                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+                                data-testid="have-not-verified"
+                              >
+                                You haven’t verified your enrollment for the
+                                month.
+                              </p>
+                            </va-alert>
+                          </>
+                        )}
+                    </div>
+                  );
+                })}
+              </>
+            ) : (
+              <PreviousEnrollmentVerifications
+                enrollmentData={expandedEnrollmentData}
+              />
+            )}
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your Montgomery GI Bill benefits information"
