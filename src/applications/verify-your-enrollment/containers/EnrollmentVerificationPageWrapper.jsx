@@ -25,6 +25,7 @@ import {
   getDateRangesBetween,
   translateDateIntoMonthYearFormat,
   isVerificationEndDateValid,
+  sortedEnrollments,
 } from '../helpers';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
@@ -47,11 +48,6 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
   const showEnrollmentVerifications = enrollmentVerifications?.some(
     verification => !verification.verificationMethod,
   );
-  const sortedEnrollments = enrollmentVerifications?.sort((a, b) => {
-    return (
-      new Date(a.verificationBeginDate) - new Date(b.verificationBeginDate)
-    );
-  });
   useEffect(() => {
     document.title =
       'Montgomery GI Bill enrollment verification | Veterans Affairs';
@@ -201,44 +197,46 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             )}
             {claimantId && showEnrollmentVerifications ? (
               <>
-                {sortedEnrollments?.map((enrollment, index) => {
-                  const {
-                    verificationEndDate,
-                    verificationMethod,
-                  } = enrollment;
-                  return (
-                    <div key={`enrollment-${index}`}>
-                      {!verificationMethod &&
-                        isVerificationEndDateValid(verificationEndDate) && (
-                          <>
-                            <h3 className="vads-u-font-size--h4">
-                              {translateDateIntoMonthYearFormat(
-                                verificationEndDate,
-                              )}
-                            </h3>
-                            <va-alert
-                              background-only
-                              class="vads-u-margin-bottom--3"
-                              close-btn-aria-label="Close notification"
-                              disable-analytics="true"
-                              full-width="false"
-                              status="info"
-                              visible="true"
-                              slim
-                            >
-                              <p
-                                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
-                                data-testid="have-not-verified"
+                {sortedEnrollments(enrollmentVerifications)?.map(
+                  (enrollment, index) => {
+                    const {
+                      verificationEndDate,
+                      verificationMethod,
+                    } = enrollment;
+                    return (
+                      <div key={`enrollment-${index}`}>
+                        {!verificationMethod &&
+                          isVerificationEndDateValid(verificationEndDate) && (
+                            <>
+                              <h3 className="vads-u-font-size--h4">
+                                {translateDateIntoMonthYearFormat(
+                                  verificationEndDate,
+                                )}
+                              </h3>
+                              <va-alert
+                                background-only
+                                class="vads-u-margin-bottom--3"
+                                close-btn-aria-label="Close notification"
+                                disable-analytics="true"
+                                full-width="false"
+                                status="info"
+                                visible="true"
+                                slim
                               >
-                                You haven’t verified your enrollment for the
-                                month.
-                              </p>
-                            </va-alert>
-                          </>
-                        )}
-                    </div>
-                  );
-                })}
+                                <p
+                                  className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+                                  data-testid="have-not-verified"
+                                >
+                                  You haven’t verified your enrollment for the
+                                  month.
+                                </p>
+                              </va-alert>
+                            </>
+                          )}
+                      </div>
+                    );
+                  },
+                )}
               </>
             ) : (
               <PreviousEnrollmentVerifications

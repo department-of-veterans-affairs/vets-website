@@ -9,6 +9,12 @@ import {
   TIMS_DOCUMENTS,
 } from './constants';
 
+export const sortedEnrollments = enrollmentVerifications =>
+  enrollmentVerifications?.sort((a, b) => {
+    return (
+      new Date(a.verificationBeginDate) - new Date(b.verificationBeginDate)
+    );
+  });
 export const translateDateIntoMonthYearFormat = dateString => {
   // Parse the date string as UTC
   if (dateString === null) {
@@ -277,13 +283,7 @@ export const isVerificationEndDateValid = verificationEndDate => {
 };
 export const getPeriodsToVerify2 = pendingEnrollments => {
   // Sort the enrollments by verificationBeginDate
-  const sortedEnrollments = pendingEnrollments.sort((a, b) => {
-    return (
-      new Date(a.verificationBeginDate) - new Date(b.verificationBeginDate)
-    );
-  });
-
-  return sortedEnrollments.map(enrollmentToBeVerified => {
+  return sortedEnrollments(pendingEnrollments).map(enrollmentToBeVerified => {
     const {
       verificationBeginDate,
       verificationEndDate,
