@@ -275,8 +275,15 @@ export const isVerificationEndDateValid = verificationEndDate => {
 
   return endDate <= today;
 };
-export const getPeriodsToVerify2 = (pendingEnrollments, reverse = false) => {
-  const enrollments = pendingEnrollments.map(enrollmentToBeVerified => {
+export const getPeriodsToVerify2 = pendingEnrollments => {
+  // Sort the enrollments by verificationBeginDate
+  const sortedEnrollments = pendingEnrollments.sort((a, b) => {
+    return (
+      new Date(a.verificationBeginDate) - new Date(b.verificationBeginDate)
+    );
+  });
+
+  return sortedEnrollments.map(enrollmentToBeVerified => {
     const {
       verificationBeginDate,
       verificationEndDate,
@@ -318,7 +325,6 @@ export const getPeriodsToVerify2 = (pendingEnrollments, reverse = false) => {
       </div>
     );
   });
-  return reverse ? enrollments.reverse() : enrollments;
 };
 
 export const getGroupedPreviousEnrollments = month => {

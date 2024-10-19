@@ -85,7 +85,7 @@ const PeriodsToVerify = ({
                 >
                   You have enrollment periods to verify
                 </h2>
-                {getPeriodsToVerify2(enrollmentVerifications, true)}
+                {getPeriodsToVerify2(enrollmentVerifications)}
                 {link && <>{link()}</>}
               </va-alert>
             </>

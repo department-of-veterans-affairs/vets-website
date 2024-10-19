@@ -47,6 +47,11 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
   const showEnrollmentVerifications = enrollmentVerifications?.some(
     verification => !verification.verificationMethod,
   );
+  const sortedEnrollments = enrollmentVerifications?.sort((a, b) => {
+    return (
+      new Date(a.verificationBeginDate) - new Date(b.verificationBeginDate)
+    );
+  });
   useEffect(() => {
     document.title =
       'Montgomery GI Bill enrollment verification | Veterans Affairs';
@@ -196,7 +201,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             )}
             {claimantId && showEnrollmentVerifications ? (
               <>
-                {enrollmentVerifications?.map((enrollment, index) => {
+                {sortedEnrollments?.map((enrollment, index) => {
                   const {
                     verificationEndDate,
                     verificationMethod,
