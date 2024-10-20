@@ -713,6 +713,26 @@ const responses = {
               facility_id: '983',
               is_cerner: false,
             },
+            {
+              facilityId: '463',
+              isCerner: true,
+            },
+            {
+              facilityId: '668',
+              isCerner: true,
+            },
+            {
+              facilityId: '692',
+              isCerner: true,
+            },
+            {
+              facilityId: '663',
+              isCerner: true,
+            },
+            {
+              facilityId: '653',
+              isCerner: true,
+            },
           ],
         },
         vet360ContactInformation: {
