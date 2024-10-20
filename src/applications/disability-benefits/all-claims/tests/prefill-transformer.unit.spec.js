@@ -383,6 +383,21 @@ describe('526v2 prefill transformer', () => {
       );
     });
   });
+
+  describe('prefillSyncModern0781Flow', () => {
+    it('should surface PTSD form flow decision when present', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        syncModern0781Flow: true,
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+      expect(transformedData.syncModern0781Flow).to.equal(
+        formData.syncModern0781Flow,
+      );
+    });
+  });
 });
 
 describe('addNoneDisabilityActionType', () => {
