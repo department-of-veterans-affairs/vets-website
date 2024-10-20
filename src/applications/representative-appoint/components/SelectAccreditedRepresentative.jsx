@@ -9,7 +9,6 @@ import SearchResult from './SearchResult';
 
 const SelectAccreditedRepresentative = props => {
   const { setFormData, formData, router, routes, location, goToPath } = props;
-  const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const representativeResults =
@@ -17,10 +16,14 @@ const SelectAccreditedRepresentative = props => {
 
   const onInputChange = e => {
     setError(null);
-    setQuery(e.target.value);
+    setFormData({
+      ...formData,
+      'view:representativeQuery': e.target.value,
+    });
   };
 
   const onSubmit = async () => {
+    const query = formData['view:representativeQuery'];
     if (!query.trim()) {
       setError(
         'Enter the name of the accredited representative or VSO you’d like to appoint',
@@ -105,6 +108,7 @@ const SelectAccreditedRepresentative = props => {
             id="representative_search"
             name="representative_search"
             error={error}
+            value={formData['view:representativeQuery']}
             onInput={onInputChange}
             required
             onKeyPress={e => {
