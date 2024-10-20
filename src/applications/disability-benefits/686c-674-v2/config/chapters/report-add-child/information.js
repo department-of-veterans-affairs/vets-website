@@ -23,19 +23,51 @@ export const information = {
     'view:isUnmarriedAndInSchool': radioUI({
       title:
         'Is this an unmarried child between ages 18 and 23 who attends school?',
-      required: () => true,
+      required: (formData, _index) => {
+        if (Array.isArray(formData)) {
+          return true;
+        }
+        const { addChild, report674: addStudent } =
+          formData?.['view:selectable686Options'] || {};
+        return addChild && addStudent;
+      },
       labels: {
         Y: 'Yes',
         N: 'No',
+      },
+      hideIf: (formData, _index) => {
+        if (Array.isArray(formData)) {
+          return false;
+        }
+        const { addChild, report674: addStudent } =
+          formData?.['view:selectable686Options'] || {};
+        const shouldShow = addChild && addStudent;
+        return !shouldShow;
       },
     }),
     'view:hasReceivedBenefits': radioUI({
       title:
         'Have you received disability, pension, or DIC (Dependency and Indemnity Compensation) benefits for this child before?',
-      required: () => true,
+      required: (formData, _index) => {
+        if (Array.isArray(formData)) {
+          return true;
+        }
+        const { addChild, report674: addStudent } =
+          formData?.['view:selectable686Options'] || {};
+        return addChild && addStudent;
+      },
       labels: {
         Y: 'Yes',
         N: 'No',
+      },
+      hideIf: (formData, _index) => {
+        if (Array.isArray(formData)) {
+          return false;
+        }
+        const { addChild, report674: addStudent } =
+          formData?.['view:selectable686Options'] || {};
+        const shouldShow = addChild && addStudent;
+        return !shouldShow;
       },
     }),
   },
@@ -50,8 +82,8 @@ export const information = {
     required: [
       'fullName',
       'birthDate',
-      'view:isUnmarriedAndInSchool',
-      'view:hasReceivedBenefits',
+      // 'view:isUnmarriedAndInSchool',
+      // 'view:hasReceivedBenefits',
     ],
   },
 };

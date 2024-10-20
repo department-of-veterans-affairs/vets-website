@@ -9,7 +9,7 @@ export const additionalInformationPartTwo = {
     ...titleUI('Additional information about this child'),
     incomeInLastYear: radioUI({
       title:
-        'Did [child’s name] have income in the last 365 days? Answer this question only if you are adding this dependent to your pension.',
+        'Did this child have income in the last 365 days? Answer this question only if you are adding this dependent to your pension.',
       required: () => true,
       labels: {
         Y: 'Yes',

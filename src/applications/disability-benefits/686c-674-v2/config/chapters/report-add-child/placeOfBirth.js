@@ -59,6 +59,15 @@ export const placeOfBirth = {
       'ui:description': generateHelpText(
         'Based on your answers, you’ll need to submit a copy of [Child name’s] birth certificate to add them as your dependent. We’ll ask you to submit this document at the end of this form.',
       ),
+      'ui:options': {
+        hideIf: (formData, _index) => {
+          if (Array.isArray(formData)) {
+            // console.log(formData, _index);
+            return false;
+          }
+          return !formData?.birthLocation?.outsideUsa;
+        },
+      },
     },
   },
   schema: {

@@ -11,9 +11,9 @@ export const relationship = {
       title: 'Your relationship to this child',
     }),
     relationshipToChild: checkboxGroupUI({
-      title: 'What’s your relationship to [child’s name]?',
+      title: 'What’s your relationship to this child',
       'ui:description': 'Check all that apply',
-      'ui:widget': VaCheckboxField,
+      'ui:webComponentField': VaCheckboxField,
       labels: {
         biological: 'They’re my biological child',
         adopted: 'They’re my adopted child',

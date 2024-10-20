@@ -10,7 +10,7 @@ export const additionalInformationPartOne = {
     ...titleUI('Additional information about this child'),
 
     doesChildLiveWithYou: radioUI({
-      title: 'Does [child’s name] live with you? (*Required)',
+      title: 'Does this child live with you?',
       required: () => true,
       labels: {
         Y: 'Yes',
@@ -22,7 +22,7 @@ export const additionalInformationPartOne = {
     }),
 
     hasChildEverBeenMarried: radioUI({
-      title: 'Has [child’s name] ever been married? (*Required)',
+      title: 'Has this child ever been married?',
       required: () => true,
       labels: {
         Y: 'Yes',
@@ -35,7 +35,7 @@ export const additionalInformationPartOne = {
 
     isChildPermanentlyUnableToSupport: radioUI({
       title:
-        'Is [child’s name] permanently unable to support themselves because they developed a permanent mental or physical disability before they turned 18 years old? (*Required)',
+        'Is this child permanently unable to support themselves because they developed a permanent mental or physical disability before they turned 18 years old?',
       required: () => true,
       labels: {
         Y: 'Yes',
@@ -43,6 +43,14 @@ export const additionalInformationPartOne = {
       },
       errorMessages: {
         required: 'You must answer this question.',
+      },
+      hideIf: (formData, _index) => {
+        if (Array.isArray(formData)) {
+          return false;
+        }
+        const { addDisabledChild } =
+          formData?.['view:selectable686Options'] ?? {};
+        return !addDisabledChild;
       },
     }),
 
@@ -55,15 +63,20 @@ export const additionalInformationPartOne = {
           <ul>
             <li>
               Copies of medical records that document your child’s permanent
-              physical disability, and
+              physical disability, <strong>and</strong>
             </li>
             <li>
-              A statement from your child’s physician that shows the type and
-              severity of their physical or mental disability.
+              A statement from your child’s doctor that shows the type{' '}
+              <strong>and</strong> severity of their physical or mental
+              disability.
             </li>
           </ul>
         </div>
       ),
+      'ui:options': {
+        expandUnder: 'isChildPermanentlyUnableToSupport',
+        expandUnderCondition: 'Y',
+      },
     },
   },
   schema: {

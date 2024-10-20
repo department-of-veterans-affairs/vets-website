@@ -10,7 +10,7 @@ export const identification = {
       title: "Child's identification information",
     }),
     ssn: {
-      ...ssnUI("[Child’s name]'s Social Security number"),
+      ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
     },
   },

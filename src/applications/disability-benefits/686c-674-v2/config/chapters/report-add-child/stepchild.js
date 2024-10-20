@@ -16,28 +16,28 @@ export const stepchild = {
       title: "Child's biological parents",
     }),
     isBiologicalChild: yesNoUI({
-      title: 'Is [child’s name] the biological child of your current spouse?',
+      title: 'Is this child the biological child of your current spouse?',
       required: () => true,
       errorMessages: {
         required: 'Select Yes or No.',
       },
     }),
     dateEnteredHousehold: currentOrPastDateUI({
-      title: 'Date [Child’s name] entered your household',
+      title: 'Date this child entered your household',
       required: () => true,
       'ui:errorMessages': {
         required: 'Enter the date.',
       },
     }),
     biologicalParentName: firstNameLastNameNoSuffixUI(
-      title => `[Child’s name]’s biological parent’s ${title}`,
+      title => `Child’s biological parent’s ${title}`,
     ),
     biologicalParentSsn: {
-      ...ssnUI('[Child’s name]’s biological parent’s Social Security number'),
+      ...ssnUI('this child’s biological parent’s Social Security number'),
       'ui:required': () => true,
     },
     biologicalParentDob: currentOrPastDateUI({
-      title: '[Child’s name]’s biological parent’s date of birth',
+      title: 'Child’s biological parent’s date of birth',
       required: () => true,
       'ui:errorMessages': {
         required: 'Enter the date.',
