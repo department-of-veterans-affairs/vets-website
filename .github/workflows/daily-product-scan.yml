@@ -7,7 +7,7 @@ name: Daily Product Scan
 jobs:
   daily-dependency-scan:
     name: Daily Product Scan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
