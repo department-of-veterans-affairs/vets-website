@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -34,6 +34,7 @@ export class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
+    focusElement('h1');
     scrollToTop('topScrollElement');
     // Update query string based on results.
     if (this.props.results.data && this.props.results.data.length > 0) {
