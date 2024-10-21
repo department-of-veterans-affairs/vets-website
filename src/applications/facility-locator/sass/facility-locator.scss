@@ -149,6 +149,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     border-left: none;
   }
 
+  #search-results-title {
+    width: calc(100% - 8px);
+    margin-left: 4px;
+  }
+
   .search-results-container {
     width: 305px;
     max-height: 78vh;

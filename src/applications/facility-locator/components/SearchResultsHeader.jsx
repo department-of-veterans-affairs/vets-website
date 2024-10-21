@@ -126,10 +126,10 @@ export const SearchResultsHeader = ({
 };
 
 SearchResultsHeader.propTypes = {
-  context: PropTypes.string,
-  facilityType: PropTypes.string,
   results: PropTypes.array,
+  facilityType: PropTypes.string,
   serviceType: PropTypes.string,
+  context: PropTypes.string,
   specialtyMap: PropTypes.object,
 };
 

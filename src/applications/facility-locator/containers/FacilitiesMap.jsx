@@ -11,16 +11,16 @@ import recordEvent from 'platform/monitoring/record-event';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
-  clearGeocodeError,
-  clearSearchResults,
   clearSearchText,
+  clearSearchResults,
   fetchVAFacility,
+  searchWithBounds,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  geolocateUser,
-  mapMoved,
-  searchWithBounds,
   updateSearchQuery,
+  mapMoved,
+  geolocateUser,
+  clearGeocodeError,
 } from '../actions';
 import {
   facilitiesPpmsSuppressAll,
@@ -461,10 +461,7 @@ const FacilitiesMap = props => {
             emergency department right away.
           </VaAlert>
         )}
-        <div
-          className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2"
-          ref={searchResultTitleRef}
-        >
+        <div id="search-results-title" ref={searchResultTitleRef}>
           {!searchError && (
             <SearchResultsHeader
               results={results}
