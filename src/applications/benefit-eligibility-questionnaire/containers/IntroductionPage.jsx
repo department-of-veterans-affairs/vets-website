@@ -33,7 +33,6 @@ const IntroductionPage = ({ router }) => {
         text="Get started"
         data-testid="get-started"
       />
-      <p />
     </article>
   );
 };
