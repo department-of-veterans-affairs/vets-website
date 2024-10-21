@@ -39,7 +39,7 @@ export default function App({ location, children }) {
                 appTitle={`CHAMPVA Form ${formConfig.formId}`}
                 dependencies={[
                   externalServices.pega,
-                  externalServices.form107959F1,
+                  externalServices.form107959f1,
                 ]}
               >
                 {children}
