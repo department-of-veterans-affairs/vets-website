@@ -4,6 +4,29 @@
   padding: 0.75rem 1.25rem;
 }
 
+// form panel is only 32em wide, so we need to override the default width
+// was originally set in the shame.scss file
+.form-panel {
+  min-width: 100%;
+}
+
 .nav-tabs li{
   flex: 1 1 auto;
+}
+
+// custom styles for the dev panel stdout
+.fade-enter {
+  opacity: 0 !important;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-enter-done {
+  opacity: 1;
 }

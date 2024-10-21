@@ -9,7 +9,7 @@ import { getReferralById } from '../services/referral';
 import { setFormCurrentPage } from './redux/actions';
 import { referral } from './temp-data/referral';
 
-export default function ReferralReview() {
+export default function ScheduleReferral() {
   const [patientData, setPatientData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -19,7 +19,7 @@ export default function ReferralReview() {
 
   useEffect(
     () => {
-      dispatch(setFormCurrentPage('referralReview'));
+      dispatch(setFormCurrentPage('scheduleReferral'));
     },
     [location, dispatch],
   );
