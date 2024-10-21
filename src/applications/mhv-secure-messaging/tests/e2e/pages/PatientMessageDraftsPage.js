@@ -701,6 +701,14 @@ class PatientMessageDraftsPage {
       .click();
   };
 
+  verifyThreadRecipientName = (mockResponse, index) => {
+    cy.get(Locators.THREADS)
+      .find(`.vads-u-font-weight--bold`)
+      .eq(index)
+      .should(`be.visible`)
+      .and(`have.text`, mockResponse.data[index].attributes.recipientName);
+  };
+
   verifyAttachFileBtn = () => {
     cy.get(Locators.BUTTONS.ATTACH_FILE)
       .shadow()
