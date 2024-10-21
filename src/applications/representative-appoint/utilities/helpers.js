@@ -253,3 +253,6 @@ export const convertRepType = input => {
 
   return mapping[input] || input;
 };
+
+export const addressExists = address =>
+  address.addressLine1 && address.city && address.stateCode && address.zipCode;
