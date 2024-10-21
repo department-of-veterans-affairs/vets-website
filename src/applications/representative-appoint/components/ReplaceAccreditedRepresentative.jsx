@@ -27,9 +27,7 @@ const ReplaceAccreditedRepresentative = props => {
 
   return (
     <div>
-      <h3 className="vads-u-margin-y--5 ">
-        Replace your current accredited representative
-      </h3>
+      <h3>Replace your current accredited representative</h3>
       <p>
         You’ll replace your current accredited representative with the new one
         you’ve selected.
