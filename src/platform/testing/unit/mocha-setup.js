@@ -8,7 +8,7 @@ import os from 'os';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
-import { JSDOM } from 'jsdom';
+import { JSDOM, ResourceLoader } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
@@ -78,10 +78,16 @@ function setupJSDom() {
     console.warn = () => {};
   }
   /* eslint-enable no-console */
+  
+  // set up resource loader
+  const loader = new ResourceLoader({
+    userAgent: 'Node.js'
+  });
 
   // setup the simplest document possible
   const dom = new JSDOM('<!doctype html><html><body></body></html>', {
     url: 'http://localhost',
+    resources: loader
   });
 
   const { window } = dom;
@@ -100,16 +106,6 @@ function setupJSDom() {
   global.Blob = window.Blob;
 
   /* Overwrites JSDOM global defaults from read-only to configurable */
-
-  Object.defineProperty(global, 'navigator', {
-    value: {
-      userAgent: 'node.js'
-    },
-    configurable: true,
-    writeable: true,
-    enumerable: true,
-  });
-
   Object.defineProperty(global, 'window', {
     value: global.window,
     configurable: true,
