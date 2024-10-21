@@ -43,7 +43,6 @@
                     "authBroker": "iam"
                 },
                 "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
-                "inheritedProofVerified": false,
                 "claims": null,
                 "icn": "1013450397V697279",
                 "birlsId": null,

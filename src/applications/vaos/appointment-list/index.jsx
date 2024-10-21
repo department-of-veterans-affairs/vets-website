@@ -3,8 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import AppointmentsPage from './components/AppointmentsPage/index';
 import AppointmentNotificationPage from '../referral-appointments/AppointmentNotificationsPage';
-import ReviewApproved from '../referral-appointments/ReviewApproved';
-import ChooseCommunityCare from '../referral-appointments/ChooseCommunityCare';
+import ReferralReview from '../referral-appointments/ReferralReview';
 import FilterPage from '../referral-appointments/FilterPage';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
@@ -24,17 +23,9 @@ function AppointmentListSection() {
     <>
       {!featureBreadcrumbUrlUpdate && (
         <Switch>
-          <Route
-            path="/choose-community-care-appointment"
-            component={ChooseCommunityCare}
-          />
           <Route path="/filter-page" component={FilterPage} />
-          <Route
-            path="/appointment-notifications"
-            component={AppointmentNotificationPage}
-          />
           <Route path="/confirm-approved" component={ConfirmApprovedPage} />
-          <Route path="/review-approved" component={ReviewApproved} />
+          <Route path="/referral-review" component={ReferralReview} />
           <Route
             path="/:pastOrPending?/cc/:id"
             component={ConfirmedAppointmentDetailsPage}
@@ -52,17 +43,13 @@ function AppointmentListSection() {
       )}
       {featureBreadcrumbUrlUpdate && (
         <Switch>
-          <Route
-            path="/choose-community-care-appointment"
-            component={ChooseCommunityCare}
-          />
           <Route path="/filter-page" component={FilterPage} />
           <Route
             path="/appointment-notifications"
             component={AppointmentNotificationPage}
           />
           <Route path="/confirm-approved" component={ConfirmApprovedPage} />
-          <Route path="/review-approved" component={ReviewApproved} />
+          <Route path="/referral-review/:id" component={ReferralReview} />
           <Route
             path="/provider-choose-date-and-time"
             component={ChooseDateAndTime}

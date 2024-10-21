@@ -6,6 +6,8 @@ import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import allergies from '../tests/fixtures/allergies.json';
+import { radiologyRecordHash } from '../util/helpers';
+import radiology from '../tests/fixtures/radiologyRecordsMhv.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -36,6 +38,29 @@ export const getLabOrTest = id => {
   return apiRequest(`${apiBasePath}/medical_records/labs_and_tests/${id}`, {
     headers,
   });
+};
+
+export const getMhvRadiologyTests = () => {
+  return apiRequest(`${apiBasePath}/medical_records/radiology`, {
+    headers,
+  });
+};
+
+export const getMhvRadiologyDetails = async id => {
+  const numericId = +id.substring(1).split('-')[0];
+  const response = await getMhvRadiologyTests();
+  let details = response.find(record => +record.id === numericId);
+  if (!details) {
+    // If the underlying radiology ID has changed due to wipe-and-replace, use the hash to compare.
+    const hashId = id.split('-')[1];
+    details = (await Promise.all(
+      response.map(async record => ({
+        ...record,
+        hash: await radiologyRecordHash(record),
+      })),
+    )).find(record => record.hash === hashId);
+  }
+  return details;
 };
 
 export const getNotes = () => {
@@ -137,6 +162,7 @@ export const postSharingUpdateStatus = (optIn = false) => {
 export const getDataForBlueButton = () => {
   return new Promise(resolve => {
     const data = {
+      radiology,
       labsAndTests,
       careSummariesAndNotes: notes,
       vaccines,

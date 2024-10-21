@@ -1,130 +1,101 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { fetchFacilities } from '../../actions/fetchFacilities';
-import GeneralErrorAlert from '../FormAlerts/GeneralErrorAlert';
+import content from '../../locales/en/content.json';
 
-export const FacilityList = ({
-  input,
-  coordinates,
-  formContext,
-  id,
-  onChange,
-  value,
-}) => {
-  const { reviewMode, submitted } = formContext;
-  const [facilities, setFacilities] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-  const [error, hasError] = useState(false);
-  const [dirty, setDirty] = useState(false);
+const FacilityList = props => {
+  const { facilities, onChange, query, value, error } = props;
+  const reviewMode = props?.formContext?.reviewMode || false;
+  const submitted = props?.formContext?.submitted || false;
 
-  const errorMessages = {
-    required: 'Please select a facility',
+  const handleChange = e => {
+    onChange(e.detail.value);
   };
 
-  const handleChange = event => {
-    setDirty(true);
-    onChange(event.detail.value);
-  };
+  const showError = () => {
+    if (error) {
+      return error;
+    }
 
-  const showError = () =>
-    (submitted || dirty) && !value ? errorMessages.required : false;
+    return submitted && !value
+      ? content['validation-facilities--default-required']
+      : null;
+  };
 
   const getFacilityName = useCallback(
-    val => facilities.find(f => f.id.split('_').pop() === val)?.name || '—',
+    val => {
+      const facility = facilities.find(f => f.id === val);
+      return facility?.name || '&mdash;';
+    },
     [facilities],
   );
 
   const formatAddress = ({ address1, address2, address3 }) => {
-    // Create an array of address parts
     const parts = [address1, address2, address3];
-
-    // Filter out falsy values (null, undefined, etc.)
-    const validParts = parts.filter(part => part);
-
-    // Join the valid parts with a comma and space
+    const validParts = parts.filter(Boolean);
     return validParts.join(', ');
   };
 
-  useEffect(
-    () => {
-      if (coordinates) {
-        const fetchAndSetFacilities = async () => {
-          setLoading(true);
-          try {
-            const fetchedFacilities = await fetchFacilities(coordinates);
-            setFacilities(fetchedFacilities);
-          } catch (err) {
-            hasError(true);
-          }
-          setLoading(false);
-        };
-
-        fetchAndSetFacilities();
-      }
-    },
-    [coordinates],
-  );
+  const facilityOptions = facilities.map(facility => (
+    <VaRadioOption
+      key={facility.id}
+      name="facility"
+      label={facility.name}
+      value={facility.id}
+      description={formatAddress(facility.address.physical)}
+      tile
+    />
+  ));
 
   if (reviewMode) {
-    return <span data-testid="cg-facility-name">{getFacilityName(value)}</span>;
-  }
-
-  if (isLoading) {
     return (
-      <va-loading-indicator
-        label="Loading"
-        message="Loading available facilities..."
-        set-focus
-      />
+      <span
+        className="dd-privacy-hidden"
+        data-testid="cg-facility-name"
+        data-dd-action-name="data value"
+      >
+        {getFacilityName(value)}
+      </span>
     );
   }
 
-  return !error ? (
+  return (
     <div
-      className="vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
       role="radiogroup"
+      className="vads-u-margin-top--2"
       aria-labelledby="facility-list-heading"
     >
-      <div className="vads-u-margin-top--1" id="facility-list-heading">
+      <div
+        className="vads-u-margin-top--1 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
+        id="caregiver_facility_results"
+      >
         Showing 1-
         {facilities.length} of {facilities.length} facilities for{' '}
-        <b>"{input}"</b>
+        <strong>“{query}”</strong>
       </div>
       <VaRadio
-        id={id}
-        name={id}
+        id="root_facility_search_list"
+        name="root_facility_search_list"
         value={value}
         onVaValueChange={handleChange}
-        error={showError() || null}
-        required
-        uswds
+        error={showError()}
       >
-        {facilities.map(facility => (
-          <VaRadioOption
-            key={facility.id}
-            label={facility.attributes.name}
-            name="facility"
-            value={facility.id.split('_').pop()}
-            description={formatAddress(facility.attributes.address.physical)}
-            tile
-          />
-        ))}
+        {facilityOptions}
       </VaRadio>
     </div>
-  ) : (
-    <GeneralErrorAlert />
   );
 };
 
 FacilityList.propTypes = {
-  value: PropTypes.string.isRequired,
-  coordinates: PropTypes.array,
+  error: PropTypes.string,
+  facilities: PropTypes.array,
   formContext: PropTypes.object,
-  id: PropTypes.string,
-  input: PropTypes.string,
+  query: PropTypes.string,
+  value: PropTypes.string,
   onChange: PropTypes.func,
 };
+
+export default FacilityList;

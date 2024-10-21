@@ -12,10 +12,13 @@ import DebtCardsList from '../components/DebtCardsList';
 // TODO: OtherVA Update
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
+import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import { SpecialHurricaneAlert } from '../../combined/components/DisasterAlert';
 
 const renderAlert = (alertType, statements) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
   const showOther = statements > 0;
+  const showVAReturnLink = !showOther && alertType !== ALERT_TYPES.ALL_ERROR;
 
   return (
     <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
@@ -30,6 +33,15 @@ const renderAlert = (alertType, statements) => {
           {alertInfo.secondBody}
         </>
       )}
+      {showVAReturnLink ? (
+        <va-link
+          active
+          class="vads-u-margin-top--2"
+          data-testid="return-to-va-link"
+          href="https://va.gov"
+          text="Return to VA.gov"
+        />
+      ) : null}
     </va-alert>
   );
 };
@@ -42,7 +54,7 @@ const renderOtherVA = (mcpLength, mcpError) => {
   if (mcpError) {
     return (
       <>
-        <h3>Your other VA bills</h3>
+        <h2>Your other VA bills</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h4 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
@@ -72,6 +84,10 @@ const DebtLettersSummary = () => {
     isProfileUpdating,
   } = debtLetters;
   const { statements: mcpStatements, error: mcpError } = mcp;
+  const allDebtsEmpty =
+    !debtError && debts.length === 0 && debtLinks.length === 0;
+  const title = 'Current debts';
+  useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');
@@ -86,9 +102,64 @@ const DebtLettersSummary = () => {
     );
   }
 
-  const allDebtsEmpty =
-    !debtError && debts.length === 0 && debtLinks.length === 0;
+  const renderContent = () => {
+    if (debtError) {
+      return renderAlert(
+        mcpError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
+        mcpStatements?.length,
+      );
+    }
 
+    if (allDebtsEmpty) {
+      return renderAlert(ALERT_TYPES.ZERO, mcpStatements?.length);
+    }
+
+    return (
+      <>
+        <DebtCardsList />
+        {renderOtherVA(mcpStatements?.length, mcpError)}
+        {showDebtLetterDownload ? (
+          <section>
+            <h2
+              id="downloadDebtLetters"
+              className="vads-u-margin-top--4 vads-u-font-size--h2"
+            >
+              Download debt letters
+            </h2>
+            <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
+              You can download some of your letters for education, compensation
+              and pension debt.
+            </p>
+
+            <Link
+              to="/debt-balances/letters"
+              className="vads-u-margin-top--1 vads-u-font-family--sans"
+              data-testid="download-letters-link"
+            >
+              Download letters related to your VA debt
+            </Link>
+          </section>
+        ) : null}
+        <va-need-help id="needHelp" class="vads-u-margin-top--4">
+          <div slot="content">
+            <p>
+              If you have any questions about your benefit overpayment or if you
+              think your debt was created in an error, you can dispute it.
+              Contact us online through <a href="https://ask.va.gov/">Ask VA</a>{' '}
+              or call the Debt Management Center at{' '}
+              <va-telephone contact="8008270648" /> (
+              <va-telephone contact="711" tty="true" />
+              ). For international callers, use{' '}
+              <va-telephone contact="6127136415" />. We’re here Monday through
+              Friday, 7:30 a.m. to 7:00 p.m. ET.
+            </p>
+          </div>
+        </va-need-help>
+      </>
+    );
+  };
+
+  // Render common header content
   return (
     <>
       <VaBreadcrumbs
@@ -103,7 +174,7 @@ const DebtLettersSummary = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current VA debt',
+            label: 'Current debts',
           },
         ]}
         label="Breadcrumb"
@@ -117,72 +188,14 @@ const DebtLettersSummary = () => {
           data-testid="summary-page-title"
           className="vads-u-margin-bottom--2"
         >
-          Current VA debt
+          {title}
         </h1>
-        <p className="va-introtext">
-          Check the details of VA debt you might have related to your education,
-          disability compensation, or pension benefits. Find out how to pay your
-          debt and what to do if you need financial assistance.
+        <p>
+          Please note that payments may take up to 4 business days to reflect
+          after processing.
         </p>
-        <>
-          {debtError || allDebtsEmpty ? (
-            <>
-              {debtError &&
-                renderAlert(
-                  mcpError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
-                  mcpStatements?.length,
-                )}
-
-              {allDebtsEmpty &&
-                renderAlert(ALERT_TYPES.ZERO, mcpStatements?.length)}
-            </>
-          ) : (
-            <>
-              <DebtCardsList />
-
-              {renderOtherVA(mcpStatements?.length, mcpError)}
-
-              {showDebtLetterDownload ? (
-                <section>
-                  <h3
-                    id="downloadDebtLetters"
-                    className="vads-u-margin-top--4 vads-u-font-size--h2"
-                  >
-                    Download debt letters
-                  </h3>
-                  <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
-                    You can download some of your letters for education,
-                    compensation and pension debt.
-                  </p>
-
-                  <Link
-                    to="/debt-balances/letters"
-                    className="vads-u-margin-top--1 vads-u-font-family--sans"
-                    data-testid="download-letters-link"
-                  >
-                    Download letters related to your VA debt
-                  </Link>
-                </section>
-              ) : null}
-
-              <va-need-help id="needHelp" class="vads-u-margin-top--4">
-                <div slot="content">
-                  <p>
-                    If you have any questions about your benefit overpayment or
-                    if you think your debt was created in an error, you can
-                    dispute it. Contact us online through{' '}
-                    <a href="https://ask.va.gov/">Ask VA</a> or call the Debt
-                    Management Center at <va-telephone contact="8008270648" /> (
-                    <va-telephone contact="711" tty="true" />
-                    ). For international callers, use{' '}
-                    <va-telephone contact="6127136415" />. We’re here Monday
-                    through Friday, 7:30 a.m. to 7:00 p.m. ET.
-                  </p>
-                </div>
-              </va-need-help>
-            </>
-          )}
-        </>
+        <SpecialHurricaneAlert />
+        {renderContent()}
       </div>
     </>
   );

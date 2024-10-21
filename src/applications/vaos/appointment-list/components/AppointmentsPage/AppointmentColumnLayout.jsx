@@ -48,7 +48,7 @@ export default function AppointmentColumnLayout({
         size="1"
         className={classNames(
           'vads-u-flex--auto',
-          'xsmall-screen:vads-u-padding-top--1',
+          'mobile:vads-u-padding-top--1',
           'medium-screen:vads-u-padding-top--0',
         )}
         aria-label={dateAriaLabel}
@@ -57,17 +57,17 @@ export default function AppointmentColumnLayout({
           className={classNames(
             'vaos-appts__column--alignItems',
             'vaos-appts__column-gap--1',
-            'xsmall-screen:vads-u-text-align--center',
-            'small-screen:vads-u-flex-direction--row',
+            'mobile:vads-u-text-align--center',
+            'mobile-lg:vads-u-flex-direction--row',
             'medium-screen:vads-u-padding-y--2',
           )}
         >
           <AppointmentColumn
             size="1"
             className={classNames(
-              'small-screen:vads-u-flex--auto',
+              'mobile-lg:vads-u-flex--auto',
               'small-screen:vads-u-order--first',
-              'small-screen:vads-u-padding-top--0',
+              'mobile-lg:vads-u-padding-top--0',
               'medium-screen:vaos-appts__minWidth',
               'medium-screen:vaos-appts__maxWidth',
             )}
@@ -112,7 +112,7 @@ export default function AppointmentColumnLayout({
         className={classNames(
           'vads-u-padding-right--1',
           'vads-u-border-color--gray-medium',
-          'xsmall-screen:vads-u-padding-top--1',
+          'mobile:vads-u-padding-top--1',
           'medium-screen:vads-u-padding-top--0',
           {
             'vads-u-border-top--1px': grouped && !first,
@@ -123,7 +123,7 @@ export default function AppointmentColumnLayout({
         <AppointmentRow
           className={classNames(
             'vaos-appts__column--alignItems',
-            'small-screen:vads-u-flex-direction--row',
+            'mobile-lg:vads-u-flex-direction--row',
             'small-screen:vaos-appts__column-gap--3',
             // padding below determines the appointment row height
             'medium-screen:vads-u-padding-y--2',
@@ -145,8 +145,7 @@ export default function AppointmentColumnLayout({
             <AppointmentRow
               className={classNames(
                 'vaos-appts__column-gap--3',
-                'small-screen:vads-u-flex-direction--column',
-                'small-desktop-screen:vads-u-flex-direction--row',
+                'mobile-lg:vads-u-flex-direction--column',
               )}
             >
               <AppointmentColumn

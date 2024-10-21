@@ -10,7 +10,7 @@ describe('Medical Records validate breadcrumbs', () => {
     site.login();
     cy.visit('my-health/medical-records');
     AllergiesListPage.clickGotoAllergiesLink(allergies);
-    AllergiesListPage.verifyBreadcrumbs('Back to Medical records');
+    AllergiesListPage.verifyBreadcrumbs('Medical records');
     AllergiesListPage.loadVAPaginationNextAllergies();
     // navigate to allergies details page
     AllergyDetailsPage.clickAllergyDetailsLink(
@@ -18,8 +18,8 @@ describe('Medical Records validate breadcrumbs', () => {
       allergyDetail.id,
       allergyDetail,
     );
-    AllergyDetailsPage.verifyBreadcrumbs('Back to allergies');
-    AllergyDetailsPage.clickBreadcrumbs();
+    AllergyDetailsPage.verifyBreadcrumbs('Allergies and reactions');
+    AllergyDetailsPage.clickBreadcrumbs('Allergies and reactions');
     AllergiesListPage.verifyPaginationAllergiesDisplayed(11, 14, 14);
     cy.injectAxe();
     cy.axeCheck('main', {

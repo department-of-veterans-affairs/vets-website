@@ -168,7 +168,7 @@ const CreditCardBill = props => {
             {
               label: `${addCancelButtonsText} credit card bill`,
               onClick: handlers.onUpdate,
-              isSubmitting: true,
+              isSubmitting: 'prevent',
             },
           ]}
         />
@@ -189,7 +189,7 @@ const CreditCardBill = props => {
             {
               label: 'Continue',
               onClick: updateFormData,
-              isSubmitting: true,
+              isSubmitting: 'prevent',
             },
           ]}
         />
@@ -211,47 +211,50 @@ const CreditCardBill = props => {
           </p>
         </legend>
 
-        <va-number-input
+        <va-text-input
           error={(submitted && unpaidBalanceError) || null}
           hint={null}
           currency
           required
           min={0}
           max={MAXIMUM_BILL_AMOUNT}
-          inputmode="numeric"
+          inputmode="decimal"
           label="Unpaid balance"
           name="unpaidBalance"
           id="unpaidBalance"
           onInput={handleUnpaidBalanceChange}
+          type="decimal"
           value={creditCardBillRecord.unpaidBalance}
           width="md"
         />
 
-        <va-number-input
+        <va-text-input
           error={(submitted && minMonthlyPaymentError) || null}
           hint={null}
           required
           currency
-          inputmode="numeric"
+          inputmode="decimal"
           min={0}
           max={MAXIMUM_BILL_AMOUNT}
           label="Minimum monthly payment amount"
           name="amountDueMonthly"
+          type="decimal"
           id="amountDueMonthly"
           onInput={handleMinMonthlyPaymentChange}
           value={creditCardBillRecord.amountDueMonthly}
           width="md"
         />
 
-        <va-number-input
+        <va-text-input
           error={(submitted && amountOverdueError) || null}
           hint={null}
           currency
-          inputmode="numeric"
+          inputmode="decimal"
           label="Amount overdue"
           name="amountPastDue"
           id="amountPastDue"
           onInput={handleAmountOverdueChange}
+          type="decimal"
           value={creditCardBillRecord.amountPastDue}
           width="md"
           class="vads-u-margin-bottom--4"

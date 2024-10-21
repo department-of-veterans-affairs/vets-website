@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -55,20 +54,6 @@ const RadiologyImagesList = () => {
   const downloadPdf = () => {
     GenerateRadiologyPdf(labAndTestDetails);
   };
-
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: `/labs-and-tests/${labId}`,
-            label: labAndTestDetails?.name,
-          },
-        ]),
-      );
-    },
-    [labAndTestDetails?.name, labId, dispatch],
-  );
 
   useEffect(
     () => {

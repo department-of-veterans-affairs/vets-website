@@ -61,6 +61,7 @@ describe('check-in', () => {
               appointmentIen: 'some-appointment-ien-2',
             },
           ],
+          upcomingAppointments: [],
         },
       };
       it('returns appointment and demographics data', () => {
@@ -77,6 +78,7 @@ describe('check-in', () => {
               appointmentIen: 'some-appointment-ien-2',
             },
           ],
+          upcomingAppointments: [],
         });
       });
     });

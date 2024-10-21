@@ -38,8 +38,8 @@ import tribalLandLocation from './chapters/04-benefits-selection/tribalLandLocat
 import plotAllowancePartOne from './chapters/04-benefits-selection/plotAllowancePartOne';
 import plotAllowancePartTwo from './chapters/04-benefits-selection/plotAllowancePartTwo';
 import transportationExpenses from './chapters/04-benefits-selection/transportationExpenses';
+import supportingDocuments from './chapters/05-additional-information/supportingDocuments';
 import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
-
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 import additionalEvidence from './chapters/05-additional-information/additionalEvidence';
@@ -69,7 +69,7 @@ const formConfig = {
     messages: {
       inProgress: 'Your burial benefits application (21-530) is in progress.',
       expired:
-        'Your saved burial benefits application (21-530) has expired. If you want to apply for burial benefits, please start a new application.',
+        'Your saved burial benefits application (21-530) has expired. If you want to apply for a Veterans burial allowance and transportation benefits, please start a new application.',
       saved: 'Your burial benefits application has been saved.',
     },
   },
@@ -80,12 +80,13 @@ const formConfig = {
     dependencies: [externalServices.icmhs],
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for burial benefits.',
+    notFound:
+      'Please start over to apply for a Veterans burial allowance and transportation benefits.',
     noAuth:
       'Please sign in again to resume your application for burial benefits.',
   },
-  title: 'Apply for burial benefits',
-  subTitle: 'Form 21P-530EZ',
+  title: 'Apply for a Veterans burial allowance and transportation benefits',
+  subTitle: 'Application for Burial Benefits (VA Form 21P-530EZ)',
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
@@ -394,6 +395,17 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional information',
       pages: {
+        supportingDocuments: {
+          title: 'Supporting Documents',
+          reviewTitle: () => (
+            <div>
+              <h4 className="vads-u-font-size--h3">Supporting Documents</h4>
+            </div>
+          ),
+          path: 'additional-information/supporting-documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
+        },
         deathCertificate: {
           title: 'Death certificate',
           reviewTitle: () => (

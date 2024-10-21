@@ -18,6 +18,7 @@ describe('utilities: reducer', () => {
         BURN_PIT_2_1: null,
         BURN_PIT_2_1_1: null,
         BURN_PIT_2_1_2: null,
+        BURN_PIT_2_1_3: null,
         ORANGE_2_2_A: null,
         ORANGE_2_2_B: null,
         ORANGE_2_2_1_A: null,
@@ -27,6 +28,7 @@ describe('utilities: reducer', () => {
         RADIATION_2_3_A: null,
         RADIATION_2_3_B: null,
         LEJEUNE_2_4: null,
+        MAIN_FLOW_2_5: null,
       });
     });
   });

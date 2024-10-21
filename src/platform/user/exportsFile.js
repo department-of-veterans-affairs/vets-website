@@ -36,6 +36,11 @@ export {
 } from './authentication/actions';
 
 export {
+  useIdentityVerificationURL,
+  onVerifyClick,
+} from './authentication/hooks/index';
+
+export {
   default as AccountTransitionModal,
 } from './authentication/components/account-transition/TransitionModal';
 export {

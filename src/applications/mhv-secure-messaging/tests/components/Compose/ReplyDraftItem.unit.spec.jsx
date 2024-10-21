@@ -7,6 +7,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../../reducers';
 import ReplyDraftItem from '../../../components/ComposeForm/ReplyDraftItem';
 import thread from '../../fixtures/reducers/thread-with-multiple-drafts-reducer.json';
+import categories from '../../fixtures/categories-response.json';
 import { dateFormat } from '../../../util/helpers';
 import * as messagesActions from '../../../actions/messages';
 
@@ -17,24 +18,50 @@ describe('ReplyDraftItem component', () => {
 
   const defaultProps = {
     draft,
+    drafts: [draft],
     cannotReply: false,
     editMode: true,
-    isSaving: false,
     signature: undefined,
     draftsCount: 1,
     draftsequence: 1,
     replyMessage,
     replyToName,
+    draftId: draft.messageId,
+    isSaving: false,
+    isModalVisible: false,
+    confirmedDeleteClicked: false,
   };
-  const defaultState = { sm: { folders: { folder: { folderId: 0 } } } };
+  const defaultState = {
+    sm: {
+      folders: { folder: { folderId: 0 } },
+      threadDetails: {
+        drafts: [
+          {
+            ...draft,
+            isSaving: false,
+            saveError: null,
+            lastSaveTime: null,
+          },
+        ],
+        isSaving: false,
+      },
+    },
+  };
 
   const setup = ({ initialState = defaultState, props = defaultProps }) =>
-    renderWithStoreAndRouter(<ReplyDraftItem {...props} />, {
-      initialState,
-      reducers: reducer,
-    });
+    renderWithStoreAndRouter(
+      <ReplyDraftItem
+        {...props}
+        draftId={draft.messageId}
+        categories={categories}
+      />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
 
-  it('renders without errors', async () => {
+  it('renders single draft without errors', async () => {
     const { getByText, getByTestId, findByTestId } = setup({});
     expect(
       getByText(`To: ${replyToName} (Team: ${replyMessage.triageGroupName})`),
@@ -45,7 +72,7 @@ describe('ReplyDraftItem component', () => {
     expect(getByText('Attachments')).to.exist;
     expect(getByText('Attachments input')).to.exist;
     expect(getByTestId('attach-file-input')).to.exist;
-    expect(getByTestId('Send-Button')).to.exist;
+    expect(getByTestId('send-button')).to.exist;
     expect(getByText('Save draft', { selector: 'button' })).to.exist;
     expect(getByText('Delete draft', { selector: 'button' })).to.exist;
   });
@@ -64,15 +91,39 @@ describe('ReplyDraftItem component', () => {
     expect(queryByTestId('message-body-field')).to.not.exist;
     expect(getByText('Delete draft', { selector: 'button' })).to.exist;
     expect(queryByTestId('attach-file-input')).to.not.exist;
-    expect(queryByTestId('Send-Button')).to.not.exist;
+    expect(queryByTestId('send-button')).to.not.exist;
   });
 
   it('dispays "Saving..." message on draft save', async () => {
-    const customState = { sm: { threadDetails: { isSaving: true } } };
+    const customState = {
+      sm: {
+        folders: { folder: { folderId: 0 } },
+        threadDetails: {
+          drafts: [
+            {
+              ...draft,
+              isSaving: true,
+              saveError: null,
+              lastSaveTime: null,
+            },
+          ],
+          isSaving: true,
+          isEditing: true,
+        },
+      },
+    };
+
+    const customProps = {
+      ...defaultProps,
+      isModalVisible: false,
+      draftId: null,
+    };
 
     const { getByText } = setup({
       initialState: customState,
+      props: customProps,
     });
+
     expect(getByText('Saving...').parentNode).to.have.attribute(
       'visible',
       'true',
@@ -83,7 +134,17 @@ describe('ReplyDraftItem component', () => {
     const lastSaveTime = '2021-04-01T19:20:30.000Z';
     const customState = {
       sm: {
+        folders: { folder: { folderId: 0 } },
         threadDetails: {
+          drafts: [
+            {
+              ...draft,
+              isSaving: false,
+              saveError: null,
+              lastSaveTime,
+            },
+          ],
+          isSaving: false,
           lastSaveTime,
         },
       },

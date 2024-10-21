@@ -13,7 +13,7 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { getFolders, retrieveFolder } from '../actions/folders';
-import { navigateToFolderByFolderId } from '../util/helpers';
+import { navigateToFolderByFolderId, scrollToTop } from '../util/helpers';
 import MessageThreadForPrint from '../components/MessageThread/MessageThreadForPrint';
 
 const ThreadDetails = props => {
@@ -24,19 +24,18 @@ const ThreadDetails = props => {
   const history = useHistory();
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
-  const { recipients } = useSelector(state => state.sm);
-  const {
-    cannotReply,
-    drafts,
-    messages,
-    threadFolderId,
-    threadViewCount,
-  } = useSelector(state => state.sm.threadDetails);
+  const recipients = useSelector(state => state.sm.recipients);
+  const { cannotReply, drafts, messages, threadFolderId } = useSelector(
+    state => state.sm.threadDetails,
+  );
   const { folder } = useSelector(state => state.sm.folders);
 
   const message = messages?.length && messages[0];
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
@@ -45,6 +44,15 @@ const ThreadDetails = props => {
       dispatch(getFolders());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (isSending === true) {
+        scrollToTop();
+      }
+    },
+    [isSending],
   );
 
   useEffect(
@@ -105,27 +113,38 @@ const ThreadDetails = props => {
         />
       );
     }
-
     if (drafts?.length > 0 && messages?.length > 0) {
       return (
-        <div className="compose-container">
-          <ReplyForm
-            cannotReply={cannotReply}
-            drafts={drafts}
-            header={header}
-            messages={messages}
-            recipients={recipients}
-            replyMessage={messages[0]}
+        <>
+          <va-loading-indicator
+            message="Sending message..."
+            data-testid="sending-indicator"
+            style={{ display: isSending ? 'block' : 'none' }}
           />
+          <div
+            className="compose-container"
+            style={{ display: isSending && 'none' }}
+          >
+            <ReplyForm
+              cannotReply={cannotReply}
+              drafts={drafts || []}
+              header={header}
+              messages={messages}
+              recipients={recipients}
+              replyMessage={messages[0]}
+              isCreateNewModalVisible={isCreateNewModalVisible}
+              setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+              threadId={message?.threadId}
+              isEditing={isEditing}
+              setIsEditing={setIsEditing}
+              setIsSending={setIsSending}
+            />
 
-          <MessageThreadForPrint messageHistory={messages} />
+            <MessageThreadForPrint messageHistory={messages} />
 
-          <MessageThread
-            isDraftThread
-            messageHistory={messages}
-            viewCount={threadViewCount}
-          />
-        </div>
+            <MessageThread isDraftThread messageHistory={messages} />
+          </div>
+        </>
       );
     }
     if (drafts?.length === 1 && !messages?.length) {
@@ -153,11 +172,7 @@ const ThreadDetails = props => {
 
           <MessageThreadForPrint messageHistory={messages} />
 
-          <MessageThread
-            messageHistory={messages}
-            threadId={threadId}
-            viewCount={threadViewCount}
-          />
+          <MessageThread messageHistory={messages} />
         </>
       );
     }
@@ -177,7 +192,6 @@ const ThreadDetails = props => {
     <div className="message-detail-container">
       {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
       <AlertBackgroundBox closeable />
-
       {content()}
     </div>
   );

@@ -11,7 +11,7 @@ import {
   jobButtonConstants,
 } from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
-import { isValidFromDate, isValidToDate } from '../../utils/helpers';
+import { isValidStartDate, isValidEndDate } from '../../utils/helpers';
 
 const SpouseEmploymentWorkDates = props => {
   const { goToPath, setFormData, data } = props;
@@ -52,17 +52,17 @@ const SpouseEmploymentWorkDates = props => {
 
   const updateFormData = () => {
     if (
-      !isValidFromDate(employmentRecord.from) ||
-      (!isValidToDate(employmentRecord.from, employmentRecord.to) &&
+      !isValidStartDate(employmentRecord.from) ||
+      (!isValidEndDate(employmentRecord.from, employmentRecord.to) &&
         !employmentRecord.isCurrent)
     ) {
       setToDateError(
-        isValidToDate(employmentRecord.from, employmentRecord.to)
+        isValidEndDate(employmentRecord.from, employmentRecord.to)
           ? null
           : toError,
       );
       setFromDateError(
-        isValidFromDate(employmentRecord.from) ? null : fromError,
+        isValidStartDate(employmentRecord.from) ? null : fromError,
       );
       return null;
     }
@@ -178,7 +178,7 @@ const SpouseEmploymentWorkDates = props => {
           onDateChange={e => handlers.handleDateChange('from', e.target.value)}
           onBlur={() =>
             setFromDateError(
-              isValidFromDate(employmentRecord.from) ? null : fromError,
+              isValidStartDate(employmentRecord.from) ? null : fromError,
             )
           }
           required
@@ -193,7 +193,7 @@ const SpouseEmploymentWorkDates = props => {
             onDateChange={e => handlers.handleDateChange('to', e.target.value)}
             onBlur={() =>
               setToDateError(
-                isValidToDate(employmentRecord.from, employmentRecord.to)
+                isValidEndDate(employmentRecord.from, employmentRecord.to)
                   ? null
                   : toError,
               )
@@ -225,7 +225,7 @@ const SpouseEmploymentWorkDates = props => {
           {
             label: handlers.getContinueButtonText(),
             onClick: handlers.onUpdate,
-            isSubmitting: true,
+            isSubmitting: 'prevent',
           },
         ]}
       />

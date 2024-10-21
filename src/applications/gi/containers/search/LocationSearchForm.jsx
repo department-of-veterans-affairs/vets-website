@@ -27,7 +27,7 @@ import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
 import {
   isProductionOrTestProdEnv,
-  validateSearchTerm,
+  validateSearchTermSubmit,
 } from '../../utils/helpers';
 
 export function LocationSearchForm({
@@ -84,73 +84,59 @@ export function LocationSearchForm({
     [search.loadFromUrl],
   );
 
-  // const validateSearchTerm = searchTerm => {
-  //   const invalidZipCodePattern = /^\d{6,}$/;
-
-  //   if (searchTerm.trim() === '') {
-  //     setError('Please fill in a city, state, or postal code.');
-  //   } else if (invalidZipCodePattern.test(searchTerm)) {
-  //     setError('Please enter a valid postal code.');
-  //   } else if (error !== null) {
-  //     setError(null);
-  //   }
-  // };
-  const onApplyFilterClick = () => {
-    if (location.length === 0) {
-      inputRef.current.focus();
-    }
-  };
   const onResetSearchClick = () => {
     inputRef.current.focus();
   };
   const doSearch = event => {
     if (event) {
       event.preventDefault();
-      onApplyFilterClick();
-      setShowFiltersBeforeSearch(false);
-    }
-    let paramLocation = location;
-    dispatchMapChanged({ changed: false, distance: null });
-
-    recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': 'locationSearch',
-      'gibct-form-value': location,
-    });
-
-    if (autocompleteSelection?.coords) {
-      setShowFiltersBeforeSearch(false);
-      paramLocation = autocompleteSelection.label;
-      dispatchFetchSearchByLocationCoords(
-        autocompleteSelection.label,
-        autocompleteSelection.coords,
-        distance,
-        filters,
-        version,
-      );
-    } else {
-      if (location.trim() !== '') {
-        setShowFiltersBeforeSearch(false);
-        dispatchFetchSearchByLocationResults(
+      if (
+        validateSearchTermSubmit(
           location,
-          distance,
+          dispatchError,
+          error,
+          filters,
+          'location',
+        )
+      ) {
+        let paramLocation = location;
+        dispatchMapChanged({ changed: false, distance: null });
+
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'locationSearch',
+          'gibct-form-value': location,
+        });
+
+        if (autocompleteSelection?.coords) {
+          setShowFiltersBeforeSearch(false);
+          paramLocation = autocompleteSelection.label;
+          dispatchFetchSearchByLocationCoords(
+            autocompleteSelection.label,
+            autocompleteSelection.coords,
+            distance,
+            filters,
+            version,
+          );
+        } else if (location.trim() !== '') {
+          setShowFiltersBeforeSearch(false);
+          dispatchFetchSearchByLocationResults(
+            location,
+            distance,
+            filters,
+            version,
+          );
+        }
+
+        updateUrlParams(
+          history,
+          search.tab,
+          { ...search.query, location: paramLocation, distance },
           filters,
           version,
         );
-      }
-
-      if (event) {
-        validateSearchTerm(location, dispatchError, error, filters, 'location');
-      }
+      } else inputRef.current.focus();
     }
-
-    updateUrlParams(
-      history,
-      search.tab,
-      { ...search.query, location: paramLocation, distance },
-      filters,
-      version,
-    );
   };
 
   /**
@@ -272,18 +258,14 @@ export function LocationSearchForm({
                       }}
                       className="use-my-location-link vads-u-display--flex vads-u-align-items--center"
                     >
-                      <va-icon
-                        size={3}
-                        icon="near_me"
-                        // className="use-my-location-button"
-                        aria-hidden="true"
-                      />
+                      <va-icon size={3} icon="near_me" aria-hidden="true" />
                       Use my location
                     </button>
                   )}
                 </span>
               }
               name="locationSearch"
+              filters={filters}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => {
                 setAutocompleteSelection(null);
@@ -292,7 +274,6 @@ export function LocationSearchForm({
               onSelection={selected => setAutocompleteSelection(selected)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.locationSuggestions]}
-              // validateSearchTerm={validateSearchTerm}
               version={version}
             />
           </div>
@@ -319,6 +300,7 @@ export function LocationSearchForm({
               />
               <button
                 type="submit"
+                data-testid="location-search-button"
                 className="usa-button location-search-button vads-u-display--flex vads-u-align-items--center vads-u-font-weight--bold"
               >
                 Search

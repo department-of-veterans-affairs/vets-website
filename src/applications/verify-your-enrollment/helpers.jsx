@@ -46,13 +46,17 @@ export const toLocalISOString = date => {
   return `${year}-${month}-${day}T${hour}:${minute}:${second}.${ms}`;
 };
 
-export const translateDateIntoMonthDayYearFormat = dateString => {
+export const translateDateIntoMonthDayYearFormat = (
+  dateString,
+  isDelimiting = false,
+) => {
   // Parse the date string as UTC
   if (!dateString) return null;
   const [year, month, day] = dateString
     .split('-')
     .map(num => parseInt(num, 10));
-  const date = new Date(Date.UTC(year, month - 1, day));
+  const validYear = isDelimiting && year < 2000 ? year + 100 : year; // check for invalid 1900s delimiting date
+  const date = new Date(Date.UTC(validYear, month - 1, day));
 
   // Function to get the ordinal suffix for a given day
   function getOrdinalSuffix(dayOfTheMonth) {
@@ -225,7 +229,8 @@ export const getDateRangesBetween = (date1, date2) => {
 
   return ranges;
 };
-export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
+const enrollmentInfoClassName = 'vads-u-margin--0 vads-u-font-size--base';
+export const getPeriodsToVerify = pendingEnrollments => {
   return pendingEnrollments
     .map(enrollmentToBeVerified => {
       const {
@@ -238,41 +243,21 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
 
       return (
         <div
-          className={
-            review ? 'vads-u-margin-y--2 vye-left-border' : 'vads-u-margin-y--2'
-          }
+          className="vads-u-margin-y--2"
           key={`Enrollment-to-be-verified-${myUUID}`}
         >
-          <p
-            className={
-              review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
-                : 'vads-u-margin--0 vads-u-font-size--base'
-            }
-          >
+          <p className={enrollmentInfoClassName}>
             <span className="vads-u-font-weight--bold">
               {translateDatePeriod(actBegin, actEnd)}
             </span>
           </p>
-          <p
-            className={
-              review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
-                : 'vads-u-margin--0 vads-u-font-size--base'
-            }
-          >
+          <p className={enrollmentInfoClassName}>
             <span className="vads-u-font-weight--bold">
               Total credit hours:
             </span>{' '}
             {numberHours === null ? 'Hours unavailable' : numberHours}
           </p>
-          <p
-            className={
-              review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
-                : 'vads-u-margin--0 vads-u-font-size--base'
-            }
-          >
+          <p className={enrollmentInfoClassName}>
             <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
             {monthlyRate === null
               ? 'Rate unavailable'
@@ -437,7 +422,10 @@ export const getGroupedPreviousEnrollments = month => {
               visible="true"
               slim
             >
-              <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+              <p
+                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+                data-testid="have-not-verified"
+              >
                 You haven’t verified your enrollment for the month.
               </p>
             </va-alert>
@@ -565,7 +553,10 @@ export const getSignlePreviousEnrollments = awards => {
               visible="true"
               slim
             >
-              <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+              <p
+                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+                data-testid="have-not-verified"
+              >
                 You haven’t verified your enrollment for the month.
               </p>
             </va-alert>
@@ -689,6 +680,8 @@ export const addressLabel = address => {
   const {
     addressLine1,
     addressLine2,
+    addressLine3,
+    addressLine4,
     city,
     province,
     stateCode,
@@ -698,6 +691,8 @@ export const addressLabel = address => {
 
   const line1 = addressLine1 || '';
   const line2 = addressLine2 || '';
+  const line3 = addressLine3 || '';
+  const line4 = addressLine4 || '';
 
   const cityState = city && (province || stateCode) ? `${city}, ` : city;
 
@@ -709,6 +704,9 @@ export const addressLabel = address => {
     <span>
       {line1 && <>{line1} </>}
       {line2 && <>{` ${line2}`}</>}
+      {line3 && <br />}
+      {line3 && <>{line3} </>}
+      {line4 && <>{` ${line4}`}</>}
       {cityState && (
         <>
           <br /> {cityState}
@@ -839,4 +837,38 @@ export function hasAddressFormChanged(currentState) {
         : initialState.stateCode,
   };
   return !deepEqual(initialState, filledCurrentState);
+}
+
+export function splitAddressLine(addressLine, maxLength) {
+  if (addressLine.length <= maxLength) {
+    return { line1: addressLine, line2: '' };
+  }
+
+  // Find the last space within the maxLength
+  let lastSpaceIndex = addressLine.lastIndexOf(' ', maxLength);
+
+  // If there's no space, we can't split without breaking a word, so just split at maxLength
+  if (lastSpaceIndex === -1) {
+    lastSpaceIndex = maxLength;
+  }
+
+  return {
+    line1: addressLine.substring(0, lastSpaceIndex),
+    line2: addressLine.substring(lastSpaceIndex).trim(),
+  };
+}
+
+export function removeCommas(obj) {
+  const newObj = {};
+
+  Object.keys(obj).forEach(key => {
+    if (typeof obj[key] === 'string') {
+      newObj[key] = obj[key].replace(/,/g, '');
+    } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+      newObj[key] = removeCommas(obj[key]);
+    } else {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

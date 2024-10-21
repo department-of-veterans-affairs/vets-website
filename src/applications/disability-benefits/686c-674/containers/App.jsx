@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
@@ -15,6 +17,12 @@ function App({
   featureToggles,
   savedForms,
 }) {
+  const { TOGGLE_NAMES } = useFeatureToggle();
+  useBrowserMonitoring({
+    location,
+    toggleName: TOGGLE_NAMES.disablityBenefitsBrowserMonitoringEnabled,
+  });
+
   // Must match the H1
   document.title = DOC_TITLE;
 
@@ -37,7 +45,6 @@ function App({
       '/view-change-dependents/add-remove-form-21-686c-v2/';
     return <></>;
   }
-
   const content = (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

@@ -1,23 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { APP_TYPES } from '../utils/helpers';
 
 const OtherVADebts = ({ module, subHeading }) => {
   return (
     <>
-      <h3
+      <h2
         className={subHeading ? 'vads-u-font-size--h4' : ''}
         data-testid="other-va-debts-head"
         id="other-va-debts"
       >
         Your VA {`${module === APP_TYPES.DEBT ? `debt` : 'copay bills'}`}
-      </h3>
-      <p className="vads-u-font-family--sans">
-        Our records show you have
+      </h2>
+      <p>
+        Our records show you have{' '}
         {module === APP_TYPES.DEBT && (
           <span data-testid="other-va-debt-body">
-            &nbsp;VA benefit debt. You can&nbsp;
+            VA benefit debt. You can{' '}
             <a href="/manage-va-debt/summary/debt-balances">
               check the details of your current debt
             </a>
@@ -29,7 +28,7 @@ const OtherVADebts = ({ module, subHeading }) => {
         )}{' '}
         {module === APP_TYPES.COPAY && (
           <span data-testid="other-va-copay-body">
-            a VA health care copay bill. You can&nbsp;
+            a VA health care copay bill. You can{' '}
             <a href="/manage-va-debt/summary/copay-balances">
               check the details of your copay balance
             </a>
@@ -41,15 +40,13 @@ const OtherVADebts = ({ module, subHeading }) => {
         )}
       </p>
 
-      <Link
-        className="vads-u-font-weight--bold"
-        aria-label="View all your VA debt and bills"
-        to="/manage-va-debt/summary"
+      <va-link
+        href="/manage-va-debt/summary/"
         data-testid="other-va-debts-link"
-      >
-        View all your VA debt and bills
-        <va-icon icon="navigate_next" size={3} />
-      </Link>
+        active
+        text="View all your VA debt and bills"
+        class="vads-u-margin-top--2"
+      />
     </>
   );
 };

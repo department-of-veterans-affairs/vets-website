@@ -6,7 +6,88 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
+#filters-section-desktop {
+  @media (min-width: $medium-screen) {
+    border-right: 2px solid var(--vads-color-gray-medium);
+    padding-right: 20px;
+  }
+}
 
-.usa-width-two-thirds {
-    width: 80%;
+#filters-section-desktop select {
+  margin-bottom: 35px;
+}
+
+#filters-section-mobile-toggle {
+  margin-bottom: 20px;
+  @media (min-width: $small-screen) {
+    display: none;
+  }
+}
+
+#save-your-results {
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+
+#url-input,
+#copy-button {
+  display: inline-block;
+}
+
+#url-input {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  width: 80%;
+}
+
+#root_characterOfDischarge-label .schemaform-required-span {
+  display: none;
+}
+
+#root_characterOfDischarge-label p .schemaform-required-span {
+  display: inline;
+}
+
+#copy-alert {
+  margin-top: 20px;
+  & > p {
+    margin-bottom: 0 !important;
+  }
+}
+
+.benefit-list {
+  list-style-type: none !important;
+}
+
+@media (max-width: 40.063em) {
+  .vads-l-grid-container {
+
+    .progress-box {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  .form-progress-buttons {
+    display: flex;
+    flex-direction: column-reverse;
+
+    .columns {
+      width: 100%;
+    }
+  }
+  .show-filters-section-mobile {
+    padding-right: 20px;
+    text-align: left;
+  }
+  .show-filters-section-mobile b {
+    display: none;
+  }
+  .hide-filters-section-mobile {
+    display: none;
+  }
+
+  .benefit-list {
+    padding-left: 0;
+  }
 }

@@ -1,21 +1,22 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { waitFor } from '@testing-library/react';
-import sinon from 'sinon';
-import { expect } from 'chai';
+
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
+import { expect } from 'chai';
 import LandingPage from '../../components/LandingPage';
 import reducers from '../../reducers';
 
 const stateFn = ({
   mhv_landing_page_personalization = false,
+  mhv_integration_medical_records_to_phase_1 = false,
   loa = 3,
   serviceName = 'logingov',
   vaPatient = true,
 } = {}) => ({
   featureToggles: {
     mhv_landing_page_personalization,
+    mhv_integration_medical_records_to_phase_1,
   },
   user: {
     profile: {
@@ -25,24 +26,18 @@ const stateFn = ({
       loa: { current: loa },
       signIn: { serviceName },
       vaPatient,
+      mhvAccountState: 'OK',
     },
   },
 });
-
-const event = {
-  event: 'nav-alert-box-load',
-  action: 'load',
-  'alert-box-headline': '',
-  'alert-box-status': 'continue',
-};
 
 const setup = ({ initialState = stateFn(), props = {} } = {}) =>
   renderInReduxProvider(<LandingPage {...props} />, { initialState, reducers });
 
 describe('LandingPage component', () => {
   it('renders', () => {
-    const { getByText } = setup();
-    getByText('My HealtheVet');
+    const { getByRole } = setup();
+    getByRole('heading', { level: 1, name: /My HealtheVet/ });
   });
 
   it('shows the Welcome component, when enabled', () => {
@@ -51,33 +46,18 @@ describe('LandingPage component', () => {
     getByRole('heading', { level: 2, name: /Welcome/ });
   });
 
-  it('shows an alert when user is unregistered', () => {
-    const initialState = stateFn({ vaPatient: false });
-    const { getByText } = setup({ initialState });
-    getByText('You don’t have access to My HealtheVet');
-  });
+  describe('learn more expandable alert', () => {
+    it('shows when MR Phase 1 toggle is not enabled', () => {
+      const { getByTestId } = setup();
+      getByTestId('learn-more-alert');
+    });
 
-  it('shows an alert when user is unverified', () => {
-    const initialState = stateFn({ loa: 1, serviceName: 'idme' });
-    const { getByText } = setup({ initialState });
-    getByText(
-      'Verify your identity to use your ID.me account on My HealtheVet',
-    );
-  });
-
-  it('reports unverified condition to GA via recordEvent', async () => {
-    const loa1Event = {
-      ...event,
-      'alert-box-headline':
-        'Verify your identity to use your Login.gov account on My HealtheVet',
-    };
-    const recordEventSpy = sinon.spy();
-    const props = { recordEvent: recordEventSpy };
-    const initialState = stateFn({ loa: 1, serviceName: 'logingov' });
-    setup({ initialState, props });
-    await waitFor(() => {
-      expect(recordEventSpy.calledOnce).to.be.true;
-      expect(recordEventSpy.calledWith(loa1Event)).to.be.true;
+    it('does not show when MR Phase 1 toggle is enabled', () => {
+      const initialState = stateFn({
+        mhv_integration_medical_records_to_phase_1: true,
+      });
+      const { queryByTestId } = setup({ initialState });
+      expect(queryByTestId('learn-more-alert')).to.be.null;
     });
   });
 });

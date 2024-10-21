@@ -5,7 +5,6 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { Paths, Locators, Data, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
-import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
 import customSearchResponse from '../fixtures/customResponse/custom-search-response.json';
 
 class PatientMessageCustomFolderPage {
@@ -25,28 +24,26 @@ class PatientMessageCustomFolderPage {
     cy.wait('@customFoldersList');
   };
 
-  loadSingleFolderWithNoMessages = (folderId, folderName) => {
+  loadCustomFolderWithNoMessages = () => {
     cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}?*`,
+      `GET`,
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
+      }*`,
       createdFolderResponse,
-    ).as('singleFolder');
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
-      mockFolderWithoutMessages,
-    ).as('singleFolderThread');
+    ).as(`loadedFolderResponse`);
 
     cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
-      mockFolderWithoutMessages,
-    ).as('inboxFolderWithNoMessage');
+      `GET`,
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
+      }/threads*`,
+      { data: [] },
+    ).as(`emptyFolderThread`);
 
-    cy.contains(folderName).click({ waitForAnimations: true });
-    cy.wait('@singleFolder');
-    cy.wait('@singleFolderThread');
-    cy.wait('@inboxFolderWithNoMessage');
+    cy.get(
+      `[data-testid = ${createdFolderResponse.data.attributes.name}]>a`,
+    ).click();
   };
 
   loadSingleFolderWithMessages = (folderId, folderName) => {
@@ -144,7 +141,7 @@ class PatientMessageCustomFolderPage {
     sortedResponse = mockSortedMessages,
     folderId = this.folderId,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`);
@@ -178,7 +175,18 @@ class PatientMessageCustomFolderPage {
       });
   };
 
-  VerifyFilterBtnExist = () => {
+  verifyMainButtons = () => {
+    cy.get(Locators.BUTTONS.EDIT_FOLDER)
+      .should('be.visible')
+      .and('have.text', `Edit folder name`);
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
+      .should('be.visible')
+      .and('have.text', `Remove folder`);
+    cy.get(Locators.BUTTONS.SORT)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and('contain.text', `Sort`);
     cy.get(Locators.BUTTONS.FILTER).contains('Filter');
   };
 
@@ -228,26 +236,50 @@ class PatientMessageCustomFolderPage {
       .should('be.empty');
   };
 
-  createCustomFolder = folderName => {
-    mockFolders.data.push(createdFolderResponse.data);
+  createCustomFolder = (
+    updatedFoldersResponse,
+    folderName = createdFolderResponse.data.attributes.name,
+  ) => {
     cy.get(Locators.ALERTS.CREATE_NEW_FOLDER).click();
     cy.get('[name="folder-name"]')
       .shadow()
-      .find('[name="folder-name"]')
+      .find('input')
       .type(folderName);
 
     cy.intercept(
-      'POST',
+      `POST`,
       Paths.SM_API_BASE + Paths.FOLDERS,
       createdFolderResponse,
-    ).as('createFolder');
+    ).as(`createdFolderResponse`);
+
     cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}?*`,
-      mockFolders,
-    ).as('updatedFoldersList');
+      `GET`,
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      updatedFoldersResponse,
+    ).as(`updatedFoldersList`);
 
     cy.get('[text="Create"]')
+      .shadow()
+      .find('[type="button"]')
+      .click();
+  };
+
+  deleteCustomFolder = () => {
+    cy.intercept(
+      'DELETE',
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
+      }`,
+      {
+        statusCode: 204,
+      },
+    ).as('deletedFolderResponse');
+
+    cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders).as(
+      'updatedFoldersList',
+    );
+
+    cy.get(Locators.FOLDERS.FOLDER_REMOVE)
       .shadow()
       .find('[type="button"]')
       .click();
@@ -304,13 +336,12 @@ class PatientMessageCustomFolderPage {
   };
 
   verifyEmptyFolderAlert = () => {
-    cy.get('#heading').should('have.text', Assertions.EMPTY_THIS_FOLDER);
+    cy.get(Locators.ALERTS.HEADER).should(
+      'have.text',
+      Assertions.EMPTY_THIS_FOLDER,
+    );
     cy.contains(Data.CANNOT_REMOVE_FOLDER).should('be.visible');
     cy.contains('button', 'Ok');
-  };
-
-  verifyFocusToCloseIcon = () => {
-    cy.focused().should('contain.class', 'va-modal-close');
   };
 
   clickOnCloseIcon = () => {

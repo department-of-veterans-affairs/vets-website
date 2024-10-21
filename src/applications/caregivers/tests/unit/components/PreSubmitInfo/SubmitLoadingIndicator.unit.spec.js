@@ -5,52 +5,43 @@ import { expect } from 'chai';
 import SubmitLoadingIndicator from '../../../../components/PreSubmitInfo/SubmitLoadingIndicator';
 
 describe('CG <SubmitLoadingIndicator>', () => {
-  describe('when no submission has been made', () => {
+  const getData = ({ hasAttemptedSubmit = true, status = null }) => ({
+    props: {
+      submission: {
+        hasAttemptedSubmit,
+        status,
+      },
+    },
+  });
+  const subject = ({ props }) => {
+    const { container } = render(<SubmitLoadingIndicator {...props} />);
+    const selectors = () => ({
+      loader: container.querySelector('.loading-container'),
+    });
+    return { container, selectors };
+  };
+
+  context('when no submission has been made', () => {
     it('should not render loading container', () => {
-      const props = {
-        submission: {
-          hasAttemptedSubmit: false,
-          status: null,
-        },
-      };
-      const view = render(<SubmitLoadingIndicator {...props} />);
-      const selector = view.container.querySelector('.loading-container');
-      expect(selector).to.not.exist;
+      const { props } = getData({ hasAttemptedSubmit: false });
+      const { selectors } = subject({ props });
+      expect(selectors().loader).to.not.exist;
     });
   });
 
-  describe('when submission has been made', () => {
+  context('when submission has been made', () => {
     it('should render loading container when submission is pending', async () => {
-      const props = {
-        submission: {
-          hasAttemptedSubmit: true,
-          status: 'submitPending',
-        },
-      };
-      const view = render(<SubmitLoadingIndicator {...props} />);
-      const selectors = {
-        wrapper: view.container.querySelector('.loading-container'),
-        component: view.container.querySelector('va-loading-indicator'),
-      };
-      waitFor(() => {
-        expect(selectors.wrapper).to.exist;
-        expect(selectors.component).to.have.attribute(
-          'message',
-          'We\u2019re processing your application. This may take up to 1 minute. Please don\u2019t refresh your browser.',
-        );
+      const { props } = getData({ status: 'submitPending' });
+      const { selectors } = subject({ props });
+      await waitFor(() => {
+        expect(selectors().loader).to.exist;
       });
     });
 
     it('should not render loading container if submission has failed', () => {
-      const props = {
-        submission: {
-          hasAttemptedSubmit: true,
-          status: 'submitFailed',
-        },
-      };
-      const view = render(<SubmitLoadingIndicator {...props} />);
-      const selector = view.container.querySelector('.loading-container');
-      expect(selector).to.not.exist;
+      const { props } = getData({ status: 'submitFailed' });
+      const { selectors } = subject({ props });
+      expect(selectors().loader).to.not.exist;
     });
   });
 });

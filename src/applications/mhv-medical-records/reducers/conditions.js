@@ -1,7 +1,11 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, loadStates } from '../util/constants';
-import { isArrayAndHasItems, extractContainedResource } from '../util/helpers';
+import {
+  isArrayAndHasItems,
+  extractContainedResource,
+  formatNameFirstToLast,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -16,9 +20,14 @@ const initialState = {
 
   /**
    * The list of conditions returned from the api
-   * @type {array}
+   * @type {Array}
    */
   conditionsList: undefined,
+  /**
+   * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
+   * @type {Array}
+   */
+  updatedList: undefined,
   /**
    * The condition currently being displayed to the user
    */
@@ -55,7 +64,7 @@ export const extractProvider = condition => {
     // Use the reference inside "recorder" to get the value from "contained".
     const org = extractContainedResource(condition, ref);
     if (org?.name) {
-      return org.name[0].text;
+      return formatNameFirstToLast(org.name[0]);
     }
   }
   return EMPTY_FIELD;
@@ -103,18 +112,38 @@ export const conditionReducer = (state = initialState, action) => {
       };
     }
     case Actions.Conditions.GET_LIST: {
-      const conditionsList = action.response.entry;
+      const oldList = state.conditionsList;
+      const newList =
+        action.response.entry
+          ?.map(record => {
+            const condition = record.resource;
+            return convertCondition(condition);
+          })
+          .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        conditionsList:
-          conditionsList
-            ?.map(record => {
-              const condition = record.resource;
-              return convertCondition(condition);
-            })
-            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [],
+        conditionsList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Conditions.COPY_UPDATED_LIST: {
+      const originalList = state.conditionsList;
+      const { updatedList } = state;
+      if (
+        Array.isArray(originalList) &&
+        Array.isArray(updatedList) &&
+        originalList.length !== updatedList.length
+      ) {
+        return {
+          ...state,
+          conditionsList: state.updatedList,
+          updatedList: undefined,
+        };
+      }
+      return {
+        ...state,
       };
     }
     case Actions.Conditions.CLEAR_DETAIL: {

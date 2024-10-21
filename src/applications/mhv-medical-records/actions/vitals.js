@@ -38,3 +38,7 @@ export const getVitalDetails = (vitalType, vitalList) => async dispatch => {
 export const clearVitalDetails = () => async dispatch => {
   dispatch({ type: Actions.Vitals.CLEAR_DETAIL });
 };
+
+export const reloadRecords = () => async dispatch => {
+  dispatch({ type: Actions.Vitals.COPY_UPDATED_LIST });
+};

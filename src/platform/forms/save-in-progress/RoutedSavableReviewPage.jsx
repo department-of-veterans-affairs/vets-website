@@ -3,10 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { Element } from 'platform/utilities/scroll';
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 
 import DowntimeNotification, {
   externalServiceStatus,
@@ -23,13 +22,6 @@ class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = debounce(1000, this.autoSave);
-  }
-
-  componentDidMount() {
-    scrollToTop('topScrollElement', getScrollOptions());
-    // The first h2 is the breadcrumb "Step 1 of..." which is a chapter
-    // containing multiple pages, so the h2 won't be unique between pages
-    focusElement('h2');
   }
 
   autoSave = () => {
@@ -62,18 +54,21 @@ class RoutedSavableReviewPage extends React.Component {
 
   render() {
     const { form, formConfig, formContext, pageList, path, user } = this.props;
-    const { CustomReviewTopContent } = formConfig;
+    const { CustomReviewTopContent, hideReviewChapters } = formConfig;
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
 
     return (
       <div>
+        <Element name="topContentElement" />
         {CustomReviewTopContent && <CustomReviewTopContent />}
-        <ReviewChapters
-          formConfig={formConfig}
-          formContext={formContext}
-          pageList={pageList}
-          onSetData={() => this.debouncedAutoSave()}
-        />
+        {!hideReviewChapters && (
+          <ReviewChapters
+            formConfig={formConfig}
+            formContext={formContext}
+            pageList={pageList}
+            onSetData={() => this.debouncedAutoSave()}
+          />
+        )}
         <DowntimeNotification
           appTitle="application"
           render={this.renderDowntime}
@@ -132,7 +127,10 @@ RoutedSavableReviewPage.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   formConfig: PropTypes.shape({
-    CustomReviewTopContent: PropTypes.element,
+    CustomReviewTopContent: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+    ]),
     customText: PropTypes.shape({
       finishAppLaterMessage: PropTypes.string,
       appType: PropTypes.string,
@@ -140,6 +138,7 @@ RoutedSavableReviewPage.propTypes = {
     downtime: PropTypes.shape({
       message: PropTypes.oneOf([PropTypes.string, PropTypes.element]),
     }),
+    hideReviewChapters: PropTypes.bool,
   }).isRequired,
   formContext: PropTypes.object.isRequired,
   location: PropTypes.shape({

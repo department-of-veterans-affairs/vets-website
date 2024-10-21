@@ -70,11 +70,14 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           Copay balance for {facility} - {city}
         </span>
       </h3>
-      <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-top--0  vads-u-margin-bottom--1p5">
-        <span className="sr-only">Alert</span>
-        <span className="icon-right">
-          <va-icon icon="warning" size={3} />
-        </span>
+      <div className="vads-u-display--flex vads-u-margin-top--0  vads-u-margin-bottom--1p5">
+        <va-icon
+          icon="warning"
+          size={3}
+          srtext="Alert"
+          class="icon-color--warning vads-u-padding-right--1"
+        />
+
         {isCurrentBalance ? (
           <CurrentContent id={id} date={date} />
         ) : (

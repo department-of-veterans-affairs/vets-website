@@ -8,6 +8,7 @@ import reducer from '../../../reducers';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
 import { Paths } from '../../../util/constants';
 import noBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-mock.json';
+import AttachmentsList from '../../../components/AttachmentsList';
 
 describe('Attachments List component', () => {
   const initialState = {
@@ -30,7 +31,11 @@ describe('Attachments List component', () => {
 
   const setup = (customState, path, props) => {
     return renderWithStoreAndRouter(
-      <ComposeForm recipients={initialState.sm.recipients} {...props} />,
+      <ComposeForm
+        recipients={initialState.sm.recipients}
+        categories={categories}
+        {...props}
+      />,
       {
         initialState: customState,
         reducers: reducer,
@@ -46,6 +51,45 @@ describe('Attachments List component', () => {
   it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
+  });
+
+  it('renders attachment when editing disabled', async () => {
+    const customProps = {
+      attachments: [
+        {
+          id: 2664842,
+          messageId: 2664846,
+          name: 'BIRD 1.gif',
+          attachmentSize: 31127,
+          download:
+            'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664842',
+        },
+      ],
+      attachmentScanError: false,
+      editingEnabled: false,
+    };
+    const screen = renderWithStoreAndRouter(
+      <AttachmentsList {...customProps} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.MESSAGE_THREAD,
+      },
+    );
+    expect(document.querySelector('.message-body-attachments-label')).to.exist;
+    expect(screen.getByTestId('attachments-count').textContent).to.equal(
+      ' (1)',
+    );
+    expect(screen.getAllByRole('listitem')).to.have.length(1);
+    const attachmentLink = screen.getByTestId(
+      `attachment-link-metadata-${customProps.attachments[0].id}`,
+    );
+    expect(attachmentLink).to.have.attribute(
+      'href',
+      customProps.attachments[0].download,
+    );
+    expect(attachmentLink).to.have.attribute('target', '_blank');
+    expect(attachmentLink).to.have.attribute('tabindex', '0');
   });
 
   it('displays file-attached alert only after file successfully attached', async () => {
@@ -146,5 +190,24 @@ describe('Attachments List component', () => {
     waitFor(() => {
       expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
     });
+  });
+
+  it('renders error message when attachment contains a virus', async () => {
+    const customProps = {
+      attachments: [
+        {
+          id: 2664842,
+          messageId: 2664846,
+          name: 'BIRD 1.gif',
+          attachmentSize: 31127,
+          download:
+            'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664842',
+        },
+      ],
+      attachmentScanError: false,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, customProps);
+
+    expect(screen.findByTestId('attachment-virus-alert')).to.exist;
   });
 });

@@ -20,6 +20,7 @@ const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
 let addedUnassociatedIncomeItem = false;
 let addedAssociatedIncomeItem = false;
 let addedOwnedAssetItem = false;
+let addedRoyaltiesItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -159,6 +160,53 @@ const testConfig = createTestConfig(
             fillStandardTextInput('ownedPortionValue', ownedPortionValue);
 
             addedOwnedAssetItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'royalties-and-other-properties-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingRoyalties = data['view:isAddingRoyalties'];
+            if (addedRoyaltiesItem) {
+              isAddingRoyalties = false;
+              addedRoyaltiesItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingRoyalties',
+              isAddingRoyalties,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'royalties-and-other-properties/0/income-type': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { royaltiesAndOtherProperties } = data;
+            const {
+              incomeGenerationMethod,
+              grossMonthlyIncome,
+              fairMarketValue,
+              canBeSold,
+            } = royaltiesAndOtherProperties[0];
+
+            selectRadioWebComponent(
+              'incomeGenerationMethod',
+              incomeGenerationMethod,
+            );
+            fillStandardTextInput('grossMonthlyIncome', grossMonthlyIncome);
+            fillStandardTextInput('fairMarketValue', fairMarketValue);
+            selectYesNoWebComponent('canBeSold', canBeSold);
+
+            addedRoyaltiesItem = true;
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()

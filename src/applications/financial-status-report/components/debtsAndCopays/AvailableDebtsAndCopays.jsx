@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { uniqBy } from 'lodash';
-import Scroll from 'react-scroll';
+import { uniqBy, head } from 'lodash';
+import { isValid } from 'date-fns';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { fetchDebts } from '../../actions';
-import { getStatements } from '../../actions/copays';
-import DebtCheckBox from './DebtCheckBox';
-import CopayCheckBox from './CopayCheckBox';
-import { sortStatementsByDate } from '../../utils/helpers';
+import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { formatDateShort } from 'platform/utilities/date';
 import { setFocus } from '../../utils/fileValidation';
+
+import { getStatements } from '../../actions/copays';
+import { sortStatementsByDate, currency, endDate } from '../../utils/helpers';
+import { fetchDebts } from '../../actions';
+import { deductionCodes } from '../../constants/deduction-codes';
 
 import ComboAlerts from '../alerts/ComboAlerts';
 import AlertCard from '../alerts/AlertCard';
 import { ALERT_TYPES, DEBT_TYPES } from '../../constants';
 import { isEligibleForStreamlined } from '../../utils/streamlinedDepends';
-
-const { scroller } = Scroll;
-const scrollToTop = () => {
-  scroller.scrollTo('error-message-content', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 
 const AvailableDebtsAndCopays = ({ formContext }) => {
   const {
@@ -34,22 +28,23 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
     pendingCopays,
     copayError = false,
   } = useSelector(state => state.fsr);
-  // const { debts, statements, pending, isError, pendingCopays } = useSelector(
-  //   state => state.fsr,
-  // );
   const { data } = useSelector(state => state.form);
+  const { selectedDebtsAndCopays = [] } = data;
   const dispatch = useDispatch();
 
   // copays
   const sortedStatements = sortStatementsByDate(statements ?? []);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
 
-  const [selectionError, setSelectionError] = useState(false);
+  const [selectionError, setSelectionError] = useState(null);
   useEffect(
     () => {
-      setSelectionError(
-        formContext.submitted && !data.selectedDebtsAndCopays?.length,
-      );
+      if (formContext.submitted && !data.selectedDebtsAndCopays?.length) {
+        setSelectionError('Choose at least one debt');
+        setFocus('va-checkbox-group');
+        return;
+      }
+      setSelectionError(null);
 
       const eligible = isEligibleForStreamlined(data);
       if (eligible !== data?.gmtData?.isEligibleForStreamlined) {
@@ -64,17 +59,8 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
         );
       }
     },
-    [formContext.submitted, data.selectedDebtsAndCopays?.length],
-  );
-
-  useEffect(
-    () => {
-      if (selectionError) {
-        scrollToTop();
-        setFocus('[name="error-message-content"]');
-      }
-    },
-    [selectionError],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, formContext.submitted, selectedDebtsAndCopays?.length],
   );
 
   useEffect(
@@ -96,6 +82,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
       </div>
     );
   }
+
   const debtZero = !debts.length;
   const copayZero = !statementsByUniqueFacility.length;
 
@@ -117,32 +104,109 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
     );
   }
 
+  const onGroupChange = ({ detail, target }) => {
+    // adding new prop selectedDebtId to selectedDebtsAndCopays so it's easier to filter on uncheck
+    if (detail.checked) {
+      // debts and copays use different unique identifier props, so we need to check the data-debt-type to pull the correct one
+      let selectedDebt;
+      if (target.dataset.debtType === DEBT_TYPES.DEBT) {
+        selectedDebt = debts.find(
+          debt => debt.compositeDebtId === target.dataset.index,
+        );
+      } else {
+        selectedDebt = statementsByUniqueFacility.find(
+          copay => copay.id === target.dataset.index,
+        );
+      }
+
+      // including new selectedDebtId prop
+      const newlySelectedDebtsAndCopays = [
+        ...selectedDebtsAndCopays,
+        { ...selectedDebt, selectedDebtId: target.dataset.index },
+      ];
+
+      return dispatch(
+        setData({
+          ...data,
+          selectedDebtsAndCopays: newlySelectedDebtsAndCopays,
+        }),
+      );
+    }
+
+    // uncheck by new selectedDebtId prop
+    const combinedChecked = selectedDebtsAndCopays?.filter(
+      selection => selection.selectedDebtId !== target.dataset.index,
+    );
+
+    return dispatch(
+      setData({
+        ...data,
+        selectedDebtsAndCopays: combinedChecked,
+      }),
+    );
+  };
+
+  // helper functions to get debt and copay labels and descriptions
+  const getDebtLabel = debt =>
+    `${currency(debt?.currentAr)} overpayment for ${deductionCodes[
+      debt.deductionCode
+    ] || debt.benefitType}`;
+
+  const getDebtDescription = debt => {
+    // most recent debt history entry
+    const dates = debt?.debtHistory?.map(m => new Date(m.date)) ?? [];
+    const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
+    const mostRecentDate = isValid(head(sortedHistory))
+      ? formatDateShort(head(sortedHistory))
+      : '';
+    const dateby = endDate(mostRecentDate, 30);
+    return dateby ? `Pay or request help by ${dateby}` : '';
+  };
+
+  const getCopayLabel = copay =>
+    `${currency(copay?.pHAmtDue)} for ${copay.station.facilityName ||
+      getMedicalCenterNameByID(copay.station.facilitYNum)}`;
+
+  const getCopayDescription = copay =>
+    `Pay or request help by ${endDate(copay.pSStatementDateOutput, 30)}`;
+
   return (
     <div data-testid="debt-selection-content">
-      <div
-        className={
-          selectionError
-            ? 'error-line vads-u-margin-y--3 vads-u-padding-left--1 vads-u-margin-left--neg1p5'
-            : 'vads-u-margin-y--3'
-        }
+      <VaCheckboxGroup
+        className="vads-u-margin-y--3 debt-selection-checkbox-group"
+        error={selectionError}
+        id="debt-selection-checkbox-group"
+        label="Select one or more debts you want to request relief for: "
+        onVaChange={onGroupChange}
+        required
       >
-        {selectionError && (
-          <span
-            name="error-message-content"
-            className="vads-u-font-weight--bold vads-u-color--secondary-dark"
-            role="alert"
-          >
-            <span className="sr-only">Error</span>
-            <p>Choose at least one debt</p>
-          </span>
-        )}
-        {debts.map((debt, index) => (
-          <DebtCheckBox debt={debt} key={`${index}-${debt.currentAr}`} />
+        {debts.map(debt => (
+          <va-checkbox
+            checked={selectedDebtsAndCopays?.some(
+              currDebt => currDebt.selectedDebtId === debt.compositeDebtId,
+            )}
+            checkbox-description={getDebtDescription(debt)}
+            data-debt-type={DEBT_TYPES.DEBT}
+            data-index={debt.compositeDebtId}
+            data-testid="debt-selection-checkbox"
+            key={debt.compositeDebtId}
+            label={getDebtLabel(debt)}
+          />
         ))}
         {statementsByUniqueFacility.map(copay => (
-          <CopayCheckBox copay={copay} key={copay.id} />
+          <va-checkbox
+            checked={selectedDebtsAndCopays?.some(
+              currCopay => currCopay.selectedDebtId === copay.id,
+            )}
+            checkbox-description={getCopayDescription(copay)}
+            data-debt-type={DEBT_TYPES.COPAY}
+            data-index={copay.id}
+            data-testid="copay-selection-checkbox"
+            key={copay.id}
+            label={getCopayLabel(copay)}
+          />
         ))}
-      </div>
+      </VaCheckboxGroup>
       {(debtError || copayError) && (
         <AlertCard debtType={debtError ? DEBT_TYPES.DEBT : DEBT_TYPES.COPAY} />
       )}

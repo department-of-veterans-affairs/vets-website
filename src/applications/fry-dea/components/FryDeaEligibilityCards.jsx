@@ -10,19 +10,17 @@ import {
 
 const eligibleMessage = (
   <p>
-    <i
-      className="fas fa-check-circle fry-dea-benefit-selection-icon"
-      aria-hidden="true"
-    />{' '}
+    <span className="vads-u-color--green">
+      <va-icon icon="check_circle" size={3} />
+    </span>{' '}
     You may be eligible for this benefit
   </p>
 );
 const notEligibleMessage = (
   <p>
-    <i
-      className="fas fa-exclamation-circle vads-u-margin-right--1"
-      aria-hidden="true"
-    />{' '}
+    <span className="vads-u-margin-right--1">
+      <va-icon icon="error" size={3} />
+    </span>{' '}
     You’re not eligible for this benefit
   </p>
 );
@@ -67,25 +65,14 @@ function FryDeaEligibilityCards({ selectedVeteran, veterans }) {
         </h4>
         <ul className="fry-dea-benefits-list vads-u-margin--0 vads-u-padding--0 vads-u-margin-bottom--3">
           <li>
-            <i
-              className="fas fa-school fry-dea-benefit-selection-icon"
-              aria-hidden="true"
-            />{' '}
-            Tuition &amp; fees
+            <va-icon icon="school" size={3} /> Tuition &amp; fees
           </li>
           <li>
-            <i
-              className="fas fa-home fry-dea-benefit-selection-icon"
-              aria-hidden="true"
-            />{' '}
-            Money for housing
+            <va-icon icon="home" size={3} /> Money for housing
           </li>
           <li>
-            <i
-              className="fas fa-book fry-dea-benefit-selection-icon"
-              aria-hidden="true"
-            />{' '}
-            Money for books &amp; supplies
+            <va-icon icon="local_library" size={3} /> Money for books &amp;
+            supplies
           </li>
         </ul>
         <a
@@ -121,11 +108,7 @@ function FryDeaEligibilityCards({ selectedVeteran, veterans }) {
         </h4>
         <ul className="fry-dea-benefits-list vads-u-margin--0 vads-u-padding--0 vads-u-margin-bottom--3">
           <li>
-            <i
-              className="fas fa-money-check-alt fry-dea-benefit-selection-icon"
-              aria-hidden="true"
-            />{' '}
-            Monthly stipend
+            <va-icon icon="attach_money" size={3} /> Monthly stipend
           </li>
         </ul>
         <a

@@ -45,6 +45,16 @@
         "assetType": "BUSINESS"
       }
     ],
+    "view:isAddingRoyalties": true,
+    "royaltiesAndOtherProperties": [
+      {
+        "recipientRelationship": "VETERAN",
+        "canBeSold": true,
+        "fairMarketValue": 25000,
+        "grossMonthlyIncome": 1200,
+        "incomeGenerationMethod": "INTELLECTUAL_PROPERTY"
+      }
+    ],
     "statementOfTruthSignature": "John Doe"
   }
 }

@@ -15,7 +15,6 @@ import {
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
-import forcedMigrations from '../migrations/forceMigrations';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
@@ -89,24 +88,13 @@ export const Form0996App = ({
             ) ||
               contestableIssues.legacyCount !== formData.legacyCount)
           ) {
-            /**
-             * Force HLR v2 update
-             * The migration itself should handle this, but it only calls the
-             * function if the save-in-progress version number changes (migration
-             * length in form config). Since Lighthouse is reporting seeing v1
-             * submissions still, we need to prevent v1 data from being submitted
-             */
-            const data = formData?.informalConferenceRep?.name
-              ? forcedMigrations(formData)
-              : formData;
-
             /** Update dynamic data:
              * user changed address, phone, email
              * user changed benefit type
              * changes to contestable issues (from a backend update)
              */
             setFormData({
-              ...data,
+              ...formData,
               contestedIssues: processContestableIssues(
                 contestableIssues?.issues,
               ),

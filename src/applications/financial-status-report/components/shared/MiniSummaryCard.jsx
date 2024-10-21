@@ -53,19 +53,11 @@ export const MiniSummaryCard = ({
           </span>
         </Link>
         {showDelete && (
-          <button
-            type="button"
-            aria-label={`Delete ${ariaButtonLabels}`}
-            className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
+          <va-button-icon
+            button-type="delete"
             onClick={onDelete}
-          >
-            <va-icon
-              icon="delete"
-              size={3}
-              className="vads-u-padding-right--0p5"
-            />
-            <span>DELETE</span>
-          </button>
+            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
+          />
         )}
       </div>
     </va-card>

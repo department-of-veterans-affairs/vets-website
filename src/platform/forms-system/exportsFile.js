@@ -159,7 +159,6 @@ export {
   isValidCurrentOrFutureDate,
   isValidCurrentOrPastYear,
   isValidCurrentOrFutureMonthYear,
-  dateToMoment,
   isValidDateRange,
   isValidRoutingNumber,
 } from './src/js/utilities/validations/index';

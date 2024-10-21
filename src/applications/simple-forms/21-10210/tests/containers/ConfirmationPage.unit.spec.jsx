@@ -44,7 +44,7 @@ describe('Confirmation page', () => {
   it('it should show status success', () => {
     const { container } = render(
       <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
     expect(container.querySelector('va-alert')).to.have.attr(
@@ -60,7 +60,7 @@ describe('Confirmation page', () => {
 
     const { getByText } = render(
       <Provider store={mockStore(store)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
@@ -74,7 +74,7 @@ describe('Confirmation page', () => {
 
     const { getByText } = render(
       <Provider store={mockStore(store)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
@@ -88,7 +88,7 @@ describe('Confirmation page', () => {
 
     const { getByText } = render(
       <Provider store={mockStore(store)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
@@ -102,7 +102,7 @@ describe('Confirmation page', () => {
 
     const { getByText } = render(
       <Provider store={mockStore(store)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 

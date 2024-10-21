@@ -38,12 +38,8 @@ export const deviewifyFields = formData => {
   return newFormData;
 };
 
-export const preparerIsVeteran = ({ formData } = {}) => {
-  if (formData) {
-    return formData['view:applicantIsVeteran'] === 'Yes';
-  }
-  return false;
-};
+export const preparerIsVeteran = ({ formData } = {}) =>
+  formData?.['view:applicantIsVeteran'] === 'Yes';
 
 export const isLoggedIn = ({ formData } = {}) => {
   if (formData) {
@@ -98,4 +94,162 @@ export const srSubstitute = (srIgnored, substitutionText) => (
 export const formatDate = (date, format = DATE_FORMAT) => {
   const m = moment(date);
   return date && m.isValid() ? m.format(format) : 'Unknown';
+};
+
+/**
+ * Setting subtitle based on rep type
+ */
+export const getFormSubtitle = formData => {
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
+
+  if (entityType === 'organization') {
+    return 'VA Form 21-22';
+  }
+  if (entityType === 'individual') {
+    const { individualType } = entity.attributes;
+    if (individualType === 'representative') {
+      return 'VA Form 21-22';
+    }
+    return 'VA Form 21-22a';
+  }
+  return 'VA Forms 21-22 and 21-22a';
+};
+
+/**
+ * Setting submit url suffix based on rep type
+ */
+export const getFormSubmitUrlSuffix = formData => {
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
+
+  if (entityType === 'organization') {
+    return '2122';
+  }
+  if (entityType === 'individual') {
+    const { individualType } = entity.attributes;
+    if (individualType === 'representative') {
+      return '2122';
+    }
+    return '2122a';
+  }
+  return '2122';
+};
+
+export const getEntityAddressAsObject = attributes => {
+  return {
+    addressLine1: (attributes?.addressLine1 || '').trim(),
+    addressLine2: (attributes?.addressLine2 || '').trim(),
+    addressLine3: (attributes?.addressLine3 || '').trim(),
+    city: (attributes?.city || '').trim(),
+    stateCode: (attributes?.stateCode || '').trim(),
+    zipCode: (attributes?.zipCode || '').trim(),
+  };
+};
+
+export const getEntityAddressAsString = formData => {
+  const entity = formData['view:selectedRepresentative'];
+
+  return (
+    [
+      (entity.addressLine1 || '').trim(),
+      (entity.addressLine2 || '').trim(),
+      (entity.addressLine3 || '').trim(),
+    ]
+      .filter(Boolean)
+      .join(' ') +
+    (entity.city ? ` ${entity.city},` : '') +
+    (entity.stateCode ? ` ${entity.stateCode}` : '') +
+    (entity.zipCode ? ` ${entity.zipCode}` : '')
+  );
+};
+
+export const getRepType = formData => {
+  const entity = formData['view:selectedRepresentative'];
+
+  if (entity?.type === 'organization') {
+    return 'Organization';
+  }
+
+  const repType = entity.attributes?.individualType;
+
+  if (repType === 'attorney') {
+    return 'Attorney';
+  }
+
+  if (repType === 'claimsAgent' || repType === 'claims_agent') {
+    return 'Claims Agent';
+  }
+
+  return 'VSO Representative';
+};
+
+export const getFormNumber = formData => {
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
+
+  if (
+    entityType === 'organization' ||
+    (entityType === 'individual' &&
+      entity.attributes.individualType === 'representative')
+  ) {
+    return '21-22';
+  }
+
+  return '21-22a';
+};
+
+export const getFormName = formData => {
+  if (getFormNumber(formData) === '21-22') {
+    return "Appointment of Veterans Service Organization as Claimant's Representative";
+  }
+
+  return "Appointment of Individual As Claimant's Representative";
+};
+
+const isOrg = formData =>
+  formData['view:selectedRepresentative']?.type === 'organization';
+
+export const isAttorneyOrClaimsAgent = formData => {
+  const repType =
+    formData['view:selectedRepresentative']?.attributes?.individualType;
+
+  return (
+    repType === 'attorney' ||
+    repType === 'claimsAgent' ||
+    repType === 'claims_agent'
+  );
+};
+
+export const getOrgName = formData => {
+  if (isOrg(formData)) {
+    return formData['view:selectedRepresentative']?.attributes?.name;
+  }
+
+  if (isAttorneyOrClaimsAgent(formData)) {
+    return null;
+  }
+
+  const orgs =
+    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+      ?.data;
+
+  if (orgs.length > 1) {
+    const id = formData?.selectedAccreditedOrganizationId;
+    const selectedOrg = orgs.find(org => org.id === id);
+    return selectedOrg?.attributes?.name;
+  }
+
+  return orgs[0]?.attributes?.name;
+};
+
+export const convertRepType = input => {
+  const mapping = {
+    representative: 'VSO',
+    attorney: 'Attorney',
+    /* eslint-disable-next-line camelcase */
+    claims_agent: 'Claims Agent',
+  };
+
+  return mapping[input] || input;
 };

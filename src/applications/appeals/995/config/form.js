@@ -77,6 +77,7 @@ import {
   focusRadioH3,
   focusH3,
   focusOnAlert,
+  focusIssue,
 } from '../../shared/utils/focus';
 import {
   mayHaveLegacyAppeals,
@@ -122,6 +123,8 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3, // scroll and focus fallback
+  reviewEditFocusOnHeaders: true,
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
@@ -143,7 +146,6 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
-          scrollAndFocusTarget: focusH3,
         },
 
         ...contactInfo,
@@ -170,7 +172,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
-          scrollAndFocusTarget: focusH3,
+          scrollAndFocusTarget: focusIssue,
           onContinue: focusOnAlert,
         },
         addIssue: {
@@ -182,14 +184,12 @@ const formConfig = {
           uiSchema: {},
           schema: blankSchema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
-          scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
           title: 'Issue summary',
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
-          scrollAndFocusTarget: focusH3,
         },
         optIn: {
           title: 'Opt in',
@@ -197,7 +197,6 @@ const formConfig = {
           depends: mayHaveLegacyAppeals,
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          scrollAndFocusTarget: focusH3,
         },
       },
     },
@@ -252,7 +251,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
-          scrollAndFocusTarget: focusH3,
         },
         evidencePrivateRecords: {
           title: 'Non-VA medical records',
@@ -272,7 +270,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
-          scrollAndFocusTarget: focusH3,
         },
         evidenceWillUpload: {
           title: 'Upload new and relevant evidence',
@@ -287,7 +284,6 @@ const formConfig = {
           depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
-          scrollAndFocusTarget: focusH3,
         },
         evidenceSummary: {
           title: 'Summary of evidence',
@@ -296,7 +292,6 @@ const formConfig = {
           CustomPageReview: EvidenceSummaryReview,
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
-          scrollAndFocusTarget: focusH3,
         },
       },
     },

@@ -1,0 +1,145 @@
+{
+  "data": [
+    {
+      "id": "0",
+      "type": "folders",
+      "attributes": {
+        "name": "Inbox",
+        "count": 3,
+        "unreadCount": 0,
+        "systemFolder": true,
+        "folderId": 0
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders/0"
+      }
+    },
+    {
+      "id": "-2",
+      "type": "folders",
+      "attributes": {
+        "name": "Drafts",
+        "count": 3,
+        "unreadCount": 3,
+        "systemFolder": true,
+        "folderId": -2
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders/-2"
+      }
+    },
+    {
+      "id": "-1",
+      "type": "folders",
+      "attributes": {
+        "name": "Sent",
+        "count": 11,
+        "unreadCount": 11,
+        "systemFolder": true,
+        "folderId": -1
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders/-1"
+      }
+    },
+    {
+      "id": "-3",
+      "type": "folders",
+      "attributes": {
+        "name": "Deleted",
+        "count": 2,
+        "unreadCount": 0,
+        "systemFolder": true,
+        "folderId": -3
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders/-3"
+      }
+    },
+    {
+      "id": "3719270",
+      "type": "folders",
+      "attributes": {
+        "name": "MHV FOLDER 001",
+        "count": 0,
+        "unreadCount": 0,
+        "systemFolder": false,
+        "folderId": 3719270
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders/3719270"
+      }
+    },
+    {
+      "id": "3719271",
+      "type": "folders",
+      "attributes": {
+        "name": "MHV Folder 002",
+        "count": 0,
+        "unreadCount": 0,
+        "systemFolder": false,
+        "folderId": 3719271
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders/3719271"
+      }
+    },
+    {
+      "id": "3719266",
+      "type": "folders",
+      "attributes": {
+        "name": "OH Folder 001",
+        "count": 0,
+        "unreadCount": 0,
+        "systemFolder": false,
+        "folderId": 3719266
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders/3719266"
+      }
+    },
+    {
+      "id": "3719267",
+      "type": "folders",
+      "attributes": {
+        "name": "OH Folder 002",
+        "count": 0,
+        "unreadCount": 0,
+        "systemFolder": false,
+        "folderId": 3719267
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders/3719267"
+      }
+    },
+    {
+      "id": "3771218",
+      "type": "folders",
+      "attributes": {
+        "name": "Test ",
+        "count": 0,
+        "unreadCount": 0,
+        "systemFolder": false,
+        "folderId": 3771218
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders/3771218"
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 100,
+      "totalPages": 1,
+      "totalEntries": 9
+    }
+  },
+  "links": {
+    "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders?page=1&per_page=999&query_parameters%5Bpage%5D=1&query_parameters%5Bper_page%5D=999&query_parameters%5Brequires_oh_messages%5D=1&query_parameters%5Buse_cache%5D=false",
+    "first": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders?page=1&per_page=999&query_parameters%5Bpage%5D=1&query_parameters%5Bper_page%5D=999&query_parameters%5Brequires_oh_messages%5D=1&query_parameters%5Buse_cache%5D=false",
+    "prev": null,
+    "next": null,
+    "last": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/folders?page=1&per_page=999&query_parameters%5Bpage%5D=1&query_parameters%5Bper_page%5D=999&query_parameters%5Brequires_oh_messages%5D=1&query_parameters%5Buse_cache%5D=false"
+  }
+}

@@ -49,7 +49,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v2/ccp/pharmacy?page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/pharmacy?page=1&per_page=15&lat=35.78&long=-78.68`,
     );
   });
 
@@ -213,7 +213,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=15&lat=35.78&long=-78.68`,
     );
   });
 
@@ -254,7 +254,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=10&radius=40&lat=33.32464&long=-97.18077`,
+      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=15&radius=40&lat=33.32464&long=-97.18077`,
     );
   });
 });

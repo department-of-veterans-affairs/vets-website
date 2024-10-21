@@ -143,6 +143,9 @@ describe('profile selectors', () => {
             },
           },
         },
+        directDeposit: {
+          controlInformation: {},
+        },
       };
       expect(selectors.selectIsBlocked(state)).to.be.false;
     });
@@ -150,6 +153,9 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {},
+        },
+        directDeposit: {
+          controlInformation: {},
         },
       };
       expect(selectors.selectIsBlocked(state)).to.be.false;
@@ -163,6 +169,9 @@ describe('profile selectors', () => {
             },
           },
         },
+        directDeposit: {
+          controlInformation: { isCompetent: false },
+        },
       };
       expect(selectors.selectIsBlocked(state)).to.be.true;
     });
@@ -175,6 +184,11 @@ describe('profile selectors', () => {
             },
           },
         },
+        directDeposit: {
+          controlInformation: {
+            hasNoFiduciaryAssigned: false,
+          },
+        },
       };
       expect(selectors.selectIsBlocked(state)).to.be.true;
     });
@@ -185,6 +199,11 @@ describe('profile selectors', () => {
             controlInformation: {
               isNotDeceased: false,
             },
+          },
+        },
+        directDeposit: {
+          controlInformation: {
+            isNotDeceased: false,
           },
         },
       };

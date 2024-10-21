@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -8,7 +8,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import { facilityTypes } from '../config';
 import {
-  MARKER_LETTERS,
   CLINIC_URGENTCARE_SERVICE,
   PHARMACY_RETAIL_SERVICE,
   LocationType,
@@ -40,13 +39,39 @@ export const ResultsList = ({
   query,
   ...props
 }) => {
+  const [resultsData, setResultsData] = useState(null);
   const searchResultTitle = useRef();
+  const currentPage = pagination ? pagination.currentPage : 1;
+
+  useEffect(
+    () => {
+      setResultsData(
+        results.map((result, index) => ({
+          ...result,
+          resultItem: true,
+          searchString,
+          currentPage,
+          markerText: index + 1,
+        })),
+      );
+    },
+    [results],
+  );
 
   useEffect(
     () => {
       setFocus(searchResultTitle.current);
     },
     [results, inProgress, props.error],
+  );
+
+  useEffect(
+    () => {
+      if (resultsData?.length) {
+        recordSearchResultsEvents(props, resultsData);
+      }
+    },
+    [resultsData],
   );
 
   function isHealthAndHealthConnect(apiResult, searchQuery) {
@@ -67,7 +92,7 @@ export const ResultsList = ({
    * @returns [] list of results
    */
   const renderResultItems = (searchQuery, apiResults) => {
-    return apiResults.map((result, index) => {
+    return apiResults?.map((result, index) => {
       let item;
       const showHealthConnectNumber = isHealthAndHealthConnect(result, query);
 
@@ -184,7 +209,6 @@ export const ResultsList = ({
     });
   };
 
-  const currentPage = pagination ? pagination.currentPage : 1;
   if (inProgress) {
     return (
       <div>
@@ -237,18 +261,6 @@ export const ResultsList = ({
     return <SearchResultMessage />;
   }
 
-  const markers = MARKER_LETTERS.values();
-  const resultsData = results.map(result => ({
-    ...result,
-    resultItem: true,
-    searchString,
-    currentPage,
-    markerText: markers.next().value,
-  }));
-
-  if (resultsData.length > 0) {
-    recordSearchResultsEvents(props, resultsData);
-  }
   return <div>{renderResultItems(query, resultsData)}</div>;
 };
 
@@ -260,7 +272,7 @@ ResultsList.propTypes = {
   pagination: PropTypes.object,
   query: PropTypes.object,
   results: PropTypes.array,
-  searchError: PropTypes.object,
+  searchError: PropTypes.string,
   searchString: PropTypes.string,
 };
 

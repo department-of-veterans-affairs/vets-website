@@ -17,9 +17,9 @@ export const generateConditionContent = record => ({
         inline: true,
       },
       {
-        title: 'Provider Notes',
+        title: 'Provider notes',
         value: record.comments,
-        inline: !record.comments.length,
+        inline: true,
       },
     ],
   },

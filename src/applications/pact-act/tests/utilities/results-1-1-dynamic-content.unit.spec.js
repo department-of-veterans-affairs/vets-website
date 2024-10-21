@@ -3,9 +3,9 @@ import { getDynamicContent } from '../../utilities/results-1-1-dynamic-content';
 import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 
 const {
-  BURN_PIT_2_1,
   BURN_PIT_2_1_1,
   BURN_PIT_2_1_2,
+  BURN_PIT_2_1_3,
   ORANGE_2_2_B,
   ORANGE_2_2_1_B,
   ORANGE_2_2_2,
@@ -34,14 +34,6 @@ const {
 
 describe('Results set 1, page 1 utilities', () => {
   describe('getDynamicContent - single piece of content returned', () => {
-    describe(BURN_PIT_2_1, () => {
-      const form = { BURN_PIT_2_1: YES };
-
-      it('should return the correct dynamic content', () => {
-        expect(getDynamicContent(form)[0].key).to.equal(BURN_PIT_2_1);
-      });
-    });
-
     describe(BURN_PIT_2_1_1, () => {
       const form = { BURN_PIT_2_1_1: YES };
 
@@ -55,6 +47,14 @@ describe('Results set 1, page 1 utilities', () => {
 
       it('should return the correct dynamic content', () => {
         expect(getDynamicContent(form)[0].key).to.equal(BURN_PIT_2_1_2);
+      });
+    });
+
+    describe(BURN_PIT_2_1_3, () => {
+      const form = { BURN_PIT_2_1_3: YES };
+
+      it('should return the correct dynamic content', () => {
+        expect(getDynamicContent(form)[0].key).to.equal(BURN_PIT_2_1_3);
       });
     });
 

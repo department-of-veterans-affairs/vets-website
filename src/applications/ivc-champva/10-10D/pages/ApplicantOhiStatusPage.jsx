@@ -1,4 +1,4 @@
-import { reviewPageProps, pageProps } from '../config/constants';
+import { REVIEW_PAGE_PROPS, PAGE_PROPS } from '../config/constants';
 
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
@@ -49,5 +49,5 @@ export function ApplicantOhiStatusReviewPage(props) {
   });
 }
 
-ApplicantOhiStatusReviewPage.propTypes = reviewPageProps;
-ApplicantOhiStatusPage.propTypes = pageProps;
+ApplicantOhiStatusReviewPage.propTypes = REVIEW_PAGE_PROPS;
+ApplicantOhiStatusPage.propTypes = PAGE_PROPS;

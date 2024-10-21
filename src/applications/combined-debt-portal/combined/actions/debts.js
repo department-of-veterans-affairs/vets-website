@@ -86,6 +86,32 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
     return dispatch(fetchDebtLettersVBMSFailure());
   }
 };
+
+const validateHistory = debts => {
+  const errors = [];
+  debts.forEach(debt => {
+    const history = debt?.debtHistory;
+    history?.forEach(h => {
+      if (!h.date) {
+        errors.push(
+          `Missing date; letterCode: ${h?.letterCode}; deductionCode: ${
+            debt?.deductionCode
+          }; diaryCode: ${debt?.diaryCode}`,
+        );
+      }
+    });
+  });
+
+  if (errors.length === 0) return;
+  Sentry.withScope(scope => {
+    scope.setLevel('info');
+    scope.setExtra('Error list', errors);
+    Sentry.captureMessage(
+      `LTR - Debt Letters - Debt object date validation failed`,
+    );
+  });
+};
+
 export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
   dispatch(fetchDebtsInitiated());
   try {
@@ -131,6 +157,9 @@ export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
     if (!hasDependentDebts && debtLettersActive) {
       dispatch(fetchDebtLettersVBMS());
     }
+
+    validateHistory(filteredResponse);
+
     return dispatch(
       fetchDebtLettersSuccess(filteredResponse, hasDependentDebts),
     );

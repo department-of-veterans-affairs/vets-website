@@ -28,7 +28,7 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
     <div>
       <h2
         id="our-patient-satisfaction-scores"
-        className="vads-u-margin-top--4 vads-u-font-size--lg small-screen:vads-u-font-size--xl"
+        className="vads-u-margin-top--4 vads-u-font-size--lg mobile-lg:vads-u-font-size--xl"
       >
         Veteran satisfaction with appointment wait times at this location
       </h2>

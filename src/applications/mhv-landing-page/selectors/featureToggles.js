@@ -11,10 +11,12 @@ export const personalizationEnabled = state => {
 };
 
 /**
- * Determines if the helpdesk information changes are enabled.
+ * Determines if the MR Phase 1 is enabled.
  * @param {Object} state Current redux state.
- * @returns {Boolean} true if the helpdesk information is enabled
+ * @returns {Boolean} true if the MR phase 1 is enabled
  */
-export const helpdeskInfoEnabled = state => {
-  return toggleValues(state)[FEATURE_FLAG_NAMES.mhvHelpdeskInformationEnabled];
+export const mrPhase1Enabled = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1
+  ];
 };

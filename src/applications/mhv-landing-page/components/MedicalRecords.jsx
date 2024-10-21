@@ -35,7 +35,7 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
   <div
     className={classnames(
       'vads-l-grid-container',
-      'large-screen:vads-u-padding-x--0',
+      'desktop-lg:vads-u-padding-x--0',
       'vads-u-margin-bottom--5',
     )}
     data-testid="mhvMedicalRecords"
@@ -52,7 +52,7 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
           'medium-screen:vads-u-margin--2',
         )}
       >
-        <span className="usa-label vads-u-background-color--hub-burials">
+        <span className="usa-label vads-u-background-color--primary">
           Coming soon
         </span>
       </div>
@@ -67,7 +67,7 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
         'medium-screen:vads-u-display--none',
       )}
     >
-      <span className="usa-label vads-u-background-color--hub-burials">
+      <span className="usa-label vads-u-background-color--primary">
         Coming soon
       </span>
     </div>

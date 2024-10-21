@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButton,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { useParams } from 'react-router-dom';
@@ -14,13 +17,16 @@ import {
   selectIsPast,
 } from '../../appointment-list/redux/selectors';
 import StatusAlert from '../StatusAlert';
+import FacilityPhone from '../FacilityPhone';
 
-export function Section({ children, heading }) {
+export function Section({ children, heading, level = 2 }) {
+  const Heading = `h${level}`;
+
   return (
     <>
-      <h2 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+      <Heading className="vads-u-font-size--h5 vads-u-margin-bottom--0">
         {heading}
-      </h2>
+      </Heading>
       {children}
     </>
   );
@@ -28,41 +34,122 @@ export function Section({ children, heading }) {
 Section.propTypes = {
   children: PropTypes.node,
   heading: PropTypes.string,
+  level: PropTypes.number,
 };
 
-export function When({ children }) {
-  return <Section heading="When">{children}</Section>;
+export function When({ children, level = 2 }) {
+  return (
+    <Section heading="When" level={level}>
+      {children}
+    </Section>
+  );
 }
 When.propTypes = {
   children: PropTypes.node,
+  level: PropTypes.number,
 };
 
-export function What({ children }) {
+export function What({ children, level = 2 }) {
   if (!children) {
     return null;
   }
-  return <Section heading="What">{children}</Section>;
+  return (
+    <Section heading="What" level={level}>
+      {children}
+    </Section>
+  );
 }
 What.propTypes = {
   children: PropTypes.node,
+  level: PropTypes.number,
 };
 
-export function Who({ children }) {
+export function Who({ children, level = 2 }) {
   if (!children) {
     return null;
   }
-  return <Section heading="Who">{children}</Section>;
+  return (
+    <Section heading="Who" level={level}>
+      {children}
+    </Section>
+  );
 }
 Who.propTypes = {
   children: PropTypes.node,
+  level: PropTypes.number,
 };
 
-export function Where({ children, heading = 'Where' } = {}) {
-  return <Section heading={heading}>{children}</Section>;
+export function Where({ children, heading = 'Where', level = 2 } = {}) {
+  return (
+    <Section heading={heading} level={level}>
+      {children}
+    </Section>
+  );
 }
 Where.propTypes = {
   children: PropTypes.node,
   heading: PropTypes.string,
+  level: PropTypes.number,
+};
+
+export function Prepare({ children } = {}) {
+  return <Section heading="Prepare for your appointment">{children}</Section>;
+}
+Prepare.propTypes = {
+  children: PropTypes.node,
+};
+
+export function Details({ reason, otherDetails, request, level = 2 }) {
+  const heading = request
+    ? 'Details you’d like to share with your provider'
+    : 'Details you shared with your provider';
+  return (
+    <Section heading={heading} level={level}>
+      <span>
+        Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
+      </span>
+      <br />
+      <span className="vaos-u-word-break--break-word">
+        Other details: {`${otherDetails || 'Not available'}`}
+      </span>
+    </Section>
+  );
+}
+Details.propTypes = {
+  level: PropTypes.number,
+  otherDetails: PropTypes.string,
+  reason: PropTypes.string,
+  request: PropTypes.bool,
+};
+
+export function ClinicOrFacilityPhone({
+  clinicPhone,
+  clinicPhoneExtension,
+  facilityPhone,
+}) {
+  if (clinicPhone) {
+    return (
+      <FacilityPhone
+        heading="Clinic phone:"
+        contact={clinicPhone}
+        extension={clinicPhoneExtension}
+      />
+    );
+  }
+  if (facilityPhone) {
+    return <FacilityPhone heading="Phone:" contact={facilityPhone} />;
+  }
+  return (
+    <div>
+      Phone: &nbsp;
+      <VaTelephone contact="800-698-2411" data-testid="main-va-telephone" />
+    </div>
+  );
+}
+ClinicOrFacilityPhone.propTypes = {
+  clinicPhone: PropTypes.string,
+  clinicPhoneExtension: PropTypes.string,
+  facilityPhone: PropTypes.string,
 };
 
 function CancelButton({ appointment }) {
@@ -86,6 +173,7 @@ function CancelButton({ appointment }) {
         });
         dispatch(startAppointmentCancel(appointment));
       }}
+      data-testid="cancel-button"
     />
   );
 

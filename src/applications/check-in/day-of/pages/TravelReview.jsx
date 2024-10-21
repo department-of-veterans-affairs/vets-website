@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 
 import { recordAnswer } from '../../actions/universal';
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -19,6 +20,7 @@ const TravelQuestion = props => {
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
+
   const onCheck = e => {
     setAgree(e.detail.checked);
   };
@@ -27,7 +29,11 @@ const TravelQuestion = props => {
       dispatch(recordAnswer({ 'travel-question': 'yes' }));
       goToNextPage();
     } else {
+      const nestedShadowElement = document
+        .getElementById('travel-agreement-checkbox')
+        .shadowRoot.getElementById('checkbox-element');
       setError(true);
+      focusElement(nestedShadowElement);
     }
   };
   const fileLater = () => {
@@ -45,7 +51,7 @@ const TravelQuestion = props => {
 
   const bodyText = (
     <>
-      <p>{t('review-body-text')}</p>
+      <p>{t('review-body-text-unified')}</p>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('claims')}</h2>
       </div>
@@ -79,7 +85,9 @@ const TravelQuestion = props => {
         className="vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-bottom--4 vads-u-font-family--sans"
         style={{ overflow: 'hidden' }}
       >
-        <h3>{t('beneficiary-travel-agreement')}</h3>
+        <h2 className="vads-u-font-size--h3">
+          {t('beneficiary-travel-agreement')}
+        </h2>
         <p>
           <Trans
             i18nKey="penalty-statement"
@@ -89,6 +97,7 @@ const TravelQuestion = props => {
           />
         </p>
         <VaCheckbox
+          id="travel-agreement-checkbox"
           description={null}
           error={error ? t('claim-review-error') : null}
           label={t('claim-checkbox-confirm')}

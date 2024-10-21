@@ -43,7 +43,7 @@ const fillEmploymentInformation = employer => {
 
     // deduction-values
     // spouse-deduction-values
-    cy.get('va-number-input')
+    cy.get('va-text-input')
       .as('InputList')
       .should('have.length', employer.deductions.length);
     cy.get('@InputList').each((input, index) => {

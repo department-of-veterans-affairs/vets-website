@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import _ from 'platform/utilities/data';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import {
   filterInactivePageData,
@@ -11,6 +11,7 @@ import {
   createFormPageList,
 } from 'platform/forms-system/src/js/helpers';
 import { apiRequest } from 'platform/utilities/api';
+import { parse, parseISO, isValid } from 'date-fns';
 
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
 const CLIENT_ERROR_REGEX = /^4\d{2}$/;
@@ -102,7 +103,7 @@ export {
 export function customTransformForSubmit(formConfig, form) {
   const payload = cloneDeep(form);
   // manually delete view:confirmEmail, since in our case we actually want the other view fields
-  delete payload.data.veteranContactInformation['view:confirmEmail'];
+  // delete payload.data.veteranContactInformation['view:confirmEmail'];
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     payload.data,
@@ -117,3 +118,24 @@ export function customTransformForSubmit(formConfig, form) {
 
   return JSON.stringify(withoutInactivePages, customFormReplacer) || '{}';
 }
+
+/**
+ * parseDateToDateObj from ISO8601 or JS number date (not unix time)
+ * @param {string, number, Date} date - date to format
+ * @returns {dateObj|null} date object
+ */
+export const parseDateToDateObj = (date, template) => {
+  let newDate = date;
+  if (typeof date === 'string') {
+    if (date.includes('T')) {
+      newDate = parseISO((date || '').split('T')[0]);
+    } else if (template) {
+      newDate = parse(date, template, new Date());
+    }
+  } else if (date instanceof Date && isValid(date)) {
+    // Remove timezone offset - the only time we pass in a date object is for
+    // unit tests (see https://stackoverflow.com/a/67599505)
+    newDate.setMinutes(newDate.getMinutes() + newDate.getTimezoneOffset());
+  }
+  return isValid(newDate) ? newDate : null;
+};

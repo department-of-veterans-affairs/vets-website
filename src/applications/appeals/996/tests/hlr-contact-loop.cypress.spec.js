@@ -121,14 +121,7 @@ describe('HLR contact info loop', () => {
       `${BASE_URL}/contact-information/edit-mobile-phone`,
     );
 
-    cy.get('va-text-input[label^="Mobile phone"]')
-      .shadow()
-      .find('input')
-      .clear();
-    cy.get('va-text-input[label^="Mobile phone"]')
-      .shadow()
-      .find('input')
-      .type('8885551212');
+    cy.get('va-text-input[value="5109224444"]');
 
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()

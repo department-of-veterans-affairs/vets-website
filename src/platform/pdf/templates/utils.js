@@ -455,6 +455,8 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
             ...paragraphOptions,
             listType: 'bullet',
             bulletRadius: 2,
+            indent: 8,
+            baseline: 'hanging',
           });
         }),
       );

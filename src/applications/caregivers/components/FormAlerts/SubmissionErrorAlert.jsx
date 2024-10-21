@@ -11,7 +11,7 @@ const SubmissionErrorAlert = () => {
 
   return (
     <div className="caregiver-error-message">
-      <va-alert status="error" uswds>
+      <va-alert status="error">
         <h3 slot="headline">We didn’t receive your online application</h3>
         <p>
           We’re sorry. Something went wrong when you tried to submit your

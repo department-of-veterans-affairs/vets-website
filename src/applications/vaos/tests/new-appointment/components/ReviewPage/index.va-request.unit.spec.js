@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import moment from 'moment';
 import { expect } from 'chai';
 
 import userEvent from '@testing-library/user-event';
@@ -173,7 +172,8 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
   });
 
   it('should record GA tracking event', async () => {
-    const tomorrow = moment().add(1, 'days');
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     store = createTestStore({
       ...defaultState,
       newAppointment: {
@@ -234,7 +234,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
     userEvent.click(screen.getByText(/Submit request/i));
 
-    await screen.findByText('We couldn’t schedule this appointment');
+    await screen.findByText('We can’t submit your request');
 
     expect(screen.baseElement).contain.text(
       'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',

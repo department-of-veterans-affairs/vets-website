@@ -1,5 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import environment from 'platform/utilities/environment';
+import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -12,23 +15,54 @@ import GetFormHelp from '../components/GetFormHelp';
 import { customSubmit686 } from '../analytics/helpers';
 
 // Chapter imports
-import { formerSpouseInformation } from './chapters/report-divorce';
 import {
-  deceasedDependentInformation,
-  deceasedDependentAdditionalInformation,
-} from './chapters/report-dependent-death';
+  formerSpouseInformation,
+  formerSpouseInformationPartTwo,
+} from './chapters/report-divorce';
+import {
+  deceasedDependentOptions,
+  deceasedDependentIntroPage,
+  deceasedDependentSummaryPage,
+  deceasedDependentPersonalInfoPage,
+  deceasedDependentTypePage,
+  deceasedDependentChildTypePage,
+  deceasedDependentDateOfDeathPage,
+  deceasedDependentLocationOfDeathPage,
+} from './chapters/report-dependent-death/deceasedDependentArrayPages';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
   currentMarriageInformation,
+  currentMarriageInformationPartTwo,
+  currentMarriageInformationPartThree,
+  currentMarriageInformationPartFour,
+  currentMarriageInformationPartFive,
   doesLiveWithSpouse,
   marriageAdditionalEvidence,
   spouseInformation,
-  spouseMarriageHistory,
-  spouseMarriageHistoryDetails,
-  veteranMarriageHistory,
-  veteranMarriageHistoryDetails,
+  spouseInformationPartTwo,
+  spouseInformationPartThree,
 } from './chapters/report-add-a-spouse';
+import {
+  spouseMarriageHistoryOptions,
+  spouseMarriageHistorySummaryPage,
+  formerMarriagePersonalInfoPage,
+  formerMarriageEndReasonPage,
+  formerMarriageStartDatePage,
+  formerMarriageEndDatePage,
+  formerMarriageStartLocationPage,
+  formerMarriageEndLocationPage,
+} from './chapters/report-add-a-spouse/spouseMarriageHistoryArrayPages';
+import {
+  veteranMarriageHistoryOptions,
+  veteranMarriageHistorySummaryPage,
+  vetFormerMarriagePersonalInfoPage,
+  vetFormerMarriageEndReasonPage,
+  vetFormerMarriageStartDatePage,
+  vetFormerMarriageEndDatePage,
+  vetFormerMarriageStartLocationPage,
+  vetFormerMarriageEndLocationPage,
+} from './chapters/report-add-a-spouse/veteranMarriageHistoryArrayPages';
 import {
   children,
   childPlaceOfBirth,
@@ -43,23 +77,33 @@ import {
 import {
   veteranInformation,
   veteranAddress,
+  veteranContactInformation,
 } from './chapters/veteran-information';
 import {
   stepchildren,
   stepchildInformation,
 } from './chapters/stepchild-no-longer-part-of-household';
 import {
-  studentNameAndSsn,
-  studentAddressMarriageTuition,
-  studentSchoolAddress,
-  studentTermDates,
-  studentLastTerm,
-  studentIncomeInformation,
-  studentNetworthInformation,
+  studentInformation,
+  studentAdditionalInformationView,
+  studentAdditionalInformation,
+  studentAdditionalInformationPartTwo,
+  studentAdditionalInformationPartThree,
+  studentAdditionalInformationPartFour,
+  studentAdditionalInformationPartFive,
+  studentAdditionalInformationPartSix,
+  studentAdditionalInformationPartSeven,
+  studentAdditionalInformationPartEight,
+  studentAdditionalInformationPartNine,
+  studentAdditionalInformationPartTen,
+  studentAdditionalInformationPartEleven,
+  studentAdditionalInformationPartTwelve,
+  studentAdditionalInformationPartThirteen,
 } from './chapters/674';
 import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
+import prefillTransformer from './prefill-transformer';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -85,12 +129,16 @@ export const formConfig = {
       saved: 'Your dependent status application has been saved.',
     },
   },
-  version: 1,
+  version: migrations.length,
+  v3SegmentedProgressBar: true,
   migrations,
   prefillEnabled: true,
+  prefillTransformer,
+  verifyRequiredPrefill: true,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   downtime: {
+    requiredForPrefill: true,
     dependencies: [
       externalServices.bgs,
       externalServices.global,
@@ -100,9 +148,10 @@ export const formConfig = {
     ],
   },
   savedFormMessages: {
-    notFound: 'Start over to apply for declare or remove a dependent.',
+    notFound:
+      'Start your application to add or remove a dependent on your VA benefits.',
     noAuth:
-      'Sign in again to continue your application for declare or remove a dependent.',
+      'Sign in again to continue your application to add or remove a dependent on your VA benefits.',
   },
   title: 'Add or remove a dependent on VA benefits',
   subTitle: 'VA Forms 21-686c and 21-674',
@@ -142,87 +191,244 @@ export const formConfig = {
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran Information',
+          title: 'Veteran information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
         veteranAddress: {
           path: 'veteran-address',
-          title: 'Veteran Address',
+          title: 'Veteran address',
           uiSchema: veteranAddress.uiSchema,
           schema: veteranAddress.schema,
-          updateFormData: veteranAddress.updateFormData,
+        },
+        veteranContactInformation: {
+          path: 'veteran-contact-information',
+          title: 'Veteran contact information',
+          uiSchema: veteranContactInformation.uiSchema,
+          schema: veteranContactInformation.schema,
         },
       },
     },
+
     addSpouse: {
-      title: 'Information needed to add your spouse',
+      title: 'Add your spouse',
       pages: {
         spouseNameInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse: Spouse information',
-          path: 'add-spouse',
+          path: 'add-spouse/current-legal-name',
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
         },
-        currentMarriageInformation: {
+        spouseNameInformationPartTwo: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse: Marriage information',
-          path: 'current-marriage-information',
-          uiSchema: currentMarriageInformation.uiSchema,
-          schema: currentMarriageInformation.schema,
+          title: 'Information needed to add your spouse: Spouse information',
+          path: 'add-spouse/personal-information',
+          uiSchema: spouseInformationPartTwo.uiSchema,
+          schema: spouseInformationPartTwo.schema,
+        },
+        spouseNameInformationPartThree: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.spouseInformation?.isVeteran,
+          title: 'Information needed to add your spouse: Spouse information',
+          path: 'add-spouse/military-service-information',
+          uiSchema: spouseInformationPartThree.uiSchema,
+          schema: spouseInformationPartThree.schema,
         },
         doesLiveWithSpouse: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse: Address information',
-          path: 'current-marriage-address',
+          path: 'current-marriage-information/living-together',
           uiSchema: doesLiveWithSpouse.uiSchema,
           schema: doesLiveWithSpouse.schema,
-          updateFormData: doesLiveWithSpouse.updateFormData,
         },
-        spouseMarriageHistory: {
+        currentMarriageInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/spouse-address',
+          uiSchema: currentMarriageInformation.uiSchema,
+          schema: currentMarriageInformation.schema,
+        },
+        currentMarriageInformationPartTwo: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title:
-            'Information about your spouse’s former marriage(s): Marriage history',
-          path: 'current-spouse-marriage-history',
-          uiSchema: spouseMarriageHistory.uiSchema,
-          schema: spouseMarriageHistory.schema,
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/spouse-income',
+          uiSchema: currentMarriageInformationPartTwo.uiSchema,
+          schema: currentMarriageInformationPartTwo.schema,
         },
-        spouseMarriageHistoryDetails: {
+        currentMarriageInformationPartThree: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title:
-            'Information about your spouse’s former marriage(s): Marriage history details',
-          path: 'current-spouse-marriage-history/:index',
-          showPagePerItem: true,
-          arrayPath: 'spouseMarriageHistory',
-          uiSchema: spouseMarriageHistoryDetails.uiSchema,
-          schema: spouseMarriageHistoryDetails.schema,
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/location-of-marriage',
+          uiSchema: currentMarriageInformationPartThree.uiSchema,
+          schema: currentMarriageInformationPartThree.schema,
         },
-        veteranMarriageHistory: {
+        currentMarriageInformationPartFour: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title:
-            'Information about your former marriage(s): Veteran marriage history',
-          path: 'veteran-marriage-history',
-          uiSchema: veteranMarriageHistory.uiSchema,
-          schema: veteranMarriageHistory.schema,
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/type-of-marriage',
+          uiSchema: currentMarriageInformationPartFour.uiSchema,
+          schema: currentMarriageInformationPartFour.schema,
         },
-        veteranMarriageHistoryDetails: {
+        currentMarriageInformationPartFive: {
           depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title:
-            'Information about your former marriage(s): Veteran marriage history details',
-          path: 'veteran-marriage-history/:index',
-          showPagePerItem: true,
-          arrayPath: 'veteranMarriageHistory',
-          uiSchema: veteranMarriageHistoryDetails.uiSchema,
-          schema: veteranMarriageHistoryDetails.schema,
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/reason-for-living-separately',
+          uiSchema: currentMarriageInformationPartFive.uiSchema,
+          schema: currentMarriageInformationPartFive.schema,
         },
+
+        ...arrayBuilderPages(spouseMarriageHistoryOptions, pageBuilder => ({
+          spouseMarriageHistorySummary: pageBuilder.summaryPage({
+            title:
+              'Information needed to add your spouse: Former spouse information',
+            path: 'current-spouse-marriage-history',
+            uiSchema: spouseMarriageHistorySummaryPage.uiSchema,
+            schema: spouseMarriageHistorySummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartOne: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Former spouse information',
+            path:
+              'current-spouse-marriage-history/:index/former-spouse-information',
+            uiSchema: formerMarriagePersonalInfoPage.uiSchema,
+            schema: formerMarriagePersonalInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartTwo: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Reason former marriage ended',
+            path:
+              'current-spouse-marriage-history/:index/reason-former-marriage-ended',
+            uiSchema: formerMarriageEndReasonPage.uiSchema,
+            schema: formerMarriageEndReasonPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartThree: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Date former marriage started',
+            path:
+              'current-spouse-marriage-history/:index/date-marriage-started',
+            uiSchema: formerMarriageStartDatePage.uiSchema,
+            schema: formerMarriageStartDatePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartFour: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Date former marriage ended',
+            path: 'current-spouse-marriage-history/:index/date-marriage-ended',
+            uiSchema: formerMarriageEndDatePage.uiSchema,
+            schema: formerMarriageEndDatePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartFive: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Location where former marriage started',
+            path:
+              'current-spouse-marriage-history/:index/location-where-marriage-started',
+            uiSchema: formerMarriageStartLocationPage.uiSchema,
+            schema: formerMarriageStartLocationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          spouseMarriageHistoryPartSix: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Location where former marriage ended',
+            path:
+              'current-spouse-marriage-history/:index/location-where-marriage-ended',
+            uiSchema: formerMarriageEndLocationPage.uiSchema,
+            schema: formerMarriageEndLocationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+        })),
+
+        ...arrayBuilderPages(veteranMarriageHistoryOptions, pageBuilder => ({
+          veteranMarriageHistorySummary: pageBuilder.summaryPage({
+            title:
+              'Information needed to add your spouse: Former spouse information',
+            path: 'veteran-marriage-history',
+            uiSchema: veteranMarriageHistorySummaryPage.uiSchema,
+            schema: veteranMarriageHistorySummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartOne: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Former spouse information',
+            path: 'veteran-marriage-history/:index/former-spouse-information',
+            uiSchema: vetFormerMarriagePersonalInfoPage.uiSchema,
+            schema: vetFormerMarriagePersonalInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartTwo: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Reason former marriage ended',
+            path:
+              'veteran-marriage-history/:index/reason-former-marriage-ended',
+            uiSchema: vetFormerMarriageEndReasonPage.uiSchema,
+            schema: vetFormerMarriageEndReasonPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartThree: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Date former marriage started',
+            path: 'veteran-marriage-history/:index/date-marriage-started',
+            uiSchema: vetFormerMarriageStartDatePage.uiSchema,
+            schema: vetFormerMarriageStartDatePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartFour: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Date former marriage ended',
+            path: 'veteran-marriage-history/:index/date-marriage-ended',
+            uiSchema: vetFormerMarriageEndDatePage.uiSchema,
+            schema: vetFormerMarriageEndDatePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartFive: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Location where former marriage started',
+            path:
+              'veteran-marriage-history/:index/location-where-marriage-started',
+            uiSchema: vetFormerMarriageStartLocationPage.uiSchema,
+            schema: vetFormerMarriageStartLocationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+          veteranMarriageHistoryPartSix: pageBuilder.itemPage({
+            title:
+              'Information needed to add your spouse: Location where former marriage ended',
+            path:
+              'veteran-marriage-history/:index/location-where-marriage-ended',
+            uiSchema: vetFormerMarriageEndLocationPage.uiSchema,
+            schema: vetFormerMarriageEndLocationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          }),
+        })),
+
         marriageAdditionalEvidence: {
           depends: formData =>
             typeof formData?.currentMarriageInformation?.type === 'string' &&
@@ -236,6 +442,7 @@ export const formConfig = {
         },
       },
     },
+
     addChild: {
       title: 'Information needed to add children',
       pages: {
@@ -283,87 +490,181 @@ export const formConfig = {
         },
       },
     },
+
     report674: {
-      title: 'Information needed to add a student 18 to 23 years old',
+      title: 'Add one or more students between ages 18 and 23',
       pages: {
-        studentNameAndSsn: {
+        studentInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: Basic information',
-          path: 'report-674',
-          uiSchema: studentNameAndSsn.uiSchema,
-          schema: studentNameAndSsn.schema,
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/add-students',
+          uiSchema: studentInformation.uiSchema,
+          schema: studentInformation.schema,
         },
-        studentAddressMarriageTuition: {
+        studentAdditionalInformationView: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: Additional information',
-          path: 'report-674-student-address',
-          uiSchema: studentAddressMarriageTuition.uiSchema,
-          schema: studentAddressMarriageTuition.schema,
-          updateFormData: studentAddressMarriageTuition.updateFormData,
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/additional-student-information',
+          uiSchema: studentAdditionalInformationView.uiSchema,
+          schema: studentAdditionalInformationView.schema,
         },
-        studentSchoolAddress: {
+        studentAdditionalInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: School addresses',
-          path: 'report-674-student-school-address',
-          uiSchema: studentSchoolAddress.uiSchema,
-          schema: studentSchoolAddress.schema,
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-identification',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformation.uiSchema,
+          schema: studentAdditionalInformation.schema,
         },
-        studentTermDates: {
+        studentAdditionalInformationPartTwo: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: Student term dates',
-          path: 'report-674-student-school-term-dates',
-          uiSchema: studentTermDates.uiSchema,
-          schema: studentTermDates.schema,
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-address',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartTwo.uiSchema,
+          schema: studentAdditionalInformationPartTwo.schema,
         },
-        studentLastTerm: {
+        studentAdditionalInformationPartThree: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: Last term date',
-          path: 'report-674-student-last-term-information',
-          uiSchema: studentLastTerm.uiSchema,
-          schema: studentLastTerm.schema,
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-marriage',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartThree.uiSchema,
+          schema: studentAdditionalInformationPartThree.schema,
         },
-        // NOTE: These are temporarily disabled, and will be reintroduced post-launch as part of 674 pension support.
-        studentIncomeInformation: {
-          depends: () => false,
-          title:
-            'Information needed to add a student 18 to 23 years old: Income information',
-          path: 'report-674-student-income-information',
-          uiSchema: studentIncomeInformation.uiSchema,
-          schema: studentIncomeInformation.schema,
+        studentAdditionalInformationPartFour: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-education-benefits',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartFour.uiSchema,
+          schema: studentAdditionalInformationPartFour.schema,
         },
-        studentNetworthInformation: {
-          depends: () => false,
-          title:
-            'Information needed to add a student 18 to 23 years old: Net worth information',
-          path: 'report-674-student-networth-information',
-          uiSchema: studentNetworthInformation.uiSchema,
-          schema: studentNetworthInformation.schema,
+        studentAdditionalInformationPartFive: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/school-name',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartFive.uiSchema,
+          schema: studentAdditionalInformationPartFive.schema,
+        },
+        studentAdditionalInformationPartSix: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-attendance',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartSix.uiSchema,
+          schema: studentAdditionalInformationPartSix.schema,
+        },
+        studentAdditionalInformationPartSeven: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/school-accreditation',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartSeven.uiSchema,
+          schema: studentAdditionalInformationPartSeven.schema,
+        },
+        studentAdditionalInformationPartEight: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/school-term-dates',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartEight.uiSchema,
+          schema: studentAdditionalInformationPartEight.schema,
+        },
+        studentAdditionalInformationPartNine: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-previous-term',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartNine.uiSchema,
+          schema: studentAdditionalInformationPartNine.schema,
+        },
+        studentAdditionalInformationPartTen: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-income-at-school',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartTen.uiSchema,
+          schema: studentAdditionalInformationPartTen.schema,
+        },
+        studentAdditionalInformationPartEleven: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-expected-income-at-school',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartEleven.uiSchema,
+          schema: studentAdditionalInformationPartEleven.schema,
+        },
+        studentAdditionalInformationPartTwelve: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-assets',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartTwelve.uiSchema,
+          schema: studentAdditionalInformationPartTwelve.schema,
+        },
+        studentAdditionalInformationPartThirteen: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/additional-remarks',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartThirteen.uiSchema,
+          schema: studentAdditionalInformationPartThirteen.schema,
         },
       },
     },
+
     reportDivorce: {
       title: 'Information needed to remove a divorced spouse',
       pages: {
-        formerSpouseDetails: {
+        formerSpouseInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
           title: 'Information needed to report a divorce',
-          path: 'report-a-divorce',
+          path: 'report-a-divorce/former-spouse-information',
           uiSchema: formerSpouseInformation.uiSchema,
           schema: formerSpouseInformation.schema,
         },
+        formerSpouseInformationPartTwo: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+          title: 'Information needed to report a divorce',
+          path: 'report-a-divorce/divorce-information',
+          uiSchema: formerSpouseInformationPartTwo.uiSchema,
+          schema: formerSpouseInformationPartTwo.schema,
+        },
       },
     },
+
     reportStepchildNotInHousehold: {
       title:
         'Information needed to remove a stepchild who has left your household',
@@ -397,31 +698,90 @@ export const formConfig = {
         },
       },
     },
+
     deceasedDependents: {
       title: 'Information needed to remove a dependent who has died',
       pages: {
-        dependentInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-          title: 'Report the death of a dependent: Basic information',
-          path: '686-report-dependent-death',
-          uiSchema: deceasedDependentInformation.uiSchema,
-          schema: deceasedDependentInformation.schema,
-        },
-        dependentAdditionalInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-          title: 'Report the death of a dependent: Additional information',
-          path: '686-report-dependent-death/:index/additional-information',
-          showPagePerItem: true,
-          arrayPath: 'deaths',
-          uiSchema: deceasedDependentAdditionalInformation.uiSchema,
-          schema: deceasedDependentAdditionalInformation.schema,
-        },
+        ...arrayBuilderPages(deceasedDependentOptions, pageBuilder => ({
+          dependentAdditionalInformationIntro: pageBuilder.introPage({
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+            title: 'Information needed to remove a dependent who has died',
+            path: '686-report-dependent-death',
+            uiSchema: deceasedDependentIntroPage.uiSchema,
+            schema: deceasedDependentIntroPage.schema,
+          }),
+          dependentAdditionalInformationSummary: pageBuilder.summaryPage({
+            title: 'Information needed to remove a dependent who has died',
+            path: '686-report-dependent-death/dependent-summary',
+            uiSchema: deceasedDependentSummaryPage.uiSchema,
+            schema: deceasedDependentSummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+          }),
+          dependentAdditionalInformationPartOne: pageBuilder.itemPage({
+            title: 'Information needed to remove a dependent who has died',
+            path: '686-report-dependent-death/:index/dependent-information',
+            uiSchema: deceasedDependentPersonalInfoPage.uiSchema,
+            schema: deceasedDependentPersonalInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+          }),
+          dependentAdditionalInformationPartTwo: pageBuilder.itemPage({
+            title: 'Information needed to remove a dependent who has died',
+            path: '686-report-dependent-death/:index/child-status',
+            uiSchema: deceasedDependentTypePage.uiSchema,
+            schema: deceasedDependentTypePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+            onNavForward: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              if (formData.dependentType !== 'child') {
+                const index = getArrayIndexFromPathName(pathname);
+                const urlParamsString = stringifyUrlParams(urlParams) || '';
+                goPath(
+                  `/686-report-dependent-death/${index}/date-of-death${urlParamsString}`,
+                );
+              } else {
+                goNextPath(urlParams);
+              }
+            },
+          }),
+          dependentAdditionalInformationPartThree: pageBuilder.itemPage({
+            title: 'Information needed to remove a dependent who has died',
+            path: '686-report-dependent-death/:index/child-type',
+            uiSchema: deceasedDependentChildTypePage.uiSchema,
+            schema: deceasedDependentChildTypePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+          }),
+          dependentAdditionalInformationPartFour: pageBuilder.itemPage({
+            title: 'Information needed to remove a dependent who has died',
+            path: '686-report-dependent-death/:index/date-of-death',
+            uiSchema: deceasedDependentDateOfDeathPage.uiSchema,
+            schema: deceasedDependentDateOfDeathPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+          }),
+          dependentAdditionalInformationPartFive: pageBuilder.itemPage({
+            title: 'Information needed to remove a dependent who has died',
+            path: '686-report-dependent-death/:index/location-of-death',
+            uiSchema: deceasedDependentLocationOfDeathPage.uiSchema,
+            schema: deceasedDependentLocationOfDeathPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+          }),
+        })),
       },
     },
+
     reportChildMarriage: {
-      title: 'Information to remove a child under 18 who has married',
+      title: 'Remove one or more children who got married',
       pages: {
         childInformation: {
           depends: formData =>
@@ -437,9 +797,10 @@ export const formConfig = {
         },
       },
     },
+
     reportChildStoppedAttendingSchool: {
       title:
-        'Information to remove a child 18 to 23 years old who has stopped attending school',
+        'Remove one or more children between ages 18 and 23 who left school',
       pages: {
         childNoLongerInSchool: {
           depends: formData =>
@@ -455,6 +816,7 @@ export const formConfig = {
         },
       },
     },
+
     householdIncome: {
       title: 'Your net worth',
       pages: {

@@ -7,6 +7,8 @@ const generateState = ({ toggledOn = false }) => ({
   featureToggles: {
     // eslint-disable-next-line camelcase
     profile_hide_direct_deposit_comp_and_pen: toggledOn,
+    // eslint-disable-next-line camelcase
+    sign_in_modal_v2: toggledOn,
   },
 });
 
@@ -17,6 +19,14 @@ describe('LoginHeader', () => {
     });
 
     expect(screen.queryByText(/Sign in/)).to.not.be.null;
+  });
+
+  it('should render when v2 feature toggle is active', () => {
+    const screen = renderInReduxProvider(<LoginHeader />, {
+      initialState: generateState({ toggledOn: true }),
+    });
+
+    expect(screen.queryByText(/Sign in or create an account/)).to.not.be.null;
   });
 
   it('should display the LogoutAlert component when user is loggedIn', () => {

@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 // Hooks
 import useBotPonyFill from '../hooks/useBotPonyfill';
 import useDirectLine from '../hooks/useDirectline';
-import useRecordRxSession from '../hooks/useRecordRxSession';
 import useRxSkillEventListener from '../hooks/useRxSkillEventListener';
 import useSetSendBoxMessage from '../hooks/useSetSendBoxMessage';
 import useWebChatStore from '../hooks/useWebChatStore';
@@ -20,7 +19,6 @@ import signOutEventListener from '../event-listeners/signOutEventListener';
 
 // Middleware
 import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
-import { attachmentMiddleware } from '../middleware/attachmentMiddleware';
 
 // Selectors
 import selectUserFirstName from '../selectors/selectUserFirstName';
@@ -77,6 +75,17 @@ const WebChat = ({
   const [speechPonyfill, setBotPonyfill] = useState();
   const [isRXSkill, setIsRXSkill] = useState();
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // value of specific toggle
+  const isComponentToggleOn = useToggleValue(
+    TOGGLE_NAMES.virtualAgentComponentTesting,
+  );
+
+  const isRootBotToggleOn = useToggleValue(
+    TOGGLE_NAMES.virtualAgentEnableRootBot,
+  );
+
   validateParameters({
     csrfToken,
     apiSession,
@@ -93,6 +102,8 @@ const WebChat = ({
     userUuid,
     isMobile,
     environment,
+    isComponentToggleOn,
+    isRootBotToggleOn,
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);
@@ -101,22 +112,13 @@ const WebChat = ({
   useBotPonyFill(setBotPonyfill, environment);
   useRxSkillEventListener(setIsRXSkill);
   useSetSendBoxMessage(isRXSkill);
-  useRecordRxSession(isRXSkill);
 
   const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
-
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
-  // value of specific toggle
-  const isComponentToggleOn = useToggleValue(
-    TOGGLE_NAMES.virtualAgentComponentTesting,
-  );
 
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
         cardActionMiddleware={cardActionMiddleware}
-        {...(isComponentToggleOn ? { attachmentMiddleware } : {})}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}

@@ -13,15 +13,16 @@ export default function LoginButton({
   csp,
   onClick = loginHandler,
   useOAuth = false,
+  ariaDescribedBy,
 }) {
   if (!csp) return null;
   return (
     <button
       type="button"
-      aria-label={`Sign in with ${SERVICE_PROVIDERS[csp].label}`}
       className={`usa-button ${csp}-button vads-u-margin-y--1p5 vads-u-padding-y--2`}
       data-csp={csp}
       onClick={() => onClick(csp, useOAuth)}
+      aria-describedby={ariaDescribedBy}
     >
       {SERVICE_PROVIDERS[csp].image}
     </button>

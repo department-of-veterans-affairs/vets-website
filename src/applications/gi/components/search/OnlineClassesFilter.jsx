@@ -13,7 +13,7 @@ function OnlineClassesFilter({ showModal, onlineClasses, onChange }) {
   const name = 'onlineClasses';
 
   return (
-    <>
+    <div>
       <LearnMoreLabel
         text={radioButtonsLabelText}
         onClick={() => showModal('onlineOnlyDistanceLearning')}
@@ -26,7 +26,7 @@ function OnlineClassesFilter({ showModal, onlineClasses, onChange }) {
         options={options}
         onVaValueChange={e => onChange(e, name, 2)}
       />
-    </>
+    </div>
   );
 }
 

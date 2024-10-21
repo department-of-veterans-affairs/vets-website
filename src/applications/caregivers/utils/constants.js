@@ -5,6 +5,25 @@ import { states } from 'platform/forms/address';
 import { replaceStrValues } from './helpers';
 import content from '../locales/en/content.json';
 
+export const ADDRESS_REGEX = {
+  county: () => {
+    const disallowList = [
+      'US',
+      'U.S',
+      'U.S.',
+      'USA',
+      'U.SA',
+      'U.S.A',
+      'U.S.A.',
+      'United States',
+      'UnitedStates',
+      'United States of America',
+      'UnitedStatesOfAmerica',
+    ];
+    return `^(?!(${disallowList.join('|')})$)`;
+  },
+};
+
 export const ALLOWED_FILE_TYPES = ['pdf', 'jpg', 'jpeg', 'png'];
 
 export const DOWNLOAD_ERRORS_BY_CODE = {

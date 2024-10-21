@@ -21,7 +21,11 @@ const PriorService = ({
   const shortName = SHORT_NAME_MAP.PRIOR_SERVICE;
   const H1 = QUESTION_MAP[shortName];
   const priorService = formResponses[shortName];
-  const { PRIOR_SERVICE_1, PRIOR_SERVICE_2, PRIOR_SERVICE_3 } = RESPONSES;
+  const {
+    PRIOR_SERVICE_PAPERWORK_YES,
+    PRIOR_SERVICE_PAPERWORK_NO,
+    PRIOR_SERVICE_NO,
+  } = RESPONSES;
 
   useEffect(
     () => {
@@ -45,7 +49,11 @@ const PriorService = ({
       formResponses={formResponses}
       formValue={priorService}
       H1={H1}
-      responses={[PRIOR_SERVICE_1, PRIOR_SERVICE_2, PRIOR_SERVICE_3]}
+      responses={[
+        PRIOR_SERVICE_PAPERWORK_YES,
+        PRIOR_SERVICE_PAPERWORK_NO,
+        PRIOR_SERVICE_NO,
+      ]}
       router={router}
       setFormError={setFormError}
       shortName={shortName}

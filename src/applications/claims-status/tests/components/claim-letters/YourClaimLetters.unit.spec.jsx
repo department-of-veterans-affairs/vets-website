@@ -116,7 +116,7 @@ describe('<YourClaimLetters>', () => {
         </Provider>,
       );
 
-      await findByText('2023 letter', { exact: false });
+      await findByText('January 9, 2023');
     });
   });
 });

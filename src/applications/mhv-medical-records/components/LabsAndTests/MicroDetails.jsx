@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
-  formatName,
   updatePageTitle,
   crisisLineHeader,
   reportGeneratedBy,
@@ -19,6 +17,7 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -32,7 +31,6 @@ import {
   generateMicrobioContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { useIsDetails } from '../../hooks/useIsDetails';
 
 const MicroDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -44,9 +42,6 @@ const MicroDetails = props => {
       ],
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
-
-  const dispatch = useDispatch();
-  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -79,18 +74,19 @@ const MicroDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
-Site or sample tested: ${record.sampleTested}\n
+${
+      record.labType ? `Lab type: ${record.labType}\n\n` : ''
+    }Site or sample tested: ${record.sampleTested}\n
 Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
-Collecting location: ${record.collectingLocation}\n
-Performing lab location: ${record.labLocation}\n
-Date completed: ${record.date}\n
+Location: ${record.collectingLocation}\n
+Date completed: ${record.dateCompleted}\n
 ${txtLine}\n\n
 Results\n
 ${record.results}`;
@@ -128,6 +124,14 @@ ${record.results}`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
+        {record.labType && (
+          <>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Lab type
+            </h3>
+            <p data-testid="microbio-sample-tested">{record.labType}</p>
+          </>
+        )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Site or sample tested
         </h3>
@@ -141,25 +145,21 @@ ${record.results}`;
         </h3>
         <p data-testid="microbio-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Collecting location
+          Location
         </h3>
         <p data-testid="microbio-collecting-location">
           {record.collectingLocation}
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Performing lab location
-        </h3>
-        <p data-testid="microbio-lab-location">{record.labLocation}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="microbio-date-completed">{record.date}</p>
+        <p data-testid="microbio-date-completed">{record.dateCompleted}</p>
       </div>
 
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p className="vads-u-font-size--base monospace">
+        <p className="vads-u-font-size--base monospace vads-u-line-height--3">
           {record.results}
         </p>{' '}
       </div>

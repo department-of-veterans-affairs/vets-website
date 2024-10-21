@@ -3,6 +3,6 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "login-page",
   "rootUrl": "/sign-in",
-  "e2eTestsDisabled": true,
+  "e2eTestsDisabled": false,
   "productId": "40839364-43fa-454a-b29a-bc333ad63e1f"
 }

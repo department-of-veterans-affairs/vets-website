@@ -13,7 +13,12 @@ import {
   getActiveLinksStyle,
   dateFormatWithoutTimezone,
   formatDate,
+  extractContainedByRecourceType,
+  getLastUpdatedText,
+  formatNameFirstToLast,
+  formatNameFirstLast,
 } from '../../util/helpers';
+
 import { refreshPhases } from '../../util/constants';
 
 describe('Name formatter', () => {
@@ -42,6 +47,13 @@ describe('Date formatter with no timezone', () => {
     const timeStamp = '2023-09-29T11:04:31.316-04:00';
     const formattedDate = dateFormatWithoutTimezone(timeStamp);
     expect(formattedDate).to.eq('September 29, 2023, 11:04 a.m.');
+  });
+
+  // This test will give different results when run in different time zones.
+  it.skip('formats an epoch date in the original time without a timezone', () => {
+    const timeStamp = 1605300748000;
+    const formattedDate = dateFormatWithoutTimezone(timeStamp);
+    expect(formattedDate).to.eq('November 13, 2020, 8:52 p.m.');
   });
 });
 
@@ -123,6 +135,85 @@ describe('extractContainedResource', () => {
     };
 
     const result = extractContainedResource(resource, '#b2');
+    expect(result).to.eq(null);
+  });
+});
+
+describe('extractContainedByResourceType', () => {
+  const mockRecord = {
+    contained: [
+      {
+        resourceType: 'Organization',
+        id: 'ex-MHV-organization-something',
+        name: 'Something',
+      },
+      {
+        resourceType: 'Practitioner',
+        id: 'ex-MHV-practitioner-somebody',
+        name: [{ text: 'Somebody' }],
+      },
+      { resourceType: 'Observation', id: 'ex-MHV-lab-stuff', name: 'Stuff' },
+    ],
+    performer: [
+      { reference: '#ex-MHV-organization-something' },
+      { reference: '#ex-MHV-practitioner-somebody' },
+    ],
+  };
+
+  it('should extract the contained resource when provided a valid reference array and resourceType', () => {
+    const result = extractContainedByRecourceType(
+      mockRecord,
+      'Practitioner',
+      mockRecord.performer,
+    );
+    const desired = mockRecord.contained.find(
+      e => e.id === 'ex-MHV-practitioner-somebody',
+    );
+
+    expect(result).to.deep.equal(desired);
+  });
+
+  it('should return null if resource does not contain the "contained" property', () => {
+    const mockRecord2 = {
+      performer: [{ reference: '#ex-MHV-organization-something' }],
+    };
+
+    const result = extractContainedByRecourceType(
+      mockRecord2,
+      'Practitioner',
+      mockRecord.performer,
+    );
+    expect(result).to.eq(null);
+  });
+
+  it('should return null if "contained" property is not an array', () => {
+    const mockRecord3 = {
+      contained: 'not-an-array',
+      performer: [
+        { reference: '#ex-MHV-organization-something' },
+        { reference: '#ex-MHV-practitioner-somebody' },
+      ],
+    };
+
+    const result = extractContainedByRecourceType(
+      mockRecord3,
+      'Practitioner',
+      mockRecord.performer,
+    );
+    expect(result).to.eq(null);
+  });
+
+  it('should return null if resourceType is not provided', () => {
+    const result = extractContainedByRecourceType(mockRecord, 'Practitioner');
+    expect(result).to.eq(null);
+  });
+
+  it('should return null if no match is found in the "contained" array', () => {
+    const result = extractContainedByRecourceType(
+      mockRecord,
+      'Specimen',
+      mockRecord.performer,
+    );
     expect(result).to.eq(null);
   });
 });
@@ -356,5 +447,103 @@ describe('getStatusExtractPhase', () => {
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
       refreshPhases.CURRENT,
     );
+  });
+});
+
+describe('getLastUpdatedText', () => {
+  // This test is time-zone dependent and will fail in certain circumstances. Skipping for now.
+  it.skip('should return the last updated string when the refreshStateStatus contains the extractType and lastSuccessfulCompleted', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
+    ];
+    const extractType = 'type1';
+
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
+
+    expect(result).to.equal('Last updated at 10:00 AM on 2024-09-15');
+  });
+
+  it('should return null when no matching extractType is found', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
+    ];
+    const extractType = 'type2';
+
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
+
+    expect(result).to.be.null;
+  });
+
+  it('should return null when refreshStateStatus is undefined', () => {
+    const result = getLastUpdatedText(undefined, 'type1');
+    expect(result).to.be.null;
+  });
+
+  it('should return null when no lastSuccessfulCompleted is present', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: null },
+    ];
+    const extractType = 'type1';
+
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
+
+    expect(result).to.be.null;
+  });
+});
+
+describe('formatNameFirstToLast', () => {
+  it('returns a name formatted with the first name before to the last name and no comma.', () => {
+    const lastFirstName = 'Schmo,Joe';
+    const firstLastName = 'Joe Schmo';
+    const updatedName = formatNameFirstToLast(lastFirstName);
+
+    expect(updatedName).to.eq(firstLastName);
+  });
+
+  it('returns a name formatted with the first name and middle initial before to the last name.', () => {
+    const lastFirstName = 'Schmo,Joe R';
+    const firstLastName = 'Joe R Schmo';
+    const updatedName = formatNameFirstToLast(lastFirstName);
+
+    expect(updatedName).to.eq(firstLastName);
+  });
+
+  it('returns original name if not formatted correctly.', () => {
+    const lastFirstName = 'Schmo Joe';
+    const updatedName = formatNameFirstToLast(lastFirstName);
+
+    expect(updatedName).to.eq(lastFirstName);
+  });
+});
+
+describe('formatNameFirstLast', () => {
+  const user1 = {
+    userFullName: {
+      first: 'Joe',
+      last: 'Schmo',
+    },
+  };
+
+  const user2 = {
+    userFullName: {
+      first: 'Joe',
+      last: 'Schmo',
+      middle: 'R',
+      suffix: 'Jr',
+    },
+  };
+
+  it('returns a name formatted with the first name before to the last name', () => {
+    const lastFirstName = 'Joe Schmo';
+    const updatedName = formatNameFirstLast(user1.userFullName);
+
+    expect(updatedName).to.eq(lastFirstName);
+  });
+
+  it('returns a name formatted with the first name and middle initial and suffix', () => {
+    const firstMiddleLastSuffixName = 'Joe R Schmo, Jr';
+    const updatedName = formatNameFirstLast(user2.userFullName);
+
+    expect(updatedName).to.eq(firstMiddleLastSuffixName);
   });
 });

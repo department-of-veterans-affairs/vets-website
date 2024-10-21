@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '../selectors';
+import { isAuthenticatedWithSSOe, mrPhase1Enabled } from '../selectors';
 
 import NavCard from './NavCard';
 import MedicalRecordsCard from './MedicalRecordsCard';
@@ -19,9 +19,7 @@ const layoutData = data => {
 };
 
 const CardLayout = ({ data }) => {
-  const { mhvTransitionalMedicalRecordsLandingPage = false } = useSelector(
-    state => state.featureToggles,
-  );
+  const isMrPhase1Enabled = useSelector(mrPhase1Enabled);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const blueButtonUrl = mhvUrl(ssoe, 'download-my-data');
 
@@ -50,7 +48,7 @@ const CardLayout = ({ data }) => {
             key={`col-${y}`}
           >
             {col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
-            mhvTransitionalMedicalRecordsLandingPage ? (
+            !isMrPhase1Enabled ? (
               <MedicalRecordsCard href={blueButtonUrl} />
             ) : (
               <NavCard {...col} />

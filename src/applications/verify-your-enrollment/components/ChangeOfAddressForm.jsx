@@ -52,21 +52,6 @@ const ChangeOfAddressForm = ({
       },
     },
   };
-  const ipc = {
-    title: 'internationalPostalCode',
-    'ui:errorMessages': {
-      required: 'International Postal code is required',
-    },
-    'ui:required': () => true,
-  };
-  const province = {
-    title: 'province',
-    'ui:errorMessages': {
-      required: 'State/Province/Region is required',
-    },
-    'ui:required': () => true,
-  };
-
   const city = {
     title: 'city',
     addressSchema: {
@@ -174,13 +159,7 @@ const ChangeOfAddressForm = ({
               [city.addressSchema, stateCode.addressSchema],
               'schema',
             );
-            setAddressSchema(
-              removeObjectKeys(
-                tempSchemaAddObj,
-                [province.title, ipc.title],
-                'schema',
-              ),
-            );
+            setAddressSchema(removeObjectKeys(tempSchemaAddObj, [], 'schema'));
 
             const tempUISchemaAddObj = addObjectKeys(
               getUiSchema(),
@@ -195,7 +174,7 @@ const ChangeOfAddressForm = ({
 
             const tempUISchemaRemoveObj = removeObjectKeys(
               tempUISchemaAddObj,
-              [province.title, ipc.title],
+              [],
               'uiSchema',
             );
             setAddressUISchema(tempUISchemaRemoveObj);
@@ -210,7 +189,7 @@ const ChangeOfAddressForm = ({
               setAddressSchema(
                 removeObjectKeys(
                   createFormSchema(addressFormRequiredData),
-                  [province.title, ipc.title],
+                  [],
                   'schema',
                 ),
               );
@@ -226,11 +205,7 @@ const ChangeOfAddressForm = ({
                 'uiSchema',
               );
               setAddressUISchema(
-                removeObjectKeys(
-                  addNewCityUI,
-                  [province.title, ipc.title],
-                  'uiSchema',
-                ),
+                removeObjectKeys(addNewCityUI, [], 'uiSchema'),
               );
             } else {
               // removes stateCode and zipCode as a requiredField

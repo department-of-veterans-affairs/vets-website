@@ -18,6 +18,7 @@ function ClaimsBreadcrumbs({ crumbs = [] }) {
     <VaBreadcrumbs
       breadcrumbList={breadcrumbList}
       onRouteChange={handleRouteChange}
+      wrapping
     />
   );
 }

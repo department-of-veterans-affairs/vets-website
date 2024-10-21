@@ -19,6 +19,7 @@ const selectVeteranData = createSelector(
   data => ({
     appointments: data.appointments,
     demographics: data.veteranData.demographics,
+    upcomingAppointments: data.upcomingAppointments,
   }),
 );
 

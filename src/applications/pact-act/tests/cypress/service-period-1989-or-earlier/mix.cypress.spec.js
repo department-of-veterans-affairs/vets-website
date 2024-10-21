@@ -13,12 +13,13 @@ import { ROUTES } from '../../../constants';
 // Radiation 2.3.A - Yes
 // Radiation 2.3.B - Select 1 checkbox
 // Camp Lejeune 2.4 - I'm not sure
+// Main Flow 2.5 - I'm not sure
 // Results 1
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
 describe('PACT Act', () => {
-  describe('1989 or earlier - Mixed responses (Results screen 1)', () => {
+  describe('1989 or earlier - Mixed responses (Results page 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -81,6 +82,11 @@ describe('PACT Act', () => {
       h.selectRadio(h.LEJEUNE_2_4_INPUT, 2);
       h.clickContinue();
 
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.selectRadio(h.MAIN_FLOW_2_5_INPUT, 2);
+      h.clickContinue();
+
       // RESULTS 1, P1
       h.verifyUrl(ROUTES.RESULTS_1_1);
       h.verifyElement(h.RESULTS_1_1_HEADER);
@@ -94,6 +100,10 @@ describe('PACT Act', () => {
       // RESULTS 1, P1
       h.verifyUrl(ROUTES.RESULTS_1_1);
       h.clickResultsBack();
+
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.clickBack();
 
       // LEJEUNE_2_4
       h.verifyUrl(ROUTES.LEJEUNE_2_4);

@@ -1,32 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
+import { routeToNextReferralPage } from '../flow';
+import { selectCurrentPage } from '../redux/selectors';
+import { referral } from '../temp-data/referral';
 
-function handleClick(history, linkPath) {
-  return e => {
-    e.preventDefault();
-    recordEvent({
-      event: `${GA_PREFIX}-review-upcoming-link`,
-    });
-    history.push(linkPath);
-  };
-}
-
-function ReferralAppLinkComponent({ linkPath, linkText }) {
+function ReferralAppLinkComponent({ linkText }) {
+  const currentPage = useSelector(selectCurrentPage);
   const history = useHistory();
+
+  const handleClick = () => {
+    return e => {
+      e.preventDefault();
+      recordEvent({
+        event: `${GA_PREFIX}-review-upcoming-link`,
+      });
+      routeToNextReferralPage(history, currentPage, referral.id);
+    };
+  };
+
   const featureCCDirectScheduling = useSelector(
     selectFeatureCCDirectScheduling,
   );
+
   return featureCCDirectScheduling ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
-      className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--2p5"
+      className="vads-c-action-link--green vaos-hide-for-print"
       href="/"
-      onClick={handleClick(history, linkPath)}
+      onClick={handleClick()}
     >
       {linkText}
     </a>
@@ -37,18 +43,28 @@ function ReferralAppLinkComponent({ linkPath, linkText }) {
       className="xsmall-screen:vads-u-margin-bottom--3 vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4"
       aria-label={linkText}
       id="schedule-button"
-      onClick={handleClick(history, linkPath)}
+      onClick={handleClick()}
     >
       {linkText}
     </button>
   );
 }
 
-export default function ReferralAppLink({ linkPath, linkText }) {
-  return <ReferralAppLinkComponent linkPath={linkPath} linkText={linkText} />;
+ReferralAppLinkComponent.propTypes = {
+  linkText: PropTypes.string.isRequired,
+};
+export default function ReferralAppLink({ linkText }) {
+  const location = useLocation();
+  // Only display on upcoming appointments page
+  if (
+    location.pathname.endsWith('pending') ||
+    location.pathname.endsWith('past')
+  ) {
+    return null;
+  }
+  return <ReferralAppLinkComponent linkText={linkText} />;
 }
 
 ReferralAppLink.propTypes = {
-  linkPath: PropTypes.string,
-  linkText: PropTypes.string,
+  linkText: PropTypes.string.isRequired,
 };

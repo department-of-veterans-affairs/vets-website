@@ -5,13 +5,24 @@ import recordEvent from '~/platform/monitoring/record-event';
 
 export const externalLinkText = '(opens in new tab)';
 
+/**
+ * A navigation card.
+ * @param {string} icon an optional icon to display to the left of the title
+ * @param {string} iconClasses an optional style for the icon
+ * @param {string} introduction an optional introduction text to display below the title
+ * @param {string} links optional links display in the card
+ * @param {string} title the title for the navigation card
+ * @param {string} tag an optional tag to display to the right of the title
+ */
 const NavCard = ({
   icon = null,
   iconClasses = 'vads-u-margin-right--1p5',
+  introduction,
   title,
   links,
+  tag,
 }) => {
-  const listItems = links.map(({ ariaLabel, href, text, isExternal }) => (
+  const listItems = links?.map(({ ariaLabel, href, text, isExternal }) => (
     <li className="mhv-c-navlistitem" key={href}>
       <a
         className={isExternal ? 'mhv-c-navlink-external' : 'mhv-c-navlink'}
@@ -32,13 +43,7 @@ const NavCard = ({
         >
           {text} {isExternal && externalLinkText}
         </span>
-        {!isExternal && (
-          <va-icon
-            class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
-            icon="navigate_next"
-            size={4}
-          />
-        )}
+        {!isExternal && <va-icon icon="navigate_next" size={4} />}
       </a>
     </li>
   ));
@@ -59,20 +64,74 @@ const NavCard = ({
             <va-icon icon={icon} size={4} />
           </div>
         )}
-        <div className="vads-u-flex--fill">
-          <h2 className="vads-u-margin--0" id={slug}>
-            {title}
-          </h2>
-        </div>
+        <h2
+          className="vads-u-margin--0 small-desktop-screen:vads-u-margin-right--2"
+          id={slug}
+        >
+          {title}
+        </h2>
+        {tag && (
+          <div className="vads-u-flex--auto">
+            <span
+              className={classnames(
+                'usa-label',
+                'vads-u-background-color--primary',
+                'vads-u-display--none',
+                'desktop:vads-u-display--block',
+              )}
+            >
+              {tag}
+            </span>
+          </div>
+        )}
       </div>
-      <ul className="mhv-u-list-style--none vads-u-padding-left--0 vads-u-margin-top--2 vads-u-margin-bottom--0">
-        {listItems}
-      </ul>
+      {tag && (
+        <p>
+          <span
+            className={classnames(
+              'usa-label',
+              'vads-u-background-color--primary',
+              'vads-u-display--inline-block',
+              'desktop:vads-u-display--none',
+            )}
+          >
+            {tag}
+          </span>
+        </p>
+      )}
+      {introduction && (
+        <p
+          className={classnames(
+            'vads-u-padding-left--0',
+            'vads-u-margin-top--2',
+            'vads-u-margin-bottom--0',
+            'vads-u-font-size--lg',
+          )}
+        >
+          {introduction}
+        </p>
+      )}
+      {listItems && (
+        <ul
+          className={classnames(
+            'mhv-u-list-style--none',
+            'vads-u-padding-left--0',
+            'vads-u-margin-bottom--0',
+            {
+              'vads-u-margin-top--2': !introduction,
+              'vads-u-margin-top--0': introduction,
+            },
+          )}
+        >
+          {listItems}
+        </ul>
+      )}
     </div>
   );
 };
 
 NavCard.propTypes = {
+  title: PropTypes.string.isRequired,
   icon: PropTypes.oneOf([
     'attach_money',
     'calendar_today',
@@ -82,6 +141,7 @@ NavCard.propTypes = {
     'pill',
   ]),
   iconClasses: PropTypes.string,
+  introduction: PropTypes.string,
   links: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -89,6 +149,6 @@ NavCard.propTypes = {
       isExternal: PropTypes.bool,
     }),
   ),
-  title: PropTypes.string,
+  tag: PropTypes.string,
 };
 export default NavCard;

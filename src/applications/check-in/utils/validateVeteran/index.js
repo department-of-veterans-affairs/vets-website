@@ -28,8 +28,9 @@ const validateLogin = async (
   setSession,
   app,
   updateError,
+  setDobError,
 ) => {
-  setLastNameError();
+  setLastNameError(false);
 
   let valid = true;
 
@@ -50,6 +51,7 @@ const validateLogin = async (
   }
 
   if (!valid) {
+    setDobError(true);
     return;
   }
 

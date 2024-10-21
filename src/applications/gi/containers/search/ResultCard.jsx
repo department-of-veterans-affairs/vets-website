@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
@@ -37,6 +38,7 @@ export function ResultCard({
   header = null,
   active = false,
   version,
+  paginationRef,
 }) {
   const {
     name,
@@ -140,7 +142,7 @@ export function ResultCard({
 
   const containerClasses = classNames({
     'vads-u-margin-bottom--2': !location,
-    'small-screen:vads-u-margin-left--2p5': !location,
+    'mobile-lg:vads-u-margin-left--2p5': !location,
     'vads-u-margin--0': location,
     'vads-u-padding--0': location,
   });
@@ -155,6 +157,7 @@ export function ResultCard({
       <div>
         <h3 className={nameClasses} id={`label-${institution.facilityCode}`}>
           <Link
+            ref={paginationRef}
             to={profileLink}
             onClick={() =>
               recordEvent({
@@ -345,19 +348,20 @@ export function ResultCard({
             </div>
           )}
           <>
-            {showSchoolContentBasedOnType(type) && (
-              <div
-                className={classNames(
-                  'vads-u-padding-x--2 vads-u-margin-bottom--4',
-                  {
-                    'vads-u-border-top--3px': cautionFlags.length === 0,
-                    'vads-u-border-color--white': cautionFlags.length === 0,
-                  },
-                )}
-              >
-                {tuitionAndEligibility}
-              </div>
-            )}
+            {showSchoolContentBasedOnType(type) &&
+              type !== 'FOREIGN' && (
+                <div
+                  className={classNames(
+                    'vads-u-padding-x--2 vads-u-margin-bottom--4',
+                    {
+                      'vads-u-border-top--3px': cautionFlags.length === 0,
+                      'vads-u-border-color--white': cautionFlags.length === 0,
+                    },
+                  )}
+                >
+                  {tuitionAndEligibility}
+                </div>
+              )}
             <div className="vads-u-border-top--3px vads-u-border-color--white vads-u-padding-x--2">
               <div className="vads-u-display--flex vads-u-margin-top--1 ">
                 {!vetTecProvider
@@ -400,6 +404,23 @@ const mapDispatchToProps = {
   dispatchAddCompareInstitution: addCompareInstitution,
   dispatchRemoveCompareInstitution: removeCompareInstitution,
   dispatchShowModal: showModal,
+};
+
+ResultCard.propTypes = {
+  compare: PropTypes.object.isRequired,
+  dispatchAddCompareInstitution: PropTypes.func.isRequired,
+  dispatchRemoveCompareInstitution: PropTypes.func.isRequired,
+  dispatchShowModal: PropTypes.func.isRequired,
+  estimated: PropTypes.object.isRequired,
+  institution: PropTypes.object.isRequired,
+  active: PropTypes.bool,
+  header: PropTypes.node,
+  location: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  paginationRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
+  version: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default connect(

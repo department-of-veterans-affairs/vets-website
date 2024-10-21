@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
+import AppointmentsPage from '../components/pages/Appointments';
+import UpcomingAppointmentsPage from '../components/pages/UpcomingAppointments';
 import Demographics from './pages/Demographics';
 import NextOfKin from './pages/NextOfKin';
 import EmergencyContact from './pages/EmergencyContact';
@@ -10,7 +11,6 @@ import Error from './pages/Error';
 import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
 import ValidateVeteran from './pages/ValidateVeteran';
-import LoadingPage from './pages/LoadingPage';
 import TravelQuestion from './pages/TravelQuestion';
 import TravelVehicle from './pages/TravelVehicle';
 import TravelAddress from './pages/TravelAddress';
@@ -43,6 +43,24 @@ const routes = [
     },
   },
   {
+    path: URLS.APPOINTMENTS,
+    component: AppointmentsPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.UPCOMING_APPOINTMENTS,
+    component: UpcomingAppointmentsPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+    reloadUpcoming: true,
+  },
+  {
     path: URLS.DEMOGRAPHICS,
     component: Demographics,
     permissions: {
@@ -70,15 +88,6 @@ const routes = [
     reloadable: true,
   },
   {
-    path: URLS.DETAILS,
-    component: CheckIn,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-    reloadable: true,
-  },
-  {
     path: `${URLS.COMPLETE}/:appointmentId`,
     component: Confirmation,
     permissions: {
@@ -96,14 +105,6 @@ const routes = [
       requireAuthorization: true,
     },
     reloadable: true,
-  },
-  {
-    path: URLS.LOADING,
-    component: LoadingPage,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
   },
   {
     path: URLS.TRAVEL_QUESTION,
@@ -164,6 +165,16 @@ const routes = [
     reloadable: true,
   },
   {
+    path: `${URLS.UPCOMING_APPOINTMENT_DETAILS}/:appointmentId`,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+    reloadUpcoming: true,
+  },
+  {
     path: URLS.ARRIVED,
     component: ArrivedAtFacility,
     permissions: {
@@ -215,7 +226,11 @@ const createRoutesWithStore = () => {
           if (route.reloadable) {
             // If the page is able to restore state on reload add the wrapper.
             return (
-              <ReloadWrapper app={APP_NAMES.CHECK_IN} {...props}>
+              <ReloadWrapper
+                reloadUpcoming={route.reloadUpcoming}
+                app={APP_NAMES.CHECK_IN}
+                {...props}
+              >
                 <Component {...props} />
               </ReloadWrapper>
             );

@@ -2,10 +2,10 @@ const { snakeCase } = require('lodash');
 
 // Please, keep these feature toggle settings up-to-date with production's feature toggles settings.
 const APPLICATION_FEATURE_TOGGLES = Object.freeze({
+  mhvVaHealthChatEnabled: false,
   mhvLandingPagePersonalization: false,
-  mhvSecondaryNavigationEnabled: true,
-  mhvTransitionalMedicalRecordsLandingPage: true,
-  mhvHelpdeskInformationEnabled: true,
+  mhvIntegrationMedicalRecordsToPhase1: false,
+  travelPayPowerSwitch: false,
 });
 
 const generateFeatureToggles = ({

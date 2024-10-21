@@ -33,16 +33,6 @@ export const getAppData = state => ({
   showMeb1990EZR6MaintenanceMessage: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb1990EZR6MaintenanceMessage
   ],
-  showMebDgi40Features: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebDgi40Features
-  ],
-  showMebDgi42Features: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebDgi42Features
-  ],
-  // Add the new feature flag: showMebEnhancements
-  showMebEnhancements: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebEnhancements
-  ],
   // Add the new feature flag: showMebEnhancements
   showMebEnhancements06: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements06
@@ -64,5 +54,8 @@ export const getAppData = state => ({
   ],
   dgiRudisillHideBenefitsSelectionStep: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.dgiRudisillHideBenefitsSelectionStep
+  ],
+  meb160630Automation: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.meb160630Automation
   ],
 });

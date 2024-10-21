@@ -208,6 +208,7 @@ describe('VAOS Backend Service Alert', () => {
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       backendServiceFailures: true,
+      avs: true,
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -267,6 +268,7 @@ describe('VAOS Backend Service Alert', () => {
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       backendServiceFailures: false,
+      avs: true,
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {

@@ -3,6 +3,8 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import * as scroll from 'platform/utilities/ui/scroll';
+import * as page from '../../utils/page';
 
 import {
   groupTimelineActivity,
@@ -33,7 +35,15 @@ import {
   getClaimPhaseTypeHeaderText,
   getPhaseItemText,
   getClaimPhaseTypeDescription,
+  isAutomated5103Notice,
   setDocumentRequestPageTitle,
+  setPageFocus,
+  setTabDocumentTitle,
+  getTrackedItemDateFromStatus,
+  sentenceCase,
+  generateClaimTitle,
+  isStandard5103Notice,
+  getTrackedItemHumanReadableName,
 } from '../../utils/helpers';
 
 import {
@@ -1172,13 +1182,375 @@ describe('Disability benefits helpers: ', () => {
       const displayName = 'Automated 5103 Notice Response';
       const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
 
-      expect(documentRequestPageTitle).to.equal('5103 Evidence Notice');
+      expect(documentRequestPageTitle).to.equal(
+        'Review evidence list (5103 notice)',
+      );
     });
     it('should display Request for Submit buddy statement(s)', () => {
       const displayName = 'Submit buddy statement(s)';
       const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
 
       expect(documentRequestPageTitle).to.equal(`Request for ${displayName}`);
+    });
+  });
+
+  describe('setTabDocumentTitle', () => {
+    context('when there is no claim', () => {
+      it('should set tab title for Status', () => {
+        setTabDocumentTitle(null, 'Status');
+
+        expect(document.title).to.equal(
+          'Status of Your Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Files', () => {
+        setTabDocumentTitle(null, 'Files');
+
+        expect(document.title).to.equal(
+          'Files for Your Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Overview', () => {
+        setTabDocumentTitle(null, 'Overview');
+
+        expect(document.title).to.equal(
+          'Overview of Your Claim | Veterans Affairs',
+        );
+      });
+    });
+    context('when there is a claim', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          supportingDocuments: [],
+          claimDate: '2023-01-01',
+          closeDate: null,
+          documentsNeeded: true,
+          decisionLetterSent: false,
+          status: 'INITIAL_REVIEW',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2015-01-01',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+              phase2CompleteDate: '2023-02-08',
+            },
+          },
+        },
+      };
+      it('should set tab title for Status', () => {
+        setTabDocumentTitle(claim, 'Status');
+
+        expect(document.title).to.equal(
+          'Status of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Files', () => {
+        setTabDocumentTitle(claim, 'Files');
+
+        expect(document.title).to.equal(
+          'Files for January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Overview', () => {
+        setTabDocumentTitle(claim, 'Overview');
+
+        expect(document.title).to.equal(
+          'Overview of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+    });
+  });
+
+  describe('setPageFocus', () => {
+    context('when last page was not a tab and loading is false', () => {
+      it('should run setUpPage', () => {
+        const setUpPage = sinon.spy(page, 'setUpPage');
+        setPageFocus('/test', false);
+
+        expect(setUpPage.called).to.be.true;
+      });
+    });
+    context('when last page was not a tab and loading is true', () => {
+      it('should run scrollToTop', () => {
+        const scrollToTop = sinon.spy(scroll, 'scrollToTop');
+        setPageFocus('/test', true);
+
+        expect(scrollToTop.called).to.be.true;
+      });
+    });
+    context('when last page was a tab', () => {
+      it('should run scrollAndFocus', () => {
+        const scrollAndFocus = sinon.spy(scroll, 'scrollAndFocus');
+        setPageFocus('/status', false);
+
+        expect(scrollAndFocus.called).to.be.true;
+      });
+    });
+  });
+
+  describe('getTrackedItemDateFromStatus', () => {
+    context('when item status is NEEDED_FROM_YOU', () => {
+      it('should return item requestedDate', () => {
+        const item = {
+          id: 1,
+          requestedDate: '2023-02-22',
+          status: 'NEEDED_FROM_YOU',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.requestedDate);
+      });
+    });
+    context('when item status is NEEDED_FROM_OTHERS', () => {
+      it('should return item requestedDate', () => {
+        const item = {
+          id: 1,
+          requestedDate: '2023-02-22',
+          status: 'NEEDED_FROM_OTHERS',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.requestedDate);
+      });
+    });
+    context('when item status is NO_LONGER_REQUIRED', () => {
+      it('should return item requestedDate', () => {
+        const item = {
+          id: 1,
+          closedDate: '2023-02-22',
+          status: 'NO_LONGER_REQUIRED',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.closedDate);
+      });
+    });
+    context('when item status is SUBMITTED_AWAITING_REVIEW', () => {
+      it('should return the oldest item.documents.uploadDate requestedDate', () => {
+        const item = {
+          id: 1,
+          date: '2023-02-22',
+          status: 'SUBMITTED_AWAITING_REVIEW',
+          displayName: 'Test',
+          documents: [
+            {
+              documentId: '{1}',
+              documentTypeLabel: 'Correspondence',
+              originalFileName: 'file.pdf',
+              trackedItemId: 1,
+              uploadDate: '2023-02-23',
+            },
+            {
+              documentId: '{2}',
+              documentTypeLabel: 'Correspondence',
+              originalFileName: 'file2.pdf',
+              trackedItemId: 1,
+              uploadDate: '2023-02-20',
+            },
+          ],
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.documents[1].uploadDate);
+      });
+    });
+    context('when item status is INITIAL_REVIEW_COMPLETE', () => {
+      it('should return item receivedDate', () => {
+        const item = {
+          id: 1,
+          receivedDate: '2023-02-22',
+          status: 'INITIAL_REVIEW_COMPLETE',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.receivedDate);
+      });
+    });
+    context('when item status is ACCEPTED', () => {
+      it('should return item receivedDate', () => {
+        const item = {
+          id: 1,
+          receivedDate: '2023-02-22',
+          status: 'ACCEPTED',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.receivedDate);
+      });
+    });
+    context('when item status is not recognized', () => {
+      it('should return the default item requestedDate', () => {
+        const item = {
+          id: 1,
+          requestedDate: '2023-02-22',
+          status: 'TEST',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.requestedDate);
+      });
+    });
+  });
+
+  describe('isStandard5103Notice', () => {
+    context('when display name is not a standard 5103 notice', () => {
+      it('should return false', () => {
+        const displayName = 'Test';
+        expect(isStandard5103Notice(displayName)).to.be.false;
+      });
+    });
+    context('when display name is a standard 5103 notice from the API', () => {
+      it('should return true', () => {
+        const displayName = '5103 Notice Response';
+        expect(isStandard5103Notice(displayName)).to.be.true;
+      });
+    });
+    // See comment above the standard5103Item in constants.js
+    context(
+      'when display name is a standard 5103 notice mocked by the application',
+      () => {
+        it('should return true', () => {
+          const displayName = 'Review evidence list (5103 notice)';
+          expect(isStandard5103Notice(displayName)).to.be.true;
+        });
+      },
+    );
+  });
+
+  describe('isAutomated5103Notice', () => {
+    context('when display name is not an automated 5103 notice', () => {
+      it('should return false', () => {
+        const displayName = 'Test';
+        expect(isAutomated5103Notice(displayName)).to.be.false;
+      });
+    });
+    context('when display name is an automated 5103 notice', () => {
+      it('should return true', () => {
+        const displayName = 'Automated 5103 Notice Response';
+        expect(isAutomated5103Notice(displayName)).to.be.true;
+      });
+    });
+  });
+
+  describe('sentenceCase', () => {
+    it('capitalizes the first letter in a string and does not modify the rest of the string', () => {
+      expect(sentenceCase('a')).to.equal('A');
+      expect(sentenceCase('A')).to.equal('A');
+      expect(sentenceCase('1')).to.equal('1');
+      expect(sentenceCase('hello world')).to.equal('Hello world');
+      expect(sentenceCase('h3770 W0R7D')).to.equal('H3770 W0R7D');
+    });
+    it('returns an empty string for bad inputs', () => {
+      expect(sentenceCase()).to.equal('');
+      expect(sentenceCase('')).to.equal('');
+      expect(sentenceCase(['array', 'of', 'strings'])).to.equal('');
+      expect(sentenceCase({ key: 'value' })).to.equal('');
+    });
+  });
+
+  describe('generateClaimTitle', () => {
+    const claimDate = '2024-08-21';
+    const compensationClaim = { attributes: { claimType: 'Compensation' } };
+    const addOrRemoveDependentClaim = {
+      attributes: { claimTypeCode: '130DPNDCYAUT', claimDate },
+    };
+    context('when generating a card title', () => {
+      it('should generate a default title', () => {
+        expect(generateClaimTitle()).to.equal(
+          'Claim for disability compensation',
+        );
+      });
+      it('should generate a title based on the claim type', () => {
+        expect(generateClaimTitle(compensationClaim)).to.equal(
+          'Claim for compensation',
+        );
+      });
+      it('should generate a different title for requests to add or remove a dependent', () => {
+        expect(generateClaimTitle(addOrRemoveDependentClaim)).to.equal(
+          'Request to add or remove a dependent',
+        );
+      });
+    });
+    context('when generating a detail page heading', () => {
+      it('should generate a default title', () => {
+        expect(generateClaimTitle({}, 'detail')).to.equal(
+          'Your disability compensation claim',
+        );
+      });
+      it('should generate a title based on the claim type', () => {
+        expect(generateClaimTitle(compensationClaim, 'detail')).to.equal(
+          'Your compensation claim',
+        );
+      });
+      it('should generate a different title for requests to add or remove a dependent', () => {
+        expect(
+          generateClaimTitle(addOrRemoveDependentClaim, 'detail'),
+        ).to.equal('Your request to add or remove a dependent');
+      });
+    });
+    context('when generating a breadcrumb title', () => {
+      it('should generate a default title if the claim is unavailable', () => {
+        expect(generateClaimTitle({}, 'breadcrumb', 'Status')).to.equal(
+          'Status of your claim',
+        );
+      });
+      it('should generate a title based on the tab name and claim type', () => {
+        expect(
+          generateClaimTitle(compensationClaim, 'breadcrumb', 'Files'),
+        ).to.equal('Files for your compensation claim');
+        expect(
+          generateClaimTitle(compensationClaim, 'breadcrumb', 'Status'),
+        ).to.equal('Status of your compensation claim');
+      });
+      it('should generate a different title for requests to add or remove a dependent', () => {
+        expect(
+          generateClaimTitle(addOrRemoveDependentClaim, 'breadcrumb', 'Files'),
+        ).to.equal('Files for your request to add or remove a dependent');
+        expect(
+          generateClaimTitle(addOrRemoveDependentClaim, 'breadcrumb', 'Status'),
+        ).to.equal('Status of your request to add or remove a dependent');
+      });
+    });
+    context('when generating a document title for the browser tab', () => {
+      it('should generate a default title if the claim is unavailable', () => {
+        expect(generateClaimTitle({}, 'document', 'Files')).to.equal(
+          'Files for Your Claim',
+        );
+      });
+      it('should generate a title based on the tab name and claim type', () => {
+        expect(
+          generateClaimTitle(
+            { attributes: { claimDate } },
+            'document',
+            'Files',
+          ),
+        ).to.equal('Files for August 21, 2024 Disability Compensation Claim');
+      });
+      it('should generate a different title for requests to add or remove a dependent', () => {
+        expect(
+          generateClaimTitle(addOrRemoveDependentClaim, 'document', 'Files'),
+        ).to.equal(
+          'Files for August 21, 2024 Request to Add or Remove a Dependent',
+        );
+      });
+    });
+  });
+  describe('getTrackedItemHumanReadableName', () => {
+    it('should return a replacment name if one is available', () => {
+      expect(getTrackedItemHumanReadableName('PMR Pending')).to.equal(
+        'Private Medical Record',
+      );
+    });
+    it("should return the provided name if a replacement doesn't exist", () => {
+      expect(getTrackedItemHumanReadableName('test')).to.equal('test');
     });
   });
 });

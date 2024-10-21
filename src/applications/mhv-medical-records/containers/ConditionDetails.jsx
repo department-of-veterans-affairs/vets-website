@@ -8,13 +8,13 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -25,7 +25,6 @@ import {
   getConditionDetails,
   clearConditionDetails,
 } from '../actions/conditions';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -39,7 +38,6 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import { useIsDetails } from '../hooks/useIsDetails';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -59,18 +57,8 @@ const ConditionDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/my-health/medical-records/conditions',
-            label: 'Health conditions',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearConditionDetails());
       };
@@ -107,7 +95,7 @@ const ConditionDetails = props => {
 
   const generateConditionDetailsPdf = async () => {
     setDownloadStarted(true);
-    const title = `Conditions: ${record.name} on ${record.date}`;
+    const title = `Health conditions: ${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, ...generateConditionContent(record) };
@@ -120,7 +108,7 @@ const ConditionDetails = props => {
     const content = `
 ${crisisLineHeader}\n\n
 ${record.name} \n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
@@ -137,7 +125,7 @@ Provider Notes: ${processList(record.comments)}\n`;
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   function containsSctOrIcd(inputString) {
-    const regex = /\b(sct|icd)\b/i;
+    const regex = /\b(sct|icd)/i;
     return regex.test(inputString);
   }
 
@@ -159,7 +147,7 @@ Provider Notes: ${processList(record.comments)}\n`;
             aria-describedby="condition-date"
             data-dd-privacy="mask"
           >
-            {`Health Conditions: ${record.name}`}
+            {`Health conditions: ${record.name}`}
           </h1>
           <DateSubheading
             date={record.date}

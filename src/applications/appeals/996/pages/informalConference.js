@@ -6,29 +6,36 @@ import {
 import { errorMessages } from '../constants';
 
 import {
+  informalConferenceTitle,
   InformalConferenceDescription,
-  InformalConferenceTitle,
+  informalConferenceHint,
   informalConferenceLabels,
+  informalConferenceDescriptions,
 } from '../content/InformalConference';
+import { validateConferenceChoice } from '../validations';
 
 const informalConference = {
   uiSchema: {
-    informalConference: radioUI({
-      title: InformalConferenceTitle,
-      labels: informalConferenceLabels,
-      descriptions: InformalConferenceDescription,
-      enableAnalytics: true,
-      errorMessages: {
-        required: errorMessages.informalConferenceContactChoice,
-      },
-      labelHeaderLevel: 3,
-    }),
+    'ui:description': InformalConferenceDescription,
+    informalConference: {
+      ...radioUI({
+        title: informalConferenceTitle,
+        hint: informalConferenceHint,
+        labels: informalConferenceLabels,
+        descriptions: informalConferenceDescriptions,
+        enableAnalytics: true,
+        errorMessages: {
+          required: errorMessages.informalConferenceContactChoice,
+        },
+      }),
+      'ui:validations': [validateConferenceChoice],
+    },
   },
   schema: {
     type: 'object',
     required: ['informalConference'],
     properties: {
-      informalConference: radioSchema(['no', 'me', 'rep']),
+      informalConference: radioSchema(['me', 'rep', 'no']),
     },
   },
 };

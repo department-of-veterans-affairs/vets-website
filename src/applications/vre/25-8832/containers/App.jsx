@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring';
 
 import {
   WIZARD_STATUS_NOT_STARTED,
@@ -41,6 +43,12 @@ function App({ location, children, router }) {
     if (shouldRestart) {
       router.push('/');
     }
+  });
+
+  const { TOGGLE_NAMES } = useFeatureToggle();
+  useBrowserMonitoring({
+    location,
+    toggleName: TOGGLE_NAMES.disablityBenefitsBrowserMonitoringEnabled,
   });
 
   if (wizardState !== WIZARD_STATUS_COMPLETE) {

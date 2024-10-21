@@ -2,7 +2,7 @@ import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
-import { Locators, Paths, Data } from '../utils/constants';
+import { Locators, Paths, Data, Alerts } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
@@ -21,7 +21,7 @@ class PatientComposePage {
       .its('request.body')
       .then(request => {
         if (mockRequest) {
-          expect(request.body).to.eq(
+          expect(request.body).to.contain(
             `\n\n\nName\nTitleTest${mockRequest.body} `,
           );
           expect(request.category).to.eq(mockRequest.category);
@@ -54,7 +54,7 @@ class PatientComposePage {
 
   verifySendMessageConfirmationMessageText = () => {
     cy.get('[data-testid="alert-text"]').should(
-      'contain.text',
+      'include.text',
       Data.SECURE_MSG_SENT_SUCCESSFULLY,
     );
   };
@@ -63,12 +63,11 @@ class PatientComposePage {
     cy.focused().should('contain.text', Data.SECURE_MSG_SENT_SUCCESSFULLY);
   };
 
-  selectRecipient = (recipient = 1) => {
-    cy.get(Locators.ALERTS.REPT_SELECT).click();
+  selectRecipient = (index = 1) => {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
-      .select(recipient, { force: true });
+      .select(index, { force: true });
   };
 
   selectCategory = (category = 'OTHER') => {
@@ -91,7 +90,7 @@ class PatientComposePage {
       .find('[name="compose-message-body"]');
   };
 
-  getDigitalSignatureField = () => {
+  getElectronicSignatureField = () => {
     return cy.get('va-card').find('#inputField');
   };
 
@@ -120,7 +119,7 @@ class PatientComposePage {
   };
 
   verifyFocusOnErrorMessage = () => {
-    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT'];
+    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT', `BUTTON`];
     return cy.focused().then(el => {
       const tagName = el.prop('tagName');
       expect(tagName).to.be.oneOf(allowedTags);
@@ -175,9 +174,7 @@ class PatientComposePage {
     cy.get(Locators.MESSAGES_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SAVE_DRAFT);
     cy.realPress('Enter');
-    cy.wait('@draft_message').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
+    cy.wait('@draft_message');
   };
 
   saveDraftButton = () => {
@@ -190,7 +187,7 @@ class PatientComposePage {
       `/my_health/v1/messaging/message_drafts/${
         draftMessage.data.attributes.messageId
       }`,
-      draftMessage,
+      { ok: true },
     ).as('draft_message');
 
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
@@ -226,7 +223,7 @@ class PatientComposePage {
       `/my_health/v1/messaging/message_drafts/${
         mockDraftResponse.data.attributes.messageId
       }`,
-      mockDraftResponse,
+      {},
     ).as('draft_message');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
 
@@ -242,9 +239,13 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.ERROR_MESSAGE)
       .should('have.text', errormessage)
       .should('be.visible');
+
+    cy.get(`.attachments-section`)
+      .find(`.file-input`)
+      .should(`have.css`, `border-left-width`, `4px`);
   };
 
-  closeAttachmentErrorPopup = () => {
+  closeAttachmentErrorModal = () => {
     cy.get(Locators.ALERTS.ERROR_MODAL)
       .shadow()
       .find('[type="button"]')
@@ -252,7 +253,14 @@ class PatientComposePage {
       .click();
   };
 
-  attachMessageFromFile = filename => {
+  closeESAlertModal = () => {
+    cy.get(Locators.ALERTS.ES_ALERT)
+      .shadow()
+      .find(`button`)
+      .click({ force: true });
+  };
+
+  attachMessageFromFile = (filename = Data.TEST_IMAGE) => {
     const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
     cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
       force: true,
@@ -415,25 +423,26 @@ class PatientComposePage {
       .should('be.visible');
   };
 
-  verifyDraftSaveButtonOnFocus = () => {
-    cy.get(Locators.BUTTONS.SAVE_DRAFT)
-      .should('exist')
-      .and('be.focused');
-  };
-
   verifyAttachmentInfo = data => {
     cy.get(Locators.INFO.ATTACH_OPT).each((el, index) => {
       cy.wrap(el).should('have.text', data[index]);
     });
   };
 
-  verifyDigitalSignature = () => {
-    cy.get('va-card')
-      .find('h2')
-      .should('have.text', 'Digital signature');
+  verifyElectronicSignatureAlert = () => {
+    cy.get(`[data-testid="signature-alert"]`).should(
+      `have.text`,
+      Alerts.EL_SIGN,
+    );
   };
 
-  verifyDigitalSignatureRequired = () => {
+  verifyElectronicSignature = () => {
+    cy.get('va-card')
+      .find('h2')
+      .should('have.text', 'Electronic signature');
+  };
+
+  verifyElectronicSignatureRequired = () => {
     cy.get('va-card')
       .find('va-text-input')
       .shadow()
@@ -441,8 +450,50 @@ class PatientComposePage {
       .should('contain.text', 'Required');
   };
 
+  clickElectronicSignatureCheckbox = () => {
+    cy.get(`va-checkbox`)
+      .shadow()
+      .find(`#checkbox-element`)
+      .click({ force: true });
+  };
+
   getAlertEditDraftBtn = () => {
-    return cy.get(Locators.ALERTS.DS_ALERT).find('va-button');
+    return cy.get(Locators.ALERTS.ES_ALERT).find('va-button');
+  };
+
+  verifyHeader = text => {
+    cy.get(Locators.HEADER).should(`have.text`, text);
+  };
+
+  verifyRecipientsDropdownStatus = value => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .shadow()
+      .find(`a`)
+      .should(`have.attr`, `aria-expanded`, value);
+  };
+
+  verifyRecipientsDropdownLinks = () => {
+    // verify `find-locations` link
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="preferences"]`)
+      .should(`be.visible`);
+
+    // verify `preferences` link
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="locations"]`)
+      .should(`be.visible`)
+      .and('not.have.attr', `target`, `_blank`);
+  };
+
+  openRecipientsDropdown = () => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .shadow()
+      .find(`a`)
+      .click({ force: true });
+  };
+
+  backToInbox = () => {
+    cy.get(Locators.BACK_TO).click();
   };
 }
 

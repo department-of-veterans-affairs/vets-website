@@ -4,6 +4,7 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import { showMultiplePageResponse } from '../../../helpers';
 
 const { hasCareExpenses } = fullSchemaPensions.properties;
 
@@ -22,6 +23,7 @@ export const description = (
 export default {
   title: 'Care expenses',
   path: 'financial/care-expenses',
+  depends: () => !showMultiplePageResponse(),
   uiSchema: {
     ...titleUI('Care expenses', description),
     hasCareExpenses: yesNoUI({

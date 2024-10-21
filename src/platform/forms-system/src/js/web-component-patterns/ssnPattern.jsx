@@ -1,6 +1,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import get from 'platform/utilities/data/get';
-import SsnField from '../web-component-fields/SsnField';
+import SsnField, { maskSSN } from '../web-component-fields/SsnField';
 import { validateSSN } from '../validation';
 import SSNReviewWidget from '../review/SSNWidget';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
@@ -27,6 +27,7 @@ const ssnUI = title => {
     'ui:title': title ?? SSN_DEFAULT_TITLE,
     'ui:webComponentField': SsnField,
     'ui:reviewWidget': SSNReviewWidget,
+    'ui:confirmationField': ({ formData }) => ({ data: maskSSN(formData) }),
     'ui:validations': [validateSSN],
     'ui:errorMessages': {
       pattern:

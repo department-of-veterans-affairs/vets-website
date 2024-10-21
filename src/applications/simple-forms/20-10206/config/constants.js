@@ -35,7 +35,8 @@ export const RECORD_TYPE_LABELS = Object.freeze({
   [RECORD_TYPES.DD214]:
     'Certificate of Release or Discharge from Active Duty (DD Form 214)',
   [RECORD_TYPES.C_FILE]: 'Claims File (C-file)',
-  [RECORD_TYPES.DISABILITY_EXAMS]: 'Disability examinations (C&P exams)',
+  [RECORD_TYPES.DISABILITY_EXAMS]:
+    'Claim exams (sometimes known as disability examinations or C&P exams)',
   [RECORD_TYPES.OMPF]: 'Official military personnel file (OMPF)',
   [RECORD_TYPES.PENSION]: 'Pension benefit documents',
   [RECORD_TYPES.TREATMENT]: 'Service or military treatment',

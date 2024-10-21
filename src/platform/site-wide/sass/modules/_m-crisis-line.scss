@@ -1,7 +1,7 @@
 .va-crisis-line-container {
   position: relative;
   margin: auto;
-  background-color: var(--vads-color-secondary-dark);
+  background-color: var(--vads-color-secondary-darkest);
 
   @include media($small-desktop-screen) {
     max-width: 975px;
@@ -10,7 +10,7 @@
 }
 
 button.va-crisis-line {
-  background-color: var(--vads-color-secondary-dark);
+  background-color: var(--vads-color-secondary-darkest);
   display: block;
   border-radius: 0;
   color: var(--vads-color-white);
@@ -118,6 +118,15 @@ button.va-crisis-line {
     font-size: 20px;
   }
 
+  &-icon {
+    color: var(--vads-color-base) !important;
+    font-size: 26px;
+    width: 46px;
+    padding: 0.4em 0.3em;
+    align-self: center;
+    flex-shrink: 0;
+  }
+
   &-list {
     list-style: none;
     padding: 0;
@@ -158,8 +167,7 @@ button.va-crisis-line {
     padding: 0.4em 0.3em;
     align-self: center;
     flex-shrink: 0;
-    font-family: "Font Awesome 5 Free";
-  }
+}
 
   &-close.va-modal-close {
     font-size: 2.5rem;
@@ -178,4 +186,8 @@ button.va-crisis-line {
 
 .va-crisis-panel-close:hover svg path {
   fill: var(--vads-color-black);
+}
+
+.va-overlay-close#close-button-icon {
+  pointer-events: none;
 }

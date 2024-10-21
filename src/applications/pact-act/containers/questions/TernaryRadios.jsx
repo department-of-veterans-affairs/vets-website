@@ -33,6 +33,8 @@ const TernaryRadios = ({
   setFormError,
   shortName,
   testId,
+  textAfterList = null,
+  textBeforeList = null,
   updateCleanedFormStore,
   valueSetter,
 }) => {
@@ -44,15 +46,20 @@ const TernaryRadios = ({
     if (!formValue) {
       setFormError(true);
       focusElement(radioRef.current);
-    } else {
-      if (valueHasChanged) {
-        // Remove answers from the Redux store if the display path ahead has changed
-        cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
-      }
 
-      setFormError(false);
-      navigateForward(shortName, formResponses, router);
+      return;
     }
+
+    if (valueHasChanged) {
+      // Remove answers from the Redux store if the display path ahead has changed
+      cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+    }
+
+    if (formError) {
+      setFormError(false);
+    }
+
+    navigateForward(shortName, formResponses, router);
   };
 
   const onBackClick = () => {
@@ -66,7 +73,7 @@ const TernaryRadios = ({
       setValueHasChanged(true);
     }
 
-    if (value) {
+    if (value && formError) {
       setFormError(false);
     }
   };
@@ -122,7 +129,9 @@ const TernaryRadios = ({
               </va-additional-info>
             </div>
           )}
+          {textBeforeList && <p>{textBeforeList}</p>}
           {locationList}
+          {textAfterList && <p>{textAfterList}</p>}
         </div>
       </VaRadio>
       <VaButtonPair
@@ -146,7 +155,9 @@ TernaryRadios.propTypes = {
   formResponses: PropTypes.object.isRequired,
   h1: PropTypes.string.isRequired,
   responses: PropTypes.arrayOf(PropTypes.string).isRequired,
-  router: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   setFormError: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
@@ -154,6 +165,8 @@ TernaryRadios.propTypes = {
   valueSetter: PropTypes.func.isRequired,
   formValue: PropTypes.string,
   locationList: PropTypes.node,
+  textAfterList: PropTypes.string,
+  textBeforeList: PropTypes.string,
 };
 
 export default connect(

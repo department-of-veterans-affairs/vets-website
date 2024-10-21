@@ -126,7 +126,6 @@ const AreaOfDisagreement = ({
 
       <VaCheckboxGroup
         label={content.disagreementLegend}
-        hint={content.disagreementHint}
         onVaChange={handlers.onGroupChange}
         error={checkboxErrorMessage}
         required
@@ -146,8 +145,7 @@ const AreaOfDisagreement = ({
             ),
         )}
         <VaTextInput
-          label={DISAGREEMENT_TYPES.otherEntry}
-          hint={content.otherEntryHint}
+          label={`${DISAGREEMENT_TYPES.otherEntry}. ${content.otherEntryHint}`}
           name="otherEntry"
           error={inputErrorMessage}
           onInput={handlers.onInput}

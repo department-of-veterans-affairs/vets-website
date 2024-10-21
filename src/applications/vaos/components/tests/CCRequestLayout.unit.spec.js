@@ -29,7 +29,6 @@ describe('VAOS Component: VARequestLayout', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAfterVisitSummary: true,
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
     },
   };
 
@@ -56,6 +55,7 @@ describe('VAOS Component: VARequestLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        preferredDates: [],
         videoData: {},
         vaos: {
           isCommunityCare: true,
@@ -191,6 +191,7 @@ describe('VAOS Component: VARequestLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        preferredDates: [],
         videoData: {},
         vaos: {
           isCommunityCare: true,

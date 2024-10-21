@@ -1,4 +1,5 @@
 import React, { useEffect, useState, createRef } from 'react';
+import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
@@ -17,7 +18,7 @@ import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 import FilterBeforeResults from './FilterBeforeResults';
 import {
   isProductionOrTestProdEnv,
-  validateSearchTerm,
+  validateSearchTermSubmit,
 } from '../../utils/helpers';
 
 export function NameSearchForm({
@@ -121,7 +122,7 @@ export function NameSearchForm({
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
+    if (validateSearchTermSubmit(name, dispatchError, error, filters, 'name')) {
       recordEvent({
         event: 'gibct-form-change',
         'gibct-form-field': 'nameSearch',
@@ -129,7 +130,7 @@ export function NameSearchForm({
       });
       dispatchShowFiltersBeforeResult();
       doSearch(name);
-    }
+    } else inputRef.current.focus();
     onApplyFilterClick();
   };
   const onKeyEnter = event => {
@@ -175,10 +176,12 @@ export function NameSearchForm({
             />
           </div>
           <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto name-search-button-container">
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
             <button
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button vads-u-display--flex vads-u-align-items--center"
               type="submit"
               onKeyPress={onKeyEnter}
+              data-testid="search-btn"
             >
               <va-icon
                 size={3}
@@ -223,6 +226,22 @@ const mapDispatchToProps = {
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
   dispatchError: setError,
   dispatchShowFiltersBeforeResult: filterBeforeResultFlag,
+};
+
+NameSearchForm.propTypes = {
+  autocomplete: PropTypes.object.isRequired,
+  dispatchError: PropTypes.func.isRequired,
+  dispatchFetchNameAutocompleteSuggestions: PropTypes.func.isRequired,
+  dispatchFetchSearchByNameResults: PropTypes.func.isRequired,
+  dispatchShowFiltersBeforeResult: PropTypes.func.isRequired,
+  dispatchUpdateAutocompleteName: PropTypes.func.isRequired,
+  errorReducer: PropTypes.object.isRequired,
+  filterBeforeResultsReducer: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
+  focusSearchReducer: PropTypes.object.isRequired,
+  preview: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
+  smallScreen: PropTypes.bool,
 };
 
 export default connect(

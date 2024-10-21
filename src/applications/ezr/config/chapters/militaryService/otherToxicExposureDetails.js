@@ -19,9 +19,6 @@ export default {
         pattern: content['military-service-other-exposure-error-message'],
       },
       'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: content['military-service-other-exposure-description-2-hint'],
-      },
     },
   },
   schema: {

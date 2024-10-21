@@ -58,15 +58,19 @@ function FryDeaApp({
     ],
   );
 
+  const breadCrumbs = [
+    { href: '/', label: 'Home' },
+    { href: '/education', label: 'Education and training' },
+    {
+      href: '/fry-dea',
+      label: 'Apply for eduction benefits as an eligible dependent',
+    },
+  ];
+  const bcString = JSON.stringify(breadCrumbs);
+
   return (
     <>
-      <va-breadcrumbs uswds="false">
-        <a href="/">Home</a>
-        <a href="/education">Education and training</a>
-        <a href="/fry-dea">
-          Apply for education benefits as an eligible dependent
-        </a>
-      </va-breadcrumbs>
+      <va-breadcrumbs breadcrumb-list={bcString} />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>

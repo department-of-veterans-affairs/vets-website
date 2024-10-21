@@ -38,7 +38,7 @@ const BackButton = props => {
     [app, currentPage, action],
   );
 
-  if (previousPage && previousPage === URLS.LOADING) {
+  if (previousPage && previousPage === URLS.VERIFY) {
     return '';
   }
   return (

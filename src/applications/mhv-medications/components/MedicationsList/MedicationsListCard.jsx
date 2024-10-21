@@ -5,13 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import {
-  dispStatusForRefillsLeft,
-  DD_ACTIONS_PAGE_TYPE,
-} from '../../util/constants';
+import { dispStatusForRefillsLeft } from '../../util/constants';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { selectRefillContentFlag } from '../../util/selectors';
 import { dateFormat } from '../../util/helpers';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MedicationsListCard = ({ rx }) => {
   const dispatch = useDispatch();
@@ -42,9 +40,9 @@ const MedicationsListCard = ({ rx }) => {
           aria-describedby={`status-${rx.prescriptionId} status-description-${
             rx.prescriptionId
           } fill-or-refill-button-${rx.prescriptionId}`}
-          data-dd-action-name={`Medication Name Link In Card - ${
-            DD_ACTIONS_PAGE_TYPE.LIST
-          }`}
+          data-dd-action-name={
+            dataDogActionNames.medicationsListPage.MEDICATION_NAME_LINK_IN_CARD
+          }
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
           to={`/prescription/${rx.prescriptionId}`}

@@ -4,7 +4,8 @@ import {
   currentYear,
   maxYear,
 } from 'platform/forms-system/src/js/helpers';
-import { dateToMoment } from '../utilities/date';
+import { isBefore } from 'date-fns';
+import { dateFieldToDate } from '../utilities/date';
 
 /**
  * General Validations *
@@ -128,10 +129,10 @@ function isValidDateRange(fromDate, toDate) {
   if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
     return true;
   }
-  const momentStart = dateToMoment(fromDate);
-  const momentEnd = dateToMoment(toDate);
+  const start = dateFieldToDate(fromDate);
+  const end = dateFieldToDate(toDate);
 
-  return momentStart.isBefore(momentEnd);
+  return isBefore(start, end);
 }
 
 function isBlankMonthYear(field) {

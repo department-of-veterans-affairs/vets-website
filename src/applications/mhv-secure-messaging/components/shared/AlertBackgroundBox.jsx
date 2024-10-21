@@ -16,7 +16,13 @@
  * since in this case there are no other content on screen.
  */
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -32,9 +38,19 @@ const AlertBackgroundBox = props => {
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
-  const [activeAlert, setActiveAlert] = useState(null);
   const [alertContent, setAlertContent] = useState('');
   const alertRef = useRef();
+  const [activeAlert, setActiveAlert] = useState(null);
+
+  const hideAlert = useMemo(
+    () =>
+      alertList.filter(
+        alert =>
+          alert.content === Alerts.Message.ATTACHMENT_SCAN_FAIL &&
+          alert.isActive,
+      ).length > 0,
+    [alertList],
+  );
 
   const {
     Message: { SERVER_ERROR_503 },
@@ -79,6 +95,7 @@ const AlertBackgroundBox = props => {
   // these props check if the current page is the folder view page or thread view page
   const foldersViewPage = /folders\/\d+/.test(location.pathname);
   const threadViewPage = /thread\/\d+/.test(location.pathname);
+  const contactListPage = /contact-list/.test(location.pathname);
 
   // sets custom server error messages for the landing page and folder view pages
   useEffect(
@@ -91,6 +108,7 @@ const AlertBackgroundBox = props => {
         lastPathName !== 'Messages' &&
         !foldersViewPage &&
         !threadViewPage &&
+        !contactListPage &&
         (isServiceOutage || isErrorAlert)
       ) {
         content = SERVER_ERROR_503;
@@ -119,53 +137,66 @@ const AlertBackgroundBox = props => {
     }
   }, 60000); // 1 minute
 
-  const alertAriaLabel = `${alertContent}. You are in ${(lastPathName ===
-    'Folders' &&
+  const handleAlertFocus = useCallback(
+    () => {
+      setTimeout(() => {
+        focusElement(
+          props.focus
+            ? alertRef.current.shadowRoot.querySelector('button')
+            : alertRef.current,
+        );
+      }, 500);
+    },
+    [props.focus],
+  );
+
+  const alertAriaLabel = `You are in ${(lastPathName === 'Folders' &&
     'My Folders') ||
     (foldersViewPage && 'a custom folder view page') ||
     lastPathName}.`;
 
   return (
     <>
-      {activeAlert && (
-        <VaAlert
-          uswds
-          ref={alertRef}
-          background-only
-          closeable={props.closeable}
-          className="vads-u-margin-bottom--1 va-alert"
-          close-btn-aria-label="Close notification"
-          disable-analytics="false"
-          full-width="false"
-          show-icon={handleShowIcon()}
-          status={activeAlert.alertType}
-          onCloseEvent={
-            closeAlertBox // success, error, warning, info, continue
-          }
-          onVa-component-did-load={() => {
-            focusElement(alertRef.current);
-          }}
-        >
-          <div>
-            <p className="vads-u-margin-y--0" data-testid="alert-text">
-              {alertContent}
-              <SrOnlyTag
-                className="sr-only"
-                aria-live="polite"
-                aria-atomic="true"
-              >
-                {alertAriaLabel}
-              </SrOnlyTag>
-            </p>
-          </div>
-        </VaAlert>
-      )}
+      {activeAlert &&
+        !hideAlert && (
+          <VaAlert
+            uswds
+            ref={alertRef}
+            background-only
+            closeable={props.closeable}
+            className="vads-u-margin-bottom--1 va-alert"
+            close-btn-aria-label={`${alertContent}. ${alertAriaLabel} Close notification.`}
+            disable-analytics="false"
+            full-width="false"
+            show-icon={handleShowIcon()}
+            status={activeAlert.alertType}
+            onCloseEvent={
+              closeAlertBox // success, error, warning, info, continue
+            }
+            onVa-component-did-load={handleAlertFocus}
+          >
+            <div>
+              <p className="vads-u-margin-y--0" data-testid="alert-text">
+                {alertContent}
+                <SrOnlyTag
+                  className="sr-only"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  {alertAriaLabel}
+                </SrOnlyTag>
+              </p>
+            </div>
+          </VaAlert>
+        )}
     </>
   );
 };
 
 AlertBackgroundBox.propTypes = {
+  activeAlert: PropTypes.object,
   closeable: PropTypes.bool,
+  focus: PropTypes.bool,
   noIcon: PropTypes.bool,
 };
 

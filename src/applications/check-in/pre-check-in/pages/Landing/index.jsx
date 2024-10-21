@@ -31,7 +31,10 @@ const Index = props => {
     clearCurrentStorage,
     setPreCheckinComplete,
     setCurrentToken,
+    setCompleteTimestamp,
   } = useStorage(APP_NAMES.PRE_CHECK_IN);
+
+  setCompleteTimestamp(window, null);
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
   const [sessionCallMade, setSessionCallMade] = useState(false);
@@ -71,8 +74,7 @@ const Index = props => {
           api.v2
             .getSession({ token, checkInType })
             .then(session => {
-              // if successful, dispatch session data  into redux and current window
-
+              // if successful, dispatch session data into redux and current window
               if (session.error || session.errors) {
                 clearCurrentStorage(window);
                 updateError('session-error');
@@ -85,7 +87,7 @@ const Index = props => {
                 setSession(token, session.permissions);
                 if (session.permissions === SCOPES.READ_FULL) {
                   // redirect if already full access
-                  jumpToPage(URLS.INTRODUCTION);
+                  jumpToPage(URLS.APPOINTMENTS);
                 } else {
                   // TODO: dispatch to redux
                   jumpToPage(URLS.VERIFY);

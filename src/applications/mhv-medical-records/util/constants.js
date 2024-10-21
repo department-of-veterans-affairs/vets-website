@@ -35,8 +35,8 @@ export const noteTypes = {
 
 export const loincCodes = {
   // lab and test results
-  MICROBIOLOGY: '79381-0',
-  PATHOLOGY: '60567-5',
+  MICROBIOLOGY: '18725-2', // changed from '79381-0'
+  PATHOLOGY: '11526-1', // changed from '60567-5'
   EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
@@ -54,6 +54,9 @@ export const fhirResourceTypes = {
   BUNDLE: 'Bundle',
   DIAGNOSTIC_REPORT: 'DiagnosticReport',
   DOCUMENT_REFERENCE: 'DocumentReference',
+  OBSERVATION: 'Observation',
+  ORGANIZATION: 'Organization',
+  PRACTITIONER: 'Practitioner',
 };
 
 /**
@@ -225,4 +228,58 @@ export const dischargeSummarySortFields = {
   ADMISSION_DATE: 'admission date',
   DISCHARGE_DATE: 'discharge date',
   DATE_ENTERED: 'date entered',
+};
+
+export const Paths = {
+  MYHEALTH: '/my-health',
+  MR_LANDING_PAGE: '/',
+  LABS_AND_TESTS: '/labs-and-tests/',
+  CARE_SUMMARIES_AND_NOTES: '/summaries-and-notes/',
+  VACCINES: '/vaccines/',
+  ALLERGIES: '/allergies/',
+  HEALTH_CONDITIONS: '/conditions/',
+  VITALS: '/vitals/',
+  SETTINGS: '/settings/',
+  DOWNLOAD_ALL: '/download-all/',
+};
+
+export const Breadcrumbs = {
+  MYHEALTH: { href: Paths.MYHEALTH, label: 'My HealtheVet' },
+  MR_LANDING_PAGE: {
+    href: Paths.MR_LANDING_PAGE,
+    label: 'Medical records',
+    isRouterLink: true,
+  },
+  LABS_AND_TESTS: {
+    href: Paths.LABS_AND_TESTS,
+    label: 'Lab and test results',
+    isRouterLink: true,
+  },
+  CARE_SUMMARIES_AND_NOTES: {
+    href: Paths.CARE_SUMMARIES_AND_NOTES,
+    label: 'Care summaries and notes',
+    isRouterLink: true,
+  },
+  VACCINES: { href: Paths.VACCINES, label: 'Vaccines', isRouterLink: true },
+  ALLERGIES: {
+    href: Paths.ALLERGIES,
+    label: 'Allergies and reactions',
+    isRouterLink: true,
+  },
+  HEALTH_CONDITIONS: {
+    href: Paths.HEALTH_CONDITIONS,
+    label: 'Health conditions',
+    isRouterLink: true,
+  },
+  VITALS: { href: Paths.VITALS, label: 'Vitals', isRouterLink: true },
+  SETTINGS: {
+    href: Paths.SETTINGS,
+    label: 'Medical records settings',
+    isRouterLink: true,
+  },
+  DOWNLOAD_ALL: {
+    href: Paths.DOWNLOAD_ALL,
+    label: 'Download all medical records',
+    isRouterLink: true,
+  },
 };

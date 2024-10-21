@@ -2,8 +2,13 @@
 export default function commonFieldMapping(props) {
   const { label, required, error, uiOptions, childrenProps } = props;
 
+  const labelHeaderLevelStyle = uiOptions?.labelHeaderLevelStyle;
+  const headerStyle = labelHeaderLevelStyle
+    ? ` rjsf-wc-header--h${labelHeaderLevelStyle} `
+    : '';
+
   return {
-    class: `rjsf-web-component-field${
+    class: `rjsf-web-component-field${headerStyle}${
       uiOptions?.classNames ? ` ${uiOptions.classNames}` : ''
     }`,
     enableAnalytics: uiOptions?.enableAnalytics,
@@ -15,10 +20,10 @@ export default function commonFieldMapping(props) {
     label,
     labelHeaderLevel: uiOptions?.labelHeaderLevel,
     maxlength: childrenProps.schema.maxLength,
-    minlength: childrenProps.schema.minLength,
     messageAriaDescribedby: uiOptions?.messageAriaDescribedby,
-    pattern: childrenProps.schema.pattern,
+    minlength: childrenProps.schema.minLength,
     name: childrenProps.idSchema.$id,
+    pattern: childrenProps.schema.pattern,
     reflectInputError: uiOptions?.reflectInputError,
     required,
     success: uiOptions?.success,

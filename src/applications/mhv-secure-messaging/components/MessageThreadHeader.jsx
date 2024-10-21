@@ -15,7 +15,10 @@ import {
   RecipientStatus,
   BlockedTriageAlertStyles,
 } from '../util/constants';
-import { updateTriageGroupRecipientStatus } from '../util/helpers';
+import {
+  scrollIfFocusedAndNotInView,
+  updateTriageGroupRecipientStatus,
+} from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
@@ -109,12 +112,16 @@ const MessageThreadHeader = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${categoryLabel}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
-      );
+      updatePageTitle(PageTitles.CONVERSATION_TITLE_TAG);
     },
     [categoryLabel, message, subject],
   );
+
+  useEffect(() => {
+    setTimeout(() => {
+      scrollIfFocusedAndNotInView(50);
+    }, 100);
+  }, []);
 
   return (
     <div className="message-detail-block">

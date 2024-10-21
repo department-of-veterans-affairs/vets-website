@@ -4,10 +4,10 @@ import { capitalize } from 'lodash';
 
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 
-import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-
 const formatTitle = (title = '') => capitalize(title).replace(/\bva\b/, 'VA');
 
+// TODO: remove this file and replace with "DraftCard"
+// when we remove isFormSubmissionStatusWork toggle
 const ApplicationInProgress = ({
   continueUrl,
   expirationDate,
@@ -32,10 +32,10 @@ const ApplicationInProgress = ({
           {formatTitle(formTitle)}
         </h3>
         <div className="vads-u-display--flex">
-          <i
-            aria-hidden="true"
-            className="fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5"
-          />
+          <span className="vads-u-margin-right--1 vads-u-margin-top--0p5">
+            <va-icon icon="error" size={3} />
+          </span>
+
           <span className="sr-only">Alert: </span>
           <div>
             <p className="vads-u-margin-top--0">
@@ -55,16 +55,14 @@ const ApplicationInProgress = ({
   );
 
   return (
-    <DashboardWidgetWrapper>
-      <div
-        className="vads-u-width--full vads-u-margin-bottom--3"
-        data-testid="application-in-progress"
-      >
-        <va-card>
-          <div className="vads-u-padding--1">{content}</div>
-        </va-card>
-      </div>
-    </DashboardWidgetWrapper>
+    <div
+      className="vads-u-width--full vads-u-margin-bottom--3"
+      data-testid="application-in-progress"
+    >
+      <va-card>
+        <div className="vads-u-padding--1">{content}</div>
+      </va-card>
+    </div>
   );
 };
 

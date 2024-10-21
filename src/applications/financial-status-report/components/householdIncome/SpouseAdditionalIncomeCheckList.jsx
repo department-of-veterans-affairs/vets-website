@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { otherIncome } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+import { checkIncomeGmt } from '../../utils/streamlinedDepends';
 
 const SpouseAdditionalIncomeCheckList = ({
   data,
@@ -26,32 +25,8 @@ const SpouseAdditionalIncomeCheckList = ({
 
   // Calculate income properties as necessary
   useEffect(() => {
-    const calculateIncome = async () => {
-      if (spAddlIncome.length || !gmtData?.isEligibleForStreamlined) return;
-
-      try {
-        const calculatedIncome = await calculateTotalAnnualIncome(data);
-
-        setFormData({
-          ...data,
-          gmtData: {
-            ...gmtData,
-            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-            incomeBelowOneFiftyGmt:
-              calculatedIncome < gmtData?.incomeUpperThreshold,
-          },
-        });
-      } catch (error) {
-        Sentry.withScope(scope => {
-          scope.setExtra('error', error);
-          Sentry.captureMessage(
-            `calculateTotalAnnualIncome failed in SpouseAdditionalIncomeChecklist: ${error}`,
-          );
-        });
-      }
-    };
-
-    calculateIncome();
+    if (spAddlIncome.length || !gmtData?.isEligibleForStreamlined) return;
+    checkIncomeGmt(data, setFormData);
   }, []);
 
   const onChange = ({ name, checked }) => {

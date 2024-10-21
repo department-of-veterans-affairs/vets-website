@@ -1,5 +1,5 @@
 import React from 'react';
-import useSendDemographicsFlags from '../../useSendDemographicsFlags';
+import { useSendDemographicsFlags } from '../../useSendDemographicsFlags';
 
 export default function TestComponent() {
   useSendDemographicsFlags();

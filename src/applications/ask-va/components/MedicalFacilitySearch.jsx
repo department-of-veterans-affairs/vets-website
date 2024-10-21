@@ -5,9 +5,7 @@ import { convertToLatLng } from '../utils/mapbox';
 import SearchControls from './search/SearchControls';
 import SearchItem from './search/SearchItem';
 
-const facilities = {
-  data: [],
-};
+const facilities = { data: [] };
 
 const MedicalFacilitySearch = ({ onChange }) => {
   const [apiData, setApiData] = useState(facilities);
@@ -56,6 +54,7 @@ const MedicalFacilitySearch = ({ onChange }) => {
         <SearchControls
           locateUser={getFacilitiesFromLocation}
           onSubmit={getFacilities}
+          searchTitle="City or postal code"
         />
         {isSearching ? (
           <va-loading-indicator

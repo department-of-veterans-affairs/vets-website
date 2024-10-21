@@ -14,7 +14,6 @@ const SignInMayBeRequiredCategoryPage = ({ loggedIn }) => {
         status="continue"
         visible={visibleAlert}
         uswds
-        closeable
         onCloseEvent={() => setVisibleAlert(false)}
       >
         <h2 id="track-your-status-on-mobile" slot="headline">

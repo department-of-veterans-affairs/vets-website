@@ -50,7 +50,12 @@ import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import reviewErrors from '../../shared/content/reviewErrors';
-import { focusRadioH3, focusH3, focusOnAlert } from '../../shared/utils/focus';
+import {
+  focusRadioH3,
+  focusH3,
+  focusOnAlert,
+  focusIssue,
+} from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -99,6 +104,8 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3, // scroll and focus fallback
+  reviewEditFocusOnHeaders: true,
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
@@ -111,7 +118,6 @@ const formConfig = {
           path: 'veteran-details',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
-          scrollAndFocusTarget: focusH3,
           // initialData,
         },
         homeless: {
@@ -132,14 +138,12 @@ const formConfig = {
           path: 'filing-deadlines',
           uiSchema: filingDeadlines.uiSchema,
           schema: filingDeadlines.schema,
-          scrollAndFocusTarget: focusH3,
         },
         extensionRequest: {
           title: 'Request an extension',
           path: 'extension-request',
           uiSchema: extensionRequest.uiSchema,
           schema: extensionRequest.schema,
-          scrollAndFocusTarget: focusH3,
         },
         extensionReason: {
           title: 'Reason for extension',
@@ -147,14 +151,12 @@ const formConfig = {
           depends: showExtensionReason,
           uiSchema: extensionReason.uiSchema,
           schema: extensionReason.schema,
-          scrollAndFocusTarget: focusH3,
         },
         appealingVhaDenial: {
           title: 'Appealing denial of VA health care benefits',
           path: 'appealing-denial',
           uiSchema: appealingVhaDenial.uiSchema,
           schema: appealingVhaDenial.schema,
-          scrollAndFocusTarget: focusH3,
         },
         contestableIssues: {
           title: 'You’ve selected these issues for review',
@@ -162,7 +164,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
-          scrollAndFocusTarget: focusH3,
+          scrollAndFocusTarget: focusIssue,
           onContinue: focusOnAlert,
         },
         addIssue: {
@@ -175,7 +177,6 @@ const formConfig = {
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
-          scrollAndFocusTarget: focusH3,
         },
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,
@@ -186,14 +187,12 @@ const formConfig = {
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
-          scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
           title: 'Issue summary',
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
-          scrollAndFocusTarget: focusH3,
         },
       },
     },
@@ -216,7 +215,6 @@ const formConfig = {
           depends: canUploadEvidence,
           uiSchema: evidenceIntro.uiSchema,
           schema: evidenceIntro.schema,
-          scrollAndFocusTarget: focusH3,
         },
         evidenceUpload: {
           title: 'Evidence upload',
@@ -224,7 +222,6 @@ const formConfig = {
           depends: wantsToUploadEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
-          scrollAndFocusTarget: focusH3,
         },
         hearingType: {
           title: 'Hearing type',

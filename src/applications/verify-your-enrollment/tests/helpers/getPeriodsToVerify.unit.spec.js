@@ -37,9 +37,7 @@ describe('getPeriodsToVerify', () => {
     );
     const div = wrapper.find('div').at(1);
     expect(div.key()).to.include('Enrollment-to-be-verified');
-    expect(div.prop('className')).to.include(
-      'vads-u-margin-y--2 vye-left-border',
-    );
+    expect(div.prop('className')).to.include('vads-u-margin-y--2');
     expect(
       wrapper
         .find('div')

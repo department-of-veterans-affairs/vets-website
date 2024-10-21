@@ -115,7 +115,7 @@ export const getPhone = ({ veteran = {} } = {}) => {
     countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
     areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
     phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
+    phoneNumberExt: truncate('extension', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
 };
 

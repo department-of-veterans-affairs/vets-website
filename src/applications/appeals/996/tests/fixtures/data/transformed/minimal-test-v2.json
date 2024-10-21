@@ -4,8 +4,8 @@
     "attributes": {
       "benefitType": "compensation",
       "informalConference": true,
-      "informalConferenceContact": "me",
-      "informalConferenceTime": "time0800to1200",
+      "informalConferenceContact": "veteran",
+      "informalConferenceTime": "1200-1630 ET",
       "veteran": {
         "address": {
           "addressLine1": "123 Main St",
@@ -18,8 +18,7 @@
         "phone": {
           "countryCode": "1",
           "areaCode": "987",
-          "phoneNumber": "5551218",
-          "phoneNumberExt": "1234"
+          "phoneNumber": "5551218"
         },
         "email": "user@example.com",
         "homeless": false,

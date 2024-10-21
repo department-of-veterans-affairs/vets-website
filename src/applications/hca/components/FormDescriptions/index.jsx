@@ -4,9 +4,6 @@ import { APP_URLS, LAST_YEAR } from '../../utils/constants';
 /** CHAPTER 1: Veteran Information */
 export const BirthInfoDescription = (
   <>
-    <p className="vads-u-margin-top--0">
-      Enter your place of birth, including city and state, province or region.
-    </p>
     <va-additional-info
       trigger="Why we ask for this information"
       class="vads-u-margin-bottom--3"
@@ -20,7 +17,7 @@ export const BirthInfoDescription = (
 export const BirthSexDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-y--2"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
     uswds
   >
     <div>
@@ -70,34 +67,11 @@ export const DemographicInfoDescription = (
   </legend>
 );
 
-export const HomeAddressDescription = (
-  <>
-    Home address
-    <span className="sr-only">.</span>
-    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
-      Any updates you make here to your address will apply only to this
-      application.
-    </div>
-  </>
-);
-
-export const MailingAddressDescription = (
-  <>
-    Mailing address
-    <span className="sr-only">.</span>
-    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
-      We’ll send any important information about your application to this
-      address. Any updates you make here to your address will apply only to this
-      application.
-    </div>
-  </>
-);
-
 export const SIGIGenderDescription = (
   <>
     <va-additional-info
       trigger="What to know before you decide to share your gender identity"
-      class="vads-u-margin-top--2"
+      class="vads-u-margin-top--2 vads-u-margin-bottom--3"
       uswds
     >
       <div>
@@ -182,7 +156,7 @@ export const PensionInfoDescription = (
 export const PensionTypeDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
     uswds
   >
     <div>
@@ -227,13 +201,6 @@ export const OtherToxicExposureDescription = (
     >
       Learn more about exposures on our Public Health website (opens in new tab)
     </a>
-  </div>
-);
-
-export const OtherToxicExposureHint = (
-  <div className="vads-u-color--gray-medium">
-    If you’re listing multiple toxins or hazards, list them without commas or
-    any other special characters
   </div>
 );
 
@@ -403,7 +370,7 @@ export const IncomeDescription = (
 export const MaritalStatusDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
     uswds
   >
     <div>
@@ -587,49 +554,6 @@ export const GroupCodeDescription = (
   </div>
 );
 
-export const HealthInsuranceDescription = (
-  <p className="vads-u-margin-bottom--3">
-    Health insurance includes any coverage that you get through a spouse or
-    significant other. Health insurance also includes Medicare, private
-    insurance, or insurance from your employer.
-  </p>
-);
-
-export const HealthInsuranceCoverageDescription = (
-  <va-additional-info
-    trigger="Why we ask this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-    uswds
-  >
-    <div>
-      <p className="vads-u-margin-top--0">
-        We ask for this information for billing purposes only. Your health
-        insurance coverage doesn’t affect the VA health care benefits you can
-        get.
-      </p>
-
-      <p>
-        Giving us your health insurance information helps you for these reasons:
-      </p>
-
-      <ul className="vads-u-margin-bottom--0">
-        <li>
-          We must bill your private health insurance provider for any care,
-          supplies, or medicines we provide to treat your non-service-connected
-          conditions. If you have a VA copayment, we may be able to use the
-          payments from your provider to cover some or all of your copayment.
-        </li>
-        <li>
-          Your private insurance provider may apply your VA health care charges
-          toward your annual deductible. Your annual deductible is the amount of
-          money you pay toward your care each year before your insurance starts
-          to pay for care.
-        </li>
-      </ul>
-    </div>
-  </va-additional-info>
-);
-
 export const MedicaidDescription = (
   <>
     <p className="vads-u-margin-top--0">
@@ -705,13 +629,13 @@ export const PolicyNumberDescription = (
 );
 
 export const PolicyOrDescription = (
-  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--neg2p5 vads-u-color--primary-darkest">
+  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--neg2p5 vads-u-color--primary-darker">
     or
   </div>
 );
 
 export const PolicyOrGroupDescription = (
-  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-top--6 vads-u-margin-bottom--2 vads-u-color--primary-darkest">
+  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-top--6 vads-u-margin-bottom--2 vads-u-color--primary-darker">
     Provide either your insurance policy number or group code.{' '}
     <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
       (*Required)
@@ -719,8 +643,20 @@ export const PolicyOrGroupDescription = (
   </div>
 );
 
+export const PolicyOrGroupTitle = (
+  <>
+    Insurance policy number or group code.&nbsp;
+    <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+      (*Required)
+    </span>
+  </>
+);
+
 export const TricarePolicyDescription = (
-  <va-additional-info trigger="I have TRICARE. What’s my policy number?" uswds>
+  <va-additional-info
+    trigger="I have TRICARE. What’s my policy number?"
+    class="vads-u-margin-y--2"
+  >
     <div>
       <p className="vads-u-margin-top--0">
         You can use your Department of Defense benefits number (DBN) or your

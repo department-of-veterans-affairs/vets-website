@@ -1,11 +1,12 @@
 {
+  "description": "Medicare (ABD), has both OHIs (Medigap), US address (new), third party signer",
   "data": {
     "applicantSsn": "234234234",
     "applicantName": {
       "first": "Jimmy",
+      "middle": "Quincy",
       "last": "Alvin"
     },
-    "applicantDOB": "1958-01-01",
     "applicantAddress": {
       "country": "USA",
       "street": "456 Street Circle",
@@ -32,7 +33,7 @@
     "applicantPrimaryExpirationDate": "2010-01-01",
     "applicantPrimaryThroughEmployer": false,
     "applicantPrimaryHasPrescription": true,
-    "applicantPrimaryEOB": false,
+    "applicantPrimaryEob": false,
     "applicantPrimaryInsuranceType": "medigap",
     "primaryMedigapPlan": "A",
     "primaryAdditionalComments": "Additional primary comment",
@@ -42,7 +43,7 @@
     "applicantSecondaryExpirationDate": "2010-01-01",
     "applicantSecondaryThroughEmployer": true,
     "applicantSecondaryHasPrescription": true,
-    "applicantSecondaryEOB": true,
+    "applicantSecondaryEob": true,
     "applicantSecondaryInsuranceType": "medigap",
     "secondaryMedigapPlan": "M",
     "secondaryAdditionalComments": "Additional secondary comment",

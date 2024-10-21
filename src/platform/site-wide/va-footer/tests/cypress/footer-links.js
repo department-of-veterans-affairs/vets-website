@@ -46,7 +46,7 @@ export const topRail = [
     href: 'accesstocare.va.gov/',
   },
   {
-    text: 'Accredited claims representatives',
+    text: 'Get help from an accredited representative or VSO',
     href: '/ogc/accreditation.asp',
   },
   {

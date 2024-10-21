@@ -1,3 +1,4 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -12,13 +13,14 @@ import {
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 import {
-  otherExplanationRequired,
+  formatCurrency,
+  otherRecipientRelationshipExplanationRequired,
   otherIncomeTypeExplanationRequired,
   recipientNameRequired,
   showRecipientName,
 } from '../../../helpers';
+import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -34,6 +36,27 @@ const options = {
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
+    cardDescription: item =>
+      item && (
+        <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
+          <li>
+            Income type:{' '}
+            <span className="vads-u-font-weight--bold">
+              {incomeTypeLabels[item.incomeType]}
+            </span>
+          </li>
+          <li>
+            Gross monthly income:{' '}
+            <span className="vads-u-font-weight--bold">
+              {formatCurrency(item.grossMonthlyIncome)}
+            </span>
+          </li>
+          <li>
+            Income recipient:{' '}
+            <span className="vads-u-font-weight--bold">{item.payer}</span>
+          </li>
+        </ul>
+      ),
     reviewAddButtonText: 'Add another unassociated income',
     alertMaxItems:
       'You have added the maximum number of allowed unassociated incomes for this application. You may edit or delete an unassociated income or choose to continue the application.',
@@ -106,7 +129,12 @@ const incomeRecipientPage = {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: 'OTHER',
       },
-      'ui:required': otherExplanationRequired,
+      'ui:required': (formData, index) =>
+        otherRecipientRelationshipExplanationRequired(
+          formData,
+          index,
+          'unassociatedIncomes',
+        ),
     },
     recipientName: {
       'ui:title': 'Tell us the income recipient’s name',
@@ -116,7 +144,8 @@ const incomeRecipientPage = {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: showRecipientName,
       },
-      'ui:required': recipientNameRequired,
+      'ui:required': (formData, index) =>
+        recipientNameRequired(formData, index, 'unassociatedIncomes'),
     },
   },
   schema: {
@@ -147,7 +176,12 @@ const incomeTypePage = {
         expandUnder: 'incomeType',
         expandUnderCondition: 'OTHER',
       },
-      'ui:required': otherIncomeTypeExplanationRequired,
+      'ui:required': (formData, index) =>
+        otherIncomeTypeExplanationRequired(
+          formData,
+          index,
+          'unassociatedIncomes',
+        ),
     },
     grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
       'ui:options': {

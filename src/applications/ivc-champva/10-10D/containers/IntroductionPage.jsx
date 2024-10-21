@@ -19,7 +19,10 @@ const IntroductionPage = props => {
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title="Apply for CHAMPVA benefits" subTitle="Form 10-10d" />
+      <FormTitle
+        title="Apply for CHAMPVA benefits"
+        subTitle={formConfig.subTitle}
+      />
 
       <p>
         If you’re the spouse or child of a Veteran with disabilities or a
@@ -75,13 +78,16 @@ const IntroductionPage = props => {
           <br />
           You may also need to submit supporting documents, like copies of your
           other health insurance cards or proof of school enrollment.
+          {/* Link coming soon: */}
+          {/* 
           <br />
           <br />
-          Find out which documents you’ll need to apply for CHAMPVA
+          <VaLink text="Find out which documents you’ll need to apply for CHAMPVA" />
+          */}
         </va-process-list-item>
         <va-process-list-item header="Start your application">
           <p>
-            We’ll take you through each step of the process. It should take [XX]
+            We’ll take you through each step of the process. It should take 10
             minutes.
           </p>
         </va-process-list-item>

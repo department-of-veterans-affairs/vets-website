@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import { getRealFacilityId } from '../../utils/appointment';
-import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
+import DetailPageLayout, {
+  Section,
+  What,
+  When,
+  Who,
+  ClinicOrFacilityPhone,
+  Prepare,
+} from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
@@ -14,12 +21,13 @@ import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
 import Address from '../Address';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import FacilityPhone from '../FacilityPhone';
 
 export default function VideoLayoutVA({ data: appointment }) {
   const {
     clinicName,
     clinicPhysicalLocation,
+    clinicPhone,
+    clinicPhoneExtension,
     facility,
     facilityPhone,
     locationId,
@@ -33,7 +41,7 @@ export default function VideoLayoutVA({ data: appointment }) {
     shallowEqual,
   );
 
-  let heading = 'Video appointment at VA location';
+  let heading = 'Video appointment at a VA location';
   const facilityId = locationId;
   if (isPastAppointment) heading = 'Past video appointment at VA location';
   else if (APPOINTMENT_STATUS.cancelled === status)
@@ -68,8 +76,8 @@ export default function VideoLayoutVA({ data: appointment }) {
       <Who>{videoProviderName}</Who>
       <Section heading="Where to attend">
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
-        {!!facility === false &&
-          !!facilityId === false && (
+        {!facility &&
+          !facilityId && (
             <>
               <span>Facility details not available</span>
               <br />
@@ -81,7 +89,7 @@ export default function VideoLayoutVA({ data: appointment }) {
             </>
           )}
         {/* When the services return a null value for the facility (but receive the facility ID) */}
-        {!!facility === false &&
+        {!facility &&
           !!facilityId && (
             <>
               <span>Facility details not available</span>
@@ -94,7 +102,6 @@ export default function VideoLayoutVA({ data: appointment }) {
                 View facility information
               </NewTabAnchor>
               <br />
-              <br />
             </>
           )}
         {!!facility && (
@@ -103,21 +110,36 @@ export default function VideoLayoutVA({ data: appointment }) {
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-              <FacilityDirectionsLink location={facility} />
+              <FacilityDirectionsLink location={facility} icon />
             </div>
             <br />
             <span>Clinic: {clinicName || 'Not available'}</span> <br />
-            <span>
-              Location: {clinicPhysicalLocation || 'Not available'}
-            </span>{' '}
+            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
             <br />
-            {facilityPhone && (
-              <FacilityPhone heading="Phone:" contact={facilityPhone} />
-            )}
           </>
         )}
+        <ClinicOrFacilityPhone
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
+          facilityPhone={facilityPhone}
+        />
       </Section>
+      {!isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Bring your insurance cards. And bring a list of your medications
+              and other information to share with your provider.
+            </p>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              <va-link
+                text="Find a full list of things to bring to your appointment"
+                href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+              />
+            </p>
+          </Prepare>
+        )}
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="Need to make changes?">

@@ -83,7 +83,7 @@ describe('<AddressValidationView/>', () => {
     const component = enzyme.mount(<AddressValidationView store={fakeStore} />);
 
     expect(component.find('LoadingButton').text()).to.equal('Use this address');
-    expect(component.find('va-button[secondary]').props().text).to.equal(
+    expect(component.find('va-button[primary]').props().text).to.equal(
       'Go back to edit',
     );
     component.unmount();
@@ -126,12 +126,18 @@ describe('<AddressValidationView/>', () => {
       <AddressValidationView store={newFakeStore} />,
     );
 
-    expect(component.find('.usa-button-primary').text()).to.equal(
-      'Edit Address',
-    );
-    expect(component.find('va-button[secondary]').props().text).to.equal(
-      'Go back to edit',
-    );
+    expect(
+      component
+        .find('va-button[primary]')
+        .at(0)
+        .prop('text'),
+    ).to.equal('Go back to edit');
+    expect(
+      component
+        .find('va-button[primary]')
+        .at(1)
+        .prop('text'),
+    ).to.equal('Edit Address');
     component.unmount();
   });
 
@@ -270,8 +276,8 @@ describe('<AddressValidationView/>', () => {
       <AddressValidationView store={newFakeStore} />,
     );
 
-    expect(component.find('LoadingButton').text()).to.equal('Update');
-    expect(component.find('va-button[secondary]').props().text).to.equal(
+    expect(component.find('LoadingButton').text()).to.equal('Use this address');
+    expect(component.find('va-button[primary]').props().text).to.equal(
       'Go back to edit',
     );
     component.unmount();
@@ -361,7 +367,7 @@ describe('<AddressValidationView/>', () => {
     expect(component.find('LoadingButton').text()).to.equal(
       'Use suggested address',
     );
-    expect(component.find('va-button[secondary]').props().text).to.equal(
+    expect(component.find('va-button[primary]').props().text).to.equal(
       'Go back to edit',
     );
     component.unmount();

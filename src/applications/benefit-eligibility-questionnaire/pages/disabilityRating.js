@@ -1,41 +1,38 @@
 import React from 'react';
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { disabilityTypes, disabilityTypeLabels } from '../constants/benefits';
 
 export default {
   uiSchema: {
-    disabilityRating: {
-      'ui:title': (
-        <>
-          <p>
-            <b>
-              Have you applied for and received a disability rating from VA?
-            </b>
-          </p>
-          <p>
-            We’re asking because receivimg a service-connected disability rating
-            from VA may make you eligible for additional benefits. Receiving
-            these benefits won’t take away from other Veterans in need.
-            <br />
-            <a href="https://www.va.gov/disability/eligibility">
-              Learn more about disability ratings.
-            </a>
-          </p>
-        </>
+    disabilityRating: radioUI({
+      title: 'Do you have a VA disability rating?',
+      labels: disabilityTypeLabels,
+      required: () => false,
+    }),
+    'view:disabilityEligibility': {
+      'ui:description': (
+        <div>
+          <a
+            href="https://www.va.gov/disability/eligibility"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Learn more about disability ratings (opens in a new tab)
+          </a>{' '}
+        </div>
       ),
-      'ui:widget': 'radio',
-      'ui:options': {
-        widgetProps: {
-          YES: { disabilityRating: 'Yes' },
-          NO: { disabilityRating: 'No' },
-        },
-      },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      disabilityRating: {
-        type: 'string',
-        enum: ['Yes', 'No'],
+      disabilityRating: radioSchema(Object.keys(disabilityTypes)),
+      'view:disabilityEligibility': {
+        type: 'object',
+        properties: {},
       },
     },
   },

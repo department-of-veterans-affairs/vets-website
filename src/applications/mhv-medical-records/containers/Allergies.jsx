@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
-  formatName,
   updatePageTitle,
   crisisLineHeader,
   reportGeneratedBy,
@@ -14,7 +13,6 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   recordType,
   ALERT_TYPE_ERROR,
@@ -22,11 +20,17 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
 } from '../util/constants';
-import { getAllergiesList } from '../actions/allergies';
+import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  getLastUpdatedText,
+  formatNameFirstLast,
+} from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -35,10 +39,14 @@ import {
   generateAllergiesContent,
 } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  const updatedRecordList = useSelector(
+    state => state.mr.allergies.updatedList,
+  );
   const listState = useSelector(state => state.mr.allergies.listState);
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
   const allergiesCurrentAsOf = useSelector(
@@ -65,8 +73,19 @@ const Allergies = props => {
   });
 
   useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
     },
@@ -80,10 +99,18 @@ const Allergies = props => {
     updatePageTitle,
   );
 
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.ALLERGY,
+  );
+
   const generateAllergiesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateAllergiesIntro(allergies);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const { title, value, subject, preface } = generateAllergiesIntro(
+      refresh.status,
+      lastUpdatedText,
+    );
+    const scaffold = generatePdfScaffold(user, title, value, subject, preface);
     const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
@@ -106,7 +133,7 @@ Provider notes: ${item.notes}\n`;
     const content = `
 ${crisisLineHeader}\n\n
 Allergies and reactions\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Review allergies, reactions, and side effects in your VA medical
@@ -144,6 +171,19 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.ALLERGY}
+          newRecordsFound={
+            Array.isArray(allergies) &&
+            Array.isArray(updatedRecordList) &&
+            allergies.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
+
         <PrintDownload
           list
           downloadPdf={generateAllergiesPdf}

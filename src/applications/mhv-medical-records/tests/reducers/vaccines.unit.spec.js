@@ -4,9 +4,11 @@ import {
   extractNote,
   extractReaction,
   extractLocation,
+  vaccineReducer,
 } from '../../reducers/vaccines';
+import { Actions } from '../../util/actionTypes';
 
-describe('vaccine reducer', () => {
+describe('convertVaccine function', () => {
   it('convertVaccine function should return null if it is not passed an argument', () => {
     expect(convertVaccine()).to.eq(null);
   });
@@ -150,5 +152,67 @@ describe('extractLocation function', () => {
     const result = extractLocation(vaccine);
 
     expect(result).to.equal('None noted');
+  });
+});
+
+describe('vaccineReducer', () => {
+  it('creates a list', () => {
+    const response = {
+      entry: [
+        { resource: { id: 1 } },
+        { resource: { id: 2 } },
+        { resource: { id: 3 } },
+      ],
+      resourceType: 'Immunization',
+    };
+    const newState = vaccineReducer(
+      {},
+      { type: Actions.Vaccines.GET_LIST, response },
+    );
+    expect(newState.vaccinesList.length).to.equal(3);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('puts updated records in updatedList', () => {
+    const response = {
+      entry: [
+        { resource: { id: 1 } },
+        { resource: { id: 2 } },
+        { resource: { id: 3 } },
+      ],
+      resourceType: 'Immunization',
+    };
+    const newState = vaccineReducer(
+      {
+        vaccinesList: [{ resource: { id: 1 } }, { resource: { id: 2 } }],
+      },
+      { type: Actions.Vaccines.GET_LIST, response },
+    );
+    expect(newState.vaccinesList.length).to.equal(2);
+    expect(newState.updatedList.length).to.equal(3);
+  });
+
+  it('moves updatedList into vaccinesList on request', () => {
+    const newState = vaccineReducer(
+      {
+        vaccinesList: [{ resource: { id: 1 } }],
+        updatedList: [{ resource: { id: 1 } }, { resource: { id: 2 } }],
+      },
+      { type: Actions.Vaccines.COPY_UPDATED_LIST },
+    );
+    expect(newState.vaccinesList.length).to.equal(2);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('does not move updatedList into vaccinesList if updatedList does not exist', () => {
+    const newState = vaccineReducer(
+      {
+        vaccinesList: [{ resource: { id: 1 } }],
+        updatedList: undefined,
+      },
+      { type: Actions.Vaccines.COPY_UPDATED_LIST },
+    );
+    expect(newState.vaccinesList.length).to.equal(1);
+    expect(newState.updatedList).to.equal(undefined);
   });
 });

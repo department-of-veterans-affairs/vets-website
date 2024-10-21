@@ -214,6 +214,7 @@ const options = {
   text: {
     getItemName: item => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
+    summaryDescription: 'You can add up to 5 items',
   },
 };
 
@@ -297,10 +298,10 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
 ## Web Component Patterns
 | Pattern | Description |
 |---------|-------------|
-| `arrayBuilderItemFirstPageTitleUI` | Should be used instead of `titleUI` for the first item page. Includes adding "Edit" before the title if in edit mode, and showing a `va-alert` warning if an item is required when removing all. |
+| `arrayBuilderItemFirstPageTitleUI` | Should be used instead of `titleUI` for the first item page. Includes adding "Edit" before the title if in edit mode, and showing a `va-alert` warning if an item is required when removing all. The description instructions can optionally be hidden when their is only one item page via the `hasMultipleItemPages: false` function parameter. |
 | `arrayBuilderItemSubsequentPageTitleUI` | Can be used instead of `titleUI` for subsequent item pages. Includes adding "Edit" before the title if in edit mode. If you need to use a custom title instead, you can try passing `withEditTitle` into your implementation. |
-| `withEditTitle` | Used with `arrayBuilderItemFirstPageTitleUI` and `arrayBuilderItemSubsequentPageTitleUI` to show "Edit" before the title, provided as an export for custom use. |
-| `arrayBuilderYesNoUI` | Should be used instead of `yesNoUI` for the summary page. Has dynamic text for if the user has 0 items, or more 1+ items, and validation for max items. You can override all text values. |
+| `withEditTitle` | Used with `arrayBuilderItemFirstPageTitleUI` and `arrayBuilderItemSubsequentPageTitleUI` to show "Edit" before the title, provided as an export for custom use. The "Edit" title item can be optionally lowercased via the `lowerCase` function parameter. |
+| `arrayBuilderYesNoUI` | Should be used instead of `yesNoUI` for the summary page. Has dynamic text for if the user has 0 items, or more 1+ items, and validation for max items. After an item is added/cancelled the yes/no question is reset. You can override all text values. |
 
 ### Example `arrayBuilderYesNoUI` Text Overrides:
 ```js
@@ -365,6 +366,9 @@ const options = {
 | `deleteYes` |
 | `reviewAddButtonText` |
 | `summaryTitle` |
+| `summaryTitleWithoutItems` |
+| `summaryDescription` |
+| `summaryDescriptionWithoutItems` |
 | `yesNoBlankReviewQuestion` |
 
 ## URL Query Params

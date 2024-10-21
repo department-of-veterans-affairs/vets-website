@@ -6,6 +6,7 @@ const IS_RX_SKILL = `${BOT_SESSION_PREFIX}isRxSkill`;
 const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
 const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances`;
 const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
+const SKILL_EVENT_VALUE = `${BOT_SESSION_PREFIX}skillEventValue`;
 
 function setStorageItem(key, value, json = false) {
   if (json) {
@@ -20,6 +21,14 @@ function getStorageItem(key, json = false) {
     return JSON.parse(sessionStorage.getItem(key));
   }
   return sessionStorage.getItem(key);
+}
+
+export function getEventSkillValue() {
+  return getStorageItem(SKILL_EVENT_VALUE);
+}
+
+export function setEventSkillValue(value) {
+  setStorageItem(SKILL_EVENT_VALUE, value);
 }
 
 export function getLoggedInFlow() {

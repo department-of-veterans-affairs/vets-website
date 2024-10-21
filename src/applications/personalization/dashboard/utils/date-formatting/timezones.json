@@ -790,5 +790,11 @@
     "name": "DAYTSHR-Dayton VA Medical Center",
     "timezone": "America/New_York",
     "currentTZ": "EST"
+  },
+  {
+    "id": "dfn-983GB",
+    "name": "Sidney VA Clinic",
+    "timezone": "Pacific/Honolulu",
+    "currentTZ": "HST"
   }
 ]

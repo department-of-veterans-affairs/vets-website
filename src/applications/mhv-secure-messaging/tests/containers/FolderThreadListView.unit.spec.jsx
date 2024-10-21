@@ -175,8 +175,12 @@ describe('Folder Thread List View container', () => {
         .to.have.attribute('status')
         .to.equal('error');
       expect(screen.getByText(Alerts.Message.SERVER_ERROR_503)).to.exist;
-      expect(ariaLabel.textContent).to.contain(
-        `${Alerts.Message.SERVER_ERROR_503}. You are in Inbox.`,
+      expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
+      expect(alert).to.have.attribute(
+        'close-btn-aria-label',
+        `${
+          Alerts.Message.SERVER_ERROR_503
+        }. You are in Inbox. Close notification.`,
       );
     });
   });

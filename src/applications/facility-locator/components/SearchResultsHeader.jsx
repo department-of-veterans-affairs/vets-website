@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   facilityTypes,
   urgentCareServices,
@@ -8,7 +9,6 @@ import {
   emergencyCareServices,
 } from '../config';
 import { LocationType } from '../constants';
-import { connect } from 'react-redux';
 
 export const SearchResultsHeader = ({
   results,
@@ -71,11 +71,14 @@ export const SearchResultsHeader = ({
     const { totalEntries, currentPage, totalPages } = pagination;
     if (noResultsFound) {
       return 'No results found';
-    } else if (totalEntries === 1) {
+    }
+    if (totalEntries === 1) {
       return 'Showing 1 result';
-    } else if (totalEntries < 11 && totalEntries > 1) {
+    }
+    if (totalEntries < 11 && totalEntries > 1) {
       return `Showing 1 - ${totalEntries} results`;
-    } else if (totalEntries > 10) {
+    }
+    if (totalEntries > 10) {
       const startResultNum = 10 * (currentPage - 1) + 1;
       let endResultNum;
 
@@ -84,7 +87,8 @@ export const SearchResultsHeader = ({
       } else endResultNum = totalEntries;
 
       return `Showing ${startResultNum} - ${endResultNum} of ${totalEntries} results`;
-    } else return 'Results';
+    }
+    return 'Results';
   };
 
   return (

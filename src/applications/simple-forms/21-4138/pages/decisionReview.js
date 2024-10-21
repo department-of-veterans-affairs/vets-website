@@ -34,7 +34,6 @@ export const decisionReviewPage = {
     }),
     decisionDate: currentOrPastDateUI({
       title: 'When was your decision dated',
-      required: true,
       errorMessages: {
         required: 'Enter the decision date',
       },

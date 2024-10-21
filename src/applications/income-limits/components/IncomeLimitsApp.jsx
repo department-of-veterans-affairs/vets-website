@@ -23,6 +23,10 @@ const IncomeLimitsApp = ({
   const GENERAL_ERROR_BODY =
     'We’re sorry. There’s a problem with our system. Refresh this page or try again later.';
 
+  useEffect(() => {
+    document.title = 'Income limits and your VA health care | Veterans Affairs';
+  });
+
   useEffect(
     () => {
       if (zipValidationError && location !== `/${ROUTES.ZIPCODE}`) {

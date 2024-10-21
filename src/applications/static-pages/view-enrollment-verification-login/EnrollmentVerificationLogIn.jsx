@@ -16,15 +16,12 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
 
   const visitorUI = (
     <va-alert status="continue" visible>
-      <h3
-        className="vads-u-font-size--h1 vads-u-font-weight--bold"
-        slot="headline"
-      >
-        Sign in to verify your school enrollment
+      <h3 slot="headline">
+        Sign in to verify your enrollment for Post-9/11 GI Bill benefits
       </h3>
       <p>
         Sign in with your existing <strong>ID.me</strong> or{' '}
-        <strong>Login.gov</strong> account. If you don’t have any of these
+        <strong>Login.gov</strong> account. If you don’t have either of these
         accounts, you can create a free{' '}
         <a
           className="vads-u-font-weight--bold"

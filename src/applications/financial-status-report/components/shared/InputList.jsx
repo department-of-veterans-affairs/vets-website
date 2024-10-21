@@ -25,7 +25,7 @@ const InputList = ({
       )}
       {inputs?.map((input, key) => (
         <div key={input.name + key}>
-          <va-number-input
+          <va-text-input
             error={
               submitted && errorList.includes(input.name)
                 ? `Please enter a valid amount below $${max}`
@@ -38,6 +38,7 @@ const InputList = ({
             onInput={onChange}
             required
             value={input.amount}
+            type="decimal"
             min={min}
             max={max}
             width="md"

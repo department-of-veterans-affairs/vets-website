@@ -64,12 +64,16 @@ describe.skip('fsr 5655 contact info loop', () => {
 
     // Select debts & copays
     cy.location('pathname').should('eq', `${BASE_URL}/all-available-debts`);
-    cy.get(`input[name="request-help-with-debt"]`)
-      .first()
-      .check();
-    cy.get(`input[name="request-help-with-copay"]`)
-      .first()
-      .check();
+    cy.get(`[data-testid="debt-selection-checkbox"]`)
+      .eq(0)
+      .shadow()
+      .find('input[type=checkbox]')
+      .check({ force: true });
+    cy.get(`[data-testid="copay-selection-checkbox"]`)
+      .eq(0)
+      .shadow()
+      .find('input[type=checkbox]')
+      .check({ force: true });
     cy.get('.usa-button-primary').click();
   };
 

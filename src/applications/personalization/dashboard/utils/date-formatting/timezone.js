@@ -1,9 +1,9 @@
+import moment from '~/applications/personalization/dashboard/lib/moment-tz';
 import timezones from './timezones.json';
 import vaosTimeZones from './vaos-timezones.json';
-import moment from '~/applications/personalization/dashboard/lib/moment-tz';
 
 export const stripDST = abbr => {
-  if (/^[PMCE][DS]T$/.test(abbr)) {
+  if (/^[PMCEH][DS]T$/.test(abbr)) {
     return abbr?.replace('ST', 'T').replace('DT', 'T');
   }
 
@@ -57,7 +57,7 @@ export function getTimezoneAbbrByFacilityId(id) {
   let abbreviation = moment.tz.zone(matchingZone).abbr(moment());
 
   // Strip out middle char in abbreviation so we can ignore DST
-  if (matchingZone.includes('America')) {
+  if (matchingZone.includes('America') || matchingZone.includes('Pacific')) {
     abbreviation = stripDST(abbreviation);
   }
 
@@ -71,6 +71,7 @@ const TIMEZONE_LABELS = {
   MT: 'America/Denver',
   PT: 'America/Los_Angeles',
   AKT: 'America/Anchorage',
+  HT: 'Pacific/Honolulu',
 };
 
 export function getTimezoneNameFromAbbr(abbreviation) {
@@ -99,16 +100,18 @@ export function getUserTimezoneAbbr() {
  * @export
  * @param {Appointment} appointment The appointment to get a timezone for
  * @returns {Object} An object with:
- *   - identifier: The full timezone identifier (like America/New_York)
+ *   - identifier: The full timezone identifier (e.g. America/New_York)
  *   - abbreviation: The timezone abbreviation (e.g. ET)
  *   - description: The written out description (e.g. Eastern time)
  */
 export function getAppointmentTimezone(appointment) {
-  if (appointment?.timeZone) {
+  if (appointment?.location) {
     return {
-      identifier: appointment.timeZone,
-      abbreviation: appointment.timeZone,
-      description: getTimezoneNameFromAbbr(appointment.timeZone),
+      identifier: appointment.location.attributes.timezone.timeZoneId,
+      abbreviation: getTimezoneAbbrByFacilityId(
+        appointment.location.attributes.id,
+      ),
+      description: getTimezoneByFacilityId(appointment.location.attributes.id),
     };
   }
 

@@ -2,8 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
+import environment from 'platform/utilities/environment';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { ConfirmationPageView as OldConfirmationPageView } from '../../shared/components/ConfirmationPageView';
+import { ConfirmationPageView as NewConfirmationPageView } from '../../shared/components/ConfirmationPageView.v2';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
+
+let mockData;
+if (!environment.isProduction() && !environment.isStaging()) {
+  mockData = require('../tests/e2e/fixtures/data/flow1.json');
+  mockData = mockData?.data;
+}
 
 const getPreparerFullName = formData => {
   const { claimOwnership, claimantType } = formData;
@@ -23,24 +33,41 @@ const getPreparerFullName = formData => {
 };
 
 const content = {
-  headlineText: 'You’ve successfully submitted your Lay or Witness Statement.',
+  headlineText: 'You’ve successfully submitted your Lay or Witness Statement',
   nextStepsText:
     'Once we’ve reviewed your submission, a coordinator will contact you to discuss next steps.',
 };
 
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
+  const showNewConfirmationPage = useSelector(
+    state =>
+      toggleValues(state)[FEATURE_FLAG_NAMES.confirmationPageNew] || false,
+  );
+  const { formConfig } = props.route;
   const { submission } = form;
   const preparerFullName = getPreparerFullName(form.data);
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
-  return (
-    <ConfirmationPageView
+  return showNewConfirmationPage ? (
+    <NewConfirmationPageView
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      formConfig={formConfig}
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+        simulatedFormData: mockData,
+      }}
+    />
+  ) : (
+    <OldConfirmationPageView
       submitterName={preparerFullName}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       content={content}
+      formConfig={formConfig}
     />
   );
 };
@@ -66,6 +93,7 @@ ConfirmationPage.propTypes = {
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.object,
 };
 
 function mapStateToProps(state) {

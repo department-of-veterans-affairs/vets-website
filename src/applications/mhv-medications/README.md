@@ -1,10 +1,34 @@
-# Front End Prescription Object Guide
+# MHV Medications
 
-## Overview
+## Quick start to get running locally
+
+Before you get started check [this page](https://depo-platform-documentation.scrollhelp.site/developer-docs/setting-up-your-local-frontend-environment) first to make sure you are setup to use the correct version of Node and Yarn.
+
+- clone vets-website repo `git clone git@github.com:department-of-veterans-affairs/vets-website.git`
+- run `yarn install`
+- start app `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=medications`
+- turn on local mocks `yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/mhv-medications/mocks/api/index.js`
+- Run this in your browser console to simulate being logged in `localStorage.setItem('hasSession', true);`
+- visit the app: `http://localhost:3001/my-health/medications`
+
+## Running tests
+
+Unit tests for can be run using this command: `yarn test:unit --app-folder mhv-medications`. To get detailed errors, run this command with `--log-level=error`. To get coverage reports run this command `yarn test:unit --app-folder mhv-medications --coverage --coverage-html`. View the report at `/coverage/index.html`
+
+Cypress tests can be run with the GUI using this command: `yarn cy:open`. From there you can filter by `mhv-medications` to run just medications end to end tests.
+
+Run Cypress from command line:
+
+- Run all `yarn cy:run --spec "src/applications/mhv-medications/**/**/*"`
+- Specify browser `-b electron`
+
+## Front End Prescription Object Guide
+
+### Overview
 
 When working on the MHV Medications team, understanding the prescription object is important for developing new features or working with existing ones. The 'Prescription' object holds data about prescriptions as they move from the MHV API to vets-api and then to vets-website. This document explains each field's name, purpose, usage context, and examples. It focuses on how the data appears on the front end after being received, without covering the vets-api or MHV API details (like changes made by a serializer).
 
-## Table of Contents
+### Table of Contents
 
 - [Overview](#overview)
 - [Purpose](#purpose)
@@ -13,12 +37,14 @@ When working on the MHV Medications team, understanding the prescription object 
   - [Tracking List Object](#tracking-list-object)
   - [Vets-api and MHV API Field Mappings](#vets-api-and-mhv-api-field-mappings)
 
-## Purpose
+### Purpose
+
 This document was created to help front-end developers understand the prescription object and identify which fields to use for new features and which ones are currently in use. It also helps improve communication between developers working on different parts of the stack by clarifying the names used for the same fields.
 
-## Field Descriptions and Transformations
+### Field Descriptions and Transformations
 
-### Front End Prescription Object
+#### Front End Prescription Object
+
 | Front End Field | Data Type | Example Value | Description | Usage Context |
 |--|--|--|--|--|
 | `prescriptionId` | number | `22625964` | Unique ID for each prescription record in the database This ID is different from the [prescriptionNumber](#prescription-number), which specifically identifies medications | Use this ID to search for and retrieve prescription details |
@@ -70,7 +96,7 @@ This document was created to help front-end developers understand the prescripti
 | `rxRfRecords` | array | Array of Prescription objects | An array of refill history data | This field is used to display refill history data for a prescription. **NOTE:** The object at index `0` is the most recent refill |
 | `tracking` (not in use) | boolean | `true` | Indicates if a prescription has tracking information | This field is currently not in use and there are no current plans to use this field in the future |
 
-### Tracking List Object
+#### Tracking List Object
 
 | Front End Field | Example Value | Data Type | Description | Usage Context |
 |--|--|--|--|--|
@@ -87,7 +113,7 @@ This document was created to help front-end developers understand the prescripti
 | `trackingNumber` | `"332980271979930000002300"` | string | The tracking number assigned to the shipment | Used to show the tracking number in the UI |
 | `viewImageDisplayed` (not in use) | `false` | boolean | Indicates if an image of the item was displayed | This field isn't currently used and there are no plans to use it in the future |
 
-### Vets-api and MHV API Field Mappings
+#### Vets-api and MHV API Field Mappings
 
 | Front End Field | Vets-API Field | MHV API Field |
 |--|--|--|
@@ -139,4 +165,3 @@ This document was created to help front-end developers understand the prescripti
 | `trackingList` | `tracking_list` | none |
 | `rxRfRecords` | `rx_rf_records` | none |
 | `tracking` (not in use) | `tracking` | `tracking` |
-

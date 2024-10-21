@@ -61,6 +61,7 @@ const Index = ({ router }) => {
         setSession,
         app,
         updateError,
+        setDobError,
       );
     },
     [
@@ -72,6 +73,7 @@ const Index = ({ router }) => {
       setSession,
       token,
       updateError,
+      setDobError,
     ],
   );
 
@@ -82,10 +84,7 @@ const Index = ({ router }) => {
   return (
     <>
       <ValidateDisplay
-        header={t('start-pre-check-in')}
-        subtitle={t(
-          'we-need-to-verify-your-identity-so-you-can-start-pre-check-in',
-        )}
+        header={t('check-if-your-info-is-up-to-date')}
         lastNameInput={{
           lastNameError,
           setLastName,
@@ -94,6 +93,7 @@ const Index = ({ router }) => {
         dobInput={{
           setDob,
           dob,
+          dobError,
         }}
         setDobError={setDobError}
         isLoading={isLoading}

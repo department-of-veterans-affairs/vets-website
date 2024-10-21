@@ -9,6 +9,8 @@ import { ITEMS_PER_PAGE } from '../../constants';
 import {
   buildDateFormatter,
   getPhaseItemText,
+  getTrackedItemDateFromStatus,
+  is5103Notice,
   isDisabilityCompensationClaim,
 } from '../../utils/helpers';
 
@@ -24,53 +26,23 @@ export default function RecentActivity({ claim }) {
   const showEightPhases =
     cstClaimPhasesEnabled &&
     isDisabilityCompensationClaim(claim.attributes.claimTypeCode);
-  const getOldestDocumentDate = item => {
-    const arrDocumentDates = item.documents.map(
-      document => document.uploadDate,
-    );
-    return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
-  };
-
-  const getTrackedItemDateFromStatus = item => {
-    switch (item.status) {
-      case 'NEEDED_FROM_YOU':
-      case 'NEEDED_FROM_OTHERS':
-        return item.requestedDate;
-      case 'NO_LONGER_REQUIRED':
-        return item.closedDate;
-      case 'SUBMITTED_AWAITING_REVIEW':
-        return getOldestDocumentDate(item);
-      case 'INITIAL_REVIEW_COMPLETE':
-      case 'ACCEPTED':
-        return item.receivedDate;
-      default:
-        return item.requestedDate;
-    }
-  };
-
-  const is5103Notice = item => {
-    return (
-      item.displayName === 'Automated 5103 Notice Response' ||
-      item.displayName === '5103 Notice Response'
-    );
-  };
 
   const getTrackedItemDescription = item => {
     const displayName =
-      is5103Notice(item) && cst5103UpdateEnabled
-        ? '5103 Evidence Notice'
+      cst5103UpdateEnabled && is5103Notice(item.displayName)
+        ? 'List of evidence we may need (5103 notice)'
         : item.displayName;
     switch (item.status) {
       case 'NEEDED_FROM_YOU':
       case 'NEEDED_FROM_OTHERS':
-        return `We opened a request for "${displayName}"`;
+        return `We opened a request: "${displayName}"`;
       case 'NO_LONGER_REQUIRED':
-        return `We closed a request for "${displayName}"`;
+        return `We closed a request: "${displayName}"`;
       case 'SUBMITTED_AWAITING_REVIEW':
-        return `We received your document(s) for "${displayName}"`;
+        return `We received your document(s) for the request: "${displayName}"`;
       case 'INITIAL_REVIEW_COMPLETE':
       case 'ACCEPTED':
-        return `We completed a review for "${displayName}"`;
+        return `We completed a review for the request: "${displayName}"`;
       default:
         return 'There was an update to this item';
     }

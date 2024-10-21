@@ -1,0 +1,58 @@
+{
+  "data": [
+    {
+      "id": "3763944",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3763944,
+        "folderId": 0,
+        "messageId": 3763954,
+        "threadPageSize": 3,
+        "messageCount": 2,
+        "category": "TEST_RESULTS",
+        "subject": "MHV THREAD 002  ATTACH",
+        "triageGroupName": "MHV TG GROUP DAYT29",
+        "sentDate": "2024-07-10T18:49:12.000Z",
+        "draftDate": null,
+        "senderId": 2444644,
+        "senderName": "SPARROW, JACK",
+        "recipientName": "MHVTP, GREEN G",
+        "recipientId": 2570050,
+        "proxySenderName": null,
+        "hasAttachment": true,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/threads/3763944"
+      }
+    },
+    {
+      "id": "3763921",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3763921,
+        "folderId": 0,
+        "messageId": 3763930,
+        "threadPageSize": 3,
+        "messageCount": 3,
+        "category": "TEST_RESULTS",
+        "subject": "MHV THREAD 001",
+        "triageGroupName": "MHV TG GROUP DAYT29",
+        "sentDate": "2024-07-10T18:47:02.000Z",
+        "draftDate": null,
+        "senderId": 2444644,
+        "senderName": "SPARROW, JACK",
+        "recipientName": "MHVTP, GREEN G",
+        "recipientId": 2570050,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/threads/3763921"
+      }
+    }
+  ]
+}

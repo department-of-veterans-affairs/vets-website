@@ -46,26 +46,26 @@ describe('Landing Page', () => {
   it('displays a section linking to My HealtheVet classic to download all records', () => {
     const screen = renderWithStoreAndRouter(<LandingPage />, {});
     expect(
-      screen.getByText('Download your VA medical records', {
+      screen.getByText('Download your Blue Button report or health summary', {
         selector: 'h2',
         exact: true,
       }),
     ).to.exist;
     expect(
-      screen.getByText('We’re working on a way for you to download', {
+      screen.getByText('We’re working on a way to download all your', {
         selector: 'p',
         exact: false,
       }),
     ).to.exist;
     expect(
-      screen.getAllByText(
-        'Go to medical records on the My HealtheVet website',
+      screen.getByText(
+        'Go back to the previous version of My HealtheVet to download your records',
         {
           selector: 'a',
           exact: true,
         },
-      ).length,
-    ).to.eq(2);
+      ),
+    ).to.exist;
   });
 
   it('displays downtimeNotification when downtimeApproaching is true', () => {
@@ -115,6 +115,8 @@ describe('Landing Page', () => {
         mhv_medical_records_display_vaccines: true,
         // eslint-disable-next-line camelcase
         mhv_medical_records_display_vitals: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_settings_page: true,
       },
       ...initialState,
     };
@@ -125,6 +127,12 @@ describe('Landing Page', () => {
     });
 
     // feature h2s
+    expect(
+      screen.getByText('Lab and test results', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
     expect(
       screen.getByText('Care summaries and notes', {
         selector: 'h2',
@@ -151,6 +159,12 @@ describe('Landing Page', () => {
     ).to.exist;
     expect(
       screen.getByText('Vitals', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
+    expect(
+      screen.getByText('Manage your medical records settings', {
         selector: 'h2',
         exact: true,
       }),
@@ -182,5 +196,16 @@ describe('Landing Page', () => {
         name: 'Go to your vitals',
       }),
     ).to.exist;
+    expect(
+      screen.getByRole('link', {
+        name: 'Go to your medical records settings',
+      }),
+    ).to.exist;
+    // expect(
+    //   screen.getAllByText('Go to your medical records settings', {
+    //     selector: 'a',
+    //     exact: true,
+    //   }).length,
+    // ).to.eq(2);
   });
 });

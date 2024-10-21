@@ -28,7 +28,7 @@ const mockCommunicationPreferencesState = {
       group4: {
         name: 'Payments',
         description: 'Payments to the Veteran',
-        items: ['item5'],
+        items: ['item13', 'item14', 'item5'],
       },
       group2: {
         name: 'General VA Updates and Information',
@@ -54,6 +54,8 @@ const mockCommunicationPreferencesState = {
       'item6',
       'item5',
       'item11',
+      'item13',
+      'item14',
       'item1234',
       'item12345',
     ],
@@ -94,6 +96,14 @@ const mockCommunicationPreferencesState = {
         name: 'Disability and pension deposit notifications',
         channels: ['channel5-1'],
       },
+      item13: {
+        name: 'New benefit overpayment debt notification',
+        channels: ['channel13-2'],
+      },
+      item14: {
+        name: 'New health care copay bill',
+        channels: ['channel14-2'],
+      },
       item11: {
         name: 'Biweekly MHV newsletter',
         channels: ['channel11-2'],
@@ -119,6 +129,8 @@ const mockCommunicationPreferencesState = {
       'channel1-1',
       'channel6-1',
       'channel5-1',
+      'channel13-2',
+      'channel14-2',
       'channel11-2',
       'channel1234-1',
       'channel12345-1',
@@ -214,6 +226,26 @@ const mockCommunicationPreferencesState = {
           errors: null,
         },
       },
+      'channel13-2': {
+        channelType: 2,
+        parentItem: 'item13',
+        isAllowed: null,
+        permissionId: null,
+        ui: {
+          updateStatus: 'idle',
+          errors: null,
+        },
+      },
+      'channel14-2': {
+        channelType: 2,
+        parentItem: 'item14',
+        isAllowed: null,
+        permissionId: null,
+        ui: {
+          updateStatus: 'idle',
+          errors: null,
+        },
+      },
       'channel11-2': {
         channelType: 2,
         parentItem: 'item11',
@@ -251,9 +283,13 @@ const mockCommunicationPreferencesState = {
 const baseState = {
   ...createBasicInitialState(),
   featureToggles: {
-    [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
-    [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
-    [TOGGLE_NAMES.profileShowEmailNotificationSettings]: true,
+    [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
+    [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
+    [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
+    [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
+    [TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages]: false,
+    [TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting]: false,
+    [TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting]: false,
   },
   communicationPreferences: mockCommunicationPreferencesState,
 };
@@ -276,29 +312,236 @@ describe('NotificationGroup component', () => {
     expect(await view.findByTestId('checkbox-channel5-1')).to.exist;
   });
 
-  it('should filter out MHV notifications from group2 when profileShowMhvNotificationSettings is false', () => {
+  it('should only see Appointment reminders and Prescription shipment and tracking updates items when all the notification toggles are turned off', () => {
     const initialState = cloneDeep(baseState);
 
     set(
       initialState,
-      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettings}]`,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging
+      }]`,
+      false,
+    );
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment
+      }]`,
+      false,
+    );
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages
+      }]`,
       false,
     );
 
     const view = renderWithProfileReducersAndRouter(
-      <NotificationGroup groupId="group2" />,
+      <NotificationGroup groupId="group3" />,
       {
         initialState,
       },
     );
 
-    expect(view.queryByText('RX refill shipment notification')).to.not.exist;
+    expect(view.queryByText('Appointment reminders')).to.exist;
+    expect(view.queryByText('Prescription shipment and tracking updates')).to
+      .exist;
 
-    expect(view.queryByText('VA Appointment reminders')).to.not.exist;
+    expect(view.queryByText('Secure messaging alert')).to.not.exist;
+    expect(view.queryByText('Medical images and reports available')).to.not
+      .exist;
+  });
 
-    expect(view.queryByText('Securing messaging alert')).to.not.exist;
+  it('should display Medical images and reports available group when profileShowMhvNotificationSettingsMedicalImages is true', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group3" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('Appointment reminders')).to.exist;
+    expect(view.queryByText('Prescription shipment and tracking updates')).to
+      .exist;
+    expect(view.queryByText('Medical images and reports available')).to.exist;
+
+    expect(view.queryByText('Secure messaging alert')).to.not.exist;
+  });
+
+  it('should display Securing messaging alert group when profileShowMhvNotificationSettingsNewSecureMessaging is true', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group3" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('Appointment reminders')).to.exist;
+    expect(view.queryByText('Prescription shipment and tracking updates')).to
+      .exist;
+    expect(view.queryByText('Secure messaging alert')).to.exist;
 
     expect(view.queryByText('Medical images and reports available')).to.not
+      .exist;
+  });
+
+  it('should display Prescription shipment and tracking updates group when profileShowMhvNotificationSettingsEmailRxShipment is true', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group3" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('Appointment reminders')).to.exist;
+    expect(view.queryByText('Prescription shipment and tracking updates')).to
+      .exist;
+
+    expect(view.queryByText('Secure messaging alert')).to.not.exist;
+    expect(view.queryByText('Medical images and reports available')).to.not
+      .exist;
+  });
+
+  it('should never display Rx refill shipment and Biweekly MHV newsletter even when all the notification toggles are on', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages
+      }]`,
+      true,
+    );
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging
+      }]`,
+      true,
+    );
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment
+      }]`,
+      true,
+    );
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group3" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('Appointment reminders')).to.exist;
+
+    expect(view.queryByText('Secure messaging alert')).to.exist;
+
+    expect(view.queryByText('Prescription shipment and tracking updates')).to
+      .exist;
+
+    expect(view.queryByText('Medical images and reports available')).to.exist;
+
+    expect(view.queryByText('Rx refill shipment')).to.not.exist;
+
+    expect(view.queryByText('Biweekly MHV newsletter')).to.not.exist;
+  });
+
+  it('should display New benefit overpayment debt notification when profileShowNewBenefitOverpaymentDebtNotificationSetting is true', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${TOGGLE_NAMES.profileShowPaymentsNotificationSetting}]`,
+      true,
+    );
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group4" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('New benefit overpayment debt notification')).to
+      .exist;
+    expect(view.queryByText('Disability and pension deposit notifications')).to
+      .exist;
+    expect(view.queryByText('New health care copay bill')).to.not.exist;
+  });
+
+  it('should display New benefit overpayment debt notification when profileShowNewHealthCareCopayBillNotificationSetting is true', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${TOGGLE_NAMES.profileShowPaymentsNotificationSetting}]`,
+      true,
+    );
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group4" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('New health care copay bill')).to.exist;
+    expect(view.queryByText('Disability and pension deposit notifications')).to
+      .exist;
+    expect(view.queryByText('New benefit overpayment debt notification')).to.not
       .exist;
   });
 });

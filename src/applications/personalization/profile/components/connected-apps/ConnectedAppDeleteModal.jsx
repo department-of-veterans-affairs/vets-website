@@ -35,13 +35,13 @@ export function ConnectedAppDeleteModal({
             onClick={confirmDelete}
             data-testid={`confirm-disconnect-${title}`}
             text="Disconnect"
-            class="vads-u-width--full small-screen:vads-u-width--auto vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--0"
+            class="vads-u-width--full mobile-lg:vads-u-width--auto vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--0"
           />
           <va-button
             secondary
             onClick={closeModal}
             text="No, cancel this change"
-            class="vads-u-width--full small-screen:vads-u-width--auto"
+            class="vads-u-width--full mobile-lg:vads-u-width--auto"
           />
         </>
       )}
@@ -50,7 +50,7 @@ export function ConnectedAppDeleteModal({
         <va-button
           disabled
           text="Processing update..."
-          class="vads-u-width--full small-screen:vads-u-width--auto"
+          class="vads-u-width--full mobile-lg:vads-u-width--auto"
         />
       )}
     </VaModal>

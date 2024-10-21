@@ -1,21 +1,8 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class NextOfKin {
-  validatePage = {
-    dayOf: () => {
-      this.validatePageLoaded(
-        'Check-In Is this your current next of kin information?',
-      );
-    },
-    preCheckIn: () => {
-      this.validatePageLoaded('Is this your current next of kin?');
-    },
-  };
-
-  validatePageLoaded = (title = 'Is this your current next of kin?') => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', title);
+  validatePageLoaded = () => {
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
   };
 
   validateNextOfKinFields = (parentSelector = '.confirmable-page ul') => {

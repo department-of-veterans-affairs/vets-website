@@ -8,7 +8,9 @@ describe('evidenceSummary', () => {
   describe('addMoreLink', () => {
     it('should render', () => {
       global.window.dataLayer = [];
-      const { getByText, getByRole } = render(<div>{content.addMoreLink}</div>);
+      const { getByText, getByRole } = render(
+        <div>{content.addMoreLink()}</div>,
+      );
 
       fireEvent.click(getByText('Add more evidence'));
 

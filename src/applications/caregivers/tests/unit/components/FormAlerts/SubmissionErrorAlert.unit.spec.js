@@ -10,10 +10,7 @@ describe('CG <SubmissionErrorAlert>', () => {
     mockStore: {
       getState: () => ({
         form: {
-          submission: {
-            response: undefined,
-            timestamp: undefined,
-          },
+          submission: { response: undefined, timestamp: undefined },
           data: { veteranFullName: {} },
         },
       }),
@@ -21,19 +18,23 @@ describe('CG <SubmissionErrorAlert>', () => {
       dispatch: () => {},
     },
   });
-
-  it('should render', () => {
-    const { mockStore } = getData();
+  const subject = ({ mockStore }) => {
     const { container } = render(
       <Provider store={mockStore}>
         <SubmissionErrorAlert />
       </Provider>,
     );
-    const selectors = {
+    const selectors = () => ({
       wrapper: container.querySelector('.caregiver-error-message'),
       download: container.querySelector('.caregiver-application--download'),
-    };
-    expect(selectors.wrapper).to.not.be.empty;
-    expect(selectors.download).to.not.be.empty;
+    });
+    return { container, selectors };
+  };
+
+  it('should render content and download application container', () => {
+    const { mockStore } = getData();
+    const { selectors } = subject({ mockStore });
+    expect(selectors().wrapper).to.not.be.empty;
+    expect(selectors().download).to.not.be.empty;
   });
 });

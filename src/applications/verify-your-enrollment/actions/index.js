@@ -1,5 +1,6 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { removeCommas, splitAddressLine } from '../helpers';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
 export const UPDATE_VERIFICATIONS = 'UPDATE_VERIFICATIONS';
@@ -113,9 +114,10 @@ export const updateBankInfo = bankInfo => {
   return async dispatch => {
     dispatch({ type: UPDATE_BANK_INFO });
     try {
+      const processedBankInfo = removeCommas(bankInfo);
       const response = await apiRequest(`${API_URL}/bank_info`, {
         method: 'POST',
-        body: JSON.stringify(bankInfo),
+        body: JSON.stringify(processedBankInfo),
         headers: customHeaders,
       });
 
@@ -193,17 +195,18 @@ export const validateAddress = (formData, fullName) => async (
       isSuggestedAddressPicked ||
       (addressType === 'International' && confidenceScore >= 96)
     ) {
+      const updatedAddress = splitAddressLine(address.addressLine1, 20);
       const fields = {
         veteranName: fullName,
-        address1: address.addressLine1,
-        address2: address.addressLine2,
+        address1: updatedAddress.line1,
+        address2: updatedAddress.line2,
         address3: address.addressLine3,
         address4: address.addressLine4,
         city: address.city,
         ...stateAndZip,
       };
       try {
-        dispatch(postMailingAddress(fields));
+        dispatch(postMailingAddress(removeCommas(fields)));
         dispatch({
           type: ADDRESS_VALIDATION_SUCCESS,
           payload: validationResponse,

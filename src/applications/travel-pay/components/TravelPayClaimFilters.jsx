@@ -44,6 +44,7 @@ export default function TravelPayClaimFilters(props) {
             <va-button
               onClick={resetSearch}
               data-testid="reset_search"
+              secondary
               text="Reset search"
               label="Reset search"
             />

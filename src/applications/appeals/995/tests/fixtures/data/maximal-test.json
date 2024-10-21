@@ -17,13 +17,13 @@
         "countryCode": "6",
         "areaCode": "555",
         "phoneNumber": "8001111",
-        "phoneNumberExt": "2"
+        "extension": "5678"
       },
       "mobilePhone": {
         "countryCode": "6",
         "areaCode": "555",
         "phoneNumber": "8002222",
-        "phoneNumberExt": ""
+        "extension": "1234"
       },
       "email": "user@example.com"
     },

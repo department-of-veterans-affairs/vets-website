@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Breadcrumbs from './Breadcrumbs';
 
 const PACTActApp = ({ children }) => {
+  document.title = 'Learn how the PACT Act may affect you | Veterans Affairs';
+
   return (
     <div className="pact-act-app row vads-u-padding-bottom--8">
       <Breadcrumbs />

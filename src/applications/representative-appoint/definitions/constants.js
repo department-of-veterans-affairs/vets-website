@@ -1,9 +1,8 @@
 export const claimantRelationships = {
-  veteran: 'VETERAN',
-  spouse: 'SPOUSE',
-  child: 'CHILD',
-  accreditedRepresentative: 'ACCREDITED_REPRESENTATIVE',
-  relationshipNotListed: 'RELATIONSHIP_NOT_LISTED',
+  SPOUSE: 'I’m the Veteran’s spouse',
+  CHILD: 'I’m the Veteran’s child',
+  PARENT: 'I’m the Veteran’s parent',
+  RELATIONSHIP_NOT_LISTED: 'We don’t have a relationship that’s listed here',
 };
 
 // Moment date format

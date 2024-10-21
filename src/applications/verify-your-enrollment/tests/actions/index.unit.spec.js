@@ -133,11 +133,12 @@ describe('actions creator', () => {
       }),
     ).to.be.true;
   });
-  it('dispatch UPDATE_BANK_INFO_FAILED after a sucessful api request', async () => {
-    const errors = { erros: 'some error' };
+  it('dispatches UPDATE_BANK_INFO_FAILED after an API request failure', async () => {
+    const errors = { error: 'some error' };
+    const bankInfo = { accountNumber: '1234,5678', routingNumber: '987,654' };
     apiRequestStub.rejects(errors);
     try {
-      await updateBankInfo()(dispatch);
+      await updateBankInfo(bankInfo)(dispatch);
     } catch (error) {
       expect(
         dispatch.calledWith({
@@ -148,7 +149,6 @@ describe('actions creator', () => {
     }
     apiRequestStub.restore();
   });
-
   it('dispatches UPDATE_ADDRESS action immediately', async () => {
     const mailingAddress = {
       street: '123 Main St',

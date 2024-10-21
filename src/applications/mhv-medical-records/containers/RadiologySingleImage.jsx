@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintHeader from '../components/shared/PrintHeader';
 
@@ -40,22 +39,6 @@ const RadiologySingleImage = () => {
       ],
     };
   }, []);
-
-  useEffect(
-    () => {
-      if (labAndTestDetails?.name) {
-        dispatch(
-          setBreadcrumbs([
-            {
-              url: `/labs-and-tests/radiology-images/${labId}`,
-              label: `Images: ${labAndTestDetails?.name}`,
-            },
-          ]),
-        );
-      }
-    },
-    [labAndTestDetails, labId, dispatch],
-  );
 
   useEffect(
     () => {

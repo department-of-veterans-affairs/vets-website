@@ -16,7 +16,7 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
     PatientInboxPage.loadInboxMessages(mockMessages);
   });
 
-  it('Verify filter works correctly', () => {
+  it('verify filter works correctly', () => {
     PatientInboxPage.inputFilterData('test');
     PatientInboxPage.clickFilterMessagesButton(mockFilterResults);
     PatientInboxPage.verifyFilterResults('test', mockFilterResults);
@@ -24,7 +24,7 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('Verify clear filter btn works correctly', () => {
+  it('verify clear filter btn works correctly', () => {
     PatientInboxPage.inputFilterData('test');
     PatientInboxPage.clickFilterMessagesButton(mockFilterResults);
     PatientInboxPage.clickClearFilterButton();
@@ -33,7 +33,7 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('Check sorting works properly', () => {
+  it('verify sorting works correctly', () => {
     const sortedResponse = {
       ...mockMessages,
       data: [...mockMessages.data].sort(
@@ -47,7 +47,7 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
   });
 });
 
-describe('Verify sorting feature with only one filter result', () => {
+describe('verify sorting feature with only one filter result', () => {
   const {
     data: [, secondElement],
     ...rest
@@ -63,7 +63,7 @@ describe('Verify sorting feature with only one filter result', () => {
     PatientInboxPage.clickFilterMessagesButton(mockSingleFilterResult);
     PatientInboxPage.verifyFilterResults('draft', mockSingleFilterResult);
 
-    cy.get(Locators.DROPDOWN).should('not.exist');
+    cy.get(Locators.DROPDOWN.SORT).should('not.exist');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

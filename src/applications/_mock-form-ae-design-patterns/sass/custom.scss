@@ -1,0 +1,9 @@
+// hacky fix for address save button sizing
+[data-action="save-edit"] {
+  line-height: .9;
+  padding: 0.75rem 1.25rem;
+}
+
+.nav-tabs li{
+  flex: 1 1 auto;
+}

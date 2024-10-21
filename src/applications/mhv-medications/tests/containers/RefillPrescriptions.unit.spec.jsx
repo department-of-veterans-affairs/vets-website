@@ -1,7 +1,6 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
 import {
   mockApiRequest,
   resetFetch,
@@ -18,6 +17,7 @@ describe('Refill Prescriptions Component', () => {
       prescriptions: {
         selectedSortOption: 'alphabeticallyByStatus',
         apiError: false,
+        refillableList: prescriptions,
       },
       breadcrumbs: {
         list: [
@@ -40,13 +40,9 @@ describe('Refill Prescriptions Component', () => {
     },
   };
 
-  const setup = (
-    state = initialState,
-    list = prescriptions,
-    isLoadingList = false,
-  ) => {
+  const setup = (state = initialState, isLoadingList = false) => {
     return renderWithStoreAndRouter(
-      <RefillPrescriptions refillList={list} isLoadingList={isLoadingList} />,
+      <RefillPrescriptions isLoadingList={isLoadingList} />,
       {
         initialState: state,
         reducers: reducer,
@@ -61,11 +57,20 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('should render loading state', async () => {
-    const screen = setup(initialState, [], true);
-    waitFor(() => {
-      expect(screen.findByTestId('loading-indicator')).to.exist;
-      expect(screen.findByText('Loading')).to.exist;
-    });
+    const screen = setup(
+      {
+        ...initialState,
+        rx: {
+          ...initialState.rx,
+          prescriptions: {
+            ...initialState.rx.prescriptions,
+            refillableList: [],
+          },
+        },
+      },
+      true,
+    );
+    expect(screen.getByTestId('loading-indicator')).to.exist;
   });
 
   it('Shows 404 page if feature toggle is disabled', async () => {
@@ -76,13 +81,17 @@ describe('Refill Prescriptions Component', () => {
           // eslint-disable-next-line camelcase
           mhv_medications_display_refill_content: false,
         },
+        rx: {
+          ...initialState.rx,
+          prescriptions: {
+            ...initialState.rx.prescriptions,
+            refillableList: [],
+          },
+        },
       },
-      [],
       true,
     );
-    waitFor(() => {
-      expect(screen.getByText('Sorry — we can’t find that page')).to.exist;
-    });
+    expect(screen.getByText('Sorry — we can’t find that page')).to.exist;
   });
 
   it('Mocks API Request', async () => {
@@ -181,7 +190,16 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('Shows the correct text for one prescription', async () => {
-    const screen = setup(initialState, [prescriptions[0]]);
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+        prescriptions: {
+          ...initialState.rx.prescriptions,
+          refillableList: [prescriptions[0]],
+        },
+      },
+    });
     const countEl = await screen.findByTestId('refill-page-list-count');
     expect(countEl).to.exist;
     expect(countEl).to.have.text('You have 1 prescription ready to refill.');
@@ -198,7 +216,16 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('Checks for error message when refilling with 0 meds selected and 1 available', async () => {
-    const screen = setup(initialState, [prescriptions[0]]);
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+        prescriptions: {
+          ...initialState.rx.prescriptions,
+          refillableList: [prescriptions[0]],
+        },
+      },
+    });
     const button = await screen.findByTestId('request-refill-button');
     button.click();
     const error = await screen.findByTestId('select-one-rx-error');
@@ -221,10 +248,19 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('Shows h1 and note if no prescriptions are refillable', async () => {
-    const screen = setup(initialState, [], false);
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+        prescriptions: {
+          ...initialState.rx.prescriptions,
+          refillableList: [],
+        },
+      },
+    });
     const title = await screen.findByTestId('refill-page-title');
     expect(title).to.exist;
     expect(title).to.have.text('Refill prescriptions');
-    expect(screen.findByTestId('no-refills-message')).to.exist;
+    expect(screen.getByTestId('no-refills-message')).to.exist;
   });
 });

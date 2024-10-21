@@ -9,6 +9,7 @@ const createStorageKeys = ({ app }) => {
   const sessionStorageKeys = {
     CURRENT_UUID: `${namespaces[app]}.current.uuid`,
     COMPLETE: `${namespaces[app]}.complete`,
+    COMPLETE_TIMESTAMP: `${namespaces[app]}.complete.timestamp`,
     PROGRESS_STATE: `${namespaces[app]}.progress`,
     PERMISSIONS: `${namespaces[app]}.permissions`,
   };
