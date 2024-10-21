@@ -1,72 +1,82 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import { formatDateLong } from 'platform/utilities/date';
-
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import UserInfoSection from '../components/UserInfoSection';
 
-const PrintPage = ({ router }) => {
-  const enrollmentData = useSelector(
-    state => state.post911GIBStatus.enrollmentData || {},
-  );
+export class PrintPage extends React.Component {
+  // TO-DO: Remove after correct breadcrumbs classname successfully tested
+  getBreadcrumbsClass = () =>
+    this.props.breadcrumbsUpdated ? '.va-breadcrumbs' : '.va-nav-breadcrumbs';
 
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isUpdatedPrintPage = useToggleValue(TOGGLE_NAMES.sobPrintPageUpdate);
-
-  useEffect(() => {
-    const breadCrumbClassValue = isUpdatedPrintPage
-      ? '.va-breadcrumbs'
-      : '.va-nav-breadcrumbs';
-
+  componentDidMount() {
     focusElement('.print-screen');
     document.querySelector('header').classList.add('no-print-no-sr');
     document.querySelector('footer').classList.add('no-print-no-sr');
     document
-      .querySelector(breadCrumbClassValue)
+      // TO-DO: Update after correct breadcrumbs classname successfully tested
+      .querySelector(this.getBreadcrumbsClass())
       .classList.add('no-print-no-sr');
+  }
 
-    return () => {
-      document.querySelector('header').classList.remove('no-print-no-sr');
-      document.querySelector('footer').classList.remove('no-print-no-sr');
-      document
-        .querySelector(breadCrumbClassValue)
-        .classList.remove('no-print-no-sr');
-    };
-  }, []);
+  componentWillUnmount() {
+    document.querySelector('header').classList.remove('no-print-no-sr');
+    document.querySelector('footer').classList.remove('no-print-no-sr');
+    document
+      // TO-DO: Update after correct breadcrumbs classname successfully tested
+      .querySelector(this.getBreadcrumbsClass())
+      .classList.remove('no-print-no-sr');
+  }
 
-  const backToStatement = () => router.push('/');
-  const printWindow = () => window.print();
+  backToStatement = () => this.props.router.push('/');
 
-  const todayFormatted = formatDateLong(new Date());
+  printWindow = () => window.print();
 
-  return (
-    <div className="usa-width-two-thirds medium-8 columns gib-info">
-      <div className="print-status">
-        <div className="print-screen">
-          <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
-          <h1 className="section-header">
-            Post-9/11 GI Bill
-            <sup>&reg;</sup> Statement of Benefits
-          </h1>
-          <button className="usa-button-primary" onClick={printWindow}>
-            Print This Page
-          </button>
-          <p>
-            The information in this letter is the Post-9/11 GI Bill Statement of
-            Benefits for the beneficiary listed below as of {todayFormatted}.
-            Any pending or recent changes to enrollment may affect remaining
-            entitlement.
-          </p>
-          <UserInfoSection enrollmentData={enrollmentData} />
-          <button className="usa-button-secondary" onClick={backToStatement}>
-            Back to Statement Page
-          </button>
+  render() {
+    const enrollmentData = this.props.enrollmentData || {};
+
+    const todayFormatted = formatDateLong(new Date());
+
+    return (
+      <div className="usa-width-two-thirds medium-8 columns gib-info">
+        <div className="print-status">
+          <div className="print-screen">
+            <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
+            <h1 className="section-header">
+              Post-9/11 GI Bill
+              <sup>&reg;</sup> Statement of Benefits
+            </h1>
+            <button className="usa-button-primary" onClick={this.printWindow}>
+              Print This Page
+            </button>
+            <p>
+              The information in this letter is the Post-9/11 GI Bill Statement
+              of Benefits for the beneficiary listed below as of{' '}
+              {todayFormatted}. Any pending or recent changes to enrollment may
+              affect remaining entitlement.
+            </p>
+            <UserInfoSection enrollmentData={enrollmentData} />
+            <button
+              className="usa-button-secondary"
+              onClick={this.backToStatement}
+            >
+              Back to Statement Page
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default PrintPage;
+function mapStateToProps(state) {
+  return {
+    enrollmentData: state.post911GIBStatus.enrollmentData,
+    // TO-DO: Remove after correct breadcrumbs classname successfully tested
+    breadcrumbsUpdated: toggleValues(state).sob_print_page_update,
+  };
+}
+
+export default connect(mapStateToProps)(PrintPage);
