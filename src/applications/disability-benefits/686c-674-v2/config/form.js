@@ -30,7 +30,6 @@ import {
   deceasedDependentLocationOfDeathPage,
 } from './chapters/report-dependent-death/deceasedDependentArrayPages';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
-import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
   currentMarriageInformation,
   currentMarriageInformationPartTwo,
@@ -83,6 +82,14 @@ import {
   stepchildren,
   stepchildInformation,
 } from './chapters/stepchild-no-longer-part-of-household';
+import {
+  removeChildStoppedAttendingSchoolOptions,
+  removeChildStoppedAttendingSchoolIntroPage,
+  removeChildStoppedAttendingSchoolSummaryPage,
+  childInformationPage,
+  dateChildLeftSchoolPage,
+  childIncomeQuestionPage,
+} from './chapters/report-child-stopped-attending-school/removeChildStoppedAttendingSchoolArrayPages';
 import {
   studentInformation,
   studentAdditionalInformationView,
@@ -802,18 +809,73 @@ export const formConfig = {
       title:
         'Remove one or more children between ages 18 and 23 who left school',
       pages: {
-        childNoLongerInSchool: {
-          depends: formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-            ),
-          title:
-            'Information needed to report a child 18-23 years old stopped attending school',
-          path: 'report-child-stopped-attending-school',
-          uiSchema: reportChildStoppedAttendingSchool.uiSchema,
-          schema: reportChildStoppedAttendingSchool.schema,
-        },
+        ...arrayBuilderPages(
+          removeChildStoppedAttendingSchoolOptions,
+          pageBuilder => ({
+            childNoLongerInSchoolIntro: pageBuilder.introPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path: 'report-child-stopped-attending-school',
+              uiSchema: removeChildStoppedAttendingSchoolIntroPage.uiSchema,
+              schema: removeChildStoppedAttendingSchoolIntroPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolSummary: pageBuilder.summaryPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path: 'report-child-stopped-attending-school/summary',
+              uiSchema: removeChildStoppedAttendingSchoolSummaryPage.uiSchema,
+              schema: removeChildStoppedAttendingSchoolSummaryPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolPartOne: pageBuilder.itemPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path:
+                'report-child-stopped-attending-school/:index/child-information',
+              uiSchema: childInformationPage.uiSchema,
+              schema: childInformationPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolPartTwo: pageBuilder.itemPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path:
+                'report-child-stopped-attending-school/:index/date-child-left-school',
+              uiSchema: dateChildLeftSchoolPage.uiSchema,
+              schema: dateChildLeftSchoolPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolPartThree: pageBuilder.itemPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path: 'report-child-stopped-attending-school/:index/child-income',
+              uiSchema: childIncomeQuestionPage.uiSchema,
+              schema: childIncomeQuestionPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+          }),
+        ),
       },
     },
 
