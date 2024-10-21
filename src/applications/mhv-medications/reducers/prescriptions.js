@@ -9,6 +9,11 @@ export const initialState = {
    */
   prescriptionsList: undefined,
   /**
+   * The list of paginated and filtered prescriptions returned from the api
+   * @type {array}
+   */
+  prescriptionsFilteredList: undefined,
+  /**
    * The list of sorted prescriptions returned from the api
    * @type {array}
    */
@@ -62,6 +67,16 @@ export const prescriptionsReducer = (state = initialState, action) => {
       return {
         ...state,
         prescriptionsList: action.response.data.map(rx => {
+          return { ...rx.attributes };
+        }),
+        prescriptionsPagination: action.response.meta.pagination,
+        apiError: false,
+      };
+    }
+    case Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST: {
+      return {
+        ...state,
+        prescriptionsFilteredList: action.response.data.map(rx => {
           return { ...rx.attributes };
         }),
         prescriptionsPagination: action.response.meta.pagination,

@@ -18,6 +18,7 @@ import {
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   getPrescriptionsPaginatedSortedList,
+  getPaginatedFilteredList,
   getAllergiesList,
 } from '../actions/prescriptions';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -33,11 +34,13 @@ import {
   PDF_TXT_GENERATE_STATUS,
   rxListSortingOptions,
   SESSION_SELECTED_SORT_OPTION,
+  SESSION_SELECTED_FILTER_OPTION,
   defaultSelectedSortOption,
   medicationsUrls,
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
   SESSION_SELECTED_PAGE_NUMBER,
+  filterOptions,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -83,6 +86,10 @@ const Prescriptions = () => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showFilterContent = useSelector(selectFilterFlag);
+  const filteredList = useSelector(
+    state => state.rx.prescriptions?.prescriptionsFilteredList,
+  );
+
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
@@ -96,6 +103,9 @@ const Prescriptions = () => {
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
   const [sortingInProgress, setSortingInProgress] = useState(false);
+  const [filterOption, setFilterOption] = useState(
+    sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) || null,
+  );
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
@@ -112,6 +122,11 @@ const Prescriptions = () => {
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
     setLoading(newIsLoading);
     setLoadingMessage(newLoadingMessage);
+  };
+
+  const updateFilter = option => {
+    dispatch(getPaginatedFilteredList(option));
+    sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, option);
   };
 
   const updateSortOption = sortOption => {
@@ -216,6 +231,19 @@ const Prescriptions = () => {
       }
     },
     [isLoading, paginatedPrescriptionsList, isAlertVisible],
+  );
+
+  useEffect(
+    () => {
+      if (!filteredList) {
+        dispatch(
+          getPaginatedFilteredList(
+            filterOption || filterOptions.ALL_MEDICATIONS.label,
+          ),
+        );
+      }
+    },
+    [filteredList, dispatch, filterOption],
   );
 
   const pdfData = useCallback(
@@ -576,7 +604,11 @@ const Prescriptions = () => {
                         >
                           Medications list
                         </h2>
-                        <MedicationsListFilter />
+                        <MedicationsListFilter
+                          updateFilter={updateFilter}
+                          filterOption={filterOption}
+                          setFilterOption={setFilterOption}
+                        />
                       </>
                     ) : (
                       <>
@@ -611,8 +643,21 @@ const Prescriptions = () => {
                       </div>
                     ) : (
                       <MedicationsList
-                        pagination={pagination}
-                        rxList={paginatedPrescriptionsList}
+                        pagination={
+                          showFilterContent
+                            ? {
+                                currentPage: 1,
+                                perPage: 20,
+                                totalEntries: 20,
+                                totalPages: 1,
+                              }
+                            : pagination
+                        }
+                        rxList={
+                          showFilterContent
+                            ? filteredList
+                            : paginatedPrescriptionsList
+                        }
                         scrollLocation={scrollLocation}
                         selectedSortOption={selectedSortOption}
                         updateLoadingStatus={updateLoadingStatus}
