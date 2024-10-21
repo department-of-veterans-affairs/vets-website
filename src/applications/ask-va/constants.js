@@ -26,7 +26,7 @@ export const URL = {
 //* @param {object} params - the object with the key(s) to replace, if any
 //* @returns {string} - the URL with the replaced value(s)
 export const getApiUrl = (url, params) => {
-  let apiUrl = url;
+  let apiUrl = url || '';
   if (params) {
     Object.keys(params).forEach(key => {
       apiUrl = apiUrl.replace(`%${key}%`, params[key]);

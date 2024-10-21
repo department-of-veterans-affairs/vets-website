@@ -84,7 +84,7 @@ const TopicSelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(getApiUrl(URL.GET_TOPIC, { PARENT_ID: categoryID }));
+      getApiData(getApiUrl(URL.GET_TOPICS, { PARENT_ID: categoryID }));
     },
     [loggedIn, categoryID],
   );
@@ -118,7 +118,7 @@ const TopicSelectPage = props => {
           required
           uswds
         >
-          {apiData.map(topic => (
+          {apiData?.map(topic => (
             <VaRadioOption
               key={topic.id}
               name="select_topic"
