@@ -94,7 +94,7 @@ function setupJSDom() {
 
   /* sets up `global` for testing */
   global.dom = dom;
-  global.window = window;
+  global.window = Object.create(window);
   global.document = window.document;
   // global.navigator = { userAgent: 'node.js' };
   global.requestAnimationFrame = function(callback) {
