@@ -229,7 +229,6 @@ export default function PastAppointmentsListNew() {
               data-cy="past-appointment-list-header"
               className="vads-u-margin-top--0 vads-u-font-size--h3"
             >
-              <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
             </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
