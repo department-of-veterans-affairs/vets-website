@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import {
   VaRadio,
   VaRadioOption,
@@ -12,9 +12,11 @@ import { focusElement } from 'platform/utilities/ui';
 import { ServerErrorAlert } from '../config/helpers';
 import { CHAPTER_1, CHAPTER_2, URL, getApiUrl } from '../constants';
 import CatAndTopicSummary from '../components/CatAndTopicSummary';
+import { setSubtopicID } from '../actions';
 
 const SubTopicSelectPage = props => {
   const { onChange, loggedIn, goBack, goToPath, formData, topicID } = props;
+  const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
@@ -31,7 +33,11 @@ const SubTopicSelectPage = props => {
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
+    const selected = apiData.find(
+      subtopic => subtopic.attributes.name === selectedValue,
+    );
     onChange({ ...formData, selectSubtopic: selectedValue });
+    dispatch(setSubtopicID(selected.id));
   };
 
   const getApiData = url => {
