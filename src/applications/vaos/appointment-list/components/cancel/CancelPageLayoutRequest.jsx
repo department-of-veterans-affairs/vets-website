@@ -15,7 +15,7 @@ import NewTabAnchor from '../../../components/NewTabAnchor';
 export default function CancelPageLayoutRequest() {
   const { id } = useParams();
   const {
-    bookingNotes,
+    appointment,
     email,
     facility,
     facilityId,
@@ -34,11 +34,8 @@ export default function CancelPageLayoutRequest() {
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  let [reason, otherDetails] = bookingNotes.split(':');
-  if (isCC) {
-    reason = null;
-    otherDetails = bookingNotes;
-  }
+
+  const { reasonForAppointment, patientComments } = appointment || {};
   const { providerName } = preferredProvider || {};
 
   return (
@@ -131,7 +128,12 @@ export default function CancelPageLayoutRequest() {
           </Section>
         </>
       )}
-      <Details reason={reason} otherDetails={otherDetails} request level={3} />
+      <Details
+        reason={reasonForAppointment}
+        otherDetails={patientComments}
+        request
+        level={3}
+      />
       <Section heading="Your contact details" level={3}>
         <span data-dd-privacy="mask">Email: {email}</span>
         <br />

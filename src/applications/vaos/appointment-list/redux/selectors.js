@@ -201,44 +201,9 @@ export function selectCanUseVaccineFlow(state) {
   );
 }
 
-export function selectAppointmentDetails(appointment) {
-  if (!appointment) return '';
-
-  if (appointment.version === 2) {
-    return appointment.comment ? appointment.comment : 'none';
-  }
-
-  const { comment } = appointment;
-  if (appointment.vaos.isCommunityCare) {
-    return comment || 'none';
-  }
-  return appointment.reasonForAppointment && comment
-    ? `${appointment.reasonForAppointment}: ${comment}`
-    : comment ||
-        (appointment.reasonForAppointment
-          ? appointment.reasonForAppointment
-          : null);
-}
-
 export function selectProviderAddress(appointment) {
   const practitioners = appointment?.practitioners || [];
   return practitioners.length > 0 ? practitioners[0].address : null;
-}
-
-export function selectComment(appointment) {
-  if (!appointment) return '';
-
-  if (appointment.version === 2) {
-    return appointment.comment ? appointment.comment : 'none';
-  }
-
-  const { comment } = appointment;
-  if (appointment.vaos.isCommunityCare) {
-    return comment || 'none';
-  }
-  return appointment.reason && comment
-    ? `${appointment.reason}: ${comment}`
-    : comment || (appointment.reason ? appointment.reason : null);
 }
 
 export function getRequestedAppointmentListInfo(state) {
@@ -643,7 +608,6 @@ export function selectAtlasConfirmationCode(appointment) {
 }
 
 export function selectConfirmedAppointmentData(state, appointment) {
-  const comment = selectComment(appointment);
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
@@ -670,7 +634,6 @@ export function selectConfirmedAppointmentData(state, appointment) {
     facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   const duration = appointment?.minutesDuration;
-  const bookingNotes = selectAppointmentDetails(appointment);
   const isPhone = selectIsPhone(appointment);
   const timeZoneAbbr = selectTimeZoneAbbr(appointment);
   const providerAddress = selectProviderAddress(appointment);
@@ -688,14 +651,12 @@ export function selectConfirmedAppointmentData(state, appointment) {
     appointmentDetailsStatus,
     appointmentTypePrefix,
     atlasConfirmationCode,
-    bookingNotes,
     cancelInfo: getCancelInfo(state),
     ccProvider,
     clinicName,
     clinicPhone,
     clinicPhoneExtension,
     clinicPhysicalLocation,
-    comment,
     duration,
     facility,
     facilityData,
@@ -737,10 +698,8 @@ export function selectRequestedAppointmentData(state, appointment) {
   );
   const { facilityData } = state?.appointments || [];
 
-  const bookingNotes = selectAppointmentDetails(appointment);
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
-  const comment = selectComment(appointment);
   const email = getPatientTelecom(appointment, 'email');
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -769,10 +728,8 @@ export function selectRequestedAppointmentData(state, appointment) {
 
   return {
     appointment,
-    bookingNotes,
     cancelInfo,
     canceled,
-    comment,
     email,
     facility,
     facilityData,
@@ -805,10 +762,8 @@ export function selectRequestedAppointmentDetails(state, id) {
     APPOINTMENT_TYPES.ccRequest,
   ]);
 
-  const bookingNotes = selectAppointmentDetails(appointment);
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
-  const comment = selectComment(appointment);
   const email = getPatientTelecom(appointment, 'email');
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -838,10 +793,8 @@ export function selectRequestedAppointmentDetails(state, id) {
   return {
     appointment,
     appointmentDetailsStatus,
-    bookingNotes,
     cancelInfo,
     canceled,
-    comment,
     email,
     facility,
     facilityData,
