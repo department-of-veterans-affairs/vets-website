@@ -130,7 +130,7 @@ import {
   removeChildHouseholdSummaryPage,
   supportAmountPage,
   veteranSupportsChildPage,
-} from './chapters/stepchild-no-longer-part-of-household/removeChildHousehold';
+} from './chapters/stepchild-no-longer-part-of-household/removeChildHouseholdArrayPages';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -909,7 +909,24 @@ export const formConfig = {
                 formData,
                 TASK_KEYS.reportStepchildNotInHousehold,
               ),
-            // onNavForward:
+            onNavForward: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (formData?.supportingStepchild) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `686-stepchild-no-longer-part-of-household/${index}/child-address${urlParamsString}`,
+                );
+              }
+            },
           }),
           removeChildHouseholdPartThree: pageBuilder.itemPage({
             // conditional page
@@ -937,6 +954,20 @@ export const formConfig = {
                 formData,
                 TASK_KEYS.reportStepchildNotInHousehold,
               ),
+            onNavBack: ({
+              _formData,
+              pathname,
+              urlParams,
+              goPath,
+              _goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              return goPath(
+                `686-stepchild-no-longer-part-of-household/${index}/veteran-supports-child${urlParamsString}`,
+              );
+            },
           }),
           removeChildHouseholdPartFive: pageBuilder.itemPage({
             title:
