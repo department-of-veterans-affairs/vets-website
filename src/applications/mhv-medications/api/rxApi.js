@@ -89,36 +89,27 @@ export const getFilteredList = async filterOption => {
     await delay(ms);
     return value;
   }
-  const changeMockDataPrescriptionName = rxName => {
+  const modifyMockData = rxName => {
     const mockData1 = { ...mockData };
     mockData1.data[0].attributes.prescriptionName = rxName;
     return mockData1;
   };
   switch (filterOption) {
     case filterOptions.ALL_MEDICATIONS.label: {
-      const mockApiReturn = changeMockDataPrescriptionName('all medications');
       // delayed to mimic api fetch lag
-      return delayedReturn(mockApiReturn, 1000);
+      return delayedReturn(modifyMockData('all medications'), 1000);
     }
     case filterOptions.ACTIVE.label: {
-      const mockData1 = { ...mockData };
-      mockData1.data[0].attributes.prescriptionName = 'active';
-      return delayedReturn(mockData1, 1000);
+      return delayedReturn(modifyMockData('active'), 1000);
     }
     case filterOptions.RECENTLY_REQUESTED.label: {
-      const mockData1 = { ...mockData };
-      mockData1.data[0].attributes.prescriptionName = 'recently requested';
-      return delayedReturn(mockData1, 1000);
+      return delayedReturn(modifyMockData('recently requested'), 1000);
     }
     case filterOptions.RENEWAL.label: {
-      const mockData1 = { ...mockData };
-      mockData1.data[0].attributes.prescriptionName = 'renewal';
-      return delayedReturn(mockData1, 1000);
+      return delayedReturn(modifyMockData('renewal'), 1000);
     }
     case filterOptions.NON_ACTIVE.label: {
-      const mockData1 = { ...mockData };
-      mockData1.data[0].attributes.prescriptionName = 'non active';
-      return delayedReturn(mockData1, 1000);
+      return delayedReturn(modifyMockData('non active'), 1000);
     }
     default:
       return mockData;
