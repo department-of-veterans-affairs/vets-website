@@ -78,10 +78,6 @@ import {
   veteranContactInformation,
 } from './chapters/veteran-information';
 import {
-  stepchildren,
-  stepchildInformation,
-} from './chapters/stepchild-no-longer-part-of-household';
-import {
   removeChildStoppedAttendingSchoolOptions,
   removeChildStoppedAttendingSchoolIntroPage,
   removeChildStoppedAttendingSchoolSummaryPage,
@@ -118,6 +114,16 @@ import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
+import {
+  childAddressPage,
+  householdChildInfoPage,
+  parentOrGuardianPage,
+  removeChildHouseholdIntroPage,
+  removeChildHouseholdOptions,
+  removeChildHouseholdSummaryPage,
+  supportAmountPage,
+  veteranSupportsChildPage,
+} from './chapters/stepchild-no-longer-part-of-household/removeChildHousehold';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -683,33 +689,99 @@ export const formConfig = {
       title:
         'Information needed to remove a stepchild who has left your household',
       pages: {
-        stepchildren: {
-          depends: formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportStepchildNotInHousehold,
-            ),
-          title:
-            'Information needed to report a stepchild is no longer part of your household: Basic information',
-          path: '686-stepchild-no-longer-part-of-household',
-          uiSchema: stepchildren.uiSchema,
-          schema: stepchildren.schema,
-        },
-        stepchildInformation: {
-          depends: formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportStepchildNotInHousehold,
-            ),
-          title:
-            'Information needed to report a stepchild is no longer part of your household: Additional information',
-          path: '686-stepchild-no-longer-part-of-household/:index',
-          showPagePerItem: true,
-          arrayPath: 'stepChildren',
-          uiSchema: stepchildInformation.uiSchema,
-          schema: stepchildInformation.schema,
-          updateFormData: stepchildInformation.updateFormData,
-        },
+        ...arrayBuilderPages(removeChildHouseholdOptions, pageBuilder => ({
+          removeChildHouseholdIntro: pageBuilder.introPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path: '686-stepchild-no-longer-part-of-household',
+            uiSchema: removeChildHouseholdIntroPage.uiSchema,
+            schema: removeChildHouseholdIntroPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdSummary: pageBuilder.summaryPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path: '686-stepchild-no-longer-part-of-household/summary',
+            uiSchema: removeChildHouseholdSummaryPage.uiSchema,
+            schema: removeChildHouseholdSummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdPartOne: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/child-information',
+            uiSchema: householdChildInfoPage.uiSchema,
+            schema: householdChildInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdPartTwo: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/veteran-supports-child',
+            uiSchema: veteranSupportsChildPage.uiSchema,
+            schema: veteranSupportsChildPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+            // onNavForward:
+          }),
+          removeChildHouseholdPartThree: pageBuilder.itemPage({
+            // conditional page
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/child-support-amount',
+            uiSchema: supportAmountPage.uiSchema,
+            schema: supportAmountPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdPartFour: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/child-address',
+            uiSchema: childAddressPage.uiSchema,
+            schema: childAddressPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdPartFive: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/parent-or-guardian',
+            uiSchema: parentOrGuardianPage.uiSchema,
+            schema: parentOrGuardianPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+        })),
       },
     },
 

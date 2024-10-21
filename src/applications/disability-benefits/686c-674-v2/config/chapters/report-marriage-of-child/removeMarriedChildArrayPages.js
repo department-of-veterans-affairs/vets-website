@@ -41,7 +41,7 @@ export const removeMarriedChildIntroPage = {
   uiSchema: {
     ...titleUI(
       'Your children under 18 who got married',
-      'In the next few questions, we’ll ask you about your children who have gotten married. You must add at least one child. ',
+      'In the next few questions, we’ll ask you about your children who have gotten married. You must add at least one child.',
     ),
   },
   schema: {
@@ -96,25 +96,6 @@ export const marriedChildInformationPage = {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
       birthDate: currentOrPastDateSchema,
-    },
-  },
-};
-
-/** @returns {PageSchema} */
-export const dateChildMarriedPage2 = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'When did this child stop attending school?',
-    ),
-    dateMarried: {
-      ...currentOrPastDateUI('When did this child stop attending school?'),
-      'ui:required': () => true,
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      dateMarried: currentOrPastDateSchema,
     },
   },
 };
