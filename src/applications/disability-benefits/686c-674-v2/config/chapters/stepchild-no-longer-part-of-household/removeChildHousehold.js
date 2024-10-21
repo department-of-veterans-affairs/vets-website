@@ -30,7 +30,6 @@ export const removeChildHouseholdOptions = {
     !item?.fullName?.last ||
     !item?.birthDate ||
     !item?.ssn ||
-    (item?.supportingStepchild && !item?.supportingStepchild) ||
     !item?.livingExpensesPaid ||
     !item?.whoDoesTheStepchildLiveWith?.first ||
     !item?.whoDoesTheStepchildLiveWith?.last ||
