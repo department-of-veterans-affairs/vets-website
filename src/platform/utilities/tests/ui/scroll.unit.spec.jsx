@@ -97,6 +97,35 @@ describe('scrollToFirstError', () => {
     });
   });
 
+  it('should scroll to & focus first error attribute (web component) and ignore empty error attributes', () => {
+    render(
+      <form>
+        <p />
+        <div id="first" className="usa-input" error>
+          not an error
+        </div>
+        <div id="second" error="">
+          error 1
+        </div>
+        <div
+          id="third"
+          className="usa-input-error input-error-date"
+          error="some error"
+        >
+          error 2
+        </div>
+      </form>,
+    );
+    scrollToFirstError();
+    waitFor(() => {
+      expect(scrollSpy.args[0]).to.deep.equal([
+        -10, // offsets, scrollTop & top all return zero (-10 hard-coded offset)
+        { duration: 0, delay: 0, smooth: false },
+      ]);
+      expect(focusSpy.args[0][0].id).to.eq('third');
+    });
+  });
+
   it('should scroll to first error attribute (web component) & focus internal role="alert"', () => {
     render(
       <form>

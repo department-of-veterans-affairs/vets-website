@@ -1,6 +1,8 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureOHDirectSchedule,
+  selectFeatureOHRequest,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
 import {
@@ -81,8 +83,10 @@ async function vaFacilityNext(state, dispatch) {
   const location = getChosenFacilityInfo(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
+  const featureOHDirectSchedule = selectFeatureOHDirectSchedule(state);
+  const featureOHRequest = selectFeatureOHRequest(state);
 
-  if (isCerner) {
+  if (isCerner && !featureOHDirectSchedule && !featureOHRequest) {
     return 'scheduleCerner';
   }
 

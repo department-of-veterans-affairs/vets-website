@@ -1,18 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { isLoggedIn } from '../utilities/helpers';
+import { isLoggedIn } from 'platform/user/selectors';
 
-export default function ProfileNotUpdatedNote({
-  formData,
-  includePrefix = false,
-  includePhone = false,
-  includeLink = false,
-}) {
+function ProfileNotUpdatedNote(props) {
+  const { loggedIn, includePrefix, includeLink, includePhone } = props;
+
   return (
     <>
-      {isLoggedIn(formData) && (
+      {loggedIn && (
         <>
           <p>
             {includePrefix && <strong>Note: </strong>}
@@ -50,4 +48,13 @@ ProfileNotUpdatedNote.propTypes = {
   includeLink: PropTypes.bool,
   includePhone: PropTypes.bool,
   includePrefix: PropTypes.bool,
+  loggedIn: PropTypes.bool,
 };
+
+function mapStateToProps(state) {
+  return {
+    loggedIn: isLoggedIn(state),
+  };
+}
+
+export default connect(mapStateToProps)(ProfileNotUpdatedNote);
