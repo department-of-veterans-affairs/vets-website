@@ -1,4 +1,6 @@
 import { capitalize } from 'lodash';
+// import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+// import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   titleUI,
   arrayBuilderItemFirstPageTitleUI,
@@ -21,7 +23,7 @@ import {
 
 /** @type {ArrayBuilderOptions} */
 export const removeChildHouseholdOptions = {
-  arrayPath: 'childMarriage',
+  arrayPath: 'stepChildren',
   nounSingular: 'child',
   nounPlural: 'children',
   required: true,
@@ -30,7 +32,7 @@ export const removeChildHouseholdOptions = {
     !item?.fullName?.last ||
     !item?.birthDate ||
     !item?.ssn ||
-    !item?.livingExpensesPaid ||
+    (item?.supportingStepchild && !item?.livingExpensesPaid) ||
     !item?.whoDoesTheStepchildLiveWith?.first ||
     !item?.whoDoesTheStepchildLiveWith?.last ||
     !item?.address?.country ||
@@ -88,7 +90,7 @@ export const removeChildHouseholdSummaryPage = {
 export const householdChildInfoPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Remove a child who got married',
+      title: 'Remove a stepchild who has left your household',
       nounSingular: removeChildHouseholdOptions.nounSingular,
     }),
     fullName: fullNameNoSuffixUI(),
@@ -146,6 +148,20 @@ export const supportAmountPage = {
         },
         required: () => true,
       }),
+      // 'ui:options': {
+      //   // updateSchema: (formData, schema, uiSchema, index) => {
+      //   //   console.log({ formData, schema, uiSchema, index });
+
+      //   //   const supportUI = uiSchema;
+
+      //   //   if (!formData?.stepChildren?.[index]?.supportingStepchild && formData?.stepChildren?.[index]?.livingExpensesPaid){
+      //   //     supportData?.stepChildren?.[index]?.livingExpensesPaid = undefined;
+
+      //   //     return schema;
+      //   //   };
+      //   //   return schema;
+      //   // },
+      // },
     },
   },
   schema: {
