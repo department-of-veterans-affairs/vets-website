@@ -107,10 +107,10 @@ export const uiSchema = {
 };
 
 export const additionalSchema = {
-  icn: {
+  edipi: {
     type: 'string',
   },
-  edipi: {
+  icn: {
     type: 'string',
   },
 };
