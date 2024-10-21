@@ -12,8 +12,6 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(`${requestBody.category}`);
-    // cy.tabToElement('#OTHEROTHERinput');
-    // cy.realPress(['Enter']);
     PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`, {
       force: true,
     });

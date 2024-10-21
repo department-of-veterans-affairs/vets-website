@@ -6,6 +6,7 @@ import { createInitialState } from 'platform/forms-system/src/js/state/helpers';
 import vapService from '@@vap-svc/reducers';
 import formConfig from '../shared/config/fallbackForm';
 import { SET_NEW_FORM_CONFIG } from '../actions/actions';
+import { vadxReducer } from '../slice';
 
 const reducer = (state = {}, action) => {
   if (action.type === SET_NEW_FORM_CONFIG) {
@@ -31,4 +32,5 @@ const reducer = (state = {}, action) => {
 export default {
   form: reducer,
   vapService,
+  vadx: vadxReducer,
 };
