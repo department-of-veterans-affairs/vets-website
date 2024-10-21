@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Email from './Email';
 import Phone from './Phone';
 import GoogleMapLink from './GoogleMapLink';
+import { addressExists } from '../utilities/helpers';
 import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
 
 export default function ContactCard({
@@ -14,11 +15,6 @@ export default function ContactCard({
   email,
 }) {
   const { contact, extension } = parsePhoneNumber(phone);
-  const addressExists =
-    address.addressLine1 &&
-    address.city &&
-    address.stateCode &&
-    address.zipCode;
 
   const recordContactLinkClick = () => {
     // pending analytics event
@@ -34,11 +30,14 @@ export default function ContactCard({
           </h3>
           {orgName && repName && <p style={{ marginTop: 0 }}>{repName}</p>}
           <div className="vads-u-margin-top--3">
-            {addressExists && (
+            {addressExists(address) && (
               <GoogleMapLink
                 address={address}
                 recordClick={recordContactLinkClick}
               />
+            )}
+            {email && (
+              <Email email={email} recordClick={recordContactLinkClick} />
             )}
             {contact && (
               <Phone
@@ -46,9 +45,6 @@ export default function ContactCard({
                 extension={extension}
                 recordClick={recordContactLinkClick}
               />
-            )}
-            {email && (
-              <Email email={email} recordClick={recordContactLinkClick} />
             )}
           </div>
         </div>
