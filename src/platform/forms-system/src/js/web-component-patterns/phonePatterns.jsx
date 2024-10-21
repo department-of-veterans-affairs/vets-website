@@ -66,7 +66,7 @@ const internationalPhoneUI = options => {
     typeof options === 'object' ? options : { title: options };
 
   return {
-    'ui:title': title ?? 'International Phone number',
+    'ui:title': title ?? 'International phone number',
     'ui:webComponentField': VaTextInputField,
     'ui:reviewWidget': PhoneNumberReviewWidget,
     'ui:autocomplete': 'tel',
