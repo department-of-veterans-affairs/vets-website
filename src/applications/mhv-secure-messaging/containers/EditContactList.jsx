@@ -301,8 +301,10 @@ const EditContactList = () => {
               <va-button
                 text="Save contact list"
                 class="
-                    vads-u-margin-bottom--1
-                    mobile-lg:vads-u-margin-bottom--0
+                    vads-u-margin-y--1
+                    mobile-lg:vads-u-margin-y--0
+
+
                   "
                 onClick={e => handleSave(e)}
                 data-testid="contact-list-save"
