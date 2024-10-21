@@ -220,7 +220,7 @@ export function includeGulfWarService(formData) {
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isBefore(
     new Date(veteranDateOfBirth),
-    new Date(1976, 2, 28),
+    new Date('1976-02-28'),
   );
   return includeTeraInformation(formData) && couldHaveServed;
 }
@@ -255,7 +255,7 @@ export function includePostSept11Service(formData) {
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isAfter(
     new Date(veteranDateOfBirth),
-    new Date(1976, 2, 28),
+    new Date('1976-02-28'),
   );
   return includeTeraInformation(formData) && couldHaveServed;
 }
