@@ -8,7 +8,7 @@ import UserInfoSection from '../components/UserInfoSection';
 
 export class PrintPage extends React.Component {
   // TO-DO: Remove after correct breadcrumbs classname successfully tested
-  getBreadcrumbsClass = () =>
+  getBreadcrumbsSelector = () =>
     this.props.breadcrumbsUpdated ? 'va-breadcrumbs' : '.va-nav-breadcrumbs';
 
   componentDidMount() {
@@ -17,7 +17,7 @@ export class PrintPage extends React.Component {
     document.querySelector('footer').classList.add('no-print-no-sr');
     document
       // TO-DO: Update after correct breadcrumbs classname successfully tested
-      .querySelector(this.getBreadcrumbsClass())
+      .querySelector(this.getBreadcrumbsSelector())
       .classList.add('no-print-no-sr');
   }
 
@@ -26,7 +26,7 @@ export class PrintPage extends React.Component {
     document.querySelector('footer').classList.remove('no-print-no-sr');
     document
       // TO-DO: Update after correct breadcrumbs classname successfully tested
-      .querySelector(this.getBreadcrumbsClass())
+      .querySelector(this.getBreadcrumbsSelector())
       .classList.remove('no-print-no-sr');
   }
 
