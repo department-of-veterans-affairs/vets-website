@@ -5,10 +5,6 @@ import { useLocation } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { Paths, threadSortingOptions } from '../../util/constants';
 
-// const SORT_MESSAGES_LABEL = 'Show conversations in this order';
-// const getDDTagLabel = sortOrderValue =>
-//   threadSortingOptions[sortOrderValue]?.label || SORT_CONVERSATIONS_LABEL;
-
 const ThreadListSort = props => {
   const { sortOrder, sortCallback } = props;
   const location = useLocation();
