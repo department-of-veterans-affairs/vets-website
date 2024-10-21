@@ -37,7 +37,10 @@ export default function App({ location, children }) {
             >
               <DowntimeNotification
                 appTitle={`CHAMPVA Form ${formConfig.formId}`}
-                dependencies={[externalServices.pega]}
+                dependencies={[
+                  externalServices.pega,
+                  externalServices.form107959f1,
+                ]}
               >
                 {children}
               </DowntimeNotification>
