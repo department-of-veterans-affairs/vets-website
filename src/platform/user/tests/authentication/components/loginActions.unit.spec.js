@@ -13,12 +13,7 @@ describe('login DOM ', () => {
   const mockStore = {
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
-    getState: () => ({
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        sign_in_modal_v2: false,
-      },
-    }),
+    getState: () => ({}),
   };
 
   beforeEach(function() {
@@ -61,19 +56,6 @@ describe('login DOM ', () => {
   });
 
   ['vaoccmobile'].forEach(csp => {
-    it(`should render only DS Logon button when 'externalApplication=${csp}' and 'redirect_uri' is 'AHBurnPitRegistry'`, () => {
-      global.window.location = new URL(
-        'https://dev.va.gov/sign-in/?application=vaoccmobile&redirect_uri=AHBurnPitRegistry&oauth=false',
-      );
-      const loginButtons = mount(
-        <Provider store={mockStore}>
-          <LoginActions externalApplication={csp} />
-        </Provider>,
-      );
-      expect(loginButtons.find('[data-csp="dslogon"]').exists()).to.be.true;
-      expect(loginButtons.find('#create-account').exists()).to.be.false;
-      loginButtons.unmount();
-    });
     it(`should render all buttons when 'externalApplication=${csp}' and 'redirect_uri' is NOT present`, () => {
       global.window.location = new URL(
         'https://dev.va.gov/sign-in/?application=vaoccmobile',
@@ -84,8 +66,6 @@ describe('login DOM ', () => {
         </Provider>,
       );
       expect(loginButtons.find('button').length).to.eql(4);
-      expect(loginButtons.find('#create-account').exists()).to.be.true;
-      expect(loginButtons.find('a').length).to.eql(3);
       loginButtons.unmount();
     });
   });

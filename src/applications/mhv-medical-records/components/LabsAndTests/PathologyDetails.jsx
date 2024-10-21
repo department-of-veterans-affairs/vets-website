@@ -6,7 +6,6 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
-  formatName,
   updatePageTitle,
   crisisLineHeader,
   txtLine,
@@ -20,6 +19,7 @@ import {
   makePdf,
   getNameDateAndTime,
   generateTextFile,
+  formatNameFirstLast,
 } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -72,7 +72,7 @@ const PathologyDetails = props => {
     const content = `
 ${crisisLineHeader}\n\n    
 ${record.name} \n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 Details about this test: \n
 ${txtLine} \n
