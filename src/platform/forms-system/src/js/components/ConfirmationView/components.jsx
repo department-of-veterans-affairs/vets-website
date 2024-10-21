@@ -357,7 +357,7 @@ export const SubmissionAlert = ({
     <>
       <p>Your submission is in progress.</p>
       <p>
-        It can take up to 10 days for us to receive your form.
+        It can take up to 30 days for us to receive your form.
         {confirmationNumber &&
           ` Your confirmation number is ${confirmationNumber}.`}
       </p>
