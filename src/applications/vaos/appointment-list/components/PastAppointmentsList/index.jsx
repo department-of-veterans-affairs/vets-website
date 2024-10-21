@@ -225,7 +225,6 @@ export default function PastAppointmentsListNew() {
         return (
           <React.Fragment key={key}>
             <h2
-              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
               data-cy="past-appointment-list-header"
               className="vads-u-margin-top--0 vads-u-font-size--h3"
             >
