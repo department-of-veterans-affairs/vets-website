@@ -143,8 +143,8 @@ function setupJSDom() {
 
   copyProps(window, global);
 
-  Object.defineProperty(window, 'location', {
-    value: window.location,
+  Object.defineProperty(global.window, 'location', {
+    value: global.window.location,
     configurable: true,
     enumerable: true,
     writable: true,
