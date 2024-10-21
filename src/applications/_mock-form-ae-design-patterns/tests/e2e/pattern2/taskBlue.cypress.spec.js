@@ -3,7 +3,6 @@ import manifest from '../../../manifest.json';
 import mockUsers from '../../../mocks/endpoints/user';
 import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-ae-design-patterns';
 // eslint-disable-next-line import/no-duplicates
-import { loa3UserWithUpdatedMailingAddress } from '../../../mocks/endpoints/user';
 
 describe('Prefill pattern - Blue Task', () => {
   beforeEach(() => {
@@ -58,9 +57,11 @@ describe('Prefill pattern - Blue Task', () => {
       },
     });
 
-    cy.intercept('GET', '/v0/user?now=*', loa3UserWithUpdatedMailingAddress).as(
-      'mockUserUpdated',
-    );
+    cy.intercept(
+      'GET',
+      '/v0/user?now=*',
+      mockUsers.loa3UserWithUpdatedMailingAddress,
+    ).as('mockUserUpdated');
 
     cy.intercept('GET', '/v0/profile/status/*', {
       statusCode: 200,

@@ -2,18 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-// import {
-//   ProfileInformationFieldController,
-//   InitializeVAPServiceID,
-//   FIELD_NAMES,
-// } from '@department-of-veterans-affairs/platform-user/exports';
-
-// import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-// import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-// import { FIELD_NAMES } from '@@vap-svc/constants';
-
 import InitializeVAPServiceID from 'platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
-// import ProfileInformationFieldController from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -56,8 +45,6 @@ export const BuildPage = props => {
     [modalState, prevModalState],
   );
 
-  // const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
-  // const returnPath = onReviewPage ? '/review-and-submit' : `${contactPath}`;
   const returnPath = '/2/task-blue/veteran-information';
 
   const handlers = {
@@ -84,7 +71,8 @@ export const BuildPage = props => {
         </h3>
         <strong>Note:</strong> We’ve prefilled some of your information from
         your account. If you need to correct anything, you can edit the form
-        fields below.
+        fields below. Unless you choose otherwise, all updates will be made to
+        this form and your VA.gov profile.
       </PrefillAlert>
       <h3
         ref={headerRef}

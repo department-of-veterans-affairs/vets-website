@@ -100,8 +100,6 @@ const ContactInfo = ({
     ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
     : [];
 
-  const [isAddressCardVisible, setAddressCardVisible] = useState(true);
-
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -128,19 +126,6 @@ const ContactInfo = ({
       } else {
         setReturnState('true');
         updatePage();
-      }
-    },
-    deleteMailingAddress: () => {
-      if (data.veteran && data.veteran.mailingAddress) {
-        const updatedData = {
-          ...data,
-          veteran: {
-            ...data.veteran,
-            mailingAddress: undefined,
-          },
-        };
-        setFormData(updatedData);
-        setAddressCardVisible(false);
       }
     },
   };
@@ -282,10 +267,6 @@ const ContactInfo = ({
               />
             </span>
           </Link>
-          <va-button-icon
-            button-type="delete"
-            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
-          />
         </div>
       </va-card>
     ) : null,
@@ -318,10 +299,6 @@ const ContactInfo = ({
               />
             </span>
           </Link>
-          <va-button-icon
-            button-type="delete"
-            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
-          />
         </div>
       </va-card>
     ) : null,
@@ -354,15 +331,11 @@ const ContactInfo = ({
               />
             </span>
           </Link>
-          <va-button-icon
-            button-type="delete"
-            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
-          />
         </div>
       </va-card>
     ) : null,
 
-    keys.address && isAddressCardVisible ? (
+    keys.address ? (
       <va-card
         show-shadow
         data-testid="mini-summary-card"
@@ -388,11 +361,6 @@ const ContactInfo = ({
               />
             </span>
           </Link>
-          <va-button-icon
-            button-type="delete"
-            onClick={handlers.deleteMailingAddress}
-            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
-          />
         </div>
       </va-card>
     ) : null,
@@ -419,8 +387,9 @@ const ContactInfo = ({
             We’ve prefilled some of your information
           </h3>
           <strong>Note:</strong> We’ve prefilled some of your information from
-          your account. If you need to correct anything, you can edit the form
-          fields below.
+          your account. If you need to correct anything, you can select edit
+          below. Unless you choose otherwise, all updates will be made to this
+          this form and your VA.gov profile.
         </PrefillAlert>
       ) : null}
       <div className="vads-u-margin-y--2">
