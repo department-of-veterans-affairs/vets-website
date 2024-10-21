@@ -64,14 +64,6 @@ export default function ArrayBuilderItemPage({
       return null;
     }
 
-    const handleClick = e => {
-      // ideally we could just pass 'submit' to VaButton
-      // but it doesn't work until this is fixed:
-      // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2379
-      e.preventDefault();
-      onSubmit();
-    };
-
     return (
       <SchemaForm
         name={props.name}
@@ -124,7 +116,7 @@ export default function ArrayBuilderItemPage({
               <div>
                 <VaButton
                   continue
-                  onClick={handleClick}
+                  submit="prevent"
                   // "Continue" will display instead of `text`
                   // prop until this is fixed:
                   // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2733
