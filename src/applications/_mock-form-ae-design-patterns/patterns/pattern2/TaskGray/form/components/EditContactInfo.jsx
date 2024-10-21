@@ -1,19 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-// import {
-//   ProfileInformationFieldController,
-//   InitializeVAPServiceID,
-//   FIELD_NAMES,
-// } from '@department-of-veterans-affairs/platform-user/exports';
-
-// import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-// import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-// import { FIELD_NAMES } from '@@vap-svc/constants';
-
 import InitializeVAPServiceID from 'platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
-// import ProfileInformationFieldController from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -76,7 +64,7 @@ export const BuildPage = props => {
 
   return (
     <>
-       <PrefillAlert>
+      <PrefillAlert>
         <strong>Note:</strong> We’ve prefilled some of your information from
         your account. If you need to correct anything, you can edit the form
         fields below. All updates will be made to this form and your VA.gov
@@ -84,7 +72,7 @@ export const BuildPage = props => {
       </PrefillAlert>
       <h2
         ref={headerRef}
-        className="vads-u-margin-top--1 vads-u-margin-bottom--3"
+        className="vads-u-margin-top--3 vads-u-margin-bottom--3"
       >
         {title}
       </h2>

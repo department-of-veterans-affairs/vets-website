@@ -83,6 +83,7 @@ const ContactInfo = ({
   const email = dataWrap[keys.email] || '';
   const homePhone = dataWrap[keys.homePhone] || {};
   const mobilePhone = dataWrap[keys.mobilePhone] || {};
+  // const address = contactInfo[keys.address] || {};
   const address = dataWrap[keys.address] || {};
 
   const missingInfo = getMissingInfo({
@@ -201,10 +202,12 @@ const ContactInfo = ({
   );
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
-  const Headers = onReviewPage ? 'h5' : 'h4';
-  const headerClassNames = ['vads-u-font-size--h4', 'vads-u-width--auto'].join(
-    ' ',
-  );
+  const Headers = onReviewPage ? 'h5' : 'h3';
+  const headerClassNames = [
+    'vads-u-font-size--h3',
+    'vads-u-width--auto',
+    'vads-u-margin-top--1',
+  ].join(' ');
 
   const showSuccessAlert = id => (
     <va-alert
@@ -308,14 +311,39 @@ const ContactInfo = ({
     ) : null,
 
     keys.address ? (
-      <va-card key="mailing">
+      <va-card
+        data-testid="mini-summary-card"
+        class="vads-u-margin-y--3 contact-info-card"
+        key="mailing"
+        uswds
+      >
         <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
-        {/* {showSuccessAlert('address', content.mailingAddress)} */}
-        <AddressView data={dataWrap[keys.address]} />
-        {loggedIn && (
+        <AddressView className="vads-u-margin--2" data={address} />
+        {/* <AddressView
+          className="vads-u-margin--2"
+          data={dataWrap[keys.address]}
+        /> */}
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--1 vads-u-margin-bottom--neg1">
+          <Link
+            id="edit-mailing-address"
+            to="2/task-gray/veteran-information/edit-mailing-address"
+            aria-label={content.editMailingAddress}
+            className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5 vads-u-margin-bottom--1"
+          >
+            <span>
+              <strong>{editText}</strong>
+              <va-icon
+                icon="navigate_next"
+                size={3}
+                className="vads-u-padding-left--0p5"
+              />
+            </span>
+          </Link>
+        </div>
+        {/* {loggedIn && (
           <p className="vads-u-margin-top--0p5 vads-u-font-weight--bold">
             <Link
-              id="edit-address"
+              id="edit-mailing-address"
               to="2/task-gray/veteran-information/edit-mailing-address"
               aria-label={content.editMailingAddress}
             >
@@ -327,7 +355,7 @@ const ContactInfo = ({
               />
             </Link>
           </p>
-        )}
+        )} */}
       </va-card>
     ) : null,
   ];
@@ -374,7 +402,7 @@ const ContactInfo = ({
             {hadError &&
               missingInfo.length === 0 &&
               validationErrors.length === 0 && (
-                <div className="vads-u-margin-top--1p5">
+                <div className="vads-u-margin-top--1p5 vads-u-margin-bottom--2">
                   <va-alert status="success" background-only>
                     <div className="vads-u-font-size--base">
                       {content.alertContent}

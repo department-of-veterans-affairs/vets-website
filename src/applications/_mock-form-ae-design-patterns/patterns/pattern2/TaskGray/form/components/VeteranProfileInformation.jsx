@@ -47,10 +47,10 @@ const VeteranProfileInformation = ({
                 className="vads-u-font-weight--bold dd-privacy-mask"
                 data-dd-action-name="Full name"
               >
-                {veteranName}
+                <h3 className="vads-u-margin-top--0">{veteranName}</h3>
               </dd>
             </div>
-            <div data-testid="ezr-veteran-ssn">
+            {/* <div data-testid="ezr-veteran-ssn">
               <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
                 Social Security number:
               </dt>
@@ -60,7 +60,7 @@ const VeteranProfileInformation = ({
               >
                 {veteranSSN}
               </dd>
-            </div>
+            </div> */}
             {veteranDOB ? (
               <div data-testid="ezr-veteran-dob">
                 <dt className="vads-u-display--inline-block vads-u-margin-right--0p5 vads-u-font-weight--bold">
@@ -80,7 +80,7 @@ const VeteranProfileInformation = ({
                 </dd>
               </div>
             ) : null}
-            {veteranGender ? (
+            {/* {veteranGender ? (
               <div data-testid="ezr-veteran-gender">
                 <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
                   Gender:
@@ -92,7 +92,7 @@ const VeteranProfileInformation = ({
                   {veteranGender}
                 </dd>
               </div>
-            ) : null}
+            ) : null} */}
           </dl>
           {/* </div> */}
         </va-card>
@@ -107,14 +107,14 @@ const VeteranProfileInformation = ({
           </dfn>
           .
         </p>
-        <p>
+        {/* <p>
           You can also call your VA health facility to get help changing your
           name on file with VA. Ask for the eligibility department.{' '}
           <va-link
             href={APP_URLS.facilities}
             text="Find your nearest VA health facility"
           />
-        </p>
+        </p> */}
       </div>
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} />

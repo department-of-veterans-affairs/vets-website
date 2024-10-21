@@ -34,9 +34,9 @@ import { taskCompletePage } from '../../../../../shared/config/taskCompletePage'
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/2/task-gray/',
-  submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
-  transformForSubmit: customCOEsubmit,
-  trackingPrefix: '26-1880-',
+  // submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
+  // transformForSubmit: customCOEsubmit,
+  trackingPrefix: 'task-gray',
   customText: {
     appAction: 'your COE request',
     appSavedSuccessfullyMessage: 'Your request has been saved.',
@@ -112,55 +112,9 @@ const formConfig = {
         //   uiSchema: additionalInformation.uiSchema,
         //   schema: additionalInformation.schema,
         // },
+        taskCompletePage,
       },
     },
-    taskCompletePage,
-    // serviceHistoryChapter: {
-    //   title: 'Your service history',
-    //   pages: {
-    //     serviceStatus: {
-    //       path: 'service-status',
-    //       title: 'Service status',
-    //       uiSchema: serviceStatus.uiSchema,
-    //       schema: serviceStatus.schema,
-    //     },
-    //     serviceHistory: {
-    //       path: 'service-history',
-    //       title: 'Service history',
-    //       uiSchema: serviceHistory.uiSchema,
-    //       schema: serviceHistory.schema,
-    //     },
-    //   },
-    // },
-    // loansChapter: {
-    //   title: 'Your VA loan history',
-    //   pages: {
-    //     loanScreener: {
-    //       path: 'existing-loan-screener',
-    //       title: 'Existing loans',
-    //       uiSchema: loanScreener.uiSchema,
-    //       schema: loanScreener.schema,
-    //     },
-    //     loanHistory: {
-    //       path: 'loan-history',
-    //       title: 'VA-backed loan history',
-    //       uiSchema: loanHistory.uiSchema,
-    //       schema: loanHistory.schema,
-    //       depends: formData => formData?.vaLoanIndicator,
-    //     },
-    //   },
-    // },
-    // documentsChapter: {
-    //   title: 'Your supporting documents',
-    //   pages: {
-    //     upload: {
-    //       path: 'upload-supporting-documents',
-    //       title: 'Upload your documents',
-    //       uiSchema: fileUpload.uiSchema,
-    //       schema: fileUpload.schema,
-    //     },
-    //   },
-    // },
   },
 };
 
