@@ -73,8 +73,8 @@ export class PrintPage extends React.Component {
 }
 
 PrintPage.propTypes = {
-  enrollmentData: PropTypes.object,
   breadcrumbsUpdated: PropTypes.bool,
+  enrollmentData: PropTypes.object,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
