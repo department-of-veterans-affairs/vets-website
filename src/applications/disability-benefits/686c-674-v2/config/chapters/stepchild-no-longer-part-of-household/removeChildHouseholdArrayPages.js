@@ -1,6 +1,4 @@
 import { capitalize } from 'lodash';
-// import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-// import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   titleUI,
   arrayBuilderItemFirstPageTitleUI,
@@ -148,20 +146,18 @@ export const supportAmountPage = {
         },
         required: () => true,
       }),
-      // 'ui:options': {
-      //   // updateSchema: (formData, schema, uiSchema, index) => {
-      //   //   console.log({ formData, schema, uiSchema, index });
+      'ui:options': {
+        updateSchema: (formData, schema, _uiSchema, index) => {
+          const itemData = formData?.stepChildren?.[index];
 
-      //   //   const supportUI = uiSchema;
+          if (itemData?.supportingStepchild === false) {
+            itemData.livingExpensesPaid = undefined;
+            return schema;
+          }
 
-      //   //   if (!formData?.stepChildren?.[index]?.supportingStepchild && formData?.stepChildren?.[index]?.livingExpensesPaid){
-      //   //     supportData?.stepChildren?.[index]?.livingExpensesPaid = undefined;
-
-      //   //     return schema;
-      //   //   };
-      //   //   return schema;
-      //   // },
-      // },
+          return schema;
+        },
+      },
     },
   },
   schema: {
