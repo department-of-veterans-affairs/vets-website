@@ -83,7 +83,7 @@ export function GiBillApp({
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
-          <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
+          <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
             <GiBillBreadcrumbs />
           </div>
           {constants.inProgress && (
@@ -100,7 +100,7 @@ export function GiBillApp({
           )}
           {!showDisclaimer && <div style={{ height: '12px' }}>&nbsp;</div>}
           {showDisclaimer && (
-            <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
+            <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
               <>
                 <AboutThisTool />
                 <Disclaimer />

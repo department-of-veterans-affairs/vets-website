@@ -6,6 +6,7 @@ export const uiSchema = {
     'ui:widget': DynamicRadioWidget,
     'ui:options': {
       hideLabelText: true,
+      hideOnReview: true,
     },
     'ui:required': () => true,
   },

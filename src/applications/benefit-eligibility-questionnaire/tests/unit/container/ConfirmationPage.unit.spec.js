@@ -44,7 +44,7 @@ describe('<ConfirmationPage>', () => {
             militaryServiceCompleted: 'No',
             militaryServiceCurrentlyServing: 'No',
             militaryServiceTotalTimeServed: 'More than 3 years',
-            checkboxGroupGoals: {
+            goals: {
               setACareerPath: true,
             },
             privacyAgreementAccepted: true,

@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Element } from 'react-scroll';
+import { Element } from 'platform/utilities/scroll';
+
 import classNames from 'classnames';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
@@ -22,6 +23,7 @@ import { getPreviousPagePath, checkValidPagePath } from '../routing';
 import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
+import { getPageKey } from '../utilities/review';
 
 /*
  * Displays all the pages in a chapter on the review page
@@ -101,10 +103,13 @@ class ReviewCollapsibleChapter extends React.Component {
 
     // check if current page has any errors; reviewErrors override needed for
     // custom pages
-    const pageKey = reviewErrors?.__override?.(key) || key;
+    const pageKey =
+      reviewErrors?._override?.(key, { pageKey: key, index })?.pageKey ||
+      scrollElementKey;
     const hasErrors = cleanedErrors.some(error => {
       const errorPageKey =
-        reviewErrors?.__override?.(error.pageKey) || error.pageKey;
+        reviewErrors?._override?.(error.pageKey, error)?.pageKey ||
+        getPageKey(error);
       return errorPageKey === pageKey;
     });
 
@@ -194,7 +199,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
 
     const hasError = props.form.formErrors?.errors?.some(
-      err => fullPageKey === err.pageKey,
+      err => fullPageKey === getPageKey(err),
     );
 
     const classes = classNames('form-review-panel-page', {
@@ -275,13 +280,7 @@ class ReviewCollapsibleChapter extends React.Component {
                 // update page button - needed to dynamically update
                 // accordion headers
                 if (!this.hasValidationError(page.pageKey, page.index)) {
-                  focusOnChange(
-                    `${page.pageKey}${
-                      typeof page.index === 'number' ? page.index : ''
-                    }`,
-                    'va-button',
-                    'button',
-                  );
+                  focusOnChange(getPageKey(page), 'va-button', 'button');
                 }
               }}
               buttonText="Update page"
@@ -337,7 +336,7 @@ class ReviewCollapsibleChapter extends React.Component {
       pageUiSchema = pageSchemaObjects.uiSchema;
     }
 
-    const fullPageKey = `${page.pageKey}${page.index ?? ''}`;
+    const fullPageKey = getPageKey(page);
 
     if (editing) {
       // noop defined as a function for unit tests
@@ -371,8 +370,17 @@ class ReviewCollapsibleChapter extends React.Component {
       );
     }
 
+    const hasError = props.form.formErrors?.errors?.some(
+      err => fullPageKey === getPageKey(err),
+    );
+
+    const classes = classNames('form-review-panel-page', {
+      'schemaform-review-page-error':
+        hasError || !props.viewedPages.has(fullPageKey),
+    });
+
     return (
-      <React.Fragment key={fullPageKey}>
+      <div key={`${fullPageKey}`} className={classes}>
         <Element name={`${fullPageKey}${SCROLL_ELEMENT_SUFFIX}`} />
         <div>
           <page.CustomPageReview
@@ -386,7 +394,7 @@ class ReviewCollapsibleChapter extends React.Component {
             recalculateErrors={this.hasValidationError}
           />
         </div>
-      </React.Fragment>
+      </div>
     );
   };
 

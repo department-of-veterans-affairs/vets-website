@@ -737,6 +737,23 @@ class PatientInboxPage {
         });
     });
   };
+
+  maintenanceWindowResponse = (startDate, endDate) => {
+    return {
+      data: [
+        {
+          id: '139',
+          type: 'maintenance_windows',
+          attributes: {
+            externalService: 'mhv_sm',
+            description: 'Description for mhv_sm',
+            startTime: startDate,
+            endTime: endDate,
+          },
+        },
+      ],
+    };
+  };
 }
 
 export default new PatientInboxPage();

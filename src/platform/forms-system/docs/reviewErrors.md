@@ -28,7 +28,7 @@ const formConfig = {
 
     // For form data not associated with a particular page, e.g. list loop pages
     // aren't shown on the review & submit page, instead shows a summary page
-    _override: error => {
+    _override: (error, fullError) => {
       if (error === 'location') {
         return {
           chapterKey: 'locations',

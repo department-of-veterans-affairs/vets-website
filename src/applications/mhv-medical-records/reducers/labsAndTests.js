@@ -9,6 +9,7 @@ import {
   getObservationValueWithUnits,
   isArrayAndHasItems,
   decodeBase64Report,
+  formatNameFirstToLast,
 } from '../util/helpers';
 import {
   loincCodes,
@@ -113,10 +114,7 @@ export const extractPractitioner = (record, serviceRequest) => {
   const practitioner = extractContainedResource(record, practitionerRef);
   if (isArrayAndHasItems(practitioner?.name)) {
     const practitionerName = practitioner?.name[0];
-    const name = practitionerName?.text;
-    const familyName = practitionerName?.family;
-    const givenNames = practitionerName?.given?.join(' ');
-    return name || `${familyName ? `${familyName}, ` : ''}${givenNames}`;
+    return formatNameFirstToLast(practitionerName);
   }
   return null;
 };
@@ -323,19 +321,21 @@ Impression:${impressionText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}`;
 };
 
 export const convertMhvRadiologyRecord = record => {
+  const orderedBy = formatNameFirstToLast(record.requestingProvider);
+  const imagingProvider = formatNameFirstToLast(record.radiologist);
   return {
     id: `r${record.id}-${record.hash}`,
     name: record.procedureName,
     type: labTypes.RADIOLOGY,
     reason: record.reasonForStudy || EMPTY_FIELD,
-    orderedBy: record.requestingProvider || EMPTY_FIELD,
+    orderedBy: orderedBy || EMPTY_FIELD,
     clinicalHistory: record?.clinicalHistory?.trim() || EMPTY_FIELD,
     imagingLocation: record.performingLocation,
     date: record.eventDate
       ? dateFormatWithoutTimezone(record.eventDate)
       : EMPTY_FIELD,
     sortDate: record.eventDate,
-    imagingProvider: record.radiologist || EMPTY_FIELD,
+    imagingProvider: imagingProvider || EMPTY_FIELD,
     results: buildRadiologyResults(record),
     images: [],
   };

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Element } from 'react-scroll';
 
 import {
   focusElement,
@@ -15,6 +14,8 @@ import {
   selectProfile,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+
+import { Element } from 'platform/utilities/scroll';
 
 // import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
 import { generateMockUser } from '../../../../site-wide/user-nav/tests/mocks/user';
@@ -72,6 +73,7 @@ const ContactInfo = ({
   uiSchema,
   testContinueAlert = false,
   contactInfoPageKey,
+  disableMockContactInfo = false,
 }) => {
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
@@ -84,7 +86,7 @@ const ContactInfo = ({
   const profile = useSelector(selectProfile) || {};
   const loggedIn = useSelector(isLoggedIn) || false;
   const contactInfo =
-    loggedIn && environment.isLocalhost()
+    loggedIn && environment.isLocalhost() && !disableMockContactInfo
       ? generateMockUser({ authBroker: 'iam' }).data.attributes
           .vet360ContactInformation
       : profile.vapContactInfo || {};
@@ -419,6 +421,7 @@ ContactInfo.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   data: contactInfoPropTypes.data,
+  disableMockContactInfo: PropTypes.bool,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   keys: contactInfoPropTypes.keys,

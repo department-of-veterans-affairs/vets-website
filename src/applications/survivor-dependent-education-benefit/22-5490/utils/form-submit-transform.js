@@ -298,9 +298,9 @@ const trimObjectValuesWhiteSpace = (key, value) => {
 
 const getNotificationMethod = notificationMethod => {
   switch (notificationMethod) {
-    case 'Yes, send me text message notifications':
+    case 'yes':
       return 'TEXT';
-    case 'No, just send me email notifications':
+    case 'no':
       return 'EMAIL';
     default:
       return 'NONE';
@@ -352,6 +352,20 @@ const getNotificationMethod = notificationMethod => {
 //   };
 // };
 
+export function getAddressType(mailingAddress) {
+  if (!mailingAddress) {
+    return null;
+  }
+
+  if (mailingAddress?.livesOnMilitaryBase) {
+    return 'MILITARY_OVERSEAS';
+  }
+  if (mailingAddress?.address?.country === DEFAULT_SCHEMA_COUNTRY_CODE) {
+    return 'DOMESTIC';
+  }
+  return 'FOREIGN';
+}
+
 export function transform5490Form(_formConfig, form) {
   const formFieldUserFullName = form?.data?.fullName;
   const viewComponentUserFullName = form?.loadedData?.formData?.fullName;
@@ -370,24 +384,16 @@ export function transform5490Form(_formConfig, form) {
     chosenBenefit: form?.data?.chosenBenefit,
     claimant: {
       suffix: userFullName?.suffix,
-      // dateOfBirth,
-      // firstName: userFullName?.first,
-      // lastName: userFullName?.last,
-      // middleName: userFullName?.middle,
-      notificationMethod: getNotificationMethod(
-        form?.data['view:receiveTextMessages']?.receiveTextMessages,
-      ),
+      notificationMethod: getNotificationMethod(form?.data?.notificationMethod),
       contactInfo: {
         addressLine1: form?.data?.mailingAddressInput?.address?.street,
         addressLine2: form?.data?.mailingAddressInput?.address?.street2,
         city: form?.data?.mailingAddressInput?.address?.city,
         zipcode: form?.data?.mailingAddressInput?.address?.postalCode,
         emailAddress: form?.data?.email?.email,
-        addressType: form?.data?.mailingAddressInput?.livesOnMilitaryBase
-          ? 'MILITARY_OVERSEAS'
-          : 'mobilePhoneNumber',
-        mobilePhoneNumber: form?.data?.mobilePhone,
-        homePhoneNumber: form?.data?.homePhone,
+        addressType: getAddressType(form?.data?.mailingAddressInput),
+        mobilePhoneNumber: form?.data?.mobilePhone?.phone,
+        homePhoneNumber: form?.data?.homePhone?.phone,
         countryCode: getLTSCountryCode(
           form?.data?.mailingAddressInput?.address?.country,
         ),
@@ -395,12 +401,11 @@ export function transform5490Form(_formConfig, form) {
       },
       preferredContact: form?.data?.contactMethod,
     },
-    // parentOrGuardianSignature: form?.data?.parentGuardianSponsor,
     serviceMember: {
       firstName: userFullName?.first,
       lastName: userFullName?.last,
       middleName: userFullName?.middle,
-      sponsorRelationship: form?.data?.relationShipToMember,
+      relationship: form?.data?.relationShipToMember,
       dateOfBirth: form?.data?.relativeDateOfBirth,
       ssn: form?.data?.relativeSocialSecurityNumber,
     },
@@ -409,9 +414,12 @@ export function transform5490Form(_formConfig, form) {
       highSchoolDiplomaOrCertificateDate: form?.data?.graduationDate,
     },
     directDeposit: {
-      directDepositAccountType: form?.data?.bankAccount?.accountType,
-      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
-      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
+      directDepositAccountType:
+        form?.data['view:directDeposit']?.bankAccount?.accountType,
+      directDepositAccountNumber:
+        form?.data['view:directDeposit']?.bankAccount?.accountNumber,
+      directDepositRoutingNumber:
+        form?.data['view:directDeposit']?.bankAccount?.routingNumber,
     },
     additionalConsiderations: {
       outstandingFelony: form?.data?.felonyOrWarrant,
@@ -421,5 +429,6 @@ export function transform5490Form(_formConfig, form) {
       remarriageStatus: form?.data?.remarriageStatus,
     },
   };
+
   return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
 }

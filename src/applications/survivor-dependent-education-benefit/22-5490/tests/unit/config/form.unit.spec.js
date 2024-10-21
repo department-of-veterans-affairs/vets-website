@@ -273,18 +273,20 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
-        data={{ title: 'test form' }}
-        formData={{ title: 'test form' }}
+        data={{ title: 'test form', mobilePhone: { phone: '4138675309' } }}
+        formData={{ title: 'test form', mobilePhone: { phone: '4138675309' } }}
       />,
     );
-    selectRadio(form, 'root_contactMethod', 'email');
-    selectRadio(form, 'root_notificationMethod', 'yes');
+
+    selectRadio(form, 'root_contactMethod', 'Email');
+    selectRadio(form, 'root_notificationMethod', 'no');
+
     expect(
-      form.find('input[name="root_contactMethod"][value="email"]').props()
+      form.find('input[name="root_contactMethod"][value="Email"]').props()
         .checked,
     ).to.be.true;
     expect(
-      form.find('input[name="root_notificationMethod"][value="yes"]').props()
+      form.find('input[name="root_notificationMethod"][value="no"]').props()
         .checked,
     ).to.be.true;
     form.unmount();
@@ -303,20 +305,27 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         formData={{}}
       />,
     );
-    fillData(form, 'input#root_bankAccount_accountNumber', '123456789');
-    fillData(form, 'input#root_bankAccount_routingNumber', '987654321');
-    selectRadio(form, 'root_bankAccount_accountType', 'checking');
-    expect(
-      form.find('input#root_bankAccount_accountNumber').prop('value'),
-    ).to.equal('123456789');
-    expect(
-      form.find('input#root_bankAccount_routingNumber').prop('value'),
-    ).to.equal('987654321');
+    fillData(
+      form,
+      'input[name="root_view:directDeposit_bankAccount_accountNumber"]',
+      '123456789',
+    );
+    fillData(
+      form,
+      'input[name="root_view:directDeposit_bankAccount_routingNumber"]',
+      '031101279',
+    );
+
     expect(
       form
-        .find('input[name="root_bankAccount_accountType"][value="checking"]')
-        .props().checked,
-    ).to.be.true;
+        .find('input[name="root_view:directDeposit_bankAccount_accountNumber"]')
+        .prop('value'),
+    ).to.equal('123456789');
+    expect(
+      form
+        .find('input[name="root_view:directDeposit_bankAccount_routingNumber"]')
+        .prop('value'),
+    ).to.equal('031101279');
     form.unmount();
   });
 });

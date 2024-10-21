@@ -1215,7 +1215,7 @@ function CalculateYourBenefitsForm({
         'estimate-your-benefits-form',
         'medium-5',
         'columns',
-        'small-screen:vads-u-padding-right--0',
+        'mobile-lg:vads-u-padding-right--0',
       )}
     >
       <div>

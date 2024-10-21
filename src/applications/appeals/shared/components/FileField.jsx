@@ -431,10 +431,10 @@ const FileField = props => {
               setTimeout(() => {
                 scrollTo(fileListId);
                 const retryButton = $(`[name="retry_upload_${index}"]`);
-                if (retryButton) {
-                  focusElement('button', {}, retryButton?.shadowRoot);
-                } else if (showPasswordInput) {
+                if (showPasswordInput || uiOptions.focusOnAlertRole) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
+                } else if (retryButton) {
+                  focusElement('button', {}, retryButton?.shadowRoot);
                 } else {
                   focusElement(ERROR_ELEMENTS.join(','));
                 }

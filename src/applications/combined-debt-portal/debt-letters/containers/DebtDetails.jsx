@@ -97,7 +97,7 @@ const DebtDetails = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current VA debt',
+            label: 'Current debts',
           },
           {
             href: `/manage-va-debt/summary/debt-balances/details/${
@@ -148,19 +148,21 @@ const DebtDetails = () => {
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
                     Current balance as of{' '}
-                    {getLatestPaymentDateFromCurrentDebt(currentDebt)}
+                    {formatDate(
+                      getLatestPaymentDateFromCurrentDebt(currentDebt),
+                    )}
                   </span>
-                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
                     {formatCurrency(currentDebt.currentAr)}
                   </span>
                 </h3>
               </div>
-              <div className="vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
+              <div className="debt-balance-details small-screen:vads-u-margin-top--0">
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
                     Original overpayment amount
                   </span>
-                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
                     {formatCurrency(currentDebt.originalAr)}
                   </span>
                 </h3>
@@ -177,11 +179,6 @@ const DebtDetails = () => {
             >
               Debt letter history
             </h2>
-            <p className="vads-u-margin-bottom--0">
-              {`You can check the status ${
-                showDebtLetterDownload ? `or download the letters for` : `of`
-              } this debt.`}
-            </p>
             <HistoryTable history={filteredHistory} />
             {showDebtLetterDownload ? (
               <>

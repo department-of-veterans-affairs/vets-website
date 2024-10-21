@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
 import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
@@ -26,13 +27,14 @@ export class ConfirmationPage extends React.Component {
       filterValue: 'All',
       benefits: [],
       benefitsList: BENEFITS_LIST,
-      showeMobileFilters: false,
+      showMobileFilters: false,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
   }
 
   componentDidMount() {
+    focusElement('h1');
     scrollToTop('topScrollElement');
     // Update query string based on results.
     if (this.props.results.data && this.props.results.data.length > 0) {
@@ -80,8 +82,13 @@ export class ConfirmationPage extends React.Component {
   sortBenefits = e => {
     const key = e.target.value;
     const sortKey = key === 'alphabetical' ? 'name' : key;
+    const sortStrings = {
+      alphabetical: 'alphabetical',
+      goal: 'goal',
+      category: 'type',
+    };
 
-    this.setState({ sortValue: key }, () => {
+    this.setState({ sortValue: sortStrings[key] }, () => {
       this.setState(prevState => {
         if (!prevState.benefits || !Array.isArray(prevState.benefits)) {
           return { benefits: [], benefitsList: [] };
@@ -100,8 +107,14 @@ export class ConfirmationPage extends React.Component {
 
   filterBenefits = e => {
     const key = e.target.value;
+    const filterStrings = {
+      All: 'All',
+      Education: 'Education',
+      Careers: 'Careers & Employment',
+      Support: 'More Support',
+    };
 
-    this.setState(() => ({ filterValue: key }));
+    this.setState(() => ({ filterValue: filterStrings[key] }));
 
     if (key === 'All') {
       this.setState(() => ({
@@ -133,8 +146,8 @@ export class ConfirmationPage extends React.Component {
     this.props.router.goBack();
   };
 
-  sortBenefitObj(sortBenefitObj, sortKey) {
-    return [...sortBenefitObj].sort((a, b) => {
+  sortBenefitObj(benefitObj, sortKey) {
+    return [...benefitObj].sort((a, b) => {
       let aValue = a[sortKey] || '';
       let bValue = b[sortKey] || '';
 
@@ -181,8 +194,8 @@ export class ConfirmationPage extends React.Component {
   }
 
   toggleMobileFiltersClass() {
-    const currentState = this.state.showeMobileFilters;
-    this.setState({ showeMobileFilters: !currentState });
+    const currentState = this.state.showMobileFilters;
+    this.setState({ showMobileFilters: !currentState });
   }
 
   render() {
@@ -205,183 +218,193 @@ export class ConfirmationPage extends React.Component {
           and career benefits. We'll add more types of benefits soon.
         </p>
 
-        <SaveResultsModal />
-
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
-        <div id="results-container">
-          <div id="filters-section-mobile-toggle">
-            <va-link-action
-              message-aria-describedby="Filter and sort"
-              text="Filter and sort"
-              type="secondary"
-              onClick={() => this.toggleMobileFiltersClass()}
-              omKeyDown={() => this.toggleMobileFiltersClass()}
-              role="button"
-            />
-          </div>
-          <div
-            id="filters-section-desktop"
-            className={
-              this.state.showeMobileFilters
-                ? 'show-filters-section-mobile'
-                : 'hide-filters-section-mobile'
-            }
-          >
-            <span>
-              <b>Filters</b>
-            </span>
-            <VaSelect
-              aria-label="Filter Benefits"
-              label="Filter by benefit type"
-              name="filter-benefits"
-              value={this.state.filterValue}
-              onVaSelect={this.filterBenefits}
-              className="filter-benefits"
+        <div id="results-container" className="vads-l-grid-container">
+          <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12">
+              <SaveResultsModal />
+            </div>
+            <div
+              className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
+              id="filters-section-mobile-toggle"
             >
-              <option key="All" value="All">
-                All
-              </option>
-              <option key="Education" value="Education">
-                Education
-              </option>
-              <option key="Careers" value="Careers">
-                Careers & Employment
-              </option>
-              <option key="Support" value="Support">
-                More Support
-              </option>
-            </VaSelect>
-            <br />
-            <span>
-              <b>Sort</b>
-            </span>
-            <VaSelect
-              aria-label="Sort Benefits"
-              label="Sort results by"
-              name="sort-benefits"
-              value={this.state.sortValue}
-              onVaSelect={this.sortBenefits}
-            >
-              <option key="alphabetical" value="alphabetical">
-                Alphabetical
-              </option>
-              <option key="goal" value="goal">
-                Goal
-              </option>
-              <option key="type" value="category">
-                Type
-              </option>
-            </VaSelect>
-          </div>
-          <div id="results-section">
-            <b>
-              {this.state.hasResults &&
-                `Showing ${this.state.resultsCount} ${
-                  this.state.resultsText
-                }, filtered to show ${this.state.filterValue} results, sorted ${
-                  this.state.sortValue === 'alphabetical'
-                    ? this.state.sortValue
-                    : `by ${this.state.sortValue}`
-                }`}
-            </b>
-
-            <p>
-              <va-link
-                data-testid="back-link"
-                href="#"
-                onClick={this.handleClick}
-                text="Go back and review your entries"
+              <va-link-action
+                message-aria-describedby="Filter and sort"
+                text="Filter and sort"
+                type="secondary"
+                onClick={() => this.toggleMobileFiltersClass()}
+                omKeyDown={() => this.toggleMobileFiltersClass()}
+                role="button"
               />
-            </p>
-
-            <div className="vads-u-margin-y--2">
-              <va-alert-expandable
-                status="info"
-                trigger="Time-sensitive benefits"
-              >
-                <ul className="benefit-list">
-                  {this.state &&
-                    this.state.benefits
-                      .filter(benefit => benefit.isTimeSensitive)
-                      .map(b => (
-                        <li key={b.id}>
-                          <strong>{b.name}</strong>
-                          <p>{b.description}</p>
-                          {b.learnMoreURL ? (
-                            <div>
-                              <a
-                                href={b.learnMoreURL}
-                                target="_blank"
-                                rel="noreferrer"
-                                aria-label={`Learn more about ${b.name}`}
-                              >
-                                Learn more
-                              </a>
-                            </div>
-                          ) : null}
-
-                          {b.applyNowURL ? (
-                            <div>
-                              <a
-                                href={b.applyNowURL}
-                                target="_blank"
-                                rel="noreferrer"
-                                aria-label={`Apply now for ${b.name}`}
-                              >
-                                Apply now
-                              </a>
-                            </div>
-                          ) : null}
-                        </li>
-                      ))}
-                </ul>
-              </va-alert-expandable>
             </div>
-
-            <div>
-              {this.props.results.isLoading ? (
-                <va-loading-indicator
-                  label="Loading"
-                  message="Loading results..."
-                />
-              ) : (
-                <ul className="benefit-list">
-                  {this.state &&
-                    this.state.benefits
-                      .filter(benefit => !benefit.isTimeSensitive)
-                      .map(benefit => (
-                        <li key={benefit.id}>
-                          <BenefitCard
-                            benefit={benefit}
-                            className="vads-u-margin-bottom--2"
-                          />
-                        </li>
-                      ))}
-                </ul>
+            <div
+              id="filters-section-desktop"
+              className={classNames({
+                'vads-l-col--12': true,
+                'medium-screen:vads-l-col--4': true,
+                'large-screen:vads-l-col--3': true,
+                'show-filters-section-mobile': this.state.showMobileFilters,
+                'hide-filters-section-mobile': !this.state.showMobileFilters,
+              })}
+            >
+              <span>
+                <b>Filters</b>
+              </span>
+              <VaSelect
+                aria-label="Filter Benefits"
+                label="Filter by benefit type"
+                name="filter-benefits"
+                value={this.state.filterValue}
+                onVaSelect={this.filterBenefits}
+                className="filter-benefits"
+              >
+                <option key="All" value="All">
+                  All
+                </option>
+                <option key="Education" value="Education">
+                  Education
+                </option>
+                <option key="Careers" value="Careers">
+                  Careers & Employment
+                </option>
+                <option key="Support" value="Support">
+                  More Support
+                </option>
+              </VaSelect>
+              <br />
+              <span>
+                <b>Sort</b>
+              </span>
+              <VaSelect
+                aria-label="Sort Benefits"
+                label="Sort results by"
+                name="sort-benefits"
+                value={this.state.sortValue}
+                onVaSelect={this.sortBenefits}
+              >
+                <option key="alphabetical" value="alphabetical">
+                  Alphabetical
+                </option>
+                <option key="goal" value="goal">
+                  Goal
+                </option>
+                <option key="type" value="category">
+                  Type
+                </option>
+              </VaSelect>
+            </div>
+            <div
+              id="results-section"
+              className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
+            >
+              {this.state.hasResults && (
+                <>
+                  Showing {this.state.resultsCount} {this.state.resultsText},
+                  filtered to show <b>{this.state.filterValue} results</b>,
+                  sorted{' '}
+                  {this.state.sortValue === 'alphabetical'
+                    ? 'alphabetically'
+                    : `by ${this.state.sortValue}`}
+                </>
               )}
-            </div>
+              <p>
+                <va-link
+                  data-testid="back-link"
+                  href="#"
+                  onClick={this.handleClick}
+                  text="Go back and review your entries"
+                />
+              </p>
 
-            <va-accordion>
-              <va-accordion-item
-                header="Show benefits that I may not qualify for"
-                id="show"
-              >
-                <ul className="benefit-list">
-                  {this.state.benefitsList.map(
-                    benefit =>
-                      !this.state.benefitIds[benefit.id] && (
-                        <li key={benefit.id}>
-                          <BenefitCard
-                            benefit={benefit}
-                            className="vads-u-margin-bottom--2"
-                          />
-                        </li>
-                      ),
-                  )}
-                </ul>
-              </va-accordion-item>
-            </va-accordion>
+              <div className="vads-u-margin-y--2">
+                <va-alert-expandable
+                  status="info"
+                  trigger="Time-sensitive benefits"
+                >
+                  <ul className="benefit-list">
+                    {this.state &&
+                      this.state.benefits
+                        .filter(benefit => benefit.isTimeSensitive)
+                        .map(b => (
+                          <li key={b.id}>
+                            <strong>{b.name}</strong>
+                            <p>{b.description}</p>
+                            {b.learnMoreURL ? (
+                              <div>
+                                <a
+                                  href={b.learnMoreURL}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  aria-label={`Learn more about ${b.name}`}
+                                >
+                                  Learn more
+                                </a>
+                              </div>
+                            ) : null}
+
+                            {b.applyNowURL ? (
+                              <div>
+                                <a
+                                  href={b.applyNowURL}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  aria-label={`Apply now for ${b.name}`}
+                                >
+                                  Apply now
+                                </a>
+                              </div>
+                            ) : null}
+                          </li>
+                        ))}
+                  </ul>
+                </va-alert-expandable>
+              </div>
+
+              <div>
+                {this.props.results.isLoading ? (
+                  <va-loading-indicator
+                    label="Loading"
+                    message="Loading results..."
+                  />
+                ) : (
+                  <ul className="benefit-list">
+                    {this.state &&
+                      this.state.benefits
+                        .filter(benefit => !benefit.isTimeSensitive)
+                        .map(benefit => (
+                          <li key={benefit.id}>
+                            <BenefitCard
+                              benefit={benefit}
+                              className="vads-u-margin-bottom--2"
+                            />
+                          </li>
+                        ))}
+                  </ul>
+                )}
+              </div>
+
+              <va-accordion>
+                <va-accordion-item
+                  header="Benefits that I may not qualify for"
+                  id="show"
+                >
+                  <ul className="benefit-list">
+                    {this.state.benefitsList.map(
+                      benefit =>
+                        !this.state.benefitIds[benefit.id] && (
+                          <li key={benefit.id}>
+                            <BenefitCard
+                              benefit={benefit}
+                              className="vads-u-margin-bottom--2"
+                            />
+                          </li>
+                        ),
+                    )}
+                  </ul>
+                </va-accordion-item>
+              </va-accordion>
+            </div>
           </div>
         </div>
         <div className="row vads-u-margin-bottom--2">

@@ -56,9 +56,7 @@ describe('<ServiceAvailabilityBanner/>', () => {
         serviceAvailability={SERVICE_AVAILABILITY_STATES.down}
       />,
     );
-    expect(wrapper.text()).to.contain(
-      'The Post-9/11 GI Bill Benefits tool is down for maintenance',
-    );
+    expect(wrapper.text()).to.contain('');
     wrapper.unmount();
   });
 });

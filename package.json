@@ -127,7 +127,7 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@cypress/code-coverage": "^3.11.0",
     "@department-of-veterans-affairs/eslint-plugin": "^1.18.2",
-    "@department-of-veterans-affairs/generator-vets-website": "^3.11.0",
+    "@department-of-veterans-affairs/generator-vets-website": "^3.12.0",
     "@octokit/rest": "^18.11.0",
     "@sentry/browser": "^6.13.2",
     "@testing-library/dom": "^7.26.6",
@@ -168,7 +168,7 @@
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "3.6.0",
     "cssnano": "^5.0.8",
-    "cypress": "^13.13.2",
+    "cypress": "^13.15.0",
     "cypress-axe": "^1.4.0",
     "cypress-multi-reporters": "^1.6.3",
     "dd-trace": "2.24.0",
@@ -209,7 +209,7 @@
     "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.4.4",
     "minimist": "^1.2.6",
-    "mocha": "^10.3.0",
+    "mocha": "^10.7.3",
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi-reporters": "^1.5.1",
     "mocha-snapshots": "^4.2.0",
@@ -334,7 +334,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a2088d24571c7d4b83f3fe50a28a2d75e2904fe5"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#de3562f5dc2c77a6b4d954a0caba6ba4742cc472"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

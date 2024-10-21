@@ -39,7 +39,7 @@ export default function App({ location, children }) {
   });
 
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <Toggler toggleName={Toggler.TOGGLE_NAMES.form1010d}>
         <Toggler.Enabled>
           <VaBreadcrumbs breadcrumbList={breadcrumbList} />
@@ -56,10 +56,12 @@ export default function App({ location, children }) {
           <br />
           <WIP
             content={{
+              headline: 'We’re still working on this form',
               description:
-                'We’re rolling out the CHAMPVA application (VA Form 10-10d) in stages. It’s not quite ready yet. Please check back again soon.',
-              redirectLink: '/',
-              redirectText: 'Return to VA home page',
+                'We’re working on a new online application form for CHAMPVA benefits. Check back soon. If you want to apply for CHAMPVA benefits now, you can use our PDF form.',
+              redirectLink:
+                '/family-and-caregiver-benefits/health-and-disability/champva/',
+              redirectText: 'Learn about CHAMPVA benefits and how to apply',
             }}
           />
         </Toggler.Disabled>

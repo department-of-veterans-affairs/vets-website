@@ -32,8 +32,8 @@ function NewTabAnchor({ href, 'aria-label': label, ...props }) {
 }
 
 NewTabAnchor.propTypes = {
+  children: PropTypes.any.isRequired,
   href: PropTypes.string.isRequired,
-  children: PropTypes.string.isRequired,
 };
 
 export default NewTabAnchor;

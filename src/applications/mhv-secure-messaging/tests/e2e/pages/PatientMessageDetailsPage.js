@@ -1,6 +1,8 @@
 import mockMessage from '../fixtures/message-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
+import threadResponse from '../fixtures/thread-response-new-api.json';
+import inboxMessages from '../fixtures/messages-response.json';
 import { dateFormat } from '../../../util/helpers';
 import { Locators, Paths } from '../utils/constants';
 import PatientInterstitialPage from './PatientInterstitialPage';
@@ -135,6 +137,47 @@ class PatientMessageDetailsPage {
     cy.wait('@full-thread');
   };
 
+  loadSingleThread = (
+    singleThreadResponse = threadResponse,
+    multiThreadsResponse = inboxMessages,
+  ) => {
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        multiThreadsResponse.data[0].attributes.messageId
+      }/thread*`,
+      singleThreadResponse,
+    ).as(`threadResponse`);
+
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }`,
+      singleThreadResponse.data[0],
+    ).as(`threadFirstMessageResponse`);
+
+    cy.get(
+      `#message-link-${inboxMessages.data[0].attributes.messageId}`,
+    ).click();
+    cy.wait(`@threadResponse`);
+    cy.wait(`@threadFirstMessageResponse`);
+  };
+
+  loadReplyMessageThread = (singleThreadResponse = threadResponse) => {
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }/thread*`,
+      singleThreadResponse,
+    ).as(`threadResponse`);
+
+    cy.get(Locators.BUTTONS.REPLY)
+      .should('be.visible')
+      .click({ force: true });
+  };
+
   getCurrentThread() {
     return this.currentThread;
   }
@@ -198,13 +241,10 @@ class PatientMessageDetailsPage {
   };
 
   expandAllThreadMessages = () => {
-    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGES}/**`, '{}').as(
-      'allMessageDetails',
-    );
     cy.get(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
     cy.get(Locators.ALERTS.THREAD_EXPAND)
       .shadow()
-      .contains('Collapse all -')
+      .find('button')
       .click();
   };
 
@@ -400,8 +440,8 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
+        `From: ${messageDetails.data[messageIndex].attributes.senderName} (${
+          messageDetails.data[messageIndex].attributes.triageGroupName
         })`,
       );
   };
@@ -411,7 +451,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `To: ${messageDetails.data.attributes.recipientName}`,
+        `To: ${messageDetails.data[messageIndex].attributes.recipientName}`,
       );
   };
 
@@ -420,7 +460,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `Message ID: ${messageDetails.data.attributes.messageId}`,
+        `Message ID: ${messageDetails.data[messageIndex].attributes.messageId}`,
       );
   };
 
@@ -430,7 +470,7 @@ class PatientMessageDetailsPage {
       .should(
         'have.text',
         `Date: ${dateFormat(
-          messageDetails.data.attributes.sentDate,
+          messageDetails.data[messageIndex].attributes.sentDate,
           'MMMM D, YYYY [at] h:mm a z',
         )}`,
       );
@@ -544,6 +584,31 @@ class PatientMessageDetailsPage {
 
     cy.get(Locators.BUTTONS.REPLY).click({ force: true });
     PatientInterstitialPage.getContinueButton().click();
+  };
+
+  verifyMessageAttachment = (messageDetails, messageIndex = 0) => {
+    if (messageDetails.data.at(messageIndex).attributes.hasAttachments) {
+      cy.log('message has attachment... checking for image');
+      cy.get(
+        `[data-testid="expand-message-button-${
+          messageDetails.data[messageIndex].attributes.messageId
+        }"]`,
+      )
+        .find(Locators.ICONS.ATTCH_ICON)
+        .should('be.visible');
+    } else {
+      cy.log('message does not have attachment');
+    }
+  };
+
+  verifyAccordionStatus = value => {
+    cy.get(Locators.BUTTONS.THREAD_EXPAND)
+      .find(`va-accordion-item`)
+      .each(el => {
+        cy.wrap(el)
+          .invoke(`prop`, 'open')
+          .should(`eq`, value);
+      });
   };
 }
 

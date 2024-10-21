@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { teardownProfileSession } from 'platform/user/exportsFile';
-import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import { useDispatch } from 'react-redux';
+import { teardownProfileSession } from 'platform/user/profile/utilities';
+import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+
 import { useLocalStorage } from './useLocalStorage';
 
 export const useMockedLogin = location => {
