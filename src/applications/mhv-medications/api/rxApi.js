@@ -2,7 +2,8 @@ import {
   apiRequest,
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { INCLUDE_IMAGE_ENDPOINT } from '../util/constants';
+import { filterOptions, INCLUDE_IMAGE_ENDPOINT } from '../util/constants';
+import mockData from '../tests/e2e/fixtures/listOfPrescriptions.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 const headers = {
@@ -81,6 +82,47 @@ export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
     `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${sortEndpoint}`,
     { headers },
   );
+};
+
+export const getFilteredList = async filterOption => {
+  async function delayedReturn(value, ms) {
+    await delay(ms);
+    return value;
+  }
+  const changeMockDataPrescriptionName = rxName => {
+    const mockData1 = { ...mockData };
+    mockData1.data[0].attributes.prescriptionName = rxName;
+    return mockData1;
+  };
+  switch (filterOption) {
+    case filterOptions.ALL_MEDICATIONS.label: {
+      const mockApiReturn = changeMockDataPrescriptionName('all medications');
+      // delayed to mimic api fetch lag
+      return delayedReturn(mockApiReturn, 1000);
+    }
+    case filterOptions.ACTIVE.label: {
+      const mockData1 = { ...mockData };
+      mockData1.data[0].attributes.prescriptionName = 'active';
+      return delayedReturn(mockData1, 1000);
+    }
+    case filterOptions.RECENTLY_REQUESTED.label: {
+      const mockData1 = { ...mockData };
+      mockData1.data[0].attributes.prescriptionName = 'recently requested';
+      return delayedReturn(mockData1, 1000);
+    }
+    case filterOptions.RENEWAL.label: {
+      const mockData1 = { ...mockData };
+      mockData1.data[0].attributes.prescriptionName = 'renewal';
+      return delayedReturn(mockData1, 1000);
+    }
+    case filterOptions.NON_ACTIVE.label: {
+      const mockData1 = { ...mockData };
+      mockData1.data[0].attributes.prescriptionName = 'non active';
+      return delayedReturn(mockData1, 1000);
+    }
+    default:
+      return mockData;
+  }
 };
 
 export const getRefillablePrescriptionList = () => {
