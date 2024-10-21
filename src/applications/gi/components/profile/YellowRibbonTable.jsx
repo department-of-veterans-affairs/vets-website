@@ -124,6 +124,6 @@ function YellowRibbonTable({ programs }) {
   );
 }
 
-YellowRibbonTable.propTypes = { programs: PropTypes.array };
+YellowRibbonTable.propTypes = { programs: PropTypes.array.isRequired };
 
 export default YellowRibbonTable;
