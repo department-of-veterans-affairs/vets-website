@@ -13,6 +13,7 @@ import {
 import { isLoggedIn } from 'platform/user/selectors';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { focusElement } from 'platform/utilities/ui';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
@@ -22,6 +23,7 @@ import {
   DOCUMENT_TITLE_SUFFIX,
   PAGE_TITLE_SUFFIX,
   SHOW_8940_4192,
+  SHOW_ADD_DISABILITIES_ENHANCEMENT,
   WIZARD_STATUS,
 } from './constants';
 import {
@@ -97,6 +99,10 @@ export const Form526Entry = ({
 }) => {
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showAddDisabilitiesEnhancement = useToggleValue(
+    TOGGLE_NAMES.allClaimsAddDisabilitiesEnhancement,
+  );
 
   const hasSavedForm = savedForms.some(
     form =>
@@ -141,6 +147,16 @@ export const Form526Entry = ({
       }
     },
     [inProgressFormId, location, profile, showSubforms, wizardStatus],
+  );
+
+  useEffect(
+    () => {
+      window.sessionStorage.setItem(
+        SHOW_ADD_DISABILITIES_ENHANCEMENT,
+        showAddDisabilitiesEnhancement,
+      );
+    },
+    [showAddDisabilitiesEnhancement],
   );
 
   useEffect(
