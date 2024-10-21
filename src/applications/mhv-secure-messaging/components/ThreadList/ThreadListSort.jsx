@@ -5,14 +5,18 @@ import { useLocation } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { Paths, threadSortingOptions } from '../../util/constants';
 
-const SORT_CONVERSATIONS_LABEL = 'Show conversations in this order';
-const getDDTagLabel = sortOrderValue =>
-  threadSortingOptions[sortOrderValue]?.label || SORT_CONVERSATIONS_LABEL;
-
 const ThreadListSort = props => {
   const { sortOrder, sortCallback } = props;
   const location = useLocation();
   const [sortOrderValue, setSortOrderValue] = useState(sortOrder);
+
+  const SORT_MESSAGES_LABEL =
+    location.pathname === Paths.DRAFTS
+      ? 'Show drafts in this order'
+      : 'Show conversations in this order';
+
+  const getDDTagLabel = sortingOrderValue =>
+    threadSortingOptions[sortingOrderValue]?.label || SORT_MESSAGES_LABEL;
 
   const handleSortButtonClick = async () => {
     sortCallback(sortOrderValue);
@@ -31,7 +35,7 @@ const ThreadListSort = props => {
       <h2 className="sr-only">Sort conversations</h2>
       <VaSelect
         id="sort-order-dropdown"
-        label={SORT_CONVERSATIONS_LABEL}
+        label={SORT_MESSAGES_LABEL}
         name="sort-order"
         value={sortOrder}
         onVaSelect={e => {
