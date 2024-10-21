@@ -94,7 +94,7 @@ function setupJSDom() {
 
   /* sets up `global` for testing */
   global.dom = dom;
-  global.window = Object.create(window);
+  global.window = window;
   global.document = window.document;
   // global.navigator = { userAgent: 'node.js' };
   global.requestAnimationFrame = function(callback) {
@@ -143,12 +143,12 @@ function setupJSDom() {
 
   copyProps(window, global);
 
-  Object.defineProperty(global.window, 'location', {
-    value: global.window.location,
-    configurable: true,
-    enumerable: true,
-    writable: true,
-  });
+  // Object.defineProperty(window, 'location', {
+  //   value: window.location,
+  //   configurable: true,
+  //   enumerable: true,
+  //   writable: true,
+  // });
 }
 /* eslint-disable no-console */
 
