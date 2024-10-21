@@ -29,7 +29,6 @@ import {
   deceasedDependentDateOfDeathPage,
   deceasedDependentLocationOfDeathPage,
 } from './chapters/report-dependent-death/deceasedDependentArrayPages';
-import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import {
   currentMarriageInformation,
   currentMarriageInformationPartTwo,
@@ -90,6 +89,14 @@ import {
   dateChildLeftSchoolPage,
   childIncomeQuestionPage,
 } from './chapters/report-child-stopped-attending-school/removeChildStoppedAttendingSchoolArrayPages';
+import {
+  removeMarriedChildIntroPage,
+  removeMarriedChildOptions,
+  removeMarriedChildSummaryPage,
+  marriedChildInformationPage,
+  marriedChildIncomeQuestionPage,
+  dateChildMarriedPage,
+} from './chapters/report-marriage-of-child/removeMarriedChildArrayPages';
 import {
   studentInformation,
   studentAdditionalInformationView,
@@ -790,18 +797,68 @@ export const formConfig = {
     reportChildMarriage: {
       title: 'Remove one or more children who got married',
       pages: {
-        childInformation: {
-          depends: formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportMarriageOfChildUnder18,
-            ),
-          title:
-            'Information needed to report the marriage of a child under 18',
-          path: '686-report-marriage-of-child',
-          uiSchema: reportChildMarriage.uiSchema,
-          schema: reportChildMarriage.schema,
-        },
+        ...arrayBuilderPages(removeMarriedChildOptions, pageBuilder => ({
+          removeMarriedChildIntro: pageBuilder.introPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child',
+            uiSchema: removeMarriedChildIntroPage.uiSchema,
+            schema: removeMarriedChildIntroPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildSummary: pageBuilder.summaryPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/summary',
+            uiSchema: removeMarriedChildSummaryPage.uiSchema,
+            schema: removeMarriedChildSummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildPartOne: pageBuilder.itemPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/:index/child-information',
+            uiSchema: marriedChildInformationPage.uiSchema,
+            schema: marriedChildInformationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildPartTwo: pageBuilder.itemPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/:index/date-child-married',
+            uiSchema: dateChildMarriedPage.uiSchema,
+            schema: dateChildMarriedPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildPartThree: pageBuilder.itemPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/:index/child-income',
+            uiSchema: marriedChildIncomeQuestionPage.uiSchema,
+            schema: marriedChildIncomeQuestionPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+        })),
       },
     },
 
