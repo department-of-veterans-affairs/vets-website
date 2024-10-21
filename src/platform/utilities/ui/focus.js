@@ -7,11 +7,18 @@ export const defaultFocusSelector =
   '.nav-header > h2, va-segmented-progress-bar[heading-text][header-level="2"]';
 
 /**
+ * @typedef FocusOptions
+ * @description https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#parameters
+ * @type {Object}
+ * @property {Boolean} preventScroll - if true, no scrolling will occur
+ * @property {Boolean} focusVisible - experimental: if true it will force a
+ *  visible focus indicator to be seen
+ */
+/**
  * Focus on element
  * @param {String|Element} selectorOrElement - CSS selector or attached DOM
  *  element
- * @param {FocusOptions} options - "preventScroll" or "focusVisible". See
- *  https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#parameters
+ * @param {FocusOptions} options
  * @param {Element} root - root element for querySelector; would allow focusing
  *  on elements inside of shadow dom
  */

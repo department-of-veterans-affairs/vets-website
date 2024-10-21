@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQueryParams } from '../utils/helpers';
 import moment from 'moment';
+import { useQueryParams } from '../utils/helpers';
 
 export default function PreviewBanner({ version, toolUrl = '/gids' }) {
   const when = moment(version.createdAt).format(
@@ -25,6 +25,7 @@ export default function PreviewBanner({ version, toolUrl = '/gids' }) {
             This is what the version of this data from {when} will look
             like.&nbsp;
             <span className="actions">
+              {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
               <button
                 type="button"
                 className="va-button-link learn-more-button"

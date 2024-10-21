@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+import { Element } from 'platform/utilities/scroll';
 import { isLoggedIn } from 'platform/user/selectors';
 
 import BackLink from '../components/BackLink';
@@ -10,8 +11,6 @@ import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
 import { isInProgress, hideFormTitle } from '../helpers';
 import { setGlobalScroll } from '../utilities/ui';
-
-const { Element } = Scroll;
 
 /*
  * Primary component for a schema generated form app.

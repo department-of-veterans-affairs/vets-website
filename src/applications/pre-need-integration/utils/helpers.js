@@ -513,15 +513,13 @@ export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
   'Applicant is the Veteran or service member',
 );
 
-export const applicantDetailsCityTitle = 'Your birth city or county';
+export const applicantDetailsCityTitle = 'Your birth city';
 
-export const applicantDetailsStateTitle = 'Your birth state or territory';
+export const applicantDetailsStateTitle = 'Your birth state';
 
-export const applicantDetailsPreparerCityTitle =
-  'Applicant’s birth city or county';
+export const applicantDetailsPreparerCityTitle = 'Applicant’s birth city';
 
-export const applicantDetailsPreparerStateTitle =
-  'Applicant’s birth state or territory';
+export const applicantDetailsPreparerStateTitle = 'Applicant’s birth state';
 
 export const applicantDemographicsGenderTitle = 'What’s your sex?';
 
@@ -923,18 +921,29 @@ export const veteranUI = {
       'ui:title': 'Other',
     },
     'ui:validations': [
-      // require at least one value to be true/checked
+      // require at least one value to be true/checked + custom validation to ensure that "Prefer not to answer" is not selected along with other options
       (errors, fields) => {
-        if (!Object.values(fields).some(val => val === true)) {
-          errors.addError('Please provide a response');
+        const { na, ...otherFields } = fields;
+        const otherSelected = Object.values(otherFields).some(
+          val => val === true,
+        );
+
+        if (na && otherSelected) {
+          errors.addError(
+            'When selecting Prefer not to answer, you can’t have another option.',
+          );
+        } else if (!na && !otherSelected) {
+          errors.addError('Please provide a response.');
         }
       },
     ],
     'ui:options': {
-      hint: 'You can select more than one option.',
+      hint:
+        'You can select more than one option, unless you prefer not to answer.',
       showFieldLabel: true,
     },
   },
+
   raceComment: {
     'ui:title': 'Enter the race that best describes you',
     'ui:widget': 'textarea',

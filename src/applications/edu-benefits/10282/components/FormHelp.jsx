@@ -22,7 +22,7 @@ const FormHelp = ({ tag }) => {
 };
 
 FormHelp.propTypes = {
-  tag: PropTypes.string,
+  tag: PropTypes.symbol,
 };
 
 export default FormHelp;

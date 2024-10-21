@@ -322,10 +322,12 @@ const BenefitsForm = ({
 export default BenefitsForm;
 
 BenefitsForm.propTypes = {
+  areYouActiveDuty: PropTypes.string,
   children: PropTypes.node,
   cumulativeService: PropTypes.string,
   eligForPostGiBill: PropTypes.string,
   eligibilityChange: PropTypes.func,
+  eligibilityChangeRedux: PropTypes.func,
   enlistmentService: PropTypes.string,
   giBillChapter: PropTypes.string,
   handleInputFocus: PropTypes.func,
@@ -335,6 +337,5 @@ BenefitsForm.propTypes = {
   showHeader: PropTypes.bool,
   showModal: PropTypes.func,
   spouseActiveDuty: PropTypes.string,
-  areYouActiveDuty: PropTypes.string,
   yourMilitaryDetails: PropTypes.bool,
 };

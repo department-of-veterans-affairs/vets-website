@@ -5,6 +5,14 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import recordEvent from 'platform/monitoring/record-event';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
+const READABLE_IDENTIFIER_MAPPING = {
+  participantId: 'Participant ID',
+  birlsId: 'BIRLS ID',
+  ssn: 'Social Security Number',
+  birthDate: 'Date of Birth',
+  edipi: 'EDIPI',
+};
+
 // Downcases the first char in the capitalized form title passed to this component
 // This is needed because we reference it within a sentence
 const titleLowerCase = (title = '') => {
@@ -16,26 +24,34 @@ const titleLowerCase = (title = '') => {
   return title;
 };
 
-const filterMissingIdentifiers = form526RequiredIdentifers => {
-  return Object.keys(form526RequiredIdentifers).filter(
-    idName => form526RequiredIdentifers[idName] === false,
+const filterMissingIdentifiers = form526RequiredIdentifiers => {
+  return Object.keys(form526RequiredIdentifiers).filter(
+    idName => form526RequiredIdentifiers[idName] === false,
   );
 };
 
 const formatMissingIdentifiers = missingIdentifiers => {
-  const READABLE_IDENTIFIER_MAPPING = {
-    participantId: 'Participant ID',
-    birlsId: 'BIRLS ID',
-    ssn: 'Social Security Number',
-    birthDate: 'Date of Birth',
-    edipi: 'EDIPI',
-  };
-
   const readableIdentifiers = missingIdentifiers.map(
     idName => READABLE_IDENTIFIER_MAPPING[idName],
   );
 
   return readableList(readableIdentifiers);
+};
+
+const okMessageToDisplayText = missingIdentifiers => {
+  if (!missingIdentifiers) return '';
+
+  const OK_IF_NOT_KNOWN = ['participantId', 'birlsId', 'edipi'];
+
+  const readableIdentifiers = missingIdentifiers
+    .filter(id => OK_IF_NOT_KNOWN.includes(id))
+    .map(idName => READABLE_IDENTIFIER_MAPPING[idName]);
+  if (readableIdentifiers.length === 0) return '';
+
+  return ` It's OK if you don't know your ${readableList(
+    readableIdentifiers,
+    'or',
+  )}.`;
 };
 
 const Alert = ({ children, title }) => (
@@ -54,10 +70,11 @@ Alert.propTypes = {
   title: PropTypes.string,
 };
 
-const displayContent = (title, form526RequiredIdentifers) => {
+const displayContent = (title, form526RequiredIdentifiers) => {
   const missingIdentifiers = filterMissingIdentifiers(
-    form526RequiredIdentifers,
+    form526RequiredIdentifiers,
   );
+  const itsOkDisplayMessage = okMessageToDisplayText(missingIdentifiers);
 
   recordEvent({
     event: 'visible-alert-box',
@@ -85,23 +102,26 @@ const displayContent = (title, form526RequiredIdentifers) => {
         before you can {titleLowerCase(title)}. Call us at{' '}
         <va-telephone contact={CONTACTS.HELP_DESK} /> (
         <va-telephone contact={CONTACTS['711']} tty />) to update your
-        information. We’re here Monday through Friday from 8:00 a.m. to 9:00
-        p.m. ET. Tell the representative that you want to add this missing
-        information to your file.
+        information. We’re here 24/7.
+        {itsOkDisplayMessage} Tell the representative that you want to add this
+        missing information to your file.
       </p>
     </>
   );
 };
 
-export const Missing526Identifiers = ({ title, form526RequiredIdentifers }) => {
-  const alertContent = displayContent(title, form526RequiredIdentifers);
+export const Missing526Identifiers = ({
+  title,
+  form526RequiredIdentifiers,
+}) => {
+  const alertContent = displayContent(title, form526RequiredIdentifiers);
 
   return <Alert title={title}>{alertContent}</Alert>;
 };
 
 Missing526Identifiers.propTypes = {
   title: PropTypes.string.isRequired,
-  form526RequiredIdentifers: PropTypes.arrayOf(
+  form526RequiredIdentifiers: PropTypes.arrayOf(
     PropTypes.shape({
       participantId: PropTypes.bool.isRequired,
       birlsId: PropTypes.bool.isRequired,

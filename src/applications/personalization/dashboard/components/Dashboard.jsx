@@ -146,7 +146,7 @@ const LOA1Content = ({
 
       <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
       <EducationAndTraining isLOA1={isLOA1} />
-      <BenefitApplications isLOA1={isLOA1} />
+      <BenefitApplications />
 
       {showWelcomeToMyVaMessage && (
         <VaModal

@@ -5,8 +5,11 @@ import CustomGroupCheckboxField from '../../components/CustomGroupCheckboxField'
 const { ethnicity, orginRace } = fullSchema10282.properties;
 const uiSchema = {
   'ui:title': (
-    <h3 className="vads-u-margin--0 vads-u-color--base">
-      Your ethnicity, or race
+    <h3
+      className="vads-u-margin--0 vads-u-color--base"
+      data-testid="ethnicity-and-race"
+    >
+      Your ethnicity and race
     </h3>
   ),
   ethnicity: {

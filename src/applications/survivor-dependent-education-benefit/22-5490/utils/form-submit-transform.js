@@ -352,6 +352,20 @@ const getNotificationMethod = notificationMethod => {
 //   };
 // };
 
+export function getAddressType(mailingAddress) {
+  if (!mailingAddress) {
+    return null;
+  }
+
+  if (mailingAddress?.livesOnMilitaryBase) {
+    return 'MILITARY_OVERSEAS';
+  }
+  if (mailingAddress?.address?.country === DEFAULT_SCHEMA_COUNTRY_CODE) {
+    return 'DOMESTIC';
+  }
+  return 'FOREIGN';
+}
+
 export function transform5490Form(_formConfig, form) {
   const formFieldUserFullName = form?.data?.fullName;
   const viewComponentUserFullName = form?.loadedData?.formData?.fullName;
@@ -366,14 +380,10 @@ export function transform5490Form(_formConfig, form) {
 
   const payload = {
     formId: form?.formId,
-    '@type': 'Chapter35Submission',
+    '@type': 'Chapter35',
     chosenBenefit: form?.data?.chosenBenefit,
     claimant: {
       suffix: userFullName?.suffix,
-      // dateOfBirth,
-      // firstName: userFullName?.first,
-      // lastName: userFullName?.last,
-      // middleName: userFullName?.middle,
       notificationMethod: getNotificationMethod(
         form?.data['view:receiveTextMessages']?.receiveTextMessages,
       ),
@@ -383,9 +393,7 @@ export function transform5490Form(_formConfig, form) {
         city: form?.data?.mailingAddressInput?.address?.city,
         zipcode: form?.data?.mailingAddressInput?.address?.postalCode,
         emailAddress: form?.data?.email?.email,
-        addressType: form?.data?.mailingAddressInput?.livesOnMilitaryBase
-          ? 'MILITARY_OVERSEAS'
-          : 'mobilePhoneNumber',
+        addressType: getAddressType(form?.data?.mailingAddressInput),
         mobilePhoneNumber: form?.data?.mobilePhone,
         homePhoneNumber: form?.data?.homePhone,
         countryCode: getLTSCountryCode(
@@ -409,9 +417,12 @@ export function transform5490Form(_formConfig, form) {
       highSchoolDiplomaOrCertificateDate: form?.data?.graduationDate,
     },
     directDeposit: {
-      directDepositAccountType: form?.data?.bankAccount?.accountType,
-      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
-      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
+      directDepositAccountType:
+        form?.data['view:directDeposit']?.bankAccount?.accountType,
+      directDepositAccountNumber:
+        form?.data['view:directDeposit']?.bankAccount?.accountNumber,
+      directDepositRoutingNumber:
+        form?.data['view:directDeposit']?.bankAccount?.routingNumber,
     },
     additionalConsiderations: {
       outstandingFelony: form?.data?.felonyOrWarrant,
@@ -421,5 +432,6 @@ export function transform5490Form(_formConfig, form) {
       remarriageStatus: form?.data?.remarriageStatus,
     },
   };
+
   return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
 }

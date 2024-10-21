@@ -2,6 +2,11 @@ import { $, scrollToElement } from '../ui';
 import { SCROLL_ELEMENT_SUFFIX } from '../../../../../utilities/constants';
 
 /**
+ * Get page key and array index as applicable
+ */
+export const getPageKey = obj => `${obj.pageKey}${obj.index ?? ''}`;
+
+/**
  * @typedef FormUtility~findTargetsOptions
  * @type {object}
  */

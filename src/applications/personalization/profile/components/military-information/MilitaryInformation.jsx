@@ -14,7 +14,6 @@ import { selectVeteranStatus } from '~/platform/user/selectors';
 import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
 
 import LoadFail from '../alerts/LoadFail';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 import { ProfileInfoCard } from '../ProfileInfoCard';
@@ -214,9 +213,8 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
     <div>
       <Headline>Military information</Headline>
       <DowntimeNotification
-        appTitle="Military Information"
-        render={handleDowntimeForSection('military service')}
-        dependencies={[externalServices.vaProfile]}
+        appTitle="military information page"
+        dependencies={[externalServices.VAPRO_MILITARY_INFO]}
       >
         <MilitaryInformationContent
           militaryInformation={militaryInformation}

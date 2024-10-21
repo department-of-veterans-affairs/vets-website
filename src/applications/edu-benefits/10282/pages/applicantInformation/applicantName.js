@@ -3,7 +3,10 @@ import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 const yourName = (
-  <h3 className="vads-u-margin-top--neg2p5 full-name vads-u-color--base">
+  <h3
+    className="vads-u-margin-top--neg2p5 full-name vads-u-color--base"
+    data-testid="full-name"
+  >
     Your name
   </h3>
 );
@@ -40,7 +43,9 @@ const applicantInformationField = () => {
       fields: ['veteranFullName'],
       required: ['veteranFullName'],
     }),
-    uiSchema,
+    uiSchema: {
+      ...uiSchema,
+    },
   };
 };
 export { uiSchema, applicantInformationField };

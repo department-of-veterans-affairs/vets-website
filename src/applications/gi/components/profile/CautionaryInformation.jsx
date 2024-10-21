@@ -36,26 +36,23 @@ export function CautionaryInformation({ institution, showModal }) {
       </tr>
     );
   };
-
   const renderListRow = ({ description, key, value, definition }) => {
     if (value < 1) return null;
     const bold = description === 'Total Complaints';
     return (
       <div className="row " key={key}>
         <div className="small-11 columns">
-          <p className="vads-u-margin--0">
-            {description !== 'Other' ? (
-              <va-additional-info
-                trigger={
-                  bold ? <strong>{description}:</strong> : `${description}:`
-                }
-              >
-                <div>{definition}</div>
-              </va-additional-info>
-            ) : (
-              description
-            )}
-          </p>
+          {description !== 'Other' ? (
+            <va-additional-info
+              trigger={
+                bold ? <strong>{description}:</strong> : `${description}:`
+              }
+            >
+              {definition}
+            </va-additional-info>
+          ) : (
+            <p className="vads-u-margin--0">{description}</p>
+          )}
         </div>
         <div className="small-1 columns">
           <p className="number vads-u-margin--0">
@@ -169,10 +166,11 @@ export function CautionaryInformation({ institution, showModal }) {
 
       <div>
         <div className="table">
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component */}
           <table className="usa-table">
             <thead>
               <tr>
-                <th scope="col" />
+                <th scope="col" aria-label="Empty header" />
                 <th scope="col">This campus</th>
                 <th scope="col">{allCampusesLink}</th>
               </tr>
@@ -188,6 +186,7 @@ export function CautionaryInformation({ institution, showModal }) {
           </table>
 
           {!!complaints.mainCampusRollUp && (
+            // eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component
             <table className="usa-table">
               <thead>
                 <tr>

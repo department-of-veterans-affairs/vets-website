@@ -1,7 +1,7 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 $nav-width-bar-max-width: 720px;
-$nav-mobile-breakpoint: 650px;
+$nav-mobile-breakpoint: 668px;
 
 .mhv-c-sec-nav-bar-row {
   justify-content: space-around;
@@ -13,7 +13,7 @@ $nav-mobile-breakpoint: 650px;
 
   a, a:visited, a:active, abbr {
     color: var(--vads-color-white);
-    border-radius: 5px;
+    border-radius: 2px;
   }
 
   a:hover {
@@ -29,19 +29,19 @@ $nav-mobile-breakpoint: 650px;
 }
 
 .mhv-u-sec-nav-header-style a {
-    padding: 8px 7px 11px;
+    padding: 6px 8px 6px 7px;
     min-width: 170px;
 }
 
 .mhv-u-sec-nav-item-style a {
-    padding: 11px 7px 12px;
+    padding: 8px 7px;
     min-width: 75px;
 }
 
 .mhv-u-sec-nav-active-style {
   a {
     background-color: var(--vads-color-white);
-    border-radius: 5px;
+    border-radius: 2px;
   }
 
   a, a:visited, a:active, abbr {
@@ -55,14 +55,18 @@ $nav-mobile-breakpoint: 650px;
 
 // Mobile view
 @media (max-width: $nav-mobile-breakpoint) {
+  .mhv-c-sec-nav-item {
+    height: auto;
+  }
+
   .mhv-u-sec-nav-header-style {
     flex: 0 0 100%;
-    height: 50px;
+    min-height: 43px;
 
     a, a:hover, a:visited, a:active {
       display: block;
       border-radius: 0px;
-      padding: 9px 7px;
+      width: 100%;
     }
 
     // Show the header item as a white bar when active
@@ -73,11 +77,13 @@ $nav-mobile-breakpoint: 650px;
   }
 
   .mhv-u-sec-nav-item-style {
+    min-height: 67px;
     a {
       // Make the icon appear on top of the text
       display: grid;
       justify-items: center;
-      padding: 4px 7px;
+      padding: 5px 7px;
+      border-radius: 4px;
     }
 
     va-icon {
