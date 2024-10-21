@@ -1,12 +1,22 @@
 import React from 'react';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import EnhancedEligibilityDescription from './EnhancedEligibilityDescription';
 
 const ToxicExposureDescription = (
   <>
-    <p>
-      Next we’ll ask you more questions about your military service history that
-      may be relevant to you based on your date of birth.
-    </p>
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.hcaTeraBranchingEnabled}>
+      <Toggler.Enabled>
+        <p>
+          Next we’ll ask you more questions about your military service history
+          that may be relevant to you based on your date of birth.
+        </p>
+      </Toggler.Enabled>
+      <Toggler.Disabled>
+        <p>
+          Next we’ll ask you more questions about your military service history.
+        </p>
+      </Toggler.Disabled>
+    </Toggler>
     <p>
       It’s your choice whether you want to answer these questions. Before you
       decide, here’s what you should know about how we’ll use this information.
