@@ -59,7 +59,7 @@ export const validateForm = (oldState, payload) => {
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SEARCH_STARTED: {
+    case SEARCH_STARTED:
       return {
         ...state,
         ...action.payload,
@@ -68,7 +68,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         mapMoved: false,
         searchStarted: true
       };
-    }
     case FETCH_LOCATIONS:
       return {
         ...state,
@@ -85,7 +84,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         mapMoved: true,
         currentRadius: action.currentRadius,
       };
-    case FETCH_LOCATION_DETAIL: {
+    case FETCH_LOCATION_DETAIL:
       return {
         ...state,
         error: false,
@@ -93,7 +92,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         inProgress: false,
         mapMoved: false,
       };
-    }
     case FETCH_SPECIALTIES:
       return {
         ...state,

@@ -9,7 +9,7 @@ const SearchResultMessage = ({
   message,
   resultRef,
   resultsFound,
-  searchStarted
+  searchStarted,
 }) => {
   if (error) {
     return (

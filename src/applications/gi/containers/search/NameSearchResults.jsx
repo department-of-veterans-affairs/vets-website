@@ -123,7 +123,7 @@ export function NameSearchResults({
           <div className="row vads-u-padding--0 vads-u-margin--0">
             {smallScreen && <MobileFilterControls />}
             <p
-              className="vads-u-padding-x--2 mobile-lg:vads-u-padding-x--0"
+              className="vads-u-padding-x--1p5 mobile-lg:vads-u-padding-x--0"
               id="name-search-results-count"
             >
               Showing {count} search results for "<strong>{name}</strong>"

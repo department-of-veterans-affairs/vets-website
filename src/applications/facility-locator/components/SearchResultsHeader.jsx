@@ -95,7 +95,7 @@ export const SearchResultsHeader = ({
     <div>
       <h2
         id="search-results-subheader"
-        className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding-y-0p5 vads-u-margin-y--3"
+        className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
         {[LocationType.URGENT_CARE, LocationType.EMERGENCY_CARE].includes(
@@ -126,10 +126,10 @@ export const SearchResultsHeader = ({
 };
 
 SearchResultsHeader.propTypes = {
-  results: PropTypes.array,
-  facilityType: PropTypes.string,
-  serviceType: PropTypes.string,
   context: PropTypes.string,
+  facilityType: PropTypes.string,
+  results: PropTypes.array,
+  serviceType: PropTypes.string,
   specialtyMap: PropTypes.object,
 };
 

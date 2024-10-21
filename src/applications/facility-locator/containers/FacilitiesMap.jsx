@@ -461,7 +461,7 @@ const FacilitiesMap = props => {
             emergency department right away.
           </VaAlert>
         )}
-        <div className="vads-u-padding-x--2 mobile-lg:vads-u-padding-x--0" ref={searchResultTitleRef}>
+        <div className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2" ref={searchResultTitleRef}>
           {!searchError && (
             <SearchResultsHeader
               results={results}
@@ -679,17 +679,13 @@ const FacilitiesMap = props => {
 
   return (
     <>
-      <div>
-        <h1 className="vads-u-margin-x--2 mobile-lg:vads-u-margin-x--0">Find VA locations</h1>
-        <div className="facility-introtext">
-          <p>
-            Find a VA location or in-network community care provider. For
-            same-day care for minor illnesses or injuries, select Urgent care
-            for facility type.
-          </p>
-        </div>
-        {renderView()}
-      </div>
+      <h1 className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2">Find VA locations</h1>
+      <p className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2 vads-u-margin-bottom--4">
+        Find a VA location or in-network community care provider. For
+        same-day care for minor illnesses or injuries, select Urgent care
+        for facility type.
+      </p>
+      {renderView()}
       {otherToolsLink()}
     </>
   );
