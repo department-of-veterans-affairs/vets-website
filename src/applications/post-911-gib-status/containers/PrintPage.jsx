@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -7,10 +8,6 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import UserInfoSection from '../components/UserInfoSection';
 
 export class PrintPage extends React.Component {
-  // TO-DO: Remove after correct breadcrumbs classname successfully tested
-  getBreadcrumbsSelector = () =>
-    this.props.breadcrumbsUpdated ? 'va-breadcrumbs' : '.va-nav-breadcrumbs';
-
   componentDidMount() {
     focusElement('.print-screen');
     document.querySelector('header').classList.add('no-print-no-sr');
@@ -29,6 +26,10 @@ export class PrintPage extends React.Component {
       .querySelector(this.getBreadcrumbsSelector())
       .classList.remove('no-print-no-sr');
   }
+
+  // TO-DO: Remove after correct breadcrumbs classname successfully tested
+  getBreadcrumbsSelector = () =>
+    this.props.breadcrumbsUpdated ? 'va-breadcrumbs' : '.va-nav-breadcrumbs';
 
   backToStatement = () => this.props.router.push('/');
 
@@ -70,6 +71,14 @@ export class PrintPage extends React.Component {
     );
   }
 }
+
+PrintPage.propTypes = {
+  enrollmentData: PropTypes.object,
+  breadcrumbsUpdated: PropTypes.bool,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+};
 
 function mapStateToProps(state) {
   return {
