@@ -167,11 +167,13 @@ const IntroductionPage = props => {
         retentionPeriodStart="when you start"
         continueMsg={<FormReactivationAlert />}
       />
-      <va-omb-info
-        res-burden={30}
-        omb-number="2900-0002"
-        exp-date="08/31/2025"
-      />
+      <div className="vads-u-margin-y--4">
+        <va-omb-info
+          res-burden={30}
+          omb-number="2900-0002"
+          exp-date="08/31/2025"
+        />
+      </div>
     </article>
   ) : (
     <div className="schemaform-intro">
