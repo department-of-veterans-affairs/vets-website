@@ -6,24 +6,37 @@ import environment from 'platform/utilities/environment';
 const initDDRum = () => {
   const env = environment.vspEnvironment();
 
-  const { sessionSampleRate, sessionReplaySampleRate } = {
-    vagovstaging: { sessionSampleRate: 20, sessionReplaySampleRate: 1 },
-    vagovprod: { sessionSampleRate: 20, sessionReplaySampleRate: 10 },
-  }[env];
+  const {
+    sessionReplaySampleRate = 1,
+    trackInteractions = false,
+    trackUserInteractions = false,
+  } =
+    {
+      vagovstaging: {
+        sessionReplaySampleRate: 1,
+        trackInteractions: false,
+        trackUserInteractions: false,
+      },
+      vagovprod: {
+        sessionReplaySampleRate: 10,
+        trackInteractions: true,
+        trackUserInteractions: true,
+      },
+    }[env] || {};
 
-  datadogRum.init({
-    applicationId: '73e0e2fb-7b2a-4d4a-8231-35ef2123f607',
-    clientToken: 'pub2dfeb9f2606a756df3ddd4bd5c8a6b3c',
+  datadogRum?.init({
+    applicationId: '',
+    clientToken: '',
     site: 'ddog-gov.com',
     service: 'identity',
     env,
-    sessionSampleRate,
+    sessionSampleRate: 20,
     sessionReplaySampleRate,
-    trackInteractions: true,
+    trackInteractions,
+    trackUserInteractions,
     trackFrustrations: true,
     trackResources: true,
     trackLongTasks: true,
-    trackUserInteractions: true,
     defaultPrivacyLevel: 'mask-user-input',
   });
 };
