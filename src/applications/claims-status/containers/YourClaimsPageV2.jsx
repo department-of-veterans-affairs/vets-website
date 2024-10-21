@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
@@ -53,7 +54,7 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     this.state = {
-      page: 1,
+      page: YourClaimsPageV2.getPageFromURL(props),
       show30DayNotice: sessionStorage.getItem('show30DayNotice') === 'true',
     };
   }
@@ -90,7 +91,36 @@ class YourClaimsPageV2 extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.location.pathname !== this.props.location.pathname ||
+      prevProps.location.search !== this.props.location.search
+    ) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const newPage = YourClaimsPageV2.getPageFromURL(nextProps);
+
+    if (newPage !== prevState.page) {
+      return {
+        page: newPage,
+      };
+    }
+    return null;
+  }
+
+  static getPageFromURL(props) {
+    const queryParams = new URLSearchParams(props.location.search);
+    return parseInt(queryParams.get('page'), 10) || 1;
+  }
+
   changePage(event) {
+    const newURL = `${this.props.history.location.pathname}?page=${
+      event.detail.page
+    }`;
+    this.props.history.push(newURL);
     this.setState({ page: event.detail.page });
     // Move focus to "Showing X through Y of Z events..." for screenreaders
     setPageFocus('#pagination-info');
@@ -343,9 +373,11 @@ const mapDispatchToProps = {
   getStemClaims: getStemClaimsAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(YourClaimsPageV2);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(YourClaimsPageV2),
+);
 
 export { YourClaimsPageV2 };
