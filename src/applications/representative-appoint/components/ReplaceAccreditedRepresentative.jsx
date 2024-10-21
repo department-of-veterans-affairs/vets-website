@@ -3,27 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CurrentAccreditedRepresentative from './CurrentAccreditedRepresentative';
 import ContactCard from './ContactCard';
+import { getEntityAddressAsObject } from '../utilities/helpers';
 
 const ReplaceAccreditedRepresentative = props => {
   const { formData } = props;
-
-  const currentRepresentative =
-    formData?.['view:representativeStatus']?.attributes || {};
-  const selectedRepresentative =
-    formData?.['view:selectedRepresentative']?.attributes || {};
-
-  const address = {
-    addressLine1: (selectedRepresentative.addressLine1 || '').trim(),
-    addressLine2: (selectedRepresentative.addressLine2 || '').trim(),
-    addressLine3: (selectedRepresentative.addressLine3 || '').trim(),
-    city: (selectedRepresentative.city || '').trim(),
-    stateCode: (selectedRepresentative.stateCode || '').trim(),
-    zipCode: (selectedRepresentative.zipCode || '').trim(),
-  };
-
-  // Grab attorney/claimsAgent/representative for individuals, otherwise 'organization'
-  const type =
-    currentRepresentative.attributes?.individualType || 'organization';
+  const currentRep = formData?.['view:representativeStatus']?.attributes || {};
+  const selectedRep = formData?.['view:selectedRep']?.attributes || {};
+  const address = getEntityAddressAsObject(selectedRep);
 
   return (
     <div>
@@ -35,36 +21,26 @@ const ReplaceAccreditedRepresentative = props => {
       <h4 className="vads-u-margin-y--5">
         You’ll replace this current accredited representative:
       </h4>
-      <CurrentAccreditedRepresentative
-        representativeName={
-          currentRepresentative.name || currentRepresentative.fullName
-        }
-        type={type}
-        addressLine1={currentRepresentative.addressLine1}
-        addressLine2={currentRepresentative.addressLine2}
-        addressLine3={currentRepresentative.addressLine3}
-        city={currentRepresentative.city}
-        stateCode={currentRepresentative.stateCode}
-        zipCode={currentRepresentative.zipCode}
-        phone={currentRepresentative.phone}
-        email={currentRepresentative.email}
-      />
+      <CurrentAccreditedRepresentative currentRep={currentRep} />
       <h4 className="vads-u-margin-y--5">
         You’ve selected this new accredited representative:
       </h4>
       <ContactCard
-        repName={selectedRepresentative.fullName}
-        orgName={selectedRepresentative.name}
+        repName={selectedRep.fullName}
+        orgName={selectedRep.name}
         address={address}
-        phone={selectedRepresentative.phone}
-        email={selectedRepresentative.email}
+        phone={selectedRep.phone}
+        email={selectedRep.email}
       />
     </div>
   );
 };
 
 ReplaceAccreditedRepresentative.propTypes = {
-  fetchRepresentatives: PropTypes.func,
+  formData: PropTypes.shape({
+    'view:representativeStatus': PropTypes.object,
+    'view:selectedRep': PropTypes.object,
+  }),
 };
 
 const mapStateToProps = state => ({

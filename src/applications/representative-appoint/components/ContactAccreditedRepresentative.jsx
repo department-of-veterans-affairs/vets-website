@@ -105,7 +105,7 @@ const ContactAccreditedRepresentative = props => {
               <div className="vads-u-margin-top--3">
                 {addressExists && (
                   <GoogleMapLink
-                    address={address}
+                    addressData={address}
                     recordClick={recordContactLinkClick}
                   />
                 )}
