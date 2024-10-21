@@ -15,6 +15,7 @@ describe('Claimant Contact Phone Email page', () => {
 
   const mockStore = configureStore();
   const store = mockStore({
+    // Add mock comment
     user: { login: { currentlyLoggedIn: true } },
   });
 
