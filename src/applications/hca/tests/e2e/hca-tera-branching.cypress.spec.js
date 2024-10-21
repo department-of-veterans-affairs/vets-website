@@ -112,7 +112,10 @@ describe('HCA-TERA-Branching', () => {
   });
 
   it('should not render radiation cleanup and agent orange questions when Veteran birthdate is after 1965', () => {
-    advanceToTERA({ birthdate: '1980-01-01' });
+    advanceToTERA({ birthdate: '1970-01-01' });
+    goToNextPage('/military-service/gulf-war-service');
+    cy.get('[name="root_gulfWarService"]').check('N');
+
     goToNextPage('/military-service/operation-support');
     cy.get('[name="root_combatOperationService"]').check('Y');
 
@@ -121,7 +124,7 @@ describe('HCA-TERA-Branching', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('should post-9/11 questions when Veteran birthdate is after Sept 10, 1986', () => {
+  it('should render post-9/11 question when Veteran birthdate is after Feb 2, 1976', () => {
     advanceToTERA({
       birthdate: '1987-01-01',
       entryDate: '2005-01-01',
