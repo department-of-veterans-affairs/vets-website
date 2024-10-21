@@ -1,0 +1,31 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const NoResultsMessage = ({ isMobile, resultRef }) => {
+  // The ResultsList component is shown in the "View List" tab on mobile
+  // The design specifies a different error treatment for that tab specifically
+  // but the mobile map view has the same treatment as desktop
+  if (isMobile) {
+    return <p>Search for something else or in a different area. Try entering a different location, facility type, or service type.</p>;
+  }
+
+  return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+    <div className="search-result-title vads-u-margin-top--2 mobile-lg:vads-u-margin-top--0" ref={resultRef} tabIndex={0}>
+      <p className="vads-u-margin-top--0">Try searching for something else or in a different area.</p>
+      <p><strong>Suggestions:</strong></p>
+      <ul className="vads-u-margin-y--1p5">
+        <li>Zoom out to view larger area of the map</li>
+        <li>Move the map to a different area</li>
+        <li>Enter a different location, facility type, or service type</li>
+      </ul>
+    </div>
+  );
+};
+
+NoResultsMessage.propTypes = {
+  isMobile: PropTypes.bool,
+  resultRef: any
+};
+
+export default NoResultsMessage;

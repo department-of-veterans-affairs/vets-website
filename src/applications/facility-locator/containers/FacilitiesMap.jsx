@@ -11,16 +11,16 @@ import recordEvent from 'platform/monitoring/record-event';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
-  clearSearchText,
+  clearGeocodeError,
   clearSearchResults,
+  clearSearchText,
   fetchVAFacility,
-  searchWithBounds,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  updateSearchQuery,
-  mapMoved,
   geolocateUser,
-  clearGeocodeError,
+  mapMoved,
+  searchWithBounds,
+  updateSearchQuery,
 } from '../actions';
 import {
   facilitiesPpmsSuppressAll,
@@ -28,6 +28,7 @@ import {
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
+import NoResultsMessage from '../components/NoResultsMessage';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
 import SearchControls from '../components/SearchControls';
@@ -57,6 +58,7 @@ const zoomMessageDivID = 'screenreader-zoom-message';
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
   const searchResultTitleRef = useRef(null);
+  const searchResultMessageRef = useRef();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSearching, setIsSearching] = useState(false);
 
@@ -335,6 +337,7 @@ const FacilitiesMap = props => {
 
   const speakMapInstructions = () => {
     const mapInstructionsElement = document.getElementById('map-instructions');
+
     if (mapInstructionsElement) {
       mapInstructionsElement.innerText =
         'Search areas on the map up to a maximum of 500 miles. ' +
@@ -404,7 +407,12 @@ const FacilitiesMap = props => {
 
     const resultsList = () => {
       return (
-        <ResultsList updateUrlParams={updateUrlParams} query={currentQuery} />
+        <ResultsList
+          isMobile={isMobile}
+          query={currentQuery}
+          searchResultMessageRef={searchResultMessageRef}
+          updateUrlParams={updateUrlParams}
+        />
       );
     };
 
@@ -453,7 +461,7 @@ const FacilitiesMap = props => {
             emergency department right away.
           </VaAlert>
         )}
-        <div id="search-results-title" ref={searchResultTitleRef}>
+        <div className="vads-u-padding-x--2 mobile-lg:vads-u-padding-x--0" ref={searchResultTitleRef}>
           {!searchError && (
             <SearchResultsHeader
               results={results}
@@ -483,6 +491,14 @@ const FacilitiesMap = props => {
               </TabPanel>
               <TabPanel>
                 {renderMap(true, results)}
+                {console.log('searchStarted: ', currentQuery.searchStarted, ' results: ', results)}
+                {currentQuery.searchStarted && !results.length && (
+                  <NoResultsMessage
+                    resultRef={searchResultMessageRef}
+                    resultsFound={false}
+                    searchStarted
+                  />
+                )}
                 {selectedResult && (
                   <div className="mobile-search-result">
                     {currentQuery.serviceType === Covid19Vaccine ? (
@@ -501,7 +517,7 @@ const FacilitiesMap = props => {
         ) : (
           <>
             <div
-              className="columns search-results-container vads-u-padding-left--0 medium-4 small-12"
+              className="columns search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0 medium-4 small-12"
               id="searchResultsContainer"
             >
               <div className="facility-search-results">{resultsList()}</div>
@@ -551,26 +567,32 @@ const FacilitiesMap = props => {
   };
 
   const handleSearchOnQueryChange = () => {
-    if (isSearching) {
-      updateUrlParams({
-        context: props.currentQuery.context,
-        address: props.currentQuery.searchString,
-      });
-      const { currentQuery } = props;
-      const coords = currentQuery.position;
-      const { radius } = currentQuery;
-      const center = [coords.latitude, coords.longitude];
-      const resultsPage = currentQuery.currentPage;
+    const { currentQuery, searchBoundsInProgress, searchWithBounds } = props;
 
-      if (!props.searchBoundsInProgress) {
-        props.searchWithBounds({
-          bounds: props.currentQuery.bounds,
-          facilityType: props.currentQuery.facilityType,
-          serviceType: props.currentQuery.serviceType,
+    if (isSearching) {
+      const {
+        bounds, context, currentPage, facilityType, position, radius, searchString, serviceType
+      } = currentQuery;
+
+      updateUrlParams({
+        context,
+        address: searchString,
+      });
+
+      const coords = position;
+      const center = [coords.latitude, coords.longitude];
+      const resultsPage = currentPage;
+
+      if (!searchBoundsInProgress) {
+        searchWithBounds({
+          bounds,
+          facilityType,
+          serviceType,
           page: resultsPage,
           center,
           radius,
         });
+
         setIsSearching(false);
       }
     }
@@ -646,12 +668,19 @@ const FacilitiesMap = props => {
     [props.currentQuery.searchCoords, props.results],
   );
 
+  useEffect(
+    () => {
+      if (searchResultMessageRef.current) {
+        setFocus(searchResultMessageRef.current);
+      }
+    },
+    [props.results, props.currentQuery.inProgress, props.searchError],
+  );
+
   return (
     <>
       <div>
-        <div className="title-section">
-          <h1>Find VA locations</h1>
-        </div>
+        <h1 className="vads-u-margin-x--2 mobile-lg:vads-u-margin-x--0">Find VA locations</h1>
         <div className="facility-introtext">
           <p>
             Find a VA location or in-network community care provider. For
@@ -681,17 +710,18 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  geolocateUser,
   clearGeocodeError,
-  fetchVAFacility,
-  updateSearchQuery,
-  genBBoxFromAddress,
-  genSearchAreaFromCenter,
-  searchWithBounds,
   clearSearchResults,
   clearSearchText,
+  fetchVAFacility,
+  genBBoxFromAddress,
+  genSearchAreaFromCenter,
+  geolocateUser,
   mapMoved,
+  searchWithBounds,
+  updateSearchQuery
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
