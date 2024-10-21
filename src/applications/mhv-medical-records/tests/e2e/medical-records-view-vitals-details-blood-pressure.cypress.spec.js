@@ -2,7 +2,8 @@ import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
-import defaultVitals from '../fixtures/vitals.json';
+// import defaultVitals from '../fixtures/vitals.json';
+import defaultVitals from './fixtures/vitals/vitals.json';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();

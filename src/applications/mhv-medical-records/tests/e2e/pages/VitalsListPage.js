@@ -1,4 +1,5 @@
-import defaultVitals from '../../fixtures/vitals.json';
+// import defaultVitals from '../../fixtures/vitals.json';
+import defaultVitals from '../fixtures/vitals/vitals.json';
 import BaseListPage from './BaseListPage';
 
 class VitalsListPage extends BaseListPage {
