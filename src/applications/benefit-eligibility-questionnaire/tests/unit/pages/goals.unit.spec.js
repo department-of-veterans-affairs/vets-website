@@ -33,7 +33,7 @@ describe('Goals Form', () => {
 
   it('should render the correct hint for goals checkbox group', () => {
     const hint = document.querySelector(
-      'va-checkbox-group[hint="You may only select this for one employer address."]',
+      'va-checkbox-group[hint="Check all that apply."]',
     );
     expect(hint).to.exist;
   });

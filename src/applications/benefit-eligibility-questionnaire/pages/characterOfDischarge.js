@@ -29,9 +29,9 @@ export default {
               href="https://www.va.gov/discharge-upgrade-instructions"
               rel="noreferrer"
             >
-              Learn more about the discharge upgrade process
+              Learn more about the discharge upgrade process (opens in a new
+              tab)
             </a>{' '}
-            (opens in a new tab)
             <br />
             Not sure about this question? Call us at{' '}
             <va-telephone contact="8006982411" /> (

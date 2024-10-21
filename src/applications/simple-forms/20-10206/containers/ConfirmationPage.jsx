@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import environment from 'platform/utilities/environment';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-import { ConfirmationPageView as ConfirmationPageViewV2 } from '../../shared/components/ConfirmationPageView.v2';
 
 const content = {
   headlineText: 'You’ve submitted your personal records request',
@@ -22,7 +22,7 @@ export const ConfirmationPage = props => {
 
   if (useConfirmationPageV2) {
     return (
-      <ConfirmationPageViewV2
+      <ConfirmationView
         formConfig={props.route?.formConfig}
         submitDate={submitDate}
         confirmationNumber={confirmationNumber}

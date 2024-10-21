@@ -30,7 +30,7 @@ import {
   buildFields,
   ChapterSectionCollection,
   getChapterTitle,
-} from '../../components/confirmationPageViewHelpers';
+} from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
 
 const mockChapterRadio = {
   title: 'Radio chapter',

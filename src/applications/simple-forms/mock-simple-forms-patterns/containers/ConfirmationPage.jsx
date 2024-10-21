@@ -6,7 +6,7 @@ import environment from 'platform/utilities/environment';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView.v2';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
 let mockData;
 if (!environment.isProduction() && !environment.isStaging()) {
@@ -31,14 +31,14 @@ const ConfirmationPage = ({ route }) => {
 
   if (USE_CONFIRMATION_PAGE_V2) {
     return (
-      <ConfirmationPageView
+      <ConfirmationView
         submitDate={submitDate}
         confirmationNumber={confirmationNumber}
         formConfig={route.formConfig}
         pdfUrl={pdfUrl}
         devOnly={{
           showButtons: true,
-          simulatedFormData: mockData,
+          mockData,
         }}
       />
     );

@@ -64,7 +64,6 @@ class PatientComposePage {
   };
 
   selectRecipient = (index = 1) => {
-    cy.get(Locators.ALERTS.REPT_SELECT).click();
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
@@ -175,9 +174,7 @@ class PatientComposePage {
     cy.get(Locators.MESSAGES_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SAVE_DRAFT);
     cy.realPress('Enter');
-    cy.wait('@draft_message').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
+    cy.wait('@draft_message');
   };
 
   saveDraftButton = () => {
@@ -263,7 +260,7 @@ class PatientComposePage {
       .click({ force: true });
   };
 
-  attachMessageFromFile = filename => {
+  attachMessageFromFile = (filename = Data.TEST_IMAGE) => {
     const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
     cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
       force: true,
@@ -281,7 +278,7 @@ class PatientComposePage {
       cy.get(Locators.BUTTONS.ATTACH_FILE)
         .shadow()
         .find('[type="button"]')
-        .should('contain', Data.ATTACH_FILE);
+        .should('contain', Data.BUTTONS.ATTACH_FILE);
     } else {
       cy.get(Locators.BUTTONS.ATTACH_FILE)
         .shadow()
@@ -426,12 +423,6 @@ class PatientComposePage {
       .should('be.visible');
   };
 
-  verifyDraftSaveButtonOnFocus = () => {
-    cy.get(Locators.BUTTONS.SAVE_DRAFT)
-      .should('exist')
-      .and('be.focused');
-  };
-
   verifyAttachmentInfo = data => {
     cy.get(Locators.INFO.ATTACH_OPT).each((el, index) => {
       cy.wrap(el).should('have.text', data[index]);
@@ -503,7 +494,6 @@ class PatientComposePage {
 
   backToInbox = () => {
     cy.get(Locators.BACK_TO).click();
-    cy.get('[visible=""] > [secondary=""]').click({ force: true });
   };
 }
 

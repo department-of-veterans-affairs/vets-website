@@ -9,7 +9,7 @@ export default {
   uiSchema: {
     goals: checkboxGroupUI({
       title: 'What goal(s) do you want to accomplish?',
-      hint: 'You may only select this for one employer address.',
+      hint: 'Check all that apply.',
       required: false,
       labels: goalTypeLabels,
     }),

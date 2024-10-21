@@ -20,7 +20,7 @@ describe('<SaveResultsModal>', () => {
     navigator.clipboard = { writeText };
     sinon.stub(window, 'location').returns({ href: 'test' });
     const { container } = render(<SaveResultsModal />);
-    const button = container.querySelector('va-button');
+    const button = container.querySelector('#save-your-results');
 
     fireEvent.click(button);
 
@@ -36,6 +36,28 @@ describe('<SaveResultsModal>', () => {
       const alertFocus = container.querySelector('#copy-alert:focus');
       expect(alert).to.exist;
       expect(alertFocus).to.exist;
+    });
+  });
+
+  it('closes modal', async () => {
+    const view = render(<SaveResultsModal />);
+    const { container } = view;
+
+    const button = container.querySelector('#save-your-results');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelector('#url-input')).to.exist;
+    });
+
+    const modal = container.querySelector('#save-results-modal');
+
+    modal.__events.closeEvent();
+
+    await waitFor(() => {
+      const buttonFocus = container.querySelector('#save-your-results:focus');
+      expect(buttonFocus).to.exist;
     });
   });
 });

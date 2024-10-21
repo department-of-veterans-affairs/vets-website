@@ -46,11 +46,11 @@ describe('ContactCard Component', () => {
   };
 
   it('should render the representative and organization name when both names are given', () => {
-    testHeaderContent(container, repName);
+    testHeaderContent(container, orgName);
 
-    const orgNameElement = $('p', container);
-    expect(orgNameElement).to.exist;
-    expect(orgNameElement.textContent).to.contain(orgName);
+    const repNameElement = $('p', container);
+    expect(repNameElement).to.exist;
+    expect(repNameElement.textContent).to.contain(repName);
   });
 
   it('should only render the representative name when the organization name is not given', () => {

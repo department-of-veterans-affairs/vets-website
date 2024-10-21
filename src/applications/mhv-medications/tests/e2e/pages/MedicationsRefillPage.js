@@ -472,6 +472,18 @@ class MedicationsRefillPage {
       'renewal needed before refill',
     );
   };
+
+  verifySuccessAlertTextDoesNotExistOnRefillPage = alert => {
+    cy.get('[data-testid="success-message-title"]')
+      .should('have.text', alert)
+      .and('not.be.visible');
+  };
+
+  verifyFailedAlertTextDoesNotExistOnRefillPage = text => {
+    cy.get('[data-testid="failed-message-description"]')
+      .should('have.text', text)
+      .and('not.be.visible');
+  };
 }
 
 export default MedicationsRefillPage;
