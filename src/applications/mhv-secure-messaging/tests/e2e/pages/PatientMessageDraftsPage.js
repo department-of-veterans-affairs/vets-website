@@ -723,6 +723,34 @@ class PatientMessageDraftsPage {
       .find('.va-modal-close')
       .click();
   };
+
+  verifyAttachFileBtn = () => {
+    cy.get(Locators.BUTTONS.ATTACH_FILE)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`have.text`, Data.BUTTONS.ATTACH_FILE);
+  };
+
+  verifySendDraftBtn = () => {
+    cy.get(Locators.BUTTONS.SEND)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`contain.text`, Data.BUTTONS.SEND);
+  };
+
+  verifySaveDraftBtn = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT)
+      .should(`be.visible`)
+      .and('contain.text', Data.BUTTONS.SAVE_DRAFT);
+  };
+
+  verifyDeleteDraftBtn = () => {
+    cy.get(Locators.BUTTONS.DELETE_DRAFT)
+      .should(`be.visible`)
+      .and(`contain.text`, Data.BUTTONS.DELETE_DRAFT);
+  };
 }
 
 export default new PatientMessageDraftsPage();

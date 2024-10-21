@@ -283,7 +283,7 @@ class PatientComposePage {
       cy.get(Locators.BUTTONS.ATTACH_FILE)
         .shadow()
         .find('[type="button"]')
-        .should('contain', Data.ATTACH_FILE);
+        .should('contain', Data.BUTTONS.ATTACH_FILE);
     } else {
       cy.get(Locators.BUTTONS.ATTACH_FILE)
         .shadow()
