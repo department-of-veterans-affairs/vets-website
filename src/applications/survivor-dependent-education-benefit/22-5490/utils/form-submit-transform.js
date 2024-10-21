@@ -367,8 +367,9 @@ export function getAddressType(mailingAddress) {
 }
 
 export function transform5490Form(_formConfig, form) {
-  const formFieldUserFullName = form?.data?.fullName;
-  const viewComponentUserFullName = form?.loadedData?.formData?.fullName;
+  const formFieldUserFullName = form?.data?.claimantFullName;
+  const viewComponentUserFullName =
+    form?.loadedData?.formData?.claimantFullName;
   // const formFieldDateOfBirth = form?.data?.dateOfBirth;
   // const viewComponentDateOfBirth = form?.loadedData?.formData.dateOfBirth;
 
@@ -383,6 +384,9 @@ export function transform5490Form(_formConfig, form) {
     '@type': 'Chapter35Submission',
     chosenBenefit: form?.data?.chosenBenefit,
     claimant: {
+      firstName: userFullName?.first,
+      middleName: userFullName?.middle,
+      lastName: userFullName?.last,
       suffix: userFullName?.suffix,
       notificationMethod: getNotificationMethod(form?.data?.notificationMethod),
       contactInfo: {
@@ -402,10 +406,10 @@ export function transform5490Form(_formConfig, form) {
       preferredContact: form?.data?.contactMethod,
     },
     serviceMember: {
-      firstName: userFullName?.first,
-      lastName: userFullName?.last,
-      middleName: userFullName?.middle,
-      relationship: form?.data?.relationShipToMember,
+      firstName: form?.data?.fullName?.first,
+      lastName: form?.data?.fullName?.last,
+      middleName: form?.data?.fullName?.middle,
+      sponsorRelationship: form?.data?.relationShipToMember,
       dateOfBirth: form?.data?.relativeDateOfBirth,
       ssn: form?.data?.relativeSocialSecurityNumber,
     },
