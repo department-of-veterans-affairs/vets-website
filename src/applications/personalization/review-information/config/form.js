@@ -54,6 +54,9 @@ const formConfig = {
       },
     },
   },
+  customText: {
+    finishAppLaterMessage: ' ',
+  },
   // getHelp,
   footerContent,
 };
