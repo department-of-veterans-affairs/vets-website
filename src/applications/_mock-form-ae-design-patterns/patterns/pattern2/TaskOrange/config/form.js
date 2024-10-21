@@ -9,6 +9,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { omit } from 'lodash';
+import { scrollAndFocusTarget } from 'applications/_mock-form-ae-design-patterns/utils/focus';
 import PreSubmitInfo from '../pages/PreSubmitInfo';
 import contactInformationPage from '../pages/contactInformation';
 import GetFormHelp from '../components/GetFormHelp';
@@ -33,6 +34,7 @@ import {
 
 import { urlMigration } from './migrations';
 import { ApplicantInformation } from '../pages/ApplicantInformation';
+import ReviewPage from '../pages/ReviewPage';
 
 const {
   chapter33,
@@ -81,6 +83,7 @@ const formConfig = {
       'Please sign in again to resume your application for education benefits.',
   },
   prefillEnabled: true,
+  formOptions: {},
   prefillTransformer,
   transformForSubmit: transform,
   introduction: IntroductionPage,
@@ -321,6 +324,24 @@ const formConfig = {
       title: 'Guardian information',
       pages: {
         guardianInformation: GuardianInformation(fullSchema1990, {}),
+      },
+    },
+    reviewApp: {
+      title: 'Review Application',
+      pages: {
+        reviewAndSubmit: {
+          title: 'Review and submit',
+          path: 'review-then-submit',
+          CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            definitions: {},
+            type: 'object',
+            properties: {},
+          },
+          scrollAndFocusTarget,
+        },
       },
     },
   },
