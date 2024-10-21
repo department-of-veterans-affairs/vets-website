@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   getCurrentDateFormatted,
   remainingBenefits,
@@ -12,16 +13,19 @@ export const useData = () => {
   const dispatch = useDispatch();
   const response = useSelector(state => state.personalInfo);
   const claimantIdResponse = useSelector(state => state.checkClaimant);
-
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(TOGGLE_NAMES.isDGIBEndpoint);
   useEffect(
     () => {
       const fetchData = async () => {
-        await dispatch(fetchClaimantId());
+        if (toggleValue) {
+          await dispatch(fetchClaimantId());
+        }
         await dispatch(fetchPersonalInfo());
       };
       fetchData();
     },
-    [dispatch],
+    [dispatch, toggleValue],
   );
 
   const userInfo = response?.personalInfo?.['vye::UserInfo'];
@@ -40,6 +44,7 @@ export const useData = () => {
   const fullName = `${claimantIdResponse.profile?.firstName} ${
     claimantIdResponse.profile?.middleName
   } ${claimantIdResponse.profile?.lastName}`;
+
   return {
     personalInfo: response?.personalInfo,
     errorMessage: response,
