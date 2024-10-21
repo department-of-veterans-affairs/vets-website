@@ -1,7 +1,6 @@
 import {
   SEARCH_STARTED,
   SEARCH_FAILED,
-  SEARCH_COMPLETE,
   SEARCH_QUERY_UPDATED,
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
@@ -36,6 +35,7 @@ export const INITIAL_STATE = {
   mapMoved: false,
   error: false,
   isValid: true,
+  searchStarted: false
 };
 
 export const validateForm = (oldState, payload) => {
@@ -59,14 +59,16 @@ export const validateForm = (oldState, payload) => {
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SEARCH_STARTED:
+    case SEARCH_STARTED: {
       return {
         ...state,
         ...action.payload,
         error: false,
         inProgress: true,
         mapMoved: false,
+        searchStarted: true
       };
+    }
     case FETCH_LOCATIONS:
       return {
         ...state,
@@ -83,8 +85,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         mapMoved: true,
         currentRadius: action.currentRadius,
       };
-    case FETCH_LOCATION_DETAIL:
-    case SEARCH_COMPLETE:
+    case FETCH_LOCATION_DETAIL: {
       return {
         ...state,
         error: false,
@@ -92,6 +93,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         inProgress: false,
         mapMoved: false,
       };
+    }
     case FETCH_SPECIALTIES:
       return {
         ...state,
@@ -123,13 +125,14 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         inProgress: false,
         searchBoundsInProgress: false,
       };
-    case SEARCH_QUERY_UPDATED:
+    case SEARCH_QUERY_UPDATED: {
       return {
         ...state,
         ...action.payload,
         ...validateForm(state, action.payload),
         error: false,
       };
+    }
     case GEOCODE_STARTED:
       return {
         ...state,
