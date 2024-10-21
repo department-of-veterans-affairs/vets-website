@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import UserInfoSection from '../components/UserInfoSection';
-
 import { focusElement } from 'platform/utilities/ui';
 import { formatDateLong } from 'platform/utilities/date';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import UserInfoSection from '../components/UserInfoSection';
 
 export class PrintPage extends React.Component {
   componentDidMount() {
@@ -12,7 +13,8 @@ export class PrintPage extends React.Component {
     document.querySelector('header').classList.add('no-print-no-sr');
     document.querySelector('footer').classList.add('no-print-no-sr');
     document
-      .querySelector('.va-nav-breadcrumbs')
+      // TO-DO: Update after correct breadcrumbs classname successfully tested
+      .querySelector(this.getBreadcrumbsSelector())
       .classList.add('no-print-no-sr');
   }
 
@@ -20,11 +22,17 @@ export class PrintPage extends React.Component {
     document.querySelector('header').classList.remove('no-print-no-sr');
     document.querySelector('footer').classList.remove('no-print-no-sr');
     document
-      .querySelector('.va-nav-breadcrumbs')
+      // TO-DO: Update after correct breadcrumbs classname successfully tested
+      .querySelector(this.getBreadcrumbsSelector())
       .classList.remove('no-print-no-sr');
   }
 
+  // TO-DO: Remove after correct breadcrumbs classname successfully tested
+  getBreadcrumbsSelector = () =>
+    this.props.breadcrumbsUpdated ? 'va-breadcrumbs' : '.va-nav-breadcrumbs';
+
   backToStatement = () => this.props.router.push('/');
+
   printWindow = () => window.print();
 
   render() {
@@ -64,9 +72,19 @@ export class PrintPage extends React.Component {
   }
 }
 
+PrintPage.propTypes = {
+  breadcrumbsUpdated: PropTypes.bool,
+  enrollmentData: PropTypes.object,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+};
+
 function mapStateToProps(state) {
   return {
     enrollmentData: state.post911GIBStatus.enrollmentData,
+    // TO-DO: Remove after correct breadcrumbs classname successfully tested
+    breadcrumbsUpdated: toggleValues(state).sob_print_page_update,
   };
 }
 
