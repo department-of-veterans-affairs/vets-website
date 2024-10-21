@@ -14,8 +14,10 @@ export default function LoginButton({
   onClick = loginHandler,
   useOAuth = false,
   ariaDescribedBy,
+  ddActionLocation,
 }) {
   if (!csp) return null;
+  const actionName = `${csp}-signin-button-${ddActionLocation}`;
   return (
     <button
       type="button"
@@ -23,6 +25,7 @@ export default function LoginButton({
       data-csp={csp}
       onClick={() => onClick(csp, useOAuth)}
       aria-describedby={ariaDescribedBy}
+      data-dd-action-name={actionName}
     >
       {SERVICE_PROVIDERS[csp].image}
     </button>

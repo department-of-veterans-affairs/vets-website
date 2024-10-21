@@ -10,7 +10,7 @@ import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
 import LoginNote from './LoginNote';
 
-export default function LoginActions({ externalApplication }) {
+export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const [useOAuth, setOAuth] = useState();
   const { OAuth, redirectUri } = getQueryParams();
   const { OAuthEnabled } =
@@ -35,12 +35,18 @@ export default function LoginActions({ externalApplication }) {
 
   const v2SignInProviders = { logingov: true, idme: true };
   const isValid = isRegisteredApp !== OCC_MOBILE.REGISTERED_APPS;
+  const ddActionLocation = isUnifiedSignIn ? 'usip' : 'modal';
 
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns print-full-width sign-in-wrapper">
         {reduceAllowedProviders(v2SignInProviders, isRegisteredApp).map(csp => (
-          <LoginButton csp={csp} key={csp} useOAuth={useOAuth} />
+          <LoginButton
+            csp={csp}
+            key={csp}
+            useOAuth={useOAuth}
+            ddActionLocation={ddActionLocation}
+          />
         ))}
         <LoginNote />
         {isValid && (
@@ -61,6 +67,7 @@ export default function LoginActions({ externalApplication }) {
               csp="mhv"
               useOAuth={useOAuth}
               ariaDescribedBy="mhvH3"
+              ddActionLocation={ddActionLocation}
             />
             <h3
               id="dslogonH3"
@@ -79,6 +86,7 @@ export default function LoginActions({ externalApplication }) {
               csp="dslogon"
               useOAuth={useOAuth}
               ariaDescribedBy="dslogonH3"
+              ddActionLocation={ddActionLocation}
             />
           </div>
         )}
@@ -89,4 +97,5 @@ export default function LoginActions({ externalApplication }) {
 
 LoginActions.propTypes = {
   externalApplication: PropTypes.object,
+  isUnifiedSignIn: PropTypes.bool,
 };

@@ -16,7 +16,7 @@ import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
 import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
+import { useDatadogRum } from 'platform/user/authentication/hooks';
 import { generateReturnURL } from 'platform/user/authentication/utilities';
 import { OAUTH_EVENTS } from 'platform/utilities/oauth/constants';
 import RenderErrorUI from '../components/RenderErrorContainer';
@@ -193,6 +193,8 @@ export default function AuthApp({ location }) {
       }
     }
   };
+
+  useDatadogRum();
 
   useEffect(() => {
     if (hasError) {
