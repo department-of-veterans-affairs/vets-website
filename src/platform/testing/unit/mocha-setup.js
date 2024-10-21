@@ -73,7 +73,7 @@ function setupJSDom() {
       }
     };
     console.warn = () => {};
-  } else if (process.env.LOG_LEVEL === 'log') {
+  } else if (process.env.LOG_LEVEL === 'log') { 
     console.error = () => {};
     console.warn = () => {};
   }
@@ -90,7 +90,7 @@ function setupJSDom() {
   global.dom = dom;
   global.window = window;
   global.document = window.document;
-  global.navigator.userAgent = 'node.js';
+  // global.navigator = { userAgent: 'node.js' };
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
@@ -100,6 +100,16 @@ function setupJSDom() {
   global.Blob = window.Blob;
 
   /* Overwrites JSDOM global defaults from read-only to configurable */
+
+  Object.defineProperty(global, 'navigator', {
+    value: {
+      userAgent: 'node.js'
+    },
+    configurable: true,
+    writeable: true,
+    enumerable: true,
+  });
+
   Object.defineProperty(global, 'window', {
     value: global.window,
     configurable: true,
