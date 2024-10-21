@@ -14,11 +14,12 @@ import {
 
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
-  const repType = getRepType(formData);
-  const attributes = formData['view:selectedRepresentative']?.attributes;
-  const address = getEntityAddressAsObject(attributes);
-  const repName = attributes?.fullName;
+  const selectedEntity = formData['view:selectedRepresentative'];
+  const entityAttributes = selectedEntity?.attributes;
+  const address = getEntityAddressAsObject(entityAttributes);
+  const repName = entityAttributes?.fullName;
   const orgName = getOrgName(formData);
+  const repType = getRepType(selectedEntity);
 
   return (
     <div>
@@ -50,8 +51,8 @@ export default function NextStepsPage() {
         repName={repName}
         orgName={orgName}
         address={address}
-        phone={attributes?.phone}
-        email={attributes.email}
+        phone={entityAttributes?.phone}
+        email={entityAttributes?.email}
       />
       <a className="vads-c-action-link--green vads-u-margin-top--2" href="/">
         Go back to VA.gov

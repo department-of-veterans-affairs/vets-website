@@ -32,7 +32,7 @@ export default function ContactCard({
           <div className="vads-u-margin-top--3">
             {addressExists(address) && (
               <GoogleMapLink
-                address={address}
+                addressData={address}
                 recordClick={recordContactLinkClick}
               />
             )}
