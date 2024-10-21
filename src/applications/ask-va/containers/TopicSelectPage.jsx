@@ -60,10 +60,13 @@ const TopicSelectPage = props => {
     const selected = apiData.find(
       topic => topic.attributes.name === selectedValue,
     );
-    dispatch(setTopicID(selected.id));
-    onChange({ ...formData, selectTopic: selectedValue });
-    if (requireSignInTopics.includes(selectedValue) && !loggedIn)
+
+    if (requireSignInTopics.includes(selectedValue) && !loggedIn) {
       setShowModal({ show: true, selected: selectedValue });
+    } else {
+      dispatch(setTopicID(selected.id));
+      onChange({ ...formData, selectTopic: selectedValue });
+    }
   };
 
   const getApiData = url => {
