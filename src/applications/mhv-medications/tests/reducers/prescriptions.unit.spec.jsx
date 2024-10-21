@@ -159,4 +159,21 @@ describe('Prescriptions reducer', () => {
     expect(state.prescriptionDetails.error).to.equal(undefined);
     expect(state.prescriptionsList[indexOfRxFilled].error).to.equal(undefined);
   });
+
+  it('should clear fill action notification data', () => {
+    const initialStateWithRxList = {
+      ...initialState,
+      refillNotification: {
+        successfulMeds: ['1', '2'],
+        failedMeds: ['3', '4'],
+      },
+    };
+    const state = reduce(
+      {
+        type: Actions.Prescriptions.CLEAR_FILL_NOTIFICATION,
+      },
+      initialStateWithRxList,
+    );
+    expect(state.refillNotification).to.equal(undefined);
+  });
 });

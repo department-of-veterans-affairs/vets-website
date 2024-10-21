@@ -5,8 +5,8 @@ import { connect, useSelector } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { ConfirmationPageView as OldConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-import { ConfirmationPageView as NewConfirmationPageView } from '../../shared/components/ConfirmationPageView.v2';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
 
 let mockData;
@@ -51,13 +51,14 @@ export const ConfirmationPage = props => {
   const confirmationNumber = submission.response?.confirmationNumber;
 
   return showNewConfirmationPage ? (
-    <NewConfirmationPageView
+    <ConfirmationView
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       formConfig={formConfig}
       pdfUrl={submission.response?.pdfUrl}
       devOnly={{
-        simulatedFormData: mockData,
+        showButtons: true,
+        mockData,
       }}
     />
   ) : (

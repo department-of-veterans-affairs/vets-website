@@ -35,6 +35,9 @@ const {
   paymentAmount,
 } = fullSchemaPensions.definitions.careExpenses.items.properties;
 
+// eslint-disable-next-line no-unused-vars
+const { ONE_TIME, ...careFrequencyLabelsWithoutOneTime } = careFrequencyLabels;
+
 export const CareExpenseView = ({ formData }) => (
   <ListItemView title={formData.provider} />
 );
@@ -123,7 +126,7 @@ export default {
         },
         paymentFrequency: radioUI({
           title: 'How often are the payments?',
-          labels: careFrequencyLabels,
+          labels: careFrequencyLabelsWithoutOneTime,
         }),
         paymentAmount: merge({}, currencyUI('How much is each payment?'), {
           'ui:options': {
@@ -160,7 +163,9 @@ export default {
               required: ['from'],
             },
             noCareEndDate,
-            paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
+            paymentFrequency: radioSchema(
+              Object.keys(careFrequencyLabelsWithoutOneTime),
+            ),
             paymentAmount,
           },
         },

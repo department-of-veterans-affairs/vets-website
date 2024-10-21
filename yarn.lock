@@ -2901,10 +2901,10 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.11.0":
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.11.0.tgz#eafe0db79294d3a8c11f7b3537347b6809bb4233"
-  integrity sha512-fg3X6e3kOTzNNYpG5xTNYpdVnfizM+F9Z7kDn6y9DxhkQ0EIW548jbaVU6ijBpJsPArBw4b1HPG37Wa120zjNA==
+"@department-of-veterans-affairs/generator-vets-website@^3.12.0":
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.12.0.tgz#7b60b3d88a4d1134e50edb95390876d96ab21c94"
+  integrity sha512-1wtf9kNo2lsAvI/bXOnM3/Xn5s6Y9iYTDG/v2lHLs899Rk/quVgEC2dG7D7WZnpU819mECI3CfoeVL5KJuX7Ww==
   dependencies:
     chalk "^4.1.2"
     yeoman-generator "^5.6.1"
@@ -21292,9 +21292,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#be610f6623ef1fac432e5616372d4a5eadb93773":
-  version "24.4.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#be610f6623ef1fac432e5616372d4a5eadb93773"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#de3562f5dc2c77a6b4d954a0caba6ba4742cc472":
+  version "24.5.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#de3562f5dc2c77a6b4d954a0caba6ba4742cc472"
   dependencies:
     minimist "^1.2.3"
 
