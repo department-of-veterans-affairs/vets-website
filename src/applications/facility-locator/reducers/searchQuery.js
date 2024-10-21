@@ -35,7 +35,7 @@ export const INITIAL_STATE = {
   mapMoved: false,
   error: false,
   isValid: true,
-  searchStarted: false
+  searchStarted: false,
 };
 
 export const validateForm = (oldState, payload) => {
@@ -66,7 +66,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         error: false,
         inProgress: true,
         mapMoved: false,
-        searchStarted: true
+        searchStarted: true,
       };
     case FETCH_LOCATIONS:
       return {
@@ -123,14 +123,13 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         inProgress: false,
         searchBoundsInProgress: false,
       };
-    case SEARCH_QUERY_UPDATED: {
+    case SEARCH_QUERY_UPDATED:
       return {
         ...state,
         ...action.payload,
         ...validateForm(state, action.payload),
         error: false,
       };
-    }
     case GEOCODE_STARTED:
       return {
         ...state,

@@ -461,7 +461,10 @@ const FacilitiesMap = props => {
             emergency department right away.
           </VaAlert>
         )}
-        <div className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2" ref={searchResultTitleRef}>
+        <div
+          className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2"
+          ref={searchResultTitleRef}
+        >
           {!searchError && (
             <SearchResultsHeader
               results={results}
@@ -491,14 +494,14 @@ const FacilitiesMap = props => {
               </TabPanel>
               <TabPanel>
                 {renderMap(true, results)}
-                {console.log('searchStarted: ', currentQuery.searchStarted, ' results: ', results)}
-                {currentQuery.searchStarted && !results.length && (
-                  <NoResultsMessage
-                    resultRef={searchResultMessageRef}
-                    resultsFound={false}
-                    searchStarted
-                  />
-                )}
+                {currentQuery.searchStarted &&
+                  !results.length && (
+                    <NoResultsMessage
+                      resultRef={searchResultMessageRef}
+                      resultsFound={false}
+                      searchStarted
+                    />
+                  )}
                 {selectedResult && (
                   <div className="mobile-search-result">
                     {currentQuery.serviceType === Covid19Vaccine ? (
@@ -567,32 +570,26 @@ const FacilitiesMap = props => {
   };
 
   const handleSearchOnQueryChange = () => {
-    const { currentQuery, searchBoundsInProgress, searchWithBounds } = props;
-
     if (isSearching) {
-      const {
-        bounds, context, currentPage, facilityType, position, radius, searchString, serviceType
-      } = currentQuery;
-
       updateUrlParams({
-        context,
-        address: searchString,
+        context: props.currentQuery.context,
+        address: props.currentQuery.searchString,
       });
-
-      const coords = position;
+      const { currentQuery } = props;
+      const coords = currentQuery.position;
+      const { radius } = currentQuery;
       const center = [coords.latitude, coords.longitude];
-      const resultsPage = currentPage;
+      const resultsPage = currentQuery.currentPage;
 
-      if (!searchBoundsInProgress) {
-        searchWithBounds({
-          bounds,
-          facilityType,
-          serviceType,
+      if (!props.searchBoundsInProgress) {
+        props.searchWithBounds({
+          bounds: props.currentQuery.bounds,
+          facilityType: props.currentQuery.facilityType,
+          serviceType: props.currentQuery.serviceType,
           page: resultsPage,
           center,
           radius,
         });
-
         setIsSearching(false);
       }
     }
@@ -679,11 +676,13 @@ const FacilitiesMap = props => {
 
   return (
     <>
-      <h1 className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2">Find VA locations</h1>
+      <h1 className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2">
+        Find VA locations
+      </h1>
       <p className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2 vads-u-margin-bottom--4">
-        Find a VA location or in-network community care provider. For
-        same-day care for minor illnesses or injuries, select Urgent care
-        for facility type.
+        Find a VA location or in-network community care provider. For same-day
+        care for minor illnesses or injuries, select Urgent care for facility
+        type.
       </p>
       {renderView()}
       {otherToolsLink()}
@@ -706,16 +705,16 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  geolocateUser,
   clearGeocodeError,
-  clearSearchResults,
-  clearSearchText,
   fetchVAFacility,
+  updateSearchQuery,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  geolocateUser,
-  mapMoved,
   searchWithBounds,
-  updateSearchQuery
+  clearSearchResults,
+  clearSearchText,
+  mapMoved,
 };
 
 export default connect(
