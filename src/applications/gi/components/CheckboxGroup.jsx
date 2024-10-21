@@ -81,7 +81,6 @@ const CheckboxGroup = ({
 };
 
 CheckboxGroup.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.shape({
@@ -92,8 +91,13 @@ CheckboxGroup.propTypes = {
     ]),
   ).isRequired,
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func,
+  className: PropTypes.string,
+  colNum: PropTypes.number,
+  errorMessage: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  labelMargin: PropTypes.string,
   row: PropTypes.bool,
+  onFocus: PropTypes.func,
 };
 
 CheckboxGroup.defaultProps = {

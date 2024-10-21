@@ -11,7 +11,7 @@ import { IntroductionPageView } from '../../shared/components/IntroductionPageVi
 const ombInfo = {
   resBurden: '10',
   ombNumber: '2900-0858',
-  expDate: '07/31/2024',
+  expDate: '08/31/2027',
 };
 
 export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {

@@ -45,10 +45,10 @@ describe('Questionnaire Form - Title Function', () => {
       expect(title).to.equal('Your benefits and resources');
     });
 
-    it('should return "Review your entries" when on the review page', () => {
+    it('should return "Review your information" when on the review page', () => {
       const currentLocation = { pathname: '/review-and-submit' };
       const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Review your entries');
+      expect(title).to.equal('Review your information');
     });
 
     it('should return "Benefit and resource recommendation tool" by default', () => {
@@ -111,14 +111,14 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
   describe('depends function for militaryServiceCompleted', () => {
     it('should return true if militaryServiceCurrentlyServing is "Yes"', () => {
       const formData = {
-        militaryServiceCurrentlyServing: 'Yes',
+        militaryServiceCurrentlyServing: true,
       };
       expect(militaryServiceCompletedPage.depends(formData)).to.be.true;
     });
 
     it('should return false if militaryServiceCurrentlyServing is not "Yes"', () => {
       const formData = {
-        militaryServiceCurrentlyServing: 'No',
+        militaryServiceCurrentlyServing: false,
       };
       expect(militaryServiceCompletedPage.depends(formData)).to.be.false;
     });
@@ -127,7 +127,7 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
   describe('onNavForward function for militaryServiceCompleted', () => {
     it('should navigate to separation page if militaryServiceCurrentlyServing is "Yes"', () => {
       const formData = {
-        militaryServiceCurrentlyServing: 'Yes',
+        militaryServiceCurrentlyServing: true,
       };
       const goPathMock = path => {
         expect(path).to.equal(
@@ -166,8 +166,8 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
 
   it('should call goPath if militaryServiceCurrentlyServing is "Yes"', () => {
     const formData = {
-      militaryServiceCurrentlyServing: 'Yes',
-      militaryServiceCompleted: 'No',
+      militaryServiceCurrentlyServing: true,
+      militaryServiceCompleted: false,
     };
     let goPathCalled = false;
     let calledWith = '';

@@ -1,57 +1,27 @@
 import React from 'react';
-import {
-  dateOfBirthSchema,
-  dateOfBirthUI,
-  fullNameSchema,
-  fullNameUI,
-  serviceNumberSchema,
-  serviceNumberUI,
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import {
+  digitalFormAddress,
+  digitalFormIdentificationInfo,
+  digitalFormNameAndDoB,
+  digitalFormPhoneAndEmail,
+} from './digitalFormPatterns';
 
-const selectSchemas = ({ pageTitle, type, additionalFields }) => {
-  const schemas = {};
-
-  if (type === 'digital_form_name_and_date_of_bi') {
-    schemas.schema = {
-      type: 'object',
-      properties: {
-        fullName: fullNameSchema,
-      },
-    };
-    schemas.uiSchema = {
-      ...titleUI(pageTitle),
-      fullName: fullNameUI(),
-    };
-
-    if (additionalFields.includeDateOfBirth) {
-      schemas.schema.properties.dateOfBirth = dateOfBirthSchema;
-      schemas.uiSchema.dateOfBirth = dateOfBirthUI();
-    }
-  } else if (type === 'digital_form_identification_info') {
-    schemas.schema = {
-      type: 'object',
-      properties: {
-        veteranId: ssnOrVaFileNumberSchema,
-      },
-    };
-    schemas.uiSchema = {
-      ...titleUI(pageTitle),
-      veteranId: ssnOrVaFileNumberUI(),
-    };
-
-    if (additionalFields.includeServiceNumber) {
-      schemas.schema.properties.serviceNumber = serviceNumberSchema;
-      schemas.uiSchema.serviceNumber = serviceNumberUI();
-    }
+export const selectSchemas = chapter => {
+  switch (chapter.type) {
+    case 'digital_form_address':
+      return digitalFormAddress(chapter);
+    case 'digital_form_name_and_date_of_bi':
+      return digitalFormNameAndDoB(chapter);
+    case 'digital_form_identification_info':
+      return digitalFormIdentificationInfo(chapter);
+    case 'digital_form_phone_and_email':
+      return digitalFormPhoneAndEmail(chapter);
+    default:
+      return {};
   }
-
-  return schemas;
 };
 
 const formatChapters = chapters =>

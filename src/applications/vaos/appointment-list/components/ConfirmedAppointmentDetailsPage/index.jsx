@@ -14,7 +14,10 @@ import {
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
+import {
+  closeCancelAppointment,
+  fetchConfirmedAppointmentDetails,
+} from '../../redux/actions';
 import {
   getConfirmedAppointmentDetailsInfo,
   selectIsCanceled,
@@ -55,6 +58,9 @@ export default function ConfirmedAppointmentDetailsPage() {
     () => {
       dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
       scrollAndFocus();
+      return () => {
+        dispatch(closeCancelAppointment());
+      };
     },
     [id, dispatch, appointmentTypePrefix],
   );

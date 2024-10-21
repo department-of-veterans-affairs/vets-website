@@ -252,17 +252,16 @@
     "accountNumber": "001122334455",
     "routingNumber": "123123123"
   },
-  "veteranAddress": {
-    "street": "123 8th st",
-    "street2": "Apt A-3",
-    "city": "Hadley",
+  "veteranHomeAddress": {
+    "view:militaryBaseDescription": {},
     "country": "USA",
+    "street": "123 8th st",
+    "city": "Hadley",
     "state": "ME",
-    "postalCode": "01050",
-    "isMilitary": false
+    "postalCode": "01050"
   },
   "email": "test@example.com",
-  "phone": "5551234567",
+  "Primary phone": "5551234567",
   "mobilePhone": "5551234567",
   "internationalPhone": "001-555-123-4567",
   "view:aidAttendance": true,

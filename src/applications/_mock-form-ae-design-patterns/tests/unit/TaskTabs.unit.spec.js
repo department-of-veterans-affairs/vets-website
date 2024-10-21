@@ -35,7 +35,7 @@ describe('TaskTabs Component', () => {
 
   it('renders correct tabs for pattern2', () => {
     const mockLocation = {
-      pathname: '/2/task-red',
+      pathname: '/2/task-gray',
     };
 
     const { getByText, getAllByRole } = render(
@@ -51,8 +51,8 @@ describe('TaskTabs Component', () => {
     const tabElements = getAllByRole('listitem');
     expect(tabElements).to.have.length(tabsConfig.pattern2.length + 1);
 
-    const blueTaskTab = getByText('Red');
-    expect(blueTaskTab.closest('li')).to.have.class('vads-u-font-weight--bold');
+    const activeTab = getByText('Gray');
+    expect(activeTab.closest('li')).to.have.class('vads-u-font-weight--bold');
   });
 
   it('applies correct classes to active and inactive tabs', () => {

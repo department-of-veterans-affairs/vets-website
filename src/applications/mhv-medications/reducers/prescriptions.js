@@ -121,6 +121,12 @@ export const prescriptionsReducer = (state = initialState, action) => {
         apiError: false,
       };
     }
+    case Actions.Prescriptions.CLEAR_FILL_NOTIFICATION: {
+      return {
+        ...state,
+        refillNotification: initialState.refillNotification,
+      };
+    }
     case Actions.Prescriptions.GET_API_ERROR: {
       return {
         ...state,

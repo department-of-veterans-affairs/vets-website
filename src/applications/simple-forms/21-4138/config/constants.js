@@ -158,7 +158,7 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
     <va-omb-info
       res-burden={10}
       omb-number="2900-0881"
-      exp-date="06/30/2024"
+      exp-date="07/31/2027"
       class="vads-u-margin-y--4"
     />
     {ESCAPE_HATCH}

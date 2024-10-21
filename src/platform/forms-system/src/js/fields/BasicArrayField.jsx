@@ -1,18 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
 import classNames from 'classnames';
-import Scroll from 'react-scroll';
 
 import {
   toIdSchema,
   getDefaultFormState,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import { isReactComponent } from '../../../../utilities/ui';
 
-const Element = Scroll.Element;
+import { Element } from 'platform/utilities/scroll';
+import set from '../../../../utilities/data/set';
+import get from '../../../../utilities/data/get';
+import { isReactComponent } from '../../../../utilities/ui';
 
 class BasicArrayField extends React.Component {
   shouldComponentUpdate = (nextProps, nextState) =>
@@ -38,7 +37,7 @@ class BasicArrayField extends React.Component {
       onBlur,
       schema,
     } = this.props;
-    const definitions = registry.definitions;
+    const { definitions } = registry;
     const { TitleField, SchemaField } = registry.fields;
 
     const title = uiSchema['ui:title'] || schema.title;

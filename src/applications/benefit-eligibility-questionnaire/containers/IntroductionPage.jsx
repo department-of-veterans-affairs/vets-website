@@ -12,22 +12,19 @@ const IntroductionPage = ({ router }) => {
       <FormTitle title="Benefit and resource recommendation tool" subtitle="" />
       <p>
         <b>
-          Please note that this is a recommendation tool, not an eligibility
-          determination tool.
+          Note: This tool is not an application for VA benefits and it doesn’t
+          determine your eligibility for benefits.
         </b>{' '}
-        VA determines your eligibility once you apply for a benefit. You’ll need
-        to review the eligibility requirements before applying for VA benefits.
+        After you use this tool, you can learn more about eligibility and how to
+        apply.
       </p>
       <p>
-        Our recommendation tool can help you find benefits and resources that
-        are specific to your goals, needs, and circumstances. This is our first
-        version — it’s mostly focused on employment benefits and resources.
-        Please check in the future for additional benefits and resources.
-        Welcome to VA — we’re glad to have you.
+        To find VA benefits that may be relevant for you, answer a few questions
+        about your goals and experiences.
       </p>
       <p>
-        We’ll ask you to answer a few quick questions to personalize our
-        recommendations.
+        This is our first version. Right now, this tool focuses on education and
+        career benefits. We’ll add more types of benefits soon.
       </p>
       <va-link-action
         href="#"

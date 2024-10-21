@@ -118,10 +118,17 @@ describe('<TuitionAndHousingEstimates>', () => {
         },
       },
     );
-    const updateTuitionEstimatesButton = screen.getByRole('button', {
-      name: 'Update tuition, housing, and monthly benefit estimates',
-    });
+
+    const updateTuitionEstimatesButton = screen.getByTestId(
+      'update-tuition-housing',
+    );
+    expect(updateTuitionEstimatesButton).to.have.attribute(
+      'aria-expanded',
+      'false',
+    );
+
     fireEvent.click(updateTuitionEstimatesButton); // first click opens accordion
+
     await waitFor(() => {
       expect(updateTuitionEstimatesButton).to.have.attribute(
         'aria-expanded',
@@ -130,6 +137,7 @@ describe('<TuitionAndHousingEstimates>', () => {
     });
 
     fireEvent.click(updateTuitionEstimatesButton); // second click closes accordion
+
     await waitFor(() => {
       expect(updateTuitionEstimatesButton).to.have.attribute(
         'aria-expanded',

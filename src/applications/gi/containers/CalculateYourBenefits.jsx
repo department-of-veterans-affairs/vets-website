@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
@@ -72,7 +73,6 @@ export function CalculateYourBenefits({
       window.removeEventListener('scroll', handleScroll, true);
     };
   }, []);
-
   const toggleEybExpansion = () => {
     if (expandEybSheet) {
       document.body.style.overflow = 'visible';
@@ -100,8 +100,8 @@ export function CalculateYourBenefits({
   const spacerClassNames = classNames(
     'medium-1',
     'columns',
-    'small-screen:vads-u-margin-right--neg1',
-    'small-screen:vads-u-margin--0',
+    'mobile-lg:vads-u-margin-right--neg1',
+    'mobile-lg:vads-u-margin--0',
     'vads-u-margin-top--1',
   );
 
@@ -223,7 +223,20 @@ const mapDispatchToProps = {
   dispatchEligibilityChange: eligibilityChange,
   dispatchUpdateEstimatedBenefits: updateEstimatedBenefits,
 };
-
+CalculateYourBenefits.propTypes = {
+  dispatchBeneficiaryZIPCodeChanged: PropTypes.func.isRequired,
+  dispatchCalculatorInputChange: PropTypes.func.isRequired,
+  dispatchEligibilityChange: PropTypes.func.isRequired,
+  dispatchShowModal: PropTypes.func.isRequired,
+  dispatchUpdateEstimatedBenefits: PropTypes.func.isRequired,
+  calculated: PropTypes.object,
+  calculator: PropTypes.object,
+  eligibility: PropTypes.object,
+  estimatedBenefits: PropTypes.object,
+  gibctEybBottomSheet: PropTypes.bool,
+  isOJT: PropTypes.bool,
+  profile: PropTypes.object,
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

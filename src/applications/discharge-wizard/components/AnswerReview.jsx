@@ -1,13 +1,12 @@
 // Dependencies.
 import React from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
+
+import { Element } from 'platform/utilities/scroll';
 
 // Relative Imports
 import { answerReview, shouldShowQuestion } from '../helpers';
 import { ROUTES } from '../constants';
-
-const { Element } = Scroll;
 
 const AnswerReview = ({ formValues, handleScrollTo, router }) => {
   if (!formValues) {

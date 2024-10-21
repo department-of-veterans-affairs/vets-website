@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -13,10 +14,17 @@ const SaveResultsModal = () => {
   const handleCopyClick = () => {
     navigator.clipboard.writeText(currentUrl);
     setShowAlert(true);
+    focusElement('#copy-alert');
+  };
+
+  const handleClose = () => {
+    setShowAlert(false);
+    toggleModal(false);
+    focusElement('#save-your-results');
   };
 
   return (
-    <div>
+    <div className="vads-u-margin-bottom--2">
       <va-button
         id="save-your-results"
         message-aria-describedby="Save your results"
@@ -25,10 +33,7 @@ const SaveResultsModal = () => {
       />
       <VaModal
         id="save-results-modal"
-        onCloseEvent={() => {
-          setShowAlert(false);
-          toggleModal(false);
-        }}
+        onCloseEvent={handleClose}
         modalTitle="Save your results"
         initialFocusSelector="#va-modal-title"
         visible={isOpen}
@@ -37,8 +42,8 @@ const SaveResultsModal = () => {
         <va-text-input
           id="url-input"
           hint={null}
-          aria-label="Copy link"
-          label="Copy link"
+          aria-label="Copy and save this link to your results"
+          label="Copy and save this link to your results"
           name="url-input"
           type="url"
           onChange={() => {}}

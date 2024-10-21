@@ -12,6 +12,7 @@ import * as confirmClaimantPersonalInformation from './claimant/confirmClaimantP
 import * as claimantContactMailing from './claimant/claimantContactMailing';
 import * as veteranPersonalInformation from './veteran/veteranPersonalInformation';
 import * as veteranContactPhoneEmail from './veteran/veteranContactPhoneEmail';
+import * as veteranContactPhoneEmailForNonVeteran from './veteran/veteranContactPhoneEmailForNonVeteran';
 import * as veteranContactMailing from './veteran/veteranContactMailing';
 import * as veteranContactMailingClaimant from './veteran/veteranContactMailingClaimant';
 import * as veteranIdentification from './veteran/veteranIdentification';
@@ -19,6 +20,7 @@ import * as veteranServiceInformation from './veteran/veteranServiceInformation'
 import * as selectAccreditedRepresentative from './representative/selectAccreditedRepresentative';
 import * as replaceAccreditedRepresentative from './representative/replaceAccreditedRepresentative';
 import * as selectedAccreditedOrganizationId from './representative/selectAccreditedOrganization';
+import * as contactAccreditedRepresentative from './representative/contactAccreditedRepresentative';
 
 export {
   authorizeMedical,
@@ -35,6 +37,7 @@ export {
   claimantContactMailing,
   veteranPersonalInformation,
   veteranContactPhoneEmail,
+  veteranContactPhoneEmailForNonVeteran,
   veteranContactMailing,
   veteranContactMailingClaimant,
   veteranIdentification,
@@ -42,4 +45,5 @@ export {
   selectAccreditedRepresentative,
   replaceAccreditedRepresentative,
   selectedAccreditedOrganizationId,
+  contactAccreditedRepresentative,
 };

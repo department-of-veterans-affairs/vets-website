@@ -438,6 +438,52 @@ class MedicationsRefillPage {
   verifyShippedRxInformationOnRenewSectionRefillsPage = shippedDate => {
     cy.get('[data-testid="shipped-date"]').should('contain', shippedDate);
   };
+
+  clickMedicationsListPageLinkOnRefillSuccessAlertOnRefillsPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      medicationsList,
+    ).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      medicationsList,
+    );
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.get('[data-testid="back-to-medications-page-link"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="back-to-medications-page-link"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyRefillSuccessDescriptionText = () => {
+    cy.get('[data-testid="success-message-description"] > p').should(
+      'contain',
+      'recently requested',
+    );
+  };
+
+  verifyNoteOnRefillPageAboutRenewal = () => {
+    cy.get('[data-testid="note-refill-page"]').should(
+      'contain',
+      'renewal needed before refill',
+    );
+  };
+
+  verifySuccessAlertTextDoesNotExistOnRefillPage = alert => {
+    cy.get('[data-testid="success-message-title"]')
+      .should('have.text', alert)
+      .and('not.be.visible');
+  };
+
+  verifyFailedAlertTextDoesNotExistOnRefillPage = text => {
+    cy.get('[data-testid="failed-message-description"]')
+      .should('have.text', text)
+      .and('not.be.visible');
+  };
 }
 
 export default MedicationsRefillPage;

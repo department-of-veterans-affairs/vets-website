@@ -114,9 +114,12 @@ class AppointmentDetails {
   };
 
   clickReview = () => {
-    cy.get('[data-testid="review-information-button"] a').click({
-      waitForAnimations: true,
-    });
+    cy.get('[data-testid="action-link"]')
+      .shadow()
+      .find('a')
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   clickToResourcePage = () => {

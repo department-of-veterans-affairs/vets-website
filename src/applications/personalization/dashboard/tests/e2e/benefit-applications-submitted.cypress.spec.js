@@ -138,7 +138,9 @@ describe('The My VA Dashboard', () => {
         }).should('exist');
         cy.findAllByTestId('submitted-application').should('have.length', 0);
         cy.findAllByTestId('application-in-progress').should('have.length', 0);
-        cy.findByText(/you have no applications in progress/i).should('exist');
+        cy.findByText(
+          /you have no benefit applications or forms to show/i,
+        ).should('exist');
         cy.findAllByTestId('missing-application-help').should('have.length', 1);
         cy.injectAxe();
         cy.axeCheck();

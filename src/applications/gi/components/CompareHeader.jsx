@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
@@ -8,7 +9,7 @@ import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import CompareScroller from './CompareScroller';
 
-export default function({
+export default function CompareHeader({
   currentScroll,
   institutions,
   setPromptingFacilityCode,
@@ -53,7 +54,11 @@ export default function({
       'gibct-form-value': e.target.checked,
     });
   };
-
+  const highlightDifferences = (
+    <span aria-label="A highlighted row indicates the information is different between your selected institutions.">
+      Highlight differences
+    </span>
+  );
   return (
     <div
       className={classNames({
@@ -71,11 +76,7 @@ export default function({
           <div className="compare-action">
             <Checkbox
               checked={showDifferences}
-              label={
-                <span aria-label="A highlighted row indicates the information is different between your selected institutions.">
-                  Highlight differences
-                </span>
-              }
+              label={highlightDifferences}
               name="highlight-differences"
               className="vads-u-display--inline-block"
               onChange={handleOnChange}
@@ -121,6 +122,7 @@ export default function({
                       </Link>
                     </div>
                     <div className="compare-action">
+                      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
                       <button
                         type="button"
                         className="usa-button-secondary"
@@ -153,3 +155,13 @@ export default function({
     </div>
   );
 }
+CompareHeader.propTypes = {
+  institutions: PropTypes.array.isRequired,
+  scrollClickHandler: PropTypes.func.isRequired,
+  setPromptingFacilityCode: PropTypes.func.isRequired,
+  setShowDifferences: PropTypes.func.isRequired,
+  showDifferences: PropTypes.bool.isRequired,
+  smallScreen: PropTypes.bool.isRequired,
+  currentScroll: PropTypes.number,
+  version: PropTypes.string,
+};
