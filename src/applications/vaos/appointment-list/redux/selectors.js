@@ -598,13 +598,8 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
 }
 export function selectApptDateAriaText(appointment) {
   const appointmentDate = selectStartDate(appointment);
-  const isCanceled = selectIsCanceled(appointment);
   const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
-  return `${
-    isCanceled ? 'canceled ' : ''
-  } appointment on ${appointmentDate.format(
-    `dddd, MMMM D h:mm a, [${timezoneName}]`,
-  )}`;
+  return `${appointmentDate.format(`dddd, MMMM D h:mm a, [${timezoneName}]`)}`;
 }
 export function selectTypeOfCareAriaText(appointment) {
   const typeOfCareText = selectAppointmentLocality(appointment);
