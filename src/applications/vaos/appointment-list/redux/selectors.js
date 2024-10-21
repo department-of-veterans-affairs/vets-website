@@ -483,11 +483,13 @@ export function selectIsClinicVideo(appointment) {
 export function selectVideoData(appointment) {
   return appointment?.videoData || {};
 }
+
 export function selectVideoProviderName(appointment) {
   const videoData = selectVideoData(appointment);
   const [first] = videoData?.providers || [];
   return first?.display;
 }
+
 export function selectVideoProviderAddress(appointment) {
   const videoData = selectVideoData(appointment);
   return videoData?.atlasLocation?.address;
@@ -596,16 +598,19 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
 
   return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
 }
+
 export function selectApptDateAriaText(appointment) {
   const appointmentDate = selectStartDate(appointment);
   const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
   return `${appointmentDate.format(`dddd, MMMM D h:mm a, [${timezoneName}]`)}`;
 }
+
 export function selectTypeOfCareAriaText(appointment) {
   const typeOfCareText = selectAppointmentLocality(appointment);
   const isCanceled = selectIsCanceled(appointment);
   return `${isCanceled ? 'canceled ' : ''}${typeOfCareText}`;
 }
+
 export function selectModalityAriaText(appointment) {
   const modalityText = selectModalityText(appointment);
   const isCanceled = selectIsCanceled(appointment);
