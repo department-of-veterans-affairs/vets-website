@@ -356,7 +356,7 @@ const ContactInfo = ({
             missingInfo.length === 0 &&
             validationErrors.length === 0 && (
               <div className="vads-u-margin-top--1p5">
-                <va-alert status="success" background-only>
+                <va-alert status="success" slim>
                   <div className="vads-u-font-size--base">
                     {content.alertContent}
                   </div>
@@ -372,7 +372,7 @@ const ContactInfo = ({
               </p>
               {submitted && (
                 <div className="vads-u-margin-top--1p5" role="alert">
-                  <va-alert status="error" background-only>
+                  <va-alert status="error" slim>
                     <div className="vads-u-font-size--base">
                       We still don’t have your {list}. Please edit and update
                       the field.
@@ -381,7 +381,7 @@ const ContactInfo = ({
                 </div>
               )}
               <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="warning" background-only>
+                <va-alert status="warning" slim>
                   <div className="vads-u-font-size--base">
                     Your {list} {plural ? 'are' : 'is'} missing. Please edit and
                     update the {plural ? 'fields' : 'field'}.
@@ -394,7 +394,7 @@ const ContactInfo = ({
             missingInfo.length === 0 &&
             validationErrors.length > 0 && (
               <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="error" background-only>
+                <va-alert status="error" slim>
                   <div className="vads-u-font-size--base">
                     {validationErrors[0]}
                   </div>
