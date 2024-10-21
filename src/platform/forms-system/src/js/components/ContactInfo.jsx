@@ -226,8 +226,7 @@ const ContactInfo = ({
       visible={editState === `${id},updated`}
       class="vads-u-margin-y--1"
       status="success"
-      background-only
-      role="alert"
+      slim
     >
       {`${text} ${content.updated}`}
     </va-alert>
