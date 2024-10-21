@@ -10,6 +10,8 @@ import featureToggles from './fixtures/mocks/mock-features.json';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import {
   fillAddressWebComponentPattern,
+  fillEmergencyContactPersonalInfo,
+  fillEmergencyContactAddress,
   selectYesNoWebComponent,
   goToNextPage,
 } from './helpers';
@@ -19,7 +21,6 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['maximal-test', 'minimal-test'],
     fixtures: { data: path.join(__dirname, 'fixtures/data') },
-
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
@@ -48,6 +49,54 @@ const testConfig = createTestConfig(
             fillAddressWebComponentPattern(fieldName, fieldData);
             cy.injectAxeThenAxeCheck();
             goToNextPage();
+          });
+        });
+      },
+      'emergency-contacts-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('body').then($body => {
+              if (
+                $body.find(
+                  'va-radio-option[name="root_view:isEmergencyContactsEnabled"]',
+                ).length
+              ) {
+                selectYesNoWebComponent(
+                  'view:isEmergencyContactsEnabled',
+                  data['view:isEmergencyContactsEnabled'],
+                );
+              }
+            });
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'emergency-contacts/0/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillEmergencyContactPersonalInfo(data.veteranContacts[0]);
+          });
+        });
+      },
+      'emergency-contacts/0/contact-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillEmergencyContactAddress(data.veteranContacts[0]);
+          });
+        });
+      },
+      'emergency-contacts/1/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillEmergencyContactPersonalInfo(data.veteranContacts[1]);
+          });
+        });
+      },
+      'emergency-contacts/1/contact-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillEmergencyContactAddress(data.veteranContacts[1]);
           });
         });
       },
