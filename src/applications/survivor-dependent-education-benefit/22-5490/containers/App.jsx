@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-// import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getAppData } from '../selectors';
@@ -98,9 +98,33 @@ function App({
   );
 
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <>
+      <div className="row">
+        <div className="vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            label="Breadcrumbs"
+            wrapping
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education',
+                label: 'Education and training',
+              },
+              {
+                href: '/education/survivor-dependent-education-benefit-22-5490',
+                label: 'Apply for survivor dependent benefits',
+              },
+            ]}
+          />
+        </div>
+      </div>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </>
   );
 }
 
