@@ -90,7 +90,7 @@ function setupJSDom() {
   global.dom = dom;
   global.window = window;
   global.document = window.document;
-  global.navigator = { userAgent: 'node.js' };
+  global.navigator.userAgent = 'node.js';
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
