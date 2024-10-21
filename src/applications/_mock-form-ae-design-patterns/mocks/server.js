@@ -84,7 +84,7 @@ const responses = {
     );
   },
 
-  'GET /v0/coe/status': generateCoeEligibleResponse(),
+  // 'GET /v0/coe/status': generateCoeEligibleResponse(),
   'GET /v0/user': (req, res) => {
     const shouldError = false; // set to true to test error response
     if (shouldError) {

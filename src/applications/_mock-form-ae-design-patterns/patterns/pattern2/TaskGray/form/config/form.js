@@ -9,20 +9,24 @@ import { GetFormHelp } from '../components/GetFormHelp';
 import manifest from '../manifest.json';
 import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
+import profileContactInfo from './profileContactInfo';
+import VeteranProfileInformation from '../components/VeteranProfileInformation';
 
 // chapter schema imports
 import { applicantInformation } from './chapters/applicant';
+import { VIEW_FIELD_SCHEMA } from '../../../../../utils/constants';
 
 import {
   additionalInformation,
   mailingAddress,
 } from './chapters/contact-information';
+import { taskCompletePage } from '../../../../../shared/config/taskCompletePage';
 
-import { serviceStatus, serviceHistory } from './chapters/service';
+// import { serviceStatus, serviceHistory } from './chapters/service';
 
-import { loanScreener, loanHistory } from './chapters/loans';
+// import { loanScreener, loanHistory } from './chapters/loans';
 
-import { fileUpload } from './chapters/documents';
+// import { fileUpload } from './chapters/documents';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
@@ -70,78 +74,93 @@ const formConfig = {
     applicantInformationChapter: {
       title: 'Your personal information',
       pages: {
-        applicantInformationSummary: {
+        profileInformation: {
           path: 'applicant-information',
-          title: 'Your personal information on file',
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
+          title: 'Veteran\u2019s personal information',
+          CustomPage: VeteranProfileInformation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: VIEW_FIELD_SCHEMA,
         },
+        // applicantInformationSummary: {
+        //   path: 'applicant-information',
+        //   title: 'Your personal information on file',
+        //   uiSchema: applicantInformation.uiSchema,
+        //   schema: applicantInformation.schema,
+        // },
       },
     },
     contactInformationChapter: {
       title: 'Your contact information',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: mailingAddress.title,
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-          updateFormData: mailingAddress.updateFormData,
-        },
-        additionalInformation: {
-          path: 'additional-contact-information',
-          title: additionalInformation.title,
-          uiSchema: additionalInformation.uiSchema,
-          schema: additionalInformation.schema,
-        },
+        ...profileContactInfo({
+          contactInfoPageKey: 'confirmContactInfo3',
+          contactPath: 'veteran-information',
+          contactInfoRequiredKeys: ['mailingAddress'],
+          included: ['mailingAddress'],
+        }),
+        // mailingAddress: {
+        //   path: 'mailing-address',
+        //   title: mailingAddress.title,
+        //   uiSchema: mailingAddress.uiSchema,
+        //   schema: mailingAddress.schema,
+        //   updateFormData: mailingAddress.updateFormData,
+        // },
+        // additionalInformation: {
+        //   path: 'additional-contact-information',
+        //   title: additionalInformation.title,
+        //   uiSchema: additionalInformation.uiSchema,
+        //   schema: additionalInformation.schema,
+        // },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Your service history',
-      pages: {
-        serviceStatus: {
-          path: 'service-status',
-          title: 'Service status',
-          uiSchema: serviceStatus.uiSchema,
-          schema: serviceStatus.schema,
-        },
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service history',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
-        },
-      },
-    },
-    loansChapter: {
-      title: 'Your VA loan history',
-      pages: {
-        loanScreener: {
-          path: 'existing-loan-screener',
-          title: 'Existing loans',
-          uiSchema: loanScreener.uiSchema,
-          schema: loanScreener.schema,
-        },
-        loanHistory: {
-          path: 'loan-history',
-          title: 'VA-backed loan history',
-          uiSchema: loanHistory.uiSchema,
-          schema: loanHistory.schema,
-          depends: formData => formData?.vaLoanIndicator,
-        },
-      },
-    },
-    documentsChapter: {
-      title: 'Your supporting documents',
-      pages: {
-        upload: {
-          path: 'upload-supporting-documents',
-          title: 'Upload your documents',
-          uiSchema: fileUpload.uiSchema,
-          schema: fileUpload.schema,
-        },
-      },
-    },
+    taskCompletePage,
+    // serviceHistoryChapter: {
+    //   title: 'Your service history',
+    //   pages: {
+    //     serviceStatus: {
+    //       path: 'service-status',
+    //       title: 'Service status',
+    //       uiSchema: serviceStatus.uiSchema,
+    //       schema: serviceStatus.schema,
+    //     },
+    //     serviceHistory: {
+    //       path: 'service-history',
+    //       title: 'Service history',
+    //       uiSchema: serviceHistory.uiSchema,
+    //       schema: serviceHistory.schema,
+    //     },
+    //   },
+    // },
+    // loansChapter: {
+    //   title: 'Your VA loan history',
+    //   pages: {
+    //     loanScreener: {
+    //       path: 'existing-loan-screener',
+    //       title: 'Existing loans',
+    //       uiSchema: loanScreener.uiSchema,
+    //       schema: loanScreener.schema,
+    //     },
+    //     loanHistory: {
+    //       path: 'loan-history',
+    //       title: 'VA-backed loan history',
+    //       uiSchema: loanHistory.uiSchema,
+    //       schema: loanHistory.schema,
+    //       depends: formData => formData?.vaLoanIndicator,
+    //     },
+    //   },
+    // },
+    // documentsChapter: {
+    //   title: 'Your supporting documents',
+    //   pages: {
+    //     upload: {
+    //       path: 'upload-supporting-documents',
+    //       title: 'Upload your documents',
+    //       uiSchema: fileUpload.uiSchema,
+    //       schema: fileUpload.schema,
+    //     },
+    //   },
+    // },
   },
 };
 
