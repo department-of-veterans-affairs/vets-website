@@ -250,7 +250,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
           {vitalDisplayName}
         </h1>
-        <h2 className="sr-only">List of Vital Results</h2>
+        <h2 className="sr-only">List of {vitalDisplayName} Results</h2>
 
         <NewRecordsIndicator
           refreshState={refresh}
