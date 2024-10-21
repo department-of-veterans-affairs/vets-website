@@ -29,7 +29,7 @@ const InProgressContent = () => (
   <>
     <p>
       Next step: We’ll confirm that we’ve received your form. This can take up
-      to 10 days.
+      to 30 days.
     </p>
     <QuestionsContent />
   </>
