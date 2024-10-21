@@ -70,6 +70,7 @@ const CareSummariesAndNotes = () => {
       <h1 data-testid="care-summaries-and-notes" className="page-title">
         Care summaries and notes
       </h1>
+      <h2 className="sr-only">List of Vitals</h2>
       <p>
         Most care summaries and notes are available{' '}
         <span className="vads-u-font-weight--bold">36 hours</span> after
