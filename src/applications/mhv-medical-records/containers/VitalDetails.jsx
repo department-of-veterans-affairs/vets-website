@@ -170,7 +170,9 @@ const VitalDetails = props => {
 
   useEffect(
     () => {
-      if (currentPage > 1 && records?.length) {
+      if (currentPage === 1) {
+        focusElement(document.querySelector('h1'));
+      } else if (currentPage > 1 && records?.length) {
         focusElement(document.querySelector('#showingRecords'));
         window.scrollTo({
           top: 0,
