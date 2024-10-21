@@ -167,7 +167,7 @@ const IntroductionPage = props => {
         retentionPeriodStart="when you start"
         continueMsg={<FormReactivationAlert />}
       />
-      <div className="vads-u-margin-y--4">
+      <div className="vads-u-margin-y--2">
         <va-omb-info
           res-burden={30}
           omb-number="2900-0002"
