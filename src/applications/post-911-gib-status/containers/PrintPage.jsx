@@ -9,7 +9,7 @@ import UserInfoSection from '../components/UserInfoSection';
 export class PrintPage extends React.Component {
   // TO-DO: Remove after correct breadcrumbs classname successfully tested
   getBreadcrumbsClass = () =>
-    this.props.breadcrumbsUpdated ? '.va-breadcrumbs' : '.va-nav-breadcrumbs';
+    this.props.breadcrumbsUpdated ? 'va-breadcrumbs' : '.va-nav-breadcrumbs';
 
   componentDidMount() {
     focusElement('.print-screen');
