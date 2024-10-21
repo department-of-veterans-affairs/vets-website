@@ -20,7 +20,7 @@ export const OtherExposureDescription = (
       have been exposed to while deployed or during training or active duty
       service.
     </p>
-    <ExposureCategoriesLink />
+    {ExposureCategoriesLink}
     <p>
       Note: If you’re not sure, you can still select any of the toxins or
       hazards listed here. This may help us find information about your service
