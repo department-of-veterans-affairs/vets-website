@@ -2891,10 +2891,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@11.0.26":
-  version "11.0.26"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/formation/-/formation-11.0.26.tgz#ffb4745483c59dd755f804408d16e76ac4581cb0"
-  integrity sha512-dOoVqZGaC/A6Ui6JvgpHCno2Xaf/lBc0KMGEDbMSJq1mfuO/pu0aod253pHzq1M2KnbEdBHUq5cWb9fHy2kClQ==
+"@department-of-veterans-affairs/formation@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-12.0.0.tgz#ac80f71ba3e689fec2d448b3917c867f122b2ba3"
+  integrity sha512-IzR06KRJemPt1QDK1s/9L8bcmzxeHZ6J8b8/pwMcyUWTmkpBOz+HJORawNt5aN+QSv5yyDA9qzFX3emdFTBsqg==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.4"
     domready "^1.0.8"
