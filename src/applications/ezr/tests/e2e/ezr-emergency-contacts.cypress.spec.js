@@ -43,8 +43,12 @@ describe('EZR TERA flow', () => {
 
     let contact = testData.veteranContacts[0];
     // ec 1 basic info
-    cy.get('[name="root_fullName_first"]').type(contact.fullName.first);
-    cy.get('[name="root_fullName_last"]').type(contact.fullName.last);
+    cy.get(`[name="root_fullName_first"]`)
+      .first()
+      .type(contact.fullName.first);
+    cy.get(`[name="root_fullName_last"]`)
+      .first()
+      .type(contact.fullName.last);
     fillTextWebComponent('primaryPhone', contact.primaryPhone);
     selectDropdownWebComponent('relationship', contact.relationship);
     selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
@@ -72,8 +76,12 @@ describe('EZR TERA flow', () => {
 
     contact = testData.veteranContacts[1];
     // ec 2 basic info
-    cy.get('[name="root_fullName_first"]').type(contact.fullName.first);
-    cy.get('[name="root_fullName_last"]').type(contact.fullName.last);
+    cy.get(`[name="root_fullName_first"]`)
+      .first()
+      .type(contact.fullName.first);
+    cy.get(`[name="root_fullName_last"]`)
+      .first()
+      .type(contact.fullName.last);
     fillTextWebComponent('primaryPhone', contact.primaryPhone);
     selectDropdownWebComponent('relationship', contact.relationship);
     selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
