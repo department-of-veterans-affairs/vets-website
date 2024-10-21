@@ -246,9 +246,9 @@ describe('Review PreSubmitSection component', () => {
       </Provider>,
     );
 
-    expect(tree.container.querySelector('h3').innerHTML).to.equal(
-      'Statement of truth',
-    );
+    expect(
+      tree.container.querySelector('va-statement-of-truth').innerHTML,
+    ).to.equal('<p>Test</p>');
 
     tree.unmount();
   });
