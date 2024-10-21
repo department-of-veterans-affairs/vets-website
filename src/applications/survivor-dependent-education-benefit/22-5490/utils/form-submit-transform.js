@@ -298,9 +298,9 @@ const trimObjectValuesWhiteSpace = (key, value) => {
 
 const getNotificationMethod = notificationMethod => {
   switch (notificationMethod) {
-    case 'Yes, send me text message notifications':
+    case 'yes':
       return 'TEXT';
-    case 'No, just send me email notifications':
+    case 'no':
       return 'EMAIL';
     default:
       return 'NONE';
@@ -380,13 +380,11 @@ export function transform5490Form(_formConfig, form) {
 
   const payload = {
     formId: form?.formId,
-    '@type': 'Chapter35',
+    '@type': 'Chapter35Submission',
     chosenBenefit: form?.data?.chosenBenefit,
     claimant: {
       suffix: userFullName?.suffix,
-      notificationMethod: getNotificationMethod(
-        form?.data['view:receiveTextMessages']?.receiveTextMessages,
-      ),
+      notificationMethod: getNotificationMethod(form?.data?.notificationMethod),
       contactInfo: {
         addressLine1: form?.data?.mailingAddressInput?.address?.street,
         addressLine2: form?.data?.mailingAddressInput?.address?.street2,
@@ -394,8 +392,8 @@ export function transform5490Form(_formConfig, form) {
         zipcode: form?.data?.mailingAddressInput?.address?.postalCode,
         emailAddress: form?.data?.email?.email,
         addressType: getAddressType(form?.data?.mailingAddressInput),
-        mobilePhoneNumber: form?.data?.mobilePhone,
-        homePhoneNumber: form?.data?.homePhone,
+        mobilePhoneNumber: form?.data?.mobilePhone?.phone,
+        homePhoneNumber: form?.data?.homePhone?.phone,
         countryCode: getLTSCountryCode(
           form?.data?.mailingAddressInput?.address?.country,
         ),
@@ -403,12 +401,11 @@ export function transform5490Form(_formConfig, form) {
       },
       preferredContact: form?.data?.contactMethod,
     },
-    // parentOrGuardianSignature: form?.data?.parentGuardianSponsor,
     serviceMember: {
       firstName: userFullName?.first,
       lastName: userFullName?.last,
       middleName: userFullName?.middle,
-      sponsorRelationship: form?.data?.relationShipToMember,
+      relationship: form?.data?.relationShipToMember,
       dateOfBirth: form?.data?.relativeDateOfBirth,
       ssn: form?.data?.relativeSocialSecurityNumber,
     },
