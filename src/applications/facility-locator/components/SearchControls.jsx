@@ -382,7 +382,11 @@ const SearchControls = props => {
             : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
         </p>
       </VaModal>
-      <form id="facility-search-controls" onSubmit={handleSubmit}>
+      <form
+        className="vads-u-margin-bottom--0"
+        id="facility-search-controls"
+        onSubmit={handleSubmit}
+      >
         <div className="columns">
           {renderLocationInputField()}
           <div id="search-controls-bottom-row">
