@@ -241,7 +241,7 @@ const ContactInfo = ({
       <va-card
         show-shadow
         data-testid="mini-summary-card"
-        class="vads-u-margin-y--3"
+        class="vads-u-margin-y--3 contact-info-card"
         key="home"
         uswds
       >
@@ -275,7 +275,7 @@ const ContactInfo = ({
       <va-card
         show-shadow
         data-testid="mini-summary-card"
-        class="vads-u-margin-y--3"
+        class="vads-u-margin-y--3 contact-info-card"
         key="mobile"
         uswds
       >
@@ -307,7 +307,7 @@ const ContactInfo = ({
       <va-card
         show-shadow
         data-testid="mini-summary-card"
-        class="vads-u-margin-y--3"
+        class="vads-u-margin-y--3 contact-info-card"
         key="email"
         uswds
       >
@@ -339,7 +339,7 @@ const ContactInfo = ({
       <va-card
         show-shadow
         data-testid="mini-summary-card"
-        class="vads-u-margin-y--3"
+        class="vads-u-margin-y--3 contact-info-card"
         key="mailing"
         uswds
       >

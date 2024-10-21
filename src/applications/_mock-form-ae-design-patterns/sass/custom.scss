@@ -20,7 +20,7 @@
 }
 }
 
-[data-testid="mini-summary-card"] {
+.contact-info-card {
   @include media($medium-screen) {
     width: 18.8rem;
     height: 8.8rem;
