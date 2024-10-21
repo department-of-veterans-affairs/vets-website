@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   phoneUI,
   phoneSchema,
@@ -6,9 +8,15 @@ import {
   titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
 export const uiSchema = {
   ...titleUI(() => 'Veteran’s phone number and email address'),
+  profileNotUpdatedNote: {
+    'ui:description': formData => (
+      <ProfileNotUpdatedNote formData={formData} includePhone />
+    ),
+  },
   'Primary phone': phoneUI({
     required: false,
   }),
@@ -20,6 +28,8 @@ export const schema = {
   required: [],
   properties: {
     titleSchema,
+    profileNotUpdatedNote: { type: 'object', properties: {} },
+
     'Primary phone': phoneSchema,
     veteranEmail: emailSchema,
   },

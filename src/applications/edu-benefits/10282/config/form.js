@@ -212,7 +212,10 @@ const formConfig = {
           uiSchema: {
             currentlyEmployed: {
               'ui:title': (
-                <h3 className="vads-u-margin--0">
+                <h3
+                  className="vads-u-margin--0"
+                  data-testid="currently-employed"
+                >
                   Are you currently employed?
                 </h3>
               ),
@@ -258,7 +261,10 @@ const formConfig = {
           uiSchema: {
             isWorkingInTechIndustry: {
               'ui:title': (
-                <h3 className="vads-u-margin--0">
+                <h3
+                  className="vads-u-margin--0"
+                  data-testid="current-technology"
+                >
                   Do you currently work in the technology industry?
                 </h3>
               ),

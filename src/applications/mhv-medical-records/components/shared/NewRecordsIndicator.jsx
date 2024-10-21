@@ -40,9 +40,10 @@ const NewRecordsIndicator = ({
         extractType,
       );
       if (
-        !phase ||
-        phase === refreshPhases.IN_PROGRESS ||
-        phase === refreshPhases.STALE
+        (!phase ||
+          phase === refreshPhases.IN_PROGRESS ||
+          phase === refreshPhases.STALE) &&
+        !refreshState.isTimedOut
       ) {
         setRefreshedOnThisPage(true);
       }
