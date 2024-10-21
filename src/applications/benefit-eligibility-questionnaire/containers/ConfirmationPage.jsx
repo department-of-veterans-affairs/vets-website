@@ -15,6 +15,27 @@ import SaveResultsModal from '../components/SaveResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
 
 export class ConfirmationPage extends React.Component {
+  static sortBenefitObj(benefitObj, sortKey) {
+    return [...benefitObj].sort((a, b) => {
+      let aValue = a[sortKey] || '';
+      let bValue = b[sortKey] || '';
+
+      if (sortKey === 'goal') {
+        aValue = a.mappings?.goals?.[0] || '';
+        bValue = b.mappings?.goals?.[0] || '';
+      }
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return aValue.localeCompare(bValue);
+      }
+
+      if (aValue < bValue) return -1;
+      if (aValue > bValue) return 1;
+
+      return 0;
+    });
+  }
+
   constructor(props) {
     super(props);
 
@@ -179,27 +200,6 @@ export class ConfirmationPage extends React.Component {
 
     this.props.router.goBack();
   };
-
-  static sortBenefitObj(benefitObj, sortKey) {
-    return [...benefitObj].sort((a, b) => {
-      let aValue = a[sortKey] || '';
-      let bValue = b[sortKey] || '';
-
-      if (sortKey === 'goal') {
-        aValue = a.mappings?.goals?.[0] || '';
-        bValue = b.mappings?.goals?.[0] || '';
-      }
-
-      if (typeof aValue === 'string' && typeof bValue === 'string') {
-        return aValue.localeCompare(bValue);
-      }
-
-      if (aValue < bValue) return -1;
-      if (aValue > bValue) return 1;
-
-      return 0;
-    });
-  }
 
   applyInitialSort() {
     const hasResults = !!this.props.results.data;
