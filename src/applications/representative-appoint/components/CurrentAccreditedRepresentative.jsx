@@ -1,24 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Email from './Email';
-import Phone from './Phone';
-import GoogleMapLink from './GoogleMapLink';
-import { addressExists, getRepType } from '../utilities/helpers';
-import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
+import AddressEmailPhone from './AddressEmailPhone';
+import { getEntityAddressAsObject, getRepType } from '../utilities/helpers';
 
-const CurrentAccreditedRepresentative = ({ currentRep }) => {
-  const repAttributes = currentRep?.attributes;
+const CurrentAccreditedRepresentative = ({ rep }) => {
+  const repAttributes = rep?.attributes;
   const repName = repAttributes?.fullName;
-  const { contact, extension } = parsePhoneNumber(repAttributes?.phone);
-  const email = repAttributes?.email;
+  const addressData = getEntityAddressAsObject(rep);
 
-  const recordContactLinkClick = () => {
-    // pending analytics event
-  };
+  const email = repAttributes?.email;
+  const phone = repAttributes?.phone;
 
   const parseRepType = () => {
-    const repType = getRepType(currentRep);
+    const repType = getRepType(rep);
     const parsedRep = {};
 
     switch (repType) {
@@ -62,31 +57,18 @@ const CurrentAccreditedRepresentative = ({ currentRep }) => {
           <strong>Note:</strong> You can work with any accredited VSO
           representative at this organization.
         </p>
-        <div className="representative-contact-section vads-u-margin-top--3">
-          {addressExists(currentRep) && (
-            <GoogleMapLink
-              addressData={currentRep}
-              recordClick={recordContactLinkClick}
-            />
-          )}
-          {email && (
-            <Email email={email} recordClick={recordContactLinkClick} />
-          )}
-          {contact && (
-            <Phone
-              contact={contact}
-              extension={extension}
-              recordClick={recordContactLinkClick}
-            />
-          )}
-        </div>
+        <AddressEmailPhone
+          addressData={addressData}
+          email={email}
+          phone={phone}
+        />
       </div>
     </va-card>
   );
 };
 
 CurrentAccreditedRepresentative.propTypes = {
-  currentRep: PropTypes.object,
+  rep: PropTypes.object,
 };
 
 export default CurrentAccreditedRepresentative;

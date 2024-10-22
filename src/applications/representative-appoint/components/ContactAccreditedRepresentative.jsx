@@ -1,37 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Email from './Email';
-import Phone from './Phone';
-import GoogleMapLink from './GoogleMapLink';
-import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
+import PropTypes from 'prop-types';
+
+import AddressEmailPhone from './AddressEmailPhone';
+import { getEntityAddressAsObject } from '../utilities/helpers';
 
 const ContactAccreditedRepresentative = props => {
-  const { formData } = props;
-
-  const representative = formData?.['view:selectedRepresentative'];
-  const isOrg = representative?.type === 'organization';
-  const attributes = representative?.attributes;
-  const accreditedOrganizations = attributes?.accreditedOrganizations?.data;
-
-  const address = {
-    addressLine1: (attributes?.addressLine1 || '').trim(),
-    addressLine2: (attributes?.addressLine2 || '').trim(),
-    addressLine3: (attributes?.addressLine3 || '').trim(),
-    city: (attributes?.city || '').trim(),
-    stateCode: (attributes?.stateCode || '').trim(),
-    zipCode: (attributes?.zipCode || '').trim(),
-  };
-
-  const { contact, extension } = parsePhoneNumber(attributes?.phone);
-  const addressExists =
-    address.addressLine1 &&
-    address.city &&
-    address.stateCode &&
-    address.zipCode;
-
-  const recordContactLinkClick = () => {
-    // pending analytics event
-  };
+  const rep = props?.formData?.['view:selectedRepresentative'];
+  const repAttributes = rep?.attributes;
+  const addressData = getEntityAddressAsObject(rep);
+  const email = repAttributes?.email;
+  const phone = repAttributes?.phone;
+  const isOrg = rep?.type === 'organization';
 
   const warningContent = () => {
     if (isOrg) {
@@ -52,6 +32,9 @@ const ContactAccreditedRepresentative = props => {
   };
 
   const subNameContent = () => {
+    const accreditedOrganizations =
+      repAttributes?.accreditedOrganizations?.data;
+
     if (isOrg) {
       return (
         <p>
@@ -60,12 +43,15 @@ const ContactAccreditedRepresentative = props => {
         </p>
       );
     }
+
     if (accreditedOrganizations?.length === 0) {
       return <></>;
     }
+
     if (accreditedOrganizations?.length === 1) {
       return <p>{accreditedOrganizations[0]?.attributes?.name}</p>;
     }
+
     return (
       <div className="associated-organizations-info vads-u-margin-top--1p5">
         <va-additional-info
@@ -93,42 +79,30 @@ const ContactAccreditedRepresentative = props => {
           {warningContent()}
         </va-alert>
       </div>
-      {attributes && (
+      {repAttributes && (
         <va-card class="vads-u-padding-left--2 vads-u-padding-top--1">
           <div className="vads-u-margin-top--1p5 vads-u-display--flex">
             {!isOrg && <va-icon icon="account_circle" size="4" />}
             <div className="vads-u-margin-left--1">
               <h3 className="vads-u-font-family--serif vads-u-margin-top--0p5">
-                {attributes.fullName || attributes.name}
+                {repAttributes.fullName || repAttributes.name}
               </h3>
               {subNameContent()}
-              <div className="vads-u-margin-top--3">
-                {addressExists && (
-                  <GoogleMapLink
-                    addressData={address}
-                    recordClick={recordContactLinkClick}
-                  />
-                )}
-                {attributes.email && (
-                  <Email
-                    email={attributes.email}
-                    recordClick={recordContactLinkClick}
-                  />
-                )}
-                {contact && (
-                  <Phone
-                    contact={contact}
-                    extension={extension}
-                    recordClick={recordContactLinkClick}
-                  />
-                )}
-              </div>
+              <AddressEmailPhone
+                addressData={addressData}
+                email={email}
+                phone={phone}
+              />
             </div>
           </div>
         </va-card>
       )}
     </div>
   );
+};
+
+ContactAccreditedRepresentative.propTypes = {
+  formData: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
