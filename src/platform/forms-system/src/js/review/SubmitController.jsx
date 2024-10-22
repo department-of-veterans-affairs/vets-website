@@ -14,7 +14,11 @@ import { $, focusElement } from '~/platform/forms-system/src/js/utilities/ui';
 
 import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';
-import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
+import {
+  createPageListByChapter,
+  getActiveExpandedPages,
+  getUrlPrefixedPath,
+} from '../helpers';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 
 import {
@@ -33,7 +37,10 @@ class SubmitController extends Component {
       nextStatus !== previousStatus &&
       nextStatus === 'applicationSubmitted'
     ) {
-      const newRoute = `${nextProps.formConfig.urlPrefix}confirmation`;
+      const newRoute = getUrlPrefixedPath(
+        'confirmation',
+        nextProps.formConfig.urlPrefix,
+      );
       this.props.router.push(newRoute);
     }
   }

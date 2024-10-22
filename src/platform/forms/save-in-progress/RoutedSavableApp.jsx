@@ -25,6 +25,7 @@ import {
 import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
+import { getUrlPrefixedPath } from '../../forms-system/src/js/helpers';
 
 /*
  * Primary component for a schema generated form app.
@@ -143,7 +144,9 @@ class RoutedSavableApp extends React.Component {
       if (this.location.pathname.endsWith('resume')) {
         action = 'replace';
       }
-      newProps.router[action](`${newProps.formConfig.urlPrefix || ''}error`);
+      newProps.router[action](
+        getUrlPrefixedPath('error', newProps.formConfig.urlPrefix),
+      );
     }
   }
 
@@ -163,7 +166,7 @@ class RoutedSavableApp extends React.Component {
       this.props.savedStatus === SAVE_STATUSES.success
     ) {
       this.props.router.push(
-        `${this.props.formConfig.urlPrefix || ''}form-saved`,
+        getUrlPrefixedPath('form-saved', this.props.formConfig.urlPrefix),
       );
     }
   }
@@ -210,7 +213,7 @@ class RoutedSavableApp extends React.Component {
     return getNextPagePath(
       props.routes[props.routes.length - 1].pageList,
       props.formData,
-      `${props.formConfig?.urlPrefix || '/'}introduction`,
+      getUrlPrefixedPath('introduction', props.formConfig?.urlPrefix),
     );
   }
 

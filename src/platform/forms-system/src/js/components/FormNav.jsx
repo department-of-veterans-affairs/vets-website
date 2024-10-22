@@ -14,6 +14,7 @@ import {
   createPageList,
   getActiveExpandedPages,
   getCurrentChapterDisplay,
+  getUrlPrefixedPath,
 } from '../helpers';
 
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
@@ -50,8 +51,9 @@ export default function FormNav(props) {
   // (the chapter index will probably be wrong, but this isn’t a scenario that happens in normal use)
   if (!page) {
     page =
-      formPages.find(p => `${formConfig.urlPrefix}${p.path}` === currentPath) ||
-      {};
+      formPages.find(
+        p => getUrlPrefixedPath(p.path, formConfig.urlPrefix) === currentPath,
+      ) || {};
   }
 
   let current;

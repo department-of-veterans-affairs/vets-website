@@ -46,6 +46,10 @@ export const getCurrentChapterDisplay = (formConfig, currentChapterIndex) => {
   return currentChapterIndex - upstreamProgressHiddenChaptersLength;
 };
 
+export function getUrlPrefixedPath(path, urlPrefix) {
+  return `${urlPrefix || ''}${path}`;
+}
+
 // An active page is one that will be shown to the user.
 // Pages become inactive if they are conditionally shown based
 // on answers to previous questions.
@@ -139,7 +143,7 @@ export function createPageList(formConfig, formPages) {
       },
     ])
     .map(page =>
-      set('path', `${formConfig.urlPrefix || ''}${page.path}`, page),
+      set('path', getUrlPrefixedPath(page.path, formConfig.urlPrefix), page),
     );
 }
 
