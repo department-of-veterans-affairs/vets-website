@@ -9,7 +9,7 @@ const ReplaceAccreditedRepresentative = props => {
   const { formData } = props;
   const currentRep = formData?.['view:representativeStatus']?.attributes || {};
   const selectedRep = formData?.['view:selectedRep']?.attributes || {};
-  const address = getEntityAddressAsObject(selectedRep);
+  const addressData = getEntityAddressAsObject(selectedRep);
 
   return (
     <div>
@@ -21,14 +21,14 @@ const ReplaceAccreditedRepresentative = props => {
       <h4 className="vads-u-margin-y--5">
         You’ll replace this current accredited representative:
       </h4>
-      <CurrentAccreditedRepresentative currentRep={currentRep} />
+      <CurrentAccreditedRepresentative rep={currentRep} />
       <h4 className="vads-u-margin-y--5">
         You’ve selected this new accredited representative:
       </h4>
       <ContactCard
         repName={selectedRep.fullName}
         orgName={selectedRep.name}
-        address={address}
+        addressData={addressData}
         phone={selectedRep.phone}
         email={selectedRep.email}
       />

@@ -50,7 +50,7 @@ export default function NextStepsPage() {
       <ContactCard
         repName={repName}
         orgName={orgName}
-        address={address}
+        addressData={address}
         phone={entityAttributes?.phone}
         email={entityAttributes?.email}
       />
