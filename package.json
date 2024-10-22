@@ -106,7 +106,7 @@
   },
   "devDependencies": {
     "@actions/core": "^1.9.1",
-    "@axe-core/react": "^4.4.3",
+    "@axe-core/react": "^4.10.0",
     "@babel/core": "^7.17.7",
     "@babel/eslint-parser": "^7.22.9",
     "@babel/parser": "^7.17.7",
