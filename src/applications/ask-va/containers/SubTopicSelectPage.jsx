@@ -10,7 +10,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, CHAPTER_2, URL, envUrl } from '../constants';
+import { CHAPTER_1, CHAPTER_2, URL, getApiUrl } from '../constants';
 import CatAndTopicSummary from '../components/CatAndTopicSummary';
 import { setSubtopicID } from '../actions';
 
@@ -55,14 +55,10 @@ const SubTopicSelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(
-        `${envUrl}${
-          URL.GET_SUBTOPICS
-        }/${topicID}/subtopics?user_mock_data=true`,
-      );
+      getApiData(getApiUrl(URL.GET_SUBTOPICS, { PARENT_ID: topicID }));
       focusElement('h2');
     },
-    [loggedIn],
+    [loggedIn, topicID],
   );
 
   useEffect(
