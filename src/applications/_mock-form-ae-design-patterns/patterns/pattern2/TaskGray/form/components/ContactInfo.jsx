@@ -14,10 +14,8 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 
-// import { AddressView } from '@department-of-veterans-affairs/platform-user/exports';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
-// import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
@@ -29,7 +27,6 @@ import {
   setReturnState,
   getReturnState,
   clearReturnState,
-  renderTelephone,
   getMissingInfo,
   REVIEW_CONTACT,
   convertNullishObjectValuesToEmptyString,
@@ -83,11 +80,11 @@ const ContactInfo = ({
   const email = dataWrap[keys.email] || '';
   const homePhone = dataWrap[keys.homePhone] || {};
   const mobilePhone = dataWrap[keys.mobilePhone] || {};
-  // const address = contactInfo[keys.address] || {};
-  const address = dataWrap[keys.address] || {};
+  const address = contactInfo[keys.address] || {};
 
   const missingInfo = getMissingInfo({
-    data: dataWrap,
+    // data: dataWrap,
+    data: contactInfo,
     keys,
     content,
     requiredKeys,
@@ -201,12 +198,11 @@ const ContactInfo = ({
     [missingInfo, hasInitialized, testContinueAlert],
   );
 
-  const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = onReviewPage ? 'h5' : 'h3';
   const headerClassNames = [
     'vads-u-font-size--h3',
     'vads-u-width--auto',
-    'vads-u-margin-top--1',
+    'vads-u-margin-top--0',
   ].join(' ');
 
   const showSuccessAlert = id => (
@@ -220,7 +216,7 @@ const ContactInfo = ({
     >
       <h2 slot="headline">We’ve updated your mailing address</h2>
       <p className="vads-u-margin-y--0">
-        We’ve only made these changes to this form and your VA.gov profile.
+        We’ve made these changes to this form and your VA.gov profile.
       </p>
     </va-alert>
   );
@@ -230,90 +226,10 @@ const ContactInfo = ({
   // Loop to separate pages when editing
   // Each Link includes an ID for focus management on the review & submit page
   const contactSection = [
-    keys.homePhone ? (
-      <React.Fragment key="home">
-        <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
-          {content.homePhone}
-        </Headers>
-        {/* {showSuccessAlert('home-phone', content.homePhone)} */}
-        <span className="dd-privacy-hidden" data-dd-action-name="home phone">
-          {renderTelephone(dataWrap[keys.homePhone])}
-        </span>
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-home-phone"
-              to="1/task-purple/veteran-information/edit-home-phone"
-              aria-label={content.editHomePhone}
-            >
-              {editText}
-              <va-icon
-                icon="chevron_right"
-                size="2"
-                style={{ position: 'relative', top: '-5px', left: '-1px' }}
-              />
-            </Link>
-          </p>
-        )}
-      </React.Fragment>
-    ) : null,
-
-    keys.mobilePhone ? (
-      <React.Fragment key="mobile">
-        <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
-        {/* {showSuccessAlert('mobile-phone', content.mobilePhone)} */}
-        <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
-          {renderTelephone(dataWrap[keys.mobilePhone])}
-        </span>
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-mobile-phone"
-              to="1/task-purple/veteran-information/edit-mobile-phone"
-              aria-label={content.editMobilePhone}
-            >
-              {editText}
-              <va-icon
-                icon="chevron_right"
-                size="2"
-                style={{ position: 'relative', top: '-5px', left: '-1px' }}
-              />
-            </Link>
-          </p>
-        )}
-      </React.Fragment>
-    ) : null,
-
-    keys.email ? (
-      <React.Fragment key="email">
-        <Headers className={headerClassNames}>{content.email}</Headers>
-        {/* {showSuccessAlert('email', content.email)} */}
-        <span className="dd-privacy-hidden" data-dd-action-name="email">
-          {dataWrap[keys.email] || ''}
-        </span>
-        {loggedIn && (
-          <p className="vads-u-margin-top--0p5">
-            <Link
-              id="edit-email"
-              to="1/task-purple/veteran-information/edit-email-address"
-              aria-label={content.editEmail}
-            >
-              {editText}
-              <va-icon
-                icon="chevron_right"
-                size="2"
-                style={{ position: 'relative', top: '-5px', left: '-1px' }}
-              />
-            </Link>
-          </p>
-        )}
-      </React.Fragment>
-    ) : null,
-
     keys.address ? (
       <va-card
         data-testid="mini-summary-card"
-        class="vads-u-margin-y--3 contact-info-card"
+        class="vads-u-margin-y--3 gray-task contact-info-card"
         key="mailing"
         uswds
       >
@@ -328,7 +244,7 @@ const ContactInfo = ({
             id="edit-mailing-address"
             to="2/task-gray/veteran-information/edit-mailing-address"
             aria-label={content.editMailingAddress}
-            className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5 vads-u-margin-bottom--1"
+            className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5 vads-u-margin-top--1 vads-u-margin-bottom--1"
           >
             <span>
               <strong>{editText}</strong>
@@ -340,22 +256,6 @@ const ContactInfo = ({
             </span>
           </Link>
         </div>
-        {/* {loggedIn && (
-          <p className="vads-u-margin-top--0p5 vads-u-font-weight--bold">
-            <Link
-              id="edit-mailing-address"
-              to="2/task-gray/veteran-information/edit-mailing-address"
-              aria-label={content.editMailingAddress}
-            >
-              {editText}
-              <va-icon
-                icon="chevron_right"
-                size="2"
-                style={{ position: 'relative', top: '-5px', left: '-1px' }}
-              />
-            </Link>
-          </p>
-        )} */}
       </va-card>
     ) : null,
   ];
@@ -385,12 +285,6 @@ const ContactInfo = ({
       <div className="vads-u-margin-y--2">
         <Element name={`${contactInfoPageKey}ScrollElement`} />
         <form onSubmit={handlers.onSubmit}>
-          {/* <MainHeader
-            id={`${contactInfoPageKey}Header`}
-            className="vads-u-margin-top--0"
-          >
-            {content.title}
-          </MainHeader> */}
           {showSuccessAlert('address')}
           <p>We’ll send any updates about your request to this address.</p>
           {!loggedIn && (

@@ -5,29 +5,26 @@ import { format, parseISO } from 'date-fns';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { genderLabels } from 'platform/static-data/labels';
-import {
-  maskSSN,
-  normalizeFullName,
-} from '../../../../../utils/helpers/general';
-import { APP_URLS } from '../../../../../utils/constants';
+// import { genderLabels } from 'platform/static-data/labels';
+import { normalizeFullName } from '../../../../../utils/helpers/general';
+// import { APP_URLS } from '../../../../../utils/constants';
 
 const VeteranProfileInformation = ({
   goBack,
   goForward,
   profile,
-  veteran,
+  // veteran,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { userFullName, dob, gender } = profile;
-  const { veteranSocialSecurityNumber } = veteran;
+  const { userFullName, dob } = profile;
+  // const { veteranSocialSecurityNumber } = veteran;
 
   const veteranName = normalizeFullName(userFullName, true);
-  const veteranSSN = maskSSN(veteranSocialSecurityNumber);
+  // const veteranSSN = maskSSN(veteranSocialSecurityNumber);
   const veteranDOB = dob && format(parseISO(dob), 'MMMM dd, yyyy');
   const veteranDOBMobile = dob && format(parseISO(dob), 'MMM dd, yyyy');
-  const veteranGender = gender && genderLabels[gender];
+  // const veteranGender = gender && genderLabels[gender];
 
   return (
     <>
@@ -38,7 +35,7 @@ const VeteranProfileInformation = ({
           the information on this request only.
         </p>
 
-        <va-card>
+        <va-card className="contact-info-card gray-task">
           {/* <div className="vads-u-margin-y--3 vads-u-padding-left--2"> */}
           <dl>
             <div data-testid="ezr-veteran-fullname">

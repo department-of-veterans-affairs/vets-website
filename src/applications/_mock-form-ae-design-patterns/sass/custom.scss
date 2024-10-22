@@ -24,12 +24,21 @@
   @include media($medium-screen) {
     width: 18.8rem;
     height: 8.8rem;
+
+    &.gray-task {
+      height: unset;
+    }
+
   }
   &:nth-of-type(4) {
     @include media($medium-screen) {
       height: 11.4rem;
     }
   }
+}
+
+div.progress-box.progress-box-schemaform > div.form-panel > div > va-card {
+  width: 18.8rem;
 }
 
 [data-dd-action-name="street"] {

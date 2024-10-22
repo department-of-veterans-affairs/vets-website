@@ -390,6 +390,7 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
   }
   if (keys.address && requiredKeys.includes(keys.address)) {
     const addressObject = data[keys.address] || {};
+
     const isUS = addressObject.addressType !== ADDRESS_TYPES.international;
     const hasRequiredAddressFields =
       addressObject.countryName &&
