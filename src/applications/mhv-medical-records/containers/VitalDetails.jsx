@@ -64,7 +64,7 @@ const VitalDetails = props => {
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
-  const perPage = 3;
+  const perPage = 10;
   const [currentVitals, setCurrentVitals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
@@ -125,32 +125,15 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (records?.length) {
-        // Update page title
+        focusElement(document.querySelector('h1'));
         updatePageTitle(
           `${vitalTypeDisplayNames[records[0].type]} - ${
             pageTitles.VITALS_PAGE_TITLE
           }`,
         );
-
-        // Set focus based on current page
-        const focusTarget =
-          currentPage === 1
-            ? document.querySelector('h1')
-            : document.querySelector('#showingRecords');
-
-        focusElement(focusTarget);
-
-        // Scroll to top if not on the first page
-        if (currentPage > 1) {
-          window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth',
-          });
-        }
       }
     },
-    [currentPage, records],
+    [records],
   );
 
   usePrintTitle(
@@ -183,6 +166,23 @@ const VitalDetails = props => {
       }
     },
     [records],
+  );
+
+  useEffect(
+    () => {
+      if (records?.length) {
+        focusElement(document.querySelector('#showingRecords'));
+
+        if (currentPage > 1) {
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+          });
+        }
+      }
+    },
+    [currentPage, records],
   );
 
   const displayNums = fromToNums(currentPage, records?.length);
