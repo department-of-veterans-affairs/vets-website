@@ -483,11 +483,7 @@ export function fetchRequestDetails(id) {
   };
 }
 
-export function fetchConfirmedAppointmentDetails(
-  id,
-  type,
-  fetchClaimStatus = false,
-) {
+export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
@@ -522,7 +518,6 @@ export function fetchConfirmedAppointmentDetails(
           id,
           type,
           useV2,
-          fetchClaimStatus,
         });
       }
 

@@ -6,10 +6,7 @@ import moment from 'moment';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import VideoLayout from '../../../components/layout/VideoLayout';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureClaimStatus,
-} from '../../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
@@ -46,7 +43,6 @@ export default function ConfirmedAppointmentDetailsPage() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-  const featureFetchClaimStatus = useSelector(selectFeatureClaimStatus);
   const isInPerson = selectIsInPerson(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
@@ -54,25 +50,18 @@ export default function ConfirmedAppointmentDetailsPage() {
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
-  const fetchClaimStatus = featureFetchClaimStatus && isPast && isVA;
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
   useEffect(
     () => {
-      dispatch(
-        fetchConfirmedAppointmentDetails(
-          id,
-          appointmentTypePrefix,
-          fetchClaimStatus,
-        ),
-      );
+      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
       scrollAndFocus();
       return () => {
         dispatch(closeCancelAppointment());
       };
     },
-    [id, dispatch, appointmentTypePrefix, fetchClaimStatus],
+    [id, dispatch, appointmentTypePrefix],
   );
 
   useEffect(
