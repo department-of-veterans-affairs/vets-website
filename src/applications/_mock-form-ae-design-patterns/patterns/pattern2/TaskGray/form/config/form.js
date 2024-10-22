@@ -22,7 +22,7 @@ import {
 } from './chapters/contact-information';
 import { taskCompletePage } from '../../../../../shared/config/taskCompletePage';
 
-// import { serviceStatus, serviceHistory } from './chapters/service';
+import { serviceStatus, serviceHistory } from './chapters/service';
 
 // import { loanScreener, loanHistory } from './chapters/loans';
 
@@ -112,6 +112,23 @@ const formConfig = {
         //   uiSchema: additionalInformation.uiSchema,
         //   schema: additionalInformation.schema,
         // },
+      },
+    },
+    serviceHistoryChapter: {
+      title: 'Your service history',
+      pages: {
+        // serviceStatus: {
+        //   path: 'service-status',
+        //   title: 'Service status',
+        //   uiSchema: serviceStatus.uiSchema,
+        //   schema: serviceStatus.schema,
+        // },
+        serviceHistory: {
+          path: 'service-history',
+          title: 'Service history',
+          uiSchema: serviceHistory.uiSchema,
+          schema: serviceHistory.schema,
+        },
         taskCompletePage,
       },
     },
