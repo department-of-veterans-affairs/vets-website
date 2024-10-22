@@ -1,21 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
 
 // TODO - check for existing helper function
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-function LicenseCertificationSearchFields({ dropdowns, handleChange }) {
+
+export default function LicenseCertificationSearchForm({
+  handleChange,
+  handleSearch,
+  dropdowns,
+}) {
   return (
-    <>
-      <div className="row">
+    <form>
+      <div>
         <va-text-input label="License/Certification Name" />
       </div>
       {dropdowns.map((dropdown, index) => {
         const { label, options, current, alt } = dropdown;
 
         return (
-          <div className="row" key={index}>
+          <div key={index}>
             <Dropdown
               disabled={false}
               label={capitalizeFirstLetter(label)}
@@ -31,8 +37,15 @@ function LicenseCertificationSearchFields({ dropdowns, handleChange }) {
           </div>
         );
       })}
-    </>
+      <div className="button-wrapper row vads-u-padding-y--6">
+        <va-button text="Submit" onClick={handleSearch} />
+      </div>
+    </form>
   );
 }
 
-export default LicenseCertificationSearchFields;
+LicenseCertificationSearchForm.propTypes = {
+  dropdowns: PropTypes.array.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+};

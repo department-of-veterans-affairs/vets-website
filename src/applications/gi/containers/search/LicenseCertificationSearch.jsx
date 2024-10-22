@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import LicenseCertificationSearchFields from '../components/LicenseCertificationSearchFields';
+import PropTypes from 'prop-types';
+import LicenseCertificationSearchForm from '../../components/LicenseCertificationSearchForm';
 
 // Should dropdownSchema be a piece of state in redux?
 // Are these values likely to change often?
@@ -43,13 +43,9 @@ const dropdownSchema = [
   },
 ];
 
-function LicenseCertificationSearch() {
+export default function LicenseCertificationSearch({ handleSearch }) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
-  const history = useHistory();
 
-  const handleSubmit = () => {
-    history.push('/lc-search-results');
-  };
   const handleChange = e => {
     // identify the changed field
     const updatedFieldIndex = dropdowns.findIndex(dropdown => {
@@ -85,16 +81,18 @@ function LicenseCertificationSearch() {
             Licenses and certifications search page
           </p>
         </div>
-        <LicenseCertificationSearchFields
-          dropdowns={dropdowns}
-          handleChange={handleChange}
-        />
-        <div className="button-wrapper row vads-u-padding-y--6">
-          <va-button text="Submit" onClick={handleSubmit} />
+        <div className="form-wrapper row">
+          <LicenseCertificationSearchForm
+            handleChange={handleChange}
+            handleSearch={handleSearch}
+            dropdowns={dropdowns}
+          />
         </div>
       </section>
     </div>
   );
 }
 
-export default LicenseCertificationSearch;
+LicenseCertificationSearch.propTypes = {
+  handleSearch: PropTypes.func.isRequired,
+};
