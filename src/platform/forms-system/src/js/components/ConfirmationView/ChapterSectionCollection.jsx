@@ -6,14 +6,12 @@ import {
   getActiveChapters,
   getActiveExpandedPages,
 } from '~/platform/forms-system/exportsFile';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   VaAccordion,
   VaAccordionItem,
-  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setData } from 'platform/forms-system/src/js/actions';
-import environment from 'platform/utilities/environment';
+import classNames from 'classnames';
 
 let arrayMap = {};
 let nextClass = '';
@@ -254,8 +252,10 @@ const useChapterSectionCollection = formConfig => {
 
 /**
  * @param {{
- *   formConfig: Object
- *   header: string
+ *   formConfig: {
+ *    chapters: Record<string, any>
+ *   },
+ *   header?: string
  *   collapsible?: boolean
  *   className?: string
  * }} props
@@ -264,12 +264,13 @@ const useChapterSectionCollection = formConfig => {
 export const ChapterSectionCollection = ({
   formConfig,
   collapsible = true,
-  header,
+  header = 'Information you submitted on this form',
   className,
 }) => {
   const { chapters, formData, pagesFromState } = useChapterSectionCollection(
     formConfig,
   );
+  let hasFields = false;
 
   resetDefaults();
 
@@ -282,6 +283,9 @@ export const ChapterSectionCollection = ({
     const fields = buildFields(chapter, formData, pagesFromState).filter(
       item => item != null,
     );
+
+    hasFields = hasFields || fields.length > 0;
+
     return (
       fields.length > 0 && (
         <div key={`chapter_${chapter.name}`}>
@@ -294,9 +298,18 @@ export const ChapterSectionCollection = ({
     );
   });
 
-  if (collapsible && content.length) {
+  if (!hasFields) {
+    return null;
+  }
+
+  if (collapsible) {
     return (
-      <div className={className || 'vads-u-margin-top--2'}>
+      <div
+        className={classNames(
+          'confirmation-chapter-section-collection',
+          className || 'vads-u-margin-top--2',
+        )}
+      >
         <div className="print-only">{content}</div>
         <div className="screen-only">
           <VaAccordion bordered open-single uswds>
@@ -312,61 +325,9 @@ export const ChapterSectionCollection = ({
   return content;
 };
 
-export const useDevOnlyButtons = ({
-  formData,
-  mockData,
-  setPdfUrl,
-  setConfirmationNumber,
-  setSubmitDate,
-}) => {
-  const dispatch = useDispatch();
-
-  const simulateSubmission = () => {
-    dispatch(
-      setData({
-        ...formData,
-        ...mockData,
-      }),
-    );
-    setConfirmationNumber(
-      Math.random()
-        .toString()
-        .replace('.', ''),
-    );
-    setSubmitDate(new Date());
-    setPdfUrl('/');
-  };
-
-  const simulateReload = () => {
-    dispatch(setData({}));
-    setConfirmationNumber(null);
-    setSubmitDate(null);
-    setPdfUrl(null);
-  };
-
-  if (environment.isProduction()) {
-    return null;
-  }
-
-  return () => {
-    return (
-      <div className="vads-u-margin-bottom--2">
-        <VaButton
-          onClick={simulateSubmission}
-          text="Dev only: Simulate submission"
-        />
-        <VaButton
-          onClick={simulateReload}
-          text="Dev only: Simulate page reload"
-        />
-      </div>
-    );
-  };
-};
-
 ChapterSectionCollection.propTypes = {
   formConfig: PropTypes.object.isRequired,
-  header: PropTypes.string.isRequired,
   className: PropTypes.string,
   collapsible: PropTypes.bool,
+  header: PropTypes.string,
 };
