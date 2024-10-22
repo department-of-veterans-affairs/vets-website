@@ -3,17 +3,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-const Title = () => (
-  <>
-    <legend className="schemaform-block-title">
-      <h3 className="vads-u-color--gray-dark vads-u-margin-top--24">
-        Your contact information
-      </h3>
-    </legend>
-  </>
+const Title = ({ title = '' }) => (
+  <legend className="schemaform-block-title">
+    <h3 className="vads-u-color--gray-dark vads-u-margin-top--24">
+      {title || 'Your contact information'}
+    </h3>
+  </legend>
 );
 
-const PrefillAlertAndTitle = ({ loggedIn }) => {
+const PrefillAlertAndTitle = ({ loggedIn, title }) => {
   return loggedIn ? (
     <>
       <va-alert status="info" uswds visible>
@@ -24,15 +22,20 @@ const PrefillAlertAndTitle = ({ loggedIn }) => {
           this form.
         </p>
       </va-alert>
-      <Title />
+      <Title title={title} />
     </>
   ) : (
-    <Title />
+    <Title title={title} />
   );
 };
 
 PrefillAlertAndTitle.propTypes = {
   loggedIn: PropTypes.bool,
+  title: PropTypes.string,
+};
+
+PrefillAlertAndTitle.defaultProps = {
+  title: '',
 };
 
 function mapStateToProps(state) {

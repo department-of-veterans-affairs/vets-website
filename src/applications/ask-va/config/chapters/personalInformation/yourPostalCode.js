@@ -1,11 +1,16 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import React from 'react';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import PostalCodeHint from '../../../components/PostalCodeHint';
 import { CHAPTER_3 } from '../../../constants';
+import PrefillAlertAndTitle from '../../../components/PrefillAlertAndTitle';
+
+const PrefillAlert = () => (
+  <PrefillAlertAndTitle title={CHAPTER_3.YOUR_POSTAL_CODE.TITLE} />
+);
 
 const yourPostalCodePage = {
   uiSchema: {
-    ...titleUI(CHAPTER_3.YOUR_POSTAL_CODE.TITLE),
+    'ui:description': PrefillAlert,
     'ui:objectViewField': PageFieldSummary,
     veteranPostalCode: {
       'ui:title': CHAPTER_3.YOUR_POSTAL_CODE.QUESTION_4,
