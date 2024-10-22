@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 import moment from 'moment';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import VideoLayout from '../../../components/layout/VideoLayout';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureTravelPayViewClaimDetails,
+} from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
@@ -31,6 +34,7 @@ import CCLayout from '../../../components/layout/CCLayout';
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const location = useLocation();
   const {
     appointment,
     appointmentDetailsStatus,
@@ -43,6 +47,9 @@ export default function ConfirmedAppointmentDetailsPage() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+  const featureFetchClaimStatus = useSelector(
+    selectFeatureTravelPayViewClaimDetails,
+  );
   const isInPerson = selectIsInPerson(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
@@ -50,18 +57,26 @@ export default function ConfirmedAppointmentDetailsPage() {
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
+  const fetchClaimStatus =
+    featureFetchClaimStatus && location.pathname.includes('past');
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
   useEffect(
     () => {
-      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
+      dispatch(
+        fetchConfirmedAppointmentDetails(
+          id,
+          appointmentTypePrefix,
+          fetchClaimStatus,
+        ),
+      );
       scrollAndFocus();
       return () => {
         dispatch(closeCancelAppointment());
       };
     },
-    [id, dispatch, appointmentTypePrefix],
+    [id, dispatch, appointmentTypePrefix, fetchClaimStatus],
   );
 
   useEffect(

@@ -59,13 +59,16 @@ export function getAppointments(
   ).then(parseApiListWithErrors);
 }
 
-export function getAppointment(id, avs = false) {
+export function getAppointment(id, avs = false, fetchClaimStatus) {
   const options = {
     method: 'GET',
   };
   const includeParams = ['facilities', 'clinics'];
   if (avs) {
     includeParams.push('avs');
+  }
+  if (fetchClaimStatus) {
+    includeParams.push('claims');
   }
   return apiRequestWithUrl(
     `/vaos/v2/appointments/${id}?_include=${includeParams
