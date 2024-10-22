@@ -126,7 +126,7 @@ export const SubTask = props => {
       setSubmitted(true);
       if (!checkValid()) {
         // Let the browser render the error
-        window.requestAnimationFrame(scrollToFirstError);
+        window.requestAnimationFrame?.(scrollToFirstError);
         return false;
       }
     }
