@@ -64,7 +64,7 @@ export default function BackLink({ appointment }) {
           if (progress !== 'confirmation') {
             history.goBack();
           }
-          history.replace(link);
+          history.push(link);
         }}
       />
     </div>
