@@ -21,7 +21,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_21A,
   version: 0,
   rootUrl: manifest.rootUrl,
-  urlPrefix: '/',
+  urlPrefix: '/accreditation/attorney-claims-agent-form-21a/',
   transformForSubmit,
   submitUrl: `${
     environment.API_URL
