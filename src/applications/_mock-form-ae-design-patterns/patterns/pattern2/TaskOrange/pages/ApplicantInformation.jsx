@@ -2,6 +2,7 @@ import React from 'react';
 import { format, parseISO } from 'date-fns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import { InfoSection } from '../../../../shared/components/InfoSection';
 import { maskSSN } from '../../../../utils/helpers/general';
 import { APP_URLS } from '../../../../utils/constants';
@@ -13,9 +14,9 @@ export const ApplicantInformationBase = ({
   veteranSocialSecurityNumber,
   veteranDateOfBirth,
   gender,
-  ...rest
+  location,
 }) => {
-  const isReviewPage = isOnReviewPage(rest?.location?.pathname);
+  const isReviewPage = isOnReviewPage(location?.pathname);
   const title = isReviewPage ? null : 'Applicant information';
   const formattedDob =
     veteranDateOfBirth && format(parseISO(veteranDateOfBirth), 'MMMM dd, yyyy');
@@ -39,6 +40,14 @@ export const ApplicantInformationBase = ({
       <InfoSection.InfoBlock label="Gender" value={genderLabels?.[gender]} />
     </InfoSection>
   );
+};
+
+ApplicantInformationBase.propTypes = {
+  gender: PropTypes.string,
+  location: PropTypes.object,
+  veteranDateOfBirth: PropTypes.string,
+  veteranFullName: PropTypes.object,
+  veteranSocialSecurityNumber: PropTypes.string,
 };
 
 export const ApplicantInformationInfoSection = withRouter(
@@ -88,4 +97,12 @@ export const ApplicantInformation = ({
       {contentAfterButtons}
     </>
   );
+};
+
+ApplicantInformation.propTypes = {
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
+  data: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
 };

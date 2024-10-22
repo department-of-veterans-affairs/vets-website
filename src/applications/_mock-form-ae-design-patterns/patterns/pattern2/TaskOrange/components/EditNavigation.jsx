@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
-export const EditNavigation = props => {
+export const EditNavigation = ({ options, router }) => {
   return (
     <div className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-flex-direction--column vads-u-margin-top--3">
       <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
@@ -12,11 +13,10 @@ export const EditNavigation = props => {
           data-testid="save-edit-button"
           aria-live="polite"
           onClick={() =>
-            props.router.push({
+            router.push({
               pathname: '/2/task-orange/review-then-submit',
-              hash: `#${props?.options?.reviewId}`,
               state: {
-                reviewId: props.options.reviewId,
+                reviewId: options?.reviewId,
                 success: true,
               },
             })
@@ -36,3 +36,8 @@ export const EditNavigation = props => {
 };
 
 export const EditNavigationWithRouter = withRouter(EditNavigation);
+
+EditNavigation.propTypes = {
+  options: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+};

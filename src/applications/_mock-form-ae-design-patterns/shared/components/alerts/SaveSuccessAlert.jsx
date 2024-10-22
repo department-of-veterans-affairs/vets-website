@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const SaveSuccessAlert = ({ updatedText = 'information' }) => {
   return (
@@ -14,4 +15,8 @@ export const SaveSuccessAlert = ({ updatedText = 'information' }) => {
       </p>
     </va-alert>
   );
+};
+
+SaveSuccessAlert.propTypes = {
+  updatedText: PropTypes.string,
 };

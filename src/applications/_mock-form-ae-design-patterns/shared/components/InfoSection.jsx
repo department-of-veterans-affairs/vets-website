@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 const DEFAULT_PLACEHOLDER = 'Not provided';
 
@@ -13,6 +14,11 @@ const Heading = ({ text, level }) => {
       {text}
     </H>
   );
+};
+
+Heading.propTypes = {
+  text: PropTypes.string.isRequired,
+  level: PropTypes.number,
 };
 
 const SubHeading = ({ text, level, editLink = null, id = null }) => {
@@ -35,6 +41,13 @@ const SubHeading = ({ text, level, editLink = null, id = null }) => {
   );
 };
 
+SubHeading.propTypes = {
+  text: PropTypes.string.isRequired,
+  editLink: PropTypes.string,
+  id: PropTypes.string,
+  level: PropTypes.number,
+};
+
 const InfoBlock = ({ label, value, placeholder }) => (
   <div className="vads-u-margin-bottom--2">
     <dt className="vads-u-font-size--sm vads-u-color--gray-medium">{label}</dt>
@@ -44,12 +57,24 @@ const InfoBlock = ({ label, value, placeholder }) => (
   </div>
 );
 
+InfoBlock.propTypes = {
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  value: PropTypes.string,
+};
+
 export const InfoSection = ({ title, children, titleLevel }) => (
   <section className="vads-u-margin-bottom--4">
     {title && <Heading text={title} level={titleLevel} />}
     <dl className="vads-u-margin--0">{children}</dl>
   </section>
 );
+
+InfoSection.propTypes = {
+  children: PropTypes.node,
+  title: PropTypes.string,
+  titleLevel: PropTypes.number,
+};
 
 const ServicePeriod = ({
   branchOfService,
@@ -70,6 +95,14 @@ const ServicePeriod = ({
     />
   </div>
 );
+
+ServicePeriod.propTypes = {
+  applyToBenefit: PropTypes.string,
+  branchOfService: PropTypes.string,
+  endDate: PropTypes.string,
+  startDate: PropTypes.string,
+  typeOfService: PropTypes.string,
+};
 
 InfoSection.Heading = Heading;
 InfoSection.SubHeading = SubHeading;

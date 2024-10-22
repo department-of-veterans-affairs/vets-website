@@ -4,6 +4,7 @@ import { PatternConfigContext } from 'applications/_mock-form-ae-design-patterns
 import { withRouter } from 'react-router';
 import { SaveSuccessAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/SaveSuccessAlert';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
 import { formatPhoneNumber } from '../../../../utils/helpers/general';
 import { InfoSection } from '../../../../shared/components/InfoSection';
 
@@ -29,11 +30,10 @@ export const PersonalInformationContact = ({
   contentAfterButtons,
   contentBeforeButtons,
   onReviewPage,
-  ...rest
+  location,
 }) => {
   const config = useContext(PatternConfigContext);
 
-  const { location } = rest;
   const reviewId = location?.state?.reviewId;
   const success = location?.state?.success;
 
@@ -114,4 +114,14 @@ export const PersonalInformationContact = ({
       )}
     </>
   );
+};
+
+PersonalInformationContact.propTypes = {
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
+  location: PropTypes.object,
+  onReviewPage: PropTypes.bool,
 };
