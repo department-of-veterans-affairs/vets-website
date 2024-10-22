@@ -2,18 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import AddressEmailPhone from './AddressEmailPhone';
-import { getEntityAddressAsObject, getRepType } from '../utilities/helpers';
+import { getEntityAddressAsObject } from '../utilities/helpers';
 
-const CurrentAccreditedRepresentative = ({ rep }) => {
-  const repAttributes = rep?.attributes;
+const CurrentAccreditedRepresentative = ({ repType, repAttributes }) => {
   const repName = repAttributes?.fullName;
-  const addressData = getEntityAddressAsObject(rep);
-
+  const addressData = getEntityAddressAsObject(repAttributes);
   const email = repAttributes?.email;
   const phone = repAttributes?.phone;
 
   const parseRepType = () => {
-    const repType = getRepType(rep);
     const parsedRep = {};
 
     switch (repType) {
@@ -68,7 +65,8 @@ const CurrentAccreditedRepresentative = ({ rep }) => {
 };
 
 CurrentAccreditedRepresentative.propTypes = {
-  rep: PropTypes.object,
+  repAttributes: PropTypes.object,
+  repType: PropTypes.string,
 };
 
 export default CurrentAccreditedRepresentative;

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CurrentAccreditedRepresentative from './CurrentAccreditedRepresentative';
 import ContactCard from './ContactCard';
-import { getEntityAddressAsObject } from '../utilities/helpers';
+import { getEntityAddressAsObject, getRepType } from '../utilities/helpers';
 
 const ReplaceAccreditedRepresentative = props => {
   const { formData } = props;
-  const currentRep = formData?.['view:representativeStatus']?.attributes || {};
-  const selectedRep = formData?.['view:selectedRep']?.attributes || {};
-  const addressData = getEntityAddressAsObject(selectedRep);
+  const currentRep = formData?.['view:representativeStatus'] || {};
+  const selectedRepAttributes =
+    formData?.['view:selectedRep']?.attributes || {};
 
   return (
     <div>
@@ -21,16 +21,19 @@ const ReplaceAccreditedRepresentative = props => {
       <h4 className="vads-u-margin-y--5">
         You’ll replace this current accredited representative:
       </h4>
-      <CurrentAccreditedRepresentative rep={currentRep} />
+      <CurrentAccreditedRepresentative
+        repType={getRepType(currentRep)}
+        repAttributes={currentRep?.attributes || {}}
+      />
       <h4 className="vads-u-margin-y--5">
         You’ve selected this new accredited representative:
       </h4>
       <ContactCard
-        repName={selectedRep.fullName}
-        orgName={selectedRep.name}
-        addressData={addressData}
-        phone={selectedRep.phone}
-        email={selectedRep.email}
+        repName={selectedRepAttributes.fullName}
+        orgName={selectedRepAttributes.name}
+        addressData={getEntityAddressAsObject(selectedRepAttributes)}
+        phone={selectedRepAttributes.phone}
+        email={selectedRepAttributes.email}
       />
     </div>
   );
