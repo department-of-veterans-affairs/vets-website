@@ -119,38 +119,37 @@ const AutoComplete = ({
   return (
     <div className="cc-autocomplete">
       <VaTextInput
+        data-testid="autocomplete-input"
         id={id}
+        message-aria-describedby={!value ? INSTRUCTIONS : null}
+        ref={inputRef}
         required
         value={value}
+        onBlur={() => setTimeout(closeList, 200)} // Enables clicking option from list
+        onFocus={() => value && debouncedSearch(value)}
         onInput={e => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
-        onBlur={() => setTimeout(closeList, 100)} // Enables clicking option from list
-        onFocus={() => value && debouncedSearch(value)}
-        message-aria-describedby={!value ? INSTRUCTIONS : null}
-        data-testid="autocomplete-input"
-        ref={inputRef}
       />
       {results.length > 0 && (
         <ul
-          className="cc-autocomplete__list"
           aria-hidden="true"
+          className="cc-autocomplete__list"
           data-testid="autocomplete-list"
         >
           {results.map((result, index) => (
             <li
+              aria-selected={activeIndex === index}
+              className={`cc-autocomplete__option ${
+                activeIndex === index ? 'cc-autocomplete__option--active' : ''
+              }`}
               key={result}
               ref={el => {
                 resultsRef.current[index] = el;
               }}
+              role="option"
               onClick={() => selectResult(result)}
               onKeyDown={handleKeyDown} // Keydown is handled on the input; this is never fired and prevents eslint error
-              className={`cc-autocomplete__option ${
-                activeIndex === index ? 'cc-autocomplete__option--active' : ''
-              }`}
               onMouseEnter={() => setActiveIndex(index)}
-              role="option"
-              aria-selected={activeIndex === index}
-              data-testid={`autocomplete-option-${index}`}
             >
               {result}
             </li>
