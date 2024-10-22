@@ -29,7 +29,6 @@ const BenefitsProfileWrapper = ({ children }) => {
     indicator: applicantChapter,
     pendingDocuments,
     latestAddress,
-    indicator,
     claimantId,
     profile,
     fullName,
@@ -64,7 +63,7 @@ const BenefitsProfileWrapper = ({ children }) => {
                 updated={updated}
                 remainingBenefits={`${month} Months, ${day} Days`}
                 expirationDate={expirationDate}
-                indicator={indicator}
+                indicator={applicantChapter}
               />
             )}
             <PayeeInformationWrapper

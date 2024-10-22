@@ -85,7 +85,7 @@ const PeriodsToVerify = ({
                 >
                   You have enrollment periods to verify
                 </h2>
-                {getPeriodsToVerify2(enrollmentVerifications)}
+                {getPeriodsToVerify2(enrollmentVerifications, true)}
                 {link && <>{link()}</>}
               </va-alert>
             </>
@@ -110,14 +110,17 @@ const PeriodsToVerify = ({
             </div>
           </va-alert>
         )}
-        {enrollmentData?.pendingVerifications?.length === 0 &&
+        {(enrollmentData?.pendingVerifications?.length === 0 ||
+          !showEnrollmentVerifications) &&
           justVerified && (
             <div>
               <VerifiedSuccessStatement />
             </div>
           )}
-        {enrollmentData?.pendingVerifications?.length === 0 &&
-          enrollmentData?.verifications.length !== 0 &&
+        {((enrollmentData?.pendingVerifications?.length === 0 &&
+          enrollmentData?.verifications.length !== 0) ||
+          (!showEnrollmentVerifications &&
+            enrollmentVerifications?.length !== 0)) &&
           !justVerified && (
             <div className="vads-u-margin-top--2">
               <UpToDateVerificationStatement />

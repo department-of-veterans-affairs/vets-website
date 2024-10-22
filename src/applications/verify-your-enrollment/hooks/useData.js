@@ -34,7 +34,7 @@ export const useData = () => {
   );
   const remainingEntitlement =
     response?.personalInfo?.recordResponse?.enrollmentVerifications[0]
-      .remainingEntitlement;
+      ?.remainingEntitlement;
   const enrollmentVerifications =
     response?.personalInfo?.recordResponse?.enrollmentVerifications;
   const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
@@ -44,13 +44,15 @@ export const useData = () => {
   const fullName = `${claimantIdResponse.profile?.firstName} ${
     claimantIdResponse.profile?.middleName
   } ${claimantIdResponse.profile?.lastName}`;
-
+  const chapter = response?.personalInfo?.recordResponse?.verifiedDetails.at(-1)
+    .benefitType;
   return {
     personalInfo: response?.personalInfo,
     errorMessage: response,
     loading: response?.isLoading,
     expirationDate,
     updated,
+    indicator: userInfo?.indicator || chapter,
     day,
     month,
     ...userInfo,

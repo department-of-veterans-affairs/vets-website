@@ -14,8 +14,8 @@ const DGIBEnrollmentCard = ({
 }) => {
   //   console.log(enrollmentVerifications, 'enrollmentVerifications')
   const getCards = () => {
-    return sortedEnrollments(enrollmentVerifications)?.map(
-      (enrollment, index) => {
+    return sortedEnrollments(enrollmentVerifications)
+      ?.map((enrollment, index) => {
         const myUUID = uuidv4();
         return (
           <div key={`Enrollment-to-be-verified-${myUUID}`}>
@@ -42,8 +42,8 @@ const DGIBEnrollmentCard = ({
               )}
           </div>
         );
-      },
-    );
+      })
+      .reverse();
   };
   return <div>{getCards()}</div>;
 };

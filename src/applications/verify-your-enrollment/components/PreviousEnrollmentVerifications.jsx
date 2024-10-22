@@ -7,11 +7,18 @@ import {
   combineEnrollmentsWithStartMonth,
   getGroupedPreviousEnrollments,
   getSignlePreviousEnrollments,
+  getSignlePreviousEnrollmentsDGIB,
+  isVerificationEndDateValid,
+  sortedEnrollments as sortedEnrollmentsDGIB,
 } from '../helpers';
 import { ENROLLMETS_PER_PAGE } from '../constants';
 import { EnrollmentStatus } from './EnrollmentStatus';
 
-const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
+const PreviousEnrollmentVerifications = ({
+  enrollmentData,
+  enrollmentVerifications,
+  claimantId,
+}) => {
   const [userEnrollmentData, setUserEnrollmentData] = useState([]);
   const [pastAndCurrentAwards, setPastAndCurrentAwards] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -19,6 +26,28 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   const [subsetStart, setSubsetStart] = useState(0);
   const [subsetEnd, setSubsetEnd] = useState(0);
   const response = useSelector(state => state.personalInfo);
+  // DGIB
+  const verificationMethod = [
+    'Initial',
+    'Manual',
+    'Auto',
+    'Text',
+    'Email',
+    'MEB',
+    'VYE',
+  ];
+  const verifiedEnrollments =
+    enrollmentVerifications?.filter(
+      enrollment =>
+        !!enrollment.verificationMethod &&
+        isVerificationEndDateValid(enrollment.verificationEndDate),
+    ).length || 0;
+  const pendingVerificationsDGIB =
+    enrollmentVerifications?.filter(
+      enrollment =>
+        isVerificationEndDateValid(enrollment.verificationEndDate) &&
+        !verificationMethod.includes(enrollment.verificationMethod),
+    ).length || 0;
   const totalEnrollmentVerificationsCount = Object.keys(
     combineEnrollmentsWithStartMonth(enrollmentData?.verifications ?? {}),
   ).length;
@@ -31,7 +60,9 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   // get count of verified and unverified enrollments (Grouped by start month)
   const totalEnrollmentCount =
     totalEnrollmentPendingVerificationsCount +
-    totalEnrollmentVerificationsCount;
+    totalEnrollmentVerificationsCount +
+    pendingVerificationsDGIB +
+    verifiedEnrollments;
 
   const sortDatesByMonthYear = array => {
     // Helper function to convert "Month YYYY" or "Date unavailable" to a Date object
@@ -59,14 +90,19 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
 
   const getPreviouslyVerified = () => {
     let enrollments = [];
-
-    Object.values(pastAndCurrentAwards).forEach(month => {
+    const enrollmentsToProcess =
+      pastAndCurrentAwards && Object.keys(pastAndCurrentAwards).length > 0
+        ? pastAndCurrentAwards
+        : sortedEnrollmentsDGIB(enrollmentVerifications) || [];
+    Object.values(enrollmentsToProcess).forEach(month => {
       if (month.length > 1) {
         const tempGroupEnrollment = getGroupedPreviousEnrollments(month);
         enrollments.push(tempGroupEnrollment);
       }
-      if (month.length === 1) {
-        const tempSingleEnrollment = getSignlePreviousEnrollments(month[0]);
+      if (month.length === 1 || claimantId) {
+        const tempSingleEnrollment = claimantId
+          ? getSignlePreviousEnrollmentsDGIB(month)
+          : getSignlePreviousEnrollments(month[0]);
         enrollments.push(tempSingleEnrollment);
       }
     });
@@ -267,6 +303,8 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   );
 };
 PreviousEnrollmentVerifications.propTypes = {
+  claimantId: PropTypes.string,
   enrollmentData: PropTypes.object,
+  enrollmentVerifications: PropTypes.array,
 };
 export default PreviousEnrollmentVerifications;

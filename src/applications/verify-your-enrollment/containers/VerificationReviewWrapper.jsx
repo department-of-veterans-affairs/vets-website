@@ -28,6 +28,7 @@ const VerificationReviewWrapper = ({
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchVerifyEnrollmentAction,
   enrollmentVerifications,
+  claimantId,
 }) => {
   useScrollToTop();
   // console.log('enrollmentVerifications', enrollmentVerifications?.personalInfo?.recordResponse);
@@ -62,7 +63,7 @@ const VerificationReviewWrapper = ({
   const handleVerification = () => {
     const submissionError = new Error('Internal Server Error.');
 
-    if (awardsIds.length > 0) {
+    if (awardsIds?.length > 0 || claimantId !== undefined) {
       dispatchVerifyEnrollmentAction(awardsIds);
       dispatchUpdateToggleEnrollmentSuccess(true);
     } else {
@@ -239,6 +240,7 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
+  claimantId: state.personalInfo?.personalInfo?.recordResponse?.claimantId,
   verifyEnrollment: state.verifyEnrollment,
   enrollmentVerifications: state.personalInfo,
 });

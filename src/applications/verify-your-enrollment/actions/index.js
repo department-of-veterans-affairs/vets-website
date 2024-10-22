@@ -132,11 +132,6 @@ export const fetchPersonalInfo = () => {
           },
         ),
       ]);
-      console.log(
-        statusResponse,
-        recordResponse,
-        'statusResponse, recordResponse',
-      );
       dispatch({
         type: FETCH_PERSONAL_INFO_SUCCESS,
         response: { statusResponse, recordResponse },
@@ -160,6 +155,7 @@ export const fetchPersonalInfo = () => {
           });
         });
     }
+    return null;
   };
 };
 const customHeaders = {
@@ -215,12 +211,30 @@ export const updateBankInfo = bankInfo => {
 };
 
 export const verifyEnrollmentAction = verifications => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch({ type: VERIFY_ENROLLMENT });
+    const {
+      checkClaimant: { claimantId },
+    } = getState();
+    const URL = claimantId
+      ? 'http://localhost:8080/verifications/vye/verify'
+      : `${API_URL}/verify`;
+    const body = claimantId
+      ? {
+          claimantId: 0,
+          verifiedPeriodBeginDate: '2024-10-22',
+          verifiedPeriodEndDate: '2024-10-22',
+          verifiedThroughDate: '2024-10-22',
+          verificationMethod: 'VYE',
+          appCommunication: {
+            responseType: 'Y',
+          },
+        }
+      : { awardIds: verifications };
     try {
-      const response = await apiRequest(`${API_URL}/verify`, {
+      const response = await apiRequest(URL, {
         method: 'POST',
-        body: JSON.stringify({ awardIds: verifications }),
+        body: JSON.stringify(body),
         headers: customHeaders,
       });
 
