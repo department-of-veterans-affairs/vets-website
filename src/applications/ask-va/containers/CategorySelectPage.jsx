@@ -10,7 +10,12 @@ import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, URL, envUrl, requireSignInCategories } from '../constants';
+import {
+  CHAPTER_1,
+  URL,
+  getApiUrl,
+  requireSignInCategories,
+} from '../constants';
 
 const CategorySelectPage = props => {
   const { onChange, loggedIn, goBack, goToPath, formData } = props;
@@ -64,7 +69,7 @@ const CategorySelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(`${envUrl}${URL.GET_CATEGORIES}`);
+      getApiData(getApiUrl(URL.GET_CATEGORIES));
     },
     [loggedIn],
   );

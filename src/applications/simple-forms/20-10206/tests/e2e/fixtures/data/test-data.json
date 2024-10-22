@@ -16,6 +16,7 @@
       "country": "USA"
     },
     "homePhone": "1234567890",
+    "emailAddress": "john.preparer@email.com",
     "citizenId": {
       "ssn": "333221111"
     },

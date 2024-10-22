@@ -25,8 +25,8 @@ const initDDRum = () => {
     }[env] || {};
 
   datadogRum?.init({
-    applicationId: '',
-    clientToken: '',
+    applicationId: '73e0e2fb-7b2a-4d4a-8231-35ef2123f607',
+    clientToken: 'pub2dfeb9f2606a756df3ddd4bd5c8a6b3c',
     site: 'ddog-gov.com',
     service: 'identity',
     env,
