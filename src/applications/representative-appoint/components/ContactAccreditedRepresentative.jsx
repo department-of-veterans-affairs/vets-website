@@ -1,17 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import Email from './Email';
 import Phone from './Phone';
 import GoogleMapLink from './GoogleMapLink';
 import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
+import { useReviewPage } from '../hooks/useReviewPage';
 
 const ContactAccreditedRepresentative = props => {
-  const { formData } = props;
+  const { formData, goBack, goForward, goToPath } = props;
 
   const representative = formData?.['view:selectedRepresentative'];
   const isOrg = representative?.type === 'organization';
   const attributes = representative?.attributes;
   const accreditedOrganizations = attributes?.accreditedOrganizations?.data;
+  const isReviewPage = useReviewPage();
+
+  const orgSelectionRequired =
+    !!representative &&
+    representative.attributes?.individualType === 'representative' &&
+    representative.attributes?.accreditedOrganizations?.data?.length > 1;
 
   const address = {
     addressLine1: (attributes?.addressLine1 || '').trim(),
@@ -28,6 +36,28 @@ const ContactAccreditedRepresentative = props => {
     address.city &&
     address.stateCode &&
     address.zipCode;
+
+  const handleGoBack = () => {
+    if (isReviewPage) {
+      goToPath('/representative-select?review=true');
+    } else {
+      goBack(formData);
+    }
+  };
+
+  const handleGoForward = () => {
+    if (isReviewPage) {
+      if (orgSelectionRequired) {
+        goToPath('/representative-organization?review=true');
+      } else {
+        goToPath('/review-and-submit');
+      }
+    } else if (orgSelectionRequired) {
+      goToPath('/representative-organization');
+    } else {
+      goForward(formData);
+    }
+  };
 
   const recordContactLinkClick = () => {
     // pending analytics event
@@ -127,6 +157,8 @@ const ContactAccreditedRepresentative = props => {
           </div>
         </va-card>
       )}
+
+      <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
     </div>
   );
 };
