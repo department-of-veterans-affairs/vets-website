@@ -18,7 +18,7 @@ describe('LoginHeader', () => {
       initialState: generateState({}),
     });
 
-    expect(screen.queryByText(/Sign in/)).to.not.be.null;
+    expect(screen.queryByText(/Sign in or create an account/)).to.not.be.null;
   });
 
   it('should render when v2 feature toggle is active', () => {
