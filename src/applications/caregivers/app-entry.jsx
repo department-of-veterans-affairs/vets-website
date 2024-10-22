@@ -1,15 +1,13 @@
 import 'platform/polyfills';
 import './sass/caregivers.scss';
-
-import startApp from 'platform/startup';
-
+import { asyncStartApp } from './utils/startup';
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-startApp({
+asyncStartApp({
+  entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
   routes,
-  entryName: manifest.entryName,
 });
