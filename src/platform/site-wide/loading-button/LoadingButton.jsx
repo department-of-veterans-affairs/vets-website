@@ -20,15 +20,14 @@ export default function LoadingButton({
 
   // Switch to va-button-icon once the loading icon is added
   return (
-    <button
-      className="usa-button"
+    <va-button
       {...props}
+      class={props.className}
       disabled={isLoading || disabled}
       onClick={onClick}
       aria-live="polite"
-    >
-      {contents}
-    </button>
+      text={contents}
+    />
   );
 }
 

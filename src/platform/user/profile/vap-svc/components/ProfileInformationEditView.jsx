@@ -336,7 +336,7 @@ export class ProfileInformationEditView extends Component {
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-margin-top--0 mobile-lg:vads-u-width--auto vads-u-width--full"
+                    className="vads-u-margin-top--0 vads-u-width--full mobile-lg:vads-u-width--auto vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--0"
                     onClick={onClickUpdateHandler}
                   >
                     {saveButtonText || 'Save'}
