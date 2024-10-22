@@ -1,10 +1,49 @@
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { withRouter } from 'react-router';
 import { InfoSection } from '../../../../shared/components/InfoSection';
 import { maskSSN } from '../../../../utils/helpers/general';
 import { APP_URLS } from '../../../../utils/constants';
 import { genderLabels } from '../utils/labels';
+import { isOnReviewPage } from '../utils/reviewPage';
+
+export const ApplicantInformationBase = ({
+  veteranFullName,
+  veteranSocialSecurityNumber,
+  veteranDateOfBirth,
+  gender,
+  ...rest
+}) => {
+  const isReviewPage = isOnReviewPage(rest?.location?.pathname);
+  const title = isReviewPage ? null : 'Applicant information';
+  const formattedDob =
+    veteranDateOfBirth && format(parseISO(veteranDateOfBirth), 'MMMM dd, yyyy');
+  return (
+    <InfoSection title={title} titleLevel={3}>
+      <InfoSection.InfoBlock
+        label="First name"
+        value={veteranFullName?.first}
+      />
+      <InfoSection.InfoBlock
+        label="Middle name"
+        value={veteranFullName?.middle}
+      />
+      <InfoSection.InfoBlock label="Last name" value={veteranFullName?.last} />
+      <InfoSection.InfoBlock label="Suffix" value={veteranFullName?.suffix} />
+      <InfoSection.InfoBlock
+        label="Social Security number"
+        value={maskSSN(veteranSocialSecurityNumber)}
+      />
+      <InfoSection.InfoBlock label="Date of birth" value={formattedDob} />
+      <InfoSection.InfoBlock label="Gender" value={genderLabels?.[gender]} />
+    </InfoSection>
+  );
+};
+
+export const ApplicantInformationInfoSection = withRouter(
+  ApplicantInformationBase,
+);
 
 export const ApplicantInformation = ({
   data,
@@ -19,32 +58,17 @@ export const ApplicantInformation = ({
     gender,
     veteranDateOfBirth,
   } = data;
-  const formattedDob =
-    veteranDateOfBirth && format(parseISO(veteranDateOfBirth), 'MMMM dd, yyyy');
+
   return (
     <>
       <p>Confirm your information before you continue.</p>
-      <InfoSection title="Applicant Information">
-        <InfoSection.InfoBlock
-          label="First name"
-          value={veteranFullName?.first}
-        />
-        <InfoSection.InfoBlock
-          label="Middle name"
-          value={veteranFullName?.middle}
-        />
-        <InfoSection.InfoBlock
-          label="Last name"
-          value={veteranFullName?.last}
-        />
-        <InfoSection.InfoBlock label="Suffix" value={veteranFullName?.suffix} />
-        <InfoSection.InfoBlock
-          label="Social Security number"
-          value={maskSSN(veteranSocialSecurityNumber)}
-        />
-        <InfoSection.InfoBlock label="Date of birth" value={formattedDob} />
-        <InfoSection.InfoBlock label="Gender" value={genderLabels?.[gender]} />
-      </InfoSection>
+
+      <ApplicantInformationInfoSection
+        veteranDateOfBirth={veteranDateOfBirth}
+        veteranFullName={veteranFullName}
+        veteranSocialSecurityNumber={veteranSocialSecurityNumber}
+        gender={gender}
+      />
 
       <p>
         Note: To protect your personal information, we don’t allow online

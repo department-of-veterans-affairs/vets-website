@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { setupPages } from '../utils/reviewPage';
 import { formConfigForOrangeTask } from '../config/form';
@@ -15,9 +13,9 @@ const ReviewPage = props => {
   const { chapterTitles, getChapterPagesFromChapterIndex } = setupPages(
     formConfigForOrangeTask,
   );
+
   const chapterClasses = [
-    'vads-u-border-bottom--1px',
-    'vads-u-border-color--gray-lightest',
+    'vads-u-border-bottom--4px',
     'vads-u-display--flex',
     'vads-u-justify-content--space-between',
     'vads-u-align-items--flex-end',
@@ -39,38 +37,37 @@ const ReviewPage = props => {
     <article>
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
-      {chapterTitles.filter(title => title !== 'Apply').map((title, index) => {
-        const pages = getChapterPagesFromChapterIndex(index);
-        const editLink =
-          pages.find(page => !page.taskListHide)?.path || '/task-list';
-        return (
-          <div key={index}>
-            <div className={chapterClasses}>
-              <h2 id={index} className="vads-u-margin--0">
-                {title}
-              </h2>
-              <Link to={editLink}>Edit</Link>
+      {chapterTitles
+        .filter(title => {
+          return title !== 'Apply' && !title.toLowerCase().includes('review');
+        })
+        .map((title, index) => {
+          return (
+            <div key={index}>
+              <div className={chapterClasses}>
+                <h2 id={index} className="vads-u-margin--0">
+                  {title}
+                </h2>
+              </div>
+              <ul className="review-pages vads-u-padding--0 usa-unstyled-list vads-u--margin-top--2">
+                {getChapterPagesFromChapterIndex(index).map(page => {
+                  const depends = page.depends
+                    ? page.depends(props.data)
+                    : true;
+                  return page.review && depends
+                    ? Object.entries(page.review(props)).map(
+                        ([label, value]) => (
+                          <li key={label}>
+                            <div className="page-value">{value}</div>
+                          </li>
+                        ),
+                      )
+                    : null;
+                })}
+              </ul>
             </div>
-            <ul className="review-pages vads-u-padding--0">
-              {getChapterPagesFromChapterIndex(index).map(page => {
-                const depends = page.depends ? page.depends(props.data) : true;
-                return page.review && depends
-                  ? Object.entries(page.review(props.data)).map(
-                      ([label, value]) => (
-                        <li key={label}>
-                          <div className="page-title vads-u-margin-top--1 vads-u-color--gray">
-                            {label}
-                          </div>
-                          <div className="page-value">{value}</div>
-                        </li>
-                      ),
-                    )
-                  : null;
-              })}
-            </ul>
-          </div>
-        );
-      })}
+          );
+        })}
       <p className="vads-u-margin-top--6">
         <strong>Note:</strong> According to federal law, there are criminal
         penalties, including a fine and/or imprisonment for up to 5 years, for
@@ -87,7 +84,6 @@ const ReviewPage = props => {
       </p>
       {/* {props.contentBeforeButtons} */}
       <va-button onClick={handlers.onSubmit} text="Submit" uswds />
-      <FormNavButtons goBack={props.goBack} goForward={props.goForward} />
       {/* {props.contentAfterButtons} */}
     </article>
   );
@@ -129,4 +125,4 @@ ReviewPage.propTypes = {
   onSubmit: PropTypes.func,
 };
 
-export default ReviewPage;
+export default withRouter(ReviewPage);

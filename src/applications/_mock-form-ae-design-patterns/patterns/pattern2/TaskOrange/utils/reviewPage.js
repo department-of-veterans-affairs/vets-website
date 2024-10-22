@@ -50,3 +50,11 @@ export const setupPages = formConfig => {
     findPageFromPath,
   };
 };
+
+export const isOnReviewPage = (pathname = '') => {
+  return (
+    pathname.includes('review-page') ||
+    pathname.includes('review-then-submit') ||
+    pathname.includes('review-and-submit')
+  );
+};

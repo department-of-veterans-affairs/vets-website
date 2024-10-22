@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const DEFAULT_PLACEHOLDER = 'Not provided';
 
@@ -14,17 +15,21 @@ const Heading = ({ text, level }) => {
   );
 };
 
-const SubHeading = ({ text, level, editLink = null }) => {
+const SubHeading = ({ text, level, editLink = null, id = null }) => {
   const H = `h${level || 3}`;
   return (
     <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center vads-u-border-bottom--1px vads-u-margin-bottom--2">
-      <H className="vads-u-margin--0">{text}</H>
+      <H className="vads-u-margin--0" id={id}>
+        {text}
+      </H>
       {editLink && (
-        <va-link
-          href={editLink}
+        <Link
+          to={editLink}
           className="vads-u-text-decoration--none"
           text="Edit"
-        />
+        >
+          Edit
+        </Link>
       )}
     </div>
   );
@@ -39,9 +44,9 @@ const InfoBlock = ({ label, value, placeholder }) => (
   </div>
 );
 
-export const InfoSection = ({ title, children }) => (
+export const InfoSection = ({ title, children, titleLevel }) => (
   <section className="vads-u-margin-bottom--4">
-    {title && <Heading text={title} />}
+    {title && <Heading text={title} level={titleLevel} />}
     <dl className="vads-u-margin--0">{children}</dl>
   </section>
 );
