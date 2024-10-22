@@ -76,7 +76,13 @@ export function onNavBackRemoveAddingItem({
   summaryRoute,
   introRoute,
 }) {
-  return function onNavBack({ goPath, formData, setFormData, urlParams }) {
+  return function onNavBack({
+    goPath,
+    formData,
+    setFormData,
+    urlParams,
+    getUrlPrefixedPath,
+  }) {
     const arrayData = get(arrayPath, formData);
     let newArrayData = arrayData;
     if ('add' in urlParams && arrayData?.length) {
@@ -90,7 +96,7 @@ export function onNavBackRemoveAddingItem({
     if (urlParams?.review) {
       path = `${path}?review=true`;
     }
-    goPath(path);
+    goPath(getUrlPrefixedPath(path));
   };
 }
 
