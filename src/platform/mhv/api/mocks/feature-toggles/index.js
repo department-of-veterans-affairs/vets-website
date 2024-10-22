@@ -31,7 +31,7 @@ const generateFeatureToggles = (toggles = {}) => {
           value: true,
         },
         {
-          name: 'mhv-accelerated-project',
+          name: 'mhv_accelerated_delivery_allergies_enabled',
           value: true,
         },
         {
