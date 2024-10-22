@@ -1,14 +1,8 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { applicantInformationTransform } from '../../utils/helpers';
 
 export function transform(formConfig, form) {
-  const applicantInformationTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
-    delete clonedData.edipi;
-    delete clonedData.icn;
-    return clonedData;
-  };
-
   const newSchoolTransform = formData => {
     let clonedData = _.cloneDeep(formData);
     delete clonedData.newSchoolName;
