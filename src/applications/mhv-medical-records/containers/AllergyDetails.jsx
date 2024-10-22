@@ -13,6 +13,11 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
+import {
+  selectIsCernerPatient,
+  // selectPatientFacilities,
+} from '~/platform/user/cerner-dsot/selectors';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -37,6 +42,14 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
+  const dispatch = useDispatch();
+  useEffect(
+    () => {
+      // use Drupal based Cerner facility data
+      connectDrupalSourceOfTruthCerner(dispatch);
+    },
+    [dispatch],
+  );
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const allergyList = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
@@ -46,16 +59,32 @@ const AllergyDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const useAcceleratedApi = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryAllergiesEnabled
+      ],
+  );
+  const isCerner = useSelector(selectIsCernerPatient);
+  // const patientFacilities = useSelector(selectPatientFacilities);
+  const isAccelerating = !!useAcceleratedApi && isCerner;
+  // console.log(
+  //   'isAccelerating',
+  //   isAccelerating,
+  //   useAcceleratedApi,
+  //   isCerner,
+  //   patientFacilities,
+  // );
   const { allergyId } = useParams();
-  const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
-      if (allergyId) dispatch(getAllergyDetails(allergyId, allergyList));
+      if (allergyId)
+        dispatch(getAllergyDetails(allergyId, allergyList, isAccelerating));
     },
-    [allergyId, allergyList, dispatch],
+    [allergyId, allergyList, dispatch, isAccelerating],
   );
 
   useEffect(

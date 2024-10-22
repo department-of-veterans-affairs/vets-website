@@ -129,7 +129,7 @@ const all = {
 const single = (req, res) => {
   const { id } = req.params;
   const response = all.entry.find(item => {
-    return +item.resource.id === +id;
+    return item.resource.id === id;
   });
   return res.json(response.resource);
 };

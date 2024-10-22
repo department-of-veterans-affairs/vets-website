@@ -124,7 +124,13 @@ const responses = {
     }
     return res.json(allergies.all);
   },
-  'GET /my_health/v1/medical_records/allergies/:id': allergies.single,
+  'GET /my_health/v1/medical_records/allergies/:id': (req, res) => {
+    const { useOHDataPath } = req.query;
+    if (useOHDataPath === 'true') {
+      return acceleratedAllergies.single(req, res);
+    }
+    return allergies.single(req, res);
+  },
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
   'GET /my_health/v1/medical_records/vitals': vitals.all,

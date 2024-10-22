@@ -3,6 +3,7 @@ import {
   getAllergies,
   getAllergy,
   getAcceleratedAllergies,
+  getAcceleratedAllergy,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -31,13 +32,18 @@ export const getAllergiesList = ({
   }
 };
 
-export const getAllergyDetails = (id, allergyList) => async dispatch => {
+export const getAllergyDetails = (
+  id,
+  allergyList,
+  isAccelerating = false,
+) => async dispatch => {
   try {
+    const getData = isAccelerating ? getAcceleratedAllergy : getAllergy;
     await dispatchDetails(
       id,
       allergyList,
       dispatch,
-      getAllergy,
+      getData,
       Actions.Allergies.GET_FROM_LIST,
       Actions.Allergies.GET,
     );
