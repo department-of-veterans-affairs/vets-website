@@ -429,7 +429,6 @@
       "**/platform-testing/cypress-real-events",
       "**/platform-testing/cypress-wait-until",
       "**/platform-testing/express-history-api-fallback",
-      "**/platform-testing/jsdom",
       "**/platform-testing/morgan",
       "**/platform-testing/node-resemble-js",
       "**/platform-testing/process",
