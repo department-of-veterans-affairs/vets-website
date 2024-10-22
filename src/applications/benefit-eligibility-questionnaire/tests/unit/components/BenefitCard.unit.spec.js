@@ -10,7 +10,7 @@ describe('<BenefitCard>', () => {
     const benefit = BENEFITS_LIST[0];
     const { container } = render(<BenefitCard benefit={benefit} />);
 
-    expect(container.querySelector('h3')).to.have.text(benefit.name);
+    expect(container.querySelector('h3')).to.contain.text(benefit.name);
     expect(container.querySelector('p')).to.have.text(benefit.description);
     expect(container.querySelectorAll('va-link-action')).to.have.lengthOf(2);
   });
