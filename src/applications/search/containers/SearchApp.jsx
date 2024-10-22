@@ -343,7 +343,7 @@ const SearchApp = ({
                 />
               </div>
             </div>
-            {!shouldShowErrorMessage && !searchGovIssues && renderResults()}
+            {!shouldShowErrorMessage && renderResults()}
           </DowntimeNotification>
         </div>
         <div className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 usa-width-one-fourth columns">
