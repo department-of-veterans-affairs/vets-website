@@ -200,7 +200,7 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="confirmation-page">
         <p>
           <b>
             Note: This tool is not an application for VA benefits and it doesn't

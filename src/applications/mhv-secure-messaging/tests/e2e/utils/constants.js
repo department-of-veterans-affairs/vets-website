@@ -129,7 +129,7 @@ export const Locators = {
     SORT: '[data-testid="sort-button"]',
     ATTACH_FILE: '[data-testid="attach-file-button"]',
     REMOVE_ATTACHMENT: '[data-testid="remove-attachment-button"]',
-    REMOVE_ALL_ATTCH: `[data-testid="attachment-virus-alert"]>button`,
+    REMOVE_ALL_ATTCH: `[data-testid="remove-all-attachments-button"]`,
     CONFIRM_REMOVE_ATTACHMENT:
       '[data-testid="confirm-remove-attachment-button"]',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
@@ -241,6 +241,9 @@ export const Locators = {
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',
   },
+  SUBHEADERS: {
+    NUMBER_OF_THREADS: `[data-testid="displaying-number-of-threads"]`,
+  },
   DROPDOWN: {
     RECIPIENTS: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
@@ -292,8 +295,8 @@ export const Alerts = {
   EL_SIGN_CHECK: `You must certify by checking the box.`,
   SAVE_SIGN: `We can't save your signature in a draft message`,
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
-  VIRUS_ATTCH: `The file you attached has a virus. Remove the file to send your message.`,
-  VIRUS_MULTI_ATTCH: `One or more of the files you attached has a virus. You’ll need to remove it to send your message.`,
+  VIRUS_ATTCH: `Your message failed to send. Your file failed our scan. Try sending your message without any attachments.`,
+  VIRUS_MULTI_ATTCH: `Your message failed to send. One or more of your files failed our scan. Try sending your message without any attachments.`,
 };
 
 export const Data = {

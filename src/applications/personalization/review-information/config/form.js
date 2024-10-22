@@ -54,6 +54,9 @@ const formConfig = {
       },
     },
   },
+  customText: {
+    submitButtonText: 'Finish',
+  },
   // getHelp,
   footerContent,
 };

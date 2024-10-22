@@ -6,6 +6,12 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
+.benefit-eligibility-questionnaire .confirmation-page p,
+.benefit-eligibility-questionnaire article p,
+.benefit-eligibility-questionnaire form > div:first-of-type * {
+  width: 75ch !important;
+}
+
 #filters-section-desktop {
   @media (min-width: $medium-screen) {
     border-right: 2px solid var(--vads-color-gray-medium);

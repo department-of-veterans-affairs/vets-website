@@ -298,7 +298,11 @@ export const ChapterSectionCollection = ({
     );
   });
 
-  if (collapsible && content.length && hasFields) {
+  if (!hasFields) {
+    return null;
+  }
+
+  if (collapsible) {
     return (
       <div
         className={classNames(
