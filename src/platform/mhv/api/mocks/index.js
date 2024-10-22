@@ -27,8 +27,8 @@ const labsAndTests = require('./medical-records/labs-and-tests');
 const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
 const healthConditions = require('./medical-records/health-conditions');
-// const allergies = require('./medical-records/allergies');
-const allergies = require('./medical-records/allergies/accelerated');
+const allergies = require('./medical-records/allergies');
+const acceleratedAllergies = require('./medical-records/allergies/accelerated');
 const vaccines = require('./medical-records/vaccines');
 const vitals = require('./medical-records/vitals');
 
@@ -117,7 +117,13 @@ const responses = {
   'POST /my_health/v1/health_records/sharing/:endpoint': { status: 200 },
   'GET /my_health/v1/medical_records/conditions': healthConditions.all,
   'GET /my_health/v1/medical_records/conditions/:id': healthConditions.single,
-  'GET /my_health/v1/medical_records/allergies': allergies.all,
+  'GET /my_health/v1/medical_records/allergies': (req, res) => {
+    const { useOHDataPath } = req.query;
+    if (useOHDataPath === 'true') {
+      return res.json(acceleratedAllergies.all);
+    }
+    return res.json(allergies.all);
+  },
   'GET /my_health/v1/medical_records/allergies/:id': allergies.single,
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,

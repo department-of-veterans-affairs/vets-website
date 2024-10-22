@@ -12,6 +12,9 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
+
+import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import RecordList from '../components/RecordList/RecordList';
 import {
   recordType,
@@ -44,6 +47,14 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  useEffect(
+    () => {
+      // use Drupal based Cerner facility data
+      connectDrupalSourceOfTruthCerner(dispatch);
+    },
+    [dispatch],
+  );
+
   const updatedRecordList = useSelector(
     state => state.mr.allergies.updatedList,
   );
@@ -59,16 +70,25 @@ const Allergies = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const useAcceleratedApi = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryAllergiesEnabled
+      ],
+  );
+  const isCerner = useSelector(selectIsCernerPatient);
   const user = useSelector(state => state.user.profile);
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+  const isAccelerating = !!useAcceleratedApi && isCerner;
 
   useListRefresh({
     listState,
     listCurrentAsOf: allergiesCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.ALLERGY,
-    dispatchAction: getAllergiesList,
+    dispatchAction: isCurrent =>
+      getAllergiesList({ isCurrent, isAccelerating }),
     dispatch,
   });
 

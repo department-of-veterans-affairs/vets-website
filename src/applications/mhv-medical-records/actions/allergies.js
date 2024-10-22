@@ -1,17 +1,25 @@
 import { Actions } from '../util/actionTypes';
-import { getAllergies, getAllergy } from '../api/MrApi';
+import {
+  getAllergies,
+  getAllergy,
+  getAcceleratedAllergies,
+} from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
 import { getListWithRetry } from './common';
 
-export const getAllergiesList = (isCurrent = false) => async dispatch => {
+export const getAllergiesList = ({
+  isCurrent = false,
+  isAccelerating = false,
+}) => async dispatch => {
   dispatch({
     type: Actions.Allergies.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getListWithRetry(dispatch, getAllergies);
+    const getData = isAccelerating ? getAcceleratedAllergies : getAllergies;
+    const response = await getListWithRetry(dispatch, getData);
     dispatch({
       type: Actions.Allergies.GET_LIST,
       response,
