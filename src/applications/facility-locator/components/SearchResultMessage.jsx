@@ -39,7 +39,7 @@ SearchResultMessage.propTypes = {
   message: PropTypes.string,
   resultRef: PropTypes.any,
   resultsFound: PropTypes.bool,
-  searchStarted: PropTypes.bool
+  searchStarted: PropTypes.bool,
 };
 
 export default SearchResultMessage;

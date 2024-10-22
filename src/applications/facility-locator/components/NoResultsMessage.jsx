@@ -8,16 +8,17 @@ const NoResultsMessage = ({ isMobile, resultRef }) => {
   if (isMobile) {
     return (
       <p className="vads-u-margin-top--2 mobile-lg:vads-u-margin-top--0 vads-u-margin-bottom--4 vads-u-margin-x--1 mobile-lg:vads-u-margin-x--0">
-        Search for something else or in a different area. Try entering a different location, facility type, or service type.
+        Search for something else or in a different area. Try entering a
+        different location, facility type, or service type.
       </p>
     );
   }
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
     <div
       className="search-result-title vads-u-margin-y--3 mobile-lg:vads-u-margin-y--0"
-      ref={resultRef} 
+      ref={resultRef}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={0}
     >
       <p className="vads-u-margin-top--0">

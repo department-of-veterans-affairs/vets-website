@@ -270,9 +270,9 @@ ResultsList.propTypes = {
   pagination: PropTypes.object,
   query: PropTypes.object,
   results: PropTypes.array,
-  searchError: PropTypes.string,
+  searchError: PropTypes.shape(PropTypes.any),
   searchResultMessageRef: PropTypes.object,
-  searchString: PropTypes.string
+  searchString: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {

@@ -33,6 +33,7 @@ import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
 import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
+import { FacilitiesMapTypes } from '../types';
 
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
@@ -713,6 +714,8 @@ const mapDispatchToProps = {
   clearSearchText,
   mapMoved,
 };
+
+FacilitiesMap.propTypes = FacilitiesMapTypes;
 
 export default connect(
   mapStateToProps,
