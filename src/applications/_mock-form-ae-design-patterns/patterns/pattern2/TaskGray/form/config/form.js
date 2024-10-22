@@ -1,28 +1,22 @@
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { GetFormHelp } from '../components/GetFormHelp';
 import manifest from '../manifest.json';
-import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 import profileContactInfo from './profileContactInfo';
 import VeteranProfileInformation from '../components/VeteranProfileInformation';
 
 // chapter schema imports
-import { applicantInformation } from './chapters/applicant';
+// import { applicantInformation } from './chapters/applicant';
 import { VIEW_FIELD_SCHEMA } from '../../../../../utils/constants';
 
-import {
-  additionalInformation,
-  mailingAddress,
-} from './chapters/contact-information';
 import { taskCompletePage } from '../../../../../shared/config/taskCompletePage';
 
-import { serviceStatus, serviceHistory } from './chapters/service';
+import { serviceHistory } from './chapters/service';
 
 // import { loanScreener, loanHistory } from './chapters/loans';
 

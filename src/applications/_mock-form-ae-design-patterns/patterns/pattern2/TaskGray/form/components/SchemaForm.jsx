@@ -61,9 +61,12 @@ class SchemaForm extends React.Component {
     ) {
       this.setState(this.getEmptyState(newProps));
     } else if (newProps.title !== this.props.title) {
-      this.setState({
-        formContext: set('pageTitle', newProps.title, this.state.formContext),
-      });
+      // this.setState({
+      //   formContext: set('pageTitle', newProps.title, this.state.formContext),
+      // });
+      this.setState(prevState => ({
+        formContext: set('pageTitle', newProps.title, prevState.formContext),
+      }));
     } else if (!!newProps.reviewMode !== !!this.state.formContext.reviewMode) {
       this.setState(this.getEmptyState(newProps));
     } else if (newProps.formContext !== this.props.formContext) {
@@ -95,27 +98,56 @@ class SchemaForm extends React.Component {
   }
 
   onError(hasSubmitted = true) {
-    const formContext = set(
-      'submitted',
-      !!hasSubmitted,
-      this.state.formContext,
+    this.setState(
+      prevState => {
+        const formContext = set(
+          'submitted',
+          !!hasSubmitted,
+          prevState.formContext,
+        );
+        return { formContext };
+      },
+      () => {
+        scrollToFirstError();
+      },
     );
-    this.setState({ formContext });
-    scrollToFirstError();
   }
+  // onError(hasSubmitted = true) {
+  //   const formContext = set(
+  //     'submitted',
+  //     !!hasSubmitted,
+  //     this.state.formContext,
+  //   );
+  //   this.setState({ formContext });
+  //   scrollToFirstError();
+  // }
+
+  // onBlur(id) {
+  //   if (!this.state.formContext.touched[id]) {
+  //     const data = getFormDataFromSchemaId(id, this.props.data);
+  //     const isEmpty = data === undefined || data === null || data === '';
+  //     // - Prefer to only set as touched if the field is NOT empty,
+  //     //   so that we won't show an error message prematurely.
+  //     // - If data is not found for some reason (e.g. schema uses snake case
+  //     //   properties which can't be parsed in a 'root_' string) then go
+  //     //   ahead and mark as touched which will show a potential error message.
+  //     if (!isEmpty || data === 'FORM_DATA_NOT_FOUND') {
+  //       const formContext = set(['touched', id], true, this.state.formContext);
+  //       this.setState({ formContext });
+  //     }
+  //   }
+  // }
 
   onBlur(id) {
     if (!this.state.formContext.touched[id]) {
       const data = getFormDataFromSchemaId(id, this.props.data);
       const isEmpty = data === undefined || data === null || data === '';
-      // - Prefer to only set as touched if the field is NOT empty,
-      //   so that we won't show an error message prematurely.
-      // - If data is not found for some reason (e.g. schema uses snake case
-      //   properties which can't be parsed in a 'root_' string) then go
-      //   ahead and mark as touched which will show a potential error message.
+
       if (!isEmpty || data === 'FORM_DATA_NOT_FOUND') {
-        const formContext = set(['touched', id], true, this.state.formContext);
-        this.setState({ formContext });
+        this.setState(prevState => {
+          const formContext = set(['touched', id], true, prevState.formContext);
+          return { formContext };
+        });
       }
     }
   }
@@ -153,10 +185,18 @@ class SchemaForm extends React.Component {
     };
   }
 
+  // setTouched(touchedItem, setStateCallback) {
+  //   const touched = merge({}, this.state.formContext.touched, touchedItem);
+  //   const formContext = set('touched', touched, this.state.formContext);
+  //   this.setState({ formContext }, setStateCallback);
+  // }
+
   setTouched(touchedItem, setStateCallback) {
-    const touched = merge({}, this.state.formContext.touched, touchedItem);
-    const formContext = set('touched', touched, this.state.formContext);
-    this.setState({ formContext }, setStateCallback);
+    this.setState(prevState => {
+      const touched = merge({}, prevState.formContext.touched, touchedItem);
+      const formContext = set('touched', touched, prevState.formContext);
+      return { formContext };
+    }, setStateCallback);
   }
 
   /*
@@ -252,11 +292,16 @@ SchemaForm.propTypes = {
   uiSchema: PropTypes.object.isRequired,
   addNameAttribute: PropTypes.bool,
   appStateData: PropTypes.object,
+  children: PropTypes.object,
   data: PropTypes.any,
   editModeOnReviewPage: PropTypes.bool,
+  formContext: PropTypes.object,
   hideTitle: PropTypes.bool,
+  idSchema: PropTypes.object,
+  pagePerItemIndex: PropTypes.number,
   profile: PropTypes.object,
   reviewMode: PropTypes.bool,
+  safeRenderCompletion: PropTypes.bool,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
 };
