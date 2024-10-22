@@ -15,11 +15,11 @@ import {
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
   const selectedEntity = formData['view:selectedRepresentative'];
+  const repType = getRepType(selectedEntity);
   const entityAttributes = selectedEntity?.attributes;
-  const address = getEntityAddressAsObject(entityAttributes);
+  const addressData = getEntityAddressAsObject(entityAttributes);
   const repName = entityAttributes?.fullName;
   const orgName = getOrgName(formData);
-  const repType = getRepType(selectedEntity);
 
   return (
     <div>
@@ -32,8 +32,12 @@ export default function NextStepsPage() {
         Both you and the accredited {repType} will need to sign your form. You
         can bring your form to them in person or mail it to them.
       </p>
-      {addressExists(address) && (
-        <AddressBlock repName={repName} orgName={orgName} address={address} />
+      {addressExists(addressData) && (
+        <AddressBlock
+          repName={repName}
+          orgName={orgName}
+          addressData={addressData}
+        />
       )}
       <p>
         After your form is signed, you or the accredited {repType} can submit it
@@ -50,7 +54,7 @@ export default function NextStepsPage() {
       <ContactCard
         repName={repName}
         orgName={orgName}
-        addressData={address}
+        addressData={addressData}
         phone={entityAttributes?.phone}
         email={entityAttributes?.email}
       />

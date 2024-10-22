@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Address from './Address';
 
-export default function AddressBlock({ repName, orgName, address }) {
+export default function AddressBlock({ repName, orgName, addressData }) {
   return (
     <p className="va-address-block vads-u-margin-left--0 vads-u-margin-bottom--3">
       {repName && orgName ? (
@@ -21,7 +21,7 @@ export default function AddressBlock({ repName, orgName, address }) {
           <br />
         </>
       )}
-      <Address address={address} />
+      <Address addressData={addressData} />
     </p>
   );
 }
