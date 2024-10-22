@@ -38,3 +38,5 @@ export const FOCUSABLE_ELEMENTS = [
   // 'object[usemap]',
   // 'video[controls]',
 ];
+
+export const stability = true;

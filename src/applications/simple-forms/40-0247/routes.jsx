@@ -10,4 +10,6 @@ const route = {
   childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 
+export const stability = true;
+
 export default route;
