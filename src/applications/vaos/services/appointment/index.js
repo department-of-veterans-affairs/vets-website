@@ -182,9 +182,9 @@ export async function fetchRequestById({ id }) {
  * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id }) {
+export async function fetchBookedAppointment({ id, fetchClaimStatus }) {
   try {
-    const appointment = await getAppointment(id);
+    const appointment = await getAppointment(id, fetchClaimStatus);
     return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {
