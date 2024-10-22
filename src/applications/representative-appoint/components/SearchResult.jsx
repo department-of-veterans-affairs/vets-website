@@ -140,7 +140,7 @@ const SearchResult = ({
             data-testid="representative-search-btn"
             text="Select this representative"
             secondary
-            onClick={() => handleSelectRepresentative(representative)}
+            onClick={() => handleSelectRepresentative(representative.data)}
           />
         </div>
       </div>

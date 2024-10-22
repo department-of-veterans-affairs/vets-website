@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
-import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -12,16 +11,7 @@ import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
 
 const SelectAccreditedRepresentative = props => {
-  const {
-    setFormData,
-    formData,
-    router,
-    routes,
-    location,
-    goBack,
-    goForward,
-    goToPath,
-  } = props;
+  const { setFormData, formData, goBack, goForward, goToPath } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const representativeResults =
@@ -42,38 +32,6 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  const handleSelectRepresentative = async selectedRepResult => {
-    if (selectedRepResult === currentSelectedRep) {
-      goToPath('/review-and-submit');
-    } else {
-      const repStatus = await getRepStatus();
-
-      const tempData = {
-        ...formData,
-        'view:selectedRepresentative': selectedRepResult,
-        'view:representativeStatus': repStatus,
-        // when a new representative is selected, we want to nil out the
-        //   selected organization to prevent weird states. For example,
-        //   we wouldn't want a user to select a representative, an organization,
-        //   go backwards to select an attorney, and then our state variables
-        //   say an attorney was selected with a non-null organization id
-        selectedAccreditedOrganizationId: null,
-      };
-
-      setFormData({
-        ...tempData,
-      });
-
-      goToPath('/representative-contact');
-      const { pageList } = routes[1];
-      const { pathname } = location;
-
-      const nextPagePath = getNextPagePath(pageList, tempData, pathname);
-
-      router.push(nextPagePath);
-    }
-  };
-
   const handleGoBack = () => {
     if (isReviewPage()) {
       goToPath('/review-and-submit');
@@ -82,20 +40,16 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  const reviewPageGoToPath = () => {
-    if (formData['view:selectedRepresentative'] === currentSelectedRep) {
-      goToPath('/review-and-submit');
-    } else {
-      goToPath('/representative-contact?review=true');
-    }
-  };
-
   const handleGoForward = () => {
     if (!formData['view:selectedRepresentative']) {
       // set unselected rep error
     }
-    if (isReviewPage()) {
-      reviewPageGoToPath();
+    if (isReviewPage) {
+      if (formData['view:selectedRepresentative'] === currentSelectedRep) {
+        goToPath('/review-and-submit');
+      } else {
+        goToPath('/representative-contact?review=true');
+      }
     } else {
       goForward(formData);
     }
@@ -124,6 +78,32 @@ const SelectAccreditedRepresentative = props => {
       setError(err.errorMessage);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSelectRepresentative = async selectedRepResult => {
+    if (selectedRepResult === currentSelectedRep) {
+      goToPath('/review-and-submit');
+    } else {
+      const repStatus = await getRepStatus();
+
+      const tempData = {
+        ...formData,
+        'view:selectedRepresentative': selectedRepResult,
+        'view:representativeStatus': repStatus,
+        // when a new representative is selected, we want to nil out the
+        //   selected organization to prevent weird states. For example,
+        //   we wouldn't want a user to select a representative, an organization,
+        //   go backwards to select an attorney, and then our state variables
+        //   say an attorney was selected with a non-null organization id
+        selectedAccreditedOrganizationId: null,
+      };
+
+      setFormData({
+        ...tempData,
+      });
+
+      handleGoForward();
     }
   };
 
