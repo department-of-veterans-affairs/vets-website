@@ -1,5 +1,5 @@
+import React from 'react';
 import merge from 'lodash/merge';
-import get from 'platform/utilities/data/get';
 import unset from 'platform/utilities/data/unset';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
@@ -8,15 +8,19 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import { omit } from 'lodash';
+import { scrollAndFocusTarget } from 'applications/_mock-form-ae-design-patterns/utils/focus';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
-  validateBooleanGroup,
-  validateCurrentOrFutureDate,
-} from 'platform/forms-system/src/js/validation';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
-import { genderLabels } from 'platform/static-data/labels';
-import fullNameUI from 'platform/forms/definitions/fullName';
+  descriptionUI,
+  emailSchema,
+  emailUI,
+  phoneSchema,
+  phoneUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { PrefillAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/PrefillAlert';
 import PreSubmitInfo from '../pages/PreSubmitInfo';
 import contactInformationPage from '../pages/contactInformation';
 import GetFormHelp from '../components/GetFormHelp';
@@ -37,12 +41,16 @@ import {
   transform,
   benefitsEligibilityBox,
   prefillTransformer,
-  SeventeenOrOlder,
-  eighteenOrOver,
-  ageWarning,
 } from '../helpers';
 
 import { urlMigration } from './migrations';
+import {
+  ApplicantInformation,
+  ApplicantInformationInfoSection,
+} from '../pages/ApplicantInformation';
+import ReviewPage from '../pages/ReviewPage';
+import { EditNavigationWithRouter } from '../components/EditNavigation';
+import { ServicePeriodReview } from '../pages/ServicePeriodReview';
 
 const {
   chapter33,
@@ -120,141 +128,34 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         applicantInformation: {
-          path: 'applicant/information',
+          path: 'applicant-information',
           title: 'Applicant information',
-          initialData: {},
-
-          uiSchema: {
-            'ui:description': applicantDescription,
-            veteranFullName: fullNameUI,
-
-            veteranSocialSecurityNumber: {
-              ...ssnUI,
-              'ui:title': 'Social Security number',
-            },
-
-            veteranDateOfBirth: {
-              ...currentOrPastDateUI('Your date of birth'),
-              'ui:errorMessages': {
-                pattern: 'Please provide a valid date',
-                required: 'Please enter a date',
-                futureDate: 'Please provide a valid date',
-              },
-              'ui:validations': [
-                (errors, dob) => {
-                  // If we have a complete date, check to make sure it’s a valid dob
-                  if (/\d{4}-\d{2}-\d{2}/.test(dob) && !SeventeenOrOlder(dob)) {
-                    errors.addError('You must be at least 17 to apply');
-                  }
-                },
-              ],
-            },
-
-            minorHighSchoolQuestions: {
-              'ui:description': ageWarning,
-              'ui:options': {
-                expandUnder: 'veteranDateOfBirth',
-                hideIf: formData => {
-                  let hideCondition;
-                  const dob = get('veteranDateOfBirth', formData);
-                  if (!eighteenOrOver(dob) && SeventeenOrOlder(dob)) {
-                    hideCondition = false;
-                  } else {
-                    hideCondition = true;
-                  }
-                  return hideCondition;
-                },
-              },
-              minorHighSchoolQuestion: {
-                'ui:title':
-                  'Applicant has graduated high school or received GED?',
-                'ui:widget': 'yesNo',
-                'ui:required': formData =>
-                  !eighteenOrOver(formData.veteranDateOfBirth),
-              },
-              highSchoolGedGradDate: {
-                ...currentOrPastDateUI('Date graduated'),
-                'ui:options': {
-                  expandUnder: 'minorHighSchoolQuestion',
-                },
-                'ui:required': formData => {
-                  let isRequired = false;
-                  if (!eighteenOrOver(formData.veteranDateOfBirth)) {
-                    const yesNoResults =
-                      formData.minorHighSchoolQuestions.minorHighSchoolQuestion;
-                    if (yesNoResults) {
-                      isRequired = true;
-                    }
-                    if (!yesNoResults) {
-                      isRequired = false;
-                    }
-                  }
-                  return isRequired;
-                },
-              },
-              highSchoolGedExpectedGradDate: {
-                'ui:title': 'Date expected to graduate',
-                'ui:widget': 'date',
-                'ui:options': {
-                  expandUnder: 'minorHighSchoolQuestion',
-                  expandUnderCondition: false,
-                },
-                'ui:validations': [validateCurrentOrFutureDate],
-                'ui:errorMessages': {
-                  pattern: 'Please enter a valid current or future date',
-                  required: 'Please enter a date',
-                },
-              },
-            },
-
-            gender: {
-              'ui:widget': 'radio',
-              'ui:title': 'Gender',
-              'ui:options': {
-                labels: genderLabels,
-              },
-            },
-          },
+          CustomPage: ApplicantInformation,
+          CustomPageReview: null,
+          uiSchema: {},
           schema: {
-            type: 'object',
-            properties: {
-              veteranFullName: {
-                type: 'object',
-                required: ['first', 'last'],
-                properties: fullName.properties,
-              },
-
-              veteranSocialSecurityNumber: {
-                $ref: '#/definitions/ssn',
-              },
-
-              veteranDateOfBirth: {
-                $ref: '#/definitions/date',
-              },
-
-              minorHighSchoolQuestions: {
-                type: 'object',
-                properties: {
-                  minorHighSchoolQuestion: {
-                    type: 'boolean',
-                  },
-                  highSchoolGedGradDate: {
-                    type: 'object',
-                    $ref: '#/definitions/date',
-                  },
-                  highSchoolGedExpectedGradDate: {
-                    type: 'object',
-                    $ref: '#/definitions/date',
-                  },
-                },
-              },
-
-              gender: {
-                $ref: '#/definitions/gender',
-              },
-            },
-            required: ['veteranSocialSecurityNumber', 'veteranDateOfBirth'],
+            type: 'string',
+            properties: {},
           },
+          review: props => ({
+            'Applicant Information': (() => {
+              const {
+                veteranFullName,
+                veteranSocialSecurityNumber,
+                veteranDateOfBirth,
+                gender: genderData,
+              } = props?.data;
+
+              return (
+                <ApplicantInformationInfoSection
+                  veteranDateOfBirth={veteranDateOfBirth}
+                  veteranFullName={veteranFullName}
+                  veteranSocialSecurityNumber={veteranSocialSecurityNumber}
+                  gender={genderData}
+                />
+              );
+            })(),
+          }),
         },
       },
     },
@@ -310,6 +211,11 @@ const formConfig = {
               }),
             },
           },
+          review: props => ({
+            'Service Period': (() => {
+              return <ServicePeriodReview {...props} />;
+            })(),
+          }),
         },
         militaryService: {
           title: 'Military service',
@@ -445,6 +351,79 @@ const formConfig = {
     personalInformation: {
       title: 'Personal information',
       pages: {
+        otherContactInfo: {
+          hideNavButtons: true,
+          title: 'Edit other contact information',
+          taskListHide: true,
+          path: 'personal-information/edit-other-contact-information',
+          uiSchema: {
+            ...descriptionUI(PrefillAlert, { hideOnReview: true }),
+            'view:pageTitle': titleUI({
+              title: 'Edit other contact information',
+              classNames: 'vads-u-margin-bottom--0',
+            }),
+
+            email: emailUI('Email address'),
+            'view:confirmEmail': {
+              ...emailUI(),
+              'ui:title': 'Confirm email address',
+              'ui:required': () => true,
+              'ui:validations': [
+                {
+                  validator: (errors, fieldData, formData) => {
+                    if (
+                      formData.email.toLowerCase() !==
+                      formData['view:confirmEmail'].toLowerCase()
+                    ) {
+                      errors.addError(
+                        'This email does not match your previously entered email',
+                      );
+                    }
+                  },
+                },
+              ],
+            },
+            homePhone: phoneUI('Home phone number'),
+            mobilePhone: phoneUI('Mobile phone number'),
+            'view:editNavigation': {
+              'ui:options': {
+                hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
+                forceDivWrapper: true, // It's all info and links, so we don't need a fieldset or legend
+              },
+              'ui:reviewId': 'other-contact-information',
+              'ui:title': '',
+              'ui:description': '',
+              'ui:widget': props => {
+                return (
+                  <EditNavigationWithRouter
+                    {...props}
+                    fields={['email', 'homePhone', 'mobilePhone']}
+                    returnPath="/personal-information"
+                  />
+                );
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:pageTitle': blankSchema,
+              email: emailSchema,
+              'view:confirmEmail': {
+                type: 'string',
+              },
+              homePhone: phoneSchema,
+              mobilePhone: phoneSchema,
+              'view:editNavigation': {
+                type: 'string',
+              },
+            },
+            required: ['email'],
+          },
+          scrollAndFocusTarget,
+          depends: () => false,
+          review: null,
+        },
         contactInformation: merge({}, contactInformationPage(fullSchema1990), {
           uiSchema: {
             'ui:title': 'Contact information',
@@ -459,7 +438,39 @@ const formConfig = {
         guardianInformation: GuardianInformation(fullSchema1990, {}),
       },
     },
+    reviewApp: {
+      title: 'Review Application',
+      pages: {
+        reviewAndSubmit: {
+          hideNavButtons: true,
+          title: 'Review and submit',
+          path: 'review-then-submit',
+          CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            definitions: {},
+            type: 'object',
+            properties: {},
+          },
+          scrollAndFocusTarget,
+        },
+      },
+    },
   },
 };
+
+// trying something different here and omitting the pages that we don't want to show
+// in the orange task instead of manipulating the orig formConfig object
+export const formConfigForOrangeTask = omit(formConfig, [
+  'chapters.benefitsEligibility',
+  'chapters.personalInformation.pages.directDeposit',
+  'chapters.militaryHistory.pages.militaryService',
+  'chapters.militaryHistory.pages.rotcHistory',
+  'chapters.militaryHistory.pages.contributions',
+  'chapters.GuardianInformation',
+]);
+
+// export const formConfigForOrangeTask = formConfig;
 
 export default formConfig;
