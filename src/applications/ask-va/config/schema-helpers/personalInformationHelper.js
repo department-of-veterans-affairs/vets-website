@@ -35,14 +35,25 @@ const ssnServiceInfo = (
   </>
 );
 
-const validateGroup = (errors, values) => {
-  if (!Object.keys(values).some(key => values[key])) {
-    errors.addError(`Please provide an answer`);
-  }
-};
+// const validateGroup = (errors, values) => {
+//   if (!Object.keys(values).some(key => values[key])) {
+//     errors.addError(`Please provide an answer`);
+//   }
+// };
 
-const validateSSandSNGroup = (errors, values) => {
-  if (!Object.keys(values).some(key => values[key])) {
+const validateSSandSNGroup = (errors, values, formData) => {
+  if (
+    !(
+      (formData.whoIsYourQuestionAbout === 'Someone else' &&
+        formData.relationshipToVeteran ===
+          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)") ||
+      (formData.whoIsYourQuestionAbout === 'Someone else' &&
+        formData.relationshipToVeteran ===
+          "I'm a family member of a Veteran") ||
+      formData.whoIsYourQuestionAbout === "It's a general question"
+    ) &&
+    !Object.keys(values).some(key => values[key])
+  ) {
     errors.addError(
       `Please enter your Social Security number or Service number`,
     );
@@ -200,9 +211,8 @@ export const personalInformationAboutYourselfUiSchemas = {
   },
   socialOrServiceNum: {
     'ui:title': ssnServiceInfo,
-    'ui:validations': [validateGroup],
+    'ui:validations': [validateSSandSNGroup],
     'ui:options': {
-      uswds: true,
       showFieldLabel: true,
       hideIf: formData =>
         (formData.whoIsYourQuestionAbout === 'Someone else' &&
@@ -211,27 +221,10 @@ export const personalInformationAboutYourselfUiSchemas = {
         (formData.whoIsYourQuestionAbout === 'Someone else' &&
           formData.relationshipToVeteran ===
             "I'm a family member of a Veteran") ||
-        (formData.whoIsYourQuestionAbout === 'Myself' &&
-          formData.relationshipToVeteran ===
-            "I'm a family member of a Veteran") ||
         formData.whoIsYourQuestionAbout === "It's a general question",
     },
     ssn: ssnUI(),
     serviceNumber: serviceNumberUI('Service number'),
-  },
-  socialNum: {
-    ...ssnUI(),
-    'ui:required': formData =>
-      formData.whoIsYourQuestionAbout === 'Myself' &&
-      formData.relationshipToVeteran === "I'm a family member of a Veteran",
-    'ui:options': {
-      uswds: true,
-      hideIf: formData =>
-        !(
-          formData.whoIsYourQuestionAbout === 'Myself' &&
-          formData.relationshipToVeteran === "I'm a family member of a Veteran"
-        ),
-    },
   },
   dateOfBirth: {
     ...dateOfBirthUI(),

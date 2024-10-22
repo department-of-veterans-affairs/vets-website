@@ -18,7 +18,7 @@ const checkImageSrc = (() => {
 
 const directDeposit = {
   uiSchema: {
-    directDeposit: {
+    'view:directDeposit': {
       'ui:title': (
         <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
           Direct deposit information

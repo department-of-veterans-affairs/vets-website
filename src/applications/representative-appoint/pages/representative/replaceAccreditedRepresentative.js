@@ -6,6 +6,7 @@ export const uiSchema = {
     'ui:widget': ReplaceAccreditedRepresentative,
     'ui:options': {
       hideLabelText: true,
+      hideOnReview: true,
     },
   },
 };

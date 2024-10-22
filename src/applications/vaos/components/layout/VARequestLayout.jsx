@@ -4,13 +4,15 @@ import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { getRealFacilityId } from '../../utils/appointment';
 import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import DetailPageLayout, { Section } from './DetailPageLayout';
+import DetailPageLayout, { Details, Section } from './DetailPageLayout';
 import PageLayout from '../../appointment-list/components/PageLayout';
 import Address from '../Address';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityPhone from '../FacilityPhone';
+import NewTabAnchor from '../NewTabAnchor';
 
 export default function VARequestLayout({ data: appointment }) {
   const { search } = useLocation();
@@ -18,6 +20,7 @@ export default function VARequestLayout({ data: appointment }) {
     bookingNotes,
     email,
     facility,
+    facilityId,
     facilityPhone,
     isPendingAppointment,
     phone,
@@ -56,6 +59,34 @@ export default function VARequestLayout({ data: appointment }) {
           <span>{preferredModality}</span>
         </Section>
         <Section heading="Facility">
+          {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
+          {!facility &&
+            !facilityId && (
+              <>
+                <span>Facility details not available</span>
+                <br />
+                <NewTabAnchor href="/find-locations">
+                  Find facility information
+                </NewTabAnchor>
+                <br />
+              </>
+            )}
+          {/* When the services return a null value for the facility (but receive the facility ID) */}
+          {!facility &&
+            !!facilityId && (
+              <>
+                <span>Facility details not available</span>
+                <br />
+                <NewTabAnchor
+                  href={`/find-locations/facility/vha_${getRealFacilityId(
+                    facilityId,
+                  )}`}
+                >
+                  View facility information
+                </NewTabAnchor>
+                <br />
+              </>
+            )}
           {!!facility?.name && (
             <>
               {facility.name}
@@ -68,23 +99,12 @@ export default function VARequestLayout({ data: appointment }) {
           </div>
         </Section>
         <Section heading="Phone">
-          <div className="vads-u-margin-top--1 vads-u-color--link-default">
-            {facilityPhone && (
-              <FacilityPhone heading="Phone:" contact={facilityPhone} icon />
-            )}
-            {!facilityPhone && <>Not available</>}
-          </div>
+          {facilityPhone && (
+            <FacilityPhone heading="Phone:" contact={facilityPhone} icon />
+          )}
+          {!facilityPhone && <>Not available</>}
         </Section>
-        <Section heading="Details you’d like to share with your provider">
-          <span>
-            Reason:{' '}
-            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-          </span>
-          <br />
-          <span className="vaos-u-word-break--break-word">
-            Other details: {`${otherDetails || 'Not available'}`}
-          </span>
-        </Section>
+        <Details reason={reason} otherDetails={otherDetails} request />
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />

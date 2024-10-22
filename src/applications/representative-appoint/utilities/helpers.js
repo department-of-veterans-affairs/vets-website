@@ -38,12 +38,8 @@ export const deviewifyFields = formData => {
   return newFormData;
 };
 
-export const preparerIsVeteran = ({ formData } = {}) => {
-  if (formData) {
-    return formData['view:applicantIsVeteran'] === 'Yes';
-  }
-  return false;
-};
+export const preparerIsVeteran = ({ formData } = {}) =>
+  formData?.['view:applicantIsVeteran'] === 'Yes';
 
 export const isLoggedIn = ({ formData } = {}) => {
   if (formData) {
@@ -140,16 +136,14 @@ export const getFormSubmitUrlSuffix = formData => {
   return '2122';
 };
 
-export const getEntityAddressAsObject = formData => {
-  const entity = formData['view:selectedRepresentative'];
-
+export const getEntityAddressAsObject = attributes => {
   return {
-    address1: (entity?.addressLine1 || '').trim(),
-    address2: (entity?.addressLine2 || '').trim(),
-    address3: (entity?.addressLine3 || '').trim(),
-    city: (entity?.city || '').trim(),
-    state: (entity?.stateCode || '').trim(),
-    zip: (entity?.zipCode || '').trim(),
+    addressLine1: (attributes?.addressLine1 || '').trim(),
+    addressLine2: (attributes?.addressLine2 || '').trim(),
+    addressLine3: (attributes?.addressLine3 || '').trim(),
+    city: (attributes?.city || '').trim(),
+    stateCode: (attributes?.stateCode || '').trim(),
+    zipCode: (attributes?.zipCode || '').trim(),
   };
 };
 
@@ -183,7 +177,7 @@ export const getRepType = formData => {
     return 'Attorney';
   }
 
-  if (repType === 'claimsAgent') {
+  if (repType === 'claimsAgent' || repType === 'claims_agent') {
     return 'Claims Agent';
   }
 
@@ -220,32 +214,42 @@ export const isAttorneyOrClaimsAgent = formData => {
   const repType =
     formData['view:selectedRepresentative']?.attributes?.individualType;
 
-  return repType === 'attorney' || repType === 'claimsAgent';
+  return (
+    repType === 'attorney' ||
+    repType === 'claimsAgent' ||
+    repType === 'claims_agent'
+  );
 };
 
 export const getOrgName = formData => {
   if (isOrg(formData)) {
-    return formData['view:selectedRepresentative'].name;
+    return formData['view:selectedRepresentative']?.attributes?.name;
   }
 
   if (isAttorneyOrClaimsAgent(formData)) {
     return null;
   }
 
-  const id = formData?.selectedAccreditedOrganizationId;
   const orgs =
-    formData['view:selectedRepresentative']?.attributes.accreditedOrganizations
-      .data;
-  let orgName;
+    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+      ?.data;
 
-  if (id && orgs) {
-    for (let i = 0; i < orgs.length; i += 1) {
-      if (orgs[i].id === id) {
-        orgName = orgs[i].attributes.name;
-        break;
-      }
-    }
+  if (orgs.length > 1) {
+    const id = formData?.selectedAccreditedOrganizationId;
+    const selectedOrg = orgs.find(org => org.id === id);
+    return selectedOrg?.attributes?.name;
   }
 
-  return orgName;
+  return orgs[0]?.attributes?.name;
+};
+
+export const convertRepType = input => {
+  const mapping = {
+    representative: 'VSO',
+    attorney: 'Attorney',
+    /* eslint-disable-next-line camelcase */
+    claims_agent: 'Claims Agent',
+  };
+
+  return mapping[input] || input;
 };

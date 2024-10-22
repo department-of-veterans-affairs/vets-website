@@ -43,7 +43,11 @@ export const useDefaultFormData = () => {
         'view:totalDisabilityRating': parseInt(totalRating, 10) || 0,
       };
       const userData = isLoggedIn
-        ? { 'view:userDob': parseVeteranDob(veteranDob) }
+        ? {
+            'view:veteranInformation': {
+              veteranDateOfBirth: parseVeteranDob(veteranDob),
+            },
+          }
         : {};
 
       setFormData({

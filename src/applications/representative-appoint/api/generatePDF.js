@@ -4,7 +4,8 @@ import manifest from '../manifest.json';
 
 export const generatePDF = transformedFormData => {
   const isAttorneyOrClaimsAgent =
-    transformedFormData?.representative?.type === ('attorney' || 'claimsAgent');
+    transformedFormData?.representative?.type === 'attorney' ||
+    transformedFormData?.representative?.type === 'claimsAgent';
 
   const apiSettings = {
     mode: 'cors',
@@ -15,7 +16,7 @@ export const generatePDF = transformedFormData => {
       'Content-Type': 'application/json',
       'Source-App-Name': manifest.entryName,
     },
-    body: transformedFormData,
+    body: JSON.stringify(transformedFormData),
   };
 
   const startTime = new Date().getTime();

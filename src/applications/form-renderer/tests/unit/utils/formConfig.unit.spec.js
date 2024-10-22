@@ -8,10 +8,7 @@ import * as IntroductionPage from 'applications/form-renderer/containers/Introdu
 import { render } from '@testing-library/react';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import * as addressPatterns from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
-import {
-  employmentQuestionnaire,
-  normalizedForm,
-} from '../../../_config/formConfig';
+import { normalizedForm } from '../../../_config/formConfig';
 import { createFormConfig, selectSchemas } from '../../../utils/formConfig';
 import manifest from '../../../manifest.json';
 
@@ -84,11 +81,16 @@ describe('createFormConfig', () => {
 });
 
 describe('selectSchemas', () => {
+  const findChapterByType = type =>
+    normalizedForm.chapters.find(chapter => chapter.type === type);
+
   context('with Name and Date of Birth pattern', () => {
     let dobIncluded;
 
     beforeEach(() => {
-      dobIncluded = selectSchemas(normalizedForm.chapters[0]);
+      dobIncluded = selectSchemas(
+        findChapterByType('digital_form_name_and_date_of_bi'),
+      );
     });
 
     it('contains fullName', () => {
@@ -109,7 +111,16 @@ describe('selectSchemas', () => {
 
     context('when includeDateOfBirth is false', () => {
       it('does not contain dateOfBirth', () => {
-        const nameOnly = selectSchemas(normalizedForm.chapters[1]);
+        const nameOnlyChapter = {
+          id: 158254,
+          chapterTitle: 'Name only chapter',
+          type: 'digital_form_name_and_date_of_bi',
+          pageTitle: 'Name and Date of Birth',
+          additionalFields: {
+            includeDateOfBirth: false,
+          },
+        };
+        const nameOnly = selectSchemas(nameOnlyChapter);
 
         expect(nameOnly.schema.properties.dateOfBirth).to.eq(undefined);
         expect(nameOnly.uiSchema.dateOfBirth).to.eq(undefined);
@@ -118,23 +129,34 @@ describe('selectSchemas', () => {
   });
 
   context('with Identification Information pattern', () => {
-    let serviceNumberIncluded;
+    let vetIdOnly;
 
     beforeEach(() => {
-      serviceNumberIncluded = selectSchemas(
-        employmentQuestionnaire.chapters[1],
+      vetIdOnly = selectSchemas(
+        findChapterByType('digital_form_identification_info'),
       );
     });
 
     it('contains veteranId', () => {
-      expect(serviceNumberIncluded.schema.properties.veteranId).to.eq(
+      expect(vetIdOnly.schema.properties.veteranId).to.eq(
         webComponentPatterns.ssnOrVaFileNumberSchema,
       );
-      expect(serviceNumberIncluded.uiSchema.veteranId).to.not.eq(undefined);
+      expect(vetIdOnly.uiSchema.veteranId).to.not.eq(undefined);
     });
 
     context('when includeServiceNumber is true', () => {
       it('includes serviceNumber', () => {
+        const serviceNumberChapter = {
+          id: 158255,
+          chapterTitle: 'Service Number Included',
+          type: 'digital_form_identification_info',
+          pageTitle: 'Identification Information',
+          additionalFields: {
+            includeServiceNumber: true,
+          },
+        };
+        const serviceNumberIncluded = selectSchemas(serviceNumberChapter);
+
         expect(serviceNumberIncluded.schema.properties.serviceNumber).to.eq(
           webComponentPatterns.serviceNumberSchema,
         );
@@ -146,8 +168,6 @@ describe('selectSchemas', () => {
 
     context('when includeServiceNumber is false', () => {
       it('does not include serviceNumber', () => {
-        const vetIdOnly = selectSchemas(normalizedForm.chapters[2]);
-
         expect(vetIdOnly.schema.properties.serviceNumber).to.eq(undefined);
         expect(vetIdOnly.uiSchema.serviceNumber).to.eq(undefined);
       });
@@ -170,7 +190,16 @@ describe('selectSchemas', () => {
 
     context('when militaryAddressCheckbox is true', () => {
       it('calls addressSchema', () => {
-        const schemas = selectSchemas(employmentQuestionnaire.chapters[2]);
+        const includeMilitary = {
+          id: 158256,
+          chapterTitle: 'Includes military addresses',
+          type: 'digital_form_address',
+          pageTitle: 'Address',
+          additionalFields: {
+            militaryAddressCheckbox: true,
+          },
+        };
+        const schemas = selectSchemas(includeMilitary);
 
         expect(addressSpy.calledOnce).to.eq(true);
         expect(schemas.uiSchema.address).to.not.eq(undefined);
@@ -179,10 +208,63 @@ describe('selectSchemas', () => {
 
     context('when militaryAddressCheckbo is false', () => {
       it('calls addressNoMilitarySchema', () => {
-        const schemas = selectSchemas(normalizedForm.chapters[3]);
+        const schemas = selectSchemas(
+          findChapterByType('digital_form_address'),
+        );
 
         expect(noMiliarySpy.calledOnce).to.eq(true);
         expect(schemas.uiSchema.address).to.not.eq(undefined);
+      });
+    });
+  });
+
+  context('with Phone and Email Address pattern', () => {
+    const includeEmail = {
+      id: 158256,
+      chapterTitle: 'Email address included',
+      type: 'digital_form_phone_and_email',
+      pageTitle: 'Phone and email address',
+      additionalFields: {
+        includeEmail: true,
+      },
+    };
+    const phoneOnly = findChapterByType('digital_form_phone_and_email');
+
+    it('includes homePhone', () => {
+      const schemas = selectSchemas(includeEmail);
+
+      expect(schemas.schema.properties.homePhone).to.eq(
+        webComponentPatterns.phoneSchema,
+      );
+      expect(schemas.uiSchema.homePhone).to.not.eq(undefined);
+    });
+
+    it('includes mobilePhone', () => {
+      const schemas = selectSchemas(phoneOnly);
+
+      expect(schemas.schema.properties.mobilePhone).to.eq(
+        webComponentPatterns.phoneSchema,
+      );
+      expect(schemas.uiSchema.mobilePhone).to.not.eq(undefined);
+    });
+
+    context('when includeEmail is true', () => {
+      it('includes emailAddress', () => {
+        const schemas = selectSchemas(includeEmail);
+
+        expect(schemas.schema.properties.emailAddress).to.eq(
+          webComponentPatterns.emailSchema,
+        );
+        expect(schemas.uiSchema.emailAddress).to.not.eq(undefined);
+      });
+    });
+
+    context('when includeEmail is false', () => {
+      it('does not include emailAddress', () => {
+        const schemas = selectSchemas(phoneOnly);
+
+        expect(schemas.schema.properties.emailAddress).to.eq(undefined);
+        expect(schemas.uiSchema.emailAddress).to.eq(undefined);
       });
     });
   });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -34,6 +34,7 @@ export class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
+    focusElement('h1');
     scrollToTop('topScrollElement');
     // Update query string based on results.
     if (this.props.results.data && this.props.results.data.length > 0) {
@@ -81,8 +82,13 @@ export class ConfirmationPage extends React.Component {
   sortBenefits = e => {
     const key = e.target.value;
     const sortKey = key === 'alphabetical' ? 'name' : key;
+    const sortStrings = {
+      alphabetical: 'alphabetical',
+      goal: 'goal',
+      category: 'type',
+    };
 
-    this.setState({ sortValue: key }, () => {
+    this.setState({ sortValue: sortStrings[key] }, () => {
       this.setState(prevState => {
         if (!prevState.benefits || !Array.isArray(prevState.benefits)) {
           return { benefits: [], benefitsList: [] };
@@ -101,8 +107,14 @@ export class ConfirmationPage extends React.Component {
 
   filterBenefits = e => {
     const key = e.target.value;
+    const filterStrings = {
+      All: 'All',
+      Education: 'Education',
+      Careers: 'Careers & Employment',
+      Support: 'More Support',
+    };
 
-    this.setState(() => ({ filterValue: key }));
+    this.setState(() => ({ filterValue: filterStrings[key] }));
 
     if (key === 'All') {
       this.setState(() => ({
@@ -134,8 +146,8 @@ export class ConfirmationPage extends React.Component {
     this.props.router.goBack();
   };
 
-  sortBenefitObj(sortBenefitObj, sortKey) {
-    return [...sortBenefitObj].sort((a, b) => {
+  sortBenefitObj(benefitObj, sortKey) {
+    return [...benefitObj].sort((a, b) => {
       let aValue = a[sortKey] || '';
       let bValue = b[sortKey] || '';
 
@@ -186,15 +198,9 @@ export class ConfirmationPage extends React.Component {
     this.setState({ showMobileFilters: !currentState });
   }
 
-  handleClick = e => {
-    e.preventDefault();
-
-    this.props.router.goBack();
-  };
-
   render() {
     return (
-      <div>
+      <div className="confirmation-page">
         <p>
           <b>
             Note: This tool is not an application for VA benefits and it doesn't
@@ -212,15 +218,13 @@ export class ConfirmationPage extends React.Component {
           and career benefits. We'll add more types of benefits soon.
         </p>
 
-        <SaveResultsModal />
-
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
-        <div
-          id="results-container"
-          className="vads-l-grid-container large-screen:vads-u-padding-x–0"
-        >
+        <div id="results-container" className="vads-l-grid-container">
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12">
+              <SaveResultsModal />
+            </div>
             <div
               className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
               id="filters-section-mobile-toggle"
@@ -294,19 +298,16 @@ export class ConfirmationPage extends React.Component {
               id="results-section"
               className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
             >
-              <b>
-                {this.state.hasResults &&
-                  `Showing ${this.state.resultsCount} ${
-                    this.state.resultsText
-                  }, filtered to show ${
-                    this.state.filterValue
-                  } results, sorted ${
-                    this.state.sortValue === 'alphabetical'
-                      ? this.state.sortValue
-                      : `by ${this.state.sortValue}`
-                  }`}
-              </b>
-
+              {this.state.hasResults && (
+                <>
+                  Showing {this.state.resultsCount} {this.state.resultsText},
+                  filtered to show <b>{this.state.filterValue} results</b>,
+                  sorted{' '}
+                  {this.state.sortValue === 'alphabetical'
+                    ? 'alphabetically'
+                    : `by ${this.state.sortValue}`}
+                </>
+              )}
               <p>
                 <va-link
                   data-testid="back-link"
@@ -385,7 +386,7 @@ export class ConfirmationPage extends React.Component {
 
               <va-accordion>
                 <va-accordion-item
-                  header="Show benefits that I may not qualify for"
+                  header="Benefits that I may not qualify for"
                   id="show"
                 >
                   <ul className="benefit-list">

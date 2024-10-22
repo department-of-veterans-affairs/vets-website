@@ -28,6 +28,7 @@ const SearchResult = ({
   router,
   routes,
   location,
+  goToPath,
 }) => {
   const { contact, extension } = parsePhoneNumber(phone);
   const addressExists = addressLine1 || city || stateCode || zipCode;
@@ -43,6 +44,11 @@ const SearchResult = ({
     (city ? ` ${city},` : '') +
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
+
+  const isReviewPage = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('review') === 'true';
+  };
 
   const recordContactLinkClick = () => {
     // pending analytics event
@@ -74,12 +80,17 @@ const SearchResult = ({
       ...tempData,
     });
 
-    const { pageList } = routes[1];
-    const { pathname } = location;
+    if (isReviewPage()) {
+      // logic here will be extended for various conditional paths depending on new representative type
+      goToPath('/review-and-submit');
+    } else {
+      const { pageList } = routes[1];
+      const { pathname } = location;
 
-    const nextPagePath = getNextPagePath(pageList, tempData, pathname);
+      const nextPagePath = getNextPagePath(pageList, tempData, pathname);
 
-    router.push(nextPagePath);
+      router.push(nextPagePath);
+    }
   };
 
   return (
