@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
@@ -8,6 +7,7 @@ import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import withRouter from '../utils/withRouter';
 
 import {
   getAppealsV2 as getAppealsV2Action,
@@ -117,10 +117,8 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   changePage(event) {
-    const newURL = `${this.props.history.location.pathname}?page=${
-      event.detail.page
-    }`;
-    this.props.history.push(newURL);
+    const newURL = `${this.props.location.pathname}?page=${event.detail.page}`;
+    this.props.navigate(newURL);
     this.setState({ page: event.detail.page });
     // Move focus to "Showing X through Y of Z events..." for screenreaders
     setPageFocus('#pagination-info');
@@ -311,6 +309,8 @@ YourClaimsPageV2.propTypes = {
       attributes: PropTypes.shape({}),
     }),
   ),
+  location: PropTypes.object,
+  navigate: PropTypes.func,
   stemClaimsLoading: PropTypes.bool,
 };
 
