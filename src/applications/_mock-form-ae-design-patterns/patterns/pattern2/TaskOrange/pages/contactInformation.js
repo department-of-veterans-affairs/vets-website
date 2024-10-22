@@ -1,4 +1,9 @@
-import { PersonalInformationContact } from './PersonalInformation';
+import React from 'react';
+
+import {
+  PersonalInformationContactReview,
+  PersonalInformationContact,
+} from './PersonalInformation';
 
 export default function createContactInformationPage() {
   return {
@@ -9,8 +14,13 @@ export default function createContactInformationPage() {
     CustomPageReview: null,
     uiSchema: {},
     schema: {
-      type: 'string',
+      type: 'object',
       properties: {},
     },
+    review: props => ({
+      'Contact Information': (() => {
+        return <PersonalInformationContactReview {...props} />;
+      })(),
+    }),
   };
 }
