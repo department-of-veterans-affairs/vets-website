@@ -10,7 +10,6 @@ import {
   selectFeatureAppointmentDetailsRedesign,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureVaosV2Next,
-  selectFeatureClaimStatus,
 } from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
@@ -53,7 +52,6 @@ export default function ConfirmedAppointmentDetailsPage() {
   const featureAppointmentDetailsRedesign = useSelector(
     selectFeatureAppointmentDetailsRedesign,
   );
-  const featureFetchClaimStatus = useSelector(selectFeatureClaimStatus);
   const isInPerson = selectIsInPerson(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
@@ -61,22 +59,15 @@ export default function ConfirmedAppointmentDetailsPage() {
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
-  const fetchClaimStatus = featureFetchClaimStatus && isPast && isVA;
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
   useEffect(
     () => {
-      dispatch(
-        fetchConfirmedAppointmentDetails(
-          id,
-          appointmentTypePrefix,
-          fetchClaimStatus,
-        ),
-      );
+      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
       scrollAndFocus();
     },
-    [id, dispatch, appointmentTypePrefix, fetchClaimStatus],
+    [id, dispatch, appointmentTypePrefix],
   );
 
   useEffect(
