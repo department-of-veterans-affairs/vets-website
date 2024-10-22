@@ -64,3 +64,8 @@ margin-bottom: 1rem;
 .fade-enter-done {
   opacity: 1;
 }
+
+// fixes for patter 2 Orange task
+#root_view\:editNavigation-label {
+  display: none !important;
+}
