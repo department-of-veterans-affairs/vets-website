@@ -211,6 +211,7 @@ class Profile extends Component {
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}
         user={this.props.user}
+        showProfileErrorMessage
       >
         <DowntimeNotification
           appTitle="profile"
