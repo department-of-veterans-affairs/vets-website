@@ -367,8 +367,6 @@ describe('HCA-Keyboard-Only', () => {
       cy.tabToContinueForm();
 
       // VA medical facility
-      cy.tabToElementAndPressSpace('[name="root_isEssentialAcaCoverage"]');
-
       const { vaMedicalFacility, 'view:facilityState': facilityState } = data[
         'view:preferredFacility'
       ];
