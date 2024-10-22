@@ -27,13 +27,14 @@ const labsAndTests = require('./medical-records/labs-and-tests');
 const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
 const healthConditions = require('./medical-records/health-conditions');
-const allergies = require('./medical-records/allergies');
+// const allergies = require('./medical-records/allergies');
+const allergies = require('./medical-records/allergies/accelerated');
 const vaccines = require('./medical-records/vaccines');
 const vitals = require('./medical-records/vitals');
 
 const responses = {
   ...commonResponses,
-  'GET /v0/user': user.defaultUser,
+  'GET /v0/user': user.cernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
@@ -143,4 +144,4 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 500);
+module.exports = delay(responses, 1000);

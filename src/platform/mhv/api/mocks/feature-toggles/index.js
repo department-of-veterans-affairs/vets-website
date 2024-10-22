@@ -31,6 +31,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: true,
         },
         {
+          name: 'mhv-accelerated-project',
+          value: true,
+        },
+        {
           name: 'mhv_landing_page_personalization',
           value: mhvLandingPagePersonalization,
         },
