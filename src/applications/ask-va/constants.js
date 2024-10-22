@@ -5,17 +5,34 @@ export const envUrl = environment.API_URL;
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
-  GET_CATEGORIESTOPICS: `${baseURL}/categories`,
-  GET_TOPICS: `topics?user_mock_data=true`,
-  GET_SUBTOPICS: `${baseURL}/topics`,
+  GET_CATEGORIES: `${baseURL}/contents?type=category`, // &user_mock_data=true
+  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`,
+  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
-  GET_INQUIRIES: `${baseURL}/inquiries`,
+  GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
+  INQUIRIES: `${baseURL}/inquiries`,
+  AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
   DASHBOARD_ID: `/user/dashboard/`,
+};
+
+// centralized logic for string replacement, incl. multiple fields
+// ex: getApiUrl(URL.GET_TOPICS, { PARENT_ID: 1 })
+
+//* @param {string} url - the URL to replace
+//* @param {object} params - the object with the key(s) to replace, if any
+//* @returns {string} - the URL with the replaced value(s)
+export const getApiUrl = (url, params) => {
+  let apiUrl = url || '';
+  if (params) {
+    Object.keys(params).forEach(key => {
+      apiUrl = apiUrl.replace(`%${key}%`, params[key]);
+    });
+  }
+  return envUrl + apiUrl;
 };
 
 export const CategoryEducation =

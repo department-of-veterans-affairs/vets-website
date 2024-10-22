@@ -20,9 +20,8 @@ export default {
             target="_blank"
             rel="noreferrer"
           >
-            Learn more about disability ratings
+            Learn more about disability ratings (opens in a new tab)
           </a>{' '}
-          <span> (opens in a new tab)</span>
         </div>
       ),
     },
