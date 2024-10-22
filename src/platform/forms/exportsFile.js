@@ -234,3 +234,5 @@ export {
   getCurrentFormStep,
   getCurrentPageName,
 };
+
+export const stability = true;
