@@ -1,20 +1,22 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+.benefit-eligibility-questionnaire .confirmation-page p,
+.benefit-eligibility-questionnaire article p,
+.benefit-eligibility-questionnaire form > div:first-of-type * {
+  width: 75ch !important;
+}
 
 #filters-section-desktop {
   @media (min-width: $medium-screen) {
     border-right: 2px solid var(--vads-color-gray-medium);
     padding-right: 20px;
   }
-}
-
-#filters-section-desktop p {
-  margin: 10px 0 5px 0;
 }
 
 #filters-section-desktop select {

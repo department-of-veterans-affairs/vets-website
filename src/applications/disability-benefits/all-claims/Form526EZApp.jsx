@@ -231,7 +231,7 @@ export const Form526Entry = ({
         title,
         <Missing526Identifiers
           title={title}
-          form526RequiredIdentifers={identifiers}
+          form526RequiredIdentifiers={identifiers}
         />,
       );
     }

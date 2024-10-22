@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import { Element as ScrollElement } from 'platform/utilities/scroll';
+
 import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
 import { isSmallScreen, useQueryParams } from '../utils/helpers';
-
-const { Element: ScrollElement } = Scroll;
 
 export function ProfilePage({
   constants,
@@ -113,11 +112,12 @@ export function ProfilePage({
   }
 
   return (
-    <ScrollElement
-      name="profilePage"
-      className="profile-page vads-u-padding-top--3"
-    >
-      {profile.error ? <ServiceError /> : <div className="row">{content}</div>}
+    <ScrollElement name="profilePage">
+      {profile.error ? (
+        <ServiceError />
+      ) : (
+        <div className="row profile-page">{content}</div>
+      )}
     </ScrollElement>
   );
 }

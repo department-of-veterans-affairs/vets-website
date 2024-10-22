@@ -59,7 +59,7 @@ const resolveLandingPageLinks = (
       text: 'Update health benefits info (10-10EZR)',
     },
     {
-      href: mhvUrl(authdWithSSOe, 'health-information-card'),
+      href: '/health-care/get-health-id-card/',
       text: 'Veteran health information card',
     },
     // {

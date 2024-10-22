@@ -19,6 +19,7 @@ const {
 const mockFormAeDesignPatterns = require('./endpoints/in-progress-forms/mock-form-ae-design-patterns');
 
 const prefill261880 = require('./endpoints/in-progress-forms/26-1880');
+const { FORM_22_1990 } = require('./endpoints/in-progress-forms/22-1990');
 
 // transaction status that is used for address, email, phone number update flows
 const {
@@ -68,6 +69,11 @@ const responses = {
   'GET /v0/in_progress_forms/26-1880': (_req, res) => {
     const secondsOfDelay = 1;
     delaySingleResponse(() => res.json(prefill261880.response), secondsOfDelay);
+  },
+
+  'GET /v0/in_progress_forms/22-1990': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(() => res.json(FORM_22_1990.minimal), secondsOfDelay);
   },
 
   'PUT /v0/in_progress_forms/:id': (req, res) => {
@@ -138,7 +144,11 @@ const responses = {
   'POST /v0/profile/telephones': (req, res) => {
     // return res.status(200).json(phoneNumber.transactions.received);
     return res.json(
-      updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),
+      updateMemDb(
+        req,
+        // telephone.homePhoneUpdateReceivedPrefillTaskPurple,
+        telephone.mobilePhoneUpdateReceivedPrefillTaskBlue,
+      ),
     );
   },
   'POST /v0/profile/email_addresses': (req, res) => {

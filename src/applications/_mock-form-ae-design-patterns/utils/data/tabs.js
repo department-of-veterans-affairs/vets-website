@@ -24,20 +24,6 @@ export const tabsConfig = {
   ],
   pattern2: [
     {
-      name: 'Red',
-      path: '/2/task-red',
-      description: 'Pattern 2 - Red Task',
-      bgColor: '--vads-color-secondary-darkest',
-      textColor: '--vads-color-white',
-    },
-    {
-      name: 'Pink',
-      path: '/2/task-pink',
-      description: 'Pattern 2 - Pink Task',
-      bgColor: '--vads-color-secondary-light',
-      textColor: '--vads-color-black',
-    },
-    {
       name: 'Orange',
       path: '/2/task-orange',
 
@@ -50,6 +36,13 @@ export const tabsConfig = {
       path: '/2/task-gray',
       description: 'Pattern 2 - Gray Task',
       bgColor: '--vads-color-gray-warm-dark',
+      textColor: '--vads-color-white',
+    },
+    {
+      name: 'Blue',
+      path: '/2/task-blue',
+      description: 'Pattern 2 - Blue Task',
+      bgColor: '--vads-color-primary-dark',
       textColor: '--vads-color-white',
     },
   ],
