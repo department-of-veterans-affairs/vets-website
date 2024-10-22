@@ -27,7 +27,7 @@ export default function AddressBlock({ repName, orgName, addressData }) {
 }
 
 AddressBlock.propTypes = {
-  address: PropTypes.object,
+  addressData: PropTypes.object,
   orgName: PropTypes.string,
   repName: PropTypes.string,
 };
