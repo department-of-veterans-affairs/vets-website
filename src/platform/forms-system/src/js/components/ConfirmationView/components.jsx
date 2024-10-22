@@ -138,7 +138,7 @@ export const WhatsNextProcessList = ({
     >
       {item1Content || (
         <p>
-          'This can take up to 10 days. When we receive your form, we’ll update
+          This can take up to 30 days. When we receive your form, we’ll update
           the status on My VA.
         </p>
       )}
@@ -357,7 +357,7 @@ export const SubmissionAlert = ({
     <>
       <p>Your submission is in progress.</p>
       <p>
-        It can take up to 10 days for us to receive your form.
+        It can take up to 30 days for us to receive your form.
         {confirmationNumber &&
           ` Your confirmation number is ${confirmationNumber}.`}
       </p>
