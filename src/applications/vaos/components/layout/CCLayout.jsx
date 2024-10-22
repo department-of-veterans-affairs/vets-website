@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import DetailPageLayout, {
-  Details,
+  CCDetails,
   Section,
   What,
   When,
@@ -36,7 +36,7 @@ export default function CCLayout({ data: appointment }) {
   if (!appointment) return null;
 
   const { address, providerName, treatmentSpecialty } = ccProvider;
-  const { reasonForAppointment, patientComments } = appointment || {};
+  const { patientComments } = appointment || {};
 
   let heading = 'Community care appointment';
   if (isPastAppointment) heading = 'Past community care appointment';
@@ -88,7 +88,7 @@ export default function CCLayout({ data: appointment }) {
             </>
           )}
         </Section>
-        <Details reason={reasonForAppointment} otherDetails={patientComments} />
+        <CCDetails otherDetails={patientComments} />
         {!isPastAppointment &&
           (APPOINTMENT_STATUS.booked === status ||
             APPOINTMENT_STATUS.cancelled === status) && (

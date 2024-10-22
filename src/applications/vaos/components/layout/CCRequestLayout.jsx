@@ -5,7 +5,7 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
-import DetailPageLayout, { Details, Section } from './DetailPageLayout';
+import DetailPageLayout, { CCDetails, Section } from './DetailPageLayout';
 import ListBestTimeToCall from '../../appointment-list/components/ListBestTimeToCall';
 import PageLayout from '../../appointment-list/components/PageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
@@ -79,7 +79,7 @@ export default function CCRequestLayout({ data: appointment }) {
         <Section heading="Language you’d prefer the provider speak">
           {preferredLanguage}
         </Section>
-        <Details otherDetails={patientComments} request />
+        <CCDetails otherDetails={patientComments} request />
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />

@@ -137,7 +137,6 @@ describe('VAOS Component: VARequestLayout', () => {
           name: /Details you.d like to share with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason: Not available/i));
       expect(
         screen.getByText(
           /Other details: This is a test:Additional information/i,
@@ -276,7 +275,6 @@ describe('VAOS Component: VARequestLayout', () => {
           name: /Details you.d like to share with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason: Not available/i));
       expect(
         screen.getByText(
           /Other details: This is a test:Additional information/i,
