@@ -14,7 +14,6 @@ import {
   createPageList,
   getActiveExpandedPages,
   getCurrentChapterDisplay,
-  getUrlPrefixedPath,
 } from '../helpers';
 
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
@@ -52,7 +51,7 @@ export default function FormNav(props) {
   if (!page) {
     page =
       formPages.find(
-        p => getUrlPrefixedPath(p.path, formConfig.urlPrefix) === currentPath,
+        p => formConfig.getUrlPrefixedPath(p.path) === currentPath,
       ) || {};
   }
 
@@ -178,7 +177,7 @@ FormNav.propTypes = {
     customText: PropTypes.shape({
       reviewPageTitle: PropTypes.string,
     }),
-    urlPrefix: PropTypes.string,
+    getUrlPrefixedPath: PropTypes.func,
     useCustomScrollAndFocus: PropTypes.bool,
   }).isRequired,
   currentPath: PropTypes.string,

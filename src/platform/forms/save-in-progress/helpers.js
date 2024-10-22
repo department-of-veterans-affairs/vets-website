@@ -1,14 +1,19 @@
 import {
   createPageList,
   createFormPageList,
+  addConfigUrlPrefixing,
 } from 'platform/forms-system/src/js/helpers';
 import { createRoutes } from 'platform/forms-system/src/js/routing';
+import validateConfig from 'platform/forms-system/src/js/validate-config';
 import RoutedSavablePage from './RoutedSavablePage';
 import RoutedSavableReviewPage from './RoutedSavableReviewPage';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
 export function createRoutesWithSaveInProgress(formConfig) {
+  validateConfig(formConfig);
+  addConfigUrlPrefixing(formConfig);
+
   const protectedRoutes = new Set([
     'introduction',
     'review-and-submit',

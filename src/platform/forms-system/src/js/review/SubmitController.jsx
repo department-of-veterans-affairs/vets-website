@@ -14,11 +14,7 @@ import { $, focusElement } from '~/platform/forms-system/src/js/utilities/ui';
 
 import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';
-import {
-  createPageListByChapter,
-  getActiveExpandedPages,
-  getUrlPrefixedPath,
-} from '../helpers';
+import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 
 import {
@@ -37,10 +33,7 @@ class SubmitController extends Component {
       nextStatus !== previousStatus &&
       nextStatus === 'applicationSubmitted'
     ) {
-      const newRoute = getUrlPrefixedPath(
-        'confirmation',
-        nextProps.formConfig.urlPrefix,
-      );
+      const newRoute = nextProps.formConfig.getUrlPrefixedPath('confirmation');
       this.props.router.push(newRoute);
     }
   }
@@ -237,7 +230,9 @@ const mapDispatchToProps = {
 SubmitController.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
-  formConfig: PropTypes.object.isRequired,
+  formConfig: PropTypes.shape({
+    getUrlPrefixedPath: PropTypes.func,
+  }),
   pageList: PropTypes.array.isRequired,
   pagesByChapter: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired,

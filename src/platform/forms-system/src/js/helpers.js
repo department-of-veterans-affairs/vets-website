@@ -46,8 +46,12 @@ export const getCurrentChapterDisplay = (formConfig, currentChapterIndex) => {
   return currentChapterIndex - upstreamProgressHiddenChaptersLength;
 };
 
-export function getUrlPrefixedPath(path, urlPrefix) {
-  return `${urlPrefix || ''}${path}`;
+export function addConfigUrlPrefixing(formConfig) {
+  if (typeof formConfig.getUrlPrefixedPath === 'function') return;
+  // eslint-disable-next-line no-param-reassign
+  formConfig.getUrlPrefixedPath = path => {
+    return `${formConfig.urlPrefix || ''}${path}`;
+  };
 }
 
 // An active page is one that will be shown to the user.
@@ -142,9 +146,7 @@ export function createPageList(formConfig, formPages) {
         chapterKey: 'review',
       },
     ])
-    .map(page =>
-      set('path', getUrlPrefixedPath(page.path, formConfig.urlPrefix), page),
-    );
+    .map(page => set('path', formConfig.getUrlPrefixedPath(page.path), page));
 }
 
 export function hideFormTitle(formConfig, pathName) {

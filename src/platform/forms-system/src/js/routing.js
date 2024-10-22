@@ -3,6 +3,7 @@ import {
   getActiveExpandedPages,
   createFormPageList,
   createPageList,
+  addConfigUrlPrefixing,
 } from './helpers';
 import validateConfig from './validate-config';
 
@@ -58,6 +59,7 @@ export function createRoutes(formConfig) {
   // entry point for applications to use the forms library.
   // TODO: Tree shake this config validation in prod
   validateConfig(formConfig);
+  addConfigUrlPrefixing(formConfig);
 
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
@@ -67,7 +69,7 @@ export function createRoutes(formConfig) {
     component: page.component || FormPage,
     pageConfig: page,
     pageList,
-    urlPrefix: formConfig.urlPrefix,
+    getUrlPrefixedPath: formConfig.getUrlPrefixedPath,
   }));
 
   if (formConfig.additionalRoutes) {

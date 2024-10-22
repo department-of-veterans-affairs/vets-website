@@ -25,7 +25,7 @@ import {
   checkValidPagePath,
 } from '../routing';
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
-import { getUrlPrefixedPath, stringifyUrlParams } from '../helpers';
+import { stringifyUrlParams } from '../helpers';
 
 function focusForm(route, index) {
   // Check main toggle to enable custom focus
@@ -135,7 +135,7 @@ class FormPage extends React.Component {
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,
-        getUrlPrefixedPath: p => getUrlPrefixedPath(p, route.urlPrefix),
+        getUrlPrefixedPath: route.getUrlPrefixedPath,
       });
       return;
     }
@@ -213,7 +213,7 @@ class FormPage extends React.Component {
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,
-        getUrlPrefixedPath: p => getUrlPrefixedPath(p, route.urlPrefix),
+        getUrlPrefixedPath: route.getUrlPrefixedPath,
       });
       return;
     }
@@ -481,6 +481,7 @@ FormPage.propTypes = {
         path: PropTypes.string.isRequired,
       }),
     ),
+    getUrlPrefixedPath: PropTypes.func,
   }),
   router: PropTypes.shape({
     push: PropTypes.func,
