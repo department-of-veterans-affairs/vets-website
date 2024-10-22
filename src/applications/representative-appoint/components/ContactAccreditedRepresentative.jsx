@@ -8,7 +8,7 @@ import { getEntityAddressAsObject } from '../utilities/helpers';
 const ContactAccreditedRepresentative = props => {
   const rep = props?.formData?.['view:selectedRepresentative'];
   const repAttributes = rep?.attributes;
-  const addressData = getEntityAddressAsObject(rep);
+  const addressData = getEntityAddressAsObject(repAttributes);
   const email = repAttributes?.email;
   const phone = repAttributes?.phone;
   const isOrg = rep?.type === 'organization';
