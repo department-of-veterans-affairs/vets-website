@@ -246,7 +246,9 @@ export const convertRepType = input => {
 };
 
 export const addressExists = address =>
-  address?.addressLine1 &&
-  address?.city &&
-  address?.stateCode &&
-  address?.zipCode;
+  !!(
+    address?.addressLine1?.trim() &&
+    address?.city?.trim() &&
+    address?.stateCode?.trim() &&
+    address?.zipCode?.trim()
+  );
