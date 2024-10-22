@@ -32,19 +32,29 @@ export const dateFormatWithoutTimezone = datetime => {
   if (typeof datetime === 'string' && datetime.includes('-')) {
     // Check if datetime has a timezone and strip it off if present
     if (datetime.includes('T')) {
-      withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+      withoutTimezone = datetime
+        .substring(datetime.indexOf('T'), datetime.length)
+        .includes('-')
+        ? datetime.substring(0, datetime.lastIndexOf('-'))
+        : datetime.replace('Z', '');
     } else {
       // Handle the case where the datetime is just a date (e.g., "2000-08-09")
       const parsedDate = parseISO(datetime);
       if (isValid(parsedDate)) {
-        return dateFnsFormat(parsedDate, 'MMMM d, yyyy');
+        return dateFnsFormat(parsedDate, 'MMMM d, yyyy', { in: 'UTC' });
       }
     }
+  } else {
+    withoutTimezone = new Date(datetime).toISOString().replace('Z', '');
   }
 
   const parsedDateTime = parseISO(withoutTimezone);
   if (isValid(parsedDateTime)) {
-    const formattedDate = dateFnsFormat(parsedDateTime, 'MMMM d, yyyy, h:mm a');
+    const formattedDate = dateFnsFormat(
+      parsedDateTime,
+      'MMMM d, yyyy, h:mm a',
+      { in: 'UTC' },
+    );
     return formattedDate.replace(/AM|PM/, match =>
       match.toLowerCase().replace('m', '.m.'),
     );
@@ -343,7 +353,7 @@ export const formatDate = str => {
     return str;
   }
   if (monthRegex.test(str)) {
-    return dateFnsFormat(parseISO(str), 'MMMM, yyyy');
+    return dateFnsFormat(parseISO(str), 'MMMM, yyyy', { in: 'UTC' });
   }
   return formatDateLong(str);
 };
@@ -353,15 +363,25 @@ export const formatDate = str => {
  *
  * @param {Date} date
  */
-export const formatDateAndTime = date => {
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
+export const formatDateAndTime = rawDate => {
+  let date = rawDate;
+  if (typeof rawDate === 'string') {
+    date = new Date(rawDate);
+  }
+
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
   const period = hours >= 12 ? 'p.m.' : 'a.m.';
   const formattedHours = hours % 12 || 12; // Convert to 12-hour format
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const timePart = `${formattedHours}:${formattedMinutes} ${period} ET`;
 
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  };
   const datePart = date.toLocaleDateString('en-US', options);
 
   return {
