@@ -2,6 +2,7 @@ import React, { createContext } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInProgressForm } from 'platform/forms/exportsFile';
+import environment from 'platform/utilities/environment';
 import greenFormConfig from '../../patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from '../../patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from '../../patterns/pattern1/TaskPurple/config/form';
@@ -60,7 +61,12 @@ export const PatternConfigProvider = ({ location, children }) => {
   const loadedData = useSelector(state => state?.form?.loadedData);
   const isIntroductionPage = location.pathname.includes('introduction');
 
-  if (loadedData) {
+  if (
+    loadedData &&
+    environment.isLocalhost() &&
+    !isIntroductionPage &&
+    !window.Cypress
+  ) {
     const { formId, prefillEnabled, prefillTransformer } = formConfig;
     const migrations = formConfig?.migrations || [];
     const { metadata } = loadedData;
