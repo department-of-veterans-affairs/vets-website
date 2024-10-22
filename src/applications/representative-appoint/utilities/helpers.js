@@ -225,7 +225,7 @@ export const getOrgName = formData => {
     formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
       ?.data;
 
-  if (orgs.length > 1) {
+  if (orgs && orgs.length > 1) {
     const id = formData?.selectedAccreditedOrganizationId;
     const selectedOrg = orgs.find(org => org.id === id);
     return selectedOrg?.attributes?.name;
