@@ -8,7 +8,7 @@ import os from 'os';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
-import { JSDOM, ResourceLoader } from 'jsdom';
+const JSDOM = require('jsdom');
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
@@ -60,6 +60,7 @@ function resetFetch() {
 function setupJSDom() {
   // Prevent warnings from displaying
   /* eslint-disable no-console */
+  
   if (process.env.LOG_LEVEL === 'debug') {
     console.error = (error, reactError) => {
       if (reactError instanceof Error) {
@@ -80,12 +81,12 @@ function setupJSDom() {
   /* eslint-enable no-console */
   
   // set up resource loader
-  const loader = new ResourceLoader({
+  const loader = new JSDOM.ResourceLoader({
     userAgent: 'Node.js'
   });
 
   // setup the simplest document possible
-  const dom = new JSDOM('<!doctype html><html><body></body></html>', {
+  const dom = new JSDOM.JSDOM('<!doctype html><html><body></body></html>', {
     url: 'http://localhost',
     resources: loader
   });
