@@ -105,9 +105,6 @@ export default function UpcomingAppointmentsList() {
             </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
-              aria-labelledby={`appointment_list_${monthDate.format(
-                'YYYY-MM',
-              )}`}
               className={classNames(
                 'usa-unstyled-list',
                 'vads-u-padding-left--0',
