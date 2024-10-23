@@ -148,9 +148,12 @@ const formConfig = {
           path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
           title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
           CustomPageReview: CustomPageReviewField,
-          depends: form =>
-            form.whoIsYourQuestionAbout !==
-            whoIsYourQuestionAboutLabels.GENERAL,
+          depends: form => {
+            return (
+              form.whoIsYourQuestionAbout !==
+              whoIsYourQuestionAboutLabels.GENERAL
+            );
+          },
           uiSchema: relationshipToVeteranPage.uiSchema,
           schema: relationshipToVeteranPage.schema,
         },
@@ -159,20 +162,26 @@ const formConfig = {
     aboutMyselfRelationshipVeteran: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
-      depends: formData =>
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.MYSELF &&
-        formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN,
+      depends: formData => {
+        return (
+          formData.whoIsYourQuestionAbout ===
+            whoIsYourQuestionAboutLabels.MYSELF &&
+          formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN
+        );
+      },
       pages: { ...aboutMyselfRelationshipVeteranPages },
     },
     aboutMyselfRelationshipFamilyMember: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
-      depends: formData =>
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.MYSELF &&
-        formData.relationshipToVeteran ===
-          relationshipOptionsMyself.FAMILY_MEMBER,
+      depends: formData => {
+        return (
+          formData.whoIsYourQuestionAbout ===
+            whoIsYourQuestionAboutLabels.MYSELF &&
+          formData.relationshipToVeteran ===
+            relationshipOptionsMyself.FAMILY_MEMBER
+        );
+      },
       pages: { ...aboutMyselfRelationshipFamilyMemberPages },
     },
     aboutSomeoneElseRelationshipVeteran: {

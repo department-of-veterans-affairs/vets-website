@@ -56,6 +56,7 @@ describe('<ClaimLetterListItem>', () => {
         'gtm.elementUrl': `${environment.API_URL}/v0/claim_letters/[${
           mockLetter.docType
         }]:id.pdf`,
+        'letter-type': 'Claim decision or other notification',
       }),
     ).to.be.true;
     recordEventStub.restore();

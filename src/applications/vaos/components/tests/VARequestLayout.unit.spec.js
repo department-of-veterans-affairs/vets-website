@@ -37,7 +37,8 @@ describe('VAOS Component: VARequestLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
+        reasonForAppointment: 'This is a test',
+        patientComments: 'Additional information:colon',
         contact: {
           telecom: [
             {
@@ -130,10 +131,8 @@ describe('VAOS Component: VARequestLayout', () => {
           name: /Details you.d like to share with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(screen.getByText(/Reason: This is a test/i));
+      expect(screen.getByText(/Other details: Additional information:colon/i));
 
       expect(
         screen.getByRole('heading', {
@@ -172,7 +171,8 @@ describe('VAOS Component: VARequestLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
+        reasonForAppointment: 'This is a test',
+        patientComments: 'Additional information:colon',
         contact: {
           telecom: [
             {
@@ -256,10 +256,8 @@ describe('VAOS Component: VARequestLayout', () => {
           name: /Details you.d like to share with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(screen.getByText(/Reason: This is a test/i));
+      expect(screen.getByText(/Other details: Additional information:colon/i));
 
       expect(
         screen.getByRole('heading', {
@@ -292,7 +290,8 @@ describe('VAOS Component: VARequestLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
+        reasonForAppointment: 'This is a test',
+        patientComments: 'Additional information:colon',
         contact: {
           telecom: [
             {
@@ -387,10 +386,8 @@ describe('VAOS Component: VARequestLayout', () => {
           name: /Details you.d like to share with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(screen.getByText(/Reason: This is a test/i));
+      expect(screen.getByText(/Other details: Additional information:colon/i));
 
       expect(
         screen.getByRole('heading', {

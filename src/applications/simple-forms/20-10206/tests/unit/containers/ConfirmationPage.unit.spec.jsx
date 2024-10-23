@@ -7,6 +7,7 @@ import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { cleanup } from '@testing-library/react';
 import { format } from 'date-fns';
+import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 describe('ConfirmationPage', () => {
@@ -35,7 +36,7 @@ describe('ConfirmationPage', () => {
     store = mockStore(initialState);
     wrapper = mount(
       <Provider store={store}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
   });
@@ -48,14 +49,10 @@ describe('ConfirmationPage', () => {
   });
 
   it('passes the correct props to ConfirmationPageView', () => {
-    const confirmationPageViewProps = wrapper
-      .find('ConfirmationPageView')
-      .props();
+    const confirmationViewProps = wrapper.find('ConfirmationView').props();
 
-    expect(confirmationPageViewProps.submitDate).to.equal(
-      '2022-01-01T00:00:00Z',
-    );
-    expect(confirmationPageViewProps.confirmationNumber).to.equal('1234567890');
+    expect(confirmationViewProps.submitDate).to.equal('2022-01-01T00:00:00Z');
+    expect(confirmationViewProps.confirmationNumber).to.equal('1234567890');
   });
 
   it('should select form from state when state.form is defined', () => {
@@ -73,7 +70,7 @@ describe('ConfirmationPage', () => {
 
     const definedWrapper = mount(
       <Provider store={mockDefinedState}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
@@ -94,7 +91,7 @@ describe('ConfirmationPage', () => {
     expect(() => {
       errorWrapper = mount(
         <Provider store={mockEmptyStore}>
-          <ConfirmationPage />
+          <ConfirmationPage route={{ formConfig }} />
         </Provider>,
       );
     }).to.throw();
