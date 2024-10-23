@@ -48,11 +48,11 @@ export default function AppointmentColumnLayout({
         size="1"
         className={classNames(
           'vads-u-flex--auto',
-          'xsmall-screen:vads-u-padding-top--1',
+          'mobile:vads-u-padding-top--1',
           'medium-screen:vads-u-padding-top--0',
         )}
-        aria-label={dateAriaLabel}
       >
+        <span className="sr-only">{dateAriaLabel}</span>
         <AppointmentRow
           className={classNames(
             'vaos-appts__column--alignItems',
@@ -67,7 +67,7 @@ export default function AppointmentColumnLayout({
             className={classNames(
               'mobile-lg:vads-u-flex--auto',
               'small-screen:vads-u-order--first',
-              'small-screen:vads-u-padding-top--0',
+              'mobile-lg:vads-u-padding-top--0',
               'medium-screen:vaos-appts__minWidth',
               'medium-screen:vaos-appts__maxWidth',
             )}
@@ -112,7 +112,7 @@ export default function AppointmentColumnLayout({
         className={classNames(
           'vads-u-padding-right--1',
           'vads-u-border-color--gray-medium',
-          'xsmall-screen:vads-u-padding-top--1',
+          'mobile:vads-u-padding-top--1',
           'medium-screen:vads-u-padding-top--0',
           {
             'vads-u-border-top--1px': grouped && !first,

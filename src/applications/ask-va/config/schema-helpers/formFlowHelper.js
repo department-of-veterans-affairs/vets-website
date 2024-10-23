@@ -1,10 +1,12 @@
 import _ from 'lodash';
 import {
+  branchOfServiceRuleforCategories,
   CategoryEducation,
   CHAPTER_2,
   CHAPTER_3,
   healthcareCategoryLabels,
   schoolInYourProfileOptions,
+  whoIsYourQuestionAboutLabels,
   yourRoleOptions,
 } from '../../constants';
 
@@ -36,6 +38,7 @@ import theirVREInformationPage from '../chapters/personalInformation/theirVREInf
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
 import veteransPostalCodePage from '../chapters/personalInformation/veteransPostalCode';
+import yourBranchOfServicePage from '../chapters/personalInformation/yourBranchOfService';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
 import yourLocationOfResidencePage from '../chapters/personalInformation/yourLocationOfResidence';
@@ -207,8 +210,9 @@ const ch3Pages = {
     uiSchema: schoolInYourProfilePage.uiSchema,
     schema: schoolInYourProfilePage.schema,
     depends: form =>
-      form.yourRole === yourRoleOptions.SCO ||
-      form.yourRole === yourRoleOptions.TRAINING_OR_APPRENTICESHIP_SUP,
+      yourRoleOptions[form.yourRoleEducation] === yourRoleOptions.SCO ||
+      yourRoleOptions[form.yourRoleEducation] ===
+        yourRoleOptions.TRAINING_OR_APPRENTICESHIP_SUP,
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
@@ -312,6 +316,14 @@ const ch3Pages = {
     schema: theirVRECounselorPage.schema,
     depends: form => form.theirVREInformation === true,
   },
+  yourBranchOfService: {
+    title: CHAPTER_3.BRANCH_OF_SERVICE.TITLE,
+    uiSchema: yourBranchOfServicePage.uiSchema,
+    schema: yourBranchOfServicePage.schema,
+    depends: form =>
+      branchOfServiceRuleforCategories.includes(form.selectCategory) ||
+      form.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL,
+  },
 };
 
 const aboutMyselfRelationshipVeteranCondition = formData => {
@@ -379,18 +391,20 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formD
 
 const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
   return (
-    formData.whoIsYourQuestionAbout === 'Someone else' &&
+    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
+      'Someone else' &&
     formData.relationshipToVeteran !==
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-    formData.selectCategory === CategoryEducation
+    formData.selectCategory === 'Education benefits and work study'
   );
 };
 
 const generalQuestionCondition = formData => {
   return (
-    formData.whoIsYourQuestionAbout === "It's a general question" ||
-    (formData.selectCategory === CategoryEducation &&
-      formData.selectTopic === 'VEAP (Ch 32)')
+    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
+      "It's a general question" ||
+    (formData.selectCategory === 'Education benefits and work study' &&
+      formData.selectTopic === 'Veteran Readiness and Employment (Chapter 31)')
   );
 };
 
@@ -450,6 +464,7 @@ export const flowPages = (obj, list, path) => {
 // Form flows
 const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
+  'yourBranchOfService',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
@@ -495,6 +510,7 @@ const aboutSomeoneElseRelationshipVeteran = [
   'theirVREInformation',
   'theirVRECounselor',
   'aboutYourself',
+  'yourBranchOfService',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',

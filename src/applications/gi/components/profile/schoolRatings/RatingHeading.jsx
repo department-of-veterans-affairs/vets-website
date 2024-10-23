@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import RatingsStars from './RatingsStars';
 
 export const RatingHeading = ({ ratingCount, displayStars, ratingAverage }) => {
@@ -21,6 +22,12 @@ export const RatingHeading = ({ ratingCount, displayStars, ratingAverage }) => {
       </div>
     </div>
   );
+};
+
+RatingHeading.propTypes = {
+  displayStars: PropTypes.number.isRequired,
+  ratingAverage: PropTypes.number.isRequired,
+  ratingCount: PropTypes.number.isRequired,
 };
 
 export default RatingHeading;

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions */
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
@@ -34,18 +35,23 @@ const VaFacilityResult = ({
     <div className="facility-result" id={location.id} key={location.id}>
       <>
         <LocationMarker markerText={location.markerText} />
-        {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions */}
-        <span onClick={clickHandler} onKeyDown={clickHandler}>
-          {isVADomain(website) ? (
-            <h3 className="vads-u-margin-y--0">
-              <va-link href={website} text={name} />
-            </h3>
-          ) : (
-            <h3 className="vads-u-margin-y--0">
-              <Link to={`facility/${location.id}`}>{name}</Link>
-            </h3>
-          )}
-        </span>
+        {isVADomain(website) ? (
+          <h3
+            className="vads-u-margin-y--0"
+            onClick={clickHandler}
+            onKeyDown={clickHandler}
+          >
+            <va-link href={website} text={name} />
+          </h3>
+        ) : (
+          <h3
+            className="vads-u-margin-y--0"
+            onClick={clickHandler}
+            onKeyDown={clickHandler}
+          >
+            <Link to={`facility/${location.id}`}>{name}</Link>
+          </h3>
+        )}
         <LocationDistance distance={location.distance} />
         {operatingStatus &&
           operatingStatus.code !== OperatingStatus.NORMAL && (

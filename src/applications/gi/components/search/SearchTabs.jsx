@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -45,7 +46,9 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
     );
     const testId = label.replaceAll(' ', '-');
     return (
+      /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
       <button
+        type="button"
         className={tabClasses}
         aria-selected={activeTab}
         data-testid={testId}
@@ -70,3 +73,8 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
     </div>
   );
 }
+SearchTabs.propTypes = {
+  dispatchError: PropTypes.func.isRequired,
+  search: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+};

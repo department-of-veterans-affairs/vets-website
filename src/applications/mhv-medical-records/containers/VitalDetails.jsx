@@ -10,7 +10,6 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
@@ -30,6 +29,7 @@ import {
   makePdf,
   generateTextFile,
   getLastUpdatedText,
+  formatNameFirstLast,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -217,7 +217,7 @@ const VitalDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${vitalTypeDisplayNames[records[0].type]}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${records
@@ -250,6 +250,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
           {vitalDisplayName}
         </h1>
+        <h2 className="sr-only">List of {vitalDisplayName} results</h2>
 
         <NewRecordsIndicator
           refreshState={refresh}
@@ -289,7 +290,7 @@ Provider notes: ${vital.notes}\n\n`,
             currentVitals?.map((vital, idx) => (
               <li
                 key={idx}
-                className="vads-u-margin--0 vads-u-padding-y--3 small-screen:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+                className="vads-u-margin--0 vads-u-padding-y--3 mobile-lg:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
               >
                 <h3
                   data-testid="vital-date"

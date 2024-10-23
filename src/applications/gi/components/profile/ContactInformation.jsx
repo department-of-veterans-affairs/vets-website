@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ScoContact } from './ScoContact';
 import LearnMoreLabel from '../LearnMoreLabel';
@@ -206,3 +206,7 @@ export default function ContactInformation({ institution, showModal }) {
     </div>
   );
 }
+ContactInformation.propTypes = {
+  showModal: PropTypes.func.isRequired,
+  institution: PropTypes.object,
+};

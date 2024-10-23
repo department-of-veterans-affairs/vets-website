@@ -1,5 +1,73 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+
+.search-dropdown-options {
+  position: absolute;
+  box-shadow: 0px 7px 10px -4px var(--vads-color-base);
+
+  &.full-width-suggestions {
+    top: 58px;
+    right: 0;
+  }
+}
+
+.suggestion {
+  line-height: 24px;
+  cursor: pointer;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.search-dropdown-input-field {
+  height: 42px;
+}
+
+.search-dropdown-submit-button {
+  height: 42px;
+}
+
+.search-dropdown-component {
+  flex-direction: row;
+
+  &.full-width-suggestions {
+    position: relative;
+  }
+
+  &.shrink-to-column {
+    @media (max-width: $medium-screen) {
+      flex-direction: column;
+    }
+  }
+}
+
+.search-dropdown-container {
+  position: relative;
+
+  &.full-width-suggestions {
+    position: static;
+    max-width: 80%;
+  }
+}
+
+.suggestion {
+  line-height: 24px;
+  cursor: pointer;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.search-dropdown-input-field {
+  height: 42px;
+}
+
+.search-dropdown-submit-button {
+  height: 42px;
+}
 
 #loginGovExperimentModal {
   ul {
@@ -94,6 +162,7 @@ span.sidelines {
 }
 
 #login-root {
+
   .sitewide-search-drop-down-panel-button,
   .sign-in-drop-down-panel-button {
     border-top: none;
@@ -139,7 +208,8 @@ span.sidelines {
       margin-bottom: 0;
 
       &:hover {
-        box-shadow: inset 0 0 0 2px var(--vads-button-color-background-primary-alt-active-on-light);
+        box-shadow: inset 0 0 0 2px
+          var(--vads-button-color-background-primary-alt-active-on-light);
         color: var(--vads-button-color-background-primary-alt-active-on-light);
       }
     }
@@ -148,7 +218,9 @@ span.sidelines {
       background: var(--vads-color-success-dark);
 
       &:hover {
-        background: var(--vads-button-color-background-primary-alt-active-on-light);
+        background: var(
+          --vads-button-color-background-primary-alt-active-on-light
+        );
       }
     }
 
@@ -360,9 +432,9 @@ span.sidelines {
   }
 }
 
-#sign-in-wrapper {
+.sign-in-wrapper {
   @include media($medium-screen) {
-    max-width: 600px;
+    max-width: 600px !important;
   }
 }
 

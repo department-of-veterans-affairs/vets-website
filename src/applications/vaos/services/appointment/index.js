@@ -22,6 +22,7 @@ import { formatFacilityAddress, getFacilityPhone } from '../location';
 import {
   transformVAOSAppointment,
   transformVAOSAppointments,
+  getAppointmentType,
 } from './transformers';
 import { captureError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -53,18 +54,6 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
   'Deleted',
 ]);
 
-// We want to throw an error for any partial results errors from MAS,
-// but some sites in staging always errors. So, keep those in a list to
-// ignore errors from
-// const BAD_STAGING_SITES = new Set(['556', '612']);
-// function hasPartialResults(response) {
-//   return (
-//     response.errors?.length > 0 &&
-//     (environment.isProduction() ||
-//       response.errors.some(err => !BAD_STAGING_SITES.has(err.source)))
-//   );
-// }
-
 // Sort the requested appointments, latest appointments appear at the top of the list.
 function apptRequestSort(a, b) {
   return new Date(b.created).getTime() - new Date(a.created).getTime();
@@ -92,7 +81,11 @@ export async function fetchAppointments({ startDate, endDate, avs = false }) {
     );
 
     const filteredAppointments = allAppointments.data.filter(appt => {
-      return !appt.requestedPeriods;
+      // Filter out appointments that are not VA or CC appointments
+      return (
+        getAppointmentType(appt) === APPOINTMENT_TYPES.vaAppointment ||
+        getAppointmentType(appt) === APPOINTMENT_TYPES.ccAppointment
+      );
     });
 
     appointments.push(...transformVAOSAppointments(filteredAppointments), {
@@ -125,9 +118,13 @@ export async function getAppointmentRequests({ startDate, endDate }) {
       'cancelled',
     ]);
 
-    const requestsWithoutAppointments = appointments.data.filter(
-      appt => !!appt.requestedPeriods,
-    );
+    const requestsWithoutAppointments = appointments.data.filter(appt => {
+      // Filter out appointments that are not requests
+      return (
+        getAppointmentType(appt) === APPOINTMENT_TYPES.request ||
+        getAppointmentType(appt) === APPOINTMENT_TYPES.ccRequest
+      );
+    });
 
     requestsWithoutAppointments.sort(apptRequestSort);
 

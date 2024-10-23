@@ -1,7 +1,7 @@
-import moment from 'moment';
-import { addDays, format, isValid } from 'date-fns';
+import { addDays, format, isAfter, isFuture, isValid } from 'date-fns';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { formatDateLong } from 'platform/utilities/date';
 import { deductionCodes } from '../constants/deduction-codes';
 import { ignoreFields } from '../constants/ignoreFields';
 
@@ -31,19 +31,23 @@ export const isNumber = value => {
   return pattern.test(value);
 };
 
-export const dateFormatter = date => {
-  if (!date) return undefined;
-  const formatDate = date?.slice(0, -3);
-  return moment(formatDate, 'YYYY-MM').format('MM/YYYY');
-};
-
-export const formatDate = date => {
-  return format(new Date(date), 'MMMM d, yyyy');
+/**
+ * Helper function to format date strings with only month and year
+ *
+ * @param {string} date - date string in ISO-ish; example: '2021-01-XX'
+ * @returns formatted date string 'MM/yyyy'; example: 01/2021
+ *
+ */
+export const monthYearFormatter = date => {
+  // Slicing off '-XX' from date string
+  // replacing - with / since date-fns will be off by 1 month if we don't
+  const newDate = new Date(date?.slice(0, -3).replace(/-/g, '/'));
+  return isValid(newDate) ? format(newDate, 'MM/yyyy') : undefined;
 };
 
 export const endDate = (date, days) => {
   return isValid(new Date(date))
-    ? formatDate(addDays(new Date(date), days))
+    ? formatDateLong(addDays(new Date(date), days))
     : '';
 };
 
@@ -219,8 +223,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
       ...defaultObj,
       veteranOrSpouse: 'VETERAN',
       occupationName: employment.type,
-      from: dateFormatter(employment.from),
-      to: employment.isCurrent ? '' : dateFormatter(employment.to),
+      from: monthYearFormatter(employment.from),
+      to: employment.isCurrent ? '' : monthYearFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,
       employerName: employment.employerName,
     }));
@@ -233,8 +237,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
       occupationName: employment.type,
-      from: dateFormatter(employment.from),
-      to: employment.isCurrent ? '' : dateFormatter(employment.to),
+      from: monthYearFormatter(employment.from),
+      to: employment.isCurrent ? '' : monthYearFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,
       employerName: employment.employerName,
     }));
@@ -244,14 +248,10 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   return history;
 };
 
-// receiving formatted date strings in the response
-// so we need to convert back to moment before sorting
 export const sortStatementsByDate = statements => {
-  const dateFormat = 'MM-DD-YYYY';
   return statements.sort(
     (a, b) =>
-      moment(b.pSStatementDate, dateFormat) -
-      moment(a.pSStatementDate, dateFormat),
+      new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
   );
 };
 
@@ -262,36 +262,52 @@ export const getDebtName = debt => {
     : deductionCodes[debt.deductionCode] || debt.benefitType;
 };
 
-export const dateTemplate = 'YYYY-MM-DD';
+const employmentDateTemplate = 'YYYY-MM-XX';
+const isEmploymentDateComplete = date =>
+  date?.length === employmentDateTemplate.length;
 
-export const maxDate = moment().add(100, 'year');
-export const getDate = date => moment(date, dateTemplate);
-export const isDateComplete = date => date?.length === dateTemplate.length;
-export const isDateInFuture = date => date?.diff(moment()) > 0;
-export const isDateBeyondMax = date => moment(date).isAfter(maxDate);
+/**
+ * Helper function to determine if date value is valid starting date:
+ * - date is in the past or today
+ * - date is complete
+ * - date is not in the future
+ *
+ * @param {string} date - date string in ISO-ish; example: '2021-01-XX'
+ * @returns true if date meets requirements above
+ *
+ */
+export const isValidStartDate = date => {
+  const formattedDate = new Date(date?.slice(0, -3).replace(/-/g, '/'));
 
-export const isValidFromDate = date => {
-  if (date && isDateComplete(date)) {
-    const dateObj = getDate(date);
-    return !isDateInFuture(dateObj) && !isDateBeyondMax(dateObj);
+  if (isValid(formattedDate) && isEmploymentDateComplete(date)) {
+    return !isFuture(formattedDate);
   }
   return false;
 };
 
-export const isValidToDate = (fromDate, toDate) => {
-  if (
-    fromDate &&
-    toDate &&
-    isDateComplete(fromDate) &&
-    isDateComplete(toDate)
-  ) {
-    const fromDateObj = getDate(fromDate);
-    const toDateObj = getDate(toDate);
+/**
+ * Helper function to determine if date value is valid ending date:
+ * - ending date not in the future
+ * - ending date is after start date
+ * - ending date is complete
+ *
+ * @param {string} startDate - date string in ISO-ish; example: '2021-01-XX'
+ * @param {string} endedDate - date string in ISO-ish; example: '2021-01-XX'
+ * @returns true if date meets requirements above
+ *
+ */
+export const isValidEndDate = (startDate, endedDate) => {
+  const formattedStartDate = new Date(
+    startDate?.slice(0, -3).replace(/-/g, '/'),
+  );
+  const formattedEndDate = new Date(endedDate?.slice(0, -3).replace(/-/g, '/'));
 
+  if (isValid(formattedEndDate) && isEmploymentDateComplete(endedDate)) {
+    // end date is *not* in the future
+    // end date is *after* start date
     return (
-      !isDateInFuture(toDateObj) &&
-      !moment(toDateObj).isBefore(fromDateObj) &&
-      !isDateBeyondMax(toDateObj)
+      !isFuture(formattedEndDate) &&
+      isAfter(formattedEndDate, formattedStartDate)
     );
   }
   return false;

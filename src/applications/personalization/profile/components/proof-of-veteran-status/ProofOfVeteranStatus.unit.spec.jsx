@@ -4,6 +4,7 @@ import { fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import * as generatePdfModule from '~/platform/pdf';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
 import ProofOfVeteranStatus from './ProofOfVeteranStatus';
 
@@ -28,8 +29,26 @@ const neutralServiceHistoryItem = {
   personnelCategoryTypeCode: 'V',
   characterOfDischargeCode: 'DVN',
 };
+const confirmedEligibility = {
+  confirmed: true,
+  message: [],
+};
+const problematicEligibility = {
+  confirmed: false,
+  message: [
+    'We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now.',
+    'To fix the problem with your records, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
+  ],
+};
+const nonEligibility = {
+  confirmed: false,
+  message: [
+    'Our records show that you’re not eligible for a Veteran status card. To get a Veteran status card, you must have received an honorable discharge for at least one period of service.',
+    'If you think your discharge status is incorrect, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
+  ],
+};
 
-function createBasicInitialState(serviceHistory) {
+function createBasicInitialState(serviceHistory, eligibility, toggle) {
   return {
     user: {
       profile: {
@@ -54,15 +73,23 @@ function createBasicInitialState(serviceHistory) {
       militaryInformation: {
         serviceHistory: {
           serviceHistory,
+          vetStatusEligibility: eligibility,
         },
       },
+    },
+    featureToggles: {
+      [Toggler.TOGGLE_NAMES.profileShowProofOfVeteranStatusEligible]: toggle,
     },
   };
 }
 
-describe('ProofOfVeteranStatus', () => {
+describe('ProofOfVeteranStatus with feature toggle off', () => {
   describe('when it exists', () => {
-    const initialState = createBasicInitialState([eligibleServiceHistoryItem]);
+    const initialState = createBasicInitialState(
+      [eligibleServiceHistoryItem],
+      confirmedEligibility,
+      false,
+    );
 
     it('should render heading', () => {
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
@@ -93,11 +120,15 @@ describe('ProofOfVeteranStatus', () => {
   });
 
   describe('when eligible', () => {
-    const initialState = createBasicInitialState([
-      eligibleServiceHistoryItem,
-      ineligibleServiceHistoryItem,
-      neutralServiceHistoryItem,
-    ]);
+    const initialState = createBasicInitialState(
+      [
+        eligibleServiceHistoryItem,
+        ineligibleServiceHistoryItem,
+        neutralServiceHistoryItem,
+      ],
+      confirmedEligibility,
+      false,
+    );
 
     it('should render card if service history contains an eligible discharge despite any other discharges', () => {
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
@@ -136,7 +167,11 @@ describe('ProofOfVeteranStatus', () => {
 
   describe('discharge status problem message', () => {
     it('should render if service history contains neither eligible nor ineligible discharges', () => {
-      const initialState = createBasicInitialState([neutralServiceHistoryItem]);
+      const initialState = createBasicInitialState(
+        [neutralServiceHistoryItem],
+        problematicEligibility,
+        false,
+      );
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -151,10 +186,110 @@ describe('ProofOfVeteranStatus', () => {
 
   describe('ineligibility message', () => {
     it('should render if service history does not contain an eligible discharge, but does contain an inelible discharge', () => {
-      const initialState = createBasicInitialState([
+      const initialState = createBasicInitialState(
+        [ineligibleServiceHistoryItem, neutralServiceHistoryItem],
+        nonEligibility,
+        false,
+      );
+      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
+        initialState,
+      });
+
+      expect(
+        view.queryByText(
+          /Our records show that you’re not eligible for a Veteran status card./,
+        ),
+      ).to.exist;
+    });
+  });
+});
+
+describe('ProofOfVeteranStatus with feature toggle on', () => {
+  describe('when it exists', () => {
+    const initialState = createBasicInitialState(
+      [eligibleServiceHistoryItem],
+      confirmedEligibility,
+      true,
+    );
+
+    it('should render heading', () => {
+      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
+        initialState,
+      });
+      expect(view.queryByText(/Proof of Veteran status/)).to.exist;
+    });
+
+    it('should render description copy', () => {
+      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
+        initialState,
+      });
+      expect(
+        view.queryByText(
+          /get discounts offered to Veterans at many restaurants/i,
+        ),
+      ).to.exist;
+    });
+
+    it('should render mobile app callout', () => {
+      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
+        initialState,
+      });
+      expect(
+        view.queryByText(/Get proof of Veteran Status on your mobile device/i),
+      ).to.exist;
+    });
+  });
+
+  describe('when eligible', () => {
+    const initialState = createBasicInitialState(
+      [
+        eligibleServiceHistoryItem,
         ineligibleServiceHistoryItem,
         neutralServiceHistoryItem,
-      ]);
+      ],
+      confirmedEligibility,
+      true,
+    );
+
+    it('should render card if service history contains an eligible discharge despite any other discharges', () => {
+      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
+        initialState,
+      });
+
+      expect(
+        view.queryByAltText(
+          /sample proof of veteran status card featuring name, date of birth, disability rating and period of service/,
+        ),
+      ).to.exist;
+    });
+  });
+
+  describe('discharge status problem message', () => {
+    it('should render if service history contains neither eligible nor ineligible discharges', () => {
+      const initialState = createBasicInitialState(
+        [neutralServiceHistoryItem],
+        problematicEligibility,
+        true,
+      );
+      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
+        initialState,
+      });
+
+      expect(
+        view.queryByText(
+          /We’re sorry. There’s a problem with your discharge status records./,
+        ),
+      ).to.exist;
+    });
+  });
+
+  describe('ineligibility message', () => {
+    it('should render if service history does not contain an eligible discharge, but does contain an inelible discharge', () => {
+      const initialState = createBasicInitialState(
+        [ineligibleServiceHistoryItem, neutralServiceHistoryItem],
+        nonEligibility,
+        true,
+      );
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });

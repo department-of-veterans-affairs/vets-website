@@ -4,6 +4,7 @@ import appendQuery from 'append-query';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
@@ -12,6 +13,7 @@ import {
   EXTERNAL_REDIRECTS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
+import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
 import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -31,6 +33,8 @@ const REDIRECT_IGNORE_PATTERN = new RegExp(
 );
 
 export default function AuthApp({ location }) {
+  useDatadogRum();
+
   const [
     { auth, errorCode, returnUrl, loginType, state, requestId },
     setAuthState,
@@ -67,7 +71,17 @@ export default function AuthApp({ location }) {
     setHasError(true);
   };
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isInterstital = useToggleValue(TOGGLE_NAMES.mhvInterstitialEnabled);
+
   const redirect = () => {
+    if (
+      isInterstital &&
+      (loginType === 'mhv' || loginType === 'myhealthevet')
+    ) {
+      window.location.replace('/sign-in-changes-reminder');
+    }
+
     // remove from session storage
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 

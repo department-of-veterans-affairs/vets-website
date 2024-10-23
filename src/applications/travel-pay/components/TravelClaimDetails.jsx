@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { Element } from 'react-scroll';
+
 import { scrollTo } from 'platform/utilities/ui/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { Element } from 'platform/utilities/scroll';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';

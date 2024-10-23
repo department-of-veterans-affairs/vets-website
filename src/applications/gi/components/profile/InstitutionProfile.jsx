@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import environment from 'platform/utilities/environment';
@@ -45,9 +45,7 @@ export default function InstitutionProfile({
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-
   const { type } = institution;
-
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
@@ -176,31 +174,6 @@ export default function InstitutionProfile({
           </ProfileSection>
         )}
 
-      {institution.yr === true &&
-        toggleValue && (
-          <ProfileSection
-            label="Yellow ribbon program information"
-            id="yellow-ribbon-program-information"
-          >
-            <p>
-              The Yellow Ribbon Program can help you pay for out-of-state,
-              private school, or graduate school tuition that the Post-9/11 GI
-              Bill doesn't cover. Schools that choose to participate in the
-              Yellow Ribbon program will contribute a certain amount toward the
-              extra tutition. VA will match the participating school's
-              contribution, up to the total cost of the tuition and fees.
-            </p>
-            <va-link
-              href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
-              text="Find out if you qualify for the Yellow Ribbon Program"
-            />
-            <YellowRibbonTable
-              programs={institution.yellowRibbonPrograms}
-              smallScreen={smallScreen}
-            />
-          </ProfileSection>
-        )}
-
       {type === 'FOREIGN' && (
         <p>
           Limited programs are approved at foreign schools, please contact
@@ -214,6 +187,66 @@ export default function InstitutionProfile({
           location.
         </p>
       )}
+      {institution.yr === true &&
+        toggleValue && (
+          <ProfileSection
+            label="Yellow ribbon program information"
+            id="yellow-ribbon-program-information"
+          >
+            <p>
+              The Yellow Ribbon program can be paid towards net tuition and fee
+              costs not covered by the Post-9/11 GI Bill at participating
+              institutions of higher learning (IHL). Schools that choose to
+              participate in the Yellow Ribbon program will contribute up to a
+              certain dollar amount toward the extra tuition. VA will match the
+              participating school’s contribution
+              {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`}, up
+              to the total cost of the tuition and fees. Please contact the
+              individual school to validate the number of students remaining to
+              receive funding.
+            </p>
+            <va-link
+              href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+              text="Find out if you qualify for the Yellow Ribbon Program"
+            />
+
+            <div className="additional-info-wrapper vads-u-padding-top--4">
+              <p className="vads-u-font-weight--bold ">
+                What to know about the content displayed in this table
+              </p>
+              <ul>
+                <li>
+                  Degree level: Type of degree such as Undergraduate, Graduate,
+                  Masters, or Doctorate.
+                </li>
+                <li>
+                  College or professional school: A school within a college or
+                  university that has a specialized professional or academic
+                  focus.
+                </li>
+                <li>
+                  Funding available: Total number of students eligible to
+                  receive funding.
+                </li>
+                <li>
+                  School contribution: Maximum amount the IHL will contribute
+                  per student each academic year toward unmet tuition and fee
+                  costs.
+                </li>
+              </ul>
+            </div>
+            {institution.yellowRibbonPrograms.length > 0 ? (
+              <YellowRibbonTable
+                programs={institution.yellowRibbonPrograms}
+                smallScreen={smallScreen}
+              />
+            ) : (
+              <p className="vads-u-font-weight--bold vads-u-padding-top--3">
+                No programs to display
+              </p>
+            )}
+          </ProfileSection>
+        )}
       <ProfileSection
         label="Getting started with benefits"
         id="getting-started-with-benefits"
@@ -287,3 +320,18 @@ export default function InstitutionProfile({
     </div>
   );
 }
+InstitutionProfile.propTypes = {
+  calculator: PropTypes.object,
+  compare: PropTypes.object,
+  constants: PropTypes.object,
+  eligibility: PropTypes.object,
+  gibctEybBottomSheet: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf([null]),
+  ]),
+  institution: PropTypes.object,
+  isOJT: PropTypes.bool,
+  showModal: PropTypes.func,
+  smallScreen: PropTypes.bool,
+  version: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+};

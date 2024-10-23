@@ -29,7 +29,7 @@ const InProgressContent = () => (
   <>
     <p>
       Next step: We’ll confirm that we’ve received your form. This can take up
-      to 10 days.
+      to 30 days.
     </p>
     <QuestionsContent />
   </>
@@ -73,7 +73,7 @@ const SubmissionCard = ({
   const content = (
     <>
       <div className="vads-u-width--full">
-        <h3 aria-describedby="21-0845" className="vads-u-margin-top--0">
+        <h3 className="vads-u-margin-y--0">
           <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
             {formatSubmissionDisplayStatus(status)}
           </span>

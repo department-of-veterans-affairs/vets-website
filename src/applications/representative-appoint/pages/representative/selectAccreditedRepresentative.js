@@ -9,7 +9,7 @@ export const uiSchema = {
     'ui:options': {
       hideLabelText: true,
     },
-    'ui:required': () => true,
+    // 'ui:required': () => true,
     'ui:errorMessages': {
       required:
         'Select the accredited representative or VSO you’d like to appoint below',

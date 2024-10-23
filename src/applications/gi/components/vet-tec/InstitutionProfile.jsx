@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import VetTecApprovedProgramsList from './VetTecApprovedProgramsList';
@@ -137,3 +138,11 @@ export default function InstitutionProfile({
     </div>
   );
 }
+
+InstitutionProfile.propTypes = {
+  institution: PropTypes.object.isRequired,
+  showModal: PropTypes.func.isRequired,
+  compare: PropTypes.bool,
+  selectedProgram: PropTypes.string,
+  smallScreen: PropTypes.bool,
+};

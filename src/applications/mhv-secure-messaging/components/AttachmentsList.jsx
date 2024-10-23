@@ -37,10 +37,14 @@ const AttachmentsList = props => {
   useEffect(
     () => {
       if (attachmentScanError) {
-        setFocusedElement(
-          attachments.length > 1
-            ? document.querySelector('#remove-all-attachments-button')
-            : document.querySelector('remove-attachment-button'),
+        setTimeout(
+          () =>
+            setFocusedElement(
+              attachments.length > 1
+                ? document.getElementById('remove-all-attachments-button')
+                : document.querySelector('.remove-attachment-button'),
+            ),
+          400,
         );
       }
     },
@@ -69,12 +73,13 @@ const AttachmentsList = props => {
 
   useEffect(
     () => {
-      if (attachFileSuccess && attachFileAlertRef?.current?.shadowRoot) {
+      const alertButton = attachFileAlertRef?.current?.shadowRoot?.querySelector(
+        '#close-success-alert-button',
+      );
+      if (attachFileSuccess && alertButton) {
         setTimeout(() => {
-          setFocusedElement(
-            document.querySelector('#close-success-alert-button'),
-          );
-        }, 300);
+          setFocusedElement(alertButton);
+        }, 400);
       }
     },
     [attachFileSuccess, attachments, attachFileAlertRef],
@@ -101,24 +106,32 @@ const AttachmentsList = props => {
     setIsAttachmentRemoved(true);
     setAttachFileSuccess(false);
 
-    setFocusedElement(
-      document
-        .querySelector('.attach-file-button')
-        .shadowRoot.querySelector('button'),
-    );
-
     if (newAttArr.some(item => item.name !== file.name)) {
       setRecentlyRemovedFile(true);
     }
+
+    setTimeout(
+      () =>
+        setFocusedElement(
+          document
+            .querySelector('.attach-file-button')
+            .shadowRoot.querySelector('button'),
+        ),
+      400,
+    );
   };
 
   const handleRemoveAllAttachments = () => {
     setAttachments([]);
     dispatch(closeAlert()).then(() =>
-      setFocusedElement(
-        document
-          .querySelector('.attach-file-button')
-          .shadowRoot.querySelector('button'),
+      setTimeout(
+        () =>
+          setFocusedElement(
+            document
+              .querySelector('.attach-file-button')
+              .shadowRoot.querySelector('button'),
+          ),
+        400,
       ),
     );
   };
@@ -196,7 +209,6 @@ const AttachmentsList = props => {
         (attachments.length > 1 ? (
           <VaAlert
             data-testid="attachment-virus-alert"
-            aria-live="assertive"
             aria-label={Alerts.Message.ATTACHMENT_SCAN_FAIL}
             background-only
             className="file-attached-success vads-u-margin-top--2"
@@ -205,24 +217,27 @@ const AttachmentsList = props => {
             show-icon
             status="error"
           >
-            <p className="vads-u-margin--0">
-              One or more of the files you attached has a virus. You’ll need to
-              remove it to send your message.
+            <p
+              aria-live="assertive"
+              className="vads-u-margin--0 vads-u-margin-bottom--1"
+            >
+              Your message failed to send. One or more of your files failed our
+              scan. Try sending your message without any attachments.
             </p>
-            <button
+            <va-button
+              text="Remove all attachments"
+              secondary
               className="usa-button-secondary vads-u-margin-bottom--0 vads-u-margin-right--0"
+              id="remove-all-attachments-button"
               data-testid="remove-all-attachments-button"
               onClick={() => {
                 handleRemoveAllAttachments();
               }}
-            >
-              Remove all attachments
-            </button>
+            />
           </VaAlert>
         ) : (
           <VaAlert
             data-testid="attachment-virus-alert"
-            aria-live="assertive"
             aria-label={Alerts.Message.ATTACHMENT_SCAN_FAIL}
             background-only
             className="file-attached-success vads-u-margin-top--2"
@@ -231,7 +246,9 @@ const AttachmentsList = props => {
             show-icon
             status="error"
           >
-            {Alerts.Message.ATTACHMENT_SCAN_FAIL}
+            <p aria-live="assertive" className="vads-u-margin--0">
+              {Alerts.Message.ATTACHMENT_SCAN_FAIL}
+            </p>
           </VaAlert>
         ))}
 

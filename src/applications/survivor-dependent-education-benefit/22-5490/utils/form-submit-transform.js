@@ -298,65 +298,33 @@ const trimObjectValuesWhiteSpace = (key, value) => {
 
 const getNotificationMethod = notificationMethod => {
   switch (notificationMethod) {
-    case 'Yes, send me text message notifications':
+    case 'yes':
       return 'TEXT';
-    case 'No, just send me email notifications':
+    case 'no':
       return 'EMAIL';
     default:
       return 'NONE';
   }
 };
 
-// const getSponsorInformation = form => {
-//   let firstSponsor;
-//   if (!form?.data?.firstSponsor && form?.data?.selectedSponsors?.length === 1) {
-//     firstSponsor = form?.data?.selectedSponsors[0];
-//   } else {
-//     firstSponsor = form?.data?.firstSponsor;
-//   }
+export function getAddressType(mailingAddress) {
+  if (!mailingAddress) {
+    return null;
+  }
 
-//   if (firstSponsor === 'IM_NOT_SURE') {
-//     return {
-//       notSureAboutSponsor: true,
-//       firstSponsorVaId: null,
-//       manualSponsor: null,
-//     };
-//   }
-//   if (firstSponsor && firstSponsor !== 'SPONSOR_NOT_LISTED') {
-//     return {
-//       notSureAboutSponsor: false,
-//       firstSponsorVaId: firstSponsor,
-//       manualSponsor: null,
-//     };
-//   }
-//   // check if august feature flag is on and if so ensure manual entry is disabled
-//   if (form.data.showMebEnhancements08) {
-//     return {
-//       notSureAboutSponsor: true,
-//       firstSponsorVaId: null,
-//       manualSponsor: null, // return null for manualSponsor when the feature is disabled
-//     };
-//   }
-
-//   return {
-//     notSureAboutSponsor: false,
-//     firstSponsorVaId: null,
-//     manualSponsor: {
-//       firstName: form?.data?.sponsorFullName?.first,
-//       middleName: form?.data?.sponsorFullName?.middle,
-//       lastName: form?.data?.sponsorFullName?.last,
-//       suffix: form?.data?.sponsorFullName?.suffix,
-//       dateOfBirth: form?.data?.sponsorDateOfBirth,
-//       relationship: form?.data?.relationshipToServiceMember,
-//     },
-//   };
-// };
+  if (mailingAddress?.livesOnMilitaryBase) {
+    return 'MILITARY_OVERSEAS';
+  }
+  if (mailingAddress?.address?.country === DEFAULT_SCHEMA_COUNTRY_CODE) {
+    return 'DOMESTIC';
+  }
+  return 'FOREIGN';
+}
 
 export function transform5490Form(_formConfig, form) {
-  const formFieldUserFullName = form?.data?.fullName;
-  const viewComponentUserFullName = form?.loadedData?.formData?.fullName;
-  // const formFieldDateOfBirth = form?.data?.dateOfBirth;
-  // const viewComponentDateOfBirth = form?.loadedData?.formData.dateOfBirth;
+  const formFieldUserFullName = form?.data?.claimantFullName;
+  const viewComponentUserFullName =
+    form?.loadedData?.formData?.claimantFullName;
 
   const userFullName =
     formFieldUserFullName !== undefined &&
@@ -369,25 +337,21 @@ export function transform5490Form(_formConfig, form) {
     '@type': 'Chapter35Submission',
     chosenBenefit: form?.data?.chosenBenefit,
     claimant: {
+      firstName: userFullName?.first,
+      middleName: userFullName?.middle,
+      lastName: userFullName?.last,
       suffix: userFullName?.suffix,
-      // dateOfBirth,
-      // firstName: userFullName?.first,
-      // lastName: userFullName?.last,
-      // middleName: userFullName?.middle,
-      notificationMethod: getNotificationMethod(
-        form?.data['view:receiveTextMessages']?.receiveTextMessages,
-      ),
+      dateOfBirth: form?.data?.relativeDateOfBirth,
+      notificationMethod: getNotificationMethod(form?.data?.notificationMethod),
       contactInfo: {
         addressLine1: form?.data?.mailingAddressInput?.address?.street,
         addressLine2: form?.data?.mailingAddressInput?.address?.street2,
         city: form?.data?.mailingAddressInput?.address?.city,
         zipcode: form?.data?.mailingAddressInput?.address?.postalCode,
         emailAddress: form?.data?.email?.email,
-        addressType: form?.data?.mailingAddressInput?.livesOnMilitaryBase
-          ? 'MILITARY_OVERSEAS'
-          : 'mobilePhoneNumber',
-        mobilePhoneNumber: form?.data?.mobilePhone,
-        homePhoneNumber: form?.data?.homePhone,
+        addressType: getAddressType(form?.data?.mailingAddressInput),
+        mobilePhoneNumber: form?.data?.mobilePhone?.phone,
+        homePhoneNumber: form?.data?.homePhone?.phone,
         countryCode: getLTSCountryCode(
           form?.data?.mailingAddressInput?.address?.country,
         ),
@@ -395,13 +359,12 @@ export function transform5490Form(_formConfig, form) {
       },
       preferredContact: form?.data?.contactMethod,
     },
-    // parentOrGuardianSignature: form?.data?.parentGuardianSponsor,
     serviceMember: {
-      firstName: userFullName?.first,
-      lastName: userFullName?.last,
-      middleName: userFullName?.middle,
-      sponsorRelationship: form?.data?.relationShipToMember,
-      dateOfBirth: form?.data?.relativeDateOfBirth,
+      firstName: form?.data?.fullName?.first,
+      lastName: form?.data?.fullName?.last,
+      middleName: form?.data?.fullName?.middle,
+      relationship: form?.data?.relationShipToMember,
+      dateOfBirth: form?.data?.dateOfBirth,
       ssn: form?.data?.relativeSocialSecurityNumber,
     },
     highSchoolDiplomaInfo: {
@@ -409,17 +372,21 @@ export function transform5490Form(_formConfig, form) {
       highSchoolDiplomaOrCertificateDate: form?.data?.graduationDate,
     },
     directDeposit: {
-      directDepositAccountType: form?.data?.bankAccount?.accountType,
-      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
-      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
+      directDepositAccountType:
+        form?.data['view:directDeposit']?.bankAccount?.accountType,
+      directDepositAccountNumber:
+        form?.data['view:directDeposit']?.bankAccount?.accountNumber,
+      directDepositRoutingNumber:
+        form?.data['view:directDeposit']?.bankAccount?.routingNumber,
     },
     additionalConsiderations: {
       outstandingFelony: form?.data?.felonyOrWarrant,
       marriageDate: form?.data?.marriageDate,
       marriageStatus: form?.data?.marriageStatus,
       remarriageDate: form?.data?.remarriageDate,
-      remarriageStatus: form?.data?.remarriageStatus,
+      remarriedSinceDivorce: form?.data?.remarriageStatus,
     },
   };
+
   return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
 }
