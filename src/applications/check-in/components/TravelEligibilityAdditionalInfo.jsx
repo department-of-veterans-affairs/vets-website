@@ -1,7 +1,7 @@
 import React from 'react';
 import { Trans } from 'react-i18next';
 
-const TravelEligibilityAddtionalInfo = () => {
+const TravelEligibilityAdditionalInfo = () => {
   const boldComponent = [
     <span key="bold" className="vads-u-font-weight--bold" />,
   ];
@@ -59,4 +59,4 @@ const TravelEligibilityAddtionalInfo = () => {
   );
 };
 
-export default TravelEligibilityAddtionalInfo;
+export default TravelEligibilityAdditionalInfo;
