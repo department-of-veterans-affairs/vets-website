@@ -201,6 +201,16 @@ const formConfig = {
           uiSchema: veteranContantInformation.uiSchema,
           schema: veteranContantInformation.schema,
         },
+        emergencyContactsSummary: {
+          ...emergencyContactPages.emergencyContactsSummary,
+        },
+        emergencyContactsPage: {
+          ...emergencyContactPages.emergencyContactsPage,
+          depends: formData => formData['view:isEmergencyContactsEnabled'],
+        },
+        emergencyContactsAdessPage: {
+          ...emergencyContactPages.emergencyContactsAddressPage,
+        },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page
          * when the user does not need to fill out household financial info
@@ -213,16 +223,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
-        },
-        emergencyContactsSummary: {
-          ...emergencyContactPages.emergencyContactsSummary,
-        },
-        emergencyContactsPage: {
-          ...emergencyContactPages.emergencyContactsPage,
-          depends: formData => formData['view:isEmergencyContactsEnabled'],
-        },
-        emergencyContactsAdessPage: {
-          ...emergencyContactPages.emergencyContactsAddressPage,
         },
       },
     },

@@ -38,7 +38,7 @@ describe('EZR TERA flow', () => {
 
     selectYesNoWebComponent('view:isEmergencyContactsEnabled', true);
     goToNextPage(
-      '/update-benefits-information-form-10-10ezr/emergency-contacts/0/contact',
+      '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/0/contact',
     );
 
     let contact = testData.veteranContacts[0];
@@ -55,7 +55,7 @@ describe('EZR TERA flow', () => {
 
     // ec 1 address
     goToNextPage(
-      '/update-benefits-information-form-10-10ezr/emergency-contacts/0/contact-address',
+      '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/0/contact-address',
     );
     selectDropdownWebComponent('address_country', contact.address.country);
     fillTextWebComponent('address_street', contact.address.street);
@@ -88,7 +88,7 @@ describe('EZR TERA flow', () => {
 
     // ec 2 address
     goToNextPage(
-      '/update-benefits-information-form-10-10ezr/emergency-contacts/1/contact-address',
+      '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/1/contact-address',
     );
     selectDropdownWebComponent('address_country', contact.address.country);
     fillTextWebComponent('address_street', contact.address.street);
