@@ -15,7 +15,7 @@ const UpcomingAppointments = props => {
   const heading =
     app === APP_NAMES.CHECK_IN
       ? t('todays-appointments-at-this-facility')
-      : t('your-appointments', { count: appointments.length });
+      : t('your-appointments-for-pre-check-in');
   return (
     <section data-testid="upcoming-appointments-vista">
       <h2 data-testid="upcoming-appointments-header-vista">{heading}</h2>

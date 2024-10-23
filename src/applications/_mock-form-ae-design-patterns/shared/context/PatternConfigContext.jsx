@@ -1,12 +1,14 @@
 import React, { createContext } from 'react';
-
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import greenFormConfig from '../../patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from '../../patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from '../../patterns/pattern1/TaskPurple/config/form';
 import ezrFormConfig from '../../patterns/pattern1/ezr/config/form';
 import grayFormConfig from '../../patterns/pattern2/TaskGray/form/config/form';
-import orangeFormConfig from '../../patterns/pattern2/TaskOrange/config/form';
+import blueFormConfig from '../../patterns/pattern2/TaskBlue/config/form';
+import { formConfigForOrangeTask } from '../../patterns/pattern2/TaskOrange/config/form';
 import fallbackForm from '../config/fallbackForm';
 import { TaskTabs } from '../components/TaskTabs';
 import { Portal } from '../components/Portal';
@@ -29,12 +31,16 @@ export const getFormConfig = location => {
     return ezrFormConfig;
   }
 
-  if (location.pathname.includes('/2/task-red')) {
+  if (location.pathname.includes('/2/task-gray')) {
     return grayFormConfig;
   }
 
   if (location.pathname.includes('/2/task-orange')) {
-    return orangeFormConfig;
+    return formConfigForOrangeTask;
+  }
+
+  if (location.pathname.includes('/2/task-blue')) {
+    return blueFormConfig;
   }
 
   return fallbackForm;
@@ -59,4 +65,9 @@ export const PatternConfigProvider = ({ location, children }) => {
       {children}
     </PatternConfigContext.Provider>
   ) : null;
+};
+
+PatternConfigProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+  location: PropTypes.object.isRequired,
 };
