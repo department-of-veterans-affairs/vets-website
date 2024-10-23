@@ -7,11 +7,8 @@ export default () => (
       <div className="help-info">
         <h2 className="vads-u-margin-top--0">Having trouble signing in?</h2>
         <p>
-          Get answers to common{' '}
-          <a href="/resources/signing-in-to-vagov/">
-            questions about signing in
-          </a>{' '}
-          and{' '}
+          Get answers to common questions about{' '}
+          <a href="/resources/signing-in-to-vagov/">signing in</a> and{' '}
           <a href="/resources/verifying-your-identity-on-vagov/">
             verifying your identity
           </a>
