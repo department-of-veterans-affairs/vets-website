@@ -1,5 +1,6 @@
 // Variables
 
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as mixins;
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
@@ -71,7 +72,7 @@ $font-size: 16.96px;
 // Break long words on modals, see
 // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3355
 va-modal {
-  @include media-maxwidth($small-screen) {
+  @include mixins.media-maxwidth($small-screen) {
     word-break: break-word;
   }
 }
