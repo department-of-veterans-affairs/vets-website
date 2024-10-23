@@ -14,10 +14,9 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
-import {
-  selectIsCernerPatient,
-  // selectPatientFacilities,
-} from '~/platform/user/cerner-dsot/selectors';
+import { selectDrupalStaticData } from 'platform/site-wide/drupal-static-data/selectors';
+
+import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -66,25 +65,20 @@ const AllergyDetails = props => {
       ],
   );
   const isCerner = useSelector(selectIsCernerPatient);
-  // const patientFacilities = useSelector(selectPatientFacilities);
-  const isAccelerating = !!useAcceleratedApi && isCerner;
-  // console.log(
-  //   'isAccelerating',
-  //   isAccelerating,
-  //   useAcceleratedApi,
-  //   isCerner,
-  //   patientFacilities,
-  // );
+  const { vamcEhrData } = useSelector(selectDrupalStaticData);
+  const isAccelerating = useAcceleratedApi && isCerner;
+
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
-      if (allergyId)
+      if (allergyId && !vamcEhrData?.loading) {
         dispatch(getAllergyDetails(allergyId, allergyList, isAccelerating));
+      }
     },
-    [allergyId, allergyList, dispatch, isAccelerating],
+    [allergyId, allergyList, dispatch, isAccelerating, vamcEhrData?.loading],
   );
 
   useEffect(
