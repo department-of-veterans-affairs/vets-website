@@ -81,26 +81,12 @@ export function pdfTransform(formData) {
           email: applicantEmail || '',
         };
 
-  // transform representative data
-  const repAttributes = selectedRep?.attributes || {};
-
-  const representative = isAttorneyOrClaimsAgent(formData)
-    ? {
-        id: selectedRep?.id,
-        name: {
-          first: repAttributes.firstName || '',
-          middle: repAttributes.middleName || '',
-          last: repAttributes.lastName || '',
-        },
-        type: repAttributes.individualType || '',
-        address: createAddress(repAttributes),
-        phone: repAttributes.phone || '',
-        email: repAttributes.email || '',
-      }
-    : {
-        id: selectedRep?.id,
-        organizationId: formData.selectedAccreditedOrganizationId || '',
-      };
+  const representative = {
+    id: selectedRep?.id,
+    ...(isAttorneyOrClaimsAgent(formData)
+      ? {}
+      : { organizationId: formData.selectedAccreditedOrganizationId || '' }),
+  };
 
   return {
     veteran,
