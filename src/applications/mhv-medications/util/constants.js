@@ -55,7 +55,7 @@ export const filterOptions = {
     label: 'Renewal needed before refill',
     name: 'filter option',
     description:
-      'Prescriptions that just ran out of refills or bacame too old to refill(expired)',
+      'Prescriptions that just ran out of refills or became too old to refill (expired)',
     url: '/',
   },
   NON_ACTIVE: {

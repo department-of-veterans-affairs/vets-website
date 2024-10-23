@@ -22,6 +22,7 @@ const MedicationsListFilter = props => {
   return (
     <va-accordion
       bordered
+      open-single
       data-testid="filter-accordion"
       class="filter-accordion"
     >
