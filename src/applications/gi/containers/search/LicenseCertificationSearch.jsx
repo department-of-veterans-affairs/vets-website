@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import LicenseCertificationSearchForm from '../../components/LicenseCertificationSearchForm';
 
 // Should dropdownSchema be a piece of state in redux?
@@ -43,7 +42,7 @@ const dropdownSchema = [
   },
 ];
 
-export default function LicenseCertificationSearch({ handleSearch }) {
+export default function LicenseCertificationSearch() {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
 
   const handleChange = e => {
@@ -84,7 +83,6 @@ export default function LicenseCertificationSearch({ handleSearch }) {
         <div className="form-wrapper row">
           <LicenseCertificationSearchForm
             handleChange={handleChange}
-            handleSearch={handleSearch}
             dropdowns={dropdowns}
           />
         </div>
@@ -92,7 +90,3 @@ export default function LicenseCertificationSearch({ handleSearch }) {
     </div>
   );
 }
-
-LicenseCertificationSearch.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
-};

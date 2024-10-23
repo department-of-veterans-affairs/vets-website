@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Dropdown from './Dropdown';
+import { fetchLicenseCertification } from '../actions';
 
 // TODO - check for existing helper function
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export default function LicenseCertificationSearchForm({
+function LicenseCertificationSearchForm({
   handleChange,
-  handleSearch,
   dropdowns,
+  dispatchFetchLicenseCertification,
 }) {
   return (
     <form>
@@ -38,14 +40,23 @@ export default function LicenseCertificationSearchForm({
         );
       })}
       <div className="button-wrapper row vads-u-padding-y--6">
-        <va-button text="Submit" onClick={handleSearch} />
+        <va-button text="Submit" onClick={dispatchFetchLicenseCertification} />
       </div>
     </form>
   );
 }
 
 LicenseCertificationSearchForm.propTypes = {
+  dispatchFetchLicenseCertification: PropTypes.func.isRequired,
   dropdowns: PropTypes.array.isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleSearch: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = {
+  dispatchFetchLicenseCertification: fetchLicenseCertification,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(LicenseCertificationSearchForm);

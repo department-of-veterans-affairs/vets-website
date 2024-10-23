@@ -77,12 +77,68 @@ export function fetchLicenseCertification() {
     dispatch({ type: FETCH_LC_STARTED });
 
     // return fetch(url, api.settings)
-    return setTimeout(() => {
-      return { ok: true, results: [1, 2, 3, 4, 5] };
-    }, 1000)
+    return new Promise(res => {
+      setTimeout(() => {
+        res({
+          ok: true,
+          results: [
+            {
+              title: 'Certification in Forensic Odontology',
+              type: 'Certification',
+              tests: [
+                { testName: 'Part 1', fee: 220 },
+                { testName: 'Part 2', fee: 220 },
+                { testName: 'Oral Exam', fee: 1000 },
+              ],
+              boardInfo: {
+                name: 'AMERICAN BOARD OF FORENSIC ODONTOLOGY',
+                phone: '205-902-2478',
+                address: {
+                  street: '410 North 21st Street',
+                  city: 'Colorado Springs',
+                  state: 'CO',
+                  zip: '80904',
+                  country: 'United States of America',
+                },
+              },
+              formInfo: {
+                formNumber: '22-0803',
+                description:
+                  'Print and fill out to request reimbursement for licenses and certifications.',
+              },
+            },
+            {
+              title: 'License in Forensic Dentistry',
+              type: 'License',
+              tests: [
+                { testName: 'Part I', fee: 300 },
+                { testName: 'Part II', fee: 150 },
+                { testName: 'Oral Exam', fee: 1500 },
+              ],
+              boardInfo: {
+                name: 'AMERICAN BOARD OF FORENSIC ODONTOLOGY',
+                phone: '205-902-2478',
+                address: {
+                  street: '410 North 21st Street',
+                  city: 'Colorado Springs',
+                  state: 'CO',
+                  zip: '80904',
+                  country: 'United States of America',
+                },
+              },
+              formInfo: {
+                formNumber: '22-0803',
+                description:
+                  'Print and fill out to request reimbursement for licenses and certifications.',
+              },
+            },
+          ],
+        });
+      }, 1000);
+    })
       .then(res => {
         if (res.ok) {
-          return res.json();
+          return res;
         }
         throw new Error(res.statusText);
       })
