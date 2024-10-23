@@ -3,6 +3,7 @@ const categories = {
   EMPLOYMENT: 'Careers & Employment',
   MORE_SUPPORT: 'More Support',
   HEALTHCARE: 'Healthcare',
+  HOUSING: 'Housing Assistance',
   DISABILITY: 'Disability',
   LIFE_INSURANCE: 'Life Insurance',
   LOAN: 'Loan Guaranty',
@@ -22,6 +23,11 @@ export const yesNoType = {
 };
 
 export const goalTypes = Object.freeze({
+  FINANCIAL: 'FINANCIAL',
+  HOUSING: 'HOUSING',
+  FAMILY: 'FAMILY',
+  MENTAL: 'MENTAL',
+  PHYSICAL: 'PHYSICAL',
   DEGREE: 'DEGREE',
   JOBS: 'JOBS',
   PLAN: 'PLAN',
@@ -31,6 +37,11 @@ export const goalTypes = Object.freeze({
 });
 
 export const goalTypeLabels = Object.freeze({
+  FINANCIAL: 'Get financial support ',
+  HOUSING: 'Find a place to live ',
+  FAMILY: 'Grow my family ',
+  MENTAL: 'Improve my mental well-being',
+  PHYSICAL: 'Improve my physical well-being',
   DEGREE: 'Earn a degree or certificate',
   JOBS: 'Find a civilian job',
   PLAN: 'Plan for my transition',
@@ -420,5 +431,138 @@ export const BENEFITS_LIST = [
     },
     learnMoreURL: 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
     applyNowURL: '',
+  },
+  {
+    name: 'Servicemembers Group Life Insurance (SGLI)',
+    category: categories.LIFE_INSURANCE,
+    id: 'SGL',
+    description:
+      "Find out how to convert your SGLI coverage to a Veterans' Group Life Insurance (VGLI) or commercial policy. Learn about other options for coverage if you have service-connected disabilities. In some cases, you must act within 120 days of separation to ensure no lapse in coverage.",
+    isTimeSensitive: true,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.PLAN, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://www.va.gov/life-insurance/options-eligibility/sgli',
+    applyNowURL: '',
+  },
+  {
+    name: 'Disability compensation',
+    category: categories.DISABILITY,
+    id: 'DIS',
+    description:
+      'VA disability compensation (pay) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you’ve earned.',
+    isTimeSensitive: true,
+    mappings: {
+      [mappingTypes.GOALS]: [
+        goalTypes.FINANCIAL,
+        goalTypes.MENTAL,
+        goalTypes.PHYSICAL,
+        goalTypes.PLAN,
+        goalTypes.UNDERSTAND,
+      ],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [
+        disabilityTypes.STARTED,
+        disabilityTypes.NOT_APPLIED,
+      ],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://www.va.gov/disability/',
+    applyNowURL:
+      'https://www.va.gov/disability/file-disability-claim-form-21-526ez/introduction',
+  },
+  {
+    name: 'VA-backed home loan Certificate of Eligibility',
+    category: categories.HOUSING,
+    id: 'COE',
+    description:
+      'VA housing assistance can help Veterans, service members, and their surviving spouses to buy a home or refinance a loan. We also offer benefits and services to help you build, improve, or keep your current home. Find out how to apply for and manage the Veterans housing assistance benefits you’ve earned.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [
+        goalTypes.HOUSING,
+        goalTypes.PLAN,
+        goalTypes.UNDERSTAND,
+      ],
+      [mappingTypes.LENGTH_OF_SERVICE]: [
+        militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        militaryServiceTimeServedTypes.UP_TO_1_YEAR,
+        militaryServiceTimeServedTypes.UP_TO_2_YEARS,
+        militaryServiceTimeServedTypes.UP_TO_3_YEARS,
+        militaryServiceTimeServedTypes.OVER_3_YEARS,
+      ],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL:
+      'https://www.va.gov/housing-assistance/home-loans/eligibility/',
+    applyNowURL:
+      'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
+  },
+  {
+    name: 'VA health care',
+    category: categories.HEALTHCARE,
+    id: 'VAH',
+    description:
+      'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions. Find out how to apply for and manage the health care benefits you’ve earned.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [
+        goalTypes.FAMILY,
+        goalTypes.MENTAL,
+        goalTypes.PHYSICAL,
+        goalTypes.PLAN,
+        goalTypes.UNDERSTAND,
+      ],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://www.va.gov/health-care/',
+    applyNowURL: 'https://www.va.gov/health-care/how-to-apply/',
   },
 ];

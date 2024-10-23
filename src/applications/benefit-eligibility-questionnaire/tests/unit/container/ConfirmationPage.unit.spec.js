@@ -193,7 +193,7 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     const benefitNames = wrapper
       .getAllByRole('listitem')
       .map(li => li.textContent);
-    expect(benefitNames).to.have.lengthOf(11);
+    expect(benefitNames).to.have.lengthOf(15);
     expect(benefitNames[0]).to.contain('Careers');
     expect(benefitNames[1]).to.contain('Education');
   });
