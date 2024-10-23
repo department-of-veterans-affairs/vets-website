@@ -30,12 +30,14 @@ const MedicationsListFilter = props => {
         bordered="true"
         open={!!filterOption}
         id="filter"
+        data-testid="rx-filter"
       >
         <span slot="icon">
           <va-icon aria-hidden="true" icon="filter_alt" />
         </span>
         <VaRadio
           label="Select a filter"
+          data-testid="filter-option"
           onVaValueChange={handleFilterOptionChange}
         >
           {filterOptionsArray.map(option => (
@@ -53,6 +55,7 @@ const MedicationsListFilter = props => {
           className="vads-u-width--full filter-submit-btn"
           onClick={handleFilterSubmit}
           text="Filter"
+          data-testid="filter-button"
         />
       </va-accordion-item>
     </va-accordion>
