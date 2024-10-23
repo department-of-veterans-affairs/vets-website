@@ -146,14 +146,16 @@ const AppointmentsPage = props => {
             values={{ date: new Date() }}
           />
         </p>
-        <va-button
-          uswds
-          text={t('refresh')}
-          big
-          onClick={() => setRefresh(true)}
-          secondary
-          data-testid="refresh-appointments-button"
-        />
+        {app === APP_NAMES.CHECK_IN && (
+          <va-button
+            uswds
+            text={t('refresh')}
+            big
+            onClick={() => setRefresh(true)}
+            secondary
+            data-testid="refresh-appointments-button"
+          />
+        )}
         {isUpcomingAppointmentsEnabled && <LinkList router={router} />}
       </div>
       <AppointmentListInfoBlock />
