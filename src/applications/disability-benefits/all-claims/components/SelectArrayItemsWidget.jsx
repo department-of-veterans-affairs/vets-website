@@ -204,6 +204,7 @@ class SelectArrayItemsWidget extends React.Component {
     // Let the user know we changed stuff
     const updateMessage = this.hasUpdatedDisabilities ? (
       <div className="usa-alert usa-alert-info background-color-only vads-u-margin-top--0">
+        <va-icon icon="info" size={4} />
         <div className="usa-alert-body">
           <strong>We’ve updated your list of rated disabilities</strong>
           <p />

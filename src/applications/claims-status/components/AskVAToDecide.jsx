@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom-v5-compat';
 export default function AskVAToDecide() {
   return (
     <div className="usa-alert usa-alert-info background-color-only claims-alert-status alert-with-details">
+      <va-icon icon="info" size={4} />
       <div className="item-title-container">
         <h4 className="claims-alert-header">Ask for your Claim Decision</h4>
         <p>

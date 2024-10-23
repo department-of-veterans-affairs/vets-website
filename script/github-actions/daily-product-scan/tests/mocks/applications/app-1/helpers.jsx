@@ -308,6 +308,7 @@ export const financialDisclosureText = (
     </ol>
 
     <div className="usa-alert usa-alert-info">
+      <va-icon icon="info" size={4} />
       <div className="usa-alert-body">
         <span>
           <strong>Note:</strong> You don’t have to provide your financial
@@ -385,6 +386,7 @@ export const incomeDescription = (
 
 export const disclosureWarning = (
   <div className="usa-alert usa-alert-info">
+    <va-icon icon="info" size={4} />
     <div className="usa-alert-body">
       <span>
         If you don’t provide your financial information and you don’t have

@@ -134,6 +134,7 @@ export class ApplicationStatus extends React.Component {
           : null;
         return (
           <div className="usa-alert usa-alert-info background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
+            <va-icon icon="info" size={4} />
             <h5 className="form-title saved">Your {appType} is in progress</h5>
             <span className="saved-form-item-metadata">
               Your {foundForm.description} is in progress.

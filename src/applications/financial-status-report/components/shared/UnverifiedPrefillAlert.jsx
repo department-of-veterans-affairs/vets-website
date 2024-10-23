@@ -10,6 +10,7 @@ const buttonText = 'Sign in or create an account';
 
 const UnverifiedPrefillAlert = ({ toggle }) => (
   <div className="usa-alert usa-alert-info schemaform-sip-alert">
+    <va-icon icon="info" size={4} />
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">Please sign in to submit a request</h3>
       <div className="usa-alert-text">

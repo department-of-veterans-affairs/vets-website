@@ -30,6 +30,7 @@ const UnableToFileBDDPage = ({ getPageStateFromPageName }) => {
       id={pageNames.unableToFileBDD}
       className="usa-alert usa-alert-info background-color-only vads-u-padding--2 vads-u-margin-top--2"
     >
+      <va-icon icon="info" size={4} />
       <div id="not-eligbile-details" aria-live="polite">
         <span className="sr-only">Info: </span>
         <p className="vads-u-margin-top--0">
