@@ -86,6 +86,7 @@ export function pdfTransform(formData) {
 
   const representative = isAttorneyOrClaimsAgent(formData)
     ? {
+        id: selectedRep?.id,
         name: {
           first: repAttributes.firstName || '',
           middle: repAttributes.middleName || '',
@@ -96,7 +97,10 @@ export function pdfTransform(formData) {
         phone: repAttributes.phone || '',
         email: repAttributes.email || '',
       }
-    : { organizationName: formData.selectedAccreditedOrganizationId || '' };
+    : {
+        id: selectedRep?.id,
+        organizationId: formData.selectedAccreditedOrganizationId || '',
+      };
 
   return {
     veteran,
