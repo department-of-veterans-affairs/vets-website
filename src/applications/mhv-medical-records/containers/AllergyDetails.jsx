@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -72,6 +72,16 @@ const AllergyDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
+  const allergyData = useMemo(
+    () => {
+      return {
+        ...allergy,
+        isOracleHealthData: isAccelerating,
+      };
+    },
+    [allergy, isAccelerating],
+  );
+
   useEffect(
     () => {
       if (allergyId && !vamcEhrData?.loading) {
@@ -92,12 +102,14 @@ const AllergyDetails = props => {
 
   useEffect(
     () => {
-      if (allergy) {
+      if (allergyData) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(`${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`);
+        updatePageTitle(
+          `${allergyData.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`,
+        );
       }
     },
-    [dispatch, allergy],
+    [dispatch, allergyData],
   );
 
   usePrintTitle(
@@ -109,10 +121,10 @@ const AllergyDetails = props => {
 
   const generateAllergyPdf = async () => {
     setDownloadStarted(true);
-    const title = `Allergies and reactions: ${allergy.name}`;
+    const title = `Allergies and reactions: ${allergyData.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
-    const pdfData = { ...scaffold, details: generateAllergyItem(allergy) };
+    const pdfData = { ...scaffold, details: generateAllergyItem(allergyData) };
     const pdfName = `VA-allergies-details-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergy details', runningUnitTest);
   };
@@ -121,17 +133,17 @@ const AllergyDetails = props => {
     setDownloadStarted(true);
     const content = `
 ${crisisLineHeader}\n\n
-${allergy.name}\n
+${allergyData.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Date entered: ${allergy.date} \n
+Date entered: ${allergyData.date} \n
 ${txtLine} \n
-Signs and symptoms: ${allergy.reaction} \n
-Type of Allergy: ${allergy.type} \n
-Location: ${allergy.location} \n
-Observed or historical: ${allergy.observedOrReported} \n
-Provider notes: ${allergy.notes} \n`;
+Signs and symptoms: ${allergyData.reaction} \n
+Type of Allergy: ${allergyData.type} \n
+Location: ${allergyData.location} \n
+Observed or historical: ${allergyData.observedOrReported} \n
+Provider notes: ${allergyData.notes} \n`;
 
     const fileName = `VA-allergies-details-${getNameDateAndTime(user)}`;
 
@@ -150,7 +162,7 @@ Provider notes: ${allergy.notes} \n`;
         </>
       );
     }
-    if (allergy) {
+    if (allergyData) {
       return (
         <>
           <PrintHeader />
@@ -159,10 +171,10 @@ Provider notes: ${allergy.notes} \n`;
             aria-describedby="allergy-date"
           >
             Allergies and reactions:{' '}
-            <span data-dd-privacy="mask">{allergy.name}</span>
+            <span data-dd-privacy="mask">{allergyData.name}</span>
           </h1>
           <DateSubheading
-            date={allergy.date}
+            date={allergyData.date}
             label="Date entered"
             id="allergy-date"
           />
@@ -182,30 +194,48 @@ Provider notes: ${allergy.notes} \n`;
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Signs and symptoms
             </h2>
-            <ItemList list={allergy.reaction} />
+            <ItemList list={allergyData.reaction} />
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
             <p data-dd-privacy="mask" data-testid="allergy-type">
-              {allergy.type}
+              {allergyData.type}
             </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Location
-            </h2>
-            <p data-dd-privacy="mask" data-testid="allergy-location">
-              {allergy.location}
-            </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Observed or historical
-            </h2>
-            <p data-dd-privacy="mask" data-testid="allergy-observed">
-              {allergy.observedOrReported}
-            </p>
+            {!allergyData.isOracleHealthData && (
+              <>
+                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                  Location
+                </h2>
+                <p data-dd-privacy="mask" data-testid="allergy-location">
+                  {allergyData.location}
+                </p>
+              </>
+            )}
+            {!allergyData.isOracleHealthData && (
+              <>
+                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                  Observed or historical
+                </h2>
+                <p data-dd-privacy="mask" data-testid="allergy-observed">
+                  {allergyData.observedOrReported}
+                </p>
+              </>
+            )}
+            {allergyData.isOracleHealthData && (
+              <>
+                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                  Recorded by
+                </h2>
+                <p data-dd-privacy="mask" data-testid="allergy-observed">
+                  {allergyData.provider}
+                </p>
+              </>
+            )}
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
             <p data-dd-privacy="mask" data-testid="allergy-notes">
-              {allergy.notes}
+              {allergyData.notes}
             </p>
           </div>
         </>
