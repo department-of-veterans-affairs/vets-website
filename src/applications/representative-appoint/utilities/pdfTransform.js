@@ -83,10 +83,11 @@ export function pdfTransform(formData) {
 
   const representative = {
     id: selectedRep?.id,
-    ...(isAttorneyOrClaimsAgent(formData)
-      ? {}
-      : { organizationId: formData.selectedAccreditedOrganizationId || '' }),
   };
+
+  if (!isAttorneyOrClaimsAgent(formData)) {
+    representative.organizationId = formData.selectedAccreditedOrganizationId;
+  }
 
   return {
     veteran,
