@@ -298,7 +298,11 @@ export const ChapterSectionCollection = ({
     );
   });
 
-  if (collapsible && content.length && hasFields) {
+  if (!hasFields) {
+    return null;
+  }
+
+  if (collapsible) {
     return (
       <div
         className={classNames(
@@ -306,7 +310,10 @@ export const ChapterSectionCollection = ({
           className || 'vads-u-margin-top--2',
         )}
       >
-        <div className="print-only">{content}</div>
+        <div className="print-only">
+          <h2>{header}</h2>
+          {content}
+        </div>
         <div className="screen-only">
           <VaAccordion bordered open-single uswds>
             <VaAccordionItem header={header} id="info" bordered uswds>
