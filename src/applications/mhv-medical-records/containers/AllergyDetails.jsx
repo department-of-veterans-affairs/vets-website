@@ -129,9 +129,22 @@ const AllergyDetails = props => {
     makePdf(pdfName, pdfData, 'Allergy details', runningUnitTest);
   };
 
-  const generateAllergyTxt = async () => {
-    setDownloadStarted(true);
-    const content = `
+  const generateAllergyTextContent = () => {
+    if (isAccelerating) {
+      return `
+      ${crisisLineHeader}\n\n
+      ${allergyData.name}\n
+      ${formatNameFirstLast(user.userFullName)}\n
+      Date of birth: ${formatDateLong(user.dob)}\n
+      ${reportGeneratedBy}\n
+      Date entered: ${allergyData.date} \n
+      ${txtLine} \n
+      Signs and symptoms: ${allergyData.reaction} \n
+      Type of Allergy: ${allergyData.type} \n
+      Recorded by: ${allergyData.provider} \n
+      Provider notes: ${allergyData.notes} \n`;
+    }
+    return `
 ${crisisLineHeader}\n\n
 ${allergyData.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
@@ -144,6 +157,12 @@ Type of Allergy: ${allergyData.type} \n
 Location: ${allergyData.location} \n
 Observed or historical: ${allergyData.observedOrReported} \n
 Provider notes: ${allergyData.notes} \n`;
+  };
+
+  const generateAllergyTxt = async () => {
+    setDownloadStarted(true);
+
+    const content = generateAllergyTextContent();
 
     const fileName = `VA-allergies-details-${getNameDateAndTime(user)}`;
 

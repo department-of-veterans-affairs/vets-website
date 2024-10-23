@@ -141,6 +141,16 @@ const Allergies = props => {
 
   const generateAllergyListItemTxt = item => {
     setDownloadStarted(true);
+    if (isAccelerating) {
+      return `
+${txtLine}\n\n
+${item.name}\n
+Date entered: ${item.date}\n
+Signs and symptoms: ${item.reaction}\n
+Type of Allergy: ${item.type}\n
+Recorded By: ${item.provider}\n
+Provider notes: ${item.notes}\n`;
+    }
     return `
 ${txtLine}\n\n
 ${item.name}\n
