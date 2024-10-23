@@ -319,11 +319,13 @@ const SearchApp = ({
             appTitle="Search App"
             dependencies={[externalServices.search]}
           >
-            {// Search API returned errors OR
-            // errors with user input before submitting
+            {// Search API returned errors OR errors with user input before
+            //  submitting AND the maintenance banner is NOT going to be displayed
             shouldShowErrorMessage &&
               !shouldShowMaintenanceBanner && <Errors userInput={userInput} />}
-            {shouldShowMaintenanceBanner && (
+            {// Search API is either within the maintenance window AND has returned
+            //  no results OR the search_gov_maintenance Flipper has been enabled
+            shouldShowMaintenanceBanner && (
               <SearchMaintenance unexpectedMaintenance={searchGovMaintenance} />
             )}
             <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-bottom--4">
