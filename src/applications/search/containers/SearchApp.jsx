@@ -321,7 +321,8 @@ const SearchApp = ({
           >
             {// Search API returned errors OR
             // errors with user input before submitting
-            shouldShowErrorMessage && <Errors userInput={userInput} />}
+            shouldShowErrorMessage &&
+              !searchGovIssues && <Errors userInput={userInput} />}
             {searchGovIssues && (
               <SearchMaintenance unexpectedMaintenance={searchGovMaintenance} />
             )}
