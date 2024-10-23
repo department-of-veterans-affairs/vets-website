@@ -13,20 +13,106 @@ const App = ({ formEnabled }) => {
   if (formEnabled) {
     return (
       <>
-        <p>You can submit this application online or by mail.</p>
+        <p>
+          You can apply online, by mail, or by fax. Make sure to submit the
+          required supporting documents with your application.
+        </p>
+        <va-link
+          href="/health-care/family-caregiver-benefits/champva/#supporting-documents-for-your-application"
+          text="Find out what supporting documents you need"
+        />
+        <h3>
+          <strong>Option 1: Online</strong>
+        </h3>
+        <p>You can apply online now.</p>
         <a
-          className="vads-c-action-link--blue"
-          href="/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d"
+          className="vads-c-action-link--green"
+          href="/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d/"
         >
-          Submit an application online to enroll in CHAMPVA benefits
+          Apply for CHAMPVA online
         </a>
+        <h3>Option 2: By mail</h3>
+        <p>
+          You’ll need to fill out an Application for CHAMPVA Benefits (VA Form
+          10-10d).
+        </p>
+        <va-link
+          href="/find-forms/about-form-10-10d/"
+          text="Get VA Form 10-10d to download"
+        />
+        <p>
+          Mail your completed application and supporting documents to this
+          address:
+        </p>
+        <p className="va-address-block">
+          VHA Office of Community Care
+          <br />
+          CHAMPVA Eligibility
+          <br />
+          PO Box 469028
+          <br />
+          Denver, CO 80246-9028
+          <br />
+        </p>
+        <h3>Option 3: By fax</h3>
+        <p>
+          You’ll need to fill out an Application for CHAMPVA Benefits (VA Form
+          10-10d).
+        </p>
+        <va-link
+          href="/find-forms/about-form-10-10d/"
+          text="Get VA Form 10-10d to download"
+        />
+        <p>
+          Fax your completed application and supporting documents to{' '}
+          <va-telephone contact="3033317809" />.
+        </p>
       </>
     );
   }
 
   return (
     <>
-      <p>You can submit this application by mail.</p>
+      <p>
+        You can apply by mail or by fax. You’ll need to fill out an Application
+        for CHAMPVA Benefits (VA Form 10-10d).
+      </p>
+      <a
+        className="vads-c-action-link--green"
+        href="/find-forms/about-form-10-10d/"
+      >
+        Get VA Form 10-10d to download
+      </a>
+      <p>
+        Make sure to submit the required supporting documents with your
+        application.
+      </p>
+      <va-link
+        href="/health-care/family-caregiver-benefits/champva/#supporting-documents-for-your-application"
+        text="Find out what supporting documents you need"
+      />
+      <h3>
+        <strong>Option 1: By mail</strong>
+      </h3>
+      <p>
+        Mail your completed application and supporting documents to this
+        address:
+      </p>
+      <p className="va-address-block">
+        VHA Office of Community Care
+        <br />
+        CHAMPVA Eligibility
+        <br />
+        PO Box 469028
+        <br />
+        Denver, CO 80246-9028
+        <br />
+      </p>
+      <h3>Option 2: By fax</h3>
+      <p>
+        Fax your completed application and supporting documents to{' '}
+        <va-telephone contact="3033317809" />.
+      </p>
     </>
   );
 };
