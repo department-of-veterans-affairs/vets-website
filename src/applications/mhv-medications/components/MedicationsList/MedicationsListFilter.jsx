@@ -27,7 +27,7 @@ const MedicationsListFilter = props => {
       class="filter-accordion"
     >
       <va-accordion-item
-        header="Filter"
+        header="Filter list"
         bordered="true"
         open={!!filterOption}
         id="filter"
