@@ -25,7 +25,7 @@ import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
-  const userServices = ['medical-records', ...user.profile.services];
+  const userServices = user.profile.services;
   const hasMhvAccount = user.profile.mhvAccountState !== 'NONE';
 
   const { featureTogglesLoading, appEnabled } = useSelector(
