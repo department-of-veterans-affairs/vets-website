@@ -43,7 +43,7 @@ const SearchResult = ({
     (zipCode ? ` ${zipCode}` : '');
 
   return (
-    <va-card class="vads-u-padding--4">
+    <va-card class="vads-u-padding--4 vads-u-margin-bottom--4">
       <div className="representative-result-card-content">
         <div className="representative-info-heading">
           {representativeName && (
