@@ -150,7 +150,7 @@ const acceleratedCernerUser = {
       },
       profile: {
         email: 'vagovohtestpatient+morkel@gmail.com',
-        firstName: 'Andrew',
+        firstName: 'Andrew- Cerner',
         middleName: 'J',
         lastName: 'Morkel',
         birthDate: '1968-11-12',
