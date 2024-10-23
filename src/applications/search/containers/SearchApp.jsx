@@ -332,6 +332,7 @@ const SearchApp = ({
               <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
                 <VaSearchInput
                   class="vads-u-width--full"
+                  disableAnalytics
                   id="search-results-page-dropdown-input-field"
                   data-e2e-id="search-results-page-dropdown-input-field"
                   label="Enter a keyword, phrase, or question"

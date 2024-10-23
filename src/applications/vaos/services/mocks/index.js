@@ -64,7 +64,6 @@ const referrals = require('./epsApi/referrals.json');
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
-
 const features = require('../../utils/featureFlags');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
@@ -90,6 +89,13 @@ const providerMock = {
   1770999294: 'TUCKER JONES, MICHELLE A',
   1255962510: 'OYEKAN, ADETOLA O',
   1770904021: 'Jones, Tillie',
+};
+
+const purposeText = {
+  ROUTINEVISIT: 'Routine/Follow-up',
+  MEDICALISSUE: 'New medical issue',
+  QUESTIONMEDS: 'Medication concern',
+  OTHER_REASON: 'My reason isn’t listed',
 };
 
 const responses = {
@@ -256,11 +262,20 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
-    const tokens = req.body.reasonCode?.text?.split('comments:');
+    let reasonForAppointment;
     let patientComments;
-    if (tokens) {
-      if (tokens.length > 1) [, patientComments] = tokens;
-      else [patientComments] = tokens;
+    if (req.body.kind === 'cc') {
+      patientComments = req.body.reasonCode?.text;
+    } else {
+      const tokens = req.body.reasonCode?.text?.split('|');
+      for (const token of tokens) {
+        if (token.startsWith('reason code:')) {
+          reasonForAppointment =
+            purposeText[token.substring('reason code:'.length)];
+        } else if (token.startsWith('comments:')) {
+          patientComments = token.substring('comments:'.length);
+        }
+      }
     }
 
     const submittedAppt = {
@@ -283,6 +298,7 @@ const responses = {
         },
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
+        reasonForAppointment,
         patientComments,
       },
     };

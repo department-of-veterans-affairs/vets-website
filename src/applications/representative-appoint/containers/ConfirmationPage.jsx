@@ -37,7 +37,7 @@ export default function ConfirmationPage({ router }) {
           await sendNextStepsEmail({
             emailAddress,
             firstName,
-            representativeType: getRepType(formData),
+            representativeType: getRepType(selectedEntity),
             representativeName,
             representativeAddress: getEntityAddressAsString(formData),
             formNumber: getFormNumber(formData),

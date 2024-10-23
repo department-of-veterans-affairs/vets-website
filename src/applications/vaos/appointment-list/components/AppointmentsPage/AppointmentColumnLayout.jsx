@@ -51,8 +51,8 @@ export default function AppointmentColumnLayout({
           'mobile:vads-u-padding-top--1',
           'medium-screen:vads-u-padding-top--0',
         )}
-        aria-label={dateAriaLabel}
       >
+        <span className="sr-only">{dateAriaLabel}</span>
         <AppointmentRow
           className={classNames(
             'vaos-appts__column--alignItems',

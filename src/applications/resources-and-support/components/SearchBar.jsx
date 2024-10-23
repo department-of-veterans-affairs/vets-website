@@ -219,6 +219,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
           )}
           <VaSearchInput
             buttonText="Search"
+            disableAnalytics
             label="Enter a keyword, phrase, or question"
             onInput={handleInputChange}
             onSubmit={e => handleSubmit(e)}

@@ -60,14 +60,6 @@ describe('VAOS Component: CCLayout', () => {
         screen.getByText((content, element) => {
           return (
             element.tagName.toLowerCase() === 'span' &&
-            content === 'Reason: Not available'
-          );
-        }),
-      );
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
             content === 'Other details: Not available'
           );
         }),
@@ -80,7 +72,7 @@ describe('VAOS Component: CCLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
+        patientComments: 'This is a test:Additional information',
         communityCareProvider: {
           address: {
             line: ['line 1'],
@@ -157,10 +149,11 @@ describe('VAOS Component: CCLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(
+        screen.getByText(
+          /Other details: This is a test:Additional information/i,
+        ),
+      );
 
       expect(
         screen.getByRole('heading', {
@@ -199,7 +192,7 @@ describe('VAOS Component: CCLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
+        patientComments: 'This is a test:Additional information',
         communityCareProvider: {
           address: {
             line: ['line 1'],
@@ -287,10 +280,11 @@ describe('VAOS Component: CCLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(
+        screen.getByText(
+          /Other details: This is a test:Additional information/i,
+        ),
+      );
 
       expect(
         screen.queryByRole('heading', {
@@ -311,7 +305,7 @@ describe('VAOS Component: CCLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
+        patientComments: 'This is a test:Additional information',
         communityCareProvider: {
           address: {
             line: ['line 1'],
@@ -405,10 +399,11 @@ describe('VAOS Component: CCLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(
+        screen.getByText(
+          /Other details: This is a test:Additional information/i,
+        ),
+      );
 
       expect(
         screen.getByRole('heading', {
