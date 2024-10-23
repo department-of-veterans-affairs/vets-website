@@ -170,9 +170,9 @@ describe('CG <FacilitySearch>', () => {
     it('calls dispatch callback with facility object that offers CaregiverSupport', async () => {
       const { props, mockStore } = getData({});
       const { container, selectors } = subject({ props, mockStore });
-      const facilities = mockFetchChildFacilityWithCaregiverSupportResponse;
+      const facilitiesResponse = mockFetchChildFacilityWithCaregiverSupportResponse;
       mapboxStub.resolves(mapBoxSuccessResponse);
-      facilitiesStub.resolves(facilities);
+      facilitiesStub.resolves(facilitiesResponse);
 
       await waitFor(() => {
         inputVaSearchInput(container, 'Tampa', selectors().input);
@@ -184,7 +184,7 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().loader).to.not.exist;
       });
 
-      const [selectedFacility] = facilities;
+      const [selectedFacility] = facilitiesResponse.facilities;
 
       selectors().radioList.__events.vaValueChange({
         detail: { value: selectedFacility.id },
@@ -203,9 +203,8 @@ describe('CG <FacilitySearch>', () => {
     it('calls dispatch callback with facility object whose parent offers CaregiverSupport and is loaded', async () => {
       const { props, mockStore } = getData({});
       const { container, selectors } = subject({ props, mockStore });
-      const facilities = mockFetchFacilitiesResponse;
       mapboxStub.resolves(mapBoxSuccessResponse);
-      facilitiesStub.resolves(facilities);
+      facilitiesStub.resolves(mockFetchFacilitiesResponse);
 
       await waitFor(() => {
         inputVaSearchInput(container, 'Tampa', selectors().input);
@@ -217,7 +216,10 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().loader).to.not.exist;
       });
 
-      const [selectedFacility, parentFacility] = facilities;
+      const [
+        selectedFacility,
+        parentFacility,
+      ] = mockFetchFacilitiesResponse.facilities;
 
       selectors().radioList.__events.vaValueChange({
         detail: { value: selectedFacility.id },
@@ -237,12 +239,11 @@ describe('CG <FacilitySearch>', () => {
     it('calls dispatch callback with facility object whose parent offers CaregiverSupport and is not loaded', async () => {
       const { props, mockStore } = getData({});
       const { container, selectors } = subject({ props, mockStore });
-      const facilities = mockFetchChildFacilityResponse;
       mapboxStub.resolves(mapBoxSuccessResponse);
-      facilitiesStub.onFirstCall().resolves(facilities);
+      facilitiesStub.onFirstCall().resolves(mockFetchChildFacilityResponse);
 
-      const parentFacility = mockFetchParentFacilityResponse;
-      facilitiesStub.onSecondCall().resolves([parentFacility]);
+      const parentFacilityResponse = mockFetchParentFacilityResponse;
+      facilitiesStub.onSecondCall().resolves(parentFacilityResponse);
 
       await waitFor(() => {
         inputVaSearchInput(container, 'Tampa', selectors().input);
@@ -254,7 +255,7 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().loader).to.not.exist;
       });
 
-      const [selectedFacility] = facilities;
+      const [selectedFacility] = mockFetchChildFacilityResponse.facilities;
 
       selectors().radioList.__events.vaValueChange({
         detail: { value: selectedFacility.id },
@@ -267,7 +268,7 @@ describe('CG <FacilitySearch>', () => {
         expect(dispatch.firstCall.args[0].data).to.deep.include({
           'view:plannedClinic': {
             veteranSelected: selectedFacility,
-            caregiverSupport: parentFacility,
+            caregiverSupport: parentFacilityResponse.facilities[0],
           },
         });
       });
@@ -276,9 +277,9 @@ describe('CG <FacilitySearch>', () => {
     it('fails to retrieve parent facility', async () => {
       const { props, mockStore } = getData({});
       const { container, selectors } = subject({ props, mockStore });
-      const facilities = mockFetchChildFacilityResponse;
+      const facilitiesResponse = mockFetchChildFacilityResponse;
       mapboxStub.resolves(mapBoxSuccessResponse);
-      facilitiesStub.onFirstCall().resolves(facilities);
+      facilitiesStub.onFirstCall().resolves(facilitiesResponse);
 
       facilitiesStub.onSecondCall().resolves({
         type: 'SEARCH_FAILED',
@@ -295,7 +296,7 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().loader).to.not.exist;
       });
 
-      const [selectedFacility] = facilities;
+      const [selectedFacility] = facilitiesResponse.facilities;
 
       selectors().radioList.__events.vaValueChange({
         detail: { value: selectedFacility.id },
@@ -331,9 +332,9 @@ describe('CG <FacilitySearch>', () => {
         },
       });
       const { container, selectors } = subject({ props, mockStore });
-      const facilities = mockFetchFacilitiesResponse;
+      const facilitiesResponse = mockFetchFacilitiesResponse;
       mapboxStub.resolves(mapBoxSuccessResponse);
-      facilitiesStub.resolves(facilities);
+      facilitiesStub.resolves(facilitiesResponse);
 
       await waitFor(() => {
         inputVaSearchInput(container, 'Tampa', selectors().input);
@@ -377,8 +378,8 @@ describe('CG <FacilitySearch>', () => {
       });
     });
 
-    context('clicking more facilities', () => {
-      it('successfully loads more facilities', async () => {
+    context('more facilities buttons', () => {
+      it('successfully loads more facilities on click', async () => {
         const { props, mockStore } = getData({});
         const { selectors, getByText, container } = subject({
           props,
@@ -386,7 +387,10 @@ describe('CG <FacilitySearch>', () => {
         });
 
         mapboxStub.resolves(mapBoxSuccessResponse);
-        facilitiesStub.resolves(mockFetchFacilitiesResponse);
+        facilitiesStub
+          .onFirstCall()
+          .resolves(mockFetchChildFacilityWithCaregiverSupportResponse);
+        facilitiesStub.onSecondCall().resolves(mockFetchParentFacilityResponse);
 
         await waitFor(() => {
           inputVaSearchInput(container, 'Tampa', selectors().input);
@@ -397,7 +401,7 @@ describe('CG <FacilitySearch>', () => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
           expect(selectors().input).to.not.have.attr('error');
-          expect(getByText(/Showing 1-2 of 2 facilities for/)).to.exist;
+          expect(getByText(/Showing 1-1 of 1 facilities for/)).to.exist;
         });
 
         await waitFor(() => {
@@ -409,7 +413,7 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
-          expect(getByText(/Showing 1-4 of 4 facilities for/)).to.exist;
+          expect(getByText(/Showing 1-2 of 2 facilities for/)).to.exist;
           expect(selectors().input).to.not.have.attr('error');
         });
 
@@ -429,7 +433,7 @@ describe('CG <FacilitySearch>', () => {
         });
       });
 
-      it('handles error loading more facilities', async () => {
+      it('handles error loading more facilities on click', async () => {
         const { props, mockStore } = getData({});
         const { selectors, getByText, container } = subject({
           props,
@@ -468,6 +472,40 @@ describe('CG <FacilitySearch>', () => {
             'ErrorSome bad error occurred.',
           );
           expect(getByText(/Showing 1-2 of 2 facilities for/)).to.exist;
+        });
+      });
+
+      it('only renders more facilities button when totalEntries is greater than facilities total', async () => {
+        const { props, mockStore } = getData({});
+        const { selectors, getByText, container } = subject({
+          props,
+          mockStore,
+        });
+
+        mapboxStub.resolves(mapBoxSuccessResponse);
+        facilitiesStub.resolves({
+          ...mockFetchFacilitiesResponse,
+          meta: {
+            pagination: {
+              currentPage: 1,
+              perPage: 5,
+              totalEntries: 2,
+              totalPages: 3,
+            },
+          },
+        });
+
+        await waitFor(() => {
+          inputVaSearchInput(container, 'Tampa', selectors().input);
+          expect(selectors().loader).to.exist;
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+          expect(selectors().input).to.not.have.attr('error');
+          expect(getByText(/Showing 1-2 of 2 facilities for/)).to.exist;
+          expect(selectors().moreFacilities).not.to.exist;
         });
       });
     });

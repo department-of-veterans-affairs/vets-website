@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
 
 /**
  * Homepage redesign
@@ -14,39 +13,6 @@ import { replaceWithStagingDomain } from 'platform/utilities/environment/staging
 const HomepageSearch = () => {
   const [userInput, setUserInput] = useState('');
   const [latestSuggestions, setLatestSuggestions] = useState([]);
-
-  // fetch Typeahead suggestions from API
-  const fetchDropDownSuggestions = async inputValue => {
-    // encode user input for query to suggestions url
-    const encodedInput = encodeURIComponent(inputValue);
-
-    // fetch suggestions
-    try {
-      const apiRequestOptions = {
-        method: 'GET',
-      };
-      const fetchedSuggestions = await apiRequest(
-        `/search_typeahead?query=${encodedInput}`,
-        apiRequestOptions,
-      );
-
-      if (fetchedSuggestions.length !== 0) {
-        return fetchedSuggestions.sort((a, b) => {
-          return a.length - b.length;
-        });
-      }
-      return [];
-      // if we fail to fetch suggestions
-    } catch (error) {
-      if (error?.error?.code === 'OVER_RATE_LIMIT') {
-        Sentry.captureException(
-          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
-        );
-      }
-      Sentry.captureException(error);
-      return [];
-    }
-  };
 
   // clear all suggestions and saved suggestions
   const clearSuggestions = () => {
@@ -63,8 +29,7 @@ const HomepageSearch = () => {
       clearSuggestions();
       return;
     }
-
-    const results = await fetchDropDownSuggestions(inputValue);
+    const results = await fetchTypeaheadSuggestions(inputValue);
     setLatestSuggestions(results);
   };
 

@@ -22,7 +22,6 @@ export function VyeEnrollmentLoginWidget({
 
   const visitorUI = (
     <div>
-      <p>You can verify your enrollment online.</p>
       <va-alert
         close-btn-aria-label="Close notification"
         status="continue"
@@ -109,9 +108,9 @@ const mapStateToProps = store => ({
   includedInFlipper: toggleValues(store)[FEATURE_FLAG_NAMES.vyeLoginWidget],
 });
 VyeEnrollmentLoginWidget.propTypes = {
+  includedInFlipper: PropTypes.bool,
   toggleLoginModal: PropTypes.func,
   user: PropTypes.object,
-  includedInFlipper: PropTypes.bool,
 };
 
 const mapDispatchToProps = dispatch => ({

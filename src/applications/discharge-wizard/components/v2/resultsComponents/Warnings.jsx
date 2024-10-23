@@ -82,10 +82,7 @@ const Warnings = ({ formResponses }) => {
         content={alertContent}
         isVisible={
           reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214 &&
-          [
-            RESPONSES.PREV_APPLICATION_BCMR,
-            RESPONSES.PREV_APPLICATION_BCNR,
-          ].includes(prevAppType)
+          prevAppType === RESPONSES.NOT_SURE
         }
         status="warning"
       />

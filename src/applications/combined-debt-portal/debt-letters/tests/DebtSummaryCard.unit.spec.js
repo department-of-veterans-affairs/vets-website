@@ -98,6 +98,6 @@ describe('DebtSummaryCard', () => {
       </Provider>,
     );
 
-    expect(wrapper.find('h3').text()).to.equal('Chapter 35 education debt');
+    expect(wrapper.find('h2').text()).to.equal('Chapter 35 education debt');
   });
 });

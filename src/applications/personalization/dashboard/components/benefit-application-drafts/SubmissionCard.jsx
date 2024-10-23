@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { formatFormTitle, formatSubmissionDisplayStatus } from '../../helpers';
 
 const QuestionsContent = () => (
-  <p>
+  <p className="vads-u-margin-bottom--0">
     If you have questions, call us at <va-telephone contact="8008271000" /> (
     <va-telephone contact="711" tty />
     ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -29,7 +29,7 @@ const InProgressContent = () => (
   <>
     <p>
       Next step: We’ll confirm that we’ve received your form. This can take up
-      to 10 days.
+      to 30 days.
     </p>
     <QuestionsContent />
   </>
@@ -37,7 +37,9 @@ const InProgressContent = () => (
 
 const ActionNeededContent = ({ lastSavedDate }) => (
   <>
-    <p className="vads-u-margin-y--0">Submission failed on: {lastSavedDate}</p>
+    <p className="vads-u-margin-top--0 vads-u-margin-bottom--0p5">
+      Submission failed on: {lastSavedDate}
+    </p>
     <va-alert
       slim="true"
       status="error"
@@ -71,17 +73,17 @@ const SubmissionCard = ({
   const content = (
     <>
       <div className="vads-u-width--full">
-        <h3 aria-describedby="21-0845" className="vads-u-margin-top--0">
+        <h3 className="vads-u-margin-y--0">
           <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
             {formatSubmissionDisplayStatus(status)}
           </span>
-          <span className="vads-u-display--block vads-u-font-size--h3 vads-u-margin-top--2">
+          <span className="vads-u-display--block vads-u-font-size--h3 vads-u-margin-top--1p5">
             {formatFormTitle(formTitle)}
           </span>
         </h3>
         <p
           id={formId}
-          className="vads-u-text-transform--uppercase vads-u-margin-bottom--2"
+          className="vads-u-text-transform--uppercase vads-u-margin-top--0p5 vads-u-margin-bottom--2"
         >
           {/* TODO: rethink our helpers for presentable form ID */}
           VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
@@ -104,7 +106,7 @@ const SubmissionCard = ({
       data-testid="submitted-application"
     >
       <va-card>
-        <div className="vads-u-padding--1">{content}</div>
+        <div>{content}</div>
       </va-card>
     </div>
   );

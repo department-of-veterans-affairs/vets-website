@@ -1,10 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import sinon from 'sinon';
+import * as apiModule from 'platform/utilities/api';
 import { handleTokenRequest } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
@@ -14,7 +15,12 @@ describe('AuthApp', () => {
   const mockStore = {
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
-    getState: () => {},
+    getState: () => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_interstitial_enabled: false,
+      },
+    }),
   };
 
   before(() => {
@@ -144,8 +150,9 @@ describe('AuthApp', () => {
         />
       </Provider>,
     );
-
-    expect(queryByTestId('loading')).to.not.be.null;
+    await waitFor(() => {
+      expect(queryByTestId('loading')).to.not.be.null;
+    });
   });
 
   it('should call skipToRedirect when no error and return URL is external', async () => {
@@ -171,8 +178,9 @@ describe('AuthApp', () => {
         />
       </Provider>,
     );
-
-    expect(queryByTestId('loading')).to.not.be.null;
+    await waitFor(() => {
+      expect(queryByTestId('loading')).to.not.be.null;
+    });
   });
 
   it('should call the handleTokenRequest', async () => {
@@ -208,8 +216,156 @@ describe('AuthApp', () => {
         />
       </Provider>,
     );
+    await waitFor(() => {
+      expect(queryByTestId('loading')).to.not.be.null;
+    });
+  });
+
+  it('should not call terms of use provisioning if a user is not authenticating with ssoe', async () => {
+    sessionStorage.setItem(
+      'authReturnUrl',
+      'https://staging-patientportal.myhealth.va.gov',
+    );
+    const apiRequestStub = sinon.stub(apiModule, 'apiRequest');
+    apiRequestStub.resolves({
+      data: {
+        attributes: {
+          profile: {
+            signIn: { serviceName: 'logingov', ssoe: false },
+          },
+        },
+      },
+    });
+
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <AuthApp location={{ query: { auth: 'success', type: 'logingov' } }} />
+      </Provider>,
+    );
 
     expect(queryByTestId('loading')).to.not.be.null;
+
+    await waitFor(() => {
+      expect(apiRequestStub.calledWith('/user')).to.be.true;
+    });
+
+    expect(
+      apiRequestStub.calledWith('/terms_of_use_agreements/update_provisioning'),
+    ).to.be.false;
+
+    apiRequestStub.restore();
+  });
+
+  it('should not call terms of use provisioning if a user is not redirecting to MyVAHealth', async () => {
+    sessionStorage.setItem(
+      'authReturnUrl',
+      'https://int.eauth.va.gov/ebenefits',
+    );
+    const apiRequestStub = sinon.stub(apiModule, 'apiRequest');
+    apiRequestStub.resolves({
+      data: {
+        attributes: {
+          profile: {
+            signIn: { serviceName: 'logingov', ssoe: true },
+          },
+        },
+      },
+    });
+
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <AuthApp location={{ query: { auth: 'success', type: 'logingov' } }} />
+      </Provider>,
+    );
+
+    expect(queryByTestId('loading')).to.not.be.null;
+
+    await waitFor(() => {
+      expect(apiRequestStub.calledWith('/user')).to.be.true;
+    });
+
+    expect(
+      apiRequestStub.calledWith('/terms_of_use_agreements/update_provisioning'),
+    ).to.be.false;
+
+    apiRequestStub.restore();
+  });
+
+  it('should call terms of use provisioning if a user authenticates with ssoe and is redirecting to MyVAHealth', async () => {
+    sessionStorage.setItem(
+      'authReturnUrl',
+      'https://staging-patientportal.myhealth.va.gov',
+    );
+    const apiRequestStub = sinon.stub(apiModule, 'apiRequest');
+    apiRequestStub.resolves({
+      data: {
+        attributes: {
+          profile: {
+            signIn: { serviceName: 'logingov', ssoe: true },
+          },
+        },
+      },
+    });
+
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <AuthApp location={{ query: { auth: 'success', type: 'logingov' } }} />
+      </Provider>,
+    );
+
+    expect(queryByTestId('loading')).to.not.be.null;
+
+    await waitFor(() => {
+      expect(apiRequestStub.calledWith('/user')).to.be.true;
+    });
+
+    expect(
+      apiRequestStub.calledWith('/terms_of_use_agreements/update_provisioning'),
+    ).to.be.true;
+
+    apiRequestStub.restore();
+  });
+
+  it('should not display an error page if a user authenticates with ssoe and is redirecting to MyVAHealth', async () => {
+    sessionStorage.setItem(
+      'authReturnUrl',
+      'https://staging-patientportal.myhealth.va.gov',
+    );
+    const apiRequestStub = sinon.stub(apiModule, 'apiRequest');
+    apiRequestStub.resolves({
+      data: {
+        attributes: {
+          profile: {
+            signIn: { serviceName: 'logingov', ssoe: true },
+          },
+        },
+      },
+    });
+
+    const { queryByTestId, queryByText } = render(
+      <Provider store={mockStore}>
+        <AuthApp location={{ query: { auth: 'success', type: 'logingov' } }} />
+      </Provider>,
+    );
+
+    expect(queryByTestId('loading')).to.not.be.null;
+
+    await waitFor(() => {
+      expect(apiRequestStub.calledWith('/user')).to.be.true;
+      apiRequestStub.resolves({ provisioned: true });
+    });
+
+    await waitFor(() => {
+      expect(
+        apiRequestStub.calledWith(
+          '/terms_of_use_agreements/update_provisioning',
+        ),
+      ).to.be.true;
+    });
+
+    expect(queryByText(/Code:/i)).to.be.null;
+
+    apiRequestStub.restore();
   });
 
   describe('handleTokenRequest', () => {

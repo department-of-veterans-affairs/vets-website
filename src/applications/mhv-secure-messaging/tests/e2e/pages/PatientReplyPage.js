@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { dateFormat } from '../../../util/helpers';
 import mockMessage from '../fixtures/message-response.json';
-import { Locators, Paths } from '../utils/constants';
+import { Locators, Paths, Data } from '../utils/constants';
 
 class PatientReplyPage {
   clickSendReplyMessageButton = messageId => {
@@ -106,9 +106,9 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationMessageText = () => {
-    cy.get('[data-testid="alert-text"]').should(
-      'contain.text',
-      'Secure message was successfully sent.',
+    cy.get(Locators.ALERTS.GEN_ALERT).should(
+      'include.text',
+      Data.SECURE_MSG_SENT_SUCCESSFULLY,
     );
   };
 
@@ -147,6 +147,19 @@ class PatientReplyPage {
 
     cy.contains('Continue editing').should('be.visible');
     cy.contains('Delete draft').should('be.visible');
+  };
+
+  verifyReplyHeader = (text = `Draft`) => {
+    cy.get(Locators.REPLY_FORM)
+      .find(`h2`)
+      .should(`be.visible`)
+      .and(`have.text`, text);
+  };
+
+  verifyEditReplyDraftBtn = (text = Data.BUTTONS.EDIT_DRAFT_REPLY) => {
+    cy.get(Locators.BUTTONS.EDIT_DRAFT)
+      .should(`be.visible`)
+      .and(`contain.text`, text);
   };
 }
 

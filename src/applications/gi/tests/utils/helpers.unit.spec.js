@@ -22,7 +22,7 @@ import {
   locationInfo,
   scrollToFocusedElement,
   handleInputFocusWithPotentialOverLap,
-  validateSearchTerm,
+  validateSearchTermSubmit,
   searchCriteriaFromCoords,
 } from '../../utils/helpers';
 
@@ -356,7 +356,7 @@ describe('GIBCT helpers:', () => {
       expect(result.position).to.deep.equal({ longitude, latitude });
     });
   });
-  describe('validateSearchTerm', () => {
+  describe('validateSearchTermSubmit', () => {
     let dispatchError;
     let error;
     let filters;
@@ -368,7 +368,7 @@ describe('GIBCT helpers:', () => {
     });
 
     it('should validate name search term', () => {
-      const valid = validateSearchTerm(
+      const valid = validateSearchTermSubmit(
         'Test',
         dispatchError,
         error,
@@ -378,7 +378,7 @@ describe('GIBCT helpers:', () => {
       expect(valid).to.be.true;
       expect(dispatchError.called).to.be.false;
 
-      const invalid = validateSearchTerm(
+      const invalid = validateSearchTermSubmit(
         ' ',
         dispatchError,
         error,
@@ -394,7 +394,7 @@ describe('GIBCT helpers:', () => {
     });
 
     it('should validate location search term', () => {
-      const valid = validateSearchTerm(
+      const valid = validateSearchTermSubmit(
         '12345',
         dispatchError,
         error,
@@ -404,19 +404,19 @@ describe('GIBCT helpers:', () => {
       expect(valid).to.be.true;
       expect(dispatchError.called).to.be.false;
 
-      const invalid = validateSearchTerm(
+      const invalid = validateSearchTermSubmit(
         '123456',
         dispatchError,
         error,
         filters,
         'location',
       );
-      expect(invalid).to.be.true;
+      expect(invalid).to.be.false;
       expect(dispatchError.calledWith('Please enter a valid postal code.')).to
         .be.true;
     });
     it('should not dispatchError when error is not null for name', () => {
-      const invalid = validateSearchTerm(
+      const invalid = validateSearchTermSubmit(
         'new york',
         dispatchError,
         (error = 'error'),
@@ -431,7 +431,7 @@ describe('GIBCT helpers:', () => {
       ).to.be.false;
     });
     it('should not dispatchError when error is not null for location', () => {
-      const invalid = validateSearchTerm(
+      const invalid = validateSearchTermSubmit(
         '94121',
         dispatchError,
         (error = 'error'),
@@ -443,7 +443,7 @@ describe('GIBCT helpers:', () => {
         .be.false;
     });
     it('should dispatchError search input is empty', () => {
-      validateSearchTerm('', dispatchError, error, filters, 'location');
+      validateSearchTermSubmit('', dispatchError, error, filters, 'location');
 
       expect(
         dispatchError.calledWith(

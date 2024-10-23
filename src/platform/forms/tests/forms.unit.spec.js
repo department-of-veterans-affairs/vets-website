@@ -34,7 +34,6 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21P_0847,
   VA_FORM_IDS.FORM_22_10215,
   VA_FORM_IDS.FORM_22_10216,
-  VA_FORM_IDS.FORM_22_10282,
   VA_FORM_IDS.FORM_40_0247,
   VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
   VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW,
@@ -47,11 +46,11 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
   VA_FORM_IDS.FORM_MOCK,
   VA_FORM_IDS.FORM_T_QSTNR,
-  VA_FORM_IDS.FORM_22_10282,
   VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   VA_FORM_IDS.FORM_XX_123,
   VA_FORM_IDS.FORM_1919,
   VA_FORM_IDS.FORM_22_8794,
+  VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
 ];
 
 const root = path.join(__dirname, '../../../');
@@ -83,6 +82,7 @@ const formConfigKeys = [
   'prefillEnabled',
   'prefillTransformer',
   'preSubmitInfo',
+  'reviewEditFocusOnHeaders',
   'reviewErrors',
   'rootUrl',
   'savedFormMessages',

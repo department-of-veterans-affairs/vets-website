@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT, Data, Locators } from './utils/constants';
+import { AXE_CONTEXT, Data, Locators, Alerts } from './utils/constants';
 import mockMessages from './fixtures/messages-response.json';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
@@ -92,7 +92,7 @@ describe('verify attach file button behaviour', () => {
 
     cy.get(Locators.ALERTS.ERROR_MESSAGE).should(
       'have.text',
-      Data.ALREADY_ATTACHED_FILE,
+      Alerts.ATTACHMENT.ALREADY_ATTACHED_FILE,
     );
 
     cy.injectAxe();

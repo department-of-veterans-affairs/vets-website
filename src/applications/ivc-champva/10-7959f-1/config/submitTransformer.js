@@ -1,13 +1,14 @@
 /* eslint-disable camelcase */
 import { formatDateShort } from 'platform/utilities/date';
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { concatStreets } from '../../shared/utilities';
 
 // Take an address object and turn it into a string with line breaks
 function stringifyAddress(addr) {
   return addr
-    ? `${addr.street}\n${addr.street2 ?? ''}\n${addr.street3 ?? ''}\n${
-        addr.city
-      }, ${addr.state}\n${addr.postalCode}`
+    ? `${concatStreets(addr, true).streetCombined}${addr.city}, ${
+        addr.state
+      }\n${addr.postalCode}`
     : '';
 }
 

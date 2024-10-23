@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 import ClearFiltersBtn from './ClearFiltersBtn';
@@ -42,12 +43,14 @@ export default function SearchAccordion({
 
     return (
       <h2 className={headerClasses}>
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
         <button
           id={`${id}-button`}
           onClick={toggle}
           className="usa-accordion-button vads-u-font-size--md"
           aria-expanded={isExpanded}
           aria-controls={id}
+          data-testid="update-tuition-housing"
         >
           <span className="vads-u-font-family--serif accordion-button-text">
             {button}
@@ -62,7 +65,7 @@ export default function SearchAccordion({
       {renderHeader()}
       <div
         id={`${id}-content`}
-        className="usa-accordion-content update-results-form"
+        className="usa-accordion-content update-results-form vads-u-margin-bottom--3"
         aria-hidden={!expanded}
         hidden={!expanded}
       >
@@ -75,6 +78,7 @@ export default function SearchAccordion({
           }
         >
           {' '}
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
           <button
             type="button"
             id={buttonId}
@@ -97,3 +101,15 @@ export default function SearchAccordion({
     </div>
   );
 }
+
+SearchAccordion.propTypes = {
+  button: PropTypes.string.isRequired,
+  buttonLabel: PropTypes.string.isRequired,
+  buttonOnClick: PropTypes.func.isRequired,
+  ariaDescribedBy: PropTypes.string,
+  children: PropTypes.node,
+  dispatchFocusSearch: PropTypes.func,
+  expanded: PropTypes.bool,
+  headerClass: PropTypes.string,
+  onClick: PropTypes.func,
+};

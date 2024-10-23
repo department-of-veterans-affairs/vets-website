@@ -127,7 +127,7 @@ const testConfig = createTestConfig(
       // ==============================================================
       'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="monthly"]').click();
+          cy.get('va-radio-option[value="monthly"]').click();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -143,7 +143,7 @@ const testConfig = createTestConfig(
       },
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="waiver"]').click();
+          cy.get('va-radio-option[value="waiver"]').click();
           cy.get('.usa-button-primary').click();
         });
       },

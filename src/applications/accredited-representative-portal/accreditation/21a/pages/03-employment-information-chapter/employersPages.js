@@ -248,8 +248,8 @@ const employersPages = arrayBuilderPages(
   arrayBuilderOptions,
   (pageBuilder, helpers) => ({
     employers: pageBuilder.introPage({
-      title: 'Employment information intro',
-      path: 'Employment information intro',
+      title: 'Employers information intro',
+      path: 'employers-information-intro',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),

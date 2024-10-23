@@ -5,7 +5,6 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { parseISO, isWithinInterval } from 'date-fns';
-import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaBackToTop,
   VaPagination,
@@ -155,16 +154,19 @@ export default function App({ children }) {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
-  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
   const toggleIsLoading = useToggleLoadingValue();
+  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
+  const canViewClaimDetails = useToggleValue(
+    TOGGLE_NAMES.travelPayViewClaimDetails,
+  );
 
   useEffect(
     () => {
-      if (userLoggedIn) {
+      if (userLoggedIn && travelClaims.length === 0) {
         dispatch(getTravelClaims());
       }
     },
-    [dispatch, userLoggedIn],
+    [dispatch, userLoggedIn, travelClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
@@ -262,7 +264,6 @@ export default function App({ children }) {
 
   return (
     <>
-      <MhvSecondaryNav />
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
         <h1
@@ -348,9 +349,13 @@ export default function App({ children }) {
                   id="travel-claims-list"
                   className="travel-claim-list-container"
                 >
-                  {displayedClaims.map(travelClaim =>
-                    TravelClaimCard(travelClaim),
-                  )}
+                  {displayedClaims.map(travelClaim => (
+                    <TravelClaimCard
+                      key={travelClaim.id}
+                      {...travelClaim}
+                      canViewClaimDetails={canViewClaimDetails}
+                    />
+                  ))}
                 </section>
                 {shouldPaginate && (
                   <VaPagination

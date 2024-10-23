@@ -41,12 +41,6 @@ const VaccinesListItem = props => {
           {record.location}
         </span>
       </div>
-      <div className="print-only">
-        <span className="vads-u-display--inline">Provider notes:</span>{' '}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {record.notes}
-        </span>
-      </div>
     </va-card>
   );
 };

@@ -14,20 +14,27 @@ import {
   getTypeOfCareById,
 } from '../../utils/appointment';
 
-function getAppointmentType(appt) {
-  if (appt.kind === 'cc' && appt.start) {
-    return APPOINTMENT_TYPES.ccAppointment;
-  }
-  if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
-    return APPOINTMENT_TYPES.ccRequest;
-  }
-  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
+export function getAppointmentType(appt) {
+  // Cerner appointments have a different structure than VAOS appointments
+  // TODO: refactor this once logic is moved to vets-api
+  const isCerner = appt?.id?.startsWith('CERN');
+  if (isCerner && isEmpty(appt?.end)) {
     return APPOINTMENT_TYPES.request;
   }
-
+  if (isCerner && !isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.start) {
+    return APPOINTMENT_TYPES.ccAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.ccRequest;
+  }
+  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.request;
+  }
   return APPOINTMENT_TYPES.vaAppointment;
 }
-
 /**
  * Gets the type of visit that matches our array of visit constant
  *

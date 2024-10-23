@@ -38,12 +38,8 @@ export const deviewifyFields = formData => {
   return newFormData;
 };
 
-export const preparerIsVeteran = ({ formData } = {}) => {
-  if (formData) {
-    return formData['view:applicantIsVeteran'] === 'Yes';
-  }
-  return false;
-};
+export const preparerIsVeteran = ({ formData } = {}) =>
+  formData?.['view:applicantIsVeteran'] === 'Yes';
 
 export const isLoggedIn = ({ formData } = {}) => {
   if (formData) {
@@ -101,53 +97,6 @@ export const formatDate = (date, format = DATE_FORMAT) => {
 };
 
 /**
- * @typedef {Object} ParsedPhoneNumber
- * @property {string} contact - the "raw" phone number, used to populate the tel: link
- * @property {string} extension - the extension, can be any number of digits
- */
-
-/**
- * Parses a phone number string for use with the Telephone component.
- * @param phone {String} "raw" phone number. The first 10 digits are treated as the "main" number.
- * Any remaining digits are treated as the extension.
- * Non-digits preceding the extension are ignored.
- * @returns {ParsedPhoneNumber}
- */
-
-export const parsePhoneNumber = phone => {
-  if (!phone) {
-    return { contact: null, extension: null };
-  }
-  let sanitizedNumber = phone
-    .replace(/[()\s]/g, '') // remove parentheses
-    .replace(/(?<=.)([+.*])/g, '-'); // replace .*+ symbols being used as dashes
-
-  // return null for non-US country codes
-  if (sanitizedNumber.match(/\+(\d+)[^\d1]/g)) {
-    return { contact: null, extension: null };
-  }
-
-  // remove US country codes +1 or 1
-  sanitizedNumber = sanitizedNumber.replace(/^(\+1|1)\s*/, '');
-
-  // capture first 10 digits + ext if applicable
-  const parserRegex = /^(\d{10})(\D*?(\d+))?/;
-  const contact = sanitizedNumber.replace(/-/g, '').replace(parserRegex, '$1');
-  const extension =
-    sanitizedNumber
-      .replace(/-/g, '')
-      .replace(parserRegex, '$3')
-      .replace(/\D/g, '') || null;
-
-  const isValidContactNumberRegex = /^(?:[2-9]\d{2})[2-9]\d{2}\d{4}$/;
-
-  if (isValidContactNumberRegex.test(contact)) {
-    return { contact, extension };
-  }
-  return { contact: null, extension: null };
-};
-
-/**
  * Setting subtitle based on rep type
  */
 export const getFormSubtitle = formData => {
@@ -165,4 +114,142 @@ export const getFormSubtitle = formData => {
     return 'VA Form 21-22a';
   }
   return 'VA Forms 21-22 and 21-22a';
+};
+
+/**
+ * Setting submit url suffix based on rep type
+ */
+export const getFormSubmitUrlSuffix = formData => {
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
+
+  if (entityType === 'organization') {
+    return '2122';
+  }
+  if (entityType === 'individual') {
+    const { individualType } = entity.attributes;
+    if (individualType === 'representative') {
+      return '2122';
+    }
+    return '2122a';
+  }
+  return '2122';
+};
+
+export const getEntityAddressAsObject = attributes => {
+  return {
+    addressLine1: (attributes?.addressLine1 || '').trim(),
+    addressLine2: (attributes?.addressLine2 || '').trim(),
+    addressLine3: (attributes?.addressLine3 || '').trim(),
+    city: (attributes?.city || '').trim(),
+    stateCode: (attributes?.stateCode || '').trim(),
+    zipCode: (attributes?.zipCode || '').trim(),
+  };
+};
+
+export const getEntityAddressAsString = formData => {
+  const entity = formData['view:selectedRepresentative'];
+
+  return (
+    [
+      (entity.addressLine1 || '').trim(),
+      (entity.addressLine2 || '').trim(),
+      (entity.addressLine3 || '').trim(),
+    ]
+      .filter(Boolean)
+      .join(' ') +
+    (entity.city ? ` ${entity.city},` : '') +
+    (entity.stateCode ? ` ${entity.stateCode}` : '') +
+    (entity.zipCode ? ` ${entity.zipCode}` : '')
+  );
+};
+
+export const getRepType = formData => {
+  const entity = formData['view:selectedRepresentative'];
+
+  if (entity?.type === 'organization') {
+    return 'Organization';
+  }
+
+  const repType = entity.attributes?.individualType;
+
+  if (repType === 'attorney') {
+    return 'Attorney';
+  }
+
+  if (repType === 'claimsAgent' || repType === 'claims_agent') {
+    return 'Claims Agent';
+  }
+
+  return 'VSO Representative';
+};
+
+export const getFormNumber = formData => {
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
+
+  if (
+    entityType === 'organization' ||
+    (entityType === 'individual' &&
+      entity.attributes.individualType === 'representative')
+  ) {
+    return '21-22';
+  }
+
+  return '21-22a';
+};
+
+export const getFormName = formData => {
+  if (getFormNumber(formData) === '21-22') {
+    return "Appointment of Veterans Service Organization as Claimant's Representative";
+  }
+
+  return "Appointment of Individual As Claimant's Representative";
+};
+
+const isOrg = formData =>
+  formData['view:selectedRepresentative']?.type === 'organization';
+
+export const isAttorneyOrClaimsAgent = formData => {
+  const repType =
+    formData['view:selectedRepresentative']?.attributes?.individualType;
+
+  return (
+    repType === 'attorney' ||
+    repType === 'claimsAgent' ||
+    repType === 'claims_agent'
+  );
+};
+
+export const getOrgName = formData => {
+  if (isOrg(formData)) {
+    return formData['view:selectedRepresentative']?.attributes?.name;
+  }
+
+  if (isAttorneyOrClaimsAgent(formData)) {
+    return null;
+  }
+
+  const orgs =
+    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+      ?.data;
+
+  if (orgs.length > 1) {
+    const id = formData?.selectedAccreditedOrganizationId;
+    const selectedOrg = orgs.find(org => org.id === id);
+    return selectedOrg?.attributes?.name;
+  }
+
+  return orgs[0]?.attributes?.name;
+};
+
+export const convertRepType = input => {
+  const mapping = {
+    representative: 'VSO',
+    attorney: 'Attorney',
+    /* eslint-disable-next-line camelcase */
+    claims_agent: 'Claims Agent',
+  };
+
+  return mapping[input] || input;
 };

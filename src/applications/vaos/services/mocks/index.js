@@ -17,7 +17,6 @@ const clinicList983 = require('./var/clinicList983.json');
 const clinicList612 = require('./var/clinicList612.json');
 const facilityDetails983 = require('./var/facility_details_983.json');
 const facilityData = require('./var/facility_data.json');
-const ccProviders = require('./var/cc_providers.json');
 const sitesSupportingVAR = require('./var/sites-supporting-var.json');
 const varSlots = require('./var/slots.json');
 const cancelReasons = require('./var/cancel_reasons.json');
@@ -26,6 +25,7 @@ const directBookingEligibilityCriteria = require('./var/direct_booking_eligibili
 const generateMockSlots = require('./var/slots');
 
 // v2
+const ccProviders = require('./v2/cc_providers.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
@@ -201,7 +201,7 @@ const responses = {
     });
   },
   'GET /v1/facilities/va': facilityData,
-  'GET /facilities_api/v1/ccp/provider': ccProviders,
+  'GET /facilities_api/v2/ccp/provider': ccProviders,
   'GET /v1/facilities/ccp/:id': (req, res) => {
     const provider = ccProviders.data.find(p => p.id === req.params.id);
     return res.json({

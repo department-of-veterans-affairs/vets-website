@@ -48,7 +48,7 @@ export default class BasicFacilityListWidget extends React.Component {
       facility => (
         <div
           key={facility.id}
-          className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--4"
+          className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row facility vads-u-margin-bottom--4"
         >
           <section className="region-grid vads-u-margin-right--2">
             <FacilityTitle
@@ -59,7 +59,7 @@ export default class BasicFacilityListWidget extends React.Component {
             <FacilityAddress facility={facility} />
             <FacilityPhone facility={facility} />
           </section>
-          <section className="region-grid vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2">
+          <section className="region-grid vads-u-order--first mobile-lg:vads-u-order--initial vads-u-margin-bottom--2">
             <a
               href={this.props.facilities[facility.id].entityUrl.path}
               aria-label={this.props.facilities[facility.id].nickname}

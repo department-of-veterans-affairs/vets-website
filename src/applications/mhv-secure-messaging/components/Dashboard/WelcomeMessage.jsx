@@ -25,10 +25,8 @@ const WelcomeMessage = () => {
         secure messaging. You can go back to that version at any time.{' '}
         <a
           href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'secure-messaging')}
-          target="_blank"
-          rel="noreferrer"
         >
-          Go back to the previous version of secure messaging (opens in new tab)
+          Go back to the previous version of secure messaging
         </a>
       </p>
     </div>

@@ -42,6 +42,7 @@ export const Paths = {
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
+    MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
   },
 };
 
@@ -118,16 +119,17 @@ export const Locators = {
     MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
-    SAVE_DRAFT: '#save-draft-button',
+    SAVE_DRAFT: '[data-testid="save-draft-button"]',
     PRINT_ONE_MESS: '[data-testid="radio-print-one-message"]',
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
-    DELETE_DRAFT: '#delete-draft-button',
+    DELETE_DRAFT: '[data-testid="delete-draft-button"]',
     EDIT_FOLDER: '[data-testid="edit-folder-button"]',
     DELETE_FOLDER: '[data-testid="remove-folder-button"]',
     PRINT: '[data-testid="print-button"]',
     SORT: '[data-testid="sort-button"]',
     ATTACH_FILE: '[data-testid="attach-file-button"]',
     REMOVE_ATTACHMENT: '[data-testid="remove-attachment-button"]',
+    REMOVE_ALL_ATTCH: `[data-testid="remove-all-attachments-button"]`,
     CONFIRM_REMOVE_ATTACHMENT:
       '[data-testid="confirm-remove-attachment-button"]',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
@@ -137,9 +139,11 @@ export const Locators = {
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
+    EDIT_DRAFT: `[data-testid="edit-draft-button-body"]`,
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
     CL_SAVE: `[data-testid="contact-list-save"]`,
     CL_GO_BACK: '[data-testid="contact-list-go-back"]',
+    ALERT_CLOSE: `.first-focusable-child`,
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -148,6 +152,8 @@ export const Locators = {
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
+    CRUMBS_BACK: '.sm-breadcrumb-list-item',
+    OLD_VERSION: `.welcome-message > p > a`,
   },
   ALERTS: {
     HEADER: `#heading`,
@@ -194,13 +200,16 @@ export const Locators = {
     ERROR_MESSAGE: '[data-testid="file-input-error-message"]',
     ERROR_MODAL: '[data-testid="attach-file-error-modal"]',
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
-    CONFIRM: '[data-testid="alert-text"]',
+    GEN_ALERT: '[data-testid="alert-text"]',
     CANCEL: '[text="Cancel"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
     ES_ALERT: '[data-testid="quit-compose-double-dare"]',
     SAVE_ALERT: `[data-test-id="save-alert-message"]`,
     CL_SAVE: `[data-testid="sm-route-navigation-guard-confirm-button"]`,
     CL_DELETE_AND_EXIT: `[data-testid="sm-route-navigation-guard-cancel-button"]`,
+    ALERT_TEXT: `[data-testid="alert-text"]`,
+    ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
+    VA_ALERT: `va-alert`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -232,9 +241,15 @@ export const Locators = {
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',
   },
+  SUBHEADERS: {
+    NUMBER_OF_THREADS: `[data-testid="displaying-number-of-threads"]`,
+  },
   DROPDOWN: {
     RECIPIENTS: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
+  },
+  ICONS: {
+    ATTCH_ICON: '[data-testid="attachment-icon"]',
   },
 };
 
@@ -256,6 +271,19 @@ export const Alerts = {
     SAVE: 'Do you want to save your changes to your contact list?',
     SAVED: 'Contact list changes saved',
     EMPTY: `Select at least one team`,
+    SAVE_API_ERROR: `We're sorry. We couldn't save your changes. Try saving again.`,
+    LOAD_API_ERROR: `We can’t load your contact list right now`,
+  },
+  ATTACHMENT: {
+    TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+    EMPTY: `Your file is empty. Try attaching a different file.`,
+    FILE_IS_TOO_LARGE_TEXT:
+      'Your file is too large. Try attaching a file smaller than 6MB.',
+    ALREADY_ATTACHED_FILE: 'You have already attached this file.',
+  },
+  MAINTENANCE: {
+    ACTIVE: `Maintenance on My HealtheVet`,
+    UPCOMING: `Upcoming maintenance on My HealtheVet`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG: 'This conversation is too old for new replies',
@@ -267,6 +295,8 @@ export const Alerts = {
   EL_SIGN_CHECK: `You must certify by checking the box.`,
   SAVE_SIGN: `We can't save your signature in a draft message`,
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
+  VIRUS_ATTCH: `Your message failed to send. Your file failed our scan. Try sending your message without any attachments.`,
+  VIRUS_MULTI_ATTCH: `Your message failed to send. One or more of your files failed our scan. Try sending your message without any attachments.`,
 };
 
 export const Data = {
@@ -287,12 +317,11 @@ export const Data = {
   FOLDER_REMOVED_SUCCESSFULLY: 'Folder was successfully removed.',
   FOLDER_CREATED_SUCCESSFULLY: 'Folder was successfully created.',
   FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
-  SECURE_MSG_SENT_SUCCESSFULLY: 'Secure message was successfully sent',
+  SECURE_MSG_SENT_SUCCESSFULLY: 'Message Sent.',
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
   SUBJECT_CANNOT_BLANK: 'Subject cannot be blank.',
   BODY_CANNOT_BLANK: 'Message body cannot be blank.',
-  ATTACH_FILE: 'Attach file',
   ATTACH_ADDITIONAL_FILE: 'Attach additional file',
   MESSAGE_CANNOT_SAVE_YET: "We can't save this message yet",
   CONTINUE_EDITING: 'Continue editing',
@@ -306,9 +335,6 @@ export const Data = {
   EDIT_YOUR_MSG_PREFRENCES: 'Edit your message preferences',
   NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
-  FILE_IS_TOO_LARGE_TEXT:
-    'Your file is too large. Try attaching a file smaller than 6MB.',
-  ALREADY_ATTACHED_FILE: 'You have already attached this file.',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',
@@ -321,10 +347,15 @@ export const Data = {
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   BUTTONS: {
-    EDIT_DRAFT: `Edit draft`,
+    ATTACH_FILE: 'Attach file',
+    SEND: `Send`,
+    SAVE_DRAFT: `Save draft`,
     SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
     SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
     SAVE_AND_EXIT: `Save contact list`,
+    EDIT_DRAFT: `Edit draft`,
+    EDIT_DRAFT_REPLY: `Edit draft reply`,
+    DELETE_DRAFT: `Delete draft`,
     GO_BACK: `Go back`,
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
@@ -351,4 +382,25 @@ export const Assertions = {
   ARIA_EXPANDED: 'aria-expanded',
   EMPTY_THIS_FOLDER: 'Empty this folder',
   NO_MATCHES_SEARCH: 'We didn’t find any matches for these filters',
+};
+
+export const Arrays = {
+  FilterDateRange: [
+    'ANY',
+    'LAST 3 MONTHS',
+    'LAST 6 MONTHS',
+    'LAST 12 MONTHS',
+    'CUSTOM',
+  ],
+
+  Categories: [
+    'OTHER',
+    'COVID',
+    'APPOINTMENT',
+    'MEDICATION',
+    'TEST_RESULT',
+    'EDUCATION',
+    'GENERAL',
+    'TEST',
+  ],
 };

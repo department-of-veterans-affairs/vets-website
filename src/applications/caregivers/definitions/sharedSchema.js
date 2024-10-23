@@ -4,6 +4,7 @@ import {
   addressNoMilitarySchema,
   fullNameSchema as platformFullNameSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { ADDRESS_REGEX } from '../utils/constants';
 
 // declare schema for use with non-autofill address definitions
 export const addressSchema = definition =>
@@ -18,6 +19,9 @@ export const addressWithAutofillSchema = definition =>
   merge({}, addressSchema(definition), {
     properties: {
       'view:autofill': yesNoSchema,
+      county: {
+        pattern: ADDRESS_REGEX.county(),
+      },
     },
   });
 

@@ -25,7 +25,10 @@ const DetailPage = ({ match }) => {
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
   const title = `Copay bill for ${selectedCopay?.station.facilityName}`;
   const statementDate = formatDate(selectedCopay?.pSStatementDateOutput);
-  const isCurrentBalance = verifyCurrentBalance(selectedCopay?.pSStatementDate);
+  // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
+  const isCurrentBalance = verifyCurrentBalance(
+    selectedCopay?.pSStatementDateOutput,
+  );
   const acctNum = selectedCopay?.pHAccountNumber
     ? selectedCopay?.pHAccountNumber.toString()
     : selectedCopay?.pHCernerAccountNumber.toString();

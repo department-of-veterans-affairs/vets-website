@@ -81,11 +81,11 @@ describe('ConfirmationPageV2', () => {
       `You submitted the request on ${date}`,
     );
     // expect($('va-loading-indicator', container)).to.exist;
-
     const h2s = $$('h2', container);
-    expect(h2s.length).to.eq(4);
+    expect(h2s.length).to.eq(5);
     expect(h2s.map(el => el.textContent)).to.deep.equal([
       // `You submitted your Board Appeal request on ${date}`,
+      'Request a Board Appeal', // print only header
       'Your Board Appeal request submission is in progress',
       'What to expect next',
       'How to contact us if you have questions',

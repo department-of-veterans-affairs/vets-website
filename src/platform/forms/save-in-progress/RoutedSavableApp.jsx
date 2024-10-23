@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
+import { Element } from 'platform/utilities/scroll';
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
 import {
   getNextPagePath,
@@ -25,8 +25,6 @@ import {
 import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
-
-const { Element } = Scroll;
 
 /*
  * Primary component for a schema generated form app.

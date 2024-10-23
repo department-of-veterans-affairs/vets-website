@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
@@ -37,6 +38,7 @@ export default function AccordionItem({
   return (
     <li className={section ? 'section-item' : 'accordion-item'} id={id}>
       {section && (
+        /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
         <button
           id={`${id}-button`}
           aria-expanded={displayExpanded}
@@ -57,6 +59,7 @@ export default function AccordionItem({
             [headerClass]: headerClass,
           })}
         >
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
           <button
             id={`${id}-button`}
             onClick={toggle}
@@ -85,3 +88,18 @@ export default function AccordionItem({
     </li>
   );
 }
+AccordionItem.propTypes = {
+  button: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
+  expanded: PropTypes.bool,
+  expandedWidth: PropTypes.bool,
+  headerClass: PropTypes.string,
+  section: PropTypes.bool,
+  onClick: PropTypes.func,
+};
+
+AccordionItem.defaultProps = {
+  expanded: true,
+  expandedWidth: false,
+  section: false,
+};

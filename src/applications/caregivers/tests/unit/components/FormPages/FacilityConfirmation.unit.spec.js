@@ -7,7 +7,7 @@ import { mockFetchFacilitiesResponse } from '../../../mocks/responses';
 import FacilityConfirmation from '../../../../components/FormPages/FacilityConfirmation';
 
 describe('CG <FacilityConfirmation>', () => {
-  const facilities = mockFetchFacilitiesResponse;
+  const { facilities } = mockFetchFacilitiesResponse;
   const selectedFacility = facilities[0];
   const caregiverFacility = facilities[1];
 

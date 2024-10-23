@@ -15,6 +15,9 @@ const SmBreadcrumbs = () => {
   const crumb = useSelector(state => state.sm.breadcrumbs.list);
   const crumbsList = useSelector(state => state.sm.breadcrumbs.crumbsList);
   const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
+  const activeDraftId = useSelector(
+    state => state.sm.threadDetails?.drafts?.[0]?.messageId,
+  );
   const previousPath = useRef(null);
 
   const [locationBasePath, locationChildPath] = useMemo(
@@ -48,13 +51,19 @@ const SmBreadcrumbs = () => {
 
   const navigateBack = useCallback(
     () => {
-      if (previousUrl !== Constants.Paths.CONTACT_LIST) {
+      if (
+        `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST &&
+        previousUrl === Constants.Paths.COMPOSE &&
+        activeDraftId
+      ) {
+        history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
+      } else if (previousUrl !== Constants.Paths.CONTACT_LIST) {
         history.push(previousUrl);
       } else {
         history.push(Constants.Paths.INBOX);
       }
     },
-    [history, previousUrl],
+    [activeDraftId, history, locationBasePath, previousUrl],
   );
 
   useEffect(
@@ -187,7 +196,7 @@ const SmBreadcrumbs = () => {
           label="Breadcrumb"
           home-veterans-affairs
           onRouteChange={handleRoutechange}
-          className="small-screen:vads-u-margin-y--2"
+          className="mobile-lg:vads-u-margin-y--2"
           dataTestid="sm-breadcrumbs"
           uswds
         />

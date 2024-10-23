@@ -263,6 +263,7 @@ const SearchForm = props => {
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
                 data-testid="keyword-search-input"
+                data-dd-action-name={`${filterLabelBody} Input Field`}
                 onKeyPress={e => {
                   if (e.key === 'Enter') handleSearch();
                 }}
@@ -276,6 +277,7 @@ const SearchForm = props => {
           <va-additional-info
             trigger="What's a message ID?"
             class="message-id-info"
+            data-dd-action-name="What's a message ID? Expandable Info"
           >
             A message ID is a number we assign to each message. If you sign up
             for email notifications, we’ll send you an email each time you get a
@@ -298,12 +300,13 @@ const SearchForm = props => {
             />
           </div>
         )}
-        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+        <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
           <va-button
             text="Filter"
             primary
             class="filter-button"
             data-testid="filter-messages-button"
+            data-dd-action-name="Filter Button"
             onClick={e => {
               e.preventDefault();
               handleSearch();
@@ -314,16 +317,18 @@ const SearchForm = props => {
             <va-button
               text="Clear Filters"
               secondary
-              class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+              class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               onClick={handleFilterClear}
+              dd-action-name="Clear Filters Button"
             />
           ) : (
             resultsCount !== undefined && (
               <va-button
                 text="Clear Filters"
                 secondary
-                class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+                class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
                 onClick={handleFilterClear}
+                dd-action-name="Clear Filters Button"
               />
             )
           )}

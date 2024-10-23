@@ -2,7 +2,11 @@ import { Actions } from '../util/actionTypes';
 import { getAllRecipients, updatePreferredRecipients } from '../api/SmApi';
 import { getIsPilotFromState } from '.';
 import { addAlert } from './alerts';
-import { ALERT_TYPE_SUCCESS, Alerts } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  ALERT_TYPE_SUCCESS,
+  Alerts,
+} from '../util/constants';
 
 const isSignatureRequired = recipients => {
   const regex = /.*\s*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)\s*_*\s*Admin/i;
@@ -57,5 +61,6 @@ export const updateTriageTeamRecipients = recipients => async dispatch => {
     dispatch({
       type: Actions.AllRecipients.UPDATE_PREFERRED_ERROR,
     });
+    dispatch(addAlert(ALERT_TYPE_ERROR, null, Alerts.ContactList.CANNOT_SAVE));
   }
 };

@@ -43,7 +43,8 @@ const options = {
   nounPlural: 'dependent children',
   required: false,
   isItemIncomplete: item =>
-    !item?.fullName ||
+    !item?.fullName?.first ||
+    !item.fullName.last ||
     !item.childDateOfBirth ||
     !item.childPlaceOfBirth ||
     (!item.childSocialSecurityNumber && !item['view:noSsn']) ||
@@ -114,9 +115,9 @@ const birthInformationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} birth information`
-          : 'Birth Information',
+        `${formatFullName(formData.fullName)} birth information`,
+      undefined,
+      false,
     ),
     childDateOfBirth: dateOfBirthUI(),
     childPlaceOfBirth: {
@@ -141,9 +142,9 @@ const socialSecurityNumberPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} Social Security information`
-          : 'Social Security information',
+        `${formatFullName(formData.fullName)} Social Security information`,
+      undefined,
+      false,
     ),
     childSocialSecurityNumber: merge({}, ssnUI(), {
       'ui:required': (formData, index) =>
@@ -168,9 +169,9 @@ const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} relationship information`
-          : 'Relationship information',
+        `${formatFullName(formData.fullName)} relationship information`,
+      undefined,
+      false,
     ),
     childRelationship: radioUI({
       title: "What's your relationship?",
@@ -191,9 +192,9 @@ const attendingSchoolPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} school information`
-          : 'School information',
+        `${formatFullName(formData.fullName)} school information`,
+      undefined,
+      false,
     ),
     attendingCollege: yesNoUI({
       title: 'Is your child in school?',
@@ -220,9 +221,9 @@ const disabledPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} disabled information`
-          : 'Disabled information',
+        `${formatFullName(formData.fullName)} disabled information`,
+      undefined,
+      false,
     ),
     disabled: yesNoUI({
       title: 'Is your child seriously disabled?',
@@ -253,9 +254,9 @@ const previouslyMarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} marriage information`
-          : 'Marriage information',
+        `${formatFullName(formData.fullName)} marriage information`,
+      undefined,
+      false,
     ),
     previouslyMarried: yesNoUI({
       title: 'Has your child ever been married?',
@@ -282,9 +283,9 @@ const inHouseholdPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} household information`
-          : 'Household information',
+        `${formatFullName(formData.fullName)} household information`,
+      undefined,
+      false,
     ),
     childInHousehold: yesNoUI({
       title: 'Does your child live with you?',
@@ -304,9 +305,9 @@ const addressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} address information`
-          : 'Address information',
+        `${formatFullName(formData.fullName)} address information`,
+      undefined,
+      false,
     ),
     childAddress: addressUI({
       omit: ['isMilitary', 'street3'],

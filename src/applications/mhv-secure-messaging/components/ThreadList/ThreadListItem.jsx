@@ -70,6 +70,8 @@ const ThreadListItem = props => {
   };
 
   const categoryLabel = Categories[category];
+  const addressText =
+    location.pathname === Paths.DRAFTS ? recipientName : senderName;
 
   return (
     <div
@@ -95,6 +97,7 @@ const ThreadListItem = props => {
           className="message-subject-link vads-u-margin-y--0 vads-u-line-height--4 vads-u-font-size--lg"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
+          data-dd-action-name="Link to Message Subject Details"
         >
           <span
             id={`message-link${
@@ -111,7 +114,7 @@ const ThreadListItem = props => {
         </Link>
         <div className={getClassNames()} data-dd-privacy="mask">
           {location.pathname !== Paths.SENT ? (
-            <span>{getHighlightedText(senderName)}</span>
+            <span>{getHighlightedText(addressText)}</span>
           ) : (
             <span>To: {recipientName}</span>
           )}

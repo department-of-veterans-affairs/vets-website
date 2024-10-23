@@ -5,23 +5,70 @@ export const envUrl = environment.API_URL;
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
-  GET_CATEGORIESTOPICS: `${baseURL}/categories`,
-  GET_TOPICS: `topics?user_mock_data=true`,
-  GET_SUBTOPICS: `${baseURL}/topics`,
+  GET_CATEGORIES: `${baseURL}/contents?type=category`, // &user_mock_data=true
+  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`,
+  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
   GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
+  INQUIRIES: `${baseURL}/inquiries`,
+  AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
+  DASHBOARD_ID: `/user/dashboard/`,
 };
+
+// centralized logic for string replacement, incl. multiple fields
+// ex: getApiUrl(URL.GET_TOPICS, { PARENT_ID: 1 })
+
+//* @param {string} url - the URL to replace
+//* @param {object} params - the object with the key(s) to replace, if any
+//* @returns {string} - the URL with the replaced value(s)
+export const getApiUrl = (url, params) => {
+  let apiUrl = url || '';
+  if (params) {
+    Object.keys(params).forEach(key => {
+      apiUrl = apiUrl.replace(`%${key}%`, params[key]);
+    });
+  }
+  return envUrl + apiUrl;
+};
+
+export const branchesOfService = [
+  'Air Force',
+  'Air Force National Guard',
+  'Air Force Nursing Corps (AFNC)',
+  'Air Force Reserves',
+  'Army',
+  'Army National Guard',
+  'Army Reserves',
+  'Coast Guard',
+  "Coast Guard Women's Reserve (SPARS)",
+  'Marine Corps',
+  'Marine Reserves',
+  'National Oceanic & Atmospheric Admin (NOAA)',
+  'Navy',
+  'Navy Nursing Corps (NNC)',
+  'Navy Reserves',
+  'Philippines Guerilla',
+  'Philippines Scout',
+  'Public Health Service',
+  'Space Force',
+  'U.S. Merchant Marine',
+  "Women's Air Force Service Pilots (WASP)",
+  "Women's Army Auxiliary Corps (WAAC)",
+  "Women's Army Corps (WAC)",
+  "Women's Voluntary Emergency Service (WAVES)",
+  'Unknown',
+];
 
 export const CategoryEducation =
   'Education (Ch.30, 33, 35, 1606, etc. & Work Study)';
 
 export const requireSignInCategories = [
   CategoryEducation,
+  'Education benefits and work study',
   'Disability compensation',
   'Debt for benefit overpayments and health care copay bills',
   'Benefits issues outside the U.S.',
@@ -37,6 +84,16 @@ export const requiredForSubtopicPage = [
   'Prosthetics',
   'Veteran Health Identification Card (VHIC) for health appointments',
   'Veteran ID Card (VIC) for discounts',
+];
+
+// List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
+export const branchOfServiceRuleforCategories = [
+  'Veteran ID Card (VIC)',
+  'Disability compensation',
+  'Survivor benefits',
+  'Burials and memorials',
+  'Center for Women Veterans',
+  'Benefits issues outside the U.S.',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
@@ -208,6 +265,14 @@ export const stateOrFacilityOptions = {
 
 // Do you want to use this school options
 export const useThisSchoolOptions = {
+  YES: `Yes, replace my saved school facility with this facility.
+  This school facility will be saved for future submissions`,
+  NO: `No, don't update my saved facility.
+  This school facility will only be used for this submissions`,
+};
+
+// Do you want to use the school facility in your profile options
+export const schoolInYourProfileOptions = {
   YES: 'Yes',
   NO: "No, I'll choose a different option",
 };
@@ -397,17 +462,20 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   YOUR_ROLE: {
-    TITLE: 'Your role',
-    QUESTION_1: 'Select your role:',
+    TITLE: 'What is your role?',
   },
   STATE_OR_FACILITY: {
     TITLE: 'School information',
     PAGE_DESCRIPTION: 'Would you like to choose your school state or facility?',
     QUESTION_1: 'Select school or state facility',
   },
+  USE_SCHOOL_IN_PROFILE: {
+    TITLE: 'Your school facility',
+    QUESTION_1: 'Do you want to use the school in your profile?',
+  },
   USE_THIS_SCHOOL: {
-    TITLE: 'School information',
-    QUESTION_1: 'Do you want to use this school?',
+    TITLE: 'Your school facility',
+    QUESTION_1: 'Do you want this to be your saved school facility?',
   },
   STATE_OF_SCHOOL: {
     TITLE: 'State of school',
@@ -439,6 +507,31 @@ export const CHAPTER_3 = {
     PATH: 'your-va-health-facility',
     TITLE: 'Your VA health facility',
     DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
+  YOUR_VRE_INFORMATION: {
+    TITLE:
+      'Have you ever applied for Veteran Readiness and Employment benefits and services?',
+    ERROR: "Please select if you've applied for services.",
+  },
+  YOUR_VRE_COUNSELOR: {
+    TITLE: 'Veteran Readiness and Employment counselor',
+    DESCRIPTION: 'Name of your counselor:',
+    ERROR: 'Please enter the name of your counselor',
+  },
+  THEIR_VRE_INFORMATION: {
+    TITLE:
+      'Have they ever applied for Veteran Readiness and Employment benefits and services?',
+    ERROR: "Please select if they've applied for services.",
+  },
+  THEIR_VRE_COUNSELOR: {
+    TITLE: 'Veteran Readiness and Employment counselor',
+    DESCRIPTION: 'Name of their counselor:',
+    ERROR: 'Please enter the name of their counselor',
+  },
+  BRANCH_OF_SERVICE: {
+    TITLE: 'Your branch of service',
+    DESCRIPTION: 'Select your branch of service',
+    ERROR: 'Please select your branch of service',
   },
 };
 

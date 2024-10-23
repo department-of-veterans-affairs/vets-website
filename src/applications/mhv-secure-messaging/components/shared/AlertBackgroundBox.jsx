@@ -141,37 +141,38 @@ const AlertBackgroundBox = props => {
 
   return (
     <>
-      {activeAlert && (
-        <VaAlert
-          uswds
-          ref={alertRef}
-          background-only
-          closeable={props.closeable}
-          className="vads-u-margin-bottom--1 va-alert"
-          close-btn-aria-label={`${alertContent}. ${alertAriaLabel} Close notification.`}
-          disable-analytics="false"
-          full-width="false"
-          show-icon={handleShowIcon()}
-          status={activeAlert.alertType}
-          onCloseEvent={
-            closeAlertBox // success, error, warning, info, continue
-          }
-          onVa-component-did-load={handleAlertFocus}
-        >
-          <div>
-            <p className="vads-u-margin-y--0" data-testid="alert-text">
-              {alertContent}
-              <SrOnlyTag
-                className="sr-only"
-                aria-live="polite"
-                aria-atomic="true"
-              >
-                {alertAriaLabel}
-              </SrOnlyTag>
-            </p>
-          </div>
-        </VaAlert>
-      )}
+      {activeAlert &&
+        activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
+          <VaAlert
+            uswds
+            ref={alertRef}
+            background-only
+            closeable={props.closeable}
+            className="vads-u-margin-bottom--1 va-alert"
+            close-btn-aria-label={`${alertContent}. ${alertAriaLabel} Close notification.`}
+            disable-analytics="false"
+            full-width="false"
+            show-icon={handleShowIcon()}
+            status={activeAlert.alertType}
+            onCloseEvent={
+              closeAlertBox // success, error, warning, info, continue
+            }
+            onVa-component-did-load={handleAlertFocus}
+          >
+            <div>
+              <p className="vads-u-margin-y--0" data-testid="alert-text">
+                {alertContent}
+                <SrOnlyTag
+                  className="sr-only"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  {alertAriaLabel}
+                </SrOnlyTag>
+              </p>
+            </div>
+          </VaAlert>
+        )}
     </>
   );
 };

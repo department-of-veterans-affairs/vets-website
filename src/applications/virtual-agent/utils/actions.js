@@ -3,10 +3,11 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import piiReplace from './piiReplace';
 import {
   getConversationIdKey,
+  getEventSkillValue,
   getInAuthExp,
-  getIsRxSkill,
   getIsTrackingUtterances,
   getRecentUtterances,
+  setEventSkillValue,
   setIsRxSkill,
   setIsTrackingUtterances,
   setRecentUtterances,
@@ -55,21 +56,46 @@ function getEventName(action) {
   return action?.payload?.activity?.name ?? '';
 }
 
-function getEventValue(action) {
+function getEventValue(action, isRootBotToggleOn) {
+  // if toggle on then use this if off the just do action?.payload?.activity?.value
+  if (isRootBotToggleOn) {
+    return action?.payload?.activity?.value.value ?? '';
+  }
+
   return action?.payload?.activity?.value ?? '';
 }
 
 function isEventRxSkill(eventValue) {
-  return eventValue === 'RX_Skill';
+  return eventValue === 'va_vha_healthassistant_bot';
 }
 
-function handleSkillEvent(action, eventName, isRxSkillState) {
+function handleRxSkillEvent(
+  action,
+  eventName,
+  isRxSkillState,
+  isRootBotToggleOn,
+) {
   const actionEventName = getEventName(action);
-  const eventValue = getEventValue(action);
+  const eventValue = getEventValue(action, isRootBotToggleOn);
 
   if (actionEventName === eventName && isEventRxSkill(eventValue)) {
     setIsRxSkill(isRxSkillState);
     sendWindowEventWithActionPayload('rxSkill', action);
+  }
+}
+
+function handleSkillEntryEvent(action, isRootBotToggleOn) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action, isRootBotToggleOn);
+  const apiName = `Chatbot Skill Entry - ${eventValue}`;
+  if (actionEventName === 'Skill_Entry') {
+    setEventSkillValue(eventValue);
+    recordEvent({
+      event: 'api_call',
+      'api-name': apiName,
+      topic: eventValue,
+      'api-status': 'successful',
+    });
   }
 }
 
@@ -115,6 +141,7 @@ export const processIncomingActivity = ({
   action,
   dispatch,
   isComponentToggleOn,
+  isRootBotToggleOn,
 }) => () => {
   const isAtBeginningOfConversation = !getIsTrackingUtterances();
   const data = action.payload.activity;
@@ -152,21 +179,22 @@ export const processIncomingActivity = ({
     sendWindowEventWithActionPayload('webchat-message-activity', action);
   }
 
-  handleSkillEvent(action, 'Skill_Entry', true);
-  handleSkillEvent(action, 'Skill_Exit', false);
+  handleRxSkillEvent(action, 'Skill_Entry', true, isRootBotToggleOn);
+  handleRxSkillEvent(action, 'Skill_Exit', false, isRootBotToggleOn);
+  handleSkillEntryEvent(action, isRootBotToggleOn);
 };
 
 export const processMicrophoneActivity = ({ action }) => () => {
-  const isRxSkill = getIsRxSkill();
+  const eventSkillValue = getEventSkillValue();
   if (action.payload.dictateState === 3) {
     recordEvent({
       event: 'chatbot-microphone-enable',
-      topic: isRxSkill ? 'prescriptions' : undefined,
+      topic: eventSkillValue || undefined,
     });
   } else if (action.payload.dictateState === 0) {
     recordEvent({
       event: 'chatbot-microphone-disable',
-      topic: isRxSkill ? 'prescriptions' : undefined,
+      topic: eventSkillValue || undefined,
     });
   }
 };
@@ -177,14 +205,25 @@ export function addActivityData(
 ) {
   const updatedAction = action;
   if (updatedAction.payload?.activity) {
-    updatedAction.payload.activity.value = {
-      ...updatedAction.payload.activity.value,
-      apiSession,
-      csrfToken,
-      apiURL,
-      userFirstName,
-      userUuid,
-    };
+    if (typeof updatedAction.payload.activity.value === 'string') {
+      updatedAction.payload.activity.value = {
+        value: updatedAction.payload.activity.value,
+        apiSession,
+        csrfToken,
+        apiURL,
+        userFirstName,
+        userUuid,
+      };
+    } else {
+      updatedAction.payload.activity.value = {
+        ...updatedAction.payload.activity.value,
+        apiSession,
+        csrfToken,
+        apiURL,
+        userFirstName,
+        userUuid,
+      };
+    }
   }
   return updatedAction;
 }

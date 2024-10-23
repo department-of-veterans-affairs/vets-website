@@ -1,5 +1,0 @@
-Contact: https://bugcrowd.com/va-vdp
-Expires: 2025-01-18T18:59:59.000Z
-Encryption: 7801e93844ebde0628215e58b31d73cacde09100e36f8d3b391fc2b705e55d5a
-Policy: https://www.va.gov/vulnerability-disclosure-policy/
-Hiring: https://www.va.gov/jobs/

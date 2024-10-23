@@ -49,6 +49,7 @@ export default {
   FORM_107959C: 'form107959c',
   FORM_107959A: 'form107959a',
   FORM_107959F1: 'form107959F1',
+  FORM_107959F2: 'form107959f2',
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   HCA_PERFORMANCE_WARNING: 'hca-performance-warning',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',

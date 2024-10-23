@@ -17,6 +17,8 @@ export default {
   evss: 'evss',
   '1010ez': '1010ez',
   '1010ezr': '1010ezr',
+  // IVC CHAMPVA form controls
+  form107959f1: 'form107959f1',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)
@@ -67,4 +69,13 @@ export default {
   pcie: 'pcie',
   // Travel claim
   tc: 'tc',
+
+  // Sources for VA Profile services:
+  VAPRO_PROFILE_PAGE: 'vapro_profile_page',
+  VAPRO_CONTACT_INFO: 'vapro_contact_info',
+  LIGHTHOUSE_DIRECT_DEPOSIT: 'lighthouse_direct_deposit',
+  VAPRO_MILITARY_INFO: 'vapro_military_info',
+  VAPRO_NOTIFICATION_SETTINGS: 'vapro_notification_settings',
+  VAPRO_HEALTH_CARE_CONTACTS: 'vapro_health_care_contacts',
+  VAPRO_PERSONAL_INFO: 'vapro_personal_info',
 };

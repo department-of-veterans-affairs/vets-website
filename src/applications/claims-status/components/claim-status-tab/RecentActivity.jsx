@@ -10,7 +10,7 @@ import {
   buildDateFormatter,
   getPhaseItemText,
   getTrackedItemDateFromStatus,
-  isAutomated5103Notice,
+  is5103Notice,
   isDisabilityCompensationClaim,
 } from '../../utils/helpers';
 
@@ -27,29 +27,22 @@ export default function RecentActivity({ claim }) {
     cstClaimPhasesEnabled &&
     isDisabilityCompensationClaim(claim.attributes.claimTypeCode);
 
-  const is5103Notice = item => {
-    return (
-      isAutomated5103Notice(item.displayName) ||
-      item.displayName === 'Review evidence list'
-    );
-  };
-
   const getTrackedItemDescription = item => {
     const displayName =
-      is5103Notice(item) && cst5103UpdateEnabled
-        ? '5103 Evidence Notice'
+      cst5103UpdateEnabled && is5103Notice(item.displayName)
+        ? 'List of evidence we may need (5103 notice)'
         : item.displayName;
     switch (item.status) {
       case 'NEEDED_FROM_YOU':
       case 'NEEDED_FROM_OTHERS':
-        return `We opened a request for "${displayName}"`;
+        return `We opened a request: "${displayName}"`;
       case 'NO_LONGER_REQUIRED':
-        return `We closed a request for "${displayName}"`;
+        return `We closed a request: "${displayName}"`;
       case 'SUBMITTED_AWAITING_REVIEW':
-        return `We received your document(s) for "${displayName}"`;
+        return `We received your document(s) for the request: "${displayName}"`;
       case 'INITIAL_REVIEW_COMPLETE':
       case 'ACCEPTED':
-        return `We completed a review for "${displayName}"`;
+        return `We completed a review for the request: "${displayName}"`;
       default:
         return 'There was an update to this item';
     }

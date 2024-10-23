@@ -2,11 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
+import environment from 'platform/utilities/environment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { ConfirmationPageView as OldConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-import { ConfirmationPageView as NewConfirmationPageView } from '../../shared/components/ConfirmationPageView.v2';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
+
+let mockData;
+if (!environment.isProduction() && !environment.isStaging()) {
+  mockData = require('../tests/e2e/fixtures/data/flow1.json');
+  mockData = mockData?.data;
+}
 
 const getPreparerFullName = formData => {
   const { claimOwnership, claimantType } = formData;
@@ -38,18 +45,21 @@ export const ConfirmationPage = props => {
       toggleValues(state)[FEATURE_FLAG_NAMES.confirmationPageNew] || false,
   );
   const { formConfig } = props.route;
-  const { submission, pages } = form;
+  const { submission } = form;
   const preparerFullName = getPreparerFullName(form.data);
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
   return showNewConfirmationPage ? (
-    <NewConfirmationPageView
+    <ConfirmationView
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       formConfig={formConfig}
-      pagesFromState={pages}
       pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+        mockData,
+      }}
     />
   ) : (
     <OldConfirmationPageView

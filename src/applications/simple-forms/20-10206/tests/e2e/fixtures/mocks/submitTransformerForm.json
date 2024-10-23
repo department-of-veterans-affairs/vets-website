@@ -1192,7 +1192,8 @@
                   }
               },
               "required": [
-                  "homePhone"
+                  "homePhone",
+                  "emailAddress"
               ]
           },
           "editMode": false

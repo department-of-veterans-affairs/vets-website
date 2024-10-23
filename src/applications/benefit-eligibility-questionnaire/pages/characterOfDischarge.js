@@ -1,50 +1,24 @@
 import React from 'react';
-
-const CHARACTER_OF_DISCHARGE = {
-  honorable: 'Honorable',
-  underHonorableConditionsGeneral: 'Under Honorable Conditions (General)',
-  underOtherThanHonorableConditions: 'Under Other Than Honorable Conditions',
-  badConduct: 'Bad Conduct',
-  dishonorable: 'Dishonorable',
-  uncharacterized: 'Uncharacterized',
-  notSure: "I'm not sure",
-};
+import { selectUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  characterOfDischargeTypes,
+  characterOfDischargeTypeLabels,
+} from '../constants/benefits';
 
 export default {
   uiSchema: {
-    characterOfDischarge: {
-      'ui:title': (
-        <>
-          <p>
-            <b>
-              What is the highest character of discharge you have received or
-              expect to receive?
-            </b>
-            <span className="schemaform-required-span">(*Required)</span>
-          </p>
-        </>
-      ),
-      'ui:description': (
-        <>
-          <p>
-            If you served multiple times with different characters of discharge,
-            please select the "highest" of your discharge statuses.
-          </p>
-          <p>
-            If you feel your character of discharge is unjust, you can apply for
-            a discharge upgrade.
-          </p>
-        </>
-      ),
-      'ui:widget': 'select',
-      'ui:options': {
-        placeholder: 'Select',
-      },
-      'ui:required': () => true,
-      'ui:errorMessages': {
+    characterOfDischarge: selectUI({
+      title:
+        'What is the highest character of discharge you have received or expect to receive?',
+      hint: `If you served multiple times with different characters of discharge,
+      please select the "highest" of your discharge statuses. 
+      If you feel your character of discharge is unjust, you can apply for
+      a discharge upgrade.`,
+      required: () => true,
+      errorMessages: {
         required: 'Character of discharge is required',
       },
-    },
+    }),
     characterOfDischargeTWO: {
       'ui:title': '',
       'ui:description': (
@@ -55,9 +29,9 @@ export default {
               href="https://www.va.gov/discharge-upgrade-instructions"
               rel="noreferrer"
             >
-              Learn more about the discharge upgrade process.
+              Learn more about the discharge upgrade process (opens in a new
+              tab)
             </a>{' '}
-            (opens in a new tab)
             <br />
             Not sure about this question? Call us at{' '}
             <va-telephone contact="8006982411" /> (
@@ -72,11 +46,12 @@ export default {
   },
   schema: {
     type: 'object',
+    required: ['characterOfDischarge'],
     properties: {
       characterOfDischarge: {
         type: 'string',
-        enum: Object.keys(CHARACTER_OF_DISCHARGE),
-        enumNames: Object.values(CHARACTER_OF_DISCHARGE),
+        enum: Object.keys(characterOfDischargeTypes),
+        enumNames: Object.values(characterOfDischargeTypeLabels),
       },
       characterOfDischargeTWO: { type: 'object', properties: {} },
     },

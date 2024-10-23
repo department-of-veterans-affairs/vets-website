@@ -22,7 +22,11 @@ import FileInput from './FileInput';
 import DraftSavedInfo from './DraftSavedInfo';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
-import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
+import {
+  ErrorMessages,
+  draftAutoSaveTimeout,
+  Alerts,
+} from '../../util/constants';
 import useDebounce from '../../hooks/use-debounce';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -74,6 +78,17 @@ const ReplyDraftItem = props => {
   const [saveError, setSaveError] = useState(null);
   const [focusToTextarea, setFocusToTextarea] = useState(false);
   const [draftId, setDraftId] = useState(null);
+
+  const alertsList = useSelector(state => state.sm.alerts.alertList);
+  const attachmentScanError = useMemo(
+    () =>
+      alertsList?.filter(
+        alert =>
+          alert.content === Alerts.Message.ATTACHMENT_SCAN_FAIL &&
+          alert.isActive,
+      ).length > 0,
+    [alertsList],
+  );
 
   const localStorageValues = useMemo(() => {
     return {
@@ -142,7 +157,7 @@ const ReplyDraftItem = props => {
         messageValid = false;
       }
       setMessageInvalid(!messageValid);
-      return messageValid;
+      return { messageValid };
     },
     [messageBody],
   );
@@ -178,18 +193,17 @@ const ReplyDraftItem = props => {
         return;
       }
 
-      const isValidMessage = checkMessageValidity();
+      const { messageValid } = checkMessageValidity();
 
       if (type === 'manual') {
-        setMessageInvalid(false);
-        if (isValidMessage) {
+        if (messageValid) {
           setLastFocusableElement(e.target);
         }
         if (attachments.length) {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-        }
+        } else focusOnErrorField();
         setNavigationError(
           attachments.length
             ? {
@@ -219,7 +233,7 @@ const ReplyDraftItem = props => {
         body: messageBody,
       };
 
-      if (isValidMessage) {
+      if (messageValid) {
         if (!draftId) {
           setFieldsString(newFieldsString);
           dispatch(saveReplyDraft(replyMessage.messageId, formData, type));
@@ -249,12 +263,14 @@ const ReplyDraftItem = props => {
   );
   const sendMessageHandler = useCallback(
     async e => {
+      const { messageValid } = checkMessageValidity();
+
       await setMessageInvalid(false);
-      if (checkMessageValidity()) {
+      if (messageValid) {
         setSendMessageFlag(true);
         setNavigationError(null);
         setLastFocusableElement(e.target);
-      }
+      } else focusOnErrorField();
     },
     [checkMessageValidity, setLastFocusableElement],
   );
@@ -523,6 +539,7 @@ const ReplyDraftItem = props => {
                 attachFileSuccess={attachFileSuccess}
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
+                attachmentScanError={attachmentScanError}
               />
 
               <FileInput
@@ -530,6 +547,7 @@ const ReplyDraftItem = props => {
                 setAttachments={setAttachments}
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
+                attachmentScanError={attachmentScanError}
               />
             </section>
           )}

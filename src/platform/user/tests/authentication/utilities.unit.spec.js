@@ -35,6 +35,7 @@ const mhvUsipParams = '?application=mhv&to=home';
 const ebenefitsUsipParams = '?application=ebnefits';
 const cernerUsipParams = '?application=myvahealth';
 const cernerComplicatedParams = `&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252Fstaging-patientportal.myhealth.va.gov%252F&oauth=false`;
+const cernerSandbox = `&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252Fsandbox-patientportal.myhealth.va.gov%252F&oauth=false`;
 const occUsipParams = '?application=vaoccmobile';
 const flagshipUsipParams = '?application=vamobile';
 const mockGAClientId = '1234';
@@ -383,6 +384,16 @@ describe('Authentication Utilities', () => {
 
       expect(authUtilities.createExternalApplicationUrl()).to.eql(
         `https://staging-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d?authenticated=true`,
+      );
+    });
+
+    it('should redirect to the proper Cerner url', () => {
+      setup({
+        path: `${usipPath}${cernerUsipParams}${cernerSandbox}`,
+      });
+
+      expect(authUtilities.createExternalApplicationUrl()).to.eql(
+        `https://sandbox-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d?authenticated=true`,
       );
     });
   });

@@ -3,7 +3,7 @@ import React from 'react';
 const HealthEnrollmentDescription = () => (
   <va-additional-info
     trigger="What to know about enrollment in the full medical benefits package"
-    class="vads-u-margin-top--3"
+    class="vads-u-margin-y--3"
   >
     <div>
       <p className="vads-u-margin-top--0">

@@ -44,6 +44,22 @@ describe('Claim Serializer', () => {
     });
   });
 
+  it('should set supporting documents and tracked items to empty arrays when data is missing', () => {
+    const claim = {
+      id: 1,
+      type: 'claim',
+      attributes: {},
+    };
+    const serializedClaim = serializeClaim(claim);
+    expect(serializedClaim).to.eql({
+      ...claim,
+      attributes: {
+        supportingDocuments: [],
+        trackedItems: [],
+      },
+    });
+  });
+
   it('should return no supporting docs when there is only one and it is associated with a tracked item', () => {
     const claim = {
       id: 1,
@@ -135,5 +151,49 @@ describe('Claim Serializer', () => {
     const trackedItem3 = trackedItems.find(d => d.id === 3);
     expect(trackedItem3.documents.length).to.be.equal(2);
     expect(trackedItem3.documents.map(d => d.id).sort()).to.eql([3, 4]);
+  });
+
+  // <tempfix>
+  // See notes on PMR Pending in serialize.js
+  it('should manually override the status of PMR Pending requests', () => {
+    const claim = {
+      id: 1,
+      type: 'claim',
+      attributes: {
+        trackedItems: [
+          {
+            id: 1,
+            displayName: 'PMR Pending',
+            status: 'NEEDED_FROM_YOU',
+          },
+        ],
+      },
+    };
+    const serializedClaim = serializeClaim(claim);
+    const trackedItem1 = serializedClaim.attributes.trackedItems.find(
+      d => d.id === 1,
+    );
+    expect(trackedItem1.status).to.eql('NEEDED_FROM_OTHERS');
+  });
+  // </tempfix>
+
+  it('should replace the display name of some types of tracked items', () => {
+    const claim = {
+      id: 1,
+      type: 'claim',
+      attributes: {
+        trackedItems: [
+          {
+            id: 1,
+            displayName: 'PMR Pending',
+          },
+        ],
+      },
+    };
+    const serializedClaim = serializeClaim(claim);
+    const trackedItem1 = serializedClaim.attributes.trackedItems.find(
+      d => d.id === 1,
+    );
+    expect(trackedItem1.displayName).to.eql('Private Medical Record');
   });
 });

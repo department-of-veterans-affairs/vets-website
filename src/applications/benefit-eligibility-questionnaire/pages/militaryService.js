@@ -1,56 +1,33 @@
-import React from 'react';
+import {
+  yesNoUI,
+  yesNoSchema,
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  expectedSeparationTypes,
+  expectedSeparationLabels,
+} from '../constants/benefits';
 
 export default {
   uiSchema: {
-    militaryServiceCurrentlyServing: {
-      'ui:title': (
-        <>
-          <p>
-            <b>Are you currently serving in the military?</b>
-          </p>
-        </>
-      ),
-      'ui:widget': 'radio',
-      'ui:options': {
-        widgetProps: {
-          yes: { militaryServiceTwo: 'yes' },
-          no: {
-            militaryServiceTwo: 'no',
-          },
-        },
-      },
-    },
+    militaryServiceCurrentlyServing: yesNoUI({
+      title: 'Are you currently serving in the military?',
+    }),
     expectedSeparation: {
-      'ui:title': (
-        <>
-          <p>
-            <b>When do you expect to separate or retire from the service?</b>
-          </p>
-        </>
-      ),
-      'ui:widget': 'radio',
-      'ui:options': {
-        hideIf: formData => formData.militaryServiceCurrentlyServing !== 'Yes',
-      },
+      ...radioUI({
+        title: 'When do you expect to separate or retire from the service?',
+        labels: expectedSeparationLabels,
+        required: () => false,
+        hideIf: formData => formData.militaryServiceCurrentlyServing !== true,
+      }),
     },
   },
   schema: {
     type: 'object',
     properties: {
-      militaryServiceCurrentlyServing: {
-        type: 'string',
-        enum: ['Yes', 'No'],
-      },
-      expectedSeparation: {
-        type: 'string',
-        enum: [
-          'Within the next 3 months',
-          'More than 3 months but less than 6 months',
-          'More than 6 months but less than 1 year',
-          'More than 1 year from now',
-          'More than 3 years ago',
-        ],
-      },
+      militaryServiceCurrentlyServing: yesNoSchema,
+      expectedSeparation: radioSchema(Object.keys(expectedSeparationTypes)),
     },
   },
 };

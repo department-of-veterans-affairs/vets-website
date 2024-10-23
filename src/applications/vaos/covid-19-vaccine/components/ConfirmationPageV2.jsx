@@ -100,7 +100,7 @@ function ConfirmationPageV2({
       </h2>
       <div className="vads-u-display--inline"> COVID-19 vaccine</div>
 
-      <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+      <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
             className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"

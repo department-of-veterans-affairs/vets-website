@@ -4,14 +4,19 @@ import appendQuery from 'append-query';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
   FORCE_NEEDED,
+  EXTERNAL_APPS,
+  EXTERNAL_REDIRECTS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
+import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
 import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { generateReturnURL } from 'platform/user/authentication/utilities';
 import { OAUTH_EVENTS } from 'platform/utilities/oauth/constants';
@@ -28,6 +33,8 @@ const REDIRECT_IGNORE_PATTERN = new RegExp(
 );
 
 export default function AuthApp({ location }) {
+  useDatadogRum();
+
   const [
     { auth, errorCode, returnUrl, loginType, state, requestId },
     setAuthState,
@@ -44,8 +51,10 @@ export default function AuthApp({ location }) {
 
   const dispatch = useDispatch();
 
-  const handleAuthError = error => {
-    const { errorCode: detailedErrorCode } = getAuthError(errorCode);
+  const handleAuthError = (error, codeOverride) => {
+    const { errorCode: detailedErrorCode } = getAuthError(
+      codeOverride || errorCode,
+    );
     generateSentryAuthError({
       error,
       loginType,
@@ -62,7 +71,17 @@ export default function AuthApp({ location }) {
     setHasError(true);
   };
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isInterstital = useToggleValue(TOGGLE_NAMES.mhvInterstitialEnabled);
+
   const redirect = () => {
+    if (
+      isInterstital &&
+      (loginType === 'mhv' || loginType === 'myhealthevet')
+    ) {
+      window.location.replace('/sign-in-changes-reminder');
+    }
+
     // remove from session storage
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
@@ -94,6 +113,33 @@ export default function AuthApp({ location }) {
     setHasError(true);
   };
 
+  async function handleProvisioning() {
+    try {
+      const termsResponse = await apiRequest(
+        `/terms_of_use_agreements/update_provisioning`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+        },
+      );
+      if (!termsResponse?.provisioned) {
+        handleAuthError(null, '111');
+      }
+    } catch (err) {
+      const message = err?.error;
+      if (message === 'Agreement not accepted') {
+        window.location = `${
+          environment.BASE_URL
+        }/terms-of-use/myvahealth/?ssoeTarget=${returnUrl}`;
+      } else if (message === 'Account not Provisioned') {
+        handleAuthError(null, '111');
+      } else {
+        handleAuthError(err, '110');
+      }
+    }
+  }
+
   const handleAuthForceNeeded = () => {
     recordEvent({
       event: AUTH_EVENTS.ERROR_FORCE_NEEDED,
@@ -102,7 +148,7 @@ export default function AuthApp({ location }) {
     });
   };
 
-  const handleAuthSuccess = ({
+  const handleAuthSuccess = async ({
     response = {},
     skipToRedirect = false,
   } = {}) => {
@@ -113,14 +159,21 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
+    const { userProfile } = authMetrics;
+    if (
+      userProfile?.signIn?.ssoe &&
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
+    ) {
+      await handleProvisioning();
+    }
     authMetrics.run();
     if (!skipToRedirect) {
-      setupProfileSession(authMetrics.userProfile);
+      setupProfileSession(userProfile);
     }
     redirect();
   };
-  // Fetch the user to get the login policy and validate the session.
 
+  // Fetch the user to get the login policy and validate the session.
   const validateSession = async () => {
     if (errorCode && state) {
       await handleTokenRequest({
@@ -133,12 +186,11 @@ export default function AuthApp({ location }) {
 
     if (auth === FORCE_NEEDED) {
       handleAuthForceNeeded();
-    } else if (!hasError && checkReturnUrl(returnUrl)) {
-      handleAuthSuccess({ skipToRedirect: true });
     } else {
       try {
+        const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
         const response = await apiRequest('/user');
-        handleAuthSuccess({ response });
+        await handleAuthSuccess({ response, skipToRedirect });
       } catch (error) {
         handleAuthError(error);
       }

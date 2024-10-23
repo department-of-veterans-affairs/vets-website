@@ -1,35 +1,27 @@
 import React from 'react';
-import {
-  dateOfBirthSchema,
-  dateOfBirthUI,
-  fullNameSchema,
-  fullNameUI,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import {
+  digitalFormAddress,
+  digitalFormIdentificationInfo,
+  digitalFormNameAndDoB,
+  digitalFormPhoneAndEmail,
+} from './digitalFormPatterns';
 
-const selectSchemas = ({ pageTitle, additionalFields }) => {
-  const schemas = {
-    schema: {
-      type: 'object',
-      properties: {
-        fullName: fullNameSchema,
-      },
-    },
-    uiSchema: {
-      ...titleUI(pageTitle),
-      fullName: fullNameUI(),
-    },
-  };
-
-  if (additionalFields.includeDateOfBirth) {
-    schemas.schema.properties.dateOfBirth = dateOfBirthSchema;
-    schemas.uiSchema.dateOfBirth = dateOfBirthUI();
+export const selectSchemas = chapter => {
+  switch (chapter.type) {
+    case 'digital_form_address':
+      return digitalFormAddress(chapter);
+    case 'digital_form_name_and_date_of_bi':
+      return digitalFormNameAndDoB(chapter);
+    case 'digital_form_identification_info':
+      return digitalFormIdentificationInfo(chapter);
+    case 'digital_form_phone_and_email':
+      return digitalFormPhoneAndEmail(chapter);
+    default:
+      return {};
   }
-
-  return schemas;
 };
 
 const formatChapters = chapters =>

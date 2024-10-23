@@ -1,4 +1,4 @@
-export const selectUserIsLoading = state => state.user.profile.loading;
-export const selectUserIsLoggedIn = state => state.user.login.currentlyLoggedIn;
+export const selectIsUserLoading = state => state.user.profile.loading;
+export const selectIsUserLoggedIn = state => state.user.login.currentlyLoggedIn;
 export const selectUserProfile = state =>
-  selectUserIsLoggedIn(state) ? state.user.profile : null;
+  selectIsUserLoggedIn(state) ? state.user.profile : null;

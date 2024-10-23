@@ -5,6 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import { datadogRum } from '@datadog/browser-rum';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -32,6 +38,8 @@ import {
   RecipientStatus,
   BlockedTriageAlertStyles,
   FormLabels,
+  downtimeNotificationParams,
+  Alerts,
 } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
@@ -54,21 +62,21 @@ const ComposeForm = props => {
   const history = useHistory();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
-  const [selectedRecipient, setSelectedRecipient] = useState(null);
+  const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
 
   useEffect(
     () => {
-      if (selectedRecipient) {
+      if (selectedRecipientId) {
         setIsSignatureRequired(
           allowedRecipients.some(
-            r => +r.id === +selectedRecipient && r.signatureRequired,
+            r => +r.id === +selectedRecipientId && r.signatureRequired,
           ) || false,
         );
       }
     },
-    [selectedRecipient, allowedRecipients],
+    [selectedRecipientId, allowedRecipients],
   );
   const [category, setCategory] = useState(null);
   const [categoryError, setCategoryError] = useState('');
@@ -85,8 +93,6 @@ const ComposeForm = props => {
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
-  const [signatureInvalid, setSignatureInvalid] = useState(false);
-  const [checkboxInvalid, setCheckboxInvalid] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
@@ -108,8 +114,19 @@ const ComposeForm = props => {
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const debouncedCategory = useDebounce(category, draftAutoSaveTimeout);
   const debouncedRecipient = useDebounce(
-    selectedRecipient,
+    selectedRecipientId,
     draftAutoSaveTimeout,
+  );
+  const alertsList = useSelector(state => state.sm.alerts.alertList);
+
+  const attachmentScanError = useMemo(
+    () =>
+      alertsList.filter(
+        alert =>
+          alert.content === Alerts.Message.ATTACHMENT_SCAN_FAIL &&
+          alert.isActive,
+      ).length > 0,
+    [alertsList],
   );
 
   const localStorageValues = useMemo(() => {
@@ -236,7 +253,7 @@ const ComposeForm = props => {
           subject,
         };
         messageData[`${'draft_id'}`] = draft?.messageId;
-        messageData[`${'recipient_id'}`] = selectedRecipient;
+        messageData[`${'recipient_id'}`] = selectedRecipientId;
 
         let sendData;
         if (attachments.length > 0) {
@@ -264,14 +281,11 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (
-        messageInvalid ||
-        (isSignatureRequired && (signatureInvalid || checkboxInvalid))
-      ) {
+      if (messageInvalid) {
         focusOnErrorField();
       }
     },
-    [checkboxInvalid, isSignatureRequired, messageInvalid, signatureInvalid],
+    [messageInvalid],
   );
 
   useEffect(
@@ -293,7 +307,7 @@ const ComposeForm = props => {
   //  Populates form fields with recipients and categories
   const populateForm = () => {
     if (recipientExists(draft.recipientId)) {
-      setSelectedRecipient(draft.recipientId);
+      setSelectedRecipientId(draft.recipientId);
     } else {
       const newRecipient = {
         id: draft?.recipientId,
@@ -303,7 +317,7 @@ const ComposeForm = props => {
         ...prevRecipientsList,
         newRecipient,
       ]);
-      setSelectedRecipient(newRecipient.id);
+      setSelectedRecipientId(newRecipient.id);
     }
     setCategory(draft.category);
     setSubject(draft.subject);
@@ -331,9 +345,9 @@ const ComposeForm = props => {
       let checkboxValid = true;
 
       if (
-        selectedRecipient === '0' ||
-        selectedRecipient === '' ||
-        !selectedRecipient
+        selectedRecipientId === '0' ||
+        selectedRecipientId === '' ||
+        !selectedRecipientId
       ) {
         setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
         messageValid = false;
@@ -350,28 +364,20 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
-      if (
-        (isSignatureRequired && !electronicSignature) ||
-        isSignatureRequired === null
-      ) {
+      if (isSignatureRequired && !electronicSignature) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
         signatureValid = false;
       }
-      if (
-        (isSignatureRequired && !checkboxMarked) ||
-        isSignatureRequired === null
-      ) {
+      if (isSignatureRequired && !checkboxMarked) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
         checkboxValid = false;
       }
 
       setMessageInvalid(!messageValid);
-      setSignatureInvalid(!signatureValid);
-      setCheckboxInvalid(!checkboxValid);
       return { messageValid, signatureValid, checkboxValid };
     },
     [
-      selectedRecipient,
+      selectedRecipientId,
       subject,
       messageBody,
       category,
@@ -389,57 +395,64 @@ const ComposeForm = props => {
         signatureValid,
         checkboxValid,
       } = checkMessageValidity();
+      const validSignatureNotRequired =
+        messageValid && !isSignatureRequired && !savedDraft;
 
       if (type === 'manual') {
-        setLastFocusableElement(e?.target);
-
-        // if all checks are valid, then save the draft
-        if (
-          (messageValid && !isSignatureRequired) ||
-          (isSignatureRequired && signatureValid && checkboxValid && !saveError)
-        ) {
+        if (validSignatureNotRequired) {
           setNavigationError(null);
           setSavedDraft(true);
-        } else
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-          );
+          setLastFocusableElement(e?.target);
+        } else focusOnErrorField();
+        setUnsavedNavigationError(
+          ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+        );
 
-        let errorType = null;
-        if (
-          attachments.length > 0 &&
-          isSignatureRequired &&
-          electronicSignature !== ''
-        ) {
-          errorType =
-            ErrorMessages.ComposeForm
-              .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
-        } else if (attachments.length > 0) {
-          errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
-        } else if (isSignatureRequired && electronicSignature !== '') {
-          errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
-        } else if (isSignatureRequired && checkboxError !== '') {
-          errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
-        }
+        const getErrorType = () => {
+          const hasAttachments = attachments.length > 0;
+          const hasValidSignature =
+            isSignatureRequired && electronicSignature !== '';
+          const verifyAllFieldsAreValid =
+            (messageValid &&
+              signatureValid &&
+              checkboxValid &&
+              isSignatureRequired) ||
+            (!isSignatureRequired && messageValid && validSignatureNotRequired);
 
-        if (errorType) {
-          setSaveError(errorType);
-          if (
-            errorType.title !==
-            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE.title
-          ) {
-            setNavigationError({
-              ...errorType,
-              confirmButtonText: 'Continue editing',
-              cancelButtonText: 'Delete draft',
-            });
+          let errorType = null;
+
+          if (hasAttachments && hasValidSignature && verifyAllFieldsAreValid) {
+            errorType =
+              ErrorMessages.ComposeForm
+                .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
+          } else if (hasAttachments && verifyAllFieldsAreValid) {
+            errorType =
+              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
+          } else if (!validSignatureNotRequired && verifyAllFieldsAreValid) {
+            errorType =
+              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
           }
-        }
+
+          if (errorType) {
+            setSaveError(errorType);
+            if (
+              errorType.title !==
+              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE.title
+            ) {
+              setNavigationError({
+                ...errorType,
+                confirmButtonText: 'Continue editing',
+                cancelButtonText: 'Delete draft',
+              });
+            }
+          }
+        };
+        getErrorType();
       }
 
       const draftId = draft && draft.messageId;
       const newFieldsString = JSON.stringify({
-        rec: parseInt(debouncedRecipient || selectedRecipient, 10),
+        rec: parseInt(debouncedRecipient || selectedRecipientId, 10),
         cat: debouncedCategory || category,
         sub: debouncedSubject || subject,
         bod: debouncedMessageBody || messageBody,
@@ -451,12 +464,11 @@ const ComposeForm = props => {
       setFieldsString(newFieldsString);
 
       const formData = {
-        recipientId: selectedRecipient,
+        recipientId: selectedRecipientId,
         category,
         subject,
         body: messageBody,
       };
-      // saves the draft if all checks are valid or can save draft without signature
       if (
         (messageValid && !isSignatureRequired) ||
         (isSignatureRequired && messageValid && saveError !== null)
@@ -466,9 +478,12 @@ const ComposeForm = props => {
     },
     [
       checkMessageValidity,
+      isSignatureRequired,
+      savedDraft,
+      saveError,
       draft,
       debouncedRecipient,
-      selectedRecipient,
+      selectedRecipientId,
       debouncedCategory,
       category,
       debouncedSubject,
@@ -476,8 +491,7 @@ const ComposeForm = props => {
       debouncedMessageBody,
       messageBody,
       fieldsString,
-      isSignatureRequired,
-      saveError,
+      messageInvalid,
       setUnsavedNavigationError,
       attachments.length,
       electronicSignature,
@@ -498,15 +512,16 @@ const ComposeForm = props => {
       await setMessageInvalid(false);
       await setSendMessageFlag(false);
       const validSignatureNotRequired = messageValid && !isSignatureRequired;
-      const validSignatureRequired =
-        isSignatureRequired && signatureValid && checkboxValid;
+      const isSignatureValid =
+        isSignatureRequired && messageValid && signatureValid && checkboxValid;
 
-      if (validSignatureNotRequired || validSignatureRequired) {
+      if (validSignatureNotRequired || isSignatureValid) {
         setSendMessageFlag(true);
         setNavigationError(null);
         setLastFocusableElement(e.target);
       } else {
         setSendMessageFlag(false);
+        focusOnErrorField();
       }
     },
     [checkMessageValidity, isSignatureRequired],
@@ -517,29 +532,29 @@ const ComposeForm = props => {
       const isBlankForm = () =>
         messageBody === '' &&
         subject === '' &&
-        (selectedRecipient === 0 || selectedRecipient === '0') &&
+        Number(selectedRecipientId) === 0 &&
         category === null &&
         attachments.length === 0;
 
       const isSavedEdits = () =>
         messageBody === draft?.body &&
-        Number(selectedRecipient) === draft?.recipientId &&
+        Number(selectedRecipientId) === draft?.recipientId &&
         category === draft?.category &&
         subject === draft?.subject;
 
       const isEditPopulatedForm = () =>
         (messageBody !== draft?.body ||
-          selectedRecipient !== draft?.recipientId ||
+          selectedRecipientId !== draft?.recipientId ||
           category !== draft?.category ||
           subject !== draft?.subject) &&
         !isBlankForm() &&
         !isSavedEdits();
 
       const unsavedDraft = isEditPopulatedForm() && !deleteButtonClicked;
-
       if (!isEditPopulatedForm() || !isSavedEdits()) {
         setSavedDraft(false);
       }
+
       let error = null;
       if (isBlankForm() || savedDraft) {
         error = null;
@@ -567,7 +582,7 @@ const ComposeForm = props => {
       draft?.subject,
       formPopulated,
       messageBody,
-      selectedRecipient,
+      selectedRecipientId,
       subject,
       savedDraft,
       setUnsavedNavigationError,
@@ -600,19 +615,14 @@ const ComposeForm = props => {
 
   const recipientHandler = useCallback(
     recipient => {
-      setSelectedRecipient(recipient.id.toString());
+      setSelectedRecipientId(recipient?.id ? recipient.id.toString() : '0');
 
       if (recipient.id !== '0') {
         if (recipient.id) setRecipientError('');
         setUnsavedNavigationError();
       }
     },
-    [
-      setRecipientError,
-      setUnsavedNavigationError,
-      setCheckboxMarked,
-      setElectronicSignature,
-    ],
+    [setRecipientError, setUnsavedNavigationError],
   );
 
   const subjectHandler = e => {
@@ -650,7 +660,7 @@ const ComposeForm = props => {
   const beforeUnloadHandler = useCallback(
     e => {
       if (
-        selectedRecipient?.toString() !==
+        selectedRecipientId?.toString() !==
           (draft ? draft?.recipientId.toString() : '0') ||
         category !== (draft ? draft?.category : null) ||
         subject !== (draft ? draft?.subject : '') ||
@@ -669,7 +679,7 @@ const ComposeForm = props => {
     },
     [
       draft,
-      selectedRecipient,
+      selectedRecipientId,
       category,
       subject,
       messageBody,
@@ -706,6 +716,12 @@ const ComposeForm = props => {
         {pageTitle}
       </h1>
 
+      <DowntimeNotification
+        appTitle={downtimeNotificationParams.appTitle}
+        dependencies={[externalServices.mhvPlatform, externalServices.mhvSm]}
+        render={renderMHVDowntime}
+      />
+
       {showBlockedTriageGroupAlert &&
       (noAssociations || allTriageGroupsBlocked) ? (
         <BlockedTriageGroupAlert
@@ -724,10 +740,11 @@ const ComposeForm = props => {
             onCloseEvent={() => {
               setSaveError(null);
               focusElement(lastFocusableElement);
+              datadogRum.addAction('Save Error Modal Closed');
             }}
             status="warning"
             data-testid="quit-compose-double-dare"
-            data-dd-action-name="Save Error Modal Closed"
+            data-dd-action-name="Save Error Modal"
             visible
           >
             <p>{saveError.p1}</p>
@@ -735,7 +752,11 @@ const ComposeForm = props => {
             {saveError?.editDraft && (
               <va-button
                 text={saveError.editDraft}
-                onClick={() => setSaveError(null)}
+                onClick={() => {
+                  setSavedDraft(false);
+                  setSaveError(null);
+                }}
+                data-dd-action-name={`${saveError.editDraft} Button`}
               />
             )}
             {saveError?.saveDraft && (
@@ -743,6 +764,7 @@ const ComposeForm = props => {
                 secondary
                 class="vads-u-margin-y--1p5"
                 text={saveError.saveDraft}
+                data-dd-action-name={`${saveError.saveDraft} Button`}
                 onClick={() => {
                   saveDraftHandler('manual');
                   setSaveError(null);
@@ -793,7 +815,7 @@ const ComposeForm = props => {
                 recipientsList={recipientsList}
                 onValueChange={recipientHandler}
                 error={recipientError}
-                defaultValue={+selectedRecipient}
+                defaultValue={+selectedRecipientId}
                 isSignatureRequired={isSignatureRequired}
                 setCheckboxMarked={setCheckboxMarked}
                 setElectronicSignature={setElectronicSignature}
@@ -836,7 +858,7 @@ const ComposeForm = props => {
                 value={subject}
                 error={subjectError}
                 data-dd-privacy="mask"
-                data-dd-action-name="Compose Message Subject Input Field"
+                data-dd-action-name="Subject (Required) Input Field"
                 maxlength="50"
                 uswds
                 charcount
@@ -867,7 +889,7 @@ const ComposeForm = props => {
                   );
                 }}
                 data-dd-privacy="mask"
-                data-dd-action-name="Compose Message Body Textbox"
+                data-dd-action-name="Message (Required) Textbox"
               />
             )}
           </div>
@@ -883,12 +905,14 @@ const ComposeForm = props => {
                     setAttachFileSuccess={setAttachFileSuccess}
                     setNavigationError={setNavigationError}
                     editingEnabled
+                    attachmentScanError={attachmentScanError}
                   />
 
                   <FileInput
                     attachments={attachments}
                     setAttachments={setAttachments}
                     setAttachFileSuccess={setAttachFileSuccess}
+                    attachmentScanError={attachmentScanError}
                   />
                 </section>
               ))}

@@ -19,6 +19,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvSecureMessagingEditContactList = true,
+    mhvSecureMessagingTriageGroupPlainLanguage = false,
   } = toggles;
 
   return {
@@ -106,6 +107,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_edit_contact_list',
           value: mhvSecureMessagingEditContactList,
+        },
+        {
+          name: 'mhv_secure_messaging_triage_group_plain_language',
+          value: mhvSecureMessagingTriageGroupPlainLanguage,
         },
       ],
     },

@@ -25,12 +25,9 @@ const EducationSearchItem = ({
   };
 
   const facilityInfo = info => {
-    const facilityName = `${info.attributes.name}`;
-    const facilityAddress = ` ${info.attributes.physicalState} ${
-      info.attributes.physicalZip
-    }`;
-    return `${facilityName}
-    ${facilityAddress}`;
+    const { facilityCode, name, physicalState, physicalZip } = info.attributes;
+
+    return `${facilityCode} - ${name} ${physicalState} ${physicalZip}`;
   };
 
   const numberOfPages = facilityData?.meta?.count / 10;

@@ -75,7 +75,7 @@ describe('Radiology details component', () => {
     expect(reason).to.exist;
   });
   it('should display who the test was ordered by', () => {
-    const reason = screen.getByText('DOE,JOHN', {
+    const reason = screen.getByText('JOHN DOE', {
       exact: true,
       selector: 'p',
     });
@@ -89,7 +89,7 @@ describe('Radiology details component', () => {
     expect(reason).to.exist;
   });
   it('should display the imaging provider', () => {
-    const reason = screen.getByText('DOE,JANE', {
+    const reason = screen.getByText('JANE DOE', {
       exact: true,
       selector: 'p',
     });

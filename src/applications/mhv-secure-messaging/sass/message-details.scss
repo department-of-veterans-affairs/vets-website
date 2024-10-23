@@ -1,13 +1,7 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .message-detail-container {
   overflow-wrap: break-word;
-
-  .reply-button-container {
-    @media (min-width: $small-screen) {
-      max-width: 225px;
-    }
-  }
 
   .message-detail-block {
     background-color: var(--vads-color-white);

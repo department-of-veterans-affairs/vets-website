@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -58,15 +57,12 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           The information you enter on the next page is completely confidential.
         </p>
         <p>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link
-            className="vads-c-action-link--green"
+          <va-link-action
             data-testid="duw-start-form"
             href="#"
             onClick={startForm}
-          >
-            Get started
-          </Link>
+            text="Get started"
+          />
         </p>
         <va-accordion>
           <va-accordion-item header="Can I get VA benefits without a discharge upgrade?">

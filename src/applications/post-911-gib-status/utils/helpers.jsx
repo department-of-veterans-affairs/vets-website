@@ -30,17 +30,17 @@ export function formatVAFileNumber(n) {
 }
 
 export function formatMonthDayFields(field) {
-  let displayValue;
-  if (field) {
-    if (field.days === 1) {
-      displayValue = `${field.months} months, ${field.days} day`;
-    } else {
-      displayValue = `${field.months} months, ${field.days} days`;
-    }
-  } else {
-    displayValue = 'unavailable';
+  if (!field || field.months == null || field.days == null) {
+    return 'unavailable';
   }
-  return displayValue;
+
+  const { months, days } = field;
+
+  const monthString = `${months} ${months === 1 ? 'month' : 'months'}`;
+
+  const dayString = `${days} ${days === 1 ? 'day' : 'days'}`;
+
+  return `${monthString}, ${dayString}`;
 }
 
 export const enrollmentHistoryExplanation = {
@@ -146,16 +146,17 @@ export function notQualifiedWarning() {
             </a>
           </li>
           <li>
-            If you’re enrolled in education benefits through another chapter
-            (Montgomery GI Bill (MGIB) or Reservists Educational Assistance
-            Program (REAP)), check our{' '}
+            If you’re enrolled in education benefits through MGIB-Active Duty or
+            MGIB-Selected Reserve benefits, confirm your school enrollment by
+            using the{' '}
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://www.gibill.va.gov/wave/index.do"
+              href="https://www.va.gov/education/verify-school-enrollment"
             >
-              Web Automated Verification of Enrollment (W.A.V.E)
+              Verify Your Enrollment (VYE)
             </a>
+            &nbsp;tool.
           </li>
         </ul>
       </div>

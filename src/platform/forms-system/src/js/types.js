@@ -44,6 +44,7 @@
  * @property {boolean} [prefillEnabled]
  * @property {Function} [prefillTransformer]
  * @property {PreSubmitInfo} [preSubmitInfo]
+ * @property {boolean} [reviewEditFocusOnHeaders]
  * @property {Object} [reviewErrors]
  * @property {string} [rootUrl]
  * @property {SavedFormMessages} [savedFormMessages]
