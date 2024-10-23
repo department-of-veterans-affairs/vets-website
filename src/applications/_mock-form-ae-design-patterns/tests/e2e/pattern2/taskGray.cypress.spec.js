@@ -1,8 +1,6 @@
 import manifest from '../../../manifest.json';
-// eslint-disable-next-line import/no-duplicates
 import mockUsers from '../../../mocks/endpoints/user';
 import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-ae-design-patterns';
-// eslint-disable-next-line import/no-duplicates
 
 describe('Prefill pattern - Gray Task', () => {
   beforeEach(() => {
@@ -12,6 +10,15 @@ describe('Prefill pattern - Gray Task', () => {
       statusCode: 200,
       body: mockPrefills.prefill,
     }).as('mockSip');
+
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          { name: 'profile_use_experimental', value: true },
+          { name: 'coe_access', value: true },
+        ],
+      },
+    }).as('mockFeatureToggles');
 
     cy.intercept('/v0/profile/address_validation', {
       statusCode: 200,

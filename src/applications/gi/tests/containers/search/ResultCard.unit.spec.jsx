@@ -146,6 +146,8 @@ describe('<ResultCard>', () => {
         },
       },
     );
+    expect(screen.queryByText('Housing benefit:')).to.exist;
+    expect(screen.getByText('$1,596')).to.exist;
     expect(screen.queryByText('You may be eligible for up to:')).to.exist;
     expect(screen.getByText('$14,900')).to.exist;
   });
@@ -159,6 +161,8 @@ describe('<ResultCard>', () => {
         },
       },
     );
+    expect(screen.queryByText('Housing benefit:')).to.exist;
+    expect(screen.getByText('$1,596')).to.exist;
     expect(screen.queryByText('You may be eligible for up to:')).to.exist;
     expect(screen.getByText('100% in-state')).to.exist;
   });
