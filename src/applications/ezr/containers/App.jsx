@@ -12,6 +12,7 @@ import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
+import formConfigWithTeraBranching from '../config/form-with-tera-branching';
 
 const App = props => {
   const {
@@ -24,7 +25,12 @@ const App = props => {
     user,
   } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled, isSigiEnabled } = features;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    isSigiEnabled,
+    isTeraBranchingEnabled,
+  } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
@@ -33,6 +39,7 @@ const App = props => {
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
+  let routeSavableApp;
 
   useEffect(
     () => {
@@ -74,6 +81,28 @@ const App = props => {
     [isAppLoading, canSubmitFinancialInfo, veteranFullName],
   );
 
+  useEffect(
+    () => {
+      if (isTeraBranchingEnabled) {
+        routeSavableApp = (
+          <RoutedSavableApp
+            formConfig={formConfigWithTeraBranching}
+            currentLocation={location}
+          >
+            {children}
+          </RoutedSavableApp>
+        );
+      } else {
+        routeSavableApp = (
+          <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+            {children}
+          </RoutedSavableApp>
+        );
+      }
+    },
+    [isTeraBranchingEnabled],
+  );
+
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
@@ -84,9 +113,7 @@ const App = props => {
       set-focus
     />
   ) : (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    { routeSavableApp }
   );
 };
 
@@ -108,6 +135,7 @@ const mapStateToProps = state => ({
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
+    isTeraBranchingEnabled: state.featureToggles.ezrTeraBranchingEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
