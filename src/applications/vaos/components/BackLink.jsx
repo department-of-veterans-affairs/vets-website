@@ -25,7 +25,7 @@ export default function BackLink({ appointment }) {
   if (isPendingAppointment) {
     status = 'pending';
     link = '/pending';
-    linkText = 'Back to request for appointments';
+    linkText = 'Back to pending appointments';
   } else if (isUpcomingAppointment) {
     status = 'upcoming';
     link = '/';
