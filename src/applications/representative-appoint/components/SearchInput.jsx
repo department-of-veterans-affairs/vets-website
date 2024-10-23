@@ -21,6 +21,9 @@ const SearchInput = ({ formData, setFormData, error, onSubmit }) => {
           error={error}
           value={formData['view:representativeQuery']}
           onInput={handleInputChange}
+          onKeyPress={e => {
+            if (e.key === 'Enter') onSubmit();
+          }}
           required
         />
       </div>
