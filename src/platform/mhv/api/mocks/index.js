@@ -29,7 +29,7 @@ const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
 const healthConditions = require('./medical-records/health-conditions');
 const allergies = require('./medical-records/allergies');
-const acceleratedAllergies = require('./medical-records/allergies/accelerated');
+const acceleratedAllergies = require('./medical-records/allergies/full-example');
 const vaccines = require('./medical-records/vaccines');
 const vitals = require('./medical-records/vitals');
 
