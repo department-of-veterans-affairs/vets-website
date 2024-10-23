@@ -61,6 +61,11 @@
     "chalk": "*",
     "cli-table": "*"
   },
+  "overrides": {
+    "jsdom": {
+      "tough-cookie": "4.1.4"
+    }
+  },
   "license": "MIT",
   "private": true
 }
