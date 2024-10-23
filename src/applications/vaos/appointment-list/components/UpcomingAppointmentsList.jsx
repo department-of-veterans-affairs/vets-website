@@ -98,7 +98,6 @@ export default function UpcomingAppointmentsList() {
               className={classNames('vads-u-font-size--h3', {
                 'vads-u-margin-top--0': index === 0,
               })}
-              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
               data-testid="appointment-list-header"
             >
               {monthDate.format('MMMM YYYY')}
