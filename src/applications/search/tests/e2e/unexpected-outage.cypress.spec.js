@@ -70,8 +70,8 @@ describe('Unexpected outage from Search.gov', () => {
     cy.get(s.APP).within(() => {
       cy.get(s.OUTAGE_BOX)
         .should('exist')
-        .and('contain', 'We’re working on Search VA.gov right now.')
-        .and('not.contain', 'Something went wrong on our end,');
+        .and('contain', 'We’re working on Search VA.gov right now.');
+      cy.get(s.ERROR_ALERT_BOX).should('not.exist');
     });
   };
 
@@ -84,10 +84,10 @@ describe('Unexpected outage from Search.gov', () => {
 
   const verifySearchFailureBanner = () => {
     cy.get(s.APP).within(() => {
-      cy.get(s.OUTAGE_BOX)
+      cy.get(s.ERROR_ALERT_BOX)
         .should('exist')
-        .and('contain', 'Something went wrong on our end,')
-        .and('not.contain', 'We’re working on Search VA.gov right now.');
+        .and('contain', 'Something went wrong on our end,');
+      cy.get(s.OUTAGE_BOX).should('not.exist');
     });
   };
 
