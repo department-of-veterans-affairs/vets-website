@@ -1,6 +1,6 @@
-import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
+import { createFormSlice } from './forms/formSlice';
 
 export default {
-  form: createSaveInProgressFormReducer(formConfig),
+  form: createFormSlice(formConfig).reducer,
 };
