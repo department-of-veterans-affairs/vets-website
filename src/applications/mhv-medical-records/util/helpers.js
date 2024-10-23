@@ -369,18 +369,17 @@ export const formatDateAndTime = rawDate => {
     date = new Date(rawDate);
   }
 
-  const hours = date.getUTCHours();
-  const minutes = date.getUTCMinutes();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
   const period = hours >= 12 ? 'p.m.' : 'a.m.';
   const formattedHours = hours % 12 || 12; // Convert to 12-hour format
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const timePart = `${formattedHours}:${formattedMinutes} ${period} ET`;
+  const timePart = `${formattedHours}:${formattedMinutes} ${period}`;
 
   const options = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    timeZone: 'UTC',
   };
   const datePart = date.toLocaleDateString('en-US', options);
 

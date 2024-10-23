@@ -450,7 +450,6 @@ describe('getStatusExtractPhase', () => {
 });
 
 describe('getLastUpdatedText', () => {
-  // This test is time-zone dependent and will fail in certain circumstances. Skipping for now.
   it('should return the last updated string when the refreshStateStatus contains the extractType and lastSuccessfulCompleted', () => {
     const refreshStateStatus = [
       { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
@@ -459,8 +458,15 @@ describe('getLastUpdatedText', () => {
 
     const result = getLastUpdatedText(refreshStateStatus, extractType);
 
+    const testDate = new Date('2024-09-15T10:00:00Z');
+
     expect(result).to.equal(
-      'Last updated at 10:00 a.m. ET on September 15, 2024',
+      `Last updated at ${testDate.getHours() % 12 ||
+        12}:00 a.m. on ${testDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}`,
     );
   });
 
