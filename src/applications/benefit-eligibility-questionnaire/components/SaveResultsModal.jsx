@@ -17,6 +17,12 @@ const SaveResultsModal = () => {
     focusElement('#copy-alert');
   };
 
+  const handleClose = () => {
+    setShowAlert(false);
+    toggleModal(false);
+    focusElement('#save-your-results');
+  };
+
   return (
     <div className="vads-u-margin-bottom--2">
       <va-button
@@ -27,10 +33,7 @@ const SaveResultsModal = () => {
       />
       <VaModal
         id="save-results-modal"
-        onCloseEvent={() => {
-          setShowAlert(false);
-          toggleModal(false);
-        }}
+        onCloseEvent={handleClose}
         modalTitle="Save your results"
         initialFocusSelector="#va-modal-title"
         visible={isOpen}
