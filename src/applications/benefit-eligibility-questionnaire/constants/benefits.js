@@ -1,4 +1,5 @@
 const categories = {
+  BURIALS: 'Burials and memorials',
   EDUCATION: 'Education',
   EMPLOYMENT: 'Careers & Employment',
   MORE_SUPPORT: 'More Support',
@@ -37,6 +38,8 @@ export const goalTypes = Object.freeze({
 });
 
 export const goalTypeLabels = Object.freeze({
+  LEGACY: 'Carry out legacy planning',
+  COMMEMORATE: 'Commemorate service',
   FINANCIAL: 'Get financial support ',
   HOUSING: 'Find a place to live ',
   FAMILY: 'Grow my family ',
@@ -564,5 +567,77 @@ export const BENEFITS_LIST = [
     },
     learnMoreURL: 'https://www.va.gov/health-care/',
     applyNowURL: 'https://www.va.gov/health-care/how-to-apply/',
+  },
+  {
+    name: 'Burial in a VA national cemetery',
+    category: categories.BURIALS,
+    id: 'BUR',
+    description:
+      'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [
+        goalTypes.LEGACY,
+        goalTypes.COMMEMORATE,
+        goalTypes.UNDERSTAND,
+      ],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://www.va.gov/burials-memorials/eligibility/',
+    applyNowURL: '',
+  },
+  {
+    name: 'Native American Direct Loan',
+    category: categories.HOUSING,
+    id: 'NAD',
+    description:
+      'If you’re a Veteran, and either you or a spouse is Native American, our Native American Direct Loan (NADL) program may help you get a loan to buy, build, or improve a home on federal trust land. You may also get a loan to refinance an existing NADL and reduce your interest rate. Find out if you qualify for an NADL—and how to apply.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [
+        goalTypes.FINANCIAL,
+        goalTypes.HOUSING,
+        goalTypes.PLAN,
+        goalTypes.UNDERSTAND,
+      ],
+      [mappingTypes.LENGTH_OF_SERVICE]: [
+        militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        militaryServiceTimeServedTypes.UP_TO_1_YEAR,
+        militaryServiceTimeServedTypes.UP_TO_2_YEARS,
+        militaryServiceTimeServedTypes.UP_TO_3_YEARS,
+        militaryServiceTimeServedTypes.OVER_3_YEARS,
+      ],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL:
+      'https://www.va.gov/housing-assistance/home-loans/loan-types/native-american-direct-loan/',
+    applyNowURL: '',
   },
 ];
