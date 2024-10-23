@@ -8,6 +8,8 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
+import * as focusUtils from '~/platform/utilities/ui/focus';
+
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
 import {
   errorMessages,
@@ -418,6 +420,14 @@ describe('<EvidencePrivateRecords>', () => {
   });
 
   describe('partial/invalid data navigation', () => {
+    let focusElementSpy;
+    beforeEach(() => {
+      focusElementSpy = sinon.stub(focusUtils, 'focusElement');
+    });
+    afterEach(() => {
+      focusElementSpy.restore();
+    });
+
     const testAndCloseModal = async (container, total, event) => {
       expect(getErrorElements(container).length).to.eq(total);
       // modal visible
@@ -457,7 +467,7 @@ describe('<EvidencePrivateRecords>', () => {
       await waitFor(() => {
         expect(goSpy.called).to.be.false;
         expect(getErrorElements(container).length).to.eq(8);
-        expect(document.activeElement).to.eq($('[error]', container));
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
       });
     });
 
@@ -549,7 +559,7 @@ describe('<EvidencePrivateRecords>', () => {
       await waitFor(() => {
         expect(goSpy.called).to.be.false;
         expect(getErrorElements(container).length).to.eq(9);
-        expect(document.activeElement).to.eq($('[error]', container));
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
       });
     });
   });
