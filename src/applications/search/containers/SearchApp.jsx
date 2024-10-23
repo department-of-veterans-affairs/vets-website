@@ -300,7 +300,7 @@ const SearchApp = ({
     !hasErrors &&
     !searchIsLoading;
 
-  const searchGovIssues =
+  const shouldShowMaintenanceBanner =
     searchGovIssuesWithinMaintenanceWindow || searchGovMaintenance;
 
   return (
@@ -322,8 +322,8 @@ const SearchApp = ({
             {// Search API returned errors OR
             // errors with user input before submitting
             shouldShowErrorMessage &&
-              !searchGovIssues && <Errors userInput={userInput} />}
-            {searchGovIssues && (
+              !shouldShowMaintenanceBanner && <Errors userInput={userInput} />}
+            {shouldShowMaintenanceBanner && (
               <SearchMaintenance unexpectedMaintenance={searchGovMaintenance} />
             )}
             <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-bottom--4">
