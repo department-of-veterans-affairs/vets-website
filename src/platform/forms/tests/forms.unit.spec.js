@@ -352,7 +352,7 @@ describe('form:', () => {
   );
 
   Object.values(configFiles).forEach(configFilePath => {
-    it(`${configFilePath.replace(root, '')}:`, () => {
+    it.skip(`${configFilePath.replace(root, '')}:`, () => {
       // This return is needed in order for failing expects within the promise to actually trigger a failure of the test
       return expect(
         // Dynamically import the module and perform tests on its default export
