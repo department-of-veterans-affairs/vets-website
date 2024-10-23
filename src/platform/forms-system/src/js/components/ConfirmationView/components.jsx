@@ -29,7 +29,10 @@ export const HowToContact = ({ className = '', title, content }) => {
         and topic for the VA benefit this form is related to.
       </p>
       <p>
-        <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
+        <va-link
+          href="https://ask.va.gov/"
+          text="Contact us online through Ask VA"
+        />
       </p>
     </>
   );
@@ -98,6 +101,7 @@ export const GoBackLink = ({ className, text, href }) => {
     <div
       className={classNames(
         'confirmation-go-back-link-section',
+        'screen-only',
         className || 'vads-u-margin-top--4',
       )}
     >
@@ -138,15 +142,17 @@ export const WhatsNextProcessList = ({
     >
       {item1Content || (
         <p>
-          'This can take up to 10 days. When we receive your form, we’ll update
+          This can take up to 30 days. When we receive your form, we’ll update
           the status on My VA.
         </p>
       )}
       {item1Actions || (
         <p>
-          <a href="/my-va#benefit-applications" onClick={onCheckVaStatusClick}>
-            Check the status of your form on My VA
-          </a>
+          <va-link
+            href="/my-va#benefit-applications"
+            onClick={onCheckVaStatusClick}
+            text="Check the status of your form on My VA"
+          />
         </p>
       )}
     </VaProcessListItem>
@@ -278,7 +284,7 @@ SavePdfDownloadWithContext.propTypes = {
 
 export const PrintOnlyHeader = () => {
   return (
-    <div className="confirmation-print-only-header-section print-only">
+    <div className="confirmation-print-only-header-section vads-u-margin-bottom--2 print-only">
       <img
         src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
         alt="VA logo"
@@ -357,7 +363,7 @@ export const SubmissionAlert = ({
     <>
       <p>Your submission is in progress.</p>
       <p>
-        It can take up to 10 days for us to receive your form.
+        It can take up to 30 days for us to receive your form.
         {confirmationNumber &&
           ` Your confirmation number is ${confirmationNumber}.`}
       </p>
