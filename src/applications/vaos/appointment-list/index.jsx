@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
@@ -43,10 +44,16 @@ function AppointmentListSection() {
           <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
           <Route path="/past" component={AppointmentsPage} />
           <Route
+            exact
             path={['/va/:id', '/:id']}
             component={ConfirmedAppointmentDetailsPage}
           />
-          <Route path="/" component={AppointmentsPage} />
+          <Route
+            exact
+            path={['/', '/pending', '/past']}
+            component={AppointmentsPage}
+          />
+          <Route component={PageNotFound} />
         </Switch>
       )}
     </>
