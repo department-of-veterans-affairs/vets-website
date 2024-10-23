@@ -5,7 +5,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import AddressBlock from '../../components/AddressBlock';
 
 describe('AddressBlock Component', () => {
-  const address = {
+  const addressData = {
     addressLine1: '123 Main Street',
     addressLine2: 'Suite 4B',
     addressLine3: '',
@@ -18,7 +18,11 @@ describe('AddressBlock Component', () => {
 
   it('should render the representative and organization name', () => {
     const { container } = render(
-      <AddressBlock repName={repName} orgName={orgName} address={address} />,
+      <AddressBlock
+        repName={repName}
+        orgName={orgName}
+        addressData={addressData}
+      />,
     );
 
     const addressBlock = $('.va-address-block', container);
@@ -29,7 +33,11 @@ describe('AddressBlock Component', () => {
 
   it('should render the address correctly', () => {
     const { container } = render(
-      <AddressBlock repName={repName} orgName={orgName} address={address} />,
+      <AddressBlock
+        repName={repName}
+        orgName={orgName}
+        addressData={addressData}
+      />,
     );
 
     const addressBlock = $('.va-address-block', container);
@@ -41,7 +49,11 @@ describe('AddressBlock Component', () => {
 
   it('should render only the organization name if representative name is not provided', () => {
     const { container } = render(
-      <AddressBlock repName={null} orgName={orgName} address={address} />,
+      <AddressBlock
+        repName={null}
+        orgName={orgName}
+        addressData={addressData}
+      />,
     );
 
     const addressBlock = $('.va-address-block', container);
