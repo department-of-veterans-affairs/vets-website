@@ -13,7 +13,7 @@ import { getListWithRetry } from './common';
 export const getAllergiesList = ({
   isCurrent = false,
   isAccelerating = false,
-}) => async dispatch => {
+} = {}) => async dispatch => {
   dispatch({
     type: Actions.Allergies.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,

@@ -181,7 +181,7 @@ Provider notes: ${allergyData.notes} \n`;
         </>
       );
     }
-    if (allergyData) {
+    if (allergy) {
       return (
         <>
           <PrintHeader />
