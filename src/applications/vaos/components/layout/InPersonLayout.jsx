@@ -29,7 +29,6 @@ export default function InPersonLayout({ data: appointment }) {
     clinicPhysicalLocation,
     clinicPhone,
     clinicPhoneExtension,
-    comment,
     facility,
     facilityPhone,
     locationId,
@@ -45,7 +44,7 @@ export default function InPersonLayout({ data: appointment }) {
 
   if (!appointment) return null;
 
-  const [reason, otherDetails] = comment ? comment?.split(':') : [];
+  const { reasonForAppointment, patientComments } = appointment || {};
   const facilityId = locationId;
 
   let heading = 'In-person appointment';
@@ -127,7 +126,7 @@ export default function InPersonLayout({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Where>
-      <Details reason={reason} otherDetails={otherDetails} />
+      <Details reason={reasonForAppointment} otherDetails={patientComments} />
       {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (

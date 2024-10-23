@@ -1,22 +1,6 @@
 import React from 'react';
 import { capitalize } from 'lodash';
 
-export const NotificationText = () => (
-  <div>
-    <p className="vads-u-margin-top--0">
-      You’re adding one or more unmarried children between ages 18 and 23 who
-      attend school. You’ll need to complete this section of the form, equal to
-      a Request for Approval of School Attendance (VA Form 21-674).
-    </p>
-    <p>
-      <strong>
-        If we asked you to enter this information in a previous section
-      </strong>
-      , you’ll need to enter it again.
-    </p>
-  </div>
-);
-
 export const benefitSchemaLabels = ['ch35', 'fry', 'feca', 'other'];
 
 export const benefitUiLabels = {
