@@ -14,6 +14,9 @@ import {
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
 import {
@@ -41,6 +44,23 @@ const LandingPage = () => {
   );
   const phase0p5Flag = useSelector(
     state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
+  );
+
+  const useAcceleratedApi = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryAllergiesEnabled
+      ],
+  );
+  const isCerner = useSelector(selectIsCernerPatient);
+  const isAccelerating = !!useAcceleratedApi && isCerner;
+
+  useEffect(
+    () => {
+      // use Drupal based Cerner facility data
+      connectDrupalSourceOfTruthCerner(dispatch);
+    },
+    [dispatch],
   );
 
   useEffect(
@@ -77,24 +97,35 @@ const LandingPage = () => {
         </p>
       </section>
 
-      {displayLabsAndTest && (
-        <section>
-          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-            Lab and test results
-          </h2>
-          <p className="vads-u-margin-bottom--2">
-            Get results of your VA medical tests. This includes blood tests,
-            X-rays, and other imaging tests.
-          </p>
-          <Link
-            to="/labs-and-tests"
-            className="vads-c-action-link--blue"
-            data-testid="labs-and-tests-landing-page-link"
-          >
-            Go to your lab and test results
-          </Link>
-        </section>
-      )}
+      {displayLabsAndTest &&
+        (!isAccelerating ? (
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Lab and test results
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get results of your VA medical tests. This includes blood tests,
+              X-rays, and other imaging tests.
+            </p>
+            <Link
+              to="/labs-and-tests"
+              className="vads-c-action-link--blue"
+              data-testid="labs-and-tests-landing-page-link"
+            >
+              Go to your lab and test results
+            </Link>
+          </section>
+        ) : (
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Lab and test results - Need content for OH users
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get results of your VA medical tests. This includes blood tests,
+              X-rays, and other imaging tests.
+            </p>
+          </section>
+        ))}
 
       {displayNotes && (
         <section>

@@ -20,6 +20,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsToVaGovRelease = true,
     mhvSecureMessagingEditContactList = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
+    mhvAcceleratedDeliveryAllergiesEnabled = false,
   } = toggles;
 
   return {
@@ -32,7 +33,7 @@ const generateFeatureToggles = (toggles = {}) => {
         },
         {
           name: 'mhv_accelerated_delivery_allergies_enabled',
-          value: true,
+          value: mhvAcceleratedDeliveryAllergiesEnabled,
         },
         {
           name: 'mhv_landing_page_personalization',

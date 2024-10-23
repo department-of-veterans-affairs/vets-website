@@ -13,7 +13,6 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
-
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -78,9 +77,10 @@ const Allergies = props => {
   );
   const isCerner = useSelector(selectIsCernerPatient);
   const user = useSelector(state => state.user.profile);
+  const isAccelerating = !!useAcceleratedApi && isCerner;
+
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
-  const isAccelerating = !!useAcceleratedApi && isCerner;
 
   useListRefresh({
     listState,
