@@ -120,7 +120,7 @@ const PreviousEnrollmentVerifications = ({
 
       if (!isAnArray) {
         const objectChildProps =
-          topLevelEnrollment.props?.children[0]?.props?.children;
+          topLevelEnrollment?.props?.children[0]?.props?.children;
         const objectChildPropsIsArray = Array.isArray(objectChildProps);
         if (!objectChildPropsIsArray) {
           tempEnrollmentArray.push({

@@ -224,7 +224,7 @@ export const verifyEnrollmentAction = verifications => {
           claimantId: 0,
           verifiedPeriodBeginDate: '2024-10-22',
           verifiedPeriodEndDate: '2024-10-22',
-          verifiedThroughDate: '2024-10-22',
+          verifiedThroughDate: new Date().toISOString().split('T')[0],
           verificationMethod: 'VYE',
           appCommunication: {
             responseType: 'Y',

@@ -501,7 +501,6 @@ export const getGroupedPreviousEnrollments = month => {
     </div>
   );
 };
-
 export const getSignlePreviousEnrollmentsDGIB = enrollment => {
   const myUUID = uuidv4();
   return (
@@ -546,6 +545,9 @@ export const getSignlePreviousEnrollmentsDGIB = enrollment => {
                   enrollment?.verificationBeginDate,
                   enrollment?.verificationEndDate,
                 )}
+                <span className="vads-u-display--inline-block vads-u-font-weight--normal vads-u-margin-left--0p5 vads-u-color--gray-dark">
+                  at {enrollment?.facilityName?.toUpperCase()}
+                </span>
               </p>
               <p>
                 <span className="vads-u-font-weight--bold">
@@ -564,7 +566,7 @@ export const getSignlePreviousEnrollmentsDGIB = enrollment => {
               <div className="vads-u-font-style--italic">
                 You verified on{' '}
                 {translateDateIntoMonthDayYearFormat(
-                  enrollment?.paymentTransmissionDate,
+                  enrollment?.verificationThroughDate,
                 )}
               </div>
             </va-additional-info>
@@ -784,7 +786,65 @@ export const combineEnrollmentsWithStartMonth = enrollmentPeriods => {
   }
   return enrollmentPeriods;
 };
+export const combineEnrollmentsWithStartMonthDGIB = enrollmentPeriods => {
+  const isArray = Array.isArray(enrollmentPeriods);
 
+  const trackDate = [];
+  const combineMonths = {};
+  const dateUnavailable = 'Date unavailable';
+  if (isArray) {
+    enrollmentPeriods.forEach(period => {
+      // if award begin date is null, assign value as Date unavailable
+      let tempMonthYear =
+        period.verificationBeginDate !== null
+          ? translateDateIntoMonthYearFormat(period.verificationBeginDate)
+          : dateUnavailable;
+
+      // if value is Date unavailable and there is an award end date, use the award end date instead
+      if (tempMonthYear === dateUnavailable) {
+        tempMonthYear =
+          period.verificationEndDate !== null
+            ? translateDateIntoMonthYearFormat(period.verificationEndDate)
+            : dateUnavailable;
+      }
+
+      if (trackDate.includes(tempMonthYear)) {
+        combineMonths[tempMonthYear].push({
+          verificationMonth: period.verificationMonth,
+          verificationBeginDate: period.verificationBeginDate,
+          verificationEndDate: period.verificationEndDate,
+          createdDate: period.createdDate,
+          verificationMethod: period.verificationMethod,
+          verificationResponse: period.verificationResponse,
+          facilityName: period.facilityName,
+          totalCreditHours: period.totalCreditHours,
+          paymentTransmissionDate: period.paymentTransmissionDate,
+          lastDepositAmount: period.lastDepositAmount,
+          remainingEntitlement: period.remainingEntitlement,
+        });
+      } else {
+        trackDate.push(tempMonthYear);
+        combineMonths[tempMonthYear] = [
+          {
+            verificationMonth: period.verificationMonth,
+            verificationBeginDate: period.verificationBeginDate,
+            verificationEndDate: period.verificationEndDate,
+            createdDate: period.createdDate,
+            verificationMethod: period.verificationMethod,
+            verificationResponse: period.verificationResponse,
+            facilityName: period.facilityName,
+            totalCreditHours: period.totalCreditHours,
+            paymentTransmissionDate: period.paymentTransmissionDate,
+            lastDepositAmount: period.lastDepositAmount,
+            remainingEntitlement: period.remainingEntitlement,
+          },
+        ];
+      }
+    });
+    return combineMonths;
+  }
+  return enrollmentPeriods;
+};
 export const isMobileDevice = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent,
