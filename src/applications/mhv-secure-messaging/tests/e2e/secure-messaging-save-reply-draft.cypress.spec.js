@@ -10,7 +10,7 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
     // declare constants
-    const bodyText = ' Updated body text';
+    const bodyText = 'Updated body text';
     const singleMessage = { data: mockSingleThread.data[0] };
     singleMessage.data.attributes.body = bodyText;
 
