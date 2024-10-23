@@ -17,6 +17,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
+import { getCernerURL } from 'platform/utilities/cerner';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
 import {
@@ -97,16 +98,25 @@ const LandingPage = () => {
         </p>
       </section>
 
-      {displayLabsAndTest &&
-        (!isAccelerating ? (
-          <section>
-            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-              Lab and test results
-            </h2>
-            <p className="vads-u-margin-bottom--2">
-              Get results of your VA medical tests. This includes blood tests,
-              X-rays, and other imaging tests.
-            </p>
+      {displayLabsAndTest && (
+        <section>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Lab and test results
+          </h2>
+          <p className="vads-u-margin-bottom--2">
+            Get results of your VA medical tests. This includes blood tests,
+            X-rays, and other imaging tests.
+          </p>
+          {isAccelerating ? (
+            <a
+              className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
+              href={getCernerURL('/pages/health_record/results', true)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View your labs and tests on My VA Health (opens in new tab)
+            </a>
+          ) : (
             <Link
               to="/labs-and-tests"
               className="vads-c-action-link--blue"
@@ -114,18 +124,9 @@ const LandingPage = () => {
             >
               Go to your lab and test results
             </Link>
-          </section>
-        ) : (
-          <section>
-            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-              Lab and test results - Need content for OH users
-            </h2>
-            <p className="vads-u-margin-bottom--2">
-              Get results of your VA medical tests. This includes blood tests,
-              X-rays, and other imaging tests.
-            </p>
-          </section>
-        ))}
+          )}
+        </section>
+      )}
 
       {displayNotes && (
         <section>
@@ -137,13 +138,32 @@ const LandingPage = () => {
             This includes summaries of your stays in health facilities (called
             admission and discharge summaries).
           </p>
-          <Link
-            to="/summaries-and-notes"
-            className="vads-c-action-link--blue"
-            data-testid="notes-landing-page-link"
-          >
-            Go to your care summaries and notes
-          </Link>
+          {isAccelerating ? (
+            <>
+              <a
+                className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
+                href={getCernerURL(
+                  '/pages/health_record/comprehensive_record/health_summaries',
+                  true,
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View your care summaries and notes on My VA Health (opens in new
+                window)
+              </a>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/summaries-and-notes"
+                className="vads-c-action-link--blue"
+                data-testid="notes-landing-page-link"
+              >
+                Go to your care summaries and notes
+              </Link>
+            </>
+          )}
         </section>
       )}
 
@@ -156,13 +176,27 @@ const LandingPage = () => {
             Get a list of all vaccines (immunizations) in your VA medical
             records.
           </p>
-          <Link
-            to="/vaccines"
-            className="vads-c-action-link--blue"
-            data-testid="vaccines-landing-page-link"
-          >
-            Go to your vaccines
-          </Link>
+          {isAccelerating ? (
+            <a
+              className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
+              href={getCernerURL(
+                '/pages/health_record/health-record-immunizations',
+                true,
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View your vaccines on My VA Health (opens in new tab)
+            </a>
+          ) : (
+            <Link
+              to="/vaccines"
+              className="vads-c-action-link--blue"
+              data-testid="vaccines-landing-page-link"
+            >
+              Go to your vaccines
+            </Link>
+          )}
         </section>
       )}
 
@@ -193,13 +227,24 @@ const LandingPage = () => {
             Get a list of health conditions your VA providers are helping you
             manage.
           </p>
-          <Link
-            to="/conditions"
-            className="vads-c-action-link--blue"
-            data-testid="conditions-landing-page-link"
-          >
-            Go to your health conditions
-          </Link>
+          {isAccelerating ? (
+            <a
+              className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
+              href={getCernerURL('/pages/health_record/conditions', true)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View your health conditions on My VA Health (opens in new tab)
+            </a>
+          ) : (
+            <Link
+              to="/conditions"
+              className="vads-c-action-link--blue"
+              data-testid="conditions-landing-page-link"
+            >
+              Go to your health conditions
+            </Link>
+          )}
         </section>
       )}
 
@@ -218,13 +263,24 @@ const LandingPage = () => {
             <li>Height and weight</li>
             <li>Temperature</li>
           </ul>
-          <Link
-            to="/vitals"
-            className="vads-c-action-link--blue"
-            data-testid="vitals-landing-page-link"
-          >
-            Go to your vitals
-          </Link>
+          {isAccelerating ? (
+            <a
+              className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
+              href={getCernerURL('/pages/health_record/results', true)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View your vitals on My VA Health (opens in new tab)
+            </a>
+          ) : (
+            <Link
+              to="/vitals"
+              className="vads-c-action-link--blue"
+              data-testid="vitals-landing-page-link"
+            >
+              Go to your vitals
+            </Link>
+          )}
         </section>
       )}
 
