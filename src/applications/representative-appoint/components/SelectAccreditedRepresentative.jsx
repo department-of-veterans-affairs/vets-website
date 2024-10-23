@@ -12,7 +12,8 @@ import { useReviewPage } from '../hooks/useReviewPage';
 
 const SelectAccreditedRepresentative = props => {
   const { setFormData, formData, goBack, goForward, goToPath } = props;
-  const [loading, setLoading] = useState(false);
+  const [loadingReps, setLoadingReps] = useState(false);
+  const [loadingPOA, setLoadingPOA] = useState(false);
   const [error, setError] = useState(null);
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
@@ -24,10 +25,13 @@ const SelectAccreditedRepresentative = props => {
   const isReviewPage = useReviewPage();
 
   const getRepStatus = async () => {
+    setLoadingPOA(true);
     try {
       const res = await fetchRepStatus();
+      setLoadingPOA(false);
       return res.data;
     } catch {
+      setLoadingPOA(false);
       return null;
     }
   };
@@ -65,7 +69,7 @@ const SelectAccreditedRepresentative = props => {
       return;
     }
 
-    setLoading(true);
+    setLoadingReps(true);
     setError(null);
 
     try {
@@ -77,7 +81,7 @@ const SelectAccreditedRepresentative = props => {
     } catch (err) {
       setError(err.errorMessage);
     } finally {
-      setLoading(false);
+      setLoadingReps(false);
     }
   };
 
@@ -119,6 +123,10 @@ const SelectAccreditedRepresentative = props => {
   //   );
   // };
 
+  if (loadingPOA) {
+    return <va-loading-indicator set-focus />;
+  }
+
   return (
     <div>
       <h3 className="vads-u-margin-y--5 ">
@@ -134,7 +142,12 @@ const SelectAccreditedRepresentative = props => {
         setFormData={setFormData}
         onSubmit={handleSearch}
       />
-      {loading ? <va-loading-indicator message="Loading..." set-focus /> : null}
+      {loadingReps ? (
+        <va-loading-indicator
+          message="Finding accredited representatives..."
+          set-focus
+        />
+      ) : null}
       {representativeResults &&
         representativeResults.map((rep, index) => (
           <SearchResult
