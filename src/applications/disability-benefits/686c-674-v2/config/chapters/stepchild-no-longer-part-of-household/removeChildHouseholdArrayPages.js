@@ -40,7 +40,7 @@ export const removeChildHouseholdOptions = {
     !item?.address?.postalCode,
   maxItems: 7,
   text: {
-    summaryTitle: 'Review your children under 18 who got married',
+    summaryTitle: 'Review your stepchildren who have left your household',
     getItemName: item =>
       `${capitalize(item.fullName?.first) || ''} ${capitalize(
         item.fullName?.last,
@@ -182,7 +182,6 @@ export const childAddressPage = {
           militaryCheckbox:
             'This child lives on a United States military base outside of the U.S.',
         },
-        required: () => true,
       }),
     },
   },
