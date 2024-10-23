@@ -131,7 +131,10 @@ const Allergies = props => {
       lastUpdatedText,
     );
     const scaffold = generatePdfScaffold(user, title, value, subject, preface);
-    const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
+    const pdfData = {
+      ...scaffold,
+      ...generateAllergiesContent(allergies, isAccelerating),
+    };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
@@ -211,7 +214,13 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           downloadTxt={generateAllergiesTxt}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        <RecordList records={allergies} type={recordType.ALLERGIES} />
+        <RecordList
+          records={allergies?.map(allergy => ({
+            ...allergy,
+            isOracleHealthData: isAccelerating,
+          }))}
+          type={recordType.ALLERGIES}
+        />
       </RecordListSection>
     </div>
   );
