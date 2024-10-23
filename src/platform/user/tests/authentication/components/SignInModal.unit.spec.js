@@ -31,7 +31,7 @@ describe('SignInModal', () => {
     const screen = renderInReduxProvider(<SignInModal visible />, {
       initialState: generateStore(),
     });
-    expect(screen.queryByText('Sign in')).to.not.be.null;
+    expect(screen.queryByText('Sign in or create an account')).to.not.be.null;
   });
 
   it('should verify the close button works as expected', () => {
@@ -79,6 +79,6 @@ describe('SignInModal', () => {
       initialState: generateStore(),
     });
 
-    expect(screen.getByText('Sign in')).to.exist;
+    expect(screen.getByText('Sign in or create an account')).to.exist;
   });
 });
