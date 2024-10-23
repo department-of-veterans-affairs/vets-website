@@ -177,8 +177,22 @@ import { ConfirmationView as ConfirmationViewV2 } from 'platform/forms-system/sr
 
 ## A/B Testing
 
-If you want to A/B test the old confirmation vs the new on dev/staging/prod, one suggestion is to use a toggler with flipper.
+If you want to A/B test the old confirmation vs the new on dev/staging/prod, one suggestion is to test only on dev first, or use a toggler with flipper.
 
+```jsx
+if (environment.isLocalhost() || environment.isDev()) {
+  return (<ConfirmationView
+    submitDate={submitDate}
+    confirmationNumber={confirmationNumber}
+    formConfig={formConfig}
+    pdfUrl={submission?.response?.pdfUrl}
+  />);
+}
+
+return (<OldConfirmationPage />);
+```
+
+Or use a toggler with flipper:
 ```jsx
 <Toggler toggleName={Toggler.TOGGLE_NAMES.ConfirmationPageNew10210}>
     <Toggler.Enabled>
