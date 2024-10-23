@@ -1,6 +1,7 @@
 import React, { createContext } from 'react';
-
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import greenFormConfig from '../../patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from '../../patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from '../../patterns/pattern1/TaskPurple/config/form';
@@ -64,4 +65,9 @@ export const PatternConfigProvider = ({ location, children }) => {
       {children}
     </PatternConfigContext.Provider>
   ) : null;
+};
+
+PatternConfigProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+  location: PropTypes.object.isRequired,
 };
