@@ -35,6 +35,34 @@ export const getApiUrl = (url, params) => {
   return envUrl + apiUrl;
 };
 
+export const branchesOfService = [
+  'Air Force',
+  'Air Force National Guard',
+  'Air Force Nursing Corps (AFNC)',
+  'Air Force Reserves',
+  'Army',
+  'Army National Guard',
+  'Army Reserves',
+  'Coast Guard',
+  "Coast Guard Women's Reserve (SPARS)",
+  'Marine Corps',
+  'Marine Reserves',
+  'National Oceanic & Atmospheric Admin (NOAA)',
+  'Navy',
+  'Navy Nursing Corps (NNC)',
+  'Navy Reserves',
+  'Philippines Guerilla',
+  'Philippines Scout',
+  'Public Health Service',
+  'Space Force',
+  'U.S. Merchant Marine',
+  "Women's Air Force Service Pilots (WASP)",
+  "Women's Army Auxiliary Corps (WAAC)",
+  "Women's Army Corps (WAC)",
+  "Women's Voluntary Emergency Service (WAVES)",
+  'Unknown',
+];
+
 export const CategoryEducation =
   'Education (Ch.30, 33, 35, 1606, etc. & Work Study)';
 
@@ -56,6 +84,16 @@ export const requiredForSubtopicPage = [
   'Prosthetics',
   'Veteran Health Identification Card (VHIC) for health appointments',
   'Veteran ID Card (VIC) for discounts',
+];
+
+// List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
+export const branchOfServiceRuleforCategories = [
+  'Veteran ID Card (VIC)',
+  'Disability compensation',
+  'Survivor benefits',
+  'Burials and memorials',
+  'Center for Women Veterans',
+  'Benefits issues outside the U.S.',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
@@ -489,6 +527,11 @@ export const CHAPTER_3 = {
     TITLE: 'Veteran Readiness and Employment counselor',
     DESCRIPTION: 'Name of their counselor:',
     ERROR: 'Please enter the name of their counselor',
+  },
+  BRANCH_OF_SERVICE: {
+    TITLE: 'Your branch of service',
+    DESCRIPTION: 'Select your branch of service',
+    ERROR: 'Please select your branch of service',
   },
 };
 
