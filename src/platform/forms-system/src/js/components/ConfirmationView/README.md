@@ -16,6 +16,7 @@ The forms-system `component/ConfirmationView` contains the standard view element
   - [Subcomponents](#subcomponents)
   - [Conflicting imports](#conflicting-imports)
   - [A/B Testing](#ab-testing)
+  - [Updating tests](#updating-tests)
 
 ## Usage - Simple
 
@@ -193,4 +194,17 @@ If you want to A/B test the old confirmation vs the new on dev/staging/prod, one
       <OldConfirmationPage />
     </Toggler.Disabled>
 </Toggler>
+```
+
+## Updating tests
+If your unit tests break when migrating to the new pattern, be sure to include `route.formConfig` prop either manually or through redux `connect` to the `ConfirmationPage` component to give to `ConfirmationView`.
+
+Before:
+```jsx
+<ConfirmationPage />
+```
+
+After:
+```jsx
+<ConfirmationPage route={{ formConfig }} />
 ```
