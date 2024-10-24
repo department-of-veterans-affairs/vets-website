@@ -243,4 +243,16 @@ describe('SessionTimeoutModal', () => {
 
     component.unmount();
   });
+
+  it('sets the service name to an empty string when it is null', () => {
+    const props = { ...defaultProps, serviceName: null };
+    const component = shallow(<SessionTimeoutModal {...props} />);
+    const instance = component.instance();
+
+    instance.componentDidUpdate();
+
+    expect(instance.serviceName).to.eql('');
+
+    component.unmount();
+  });
 });
