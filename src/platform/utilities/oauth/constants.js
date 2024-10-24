@@ -22,8 +22,9 @@ export const API_SIGN_IN_SERVICE_URL = ({
   type = '',
   endpoint = OAUTH_ENDPOINTS.AUTHORIZE,
 }) =>
-  `${environment.API_URL}/${version}/sign_in/${endpoint}${type &&
-    `?type=${type}`}`;
+  `${environment.API_URL}/${version}/sign_in/${endpoint}${
+    type ? `?type=${type}` : ''
+  }`;
 
 export const CLIENT_IDS = {
   VAWEB: 'vaweb',
