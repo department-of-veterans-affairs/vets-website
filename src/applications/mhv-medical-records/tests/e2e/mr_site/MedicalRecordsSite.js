@@ -1,5 +1,5 @@
 import mockUser from '../fixtures/user.json';
-import vamc from '../fixtures/facilities/vamc-ehr copy.json';
+import vamc from '../fixtures/facilities/vamc-ehr.json';
 
 // import mockNonMRuser from '../fixtures/non_mr_user.json';
 // import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
