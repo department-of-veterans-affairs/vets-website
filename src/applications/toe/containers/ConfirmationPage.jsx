@@ -31,13 +31,17 @@ export const ConfirmationPage = ({
         getClaimStatus()
           .then(response => {
             if (!response || response.status >= 400) {
+              // Set the error only if we get a true error status, like 400 or 500
               setApiError(true);
+            } else {
+              // If claimStatus is null or not set yet, we don't treat it as an error.
+              setApiError(false);
             }
           })
-          .catch(() => setApiError(true)); // Catch any network errors
+          .catch(() => setApiError(true)); // Catch any network errors and set the error state
       }
     },
-    [getClaimStatus, claimStatus],
+    [getClaimStatus, claimStatus], // Add claimStatus as a dependency to re-trigger when it changes
   );
 
   const { first, last, middle, suffix } = user?.profile?.userFullName || {};
