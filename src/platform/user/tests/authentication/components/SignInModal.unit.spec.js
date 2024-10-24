@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { fireEvent } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 
@@ -14,23 +14,26 @@ const generateStore = (enabled = false) => ({
 });
 
 describe('SignInModal', () => {
-  const oldWindow = global.window;
+  const oldDataLayer = global.window.dataLayer;
 
-  after(() => {
-    global.window = oldWindow;
+  afterEach(() => {
+    global.window.dataLayer = oldDataLayer;
   });
 
   it('should NOT render if `visible` is set to false', () => {
     const screen = renderInReduxProvider(<SignInModal />, {
       initialState: generateStore(),
     });
-    expect(screen.queryByText('Sign in')).to.be.null;
+    const modal = $('va-modal[visible]', screen.container);
+    expect(modal).to.be.null;
   });
 
   it('should render if `visible` is set to true', () => {
     const screen = renderInReduxProvider(<SignInModal visible />, {
       initialState: generateStore(),
     });
+    const modal = $('va-modal[visible]', screen.container);
+    expect(modal).to.not.be.null;
     expect(screen.queryByText('Sign in')).to.not.be.null;
   });
 
@@ -43,7 +46,7 @@ describe('SignInModal', () => {
       },
     );
 
-    fireEvent.click(screen.queryByLabelText('close modal'));
+    $('va-modal', screen.container).__events.closeEvent();
 
     expect(onClose.called).to.be.true;
   });
@@ -53,10 +56,10 @@ describe('SignInModal', () => {
       initialState: generateStore(),
     });
 
-    window.dataLayer = [];
+    global.window.dataLayer = [];
     screen.rerender(<SignInModal visible useSiS />);
 
-    expect(window.dataLayer).to.deep.include({
+    expect(global.window.dataLayer).to.deep.include({
       event: 'login-modal-opened-oauth',
     });
   });
@@ -66,10 +69,10 @@ describe('SignInModal', () => {
       initialState: generateStore(),
     });
 
-    window.dataLayer = [];
+    global.window.dataLayer = [];
     screen.rerender(<SignInModal visible={false} useSiS />);
 
-    expect(window.dataLayer).to.deep.include({
+    expect(global.window.dataLayer).to.deep.include({
       event: 'login-modal-closed-oauth',
     });
   });
