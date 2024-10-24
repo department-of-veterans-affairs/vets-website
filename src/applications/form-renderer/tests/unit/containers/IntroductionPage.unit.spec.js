@@ -1,16 +1,59 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import sinon from 'sinon';
+import { Provider } from 'react-redux';
 
-import * as SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import IntroductionPage from '../../../containers/IntroductionPage';
 import { formConfig1 } from '../../../_config/formConfig';
 
+const mockStore = {
+  getState: () => ({
+    user: {
+      login: {
+        currentlyLoggedIn: false,
+      },
+      profile: {
+        savedForms: [],
+        prefillsAvailable: [],
+        userFullName: {
+          first: 'John',
+          middle: 'A',
+          last: 'Doe',
+        },
+      },
+    },
+    form: {
+      loadedData: {
+        metadata: {},
+      },
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
+
+const renderWithProvider = (Component, store = mockStore) => {
+  return render(<Provider store={store}>{Component}</Provider>);
+};
+
 describe('<IntroductionPage /> component', () => {
-  // React Testing Library does not currently want to render the
-  // SaveInProgressIntro component.
-  beforeEach(() => sinon.stub(SaveInProgressIntro, 'default').value('div'));
+  describe('hides links for proceeding without logging in', () => {
+    it('does not render the link anywhere on the page', () => {
+      const screen = renderWithProvider(
+        <IntroductionPage
+          route={{
+            formConfig: formConfig1,
+            pageList: [],
+          }}
+        />,
+      );
+
+      const unauthedLink = screen.queryByText(
+        'Start your application without signing in',
+      );
+      expect(unauthedLink).to.not.exist;
+    });
+  });
 
   describe('ombInfo', () => {
     context('when ombInfo is present', () => {
@@ -21,7 +64,7 @@ describe('<IntroductionPage /> component', () => {
           resBurden: 30,
         };
 
-        const screen = render(
+        const screen = renderWithProvider(
           <IntroductionPage
             ombInfo={ombInfo}
             route={{
@@ -44,7 +87,7 @@ describe('<IntroductionPage /> component', () => {
 
     context('when ombInfo is missing', () => {
       it('omits the va-omb-info component', () => {
-        const screen = render(
+        const screen = renderWithProvider(
           <IntroductionPage
             route={{
               formConfig: formConfig1,
