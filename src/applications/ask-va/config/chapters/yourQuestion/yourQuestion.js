@@ -62,18 +62,7 @@ const yourQuestionPage = {
       'ui:title': 'Select optional files to upload',
       'ui:webComponentField': FileUpload,
       'ui:options': {
-        hideIf: formData => {
-          // TODO - update mockData list with appropriate topic titles from design
-          const HealthCareCondition =
-            formData.selectCategory === 'VA Health Care' &&
-            (formData.selectTopic === 'National Recruitment Services (NRS)' ||
-              formData.selectTopic ===
-                'Medical Care Concerns at a VA Medical Facility');
-          const EducationCondition =
-            formData.selectCategory === CategoryEducation &&
-            formData.selectTopic !== 'Veteran Readiness and Employment';
-          return !HealthCareCondition && !EducationCondition;
-        },
+        hideIf: formData => formData.allowAttachments === false,
       },
     },
   },
