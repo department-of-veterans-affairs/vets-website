@@ -1,15 +1,15 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
 } from 'applications/static-pages/wizard';
+import SaveInProgressInfo from '../components/SaveInProgressInfo';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -26,7 +26,9 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { showWizard } = this.props;
+    const { route, showWizard } = this.props;
+    const { formConfig, pageList } = route;
+    const sipProps = { formConfig, pageList };
 
     if (showWizard === undefined) return null;
     return (
@@ -34,12 +36,7 @@ export class IntroductionPage extends React.Component {
         <FormTitle title="Apply for VA Education Benefits" />
         <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
         <div className="subway-map">
-          <SaveInProgressIntro
-            prefillEnabled={this.props.route.formConfig.prefillEnabled}
-            messages={this.props.route.formConfig.savedFormMessages}
-            pageList={this.props.route.pageList}
-            startText="Start the education application"
-          />
+          <SaveInProgressInfo {...sipProps} route={route} />
           <h4>Follow the steps below to apply for education benefits.</h4>
           <div className="process schemaform-process">
             <ol>
@@ -121,13 +118,6 @@ export class IntroductionPage extends React.Component {
               </li>
             </ol>
           </div>
-          <SaveInProgressIntro
-            buttonOnly
-            prefillEnabled={this.props.route.formConfig.prefillEnabled}
-            messages={this.props.route.formConfig.savedFormMessages}
-            pageList={this.props.route.pageList}
-            startText="Start the education application"
-          />
           <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
             <va-omb-info
               res-burden={15}
@@ -144,5 +134,10 @@ export class IntroductionPage extends React.Component {
 const mapStateToProps = state => ({
   showWizard: toggleValues(state)[FEATURE_FLAG_NAMES.showEduBenefits1990Wizard],
 });
+
+IntroductionPage.propTypes = {
+  route: PropTypes.object,
+  showWizard: PropTypes.bool,
+};
 
 export default connect(mapStateToProps)(IntroductionPage);
