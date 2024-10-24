@@ -24,9 +24,6 @@ export const information = {
       title:
         'Is this an unmarried child between ages 18 and 23 who attends school?',
       required: (formData, _index) => {
-        if (Array.isArray(formData)) {
-          return true;
-        }
         const { addChild, report674: addStudent } =
           formData?.['view:selectable686Options'] || {};
         return addChild && addStudent;
@@ -36,9 +33,6 @@ export const information = {
         N: 'No',
       },
       hideIf: (formData, _index) => {
-        if (Array.isArray(formData)) {
-          return false;
-        }
         const { addChild, report674: addStudent } =
           formData?.['view:selectable686Options'] || {};
         const shouldShow = addChild && addStudent;
@@ -49,9 +43,6 @@ export const information = {
       title:
         'Have you received disability, pension, or DIC (Dependency and Indemnity Compensation) benefits for this child before?',
       required: (formData, _index) => {
-        if (Array.isArray(formData)) {
-          return true;
-        }
         const { addChild, report674: addStudent } =
           formData?.['view:selectable686Options'] || {};
         return addChild && addStudent;
@@ -61,9 +52,6 @@ export const information = {
         N: 'No',
       },
       hideIf: (formData, _index) => {
-        if (Array.isArray(formData)) {
-          return false;
-        }
         const { addChild, report674: addStudent } =
           formData?.['view:selectable686Options'] || {};
         const shouldShow = addChild && addStudent;
@@ -79,11 +67,6 @@ export const information = {
       'view:isUnmarriedAndInSchool': radioSchema(['Y', 'N']),
       'view:hasReceivedBenefits': radioSchema(['Y', 'N']),
     },
-    required: [
-      'fullName',
-      'birthDate',
-      // 'view:isUnmarriedAndInSchool',
-      // 'view:hasReceivedBenefits',
-    ],
+    required: ['fullName', 'birthDate'],
   },
 };

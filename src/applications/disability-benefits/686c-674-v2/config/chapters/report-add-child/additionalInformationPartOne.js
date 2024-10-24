@@ -45,9 +45,6 @@ export const additionalInformationPartOne = {
         required: 'You must answer this question.',
       },
       hideIf: (formData, _index) => {
-        if (Array.isArray(formData)) {
-          return false;
-        }
         const { addDisabledChild } =
           formData?.['view:selectable686Options'] ?? {};
         return !addDisabledChild;

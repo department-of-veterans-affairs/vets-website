@@ -11,7 +11,7 @@ export const placeOfBirth = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Where was this child born?'),
     birthLocation: {
-      'ui:title': 'Where did the child born?',
+      'ui:title': 'Where was this child born?',
       'ui:options': {
         labelHeaderLevel: '4',
       },
@@ -24,10 +24,6 @@ export const placeOfBirth = {
           'ui:title': 'State',
           'ui:webComponentField': VaSelectField,
           'ui:required': formData => {
-            if (Array.isArray(formData)) {
-              // console.log(formData);
-              return true;
-            }
             return formData?.birthLocation?.outsideUsa;
           },
           'ui:errorMessages': {
@@ -35,10 +31,6 @@ export const placeOfBirth = {
           },
           'ui:options': {
             hideIf: formData => {
-              if (Array.isArray(formData)) {
-                // console.log(formData);
-                return true;
-              }
               return formData?.birthLocation?.outsideUsa;
             },
           },
@@ -61,10 +53,6 @@ export const placeOfBirth = {
       ),
       'ui:options': {
         hideIf: (formData, _index) => {
-          if (Array.isArray(formData)) {
-            // console.log(formData, _index);
-            return false;
-          }
           return !formData?.birthLocation?.outsideUsa;
         },
       },

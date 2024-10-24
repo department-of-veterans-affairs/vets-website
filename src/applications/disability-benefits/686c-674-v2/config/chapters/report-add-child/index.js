@@ -100,47 +100,5 @@ export const chapter = {
   title: 'Add one or more children',
   pages: {
     ...chapterPages,
-    // addChildInformation: {
-    //   depends: formData =>
-    //     isChapterFieldRequired(formData, TASK_KEYS.addChild),
-    //   title: 'Information needed to add your child: Basic information',
-    //   path: 'add-child',
-    //   uiSchema: children.uiSchema,
-    //   schema: children.schema,
-    // },
-    // addChildPlaceOfBirth: {
-    //   depends: formData =>
-    //     isChapterFieldRequired(formData, TASK_KEYS.addChild),
-    //   title: 'Information needed to add your child: Place of birth',
-    //   path: 'add-child/:index',
-    //   showPagePerItem: true,
-    //   arrayPath: 'childrenToAdd',
-    //   uiSchema: childPlaceOfBirth.uiSchema,
-    //   schema: childPlaceOfBirth.schema,
-    // },
-    // addChildAdditionalInformation: {
-    //   depends: formData =>
-    //     isChapterFieldRequired(formData, TASK_KEYS.addChild),
-    //   title: 'Information needed to add your child: Additional information',
-    //   path: 'add-child/:index/additional-information',
-    //   showPagePerItem: true,
-    //   arrayPath: 'childrenToAdd',
-    //   uiSchema: childAdditionalInformation.uiSchema,
-    //   schema: childAdditionalInformation.schema,
-    //   updateFormData: childAdditionalInformation.updateFormData,
-    // },
-    // childAdditionalEvidence: {
-    //   depends: formData =>
-    //     formData?.childrenToAdd?.some(
-    //       child =>
-    //         child?.childStatus?.stepchild === true ||
-    //         child?.childStatus?.adopted === true ||
-    //         child?.childStatus?.notCapable === true,
-    //     ) && isChapterFieldRequired(formData, TASK_KEYS.addChild),
-    //   title: 'Additional evidence needed to add child',
-    //   path: 'add-child-evidence',
-    //   uiSchema: childAdditionalEvidence.uiSchema,
-    //   schema: childAdditionalEvidence.schema,
-    // },
   },
 };
