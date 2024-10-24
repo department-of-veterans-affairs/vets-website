@@ -141,7 +141,6 @@ export default function ProgramsList({ match }) {
   };
   const handleReset = () => {
     setSearchQuery('');
-
     setCurrentPage(1);
     triggerRerender();
   };
@@ -163,10 +162,7 @@ export default function ProgramsList({ match }) {
       <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
         {formatedProgramType}
       </h2>
-      {/* 1b1b1b */}
-      {/* font-family: "Source Sans Pro"; font-size: 16.96px; font-style: normal;
-      font-weight: 400; line-height: 22.048px; */}
-      <p className="vads-u-margin-bottom--0p5">Search for a program name:</p>
+      <p className="vads-u-margin-bottom--1">Search for a program name:</p>
       <div key={key} className="va-flex">
         <VaSearchInput
           className="usa-width-three-fourths"
@@ -177,12 +173,17 @@ export default function ProgramsList({ match }) {
           value={searchQuery}
           type="text"
         />
-        <VaButton onClick={handleReset} secondary text="Reset" />
+        <VaButton
+          className="base-line-height"
+          onClick={handleReset}
+          secondary
+          text="Reset"
+        />
       </div>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
         {currentPrograms.map((program, index) => (
-          <li className="list-item" key={index}>
+          <li className="vads-u-margin-bottom--2" key={index}>
             {program}
           </li>
         ))}
