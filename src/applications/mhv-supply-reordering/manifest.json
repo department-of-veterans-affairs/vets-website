@@ -1,0 +1,7 @@
+{
+  "appName": "Health Care Supply Reordering (New)",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "mhv-supply-reordering",
+  "rootUrl": "/my-health/order-supplies",
+  "productId": "117b6d8a-a2e9-4b4e-a9a1-8f2ceb0c17ea"
+}
