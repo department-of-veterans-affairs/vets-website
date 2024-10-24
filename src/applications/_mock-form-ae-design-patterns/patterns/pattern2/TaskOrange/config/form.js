@@ -215,11 +215,9 @@ const formConfig = {
           path: 'personal-information/edit-mailing-address',
           uiSchema: {
             ...descriptionUI(PrefillAlert, { hideOnReview: true }),
-            'view:pageTitle': titleUI({
-              title: 'Edit mailing address',
-              classNames: 'vads-u-margin-bottom--0',
-            }),
-            veteranAddress: addressFormDefinition.uiSchema('Mailing address'),
+            veteranAddress: addressFormDefinition.uiSchema(
+              'Edit mailing address',
+            ),
             'view:editNavigation': {
               'ui:options': {
                 hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
