@@ -4,6 +4,7 @@ import GiBillApp from './containers/GiBillApp';
 import SearchPage from './containers/SearchPage';
 import ComparePage from './containers/ComparePage';
 import ProfilePage from './containers/ProfilePage';
+import ProgramsList from './components/profile/ProgramsList';
 
 export const buildRoutes = () => {
   return (
@@ -14,6 +15,10 @@ export const buildRoutes = () => {
           to="/institution/:facilityCode"
         />
         <Route
+          path="/institution/:facilityCode/:programType"
+          render={({ match }) => <ProgramsList match={match} />}
+        />
+        <Route
           path="/institution/:facilityCode"
           render={({ match }) => <ProfilePage match={match} />}
         />
@@ -21,7 +26,11 @@ export const buildRoutes = () => {
           path="/compare"
           render={({ match }) => <ComparePage match={match} />}
         />
-        <Route path="/" render={({ match }) => <SearchPage match={match} />} />
+        <Route
+          exact
+          path="/"
+          render={({ match }) => <SearchPage match={match} />}
+        />
       </Switch>
     </GiBillApp>
   );

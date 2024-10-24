@@ -1,26 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-export default function Programs({ programCategories }) {
+export default function Programs({ programTypes, facilityCode, name }) {
   return (
     <>
-      <p className="">
-        The following programs are approved by the VA at this institution.
-      </p>
-      {programCategories.map((programCategory, index) => (
+      <p>The following programs are approved by the VA at this institution.</p>
+      {programTypes.map((programType, index) => (
         <span
           key={index}
           className="program-link-wrapper vads-u-display--flex vads-u-justify-content--space-between"
         >
           <p className="vads-u-font-weight--bold vads-u-padding-right--2">
-            {programCategory}
+            {programType}
           </p>
-          <a
-            href="/"
-            className="vads-u-display--flex vads-u-align-items--center  "
+          <Link
+            to={{
+              pathname: `/institution/${facilityCode}/${programType
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, '-')}`,
+              state: { name }, // Pass additional state data
+            }}
+            className="vads-u-display--flex vads-u-align-items--center"
           >
             See All
-          </a>
+          </Link>
         </span>
       ))}
     </>
@@ -28,5 +33,5 @@ export default function Programs({ programCategories }) {
 }
 
 Programs.propTypes = {
-  programCategories: PropTypes.array,
+  programTypes: PropTypes.array.isRequired,
 };

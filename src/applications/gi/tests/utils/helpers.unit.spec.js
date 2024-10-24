@@ -24,6 +24,7 @@ import {
   handleInputFocusWithPotentialOverLap,
   validateSearchTermSubmit,
   searchCriteriaFromCoords,
+  formatProgramType,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -488,6 +489,48 @@ describe('GIBCT helpers:', () => {
       );
       expect(scrollIntoViewStub.called).to.be.false;
       expect(scrollByStub.called).to.be.false;
+    });
+  });
+  describe('formatProgramType', () => {
+    it('should return an empty string when input is undefined', () => {
+      expect(formatProgramType(undefined)).to.equal('');
+    });
+
+    it('should return an empty string when input is an empty string', () => {
+      expect(formatProgramType('')).to.equal('');
+    });
+
+    it('should return a formatted string for valid input', () => {
+      expect(formatProgramType('non-college-degree')).to.equal(
+        'Non College Degree',
+      );
+      expect(formatProgramType('master-of-science')).to.equal(
+        'Master Of Science',
+      );
+      expect(formatProgramType('bachelor-of-arts')).to.equal(
+        'Bachelor Of Arts',
+      );
+    });
+
+    it('should handle multiple hyphens correctly', () => {
+      expect(formatProgramType('non-college-degree-program')).to.equal(
+        'Non College Degree Program',
+      );
+      expect(formatProgramType('a-b-c')).to.equal('A B C');
+    });
+
+    it('should handle words with mixed case', () => {
+      expect(formatProgramType('Non-COLLEGE-Degree')).to.equal(
+        'Non College Degree',
+      );
+      expect(formatProgramType('MasteR-of-SCience')).to.equal(
+        'Master Of Science',
+      );
+    });
+
+    it('should return a formatted string with single words', () => {
+      expect(formatProgramType('engineering')).to.equal('Engineering');
+      expect(formatProgramType('mathematics')).to.equal('Mathematics');
     });
   });
 });
