@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
+import { within } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
@@ -36,15 +37,19 @@ describe('Confirmation page', () => {
   const mockStore = configureStore(middleware);
 
   it('it should show status success and the correct name of person', () => {
-    const { container, getByText } = render(
+    const { container } = render(
       <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
     expect(container.querySelector('va-alert')).to.have.attr(
       'status',
       'success',
     );
-    getByText(/Arthur Preparer/);
+    const chapterSectionCollection = container.querySelector(
+      '.confirmation-chapter-section-collection .screen-only',
+    );
+    within(chapterSectionCollection).getByText('Arthur');
+    within(chapterSectionCollection).getByText('Preparer');
   });
 });

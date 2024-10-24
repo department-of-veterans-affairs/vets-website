@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data, Locators, Paths, Alerts } from './utils/constants';
 
-describe(`Verify virus attachment scan alerts`, () => {
+describe(`SM ATTACHMENT WITH VIRUS TESTS`, () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -14,7 +14,6 @@ describe(`Verify virus attachment scan alerts`, () => {
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
       force: true,
-      waitforanimations: true,
     });
   });
 
@@ -33,10 +32,10 @@ describe(`Verify virus attachment scan alerts`, () => {
     it('verify alert exist and attach button disappears', () => {
       cy.get(Locators.ALERTS.ATTCH_VIRUS)
         .should(`be.visible`)
-        .and(`include.text`, Alerts.VIRUS_ATTCH);
+        .and(`have.text`, Alerts.VIRUS_ATTCH);
 
       cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
-      // cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).should('be.focused');
+      cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).should('be.focused');
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -53,7 +52,8 @@ describe(`Verify virus attachment scan alerts`, () => {
           });
         });
 
-      cy.get(Locators.ATTACH_FILE_INPUT).should(`exist`);
+      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`exist`);
+      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`be.focused`);
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -78,11 +78,9 @@ describe(`Verify virus attachment scan alerts`, () => {
     it('verify alert exist and attach button disappears', () => {
       cy.get(Locators.ALERTS.ATTCH_VIRUS)
         .should(`be.visible`)
-        .and(`include.text`, Alerts.VIRUS_MULTI_ATTCH);
+        .and(`have.text`, Alerts.VIRUS_MULTI_ATTCH);
       cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
-      // cy.get(Locators.BUTTONS.REMOVE_ALL_ATTCH).should(
-      //   'be.focused',
-      // );
+      cy.get(Locators.BUTTONS.REMOVE_ALL_ATTCH).should('be.focused');
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -98,7 +96,8 @@ describe(`Verify virus attachment scan alerts`, () => {
           });
         });
 
-      cy.get(Locators.ATTACH_FILE_INPUT).should(`exist`);
+      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`exist`);
+      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`be.focused`);
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
