@@ -1224,3 +1224,103 @@ export const formConfig = {
 };
 
 export default formConfig;
+
+// {
+//   "householdIncome": false,
+//   "view:completedChildStoppedAttendingSchool": false,
+//   "view:completedMarriedChild": false,
+//   "view:selectable686Options": {
+//     "reportStepchildNotInHousehold": true,
+//     "reportMarriageOfChildUnder18": true,
+//     "reportChild18OrOlderIsNotAttendingSchool": true
+//   },
+//   "view:completedHouseholdChild": false,
+//   "veteranContactInformation": {
+//     "veteranContactInformation": {
+//       "phoneNumber": "8005556666"
+//     },
+//     "veteranAddress": {
+//       "view:militaryBaseDescription": {},
+//       "country": "USA",
+//       "street": "123 Fake St.",
+//       "city": "Fakesville",
+//       "state": "AL",
+//       "postalCode": "12345"
+//     }
+//   },
+//   "view:addOrRemoveDependents": {
+//     "add": false,
+//     "remove": true
+//   },
+//   "spouseInformation": {
+//     "spouseLegalName": {}
+//   },
+//   "view:certificateNotice": {},
+//   "doesLiveWithSpouse": {
+//     "address": {
+//       "view:militaryBaseDescription": {}
+//     }
+//   },
+//   "currentMarriageInformation": {
+//     "location": {},
+//     "view:marriageTypeInformation": {}
+//   },
+//   "view:additionalEvidenceDescription": {},
+//   "reportDivorce": {
+//     "fullName": {},
+//     "divorceLocation": {
+//       "location": {}
+//     }
+//   },
+//   "stepChildren": [
+//     {
+//       "whoDoesTheStepchildLiveWith": {
+//         "first": "Jane",
+//         "last": "Doe"
+//       },
+//       "address": {
+//         "view:militaryBaseDescription": {},
+//         "country": "USA",
+//         "street": "123 Fake St.",
+//         "city": "Fakesville",
+//         "state": "AL",
+//         "postalCode": "12345"
+//       },
+//       "supportingStepchild": false,
+//       "fullName": {
+//         "first": "Marvolo",
+//         "last": "Doe"
+//       },
+//       "ssn": "333445555",
+//       "birthDate": "1991-10-19"
+//     }
+//   ],
+//   "veteran": {
+//     "ssnLastFour": "0625",
+//     "vaFileLastFour": "0625"
+//   },
+//   "childMarriage": [
+//     {
+//       "dependentIncome": false,
+//       "dateMarried": "1991-01-19",
+//       "fullName": {
+//         "first": "John",
+//         "last": "Doe"
+//       },
+//       "ssn": "333445555",
+//       "birthDate": "1991-02-19"
+//     }
+//   ],
+//   "childStoppedAttendingSchool": [
+//     {
+//       "dependentIncome": false,
+//       "dateChildLeftSchool": "1991-02-19",
+//       "fullName": {
+//         "first": "Johon",
+//         "last": "Doe"
+//       },
+//       "ssn": "333445555",
+//       "birthDate": "1991-02-19"
+//     }
+//   ]
+// }
