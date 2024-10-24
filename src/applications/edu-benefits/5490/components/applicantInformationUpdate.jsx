@@ -6,6 +6,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import * as personId from 'platform/forms/definitions/personId';
 
 import { genderLabels } from 'platform/static-data/labels';
+import { hasSession } from 'platform/user/profile/utilities';
 
 import {
   ageWarning,
@@ -13,8 +14,8 @@ import {
   relationshipAndChildTypeLabels,
 } from '../helpers';
 
-const defaults = prefix => ({
-  fields: [
+const defaults = prefix => {
+  const defaultFields = [
     `${prefix}FullName`,
     'view:noSSN',
     `${prefix}SocialSecurityNumber`,
@@ -22,15 +23,22 @@ const defaults = prefix => ({
     'minorHighSchoolQuestions',
     'gender',
     'relationshipAndChildType',
-  ],
-  required: [
-    `${prefix}FullName`,
-    `${prefix}DateOfBirth`,
-    'relationshipAndChildType',
-  ],
-  labels: {},
-  isVeteran: false,
-});
+  ];
+  const additionalFields = ['edipi', 'icn'];
+
+  return {
+    fields: hasSession()
+      ? [...defaultFields, ...additionalFields]
+      : [...defaultFields],
+    required: [
+      `${prefix}FullName`,
+      `${prefix}DateOfBirth`,
+      'relationshipAndChildType',
+    ],
+    labels: {},
+    isVeteran: false,
+  };
+};
 
 /**
  * Returns an applicantInformation page based on the options passed.

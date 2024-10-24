@@ -8,6 +8,8 @@ export const minPrefillData = {
 };
 
 export const minTransformedPrefillData = {
+  edipi: '123456789',
+  icn: '111222333',
   veteranFullName: {
     first: 'Greg',
     middle: 'A',
@@ -53,6 +55,8 @@ export const maxPrefillData = {
 };
 
 export const transformedMaxPrefillData = {
+  edipi: '123456789',
+  icn: '111222333',
   veteranFullName: {
     first: 'Greg',
     middle: 'A',
@@ -80,5 +84,14 @@ export const transformedMaxPrefillData = {
     days: 4,
     months: 6,
     totalDays: 184,
+  },
+};
+
+export const stateData = {
+  user: {
+    profile: {
+      edipi: '123456789',
+      icn: '111222333',
+    },
   },
 };
