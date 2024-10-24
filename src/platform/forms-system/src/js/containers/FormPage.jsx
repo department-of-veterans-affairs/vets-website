@@ -135,6 +135,7 @@ class FormPage extends React.Component {
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,
+        getUrlPrefixedPath: route.getUrlPrefixedPath,
       });
       return;
     }
@@ -212,6 +213,7 @@ class FormPage extends React.Component {
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,
+        getUrlPrefixedPath: route.getUrlPrefixedPath,
       });
       return;
     }
@@ -479,6 +481,7 @@ FormPage.propTypes = {
         path: PropTypes.string.isRequired,
       }),
     ),
+    getUrlPrefixedPath: PropTypes.func,
   }),
   router: PropTypes.shape({
     push: PropTypes.func,

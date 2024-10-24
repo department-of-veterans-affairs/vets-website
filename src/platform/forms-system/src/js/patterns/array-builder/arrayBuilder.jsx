@@ -298,7 +298,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   const pageBuilder = pageBuilderVerifyAndSetup;
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardFinishedItem = ({ goPath, urlParams, pathname }) => {
+  const navForwardFinishedItem = ({
+    goPath,
+    urlParams,
+    pathname,
+    getUrlPrefixedPath,
+  }) => {
     let path = summaryPath;
     if (urlParams?.edit || (urlParams?.add && urlParams?.review)) {
       const index = getArrayIndexFromPathName(pathname);
@@ -309,7 +314,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         nounSingular,
       });
     }
-    goPath(path);
+    goPath(getUrlPrefixedPath(path));
   };
 
   /** @type {FormConfigPage['onNavBack']} */
@@ -320,30 +325,40 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   });
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardSummary = ({ formData, goPath, pageList }) => {
+  const navForwardSummary = ({
+    formData,
+    goPath,
+    pageList,
+    getUrlPrefixedPath,
+  }) => {
+    let path;
     const index = formData[arrayPath] ? formData[arrayPath].length : 0;
 
     if (formData[hasItemsKey]) {
-      const path = createArrayBuilderItemAddPath({
-        path: firstItemPagePath,
+      path = createArrayBuilderItemAddPath({
+        path: getUrlPrefixedPath(firstItemPagePath),
         index,
       });
-      goPath(path);
     } else {
-      const nextPagePath = getNextPagePath(
+      path = getNextPagePath(
         pageList,
         formData,
-        `/${lastItemPagePath.replace(
+        `${getUrlPrefixedPath(lastItemPagePath).replace(
           ':index',
           index === 0 ? index : index - 1,
         )}`,
       );
-      goPath(nextPagePath);
     }
+    goPath(path);
   };
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardIntro = ({ formData, goPath, urlParams }) => {
+  const navForwardIntro = ({
+    formData,
+    goPath,
+    urlParams,
+    getUrlPrefixedPath,
+  }) => {
     let path;
     // required flow:
     // intro -> items -> summary -> items -> summary
@@ -356,14 +371,13 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         index: 0,
         isReview: urlParams?.review,
       });
-      goPath(path);
     } else {
       path = summaryPath;
       if (urlParams?.review) {
         path = `${path}?review=true`;
       }
-      goPath(path);
     }
+    goPath(getUrlPrefixedPath(path));
   };
 
   function getNavItem(path) {

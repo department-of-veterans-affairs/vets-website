@@ -50,8 +50,9 @@ export default function FormNav(props) {
   // (the chapter index will probably be wrong, but this isn’t a scenario that happens in normal use)
   if (!page) {
     page =
-      formPages.find(p => `${formConfig.urlPrefix}${p.path}` === currentPath) ||
-      {};
+      formPages.find(
+        p => formConfig.getUrlPrefixedPath(p.path) === currentPath,
+      ) || {};
   }
 
   let current;
@@ -176,7 +177,7 @@ FormNav.propTypes = {
     customText: PropTypes.shape({
       reviewPageTitle: PropTypes.string,
     }),
-    urlPrefix: PropTypes.string,
+    getUrlPrefixedPath: PropTypes.func,
     useCustomScrollAndFocus: PropTypes.bool,
   }).isRequired,
   currentPath: PropTypes.string,

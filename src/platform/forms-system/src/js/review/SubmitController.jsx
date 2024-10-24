@@ -33,7 +33,7 @@ class SubmitController extends Component {
       nextStatus !== previousStatus &&
       nextStatus === 'applicationSubmitted'
     ) {
-      const newRoute = `${nextProps.formConfig.urlPrefix}confirmation`;
+      const newRoute = nextProps.formConfig.getUrlPrefixedPath('confirmation');
       this.props.router.push(newRoute);
     }
   }
@@ -230,7 +230,9 @@ const mapDispatchToProps = {
 SubmitController.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
-  formConfig: PropTypes.object.isRequired,
+  formConfig: PropTypes.shape({
+    getUrlPrefixedPath: PropTypes.func,
+  }),
   pageList: PropTypes.array.isRequired,
   pagesByChapter: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired,

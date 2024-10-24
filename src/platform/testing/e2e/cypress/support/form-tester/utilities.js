@@ -32,7 +32,7 @@ export const createArrayPageObjects = formConfig => {
  * @returns {Object}
  */
 export const createTestConfig = (config, manifest = {}, formConfig = {}) => {
-  const { appName, rootUrl } = manifest;
   const arrayPages = createArrayPageObjects(formConfig);
-  return { appName, arrayPages, rootUrl, ...config };
+  const rootUrl = `${manifest.rootUrl}${formConfig.urlPrefix || ''}`;
+  return { appName: manifest.appName, arrayPages, rootUrl, ...config };
 };
