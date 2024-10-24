@@ -10,9 +10,6 @@ function SearchLicensesCertificationsPage({ fetchingLc, hasFetchedOnce }) {
   }
   return (
     <div className="lc-search-page">
-      {/* <div className="sidebar-wrapper">
-        sidebar wrapper
-      </div> */}
       <div className="content-wrapper">
         {hasFetchedOnce ? (
           <LicenseCertificationSearchResults />

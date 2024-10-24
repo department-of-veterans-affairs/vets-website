@@ -103,7 +103,6 @@ LicenseCertificationSearchResults.propTypes = {
   lcResults: PropTypes.array.isRequired,
 };
 
-// map state to props, get lcResults from store and log here
 const mapStateToProps = state => ({
   lcResults: state.licenseCertificationSearch.lcResults,
 });

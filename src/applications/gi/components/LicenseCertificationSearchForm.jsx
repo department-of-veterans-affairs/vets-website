@@ -1,44 +1,105 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dropdown from './Dropdown';
 import { fetchLicenseCertification } from '../actions';
 
-// TODO - check for existing helper function
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+const dropdownSchema = [
+  {
+    label: 'category',
+    options: [
+      { optionValue: 'License', optionLabel: 'License' },
+      {
+        optionValue: 'Certification',
+        optionLabel: 'Certification',
+      },
+      {
+        optionValue: 'Prep Course',
+        optionLabel: 'Prep Course',
+      },
+    ],
+    alt: 'category type',
+    current: { optionValue: 'License', optionLabel: 'License' },
+  },
+  {
+    label: 'state',
+    options: [
+      { optionValue: 'All', optionLabel: 'All' },
+      { optionValue: 'State', optionLabel: 'State' },
+    ],
+    alt: 'state',
+    current: { optionValue: 'All', optionLabel: 'All' },
+  },
+];
 
-function LicenseCertificationSearchForm({
-  handleChange,
-  dropdowns,
-  dispatchFetchLicenseCertification,
-}) {
+function LicenseCertificationSearchForm({ dispatchFetchLicenseCertification }) {
+  const [dropdowns, setDropdowns] = useState(dropdownSchema);
+
+  const handleChange = e => {
+    // identify the changed field
+    const updatedFieldIndex = dropdowns.findIndex(dropdown => {
+      return dropdown.label === e.target.id;
+    });
+
+    // identify the selected option
+    const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
+      option => option.optionValue === e.target.value,
+    );
+
+    setDropdowns(
+      dropdowns.map(
+        (dropdown, index) =>
+          index === updatedFieldIndex
+            ? {
+                ...dropdown,
+                current: dropdown.options[selectedOptionIndex],
+              }
+            : dropdown,
+      ),
+    );
+  };
+
   return (
     <form>
+      <Dropdown
+        disabled={false}
+        label={capitalizeFirstLetter(dropdowns[0].label)}
+        visible
+        name={dropdowns[0].label}
+        options={dropdowns[0].options}
+        value={dropdowns[0].current.optionValue}
+        onChange={handleChange}
+        alt={dropdowns[0].alt}
+        selectClassName="lc-dropdown-filter"
+        required={dropdowns[0].label === 'category'}
+      />
       <div>
-        <va-text-input label="License/Certification Name" />
+        <va-text-input
+          label={
+            dropdowns[0].current.optionValue !== 'Prep Course'
+              ? 'License/Certification Name'
+              : 'Course Name'
+          }
+        />
       </div>
-      {dropdowns.map((dropdown, index) => {
-        const { label, options, current, alt } = dropdown;
 
-        return (
-          <div key={index}>
-            <Dropdown
-              disabled={false}
-              label={capitalizeFirstLetter(label)}
-              visible
-              name={label}
-              options={options}
-              value={current.optionValue}
-              onChange={handleChange}
-              alt={alt}
-              selectClassName="lc-dropdown-filter"
-              required={label === 'country' || label === 'category'}
-            />
-          </div>
-        );
-      })}
+      {dropdowns[0].current.optionValue !== 'Prep Course' && (
+        <Dropdown
+          disabled={false}
+          label={capitalizeFirstLetter(dropdowns[1].label)}
+          visible
+          name={dropdowns[1].label}
+          options={dropdowns[1].options}
+          value={dropdowns[1].current.optionValue}
+          onChange={handleChange}
+          alt={dropdowns[1].alt}
+          selectClassName="lc-dropdown-filter"
+          required={dropdowns[1].label === 'category'}
+        />
+      )}
       <div className="button-wrapper row vads-u-padding-y--6">
         <va-button text="Submit" onClick={dispatchFetchLicenseCertification} />
       </div>
@@ -48,8 +109,6 @@ function LicenseCertificationSearchForm({
 
 LicenseCertificationSearchForm.propTypes = {
   dispatchFetchLicenseCertification: PropTypes.func.isRequired,
-  dropdowns: PropTypes.array.isRequired,
-  handleChange: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {

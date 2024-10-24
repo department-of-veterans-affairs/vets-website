@@ -107,31 +107,6 @@ export function fetchLicenseCertification() {
                   'Print and fill out to request reimbursement for licenses and certifications.',
               },
             },
-            {
-              title: 'License in Forensic Dentistry',
-              type: 'License',
-              tests: [
-                { testName: 'Part I', fee: 300 },
-                { testName: 'Part II', fee: 150 },
-                { testName: 'Oral Exam', fee: 1500 },
-              ],
-              boardInfo: {
-                name: 'AMERICAN BOARD OF FORENSIC ODONTOLOGY',
-                phone: '205-902-2478',
-                address: {
-                  street: '410 North 21st Street',
-                  city: 'Colorado Springs',
-                  state: 'CO',
-                  zip: '80904',
-                  country: 'United States of America',
-                },
-              },
-              formInfo: {
-                formNumber: '22-0803',
-                description:
-                  'Print and fill out to request reimbursement for licenses and certifications.',
-              },
-            },
           ],
         });
       }, 1000);
