@@ -62,6 +62,15 @@
     text-decoration: none;
   }
 }
+.usa-button {
+  width: 100%;
+}
+
+.filter-accordion {
+  .filter-submit-btn::part(button) {
+    width: 100%;
+  }
+}
 .va-button {
   margin: 4px 0;
 }

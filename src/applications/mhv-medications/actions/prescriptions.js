@@ -6,6 +6,7 @@ import {
   fillRx,
   fillRxs,
   getAllergies,
+  getFilteredList,
 } from '../api/rxApi';
 
 export const getPrescriptionsPaginatedSortedList = (
@@ -16,6 +17,22 @@ export const getPrescriptionsPaginatedSortedList = (
     const response = await getPaginatedSortedList(pageNumber, sortEndpoint);
     dispatch({
       type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
+      response,
+    });
+    return null;
+  } catch (error) {
+    dispatch({
+      type: Actions.Prescriptions.GET_API_ERROR,
+    });
+    return error;
+  }
+};
+
+export const getPaginatedFilteredList = filterOption => async dispatch => {
+  try {
+    const response = await getFilteredList(filterOption);
+    dispatch({
+      type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
       response,
     });
     return null;
