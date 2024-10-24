@@ -4,6 +4,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import { Toggler } from 'platform/utilities/feature-toggles';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import recordEvent from 'platform/monitoring/record-event';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { showNewHlrContent } from '../utils/helpers';
 import { validateConferenceChoice } from '../validations';
@@ -69,6 +70,9 @@ export const InformalConference = ({
     );
     const errorMsg = error?.[0] || null;
     setHasError(errorMsg);
+    if (errorMsg) {
+      scrollToFirstError({ focusOnAlertRole: true });
+    }
     return errorMsg;
   };
 

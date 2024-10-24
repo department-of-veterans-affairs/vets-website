@@ -7,6 +7,9 @@ import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 export default {
   // this uiSchema is completely ignored
   uiSchema: {
+    'ui:options': {
+      focusOnAlertRole: true,
+    },
     addIssue: {
       'ui:title': '',
       items: {
