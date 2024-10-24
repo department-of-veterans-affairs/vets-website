@@ -75,7 +75,12 @@ export const ConfirmationPage = ({
     );
   }
 
-  if (!fetchedClaimStatus) {
+  // Ensure we don't render anything until we have fetched the claimStatus
+  if (
+    !fetchedClaimStatus ||
+    claimStatus === null ||
+    claimStatus === undefined
+  ) {
     return (
       <va-loading-indicator
         class="vads-u-margin-y--5"
