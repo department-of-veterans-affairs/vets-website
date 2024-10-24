@@ -1,3 +1,4 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as mixins;
 // hacky fix for address save button sizing
 [data-action="save-edit"] {
   line-height: .9;
@@ -21,7 +22,7 @@
 }
 
 .contact-info-card {
-  @include media($medium-screen) {
+  @include mixins.media($medium-screen) {
     width: 18.8rem;
     height: 8.8rem;
 
@@ -31,7 +32,7 @@
 
   }
   &:nth-of-type(4) {
-    @include media($medium-screen) {
+    @include mixins.media($medium-screen) {
       height: 11.4rem;
     }
   }
