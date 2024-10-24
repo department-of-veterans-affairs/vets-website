@@ -63,7 +63,7 @@ export const ConfirmationPage = ({
   // Handle case when API returns an error (e.g., 500)
   if (apiError) {
     return (
-      <DeniedConfirmation
+      <UnderReviewConfirmation
         user={claimantName}
         claimantName={claimantName}
         confirmationError={confirmationError}
