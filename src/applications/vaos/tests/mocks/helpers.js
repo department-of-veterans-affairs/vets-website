@@ -8,7 +8,6 @@ import moment from 'moment';
 import sinon from 'sinon';
 import metaWithFailures from '../../services/mocks/v2/meta_failures.json';
 import metaWithoutFailures from '../../services/mocks/v2/meta.json';
-import claimFoundResponse from '../../services/mocks/v2/claims.json';
 
 /**
  * Mocks the api call that submits an appointment or request to the VAOS service
@@ -86,35 +85,6 @@ export function mockVAOSAppointmentsFetch({
       data: requests,
       meta,
     });
-  }
-}
-
-/**
- * Mocks the api call to get the status for any claim for a given appointment
- * based on the start time of the appointment
- * @export
- * @param {string} startDateTime Date in YYYY-MM-DDThh:mm:ssZ format
- * @param {boolean} [unexpectedError=null] Should the response return an unexpected error
- * @param {boolean} [notFound=null] Should the response return a 404 error
- */
-export function mockClaimStatusFetch({
-  startDateTime,
-  unexpectedError = null,
-  notFound = null,
-}) {
-  const baseUrl = `${environment.API_URL}/vaos/v2/claims?date=${startDateTime}`;
-  if (notFound) {
-    setFetchJSONFailure(global.fetch.withArgs(baseUrl), {
-      errors: [
-        {
-          status: '404',
-        },
-      ],
-    });
-  } else if (unexpectedError) {
-    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
-  } else {
-    setFetchJSONResponse(global.fetch.withArgs(baseUrl), claimFoundResponse);
   }
 }
 
