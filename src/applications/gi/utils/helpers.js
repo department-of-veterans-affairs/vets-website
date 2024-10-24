@@ -527,3 +527,15 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     ? 'Learn about and compare your GI Bill benefits at approved schools, employers, and VET TEC providers.'
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
+
+export const formatProgramType = programType => {
+  if (!programType) return '';
+
+  return programType
+    .split('-')
+    .map(
+      word =>
+        word ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : '',
+    )
+    .join(' ');
+};

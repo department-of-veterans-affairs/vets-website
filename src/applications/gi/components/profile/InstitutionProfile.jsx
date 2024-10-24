@@ -42,14 +42,17 @@ export default function InstitutionProfile({
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.showYellowRibbonTable);
 
-  // Mock categories
-  const programs = ['Undergraduate', 'Graduate', 'OJT'];
+  const programTypes = [
+    'Non College Degree',
+    'Institution of Higher Learning',
+    'On The Job Training',
+  ];
 
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-  const { type } = institution;
+  const { type, facilityCode, name } = institution;
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
@@ -302,7 +305,11 @@ export default function InstitutionProfile({
       )}
 
       <ProfileSection label="Programs" id="programs">
-        <Programs programCategories={programs} />
+        <Programs
+          programTypes={programTypes}
+          facilityCode={facilityCode}
+          name={name}
+        />
         {/* <Programs programs={institution.programs}/> */}
       </ProfileSection>
       {!isOJT && (

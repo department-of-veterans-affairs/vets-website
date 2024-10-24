@@ -289,3 +289,10 @@
 .required-label {
   color: $color-red-dark;
 }
+.remove-bullets {
+  list-style: none;
+  padding-left: 0;
+}
+.list-item {
+  margin-bottom: 1rem;
+}
