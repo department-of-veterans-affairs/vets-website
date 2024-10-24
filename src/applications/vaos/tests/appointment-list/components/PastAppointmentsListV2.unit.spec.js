@@ -144,7 +144,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
     const firstCard = screen.getAllByRole('listitem')[0];
 
     const timeHeader = within(firstCard).getAllByText(
-      new RegExp(pastDate.format('h:mm'), 'i'),
+      new RegExp(`^${pastDate.format('h:mm')}`, 'i'),
     )[0];
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -229,7 +229,9 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
     const firstCard = screen.getAllByRole('listitem')[0];
 
     expect(
-      within(firstCard).getByText(new RegExp(pastDate.format('h:mm'), 'i')),
+      within(firstCard).getByText(
+        new RegExp(`^${pastDate.format('h:mm')}`, 'i'),
+      ),
     ).to.exist;
     // TODO: Skipping until api call is made to get facility data on page load.
     // Currently, facility data is only retrieved when viewing appointment details
@@ -325,7 +327,9 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
     ).to.exist;
 
     expect(
-      within(firstCard).getByText(new RegExp(pastDate.format('h:mm'), 'i')),
+      within(firstCard).getByText(
+        new RegExp(`^${pastDate.format('h:mm')}`, 'i'),
+      ),
     ).to.exist;
 
     expect(within(firstCard).getByText(/MT/i)).to.exist;
