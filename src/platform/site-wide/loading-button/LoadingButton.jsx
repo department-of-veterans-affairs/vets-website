@@ -7,6 +7,7 @@ export default function LoadingButton({
   children,
   onClick,
   disabled,
+  className,
   ...props
 }) {
   const contents = isLoading ? (
@@ -22,17 +23,19 @@ export default function LoadingButton({
   return (
     <va-button
       {...props}
-      class={props.className}
+      class={className}
       disabled={isLoading || disabled}
       onClick={onClick}
       aria-live="polite"
       text={contents}
+      role="button"
     />
   );
 }
 
 LoadingButton.propTypes = {
   children: PropTypes.any,
+  className: PropTypes.string,
   disabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   loadingText: PropTypes.string,
