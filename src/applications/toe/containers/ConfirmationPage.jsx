@@ -60,12 +60,10 @@ export const ConfirmationPage = ({
     window.print();
   }, []);
 
-  // Handle case when API returns an error (e.g., 500)
   if (apiError) {
     return (
       <UnderReviewConfirmation
         user={claimantName}
-        claimantName={claimantName}
         confirmationError={confirmationError}
         confirmationLoading={confirmationLoading}
         dateReceived={newReceivedDate}
