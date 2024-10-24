@@ -26,6 +26,7 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
   if (showCurrentAsOfAlert) {
     currentAsOfAlert = (
       <div className="usa-alert usa-alert-info">
+        <va-icon icon="info" size={4} />
         <div className="usa-alert-body">
           <h4 id="current-as-of" className="usa-alert-heading">
             This information is current as of {todayFormatted}
