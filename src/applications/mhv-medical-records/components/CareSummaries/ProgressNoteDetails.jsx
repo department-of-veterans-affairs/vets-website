@@ -115,27 +115,47 @@ ${record.note}`;
       />
       <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
-      <div className="test-details-container max-80">
+      <div className="test-details-container max-80" data-dd-privacy="mask">
         <h2>Details</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3
+          className="vads-u-font-size--base vads-u-font-family--sans"
+          data-dd-privacy="mask"
+        >
           Location
         </h3>
-        <p data-testid="progress-location">{record.location}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="progress-location" data-dd-privacy="mask">
+          {record.location}
+        </p>
+        <h3
+          className="vads-u-font-size--base vads-u-font-family--sans"
+          data-dd-privacy="mask"
+        >
           Written by
         </h3>
-        <p data-testid="note-record-written-by">{record.writtenBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="note-record-written-by" data-dd-privacy="mask">
+          {record.writtenBy}
+        </p>
+        <h3
+          className="vads-u-font-size--base vads-u-font-family--sans"
+          data-dd-privacy="mask"
+        >
           Signed by
         </h3>
-        <p data-testid="note-record-signed-by">{record.signedBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="note-record-signed-by" data-dd-privacy="mask">
+          {record.signedBy}
+        </p>
+        <h3
+          className="vads-u-font-size--base vads-u-font-family--sans"
+          data-dd-privacy="mask"
+        >
           Date signed
         </h3>
-        <p data-testid="progress-signed-date">{record.dateSigned}</p>
+        <p data-testid="progress-signed-date" data-dd-privacy="mask">
+          {record.dateSigned}
+        </p>
       </div>
 
-      <div className="test-results-container">
+      <div className="test-results-container" data-dd-privacy="mask">
         <h2>Note</h2>
         <p
           data-testid="note-record"

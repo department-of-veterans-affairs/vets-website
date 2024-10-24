@@ -138,28 +138,37 @@ Lab comments: ${entry.labComments}\n`,
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Type of test
         </h3>
-        <p data-testid="chem-hem-category">{record.category}</p>
+        <p data-testid="chem-hem-category" data-dd-privacy="mask">
+          {record.category}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Site or sample tested
         </h3>
-        <p data-testid="chem-hem-sample-tested">{record.sampleTested}</p>
+        <p data-testid="chem-hem-sample-tested" data-dd-privacy="mask">
+          {record.sampleTested}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
+        <p data-testid="chem-hem-ordered-by" data-dd-privacy="mask">
+          {record.orderedBy}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="chem-hem-collecting-location">
+        <p data-testid="chem-hem-collecting-location" data-dd-privacy="mask">
           {record.collectingLocation}
         </p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3
+          className="vads-u-font-size--base vads-u-font-family--sans"
+          data-dd-privacy="mask"
+        >
           Lab comments
         </h3>
         <ItemList list={record.comments} />
       </div>
       {/*         RESULTS CARDS            */}
-      <div className="test-results-container">
+      <div className="test-results-container" data-dd-privacy="mask">
         <h2>Results</h2>
         <InfoAlert highLowResults fullState={fullState} />
         <div className="print-only">
