@@ -1,5 +1,7 @@
 This MHV verify sign-in call-to-action widget shows an alert if the user is unauthenticated or unverified, or otherwise will show any provided content.
 
+The default alert content matches the global versions of sign-in alerts that will eventually be included as part of VADS.
+
 ## Widget Features
 - Displays an alert instead of content if the user is not signed in
 - Displays an alert instead of content if the user is not verified
