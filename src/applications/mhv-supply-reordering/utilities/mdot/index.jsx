@@ -36,7 +36,7 @@ export const getAvailableSupplies = mdotData => {
  * @returns true if the user is eligible for reordering supplies
  */
 export const isEligible = mdotData => {
-  const { eligibility } = mdotData;
+  const eligibility = mdotData?.eligibility;
   return (
     eligibility &&
     (eligibility.accessories || eligibility.apneas || eligibility.batteries)
