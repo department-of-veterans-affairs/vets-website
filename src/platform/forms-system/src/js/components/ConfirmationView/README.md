@@ -16,6 +16,7 @@ The forms-system `component/ConfirmationView` contains the standard view element
   - [Subcomponents](#subcomponents)
   - [Conflicting imports](#conflicting-imports)
   - [A/B Testing](#ab-testing)
+  - [Updating tests](#updating-tests)
 
 ## Usage - Simple
 
@@ -176,8 +177,22 @@ import { ConfirmationView as ConfirmationViewV2 } from 'platform/forms-system/sr
 
 ## A/B Testing
 
-If you want to A/B test the old confirmation vs the new on dev/staging/prod, one suggestion is to use a toggler with flipper.
+If you want to A/B test the old confirmation vs the new on dev/staging/prod, one suggestion is to test only on dev first, or use a toggler with flipper.
 
+```jsx
+if (environment.isLocalhost() || environment.isDev()) {
+  return (<ConfirmationView
+    submitDate={submitDate}
+    confirmationNumber={confirmationNumber}
+    formConfig={formConfig}
+    pdfUrl={submission?.response?.pdfUrl}
+  />);
+}
+
+return (<OldConfirmationPage />);
+```
+
+Or use a toggler with flipper:
 ```jsx
 <Toggler toggleName={Toggler.TOGGLE_NAMES.ConfirmationPageNew10210}>
     <Toggler.Enabled>
@@ -193,4 +208,17 @@ If you want to A/B test the old confirmation vs the new on dev/staging/prod, one
       <OldConfirmationPage />
     </Toggler.Disabled>
 </Toggler>
+```
+
+## Updating tests
+If your unit tests break when migrating to the new pattern, be sure to include `route.formConfig` prop either manually or through redux `connect` to the `ConfirmationPage` component to give to `ConfirmationView`.
+
+Before:
+```jsx
+<ConfirmationPage />
+```
+
+After:
+```jsx
+<ConfirmationPage route={{ formConfig }} />
 ```
