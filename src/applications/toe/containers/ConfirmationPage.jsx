@@ -36,7 +36,7 @@ export const ConfirmationPage = ({
             }
           })
           .catch(() => {
-            // Catch actual network errors
+            // Catch any network errors
             setApiError(true);
           });
       }
@@ -82,7 +82,7 @@ export const ConfirmationPage = ({
   if (!claimStatus) {
     return (
       <va-loading-indicator
-        className="vads-u-margin-y--5"
+        class="vads-u-margin-y--5"
         label="Loading"
         message="Loading your results..."
         set-focus
@@ -141,7 +141,7 @@ export const ConfirmationPage = ({
     default: {
       return (
         <va-loading-indicator
-          className="vads-u-margin-y--5"
+          class="vads-u-margin-y--5"
           label="Loading"
           message="Loading your results..."
           set-focus
