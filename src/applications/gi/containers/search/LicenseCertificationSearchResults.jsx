@@ -1,59 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const results = [
-  {
-    title: 'Certification in Forensic Odontology',
-    type: 'Certification',
-    tests: [
-      { testName: 'Part 1', fee: 220 },
-      { testName: 'Part 2', fee: 220 },
-      { testName: 'Oral Exam', fee: 1000 },
-    ],
-    boardInfo: {
-      name: 'AMERICAN BOARD OF FORENSIC ODONTOLOGY',
-      phone: '205-902-2478',
-      address: {
-        street: '410 North 21st Street',
-        city: 'Colorado Springs',
-        state: 'CO',
-        zip: '80904',
-        country: 'United States of America',
-      },
-    },
-    formInfo: {
-      formNumber: '22-0803',
-      description:
-        'Print and fill out to request reimbursement for licenses and certifications.',
-    },
-  },
-  {
-    title: 'License in Forensic Dentistry',
-    type: 'License',
-    tests: [
-      { testName: 'Part I', fee: 300 },
-      { testName: 'Part II', fee: 150 },
-      { testName: 'Oral Exam', fee: 1500 },
-    ],
-    boardInfo: {
-      name: 'AMERICAN BOARD OF FORENSIC ODONTOLOGY',
-      phone: '205-902-2478',
-      address: {
-        street: '410 North 21st Street',
-        city: 'Colorado Springs',
-        state: 'CO',
-        zip: '80904',
-        country: 'United States of America',
-      },
-    },
-    formInfo: {
-      formNumber: '22-0803',
-      description:
-        'Print and fill out to request reimbursement for licenses and certifications.',
-    },
-  },
-];
-
-function LicenseCertificationSearchResults() {
+function LicenseCertificationSearchResults({ lcResults }) {
   return (
     <div>
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
@@ -74,8 +23,8 @@ function LicenseCertificationSearchResults() {
           </p>
         </div>
         <div className="row">
-          <va-accordion>
-            {results.map((result, index) => {
+          <va-accordion openSingle>
+            {lcResults.map((result, index) => {
               return (
                 <va-accordion-item
                   key={index}
@@ -150,4 +99,12 @@ function LicenseCertificationSearchResults() {
   );
 }
 
-export default LicenseCertificationSearchResults;
+LicenseCertificationSearchResults.propTypes = {
+  lcResults: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = state => ({
+  lcResults: state.licenseCertificationSearch.lcResults,
+});
+
+export default connect(mapStateToProps)(LicenseCertificationSearchResults);
