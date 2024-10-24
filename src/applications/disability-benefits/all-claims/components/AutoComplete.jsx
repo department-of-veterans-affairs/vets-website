@@ -117,6 +117,8 @@ const AutoComplete = ({
     }
   };
 
+  const handleBlur = () => setTimeout(closeList, 200); // Enables clicking option from list
+
   return (
     <div className="cc-autocomplete">
       <VaTextInput
@@ -127,7 +129,7 @@ const AutoComplete = ({
         ref={inputRef}
         required
         value={value}
-        onBlur={() => setTimeout(closeList, 200)} // Enables clicking option from list
+        onBlur={handleBlur}
         onFocus={() => value && debouncedSearch(value)}
         onInput={e => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
