@@ -714,11 +714,11 @@ class MedicationsListPage {
     cy.get('[data-testid="filter-accordion"]').should('be.visible');
   };
 
-  verifyFilterAccordionTextBeforeExpanding = (label, text) => {
-    cy.get('[data-testid="filter-accordion"]')
+  verifyLabelTextWhenFilterAccordionExpanded = () => {
+    cy.get('[data-testid="filter-option"]')
       .shadow()
-      .find(`[aria-label="${label}"]`)
-      .should('have.text', text);
+      .find('[class="usa-legend"]', { force: true })
+      .should('contain', 'Select a filter');
   };
 
   clickfilterAccordionDropdownOnListPage = () => {
@@ -736,11 +736,12 @@ class MedicationsListPage {
     cy.get(`[label="${option}"]`).click();
   };
 
-  verifyFilterAccordiongTextBeforeCollapsing = (text, description) => {
-    cy.get('[data-testid="filter-accordion"]')
+  verifyFilterHeaderTextHasFocusafterExpanded = () => {
+    cy.get('[data-testid="rx-filter"]')
       .shadow()
-      .find(`[aria-label="${text}"]`)
-      .should('have.text', description);
+      .find('[type="button"]')
+      .should('have.text', 'Filter list')
+      .and('have.focus');
   };
 
   verifyFilterButtonWhenAccordionExpanded = () => {
@@ -749,6 +750,13 @@ class MedicationsListPage {
       .find('[type="button"]')
       .should('be.visible')
       .and('have.text', 'Filter');
+  };
+
+  clickFilterButtonOnAccordion = () => {
+    cy.get('[data-testid="filter-button"]')
+      .shadow()
+      .find('[type="button"]')
+      .click({ waitForAnimations: true });
   };
 
   verifyNameOfFirstRxOnMedicationsList = rxName => {

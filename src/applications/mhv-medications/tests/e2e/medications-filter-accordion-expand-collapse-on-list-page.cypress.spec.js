@@ -12,19 +12,9 @@ describe('Medications List Page Filter Accordion', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    listPage.verifyFilterAccordionTextBeforeExpanding(
-      'Expand all accordions',
-      'Expand all +',
-    );
+    listPage.verifyLabelTextWhenFilterAccordionExpanded();
     listPage.clickfilterAccordionDropdownOnListPage();
-    listPage.verifyFilterOptionsOnListPage(
-      'All medications',
-      'All medications in your VA medical record',
-    );
+    listPage.verifyFilterHeaderTextHasFocusafterExpanded();
     listPage.verifyFilterButtonWhenAccordionExpanded();
-    listPage.verifyFilterAccordiongTextBeforeCollapsing(
-      'Collapse all accordions',
-      'Collapse all -',
-    );
   });
 });

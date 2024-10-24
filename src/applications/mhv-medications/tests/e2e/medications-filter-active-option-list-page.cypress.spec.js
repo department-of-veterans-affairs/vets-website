@@ -2,8 +2,8 @@ import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 
-describe('Medications List Page All Medications Filter', () => {
-  it('visits Medications List Page Filter Option All Medications', () => {
+describe('Medications List Page Active Filter Option', () => {
+  it('visits Medications List Page Filter Option Active', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
@@ -12,14 +12,14 @@ describe('Medications List Page All Medications Filter', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-
     listPage.clickfilterAccordionDropdownOnListPage();
     listPage.verifyFilterOptionsOnListPage(
-      'All medications',
-      'All medications in your VA medical record',
+      'Active',
+      'Active prescriptions and non-VA medications',
     );
     listPage.verifyFilterButtonWhenAccordionExpanded();
-    listPage.clickFilterRadioButtonOptionOnListPage('All medications');
-    listPage.verifyNameOfFirstRxOnMedicationsList('all medications');
+    listPage.clickFilterRadioButtonOptionOnListPage('Active');
+    listPage.clickFilterButtonOnAccordion();
+    listPage.verifyNameOfFirstRxOnMedicationsList('active');
   });
 });
