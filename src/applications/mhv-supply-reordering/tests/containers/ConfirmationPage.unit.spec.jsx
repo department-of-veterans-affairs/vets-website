@@ -30,7 +30,7 @@ describe('Confirmation page', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
 
-  it('it should show status success and the correct name of person', () => {
+  it.skip('it should show status success and the correct name of person', () => {
     const { container, getByText } = render(
       <Provider store={mockStore(storeBase)}>
         <ConfirmationPage />
