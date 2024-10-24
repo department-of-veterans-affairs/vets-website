@@ -24,7 +24,12 @@ const App = props => {
     user,
   } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled, isSigiEnabled } = features;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    isSigiEnabled,
+    isEmergencyContactsEnabled,
+  } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
@@ -39,8 +44,8 @@ const App = props => {
       if (isUserLOA3) {
         fetchEnrollmentStatus();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isUserLOA3],
   );
 
@@ -62,6 +67,7 @@ const App = props => {
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:isSigiEnabled': isSigiEnabled,
           'view:householdEnabled': !!canSubmitFinancialInfo,
+          'view:isEmergencyContactsEnabled': isEmergencyContactsEnabled,
         };
 
         setFormData({

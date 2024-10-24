@@ -18,6 +18,16 @@ export const advanceToInsurancePolicies = testData => {
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');
+
+  // Skip Emergency Contacts Section
+  goToNextPage('/veteran-information/emergency-contacts-summary');
+  cy.location('pathname').should(
+    'include',
+    '/veteran-information/emergency-contacts-summary',
+  );
+  selectYesNoWebComponent('view:isEmergencyContactsEnabled', false);
+
+  // Skip TERA Section
   goToNextPage('/military-service/toxic-exposure');
   cy.get('[name="root_hasTeraResponse"]').check('N');
 
