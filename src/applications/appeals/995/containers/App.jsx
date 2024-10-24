@@ -50,6 +50,7 @@ export const App = ({
   legacyCount,
   accountUuid,
   inProgressFormId,
+  toggles,
 }) => {
   const { pathname } = location || {};
   // Make sure we're only loading issues once - see
@@ -61,6 +62,26 @@ export const App = ({
 
   const hasSupportedBenefitType = SUPPORTED_BENEFIT_TYPES_LIST.includes(
     subTaskBenefitType,
+  );
+
+  useEffect(
+    () => {
+      const isUpdated = toggles.scNewForm || false;
+      if (
+        !toggles.loading &&
+        (typeof formData.showScNewForm === 'undefined' ||
+          formData.showScNewForm !== isUpdated)
+      ) {
+        setFormData({
+          ...formData,
+          showScNewForm: isUpdated,
+        });
+        // temp storage, used for homelessness page focus management
+        sessionStorage.setItem('hlrUpdated', isUpdated);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toggles, formData.showScNewForm],
   );
 
   useEffect(
@@ -206,6 +227,10 @@ App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  toggles: PropTypes.shape({
+    scNewForm: PropTypes.bool,
+    loading: PropTypes.bool,
+  }),
 };
 
 const mapStateToProps = state => ({
@@ -216,6 +241,7 @@ const mapStateToProps = state => ({
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,
+  toggles: state.featureToggles,
 });
 
 const mapDispatchToProps = {
