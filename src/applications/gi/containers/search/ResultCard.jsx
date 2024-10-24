@@ -218,7 +218,11 @@ export function ResultCard({
   }
   // end toggle for production/staging------------------------------------------------
 
-  const estimate = ({ qualifier, value }) => {
+  const estimateHousing = ({ qualifier, value }) => {
+    return qualifier === null ? value : <span>{formatCurrency(value)}</span>;
+  };
+
+  const estimateTuition = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
       return <span>{value}% in-state</span>;
     }
@@ -228,11 +232,12 @@ export function ResultCard({
     const lesserVal = tuitionOutOfState
       ? Math.min(value, tuitionOutOfState)
       : value;
+
     return <span>{formatCurrency(lesserVal)}</span>;
   };
 
-  const tuition = estimate(estimated.tuition);
-  const housing = estimate(estimated.housing);
+  const tuition = estimateTuition(estimated.tuition);
+  const housing = estimateHousing(estimated.housing);
 
   const tuitionAndEligibility = (
     <>
