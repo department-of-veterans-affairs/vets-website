@@ -365,10 +365,10 @@ export function transform5490Form(_formConfig, form) {
       middleName: form?.data?.fullName?.middle,
       relationship: form?.data?.relationShipToMember,
       dateOfBirth: form?.data?.dateOfBirth,
-      ssn: form?.data?.relativeSocialSecurityNumber,
+      ssn: form?.data?.ssn,
     },
     highSchoolDiplomaInfo: {
-      highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma === 'Yes',
+      highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma === 'yes',
       highSchoolDiplomaOrCertificateDate: form?.data?.graduationDate,
     },
     directDeposit: {
