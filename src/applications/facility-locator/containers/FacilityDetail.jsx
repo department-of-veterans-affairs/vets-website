@@ -11,6 +11,7 @@ import LocationHours from '../components/LocationHours';
 import LocationMap from '../components/LocationMap';
 import LocationPhoneLink from '../components/search-results-items/common/LocationPhoneLink';
 import ServicesAtFacility from '../components/ServicesAtFacility';
+import SituationUpdates from '../components/facility-details/SituationUpdates';
 import { FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
 import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/featureFlagSelectors';
@@ -61,6 +62,7 @@ class FacilityDetail extends Component {
         <h1 ref={this.headerRef} tabIndex={-1}>
           {name}
         </h1>
+        <SituationUpdates />
         <OperationStatus {...{ operatingStatus, website, facilityType }} />
         <div className="p1">
           <LocationAddress location={facility} />
