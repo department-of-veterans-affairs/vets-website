@@ -190,13 +190,13 @@ const ContactInfo = ({
           scrollTo(
             onReviewPage
               ? `${contactInfoPageKey}ScrollElement`
-              : 'topScrollElement',
+              : `header-${lastEdited}`,
           );
           focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
         });
       }
     },
-    [editState, onReviewPage],
+    [contactInfoPageKey, editState, onReviewPage],
   );
 
   useEffect(
@@ -239,7 +239,10 @@ const ContactInfo = ({
   const contactSection = [
     keys.homePhone ? (
       <React.Fragment key="home">
-        <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
+        <Headers
+          name="header-home-phone"
+          className={`${headerClassNames} vads-u-margin-top--0p5`}
+        >
           {content.homePhone}
         </Headers>
         {showSuccessAlert('home-phone', content.homePhone)}
@@ -262,7 +265,9 @@ const ContactInfo = ({
 
     keys.mobilePhone ? (
       <React.Fragment key="mobile">
-        <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
+        <Headers name="header-mobile-phone" className={headerClassNames}>
+          {content.mobilePhone}
+        </Headers>
         {showSuccessAlert('mobile-phone', content.mobilePhone)}
         <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
           {renderTelephone(dataWrap[keys.mobilePhone])}
@@ -283,7 +288,9 @@ const ContactInfo = ({
 
     keys.email ? (
       <React.Fragment key="email">
-        <Headers className={headerClassNames}>{content.email}</Headers>
+        <Headers name="header-email" className={headerClassNames}>
+          {content.email}
+        </Headers>
         {showSuccessAlert('email', content.email)}
         <span className="dd-privacy-hidden" data-dd-action-name="email">
           {dataWrap[keys.email] || ''}
@@ -304,7 +311,9 @@ const ContactInfo = ({
 
     keys.address ? (
       <React.Fragment key="mailing">
-        <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
+        <Headers name="header-address" className={headerClassNames}>
+          {content.mailingAddress}
+        </Headers>
         {showSuccessAlert('address', content.mailingAddress)}
         <AddressView data={dataWrap[keys.address]} />
         {loggedIn && (

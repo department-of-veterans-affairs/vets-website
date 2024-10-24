@@ -1,9 +1,9 @@
-import DynamicRadioWidget from '../../config/organizations/DynamicRadioWidget';
+import SelectOrganization from '../../components/SelectOrganization';
 
 export const uiSchema = {
   selectedAccreditedOrganizationId: {
     'ui:title': 'Select Organization',
-    'ui:widget': DynamicRadioWidget,
+    'ui:widget': SelectOrganization,
     'ui:options': {
       hideLabelText: true,
       hideOnReview: true,
@@ -11,4 +11,5 @@ export const uiSchema = {
     'ui:required': () => true,
   },
 };
+
 export const schema = {};
