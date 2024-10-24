@@ -26,6 +26,7 @@ const generateRows = (showBadAddress, toggleValue) => [
         <ProfileInformationFieldController
           fieldName={FIELD_NAMES.MAILING_ADDRESS}
           ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
+          shouldAutoFill={false}
         />
         {toggleValue && (
           <NavLink
