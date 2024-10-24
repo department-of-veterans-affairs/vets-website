@@ -2,11 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import {
-  focusElement,
-  scrollTo,
-  scrollToFirstError,
-} from 'platform/utilities/ui';
+import { focusElement, scrollTo } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 
@@ -26,6 +22,7 @@ import {
 
 import { LIMITATION_KEY } from '../constants';
 import { customPageProps995 } from '../../shared/props';
+import { focusFirstError } from '../../shared/utils/focus';
 
 const EvidenceSummary = ({
   data,
@@ -134,14 +131,14 @@ const EvidenceSummary = ({
 
     onGoForward: () => {
       if (hasErrors) {
-        scrollToFirstError();
+        focusFirstError();
       } else {
         goForward(data);
       }
     },
     onUpdate: () => {
       if (hasErrors) {
-        scrollToFirstError();
+        focusFirstError();
       } else {
         updatePage();
       }

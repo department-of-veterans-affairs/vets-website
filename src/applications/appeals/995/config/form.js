@@ -25,6 +25,7 @@ import reviewErrors from '../content/reviewErrors';
 
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInformation';
+import addIssue from '../pages/addIssue';
 import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
@@ -67,18 +68,19 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import { focusEvidence } from '../utils/focus';
-
-import submissionError from '../../shared/content/submissionError';
-import GetFormHelp from '../../shared/content/GetFormHelp';
-import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import {
+  focusEvidence,
   focusAlertH3,
   focusRadioH3,
   focusH3,
   focusOnAlert,
   focusIssue,
 } from '../../shared/utils/focus';
+
+import submissionError from '../../shared/content/submissionError';
+import GetFormHelp from '../../shared/content/GetFormHelp';
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+
 import {
   mayHaveLegacyAppeals,
   appStateSelector,
@@ -127,6 +129,10 @@ const formConfig = {
   reviewEditFocusOnHeaders: true,
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
+
+  formOptions: {
+    focusOnAlertRole: true,
+  },
 
   additionalRoutes: [
     {
@@ -181,8 +187,8 @@ const formConfig = {
           depends: () => false, // accessed from contestable issues
           CustomPage: AddContestableIssue,
           CustomPageReview: null,
-          uiSchema: {},
-          schema: blankSchema,
+          uiSchema: addIssue.uiSchema,
+          schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         issueSummary: {
@@ -292,6 +298,7 @@ const formConfig = {
           CustomPageReview: EvidenceSummaryReview,
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
+          scrollAndFocusTarget: focusAlertH3,
         },
       },
     },

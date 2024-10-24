@@ -3,6 +3,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import recordEvent from 'platform/monitoring/record-event';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { getFormattedPhone } from '../utils/contactInfo';
 import { missingPrimaryPhone } from '../validations';
@@ -32,14 +33,17 @@ export const PrimaryPhone = ({
 
   const checkErrors = (formData = data) => {
     const error = checkValidations([missingPrimaryPhone], primary, formData);
-    setHasError(error?.[0] || null);
+    const result = error?.[0] || null;
+    setHasError(result);
+    return result;
   };
 
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      checkErrors();
-      if (primary && !hasError) {
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      } else if (primary) {
         goForward(data);
       }
     },
@@ -70,7 +74,11 @@ export const PrimaryPhone = ({
   ) : (
     <>
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} submitToContinue />
+      <FormNavButtons
+        goBack={goBack}
+        goForward={handlers.onSubmit}
+        submitToContinue
+      />
       {contentAfterButtons}
     </>
   );
