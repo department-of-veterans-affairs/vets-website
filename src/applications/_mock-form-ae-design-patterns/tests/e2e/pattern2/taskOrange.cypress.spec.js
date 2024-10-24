@@ -39,7 +39,7 @@ describe('Prefill pattern - Orange Task', () => {
     });
   });
 
-  it('should show user as un-authenticated from the start', () => {
+  it('should successfully show unauthenticated alert and then log user in on button click', () => {
     cy.visit(`${manifest.rootUrl}/2`);
 
     cy.injectAxeThenAxeCheck();
@@ -50,11 +50,18 @@ describe('Prefill pattern - Orange Task', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    cy.get('va-button[text="Sign in to start your application"]').should(
-      'exist',
-    );
+    cy.get('va-button[text="Sign in to start your application"]').click();
 
-    // add extra stuff once mock login and intro changes have been merged
+    cy.url().should('contain', '/introduction?loggedIn=true');
+
+    cy.injectAxeThenAxeCheck();
+
+    cy.get('a.vads-c-action-link--green')
+      .contains('Start the education application')
+      .first()
+      .click();
+
+    cy.url().should('contain', '/applicant-information');
   });
 
   it('should successfully show prefill data on the form', () => {
@@ -84,7 +91,5 @@ describe('Prefill pattern - Orange Task', () => {
     cy.findByText('80521').should('exist');
 
     cy.injectAxeThenAxeCheck();
-
-    // add in editing flow once this main work has been merged
   });
 });
