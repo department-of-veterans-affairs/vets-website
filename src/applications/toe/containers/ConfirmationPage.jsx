@@ -60,10 +60,12 @@ export const ConfirmationPage = ({
     window.print();
   }, []);
 
+  // Handle case when API returns an error (e.g., 500)
   if (apiError) {
     return (
-      <UnderReviewConfirmation
+      <DeniedConfirmation
         user={claimantName}
+        claimantName={claimantName}
         confirmationError={confirmationError}
         confirmationLoading={confirmationLoading}
         dateReceived={newReceivedDate}
@@ -75,7 +77,12 @@ export const ConfirmationPage = ({
     );
   }
 
-  if (!fetchedClaimStatus) {
+  // Ensure we don't render anything until we have fetched the claimStatus
+  if (
+    !fetchedClaimStatus ||
+    claimStatus === null ||
+    claimStatus === undefined
+  ) {
     return (
       <va-loading-indicator
         class="vads-u-margin-y--5"
