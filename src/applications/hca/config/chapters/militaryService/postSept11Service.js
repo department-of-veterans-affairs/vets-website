@@ -1,13 +1,13 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import GulfWarServiceDescription from '../../../components/FormDescriptions/GulfWarServiceDescription';
+import PostSept11ServiceDescription from '../../../components/FormDescriptions/PostSept11ServiceDescription';
 
 const { gulfWarService } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Service after August 2, 1990',
+    'ui:title': 'Service post-9/11',
     gulfWarService: {
-      'ui:title': GulfWarServiceDescription,
+      'ui:title': PostSept11ServiceDescription,
       'ui:widget': 'yesNo',
     },
   },
