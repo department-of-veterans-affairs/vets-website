@@ -1,4 +1,5 @@
 import mockUser from '../fixtures/user.json';
+
 // import mockNonMRuser from '../fixtures/non_mr_user.json';
 // import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
@@ -6,6 +7,7 @@ class MedicalRecordsSite {
   login = (userFixture = mockUser) => {
     this.mockFeatureToggles();
     this.mockVamcEhr();
+    this.mockMaintenanceWindow();
     cy.login(userFixture);
     // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
     // window.localStorage.setItem('isLoggedIn', true);
@@ -87,7 +89,31 @@ class MedicalRecordsSite {
   };
 
   mockVamcEhr = () => {
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {}).as('vamcEhr');
+    const data = {
+      data: {
+        nodeQuery: {
+          count: 1,
+          entries: [
+            {
+              title: 'Togus VA Medical Center',
+              fieldFacilityLocatorApiId: 'vha_402',
+              fieldRegionPage: {
+                entity: {
+                  entityId: '15077',
+                  title: 'VA Maine health care',
+                  fieldVamcEhrSystem: 'vista',
+                },
+              },
+            },
+          ],
+        },
+      },
+    };
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', data).as('vamcEhr');
+  };
+
+  mockMaintenanceWindow = () => {
+    cy.intercept('GET', '/v0/maintenance_windows', {}).as('maintenanceWindow');
   };
 
   verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
