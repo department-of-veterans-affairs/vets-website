@@ -14,7 +14,6 @@ const AutoComplete = ({
   debounceDelay,
   formData,
   id,
-  label,
   onChange,
 }) => {
   const [value, setValue] = useState(formData);
@@ -124,7 +123,6 @@ const AutoComplete = ({
       <VaTextInput
         data-testid="autocomplete-input"
         id={id}
-        label={label}
         message-aria-describedby={!value ? INSTRUCTIONS : null}
         ref={inputRef}
         required
@@ -172,7 +170,6 @@ AutoComplete.propTypes = {
   debounceDelay: PropTypes.number,
   formData: PropTypes.string,
   id: PropTypes.string,
-  label: PropTypes.string,
   onChange: PropTypes.func,
 };
 

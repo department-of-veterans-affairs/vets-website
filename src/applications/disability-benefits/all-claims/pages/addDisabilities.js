@@ -7,7 +7,7 @@ import * as combobox from '../definitions/combobox';
 import AutoComplete from '../components/AutoComplete';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import NewDisability from '../components/NewDisability';
-import ArrayField from '../components/ArrayField';
+import ArrayField526 from '../components/ArrayField';
 import ConditionReviewField from '../components/ConditionReviewField';
 import {
   validateDisabilityName,
@@ -32,13 +32,12 @@ import {
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 const autocompleteUiSchema = {
-  'ui:reviewField': ({ children }) => children,
+  'ui:title': 'Enter your condition',
   'ui:field': data => (
     <AutoComplete
       availableResults={Object.values(disabilityLabelsRevised)}
       debounceDelay={200}
       id={data.idSchema.$id}
-      label="Enter your condition"
       formData={data.formData}
       onChange={data.onChange}
     />
@@ -81,10 +80,47 @@ const comboboxUiSchema = combobox.uiSchema('Enter your condition', {
   },
 });
 
-export const uiSchema = {
+const arrayFieldPlatformAutocompleteUiSchema = {
   newDisabilities: {
     'ui:description': addDisabilitiesInstructions,
-    'ui:field': ArrayField,
+    'ui:options': {
+      viewField: NewDisability,
+      itemName: 'Condition',
+      itemAriaLabel: data => data.condition,
+      confirmRemove: true,
+      useDlWrap: true,
+      useVaCards: true,
+      showSave: true,
+      reviewMode: true,
+      keepInPageOnReview: false,
+    },
+    'ui:validations': [requireDisability],
+    items: {
+      condition: autocompleteUiSchema,
+    },
+  },
+  'view:newDisabilityErrors': {
+    'view:newOnlyAlert': {
+      'ui:description': newOnlyAlertRevised,
+      'ui:options': {
+        hideIf: formData =>
+          !(newConditionsOnly(formData) && !claimingNew(formData)),
+      },
+    },
+    'view:increaseAndNewAlert': {
+      'ui:description': increaseAndNewAlertRevised,
+      'ui:options': {
+        hideIf: formData =>
+          !(newAndIncrease(formData) && !hasClaimedConditions(formData)),
+      },
+    },
+  },
+};
+
+const arrayField526ComboboxUiSchema = {
+  newDisabilities: {
+    'ui:description': addDisabilitiesInstructions,
+    'ui:field': ArrayField526,
     'ui:options': {
       viewField: NewDisability,
       reviewTitle: 'Conditions',
@@ -99,9 +135,7 @@ export const uiSchema = {
     // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
     items: {
-      condition: getShowAddDisabilitiesEnhancement()
-        ? autocompleteUiSchema
-        : comboboxUiSchema,
+      condition: comboboxUiSchema,
       // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
       // disabled until design changes have been approved
       'ui:objectViewField': ConditionReviewField,
@@ -131,6 +165,10 @@ export const uiSchema = {
     },
   },
 };
+
+export const uiSchema = getShowAddDisabilitiesEnhancement()
+  ? arrayFieldPlatformAutocompleteUiSchema
+  : arrayField526ComboboxUiSchema;
 
 export const schema = {
   type: 'object',
