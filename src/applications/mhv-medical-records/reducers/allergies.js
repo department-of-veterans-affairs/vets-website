@@ -75,6 +75,7 @@ export const convertAllergy = allergy => {
     observedOrReported: extractObservedReported(allergy),
     notes:
       (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || EMPTY_FIELD,
+    provider: allergy.recorder?.display || EMPTY_FIELD,
   };
 };
 

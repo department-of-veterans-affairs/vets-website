@@ -105,6 +105,24 @@ export const getAllergy = id => {
   });
 };
 
+export const getAcceleratedAllergies = async () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
+    {
+      headers,
+    },
+  );
+};
+
+export const getAcceleratedAllergy = id => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/allergies/${id}?use_oh_data_path=1`,
+    {
+      headers,
+    },
+  );
+};
+
 /**
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format

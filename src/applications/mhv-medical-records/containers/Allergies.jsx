@@ -12,6 +12,8 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
+import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import RecordList from '../components/RecordList/RecordList';
 import {
   recordType,
@@ -44,6 +46,14 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  useEffect(
+    () => {
+      // use Drupal based Cerner facility data
+      connectDrupalSourceOfTruthCerner(dispatch);
+    },
+    [dispatch],
+  );
+
   const updatedRecordList = useSelector(
     state => state.mr.allergies.updatedList,
   );
@@ -59,7 +69,16 @@ const Allergies = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const useAcceleratedApi = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryAllergiesEnabled
+      ],
+  );
+  const isCerner = useSelector(selectIsCernerPatient);
   const user = useSelector(state => state.user.profile);
+  const isAccelerating = !!useAcceleratedApi && isCerner;
+
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
@@ -68,7 +87,8 @@ const Allergies = props => {
     listCurrentAsOf: allergiesCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.ALLERGY,
-    dispatchAction: getAllergiesList,
+    dispatchAction: isCurrent =>
+      getAllergiesList({ isCurrent, isAccelerating }),
     dispatch,
   });
 
@@ -111,13 +131,26 @@ const Allergies = props => {
       lastUpdatedText,
     );
     const scaffold = generatePdfScaffold(user, title, value, subject, preface);
-    const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
+    const pdfData = {
+      ...scaffold,
+      ...generateAllergiesContent(allergies, isAccelerating),
+    };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
   const generateAllergyListItemTxt = item => {
     setDownloadStarted(true);
+    if (isAccelerating) {
+      return `
+${txtLine}\n\n
+${item.name}\n
+Date entered: ${item.date}\n
+Signs and symptoms: ${item.reaction}\n
+Type of Allergy: ${item.type}\n
+Recorded By: ${item.provider}\n
+Provider notes: ${item.notes}\n`;
+    }
     return `
 ${txtLine}\n\n
 ${item.name}\n
@@ -192,7 +225,13 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           downloadTxt={generateAllergiesTxt}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        <RecordList records={allergies} type={recordType.ALLERGIES} />
+        <RecordList
+          records={allergies?.map(allergy => ({
+            ...allergy,
+            isOracleHealthData: isAccelerating,
+          }))}
+          type={recordType.ALLERGIES}
+        />
       </RecordListSection>
     </div>
   );
