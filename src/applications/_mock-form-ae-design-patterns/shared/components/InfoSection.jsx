@@ -56,10 +56,14 @@ SubHeading.propTypes = {
 
 const InfoBlock = ({ label, value, placeholder }) => (
   <div className="vads-u-margin-bottom--2">
-    <dt className="vads-u-font-size--sm vads-u-color--gray-medium">{label}</dt>
-    <dd className="vads-u-margin-left--0">
-      {valueOrPlaceholder(value, placeholder)}
-    </dd>
+    <dl>
+      <dt className="vads-u-font-size--sm vads-u-color--gray-medium">
+        {label}
+      </dt>
+      <dd className="vads-u-margin-left--0">
+        {valueOrPlaceholder(value, placeholder)}
+      </dd>
+    </dl>
   </div>
 );
 
@@ -72,7 +76,7 @@ InfoBlock.propTypes = {
 export const InfoSection = ({ title, children, titleLevel }) => (
   <section className="vads-u-margin-bottom--4">
     {title && <Heading text={title} level={titleLevel} tabindex="-1" />}
-    <dl className="vads-u-margin--0">{children}</dl>
+    <div className="vads-u-margin--0">{children}</div>
   </section>
 );
 

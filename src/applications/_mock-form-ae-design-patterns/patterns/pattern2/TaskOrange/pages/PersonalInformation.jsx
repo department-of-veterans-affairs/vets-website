@@ -97,7 +97,7 @@ export const PersonalInformationContact = ({
           />
           <InfoSection.InfoBlock label="City" value={address?.city} />
           <InfoSection.InfoBlock label="State" value={address?.state} />
-          <InfoSection.InfoBlock label="Zip code" value={address?.zipCode} />
+          <InfoSection.InfoBlock label="Zip code" value={address?.postalCode} />
 
           <InfoSection.SubHeading
             text="Other contact information"
