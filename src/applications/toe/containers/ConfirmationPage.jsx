@@ -78,8 +78,7 @@ export const ConfirmationPage = ({
     );
   }
 
-  // Show loading indicator while claimStatus is still being fetched (i.e., claimStatus === null)
-  if (claimStatus === null) {
+  if (!claimStatus) {
     return (
       <va-loading-indicator
         class="vads-u-margin-y--5"
