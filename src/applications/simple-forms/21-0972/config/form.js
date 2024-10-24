@@ -97,6 +97,7 @@ const formConfig = {
   trackingPrefix: '21-0972-alternate-signer-',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

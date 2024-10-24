@@ -124,11 +124,10 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
   if (ConfirmationField) {
     if (typeof ConfirmationField === 'function') {
-      const {
-        data: confirmData = refinedData,
-        label: confirmLabel = label,
-      } = ConfirmationField({ formData: refinedData });
-      return reviewEntry(description, key, uiSchema, confirmLabel, confirmData);
+      const { data: confirmData = refinedData } = ConfirmationField({
+        formData: refinedData,
+      });
+      return reviewEntry(description, key, uiSchema, label, confirmData);
     }
 
     if (isReactComponent(ConfirmationField)) {

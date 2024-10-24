@@ -75,10 +75,7 @@ export default function AuthApp({ location }) {
   const isInterstital = useToggleValue(TOGGLE_NAMES.mhvInterstitialEnabled);
 
   const redirect = () => {
-    if (
-      isInterstital &&
-      (loginType === 'mhv' || loginType === 'myhealthevet')
-    ) {
+    if (isInterstital && ['mhv', 'myhealthevet'].includes(loginType)) {
       window.location.replace('/sign-in-changes-reminder');
     }
 
@@ -160,10 +157,7 @@ export default function AuthApp({ location }) {
       errorCode,
     );
     const { userProfile } = authMetrics;
-    if (
-      userProfile?.signIn?.ssoe &&
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
-    ) {
+    if (returnUrl?.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])) {
       await handleProvisioning();
     }
     authMetrics.run();
@@ -184,13 +178,16 @@ export default function AuthApp({ location }) {
       });
     }
 
+    const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
+
     if (auth === FORCE_NEEDED) {
       handleAuthForceNeeded();
+    } else if (skipToRedirect) {
+      await handleAuthSuccess({ skipToRedirect });
     } else {
       try {
-        const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
         const response = await apiRequest('/user');
-        await handleAuthSuccess({ response, skipToRedirect });
+        await handleAuthSuccess({ response, skipToRedirect: false });
       } catch (error) {
         handleAuthError(error);
       }
