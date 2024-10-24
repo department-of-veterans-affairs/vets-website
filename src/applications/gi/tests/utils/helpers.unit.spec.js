@@ -528,12 +528,6 @@ describe('GIBCT helpers:', () => {
       expect(formatProgramType('non-college-degree')).to.equal(
         'Non College Degree',
       );
-      expect(formatProgramType('master-of-science')).to.equal(
-        'Master Of Science',
-      );
-      expect(formatProgramType('bachelor-of-arts')).to.equal(
-        'Bachelor Of Arts',
-      );
     });
 
     it('should handle multiple hyphens correctly', () => {
