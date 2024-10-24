@@ -12,7 +12,11 @@ const AllergyListItem = props => {
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <Link to={`/allergies/${record.id}`} data-dd-privacy="mask">
+      <Link
+        to={`/allergies/${record.id}`}
+        data-dd-privacy="mask"
+        data-testid={`allergy-link-${record.id}`}
+      >
         <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
           {record.name} <span className="sr-only">on {record.date}</span>
         </span>

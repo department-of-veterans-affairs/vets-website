@@ -113,6 +113,7 @@ const LandingPage = () => {
               href={getCernerURL('/pages/health_record/results', true)}
               target="_blank"
               rel="noopener noreferrer"
+              data-testid="labs-and-tests-oh-landing-page-link"
             >
               View your labs and tests on My VA Health (opens in new tab)
             </a>
@@ -148,6 +149,7 @@ const LandingPage = () => {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-testid="summary-and-notes-oh-landing-page-link"
               >
                 View your care summaries and notes on My VA Health (opens in new
                 window)
@@ -185,6 +187,7 @@ const LandingPage = () => {
               )}
               target="_blank"
               rel="noopener noreferrer"
+              data-testid="vaccines-oh-landing-page-link"
             >
               View your vaccines on My VA Health (opens in new tab)
             </a>
@@ -233,6 +236,7 @@ const LandingPage = () => {
               href={getCernerURL('/pages/health_record/conditions', true)}
               target="_blank"
               rel="noopener noreferrer"
+              data-testid="health-conditions-oh-landing-page-link"
             >
               View your health conditions on My VA Health (opens in new tab)
             </a>

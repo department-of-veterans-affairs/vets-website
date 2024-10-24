@@ -1,11 +1,12 @@
 import mockUser from '../fixtures/user.json';
+import vamc from '../fixtures/facilities/vamc-ehr copy.json';
 
 // import mockNonMRuser from '../fixtures/non_mr_user.json';
 // import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
 class MedicalRecordsSite {
-  login = (userFixture = mockUser) => {
-    this.mockFeatureToggles();
+  login = (userFixture = mockUser, isAccelerating = false) => {
+    this.mockFeatureToggles(isAccelerating);
     this.mockVamcEhr();
     this.mockMaintenanceWindow();
     cy.login(userFixture);
@@ -14,7 +15,7 @@ class MedicalRecordsSite {
     // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
   };
 
-  mockFeatureToggles = () => {
+  mockFeatureToggles = (isAccelerating = false) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -22,6 +23,10 @@ class MedicalRecordsSite {
           {
             name: 'mhv_integration_medical_records_to_phase_1',
             value: true,
+          },
+          {
+            name: 'mhv_accelerated_delivery_allergies_enabled',
+            value: isAccelerating,
           },
           {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
@@ -89,27 +94,7 @@ class MedicalRecordsSite {
   };
 
   mockVamcEhr = () => {
-    const data = {
-      data: {
-        nodeQuery: {
-          count: 1,
-          entries: [
-            {
-              title: 'Togus VA Medical Center',
-              fieldFacilityLocatorApiId: 'vha_402',
-              fieldRegionPage: {
-                entity: {
-                  entityId: '15077',
-                  title: 'VA Maine health care',
-                  fieldVamcEhrSystem: 'vista',
-                },
-              },
-            },
-          ],
-        },
-      },
-    };
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', data).as('vamcEhr');
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamc).as('vamcEhr');
   };
 
   mockMaintenanceWindow = () => {
