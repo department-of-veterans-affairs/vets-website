@@ -80,10 +80,21 @@ const suppliesList = [
     nextAvailabilityDate: '2022-12-06',
     quantity: 1,
   },
+  {
+    productName: 'ACC2',
+    productGroup: 'Accessory',
+    productId: 9999,
+    availableForReorder: true,
+    lastOrderDate: '2023-07-06',
+    nextAvailabilityDate: '2099-12-06',
+    quantity: 1,
+  },
 ];
 
-// Source: https://github.com/department-of-veterans-affairs/vets-api/blob/f6a4f2fb76739e63a8cbaaa87d5de12db9096bba/config/locales/exceptions.en.yml#L2327
-// This manifests as a 404 on the FE.
+/*
+Source: https://github.com/department-of-veterans-affairs/vets-api/blob/master/config/locales/exceptions.en.yml
+Search for mdot exceptions.
+*/
 const veteranNotFoundResponse = {
   status: 404,
   data: {
@@ -99,8 +110,6 @@ const veteranNotFoundResponse = {
   },
 };
 
-// Source: https://github.com/department-of-veterans-affairs/vets-api/blob/f6a4f2fb76739e63a8cbaaa87d5de12db9096bba/config/locales/exceptions.en.yml#L2290
-// Seems like this should be status: 500, but just going with what's in the vets-api code.
 const internalServerError = {
   status: 500,
   data: {

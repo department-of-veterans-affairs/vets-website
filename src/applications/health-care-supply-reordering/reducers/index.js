@@ -1,10 +1,6 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
-import {
-  MDOT_API_CALL_INITIATED,
-  MDOT_API_ERROR,
-  MDOT_RESET_ERRORS,
-} from '../constants';
+import { MDOT_API_STATES } from '../constants';
 
 const initialState = {
   isError: false,
@@ -15,7 +11,7 @@ const initialState = {
 
 export function mdotApiErrors(state = initialState, action) {
   switch (action.type) {
-    case MDOT_API_ERROR:
+    case MDOT_API_STATES.ERROR:
       return {
         ...state,
         isError: true,
@@ -23,12 +19,12 @@ export function mdotApiErrors(state = initialState, action) {
         nextAvailabilityDate: action.nextAvailabilityDate,
         pending: false,
       };
-    case MDOT_RESET_ERRORS:
+    case MDOT_API_STATES.MDOT_RESET_ERRORS:
       return {
         ...initialState,
         pending: false,
       };
-    case MDOT_API_CALL_INITIATED:
+    case MDOT_API_STATES.S:
       return {
         ...state,
         pending: true,

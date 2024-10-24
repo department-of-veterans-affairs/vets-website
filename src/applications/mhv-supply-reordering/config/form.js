@@ -1,28 +1,18 @@
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import NeedHelpFooter from '../components/NeedHelpFooter';
+import GetFormHelp from '../components/GetFormHelp';
 
+// TODO: Remove this example
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 
-/** @type {FormConfig} */
-const formConfig = {
-  rootUrl: manifest.rootUrl,
-  urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'supply-reordering',
-  introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
-  dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
-  },
-  formId: VA_FORM_IDS.FORM_2346,
+const { supplies } = fullSchema.definitions;
+
+const formMessages = {
   saveInProgress: {
     messages: {
       inProgress:
@@ -32,15 +22,13 @@ const formConfig = {
       saved: 'Your health care supply reordering application has been saved.',
     },
   },
-  version: 0,
-  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  title: TITLE,
-  subTitle: SUBTITLE,
-  defaultDefinitions: {},
+};
+
+const chapters = {
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
@@ -54,8 +42,32 @@ const formConfig = {
       },
     },
   },
-  getHelp: NeedHelpFooter,
+};
+
+/** @type {FormConfig} */
+const formConfig = {
+  rootUrl: manifest.rootUrl,
+  urlPrefix: '/',
+  submitUrl: '/v0/api',
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  trackingPrefix: 'bam-2346a-',
+  introduction: IntroductionPage,
+  confirmation: ConfirmationPage,
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+  },
+  formId: VA_FORM_IDS.FORM_VA_2346A,
+  version: 0,
+  prefillEnabled: false,
+  title: TITLE,
+  subTitle: SUBTITLE,
+  defaultDefinitions: { supplies },
+  chapters,
+  getHelp: GetFormHelp,
   footerContent: FormFooter,
+  ...formMessages,
 };
 
 export default formConfig;

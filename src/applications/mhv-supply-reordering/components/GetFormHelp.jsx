@@ -1,6 +1,10 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-const NeedHelpFooter = () => {
+/**
+ * Help content for the form's footer.
+ */
+const GetFormHelp = () => {
   return (
     <>
       <p>
@@ -13,11 +17,12 @@ const NeedHelpFooter = () => {
       <p>
         <strong>If you have questions about your supplies,</strong> call our VA
         Denver Logistics Center at{' '}
-        <va-telephone contact="3032736200">303-273-6200</va-telephone> (TTY:
-        711). We’re here Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
+        <va-telephone contact="3032736200">303-273-6200</va-telephone> (
+        <va-telephone contact={CONTACTS['711']} tty />
+        ). We’re here Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
       </p>
     </>
   );
 };
 
-export default NeedHelpFooter;
+export default GetFormHelp;

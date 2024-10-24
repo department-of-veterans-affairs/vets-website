@@ -14,3 +14,4 @@ const responses = {
 };
 
 module.exports = delay(responses, 2000);
+// module.exports = responses;

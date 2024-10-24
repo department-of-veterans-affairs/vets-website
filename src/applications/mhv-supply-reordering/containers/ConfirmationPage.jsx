@@ -4,6 +4,9 @@ import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
 
+/**
+ * Confirmation page for the form.
+ */
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
   const form = useSelector(state => state.form || {});

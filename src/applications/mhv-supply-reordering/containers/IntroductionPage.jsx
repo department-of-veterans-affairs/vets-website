@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -6,7 +7,12 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 // import { useSelector } from 'react-redux';
 // import { isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
+import UnavailableSupplies from '../components/UnavailableSupplies';
+import { numAvailableSupplies, isEligible } from '../utilities/mdot';
 
+/**
+ * Introduction page for the form.
+ */
 export const IntroductionPage = props => {
   // const userLoggedIn = useSelector(state => isLoggedIn(state));
   const { route } = props;
@@ -17,6 +23,10 @@ export const IntroductionPage = props => {
     focusElement('h1');
   }, []);
 
+  const { mdotData } = props;
+  const numAvailSupplies = numAvailableSupplies(mdotData);
+  const canOrderSupplies = isEligible(mdotData) && numAvailSupplies > 0;
+
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
@@ -24,18 +34,28 @@ export const IntroductionPage = props => {
         Use this form to order hearing aid batteries and accessories, and CPAP
         supplies.
       </p>
+      {canOrderSupplies && (
+        <SaveInProgressIntro
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
+          startText="Start a new order"
+          devOnly={{
+            forceShowFormControls: true,
+          }}
+        />
+      )}
 
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start a new order"
-        devOnly={{
-          forceShowFormControls: true,
-        }}
-      />
-      <p />
+      <va-alert status="warning" visible={!canOrderSupplies}>
+        <h3 slot="headline">You have no available supplies to reorder</h3>
+        <p>
+          Check unavailable supplies and see what you can do to reorder if you
+          need it now.
+        </p>
+      </va-alert>
+
+      <UnavailableSupplies supplies={mdotData} />
     </article>
   );
 };
@@ -51,6 +71,13 @@ IntroductionPage.propTypes = {
   location: PropTypes.shape({
     basename: PropTypes.string,
   }),
+  mdotData: PropTypes.object,
 };
 
-export default IntroductionPage;
+const mapStateToProps = state => ({
+  mdotIsError: state.mdot.isError,
+  mdotIsPending: state.mdot.pending,
+  mdotData: state.mdot.data,
+});
+
+export default connect(mapStateToProps)(IntroductionPage);
