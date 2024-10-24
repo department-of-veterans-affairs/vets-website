@@ -8,7 +8,6 @@ import DeniedConfirmation from '../components/confirmation/DeniedConfirmation';
 import UnderReviewConfirmation from '../components/confirmation/UnderReviewConfirmation';
 
 import { formFields } from '../constants';
-
 import {
   fetchClaimStatus,
   sendConfirmation as sendConfirmationAction,
@@ -24,23 +23,21 @@ export const ConfirmationPage = ({
   confirmationLoading,
   confirmationError,
 }) => {
-  const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
   const [apiError, setApiError] = useState(false); // Track if a 400 or 500 error happens
 
   useEffect(
     () => {
-      if (!fetchedClaimStatus) {
+      if (!claimStatus) {
         getClaimStatus()
           .then(response => {
             if (!response || response.status >= 400) {
               setApiError(true);
             }
           })
-          .catch(() => setApiError(true)) // Catch any network errors
-          .finally(() => setFetchedClaimStatus(true)); // Ensure we set fetchedClaimStatus
+          .catch(() => setApiError(true)); // Catch any network errors
       }
     },
-    [fetchedClaimStatus, getClaimStatus],
+    [getClaimStatus, claimStatus],
   );
 
   const { first, last, middle, suffix } = user?.profile?.userFullName || {};
@@ -60,6 +57,7 @@ export const ConfirmationPage = ({
     window.print();
   }, []);
 
+  // Handle API errors
   if (apiError) {
     return (
       <UnderReviewConfirmation
@@ -75,12 +73,8 @@ export const ConfirmationPage = ({
     );
   }
 
-  // Ensure we don't render anything until we have fetched the claimStatus
-  if (
-    !fetchedClaimStatus ||
-    claimStatus === null ||
-    claimStatus === undefined
-  ) {
+  // Display loading indicator until claimStatus is fetched
+  if (!claimStatus) {
     return (
       <va-loading-indicator
         class="vads-u-margin-y--5"
@@ -91,6 +85,7 @@ export const ConfirmationPage = ({
     );
   }
 
+  // Handle rendering based on claimStatus once it's populated
   switch (claimStatus?.claimStatus) {
     case 'ELIGIBLE': {
       return (
