@@ -9,7 +9,7 @@ import {
   TIMS_DOCUMENTS,
 } from './constants';
 
-export const sortedEnrollments = enrollmentVerifications =>
+export const sortedEnrollmentsDGIB = enrollmentVerifications =>
   enrollmentVerifications?.sort((a, b) => {
     return (
       new Date(a.verificationBeginDate) - new Date(b.verificationBeginDate)
@@ -92,7 +92,7 @@ export const translateDatePeriod = (startDateString, endDateString) => {
   const dateUnavailable = 'Date unavailable';
   const parseDateUTC = dateString => {
     const [year, month, day] = dateString
-      .split('-')
+      ?.split('-')
       .map(num => parseInt(num, 10));
     return new Date(Date.UTC(year, month - 1, day));
   };
@@ -281,12 +281,12 @@ export const isVerificationEndDateValid = verificationEndDate => {
 
   return endDate <= today;
 };
-export const getPeriodsToVerify2 = (
+export const getPeriodsToVerifyDGIB = (
   pendingEnrollments,
   shouldReverse = false,
 ) => {
   // Sort the enrollments by verificationBeginDate
-  const periodsToVerify = sortedEnrollments(pendingEnrollments).map(
+  const periodsToVerify = sortedEnrollmentsDGIB(pendingEnrollments).map(
     enrollmentToBeVerified => {
       const {
         verificationBeginDate,
@@ -501,6 +501,124 @@ export const getGroupedPreviousEnrollments = month => {
     </div>
   );
 };
+export const getGroupedPreviousEnrollmentsDGIB = enrollment => {
+  const {
+    verificationBeginDate,
+    verificationEndDate,
+    verificationMethod,
+  } = enrollment[0];
+  const myUUID = uuidv4();
+
+  return (
+    <div className="vye-top-border" key={myUUID}>
+      {verificationMethod && isVerificationEndDateValid(verificationEndDate) ? (
+        <>
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {verificationBeginDate !== null
+                ? translateDateIntoMonthYearFormat(verificationBeginDate)
+                : translateDateIntoMonthYearFormat(verificationEndDate)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
+              aria-hidden="true"
+            />{' '}
+            <span className="vads-u-display--block">Verified</span>
+          </h3>
+          <p>We processed your payment for this month.</p>
+          <va-additional-info
+            trigger={`
+              ${
+                verificationBeginDate !== null
+                  ? translateDateIntoMonthYearFormat(verificationBeginDate)
+                  : translateDateIntoMonthYearFormat(verificationEndDate)
+              } verification details
+            `}
+            class="vads-u-margin-bottom--4"
+          >
+            {enrollment.map((monthAward, index) => {
+              const { totalCreditHours, lastDepositAmount } = monthAward;
+              return (
+                <div key={index}>
+                  <p className="vads-u-font-weight--bold vads-u-margin--0">
+                    {translateDatePeriod(
+                      monthAward.verificationBeginDate,
+                      monthAward.verificationEndDate,
+                    )}
+                    <span className="vads-u-display--inline-block vads-u-font-weight--normal vads-u-margin-left--0p5 vads-u-color--gray-dark">
+                      at {monthAward?.facilityName?.toUpperCase()}
+                    </span>
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Total credit hours:
+                    </span>{' '}
+                    {totalCreditHours === null
+                      ? 'Hours unavailable'
+                      : totalCreditHours}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Monthly Rate:
+                    </span>{' '}
+                    {lastDepositAmount === null
+                      ? 'Rate unavailable'
+                      : formatCurrency(lastDepositAmount)}
+                  </p>
+                  {/* <div className="vads-u-font-style--italic vads-u-margin--0">
+                    You verified on{' '}
+                    {translateDateIntoMonthDayYearFormat(
+                      monthAward.transactDate,
+                    )}
+                  </div> */}
+                  <div
+                    className={
+                      index === enrollment.length - 1
+                        ? 'vads-u-margin-bottom--0'
+                        : 'vads-u-margin-bottom--3'
+                    }
+                  />
+                </div>
+              );
+            })}
+          </va-additional-info>
+        </>
+      ) : (
+        <>
+          {!verificationMethod &&
+            isVerificationEndDateValid(verificationEndDate) && (
+              <>
+                <h3 className="vads-u-font-size--h4">
+                  {translateDateIntoMonthYearFormat(verificationBeginDate)}
+                </h3>
+                <div>
+                  <va-alert
+                    background-only
+                    class="vads-u-margin-bottom--3"
+                    close-btn-aria-label="Close notification"
+                    disable-analytics="true"
+                    full-width="false"
+                    status="info"
+                    visible="true"
+                    slim
+                  >
+                    <p
+                      className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+                      data-testid="have-not-verified"
+                    >
+                      You haven’t verified your enrollment for the month.
+                    </p>
+                  </va-alert>
+                </div>
+              </>
+            )}
+        </>
+      )}
+    </div>
+  );
+};
+
 export const getSignlePreviousEnrollmentsDGIB = enrollment => {
   const myUUID = uuidv4();
   return (
@@ -563,12 +681,12 @@ export const getSignlePreviousEnrollmentsDGIB = enrollment => {
                   ? 'Rate unavailable'
                   : formatCurrency(enrollment?.lastDepositAmount)}
               </p>
-              <div className="vads-u-font-style--italic">
+              {/* <div className="vads-u-font-style--italic">
                 You verified on{' '}
                 {translateDateIntoMonthDayYearFormat(
                   enrollment?.verificationThroughDate,
                 )}
-              </div>
+              </div> */}
             </va-additional-info>
           </>
         )}
@@ -1094,3 +1212,19 @@ export function removeCommas(obj) {
   });
   return newObj;
 }
+export const groupVerificationsByMonth = verifications => {
+  const grouped = new Map();
+
+  verifications?.forEach(verification => {
+    const monthKey = verification.verificationMonth;
+
+    if (!grouped.has(monthKey)) {
+      grouped.set(monthKey, { ...verification });
+    } else {
+      const existing = grouped.get(monthKey);
+      existing.totalCreditHours += verification.totalCreditHours;
+    }
+  });
+
+  return Array.from(grouped.values());
+};

@@ -159,6 +159,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 <PeriodsToVerify
                   enrollmentData={expandedEnrollmentData}
                   enrollmentVerifications={enrollmentVerifications}
+                  claimantId={claimantId}
                   link={() => (
                     <PageLink
                       linkText="Start enrollment verification"

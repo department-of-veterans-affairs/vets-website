@@ -1,6 +1,10 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { removeCommas, splitAddressLine } from '../helpers';
+import {
+  // isVerificationEndDateValid,
+  removeCommas,
+  splitAddressLine,
+} from '../helpers';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
 export const UPDATE_VERIFICATIONS = 'UPDATE_VERIFICATIONS';
@@ -215,16 +219,28 @@ export const verifyEnrollmentAction = verifications => {
     dispatch({ type: VERIFY_ENROLLMENT });
     const {
       checkClaimant: { claimantId },
+      // personalInfo: {
+      //   personalInfo: {
+      //     recordResponse: { enrollmentVerifications },
+      //   },
+      // },
     } = getState();
     const URL = claimantId
       ? 'http://localhost:8080/verifications/vye/verify'
       : `${API_URL}/verify`;
+    // const newVerifications = enrollmentVerifications?.filter(
+    //   verification =>
+    //     !verification?.verificationMethod &&
+    //     isVerificationEndDateValid(verification.verificationEndDate),
+    // );
+    // const lastVerification =
+    //   newVerifications?.length > 0
+    //     ? newVerifications[newVerifications.length - 1]
+    //     : null;
+    // console.log(lastVerification?.verificationBeginDate, 'lastVerification');
     const body = claimantId
       ? {
           claimantId: 0,
-          verifiedPeriodBeginDate: '2024-10-22',
-          verifiedPeriodEndDate: '2024-10-22',
-          verifiedThroughDate: new Date().toISOString().split('T')[0],
           verificationMethod: 'VYE',
           appCommunication: {
             responseType: 'Y',

@@ -5,11 +5,14 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { useSelector } from 'react-redux';
 import {
   combineEnrollmentsWithStartMonth,
+  combineEnrollmentsWithStartMonthDGIB,
   getGroupedPreviousEnrollments,
+  getGroupedPreviousEnrollmentsDGIB,
   getSignlePreviousEnrollments,
   getSignlePreviousEnrollmentsDGIB,
+  groupVerificationsByMonth,
   isVerificationEndDateValid,
-  sortedEnrollments as sortedEnrollmentsDGIB,
+  sortedEnrollmentsDGIB,
 } from '../helpers';
 import { ENROLLMETS_PER_PAGE } from '../constants';
 import { EnrollmentStatus } from './EnrollmentStatus';
@@ -37,13 +40,13 @@ const PreviousEnrollmentVerifications = ({
     'VYE',
   ];
   const verifiedEnrollments =
-    enrollmentVerifications?.filter(
+    groupVerificationsByMonth(enrollmentVerifications)?.filter(
       enrollment =>
         !!enrollment.verificationMethod &&
         isVerificationEndDateValid(enrollment.verificationEndDate),
     ).length || 0;
   const pendingVerificationsDGIB =
-    enrollmentVerifications?.filter(
+    groupVerificationsByMonth(enrollmentVerifications)?.filter(
       enrollment =>
         isVerificationEndDateValid(enrollment.verificationEndDate) &&
         !verificationMethod.includes(enrollment.verificationMethod),
@@ -90,18 +93,22 @@ const PreviousEnrollmentVerifications = ({
 
   const getPreviouslyVerified = () => {
     let enrollments = [];
-    const enrollmentsToProcess =
-      pastAndCurrentAwards && Object.keys(pastAndCurrentAwards).length > 0
-        ? pastAndCurrentAwards
-        : sortedEnrollmentsDGIB(enrollmentVerifications) || [];
+    const combinedEnrollmentsObj = combineEnrollmentsWithStartMonthDGIB(
+      sortedEnrollmentsDGIB(enrollmentVerifications),
+    );
+    const enrollmentsToProcess = !claimantId
+      ? pastAndCurrentAwards
+      : combinedEnrollmentsObj;
     Object.values(enrollmentsToProcess).forEach(month => {
       if (month.length > 1) {
-        const tempGroupEnrollment = getGroupedPreviousEnrollments(month);
+        const tempGroupEnrollment = !claimantId
+          ? getGroupedPreviousEnrollments(month)
+          : getGroupedPreviousEnrollmentsDGIB(month);
         enrollments.push(tempGroupEnrollment);
       }
-      if (month.length === 1 || claimantId) {
+      if (month.length === 1) {
         const tempSingleEnrollment = claimantId
-          ? getSignlePreviousEnrollmentsDGIB(month)
+          ? getSignlePreviousEnrollmentsDGIB(month[0])
           : getSignlePreviousEnrollments(month[0]);
         enrollments.push(tempSingleEnrollment);
       }
@@ -117,7 +124,6 @@ const PreviousEnrollmentVerifications = ({
     enrollments?.forEach(enrollment => {
       const topLevelEnrollment = enrollment?.props?.children;
       const isAnArray = Array.isArray(topLevelEnrollment);
-
       if (!isAnArray) {
         const objectChildProps =
           topLevelEnrollment?.props?.children[0]?.props?.children;
@@ -134,7 +140,7 @@ const PreviousEnrollmentVerifications = ({
         }
       }
 
-      if (isAnArray) {
+      if (isAnArray && !claimantId) {
         // find the first object within the array that is not undefined and is not null
         const firstNotUndefined = topLevelEnrollment.find(
           el => el !== undefined && el !== null && el !== false,
@@ -163,7 +169,7 @@ const PreviousEnrollmentVerifications = ({
       }
     });
 
-    if (tempEnrollmentArray.length > 0) {
+    if (tempEnrollmentArray.length > 0 && !claimantId) {
       const sortedEnrollments = sortDatesByMonthYear(tempEnrollmentArray);
       enrollments = sortedEnrollments;
     }
@@ -171,7 +177,7 @@ const PreviousEnrollmentVerifications = ({
     // Adjust based on subsetStart and subsetEnd to control the number of elements returned
 
     enrollments = enrollments.slice(subsetStart, subsetEnd);
-    return enrollments;
+    return !claimantId ? enrollments : enrollments.reverse();
   };
 
   const handlePageChange = useCallback(
@@ -303,7 +309,7 @@ const PreviousEnrollmentVerifications = ({
   );
 };
 PreviousEnrollmentVerifications.propTypes = {
-  claimantId: PropTypes.string,
+  claimantId: PropTypes.number,
   enrollmentData: PropTypes.object,
   enrollmentVerifications: PropTypes.array,
 };

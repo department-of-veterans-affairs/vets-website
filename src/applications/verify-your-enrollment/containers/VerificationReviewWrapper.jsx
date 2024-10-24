@@ -62,7 +62,6 @@ const VerificationReviewWrapper = ({
   // successfully verifying
   const handleVerification = () => {
     const submissionError = new Error('Internal Server Error.');
-
     if (awardsIds?.length > 0 || claimantId !== undefined) {
       dispatchVerifyEnrollmentAction(awardsIds);
       dispatchUpdateToggleEnrollmentSuccess(true);
@@ -254,6 +253,7 @@ const mapDispatchToProps = {
 
 VerificationReviewWrapper.propTypes = {
   children: PropTypes.any,
+  claimantId: PropTypes.number,
   dispatchUpdatePendingVerifications: PropTypes.func,
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,

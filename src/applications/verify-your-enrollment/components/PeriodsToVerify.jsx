@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
-import { getPeriodsToVerify, getPeriodsToVerify2 } from '../helpers';
+import { getPeriodsToVerify, getPeriodsToVerifyDGIB } from '../helpers';
 import Alert from './Alert';
 
 const PeriodsToVerify = ({
@@ -13,6 +13,7 @@ const PeriodsToVerify = ({
   toggleEnrollmentSuccess,
   verifyEnrollment,
   enrollmentVerifications,
+  claimantId,
 }) => {
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
@@ -85,7 +86,7 @@ const PeriodsToVerify = ({
                 >
                   You have enrollment periods to verify
                 </h2>
-                {getPeriodsToVerify2(enrollmentVerifications, true)}
+                {getPeriodsToVerifyDGIB(enrollmentVerifications, true)}
                 {link && <>{link()}</>}
               </va-alert>
             </>
@@ -120,6 +121,7 @@ const PeriodsToVerify = ({
         {((enrollmentData?.pendingVerifications?.length === 0 &&
           enrollmentData?.verifications.length !== 0) ||
           (!showEnrollmentVerifications &&
+            claimantId &&
             enrollmentVerifications?.length !== 0)) &&
           !justVerified && (
             <div className="vads-u-margin-top--2">
@@ -136,6 +138,7 @@ const mapStateToProps = state => ({
 });
 
 PeriodsToVerify.propTypes = {
+  claimantId: PropTypes.number,
   enrollmentData: PropTypes.object,
   enrollmentVerifications: PropTypes.array,
   link: PropTypes.func,
