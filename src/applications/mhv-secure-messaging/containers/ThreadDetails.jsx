@@ -66,7 +66,7 @@ const ThreadDetails = props => {
 
   useEffect(
     () => {
-      if (threadId) {
+      if (threadId && recipients.associatedTriageGroupsQty !== undefined) {
         dispatch(retrieveMessageThread(threadId))
           .then(() => {
             setIsLoaded(true);
@@ -79,7 +79,7 @@ const ThreadDetails = props => {
         dispatch(closeAlert());
       };
     },
-    [dispatch, threadId, location.pathname],
+    [dispatch, threadId, location.pathname, recipients],
   );
 
   useEffect(
@@ -147,7 +147,11 @@ const ThreadDetails = props => {
         </>
       );
     }
-    if (drafts?.length === 1 && !messages?.length) {
+    if (
+      drafts?.length === 1 &&
+      !messages?.length
+      // recipients.allowedRecipients.length > 0
+    ) {
       updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
       return (
         <div className="compose-container">

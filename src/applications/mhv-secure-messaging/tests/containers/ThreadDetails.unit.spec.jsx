@@ -26,6 +26,7 @@ import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import noAssociationsAtAll from '../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
 import lostAssociation from '../fixtures/json-triage-mocks/triage-teams-lost-association.json';
+import * as messagesActions from '../../actions/messages';
 
 describe('Thread Details container', () => {
   const setup = state => {
@@ -759,5 +760,54 @@ describe('Thread Details container', () => {
       'trigger',
       'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
     );
+  });
+
+  it('does not load if recipients.associatedTriageGroupsQty is undefined', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails,
+        recipients: {
+          allRecipients: [],
+          allowedRecipients: [],
+          blockedRecipients: [],
+          associatedTriageGroupsQty: undefined,
+          associatedBlockedTriageGroupsQty: undefined,
+          noAssociations: undefined,
+          allTriageGroupsBlocked: undefined,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
+      },
+      featureToggles: {},
+    };
+
+    const retrieveMessageThreadSpy = sinon.spy(
+      messagesActions,
+      'retrieveMessageThread',
+    );
+
+    setup(state);
+
+    await waitFor(() => {
+      expect(retrieveMessageThreadSpy.calledOnce).not.to.be.true;
+      retrieveMessageThreadSpy.restore();
+    });
   });
 });
