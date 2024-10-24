@@ -1,30 +1,68 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { format, parseISO } from 'date-fns';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { InfoSection } from '../../../../../shared/components/InfoSection';
 // import { genderLabels } from 'platform/static-data/labels';
 import { normalizeFullName } from '../../../../../utils/helpers/general';
 // import { APP_URLS } from '../../../../../utils/constants';
+import { isOnReviewPage } from '../../../TaskOrange/utils/reviewPage';
 
-const VeteranProfileInformation = ({
+export const VeteranInformationBase = ({
+  veteranFullName,
+  veteranDateOfBirth,
+  location,
+}) => {
+  const isReviewPage = isOnReviewPage(location?.pathname);
+  const title = isReviewPage ? null : 'Applicant information';
+  const formattedDob =
+  veteranDateOfBirth && format(parseISO(veteranDateOfBirth), 'MMMM dd, yyyy');
+  return (
+    <InfoSection title={title} titleLevel={3}>
+      <InfoSection.InfoBlock
+        label="First name"
+        value={veteranFullName?.first}
+      />
+      <InfoSection.InfoBlock
+        label="Middle name"
+        value={veteranFullName?.middle}
+      />
+      <InfoSection.InfoBlock label="Last name" value={veteranFullName?.last} />
+      <InfoSection.InfoBlock label="Suffix" value={veteranFullName?.suffix} />
+      <InfoSection.InfoBlock label="Date of birth" value={formattedDob} />
+    </InfoSection>
+  );
+};
+
+VeteranInformationBase.propTypes = {
+  gender: PropTypes.string,
+  location: PropTypes.object,
+  veteranDateOfBirth: PropTypes.string,
+  veteranFullName: PropTypes.object,
+  veteranSocialSecurityNumber: PropTypes.string,
+};
+
+export const VeteranInformationInfoSection = withRouter(VeteranInformationBase);
+
+export const VeteranProfileInformation = ({
   goBack,
   goForward,
   profile,
-  // veteran,
+  veteran,
+  data,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
   const { userFullName, dob } = profile;
+ 
   // const { veteranSocialSecurityNumber } = veteran;
 
   const veteranName = normalizeFullName(userFullName, true);
-  // const veteranSSN = maskSSN(veteranSocialSecurityNumber);
   const veteranDOB = dob && format(parseISO(dob), 'MMMM dd, yyyy');
   const veteranDOBMobile = dob && format(parseISO(dob), 'MMM dd, yyyy');
-  // const veteranGender = gender && genderLabels[gender];
 
   return (
     <>
@@ -47,17 +85,6 @@ const VeteranProfileInformation = ({
                 <h3 className="vads-u-margin-top--0">{veteranName}</h3>
               </dd>
             </div>
-            {/* <div data-testid="ezr-veteran-ssn">
-              <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
-                Social Security number:
-              </dt>
-              <dd
-                className="vads-u-display--inline-block dd-privacy-mask"
-                data-dd-action-name="Social Security number"
-              >
-                {veteranSSN}
-              </dd>
-            </div> */}
             {veteranDOB ? (
               <div data-testid="ezr-veteran-dob">
                 <dt className="vads-u-display--inline-block vads-u-margin-right--0p5 vads-u-font-weight--bold">
@@ -77,21 +104,7 @@ const VeteranProfileInformation = ({
                 </dd>
               </div>
             ) : null}
-            {/* {veteranGender ? (
-              <div data-testid="ezr-veteran-gender">
-                <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
-                  Gender:
-                </dt>
-                <dd
-                  className="vads-u-display--inline-block dd-privacy-mask"
-                  data-dd-action-name="Gender"
-                >
-                  {veteranGender}
-                </dd>
-              </div>
-            ) : null} */}
           </dl>
-          {/* </div> */}
         </va-card>
         <p>
           <strong>Note:</strong> If you need to update your personal

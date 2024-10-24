@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 
 import {
   focusElement,
@@ -32,6 +32,9 @@ import {
   convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
 } from '../../../../../utils/data/task-gray/profile';
+import { InfoSection } from '../../../../../shared/components/InfoSection';
+import { isOnReviewPage } from '../../../TaskOrange/utils/reviewPage';
+import { formatPhoneNumber } from '../../../../../utils/helpers/general';
 
 /**
  * Render contact info page
@@ -49,7 +52,59 @@ import {
  * @param {String[]} requiredKeys - list of keys of required fields
  * @returns
  */
-const ContactInfo = ({
+
+export const ContactInformationBase = ({ location }) => {
+  const profile = useSelector(selectProfile) || {};
+  const contactInfo = profile.vapContactInfo || {};
+  const { areaCode, phoneNumber } = contactInfo.homePhone;
+  const fullNumber = areaCode + phoneNumber;
+  console.log(fullNumber);
+
+  const isReviewPage = isOnReviewPage(location?.pathname);
+  const title = isReviewPage ? null : 'Contact information';
+  return (
+    <InfoSection title={title} titleLevel={3}>
+      <InfoSection.SubHeading text="Mailing Address" editLink="/" />
+      <InfoSection.InfoBlock
+        label="Street address"
+        value={contactInfo?.mailingAddress?.addressLine1}
+      />
+      <InfoSection.InfoBlock
+        label="Street address line 2"
+        value={contactInfo?.mailingAddress?.addressLine2 || 'Not provided'}
+      />
+      <InfoSection.InfoBlock
+        label="City"
+        value={contactInfo?.mailingAddress?.city}
+      />
+      <InfoSection.InfoBlock
+        label="State"
+        value={contactInfo?.mailingAddress?.stateCode}
+      />
+      <InfoSection.InfoBlock
+        label="Zip code"
+        value={contactInfo?.mailingAddress?.zipCode}
+      />
+
+      <InfoSection.SubHeading
+        text="Additional contact information"
+        editLink="/"
+      />
+      <InfoSection.InfoBlock
+        label="Phone number"
+        value={formatPhoneNumber(fullNumber)}
+      />
+      <InfoSection.InfoBlock
+        label="Email address"
+        value={contactInfo?.email.emailAddress}
+      />
+    </InfoSection>
+  );
+};
+
+export const ContactInformationInfoSection = withRouter(ContactInformationBase);
+
+export const ContactInfo = ({
   data,
   goBack,
   goForward,
