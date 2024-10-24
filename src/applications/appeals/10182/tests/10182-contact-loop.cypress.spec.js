@@ -165,7 +165,7 @@ describe('NOD contact info loop', () => {
 
     cy.get('va-text-input[value="5109224444"]');
 
-    cy.findAllByText(/save/i, { selector: 'button' })
+    cy.findAllByText(/update/i, { selector: 'button' })
       .first()
       .click({ waitForAnimations: true });
 

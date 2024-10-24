@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import ContactCard from '../../components/ContactCard';
 
 describe('ContactCard Component', () => {
-  const address = {
+  const addressData = {
     addressLine1: '400 South 18th Street',
     addressLine2: 'Room 119',
     city: 'Newark',
@@ -24,7 +24,7 @@ describe('ContactCard Component', () => {
     const defaultProps = {
       repName,
       orgName,
-      address,
+      addressData,
       phone,
       email,
       recordClick: mockRecordClick,

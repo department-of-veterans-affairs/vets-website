@@ -134,7 +134,7 @@ export default function AppointmentsPage() {
     <PageLayout showBreadcrumbs showNeedHelp>
       <h1
         className={classNames(
-          `xsmall-screen:vads-u-margin-bottom--3 small-screen:${
+          `mobile:vads-u-margin-bottom--3 small-screen:${
             isPast || isPending
               ? 'vads-u-margin-bottom--3'
               : 'vads-u-margin-bottom--4'

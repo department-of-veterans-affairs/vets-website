@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import _, { merge } from 'lodash';
 import moment from 'moment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
@@ -22,7 +22,7 @@ export function prefillTransformer(pages, formData, metadata) {
     };
 
     if (!_.isEmpty(newContactInfo)) {
-      newFormData['view:otherContactInfo'] = newContactInfo;
+      merge(newFormData, newContactInfo);
     }
   }
 

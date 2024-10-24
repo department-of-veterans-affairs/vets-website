@@ -12,7 +12,7 @@ const responses = {
         veteranSocialSecurityNumber: '123456789',
         homePhone: '5558081234',
         mobilePhone: '5554044567',
-        email: 'test@research-participant.com',
+        email: 'test@test.com',
         veteranAddress: {
           street: '1234 Fake St.',
           street2: 'Apt Z',

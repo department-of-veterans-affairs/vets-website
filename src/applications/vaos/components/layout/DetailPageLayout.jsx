@@ -99,6 +99,24 @@ Prepare.propTypes = {
   children: PropTypes.node,
 };
 
+export function CCDetails({ otherDetails, request, level = 2 }) {
+  const heading = request
+    ? 'Details you’d like to share with your provider'
+    : 'Details you shared with your provider';
+  return (
+    <Section heading={heading} level={level}>
+      <span className="vaos-u-word-break--break-word">
+        Other details: {`${otherDetails || 'Not available'}`}
+      </span>
+    </Section>
+  );
+}
+CCDetails.propTypes = {
+  level: PropTypes.number,
+  otherDetails: PropTypes.string,
+  request: PropTypes.bool,
+};
+
 export function Details({ reason, otherDetails, request, level = 2 }) {
   const heading = request
     ? 'Details you’d like to share with your provider'

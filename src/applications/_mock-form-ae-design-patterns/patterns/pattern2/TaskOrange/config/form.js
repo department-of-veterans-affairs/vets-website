@@ -1,3 +1,4 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import unset from 'platform/utilities/data/unset';
 
@@ -9,6 +10,17 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { omit } from 'lodash';
+import { scrollAndFocusTarget } from 'applications/_mock-form-ae-design-patterns/utils/focus';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import {
+  descriptionUI,
+  emailSchema,
+  emailUI,
+  phoneSchema,
+  phoneUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { PrefillAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/PrefillAlert';
 import PreSubmitInfo from '../pages/PreSubmitInfo';
 import contactInformationPage from '../pages/contactInformation';
 import GetFormHelp from '../components/GetFormHelp';
@@ -32,7 +44,13 @@ import {
 } from '../helpers';
 
 import { urlMigration } from './migrations';
-import { ApplicantInformation } from '../pages/ApplicantInformation';
+import {
+  ApplicantInformation,
+  ApplicantInformationInfoSection,
+} from '../pages/ApplicantInformation';
+import ReviewPage from '../pages/ReviewPage';
+import { EditNavigationWithRouter } from '../components/EditNavigation';
+import { ServicePeriodReview } from '../pages/ServicePeriodReview';
 
 const {
   chapter33,
@@ -110,7 +128,7 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         applicantInformation: {
-          path: 'applicant/information',
+          path: 'applicant-information',
           title: 'Applicant information',
           CustomPage: ApplicantInformation,
           CustomPageReview: null,
@@ -119,6 +137,25 @@ const formConfig = {
             type: 'string',
             properties: {},
           },
+          review: props => ({
+            'Applicant Information': (() => {
+              const {
+                veteranFullName,
+                veteranSocialSecurityNumber,
+                veteranDateOfBirth,
+                gender: genderData,
+              } = props?.data;
+
+              return (
+                <ApplicantInformationInfoSection
+                  veteranDateOfBirth={veteranDateOfBirth}
+                  veteranFullName={veteranFullName}
+                  veteranSocialSecurityNumber={veteranSocialSecurityNumber}
+                  gender={genderData}
+                />
+              );
+            })(),
+          }),
         },
       },
     },
@@ -174,6 +211,11 @@ const formConfig = {
               }),
             },
           },
+          review: props => ({
+            'Service Period': (() => {
+              return <ServicePeriodReview {...props} />;
+            })(),
+          }),
         },
         militaryService: {
           title: 'Military service',
@@ -309,6 +351,79 @@ const formConfig = {
     personalInformation: {
       title: 'Personal information',
       pages: {
+        otherContactInfo: {
+          hideNavButtons: true,
+          title: 'Edit other contact information',
+          taskListHide: true,
+          path: 'personal-information/edit-other-contact-information',
+          uiSchema: {
+            ...descriptionUI(PrefillAlert, { hideOnReview: true }),
+            'view:pageTitle': titleUI({
+              title: 'Edit other contact information',
+              classNames: 'vads-u-margin-bottom--0',
+            }),
+
+            email: emailUI('Email address'),
+            'view:confirmEmail': {
+              ...emailUI(),
+              'ui:title': 'Confirm email address',
+              'ui:required': () => true,
+              'ui:validations': [
+                {
+                  validator: (errors, fieldData, formData) => {
+                    if (
+                      formData.email.toLowerCase() !==
+                      formData['view:confirmEmail'].toLowerCase()
+                    ) {
+                      errors.addError(
+                        'This email does not match your previously entered email',
+                      );
+                    }
+                  },
+                },
+              ],
+            },
+            homePhone: phoneUI('Home phone number'),
+            mobilePhone: phoneUI('Mobile phone number'),
+            'view:editNavigation': {
+              'ui:options': {
+                hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
+                forceDivWrapper: true, // It's all info and links, so we don't need a fieldset or legend
+              },
+              'ui:reviewId': 'other-contact-information',
+              'ui:title': '',
+              'ui:description': '',
+              'ui:widget': props => {
+                return (
+                  <EditNavigationWithRouter
+                    {...props}
+                    fields={['email', 'homePhone', 'mobilePhone']}
+                    returnPath="/personal-information"
+                  />
+                );
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:pageTitle': blankSchema,
+              email: emailSchema,
+              'view:confirmEmail': {
+                type: 'string',
+              },
+              homePhone: phoneSchema,
+              mobilePhone: phoneSchema,
+              'view:editNavigation': {
+                type: 'string',
+              },
+            },
+            required: ['email'],
+          },
+          scrollAndFocusTarget,
+          depends: () => false,
+          review: null,
+        },
         contactInformation: merge({}, contactInformationPage(fullSchema1990), {
           uiSchema: {
             'ui:title': 'Contact information',
@@ -323,6 +438,25 @@ const formConfig = {
         guardianInformation: GuardianInformation(fullSchema1990, {}),
       },
     },
+    reviewApp: {
+      title: 'Review Application',
+      pages: {
+        reviewAndSubmit: {
+          hideNavButtons: true,
+          title: 'Review and submit',
+          path: 'review-then-submit',
+          CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            definitions: {},
+            type: 'object',
+            properties: {},
+          },
+          scrollAndFocusTarget,
+        },
+      },
+    },
   },
 };
 
@@ -334,6 +468,7 @@ export const formConfigForOrangeTask = omit(formConfig, [
   'chapters.militaryHistory.pages.militaryService',
   'chapters.militaryHistory.pages.rotcHistory',
   'chapters.militaryHistory.pages.contributions',
+  'chapters.GuardianInformation',
 ]);
 
 // export const formConfigForOrangeTask = formConfig;

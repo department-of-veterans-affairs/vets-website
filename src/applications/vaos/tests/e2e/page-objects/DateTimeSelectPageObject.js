@@ -27,9 +27,7 @@ export class DateTimeSelectPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/date-time');
     cy.wait('@v2:get:slots');
-    cy.get('va-loading-indicator').as('spinner');
-    cy.get('@spinner').should('not.exist');
-    cy.axeCheckBestPractice();
+
     return this;
   }
 

@@ -49,7 +49,7 @@ describe('EditContactInfo', () => {
       expect(phoneNumber.required).to.be.true;
       const extension = $('va-text-input[label^="Extension"]', container);
       expect(extension).to.exist;
-      expect(getByText('Save')).to.exist;
+      expect(getByText('Update')).to.exist;
       expect($('va-button[text="Cancel"]', container)).to.exist;
     });
 

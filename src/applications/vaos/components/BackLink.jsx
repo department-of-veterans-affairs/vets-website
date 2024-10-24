@@ -1,11 +1,12 @@
-import React from 'react';
-import { useLocation, NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { GA_PREFIX } from '../utils/constants';
+import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { closeCancelAppointment } from '../appointment-list/redux/actions';
+import { GA_PREFIX } from '../utils/constants';
 
 export default function BackLink({ appointment }) {
   const {
@@ -24,7 +25,7 @@ export default function BackLink({ appointment }) {
   if (isPendingAppointment) {
     status = 'pending';
     link = '/pending';
-    linkText = 'Back to request for appointments';
+    linkText = 'Back to pending appointments';
   } else if (isUpcomingAppointment) {
     status = 'upcoming';
     link = '/';
@@ -47,26 +48,25 @@ export default function BackLink({ appointment }) {
       className="backLinkContainer vads-u-margin-top--2"
       aria-describedby="vaos-hide-for-print backLink"
     >
-      <div
-        aria-hidden
-        className="vads-u-color--link-default vads-u-margin-right--1"
-      >
-        ‹
-      </div>
-      <NavLink
+      <VaLink
+        back
+        href={`/my-health/appointments${link}`}
+        text={linkText}
         aria-label={linkText}
-        to={link}
         className="vaos-hide-for-print vads-u-color--link-default"
-        onClick={() => {
+        onClick={e => {
+          e.preventDefault();
+
           recordEvent({
             event: `${GA_PREFIX}-${status}-${progress}-details-descriptive-back-link`,
           });
           dispatch(closeCancelAppointment());
-          if (progress !== 'confirmation') history.goBack();
+          if (progress !== 'confirmation') {
+            history.goBack();
+          }
+          history.push(link);
         }}
-      >
-        {linkText}
-      </NavLink>
+      />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 const DEFAULT_PLACEHOLDER = 'Not provided';
 
@@ -14,20 +16,36 @@ const Heading = ({ text, level }) => {
   );
 };
 
-const SubHeading = ({ text, level, editLink = null }) => {
+Heading.propTypes = {
+  text: PropTypes.string.isRequired,
+  level: PropTypes.number,
+};
+
+const SubHeading = ({ text, level, editLink = null, id = null }) => {
   const H = `h${level || 3}`;
   return (
     <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center vads-u-border-bottom--1px vads-u-margin-bottom--2">
-      <H className="vads-u-margin--0">{text}</H>
+      <H className="vads-u-margin--0" id={id}>
+        {text}
+      </H>
       {editLink && (
-        <va-link
-          href={editLink}
+        <Link
+          to={editLink}
           className="vads-u-text-decoration--none"
           text="Edit"
-        />
+        >
+          Edit
+        </Link>
       )}
     </div>
   );
+};
+
+SubHeading.propTypes = {
+  text: PropTypes.string.isRequired,
+  editLink: PropTypes.string,
+  id: PropTypes.string,
+  level: PropTypes.number,
 };
 
 const InfoBlock = ({ label, value, placeholder }) => (
@@ -39,12 +57,24 @@ const InfoBlock = ({ label, value, placeholder }) => (
   </div>
 );
 
-export const InfoSection = ({ title, children }) => (
+InfoBlock.propTypes = {
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  value: PropTypes.string,
+};
+
+export const InfoSection = ({ title, children, titleLevel }) => (
   <section className="vads-u-margin-bottom--4">
-    {title && <Heading text={title} />}
+    {title && <Heading text={title} level={titleLevel} />}
     <dl className="vads-u-margin--0">{children}</dl>
   </section>
 );
+
+InfoSection.propTypes = {
+  children: PropTypes.node,
+  title: PropTypes.string,
+  titleLevel: PropTypes.number,
+};
 
 const ServicePeriod = ({
   branchOfService,
@@ -65,6 +95,14 @@ const ServicePeriod = ({
     />
   </div>
 );
+
+ServicePeriod.propTypes = {
+  applyToBenefit: PropTypes.string,
+  branchOfService: PropTypes.string,
+  endDate: PropTypes.string,
+  startDate: PropTypes.string,
+  typeOfService: PropTypes.string,
+};
 
 InfoSection.Heading = Heading;
 InfoSection.SubHeading = SubHeading;

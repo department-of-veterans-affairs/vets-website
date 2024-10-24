@@ -7,6 +7,7 @@ import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import withRouter from '../utils/withRouter';
 
 import {
   getAppealsV2 as getAppealsV2Action,
@@ -53,7 +54,7 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     this.state = {
-      page: 1,
+      page: YourClaimsPageV2.getPageFromURL(props),
       show30DayNotice: sessionStorage.getItem('show30DayNotice') === 'true',
     };
   }
@@ -90,7 +91,34 @@ class YourClaimsPageV2 extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.location.pathname !== this.props.location.pathname ||
+      prevProps.location.search !== this.props.location.search
+    ) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const newPage = YourClaimsPageV2.getPageFromURL(nextProps);
+
+    if (newPage !== prevState.page) {
+      return {
+        page: newPage,
+      };
+    }
+    return null;
+  }
+
+  static getPageFromURL(props) {
+    const queryParams = new URLSearchParams(props.location.search);
+    return parseInt(queryParams.get('page'), 10) || 1;
+  }
+
   changePage(event) {
+    const newURL = `${this.props.location.pathname}?page=${event.detail.page}`;
+    this.props.navigate(newURL);
     this.setState({ page: event.detail.page });
     // Move focus to "Showing X through Y of Z events..." for screenreaders
     setPageFocus('#pagination-info');
@@ -281,6 +309,8 @@ YourClaimsPageV2.propTypes = {
       attributes: PropTypes.shape({}),
     }),
   ),
+  location: PropTypes.object,
+  navigate: PropTypes.func,
   stemClaimsLoading: PropTypes.bool,
 };
 
@@ -343,9 +373,11 @@ const mapDispatchToProps = {
   getStemClaims: getStemClaimsAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(YourClaimsPageV2);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(YourClaimsPageV2),
+);
 
 export { YourClaimsPageV2 };

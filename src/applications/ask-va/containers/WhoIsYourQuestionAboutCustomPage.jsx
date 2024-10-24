@@ -7,13 +7,13 @@ import { connect } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequired from '../components/SignInMyBeRequired';
+import { flowPaths } from '../config/schema-helpers/formFlowHelper';
 import {
   CategoryEducation,
-  whoIsYourQuestionAboutLabels,
-  CHAPTER_3,
   CHAPTER_2,
+  CHAPTER_3,
+  whoIsYourQuestionAboutLabels,
 } from '../constants';
-import { flowPaths } from '../config/schema-helpers/formFlowHelper';
 
 const WhoIsYourQuestionAboutCustomPage = props => {
   const { onChange, loggedIn, goBack, goToPath, formData } = props;
@@ -91,7 +91,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
               key={option.value}
               name="who-is-your-question-about"
               label={option.label}
-              value={option.value}
+              value={option.label}
               checked={formData.whoIsYourQuestionAbout === option.value}
               aria-describedby={
                 formData.whoIsYourQuestionAbout === option.value

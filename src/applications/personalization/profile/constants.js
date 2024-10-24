@@ -8,7 +8,6 @@ export const PROFILE_TOGGLES = {
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
-  profileShowProofOfVeteranStatusEligible: false,
 };
 
 // The values of these constants map to the possible values that come back from
