@@ -25,9 +25,33 @@ import {
   validateSearchTermSubmit,
   searchCriteriaFromCoords,
   formatProgramType,
+  isReviewInstance,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
+  describe('isReviewInstance', () => {
+    let locationStub;
+
+    beforeEach(() => {
+      locationStub = sinon.stub(window, 'location').value({ hostname: '' });
+    });
+
+    afterEach(() => {
+      locationStub.restore();
+    });
+
+    it('should return false for non-review hostnames', () => {
+      locationStub.value.hostname = 'www.vets.gov';
+      const result = isReviewInstance();
+      expect(result).to.be.false;
+    });
+
+    it('should return false for completely different hostnames', () => {
+      locationStub.value.hostname = 'some.other-domain.com';
+      const result = isReviewInstance();
+      expect(result).to.be.false;
+    });
+  });
   describe('formatNumber', () => {
     it('should format numbers', () => {
       expect(formatNumber(1000)).to.equal('1,000');
