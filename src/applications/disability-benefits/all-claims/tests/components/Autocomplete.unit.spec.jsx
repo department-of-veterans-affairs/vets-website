@@ -4,7 +4,7 @@ import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utiliti
 import React from 'react';
 import sinon from 'sinon';
 
-import Autocomplete from '../../components/Temp';
+import Autocomplete from '../../components/Autocomplete';
 import disabilityLabelsRevised from '../../content/disabilityLabelsRevised';
 
 const results = Object.values(disabilityLabelsRevised);
