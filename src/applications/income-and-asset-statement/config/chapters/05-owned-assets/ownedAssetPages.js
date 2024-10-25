@@ -40,7 +40,7 @@ const options = {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
       item?.grossMonthlyIncome &&
-      item?.ownedPortionValue(
+      item?.ownedPortionValue && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Asset type:{' '}
@@ -60,7 +60,7 @@ const options = {
               {formatCurrency(item.ownedPortionValue)}
             </span>
           </li>
-        </ul>,
+        </ul>
       ),
     reviewAddButtonText: 'Add another owned asset',
     alertMaxItems:
