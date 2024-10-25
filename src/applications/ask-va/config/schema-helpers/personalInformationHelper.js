@@ -10,16 +10,9 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+import { branchesOfService } from '../../constants';
 
 const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
-
-const branchesOfService = [
-  'Army',
-  'Navy',
-  'Coast Guard',
-  'Air Force',
-  'Marine Corps',
-];
 
 const ssnServiceInfo = (
   <>

@@ -27,7 +27,7 @@ const {
   generateStatusResponse,
 } = require('./endpoints/status');
 
-const { generateCoeEligibleResponse } = require('./endpoints/coe/status');
+const { generateCoeEmptyResponse } = require('./endpoints/coe/status');
 
 // use one of these to provide a generic error response for any endpoint
 const genericErrors = {
@@ -84,7 +84,7 @@ const responses = {
     );
   },
 
-  'GET /v0/coe/status': generateCoeEligibleResponse(),
+  'GET /v0/coe/status': generateCoeEmptyResponse(),
   'GET /v0/user': (req, res) => {
     const shouldError = false; // set to true to test error response
     if (shouldError) {
@@ -144,7 +144,11 @@ const responses = {
   'POST /v0/profile/telephones': (req, res) => {
     // return res.status(200).json(phoneNumber.transactions.received);
     return res.json(
-      updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),
+      updateMemDb(
+        req,
+        // telephone.homePhoneUpdateReceivedPrefillTaskPurple,
+        telephone.mobilePhoneUpdateReceivedPrefillTaskBlue,
+      ),
     );
   },
   'POST /v0/profile/email_addresses': (req, res) => {

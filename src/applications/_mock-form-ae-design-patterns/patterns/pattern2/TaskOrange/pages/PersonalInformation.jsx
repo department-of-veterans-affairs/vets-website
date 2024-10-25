@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { Debug } from '../../../../shared/components/Debug';
+import { PatternConfigContext } from 'applications/_mock-form-ae-design-patterns/shared/context/PatternConfigContext';
+import { withRouter } from 'react-router';
+import { SaveSuccessAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/SaveSuccessAlert';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+import { scrollToElement } from 'platform/forms-system/exportsFile';
 import { formatPhoneNumber } from '../../../../utils/helpers/general';
 import { InfoSection } from '../../../../shared/components/InfoSection';
+
+const getLinkFactory = (rootUrl, review = false) => {
+  return id => {
+    const url = `${rootUrl}personal-information/${id}`;
+    return review ? `${url}?review` : url;
+  };
+};
+
+export const PersonalInformationContactReviewBase = props => {
+  return <PersonalInformationContact {...props} onReviewPage />;
+};
+
+export const PersonalInformationContactReview = withRouter(
+  PersonalInformationContactReviewBase,
+);
 
 export const PersonalInformationContact = ({
   data,
@@ -10,32 +30,63 @@ export const PersonalInformationContact = ({
   goForward,
   contentAfterButtons,
   contentBeforeButtons,
+  onReviewPage,
+  location,
 }) => {
-  const { homePhone, mobilePhone, email } = data?.['view:otherContactInfo'];
+  const config = useContext(PatternConfigContext);
+
+  const reviewId = location?.state?.reviewId;
+  const success = location?.state?.success;
+
+  useEffect(
+    () => {
+      if (reviewId) {
+        setTimeout(() => {
+          waitForRenderThenFocus(`#${reviewId}`);
+          scrollToElement(reviewId);
+          window.history.replaceState({}, '');
+        }, 100);
+      }
+    },
+    [reviewId],
+  );
+
+  const { homePhone, mobilePhone, email } = data;
 
   const address = data?.veteranAddress;
 
+  const getLink = getLinkFactory(`${config.urlPrefix}`, onReviewPage);
+
   return (
     <>
-      <p>We’ll save your application on every change.</p>
-
-      <va-alert status="info">
-        <strong>Note:</strong> We’ve prefilled some of your information from
-        your account. If you need to correct anything, you can select edit
-        below. All updates will be made only to this form.
-      </va-alert>
+      {!onReviewPage && (
+        <va-alert status="info">
+          <strong>Note:</strong> We’ve prefilled some of your information from
+          your account. If you need to correct anything, you can select edit
+          below. All updates will be made only to this form.
+        </va-alert>
+      )}
       <div className="vads-u-margin-top--4">
         <InfoSection>
           <InfoSection.SubHeading
             text="Contact information"
-            editLink="#edit-contact"
+            editLink={getLink('edit-contact-preference')}
           />
           <InfoSection.InfoBlock
             label="How should we contact you if we have questions about your application?"
-            value={null}
+            value="email"
           />
 
-          <InfoSection.SubHeading text="Address" editLink="#edit-address" />
+          <InfoSection.SubHeading
+            text="Address"
+            editLink={getLink('edit-mailing-address')}
+            id="veteranAddress"
+            name="veteranAddress"
+          />
+          {success &&
+            reviewId === 'veteranAddress' && (
+              <SaveSuccessAlert updatedText="Address information" />
+            )}
           <InfoSection.InfoBlock
             label="Street address"
             value={address?.street}
@@ -46,12 +97,18 @@ export const PersonalInformationContact = ({
           />
           <InfoSection.InfoBlock label="City" value={address?.city} />
           <InfoSection.InfoBlock label="State" value={address?.state} />
-          <InfoSection.InfoBlock label="Zip code" value={address?.zipCode} />
+          <InfoSection.InfoBlock label="Zip code" value={address?.postalCode} />
 
           <InfoSection.SubHeading
             text="Other contact information"
-            editLink="#edit-other-contact"
+            editLink={getLink('edit-other-contact-information')}
+            id="other-contact-information"
           />
+
+          {success &&
+            reviewId === 'other-contact-information' && (
+              <SaveSuccessAlert updatedText="Other contact information" />
+            )}
           <InfoSection.InfoBlock label="Email address" value={email} />
           <InfoSection.InfoBlock
             label="Mobile phone number"
@@ -64,11 +121,23 @@ export const PersonalInformationContact = ({
         </InfoSection>
       </div>
 
-      {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} goForward={goForward} />
-      {contentAfterButtons}
-
-      <Debug data={data} />
+      {!onReviewPage && (
+        <>
+          {contentBeforeButtons}
+          <FormNavButtons goBack={goBack} goForward={goForward} />
+          {contentAfterButtons}
+        </>
+      )}
     </>
   );
+};
+
+PersonalInformationContact.propTypes = {
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
+  location: PropTypes.object,
+  onReviewPage: PropTypes.bool,
 };
