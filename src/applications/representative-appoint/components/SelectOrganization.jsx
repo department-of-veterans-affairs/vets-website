@@ -44,9 +44,13 @@ const SelectOrganization = props => {
   );
 
   const handleRadioSelect = e => {
+    const selectedOrgId = e.detail.value;
+    const selectedOrg = organizations?.find(org => org.id === selectedOrgId);
+
     setFormData({
       ...formData,
-      selectedAccreditedOrganizationId: e.detail.value,
+      selectedAccreditedOrganizationId: selectedOrgId,
+      selectedAccreditedOrganizationName: selectedOrg?.attributes?.name || '', // Add name
     });
   };
 
