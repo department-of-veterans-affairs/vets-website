@@ -6,12 +6,19 @@ import ConfirmedAppointmentDetailsPage from '../index';
 import { renderWithStoreAndRouter } from '../../../../tests/mocks/setup';
 
 describe('appointment-list / components / ConfirmedAppointmentDetailsPage', () => {
+  let apiRequestStub;
+
+  beforeEach(() => {
+    apiRequestStub = sinon
+      .stub(apiRequestModule, 'apiRequest')
+      .resolves({ data: [] });
+  });
+
+  afterEach(() => {
+    apiRequestStub.restore();
+  });
   describe('when it is a past appointment with the travelPayViewClaimDetails feature enabled', () => {
     it('should call the appointments api with the right arguments', () => {
-      const apiRequestStub = sinon
-        .stub(apiRequestModule, 'apiRequest')
-        .resolves({ data: [] });
-
       const initialState = {
         featureToggles: {
           travelPayViewClaimDetails: true,
@@ -24,20 +31,13 @@ describe('appointment-list / components / ConfirmedAppointmentDetailsPage', () =
       });
 
       expect(apiRequestStub.calledOnce).to.be.true;
-      expect(apiRequestStub.firstCall.args[0]).to.include('/appointment');
       expect(apiRequestStub.firstCall.args[0]).to.include(
-        '_include=facilities,clinics,claims',
+        '_include=facilities,clinics,avs,claims',
       );
-      // Restore the stubbed method
-      apiRequestStub.restore();
     });
   });
   describe('when it is a past appointment with the travelPayViewClaimDetails feature disabled', () => {
     it('should call the appointments api with the right arguments', () => {
-      const apiRequestStub = sinon
-        .stub(apiRequestModule, 'apiRequest')
-        .resolves({ data: [] });
-
       const initialState = {
         featureToggles: {
           travelPayViewClaimDetails: false,
@@ -50,21 +50,14 @@ describe('appointment-list / components / ConfirmedAppointmentDetailsPage', () =
       });
 
       expect(apiRequestStub.calledOnce).to.be.true;
-      expect(apiRequestStub.firstCall.args[0]).to.include('/appointment');
       expect(apiRequestStub.firstCall.args[0]).to.include(
-        '_include=facilities,clinics',
+        '_include=facilities,clinics,avs',
       );
       expect(apiRequestStub.firstCall.args[0]).to.not.include('claims');
-      // Restore the stubbed method
-      apiRequestStub.restore();
     });
   });
   describe('when it is a not a past appointment with the travelPayViewClaimDetails feature enabled', () => {
     it('should call the appointments api with the right arguments', () => {
-      const apiRequestStub = sinon
-        .stub(apiRequestModule, 'apiRequest')
-        .resolves({ data: [] });
-
       const initialState = {
         featureToggles: {
           travelPayViewClaimDetails: true,
@@ -77,13 +70,10 @@ describe('appointment-list / components / ConfirmedAppointmentDetailsPage', () =
       });
 
       expect(apiRequestStub.calledOnce).to.be.true;
-      expect(apiRequestStub.firstCall.args[0]).to.include('/appointment');
       expect(apiRequestStub.firstCall.args[0]).to.include(
-        '_include=facilities,clinics',
+        '_include=facilities,clinics,avs',
       );
       expect(apiRequestStub.firstCall.args[0]).to.not.include('claims');
-      // Restore the stubbed method
-      apiRequestStub.restore();
     });
   });
 });

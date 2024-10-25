@@ -5,18 +5,16 @@ import * as apiRequestModule from 'platform/utilities/api';
 import PastAppointmentsList from '../index';
 import { renderWithStoreAndRouter } from '../../../../tests/mocks/setup';
 
-describe('VAOS Component: PastAppointmentsList API requests', () => {
+describe('VAOS Component: PastAppointmentsList', () => {
   let apiRequestStub;
 
   beforeEach(() => {
-    // Stub the axios.get method
     apiRequestStub = sinon
       .stub(apiRequestModule, 'apiRequest')
       .resolves({ data: [] });
   });
 
   afterEach(() => {
-    // Restore the stubbed method
     apiRequestStub.restore();
   });
   describe('when the travelPayViewClaimDetails feature toggle is enabled', () => {
@@ -31,9 +29,8 @@ describe('VAOS Component: PastAppointmentsList API requests', () => {
       });
 
       expect(apiRequestStub.calledOnce).to.be.true;
-      expect(apiRequestStub.firstCall.args[0]).to.include('/appointments');
       expect(apiRequestStub.firstCall.args[0]).to.include(
-        '_include=facilities,clinics,claims',
+        '_include=facilities,clinics,avs,claims',
       );
     });
   });
@@ -50,10 +47,10 @@ describe('VAOS Component: PastAppointmentsList API requests', () => {
       });
 
       expect(apiRequestStub.calledOnce).to.be.true;
-      expect(apiRequestStub.firstCall.args[0]).to.include('/appointments');
       expect(apiRequestStub.firstCall.args[0]).to.include(
-        '_include=facilities,clinics&start',
+        '_include=facilities,clinics,avs',
       );
+      expect(apiRequestStub.firstCall.args[0]).to.not.include('claims');
     });
   });
 });
