@@ -1,14 +1,13 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import MessageActionButtons from './MessageActionButtons';
 import {
   Categories,
-  Paths,
   PageTitles,
   Recipients,
   ParentComponent,
@@ -31,16 +30,8 @@ const MessageThreadHeader = props => {
     setIsCreateNewModalVisible,
     recipients,
   } = props;
-  const {
-    threadId,
-    messageId,
-    category,
-    subject,
-    sentDate,
-    recipientId,
-  } = message;
+  const { threadId, category, subject, sentDate, recipientId } = message;
 
-  const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
   const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
@@ -53,13 +44,6 @@ const MessageThreadHeader = props => {
   const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
 
   const messages = useSelector(state => state.sm.threadDetails.messages);
-
-  const handleReplyButton = useCallback(
-    () => {
-      history.push(`${Paths.REPLY}${messageId}/`);
-    },
-    [history, messageId],
-  );
 
   useEffect(() => {
     if (message) {
@@ -153,7 +137,6 @@ const MessageThreadHeader = props => {
       <MessageActionButtons
         threadId={threadId}
         hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
-        handleReplyButton={handleReplyButton}
         isCreateNewModalVisible={isCreateNewModalVisible}
         setIsCreateNewModalVisible={setIsCreateNewModalVisible}
       />
