@@ -307,51 +307,6 @@ const getNotificationMethod = notificationMethod => {
   }
 };
 
-// const getSponsorInformation = form => {
-//   let firstSponsor;
-//   if (!form?.data?.firstSponsor && form?.data?.selectedSponsors?.length === 1) {
-//     firstSponsor = form?.data?.selectedSponsors[0];
-//   } else {
-//     firstSponsor = form?.data?.firstSponsor;
-//   }
-
-//   if (firstSponsor === 'IM_NOT_SURE') {
-//     return {
-//       notSureAboutSponsor: true,
-//       firstSponsorVaId: null,
-//       manualSponsor: null,
-//     };
-//   }
-//   if (firstSponsor && firstSponsor !== 'SPONSOR_NOT_LISTED') {
-//     return {
-//       notSureAboutSponsor: false,
-//       firstSponsorVaId: firstSponsor,
-//       manualSponsor: null,
-//     };
-//   }
-//   // check if august feature flag is on and if so ensure manual entry is disabled
-//   if (form.data.showMebEnhancements08) {
-//     return {
-//       notSureAboutSponsor: true,
-//       firstSponsorVaId: null,
-//       manualSponsor: null, // return null for manualSponsor when the feature is disabled
-//     };
-//   }
-
-//   return {
-//     notSureAboutSponsor: false,
-//     firstSponsorVaId: null,
-//     manualSponsor: {
-//       firstName: form?.data?.sponsorFullName?.first,
-//       middleName: form?.data?.sponsorFullName?.middle,
-//       lastName: form?.data?.sponsorFullName?.last,
-//       suffix: form?.data?.sponsorFullName?.suffix,
-//       dateOfBirth: form?.data?.sponsorDateOfBirth,
-//       relationship: form?.data?.relationshipToServiceMember,
-//     },
-//   };
-// };
-
 export function getAddressType(mailingAddress) {
   if (!mailingAddress) {
     return null;
@@ -370,8 +325,6 @@ export function transform5490Form(_formConfig, form) {
   const formFieldUserFullName = form?.data?.claimantFullName;
   const viewComponentUserFullName =
     form?.loadedData?.formData?.claimantFullName;
-  // const formFieldDateOfBirth = form?.data?.dateOfBirth;
-  // const viewComponentDateOfBirth = form?.loadedData?.formData.dateOfBirth;
 
   const userFullName =
     formFieldUserFullName !== undefined &&
@@ -388,6 +341,7 @@ export function transform5490Form(_formConfig, form) {
       middleName: userFullName?.middle,
       lastName: userFullName?.last,
       suffix: userFullName?.suffix,
+      dateOfBirth: form?.data?.relativeDateOfBirth,
       notificationMethod: getNotificationMethod(form?.data?.notificationMethod),
       contactInfo: {
         addressLine1: form?.data?.mailingAddressInput?.address?.street,
@@ -409,8 +363,8 @@ export function transform5490Form(_formConfig, form) {
       firstName: form?.data?.fullName?.first,
       lastName: form?.data?.fullName?.last,
       middleName: form?.data?.fullName?.middle,
-      sponsorRelationship: form?.data?.relationShipToMember,
-      dateOfBirth: form?.data?.relativeDateOfBirth,
+      relationship: form?.data?.relationShipToMember,
+      dateOfBirth: form?.data?.dateOfBirth,
       ssn: form?.data?.relativeSocialSecurityNumber,
     },
     highSchoolDiplomaInfo: {
@@ -430,7 +384,7 @@ export function transform5490Form(_formConfig, form) {
       marriageDate: form?.data?.marriageDate,
       marriageStatus: form?.data?.marriageStatus,
       remarriageDate: form?.data?.remarriageDate,
-      remarriageStatus: form?.data?.remarriageStatus,
+      remarriedSinceDivorce: form?.data?.remarriageStatus,
     },
   };
 

@@ -17,6 +17,7 @@ import { customSubmit686 } from '../analytics/helpers';
 // Chapter imports
 import {
   formerSpouseInformation,
+  formerSpouseInformationPartThree,
   formerSpouseInformationPartTwo,
 } from './chapters/report-divorce';
 import {
@@ -851,6 +852,14 @@ export const formConfig = {
           path: 'report-a-divorce/divorce-information',
           uiSchema: formerSpouseInformationPartTwo.uiSchema,
           schema: formerSpouseInformationPartTwo.schema,
+        },
+        formerSpouseInformationPartThree: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+          title: 'Information needed to report a divorce',
+          path: 'report-a-divorce/former-spouse-income',
+          uiSchema: formerSpouseInformationPartThree.uiSchema,
+          schema: formerSpouseInformationPartThree.schema,
         },
       },
     },

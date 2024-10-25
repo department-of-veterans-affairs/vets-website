@@ -37,12 +37,12 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@axe-core/react@^4.4.3":
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/@axe-core/react/-/react-4.4.3.tgz#944ce046c0a3a1e65977c6e230d2a2b812922497"
-  integrity sha512-3eIqDoGVTK20kbY+hD0S9n+ALdZ9FOzV692eD2iyyGMq7on6TCISEv8TljvirSBwWcWIxuUnI69KX/mMQBqtFA==
+"@axe-core/react@^4.10.0":
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/@axe-core/react/-/react-4.10.0.tgz#124cde86b9bbbf44fd0f2c787beed186b8b9a3d4"
+  integrity sha512-gpFj1+G0zabbd0ZDum1N5FPJtUOfPIfslXNH58WuR7opSK0WTwPJ49ZlYr/Wg2fA4VGI5lfkG5fAZSG9p8ecKw==
   dependencies:
-    axe-core "^4.4.1"
+    axe-core "~4.10.0"
     requestidlecallback "^0.3.0"
 
 "@babel/code-frame@7.12.11":
@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^47.1.0":
-  version "47.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-47.1.0.tgz#2162d343b38614057632af42e444c658bf68d908"
-  integrity sha512-ZKTDY8kiQ3F3i3hL3OLQ+fyv9B4Xi1qQkUnBegu8TC6KjXDNed3PxAuVO+5iJXYi604cgBW72gXYZYbi63ITFQ==
+"@department-of-veterans-affairs/component-library@^47.2.0":
+  version "47.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-47.2.0.tgz#380c9a8eb66adeabb82dbc1f87c4677ba407c849"
+  integrity sha512-QqR6NgsfYssM7OvT2SZbBeHBcHRMdQqxwGARQG+rQOZhOuEPz5DKS+J1Xbm22KO5FZtu8G56S/lTa1a4SGOl0g==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "15.1.0"
+    "@department-of-veterans-affairs/web-components" "15.2.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2951,10 +2951,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@15.1.0":
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-15.1.0.tgz#ec0a6952a591f9ed0a7d3ddea2211047a3471d71"
-  integrity sha512-/kUPjVJb+Ira1rekD3suBNDJqYFzW1rsF5xT6d2NLe58kY6JnbMV+/w9KH1fG1uCIaXV5RaKVK0bDjSjMhRxAw==
+"@department-of-veterans-affairs/web-components@15.2.0":
+  version "15.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-15.2.0.tgz#b7aa375ed408b84461e57166605aa2cda9a07acd"
+  integrity sha512-P72lf1+lIxTnzlfg1bTAFwBz7nzo3xZ6afUa3jh4vol1AtlLk8CJWivaTSORR/+7kC/kEPM6x4OhLS1Jkh2ojg==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.12.2"
     "@stencil/core" "4.20.0"
@@ -5807,10 +5807,15 @@ axe-core@=4.7.0:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.7.0.tgz#34ba5a48a8b564f67e103f0aa5768d76e15bbbbf"
   integrity sha512-M0JtH+hlOL5pLQwHOLNYZaXuhqmvS8oExsqB1SBYgA4Dk7u/xx+YdGHXaK5pyUfed5mYXdlYiphWq3G8cRi5JQ==
 
-axe-core@^4.4.1, axe-core@^4.4.3:
+axe-core@^4.4.3:
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.3.tgz#11c74d23d5013c0fa5d183796729bc3482bd2f6f"
   integrity sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==
+
+axe-core@~4.10.0:
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.10.1.tgz#7d2589b0183f05b0f23e55c2f4cdf97b5bdc66d9"
+  integrity sha512-qPC9o+kD8Tir0lzNGLeghbOrWMr3ZJpaRlCIb6Uobt/7N4FiEDvqUMnxzCHRHmg8vOg14kr5gVNyScRmbMaJ9g==
 
 axios@^0.21.1, axios@^1.1.3:
   version "0.21.4"
@@ -8035,10 +8040,10 @@ cypress-axe@^1.0.0:
   resolved "https://registry.yarnpkg.com/cypress-axe/-/cypress-axe-1.0.0.tgz#ab4e9486eaa3bb956a90a1ae40d52df42827b4f0"
   integrity sha512-QBlNMAd5eZoyhG8RGGR/pLtpHGkvgWXm2tkP68scJ+AjYiNNOlJihxoEwH93RT+rWOLrefw4iWwEx8kpEcrvJA==
 
-cypress-axe@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/cypress-axe/-/cypress-axe-1.4.0.tgz#e67482bfe9e740796bf77c7823f19781a8a2faff"
-  integrity sha512-Ut7NKfzjyKm0BEbt2WxuKtLkIXmx6FD2j0RwdvO/Ykl7GmB/qRQkwbKLk3VP35+83hiIr8GKD04PDdrTK5BnyA==
+cypress-axe@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/cypress-axe/-/cypress-axe-1.5.0.tgz#95082734583da77b51ce9b7784e14a442016c7a1"
+  integrity sha512-Hy/owCjfj+25KMsecvDgo4fC/781ccL+e8p+UUYoadGVM2ogZF9XIKbiM6KI8Y3cEaSreymdD6ZzccbI2bY0lQ==
 
 cypress-multi-reporters@^1.6.3:
   version "1.6.3"
