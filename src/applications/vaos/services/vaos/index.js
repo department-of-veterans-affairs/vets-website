@@ -37,7 +37,7 @@ export function getAppointments(
   end,
   statuses = [],
   avs = false,
-  fetchClaimStatus,
+  fetchClaimStatus = false,
 ) {
   const options = {
     method: 'GET',
@@ -59,7 +59,7 @@ export function getAppointments(
   ).then(parseApiListWithErrors);
 }
 
-export function getAppointment(id, avs = false, fetchClaimStatus) {
+export function getAppointment(id, avs = false, fetchClaimStatus = false) {
   const options = {
     method: 'GET',
   };
