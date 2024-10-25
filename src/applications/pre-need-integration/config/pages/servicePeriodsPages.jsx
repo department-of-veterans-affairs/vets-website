@@ -17,7 +17,11 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { serviceLabels } from '../../utils/labels';
 // import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 // import { serviceRecordsUI } from '../../utils/helpers';
-import { isVeteran, isAuthorizedAgent } from '../../utils/helpers';
+import {
+  isVeteran,
+  isAuthorizedAgent,
+  hasServiceRecord,
+} from '../../utils/helpers';
 // const { veteran } = fullSchemaPreNeed.properties.application.properties;
 import HighestRankAutoSuggest from '../../components/HighestRankAutoSuggest';
 
@@ -87,8 +91,11 @@ const options = {
       'If you cancel, you’ll lose any changes you made on this screen and you will be returned to the service periods review page.',
     cancelEditYes: () => 'Yes, cancel',
     cancelEditNo: () => 'No, keep this',
-    // summaryTitle: formData => (isVeteran(formData) ? 'testvet' : 'testnonvet'),
-    summaryTitle: () => '',
+    // summaryTitle: formData => (isVeteran(formData) ? isAuthorizedAgent(formData) ? 'Applicant’s service period(s)' : 'Your service period(s)' : 'Sponsor’s service periods(s)'),
+    summaryTitle: formData =>
+      hasServiceRecord(formData)
+        ? 'has service record'
+        : 'Review service period records',
   },
 };
 

@@ -619,6 +619,12 @@ export function requiresSponsorInfo(item) {
   return sponsor === undefined || sponsor === 'Other';
 }
 
+export function hasServiceRecord(item) {
+  const serviceRecords =
+    get('serviceRecords', item) || get('formData.serviceRecords', item);
+  return !(serviceRecords === undefined || serviceRecords.length === 0);
+}
+
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
   return (
