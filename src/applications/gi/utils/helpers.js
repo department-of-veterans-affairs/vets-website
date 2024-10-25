@@ -533,9 +533,7 @@ export const formatProgramType = programType => {
 
   return programType
     .split('-')
-    .map(
-      word =>
-        word ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : '',
-    )
+    .filter(word => word.trim()) // Filter out empty strings caused by extra hyphens
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 };

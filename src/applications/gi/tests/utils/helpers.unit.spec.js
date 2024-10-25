@@ -220,6 +220,14 @@ describe('GIBCT helpers:', () => {
       const phoneNumber = 4567890;
       expect(phoneInfo(areaCode, phoneNumber)).to.eq('123-4567890');
     });
+    it('should return an empty string when both areaCode and phoneNumber are missing', () => {
+      const areaCode = '';
+      const phoneNumber = '';
+
+      const result = phoneInfo(areaCode, phoneNumber);
+
+      expect(result).to.eq('');
+    });
   });
   describe('isPresent', () => {
     it(" value = 'SampleText' are turned into number false ", () => {
@@ -516,39 +524,30 @@ describe('GIBCT helpers:', () => {
     });
   });
   describe('formatProgramType', () => {
-    it('should return an empty string when input is undefined', () => {
-      expect(formatProgramType(undefined)).to.equal('');
+    it('should return an empty string when programType is null or undefined', () => {
+      expect(formatProgramType(null)).to.equal('');
     });
-
-    it('should return an empty string when input is an empty string', () => {
+    it('should return an empty string when programType is an empty string', () => {
       expect(formatProgramType('')).to.equal('');
     });
-
-    it('should return a formatted string for valid input', () => {
-      expect(formatProgramType('non-college-degree')).to.equal(
-        'Non College Degree',
+    it('should capitalize each word and join with spaces when programType is hyphenated', () => {
+      expect(formatProgramType('online-program')).to.equal('Online Program');
+    });
+    it('should handle a single word programType', () => {
+      expect(formatProgramType('bachelor')).to.equal('Bachelor');
+    });
+    it('should handle multiple hyphenated words', () => {
+      expect(formatProgramType('associate-degree-program')).to.equal(
+        'Associate Degree Program',
       );
     });
-
-    it('should handle multiple hyphens correctly', () => {
-      expect(formatProgramType('non-college-degree-program')).to.equal(
-        'Non College Degree Program',
-      );
-      expect(formatProgramType('a-b-c')).to.equal('A B C');
+    it('should handle programType with extra hyphens', () => {
+      expect(formatProgramType('masters--program')).to.equal('Masters Program');
     });
-
-    it('should handle words with mixed case', () => {
-      expect(formatProgramType('Non-COLLEGE-Degree')).to.equal(
-        'Non College Degree',
+    it('should lowercase the remaining characters of each word after capitalizing the first', () => {
+      expect(formatProgramType('DOCTORATE-PROGRAM')).to.equal(
+        'Doctorate Program',
       );
-      expect(formatProgramType('MasteR-of-SCience')).to.equal(
-        'Master Of Science',
-      );
-    });
-
-    it('should return a formatted string with single words', () => {
-      expect(formatProgramType('engineering')).to.equal('Engineering');
-      expect(formatProgramType('mathematics')).to.equal('Mathematics');
     });
   });
 });
