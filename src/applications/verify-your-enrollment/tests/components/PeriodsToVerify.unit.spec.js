@@ -43,7 +43,7 @@ describe('<PeriodsToVerify />', () => {
       dispatchVerifyEnrollmentAction: sinon.spy(),
     };
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <Provider store={store}>
         <PeriodsToVerify {...props} />
       </Provider>,
@@ -90,7 +90,7 @@ describe('<PeriodsToVerify />', () => {
       link: () => {},
       toggleEnrollmentSuccess: false,
     };
-    const wrapper = mount(
+    const wrapper = shallow(
       <Provider store={store}>
         <PeriodsToVerify {...props} />
       </Provider>,
@@ -114,7 +114,7 @@ describe('<PeriodsToVerify />', () => {
       link: () => {},
       toggleEnrollmentSuccess: false,
     };
-    const wrapper = mount(
+    const wrapper = shallow(
       <Provider store={store}>
         <PeriodsToVerify {...props} />
       </Provider>,

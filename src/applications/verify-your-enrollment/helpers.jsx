@@ -314,7 +314,10 @@ export const getPeriodsToVerifyDGIB = (
                     )}
                   </span>
                 </p>
-                <p className={enrollmentInfoClassName}>
+                <p
+                  className={enrollmentInfoClassName}
+                  data-testid="total-credit-hours"
+                >
                   <span className="vads-u-font-weight--bold">
                     Total credit hours:
                   </span>{' '}
@@ -322,7 +325,10 @@ export const getPeriodsToVerifyDGIB = (
                     ? 'Hours unavailable'
                     : totalCreditHours}
                 </p>
-                <p className={enrollmentInfoClassName}>
+                <p
+                  className={enrollmentInfoClassName}
+                  data-testid="monthly-rate"
+                >
                   <span className="vads-u-font-weight--bold">
                     Monthly rate:
                   </span>{' '}
