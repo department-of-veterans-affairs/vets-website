@@ -9,6 +9,7 @@ const SearchResult = ({
   representative,
   query,
   handleSelectRepresentative,
+  loadingPOA,
 }) => {
   const { representativeId } = representative.data;
   const {
@@ -136,12 +137,19 @@ const SearchResult = ({
         </div>
 
         <div className="vads-u-margin-top--4">
-          <VaButton
-            data-testid="representative-search-btn"
-            text="Select this representative"
-            secondary
-            onClick={() => handleSelectRepresentative(representative.data)}
-          />
+          {loadingPOA ? (
+            <va-loading-indicator
+              message="Finding accredited representatives..."
+              set-focus
+            />
+          ) : (
+            <VaButton
+              data-testid="representative-search-btn"
+              text="Select this representative"
+              secondary
+              onClick={() => handleSelectRepresentative(representative.data)}
+            />
+          )}
         </div>
       </div>
     </va-card>
