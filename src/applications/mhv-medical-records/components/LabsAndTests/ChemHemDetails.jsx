@@ -138,19 +138,37 @@ Lab comments: ${entry.labComments}\n`,
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Type of test
         </h3>
-        <p data-testid="chem-hem-category">{record.category}</p>
+        <p
+          data-testid="chem-hem-category"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
+          {record.category}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Site or sample tested
         </h3>
-        <p data-testid="chem-hem-sample-tested">{record.sampleTested}</p>
+        <p
+          data-testid="chem-hem-sample-tested"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
+          {record.sampleTested}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
+        <p
+          data-testid="chem-hem-ordered-by"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
+          {record.orderedBy}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="chem-hem-collecting-location">
+        <p
+          data-testid="chem-hem-collecting-location"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
           {record.collectingLocation}
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">

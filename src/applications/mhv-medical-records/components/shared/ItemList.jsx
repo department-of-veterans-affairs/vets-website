@@ -16,7 +16,7 @@ const ItemList = props => {
           return (
             <li
               key={idx}
-              className="vads-u-margin-bottom--0"
+              className="vads-u-margin-bottom--0 vads-u-font-size--base vads-u-font-family--sans"
               data-dd-privacy="mask"
               data-testid="list-item-multiple"
             >

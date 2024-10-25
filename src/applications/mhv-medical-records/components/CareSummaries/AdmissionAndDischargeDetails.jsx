@@ -142,14 +142,24 @@ ${record.summary}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="note-record-location"> {record.location}</p>
+        <p
+          data-testid="note-record-location"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
+          {record.location}
+        </p>
         {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
           record.sortByField !== null && (
             <>
               <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                 Date admitted
               </h3>
-              <p data-testid="note-admission-date">{record.admissionDate}</p>
+              <p
+                data-testid="note-admission-date"
+                className="vads-u-font-size--base vads-u-font-family--sans"
+              >
+                {record.admissionDate}
+              </p>
             </>
           )}
         {record.sortByField !== dischargeSummarySortFields.DISCHARGE_DATE && (
@@ -157,13 +167,23 @@ ${record.summary}`;
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Date discharged
             </h3>
-            <p data-testid="note-discharge-date">{record.dischargeDate}</p>
+            <p
+              data-testid="note-discharge-date"
+              className="vads-u-font-size--base vads-u-font-family--sans"
+            >
+              {record.dischargeDate}
+            </p>
           </>
         )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharged by
         </h3>
-        <p data-testid="note-discharged-by">{record.dischargedBy}</p>
+        <p
+          data-testid="note-discharged-by"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
+          {record.dischargedBy}
+        </p>
       </div>
 
       <div className="test-results-container">

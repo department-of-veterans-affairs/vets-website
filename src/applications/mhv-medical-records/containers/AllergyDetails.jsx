@@ -163,25 +163,41 @@ Provider notes: ${allergy.notes} \n`;
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p data-dd-privacy="mask" data-testid="allergy-type">
+            <p
+              data-dd-privacy="mask"
+              data-testid="allergy-type"
+              className="vads-u-font-size--base vads-u-font-family--sans"
+            >
               {allergy.type}
             </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p data-dd-privacy="mask" data-testid="allergy-location">
+            <p
+              data-dd-privacy="mask"
+              data-testid="allergy-location"
+              className="vads-u-font-size--base vads-u-font-family--sans"
+            >
               {allergy.location}
             </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Observed or historical
             </h2>
-            <p data-dd-privacy="mask" data-testid="allergy-observed">
+            <p
+              data-dd-privacy="mask"
+              data-testid="allergy-observed"
+              className="vads-u-font-size--base vads-u-font-family--sans"
+            >
               {allergy.observedOrReported}
             </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
-            <p data-dd-privacy="mask" data-testid="allergy-notes">
+            <p
+              data-dd-privacy="mask"
+              data-testid="allergy-notes"
+              className="vads-u-font-size--base vads-u-font-family--sans"
+            >
               {allergy.notes}
             </p>
           </div>

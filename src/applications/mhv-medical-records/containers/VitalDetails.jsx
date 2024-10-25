@@ -304,7 +304,7 @@ Provider notes: ${vital.notes}\n\n`,
                 </h4>
                 <p
                   data-testid="vital-result"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--base vads-u-font-family--sans"
                   data-dd-privacy="mask"
                 >
                   {vital.measurement}
@@ -314,7 +314,7 @@ Provider notes: ${vital.notes}\n\n`,
                 </h4>
                 <p
                   data-testid="vital-location"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--base vads-u-font-family--sans"
                   data-dd-privacy="mask"
                 >
                   {vital.location}
@@ -324,7 +324,7 @@ Provider notes: ${vital.notes}\n\n`,
                 </h4>
                 <p
                   data-testid="vital-provider-note"
-                  className="vads-u-margin--0"
+                  className="vads-u-margin--0 vads-u-font-size--base vads-u-font-family--sans"
                   data-dd-privacy="mask"
                 >
                   {vital.notes}

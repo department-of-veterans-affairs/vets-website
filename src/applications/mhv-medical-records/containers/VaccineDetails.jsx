@@ -154,7 +154,7 @@ Location: ${record.location}\n`;
               Location
             </h2>
             <p
-              className="vads-u-margin-top--0"
+              className="vads-u-margin-top--0 vads-u-font-size--base vads-u-font-family--sans"
               data-dd-privacy="mask"
               data-testid="vaccine-location"
             >

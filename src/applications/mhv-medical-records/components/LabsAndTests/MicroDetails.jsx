@@ -135,25 +135,48 @@ ${record.results}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Site or sample tested
         </h3>
-        <p data-testid="microbio-sample-tested">{record.sampleTested}</p>
+        <p
+          data-testid="microbio-sample-tested"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
+          {record.sampleTested}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Collection sample
         </h3>
-        <p data-testid="microbio-sample-from">{record.sampleFrom}</p>
+        <p
+          data-testid="microbio-sample-from"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
+          {record.sampleFrom}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p data-testid="microbio-ordered-by">{record.orderedBy}</p>
+        <p
+          data-testid="microbio-ordered-by"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
+          {record.orderedBy}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="microbio-collecting-location">
+        <p
+          data-testid="microbio-collecting-location"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
           {record.collectingLocation}
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="microbio-date-completed">{record.dateCompleted}</p>
+        <p
+          data-testid="microbio-date-completed"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
+          {record.dateCompleted}
+        </p>
       </div>
 
       <div className="test-results-container">
