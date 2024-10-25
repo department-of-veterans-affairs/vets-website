@@ -1,12 +1,15 @@
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import {
-  fullNameUI,
   ssnUI,
   vaFileNumberUI,
   dateOfBirthUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { AltReviewRowView } from '../../../components/ReviewRowView';
-import { generateHelpText, generateTitle } from '../../../utils/helpers';
+import {
+  benefitsIntakeFullNameUI,
+  generateHelpText,
+  generateTitle,
+} from '../../../utils/helpers';
 
 const {
   veteranFullName,
@@ -18,7 +21,7 @@ const {
 export default {
   uiSchema: {
     'ui:title': generateTitle('Personal information'),
-    veteranFullName: fullNameUI(title => `Veteran’s ${title}`),
+    veteranFullName: benefitsIntakeFullNameUI(title => `Veteran’s ${title}`),
     veteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
     vaFileNumber: {
       ...vaFileNumberUI('Veteran’s VA file number'),
