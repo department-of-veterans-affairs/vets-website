@@ -149,6 +149,24 @@ export const postSharingUpdateStatus = (optIn = false) => {
   });
 };
 
+export const getImagingStudies = () => {
+  return apiRequest(`${apiBasePath}/medical_records/imaging`, { headers });
+};
+
+export const requestImagingStudy = studyId => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/imaging/${studyId}/request`,
+    { headers },
+  );
+};
+
+export const getImageList = studyId => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/imaging/${studyId}/images`,
+    { headers },
+  );
+};
+
 /**
  * Get all of a patient's medical records for generating a Blue Button report
  * @returns an object with

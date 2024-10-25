@@ -137,12 +137,29 @@ export class LetterList extends React.Component {
         </p>
         <ul>
           <li>
+            <a href="/education/download-letters/" target="_blank">
+              <strong>Download your VA education letters.</strong>
+            </a>
+          </li>
+          <li>
             <a
               href="/education/gi-bill/post-9-11/ch-33-benefit"
               target="_blank"
             >
               <strong>
                 View and print your Post-9/11 GI Bill statement of benefits.
+              </strong>
+            </a>
+          </li>
+          <li>
+            <a
+              href="/housing-assistance/home-loans/check-coe-status/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <strong>
+                Download a copy of your Certificate of Eligibility for home
+                loan.
               </strong>
             </a>
           </li>

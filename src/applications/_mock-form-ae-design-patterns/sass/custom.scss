@@ -72,3 +72,12 @@ div.progress-box.progress-box-schemaform > div.form-panel > div > va-card {
 #root_view\:editNavigation-label {
   display: none !important;
 }
+
+[data-location="2/task-orange/applicant-information"] {
+  .schemaform-chapter-progress {
+    padding-left: 0;
+    span {
+      font-size: 18px !important;
+    }
+  }
+}

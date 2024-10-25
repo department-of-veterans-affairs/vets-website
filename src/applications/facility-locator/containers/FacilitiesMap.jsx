@@ -28,10 +28,12 @@ import {
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
+import NoResultsMessage from '../components/NoResultsMessage';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
 import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
+import { FacilitiesMapTypes } from '../types';
 
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
@@ -57,6 +59,7 @@ const zoomMessageDivID = 'screenreader-zoom-message';
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
   const searchResultTitleRef = useRef(null);
+  const searchResultMessageRef = useRef();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSearching, setIsSearching] = useState(false);
 
@@ -335,6 +338,7 @@ const FacilitiesMap = props => {
 
   const speakMapInstructions = () => {
     const mapInstructionsElement = document.getElementById('map-instructions');
+
     if (mapInstructionsElement) {
       mapInstructionsElement.innerText =
         'Search areas on the map up to a maximum of 500 miles. ' +
@@ -404,7 +408,12 @@ const FacilitiesMap = props => {
 
     const resultsList = () => {
       return (
-        <ResultsList updateUrlParams={updateUrlParams} query={currentQuery} />
+        <ResultsList
+          isMobile={isMobile}
+          query={currentQuery}
+          searchResultMessageRef={searchResultMessageRef}
+          updateUrlParams={updateUrlParams}
+        />
       );
     };
 
@@ -483,6 +492,14 @@ const FacilitiesMap = props => {
               </TabPanel>
               <TabPanel>
                 {renderMap(true, results)}
+                {currentQuery.searchStarted &&
+                  !results.length && (
+                    <NoResultsMessage
+                      resultRef={searchResultMessageRef}
+                      resultsFound={false}
+                      searchStarted
+                    />
+                  )}
                 {selectedResult && (
                   <div className="mobile-search-result">
                     {currentQuery.serviceType === Covid19Vaccine ? (
@@ -501,7 +518,7 @@ const FacilitiesMap = props => {
         ) : (
           <>
             <div
-              className="columns search-results-container vads-u-padding-left--0 medium-4 small-12"
+              className="columns search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0 medium-4 small-12"
               id="searchResultsContainer"
             >
               <div className="facility-search-results">{resultsList()}</div>
@@ -646,21 +663,26 @@ const FacilitiesMap = props => {
     [props.currentQuery.searchCoords, props.results],
   );
 
+  useEffect(
+    () => {
+      if (searchResultMessageRef.current) {
+        setFocus(searchResultMessageRef.current);
+      }
+    },
+    [props.results, props.currentQuery.inProgress, props.searchError],
+  );
+
   return (
     <>
-      <div>
-        <div className="title-section">
-          <h1>Find VA locations</h1>
-        </div>
-        <div className="facility-introtext">
-          <p>
-            Find a VA location or in-network community care provider. For
-            same-day care for minor illnesses or injuries, select Urgent care
-            for facility type.
-          </p>
-        </div>
-        {renderView()}
-      </div>
+      <h1 className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2">
+        Find VA locations
+      </h1>
+      <p className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2 vads-u-margin-bottom--4">
+        Find a VA location or in-network community care provider. For same-day
+        care for minor illnesses or injuries, select Urgent care for facility
+        type.
+      </p>
+      {renderView()}
       {otherToolsLink()}
     </>
   );
@@ -692,6 +714,9 @@ const mapDispatchToProps = {
   clearSearchText,
   mapMoved,
 };
+
+FacilitiesMap.propTypes = FacilitiesMapTypes;
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
