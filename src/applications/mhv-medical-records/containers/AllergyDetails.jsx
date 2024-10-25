@@ -156,48 +156,24 @@ Provider notes: ${allergy.notes} \n`;
             className="condition-details max-80 vads-u-margin-top--4"
             data-testid="allergy-reaction"
           >
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Signs and symptoms
-            </h2>
+            <h2 className=" vads-u-font-family--sans">Signs and symptoms</h2>
             <ItemList list={allergy.reaction} />
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Type of allergy
-            </h2>
-            <p
-              data-dd-privacy="mask"
-              data-testid="allergy-type"
-              className="vads-u-font-size--base vads-u-font-family--sans"
-            >
+            <h2 className=" vads-u-font-family--sans">Type of allergy</h2>
+            <p data-dd-privacy="mask" data-testid="allergy-type">
               {allergy.type}
             </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Location
-            </h2>
-            <p
-              data-dd-privacy="mask"
-              data-testid="allergy-location"
-              className="vads-u-font-size--base vads-u-font-family--sans"
-            >
+            <h2 className=" vads-u-font-family--sans">Location</h2>
+            <p data-dd-privacy="mask" data-testid="allergy-location">
               {allergy.location}
             </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h2 className=" vads-u-font-family--sans">
               Observed or historical
             </h2>
-            <p
-              data-dd-privacy="mask"
-              data-testid="allergy-observed"
-              className="vads-u-font-size--base vads-u-font-family--sans"
-            >
+            <p data-dd-privacy="mask" data-testid="allergy-observed">
               {allergy.observedOrReported}
             </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Provider notes
-            </h2>
-            <p
-              data-dd-privacy="mask"
-              data-testid="allergy-notes"
-              className="vads-u-font-size--base vads-u-font-family--sans"
-            >
+            <h2 className=" vads-u-font-family--sans">Provider notes</h2>
+            <p data-dd-privacy="mask" data-testid="allergy-notes">
               {allergy.notes}
             </p>
           </div>

@@ -299,32 +299,32 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.date}
                 </h3>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
                   Result
                 </h4>
                 <p
                   data-testid="vital-result"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--base vads-u-font-family--sans"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
                   {vital.measurement}
                 </p>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
                   Location
                 </h4>
                 <p
                   data-testid="vital-location"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--base vads-u-font-family--sans"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
                   {vital.location}
                 </p>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
                   Provider notes
                 </h4>
                 <p
                   data-testid="vital-provider-note"
-                  className="vads-u-margin--0 vads-u-font-size--base vads-u-font-family--sans"
+                  className="vads-u-margin--0"
                   data-dd-privacy="mask"
                 >
                   {vital.notes}

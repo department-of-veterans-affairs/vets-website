@@ -165,27 +165,15 @@ Provider Notes: ${processList(record.comments)}\n`;
           <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
 
           <div className="condition-details max-80">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Provider
-            </h2>
-            <p
-              className="vads-u-font-size--base vads-u-font-family--sans"
-              data-dd-privacy="mask"
-              data-testid="condition-provider"
-            >
+            <h2 className="vads-u-font-family--sans">Provider</h2>
+            <p data-dd-privacy="mask" data-testid="condition-provider">
               {record.provider}
             </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Location
-            </h2>
-            <p
-              data-dd-privacy="mask"
-              data-testid="condition-location"
-              className="vads-u-font-size--base vads-u-font-family--sans"
-            >
+            <h2 className="vads-u-font-family--sans">Location</h2>
+            <p data-dd-privacy="mask" data-testid="condition-location">
               {record.facility || 'There is no facility reported at this time'}
             </p>
-            <h2 className="vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--base">
+            <h2 className="vads-u-margin-bottom--0 vads-u-font-family--sans">
               Provider notes
             </h2>
             <ItemList
@@ -194,11 +182,10 @@ Provider Notes: ${processList(record.comments)}\n`;
             />
             {containsSctOrIcd(record.name) && (
               <>
-                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h2 className="vads-u-font-family--sans">
                   About the code in this condition name
                 </h2>
                 <p
-                  className="vads-u-font-size--base vads-u-font-family--sans"
                   data-dd-privacy="mask"
                   data-testid="about-the-condition-code"
                 >

@@ -114,33 +114,12 @@ ${record.results} \n`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Site or sample tested
-        </h3>
-        <p
-          data-testid="pathology-sample-tested"
-          className="vads-u-font-size--base vads-u-font-family--sans"
-        >
-          {record.sampleTested}
-        </p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Location
-        </h3>
-        <p
-          data-testid="pathology-location"
-          className="vads-u-font-size--base vads-u-font-family--sans"
-        >
-          {record.labLocation}
-        </p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Date completed
-        </h3>
-        <p
-          data-testid="date-completed"
-          className="vads-u-font-size--base vads-u-font-family--sans"
-        >
-          {record.date}
-        </p>
+        <h3 className=" vads-u-font-family--sans">Site or sample tested</h3>
+        <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
+        <h3 className=" vads-u-font-family--sans">Location</h3>
+        <p data-testid="pathology-location">{record.labLocation}</p>
+        <h3 className=" vads-u-font-family--sans">Date completed</h3>
+        <p data-testid="date-completed">{record.date}</p>
       </div>
       <div className="test-results-container">
         <h2>Results</h2>
