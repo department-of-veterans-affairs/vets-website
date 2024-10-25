@@ -4,7 +4,7 @@ import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import * as combobox from '../definitions/combobox';
-import Autocomplete from '../components/AutoComplete';
+import Autocomplete from '../components/Temp';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
