@@ -36,7 +36,7 @@ export const FDCDescription = (
 
 export const FDCWarning = (
   <div className="usa-alert usa-alert-info background-color-only">
-    <va-icon icon="info" size={4} />
+    <va-icon icon="info" size={3} />
     <div className="usa-alert-body">
       <div className="usa-alert-text">
         Since you’ve uploaded all your supporting documents, your claim will be
@@ -48,7 +48,7 @@ export const FDCWarning = (
 
 export const noFDCWarning = (
   <div className="usa-alert usa-alert-info background-color-only">
-    <va-icon icon="info" size={4} />
+    <va-icon icon="info" size={3} />
     <div className="usa-alert-body">
       <div className="usa-alert-text">
         <p>

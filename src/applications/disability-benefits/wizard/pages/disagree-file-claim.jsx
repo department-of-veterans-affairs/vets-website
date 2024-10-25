@@ -16,7 +16,7 @@ const DisagreeFileClaimPage = () => {
       id={pageNames.disagreeFileClaim}
       className="usa-alert usa-alert-info background-color-only vads-u-padding--2 vads-u-margin-top--2"
     >
-      <va-icon icon="info" size={4} />
+      <va-icon icon="info" size={3} />
       <span className="sr-only">Info: </span>
       <p className="vads-u-margin-top--0">
         If you disagree with a VA decision on your claim, you’ll need to request

@@ -9,7 +9,7 @@ const Alert = ({ title, description, displayType }) => {
     iconEl = <va-icon icon="warning" size={4} />;
   } else if (displayType === 'info') {
     cssClass = 'usa-alert-info';
-    iconEl = <va-icon icon="info" size={4} />;
+    iconEl = <va-icon icon="info" size={3} />;
   }
 
   return (

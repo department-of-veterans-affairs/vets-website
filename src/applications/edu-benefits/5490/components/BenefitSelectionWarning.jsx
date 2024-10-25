@@ -60,7 +60,7 @@ export default function BenefitSelectionWarning(chapter, relationship) {
   }
   return (
     <div className="usa-alert usa-alert-info usa-content edu-warning-single-line">
-      <va-icon icon="info" size={4} />
+      <va-icon icon="info" size={3} />
       <div className="usa-alert-body">
         <span id="conditional-warning-text">{warningText}</span>
       </div>

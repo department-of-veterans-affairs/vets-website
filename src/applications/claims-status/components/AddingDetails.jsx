@@ -3,7 +3,7 @@ import React from 'react';
 function AddingDetails() {
   return (
     <div className="usa-alert usa-alert-info background-color-only claims-alert-status">
-      <va-icon icon="info" size={4} />
+      <va-icon icon="info" size={3} />
       <h3 className="claims-alert-header vads-u-font-size--h4">
         We’re adding your details
       </h3>

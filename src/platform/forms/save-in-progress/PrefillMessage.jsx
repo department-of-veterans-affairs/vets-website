@@ -10,7 +10,7 @@ export default function PrefillMessage({ children, formContext }) {
 
   return (
     <div className="usa-alert usa-alert-info background-color-only schemaform-prefill-message">
-      <va-icon icon="info" size={4} />
+      <va-icon icon="info" size={3} />
       {children || message}
     </div>
   );

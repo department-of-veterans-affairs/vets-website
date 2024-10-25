@@ -64,7 +64,7 @@ export function transform(formConfig, form) {
 
 export const benefitsEligibilityBox = (
   <div className="usa-alert usa-alert-info">
-    <va-icon icon="info" size={4} />
+    <va-icon icon="info" size={3} />
     <div className="usa-alert-body">
       <ul>
         <li>You may be eligible for more than 1 education benefit program.</li>

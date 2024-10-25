@@ -13,7 +13,7 @@ const FinancialOverview = ({ formData }) => {
   return (
     <>
       <div className="usa-alert usa-alert-info background-color-only">
-        <va-icon icon="info" size={4} />
+        <va-icon icon="info" size={3} />
         <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           Your financial overview
         </h4>

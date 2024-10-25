@@ -13,7 +13,7 @@ const content = {
   verifiedPrefillAlert: (
     <div>
       <div className="usa-alert usa-alert-info schemaform-sip-alert">
-        <va-icon icon="info" size={4} />
+        <va-icon icon="info" size={3} />
         <div className="usa-alert-body">
           <strong>Note:</strong> Since you’re signed in to your account, you can
           save your statement in progress and come back later to finish filling

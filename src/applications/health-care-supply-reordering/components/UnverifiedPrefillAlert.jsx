@@ -4,7 +4,7 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 const UnverifiedPrefillAlert = props => (
   <div className="usa-alert usa-alert-info schemaform-sip-alert">
-    <va-icon icon="info" size={4} />
+    <va-icon icon="info" size={3} />
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
         Save time—and save your work in progress—by signing in before starting
