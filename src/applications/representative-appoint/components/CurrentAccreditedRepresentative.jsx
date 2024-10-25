@@ -5,24 +5,23 @@ import AddressEmailPhone from './AddressEmailPhone';
 import { getEntityAddressAsObject } from '../utilities/helpers';
 
 const CurrentAccreditedRepresentative = ({ repType, repAttributes }) => {
-  const repName = repAttributes?.fullName;
   const addressData = getEntityAddressAsObject(repAttributes);
-  const email = repAttributes?.email;
-  const phone = repAttributes?.phone;
+  const repName = repAttributes.name || repAttributes.fullName;
+  const { email, phone } = repAttributes;
 
   const parseRepType = () => {
     const parsedRep = {};
 
     switch (repType) {
-      case 'organization':
+      case 'Organization':
         parsedRep.title = 'Veterans Service Organization (VSO)';
         parsedRep.subTitle = 'Veteran Service Organization';
         break;
-      case 'attorney':
+      case 'Attorney':
         parsedRep.title = 'accredited attorney';
         parsedRep.subTitle = 'Accredited attorney';
         break;
-      case 'claimsAgent':
+      case 'Claims Agent':
         parsedRep.title = 'accredited claims agent';
         parsedRep.subTitle = 'Accredited claims agent';
         break;
