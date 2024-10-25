@@ -41,6 +41,8 @@ import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
 import SelectAccreditedRepresentative from '../components/SelectAccreditedRepresentative';
 import SelectedAccreditedRepresentativeReview from '../components/SelectAccreditedRepresentativeReview';
+import ContactAccreditedRepresentative from '../components/ContactAccreditedRepresentative';
+import SelectOrganization from '../components/SelectOrganization';
 
 // import { prefillTransformer } from '../prefill-transformer';
 // import ClaimantType from '../components/ClaimantType';
@@ -126,6 +128,7 @@ const formConfig = {
         contactAccreditedRepresentative: {
           title: 'Representative Contact',
           path: 'representative-contact',
+          CustomPage: ContactAccreditedRepresentative,
           hideOnReview: true,
           uiSchema: contactAccreditedRepresentative.uiSchema,
           schema: contactAccreditedRepresentative.schema,
@@ -134,6 +137,7 @@ const formConfig = {
           path: 'representative-organization',
           title: 'Organization Select',
           hideOnReview: true,
+          CustomPage: SelectOrganization,
           depends: formData =>
             !!formData['view:selectedRepresentative'] &&
             formData['view:selectedRepresentative'].attributes

@@ -15,6 +15,8 @@ import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
+import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import * as VAP_SERVICE from '../constants';
 import {
   closeModal,
@@ -160,13 +162,21 @@ class AddressValidationView extends React.Component {
       (!confirmedSuggestions.length && !validationKey)
     ) {
       return (
-        <button
-          onClick={this.onEditClick}
-          type="submit"
-          className="vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+        <Toggler.Hoc
+          toggleName={TOGGLE_NAMES.profileShowNoValidationKeyAddressAlert}
         >
-          Edit Address
-        </button>
+          {toggleValue =>
+            !toggleValue ? (
+              <button
+                onClick={this.onEditClick}
+                type="submit"
+                className="vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+              >
+                Edit Address
+              </button>
+            ) : null
+          }
+        </Toggler.Hoc>
       );
     }
 
@@ -245,12 +255,16 @@ class AddressValidationView extends React.Component {
       transaction,
       transactionRequest,
       isLoading,
+      validationKey,
+      isNoValidationKeyAlertEnabled,
     } = this.props;
 
     const validationMessageKey = getValidationMessageKey({
       suggestedAddresses,
       addressValidationError,
       confirmedSuggestions,
+      validationKey,
+      isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
     });
 
     const addressValidationMessage =
@@ -329,6 +343,8 @@ const mapStateToProps = (state, ownProps) => {
     validationKey,
   } = selectAddressValidation(state);
   const userHasBadAddress = hasBadAddress(state);
+  const isNoValidationKeyAlertEnabled =
+    state.featureToggles?.profileShowNoValidationKeyAddressAlert; // remove when profileShowNoValidationKeyAddressAlert flag is retired
   return {
     analyticsSectionName:
       VAP_SERVICE.ANALYTICS_FIELD_MAP[addressValidationType],
@@ -344,6 +360,7 @@ const mapStateToProps = (state, ownProps) => {
     suggestedAddresses,
     userHasBadAddress,
     validationKey,
+    isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
   };
 };
 
@@ -383,6 +400,7 @@ AddressValidationView.propTypes = {
     }),
   ),
   isLoading: PropTypes.bool,
+  isNoValidationKeyAlertEnabled: PropTypes.bool,
   refreshTransaction: PropTypes.func,
   selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,

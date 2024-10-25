@@ -1,26 +1,37 @@
 import React from 'react';
 import { NETWORTH_VALUE } from '../../constants';
 
-export const netWorthCalculation = (
+export const whatAreAssets = (
   <>
-    <p>
-      If you are entitled to a Veterans’ pension instead of disability
-      compensation, VA needs to know the total value of your assets. If you’re
-      married, include the value of your spouse’s assets too.
-    </p>
-    <va-additional-info trigger="How do I figure out my net worth?">
+    <va-additional-info trigger="What we count as assets">
       <p>
-        Your net worth includes all personal property you own (except your
-        house, your car, and most home furnishings), minus any debt you owe.
-        Your net worth includes the net worth of your spouse.
+        Assets include the fair market value of all your real and personal
+        property, minus the amount of any mortgages you may have. “Real
+        property” means any land and buildings you may own. Your personal
+        property assets include any of these items:
       </p>
+      <br />
+      <ul>
+        <li>Investments (like stocks and bonds)</li>
+        <li>Furniture</li>
+        <li>Boats</li>
+      </ul>
+      <br />
+      <p>Don’t include the value of these items:</p>
+      <br />
+      <ul>
+        <li>
+          Your primary residence (the home where you live most or all of the
+          time)
+        </li>
+        <li>Your car</li>
+        <li>
+          Basic home items like appliances that you wouldn’t take with you if
+          you moved to a new house
+        </li>
+      </ul>
     </va-additional-info>
   </>
 );
 
-export const netWorthTitle = (
-  <p>
-    Did the household have a <strong>net worth</strong> greater than $
-    {NETWORTH_VALUE} in the last tax year?
-  </p>
-);
+export const netWorthTitle = `Did the household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`;
