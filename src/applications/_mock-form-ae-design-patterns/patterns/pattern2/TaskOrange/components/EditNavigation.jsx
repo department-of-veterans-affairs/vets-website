@@ -22,7 +22,7 @@ export const EditNavigation = ({ options, router }) => {
             })
           }
         >
-          Save to profile
+          Save
         </button>
         <va-button
           data-testid="cancel-edit-button"

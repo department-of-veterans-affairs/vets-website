@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { PatternConfigContext } from 'applications/_mock-form-ae-design-patterns/shared/context/PatternConfigContext';
 import { withRouter } from 'react-router';
 import { SaveSuccessAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/SaveSuccessAlert';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
+import { scrollToElement } from 'platform/forms-system/exportsFile';
 import { formatPhoneNumber } from '../../../../utils/helpers/general';
 import { InfoSection } from '../../../../shared/components/InfoSection';
 
@@ -37,9 +38,18 @@ export const PersonalInformationContact = ({
   const reviewId = location?.state?.reviewId;
   const success = location?.state?.success;
 
-  if (reviewId) {
-    waitForRenderThenFocus(`#${reviewId}`);
-  }
+  useEffect(
+    () => {
+      if (reviewId) {
+        setTimeout(() => {
+          waitForRenderThenFocus(`#${reviewId}`);
+          scrollToElement(reviewId);
+          window.history.replaceState({}, '');
+        }, 100);
+      }
+    },
+    [reviewId],
+  );
 
   const { homePhone, mobilePhone, email } = data;
 
@@ -69,8 +79,14 @@ export const PersonalInformationContact = ({
 
           <InfoSection.SubHeading
             text="Address"
-            editLink={getLink('edit-address')}
+            editLink={getLink('edit-mailing-address')}
+            id="veteranAddress"
+            name="veteranAddress"
           />
+          {success &&
+            reviewId === 'veteranAddress' && (
+              <SaveSuccessAlert updatedText="Address information" />
+            )}
           <InfoSection.InfoBlock
             label="Street address"
             value={address?.street}
@@ -81,7 +97,7 @@ export const PersonalInformationContact = ({
           />
           <InfoSection.InfoBlock label="City" value={address?.city} />
           <InfoSection.InfoBlock label="State" value={address?.state} />
-          <InfoSection.InfoBlock label="Zip code" value={address?.zipCode} />
+          <InfoSection.InfoBlock label="Zip code" value={address?.postalCode} />
 
           <InfoSection.SubHeading
             text="Other contact information"
