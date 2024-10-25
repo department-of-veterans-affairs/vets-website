@@ -2,6 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 import {
   submissionStatuses,
@@ -13,6 +16,26 @@ import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
 
 const retryableErrorTitle =
   "It's taking us longer than expected to submit your claim.";
+
+const getData = ({
+  renderName = true,
+  suffix = 'Esq.',
+  disability526NewConfirmationPage = false,
+} = {}) => ({
+  user: {
+    profile: {
+      userFullName: renderName
+        ? { first: 'Foo', middle: 'Man', last: 'Choo', suffix }
+        : {},
+    },
+  },
+  featureToggles: {
+    loading: false,
+    disability526NewConfirmationPage,
+    // eslint-disable-next-line camelcase
+    disability_526_new_confirmation_page: disability526NewConfirmationPage,
+  },
+});
 
 describe('ConfirmationPage', () => {
   const defaultProps = {
@@ -26,13 +49,19 @@ describe('ConfirmationPage', () => {
     submittedAt: '2019-02-20',
   };
 
+  const middleware = [thunk];
+  const mockStore = configureStore(middleware);
+
   const testPage = (status, otherProps) =>
     render(
-      <ConfirmationPage
-        submissionStatus={status}
-        {...defaultProps}
-        {...otherProps}
-      />,
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPage
+          submissionStatus={status}
+          {...defaultProps}
+          {...otherProps}
+        />
+        ,
+      </Provider>,
     );
 
   it('should render success status', () => {
@@ -48,11 +77,14 @@ describe('ConfirmationPage', () => {
 
   it('should not render success with BDD SHA alert when not submitting BDD claim', () => {
     const { queryByText } = render(
-      <ConfirmationPage
-        submissionStatus={submissionStatuses.succeeded}
-        {...defaultProps}
-        isSubmittingBDD={false}
-      />,
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPage
+          submissionStatus={submissionStatuses.succeeded}
+          {...defaultProps}
+          isSubmittingBDD={false}
+        />
+        ,
+      </Provider>,
     );
 
     expect(queryByText(bddConfirmationHeadline)).to.not.exist;
@@ -60,11 +92,14 @@ describe('ConfirmationPage', () => {
 
   it('should render success with BDD SHA alert', () => {
     const tree = render(
-      <ConfirmationPage
-        submissionStatus={submissionStatuses.succeeded}
-        {...defaultProps}
-        isSubmittingBDD
-      />,
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPage
+          submissionStatus={submissionStatuses.succeeded}
+          {...defaultProps}
+          isSubmittingBDD
+        />
+        ,
+      </Provider>,
     );
     tree.getByText('Claim ID number');
     tree.getByText(bddConfirmationHeadline);
@@ -87,11 +122,14 @@ describe('ConfirmationPage', () => {
 
   it('should render retryable failure with BDD SHA alert', () => {
     const tree = render(
-      <ConfirmationPage
-        submissionStatus={submissionStatuses.apiFailure}
-        {...defaultProps}
-        isSubmittingBDD
-      />,
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPage
+          submissionStatus={submissionStatuses.apiFailure}
+          {...defaultProps}
+          isSubmittingBDD
+        />
+        ,
+      </Provider>,
     );
 
     tree.getByText(
@@ -116,10 +154,13 @@ describe('ConfirmationPage', () => {
     };
 
     const tree = render(
-      <ConfirmationPage
-        submissionStatus={submissionStatuses.succeeded}
-        {...props}
-      />,
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPage
+          submissionStatus={submissionStatuses.succeeded}
+          {...props}
+        />
+        ,
+      </Provider>,
     );
 
     tree.getByText(
@@ -133,7 +174,11 @@ describe('ConfirmationPage', () => {
       submissionStatus: submissionStatuses.failed,
     };
 
-    const tree = render(<ConfirmationPage {...props} />);
+    const tree = render(
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPage {...props} />
+      </Provider>,
+    );
 
     expect(
       tree.queryByText(
@@ -153,5 +198,45 @@ describe('ConfirmationPage', () => {
     expect(sessionStorage.getItem(FORM_STATUS_BDD)).to.be.null;
     expect(sessionStorage.getItem(SAVED_SEPARATION_DATE)).to.be.null;
     tree.unmount();
+  });
+
+  // new confirmation page toggle on
+  it('should render new confirmation page', () => {
+    const store = mockStore(
+      getData({
+        disability526NewConfirmationPage: true,
+      }),
+    );
+    const props = {
+      ...defaultProps,
+      submissionStatus: submissionStatuses.apiFailure,
+    };
+
+    const tree = render(
+      <Provider store={store}>
+        <ConfirmationPage {...props} />
+      </Provider>,
+    );
+
+    expect(tree.queryByText('New confirmation page content goes in here')).to
+      .exist;
+  });
+
+  // new confirmation page toggle off
+  it('should not render new confirmation page', () => {
+    const store = mockStore(getData());
+    const props = {
+      ...defaultProps,
+      submissionStatus: submissionStatuses.failed,
+    };
+
+    const tree = render(
+      <Provider store={store}>
+        <ConfirmationPage {...props} />
+      </Provider>,
+    );
+
+    expect(tree.queryByText('New confirmation page content goes in here')).to.be
+      .null;
   });
 });
