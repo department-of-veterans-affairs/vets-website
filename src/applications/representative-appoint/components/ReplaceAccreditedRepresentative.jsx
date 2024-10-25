@@ -9,7 +9,7 @@ const ReplaceAccreditedRepresentative = props => {
   const { formData } = props;
   const currentRep = formData?.['view:representativeStatus'] || {};
   const selectedRepAttributes =
-    formData?.['view:selectedRep']?.attributes || {};
+    formData?.['view:selectedRepresentative']?.attributes || {};
 
   return (
     <div>
@@ -23,13 +23,13 @@ const ReplaceAccreditedRepresentative = props => {
       </h4>
       <CurrentAccreditedRepresentative
         repType={getRepType(currentRep)}
-        repAttributes={currentRep?.attributes || {}}
+        repAttributes={currentRep.attributes}
       />
       <h4 className="vads-u-margin-y--5">
         You’ve selected this new accredited representative:
       </h4>
       <ContactCard
-        repName={selectedRepAttributes.fullName}
+        repName={selectedRepAttributes.name || selectedRepAttributes.fullName}
         orgName={selectedRepAttributes.name}
         addressData={getEntityAddressAsObject(selectedRepAttributes)}
         phone={selectedRepAttributes.phone}
@@ -42,7 +42,7 @@ const ReplaceAccreditedRepresentative = props => {
 ReplaceAccreditedRepresentative.propTypes = {
   formData: PropTypes.shape({
     'view:representativeStatus': PropTypes.object,
-    'view:selectedRep': PropTypes.object,
+    'view:selectedRepresentative': PropTypes.object,
   }),
 };
 
