@@ -112,6 +112,7 @@ const LoggedOutContent = connect(
     <HCASubwayMap />
     {showLoginAlert ? (
       <div className="usa-alert usa-alert-info schemaform-sip-alert vads-u-margin-bottom--5">
+        <va-icon icon="info" size={4} />
         <div className="usa-alert-body">
           <h2 className="usa-alert-heading">
             Save time and save your work in progress
