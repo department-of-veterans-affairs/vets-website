@@ -4,7 +4,7 @@ import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utiliti
 import React from 'react';
 import sinon from 'sinon';
 
-import AutoComplete from '../../components/AutoComplete';
+import Autocomplete from '../../components/AutoComplete';
 import disabilityLabelsRevised from '../../content/disabilityLabelsRevised';
 
 const results = Object.values(disabilityLabelsRevised);
@@ -24,7 +24,7 @@ export const simulateInputChange = (selector, value) => {
   vaTextInput.dispatchEvent(event);
 };
 
-describe('AutoComplete Component', () => {
+describe('Autocomplete Component', () => {
   let props = {};
 
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe('AutoComplete Component', () => {
 
   describe('Default Rendering', () => {
     it('should render with label and input', () => {
-      const { getByTestId } = render(<AutoComplete {...props} />);
+      const { getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
 
@@ -49,7 +49,7 @@ describe('AutoComplete Component', () => {
     });
 
     it('should render required', () => {
-      const { getByTestId } = render(<AutoComplete {...props} />);
+      const { getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
 
@@ -57,7 +57,7 @@ describe('AutoComplete Component', () => {
     });
 
     it('should render with no value', () => {
-      const { getByTestId } = render(<AutoComplete {...props} />);
+      const { getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
 
@@ -65,7 +65,7 @@ describe('AutoComplete Component', () => {
     });
 
     it('should render with no list', () => {
-      const { queryByTestId } = render(<AutoComplete {...props} />);
+      const { queryByTestId } = render(<Autocomplete {...props} />);
 
       const list = queryByTestId('autocomplete-list');
 
@@ -76,7 +76,7 @@ describe('AutoComplete Component', () => {
   describe('Updating State', () => {
     it('should render with value when there is initial formData', () => {
       props.formData = 'initial value';
-      const { getByTestId } = render(<AutoComplete {...props} />);
+      const { getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
 
@@ -85,7 +85,7 @@ describe('AutoComplete Component', () => {
 
     it('should call onChange with searchTerm when input changes', () => {
       const searchTerm = 'a';
-      const { getByTestId } = render(<AutoComplete {...props} />);
+      const { getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
@@ -95,7 +95,7 @@ describe('AutoComplete Component', () => {
 
     it('should render list with max of 21 results', async () => {
       const searchTerm = 'a';
-      const { getAllByRole, getByTestId } = render(<AutoComplete {...props} />);
+      const { getAllByRole, getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
@@ -111,7 +111,7 @@ describe('AutoComplete Component', () => {
       const searchTerm = 'b';
       const searchResults = fullStringSimilaritySearch(searchTerm, results);
       const freeTextAndFilteredResultsCount = searchResults.length + 1;
-      const { getAllByRole, getByTestId } = render(<AutoComplete {...props} />);
+      const { getAllByRole, getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
@@ -138,7 +138,7 @@ describe('AutoComplete Component', () => {
   describe('Mouse Interactions', () => {
     it('should highlight list results on mouse enter', async () => {
       const searchTerm = 'c';
-      const { getAllByRole, getByTestId } = render(<AutoComplete {...props} />);
+      const { getAllByRole, getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
@@ -164,7 +164,7 @@ describe('AutoComplete Component', () => {
     it('should select free-text result from the list on click and make list empty', async () => {
       const searchTerm = 'free text';
       const { getAllByRole, getByTestId, queryByTestId } = render(
-        <AutoComplete {...props} />,
+        <Autocomplete {...props} />,
       );
 
       const input = getByTestId('autocomplete-input');
@@ -189,7 +189,7 @@ describe('AutoComplete Component', () => {
       const searchTerm = 'd';
       const searchResults = fullStringSimilaritySearch(searchTerm, results);
       const { getAllByRole, getByTestId, queryByTestId } = render(
-        <AutoComplete {...props} />,
+        <Autocomplete {...props} />,
       );
 
       const input = getByTestId('autocomplete-input');
@@ -214,7 +214,7 @@ describe('AutoComplete Component', () => {
     it('should retain input value and make list empty when click outside', async () => {
       const searchTerm = 'f';
       const { getByTestId, queryByTestId } = render(
-        <AutoComplete {...props} />,
+        <Autocomplete {...props} />,
       );
 
       const input = getByTestId('autocomplete-input');
@@ -239,7 +239,7 @@ describe('AutoComplete Component', () => {
   describe('Keyboard Interactions', () => {
     it('should highlight list results down the list on ArrowDown', async () => {
       const searchTerm = 'g';
-      const { getAllByRole, getByTestId } = render(<AutoComplete {...props} />);
+      const { getAllByRole, getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
@@ -260,7 +260,7 @@ describe('AutoComplete Component', () => {
 
     it('should stop at the last result in the list on repeated ArrowDown', async () => {
       const searchTerm = 'h';
-      const { getAllByRole, getByTestId } = render(<AutoComplete {...props} />);
+      const { getAllByRole, getByTestId } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
@@ -282,7 +282,7 @@ describe('AutoComplete Component', () => {
     it('should select free-text result using Enter and make list empty', async () => {
       const searchTerm = 'k';
       const { getByTestId, queryByTestId } = render(
-        <AutoComplete {...props} />,
+        <Autocomplete {...props} />,
       );
 
       const input = getByTestId('autocomplete-input');
@@ -305,7 +305,7 @@ describe('AutoComplete Component', () => {
       const searchTerm = 'k';
       const searchResults = fullStringSimilaritySearch(searchTerm, results);
       const { getByTestId, queryByTestId } = render(
-        <AutoComplete {...props} />,
+        <Autocomplete {...props} />,
       );
 
       const input = getByTestId('autocomplete-input');
@@ -328,7 +328,7 @@ describe('AutoComplete Component', () => {
 
   describe('Accessibility', () => {
     it('should have autocomplete with message-aria-describedby', () => {
-      const { getByTestId } = render(<AutoComplete {...props} />);
+      const { getByTestId } = render(<Autocomplete {...props} />);
 
       const autocomplete = getByTestId('autocomplete-input');
 
@@ -342,7 +342,7 @@ describe('AutoComplete Component', () => {
       const searchTerm = 's';
       const searchResults = fullStringSimilaritySearch(searchTerm, results);
       const resultCount = searchResults.length + 1;
-      const { getByTestId, getByText } = render(<AutoComplete {...props} />);
+      const { getByTestId, getByText } = render(<Autocomplete {...props} />);
 
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);

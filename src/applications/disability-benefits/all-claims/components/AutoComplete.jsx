@@ -9,7 +9,7 @@ const INSTRUCTIONS =
 
 const createFreeTextItem = val => `Enter your condition as "${val}"`;
 
-const AutoComplete = ({
+const Autocomplete = ({
   availableResults,
   debounceDelay,
   formData,
@@ -167,7 +167,7 @@ const AutoComplete = ({
   );
 };
 
-AutoComplete.propTypes = {
+Autocomplete.propTypes = {
   availableResults: PropTypes.array,
   debounceDelay: PropTypes.number,
   formData: PropTypes.string,
@@ -176,4 +176,4 @@ AutoComplete.propTypes = {
   onChange: PropTypes.func,
 };
 
-export default AutoComplete;
+export default Autocomplete;
