@@ -4,6 +4,7 @@ import { categorizePrescriptions } from '../util/helpers';
 
 export const initialState = {
   /**
+   * REMOVE ONCE FILTER FEATURE IS DEVELOPED AND LIVE
    * The list of paginated and sorted prescriptions returned from the api
    * @type {array}
    */
@@ -63,6 +64,7 @@ export const prescriptionsReducer = (state = initialState, action) => {
         apiError: false,
       };
     }
+    // **Remove once filter feature is developed and live.**
     case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,
@@ -133,6 +135,7 @@ export const prescriptionsReducer = (state = initialState, action) => {
         apiError: true,
       };
     }
+    // **Remove once filter feature is developed and live.**
     case Actions.Prescriptions.UPDATE_SORT_OPTION: {
       return {
         ...state,

@@ -85,6 +85,7 @@ const Prescriptions = () => {
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
+  // **Remove sort funtions and logic once filter feature is developed and live.**
   const showFilterContent = useSelector(selectFilterFlag);
   const filteredList = useSelector(
     state => state.rx.prescriptions?.prescriptionsFilteredList,

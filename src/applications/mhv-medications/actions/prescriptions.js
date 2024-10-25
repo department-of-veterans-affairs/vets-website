@@ -9,6 +9,7 @@ import {
   getFilteredList,
 } from '../api/rxApi';
 
+// **Remove once filter feature is developed and live.**
 export const getPrescriptionsPaginatedSortedList = (
   pageNumber,
   sortEndpoint,
