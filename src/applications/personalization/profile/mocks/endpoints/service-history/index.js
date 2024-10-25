@@ -19,6 +19,10 @@ const generateServiceHistory = ({
   branchOfService = 'Air Force',
   dischargeCode = 'A',
   dataSource = 'api.va_profile',
+  eligibility = {
+    confirmed: true,
+    message: [],
+  },
 }) => {
   return {
     data: {
@@ -44,10 +48,7 @@ const generateServiceHistory = ({
             characterOfDischargeCode: dischargeCode,
           },
         ],
-        vetStatusEligibility: {
-          confirmed: true,
-          message: [],
-        },
+        vetStatusEligibility: eligibility,
       },
     },
   };
@@ -58,10 +59,18 @@ const spaceForce = generateServiceHistory({ branchOfService: 'Space Force' });
 const dishonorableDischarge = generateServiceHistory({
   branchOfService: 'Air Force',
   dischargeCode: 'F',
+  eligibility: {
+    confirmed: false,
+    message: [],
+  },
 });
 const unknownDischarge = generateServiceHistory({
   branchOfService: 'Air Force',
   dischargeCode: 'DVN',
+  eligibility: {
+    confirmed: false,
+    message: [],
+  },
 });
 
 const error = {
