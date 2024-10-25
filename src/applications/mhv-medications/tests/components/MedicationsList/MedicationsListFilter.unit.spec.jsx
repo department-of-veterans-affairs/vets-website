@@ -65,7 +65,7 @@ describe('Medicaitons List Filter component', () => {
     expect(setFilterOption.calledOnce).to.be.true;
     wrapper.unmount();
   });
-  it('calls updateFilter when user presses submit ', () => {
+  it('calls updateFilter when user presses the Filter button ', () => {
     const updateFilter = Sinon.spy();
     const wrapper = mount(
       <MedicationsListFilter
