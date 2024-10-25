@@ -3,9 +3,12 @@ import { connect } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 import { useReviewPage } from '../hooks/useReviewPage';
+import {
+  representativeIsOrgType,
+  getEntityAddressAsObject,
+} from '../utilities/helpers';
 
 import AddressEmailPhone from './AddressEmailPhone';
-import { getEntityAddressAsObject } from '../utilities/helpers';
 
 const ContactAccreditedRepresentative = props => {
   const { formData, goBack, goForward, goToPath } = props;
@@ -14,7 +17,7 @@ const ContactAccreditedRepresentative = props => {
   const addressData = getEntityAddressAsObject(repAttributes);
   const email = repAttributes?.email;
   const phone = repAttributes?.phone;
-  const isOrg = rep?.type === 'organization';
+  const isOrg = representativeIsOrgType(formData);
   const isReviewPage = useReviewPage();
 
   const representative = formData?.['view:selectedRepresentative'];
@@ -39,8 +42,6 @@ const ContactAccreditedRepresentative = props => {
       } else {
         goToPath('/review-and-submit');
       }
-    } else if (orgSelectionRequired) {
-      goToPath('/representative-organization');
     } else {
       goForward(formData);
     }

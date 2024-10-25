@@ -198,8 +198,14 @@ export const getFormName = formData => {
   return "Appointment of Individual As Claimant's Representative";
 };
 
-const isOrg = formData =>
-  formData['view:selectedRepresentative']?.type === 'organization';
+export const representativeIsOrgType = formData => {
+  const rep = formData['view:selectedRepresentative'];
+
+  if (rep.attributes?.accreditedOrganizations?.data?.length > 0) {
+    return true;
+  }
+  return false;
+};
 
 export const isAttorneyOrClaimsAgent = formData => {
   const repType =
@@ -213,7 +219,7 @@ export const isAttorneyOrClaimsAgent = formData => {
 };
 
 export const getOrgName = formData => {
-  if (isOrg(formData)) {
+  if (representativeIsOrgType(formData)) {
     return formData['view:selectedRepresentative']?.attributes?.name;
   }
 
