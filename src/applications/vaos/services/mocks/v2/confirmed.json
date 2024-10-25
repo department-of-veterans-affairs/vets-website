@@ -1356,8 +1356,7 @@
           "vvsKind": "CLINIC_BASED"
         },
         "claim": {
-          "id": "987654323",
-          "status": "Claim Paid"
+          "id": "987654323"
         }
       }
     },
@@ -1494,7 +1493,6 @@
           }
         },
         "claim": {
-          "id": "987654321",
           "message": "No claim for this appointment"
         }
       }
@@ -1591,7 +1589,6 @@
           }
         },
         "claim": {
-          "id": "987654322",
           "message": "No claim for this appointment"
         }
       }
