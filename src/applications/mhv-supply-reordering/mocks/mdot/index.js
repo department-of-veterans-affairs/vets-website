@@ -44,7 +44,7 @@ const userResponse = (supplies = []) => {
   };
 };
 
-const suppliesList = [
+const availSuppliesList = [
   {
     productName: 'ERHK HE11 680 MINI',
     productGroup: 'Accessory',
@@ -72,6 +72,9 @@ const suppliesList = [
     nextAvailabilityDate: '2022-12-05',
     quantity: 1,
   },
+];
+
+const unavailSuppliesList = [
   {
     productName: 'AIRCURVE10-ASV-CLIMATELINE',
     productGroup: 'Apnea',
@@ -110,6 +113,21 @@ const veteranNotFoundResponse = {
   },
 };
 
+const suppliesNotFound = {
+  status: 404,
+  data: {
+    errors: [
+      {
+        title: 'Supplies Not Found',
+        detail: 'The medical supplies could not be found',
+        code: 'MDOT_supplies_not_found',
+        source: 'MDOT::Client',
+        status: '404',
+      },
+    ],
+  },
+};
+
 const internalServerError = {
   status: 500,
   data: {
@@ -126,25 +144,29 @@ const internalServerError = {
 };
 
 const MDOT_USERS = Object.freeze({
-  NO_SUPPLIES: 'no supplies',
-  WITH_SUPPLIES: 'with supplies',
-  NOT_FOUND: 'no supplies',
-  SERVER_ERROR: 'server error',
+  ERROR_NO_SUPPLIES: 'no supplies',
+  ERROR_NOT_FOUND: 'not found',
+  ERROR_SERVER: 'server error',
+  NO_UNAVAIL: 'no unavail',
+  DEFAULT: 'default',
 });
 
 const response = userType => {
   switch (userType) {
-    case MDOT_USERS.NO_SUPPLIES:
-      return userResponse();
+    case MDOT_USERS.ERROR_NO_SUPPLIES:
+      return suppliesNotFound;
 
-    case MDOT_USERS.NOT_FOUND:
+    case MDOT_USERS.ERROR_NOT_FOUND:
       return veteranNotFoundResponse;
 
-    case MDOT_USERS.SERVER_ERROR:
+    case MDOT_USERS.ERROR_SERVER_ERROR:
       return internalServerError;
 
+    case MDOT_USERS.NO_UNAVAIL:
+      return userResponse(availSuppliesList);
+
     default:
-      return userResponse(suppliesList);
+      return userResponse([...availSuppliesList, ...unavailSuppliesList]);
   }
 };
 

@@ -3,7 +3,7 @@ const user = require('./user/index');
 const featureToggles = require('./feature-toggles/index');
 const mdot = require('./mdot/index');
 
-const mdotResponse = mdot.response(mdot.MDOT_USERS.WITH_SUPPLIES);
+const mdotResponse = mdot.response(mdot.MDOT_USERS.DEFAULT);
 
 const responses = {
   'GET /v0/user': user.defaultUser,

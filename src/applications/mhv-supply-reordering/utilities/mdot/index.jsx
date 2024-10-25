@@ -1,3 +1,6 @@
+import sortBy from 'lodash/sortBy';
+import head from 'lodash/head';
+
 /**
  * Determines if a supply can be reordered.
  * @param {*} supply a supply
@@ -41,6 +44,26 @@ export const isEligible = mdotData => {
     eligibility &&
     (eligibility.accessories || eligibility.apneas || eligibility.batteries)
   );
+};
+
+/**
+ * Gets the next date a supply can be reordered.
+ * @param {*} mdotData the MDOT data
+ * @returns the next eligibility date if exists
+ */
+export const getEligibilityDate = mdotData => {
+  if (
+    !isEligible(mdotData) &&
+    mdotData?.supplies &&
+    mdotData.supplies.length > 0
+  ) {
+    const sortedByAvailability = sortBy(
+      mdotData.supplies,
+      'nextAvailabilityDate',
+    );
+    return head(sortedByAvailability).nextAvailabilityDate;
+  }
+  return null;
 };
 
 /**
