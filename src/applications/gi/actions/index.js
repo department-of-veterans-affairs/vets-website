@@ -64,6 +64,47 @@ export const FILTER_BEFORE_RESULTS = 'FILTER_BEFORE_RESULTS';
 export const UPDATE_QUERY_PARAMS = 'UPDATE_QUERY_PARAMS';
 export const FOCUS_SEARCH = 'FOCUS_SEARCH';
 
+export const FETCH_LC_FAILED = 'FETCH_LC_FAILED';
+export const FETCH_LC_STARTED = 'FETCH_LC_STARTED';
+export const FETCH_LC_SUCCEEDED = 'FETCH_LC_SUCCEEDED';
+
+export function fetchLicenseCertification() {
+  return dispatch => {
+    dispatch({ type: FETCH_LC_STARTED });
+
+    return new Promise(res => {
+      setTimeout(() => {
+        res({
+          ok: true,
+          results: [
+            // mock data
+          ],
+        });
+      }, 1000);
+    })
+      .then(res => {
+        if (res.ok) {
+          return res;
+        }
+        throw new Error(res.statusText);
+      })
+      .then(results => {
+        return dispatch({
+          type: FETCH_LC_SUCCEEDED,
+          payload: {
+            ...results,
+          },
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: FETCH_LC_FAILED,
+          payload: err.message,
+        });
+      });
+  };
+}
+
 export const focusSearch = () => {
   return {
     type: FOCUS_SEARCH,
