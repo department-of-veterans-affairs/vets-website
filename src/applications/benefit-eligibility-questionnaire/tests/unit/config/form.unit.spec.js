@@ -39,22 +39,9 @@ describe('Questionnaire Form', () => {
 
 describe('Questionnaire Form - Title Function', () => {
   describe('title function', () => {
-    it('should return "Your benefits and resources" when on the confirmation page', () => {
-      const currentLocation = { pathname: '/confirmation' };
-      const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Your benefits and resources');
-    });
-
-    it('should return "Review your information" when on the review page', () => {
-      const currentLocation = { pathname: '/review-and-submit' };
-      const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Review your information');
-    });
-
-    it('should return "Benefit and resource recommendation tool" by default', () => {
-      const currentLocation = { pathname: '/some-other-page' };
-      const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Benefit and resource recommendation tool');
+    it('should return "Discover your benefits" by default', () => {
+      const { title } = formConfig;
+      expect(title).to.equal('Discover your benefits');
     });
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import formConfig from '../config/form';
 
 const IntroductionPage = ({ router }) => {
   const startForm = event => {
@@ -9,7 +10,7 @@ const IntroductionPage = ({ router }) => {
   };
   return (
     <article className="schemaform-intro">
-      <FormTitle title="Benefit and resource recommendation tool" subtitle="" />
+      <FormTitle title={formConfig.title} subtitle="" />
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
       <div role="heading" aria-level="2" tabIndex={0}>
         <p>
