@@ -230,7 +230,14 @@ const formConfig = {
                 return (
                   <EditNavigationWithRouter
                     {...props}
-                    fields={['email', 'homePhone', 'mobilePhone']}
+                    fields={[
+                      'email',
+                      'homePhone',
+                      'mobilePhone',
+                      'veteranAddress',
+                    ]}
+                    uiSchema
+                    schema
                     returnPath="/personal-information"
                   />
                 );
@@ -249,7 +256,7 @@ const formConfig = {
                 type: 'string',
               },
             },
-            required: ['email'],
+            required: ['email', 'address'],
           },
           scrollAndFocusTarget,
           depends: () => false,
