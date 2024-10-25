@@ -1,6 +1,4 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-import set from '~/platform/utilities/data/set';
-import get from '~/platform/utilities/data/get';
 
 const { applicantServed, isActiveDuty } = fullSchema1995.properties;
 
@@ -21,31 +19,6 @@ export const isFieldRequired = formData => {
 
 export const isFieldHidden = formData => {
   return formData.applicantServed !== 'Yes';
-};
-
-export const setDateRangeRequired = (formData, _schema) => {
-  if (isFieldRequired(formData) && get('isActiveDuty', formData)) {
-    return set(
-      'additionalItems.properties.dateRange.required',
-      ['from'],
-      _schema,
-    );
-  }
-  if (isFieldRequired(formData) && get('isActiveDuty', formData) === false) {
-    return set(
-      'additionalItems.properties.dateRange.required',
-      ['from', 'to'],
-      _schema,
-    );
-  }
-  return set('additionalItems.properties.dateRange.required', [], _schema);
-};
-
-export const setServiceBranchRequired = (formData, _schema) => {
-  if (isFieldRequired(formData)) {
-    return set('additionalItems.required', ['serviceBranch'], _schema);
-  }
-  return set('additionalItems.required', [], _schema);
 };
 
 export const uiSchema = {
