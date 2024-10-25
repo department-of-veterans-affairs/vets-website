@@ -9,6 +9,7 @@ import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
 import { title995 } from '../../content/title';
+import { SC_NEW_FORM_TOGGLE } from '../../constants';
 
 const getData = ({
   loggedIn = true,
@@ -55,8 +56,7 @@ const getData = ({
       },
       featureToggles: {
         loading: false,
-        // eslint-disable-next-line camelcase
-        sc_new_form: toggle,
+        [SC_NEW_FORM_TOGGLE]: toggle,
       },
       scheduledDowntime: {
         globalDowntime: null,
