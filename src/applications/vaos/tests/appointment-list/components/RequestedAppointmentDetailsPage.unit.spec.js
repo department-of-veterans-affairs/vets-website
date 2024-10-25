@@ -68,7 +68,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     fireEvent.click(detailLinks);
     expect(await screen.findByText('Request for appointment')).to.be.ok;
     const link = screen.container.querySelector(
-      'va-link[text="Back to request for appointments"]',
+      'va-link[text="Back to pending appointments"]',
     );
     userEvent.click(link);
     expect(screen.history.push.called).to.be.true;
@@ -322,7 +322,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         .to.be.ok;
 
       const link = screen.container.querySelector(
-        'va-link[text="Back to request for appointments"]',
+        'va-link[text="Back to pending appointments"]',
       );
       fireEvent.click(link);
       expect(screen.history.push.called).to.be.true;
@@ -403,7 +403,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       });
 
       const link = screen.container.querySelector(
-        'va-link[text="Back to request for appointments"]',
+        'va-link[text="Back to pending appointments"]',
       );
       fireEvent.click(link);
       await waitFor(

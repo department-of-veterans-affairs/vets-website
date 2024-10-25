@@ -281,10 +281,10 @@
   "we-cant-match-your-information": "We can’t match your information to our records",
   "we-couldnt-check-you-in": "We couldn’t check you in",
   "we-couldnt-file-your-claim": "We couldn’t file your claim",
-  "we-encourage-you-to-file-travel-reimbursement-now": "We’ll ask you 3 additional questions that can help you file your claim faster. We encourage you to try filing your claim now, even if you’re not sure that you’re eligible.",
   "we-make-every-effort-to-keep-your-personal-information-private-and-secure": "We make every effort to keep your personal information private and secure.",
   "we-need-some-information-to-verify-your-identity-so-we-can-check-you-in": "We need some information to verify your identity so we can check you in.",
   "we-need-to-verify-your-identity-so-you-can-start-pre-check-in": "We need to verify your identity so you can start pre-check-in.",
+  "well-ask-additional-questions": "We’ll ask you 3 additional questions that can help you file your claim faster.",
   "well-get-you-from-waiting-room-when-time-for-your-appointment": "We’ll come get you from the waiting room when it’s time for your appointment to start.",
   "well-send-you-a-text-to-let-you-know": "We’ll send you a text to let you know the status of your claim.",
   "were-processing-your-travel-claim": "We’re processing your travel reimbursement claim",
@@ -310,7 +310,6 @@
   "will-va-protect-my-personal-health-information": "Will VA protect my personal health information?",
   "with": "with",
   "work-phone": "Work phone",
-  "would-you-like-to-file-a-travel-reimbursement-claim": "Would you like to file a travel reimbursement claim?",
   "yes": "Yes",
   "you-already-filed-a-claim": "You already filed a travel pay claim",
   "you-are-already-checked-in": "You are already checked in.",
@@ -454,5 +453,8 @@
   "claims-for-other-expenses": "Claims for other expenses, like lodging, meals, or tolls",
   "learn-how-to-file-other-types-of-claims": "Learn how to file other types of claims",
   "review-your-information-now-to-complete-pre-check-in": "Review your information now to complete pre-check-in",
-  "your-appointments-for-pre-check-in": "Your appointments for pre-check-in"
+  "your-appointments-for-pre-check-in": "Your appointments for pre-check-in",
+  "would-you-like-to-file-a-travel-reimbursement-claim-now": "Would you like to file a travel reimbursement claim now?",
+  "we-encourage-you-to-review-the-requirements": "We encourage you to review the requirements and submit your claim, even if you’re not sure if you’re eligible.",
+  "how-to-file-other-types-of-claims": "How to file other types of claims"
 }
