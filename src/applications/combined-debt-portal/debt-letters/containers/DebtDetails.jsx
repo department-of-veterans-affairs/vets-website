@@ -157,7 +157,7 @@ const DebtDetails = () => {
                   </span>
                 </h3>
               </div>
-              <div className="debt-balance-details small-screen:vads-u-margin-top--0">
+              <div className="debt-balance-details mobile-lg:vads-u-margin-top--0">
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
                     Original overpayment amount

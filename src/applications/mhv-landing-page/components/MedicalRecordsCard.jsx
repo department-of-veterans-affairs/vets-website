@@ -18,7 +18,7 @@ const MedicalRecordsCard = ({ href }) => {
       data-testid="mhv-mr-coming-soon-card"
     >
       <div className="vads-u-display--flex vads-u-align-items--center">
-        <div className="vads-u-flex--auto vads-u-margin-right--1p5 small-screen:vads-u-margin-top--0p5">
+        <div className="vads-u-flex--auto vads-u-margin-right--1p5 mobile-lg:vads-u-margin-top--0p5">
           <va-icon icon="note_add" size={4} />
         </div>
         <div className="vads-u-flex--fill">

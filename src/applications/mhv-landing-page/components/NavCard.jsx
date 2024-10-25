@@ -65,7 +65,7 @@ const NavCard = ({
           </div>
         )}
         <h2
-          className="vads-u-margin--0 small-desktop-screen:vads-u-margin-right--2"
+          className="vads-u-margin--0 desktop:vads-u-margin-right--2"
           id={slug}
         >
           {title}
