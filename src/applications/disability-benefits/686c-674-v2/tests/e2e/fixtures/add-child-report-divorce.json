@@ -89,7 +89,9 @@
           "city": "Army Post Office"
         }
       },
-      "reasonMarriageEnded": "Divorce"
+      "reasonMarriageEnded": "Divorce",
+      "birthDate": "1991-05-04",
+      "formerSpouseIncome": false
     },
     "veteranInformation": {
       "fullName": {

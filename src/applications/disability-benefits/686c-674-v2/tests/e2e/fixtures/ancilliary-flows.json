@@ -101,7 +101,7 @@
     "schoolInformation": { "address": {} },
     "currentTermDates": {},
     "programInformation": {},
-    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}} },
+    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}}, "formerSpouseIncome": false},
     "veteranInformation": {
       "fullName": { "first": "Greg", "middle": "A", "last": "Anderson" },
       "ssn": "796121200",

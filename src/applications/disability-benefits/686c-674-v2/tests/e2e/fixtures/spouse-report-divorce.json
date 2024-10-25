@@ -117,6 +117,7 @@
         "last": "does"
       },
       "date": "1991-07-07",
+      "birthDate": "1991-05-04",
       "divorceLocation": {
         "outsideUsa": false,
         "location": {
@@ -125,7 +126,8 @@
         }
       },
       "reasonMarriageEnded": "Other",
-      "explanationOfOther": "Other reason"
+      "explanationOfOther": "Other reason",
+      "formerSpouseIncome": false
     },
     "veteranInformation": {
       "fullName": {
