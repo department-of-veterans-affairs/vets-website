@@ -1,74 +1,73 @@
 {
   "data": {
     "householdIncome": true,
+    "view:completedStudent": false,
     "studentInformation": [
-      {
-        "ssn": "333445555",
-        "isParent": true,
-        "address": {
-          "isMilitary": false,
-          "view:militaryBaseDescription": {},
-          "country": "USA",
-          "street": "123 Fake St.",
-          "city": "Fakesville",
-          "state": "CA",
-          "postalCode": "12345"
+    {
+      "remarks": "remarks section",
+      "studentNetworthInformation": {
+        "savings": "6000",
+        "securities": "3455",
+        "realEstate": "43332",
+        "otherAssets": "3433",
+        "totalValue": "23455"
+      },
+      "studentExpectedEarningsNextYear": {
+        "earningsFromAllEmployment": "1",
+        "annualSocialSecurityPayments": "1",
+        "otherAnnuitiesIncome": "1",
+        "allOtherIncome": "1"
+      },
+      "studentEarningsFromSchoolYear": {
+        "earningsFromAllEmployment": "2000",
+        "annualSocialSecurityPayments": "$4000",
+        "otherAnnuitiesIncome": "2000.86",
+        "allOtherIncome": "100"
+      },
+      "claimsOrReceivesPension": true,
+      "studentIncome": false,
+      "fullName": {
+        "first": "John",
+        "middle": "C",
+        "last": "Doe"
+      },
+      "birthDate": "1991-02-19",
+      "schoolInformation": {
+        "lastTermSchoolInformation": {
+          "termBegin": "2000-02-12",
+          "dateTermEnded": "2000-03-23"
         },
-        "tuitionIsPaidByGovAgency": false,
-        "view:programExamples": {},
-        "typeOfProgramOrBenefit": {
-          "ch35": true,
-          "fry": true,
-          "feca": true,
-          "other": false
+        "studentDidAttendSchoolLastTerm": true,
+        "currentTermDates": {
+          "officialSchoolStartDate": "1991-01-19",
+          "expectedStudentStartDate": "2000-02-19",
+          "expectedGraduationDate": "1991-03-19"
         },
-        "schoolInformation": {
-          "studentIsEnrolledFullTime": false,
-          "dateFullTimeEnded": "2001-02-19",
-          "isSchoolAccredited": true,
-          "view:accredited": {},
-          "studentDidAttendSchoolLastTerm": true,
-          "lastTermSchoolInformation": {
-            "termBegin": "1991-02-19",
-            "dateTermEnded": "2023-09-21"
-          },
-          "currentTermDates": {
-            "officialSchoolStartDate": "1991-01-19",
-            "expectedStudentStartDate": "2000-02-19",
-            "expectedGraduationDate": "1991-03-19"
-          },
-          "name": "Program name"
-        },
-        "view:pensionEarnings": {},
-        "studentNetworthInformation": {
-          "savings": "45",
-          "securities": "54",
-          "realEstate": "33",
-          "otherAssets": "66",
-          "totalValue": "77"
-        },
-        "studentExpectedEarningsNextYear": {
-          "earningsFromAllEmployment": "1",
-          "annualSocialSecurityPayments": "234",
-          "otherAnnuitiesIncome": "456",
-          "allOtherIncome": "678"
-        },
-        "view:incomeNote": {},
-        "studentEarningsFromSchoolYear": {
-          "earningsFromAllEmployment": "2000",
-          "annualSocialSecurityPayments": "3456",
-          "otherAnnuitiesIncome": "0",
-          "allOtherIncome": "1"
-        },
-        "remarks": "Testing remarks",
-        "wasMarried": false,
-        "fullName": {
-          "first": "Sean",
-          "last": "Doe"
-        },
-        "birthDate": "2008-02-19"
-      }
-    ],
+        "isSchoolAccredited": true,
+        "view:accredited": {},
+        "dateFullTimeEnded": "2000-02-12",
+        "studentIsEnrolledFullTime": false,
+        "name": "Test"
+      },
+      "benefitPaymentDate": "2021-01-19",
+      "typeOfProgramOrBenefit": {
+        "ch35": true
+      },
+      "tuitionIsPaidByGovAgency": false,
+      "view:programExamples": {},
+      "wasMarried": true,
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123 Fake St.",
+        "city": "Fakesville",
+        "state": "AL",
+        "postalCode": "12345"
+      },
+      "ssn": "333445555",
+      "isParent": false
+    }
+  ],
     "childrenToAdd": [
       {
         "doesChildLiveWithYou": true,
@@ -114,7 +113,7 @@
     },
     "doesLiveWithSpouse": {},
     "view:additionalEvidenceDescription": {},
-    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}} },
+    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}}, "formerSpouseIncome": false },
     "childMarriage": { "fullName": {} },
     "childStoppedAttendingSchool": { "fullName": {} },
     "veteranInformation": {

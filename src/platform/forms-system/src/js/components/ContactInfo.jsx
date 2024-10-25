@@ -190,13 +190,13 @@ const ContactInfo = ({
           scrollTo(
             onReviewPage
               ? `${contactInfoPageKey}ScrollElement`
-              : 'topScrollElement',
+              : `header-${lastEdited}`,
           );
           focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
         });
       }
     },
-    [editState, onReviewPage],
+    [contactInfoPageKey, editState, onReviewPage],
   );
 
   useEffect(
@@ -226,8 +226,7 @@ const ContactInfo = ({
       visible={editState === `${id},updated`}
       class="vads-u-margin-y--1"
       status="success"
-      background-only
-      role="alert"
+      slim
     >
       {`${text} ${content.updated}`}
     </va-alert>
@@ -240,7 +239,10 @@ const ContactInfo = ({
   const contactSection = [
     keys.homePhone ? (
       <React.Fragment key="home">
-        <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
+        <Headers
+          name="header-home-phone"
+          className={`${headerClassNames} vads-u-margin-top--0p5`}
+        >
           {content.homePhone}
         </Headers>
         {showSuccessAlert('home-phone', content.homePhone)}
@@ -263,7 +265,9 @@ const ContactInfo = ({
 
     keys.mobilePhone ? (
       <React.Fragment key="mobile">
-        <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
+        <Headers name="header-mobile-phone" className={headerClassNames}>
+          {content.mobilePhone}
+        </Headers>
         {showSuccessAlert('mobile-phone', content.mobilePhone)}
         <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
           {renderTelephone(dataWrap[keys.mobilePhone])}
@@ -284,7 +288,9 @@ const ContactInfo = ({
 
     keys.email ? (
       <React.Fragment key="email">
-        <Headers className={headerClassNames}>{content.email}</Headers>
+        <Headers name="header-email" className={headerClassNames}>
+          {content.email}
+        </Headers>
         {showSuccessAlert('email', content.email)}
         <span className="dd-privacy-hidden" data-dd-action-name="email">
           {dataWrap[keys.email] || ''}
@@ -305,7 +311,9 @@ const ContactInfo = ({
 
     keys.address ? (
       <React.Fragment key="mailing">
-        <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
+        <Headers name="header-address" className={headerClassNames}>
+          {content.mailingAddress}
+        </Headers>
         {showSuccessAlert('address', content.mailingAddress)}
         <AddressView data={dataWrap[keys.address]} />
         {loggedIn && (
@@ -357,7 +365,7 @@ const ContactInfo = ({
             missingInfo.length === 0 &&
             validationErrors.length === 0 && (
               <div className="vads-u-margin-top--1p5">
-                <va-alert status="success" background-only>
+                <va-alert status="success" slim>
                   <div className="vads-u-font-size--base">
                     {content.alertContent}
                   </div>
@@ -373,7 +381,7 @@ const ContactInfo = ({
               </p>
               {submitted && (
                 <div className="vads-u-margin-top--1p5" role="alert">
-                  <va-alert status="error" background-only>
+                  <va-alert status="error" slim>
                     <div className="vads-u-font-size--base">
                       We still don’t have your {list}. Please edit and update
                       the field.
@@ -382,7 +390,7 @@ const ContactInfo = ({
                 </div>
               )}
               <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="warning" background-only>
+                <va-alert status="warning" slim>
                   <div className="vads-u-font-size--base">
                     Your {list} {plural ? 'are' : 'is'} missing. Please edit and
                     update the {plural ? 'fields' : 'field'}.
@@ -395,7 +403,7 @@ const ContactInfo = ({
             missingInfo.length === 0 &&
             validationErrors.length > 0 && (
               <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="error" background-only>
+                <va-alert status="error" slim>
                   <div className="vads-u-font-size--base">
                     {validationErrors[0]}
                   </div>
