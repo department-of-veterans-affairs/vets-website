@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { formatDateShort } from 'platform/utilities/date';
+import { isValid } from 'date-fns';
 import {
   isStreamlinedShortForm,
   isStreamlinedLongForm,
@@ -45,6 +46,12 @@ export const transform = (formConfig, form) => {
   try {
     const isShortStreamlined = isStreamlinedShortForm(form.data);
     const isLongStreamlined = isStreamlinedLongForm(form.data);
+
+    // === Date of Birth ===
+    const birthDate = new Date(dateOfBirth.replace(/-/g, '/'));
+    const formattedBirthDate = isValid(birthDate)
+      ? formatDateShort(birthDate)
+      : '';
 
     // === Set Streamlined FSR flag ===
     let streamlinedData;
@@ -175,7 +182,7 @@ export const transform = (formConfig, form) => {
           countryName: address.countryCodeIso2,
         },
         telephoneNumber: getFormattedPhone(mobilePhone),
-        dateOfBirth: formatDateShort(dateOfBirth),
+        dateOfBirth: formattedBirthDate,
         married: questions.isMarried,
         spouseFullName: {
           first: spouseFirst,

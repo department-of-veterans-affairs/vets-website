@@ -52,13 +52,17 @@ export const toLocalISOString = date => {
   return `${year}-${month}-${day}T${hour}:${minute}:${second}.${ms}`;
 };
 
-export const translateDateIntoMonthDayYearFormat = dateString => {
+export const translateDateIntoMonthDayYearFormat = (
+  dateString,
+  isDelimiting = false,
+) => {
   // Parse the date string as UTC
   if (!dateString) return null;
   const [year, month, day] = dateString
     .split('-')
     .map(num => parseInt(num, 10));
-  const date = new Date(Date.UTC(year, month - 1, day));
+  const validYear = isDelimiting && year < 2000 ? year + 100 : year; // check for invalid 1900s delimiting date
+  const date = new Date(Date.UTC(validYear, month - 1, day));
 
   // Function to get the ordinal suffix for a given day
   function getOrdinalSuffix(dayOfTheMonth) {
@@ -1180,6 +1184,7 @@ export function hasAddressFormChanged(currentState) {
   };
   return !deepEqual(initialState, filledCurrentState);
 }
+
 export function splitAddressLine(addressLine, maxLength) {
   if (addressLine.length <= maxLength) {
     return { line1: addressLine, line2: '' };
@@ -1198,6 +1203,7 @@ export function splitAddressLine(addressLine, maxLength) {
     line2: addressLine.substring(lastSpaceIndex).trim(),
   };
 }
+
 export function removeCommas(obj) {
   const newObj = {};
 

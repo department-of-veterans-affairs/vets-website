@@ -37,6 +37,7 @@ export const useData = () => {
       ?.remainingEntitlement;
   const enrollmentVerifications =
     response?.personalInfo?.recordResponse?.enrollmentVerifications;
+
   const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
   const { month, day } = remainingBenefits(
     userInfo?.remEnt || remainingEntitlement,

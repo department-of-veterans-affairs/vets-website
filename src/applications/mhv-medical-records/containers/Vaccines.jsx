@@ -8,7 +8,6 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
@@ -32,6 +31,7 @@ import {
   makePdf,
   processList,
   getLastUpdatedText,
+  formatNameFirstLast,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -131,7 +131,7 @@ Reaction: ${processList(item.reactions)}\n`;
     const content = `
 ${crisisLineHeader}\n\n
 Vaccines\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.\n
@@ -148,6 +148,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
     <div id="vaccines">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Vaccines</h1>
+      <h2 className="sr-only">List of Vitals</h2>
       <p>Review vaccines (immunizations) in your VA medical records.</p>
       <p className="vads-u-margin-bottom--4">
         For a list of your allergies and reactions (including any reactions to

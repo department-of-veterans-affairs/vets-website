@@ -13,6 +13,7 @@ import {
   EXTERNAL_REDIRECTS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
+import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
 import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -32,6 +33,8 @@ const REDIRECT_IGNORE_PATTERN = new RegExp(
 );
 
 export default function AuthApp({ location }) {
+  useDatadogRum();
+
   const [
     { auth, errorCode, returnUrl, loginType, state, requestId },
     setAuthState,
@@ -72,10 +75,7 @@ export default function AuthApp({ location }) {
   const isInterstital = useToggleValue(TOGGLE_NAMES.mhvInterstitialEnabled);
 
   const redirect = () => {
-    if (
-      isInterstital &&
-      (loginType === 'mhv' || loginType === 'myhealthevet')
-    ) {
+    if (isInterstital && ['mhv', 'myhealthevet'].includes(loginType)) {
       window.location.replace('/sign-in-changes-reminder');
     }
 
@@ -157,10 +157,7 @@ export default function AuthApp({ location }) {
       errorCode,
     );
     const { userProfile } = authMetrics;
-    if (
-      userProfile?.signIn?.ssoe &&
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
-    ) {
+    if (returnUrl?.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])) {
       await handleProvisioning();
     }
     authMetrics.run();
@@ -181,13 +178,16 @@ export default function AuthApp({ location }) {
       });
     }
 
+    const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
+
     if (auth === FORCE_NEEDED) {
       handleAuthForceNeeded();
+    } else if (skipToRedirect) {
+      await handleAuthSuccess({ skipToRedirect });
     } else {
       try {
-        const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
         const response = await apiRequest('/user');
-        await handleAuthSuccess({ response, skipToRedirect });
+        await handleAuthSuccess({ response, skipToRedirect: false });
       } catch (error) {
         handleAuthError(error);
       }
