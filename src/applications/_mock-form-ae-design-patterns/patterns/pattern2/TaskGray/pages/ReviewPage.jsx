@@ -10,15 +10,18 @@ const ReviewPage = props => {
   const [privacyCheckbox, setPrivacyCheckbox] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const { chapterTitles, getChapterPagesFromChapterIndex } = setupPages(
-    formConfig,
-  );
+  const {
+    // chapterTitles,
+    getChapterPagesFromChapterIndex,
+    reviewTitles,
+  } = setupPages(formConfig);
 
   const chapterClasses = [
     'vads-u-border-bottom--4px',
     'vads-u-display--flex',
     'vads-u-justify-content--space-between',
     'vads-u-align-items--flex-end',
+    'vads-u-margin-bottom--2',
   ].join(' ');
 
   const handlers = {
@@ -37,18 +40,20 @@ const ReviewPage = props => {
     <article>
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
-      {chapterTitles
+      {reviewTitles
         .filter(title => {
-          return title !== 'Apply' && !title.toLowerCase().includes('review');
+          return title !== 'Apply' && !title?.toLowerCase().includes('review');
         })
         .map((title, index) => {
           return (
             <div key={index}>
-              <div className={chapterClasses}>
-                <h2 id={index} className="vads-u-margin--0">
-                  {title}
-                </h2>
-              </div>
+              {title ? (
+                <div className={chapterClasses}>
+                  <h3 id={index} className="vads-u-margin--0">
+                    {title}
+                  </h3>
+                </div>
+              ) : null}
               <ul className="review-pages vads-u-padding--0 usa-unstyled-list vads-u--margin-top--2">
                 {getChapterPagesFromChapterIndex(index).map(page => {
                   const depends = page.depends

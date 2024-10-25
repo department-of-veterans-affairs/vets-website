@@ -118,6 +118,7 @@ const formConfig = {
     },
     reviewApp: {
       title: 'Review Application',
+      reviewTitle: 'Review Application',
       pages: {
         reviewAndSubmit: {
           hideNavButtons: true,

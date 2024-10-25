@@ -58,13 +58,12 @@ export const ContactInformationBase = ({ location }) => {
   const contactInfo = profile.vapContactInfo || {};
   const { areaCode, phoneNumber } = contactInfo.homePhone;
   const fullNumber = areaCode + phoneNumber;
-  console.log(fullNumber);
 
   const isReviewPage = isOnReviewPage(location?.pathname);
   const title = isReviewPage ? null : 'Contact information';
   return (
     <InfoSection title={title} titleLevel={3}>
-      <InfoSection.SubHeading text="Mailing Address" editLink="/" />
+      <InfoSection.SubHeading level={4} text="Mailing Address" editLink="/" />
       <InfoSection.InfoBlock
         label="Street address"
         value={contactInfo?.mailingAddress?.addressLine1}
@@ -89,6 +88,7 @@ export const ContactInformationBase = ({ location }) => {
       <InfoSection.SubHeading
         text="Additional contact information"
         editLink="/"
+        level={4}
       />
       <InfoSection.InfoBlock
         label="Phone number"
