@@ -102,4 +102,12 @@ export default {
     en: '/resources/disaster-help/',
     es: '/resources/disaster-help-esp/',
   },
+  creatingAnAccount: {
+    en: '/resources/creating-an-account-for-vagov/',
+    es: '/resources/creating-an-account-for-vagov-esp/',
+  },
+  verifyingYourIdentiy: {
+    en: '/resources/verifying-your-identity-on-vagov/',
+    es: '/resources/verifying-your-identity-on-vagov-esp/',
+  },
 };

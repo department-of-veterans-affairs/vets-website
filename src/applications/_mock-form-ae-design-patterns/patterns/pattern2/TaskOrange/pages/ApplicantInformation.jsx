@@ -70,7 +70,9 @@ export const ApplicantInformation = ({
 
   return (
     <>
-      <p>Confirm your information before you continue.</p>
+      <p className="vads-u-font-size--md">
+        Confirm your information before you continue.
+      </p>
 
       <ApplicantInformationInfoSection
         veteranDateOfBirth={veteranDateOfBirth}
@@ -80,14 +82,18 @@ export const ApplicantInformation = ({
       />
 
       <p>
-        Note: To protect your personal information, we don’t allow online
-        changes to your name, date of birth, or Social Security number. If you
-        need to change this information for your health benefits, call your VA
-        health facility.{' '}
+        <strong>Note:</strong> To protect your personal information, we don’t
+        allow online changes to your name, date of birth, or Social Security
+        number. If you need to change this information for your health benefits,
+        call your VA health facility.{' '}
         <va-link
           href={APP_URLS.facilities}
           text="Find your VA health facility"
         />
+      </p>
+      <p>
+        If you want to update your contact information for other VA benefits,
+        you can do that from your profile.{' '}
       </p>
       <div className="vads-u-margin-bottom--3">
         <va-link href="/profile" text="Go to your profile" external />
