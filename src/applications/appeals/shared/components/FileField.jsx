@@ -14,7 +14,6 @@ import {
 
 import unset from '~/platform/utilities/data/unset';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '~/platform/forms-system/src/js/constants';
-import { ERROR_ELEMENTS } from '~/platform/utilities/constants';
 import {
   PasswordLabel,
   PasswordSuccess,
@@ -24,7 +23,11 @@ import {
 } from '~/platform/forms-system/src/js/utilities/file';
 import { usePreviousValue } from '~/platform/forms-system/src/js/helpers';
 
-import { focusAddAnotherButton, focusCancelButton } from '../utils/focus';
+import {
+  focusAddAnotherButton,
+  focusCancelButton,
+  focusFirstError,
+} from '../utils/focus';
 import {
   MISSING_PASSWORD_ERROR,
   INCORRECT_PASSWORD_ERROR,
@@ -132,6 +135,20 @@ const FileField = props => {
   const updateProgress = percent => {
     setProgress(percent);
   };
+
+  useEffect(
+    () => {
+      if (files.length === 0 && formContext.submitted) {
+        // scroll fieldset to top
+        scrollTo('topContentElement');
+        // focus on error text above upload button
+        setTimeout(() => {
+          focusElement('span.usa-input-error-message');
+        });
+      }
+    },
+    [formContext.submitted, files.length],
+  );
 
   useEffect(
     () => {
@@ -436,7 +453,7 @@ const FileField = props => {
                 } else if (retryButton) {
                   focusElement('button', {}, retryButton?.shadowRoot);
                 } else {
-                  focusElement(ERROR_ELEMENTS.join(','));
+                  focusFirstError();
                 }
               }, 250);
             } else if (showPasswordInput) {
@@ -669,6 +686,7 @@ FileField.propTypes = {
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
     reviewMode: PropTypes.bool,
+    submitted: PropTypes.bool,
     trackingPrefix: PropTypes.string,
     uploadFile: PropTypes.func,
   }),

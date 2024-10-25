@@ -109,6 +109,10 @@ const formConfig = {
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
+  formOptions: {
+    focusOnAlertRole: true,
+  },
+
   chapters: {
     infoPages: {
       title: 'Veteran Information',
