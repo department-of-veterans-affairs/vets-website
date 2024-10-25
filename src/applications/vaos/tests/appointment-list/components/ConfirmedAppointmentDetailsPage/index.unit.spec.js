@@ -148,7 +148,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       expect(document.activeElement).to.have.tagName('h1');
     });
 
-    userEvent.click(screen.getByText(/Back to appointments/i));
+    userEvent.click(
+      screen.container.querySelector('va-link[text="Back to appointments"]'),
+    );
     expect(screen.baseElement).to.contain.text('Appointments');
   });
 

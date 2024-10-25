@@ -147,7 +147,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -287,7 +286,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
         // Arrange
         const store = createTestStore(initialState);
         const appointment = {
-          comment: 'This is a test:Additional information',
           location: {
             stationId: '983',
             clinicName: 'Clinic 1',
@@ -432,7 +430,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
         // Arrange
         const store = createTestStore(initialState);
         const appointment = {
-          comment: 'This is a test:Additional information',
           location: {
             stationId: '983',
             clinicName: 'Clinic 1',
@@ -576,7 +573,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -707,7 +703,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
