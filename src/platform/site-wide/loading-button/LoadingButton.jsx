@@ -7,6 +7,7 @@ export default function LoadingButton({
   children,
   onClick,
   disabled,
+  className,
   ...props
 }) {
   const contents = isLoading ? (
@@ -20,20 +21,21 @@ export default function LoadingButton({
 
   // Switch to va-button-icon once the loading icon is added
   return (
-    <button
-      className="usa-button"
+    <va-button
       {...props}
+      class={className}
       disabled={isLoading || disabled}
       onClick={onClick}
       aria-live="polite"
-    >
-      {contents}
-    </button>
+      text={contents}
+      role="button"
+    />
   );
 }
 
 LoadingButton.propTypes = {
   children: PropTypes.any,
+  className: PropTypes.string,
   disabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   loadingText: PropTypes.string,
