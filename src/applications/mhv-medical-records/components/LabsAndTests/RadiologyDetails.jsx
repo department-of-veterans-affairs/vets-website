@@ -102,7 +102,6 @@ ${record.results}`;
         id="radiology-date"
         label="Date and time performed"
         labelClass="vads-font-weight-regular"
-        data-dd-privacy="mask"
       />
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -162,10 +161,14 @@ ${record.results}`;
         />
       </div>
 
-      <div className="test-results-container" data-dd-privacy="mask">
+      <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p data-testid="radiology-record-results" className="monospace">
+        <p
+          data-testid="radiology-record-results"
+          className="monospace"
+          data-dd-privacy="mask"
+        >
           {record.results}
         </p>
       </div>

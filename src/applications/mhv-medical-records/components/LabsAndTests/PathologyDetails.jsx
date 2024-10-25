@@ -133,10 +133,14 @@ ${record.results} \n`;
           {record.date}
         </p>
       </div>
-      <div className="test-results-container" data-dd-privacy="mask">
+      <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p data-testid="pathology-report" className="monospace">
+        <p
+          data-testid="pathology-report"
+          className="monospace"
+          data-dd-privacy="mask"
+        >
           {record.results}
         </p>
       </div>

@@ -114,6 +114,7 @@ Lab comments: ${entry.labComments}\n`,
         className="vads-u-margin-bottom--1"
         aria-describedby="chem-hem-date"
         data-testid="chem-hem-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -159,16 +160,13 @@ Lab comments: ${entry.labComments}\n`,
         <p data-testid="chem-hem-collecting-location" data-dd-privacy="mask">
           {record.collectingLocation}
         </p>
-        <h3
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          data-dd-privacy="mask"
-        >
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Lab comments
         </h3>
         <ItemList list={record.comments} />
       </div>
       {/*         RESULTS CARDS            */}
-      <div className="test-results-container" data-dd-privacy="mask">
+      <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert highLowResults fullState={fullState} />
         <div className="print-only">

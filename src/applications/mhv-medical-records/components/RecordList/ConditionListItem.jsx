@@ -28,8 +28,8 @@ const ConditionListItem = props => {
         {record.name}
       </span>
 
-      <p className="vads-u-margin--0" data-dd-privacy="mask">
-        Date entered: {record?.date}
+      <p className="vads-u-margin--0">
+        Date entered: <span data-dd-privacy="mask">{record?.date}</span>
       </p>
     </va-card>
   );

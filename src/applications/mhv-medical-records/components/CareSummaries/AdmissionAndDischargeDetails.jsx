@@ -118,6 +118,7 @@ ${record.summary}`;
         className="vads-u-margin-bottom--0"
         aria-describedby="admission-discharge-date"
         data-testid="admission-discharge-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -143,7 +144,6 @@ ${record.summary}`;
           Location
         </h3>
         <p data-testid="note-record-location" data-dd-privacy="mask">
-          {' '}
           {record.location}
         </p>
         {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
@@ -175,11 +175,12 @@ ${record.summary}`;
         </p>
       </div>
 
-      <div className="test-results-container" data-dd-privacy="mask">
+      <div className="test-results-container">
         <h2>Summary</h2>
         <p
           data-testid="note-summary"
           className="monospace vads-u-line-height--6"
+          data-dd-privacy="mask"
         >
           {record.summary}
         </p>

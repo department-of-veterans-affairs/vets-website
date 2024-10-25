@@ -29,7 +29,7 @@ const LabsAndTestsListItem = props => {
           <div data-dd-privacy="mask">{`Ordered by ${record.orderedBy}`}</div>
         )}
         {record.type === labTypes.EKG && (
-          <div>{`Signed by ${record.signedBy}`}</div>
+          <div data-dd-privacy="mask">{`Signed by ${record.signedBy}`}</div>
         )}
       </div>
     </va-card>

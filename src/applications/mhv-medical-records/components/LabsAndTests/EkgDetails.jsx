@@ -95,7 +95,6 @@ const EkgDetails = props => {
         date={record.date}
         id="ekg-date"
         label="Date and time collected"
-        data-dd-privacy="mask"
       />
 
       {downloadStarted && <DownloadSuccessAlert />}

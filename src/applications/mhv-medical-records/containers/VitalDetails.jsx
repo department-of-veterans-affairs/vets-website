@@ -334,7 +334,10 @@ Provider notes: ${vital.notes}\n\n`,
         </ul>
 
         {/* print view start */}
-        <h1 className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only">
+        <h1
+          className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only"
+          data-dd-privacy="mask"
+        >
           Vitals: {vitalTypeDisplayNames[records[0].type]}
         </h1>
         <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 print-only">

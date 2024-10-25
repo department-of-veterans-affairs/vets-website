@@ -97,6 +97,7 @@ ${record.note}`;
         className="vads-u-margin-bottom--0"
         aria-describedby="progress-note-date"
         data-testid="progress-note-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -115,12 +116,9 @@ ${record.note}`;
       />
       <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
-      <div className="test-details-container max-80" data-dd-privacy="mask">
+      <div className="test-details-container max-80">
         <h2>Details</h2>
-        <h3
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          data-dd-privacy="mask"
-        >
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
         <p data-testid="progress-location" data-dd-privacy="mask">

@@ -167,10 +167,7 @@ const RadiologySingleImage = () => {
   };
 
   return (
-    <div
-      className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5"
-      data-dd-privacy="mask"
-    >
+    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       {content()}
     </div>
   );

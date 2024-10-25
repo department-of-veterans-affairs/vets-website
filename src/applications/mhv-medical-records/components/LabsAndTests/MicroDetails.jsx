@@ -113,7 +113,6 @@ ${record.results}`;
         id="microbio-date"
         label="Date and time collected"
         labelClass="vads-font-weight-regular"
-        data-dd-privacy="mask"
       />
 
       {downloadStarted && <DownloadSuccessAlert />}
