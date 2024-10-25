@@ -59,35 +59,37 @@ export const ErrorMessages = {
     VALID_SIGNATURE_REQUIRED: 'This field accepts alphabetic characters only',
     CONT_SAVING_DRAFT: {
       title: 'Do you want to save your draft message?',
-      confirmButtonText: 'Save draft',
-      cancelButtonText: 'Delete draft',
+      cancelButtonText: 'Save draft', // top button - save draft and remain on page
+      confirmButtonText: 'Delete draft', // bottom button - delete draft and leave page
     },
     CONT_SAVING_DRAFT_CHANGES: {
       title: 'Do you want to save your changes to this draft?',
-      confirmButtonText: 'Save changes',
-      cancelButtonText: 'Delete changes',
+      cancelButtonText: 'Save changes', // top button - save draft and remain on page
+      confirmButtonText: 'Delete changes', // bottom button - delete draft and leave page
     },
     UNABLE_TO_SAVE: {
       title: "We can't save this message yet",
       p1:
         "We need more information from you before we can save this draft. You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
-      confirmButtonText: 'Edit draft',
-      cancelButtonText: 'Delete draft',
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Delete draft', // bottom button - delete draft and leave page
     },
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT: {
       title: "We can't save attachments in a draft message",
-      confirmButtonText: 'Edit draft',
-      cancelButtonText: 'Save draft without attachments',
+      p1:
+        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Save draft without attachments', // bottom button - save draft and leave page
     },
     UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS: {
       title: "We can't save your signature or attachments in a draft message",
-      cancelButtonText: 'Edit draft',
-      confirmButtonText: 'Save draft without signature or attachments',
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Save draft without signature or attachments', // bottom button - save draft and leave page
     },
     UNABLE_TO_SAVE_DRAFT_SIGNATURE: {
       title: "We can't save your signature in a draft message",
-      cancelButtonText: 'Edit draft',
-      confirmButtonText: 'Save draft without signature',
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Save draft without signature', // bottom button - save draft and leave page
     },
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {

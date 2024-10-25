@@ -286,6 +286,7 @@ const ReplyDraftItem = props => {
       ) {
         setNavigationError({
           ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+          p1: '',
         });
       }
       if (!draft && !savedEdits && !blankDraft && attachments.length === 0) {

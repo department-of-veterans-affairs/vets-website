@@ -8,8 +8,6 @@ import { ErrorMessages } from '../../util/constants';
 export const RouteLeavingGuard = ({
   navigate,
   when,
-  modalVisible,
-  updateModalVisible,
   shouldBlockNavigation,
   title,
   p1,
@@ -20,6 +18,7 @@ export const RouteLeavingGuard = ({
 }) => {
   const [lastLocation, updateLastLocation] = useState();
   const [confirmedNavigation, updateConfirmedNavigation] = useState(false);
+  const [modalVisible, updateModalVisible] = useState(false);
 
   const showModal = location => {
     updateModalVisible(true);
@@ -34,6 +33,7 @@ export const RouteLeavingGuard = ({
   const handleBlockedNavigation = nextLocation => {
     if (!confirmedNavigation && shouldBlockNavigation(nextLocation)) {
       showModal(nextLocation);
+      updateModalVisible(true);
       return false;
     }
     return true;
@@ -50,6 +50,11 @@ export const RouteLeavingGuard = ({
         updateConfirmedNavigation(true);
       }
     });
+  };
+
+  const handleCancelNavigationClick = e => {
+    updateModalVisible(false);
+    saveDraftHandler('manual', e);
   };
 
   useEffect(
@@ -81,19 +86,21 @@ export const RouteLeavingGuard = ({
               .saveDraft && p1}
         </p>
         {p2 && <p>{p2}</p>}
-        <va-button
-          class="vads-u-margin-top--1"
-          text={confirmButtonText}
-          onClick={closeModal}
-          data-dd-action-name="Cancel Navigation Continue Editing Button"
-        />
-        <va-button
-          class="vads-u-margin-top--1"
-          secondary
-          text={cancelButtonText}
-          onClick={handleConfirmNavigationClick}
-          data-dd-action-name="Confirm Navigation Leaving Button"
-        />
+        <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
+          <va-button
+            class="vads-u-margin-top--1 vads-u-flex--auto"
+            text={cancelButtonText}
+            onClick={handleCancelNavigationClick} // need to pass a func to save draft
+            data-dd-action-name="Cancel Navigation Continue Editing Button"
+          />
+          <va-button
+            class="vads-u-margin-top--1 vads-u-flex--auto"
+            secondary
+            text={confirmButtonText}
+            onClick={handleConfirmNavigationClick}
+            data-dd-action-name="Confirm Navigation Leaving Button"
+          />
+        </div>
       </VaModal>
     </>
   );

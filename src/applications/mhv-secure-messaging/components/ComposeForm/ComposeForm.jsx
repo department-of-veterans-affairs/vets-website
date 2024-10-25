@@ -401,8 +401,7 @@ const ComposeForm = props => {
         signatureValid,
         checkboxValid,
       } = checkMessageValidity();
-      const validSignatureNotRequired =
-        messageValid && !isSignatureRequired && !savedDraft;
+      const validSignatureNotRequired = messageValid && !isSignatureRequired;
 
       if (type === 'manual') {
         if (validSignatureNotRequired) {
@@ -426,7 +425,6 @@ const ComposeForm = props => {
             (!isSignatureRequired && messageValid && validSignatureNotRequired);
 
           let errorType = null;
-
           if (hasAttachments && hasValidSignature && verifyAllFieldsAreValid) {
             errorType =
               ErrorMessages.ComposeForm
@@ -564,11 +562,6 @@ const ComposeForm = props => {
         selectedRecipientId !== null &&
         category !== null;
 
-      // const unsavedDraft = isEditPopulatedForm() && !deleteButtonClicked;
-      // if (!isEditPopulatedForm() || !isSavedEdits()) {
-      //   setSavedDraft(false);
-      // }
-
       let error = null;
 
       const partiallySavedDraft =
@@ -578,27 +571,28 @@ const ComposeForm = props => {
         isFormFilled() && !isEditedSaved() && !savedDraft;
 
       const savedDraftWithEdits =
-        savedDraft && !isEditedSaved() && isEditedForm();
+        (savedDraft && !isEditedSaved() && isEditedForm()) ||
+        (!!draft && unsavedFilledDraft);
 
-      const savedDraftWithNoEdits = savedDraft && !isEditedForm();
-
+      const savedDraftWithNoEdits =
+        (savedDraft && !isEditedForm()) || (!!draft && !isEditedForm());
       if (isBlankForm()) {
         error = null;
       } else if (partiallySavedDraft) {
         error = ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR;
-        updateModalVisible(false);
+        updateModalVisible(true);
       } else if (
         attachments.length > 0 &&
         (unsavedFilledDraft || savedDraftWithEdits || savedDraftWithNoEdits)
       ) {
         error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
-        updateModalVisible(false);
-      } else if (unsavedFilledDraft && !attachments.length) {
+        updateModalVisible(true);
+      } else if (!draft && unsavedFilledDraft && !attachments.length) {
         error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_ERROR;
-        updateModalVisible(false);
+        updateModalVisible(true);
       } else if (savedDraftWithEdits && !attachments.length) {
         error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_CHANGES_ERROR;
-        updateModalVisible(false);
+        updateModalVisible(true);
       }
       setUnsavedNavigationError(error);
     },
@@ -618,6 +612,8 @@ const ComposeForm = props => {
       savedDraft,
       setUnsavedNavigationError,
       draft?.body,
+      draft,
+      modalVisible,
     ],
   );
 
@@ -641,6 +637,7 @@ const ComposeForm = props => {
       debouncedRecipient,
       saveDraftHandler,
       modalVisible,
+      setUnsavedNavigationError,
     ],
   );
 
@@ -778,24 +775,22 @@ const ComposeForm = props => {
             data-dd-action-name="Save Error Modal"
             visible
           >
-            <p>{saveError.p1}</p>
-            {saveError.p2 && <p>{saveError.p2}</p>}
-            {saveError?.editDraft && (
+            {saveError?.cancelButtonText && (
               <va-button
-                text={saveError.editDraft}
+                text={saveError.cancelButtonText}
                 onClick={() => {
                   setSavedDraft(false);
                   setSaveError(null);
                 }}
-                data-dd-action-name={`${saveError.editDraft} Button`}
+                data-dd-action-name={`${saveError.cancelButtonText} Button`}
               />
             )}
-            {saveError?.saveDraft && (
+            {saveError?.confirmButtonText && (
               <va-button
                 secondary
                 class="vads-u-margin-y--1p5"
-                text={saveError.saveDraft}
-                data-dd-action-name={`${saveError.saveDraft} Button`}
+                text={saveError.confirmButtonText}
+                data-dd-action-name={`${saveError.confirmButtonText} Button`}
                 onClick={() => {
                   saveDraftHandler('manual');
                   setSaveError(null);
