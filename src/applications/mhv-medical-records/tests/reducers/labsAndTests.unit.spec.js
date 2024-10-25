@@ -386,7 +386,7 @@ describe('buildRadiologyResults', () => {
   });
 });
 
-describe.skip('labsAndTestsReducer', () => {
+describe('labsAndTestsReducer', () => {
   it('creates a list', () => {
     const labsAndTestsResponse = {
       entry: [
