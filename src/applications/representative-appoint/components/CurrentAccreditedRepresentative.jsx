@@ -7,7 +7,7 @@ import { getEntityAddressAsObject } from '../utilities/helpers';
 const CurrentAccreditedRepresentative = ({ repType, repAttributes }) => {
   const addressData = getEntityAddressAsObject(repAttributes);
   const repName = repAttributes.name || repAttributes.fullName;
-  const { email, phone } = repAttributes.email;
+  const { email, phone } = repAttributes;
 
   const parseRepType = () => {
     const parsedRep = {};

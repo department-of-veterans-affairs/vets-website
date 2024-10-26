@@ -46,9 +46,7 @@ describe('<IntroductionPage>', () => {
       };
 
       expect(selectors.actionLink).to.have.attribute('text', 'Get started');
-      expect(selectors.title).to.contain.text(
-        'Benefit and resource recommendation tool',
-      );
+      expect(selectors.title).to.contain.text(formConfig.title);
     });
 
     it('should handle get started link', async () => {

@@ -180,6 +180,7 @@
   "profileShowPrivacyPolicy": "profile_show_privacy_policy",
   "profileShowPronounsAndSexualOrientation": "profile_show_pronouns_and_sexual_orientation",
   "profileShowQuickSubmitNotificationSetting": "profile_show_quick_submit_notification_setting",
+  "profileShowNoValidationKeyAddressAlert": "profile_show_no_validation_key_address_alert",
   "profileUseExperimental": "profile_use_experimental",
   "pwEhrCtaUseSlo": "pw_ehr_cta_use_slo",
   "ratedDisabilitiesDetectDiscrepancies": "rated_disabilities_detect_discrepancies",
