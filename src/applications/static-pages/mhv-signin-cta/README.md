@@ -29,6 +29,7 @@ The template follows the already stablished [template defined in vets-website](h
     </p>
   </span>
   <div class="usa-alert usa-alert-error sip-application-error vads-u-display--none" aria-hidden="true">
+    <va-icon icon="error" size={3} className="vads-u-color--error" />
     <div class="usa-alert-body">
       <strong>We&#x2019;re sorry. Something went wrong on our end.</strong><br>Please try refreshing your browser.
     </div>

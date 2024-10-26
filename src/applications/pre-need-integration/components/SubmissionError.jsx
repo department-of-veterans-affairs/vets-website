@@ -4,6 +4,7 @@ import DownloadLink from './DownloadLink';
 const SubmissionError = ({ user, saveLink }) => {
   return (
     <div className="usa-alert usa-alert-error schemaform-failure-alert">
+      <va-icon icon="error" size={3} className="vads-u-color--error" />
       <div className="usa-alert-body">
         {user.login.currentlyLoggedIn && (
           <>

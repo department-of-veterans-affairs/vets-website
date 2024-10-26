@@ -64,6 +64,7 @@ class SaveFormLink extends React.Component {
             role="alert"
             className="usa-alert usa-alert-error background-color-only schemaform-save-error"
           >
+            <va-icon icon="error" size={3} className="vads-u-color--error" />
             {savedStatus === SAVE_STATUSES.failure &&
               `We’re sorry. Something went wrong when saving your ${appType}. If you’re on a secure and private computer, you can leave this page open and try saving your ${appType} again in a few minutes. If you’re on a public computer, you can continue to fill out your ${appType}, but it won’t automatically save as you fill it out.`}
             {savedStatus === SAVE_STATUSES.clientFailure &&
