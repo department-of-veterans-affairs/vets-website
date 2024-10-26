@@ -380,6 +380,7 @@ class ArrayField extends React.Component {
           })}
           {itemsNeeded && (
             <div className="usa-alert usa-alert-warning usa-alert-no-color usa-alert-mini">
+              <va-icon icon="warning" size={3} />
               <div className="usa-alert-body">
                 {get('ui:errorMessages.minItems', uiSchema) ||
                   'You need to add at least one item.'}

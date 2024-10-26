@@ -199,6 +199,7 @@ export class ApplicationStatus extends React.Component {
       }
       return (
         <div className="usa-alert usa-alert-warning background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
+          <va-icon icon="warning" size={3} />
           <h5 className="form-title saved">Your {appType} has expired</h5>
           <span className="saved-form-item-metadata">
             Your saved {foundForm.description} has expired. If you want to apply

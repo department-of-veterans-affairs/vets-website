@@ -85,6 +85,7 @@ export const benefitsRelinquishedInfo = (
 
 export const benefitsRelinquishedWarning = (
   <div className="usa-alert usa-alert-warning usa-content">
+    <va-icon icon="warning" size={3} />
     <div className="usa-alert-body">
       I certify that I understand the effects that this election to receive DEA
       or FRY scholarship benefits will have on my eligibility for DIC payments,

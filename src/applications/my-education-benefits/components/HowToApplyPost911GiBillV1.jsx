@@ -4,6 +4,7 @@ export default function HowToApplyPost911GiBillV1() {
   return (
     <>
       <div className="usa-alert usa-alert-warning">
+        <va-icon icon="warning" size={3} />
         <div className="usa-alert-body">
           <h2 className="usa-alert-heading">
             This application is only for the Post-9/11 GI Bill®

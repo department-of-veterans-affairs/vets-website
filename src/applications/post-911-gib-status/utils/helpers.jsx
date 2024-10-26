@@ -115,6 +115,7 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
 export function notQualifiedWarning() {
   return (
     <div className="usa-alert usa-alert-warning usa-content not-qualified">
+      <va-icon icon="warning" size={3} />
       <div className="usa-alert-body">
         <h2>You don't qualify</h2>
         <span>

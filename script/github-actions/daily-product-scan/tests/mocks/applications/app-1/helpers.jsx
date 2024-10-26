@@ -398,6 +398,7 @@ export const disclosureWarning = (
 
 export const expensesGreaterThanIncomeWarning = (
   <div className="usa-alert usa-alert-warning">
+    <va-icon icon="warning" size={3} />
     <div className="usa-alert-body">
       <h2 className="usa-alert-heading">
         Your expenses are higher than or equal to your income.

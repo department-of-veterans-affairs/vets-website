@@ -6,6 +6,7 @@ function ClaimsUnavailable({ headerLevel = 4 }) {
 
   return (
     <div className="usa-alert usa-alert-warning claims-unavailable">
+      <va-icon icon="warning" size={3} />
       <div className="usa-alert-body">
         <Tag className="claims-alert-header vads-u-font-size--h4">
           Claim status is unavailable

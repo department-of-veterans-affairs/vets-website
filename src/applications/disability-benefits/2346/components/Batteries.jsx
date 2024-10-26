@@ -148,6 +148,7 @@ class Batteries extends Component {
               {currentDate.diff(batterySupply.nextAvailabilityDate, 'days') <
               0 ? (
                 <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
+                  <va-icon icon="warning" size={3} />
                   <div className="usa-alert-body">
                     <h3 className="usa-alert-heading vads-u-font-family--sans">
                       You can't reorder batteries for this device until{' '}

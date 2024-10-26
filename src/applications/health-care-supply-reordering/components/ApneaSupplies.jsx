@@ -158,6 +158,7 @@ class ApneaSupplies extends Component {
               ) : (
                 <div>
                   <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
+                    <va-icon icon="warning" size={3} />
                     <div className="usa-alert-body">
                       <h3 className="usa-alert-heading vads-u-font-family--sans">
                         This item is not available for online reordering. To

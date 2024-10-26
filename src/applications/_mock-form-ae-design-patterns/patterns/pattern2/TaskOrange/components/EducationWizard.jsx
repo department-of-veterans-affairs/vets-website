@@ -312,6 +312,7 @@ class EducationWizard extends React.Component {
               sponsorDeceasedDisabledMIA === 'no' &&
               sponsorTransferredBenefits === 'no' && (
                 <div className="usa-alert usa-alert-warning">
+                  <va-icon icon="warning" size={3} />
                   <div className="usa-alert-body">
                     <h4>
                       Your application can't be approved until your sponsor

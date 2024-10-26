@@ -84,6 +84,7 @@ export const benefitsEligibilityBox = (
 
 export const reserveKickerWarning = (
   <div className="usa-alert usa-alert-warning usa-content secondary">
+    <va-icon icon="warning" size={3} />
     <div className="usa-alert-body">
       <span>
         You can only transfer a kicker from a benefit that you relinquish (give

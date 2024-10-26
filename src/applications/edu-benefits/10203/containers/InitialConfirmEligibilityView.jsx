@@ -15,6 +15,7 @@ function InitialConfirmEligibilityView(props) {
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
       <div tabIndex="0">
         <div className="usa-alert usa-alert-warning" role="alert">
+          <va-icon icon="warning" size={3} />
           <div className="usa-alert-body">
             <h4 className="usa-alert-heading">
               Based on your response, you may not be eligible
