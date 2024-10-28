@@ -13,7 +13,11 @@ import { SET_DATA } from 'platform/forms-system/src/js/actions';
 
 import App from '../../containers/App';
 
-import { EVIDENCE_VA } from '../../constants';
+import {
+  EVIDENCE_VA,
+  SC_NEW_FORM_TOGGLE,
+  SC_NEW_FORM_DATA,
+} from '../../constants';
 import { SELECTED } from '../../../shared/constants';
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
@@ -31,6 +35,7 @@ const getData = ({
   pathname = '/introduction',
   push = () => {},
   status = '',
+  toggle = false,
 } = {}) => {
   setStoredSubTask({ benefitType: data?.benefitType || '' });
   return {
@@ -62,6 +67,10 @@ const getData = ({
           },
         },
         data,
+      },
+      featureToggles: {
+        loading: false,
+        [SC_NEW_FORM_TOGGLE]: toggle,
       },
       contestableIssues: {
         status,
@@ -243,6 +252,7 @@ describe('App', () => {
       loggedIn: true,
       data: {
         ...hasComp,
+        [SC_NEW_FORM_DATA]: false,
         internalTesting: true,
         contestedIssues: [
           {
@@ -327,6 +337,27 @@ describe('App', () => {
       expect(setTag.args[0]).to.deep.equal(['account_uuid', 'abcd-5678']);
       expect(setTag.args[1]).to.deep.equal(['in_progress_form_id', '5678']);
       setTag.restore();
+    });
+  });
+
+  it('should set feature toggle in form data', async () => {
+    setStoredSubTask(hasComp);
+    const { props, data } = getData({ toggle: true });
+    const store = mockStore(data);
+    render(
+      <Provider store={store}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    // testing issuesNeedUpdating branch for code coverage
+    await waitFor(() => {
+      const [action] = store.getActions();
+      expect(action.type).to.eq(SET_DATA);
+      expect(action.data).to.deep.equal({
+        ...hasComp,
+        [SC_NEW_FORM_DATA]: true,
+      });
     });
   });
 });
