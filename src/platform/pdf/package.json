@@ -20,6 +20,6 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "pdfjs-dist": "2.16.105"
+    "pdfjs-dist": "4.2.67"
   }
 }
