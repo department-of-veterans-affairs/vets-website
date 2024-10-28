@@ -153,7 +153,6 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
     <div id="allergies">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Allergies and reactions</h1>
-      <h2 className="sr-only">List of Allergies</h2>
       <p className="page-description">
         Review allergies, reactions, and side effects in your VA medical
         records. This includes medication side effects (also called adverse drug
