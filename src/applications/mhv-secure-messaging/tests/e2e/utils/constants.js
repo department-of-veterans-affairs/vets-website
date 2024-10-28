@@ -208,6 +208,7 @@ export const Locators = {
     ALERT_TEXT: `[data-testid="alert-text"]`,
     ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
     VA_ALERT: `va-alert`,
+    FIELD_ERROR: `#input-error-message`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -297,6 +298,7 @@ export const Alerts = {
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
   VIRUS_ATTCH: `Your message failed to send. Your file failed our scan. Try sending your message without any attachments.`,
   VIRUS_MULTI_ATTCH: `Your message failed to send. One or more of your files failed our scan. Try sending your message without any attachments.`,
+  SAVE_DRAFT: `Do you want to save your draft message?`,
 };
 
 export const Data = {
@@ -360,6 +362,7 @@ export const Data = {
     SAVE_CHANGES: 'Save changes',
     DELETE_CHANGES: 'Delete changes',
     KEEP_EDITING: 'Keep editing',
+    SAVE_DRAFT_WO_ATTCH: `Save draft without attachments`,
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
 };

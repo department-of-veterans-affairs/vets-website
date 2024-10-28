@@ -308,7 +308,7 @@ class PatientComposePage {
   };
 
   clickDeleteDraftModalButton = () => {
-    cy.get(Locators.ALERTS.DELETE_DRAFT).click();
+    cy.get(`va-button[secondary][text="Delete draft"]`).click();
   };
 
   clickOnContinueEditingButton = () => {
