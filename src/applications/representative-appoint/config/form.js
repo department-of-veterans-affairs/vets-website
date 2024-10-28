@@ -65,6 +65,8 @@ const formConfig = {
     const transformedFormData = pdfTransform(form.data);
     const pdfResponse = await generatePDF(transformedFormData);
     localStorage.setItem('formPdf', pdfResponse);
+
+    return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
   },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
