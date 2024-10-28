@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCheckboxGroup,
+  VaCheckbox,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getApplicantName, getRepresentativeName } from '../utilities/helpers';
@@ -98,7 +101,7 @@ export const PreSubmitInfo = ({
       <div className="vads-u-margin-top--neg4">
         <VaCheckboxGroup>
           {' '}
-          <va-checkbox
+          <VaCheckbox
             required
             label="I agree to the terms and conditions"
             name="I agree to the terms and conditions"
@@ -110,7 +113,7 @@ export const PreSubmitInfo = ({
             error={termsAndConditionsError ? 'This field is mandatory' : null}
             enable-analytics
           />
-          <va-checkbox
+          <VaCheckbox
             label="I accept that this form will replace all my other VA Forms 21-22 and 21-22a"
             name="I accept that this form will replace all my other VA Forms 21-22 and 21-22a"
             required
