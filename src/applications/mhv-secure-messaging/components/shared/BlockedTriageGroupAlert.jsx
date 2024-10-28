@@ -88,14 +88,21 @@ const BlockedTriageGroupAlert = props => {
           );
 
           if (formattedRecipient.status === RecipientStatus.NOT_ASSOCIATED) {
-            setBlockedTriageList([formattedRecipient]);
+            if (blockedRecipients.length > 0) {
+              const organizedList = organizeBlockedList(
+                blockedRecipients,
+                blockedFacilityNames,
+              );
+              setBlockedTriageList(
+                sortTriageList([...organizedList, formattedRecipient]),
+              );
+            } else {
+              setBlockedTriageList([formattedRecipient]);
+            }
             setShowAlert(true);
             setShowBlockedTriageGroupAlert(true);
           } else if (formattedRecipient.status === RecipientStatus.BLOCKED) {
-            if (
-              parentComponent === ParentComponent.COMPOSE_FORM ||
-              parentComponent === ParentComponent.CONTACT_LIST
-            ) {
+            if (parentComponent === ParentComponent.COMPOSE_FORM) {
               const organizedList = organizeBlockedList(
                 blockedRecipients,
                 blockedFacilityNames,
@@ -112,6 +119,9 @@ const BlockedTriageGroupAlert = props => {
               setShowBlockedTriageGroupAlert(true);
             }
           }
+        } else if (noAssociations || allTriageGroupsBlocked) {
+          setShowAlert(true);
+          setShowBlockedTriageGroupAlert(true);
         } else if (
           parentComponent === ParentComponent.COMPOSE_FORM ||
           parentComponent === ParentComponent.CONTACT_LIST
@@ -126,9 +136,6 @@ const BlockedTriageGroupAlert = props => {
             setShowAlert(true);
             setShowBlockedTriageGroupAlert(true);
           }
-        } else if (noAssociations || allTriageGroupsBlocked) {
-          setShowAlert(true);
-          setShowBlockedTriageGroupAlert(true);
         }
       }
     },

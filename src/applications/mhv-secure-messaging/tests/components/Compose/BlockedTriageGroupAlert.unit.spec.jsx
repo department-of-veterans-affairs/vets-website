@@ -72,7 +72,6 @@ describe('BlockedTriageGroupAlert component', () => {
         status: RecipientStatus.BLOCKED,
       },
       alertStyle: BlockedTriageAlertStyles.ALERT,
-      setShowBlockedTriageGroupAlert: () => {},
     });
     expect(screen.queryByTestId('blocked-triage-group')).to.not.exist;
     await waitFor(() => {
@@ -114,7 +113,6 @@ describe('BlockedTriageGroupAlert component', () => {
     const screen = setup(customState, {
       alertStyle: BlockedTriageAlertStyles.ALERT,
       parentComponent: ParentComponent.COMPOSE_FORM,
-      setShowBlockedTriageGroupAlert: () => {},
     });
     await waitFor(() => {
       expect(
@@ -143,7 +141,6 @@ describe('BlockedTriageGroupAlert component', () => {
     const screen = setup(customState, {
       parentComponent: ParentComponent.FOLDER_HEADER,
       alertStyle: BlockedTriageAlertStyles.INFO,
-      setShowBlockedTriageGroupAlert: () => {},
     });
     screen.debug(undefined, 10000);
     await waitFor(() => {
@@ -155,6 +152,56 @@ describe('BlockedTriageGroupAlert component', () => {
           "You're not connected to any care teams in this messaging tool",
         ),
       ).to.exist;
+    });
+  });
+
+  it('On editing a saved draft, includes a lost-association group in the alert if other teams are blocked', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          associatedTriageGroupsQty: 4,
+          associatedBlockedTriageGroupsQty: 2,
+          blockedRecipients: [
+            {
+              name: '***Jeasmitha-Cardio-Clinic***',
+              type: Recipients.CARE_TEAM,
+              stationNumber: '662',
+              status: RecipientStatus.BLOCKED,
+            },
+            {
+              name: '###PQR TRIAGE_TEAM 747###',
+              type: Recipients.CARE_TEAM,
+              stationNumber: '636',
+              status: RecipientStatus.BLOCKED,
+            },
+          ],
+        },
+      },
+    };
+
+    const screen = setup(customState, {
+      alertStyle: BlockedTriageAlertStyles.ALERT,
+      parentComponent: ParentComponent.COMPOSE_FORM,
+      currentRecipient: {
+        recipientId: 223344,
+        name: 'lost-association-team',
+        type: Recipients.CARE_TEAM,
+        status: RecipientStatus.ALLOWED,
+      },
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('blocked-triage-group-alert'),
+      ).to.have.attribute(
+        'trigger',
+        "You can't send messages to some of your care teams",
+      );
+      const blockedTGs = screen.queryAllByTestId('blocked-triage-group');
+      expect(blockedTGs.length).to.equal(3);
+      expect(blockedTGs[2].textContent).to.equal('lost-association-team');
     });
   });
 });
