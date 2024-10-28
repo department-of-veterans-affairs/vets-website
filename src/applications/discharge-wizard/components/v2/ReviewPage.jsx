@@ -122,7 +122,7 @@ const ReviewPage = ({
       </ul>
       <VaButtonPair
         data-testid="duw-buttonPair"
-        class="small-screen:vads-u-margin-x--0p5"
+        class="mobile-lg:vads-u-margin-x--0p5"
         onPrimaryClick={() => router.push('/results')}
         onSecondaryClick={onBackClick}
         continue

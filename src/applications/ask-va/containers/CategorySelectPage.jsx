@@ -10,7 +10,12 @@ import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, URL, envUrl, requireSignInCategories } from '../constants';
+import {
+  CHAPTER_1,
+  URL,
+  getApiUrl,
+  requireSignInCategories,
+} from '../constants';
 
 const CategorySelectPage = props => {
   const { onChange, loggedIn, goBack, goToPath, formData } = props;
@@ -24,7 +29,11 @@ const CategorySelectPage = props => {
 
   const onModalNo = () => {
     isLoading(true);
-    onChange({ ...formData, selectCategory: undefined });
+    onChange({
+      ...formData,
+      selectCategory: undefined,
+      allowAttachments: undefined,
+    });
     setShowModal({ show: false, selected: '' });
     setTimeout(() => isLoading(false), 200);
   };
@@ -45,7 +54,11 @@ const CategorySelectPage = props => {
       setShowModal({ show: true, selected: `${selectedValue}` });
     } else {
       dispatch(setCategoryID(selected.id));
-      onChange({ ...formData, selectCategory: selectedValue });
+      onChange({
+        ...formData,
+        selectCategory: selectedValue,
+        allowAttachments: selected.attributes.allowAttachments,
+      });
     }
   };
 
@@ -64,7 +77,7 @@ const CategorySelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(`${envUrl}${URL.GET_CATEGORIES}`);
+      getApiData(getApiUrl(URL.GET_CATEGORIES));
     },
     [loggedIn],
   );

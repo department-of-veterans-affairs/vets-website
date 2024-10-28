@@ -81,6 +81,7 @@ export const BuildPage = ({ title, field, id, goToPath, contactPath }) => {
           isDeleteDisabled
           cancelCallback={handlers.cancel}
           successCallback={handlers.success}
+          saveButtonText="Update"
         />
       </InitializeVAPServiceID>
     </div>
