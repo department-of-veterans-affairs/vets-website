@@ -26,7 +26,6 @@ import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import noAssociationsAtAll from '../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
 import lostAssociation from '../fixtures/json-triage-mocks/triage-teams-lost-association.json';
-import * as messagesActions from '../../actions/messages';
 
 describe('Thread Details container', () => {
   const setup = state => {
@@ -762,7 +761,7 @@ describe('Thread Details container', () => {
     );
   });
 
-  it('does not load if recipients.associatedTriageGroupsQty is undefined', async () => {
+  it('does not display BlockedTriageGroupAlert if recipients API call is incomplete (meaning recipient values will be undefined)', async () => {
     const state = {
       sm: {
         folders: {
@@ -798,16 +797,11 @@ describe('Thread Details container', () => {
       featureToggles: {},
     };
 
-    const retrieveMessageThreadSpy = sinon.spy(
-      messagesActions,
-      'retrieveMessageThread',
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.queryByTestId(
+      'blocked-triage-group-alert',
     );
-
-    setup(state);
-
-    await waitFor(() => {
-      expect(retrieveMessageThreadSpy.calledOnce).not.to.be.true;
-      retrieveMessageThreadSpy.restore();
-    });
+    expect(blockedTriageGroupAlert).not.to.exist;
   });
 });

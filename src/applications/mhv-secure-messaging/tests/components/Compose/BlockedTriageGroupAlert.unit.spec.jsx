@@ -53,15 +53,26 @@ describe('BlockedTriageGroupAlert component', () => {
   });
 
   it('does not render a list of care teams if there is only 1', async () => {
-    const screen = setup(initialState, {
-      blockedTriageGroupList: [
-        {
-          name: '###PQR TRIAGE_TEAM 747###',
-          type: Recipients.CARE_TEAM,
-          status: RecipientStatus.BLOCKED,
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          associatedBlockedTriageGroupsQty: 1,
+          blockedRecipients: [{ id: 222333 }],
+          allRecipients: [{ id: 222333 }],
         },
-      ],
+      },
+    };
+    const screen = setup(customState, {
+      currentRecipient: {
+        recipientId: 222333,
+        name: '###PQR TRIAGE_TEAM 747###',
+        type: Recipients.CARE_TEAM,
+        status: RecipientStatus.BLOCKED,
+      },
       alertStyle: BlockedTriageAlertStyles.ALERT,
+      setShowBlockedTriageGroupAlert: () => {},
     });
     expect(screen.queryByTestId('blocked-triage-group')).to.not.exist;
     await waitFor(() => {
@@ -83,26 +94,27 @@ describe('BlockedTriageGroupAlert component', () => {
         recipients: {
           associatedTriageGroupsQty: 4,
           associatedBlockedTriageGroupsQty: 2,
+          blockedRecipients: [
+            {
+              name: '***Jeasmitha-Cardio-Clinic***',
+              type: Recipients.CARE_TEAM,
+              stationNumber: '662',
+              status: RecipientStatus.BLOCKED,
+            },
+            {
+              name: '###PQR TRIAGE_TEAM 747###',
+              type: Recipients.CARE_TEAM,
+              stationNumber: '636',
+              status: RecipientStatus.BLOCKED,
+            },
+          ],
         },
       },
     };
     const screen = setup(customState, {
-      blockedTriageGroupList: [
-        {
-          name: '***Jeasmitha-Cardio-Clinic***',
-          type: Recipients.CARE_TEAM,
-          stationNumber: '662',
-          status: RecipientStatus.BLOCKED,
-        },
-        {
-          name: '###PQR TRIAGE_TEAM 747###',
-          type: Recipients.CARE_TEAM,
-          stationNumber: '636',
-          status: RecipientStatus.BLOCKED,
-        },
-      ],
       alertStyle: BlockedTriageAlertStyles.ALERT,
       parentComponent: ParentComponent.COMPOSE_FORM,
+      setShowBlockedTriageGroupAlert: () => {},
     });
     await waitFor(() => {
       expect(
@@ -123,6 +135,7 @@ describe('BlockedTriageGroupAlert component', () => {
         recipients: {
           noAssociations: true,
           allTriageGroupsBlocked: false,
+          associatedBlockedTriageGroupsQty: 0,
         },
       },
     };
@@ -130,14 +143,18 @@ describe('BlockedTriageGroupAlert component', () => {
     const screen = setup(customState, {
       parentComponent: ParentComponent.FOLDER_HEADER,
       alertStyle: BlockedTriageAlertStyles.INFO,
+      setShowBlockedTriageGroupAlert: () => {},
     });
-    expect(
-      screen.queryByTestId('blocked-triage-group-alert'),
-    ).to.have.attribute('status', BlockedTriageAlertStyles.INFO);
-    expect(
-      screen.getByText(
-        "You're not connected to any care teams in this messaging tool",
-      ),
-    ).to.exist;
+    screen.debug(undefined, 10000);
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('blocked-triage-group-alert'),
+      ).to.have.attribute('status', BlockedTriageAlertStyles.INFO);
+      expect(
+        screen.getByText(
+          "You're not connected to any care teams in this messaging tool",
+        ),
+      ).to.exist;
+    });
   });
 });
