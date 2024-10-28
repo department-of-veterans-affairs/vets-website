@@ -54,6 +54,7 @@ const {
   date,
   usaPhone,
   dateRange,
+  benefitsIntakeFullName,
 } = fullSchemaBurials.definitions;
 
 const formConfig = {
@@ -98,6 +99,7 @@ const formConfig = {
     date,
     usaPhone,
     dateRange,
+    benefitsIntakeFullName,
   },
   chapters: {
     claimantInformation: {
