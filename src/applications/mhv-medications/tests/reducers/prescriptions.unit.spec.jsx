@@ -7,6 +7,7 @@ import { Actions } from '../../util/actionTypes';
 import paginatedSortedListApiResponse from '../fixtures/paginatedSortedListApiResponse.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import { categorizePrescriptions } from '../../util/helpers';
+import { refillStatusesToHide } from '../../util/constants';
 
 describe('Prescriptions reducer', () => {
   function reduce(action, state = initialState) {
@@ -175,5 +176,43 @@ describe('Prescriptions reducer', () => {
       initialStateWithRxList,
     );
     expect(state.refillNotification).to.equal(undefined);
+  });
+
+  it('should hide unready refill statuses from prescriptionsList when GET_PAGINATED_SORTED_LIST action is passed', () => {
+    const rxState = {
+      ...initialState,
+      prescriptionsList: paginatedSortedListApiResponse.data.map(rx => {
+        return { ...rx.attributes };
+      }),
+      prescriptionsPagination: paginatedSortedListApiResponse.meta.pagination,
+      apiError: false,
+    };
+
+    // inject refill status meant to be hidden
+    const response = { ...paginatedSortedListApiResponse };
+    response.data.push({
+      attributes: {
+        refillStatus: refillStatusesToHide[0],
+      },
+    });
+    const state1 = reduce({
+      type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
+      response,
+    });
+    // state should NOT change
+    expect(state1).to.deep.equal(rxState);
+
+    // inject active refill statuss
+    response.data.push({
+      attributes: {
+        refillStatus: 'active',
+      },
+    });
+    const state2 = reduce({
+      type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
+      response,
+    });
+    // state should change
+    expect(state2).not.to.deep.equal(rxState);
   });
 });

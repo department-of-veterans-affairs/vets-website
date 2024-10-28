@@ -1,5 +1,8 @@
 import { Actions } from '../util/actionTypes';
-import { defaultSelectedSortOption } from '../util/constants';
+import {
+  defaultSelectedSortOption,
+  refillStatusesToHide,
+} from '../util/constants';
 import { categorizePrescriptions } from '../util/helpers';
 
 export const initialState = {
@@ -61,9 +64,14 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,
-        prescriptionsList: action.response.data.map(rx => {
-          return { ...rx.attributes };
-        }),
+        prescriptionsList: action.response.data
+          .map(rx => {
+            return { ...rx.attributes };
+            // temporary plug until those statuses are ready at va.gov
+          })
+          .filter(rx => {
+            return !refillStatusesToHide.includes(rx.refillStatus);
+          }),
         prescriptionsPagination: action.response.meta.pagination,
         apiError: false,
       };

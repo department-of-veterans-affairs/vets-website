@@ -199,3 +199,10 @@ export const allergyTypes = {
 };
 
 export const EMPTY_FIELD = 'None noted';
+
+export const refillStatusesToHide = [
+  'newOrder',
+  'renew',
+  'deleted',
+  'refillRequest',
+];

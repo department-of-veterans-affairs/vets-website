@@ -38,6 +38,7 @@ import {
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
   SESSION_SELECTED_PAGE_NUMBER,
+  refillStatusesToHide,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -367,7 +368,12 @@ const Prescriptions = () => {
             false,
           )
             .then(response => {
-              const list = response.data.map(rx => ({ ...rx.attributes }));
+              const list = response.data
+                .map(rx => ({ ...rx.attributes }))
+                // temporary plug until those statuses are ready at va.gov
+                .filter(rx => {
+                  return !refillStatusesToHide.includes(rx.refillStatus);
+                });
               setPrescriptionsFullList(list);
               setHasFullListDownloadError(false);
             })
