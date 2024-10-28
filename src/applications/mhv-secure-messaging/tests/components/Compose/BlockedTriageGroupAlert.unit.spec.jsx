@@ -204,4 +204,43 @@ describe('BlockedTriageGroupAlert component', () => {
       expect(blockedTGs[2].textContent).to.equal('lost-association-team');
     });
   });
+
+  it('lost-association team appears in title of alert if only one team is not associated and no other groups are blocked', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          associatedTriageGroupsQty: 4,
+          associatedBlockedTriageGroupsQty: 0,
+          blockedRecipients: [],
+        },
+      },
+    };
+
+    const screen = setup(customState, {
+      alertStyle: BlockedTriageAlertStyles.ALERT,
+      parentComponent: ParentComponent.COMPOSE_FORM,
+      currentRecipient: {
+        recipientId: 223344,
+        name: 'lost-association-team',
+        type: Recipients.CARE_TEAM,
+        status: RecipientStatus.ALLOWED,
+      },
+    });
+    screen.debug(undefined, 10000);
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('blocked-triage-group-alert'),
+      ).to.have.attribute(
+        'trigger',
+        'Your account is no longer connected to lost-association-team',
+      );
+      expect(
+        screen.getByText(
+          'If you need to contact your care team, call your VA health facility.',
+        ),
+      ).to.exist;
+    });
+  });
 });

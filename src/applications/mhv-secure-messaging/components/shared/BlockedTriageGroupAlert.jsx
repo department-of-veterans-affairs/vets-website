@@ -202,6 +202,8 @@ const BlockedTriageGroupAlert = props => {
             );
             if (blockedTriageList[0].status === RecipientStatus.BLOCKED) {
               setAlertInfoText(alertMessage.SINGLE_TEAM_BLOCKED);
+            } else {
+              setAlertInfoText(alertMessage.NO_ASSOCIATIONS);
             }
           }
         } else {
