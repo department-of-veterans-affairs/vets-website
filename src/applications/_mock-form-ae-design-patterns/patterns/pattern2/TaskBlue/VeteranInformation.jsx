@@ -8,6 +8,7 @@ import { selectProfile } from '~/platform/user/selectors';
 
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from './constants';
 
 import { parseDateToDateObj } from '../../../utils/dates';
@@ -90,14 +91,15 @@ const VeteranInformation = ({ formData }) => {
 
       <br role="presentation" />
 
-      <p>
+      <p className="vads-u-margin-bottom--4">
         <strong>Note:</strong> To protect your personal information, we don’t
         allow online changes to your name, date of birth, or Social Security
-        number. If you need to change this information for your health benefits,
-        call your VA health facility.{' '}
+        number. If you need to change this information, call us at Veterans
+        Benefits Assistance at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
+        We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m. ET.{' '}
         <va-link
           href={APP_URLS.facilities}
-          text="Find your VA health facility"
+          text="Find instructions for how to change your legal name"
         />
       </p>
     </>

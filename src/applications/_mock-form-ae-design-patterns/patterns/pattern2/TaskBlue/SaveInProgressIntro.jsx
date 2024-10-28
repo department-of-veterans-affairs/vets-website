@@ -176,10 +176,10 @@ class SaveInProgressIntro extends React.Component {
                 <h3 className="vads-u-margin-top--0">
                   We can prefill some of your information
                 </h3>
-                <strong>Note:</strong> Since you’re signed in to your account,
-                we can prefill part of your {appType} based on your account
-                details. You can also save your {appType} in progress and come
-                back later to finish filling it out.
+                Since you’re signed in, we can prefill part of your application
+                based on your profile details. You can also save your
+                application in progress and come back later to finish filling it
+                out.
               </div>
             </va-alert>
             <br />

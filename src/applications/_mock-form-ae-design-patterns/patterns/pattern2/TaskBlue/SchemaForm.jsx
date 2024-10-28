@@ -48,7 +48,7 @@ class SchemaForm extends React.Component {
     };
     this.state = {
       ...this.getEmptyState(props),
-      saveToProfile: true,
+      saveToProfile: null,
     };
 
     this.onChangeProfile = this.onChangeProfile.bind(this);
@@ -62,9 +62,9 @@ class SchemaForm extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.onChangeProfile(this.state.saveToProfile);
-  }
+  // componentDidMount() {
+  //   this.onChangeProfile(this.state.saveToProfile);
+  // }
 
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
@@ -257,8 +257,7 @@ class SchemaForm extends React.Component {
             'usa-input-error-label': this.state.error,
           })}
         >
-          Do you also want to save this updated mailing address to your VA.gov
-          profile?
+          Do you also want to update this information in your VA.gov profile?
           <span className="schemaform-required-span">
             {content['validation-required-label']}
           </span>
