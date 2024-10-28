@@ -159,9 +159,15 @@ export function validateRequired(required) {
   }
 }
 
+function validatePath(path) {
+  if (path?.charAt(0) === '/') {
+    throw new Error(`path ${path} should not start with a \`/\``);
+  }
+}
+
 export function validateReviewPath(reviewPath) {
   if (reviewPath?.charAt(0) === '/') {
-    throw new Error('reviewPath should not start with a `/`');
+    throw new Error(`reviewPath ${reviewPath} should not start with a \`/\``);
   }
 }
 
@@ -252,6 +258,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   const pageBuilderVerifyAndSetup = {
     introPage: pageConfig => {
       introPath = pageConfig.path;
+      validatePath(introPath);
       orderedPageTypes.push('intro');
       return pageConfig;
     },
@@ -268,6 +275,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       if (!pageConfig.uiSchema?.[hasItemsKey]?.['ui:validations']?.[0]) {
         throwMissingYesNoValidation();
       }
+      validatePath(summaryPath);
       orderedPageTypes.push('summary');
       return pageConfig;
     },
@@ -275,6 +283,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       if (!pageConfig?.path.includes('/:index')) {
         throwIncorrectItemPath();
       }
+      validatePath(pageConfig?.path);
       itemPages.push(pageConfig);
       orderedPageTypes.push('item');
       return pageConfig;
