@@ -49,22 +49,17 @@ const ReviewPage = props => {
                   {title}
                 </h2>
               </div>
-              <ul className="review-pages vads-u-padding--0 usa-unstyled-list vads-u--margin-top--2">
-                {getChapterPagesFromChapterIndex(index).map(page => {
-                  const depends = page.depends
-                    ? page.depends(props.data)
-                    : true;
-                  return page.review && depends
-                    ? Object.entries(page.review(props)).map(
-                        ([label, value]) => (
-                          <li key={label}>
-                            <div className="page-value">{value}</div>
-                          </li>
-                        ),
-                      )
-                    : null;
-                })}
-              </ul>
+
+              {getChapterPagesFromChapterIndex(index).map(page => {
+                const depends = page.depends ? page.depends(props.data) : true;
+                return page.review && depends
+                  ? Object.entries(page.review(props)).map(([label, value]) => (
+                      <div className="page-value" key={label}>
+                        {value}
+                      </div>
+                    ))
+                  : null;
+              })}
             </div>
           );
         })}
@@ -92,22 +87,7 @@ const ReviewPage = props => {
 ReviewPage.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    veteran: PropTypes.shape({
-      homePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
-      mobilePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
-    }).isRequired,
-  }),
+  data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,

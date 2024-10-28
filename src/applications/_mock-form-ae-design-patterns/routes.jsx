@@ -97,7 +97,7 @@ const pattern2Routes = [
     ),
     indexRoute: {
       onEnter: (nextState, replace) =>
-        replace('/2/task-orange/introduction?loggedIn=true'),
+        replace('/2/task-orange/introduction?loggedIn=false'),
     },
     childRoutes: createRoutesWithSaveInProgress(formConfigForOrangeTask),
   },
