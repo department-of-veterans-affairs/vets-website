@@ -23,6 +23,5 @@ describe('<GiBillBreadcrumbs>', () => {
 
     expect(wrapper.find('va-breadcrumbs')).to.not.be.null;
     wrapper.unmount();
-    // wrapper.unmount();
   });
 });
