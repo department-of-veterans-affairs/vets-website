@@ -7,6 +7,9 @@ export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
 export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
 
+export const SC_NEW_FORM_TOGGLE = 'sc_new_form';
+export const SC_NEW_FORM_DATA = 'showScNewForm';
+
 // *** URLS ***
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
@@ -75,6 +78,7 @@ export const errorMessages = {
   },
 
   missingPrimaryPhone: 'You must choose a primary phone number',
+  missingPrimaryPhoneReview: 'Missing primary phone',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';

@@ -250,6 +250,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
           {vitalDisplayName}
         </h1>
+        <h2 className="sr-only">List of {vitalDisplayName} results</h2>
 
         <NewRecordsIndicator
           refreshState={refresh}
@@ -298,7 +299,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.date}
                 </h3>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
                   Result
                 </h4>
                 <p
@@ -308,7 +309,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.measurement}
                 </p>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
                   Location
                 </h4>
                 <p
@@ -318,7 +319,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.location}
                 </p>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
                   Provider notes
                 </h4>
                 <p

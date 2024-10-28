@@ -26,6 +26,7 @@ const IntroductionPage = props => {
         messages={formConfig.savedFormMessages}
         pageList={pageList}
         startText="Start the Application"
+        hideUnauthedStartLink
       >
         Please complete the form to apply for benefits.
       </SaveInProgressIntro>
@@ -79,6 +80,7 @@ const IntroductionPage = props => {
         messages={formConfig.savedFormMessages}
         pageList={pageList}
         startText="Start the Application"
+        hideUnauthedStartLink
       />
       <p />
       {ombInfo && (

@@ -6,7 +6,6 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PropTypes from 'prop-types';
 import {
   healthServices,
   benefitsServices,
@@ -18,6 +17,7 @@ import {
 import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
+import { SearchControlsTypes } from '../types';
 
 const SearchControls = props => {
   const {
@@ -382,7 +382,11 @@ const SearchControls = props => {
             : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
         </p>
       </VaModal>
-      <form id="facility-search-controls" onSubmit={handleSubmit}>
+      <form
+        className="vads-u-margin-bottom--0"
+        id="facility-search-controls"
+        onSubmit={handleSubmit}
+      >
         <div className="columns">
           {renderLocationInputField()}
           <div id="search-controls-bottom-row">
@@ -396,20 +400,6 @@ const SearchControls = props => {
   );
 };
 
-SearchControls.propTypes = {
-  currentQuery: PropTypes.shape({
-    facilityType: PropTypes.string,
-    geolocationInProgress: PropTypes.bool,
-    geocodeError: PropTypes.number,
-    locationChanged: PropTypes.bool,
-    searchString: PropTypes.string,
-    serviceType: PropTypes.string,
-    serviceTypeChanged: PropTypes.bool,
-  }).isRequired,
-  clearGeocodeError: PropTypes.func,
-  clearSearchText: PropTypes.func,
-  geolocateUser: PropTypes.func,
-  onSubmit: PropTypes.func,
-};
+SearchControls.propTypes = SearchControlsTypes;
 
 export default SearchControls;

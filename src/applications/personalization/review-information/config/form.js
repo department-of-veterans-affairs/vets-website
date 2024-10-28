@@ -54,6 +54,10 @@ const formConfig = {
       },
     },
   },
+  customText: {
+    finishAppLaterMessage: ' ',
+    submitButtonText: 'Finish',
+  },
   // getHelp,
   footerContent,
 };
