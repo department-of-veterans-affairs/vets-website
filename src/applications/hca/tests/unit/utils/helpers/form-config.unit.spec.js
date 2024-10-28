@@ -399,7 +399,7 @@ describe('hca form config helpers', () => {
       expect(includeRadiationCleanUpEfforts(formData)).to.be.true;
     });
 
-    it('should return `false` when Veteran birthdate is after Dec 31, 1965', () => {
+    it('should return `false` when Veteran birthdate is after `Dec 31, 1965`', () => {
       const formData = getData({ veteranDateOfBirth: '1990-01-01' });
       expect(includeRadiationCleanUpEfforts(formData)).to.be.false;
     });
@@ -426,13 +426,13 @@ describe('hca form config helpers', () => {
       expect(includeGulfWarService(formData)).to.be.true;
     });
 
-    it('should return `true` when Veteran birthdate is before `Aug 2, 1975`', () => {
+    it('should return `true` when Veteran birthdate is before `Feb 29, 1976`', () => {
       const formData = getData({ veteranDateOfBirth: '1960-01-01' });
       expect(includeGulfWarService(formData)).to.be.true;
     });
 
-    it('should return `false` when Veteran birthdate is after Sept 11, 2001', () => {
-      const formData = getData({ veteranDateOfBirth: '2005-01-01' });
+    it('should return `false` when Veteran birthdate is after `Feb 28, 1976`', () => {
+      const formData = getData({ veteranDateOfBirth: '1990-01-01' });
       expect(includeGulfWarService(formData)).to.be.false;
     });
 
@@ -470,8 +470,8 @@ describe('hca form config helpers', () => {
       expect(includeGulfWarServiceDates(formData)).to.be.false;
     });
 
-    it('should return `false` when Veteran birthdate is after Sept 11, 2001', () => {
-      const formData = getData({ veteranDateOfBirth: '2005-01-01' });
+    it('should return `false` when Veteran birthdate is after `Feb 28, 1976`', () => {
+      const formData = getData({ veteranDateOfBirth: '1990-01-01' });
       expect(includeGulfWarServiceDates(formData)).to.be.false;
     });
 
@@ -492,12 +492,12 @@ describe('hca form config helpers', () => {
       veteranDateOfBirth,
     });
 
-    it('should return `true` when Veteran birthdate is after `Sept 11, 1986`', () => {
+    it('should return `true` when Veteran birthdate is after `Feb 28, 1976`', () => {
       const formData = getData({ veteranDateOfBirth: '2005-01-01' });
       expect(includePostSept11Service(formData)).to.be.true;
     });
 
-    it('should return `false` when Veteran birthdate is before Aug 2, 1975', () => {
+    it('should return `false` when Veteran birthdate is before `Feb 29, 1976`', () => {
       const formData = getData({ veteranDateOfBirth: '1960-01-01' });
       expect(includePostSept11Service(formData)).to.be.false;
     });
@@ -536,7 +536,7 @@ describe('hca form config helpers', () => {
       expect(includePostSept11ServiceDates(formData)).to.be.false;
     });
 
-    it('should return `false` when Veteran birthdate is before Aug 2, 1975', () => {
+    it('should return `false` when Veteran birthdate is before `Feb 29, 1976`', () => {
       const formData = getData({ veteranDateOfBirth: '1960-01-01' });
       expect(includePostSept11ServiceDates(formData)).to.be.false;
     });
@@ -568,7 +568,7 @@ describe('hca form config helpers', () => {
       expect(includeAgentOrangeExposure(formData)).to.be.true;
     });
 
-    it('should return `false` when Veteran birthdate is after Jul 31, 1965', () => {
+    it('should return `false` when Veteran birthdate is after `Jul 31, 1965`', () => {
       const formData = getData({ veteranDateOfBirth: '1990-01-01' });
       expect(includeAgentOrangeExposure(formData)).to.be.false;
     });
