@@ -50,13 +50,7 @@ const EditContactList = () => {
   );
 
   const recipients = useSelector(state => state.sm.recipients);
-  const {
-    allFacilities,
-    blockedFacilities,
-    blockedRecipients,
-    allRecipients,
-    error,
-  } = recipients;
+  const { allFacilities, blockedFacilities, allRecipients, error } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -133,15 +127,6 @@ const EditContactList = () => {
       setAllTriageTeams(allRecipients);
     },
     [allRecipients],
-  );
-
-  useEffect(
-    () => {
-      if (blockedRecipients?.length > 0) {
-        setShowBlockedTriageGroupAlert(true);
-      }
-    },
-    [blockedRecipients],
   );
 
   useEffect(() => {
@@ -247,18 +232,16 @@ const EditContactList = () => {
       )}
       {allTriageTeams?.length > 0 && (
         <>
-          {showBlockedTriageGroupAlert && (
-            <div
-              className={`${allFacilities?.length > 1 &&
-                'vads-u-margin-bottom--4'}`}
-            >
-              <BlockedTriageGroupAlert
-                blockedTriageGroupList={blockedRecipients}
-                alertStyle={BlockedTriageAlertStyles.ALERT}
-                parentComponent={ParentComponent.CONTACT_LIST}
-              />
-            </div>
-          )}
+          <div
+            className={`${allFacilities?.length > 1 &&
+              'vads-u-margin-bottom--4'}`}
+          >
+            <BlockedTriageGroupAlert
+              alertStyle={BlockedTriageAlertStyles.ALERT}
+              parentComponent={ParentComponent.CONTACT_LIST}
+              setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+            />
+          </div>
 
           <form className="contactListForm">
             {allFacilities.map(stationNumber => {
