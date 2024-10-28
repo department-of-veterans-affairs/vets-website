@@ -31,5 +31,6 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
     cy.axeCheck(AXE_CONTEXT);
 
     cy.get(Locators.BACK_TO).click();
+    PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
   });
 });

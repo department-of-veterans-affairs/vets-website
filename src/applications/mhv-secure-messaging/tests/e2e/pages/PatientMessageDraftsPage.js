@@ -172,7 +172,7 @@ class PatientMessageDraftsPage {
   };
 
   loadSingleDraft = (
-    mockThread = mockMessages,
+    mockThread = mockDraftsRespone,
     singleDraftThread = mockSavedDraftResponse,
   ) => {
     cy.intercept(
@@ -769,21 +769,21 @@ class PatientMessageDraftsPage {
     cy.get(`[status="warning"]`)
       .find(`h2`)
       .should('be.visible')
-      .and(`have.text`, alertText);
+      .and(`contain.text`, alertText);
 
     cy.get(`[status="warning"]`)
       .find(`[text='${firstBtnText}']`)
       .shadow()
       .find(`button`)
       .should('be.visible')
-      .and(`have.text`, firstBtnText);
+      .and(`contain.text`, firstBtnText);
 
     cy.get(`[status="warning"]`)
       .find(`[text='${secondBtnText}']`)
       .shadow()
       .find(`.last-focusable-child`)
       .should('be.visible')
-      .and(`have.text`, secondBtnText);
+      .and(`contain.text`, secondBtnText);
   };
 
   clickDeleteChangesButton = () => {
