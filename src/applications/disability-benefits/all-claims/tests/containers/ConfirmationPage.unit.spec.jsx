@@ -218,8 +218,7 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    expect(tree.queryByText('New confirmation page content goes in here')).to
-      .exist;
+    expect(tree.queryByTestId('new-confirmation-page')).to.exist;
   });
 
   // new confirmation page toggle off
@@ -236,7 +235,6 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    expect(tree.queryByText('New confirmation page content goes in here')).to.be
-      .null;
+    expect(tree.queryByTestId('new-confirmation-page')).to.be.null;
   });
 });

@@ -52,14 +52,12 @@ export default class ConfirmationPage extends React.Component {
         toggleName={Toggler.TOGGLE_NAMES.disability526NewConfirmationPage}
       >
         <Toggler.Enabled>
-          <p
+          <div
             hidden
             aria-hidden
             id="new-confirmation-page"
-            className="vads-u-margin-top--0"
-          >
-            New confirmation page content goes in here
-          </p>
+            data-testid="new-confirmation-page"
+          />
         </Toggler.Enabled>
       </Toggler>
 
