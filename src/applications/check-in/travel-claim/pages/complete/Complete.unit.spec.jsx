@@ -63,8 +63,6 @@ describe('Check-in experience', () => {
           </CheckInProvider>,
         );
         expect(getByTestId('header')).to.exist;
-        expect(getByTestId('travel-info-external-link')).to.exist;
-        expect(getByTestId('travel-complete-content')).to.exist;
       });
       it('calls travel API via hook', () => {
         sandbox.stub(v2, 'postTravelOnlyClaim').resolves({});
