@@ -184,7 +184,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       ],
     };
 
-    PatientMessageDraftsPage.loadSingleDraft(mockDraftNew);
+    PatientMessageDraftsPage.loadSingleDraft(mockMessages, mockDraftNew);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

@@ -77,8 +77,10 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
 
   it('navigate away with removed data', () => {
     PatientComposePage.selectRecipient(0);
-    PatientComposePage.getMessageSubjectField().clear({ force: true });
-    PatientComposePage.getMessageBodyField().clear({ force: true });
+    PatientComposePage.getMessageSubjectField().clear();
+    PatientComposePage.getMessageBodyField()
+      .focus()
+      .clear();
 
     FolderLoadPage.backToParentFolder();
     PatientComposePage.verifyCantSaveAlert(Data.MESSAGE_CANNOT_SAVE_YET);
@@ -91,8 +93,10 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
 
   it('navigate away with removed data and added attachment', () => {
     PatientComposePage.selectRecipient(0);
-    PatientComposePage.getMessageSubjectField().clear({ force: true });
-    PatientComposePage.getMessageBodyField().clear({ force: true });
+    PatientComposePage.getMessageSubjectField().clear();
+    PatientComposePage.getMessageBodyField()
+      .focus()
+      .clear();
     PatientComposePage.attachMessageFromFile();
 
     FolderLoadPage.backToParentFolder();

@@ -171,18 +171,19 @@ class PatientMessageDraftsPage {
     cy.wait('@full-thread');
   };
 
-  loadSingleDraft = (singleDraftThread = mockSavedDraftResponse) => {
+  loadSingleDraft = (
+    mockThread = mockMessages,
+    singleDraftThread = mockSavedDraftResponse,
+  ) => {
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
-        mockDraftsRespone.data[0].attributes.messageId
+        mockThread.data[0].attributes.messageId
       }/thread*`,
       singleDraftThread,
     ).as('full-thread');
 
-    cy.contains(mockDraftsRespone.data[0].attributes.subject).click({
-      waitForAnimations: true,
-    });
+    cy.contains(mockThread.data[0].attributes.subject).click();
   };
 
   loadSingleReplyDraft = (singleReplyDraftThread = mockReplyDraftResponse) => {
