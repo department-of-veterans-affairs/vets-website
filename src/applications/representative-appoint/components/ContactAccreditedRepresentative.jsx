@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 import { useReviewPage } from '../hooks/useReviewPage';
-import {
-  representativeIsOrgType,
-  getEntityAddressAsObject,
-} from '../utilities/helpers';
+import { getEntityAddressAsObject } from '../utilities/helpers';
 
 import AddressEmailPhone from './AddressEmailPhone';
 
@@ -17,7 +14,7 @@ const ContactAccreditedRepresentative = props => {
   const addressData = getEntityAddressAsObject(repAttributes);
   const email = repAttributes?.email;
   const phone = repAttributes?.phone;
-  const isOrg = representativeIsOrgType(formData);
+  const isOrg = rep?.type === 'organization';
   const isReviewPage = useReviewPage();
 
   const representative = formData?.['view:selectedRepresentative'];

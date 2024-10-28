@@ -218,8 +218,11 @@ export const isAttorneyOrClaimsAgent = formData => {
   );
 };
 
+const isOrg = formData =>
+  formData['view:selectedRepresentative']?.type === 'organization';
+
 export const getOrgName = formData => {
-  if (representativeIsOrgType(formData)) {
+  if (isOrg(formData)) {
     return formData['view:selectedRepresentative']?.attributes?.name;
   }
 

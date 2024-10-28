@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { representativeIsOrgType } from '../utilities/helpers';
+import { isVSORepresentative } from '../utilities/helpers';
 
 export const PreSubmitInfo = ({
   formData,
@@ -19,7 +19,7 @@ export const PreSubmitInfo = ({
   const [termsAndConditionsError, setTermsAndConditionsError] = useState(false);
   const [formReplacementError, setFormReplacementError] = useState(false);
   const rep = formData['view:selectedRepresentative'];
-  const isOrg = representativeIsOrgType(formData);
+  const isVSORep = isVSORepresentative(formData);
   const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
 
   const applicantFullName = applicantIsVeteran
@@ -30,7 +30,7 @@ export const PreSubmitInfo = ({
     applicantFullName.middle
   } ${applicantFullName.last} ${applicantFullName.suffix}`;
 
-  const representativeName = isOrg
+  const representativeName = isVSORep
     ? formData.selectedAccreditedOrganizationName
     : rep.attributes.fullName;
 
