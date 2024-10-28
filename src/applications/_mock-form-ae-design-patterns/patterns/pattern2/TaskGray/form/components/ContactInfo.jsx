@@ -332,9 +332,11 @@ export const ContactInfo = ({
     <>
       {editState !== 'address,updated' ? (
         <PrefillAlert>
-          <strong>Note:</strong> We’ve prefilled some of your information from
-          your account. If you need to correct anything, you can select edit
-          below. All updates will be made to this form and your VA.gov profile.
+          We’ve prefilled some of your information. If you need to make changes,
+          you can edit on this screen.
+          <strong>
+            Your changes will affect this form and your VA.gov profile.
+          </strong>
         </PrefillAlert>
       ) : null}
       <div className="vads-u-margin-y--2">

@@ -36,9 +36,9 @@ const formConfig = {
   customText: {
     appAction: 'your COE request',
     appSavedSuccessfullyMessage: 'Your request has been saved.',
-    appType: 'request',
+    appType: 'form',
     continueAppButtonText: 'Continue your request',
-    finishAppLaterMessage: 'Finish this request later',
+    finishAppLaterMessage: 'Finish this application later',
     startNewAppButtonText: 'Start a new request',
     reviewPageTitle: 'Review your request',
   },

@@ -8,7 +8,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { InfoSection } from '../../../../../shared/components/InfoSection';
 // import { genderLabels } from 'platform/static-data/labels';
 import { normalizeFullName } from '../../../../../utils/helpers/general';
-// import { APP_URLS } from '../../../../../utils/constants';
+import { APP_URLS } from '../../../../../utils/constants';
 import { isOnReviewPage } from '../../../TaskOrange/utils/reviewPage';
 
 export const VeteranInformationBase = ({
@@ -19,7 +19,7 @@ export const VeteranInformationBase = ({
   const isReviewPage = isOnReviewPage(location?.pathname);
   const title = isReviewPage ? null : 'Applicant information';
   const formattedDob =
-  veteranDateOfBirth && format(parseISO(veteranDateOfBirth), 'MMMM dd, yyyy');
+    veteranDateOfBirth && format(parseISO(veteranDateOfBirth), 'MMMM dd, yyyy');
   return (
     <InfoSection title={title} titleLevel={3}>
       <InfoSection.InfoBlock
@@ -57,8 +57,9 @@ export const VeteranProfileInformation = ({
   contentAfterButtons,
 }) => {
   const { userFullName, dob } = profile;
- 
+
   // const { veteranSocialSecurityNumber } = veteran;
+  console.log(contentBeforeButtons);
 
   const veteranName = normalizeFullName(userFullName, true);
   const veteranDOB = dob && format(parseISO(dob), 'MMMM dd, yyyy');
@@ -67,12 +68,6 @@ export const VeteranProfileInformation = ({
   return (
     <>
       <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
-        <p>
-          This is the personal information we have on file for you. If you
-          notice any errors, correct them now. Any updates you make will change
-          the information on this request only.
-        </p>
-
         <va-card className="contact-info-card gray-task">
           {/* <div className="vads-u-margin-y--3 vads-u-padding-left--2"> */}
           <dl>
@@ -106,25 +101,21 @@ export const VeteranProfileInformation = ({
             ) : null}
           </dl>
         </va-card>
-        <p>
-          <strong>Note:</strong> If you need to update your personal
-          information, call our VA benefits hotline at{' '}
-          <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-          <va-telephone contact={CONTACTS[711]} tty />
-          ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+        <p className="vads-u-margin-y--4">
+          <strong>Note:</strong> To protect your personal information, we don’t
+          allow online changes to your name, date of birth, or Social Security
+          number. If you need to change this information, call us at Veterans
+          Benefits Assistance at <va-telephone contact={CONTACTS.VA_BENEFITS} />
+          . We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
           <dfn>
             <abbr title="Eastern Time">ET</abbr>
           </dfn>
-          .
-        </p>
-        {/* <p>
-          You can also call your VA health facility to get help changing your
-          name on file with VA. Ask for the eligibility department.{' '}
+          .{' '}
           <va-link
             href={APP_URLS.facilities}
-            text="Find your nearest VA health facility"
+            text="Find instructions for how to change your legal name"
           />
-        </p> */}
+        </p>
       </div>
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} />

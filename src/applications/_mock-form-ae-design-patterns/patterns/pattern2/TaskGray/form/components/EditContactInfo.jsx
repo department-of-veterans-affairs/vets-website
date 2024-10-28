@@ -65,10 +65,11 @@ export const BuildPage = props => {
   return (
     <>
       <PrefillAlert>
-        <strong>Note:</strong> We’ve prefilled some of your information from
-        your account. If you need to correct anything, you can edit the form
-        fields below. All updates will be made to this form and your VA.gov
-        profile.
+        We’ve prefilled some of your information. If you need to make changes,
+        you can edit on this screen.{' '}
+        <strong>
+          Your changes will affect this form and your VA.gov profile.
+        </strong>
       </PrefillAlert>
       <h2
         ref={headerRef}
