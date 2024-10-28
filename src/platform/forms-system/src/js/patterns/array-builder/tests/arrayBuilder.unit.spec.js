@@ -158,12 +158,30 @@ describe('arrayBuilderPages required parameters and props tests', () => {
     }
   });
 
+  it('should throw an error if incorrect path', () => {
+    try {
+      arrayBuilderPages(validOptions, pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
+          ...validSummaryPage,
+          path: '/summary',
+        }),
+        firstPage: pageBuilder.itemPage(validFirstPage),
+        lastPage: pageBuilder.itemPage(validLastPage),
+      }));
+      expect('Expected path to fail validation and be caught').to.be.false;
+    } catch (e) {
+      expect(e.message).to.include('path');
+      expect(e.message).to.include('should not start with a `/`');
+    }
+  });
+
   it('should throw an error if incorrect review path', () => {
     try {
       arrayBuilderPages({ ...validOptions, reviewPath: '/review' }, validPages);
-      expect(true).to.be.false;
+      expect('Expected path to fail validation and be caught').to.be.false;
     } catch (e) {
-      expect(e.message).to.include('reviewPath should not start with a `/`');
+      expect(e.message).to.include('reviewPath');
+      expect(e.message).to.include('should not start with a `/`');
     }
   });
 
