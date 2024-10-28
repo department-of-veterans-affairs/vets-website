@@ -7,7 +7,7 @@ import ProgramsList from '../../../components/profile/ProgramsList';
 describe('<ProgramsList>', () => {
   it('should render without crashing', () => {
     const match = { params: { programType: 'Graduate' } };
-    const location = { state: { name: 'Test Institution' } };
+    const location = { state: { institutionName: 'Test Institution' } };
 
     const wrapper = mount(
       <MemoryRouter

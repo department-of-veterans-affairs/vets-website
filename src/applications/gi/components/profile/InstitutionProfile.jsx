@@ -41,6 +41,7 @@ export default function InstitutionProfile({
 }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.showYellowRibbonTable);
+  const togglePrograms = useToggleValue(TOGGLE_NAMES.programsToggleFlag);
 
   const programTypes = [
     'Non College Degree',
@@ -180,7 +181,6 @@ export default function InstitutionProfile({
             />
           </ProfileSection>
         )}
-
       {type === 'FOREIGN' && (
         <p>
           Limited programs are approved at foreign schools, please contact
@@ -274,7 +274,6 @@ export default function InstitutionProfile({
             </div>
           </ProfileSection>
         )}
-
       <ProfileSection
         label="Cautionary information"
         id="cautionary-information"
@@ -303,15 +302,15 @@ export default function InstitutionProfile({
           <Academics institution={institution} onShowModal={showModal} />
         </ProfileSection>
       )}
-
-      <ProfileSection label="Programs" id="programs">
-        <Programs
-          programTypes={programTypes}
-          facilityCode={facilityCode}
-          name={name}
-        />
-        {/* <Programs programs={institution.programs}/> */}
-      </ProfileSection>
+      {togglePrograms && (
+        <ProfileSection label="Programs" id="programs">
+          <Programs
+            programTypes={programTypes}
+            facilityCode={facilityCode}
+            institutionName={name}
+          />
+        </ProfileSection>
+      )}
       {!isOJT && (
         <ProfileSection
           label="Veteran programs and support"

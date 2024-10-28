@@ -13,7 +13,7 @@ describe('<Programs>', () => {
       <Programs
         programTypes={programTypes}
         facilityCode={facilityCode}
-        name={name}
+        institutionName={name}
       />,
     );
 

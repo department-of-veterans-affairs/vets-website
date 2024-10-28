@@ -44,13 +44,12 @@ export default function ProgramsList({ match }) {
   const { programType } = match.params;
   const formatedProgramType = formatProgramType(programType);
   const location = useLocation();
-  const { name } = location.state;
+  const { institutionName } = location.state;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
   const [searchQuery, setSearchQuery] = useState('');
   const [key, setKey] = useState(0);
 
-  // Filter the programs based on the search query
   const filteredPrograms = gradPrograms.filter(program =>
     program.toLowerCase().includes(searchQuery.toLowerCase()),
   );
@@ -85,7 +84,7 @@ export default function ProgramsList({ match }) {
 
   return (
     <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-      <h1 className="vads-u-margin-bottom--4">{name}</h1>
+      <h1 className="vads-u-margin-bottom--4">{institutionName}</h1>
       <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
         {formatedProgramType}
       </h2>
