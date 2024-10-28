@@ -1,6 +1,7 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
+  isVerificationEndDateValid,
   // isVerificationEndDateValid,
   removeCommas,
   splitAddressLine,
@@ -85,16 +86,13 @@ export const fetchClaimantId = () => {
         },
       });
       profile = profileData;
-      const response = await apiRequest(
-        'http://localhost:8080/dgi/vye/claimantLookup',
-        {
-          method: 'POST',
-          body: JSON.stringify({ ssn: profile?.birlsId }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      const response = await apiRequest('/dgi/vye/claimant_lookup', {
+        method: 'POST',
+        body: JSON.stringify({ ssn: profile?.birlsId }),
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+      });
       dispatch({
         type: CHECK_CLAIMANT_SUCCESS,
         claimantId: response.claimantId,
@@ -116,29 +114,26 @@ export const fetchPersonalInfo = () => {
       checkClaimant: { claimantId },
     } = getState();
     if (claimantId) {
-      const [statusResponse, recordResponse] = await Promise.all([
-        apiRequest(
-          `http://localhost:8080/verifications/vye/${claimantId}/status`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+      const [recordResponse] = await Promise.all([
+        // apiRequest(
+        //   `http://localhost:8080/verifications/vye/${claimantId}/status`,
+        //   {
+        //     method: 'GET',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //   },
+        // ),
+        apiRequest(`/verifications/vye/${claimantId}/get_verification_record`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        ),
-        apiRequest(
-          `http://localhost:8080/verifications/vye/${claimantId}/verification-record`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
-        ),
+        }),
       ]);
       dispatch({
         type: FETCH_PERSONAL_INFO_SUCCESS,
-        response: { statusResponse, recordResponse },
+        response: { recordResponse },
       });
     } else {
       return apiRequest(API_URL, {
@@ -219,33 +214,39 @@ export const verifyEnrollmentAction = verifications => {
     dispatch({ type: VERIFY_ENROLLMENT });
     const {
       checkClaimant: { claimantId },
-      // personalInfo: {
-      //   personalInfo: {
-      //     recordResponse: { enrollmentVerifications },
-      //   },
-      // },
+      personalInfo: {
+        personalInfo: {
+          recordResponse: { enrollmentVerifications },
+        },
+      },
     } = getState();
     const URL = claimantId
-      ? 'http://localhost:8080/verifications/vye/verify'
+      ? '/verifications/vye/verify_claimant'
       : `${API_URL}/verify`;
-    // const newVerifications = enrollmentVerifications?.filter(
-    //   verification =>
-    //     !verification?.verificationMethod &&
-    //     isVerificationEndDateValid(verification.verificationEndDate),
-    // );
-    // const lastVerification =
-    //   newVerifications?.length > 0
-    //     ? newVerifications[newVerifications.length - 1]
-    //     : null;
-    // console.log(lastVerification?.verificationBeginDate, 'lastVerification');
+    const newVerifications = enrollmentVerifications?.filter(
+      verification =>
+        !verification?.verificationMethod &&
+        isVerificationEndDateValid(verification?.verificationEndDate),
+    );
+    const lastVerification =
+      newVerifications?.length > 0
+        ? newVerifications[newVerifications?.length - 1]
+        : null;
     const body = claimantId
-      ? {
-          claimantId: 0,
-          verificationMethod: 'VYE',
-          appCommunication: {
-            responseType: 'Y',
-          },
-        }
+      ? (() => {
+          return {
+            // eslint-disable-next-line camelcase
+            claimant_id: claimantId,
+            // eslint-disable-next-line camelcase
+            verified_period_begin_date: lastVerification?.verificationBeginDate,
+            // eslint-disable-next-line camelcase
+            verified_period_end_date: lastVerification?.verificationEndDate,
+            verificationMethod: 'VYE',
+            appCommunication: {
+              responseType: 'Y',
+            },
+          };
+        })()
       : { awardIds: verifications };
     try {
       const response = await apiRequest(URL, {
