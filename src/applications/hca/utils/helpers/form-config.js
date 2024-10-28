@@ -191,7 +191,7 @@ export function includeTeraInformation(formData) {
  * Helper that determines if the form data indicates the user has a birthdate that
  * makes them eligibile for radiation clean-up efforts
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user was born in 1965 or earlier
+ * @returns {Boolean} - true if the user was born before Jan 1, 1966
  */
 export function includeRadiationCleanUpEfforts(formData) {
   if (!formData['view:isTeraBranchingEnabled']) {
@@ -210,7 +210,7 @@ export function includeRadiationCleanUpEfforts(formData) {
  * Helper that determines if the form data indicates the user has a birthdate that
  * makes them eligibile for gulf war service
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user was born on or before Feb 28, 1976
+ * @returns {Boolean} - true if the user was born before Feb 29, 1976
  */
 export function includeGulfWarService(formData) {
   if (!formData['view:isTeraBranchingEnabled']) {
@@ -280,7 +280,7 @@ export function includePostSept11ServiceDates(formData) {
  * Helper that determines if the form data indicates the user has a birthdate that
  * makes them eligibile for agent orange exposure
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user was born on or before July 31, 1965 or earlier
+ * @returns {Boolean} - true if the user was born before Aug 1, 1965 or earlier
  */
 export function includeAgentOrangeExposure(formData) {
   if (!formData['view:isTeraBranchingEnabled']) {
