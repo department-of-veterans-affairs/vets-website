@@ -53,6 +53,7 @@ import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
   adaptiveBenefits,
+  addConditionsPages,
   addDisabilities,
   additionalBehaviorChanges,
   additionalDocuments,
@@ -170,6 +171,10 @@ const formConfig = {
     notFound: 'Please start over to file for disability claims increase.',
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
+  },
+  dev: {
+    collapsibleNavLinks: true,
+    showNavLinks: !window.Cypress,
   },
   formSavedPage: FormSavedPage,
   transformForSubmit: transform,
@@ -321,6 +326,7 @@ const formConfig = {
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
+        ...addConditionsPages,
         addDisabilities: {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,

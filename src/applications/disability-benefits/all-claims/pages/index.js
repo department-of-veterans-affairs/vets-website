@@ -1,4 +1,6 @@
 import * as adaptiveBenefits from './adaptiveBenefits';
+import addConditionsPages from './addConditionsPages';
+import * as addDisabilities from './addDisabilities';
 import * as additionalBehaviorChanges from './additionalBehaviorChanges';
 import * as additionalDocuments from './additionalDocuments';
 import * as additionalExposures from './toxicExposure/additionalExposures';
@@ -112,10 +114,10 @@ import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
 import * as veteranInfo from './veteranInfo';
 import * as workBehaviorChanges from './workBehaviorChanges';
-import * as addDisabilities from './addDisabilities';
 
 export {
   adaptiveBenefits,
+  addConditionsPages,
   addDisabilities,
   additionalBehaviorChanges,
   additionalDocuments,
