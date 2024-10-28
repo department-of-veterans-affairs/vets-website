@@ -52,8 +52,8 @@ export default function UpcomingAppointmentLayout({
                     <AppointmentRow
                       className={classNames(
                         'mobile:vads-u-flex-direction--row',
-                        'xsmall-screen:vads-u-margin-x--0p5',
-                        'xsmall-screen:vads-u-margin-y--1',
+                        'mobile:vads-u-margin-x--0p5',
+                        'mobile:vads-u-margin-y--1',
                         'xsmall-screen:vaos-appts__column-gap--2',
 
                         'mobile-lg:vads-u-padding-left--1',
@@ -62,7 +62,7 @@ export default function UpcomingAppointmentLayout({
                         'medium-screen:vads-u-margin-y--0',
                         'medium-screen:vads-u-padding--0',
                         {
-                          'xsmall-screen:vads-u-margin-y--1': !isFirstInDay,
+                          'mobile:vads-u-margin-y--1': !isFirstInDay,
                         },
                       )}
                     >
@@ -107,8 +107,8 @@ export default function UpcomingAppointmentLayout({
             <AppointmentRow
               className={classNames(
                 'mobile:vads-u-flex-direction--row',
-                'xsmall-screen:vads-u-margin-x--0p5',
-                'xsmall-screen:vads-u-margin-y--1',
+                'mobile:vads-u-margin-x--0p5',
+                'mobile:vads-u-margin-y--1',
                 'xsmall-screen:vaos-appts__column-gap--2',
 
                 'mobile-lg:vads-u-padding-x--1',

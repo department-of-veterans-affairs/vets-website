@@ -440,8 +440,11 @@ export default function ArrayBuilderSummaryPage({
       );
     }
 
+    const newUiSchema = { ...uiSchema };
+    let newSchema = schema;
+
     if (arrayData?.length > 0) {
-      uiSchema['ui:title'] = (
+      newUiSchema['ui:title'] = (
         <>
           <Title textType="summaryTitle" />
           {getText('summaryDescription', null, props.data) && (
@@ -457,16 +460,17 @@ export default function ArrayBuilderSummaryPage({
         </>
       );
       // ensure new reference to trigger re-render
-      uiSchema['ui:description'] = <Cards />;
+      newUiSchema['ui:description'] = <Cards />;
     } else {
-      uiSchema['ui:title'] = <Title textType="summaryTitleWithoutItems" />;
-      uiSchema['ui:description'] =
+      newUiSchema['ui:title'] = <Title textType="summaryTitleWithoutItems" />;
+      newUiSchema['ui:description'] =
         getText('summaryDescriptionWithoutItems', null, props.data) ||
         undefined;
     }
 
     if (schema?.properties && maxItems && arrayData?.length >= maxItems) {
-      schema.properties[hasItemsKey]['ui:hidden'] = true;
+      newSchema = { ...schema };
+      newSchema.properties[hasItemsKey]['ui:hidden'] = true;
     }
 
     return (
@@ -475,8 +479,8 @@ export default function ArrayBuilderSummaryPage({
         title={props.title}
         data={props.data}
         appStateData={props.appStateData}
-        schema={schema}
-        uiSchema={uiSchema}
+        schema={newSchema}
+        uiSchema={newUiSchema}
         pagePerItemIndex={props.pagePerItemIndex}
         formContext={props.formContext}
         trackingPrefix={props.trackingPrefix}
