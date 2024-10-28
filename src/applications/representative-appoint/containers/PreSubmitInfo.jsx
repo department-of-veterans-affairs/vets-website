@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isVSORepresentative } from '../utilities/helpers';
+import { getApplicantName, getRepresentativeName } from '../utilities/helpers';
 
 export const PreSubmitInfo = ({
   formData,
@@ -18,21 +18,11 @@ export const PreSubmitInfo = ({
   const [formReplacementChecked, setFormReplacementChecked] = useState(false);
   const [termsAndConditionsError, setTermsAndConditionsError] = useState(false);
   const [formReplacementError, setFormReplacementError] = useState(false);
-  const rep = formData['view:selectedRepresentative'];
-  const isVSORep = isVSORepresentative(formData);
-  const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
 
-  const applicantFullName = applicantIsVeteran
-    ? formData.veteranFullName
-    : formData.applicantName;
+  const applicantFullName = getApplicantName(formData);
 
-  const concatApplicantFullName = `${applicantFullName.first} ${
-    applicantFullName.middle
-  } ${applicantFullName.last} ${applicantFullName.suffix}`;
-
-  const representativeName = isVSORep
-    ? formData.selectedAccreditedOrganizationName
-    : rep.attributes.fullName;
+  // Returns org for orgs and VSO reps, otherwise full name of attorney/claims agent
+  const representativeName = getRepresentativeName(formData);
 
   useEffect(
     () => {
@@ -78,7 +68,7 @@ export const PreSubmitInfo = ({
           id="terms-and-conditions"
         >
           <p>
-            I, the claimant {concatApplicantFullName} hereby appoint{' '}
+            I, the claimant {applicantFullName} hereby appoint{' '}
             {representativeName} as my representative to prepare, present and
             prosecute my claim for any and all benefits from the Department of
             Veterans Affairs (VA) based on the service of the veteran named.{' '}

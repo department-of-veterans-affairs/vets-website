@@ -243,6 +243,33 @@ export const getOrgName = formData => {
   return orgs[0]?.attributes?.name;
 };
 
+export const getRepresentativeName = formData => {
+  const rep = formData['view:selectedRepresentative'];
+
+  if (!rep) {
+    return null;
+  }
+
+  if (isOrg(rep)) {
+    return formData['view:selectedRepresentative']?.attributes?.name;
+  }
+  return isVSORepresentative(formData)
+    ? formData.selectedAccreditedOrganizationName
+    : rep.attributes.fullName;
+};
+
+export const getApplicantName = formData => {
+  const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
+
+  const applicantFullName = applicantIsVeteran
+    ? formData.veteranFullName
+    : formData.applicantName;
+
+  return `${applicantFullName.first} ${applicantFullName.middle} ${
+    applicantFullName.last
+  } ${applicantFullName.suffix}`;
+};
+
 export const convertRepType = input => {
   const mapping = {
     representative: 'VSO',
