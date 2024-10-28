@@ -13,7 +13,6 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import RecordList from '../components/RecordList/RecordList';
 import {
   recordType,
@@ -43,6 +42,8 @@ import {
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
+import useAcceleratedData from '../hooks/useAcceleratedData';
+
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
@@ -69,15 +70,9 @@ const Allergies = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-  const useAcceleratedApi = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryAllergiesEnabled
-      ],
-  );
-  const isCerner = useSelector(selectIsCernerPatient);
+
   const user = useSelector(state => state.user.profile);
-  const isAccelerating = !!useAcceleratedApi && isCerner;
+  const { isAccelerating } = useAcceleratedData();
 
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);

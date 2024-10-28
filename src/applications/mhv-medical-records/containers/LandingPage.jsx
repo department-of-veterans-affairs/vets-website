@@ -14,9 +14,7 @@ import {
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
-import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
+
 import { getCernerURL } from 'platform/utilities/cerner';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
@@ -30,6 +28,8 @@ import {
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
+
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -46,23 +46,7 @@ const LandingPage = () => {
   const phase0p5Flag = useSelector(
     state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
   );
-
-  const useAcceleratedApi = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryAllergiesEnabled
-      ],
-  );
-  const isCerner = useSelector(selectIsCernerPatient);
-  const isAccelerating = !!useAcceleratedApi && isCerner;
-
-  useEffect(
-    () => {
-      // use Drupal based Cerner facility data
-      connectDrupalSourceOfTruthCerner(dispatch);
-    },
-    [dispatch],
-  );
+  const { isAccelerating } = useAcceleratedData();
 
   useEffect(
     () => {

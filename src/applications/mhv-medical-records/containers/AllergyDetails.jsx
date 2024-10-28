@@ -15,8 +15,6 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import { selectDrupalStaticData } from 'platform/site-wide/drupal-static-data/selectors';
-
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -39,6 +37,8 @@ import DateSubheading from '../components/shared/DateSubheading';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
+import useAcceleratedData from '../hooks/useAcceleratedData';
+
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
@@ -58,15 +58,10 @@ const AllergyDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-  const useAcceleratedApi = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryAllergiesEnabled
-      ],
-  );
-  const isCerner = useSelector(selectIsCernerPatient);
+
   const { vamcEhrData } = useSelector(selectDrupalStaticData);
-  const isAccelerating = useAcceleratedApi && isCerner;
+
+  const { isAccelerating } = useAcceleratedData();
 
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
