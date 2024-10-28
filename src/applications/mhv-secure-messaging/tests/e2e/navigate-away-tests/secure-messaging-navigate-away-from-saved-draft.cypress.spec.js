@@ -25,12 +25,13 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
 
     FolderLoadPage.backToParentFolder();
 
-    PatientComposePage.verifyCantSaveAlert(
+    PatientMessageDraftsPage.verifyCantSaveAlert(
       Alerts.SAVE_CHANGES,
-      Data.BUTTONS.SAVE_DRAFT,
+      Data.BUTTONS.SAVE_CHANGES,
+      Data.BUTTONS.DELETE_CHANGES,
     );
 
-    PatientComposePage.clickDeleteDraftModalButton();
+    PatientMessageDraftsPage.clickDeleteChangesButton();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

@@ -759,6 +759,37 @@ class PatientMessageDraftsPage {
       .should(`be.visible`)
       .and(`contain.text`, Data.BUTTONS.DELETE_DRAFT);
   };
+
+  verifyCantSaveAlert = (
+    alertText,
+    firstBtnText = `Edit draft`,
+    secondBtnText = `Delete draft`,
+  ) => {
+    cy.get(`[status="warning"]`)
+      .find(`h2`)
+      .should('be.visible')
+      .and(`have.text`, alertText);
+
+    cy.get(`[status="warning"]`)
+      .find(`[text='${firstBtnText}']`)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and(`have.text`, firstBtnText);
+
+    cy.get(`[status="warning"]`)
+      .find(`[text='${secondBtnText}']`)
+      .shadow()
+      .find(`.last-focusable-child`)
+      .should('be.visible')
+      .and(`have.text`, secondBtnText);
+  };
+
+  clickDeleteChangesButton = () => {
+    cy.get(`[status="warning"]`)
+      .find(`va-button[text="Delete changes"]`)
+      .click();
+  };
 }
 
 export default new PatientMessageDraftsPage();

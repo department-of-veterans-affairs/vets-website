@@ -12,7 +12,9 @@ describe('SM NAVIGATE AWAY FROM SAVED REPLY DRAFT', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientMessageDraftsPage.loadDrafts();
-    PatientMessageDraftsPage.loadSingleReplyDraft(mockReplyDraftResponse);
+    PatientMessageDraftsPage.loadSingleReplyDraft(
+      GeneralFunctionsPage.updatedThreadDates(mockReplyDraftResponse),
+    );
   });
 
   it('navigate away with no changes', () => {
@@ -55,7 +57,7 @@ describe('SM NAVIGATE AWAY FROM SAVED REPLY DRAFT', () => {
       Data.BUTTONS.DELETE_CHANGES,
     );
 
-    PatientComposePage.clickDeleteDraftModalButton();
+    PatientMessageDraftsPage.clickDeleteChangesButton();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

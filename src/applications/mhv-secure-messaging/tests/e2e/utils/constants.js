@@ -299,6 +299,7 @@ export const Alerts = {
   VIRUS_ATTCH: `Your message failed to send. Your file failed our scan. Try sending your message without any attachments.`,
   VIRUS_MULTI_ATTCH: `Your message failed to send. One or more of your files failed our scan. Try sending your message without any attachments.`,
   SAVE_DRAFT: `Do you want to save your draft message?`,
+  SAVE_CHANGES: `Do you want to save your changes to this draft?`,
 };
 
 export const Data = {

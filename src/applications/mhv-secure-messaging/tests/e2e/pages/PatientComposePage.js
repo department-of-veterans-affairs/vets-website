@@ -498,12 +498,14 @@ class PatientComposePage {
       .find(`h2`)
       .should('be.visible')
       .and(`have.text`, alertText);
+
     cy.get(`[status="warning"]`)
       .find(`[text='${firstBtnText}']`)
       .shadow()
       .find(`button`)
       .should('be.visible')
       .and(`have.text`, firstBtnText);
+
     cy.get(`[status="warning"]`)
       .find(`[text='${secondBtnText}']`)
       .shadow()
