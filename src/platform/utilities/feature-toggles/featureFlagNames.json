@@ -188,6 +188,7 @@
   "ratedDisabilitiesUseLighthouse": "rated_disabilities_use_lighthouse",
   "representativeStatusEnabled": "representative_status_enabled",
   "scBrowserMonitoringEnabled": "sc_browser_monitoring_enabled",
+  "scNewForm": "sc_new_form",
   "searchDropdownComponentEnabled": "search_dropdown_component_enabled",
   "searchGovMaintenance": "search_gov_maintenance",
   "searchRepresentative": "search_representative",

@@ -3,12 +3,47 @@ import {
   focusElement,
   focusByOrder,
   scrollTo,
+  scrollToFirstError,
   waitForRenderThenFocus,
   scrollAndFocus,
 } from '~/platform/utilities/ui';
+import { focusReview } from '~/platform/forms-system/src/js/utilities/ui/focus-review';
 import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
 import { LAST_ISSUE } from '../constants';
+
+export const focusFirstError = (root = document) => {
+  const error = $('[error]', root);
+  if (error) {
+    scrollToFirstError({ focusOnAlertRole: true });
+    return true;
+  }
+  return false;
+};
+export const focusEvidence = (_index, root) => {
+  setTimeout(() => {
+    if (!focusFirstError(root)) {
+      scrollTo('topContentElement');
+      focusElement('#main h3', null, root);
+    }
+  });
+};
+export const focusH3AfterAlert = ({
+  name,
+  onReviewPage,
+  root = document,
+} = {}) => {
+  if (name && onReviewPage) {
+    focusReview(
+      name, // name of scroll element
+      true, // review accordion in edit mode
+      true, // reviewEditFocusOnHeaders setting from form/config.js
+    );
+  } else if (!focusFirstError(root)) {
+    scrollTo('topContentElement');
+    focusElement('h3#header', null, root);
+  }
+};
 
 export const focusIssue = (_index, root, value) => {
   setTimeout(() => {
@@ -31,7 +66,7 @@ export const focusIssue = (_index, root, value) => {
         focusElement('.edit-issue-link', null, card);
       }
     } else {
-      scrollTo('h3');
+      scrollTo('topContentElement');
       focusElement('h3');
     }
   });
