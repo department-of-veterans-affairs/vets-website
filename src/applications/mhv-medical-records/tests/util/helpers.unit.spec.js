@@ -49,8 +49,7 @@ describe('Date formatter with no timezone', () => {
     expect(formattedDate).to.eq('September 29, 2023, 11:04 a.m.');
   });
 
-  // This test will give different results when run in different time zones.
-  it.skip('formats an epoch date in the original time without a timezone', () => {
+  it('formats an epoch date in the original time without a timezone', () => {
     const timeStamp = 1605300748000;
     const formattedDate = dateFormatWithoutTimezone(timeStamp);
     expect(formattedDate).to.eq('November 13, 2020, 8:52 p.m.');
@@ -451,8 +450,7 @@ describe('getStatusExtractPhase', () => {
 });
 
 describe('getLastUpdatedText', () => {
-  // This test is time-zone dependent and will fail in certain circumstances. Skipping for now.
-  it.skip('should return the last updated string when the refreshStateStatus contains the extractType and lastSuccessfulCompleted', () => {
+  it('should return the last updated string when the refreshStateStatus contains the extractType and lastSuccessfulCompleted', () => {
     const refreshStateStatus = [
       { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
     ];
@@ -460,7 +458,16 @@ describe('getLastUpdatedText', () => {
 
     const result = getLastUpdatedText(refreshStateStatus, extractType);
 
-    expect(result).to.equal('Last updated at 10:00 AM on 2024-09-15');
+    const testDate = new Date('2024-09-15T10:00:00Z');
+
+    expect(result).to.equal(
+      `Last updated at ${testDate.getHours() % 12 ||
+        12}:00 a.m. on ${testDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}`,
+    );
   });
 
   it('should return null when no matching extractType is found', () => {
