@@ -20,6 +20,7 @@ export const focusFirstError = (root = document) => {
   }
   return false;
 };
+
 export const focusEvidence = (_index, root) => {
   setTimeout(() => {
     if (!focusFirstError(root)) {
@@ -28,6 +29,7 @@ export const focusEvidence = (_index, root) => {
     }
   });
 };
+
 export const focusH3AfterAlert = ({
   name,
   onReviewPage,
@@ -129,8 +131,9 @@ export const focusRadioH3 = () => {
   scrollTo('topContentElement');
   const radio = $('va-radio, va-checkbox-group');
   if (radio) {
+    const target = radio.getAttribute('error') ? '[role="alert"]' : 'h3';
     // va-radio content doesn't immediately render
-    waitForRenderThenFocus('h3', radio.shadowRoot);
+    waitForRenderThenFocus(target, radio.shadowRoot);
   } else {
     focusByOrder(['#main h3', defaultFocusSelector]);
   }
@@ -159,16 +162,19 @@ export const focusToggledHeader = () => {
   }
 };
 
-export const focusH3 = () => {
+export const focusH3 = (root = document) => {
   scrollTo('topContentElement');
-  focusElement('#main h3');
+  if (!focusFirstError(root)) {
+    focusElement('#main h3');
+  }
 };
 
-export const focusAlertH3 = () => {
+export const focusAlertH3 = (root = document) => {
   scrollTo('topContentElement');
+  const alert = $('va-alert[visible="true"]', root);
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
-  waitForRenderThenFocus('#main h3');
+  focusElement(`#main ${alert ? 'va-alert ' : ''}h3`);
 };
 
 // Used for onContinue callback on the contestable issues page
