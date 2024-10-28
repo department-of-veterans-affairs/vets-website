@@ -132,11 +132,13 @@ describe('22-10282 Edu form', () => {
         .first()
         .type('someEmail@mail.com');
       cy.get('[class="usa-button-primary"]').click();
-      cy.get('[class="usa-button-primary"]').click();
     });
 
     it('should show error if country field is not selected', () => {
       cy.injectAxeThenAxeCheck();
+      cy.get('[name="root_country"]')
+        .first()
+        .select('');
       cy.get('[class="usa-button-primary"]').click();
       checkErrorMessage(
         '[id="input-error-message"]',
@@ -146,9 +148,6 @@ describe('22-10282 Edu form', () => {
 
     it('should show State field when country field is selected to United States', () => {
       cy.injectAxeThenAxeCheck();
-      cy.get('[name="root_country"]')
-        .first()
-        .select('United States');
       cy.get('[class="usa-button-primary"]').click();
       cy.get('[data-testid="state-title"]').should(
         'contain',
@@ -159,9 +158,6 @@ describe('22-10282 Edu form', () => {
     it('should show error if state field is not selected', () => {
       cy.injectAxeThenAxeCheck();
       cy.get('[class="usa-button-primary"]').click();
-      cy.get('[name="root_country"]')
-        .first()
-        .select('United States');
       cy.get('[class="usa-button-primary"]').click();
       cy.get('[class="usa-button-primary"]').click();
       checkErrorMessage(
