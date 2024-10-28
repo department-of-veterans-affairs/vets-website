@@ -201,7 +201,7 @@ export function includeRadiationCleanUpEfforts(formData) {
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isBefore(
     new Date(veteranDateOfBirth),
-    new Date('1965-12-31'),
+    new Date('1966-01-01'),
   );
   return includeTeraInformation(formData) && couldHaveServed;
 }
@@ -220,7 +220,7 @@ export function includeGulfWarService(formData) {
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isBefore(
     new Date(veteranDateOfBirth),
-    new Date('1976-02-28'),
+    new Date('1976-02-29'),
   );
   return includeTeraInformation(formData) && couldHaveServed;
 }
@@ -290,7 +290,7 @@ export function includeAgentOrangeExposure(formData) {
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isBefore(
     new Date(veteranDateOfBirth),
-    new Date('1965-07-31'),
+    new Date('1965-08-01'),
   );
   return includeTeraInformation(formData) && couldHaveServed;
 }
