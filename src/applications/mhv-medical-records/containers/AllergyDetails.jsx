@@ -69,6 +69,9 @@ const AllergyDetails = props => {
 
   const allergyData = useMemo(
     () => {
+      if (!allergy) {
+        return null;
+      }
       return {
         ...allergy,
         isOracleHealthData: isAccelerating,
@@ -176,7 +179,7 @@ Provider notes: ${allergyData.notes} \n`;
         </>
       );
     }
-    if (allergy) {
+    if (allergyData) {
       return (
         <>
           <PrintHeader />
