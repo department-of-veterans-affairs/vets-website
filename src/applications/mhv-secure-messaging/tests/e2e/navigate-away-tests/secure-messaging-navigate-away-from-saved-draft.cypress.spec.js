@@ -18,6 +18,9 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
     FolderLoadPage.backToParentFolder();
     GeneralFunctionsPage.verifyUrl(`drafts`);
     GeneralFunctionsPage.verifyPageHeader(`Drafts`);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('navigate away with data change', () => {
