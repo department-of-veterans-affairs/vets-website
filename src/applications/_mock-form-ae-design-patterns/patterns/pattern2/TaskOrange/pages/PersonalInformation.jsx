@@ -35,20 +35,19 @@ export const PersonalInformationContact = ({
 }) => {
   const config = useContext(PatternConfigContext);
 
-  const reviewId = location?.state?.reviewId;
-  const success = location?.state?.success;
+  const updatedSection = location?.query?.updatedSection;
+  const success = location?.query?.success;
 
   useEffect(
     () => {
-      if (reviewId) {
+      if (updatedSection) {
         setTimeout(() => {
-          waitForRenderThenFocus(`#${reviewId}`);
-          scrollToElement(reviewId);
-          window.history.replaceState({}, '');
+          waitForRenderThenFocus(`#${updatedSection}`);
+          scrollToElement(updatedSection);
         }, 100);
       }
     },
-    [reviewId],
+    [updatedSection],
   );
 
   const { homePhone, mobilePhone, email } = data;
@@ -79,12 +78,12 @@ export const PersonalInformationContact = ({
 
           <InfoSection.SubHeading
             text="Address"
-            editLink={getLink('edit-mailing-address')}
+            editLink={getLink('edit-veteran-address')}
             id="veteranAddress"
             name="veteranAddress"
           />
           {success &&
-            reviewId === 'veteranAddress' && (
+            updatedSection === 'veteranAddress' && (
               <SaveSuccessAlert updatedText="Address information" />
             )}
           <InfoSection.InfoBlock
@@ -102,11 +101,12 @@ export const PersonalInformationContact = ({
           <InfoSection.SubHeading
             text="Other contact information"
             editLink={getLink('edit-other-contact-information')}
-            id="other-contact-information"
+            id="otherContactInformation"
+            name="otherContactInformation"
           />
 
           {success &&
-            reviewId === 'other-contact-information' && (
+            updatedSection === 'otherContactInformation' && (
               <SaveSuccessAlert updatedText="Other contact information" />
             )}
           <InfoSection.InfoBlock label="Email address" value={email} />

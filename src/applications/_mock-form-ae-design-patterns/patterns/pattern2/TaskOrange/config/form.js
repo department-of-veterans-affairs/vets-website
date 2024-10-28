@@ -36,6 +36,7 @@ import {
 } from '../pages/ApplicantInformation';
 import ReviewPage from '../pages/ReviewPage';
 import { EditNavigationWithRouter } from '../components/EditNavigation';
+import { ContactInfoEditReroute } from '../pages/ContactInfoEditReroute';
 
 const {
   date,
@@ -69,6 +70,9 @@ const formConfig = {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
       'Please sign in again to resume your application for education benefits.',
+  },
+  dev: {
+    showNavLinks: true,
   },
   prefillEnabled: true,
   prefillTransformer,
@@ -173,7 +177,6 @@ const formConfig = {
                 hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
                 forceDivWrapper: true, // It's all info and links, so we don't need a fieldset or legend
               },
-              'ui:reviewId': 'other-contact-information',
               'ui:title': '',
               'ui:description': '',
               'ui:widget': props => {
@@ -209,33 +212,16 @@ const formConfig = {
         },
         contactInformation: merge({}, contactInformationPage(fullSchema1990)),
         contactInformationEdit: {
-          hideNavButtons: true,
-          title: 'Edit mailing address',
+          title: 'Edit contact information',
           taskListHide: true,
-          path: 'personal-information/edit-mailing-address',
+          path: 'personal-information/edit-veteran-address',
+          CustomPage: ContactInfoEditReroute,
+          CustomPageReview: null,
           uiSchema: {
             ...descriptionUI(PrefillAlert, { hideOnReview: true }),
             veteranAddress: addressFormDefinition.uiSchema(
               'Edit mailing address',
             ),
-            'view:editNavigation': {
-              'ui:options': {
-                hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
-                forceDivWrapper: true, // It's all info and links, so we don't need a fieldset or legend
-              },
-              'ui:reviewId': 'veteranAddress',
-              'ui:title': '',
-              'ui:description': '',
-              'ui:widget': props => {
-                return (
-                  <EditNavigationWithRouter
-                    {...props}
-                    fields={['email', 'homePhone', 'mobilePhone']}
-                    returnPath="/personal-information"
-                  />
-                );
-              },
-            },
           },
           schema: {
             type: 'object',
@@ -245,15 +231,9 @@ const formConfig = {
                 fullSchema1990,
                 true,
               ),
-              'view:editNavigation': {
-                type: 'string',
-              },
             },
-            required: ['email'],
           },
-          scrollAndFocusTarget,
           depends: () => false,
-          review: null,
         },
       },
     },
