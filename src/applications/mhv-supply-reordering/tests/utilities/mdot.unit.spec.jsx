@@ -79,7 +79,7 @@ describe('mdot utility', () => {
 
     const mockMdot = (supplies = [], isElig = true) => {
       return {
-        eligibility: elig(isElig),
+        ...elig(isElig),
         supplies,
       };
     };
@@ -125,9 +125,10 @@ describe('mdot utility', () => {
       expect(getEligibilityDate({})).to.be.null;
       expect(getEligibilityDate(mockMdot([], false))).to.be.null;
       expect(getEligibilityDate(mockMdot([]))).to.be.null;
-      expect(getEligibilityDate(mockMdot(unavailSuppliesList))).to.be.eql(
-        '2099-12-06',
-      );
+      expect(getEligibilityDate(mockMdot(unavailSuppliesList))).to.be.null;
+      expect(
+        getEligibilityDate(mockMdot(unavailSuppliesList, false)),
+      ).to.be.eql('2099-12-06');
       const earlierEligSupply = {
         productName: 'ACC3',
         productGroup: 'Accessory',
@@ -139,7 +140,7 @@ describe('mdot utility', () => {
       };
       expect(
         getEligibilityDate(
-          mockMdot([...unavailSuppliesList, earlierEligSupply]),
+          mockMdot([...unavailSuppliesList, earlierEligSupply], false),
         ),
       ).to.be.eql('2087-07-06');
     });
