@@ -454,7 +454,6 @@ export const BENEFITS_LIST = [
         goalTypes.FINANCIAL,
         goalTypes.PLAN,
         goalTypes.UNDERSTAND,
-        goalTypes.UNDERSTAND,
         goalTypes.HOUSING,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
