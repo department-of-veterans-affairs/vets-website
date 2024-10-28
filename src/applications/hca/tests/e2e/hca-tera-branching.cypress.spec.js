@@ -20,7 +20,11 @@ describe('HCA-TERA-Branching', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockFeatures']);
   };
-  const advanceToTERA = ({ birthdate = testData.veteranDateOfBirth }) => {
+  const advanceToTERA = ({
+    birthdate = testData.veteranDateOfBirth,
+    entryDate = testData.lastEntryDate,
+    dischargeDate = testData.lastDischargeDate,
+  }) => {
     cy.get('.schemaform-start-button')
       .first()
       .click();
@@ -64,18 +68,14 @@ describe('HCA-TERA-Branching', () => {
     goToNextPage('/military-service/service-information');
     cy.get('#root_lastServiceBranch').select(testData.lastServiceBranch);
 
-    const [entryYear, entryMonth, entryDay] = testData.lastEntryDate
+    const [entryYear, entryMonth, entryDay] = entryDate
       .split('-')
       .map(dateComponent => parseInt(dateComponent, 10).toString());
     cy.get('#root_lastEntryDateMonth').select(entryMonth);
     cy.get('#root_lastEntryDateDay').select(entryDay);
     cy.get('#root_lastEntryDateYear').type(entryYear);
 
-    const [
-      dischargeYear,
-      dischargeMonth,
-      dischargeDay,
-    ] = testData.lastDischargeDate
+    const [dischargeYear, dischargeMonth, dischargeDay] = dischargeDate
       .split('-')
       .map(dateComponent => parseInt(dateComponent, 10).toString());
     cy.get('#root_lastDischargeDateMonth').select(dischargeMonth);
@@ -112,8 +112,25 @@ describe('HCA-TERA-Branching', () => {
   });
 
   it('should not render radiation cleanup and agent orange questions when Veteran birthdate is after 1965', () => {
-    advanceToTERA({ birthdate: '1980-01-01' });
+    advanceToTERA({ birthdate: '1970-01-01' });
     goToNextPage('/military-service/gulf-war-service');
+    cy.get('[name="root_gulfWarService"]').check('N');
+
+    goToNextPage('/military-service/operation-support');
+    cy.get('[name="root_combatOperationService"]').check('Y');
+
+    goToNextPage('/military-service/other-toxic-exposure');
+    goToNextPage('/military-service/documents');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('should render post-9/11 question when Veteran birthdate is after Feb 2, 1976', () => {
+    advanceToTERA({
+      birthdate: '1987-01-01',
+      entryDate: '2005-01-01',
+      dischargeDate: '2010-01-01',
+    });
+    goToNextPage('/military-service/post-sept-11-service');
     cy.get('[name="root_gulfWarService"]').check('N');
 
     goToNextPage('/military-service/operation-support');
