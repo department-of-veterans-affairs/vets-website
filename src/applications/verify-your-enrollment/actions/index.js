@@ -241,10 +241,8 @@ export const verifyEnrollmentAction = verifications => {
             verified_period_begin_date: lastVerification?.verificationBeginDate,
             // eslint-disable-next-line camelcase
             verified_period_end_date: lastVerification?.verificationEndDate,
-            verificationMethod: 'VYE',
-            appCommunication: {
-              responseType: 'Y',
-            },
+            // eslint-disable-next-line camelcase
+            verified_through_method: lastVerification?.verificationThroughDate,
           };
         })()
       : { awardIds: verifications };
