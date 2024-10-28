@@ -59,7 +59,6 @@ export const VeteranProfileInformation = ({
   const { userFullName, dob } = profile;
 
   // const { veteranSocialSecurityNumber } = veteran;
-  console.log(contentBeforeButtons);
 
   const veteranName = normalizeFullName(userFullName, true);
   const veteranDOB = dob && format(parseISO(dob), 'MMMM dd, yyyy');
