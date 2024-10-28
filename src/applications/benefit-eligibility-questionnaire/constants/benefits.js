@@ -25,32 +25,34 @@ export const yesNoType = {
 };
 
 export const goalTypes = Object.freeze({
-  FINANCIAL: 'FINANCIAL',
+  LEGACY: 'LEGACY',
+  COMMEMORATE: 'COMMEMORATE',
+  DEGREE: 'DEGREE',
+  JOBS: 'JOBS',
   HOUSING: 'HOUSING',
+  FINANCIAL: 'FINANCIAL',
   FAMILY: 'FAMILY',
   MENTAL: 'MENTAL',
   PHYSICAL: 'PHYSICAL',
-  DEGREE: 'DEGREE',
-  JOBS: 'JOBS',
   PLAN: 'PLAN',
-  CAREER_PATH: 'CAREER_PATH',
   BUSINESS: 'BUSINESS',
+  CAREER_PATH: 'CAREER_PATH',
   UNDERSTAND: 'UNDERSTAND',
 });
 
 export const goalTypeLabels = Object.freeze({
   LEGACY: 'Carry out legacy planning',
   COMMEMORATE: 'Commemorate service',
-  FINANCIAL: 'Get financial support ',
+  DEGREE: 'Earn a degree or certificate',
+  JOBS: 'Find a civilian job',
   HOUSING: 'Find a place to live ',
+  FINANCIAL: 'Get financial support ',
   FAMILY: 'Grow my family ',
   MENTAL: 'Improve my mental well-being',
   PHYSICAL: 'Improve my physical well-being',
-  DEGREE: 'Earn a degree or certificate',
-  JOBS: 'Find a civilian job',
   PLAN: 'Plan for my transition',
-  CAREER_PATH: 'Set a career path',
   BUSINESS: 'Start a business',
+  CAREER_PATH: 'Set a career path',
   UNDERSTAND: 'Understand my benefits',
 });
 
