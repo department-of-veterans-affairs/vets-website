@@ -1,19 +1,21 @@
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Locators, Data, Paths } from './utils/constants';
+import noAssociationResponse from './fixtures/no-goups-association.json';
+import { AXE_CONTEXT, Locators, Paths, Alerts } from './utils/constants';
 
-describe('Secure Messaging Compose with No Provider', () => {
-  it('can not send message', () => {
+describe('SM TRIAGE GROUPS ALERTS', () => {
+  it('user not associated with any group', () => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadPageForNoProvider();
-    cy.get(Locators.ALERTS.TRIAGE_GROUP).should(
-      'contain',
-      Data.CANNOT_SEND_MSG_TO_CARE_TEAM,
-    );
-    cy.contains(
-      'p',
-      'If you need to contact your care teams, call your VA health facility.',
-    ).should('be.visible');
+    PatientInboxPage.loadPageForNoProvider(noAssociationResponse);
+
+    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+      .find(`h2`)
+      .should('contain.text', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
+
+    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+      .find(`p`)
+      .should(`be.visible`)
+      .and(`contain.text`, Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get(Locators.ALERTS.TRIAGE_ALERT).should(
       'have.attr',
@@ -24,6 +26,40 @@ describe('Secure Messaging Compose with No Provider', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('user blocked from all groups', () => {
+    const allBlockedResponse = {
+      ...noAssociationResponse,
+      meta: {
+        ...noAssociationResponse.meta,
+        associatedTriageGroups: 7,
+        associatedBlockedTriageGroups: 7,
+      },
+    };
+
+    SecureMessagingSite.login();
+    PatientInboxPage.loadPageForNoProvider(allBlockedResponse);
+
+    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+      .find(`h2`)
+      .should('contain.text', Alerts.BLOCKED.HEADER);
+
+    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+      .find(`p`)
+      .should(`be.visible`)
+      .and(`contain.text`, Alerts.BLOCKED.ALL_PARAGRAPH);
+
+    cy.get(Locators.ALERTS.TRIAGE_ALERT).should(
+      'have.attr',
+      'href',
+      Paths.FIND_LOCATIONS,
+    );
+
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
