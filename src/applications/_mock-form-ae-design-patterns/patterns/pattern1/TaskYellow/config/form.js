@@ -9,7 +9,7 @@ import content from '../../../../shared/locales/en/content.json';
 import IntroductionPage from '../../../../shared/components/pages/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 import { VIEW_FIELD_SCHEMA } from '../../../../utils/constants';
-import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
+import { taskCompletePagePattern1 } from '../../../../shared/config/taskCompletePage';
 import { prefillTransformer } from '../../../../utils/helpers/prefill-transformer';
 
 import VeteranProfileInformationTaskYellow from '../VeteranProfileInformationTaskYellow';
@@ -99,7 +99,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        taskCompletePage,
+        taskCompletePagePattern1,
       },
     },
   },

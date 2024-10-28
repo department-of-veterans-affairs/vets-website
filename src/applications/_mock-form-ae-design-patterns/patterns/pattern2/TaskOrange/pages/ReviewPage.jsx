@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButtonPair,
+  VaPrivacyAgreement,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { setupPages } from '../utils/reviewPage';
 import { formConfigForOrangeTask } from '../config/form';
@@ -28,8 +31,11 @@ const ReviewPage = props => {
     onSubmit: () => {
       setSubmitted(true);
       if (privacyCheckbox) {
-        props.goToPath('/confirmation');
+        props.goToPath('/2/task-orange/complete');
       }
+    },
+    onBack: () => {
+      props.goBack();
     },
   };
 
@@ -77,9 +83,11 @@ const ReviewPage = props => {
       <p className="vads-u-margin-top--4">
         <Link to="review-then-submit2">Finish this application later</Link>
       </p>
-      {/* {props.contentBeforeButtons} */}
-      <va-button onClick={handlers.onSubmit} text="Submit" uswds />
-      {/* {props.contentAfterButtons} */}
+      <VaButtonPair
+        continue
+        onPrimaryClick={handlers.onSubmit}
+        onSecondaryClick={handlers.onBack}
+      />
     </article>
   );
 };

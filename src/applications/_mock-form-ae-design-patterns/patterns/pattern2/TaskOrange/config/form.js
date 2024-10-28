@@ -17,6 +17,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import * as addressFormDefinition from 'platform/forms-system/src/js/definitions/address';
 import { PrefillAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/PrefillAlert';
+import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
 import PreSubmitInfo from '../pages/PreSubmitInfo';
 import contactInformationPage from '../pages/contactInformation';
 import GetFormHelp from '../components/GetFormHelp';
@@ -274,6 +275,7 @@ const formConfig = {
           },
           scrollAndFocusTarget,
         },
+        taskCompleted: taskCompletePagePattern2,
       },
     },
   },
