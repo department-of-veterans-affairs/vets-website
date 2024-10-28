@@ -1,3 +1,4 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -11,6 +12,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { formatDateShort } from 'platform/utilities/date';
 import {
   formatCurrency,
   annualReceivedIncomeRequired,
@@ -32,7 +34,24 @@ const options = {
     typeof item.canBeLiquidated !== 'boolean', // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => formatCurrency(item.marketValueAtEstablishment),
+    getItemName: () => 'Annuity',
+    cardDescription: item =>
+      item?.marketValueAtEstablishment && (
+        <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
+          <li>
+            Established date:{' '}
+            <span className="vads-u-font-weight--bold">
+              {formatDateShort(item.establishedDate)}
+            </span>
+          </li>
+          <li>
+            Market value:{' '}
+            <span className="vads-u-font-weight--bold">
+              {formatCurrency(item.marketValueAtEstablishment)}
+            </span>
+          </li>
+        </ul>
+      ),
     reviewAddButtonText: 'Add another annuity',
     alertMaxItems:
       'You have added the maximum number of allowed annuities for this application. You may edit or delete an annuity or choose to continue the application.',
