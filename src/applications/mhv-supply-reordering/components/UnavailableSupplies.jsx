@@ -13,7 +13,10 @@ const UnavailableSupplies = ({ mdotData }) => {
   const cards = unavailSupplies
     ?.sort((a, b) => a.productName.localeCompare(b.productName))
     .map((supply, index) => (
-      <div key={`mhv-supply-unavail-${index}`}>
+      <div
+        key={`mhv-supply-unavail-${index}`}
+        data-testid="mhv-supply-unavail-card"
+      >
         <va-card class="mhv-c-reorder-unavail-card">
           <div>
             <strong>{supply.productGroup}</strong> <br />
