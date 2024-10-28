@@ -1,8 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import {
-  defaultSelectedSortOption,
-  refillStatusesToHide,
-} from '../util/constants';
+import { defaultSelectedSortOption, sourcesToHide } from '../util/constants';
 import { categorizePrescriptions } from '../util/helpers';
 
 export const initialState = {
@@ -67,10 +64,10 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionsList: action.response.data
           .map(rx => {
             return { ...rx.attributes };
-            // temporary plug until those statuses are ready at va.gov
+            // temporary plug until those sources are ready at va.gov
           })
           .filter(rx => {
-            return !refillStatusesToHide.includes(rx.refillStatus);
+            return !sourcesToHide.includes(rx.prescriptionSource);
           }),
         prescriptionsPagination: action.response.meta.pagination,
         apiError: false,

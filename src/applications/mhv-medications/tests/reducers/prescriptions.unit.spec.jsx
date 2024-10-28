@@ -7,7 +7,7 @@ import { Actions } from '../../util/actionTypes';
 import paginatedSortedListApiResponse from '../fixtures/paginatedSortedListApiResponse.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import { categorizePrescriptions } from '../../util/helpers';
-import { refillStatusesToHide } from '../../util/constants';
+import { sourcesToHide } from '../../util/constants';
 
 describe('Prescriptions reducer', () => {
   function reduce(action, state = initialState) {
@@ -188,11 +188,11 @@ describe('Prescriptions reducer', () => {
       apiError: false,
     };
 
-    // inject refill status meant to be hidden
+    // inject prescription source meant to be hidden
     const response = { ...paginatedSortedListApiResponse };
     response.data.push({
       attributes: {
-        refillStatus: refillStatusesToHide[0],
+        prescriptionSource: sourcesToHide[0],
       },
     });
     const state1 = reduce({
@@ -202,10 +202,10 @@ describe('Prescriptions reducer', () => {
     // state should NOT change
     expect(state1).to.deep.equal(rxState);
 
-    // inject active refill statuss
+    // inject RX prescription source
     response.data.push({
       attributes: {
-        refillStatus: 'active',
+        prescriptionSource: 'RX',
       },
     });
     const state2 = reduce({
