@@ -60,7 +60,7 @@ class IntroductionPage extends React.Component {
     };
 
     const sipProps = {
-      hideUnauthedStartLink: !environment.isLocalhost(),
+      hideUnauthedStartLink: environment.isProduction(),
       headingLevel: 2,
       prefillEnabled: formConfig.prefillEnabled,
       formId,

@@ -3,7 +3,11 @@ import { Link } from 'react-router';
 
 export const addDisabilitiesInstructions = (
   <>
-    <p>Enter one condition below. You can add more conditions later.</p>
+    <h3>Tell us the new conditions you want to claim</h3>
+    <p>
+      Enter the name of your condition. Then, select your condition from the
+      list of possible matches.
+    </p>
     <h4>If your conditions aren’t listed</h4>
     <p>
       You can claim a condition that isn’t listed. Enter your condition,
@@ -19,6 +23,7 @@ export const addDisabilitiesInstructions = (
       <li>Hypertension (high blood pressure)</li>
       <li>Migraines (headaches)</li>
     </ul>
+    <h4>Your new conditions</h4>
   </>
 );
 
@@ -64,17 +69,6 @@ export const increaseAndNewAlertRevised = ({ formContext }) => {
     <va-alert status="error" uswds>
       <h3 slot="headline">We need you to add a condition</h3>
       {alertContent}
-    </va-alert>
-  );
-};
-
-export const duplicateAlert = () => {
-  return (
-    <va-alert status="error" uswds>
-      <h3 slot="headline">Duplicate</h3>
-      <p className="vads-u-font-size--base">
-        You’ve already added this condition to your claim.
-      </p>
     </va-alert>
   );
 };

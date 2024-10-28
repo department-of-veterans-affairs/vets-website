@@ -17,19 +17,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import AutoComplete from '../components/Autocomplete';
-import {
-  addDisabilitiesInstructions,
-  duplicateAlert,
-  increaseAndNewAlertRevised,
-  newOnlyAlertRevised,
-} from '../content/addDisabilities';
+import { addConditionsInstructions } from '../content/addConditions';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
-import {
-  claimingNew,
-  hasClaimedConditions,
-  newAndIncrease,
-  newConditionsOnly,
-} from '../utils';
 import { missingConditionMessage } from '../validations';
 
 const causeOptions = {
@@ -96,27 +85,13 @@ const introPage = {
   },
 };
 
-const isDuplicate = formData => {
-  const { newConditions } = formData;
-
-  if (!newConditions || newConditions.length < 2) {
-    return false;
-  }
-
-  const conditionNames = newConditions.map(condition =>
-    condition?.condition?.toLowerCase().trim(),
-  );
-
-  return new Set(conditionNames).size !== conditionNames.length;
-};
-
 /** @returns {PageSchema} */
 const addConditionPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Name of new condition you want to claim',
       nounSingular: arrayBuilderOptions.nounSingular,
-      description: addDisabilitiesInstructions,
+      description: addConditionsInstructions,
     }),
     condition: {
       'ui:title': 'Enter your condition',
@@ -133,44 +108,12 @@ const addConditionPage = {
         required: missingConditionMessage,
       },
     },
-    'view:newOnlyAlert': {
-      'ui:description': newOnlyAlertRevised,
-      'ui:options': {
-        hideIf: formData =>
-          !(newConditionsOnly(formData) && !claimingNew(formData)),
-      },
-    },
-    'view:increaseAndNewAlert': {
-      'ui:description': increaseAndNewAlertRevised,
-      'ui:options': {
-        hideIf: formData =>
-          !(newAndIncrease(formData) && !hasClaimedConditions(formData)),
-      },
-    },
-    'view:duplicateAlert': {
-      'ui:description': duplicateAlert,
-      'ui:options': {
-        hideIf: formData => !isDuplicate(formData),
-      },
-    },
   },
   schema: {
     type: 'object',
     properties: {
       condition: {
         type: 'string',
-      },
-      'view:newOnlyAlert': {
-        type: 'object',
-        properties: {},
-      },
-      'view:increaseAndNewAlert': {
-        type: 'object',
-        properties: {},
-      },
-      'view:duplicateAlert': {
-        type: 'object',
-        properties: {},
       },
     },
     required: ['condition'],
@@ -351,30 +294,35 @@ const addConditionsPages = arrayBuilderPages(
     addConditionsIntro: pageBuilder.introPage({
       title: 'New conditions intro',
       path: 'new-conditions-intro',
+      depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
     addConditionsSummary: pageBuilder.summaryPage({
       title: 'Review your new conditions',
       path: 'new-conditions-summary',
+      depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     addConditionsAddCondition: pageBuilder.itemPage({
       title: 'Name of new condition',
       path: 'new-conditions/:index/add',
+      depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: addConditionPage.uiSchema,
       schema: addConditionPage.schema,
     }),
     addConditionsCause: pageBuilder.itemPage({
       title: 'Cause of new condition',
       path: 'new-conditions/:index/cause',
+      depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: causePage.uiSchema,
       schema: causePage.schema,
     }),
     addConditionsCauseFollowUp: pageBuilder.itemPage({
       title: 'Cause of new condition follow up',
       path: 'new-conditions/:index/cause-follow-up',
+      depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: causeFollowUpPage.uiSchema,
       schema: causeFollowUpPage.schema,
     }),
