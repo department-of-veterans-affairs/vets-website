@@ -26,6 +26,7 @@ import {
   searchCriteriaFromCoords,
   formatProgramType,
   isReviewInstance,
+  isSmallScreenLogic,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -131,8 +132,15 @@ describe('GIBCT helpers:', () => {
   });
 
   describe('formatDollarAmount', () => {
-    const data = 100.5;
-    expect(formatDollarAmount(data)).to.equal('$101');
+    it('should format a valid dollar amount correctly', () => {
+      const data = 100.5;
+      expect(formatDollarAmount(data)).to.equal('$101');
+    });
+
+    it('should return $0 when the input is null', () => {
+      const data = null;
+      expect(formatDollarAmount(data)).to.equal('$0');
+    });
   });
 
   describe('handleScrollOnInputFocus', () => {
@@ -182,6 +190,16 @@ describe('GIBCT helpers:', () => {
       expect(boolYesNo(field)).to.eq('No');
     });
   });
+
+  describe('isSmallScreenLogic', () => {
+    it('should return false when the screen width is above the specified max width', () => {
+      window.matchMedia = () => ({
+        matches: false,
+      });
+      expect(isSmallScreenLogic(600)).to.be.false;
+    });
+  });
+
   describe('schoolSize', () => {
     it("null is turned into string 'Unknown' ", () => {
       const enrollment = null;
