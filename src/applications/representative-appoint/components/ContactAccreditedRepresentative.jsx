@@ -136,6 +136,9 @@ const ContactAccreditedRepresentative = props => {
 
 ContactAccreditedRepresentative.propTypes = {
   formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

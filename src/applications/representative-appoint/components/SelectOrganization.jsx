@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -79,6 +80,11 @@ const SelectOrganization = props => {
       <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
     </>
   );
+};
+
+SelectOrganization.propTypes = {
+  formData: PropTypes.object,
+  setFormData: PropTypes.func,
 };
 
 function mapStateToProps(state) {

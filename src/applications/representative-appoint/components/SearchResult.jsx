@@ -157,6 +157,8 @@ const SearchResult = ({
 };
 
 SearchResult.propTypes = {
+  formData: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
   accreditedOrganizations: PropTypes.array,
   addressLine1: PropTypes.string,
   addressLine2: PropTypes.string,
@@ -164,7 +166,6 @@ SearchResult.propTypes = {
   city: PropTypes.string,
   distance: PropTypes.string,
   email: PropTypes.string,
-  formData: PropTypes.object.isRequired,
   location: PropTypes.object,
   phone: PropTypes.string,
   query: PropTypes.shape({
@@ -177,7 +178,6 @@ SearchResult.propTypes = {
   representativeName: PropTypes.string,
   router: PropTypes.object,
   routes: PropTypes.array,
-  setFormData: PropTypes.func.isRequired,
   stateCode: PropTypes.string,
   zipCode: PropTypes.string,
 };
