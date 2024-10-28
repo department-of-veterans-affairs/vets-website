@@ -83,9 +83,14 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST: {
       return {
         ...state,
-        prescriptionsFilteredList: action.response.data.map(rx => {
-          return { ...rx.attributes };
-        }),
+        prescriptionsFilteredList: action.response.data
+          .map(rx => {
+            return { ...rx.attributes };
+            // temporary plug until those sources are ready at va.gov
+          })
+          .filter(rx => {
+            return !sourcesToHide.includes(rx.prescriptionSource);
+          }),
         prescriptionsPagination: action.response.meta.pagination,
         apiError: false,
       };

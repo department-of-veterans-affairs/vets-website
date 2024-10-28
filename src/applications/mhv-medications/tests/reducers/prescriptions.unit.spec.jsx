@@ -196,10 +196,10 @@ describe('Prescriptions reducer', () => {
     expect(state.refillNotification).to.equal(undefined);
   });
 
-  it('should hide unready refill statuses from prescriptionsList when GET_PAGINATED_SORTED_LIST action is passed', () => {
+  it('should hide unready refill statuses from prescriptionsList when GET_PAGINATED_FILTERED_LIST action is passed', () => {
     const rxState = {
       ...initialState,
-      prescriptionsList: paginatedSortedListApiResponse.data.map(rx => {
+      prescriptionsFilteredList: paginatedSortedListApiResponse.data.map(rx => {
         return { ...rx.attributes };
       }),
       prescriptionsPagination: paginatedSortedListApiResponse.meta.pagination,
@@ -214,7 +214,7 @@ describe('Prescriptions reducer', () => {
       },
     });
     const state1 = reduce({
-      type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
+      type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
       response,
     });
     // state should NOT change
@@ -227,7 +227,7 @@ describe('Prescriptions reducer', () => {
       },
     });
     const state2 = reduce({
-      type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
+      type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
       response,
     });
     // state should change
