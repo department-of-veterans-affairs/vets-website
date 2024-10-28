@@ -6,7 +6,7 @@ import head from 'lodash/head';
  * @param {*} supply a supply
  * @returns true if the supply can be ordered, false otherwise
  */
-const isSupplyAvailable = supply => {
+export const isSupplyAvailable = supply => {
   if (supply?.availableForReorder && supply.nextAvailabilityDate) {
     const availDate = new Date(supply.nextAvailabilityDate);
     const now = new Date();
@@ -21,7 +21,7 @@ const isSupplyAvailable = supply => {
  * @returns an array of unavailable supplies
  */
 export const getUnavailableSupplies = mdotData => {
-  return mdotData?.supplies?.filter(supply => !isSupplyAvailable(supply));
+  return mdotData?.supplies?.filter(supply => !isSupplyAvailable(supply)) || [];
 };
 
 /**
@@ -30,7 +30,7 @@ export const getUnavailableSupplies = mdotData => {
  * @returns an array of available supplies
  */
 export const getAvailableSupplies = mdotData => {
-  return mdotData?.supplies?.filter(supply => isSupplyAvailable(supply));
+  return mdotData?.supplies?.filter(supply => isSupplyAvailable(supply)) || [];
 };
 
 /**
@@ -40,16 +40,17 @@ export const getAvailableSupplies = mdotData => {
  */
 export const isEligible = mdotData => {
   const eligibility = mdotData?.eligibility;
-  return (
+  return !!(
     eligibility &&
     (eligibility.accessories || eligibility.apneas || eligibility.batteries)
   );
 };
 
 /**
- * Gets the next date a supply can be reordered.
+ * Gets the next date elegibility date for when no supplies can be reordered.
+ * Note that this is for when a user is not elegible to order any supplies.
  * @param {*} mdotData the MDOT data
- * @returns the next eligibility date if exists
+ * @returns the next eligibility date if exists, or null if no date
  */
 export const getEligibilityDate = mdotData => {
   if (
@@ -58,10 +59,10 @@ export const getEligibilityDate = mdotData => {
     mdotData.supplies.length > 0
   ) {
     const sortedByAvailability = sortBy(
-      mdotData.supplies,
+      mdotData.supplies.filter(supply => supply.availableForReorder === true),
       'nextAvailabilityDate',
     );
-    return head(sortedByAvailability).nextAvailabilityDate;
+    return head(sortedByAvailability)?.nextAvailabilityDate || null;
   }
   return null;
 };

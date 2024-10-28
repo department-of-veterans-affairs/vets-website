@@ -14,7 +14,7 @@ const UnavailableSupplies = ({ mdotData }) => {
     ?.sort((a, b) => a.productName.localeCompare(b.productName))
     .map((supply, index) => (
       <div key={`mhv-supply-unavail-${index}`}>
-        <va-card show-shadow class="mhv-c-reorder-unavail-card">
+        <va-card class="mhv-c-reorder-unavail-card">
           <div>
             <strong>{supply.productGroup}</strong> <br />
             Device: {supply.productName} <br />
@@ -51,7 +51,7 @@ const UnavailableSupplies = ({ mdotData }) => {
     <>
       {unavailSupplies?.length > 0 && (
         <div>
-          <h2>Unavailable for reorder</h2>
+          <h3>Unavailable for reorder</h3>
           <p>
             Showing {unavailSupplies.length} medical{' '}
             {unavailSupplies.length > 1

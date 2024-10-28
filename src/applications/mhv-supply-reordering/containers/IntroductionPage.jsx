@@ -53,7 +53,8 @@ export const IntroductionPage = ({
 
   return (
     <article className="schemaform-intro vads-u-padding--2">
-      <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <FormTitle title={TITLE} />
+      <p>{SUBTITLE}</p>
       {isLoading && loadingContent}
       {showMdotError && <MdotErrorMessage errorCode={mdotErrorCode} />}
       {showIneligibleError && (
@@ -67,8 +68,7 @@ export const IntroductionPage = ({
             <div>
               <h2>
                 You have {numAvailSupplies}{' '}
-                {numAvailSupplies > 1 ? 'supplies' : 'supply'} available for
-                reorder
+                {numAvailSupplies > 1 ? 'supplies' : 'supply'} available
               </h2>
               <SaveInProgressIntro
                 headingLevel={3}

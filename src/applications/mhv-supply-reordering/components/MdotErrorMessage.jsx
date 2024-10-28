@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { customerServiceTelephone } from '../constants';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { dlcServiceTelephone } from '../constants';
 
 const MdotErrorMessage = ({ errorCode }) => {
   const supplyDescription = 'hearing aid or CPAP supplies';
@@ -45,7 +46,8 @@ const MdotErrorMessage = ({ errorCode }) => {
 
             <span className="vads-u-margin-top--1">
               If you need to place an order, call the DLC Customer Service
-              Section at {customerServiceTelephone} or email{' '}
+              Section at {dlcServiceTelephone}(
+              <va-telephone contact={CONTACTS['711']} tty />) or email{' '}
               <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </span>
           </div>
@@ -62,15 +64,14 @@ const MdotErrorMessage = ({ errorCode }) => {
             <span>We can’t fulfill an order for this Veteran</span>
             <span className="vads-u-margin-top--1">
               If this information is incorrect, please call Veterans Benefits
-              Assistance at <va-telephone contact="8008271000" />, Monday
-              through Friday, 8:00 a.m. to 9:00 p.m. E.T.
+              Assistance at <va-telephone contact={CONTACTS.VA_BENEFITS} />(
+              <va-telephone contact={CONTACTS['711']} tty />
+              ), Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.
             </span>
           </div>
         </va-alert>
       );
       break;
-    case 'MDOT_SERVICE_UNAVAILABLE':
-    case 'MDOT_SERVER_ERROR':
     default:
       content = (
         <va-alert status="error">
@@ -85,7 +86,8 @@ const MdotErrorMessage = ({ errorCode }) => {
             </p>
             <p className="vads-u-margin-top--0">
               For help ordering {supplyDescription}, please call the DLC
-              Customer Service Section at {customerServiceTelephone} or email{' '}
+              Customer Service Section at {dlcServiceTelephone}(
+              <va-telephone contact={CONTACTS['711']} tty />) or email{' '}
               <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
           </div>

@@ -107,7 +107,22 @@ const veteranNotFoundResponse = {
         detail: 'The veteran could not be found',
         code: 'MDOT_invalid',
         source: 'MDOT::Client',
-        status: '401',
+        status: '404',
+      },
+    ],
+  },
+};
+
+const veteranDeceased = {
+  status: 403,
+  data: {
+    errors: [
+      {
+        title: 'Veteran is Deceased',
+        detail: 'The veteran is deceased; supplies cannot be ordered',
+        code: 'MDOT_deceased',
+        source: 'MDOT::Client',
+        status: '403',
       },
     ],
   },
@@ -147,6 +162,7 @@ const MDOT_USERS = Object.freeze({
   ERROR_NO_SUPPLIES: 'no supplies',
   ERROR_NOT_FOUND: 'not found',
   ERROR_SERVER: 'server error',
+  ERROR_DECEASED: 'deceased',
   NO_UNAVAIL: 'no unavail',
   DEFAULT: 'default',
 });
@@ -159,8 +175,11 @@ const response = userType => {
     case MDOT_USERS.ERROR_NOT_FOUND:
       return veteranNotFoundResponse;
 
-    case MDOT_USERS.ERROR_SERVER_ERROR:
+    case MDOT_USERS.ERROR_SERVER:
       return internalServerError;
+
+    case MDOT_USERS.ERROR_DECEASED:
+      return veteranDeceased;
 
     case MDOT_USERS.NO_UNAVAIL:
       return userResponse(availSuppliesList);
