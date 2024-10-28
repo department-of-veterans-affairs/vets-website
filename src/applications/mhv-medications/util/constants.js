@@ -33,6 +33,40 @@ export const medicationsUrls = {
   },
 };
 
+export const filterOptions = {
+  ALL_MEDICATIONS: {
+    label: 'All medications',
+    description: 'All medications in your VA medical records',
+    url: '/',
+  },
+  ACTIVE: {
+    label: 'Active',
+    name: 'filter option',
+    description: 'Active prescriptions and non-VA medications',
+    url: '/',
+  },
+  RECENTLY_REQUESTED: {
+    label: 'Recently requested',
+    name: 'filter option',
+    description: 'Refill requests in process or shipped in the last 15 days',
+    url: '/',
+  },
+  RENEWAL: {
+    label: 'Renewal needed before refill',
+    name: 'filter option',
+    description:
+      'Prescriptions that just ran out of refills or became too old to refill (expired)',
+    url: '/',
+  },
+  NON_ACTIVE: {
+    label: 'Non-active',
+    name: 'filter option',
+    description:
+      'Prescriptions that are discontinued, expired, or have an unkown status',
+    url: '/',
+  },
+};
+
 export const dispStatusForRefillsLeft = [
   'Active',
   'Active: Parked',
@@ -167,6 +201,7 @@ export const dispStatusObj = {
 };
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
+export const SESSION_SELECTED_FILTER_OPTION = 'SESSION_SELECTED_FILTER_OPTION';
 export const SESSION_SELECTED_PAGE_NUMBER = 'SESSION_SELECTED_PAGE_NUMBER';
 
 export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';

@@ -23,7 +23,7 @@ describe('Prescriptions reducer', () => {
     expect(state).to.deep.equal(initialState);
   });
 
-  it('should change prescriptionsList and prescriptionsPagination when GET_PAGINATED_SORTED_LIST action is passed', () => {
+  it('should change prescriptionsList when GET_PAGINATED_SORTED_LIST action is passed', () => {
     const rxState = {
       ...initialState,
       prescriptionsList: paginatedSortedListApiResponse.data.map(rx => {
@@ -35,6 +35,24 @@ describe('Prescriptions reducer', () => {
     const state = reduce({
       type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
       response: paginatedSortedListApiResponse,
+    });
+    expect(state).to.deep.equal(rxState);
+  });
+  it('should change prescriptionsFilteredList and prescriptionsPagination when GET_PAGINATED_FILTERED_LIST action is passed', () => {
+    const paginatedFilteredListApiResponse = paginatedSortedListApiResponse;
+    const rxState = {
+      ...initialState,
+      prescriptionsFilteredList: paginatedFilteredListApiResponse.data.map(
+        rx => {
+          return { ...rx.attributes };
+        },
+      ),
+      prescriptionsPagination: paginatedFilteredListApiResponse.meta.pagination,
+      apiError: false,
+    };
+    const state = reduce({
+      type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
+      response: paginatedFilteredListApiResponse,
     });
     expect(state).to.deep.equal(rxState);
   });
