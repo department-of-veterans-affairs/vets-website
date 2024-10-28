@@ -12,7 +12,6 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import RecordList from '../components/RecordList/RecordList';
 import {
   recordType,
@@ -47,13 +46,6 @@ import useAcceleratedData from '../hooks/useAcceleratedData';
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
-  useEffect(
-    () => {
-      // use Drupal based Cerner facility data
-      connectDrupalSourceOfTruthCerner(dispatch);
-    },
-    [dispatch],
-  );
 
   const updatedRecordList = useSelector(
     state => state.mr.allergies.updatedList,

@@ -13,7 +13,6 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import { selectDrupalStaticData } from 'platform/site-wide/drupal-static-data/selectors';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
@@ -42,13 +41,6 @@ import useAcceleratedData from '../hooks/useAcceleratedData';
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
-  useEffect(
-    () => {
-      // use Drupal based Cerner facility data
-      connectDrupalSourceOfTruthCerner(dispatch);
-    },
-    [dispatch],
-  );
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const allergyList = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
