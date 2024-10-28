@@ -132,7 +132,6 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (records?.length) {
-        // Update page title
         updatePageTitle(
           `${vitalTypeDisplayNames[records[0].type]} - ${
             pageTitles.VITALS_PAGE_TITLE
