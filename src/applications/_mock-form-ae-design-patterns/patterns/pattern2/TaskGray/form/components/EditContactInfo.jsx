@@ -9,7 +9,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { setReturnState } from 'platform/forms-system/src/js/utilities/data/profile';
 import ProfileInformationFieldController from './ProfileInformationFieldController';
-import { PrefillAlert } from '../../../../../shared/components/alerts/PrefillAlert';
 
 export const BuildPage = props => {
   const { title, field, id, goToPath, subTitle } = props;
@@ -64,13 +63,13 @@ export const BuildPage = props => {
 
   return (
     <>
-      <PrefillAlert>
+      <va-alert>
         We’ve prefilled some of your information. If you need to make changes,
         you can edit on this screen.{' '}
         <strong>
           Your changes will affect this form and your VA.gov profile.
         </strong>
-      </PrefillAlert>
+      </va-alert>
       <h2
         ref={headerRef}
         className="vads-u-margin-top--3 vads-u-margin-bottom--3"

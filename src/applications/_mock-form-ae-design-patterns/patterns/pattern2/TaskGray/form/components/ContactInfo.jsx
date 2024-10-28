@@ -21,7 +21,6 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
 import { Element } from 'platform/utilities/scroll';
-import { PrefillAlert } from '../../../../../shared/components/alerts/PrefillAlert';
 
 import {
   setReturnState,
@@ -331,13 +330,13 @@ export const ContactInfo = ({
   return (
     <>
       {editState !== 'address,updated' ? (
-        <PrefillAlert>
+        <va-alert>
           We’ve prefilled some of your information. If you need to make changes,
-          you can edit on this screen.
+          you can click edit below.
           <strong>
             Your changes will affect this form and your VA.gov profile.
           </strong>
-        </PrefillAlert>
+        </va-alert>
       ) : null}
       <div className="vads-u-margin-y--2">
         <Element name={`${contactInfoPageKey}ScrollElement`} />
