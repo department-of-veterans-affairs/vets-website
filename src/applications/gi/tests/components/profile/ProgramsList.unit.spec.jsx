@@ -1,29 +1,30 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import ProgramsList from '../../../components/profile/ProgramsList';
 
 describe('<ProgramsList>', () => {
-  const match = { params: { programType: 'science' } };
-  const locationState = { state: { name: 'Graduate Programs' } };
+  it('should render without crashing', () => {
+    const match = { params: { programType: 'Graduate' } };
+    const location = { state: { name: 'Test Institution' } };
 
-  let wrapper;
-
-  beforeEach(() => {
-    wrapper = shallow(
-      <MemoryRouter initialEntries={[{ pathname: '/', state: locationState }]}>
+    const wrapper = mount(
+      <MemoryRouter
+        initialEntries={[
+          { pathname: '/institution/10000132', state: location.state },
+        ]}
+      >
         <ProgramsList match={match} />
       </MemoryRouter>,
     );
-  });
 
-  afterEach(() => {
-    wrapper.unmount();
-  });
-
-  it('should render correctly', () => {
     expect(wrapper.find(ProgramsList).exists()).to.be.true;
+    expect(wrapper.find('h1').text()).to.equal('Test Institution');
+    expect(wrapper.find('h2').exists()).to.be.true;
+    expect(wrapper.find('VaSearchInput')).to.have.lengthOf(1);
+    expect(wrapper.find('VaButton')).to.have.lengthOf(1);
+    expect(wrapper.find('VaPagination')).to.have.lengthOf(1);
+    wrapper.unmount();
   });
 });

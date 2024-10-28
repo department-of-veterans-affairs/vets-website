@@ -26,11 +26,7 @@ export const buildRoutes = () => {
           path="/compare"
           render={({ match }) => <ComparePage match={match} />}
         />
-        <Route
-          exact
-          path="/"
-          render={({ match }) => <SearchPage match={match} />}
-        />
+        <Route path="/" render={({ match }) => <SearchPage match={match} />} />
       </Switch>
     </GiBillApp>
   );
