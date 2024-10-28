@@ -441,7 +441,7 @@ export const BENEFITS_LIST = [
     applyNowURL: '',
   },
   {
-    name: 'Disability housing',
+    name: 'Disability housing grant',
     category: categories.HOUSING,
     id: 'DHS',
     description:
