@@ -153,6 +153,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
     <div id="allergies">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Allergies and reactions</h1>
+      <p className="vads-u-margin-bottom--4">{lastUpdatedText}</p>
       <h2 className="sr-only">List of Allergies</h2>
       <p className="page-description">
         Review allergies, reactions, and side effects in your VA medical

@@ -148,6 +148,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
     <div id="vaccines">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Vaccines</h1>
+      <p className="vads-u-margin-bottom--4">{lastUpdatedText}</p>
       <h2 className="sr-only">List of Vitals</h2>
       <p>Review vaccines (immunizations) in your VA medical records.</p>
       <p className="vads-u-margin-bottom--4">
