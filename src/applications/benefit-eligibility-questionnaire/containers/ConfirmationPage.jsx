@@ -236,7 +236,6 @@ export class ConfirmationPage extends React.Component {
               id="filters-section-mobile-toggle"
             >
               <va-link-action
-                message-aria-describedby="Filter and sort"
                 text="Filter and sort"
                 type="secondary"
                 onClick={() => this.toggleMobileFiltersClass()}
