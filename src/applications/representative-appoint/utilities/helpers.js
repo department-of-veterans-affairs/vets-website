@@ -243,6 +243,7 @@ export const getOrgName = formData => {
   return orgs[0]?.attributes?.name;
 };
 
+// Rep name used in Terms and Conditions agreement
 export const getRepresentativeName = formData => {
   const rep = formData['view:selectedRepresentative'];
 
@@ -250,7 +251,7 @@ export const getRepresentativeName = formData => {
     return null;
   }
 
-  if (isOrg(rep)) {
+  if (isOrg(formData)) {
     return formData['view:selectedRepresentative']?.attributes?.name;
   }
   return isVSORepresentative(formData)
