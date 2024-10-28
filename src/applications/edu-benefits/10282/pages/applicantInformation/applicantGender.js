@@ -14,10 +14,11 @@ const gaGenderInfoHelpText = () => {
 export const genderInfoHelpText = (
   <va-additional-info
     trigger="What to know before you decide to share your gender identity"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--2"
     onClick={gaGenderInfoHelpText}
   >
     <span>
-      <ul className="form-22-10282-container">
+      <ul className="form-22-10282-container-gender-ul-description vads-u-padding-left--0">
         <li>
           Sharing your gender identity in your VA.gov profile is optional. If
           you get healthcare at VA, this information can help your care team
