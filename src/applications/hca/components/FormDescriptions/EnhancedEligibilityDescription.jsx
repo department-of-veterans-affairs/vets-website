@@ -6,7 +6,7 @@ const EnhancedEligibilityDescription = () => (
     class="vads-u-margin-bottom--3"
   >
     <div>
-      <p className="vads-u-font-weight--bold">
+      <p className="vads-u-font-weight--bold vads-u-margin-top--0">
         You may qualify for enhanced eligibility status if you meet the minimum
         active-duty service and discharge requirements and you receive at least
         one of these benefits:
@@ -20,7 +20,7 @@ const EnhancedEligibilityDescription = () => (
         You may also qualify for enhanced eligibility status if you fit one of
         these descriptions:
       </p>
-      <ul>
+      <ul className="vads-u-margin-bottom--0">
         <li>
           You were discharged for a disability resulting from something that
           happened to you in the line of duty.
