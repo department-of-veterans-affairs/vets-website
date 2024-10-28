@@ -68,7 +68,7 @@ export const focusIssue = (_index, root, value) => {
         focusElement('.edit-issue-link', null, card);
       }
     } else {
-      scrollTo('h3');
+      scrollTo('topContentElement');
       focusElement('h3');
     }
   });

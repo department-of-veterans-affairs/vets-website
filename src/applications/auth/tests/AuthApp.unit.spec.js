@@ -5,7 +5,6 @@ import { render, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import sinon from 'sinon';
-import * as apiModule from 'platform/utilities/api';
 import { handleTokenRequest } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
@@ -221,185 +220,211 @@ describe('AuthApp', () => {
     });
   });
 
-  it('should not call terms of use provisioning if a user is not authenticating with ssoe', async () => {
-    sessionStorage.setItem(
-      'authReturnUrl',
-      'https://staging-patientportal.myhealth.va.gov',
-    );
-    const apiRequestStub = sinon.stub(apiModule, 'apiRequest');
-    apiRequestStub.resolves({
-      data: {
-        attributes: {
-          profile: {
-            signIn: { serviceName: 'logingov', ssoe: false },
-          },
-        },
-      },
-    });
+  context('TOU provisioning', () => {
+    const mvhReturnUrl = 'https://staging-patientportal.myhealth.va.gov';
 
-    const { queryByTestId } = render(
-      <Provider store={mockStore}>
-        <AuthApp location={{ query: { auth: 'success', type: 'logingov' } }} />
-      </Provider>,
-    );
-
-    expect(queryByTestId('loading')).to.not.be.null;
-
-    await waitFor(() => {
-      expect(apiRequestStub.calledWith('/user')).to.be.true;
-    });
-
-    expect(
-      apiRequestStub.calledWith('/terms_of_use_agreements/update_provisioning'),
-    ).to.be.false;
-
-    apiRequestStub.restore();
-  });
-
-  it('should not call terms of use provisioning if a user is not redirecting to MyVAHealth', async () => {
-    sessionStorage.setItem(
-      'authReturnUrl',
-      'https://int.eauth.va.gov/ebenefits',
-    );
-    const apiRequestStub = sinon.stub(apiModule, 'apiRequest');
-    apiRequestStub.resolves({
-      data: {
-        attributes: {
-          profile: {
-            signIn: { serviceName: 'logingov', ssoe: true },
-          },
-        },
-      },
-    });
-
-    const { queryByTestId } = render(
-      <Provider store={mockStore}>
-        <AuthApp location={{ query: { auth: 'success', type: 'logingov' } }} />
-      </Provider>,
-    );
-
-    expect(queryByTestId('loading')).to.not.be.null;
-
-    await waitFor(() => {
-      expect(apiRequestStub.calledWith('/user')).to.be.true;
-    });
-
-    expect(
-      apiRequestStub.calledWith('/terms_of_use_agreements/update_provisioning'),
-    ).to.be.false;
-
-    apiRequestStub.restore();
-  });
-
-  it('should call terms of use provisioning if a user authenticates with ssoe and is redirecting to MyVAHealth', async () => {
-    sessionStorage.setItem(
-      'authReturnUrl',
-      'https://staging-patientportal.myhealth.va.gov',
-    );
-    const apiRequestStub = sinon.stub(apiModule, 'apiRequest');
-    apiRequestStub.resolves({
-      data: {
-        attributes: {
-          profile: {
-            signIn: { serviceName: 'logingov', ssoe: true },
-          },
-        },
-      },
-    });
-
-    const { queryByTestId } = render(
-      <Provider store={mockStore}>
-        <AuthApp location={{ query: { auth: 'success', type: 'logingov' } }} />
-      </Provider>,
-    );
-
-    expect(queryByTestId('loading')).to.not.be.null;
-
-    await waitFor(() => {
-      expect(apiRequestStub.calledWith('/user')).to.be.true;
-    });
-
-    expect(
-      apiRequestStub.calledWith('/terms_of_use_agreements/update_provisioning'),
-    ).to.be.true;
-
-    apiRequestStub.restore();
-  });
-
-  it('should not display an error page if a user authenticates with ssoe and is redirecting to MyVAHealth', async () => {
-    sessionStorage.setItem(
-      'authReturnUrl',
-      'https://staging-patientportal.myhealth.va.gov',
-    );
-    const apiRequestStub = sinon.stub(apiModule, 'apiRequest');
-    apiRequestStub.resolves({
-      data: {
-        attributes: {
-          profile: {
-            signIn: { serviceName: 'logingov', ssoe: true },
-          },
-        },
-      },
-    });
-
-    const { queryByTestId, queryByText } = render(
-      <Provider store={mockStore}>
-        <AuthApp location={{ query: { auth: 'success', type: 'logingov' } }} />
-      </Provider>,
-    );
-
-    expect(queryByTestId('loading')).to.not.be.null;
-
-    await waitFor(() => {
-      expect(apiRequestStub.calledWith('/user')).to.be.true;
-      apiRequestStub.resolves({ provisioned: true });
-    });
-
-    await waitFor(() => {
-      expect(
-        apiRequestStub.calledWith(
-          '/terms_of_use_agreements/update_provisioning',
-        ),
-      ).to.be.true;
-    });
-
-    expect(queryByText(/Code:/i)).to.be.null;
-
-    apiRequestStub.restore();
-  });
-
-  describe('handleTokenRequest', () => {
-    it('Should call generateOAuthError', async () => {
-      const handleTokenSpy = sinon.spy();
-      await handleTokenRequest({
-        code: 'hello',
-        state: 'hhh',
-        generateOAuthError: handleTokenSpy,
-      });
-      expect(handleTokenSpy.called).to.be.true;
-    });
-    it('Should call generateOAuthError', async () => {
-      const handleTokenSpy = sinon.spy();
+    it('should call when user is redirecting to My VA Health', () => {
+      sessionStorage.setItem('authReturnUrl', mvhReturnUrl);
       server.use(
-        rest.post(
-          'https://dev-api.va.gov/v0/sign_in/token',
-          (req, res, ctx) => {
-            return res(
-              ctx.status(400),
-              ctx.json({ errors: 'Code is not valid' }),
-            );
+        rest.get('https://dev-api.va.gov/v0/user', (_, res, ctx) => {
+          return res(
+            ctx.status(200),
+            ctx.json({
+              data: {
+                attributes: {
+                  profile: {
+                    signIn: { serviceName: 'idme', ssoe: true },
+                  },
+                },
+              },
+            }),
+          );
+        }),
+        rest.put(
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+          (_, res, ctx) => {
+            return res(ctx.status(200), ctx.json({ provisioned: true }));
           },
         ),
       );
-      localStorage.setItem('state', 'hhh');
-      localStorage.setItem('code_verifier', 'anything');
-      await handleTokenRequest({
-        code: 'hello',
-        state: 'hhh',
-        generateOAuthError: handleTokenSpy,
-        csp: 'logingov',
-      });
-      expect(handleTokenSpy.called).to.be.false;
+
+      const { queryByTestId } = render(
+        <Provider store={mockStore}>
+          <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
+        </Provider>,
+      );
+
+      expect(queryByTestId('loading')).to.not.be.null;
     });
+
+    [
+      'Agreement not accepted',
+      'Account not Provisioned',
+      'Unknown error',
+    ].forEach(error => {
+      it(`should respond to TOU update_provisioning with ${error}`, () => {
+        sessionStorage.setItem('authReturnUrl', mvhReturnUrl);
+        server.use(
+          rest.get('https://dev-api.va.gov/v0/user', (_, res, ctx) => {
+            return res(
+              ctx.status(200),
+              ctx.json({
+                data: {
+                  attributes: {
+                    profile: {
+                      signIn: { serviceName: 'idme', ssoe: true },
+                    },
+                  },
+                },
+              }),
+            );
+          }),
+          rest.put(
+            'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+            (_, res, ctx) => {
+              return res(ctx.status(400), ctx.json({ error }));
+            },
+          ),
+        );
+
+        const { queryByTestId } = render(
+          <Provider store={mockStore}>
+            <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
+          </Provider>,
+        );
+
+        expect(queryByTestId('loading')).to.not.be.null;
+      });
+    });
+
+    it('should return to error page if user is not provisioned', () => {
+      sessionStorage.setItem('authReturnUrl', mvhReturnUrl);
+      server.use(
+        rest.get('https://dev-api.va.gov/v0/user', (_, res, ctx) =>
+          res(
+            ctx.status(200),
+            ctx.json({
+              data: {
+                attributes: {
+                  profile: {
+                    signIn: { serviceName: 'idme', ssoe: true },
+                  },
+                },
+              },
+            }),
+          ),
+        ),
+        rest.put(
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+          (_, res, ctx) => {
+            return res(ctx.status(200), ctx.json({ provisioned: false }));
+          },
+        ),
+      );
+
+      const { queryByTestId } = render(
+        <Provider store={mockStore}>
+          <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
+        </Provider>,
+      );
+
+      expect(queryByTestId('loading')).to.not.be.null;
+      sessionStorage.clear();
+    });
+  });
+
+  it('should redirect to /sign-in-changes-reminder interstitial page', () => {
+    const store = {
+      dispatch: sinon.spy(),
+      subscribe: sinon.spy(),
+      getState: () => ({
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_interstitial_enabled: true,
+        },
+      }),
+    };
+    sessionStorage.setItem('authReturnUrl', 'https://dev.va.gov/my-va');
+    server.use(
+      rest.get('https://dev-api.va.gov/v0/user', (_, res, ctx) =>
+        res(
+          ctx.status(200),
+          ctx.json({
+            data: {
+              attributes: {
+                profile: {
+                  signIn: { serviceName: 'mhv', ssoe: true },
+                },
+              },
+            },
+          }),
+        ),
+      ),
+    );
+
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <AuthApp location={{ query: { auth: 'success', type: 'mhv' } }} />
+      </Provider>,
+    );
+
+    expect(queryByTestId('loading')).to.not.be.null;
+    sessionStorage.clear();
+  });
+});
+
+describe('handleTokenRequest', () => {
+  const server = setupServer();
+
+  before(() => server.listen());
+
+  afterEach(() => {
+    server.resetHandlers();
+    localStorage.clear();
+  });
+
+  after(() => server.close());
+
+  it('should call generateOAuthError when no `state` localStorage', async () => {
+    const handleTokenSpy = sinon.spy();
+    await handleTokenRequest({
+      code: 'hello',
+      state: 'hhh',
+      generateOAuthError: handleTokenSpy,
+    });
+    expect(handleTokenSpy.called).to.be.true;
+  });
+
+  it('should call generateOAuthError when `state` mismatch in localStorage', async () => {
+    const handleTokenSpy = sinon.spy();
+    localStorage.setItem('state', 'hhh');
+    localStorage.setItem('code_verifier', 'anything');
+
+    await handleTokenRequest({
+      code: 'hello',
+      state: 'hhh333',
+      generateOAuthError: handleTokenSpy,
+      csp: 'logingov',
+    });
+    expect(handleTokenSpy.called).to.be.true;
+  });
+
+  it('should NOT call generateOAuthError when `requestToken` succeeds', async () => {
+    server.use(
+      rest.post('https://dev-api.va.gov/v0/sign_in/token?*', (_, res, ctx) => {
+        return res(ctx.status(200), ctx.json({ status: 'ok' }));
+      }),
+    );
+    const handleTokenSpy = sinon.spy();
+    localStorage.setItem('state', 'hhh');
+    localStorage.setItem('code_verifier', 'anything');
+
+    await handleTokenRequest({
+      code: 'hello',
+      state: 'hhh',
+      generateOAuthError: handleTokenSpy,
+      csp: 'logingov',
+    });
+    expect(handleTokenSpy.called).to.be.false;
   });
 });

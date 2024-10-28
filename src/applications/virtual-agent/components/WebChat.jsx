@@ -18,6 +18,7 @@ import clearBotSessionStorageEventListener from '../event-listeners/clearBotSess
 import signOutEventListener from '../event-listeners/signOutEventListener';
 
 // Middleware
+import { activityMiddleware } from '../middleware/activityMiddleware';
 import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
 
 // Selectors
@@ -65,7 +66,11 @@ const WebChat = ({
   apiSession,
   setParamLoadingStatus,
 }) => {
-  const { ReactWebChat, createDirectLine, createStore } = webChatFramework;
+  const {
+    createDirectLine,
+    createStore,
+    Components: { BasicWebChat, Composer },
+  } = webChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
 
   const userFirstName = useSelector(selectUserFirstName);
@@ -117,8 +122,9 @@ const WebChat = ({
 
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
-      <ReactWebChat
+      <Composer
         cardActionMiddleware={cardActionMiddleware}
+        activityMiddleware={activityMiddleware}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}
@@ -127,7 +133,9 @@ const WebChat = ({
         {...isRXSkill === 'true' && {
           webSpeechPonyfillFactory: speechPonyfill,
         }}
-      />
+      >
+        <BasicWebChat />
+      </Composer>
     </div>
   );
 };
@@ -139,7 +147,10 @@ WebChat.propTypes = {
   webChatFramework: PropTypes.shape({
     createDirectLine: PropTypes.func.isRequired,
     createStore: PropTypes.func.isRequired,
-    ReactWebChat: PropTypes.func.isRequired,
+    Components: PropTypes.shape({
+      BasicWebChat: PropTypes.func.isRequired,
+      Composer: PropTypes.func.isRequired,
+    }),
   }).isRequired,
 };
 

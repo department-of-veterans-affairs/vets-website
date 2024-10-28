@@ -258,7 +258,8 @@ describe('VAOS Component: InPersonLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
+        reasonForAppointment: 'This is a test',
+        patientComments: 'Additional information:colon',
         practitioners: [
           {
             name: {
@@ -364,10 +365,8 @@ describe('VAOS Component: InPersonLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(screen.getByText(/Reason: This is a test/i));
+      expect(screen.getByText(/Other details: Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]'));
       expect(
@@ -379,7 +378,8 @@ describe('VAOS Component: InPersonLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
+        reasonForAppointment: 'This is a test',
+        patientComments: 'Additional information:colon',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -470,10 +470,8 @@ describe('VAOS Component: InPersonLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(screen.getByText(/Reason: This is a test/i));
+      expect(screen.getByText(/Other details: Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]'));
       expect(
@@ -487,7 +485,8 @@ describe('VAOS Component: InPersonLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
+        reasonForAppointment: 'This is a test',
+        patientComments: 'Additional information:colon',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -563,10 +562,8 @@ describe('VAOS Component: InPersonLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(screen.getByText(/Reason: This is a test/i));
+      expect(screen.getByText(/Other details: Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
@@ -581,7 +578,8 @@ describe('VAOS Component: InPersonLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
+        reasonForAppointment: 'This is a test',
+        patientComments: 'Additional information:colon',
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -678,10 +676,8 @@ describe('VAOS Component: InPersonLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason:/i));
-      expect(screen.getByText(/This is a test/i));
-      expect(screen.getByText(/Other details:/i));
-      expect(screen.getByText(/Additional information/i));
+      expect(screen.getByText(/Reason: This is a test/i));
+      expect(screen.getByText(/Other details: Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;

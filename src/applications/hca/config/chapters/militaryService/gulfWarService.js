@@ -5,10 +5,9 @@ const { gulfWarService } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Service in Gulf War locations',
+    'ui:title': 'Service after August 2, 1990',
     gulfWarService: {
-      'ui:title': 'Did you serve in any of these Gulf War locations?',
-      'ui:description': GulfWarServiceDescription,
+      'ui:title': GulfWarServiceDescription,
       'ui:widget': 'yesNo',
     },
   },

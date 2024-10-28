@@ -14,7 +14,6 @@ import {
 
 import unset from '~/platform/utilities/data/unset';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '~/platform/forms-system/src/js/constants';
-
 import {
   PasswordLabel,
   PasswordSuccess,
