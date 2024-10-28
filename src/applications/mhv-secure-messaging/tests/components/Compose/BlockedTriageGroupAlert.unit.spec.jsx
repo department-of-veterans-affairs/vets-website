@@ -228,7 +228,7 @@ describe('BlockedTriageGroupAlert component', () => {
         status: RecipientStatus.ALLOWED,
       },
     });
-    screen.debug(undefined, 10000);
+
     await waitFor(() => {
       expect(
         screen.queryByTestId('blocked-triage-group-alert'),
