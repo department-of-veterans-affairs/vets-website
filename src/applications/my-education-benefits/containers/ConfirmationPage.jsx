@@ -15,8 +15,8 @@ import ConfirmationApproved from '../components/confirmation/ConfirmationApprove
 import ConfirmationDenied from '../components/confirmation/ConfirmationDenied';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ConfirmationPending from '../components/confirmation/ConfirmationPending';
-import UnderReviewChapter30 from '../components/confirmation/UnderReviewChapter30'; // Custom component for Chapter 30
-import UnderReviewChapter1606 from '../components/confirmation/UnderReviewChapter1606'; // Custom component for Chapter 1606
+import UnderReviewChapter30 from '../components/confirmation/UnderReviewChapter30';
+import UnderReviewChapter1606 from '../components/confirmation/UnderReviewChapter1606';
 
 import { formatReadableDate } from '../helpers';
 import { formFields } from '../constants';
@@ -53,15 +53,24 @@ export const ConfirmationPage = ({
     window.print();
   }, []);
 
-  // Determine the appropriate component to display based on claimStatus and chosenBenefit
+  // Show loading indicator while claimStatus is still being fetched
+  if (!claimStatus) {
+    return (
+      <LoadingIndicator
+        className="meb-confirmation-page meb-confirmation-page_loading vads-u-margin-bottom--6"
+        message="Loading your results"
+      />
+    );
+  }
+
+  // Determine if we should render the Chapter 30 or Chapter 1606 UnderReview component
   if (chosenBenefit === 'chapter30' && meb160630Automation) {
-    // Show Chapter 30 UnderReview component if the benefit is chapter30 and non33 automation feature flag is on
     return (
       <UnderReviewChapter30
-        user={claimantName}
+        claimantName={claimantName}
+        confirmationDate={confirmationDate}
         confirmationError={confirmationError}
         confirmationLoading={confirmationLoading}
-        dateReceived={confirmationDate}
         printPage={printPage}
         sendConfirmation={sendConfirmation}
         userEmail={userEmail}
@@ -69,14 +78,14 @@ export const ConfirmationPage = ({
       />
     );
   }
+
   if (chosenBenefit === 'chapter1606' && meb160630Automation) {
-    // Show Chapter 1606 UnderReview component if the benefit is chapter1606 and non33 automation feature flag is on
     return (
       <UnderReviewChapter1606
-        user={claimantName}
+        claimantName={claimantName}
+        confirmationDate={confirmationDate}
         confirmationError={confirmationError}
         confirmationLoading={confirmationLoading}
-        dateReceived={confirmationDate}
         printPage={printPage}
         sendConfirmation={sendConfirmation}
         userEmail={userEmail}
@@ -153,8 +162,8 @@ const mapStateToProps = state => ({
   confirmationError: state.confirmationError || null,
   confirmationLoading: state.confirmationLoading || false,
   confirmationSuccess: state.confirmationSuccess || false,
-  chosenBenefit: state?.form?.data?.chosenBenefit, // Access chosenBenefit from form data
-  meb160630Automation: state.featureToggles?.meb160630Automation, // Access feature flag for automation
+  chosenBenefit: state?.form?.data?.chosenBenefit,
+  meb160630Automation: state.featureToggles?.meb160630Automation,
 });
 
 const mapDispatchToProps = {
