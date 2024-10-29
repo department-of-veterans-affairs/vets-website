@@ -247,7 +247,10 @@ Provider notes: ${vital.notes}\n\n`,
     return (
       <>
         <PrintHeader />
-        <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
+        <h1
+          className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print"
+          data-dd-privacy="mask"
+        >
           {vitalDisplayName}
         </h1>
         <h2 className="sr-only">List of {vitalDisplayName} results</h2>
@@ -334,7 +337,10 @@ Provider notes: ${vital.notes}\n\n`,
         </ul>
 
         {/* print view start */}
-        <h1 className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only">
+        <h1
+          className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only"
+          data-dd-privacy="mask"
+        >
           Vitals: {vitalTypeDisplayNames[records[0].type]}
         </h1>
         <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 print-only">
