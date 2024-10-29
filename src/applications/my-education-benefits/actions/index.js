@@ -157,9 +157,9 @@ export function fetchClaimStatus() {
     });
   };
 }
-export function fetchEligibility() {
+export function fetchEligibility(selectedChapter) {
   return async dispatch => {
-    dispatch({ type: FETCH_ELIGIBILITY });
+    dispatch({ type: `${FETCH_ELIGIBILITY}?type=${selectedChapter}` });
     return apiRequest(ELIGIBILITY_ENDPOINT)
       .then(response =>
         dispatch({
@@ -242,9 +242,9 @@ export function fetchDuplicateContactInfo(email, phoneNumber) {
       );
   };
 }
-export function fetchExclusionPeriods() {
+export function fetchExclusionPeriods(selectedChapter) {
   return async dispatch => {
-    dispatch({ type: FETCH_EXCLUSION_PERIODS });
+    dispatch({ type: `${FETCH_EXCLUSION_PERIODS}?=type=${selectedChapter}` });
     try {
       const response = await apiRequest(EXCLUSION_PERIODS_ENDPOINT);
       dispatch({
