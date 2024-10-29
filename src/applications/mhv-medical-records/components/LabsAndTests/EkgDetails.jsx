@@ -87,6 +87,7 @@ const EkgDetails = props => {
         className="vads-u-margin-bottom--0"
         aria-describedby="ekg-date"
         data-testid="ekg-record-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -108,7 +109,7 @@ const EkgDetails = props => {
         <h2 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h2>
-        <p data-testid="ekg-record-facility">
+        <p data-testid="ekg-record-facility" data-dd-privacy="mask">
           {record.facility || 'There is no facility reported at this time'}
         </p>
         <h2 className="vads-u-font-size--md vads-u-font-family--sans">
