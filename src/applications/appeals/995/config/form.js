@@ -86,6 +86,8 @@ import {
   appStateSelector,
 } from '../../shared/utils/issues';
 
+import { showScNewForm } from '../utils/toggle';
+
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
 const blankSchema = { type: 'object', properties: {} };
