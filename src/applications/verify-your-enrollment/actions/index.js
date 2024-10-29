@@ -114,27 +114,37 @@ export const fetchPersonalInfo = () => {
       checkClaimant: { claimantId },
     } = getState();
     if (claimantId) {
-      const [recordResponse] = await Promise.all([
-        // apiRequest(
-        //   `http://localhost:8080/verifications/vye/${claimantId}/status`,
-        //   {
-        //     method: 'GET',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //   },
-        // ),
-        apiRequest(`/verifications/vye/${claimantId}/get_verification_record`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }),
-      ]);
-      dispatch({
-        type: FETCH_PERSONAL_INFO_SUCCESS,
-        response: { recordResponse },
-      });
+      try {
+        const [recordResponse] = await Promise.all([
+          // apiRequest(
+          //   `http://localhost:8080/verifications/vye/${claimantId}/status`,
+          //   {
+          //     method: 'GET',
+          //     headers: {
+          //       'Content-Type': 'application/json',
+          //     },
+          //   },
+          // ),
+          apiRequest(
+            `/verifications/vye/${claimantId}/get_verification_record`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+          ),
+        ]);
+        dispatch({
+          type: FETCH_PERSONAL_INFO_SUCCESS,
+          response: { recordResponse },
+        });
+      } catch (errors) {
+        dispatch({
+          type: FETCH_PERSONAL_INFO_FAILED,
+          errors,
+        });
+      }
     } else {
       return apiRequest(API_URL, {
         headers: {
