@@ -16,6 +16,8 @@ const ReviewPage = props => {
     reviewTitles,
   } = setupPages(formConfig);
 
+  const { router } = props;
+
   const chapterClasses = [
     'vads-u-border-bottom--4px',
     'vads-u-display--flex',
@@ -31,7 +33,8 @@ const ReviewPage = props => {
     onSubmit: () => {
       setSubmitted(true);
       if (privacyCheckbox) {
-        props.goToPath('/confirmation');
+        router.push('/2');
+        // props.goToPath('/2');
       }
     },
   };
@@ -118,6 +121,7 @@ ReviewPage.propTypes = {
   goToPath: PropTypes.func,
   name: PropTypes.string,
   pagePerItemIndex: PropTypes.number,
+  router: PropTypes.object,
   schema: PropTypes.shape({}),
   setFormData: PropTypes.func,
   title: PropTypes.string,
