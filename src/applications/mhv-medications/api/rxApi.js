@@ -2,7 +2,8 @@ import {
   apiRequest,
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { INCLUDE_IMAGE_ENDPOINT } from '../util/constants';
+import { filterOptions, INCLUDE_IMAGE_ENDPOINT } from '../util/constants';
+import mockData from '../tests/e2e/fixtures/listOfPrescriptions.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 const headers = {
@@ -76,11 +77,44 @@ export const getDocumentation = (id, ndcNumber) => {
   );
 };
 
+// **Remove once filter feature is developed and live.**
 export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
   return apiRequest(
     `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${sortEndpoint}`,
     { headers },
   );
+};
+
+export const getFilteredList = async filterOption => {
+  async function delayedReturn(value, ms) {
+    await delay(ms);
+    return value;
+  }
+  const modifyMockData = rxName => {
+    const mockData1 = { ...mockData };
+    mockData1.data[0].attributes.prescriptionName = rxName;
+    return mockData1;
+  };
+  switch (filterOption) {
+    case filterOptions.ALL_MEDICATIONS.label: {
+      // delayed to mimic api fetch lag
+      return delayedReturn(modifyMockData('all medications'), 1000);
+    }
+    case filterOptions.ACTIVE.label: {
+      return delayedReturn(modifyMockData('active'), 1000);
+    }
+    case filterOptions.RECENTLY_REQUESTED.label: {
+      return delayedReturn(modifyMockData('recently requested'), 1000);
+    }
+    case filterOptions.RENEWAL.label: {
+      return delayedReturn(modifyMockData('renewal'), 1000);
+    }
+    case filterOptions.NON_ACTIVE.label: {
+      return delayedReturn(modifyMockData('non active'), 1000);
+    }
+    default:
+      return mockData;
+  }
 };
 
 export const getRefillablePrescriptionList = () => {
