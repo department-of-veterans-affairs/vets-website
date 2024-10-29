@@ -3,7 +3,7 @@ const categories = {
   EDUCATION: 'Education',
   EMPLOYMENT: 'Careers & Employment',
   MORE_SUPPORT: 'More Support',
-  HEALTHCARE: 'Healthcare',
+  HEALTH_CARE: 'Health Care',
   HOUSING: 'Housing Assistance',
   DISABILITY: 'Disability',
   LIFE_INSURANCE: 'Life Insurance',
@@ -514,7 +514,7 @@ export const BENEFITS_LIST = [
   },
   {
     name: 'Mental Health Care',
-    category: categories.HEALTHCARE,
+    category: categories.HEALTH_CARE,
     id: 'MHC',
     description:
       "VA has a variety of mental health resources, information, treatment options and more - all accessible to Veterans, Veterans' supporters and the general public. Click Learn More below to learn more about about a specific mental health topic or topic ot to find information specifically tailored to your needs.",
@@ -541,7 +541,7 @@ export const BENEFITS_LIST = [
   },
   {
     name: 'Foriegn Medical Program',
-    category: categories.HEALTHCARE,
+    category: categories.HEALTH_CARE,
     id: 'FMP',
     description:
       "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care. Click Learn More below to find out how the Foriegn Medical Program works and how to register.",
@@ -739,7 +739,7 @@ export const BENEFITS_LIST = [
   },
   {
     name: 'VA health care',
-    category: categories.HEALTHCARE,
+    category: categories.HEALTH_CARE,
     id: 'VAH',
     description:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions. Find out how to apply for and manage the health care benefits you’ve earned.',
