@@ -30,6 +30,9 @@ import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
+import optionForMst from '../pages/optionForMst';
+import optionIndicator from '../pages/optionIndicator';
+
 import notice5103 from '../pages/notice5103';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
@@ -45,6 +48,7 @@ import {
   hasPrivateEvidence,
   hasOtherEvidence,
 } from '../utils/evidence';
+import { hasMstOption } from '../utils/mstOption';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
@@ -205,6 +209,21 @@ const formConfig = {
           depends: mayHaveLegacyAppeals,
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
+        },
+        optionForMst: {
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
+          uiSchema: optionForMst.uiSchema,
+          schema: optionForMst.schema,
+          depends: showScNewForm,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        optionIndicator: {
+          title: 'Option to add an indicator',
+          path: 'option-indicator',
+          uiSchema: optionIndicator.uiSchema,
+          schema: optionIndicator.schema,
+          depends: hasMstOption,
         },
       },
     },
