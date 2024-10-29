@@ -28,11 +28,12 @@ describe('yourPostalCodePage', () => {
       </Provider>,
     );
 
-    const checkboxText =
-      'Veteran receives mail outside of the United States on a U.S. military base.';
+    const titleText = 'Your postal code';
 
-    expect($('.form-checkbox > label', container).textContent).to.eq(
-      checkboxText,
+    expect($('h3', container).textContent).to.eq(titleText);
+
+    expect($('.usa-hint', container).textContent).to.eq(
+      'We ask for this information to send your question to the right place or provide relevant resources.',
     );
   });
 });
