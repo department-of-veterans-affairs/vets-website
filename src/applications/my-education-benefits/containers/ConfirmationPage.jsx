@@ -53,7 +53,7 @@ export const ConfirmationPage = ({
     window.print();
   }, []);
 
-  // Show loading indicator while claimStatus is still being fetched
+  // Show loading indicator while waiting for claimStatus
   if (!claimStatus) {
     return (
       <LoadingIndicator
@@ -63,7 +63,7 @@ export const ConfirmationPage = ({
     );
   }
 
-  // Render specific UnderReview components based on benefit type and automation flag
+  // Render Chapter 30 or Chapter 1606 UnderReview components if chosenBenefit and feature flag conditions are met
   if (chosenBenefit === 'chapter30' && meb160630Automation) {
     return (
       <UnderReviewChapter30
@@ -126,6 +126,7 @@ export const ConfirmationPage = ({
     }
     case CLAIM_STATUS_RESPONSE_IN_PROGRESS:
     case CLAIM_STATUS_RESPONSE_ERROR: {
+      // Use ConfirmationPending only if primary conditions are not met
       return (
         <ConfirmationPending
           claimantName={claimantName}
