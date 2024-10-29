@@ -5,7 +5,12 @@ import DowntimeBanners from './DowntimeBanner';
 
 export default function LoginHeader({ loggedOut, isUnifiedSignIn }) {
   // Used to get around Cypress E2E lookup of va-modal's sign-in modal h1
-  const HeadingTag = window?.cypress && !isUnifiedSignIn ? `h2` : `h1`;
+  const HeadingTag =
+    (window?.cypress ||
+      (typeof Cypress !== 'undefined' && Cypress.env('CI'))) &&
+    !isUnifiedSignIn
+      ? `h2`
+      : `h1`;
 
   return (
     <>
