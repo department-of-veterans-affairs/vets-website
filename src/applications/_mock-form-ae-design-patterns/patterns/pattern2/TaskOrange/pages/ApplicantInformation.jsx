@@ -5,9 +5,27 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { InfoSection } from '../../../../shared/components/InfoSection';
 import { maskSSN } from '../../../../utils/helpers/general';
-import { APP_URLS } from '../../../../utils/constants';
 import { genderLabels } from '../utils/labels';
 import { isOnReviewPage } from '../utils/reviewPage';
+
+const AdditionalInfoContent = () => {
+  return (
+    <div>
+      <p className="vads-u-margin-top--0">
+        To protect your personal information, we don’t allow online changes to
+        your name, date of birth, or Social Security number. If you need to
+        change this information, call Veterans Benefits Assistance at{' '}
+        <va-telephone contact="8008271000" />. We’re here Monday through Friday,
+        between 8:00 a.m. and 9:00 p.m. ET.
+      </p>
+
+      <va-link
+        text="Find instructions for how to change your legal name"
+        href="/resources/how-to-change-your-legal-name-on-file-with-va/"
+      />
+    </div>
+  );
+};
 
 export const ApplicantInformationBase = ({
   veteranFullName,
@@ -22,6 +40,14 @@ export const ApplicantInformationBase = ({
     veteranDateOfBirth && format(parseISO(veteranDateOfBirth), 'MMMM dd, yyyy');
   return (
     <InfoSection title={title} titleLevel={3}>
+      {isReviewPage && (
+        <va-additional-info
+          trigger="Why isn't this information editable here?"
+          class="vads-u-margin-y--2"
+        >
+          <AdditionalInfoContent />
+        </va-additional-info>
+      )}
       <InfoSection.InfoBlock
         label="First name"
         value={veteranFullName?.first}
@@ -81,23 +107,13 @@ export const ApplicantInformation = ({
         gender={gender}
       />
 
-      <p>
-        <strong>Note:</strong> To protect your personal information, we don’t
-        allow online changes to your name, date of birth, or Social Security
-        number. If you need to change this information for your health benefits,
-        call your VA health facility.{' '}
-        <va-link
-          href={APP_URLS.facilities}
-          text="Find your VA health facility"
-        />
-      </p>
-      <p>
-        If you want to update your contact information for other VA benefits,
-        you can do that from your profile.{' '}
-      </p>
-      <div className="vads-u-margin-bottom--3">
-        <va-link href="/profile" text="Go to your profile" external />
-      </div>
+      <va-additional-info
+        trigger="How to change this information"
+        class="vads-u-margin-bottom--5"
+      >
+        <AdditionalInfoContent />
+      </va-additional-info>
+
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} />
       {contentAfterButtons}

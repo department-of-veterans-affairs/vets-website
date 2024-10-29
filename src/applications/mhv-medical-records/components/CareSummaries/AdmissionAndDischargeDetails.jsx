@@ -118,6 +118,7 @@ ${record.summary}`;
         className="vads-u-margin-bottom--0"
         aria-describedby="admission-discharge-date"
         data-testid="admission-discharge-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -139,23 +140,39 @@ ${record.summary}`;
 
       <div className="test-details-container max-80">
         <h2>Details</h2>
-        <h3 className=" vads-u-font-family--sans">Location</h3>
-        <p data-testid="note-record-location"> {record.location}</p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Location
+        </h3>
+        <p data-testid="note-record-location" data-dd-privacy="mask">
+          {record.location}
+        </p>
         {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
           record.sortByField !== null && (
             <>
-              <h3 className=" vads-u-font-family--sans">Date admitted</h3>
-              <p data-testid="note-admission-date">{record.admissionDate}</p>
+              <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+                Date admitted
+              </h3>
+              <p data-testid="note-admission-date" data-dd-privacy="mask">
+                {record.admissionDate}
+              </p>
             </>
           )}
         {record.sortByField !== dischargeSummarySortFields.DISCHARGE_DATE && (
           <>
-            <h3 className=" vads-u-font-family--sans">Date discharged</h3>
-            <p data-testid="note-discharge-date">{record.dischargeDate}</p>
+            <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+              Date discharged
+            </h3>
+            <p data-testid="note-discharge-date" data-dd-privacy="mask">
+              {record.dischargeDate}
+            </p>
           </>
         )}
-        <h3 className=" vads-u-font-family--sans">Discharged by</h3>
-        <p data-testid="note-discharged-by">{record.dischargedBy}</p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Discharged by
+        </h3>
+        <p data-testid="note-discharged-by" data-dd-privacy="mask">
+          {record.dischargedBy}
+        </p>
       </div>
 
       <div className="test-results-container">
@@ -163,6 +180,7 @@ ${record.summary}`;
         <p
           data-testid="note-summary"
           className="monospace vads-u-line-height--6"
+          data-dd-privacy="mask"
         >
           {record.summary}
         </p>

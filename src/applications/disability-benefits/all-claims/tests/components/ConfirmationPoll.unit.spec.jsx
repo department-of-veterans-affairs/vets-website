@@ -7,11 +7,35 @@ import {
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
 
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import { submissionStatuses } from '../../constants';
 import {
   ConfirmationPoll,
   selectAllDisabilityNames,
 } from '../../components/ConfirmationPoll';
-import { submissionStatuses } from '../../constants';
+
+const middleware = [thunk];
+const mockStore = configureStore(middleware);
+
+const getData = ({
+  renderName = true,
+  suffix = 'Esq.',
+  disability526NewConfirmationPage = false,
+} = {}) => ({
+  user: {
+    profile: {
+      userFullName: renderName
+        ? { first: 'Foo', middle: 'Man', last: 'Choo', suffix }
+        : {},
+    },
+  },
+  featureToggles: {
+    loading: false,
+    disability526NewConfirmationPage,
+  },
+});
 
 const pendingResponse = {
   shouldResolve: true,
@@ -145,7 +169,9 @@ describe('ConfirmationPoll', () => {
     ]);
 
     const form = mount(
-      <ConfirmationPoll {...defaultProps} pollRate={10} delayFailure={20} />,
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPoll {...defaultProps} pollRate={10} delayFailure={20} />
+      </Provider>,
     );
     setTimeout(() => {
       form.update();
