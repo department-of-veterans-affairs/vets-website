@@ -18,8 +18,10 @@ describe('Medical Records validate breadcrumbs', () => {
       allergyDetail.id,
       allergyDetail,
     );
-    AllergyDetailsPage.verifyBreadcrumbs('Allergies and reactions');
-    AllergyDetailsPage.clickBreadcrumbs('Allergies and reactions');
+    const breadcrumbsText = 'Allergies and reactions';
+    AllergyDetailsPage.verifyBreadcrumbs(breadcrumbsText);
+    AllergyDetailsPage.clickBreadcrumbs(breadcrumbsText);
+
     AllergiesListPage.verifyPaginationAllergiesDisplayed(11, 14, 14);
     cy.injectAxe();
     cy.axeCheck('main', {

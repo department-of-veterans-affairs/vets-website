@@ -58,7 +58,7 @@ class AllergyDetailsPage extends BaseDetailsPage {
       .find('span')
       .contains(breadcrumb)
       .parent()
-      .click();
+      .click({ waitForAnimations: true });
   };
 
   verifySidenavHighlightAllergies = () => {
