@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dropdown from './Dropdown';
 import { fetchLicenseCertificationResults } from '../actions';
+// import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -35,6 +36,15 @@ const dropdownSchema = [
     current: { optionValue: 'All', optionLabel: 'All' },
   },
 ];
+
+// const mockSuggestions = [
+//   'foreign study',
+//   'forever gi bill',
+//   'form',
+//   'form finder',
+//   'form search',
+//   'forms',
+// ];
 
 function LicenseCertificationSearchForm({
   dispatchFetchLicenseCertificationResults,
@@ -90,6 +100,7 @@ function LicenseCertificationSearchForm({
         required={dropdowns[0].label === 'category'}
       />
       <div>
+        {/* <VaSearchInput */}
         <va-text-input
           label={
             dropdowns[0].current.optionValue !== 'Prep Course'
@@ -97,6 +108,9 @@ function LicenseCertificationSearchForm({
               : 'Course Name'
           }
           ref={nameSearchRef}
+          // suggestions={mockSuggestions}
+          className="lc-dropdown-filter"
+          style={{ border: 'red' }}
         />
       </div>
 
