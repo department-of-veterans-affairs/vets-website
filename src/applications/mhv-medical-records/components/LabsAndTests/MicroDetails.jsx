@@ -104,6 +104,7 @@ ${record.results}`;
         className="vads-u-margin-bottom--0"
         aria-describedby="microbio-date"
         data-testid="microbio-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -127,27 +128,40 @@ ${record.results}`;
         {record.labType && (
           <>
             <h3 className=" vads-u-font-family--sans">Lab type</h3>
-            <p data-testid="microbio-sample-tested">{record.labType}</p>
+            <p data-testid="microbio-sample-tested" data-dd-privacy="mask">
+              {record.labType}
+            </p>
           </>
         )}
         <h3 className=" vads-u-font-family--sans">Site or sample tested</h3>
-        <p data-testid="microbio-sample-tested">{record.sampleTested}</p>
+        <p data-testid="microbio-sample-tested" data-dd-privacy="mask">
+          {record.sampleTested}
+        </p>
         <h3 className=" vads-u-font-family--sans">Collection sample</h3>
-        <p data-testid="microbio-sample-from">{record.sampleFrom}</p>
+        <p data-testid="microbio-sample-from" data-dd-privacy="mask">
+          {record.sampleFrom}
+        </p>
         <h3 className=" vads-u-font-family--sans">Ordered by</h3>
-        <p data-testid="microbio-ordered-by">{record.orderedBy}</p>
+        <p data-testid="microbio-ordered-by" data-dd-privacy="mask">
+          {record.orderedBy}
+        </p>
         <h3 className=" vads-u-font-family--sans">Location</h3>
-        <p data-testid="microbio-collecting-location">
+        <p data-testid="microbio-collecting-location" data-dd-privacy="mask">
           {record.collectingLocation}
         </p>
         <h3 className=" vads-u-font-family--sans">Date completed</h3>
-        <p data-testid="microbio-date-completed">{record.dateCompleted}</p>
+        <p data-testid="microbio-date-completed" data-dd-privacy="mask">
+          {record.dateCompleted}
+        </p>
       </div>
 
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p className=" monospace vads-u-line-height--3">
+        <p
+          className="vads-u-font-size--base monospace vads-u-line-height--3"
+          data-dd-privacy="mask"
+        >
           {record.results}
         </p>{' '}
       </div>

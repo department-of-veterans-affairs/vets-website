@@ -115,16 +115,26 @@ ${record.results} \n`;
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className=" vads-u-font-family--sans">Site or sample tested</h3>
-        <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
+        <p data-testid="pathology-sample-tested" data-dd-privacy="mask">
+          {record.sampleTested}
+        </p>
         <h3 className=" vads-u-font-family--sans">Location</h3>
-        <p data-testid="pathology-location">{record.labLocation}</p>
+        <p data-testid="pathology-location" data-dd-privacy="mask">
+          {record.labLocation}
+        </p>
         <h3 className=" vads-u-font-family--sans">Date completed</h3>
-        <p data-testid="date-completed">{record.date}</p>
+        <p data-testid="date-completed" data-dd-privacy="mask">
+          {record.date}
+        </p>
       </div>
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p data-testid="pathology-report" className="monospace">
+        <p
+          data-testid="pathology-report"
+          className="monospace"
+          data-dd-privacy="mask"
+        >
           {record.results}
         </p>
       </div>
