@@ -1,5 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import { defaultSelectedSortOption } from '../util/constants';
+import { defaultSelectedSortOption, sourcesToHide } from '../util/constants';
 import { categorizePrescriptions } from '../util/helpers';
 
 export const initialState = {
@@ -68,9 +68,14 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,
-        prescriptionsList: action.response.data.map(rx => {
-          return { ...rx.attributes };
-        }),
+        prescriptionsList: action.response.data
+          .map(rx => {
+            return { ...rx.attributes };
+            // temporary plug until those sources are ready at va.gov
+          })
+          .filter(rx => {
+            return !sourcesToHide.includes(rx.prescriptionSource);
+          }),
         prescriptionsPagination: action.response.meta.pagination,
         apiError: false,
       };
@@ -78,9 +83,14 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST: {
       return {
         ...state,
-        prescriptionsFilteredList: action.response.data.map(rx => {
-          return { ...rx.attributes };
-        }),
+        prescriptionsFilteredList: action.response.data
+          .map(rx => {
+            return { ...rx.attributes };
+            // temporary plug until those sources are ready at va.gov
+          })
+          .filter(rx => {
+            return !sourcesToHide.includes(rx.prescriptionSource);
+          }),
         prescriptionsPagination: action.response.meta.pagination,
         apiError: false,
       };
