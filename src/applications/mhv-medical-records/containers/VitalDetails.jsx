@@ -75,7 +75,7 @@ const VitalDetails = props => {
   );
   const listState = useSelector(state => state.mr.vitals.listState);
   const refresh = useSelector(state => state.mr.refresh);
-  const [hasPagination, sethasPagination] = useState(false);
+  const [hasPagination, setHasPagination] = useState(false);
 
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
@@ -117,7 +117,7 @@ const VitalDetails = props => {
   const onPageChange = page => {
     setCurrentVitals(paginatedVitals.current[page - 1]);
     setCurrentPage(page);
-    sethasPagination(true);
+    setHasPagination(true);
   };
 
   useEffect(
