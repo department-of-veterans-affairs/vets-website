@@ -63,8 +63,9 @@ export const branchesOfService = [
   'Unknown',
 ];
 
-export const CategoryEducation =
-  'Education (Ch.30, 33, 35, 1606, etc. & Work Study)';
+export const CategoryEducation = 'Education benefits and work study';
+
+export const VRandE = 'Veteran Readiness and Employment (Chapter 31)';
 
 export const requireSignInCategories = [
   CategoryEducation,
@@ -84,6 +85,7 @@ export const requiredForSubtopicPage = [
   'Prosthetics',
   'Veteran Health Identification Card (VHIC) for health appointments',
   'Veteran ID Card (VIC) for discounts',
+  'Work study',
 ];
 
 // List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
