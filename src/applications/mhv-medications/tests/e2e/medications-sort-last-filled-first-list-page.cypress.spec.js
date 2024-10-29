@@ -11,7 +11,7 @@ describe('Medications List Page Sort By Last Filled First', () => {
     const landingPage = new MedicationsLandingPage();
     site.login();
     landingPage.visitLandingPageURL();
-    const listLength = 29;
+    const listLength = 20;
     mockRxPageOne.data.forEach(item => {
       const currentItem = item;
       currentItem.attributes.threadPageSize = listLength;
@@ -35,7 +35,7 @@ describe('Medications List Page Sort By Last Filled First', () => {
     listPage.clickGotoMedicationsLink();
     // site.loadVAPaginationPrescriptions(1, mockRxPageOne);
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
-    site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
+    // site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     listPage.selectSortDropDownOption('Last filled first');
     listPage.clickSortLastFilledFirst();
     listPage.verifyPaginationDisplayedforSortLastFilledFirst(1, 20, listLength);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import {
   VaRadio,
   VaRadioOption,
@@ -10,11 +10,20 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, CHAPTER_2, URL, envUrl } from '../constants';
+import {
+  CHAPTER_1,
+  CHAPTER_2,
+  CHAPTER_3,
+  URL,
+  getApiUrl,
+  CategoryEducation,
+} from '../constants';
 import CatAndTopicSummary from '../components/CatAndTopicSummary';
+import { setSubtopicID } from '../actions';
 
 const SubTopicSelectPage = props => {
   const { onChange, loggedIn, goBack, goToPath, formData, topicID } = props;
+  const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
@@ -22,8 +31,11 @@ const SubTopicSelectPage = props => {
   const [validationError, setValidationError] = useState(null);
 
   const showError = data => {
-    if (data.selectSubtopic) {
+    if (data.selectSubtopic && data.selectCategory !== CategoryEducation) {
       return goToPath(`/${CHAPTER_2.PAGE_1.PATH}`);
+    }
+    if (data.selectSubtopic && data.selectCategory === CategoryEducation) {
+      return goToPath(`/${CHAPTER_3.RELATIONSHIP_TO_VET.PATH}`);
     }
     focusElement('va-radio');
     return setValidationError('Please select a subtopic');
@@ -31,7 +43,11 @@ const SubTopicSelectPage = props => {
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
+    const selected = apiData.find(
+      subtopic => subtopic.attributes.name === selectedValue,
+    );
     onChange({ ...formData, selectSubtopic: selectedValue });
+    dispatch(setSubtopicID(selected.id));
   };
 
   const getApiData = url => {
@@ -49,14 +65,10 @@ const SubTopicSelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(
-        `${envUrl}${
-          URL.GET_SUBTOPICS
-        }/${topicID}/subtopics?user_mock_data=true`,
-      );
+      getApiData(getApiUrl(URL.GET_SUBTOPICS, { PARENT_ID: topicID }));
       focusElement('h2');
     },
-    [loggedIn],
+    [loggedIn, topicID],
   );
 
   useEffect(

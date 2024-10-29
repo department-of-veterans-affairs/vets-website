@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import {
+  branchOfServiceRuleforCategories,
   CategoryEducation,
   CHAPTER_2,
   CHAPTER_3,
   healthcareCategoryLabels,
   schoolInYourProfileOptions,
-  yourRoleOptions,
   whoIsYourQuestionAboutLabels,
+  yourRoleOptions,
 } from '../../constants';
 
 // Personal Information
@@ -37,6 +38,7 @@ import theirVREInformationPage from '../chapters/personalInformation/theirVREInf
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
 import veteransPostalCodePage from '../chapters/personalInformation/veteransPostalCode';
+import yourBranchOfServicePage from '../chapters/personalInformation/yourBranchOfService';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
 import yourLocationOfResidencePage from '../chapters/personalInformation/yourLocationOfResidence';
@@ -314,6 +316,14 @@ const ch3Pages = {
     schema: theirVRECounselorPage.schema,
     depends: form => form.theirVREInformation === true,
   },
+  yourBranchOfService: {
+    title: CHAPTER_3.BRANCH_OF_SERVICE.TITLE,
+    uiSchema: yourBranchOfServicePage.uiSchema,
+    schema: yourBranchOfServicePage.schema,
+    depends: form =>
+      branchOfServiceRuleforCategories.includes(form.selectCategory) ||
+      form.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL,
+  },
 };
 
 const aboutMyselfRelationshipVeteranCondition = formData => {
@@ -371,18 +381,15 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formData => {
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
   return (
-    // Using VEAP (Ch 32) for testing - Will swap it out for VR&E when added to Topics
     formData.relationshipToVeteran ===
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
     formData.selectCategory === CategoryEducation &&
-    formData.selectTopic !== 'VEAP (Ch 32)'
+    formData.selectTopic !== 'Veteran Readiness and Employment (Chapter 31)'
   );
 };
 
 const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
   return (
-    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
-      'Someone else' &&
     formData.relationshipToVeteran !==
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
     formData.selectCategory === 'Education benefits and work study'
@@ -454,6 +461,7 @@ export const flowPages = (obj, list, path) => {
 // Form flows
 const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
+  'yourBranchOfService',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
@@ -499,6 +507,7 @@ const aboutSomeoneElseRelationshipVeteran = [
   'theirVREInformation',
   'theirVRECounselor',
   'aboutYourself',
+  'yourBranchOfService',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',

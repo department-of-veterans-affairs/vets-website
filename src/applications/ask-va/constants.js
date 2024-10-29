@@ -5,21 +5,67 @@ export const envUrl = environment.API_URL;
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
-  GET_CATEGORIESTOPICS: `${baseURL}/categories`,
-  GET_TOPICS: `topics?user_mock_data=true`,
-  GET_SUBTOPICS: `${baseURL}/topics`,
+  GET_CATEGORIES: `${baseURL}/contents?type=category`, // &user_mock_data=true
+  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`, // &user_mock_data=true
+  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID`, // &user_mock_data=true
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
-  GET_INQUIRIES: `${baseURL}/inquiries`,
+  GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
+  INQUIRIES: `${baseURL}/inquiries`,
+  AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
   DASHBOARD_ID: `/user/dashboard/`,
 };
 
-export const CategoryEducation =
-  'Education (Ch.30, 33, 35, 1606, etc. & Work Study)';
+// centralized logic for string replacement, incl. multiple fields
+// ex: getApiUrl(URL.GET_TOPICS, { PARENT_ID: 1 })
+
+//* @param {string} url - the URL to replace
+//* @param {object} params - the object with the key(s) to replace, if any
+//* @returns {string} - the URL with the replaced value(s)
+export const getApiUrl = (url, params) => {
+  let apiUrl = url || '';
+  if (params) {
+    Object.keys(params).forEach(key => {
+      apiUrl = apiUrl.replace(`%${key}%`, params[key]);
+    });
+  }
+  return envUrl + apiUrl;
+};
+
+export const branchesOfService = [
+  'Air Force',
+  'Air Force National Guard',
+  'Air Force Nursing Corps (AFNC)',
+  'Air Force Reserves',
+  'Army',
+  'Army National Guard',
+  'Army Reserves',
+  'Coast Guard',
+  "Coast Guard Women's Reserve (SPARS)",
+  'Marine Corps',
+  'Marine Reserves',
+  'National Oceanic & Atmospheric Admin (NOAA)',
+  'Navy',
+  'Navy Nursing Corps (NNC)',
+  'Navy Reserves',
+  'Philippines Guerilla',
+  'Philippines Scout',
+  'Public Health Service',
+  'Space Force',
+  'U.S. Merchant Marine',
+  "Women's Air Force Service Pilots (WASP)",
+  "Women's Army Auxiliary Corps (WAAC)",
+  "Women's Army Corps (WAC)",
+  "Women's Voluntary Emergency Service (WAVES)",
+  'Unknown',
+];
+
+export const CategoryEducation = 'Education benefits and work study';
+
+export const VRandE = 'Veteran Readiness and Employment (Chapter 31)';
 
 export const requireSignInCategories = [
   CategoryEducation,
@@ -39,6 +85,18 @@ export const requiredForSubtopicPage = [
   'Prosthetics',
   'Veteran Health Identification Card (VHIC) for health appointments',
   'Veteran ID Card (VIC) for discounts',
+  'Transfer of benefits',
+  'Work study',
+];
+
+// List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
+export const branchOfServiceRuleforCategories = [
+  'Veteran ID Card (VIC)',
+  'Disability compensation',
+  'Survivor benefits',
+  'Burials and memorials',
+  'Center for Women Veterans',
+  'Benefits issues outside the U.S.',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
@@ -472,6 +530,11 @@ export const CHAPTER_3 = {
     TITLE: 'Veteran Readiness and Employment counselor',
     DESCRIPTION: 'Name of their counselor:',
     ERROR: 'Please enter the name of their counselor',
+  },
+  BRANCH_OF_SERVICE: {
+    TITLE: 'Your branch of service',
+    DESCRIPTION: 'Select your branch of service',
+    ERROR: 'Please select your branch of service',
   },
 };
 
