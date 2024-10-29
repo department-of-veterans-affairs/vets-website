@@ -66,6 +66,20 @@ class VitalsListPage extends BaseListPage {
       .find('a')
       .click();
   };
+
+  loadVAPaginationNext = () => {
+    cy.get('va-pagination')
+      .shadow()
+      .find('[class="usa-pagination__link usa-pagination__next-page"]')
+      .click({ waitForAnimations: true });
+  };
+
+  loadVAPaginationPrevious = () => {
+    cy.get('va-pagination')
+      .shadow()
+      .find('[class="usa-pagination__link usa-pagination__previous-page"]')
+      .click({ waitForAnimations: true });
+  };
 }
 
 export default new VitalsListPage();

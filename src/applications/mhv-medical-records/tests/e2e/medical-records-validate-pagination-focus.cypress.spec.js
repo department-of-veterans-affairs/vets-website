@@ -15,6 +15,14 @@ describe('Medical Records View Vitals', () => {
   it('Visits View Vitals List', () => {
     VitalsListPage.goToVitals();
 
+    VitalsListPage.loadVAPaginationNext();
+    VitalsListPage.loadVAPaginationPrevious();
+
+    cy.focused().should(
+      'have.text',
+      `Showing 1 to 10 of 10 records from newest to oldest`,
+    );
+
     // VitalsListPage.verifyVitalOnListPage(
     //   0,
     //   'Blood pressure',
