@@ -151,7 +151,6 @@ const App = ({
     () => {
       setFormData({
         ...formData,
-        'view:enhancedFinancialStatusReport': true,
         'view:streamlinedWaiver': true,
         'view:streamlinedWaiverAssetUpdate': true,
         'view:reviewPageNavigationToggle': showReviewPageNavigationFeature,

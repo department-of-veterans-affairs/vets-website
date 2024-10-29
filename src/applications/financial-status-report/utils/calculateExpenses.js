@@ -9,16 +9,6 @@ const MORTGAGE_PAYMENT = 'Mortgage payment';
 const FOOD = 'Food';
 
 /**
- * Filters a list of expenses to include only those with specified names.
- * @param {Array} expenses - The array of expense objects to filter.
- * @param {Array} names - The array of strings representing expense names to include.
- * @returns {Array} A new array containing only the expenses with matching names.
- */
-
-const filterExpensesByName = (expenses, names) =>
-  expenses.filter(expense => names.includes(expense.name));
-
-/**
  * Filters a list of expenses to exclude those with specified names.
  * @param {Array} expenses - The array of expense objects to filter.
  * @param {Array} names - The array of strings representing expense names to exclude.
@@ -48,8 +38,6 @@ const calculateExpenseRecords = expenseRecords =>
  * @param {Array} params.otherExpenses - Other expenses array.
  * @param {Array} params.utilityRecords - Utility records array.
  * @param {Array} params.installmentContracts - Installment contracts array.
- * @param {boolean} [params.view:enhancedFinancialStatusReport=true] - Enhanced financial status report flag.
- * @param {boolean} [params.view:enhancedFinancialStatusReport=false] - Enhanced financial status report flag.
  * @returns {number} The total monthly expenses.
  */
 
@@ -58,10 +46,9 @@ export const getMonthlyExpenses = ({
   otherExpenses,
   utilityRecords,
   installmentContracts,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive = true,
   'view:showUpdatedExpensePages': expensePageActive = false,
 }) => {
-  const utilityField = enhancedFSRActive ? 'amount' : 'monthlyUtilityAmount';
+  const utilityField = 'monthlyUtilityAmount';
   const utilities = sumValues(utilityRecords, utilityField);
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
@@ -106,48 +93,31 @@ export const getAllExpenses = formData => {
     otherExpenses = [],
     utilityRecords,
     installmentContracts = [],
-    'view:enhancedFinancialStatusReport': enhancedFSRActive,
     'view:showUpdatedExpensePages': expensePageActive = false,
   } = formData;
-
-  const rentOrMortgageExpenses = filterExpensesByName(expenseRecords, [
-    RENT,
-    MORTGAGE_PAYMENT,
-  ]);
-
-  const foodExpenses = otherExpenses.find(expense =>
-    expense.name?.includes(FOOD),
-  ) || { amount: 0 };
 
   const filteredExpenses = [
     ...excludeExpensesByName(otherExpenses, [FOOD]),
     ...excludeExpensesByName(expenseRecords, [RENT, MORTGAGE_PAYMENT]),
   ];
 
-  const utilityField = enhancedFSRActive ? 'amount' : 'monthlyUtilityAmount';
+  const utilityField = 'monthlyUtilityAmount';
 
   // This is messy, but will be cleaned up once we remove the enhanced feature flag.
-  const enhancedMortgage = enhancedFSRActive
-    ? sumValues(rentOrMortgageExpenses, 'amount')
-    : safeNumber(rentOrMortgage);
+  const enhancedMortgage = safeNumber(rentOrMortgage);
   const currentRentOrMortgage = expensePageActive
     ? safeNumber(monthlyHousingExpenses)
     : enhancedMortgage;
 
   return {
     rentOrMortgage: currentRentOrMortgage,
-    food: enhancedFSRActive ? foodExpenses.amount : safeNumber(food), // use safeNumber
+    food: safeNumber(food), // use safeNumber
     utilities: sumValues(utilityRecords, utilityField),
     otherLivingExpenses: {
-      name: excludeExpensesByName(
-        enhancedFSRActive ? filteredExpenses : otherExpenses,
-        enhancedFSRActive ? [FOOD] : [],
-      )
+      name: excludeExpensesByName(otherExpenses, [])
         .map(expense => expense.name)
         .join(', '),
-      amount: enhancedFSRActive
-        ? sumValues(filteredExpenses, 'amount')
-        : sumValues(otherExpenses, 'amount'),
+      amount: sumValues(otherExpenses, 'amount'),
     },
     expensesInstallmentContractsAndOtherDebts: sumValues(
       [...installmentContracts, ...creditCardBills],

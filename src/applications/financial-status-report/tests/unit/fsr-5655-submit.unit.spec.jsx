@@ -7,19 +7,16 @@ import maximal from './cfsr-unit-maximal.json';
 import submitForm, { buildEventData } from '../../config/submitForm';
 
 const debtOnly = {
-  'view:enhancedFinancialStatusReport': false,
   selectedDebtsAndCopays: [{ debtType: 'DEBT' }],
   isStreamlinedShort: false,
   isStreamlinedLong: false,
 };
 const copayOnly = {
-  'view:enhancedFinancialStatusReport': false,
   selectedDebtsAndCopays: [{ debtType: 'COPAY' }],
   isStreamlinedShort: false,
   isStreamlinedLong: true,
 };
 const combined = {
-  'view:enhancedFinancialStatusReport': false,
   selectedDebtsAndCopays: [{ debtType: 'COPAY' }, { debtType: 'DEBT' }],
   isStreamlinedShort: true,
   isStreamlinedLong: false,
