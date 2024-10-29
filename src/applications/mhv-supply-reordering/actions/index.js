@@ -2,19 +2,19 @@ import { apiRequest } from 'platform/utilities/api';
 import head from 'lodash/head';
 import { MDOT_API_STATES, MDOT_API_URL } from '../constants';
 
-const handleError = (statusCode, errorCode) => ({
+export const handleError = (statusCode, errorCode) => ({
   type: MDOT_API_STATES.ERROR,
   statusCode,
   errorCode,
 });
 
-const handleSuccess = data => ({
+export const handleSuccess = data => ({
   type: MDOT_API_STATES.SUCCESS,
   statusCode: '200',
   data,
 });
 
-const initiateApiCall = () => ({
+export const initiateApiCall = () => ({
   type: MDOT_API_STATES.PENDING,
 });
 
@@ -39,7 +39,7 @@ export const fetchMdotData = () => async dispatch => {
         return dispatch(handleError(mdotError.status, mdotError.code));
       }
       // We don't have error information from the API, so assume a server error.
-      return dispatch(handleError('MDOT_SERVER_ERROR', 500));
+      return dispatch(handleError('500', 'MDOT_SERVER_ERROR'));
     });
   return null;
 };
