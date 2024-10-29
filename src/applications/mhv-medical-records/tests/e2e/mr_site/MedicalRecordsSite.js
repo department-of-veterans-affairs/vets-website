@@ -5,8 +5,10 @@ import vamc from '../fixtures/facilities/vamc-ehr.json';
 // import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
 class MedicalRecordsSite {
-  login = (userFixture = mockUser, isAccelerating = false) => {
-    this.mockFeatureToggles(isAccelerating);
+  login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
+    if (useDefaultFeatureToggles) {
+      this.mockFeatureToggles();
+    }
     this.mockVamcEhr();
     this.mockMaintenanceWindow();
     cy.login(userFixture);
@@ -15,7 +17,10 @@ class MedicalRecordsSite {
     // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
   };
 
-  mockFeatureToggles = (isAccelerating = false) => {
+  mockFeatureToggles = ({
+    isAcceleratingAllergies = false,
+    isAcceleratingVitals = false,
+  }) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -26,7 +31,11 @@ class MedicalRecordsSite {
           },
           {
             name: 'mhv_accelerated_delivery_allergies_enabled',
-            value: isAccelerating,
+            value: isAcceleratingAllergies,
+          },
+          {
+            name: 'mhv_accelerated_delivery_vital_signs_enabled',
+            value: isAcceleratingVitals,
           },
           {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',

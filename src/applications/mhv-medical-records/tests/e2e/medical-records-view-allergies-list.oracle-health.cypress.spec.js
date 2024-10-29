@@ -5,7 +5,10 @@ import oracleHealthUser from './fixtures/user/oracle-health.json';
 describe('Medical Records View Allergies', () => {
   it('Visits Medical Records View Allergies List', () => {
     const site = new MedicalRecordsSite();
-    site.login(oracleHealthUser, true);
+    site.login(oracleHealthUser, false);
+    site.mockFeatureToggles({
+      isAcceleratingAllergies: true,
+    });
 
     // set up intercepts
     cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
@@ -29,6 +32,8 @@ describe('Medical Records View Allergies', () => {
     cy.get('[data-testid="health-conditions-oh-landing-page-link"]').should(
       'be.visible',
     );
+
+    cy.get('[data-testid="vitals-oh-landing-page-link"]').should('be.visible');
 
     cy.get('[data-testid="allergies-landing-page-link"]')
       .should('be.visible')
