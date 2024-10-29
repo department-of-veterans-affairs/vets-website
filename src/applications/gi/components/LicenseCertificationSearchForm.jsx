@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dropdown from './Dropdown';
@@ -11,6 +11,7 @@ const dropdownSchema = [
   {
     label: 'category',
     options: [
+      { optionValue: 'Select', optionLabel: '-Select-' },
       { optionValue: 'License', optionLabel: 'License' },
       {
         optionValue: 'Certification',
@@ -22,7 +23,7 @@ const dropdownSchema = [
       },
     ],
     alt: 'category type',
-    current: { optionValue: 'License', optionLabel: 'License' },
+    current: { optionValue: 'Select', optionLabel: '-Select-' },
   },
   {
     label: 'state',
@@ -39,19 +40,24 @@ function LicenseCertificationSearchForm({
   dispatchFetchLicenseCertificationResults,
 }) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
+  const nameSearchRef = useRef(null);
 
   const handleSearch = () => {
     // console.log('update query parameters here');
 
     dispatchFetchLicenseCertificationResults();
   };
+
+  const handleReset = () => {
+    setDropdowns(dropdownSchema);
+    nameSearchRef.current.value = '';
+  };
+
   const handleChange = e => {
-    // identify the changed field
     const updatedFieldIndex = dropdowns.findIndex(dropdown => {
       return dropdown.label === e.target.id;
     });
 
-    // identify the selected option
     const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
       option => option.optionValue === e.target.value,
     );
@@ -90,6 +96,7 @@ function LicenseCertificationSearchForm({
               ? 'License/Certification Name'
               : 'Course Name'
           }
+          ref={nameSearchRef}
         />
       </div>
 
@@ -107,8 +114,13 @@ function LicenseCertificationSearchForm({
           required={dropdowns[1].label === 'category'}
         />
       )}
-      <div className="button-wrapper row vads-u-padding-y--6">
+      <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
         <va-button text="Submit" onClick={handleSearch} />
+        <va-button
+          text="Reset Search"
+          className="usa-button-secondary"
+          onClick={handleReset}
+        />
       </div>
     </form>
   );
