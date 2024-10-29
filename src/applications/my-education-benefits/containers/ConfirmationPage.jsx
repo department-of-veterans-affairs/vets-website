@@ -63,7 +63,7 @@ export const ConfirmationPage = ({
     );
   }
 
-  // Determine if we should render the Chapter 30 or Chapter 1606 UnderReview component
+  // Render specific UnderReview components based on benefit type and automation flag
   if (chosenBenefit === 'chapter30' && meb160630Automation) {
     return (
       <UnderReviewChapter30
