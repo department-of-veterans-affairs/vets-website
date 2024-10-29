@@ -80,20 +80,7 @@ const UnderReviewChapter30 = ({
           </a>
           .
         </li>
-        <li>
-          Measure your interests and skill levels and help figure out your
-          career path with{' '}
-          <a href="https://www.benefits.va.gov/gibill/careerscope.asp">
-            CareerScope®
-          </a>
-          .
-        </li>
       </ul>
-
-      <a className="vads-c-action-link--green" href="/my-va/">
-        Go to your My VA dashboard
-      </a>
-
       <FormFooter />
     </div>
   );
