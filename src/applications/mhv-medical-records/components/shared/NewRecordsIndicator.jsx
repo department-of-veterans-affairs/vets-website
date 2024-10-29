@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { useSelector } from 'react-redux';
 import { formatDateAndTime, getStatusExtractPhase } from '../../util/helpers';
 import { refreshPhases } from '../../util/constants';
 import FeedbackEmail from './FeedbackEmail';
@@ -11,6 +13,9 @@ const NewRecordsIndicator = ({
   reloadFunction,
 }) => {
   const [refreshedOnThisPage, setRefreshedOnThisPage] = useState(false);
+  const phase0p5Flag = useSelector(
+    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
+  );
 
   const refreshPhase = useMemo(
     () => {
@@ -35,9 +40,10 @@ const NewRecordsIndicator = ({
         extractType,
       );
       if (
-        !phase ||
-        phase === refreshPhases.IN_PROGRESS ||
-        phase === refreshPhases.STALE
+        (!phase ||
+          phase === refreshPhases.IN_PROGRESS ||
+          phase === refreshPhases.STALE) &&
+        !refreshState.isTimedOut
       ) {
         setRefreshedOnThisPage(true);
       }
@@ -69,9 +75,18 @@ const NewRecordsIndicator = ({
       >
         <h2>We couldn’t update your records</h2>
         <p>Check back later for updates.</p>
-        <p>
-          If it still doesn’t work, email us at <FeedbackEmail />.
-        </p>
+        {phase0p5Flag ? (
+          <p>
+            If it still doesn’t work, call us at call us at{' '}
+            <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+            <va-telephone tty contact={CONTACTS['711']} />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </p>
+        ) : (
+          <p>
+            If it still doesn’t work, email us at <FeedbackEmail />.
+          </p>
+        )}
         {lastSuccessfulUpdate && (
           <p>
             Last updated at {lastSuccessfulUpdate.time} on{' '}
