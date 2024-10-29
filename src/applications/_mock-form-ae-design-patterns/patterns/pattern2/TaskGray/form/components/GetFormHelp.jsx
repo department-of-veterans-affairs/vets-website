@@ -2,7 +2,7 @@ import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const GetFormHelp = () => {
-  const isReview = location.pathname.includes('review-then-submit');
+  const isReview = window.location.pathname.includes('review-then-submit');
 
   return !isReview ? (
     <p className="help-talk">
