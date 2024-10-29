@@ -18,7 +18,6 @@ describe('Medical Records View Vitals', () => {
     VitalsListPage.loadVAPaginationNext();
     VitalsListPage.loadVAPaginationPrevious();
 
-    VitalsListPage.verifyFocusDisplayingRecords();
     VitalsListPage.verifyFocusDisplayingRecords(
       'Displaying 1 to 10 of 31 records from newest to oldest',
     );
