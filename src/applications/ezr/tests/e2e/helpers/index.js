@@ -182,6 +182,13 @@ export const fillNameWithKeyboard = (fieldName, value) => {
   }
 };
 
+export const fillPhoneNumberWithKeyboard = (fieldName, value) => {
+  cy.tabToElement(`va-text-input[name="root_${fieldName}"]`)
+    .shadow()
+    .find('input')
+    .realType(value);
+};
+
 export const fillDateWithKeyboard = (fieldName, value) => {
   const [year, , day] = value
     .split('-')
