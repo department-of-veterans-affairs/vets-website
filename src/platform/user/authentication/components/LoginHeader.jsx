@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 import LogoutAlert from './LogoutAlert';
 import DowntimeBanners from './DowntimeBanner';
 
-export default function LoginHeader({ loggedOut }) {
+export default function LoginHeader({ loggedOut, isUnifiedSignIn }) {
+  // Used to get around Cypress E2E lookup of va-modal's sign-in modal h1
+  const HeadingTag = window?.cypress && !isUnifiedSignIn ? `h2` : `h1`;
+
   return (
     <>
       <div className="row">
         {loggedOut && <LogoutAlert />}
         <div className="columns small-12">
-          <h1 id="signin-signup-modal-title">Sign in or create an account</h1>
+          <HeadingTag id="signin-signup-modal-title">
+            Sign in or create an account
+          </HeadingTag>
         </div>
       </div>
       <DowntimeBanners />
@@ -18,5 +23,6 @@ export default function LoginHeader({ loggedOut }) {
 }
 
 LoginHeader.propTypes = {
+  isUnifiedSignIn: PropTypes.bool,
   loggedOut: PropTypes.bool,
 };

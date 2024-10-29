@@ -33,7 +33,7 @@ const LoginContainer = props => {
         </div>
       )}
       <div className="container">
-        <LoginHeader loggedOut={loggedOut} />
+        <LoginHeader loggedOut={loggedOut} isUnifiedSignIn={isUnifiedSignIn} />
         <LoginActions
           externalApplication={externalApplication}
           isUnifiedSignIn={isUnifiedSignIn}
