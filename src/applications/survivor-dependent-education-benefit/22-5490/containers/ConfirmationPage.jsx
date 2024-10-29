@@ -95,7 +95,6 @@ const mapDispatchToProps = {
 };
 
 ConfirmationPage.propTypes = {
-  getClaimStatus: PropTypes.func.isRequired,
   claimStatus: PropTypes.shape({
     claimStatus: PropTypes.string,
     receivedDate: PropTypes.string,
