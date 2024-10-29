@@ -1,7 +1,7 @@
-import PatientInboxPage from './pages/PatientInboxPage';
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import noAssociationResponse from './fixtures/no-goups-association.json';
-import { AXE_CONTEXT, Locators, Paths, Alerts } from './utils/constants';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import noAssociationResponse from '../fixtures/no-goups-association.json';
+import { AXE_CONTEXT, Locators, Paths, Alerts } from '../utils/constants';
 
 describe('SM TRIAGE GROUPS ALERTS', () => {
   it('user not associated with any group', () => {
