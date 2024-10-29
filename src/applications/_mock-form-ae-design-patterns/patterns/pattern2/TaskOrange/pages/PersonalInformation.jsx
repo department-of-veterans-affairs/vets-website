@@ -12,7 +12,7 @@ import { InfoSection } from '../../../../shared/components/InfoSection';
 const getLinkFactory = (rootUrl, review = false) => {
   return id => {
     const url = `${rootUrl}personal-information/${id}`;
-    return review ? `${url}?review` : url;
+    return review ? `${url}?review=true` : url;
   };
 };
 
@@ -35,20 +35,19 @@ export const PersonalInformationContact = ({
 }) => {
   const config = useContext(PatternConfigContext);
 
-  const reviewId = location?.state?.reviewId;
-  const success = location?.state?.success;
+  const updatedSection = location?.query?.updatedSection;
+  const success = location?.query?.success;
 
   useEffect(
     () => {
-      if (reviewId) {
+      if (updatedSection) {
         setTimeout(() => {
-          waitForRenderThenFocus(`#${reviewId}`);
-          scrollToElement(reviewId);
-          window.history.replaceState({}, '');
+          waitForRenderThenFocus(`#${updatedSection}`);
+          scrollToElement(updatedSection);
         }, 100);
       }
     },
-    [reviewId],
+    [updatedSection],
   );
 
   const { homePhone, mobilePhone, email } = data;
@@ -69,22 +68,24 @@ export const PersonalInformationContact = ({
       <div className="vads-u-margin-top--4">
         <InfoSection>
           <InfoSection.SubHeading
-            text="Contact information"
+            text="Communication method"
             editLink={getLink('edit-contact-preference')}
+            level={4}
           />
           <InfoSection.InfoBlock
             label="How should we contact you if we have questions about your application?"
-            value="email"
+            value="Email"
           />
 
           <InfoSection.SubHeading
-            text="Address"
-            editLink={getLink('edit-mailing-address')}
+            text="Mailing address"
+            editLink={getLink('edit-veteran-address')}
             id="veteranAddress"
             name="veteranAddress"
+            level={4}
           />
           {success &&
-            reviewId === 'veteranAddress' && (
+            updatedSection === 'veteranAddress' && (
               <SaveSuccessAlert updatedText="Address information" />
             )}
           <InfoSection.InfoBlock
@@ -97,16 +98,21 @@ export const PersonalInformationContact = ({
           />
           <InfoSection.InfoBlock label="City" value={address?.city} />
           <InfoSection.InfoBlock label="State" value={address?.state} />
-          <InfoSection.InfoBlock label="Zip code" value={address?.postalCode} />
+          <InfoSection.InfoBlock
+            label="Postal code"
+            value={address?.postalCode}
+          />
 
           <InfoSection.SubHeading
             text="Other contact information"
             editLink={getLink('edit-other-contact-information')}
-            id="other-contact-information"
+            id="otherContactInformation"
+            name="otherContactInformation"
+            level={4}
           />
 
           {success &&
-            reviewId === 'other-contact-information' && (
+            updatedSection === 'otherContactInformation' && (
               <SaveSuccessAlert updatedText="Other contact information" />
             )}
           <InfoSection.InfoBlock label="Email address" value={email} />

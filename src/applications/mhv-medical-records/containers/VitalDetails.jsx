@@ -247,7 +247,10 @@ Provider notes: ${vital.notes}\n\n`,
     return (
       <>
         <PrintHeader />
-        <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
+        <h1
+          className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print"
+          data-dd-privacy="mask"
+        >
           {vitalDisplayName}
         </h1>
         <h2 className="sr-only">List of {vitalDisplayName} results</h2>
@@ -299,7 +302,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.date}
                 </h3>
-                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Result
                 </h4>
                 <p
@@ -309,7 +312,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.measurement}
                 </p>
-                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Location
                 </h4>
                 <p
@@ -319,7 +322,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.location}
                 </p>
-                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Provider notes
                 </h4>
                 <p
@@ -334,7 +337,10 @@ Provider notes: ${vital.notes}\n\n`,
         </ul>
 
         {/* print view start */}
-        <h1 className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only">
+        <h1
+          className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only"
+          data-dd-privacy="mask"
+        >
           Vitals: {vitalTypeDisplayNames[records[0].type]}
         </h1>
         <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 print-only">
@@ -352,7 +358,7 @@ Provider notes: ${vital.notes}\n\n`,
                   {vital.date}
                 </h3>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
-                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Measurement:{' '}
                   </h4>
                   <p className="vads-u-display--inline" data-dd-privacy="mask">
@@ -360,7 +366,7 @@ Provider notes: ${vital.notes}\n\n`,
                   </p>
                 </div>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
-                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Location:{' '}
                   </h4>
                   <p className="vads-u-display--inline" data-dd-privacy="mask">
@@ -368,7 +374,7 @@ Provider notes: ${vital.notes}\n\n`,
                   </p>
                 </div>
                 <div className="vads-u-margin-left--1p5">
-                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Provider notes:{' '}
                   </h4>
                   <p className="vads-u-display--inline" data-dd-privacy="mask">

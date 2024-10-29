@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dropdown from './Dropdown';
-import { fetchLicenseCertification } from '../actions';
+import { fetchLicenseCertificationResults } from '../actions';
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -35,9 +35,16 @@ const dropdownSchema = [
   },
 ];
 
-function LicenseCertificationSearchForm({ dispatchFetchLicenseCertification }) {
+function LicenseCertificationSearchForm({
+  dispatchFetchLicenseCertificationResults,
+}) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
 
+  const handleSearch = () => {
+    // console.log('update query parameters here');
+
+    dispatchFetchLicenseCertificationResults();
+  };
   const handleChange = e => {
     // identify the changed field
     const updatedFieldIndex = dropdowns.findIndex(dropdown => {
@@ -101,18 +108,18 @@ function LicenseCertificationSearchForm({ dispatchFetchLicenseCertification }) {
         />
       )}
       <div className="button-wrapper row vads-u-padding-y--6">
-        <va-button text="Submit" onClick={dispatchFetchLicenseCertification} />
+        <va-button text="Submit" onClick={handleSearch} />
       </div>
     </form>
   );
 }
 
 LicenseCertificationSearchForm.propTypes = {
-  dispatchFetchLicenseCertification: PropTypes.func.isRequired,
+  dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
-  dispatchFetchLicenseCertification: fetchLicenseCertification,
+  dispatchFetchLicenseCertificationResults: fetchLicenseCertificationResults,
 };
 
 export default connect(
