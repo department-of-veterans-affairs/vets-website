@@ -29,7 +29,7 @@ const ConfirmationPage = ({ form, getClaimStatus, claimStatus }) => {
           });
       }
     },
-    [getClaimStatus, claimStatus],
+    [getClaimStatus, claimStatus, apiError],
   );
 
   // Set up scroll and focus when the component mounts
