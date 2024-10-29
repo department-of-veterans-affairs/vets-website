@@ -13,20 +13,14 @@ const ConditionListItem = props => {
     >
       <Link
         to={`/conditions/${record.id}`}
-        className="vads-u-margin--0"
+        className="vads-u-margin-x--0 vads-u-margin-y--1 vads-u-line-height--4 vads-u-font-weight--bold no-print"
         data-dd-privacy="mask"
       >
-        <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
-          {record.name} <span className="sr-only">on {record.date}</span>
-        </span>
+        {record.name} <span className="sr-only">on {record.date}</span>
       </Link>
-      <span
-        className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
-        aria-hidden="true"
-        data-dd-privacy="mask"
-      >
+      <h2 className="print-only" aria-hidden="true" data-dd-privacy="mask">
         {record.name}
-      </span>
+      </h2>
 
       <p className="vads-u-margin--0">
         Date entered: <span data-dd-privacy="mask">{record?.date}</span>

@@ -12,11 +12,14 @@ const LabsAndTestsListItem = props => {
       class="record-list-item vads-u-padding--3 vads-u-margin-y--2p5"
       data-testid="record-list-item"
     >
-      <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
-        <Link to={`/labs-and-tests/${record.id}`} data-dd-privacy="mask">
-          {record.name} <span className="sr-only">on {record.date}</span>
-        </Link>
-      </span>
+      <Link
+        to={`/labs-and-tests/${record.id}`}
+        data-dd-privacy="mask"
+        className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4"
+      >
+        {record.name} <span className="sr-only">on {record.date}</span>
+      </Link>
+
       <div>
         {/* date */}
         <div data-dd-privacy="mask">{record.date}</div>

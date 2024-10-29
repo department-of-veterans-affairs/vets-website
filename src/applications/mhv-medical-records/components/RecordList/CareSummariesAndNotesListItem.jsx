@@ -43,23 +43,21 @@ const CareSummariesAndNotesListItem = props => {
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <Link to={`/summaries-and-notes/${record.id}`} data-dd-privacy="mask">
-        <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
-          {record.name}
-          <span className="sr-only" data-testid="sr-note-date">
-            on {isDischargeSummary ? dsDisplayDate(record) : record.date}
-          </span>
+      <Link
+        to={`/summaries-and-notes/${record.id}`}
+        data-dd-privacy="mask"
+        className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print"
+      >
+        {record.name}
+        <span className="sr-only" data-testid="sr-note-date">
+          on {isDischargeSummary ? dsDisplayDate(record) : record.date}
         </span>
       </Link>
 
       {/* print view header */}
-      <p
-        className="vads-u-font-size--h5 vads-u-line-height--4 print-only"
-        aria-hidden="true"
-        data-dd-privacy="mask"
-      >
+      <h2 className="print-only" aria-hidden="true" data-dd-privacy="mask">
         {record.name}
-      </p>
+      </h2>
 
       {/* fields */}
       <div data-testid="note-item-date">

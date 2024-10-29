@@ -16,20 +16,15 @@ const AllergyListItem = props => {
         to={`/allergies/${record.id}`}
         data-dd-privacy="mask"
         data-testid={`allergy-link-${record.id}`}
+        className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print"
       >
-        <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
-          {record.name} <span className="sr-only">on {record.date}</span>
-        </span>
+        {record.name} <span className="sr-only">on {record.date}</span>
       </Link>
 
       {/* print view header */}
-      <span
-        className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
-        aria-hidden="true"
-        data-dd-privacy="mask"
-      >
+      <h2 className="print-only" aria-hidden="true" data-dd-privacy="mask">
         {record.name}
-      </span>
+      </h2>
 
       {/* web view fields */}
       <div className="no-print">
