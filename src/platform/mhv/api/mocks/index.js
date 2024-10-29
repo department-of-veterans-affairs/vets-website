@@ -40,6 +40,7 @@ const responses = {
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
+    mhvAcceleratedDeliveryVitalsEnabled: true,
   }),
 
   // VAMC facility data that apps query for on startup
