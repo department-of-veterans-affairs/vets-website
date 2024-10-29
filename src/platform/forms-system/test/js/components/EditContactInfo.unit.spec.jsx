@@ -50,7 +50,7 @@ describe('EditContactInfo', () => {
       const extension = $('va-text-input[label^="Extension"]', container);
       expect(extension).to.exist;
       expect(getByText('Update')).to.exist;
-      expect($('va-button[text="Cancel"]', container)).to.exist;
+      expect($('button:contains("Cancel")', container)).to.exist;
     });
 
     it('should save', async () => {
@@ -92,7 +92,7 @@ describe('EditContactInfo', () => {
       phoneNumber.value = '8005551212';
       await fireEvent.input(phoneNumber, { target: { name: 'name' } });
 
-      const cancelButton = $('va-button[text="Cancel"]', container);
+      const cancelButton = $('button:contains("Cancel")', container);
       await fireEvent.click(cancelButton);
 
       expect(getReturnState()).to.eq('home-phone,canceled');

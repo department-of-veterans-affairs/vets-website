@@ -91,7 +91,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('va-button[text="Cancel"]').click();
+    cy.get('button:contains("Cancel")').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mobile phone
@@ -103,7 +103,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('va-button[text="Cancel"]').click();
+    cy.get('button:contains("Cancel")').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Email
@@ -115,7 +115,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('va-button[text="Cancel"]').click();
+    cy.get('button:contains("Cancel")').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mailing address
@@ -127,7 +127,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('va-button[text="Cancel"]').click();
+    cy.get('button:contains("Cancel")').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
   });
 
