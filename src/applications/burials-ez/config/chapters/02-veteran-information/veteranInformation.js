@@ -3,6 +3,7 @@ import {
   ssnUI,
   vaFileNumberUI,
   dateOfBirthUI,
+  fullNameSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { AltReviewRowView } from '../../../components/ReviewRowView';
 import {
@@ -12,7 +13,6 @@ import {
 } from '../../../utils/helpers';
 
 const {
-  veteranFullName,
   veteranSocialSecurityNumber,
   vaFileNumber,
   veteranDateOfBirth,
@@ -40,7 +40,7 @@ export default {
       'veteranDateOfBirth',
     ],
     properties: {
-      veteranFullName,
+      veteranFullName: fullNameSchema,
       veteranSocialSecurityNumber,
       vaFileNumber,
       veteranDateOfBirth,
