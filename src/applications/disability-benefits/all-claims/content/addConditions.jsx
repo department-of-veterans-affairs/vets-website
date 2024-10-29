@@ -20,3 +20,14 @@ export const addConditionsInstructions = (
     </ul>
   </>
 );
+
+export const duplicateAlert = () => {
+  return (
+    <va-alert status="error" uswds>
+      <h3 slot="headline">Duplicate</h3>
+      <p className="vads-u-font-size--base">
+        You’ve already added this condition to your claim.
+      </p>
+    </va-alert>
+  );
+};
