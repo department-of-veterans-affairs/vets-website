@@ -70,58 +70,69 @@ const DownloadRecordType = () => {
             checked={checkAll}
             onVaChange={handleCheckAll}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Lab and test results"
             checked={labTestCheck}
             onVaChange={handleSingleDeselect}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Care summaries and notes"
             checked={careSummariesCheck}
             onVaChange={handleSingleDeselect}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Vaccines"
             checked={vaccineCheck}
             onVaChange={handleSingleDeselect}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Allergies and reactions"
             checked={allergiesCheck}
             onVaChange={handleSingleDeselect}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Health conditions"
             checked={conditionsCheck}
             onVaChange={handleSingleDeselect}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Vitals"
             checked={vitalsCheck}
             onVaChange={handleSingleDeselect}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Medications"
             checkbox-description="Includes VA medications and supplies. And medications prescribed by non-VA providers, if you filled them through a VA pharmacy or told your provider about them.  When you download medication records, we also include a list of allergies and reactions in your VA medical records."
             checked={medicationsCheck}
             onVaChange={handleSingleDeselect}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Upcoming VA appointments"
             checked={upcomingAppCheck}
             onVaChange={handleSingleDeselect}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Past VA appointments"
             checkbox-description="From last 2 years only"
             checked={pastAppCheck}
             onVaChange={handleSingleDeselect}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="VA demographics records"
             checked={demoCheck}
             onVaChange={handleSingleDeselect}
           />
+          <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="DOD military service information records"
             checkbox-description="Includes your Defense Department (DOD) service records from 1980 and later."

@@ -33,7 +33,7 @@ const DownloadFileType = () => {
       <div className="vads-u-margin-top--1">
         <DownloadingRecordsInfo />
       </div>
-      <div>
+      <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
         <button
           className="usa-button-secondary vads-u-margin-y--0p5"
           onClick={() => {
@@ -48,7 +48,7 @@ const DownloadFileType = () => {
         <button
           className="vads-u-margin-y--0p5"
           onClick={() => {
-            history.push('/download/record-type');
+            history.push('/download');
           }}
         >
           Download report
