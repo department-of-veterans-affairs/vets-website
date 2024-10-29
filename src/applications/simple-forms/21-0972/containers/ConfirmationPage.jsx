@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
+import environment from 'platform/utilities/environment';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
 const content = {
@@ -308,11 +310,40 @@ const childContent = (
   </>
 );
 
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
+  const { formConfig } = props?.route;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
+
+  // TODO: Make this condition default after testing in dev
+  if (environment.isLocalhost() || environment.isDev()) {
+    return (
+      <ConfirmationView
+        formConfig={formConfig}
+        confirmationNumber={confirmationNumber}
+        submitDate={submitDate}
+        // uncomment when ready
+        // pdfUrl={submission.response?.pdfUrl}
+      >
+        <ConfirmationView.SubmissionAlert />
+        <ConfirmationView.SavePdfDownload />
+        <ConfirmationView.ChapterSectionCollection />
+        <ConfirmationView.PrintThisPage />
+        <ConfirmationView.WhatsNextProcessList
+          item2Content={`If we need information after reviewing
+            your form, we’ll contact you. After we review your form,
+            you may sign other forms on behalf of the Veteran or
+            non-Veteran claimant you identified in this form.`}
+        />
+        {childContent}
+        <ConfirmationView.HowToContact />
+        <ConfirmationView.GoBackLink />
+        <ConfirmationView.NeedHelp />
+      </ConfirmationView>
+    );
+  }
 
   return (
     <ConfirmationPageView
@@ -343,6 +374,7 @@ ConfirmationPage.propTypes = {
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.object,
 };
 
 function mapStateToProps(state) {

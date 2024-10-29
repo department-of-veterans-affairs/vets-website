@@ -136,37 +136,28 @@ export const getFormSubmitUrlSuffix = formData => {
   return '2122';
 };
 
-export const getEntityAddressAsObject = attributes => {
-  return {
-    addressLine1: (attributes?.addressLine1 || '').trim(),
-    addressLine2: (attributes?.addressLine2 || '').trim(),
-    addressLine3: (attributes?.addressLine3 || '').trim(),
-    city: (attributes?.city || '').trim(),
-    stateCode: (attributes?.stateCode || '').trim(),
-    zipCode: (attributes?.zipCode || '').trim(),
-  };
-};
+export const getEntityAddressAsObject = addressData => ({
+  addressLine1: (addressData?.addressLine1 || '').trim(),
+  addressLine2: (addressData?.addressLine2 || '').trim(),
+  addressLine3: (addressData?.addressLine3 || '').trim(),
+  city: (addressData?.city || '').trim(),
+  stateCode: (addressData?.stateCode || '').trim(),
+  zipCode: (addressData?.zipCode || '').trim(),
+});
 
-export const getEntityAddressAsString = formData => {
-  const entity = formData['view:selectedRepresentative'];
+export const getEntityAddressAsString = addressData =>
+  [
+    (addressData.addressLine1 || '').trim(),
+    (addressData.addressLine2 || '').trim(),
+    (addressData.addressLine3 || '').trim(),
+  ]
+    .filter(Boolean)
+    .join(' ') +
+  (addressData.city ? ` ${addressData.city},` : '') +
+  (addressData.stateCode ? ` ${addressData.stateCode}` : '') +
+  (addressData.zipCode ? ` ${addressData.zipCode}` : '');
 
-  return (
-    [
-      (entity.addressLine1 || '').trim(),
-      (entity.addressLine2 || '').trim(),
-      (entity.addressLine3 || '').trim(),
-    ]
-      .filter(Boolean)
-      .join(' ') +
-    (entity.city ? ` ${entity.city},` : '') +
-    (entity.stateCode ? ` ${entity.stateCode}` : '') +
-    (entity.zipCode ? ` ${entity.zipCode}` : '')
-  );
-};
-
-export const getRepType = formData => {
-  const entity = formData['view:selectedRepresentative'];
-
+export const getRepType = entity => {
   if (entity?.type === 'organization') {
     return 'Organization';
   }
@@ -207,8 +198,14 @@ export const getFormName = formData => {
   return "Appointment of Individual As Claimant's Representative";
 };
 
-const isOrg = formData =>
-  formData['view:selectedRepresentative']?.type === 'organization';
+export const isVSORepresentative = formData => {
+  const rep = formData['view:selectedRepresentative'];
+
+  if (rep.attributes?.accreditedOrganizations?.data?.length > 0) {
+    return true;
+  }
+  return false;
+};
 
 export const isAttorneyOrClaimsAgent = formData => {
   const repType =
@@ -220,6 +217,9 @@ export const isAttorneyOrClaimsAgent = formData => {
     repType === 'claims_agent'
   );
 };
+
+const isOrg = formData =>
+  formData['view:selectedRepresentative']?.type === 'organization';
 
 export const getOrgName = formData => {
   if (isOrg(formData)) {
@@ -234,13 +234,41 @@ export const getOrgName = formData => {
     formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
       ?.data;
 
-  if (orgs.length > 1) {
+  if (orgs && orgs.length > 1) {
     const id = formData?.selectedAccreditedOrganizationId;
     const selectedOrg = orgs.find(org => org.id === id);
     return selectedOrg?.attributes?.name;
   }
 
   return orgs[0]?.attributes?.name;
+};
+
+// Rep name used in Terms and Conditions agreement
+export const getRepresentativeName = formData => {
+  const rep = formData['view:selectedRepresentative'];
+
+  if (!rep) {
+    return null;
+  }
+
+  if (isOrg(formData)) {
+    return formData['view:selectedRepresentative']?.attributes?.name;
+  }
+  return isVSORepresentative(formData)
+    ? formData.selectedAccreditedOrganizationName
+    : rep.attributes.fullName;
+};
+
+export const getApplicantName = formData => {
+  const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
+
+  const applicantFullName = applicantIsVeteran
+    ? formData.veteranFullName
+    : formData.applicantName;
+
+  return `${applicantFullName.first} ${applicantFullName.middle} ${
+    applicantFullName.last
+  } ${applicantFullName.suffix}`;
 };
 
 export const convertRepType = input => {
@@ -253,3 +281,11 @@ export const convertRepType = input => {
 
   return mapping[input] || input;
 };
+
+export const addressExists = address =>
+  !!(
+    address?.addressLine1?.trim() &&
+    address?.city?.trim() &&
+    address?.stateCode?.trim() &&
+    address?.zipCode?.trim()
+  );

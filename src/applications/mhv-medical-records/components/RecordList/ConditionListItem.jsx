@@ -28,7 +28,9 @@ const ConditionListItem = props => {
         {record.name}
       </span>
 
-      <p className="vads-u-margin--0">Date entered: {record?.date}</p>
+      <p className="vads-u-margin--0">
+        Date entered: <span data-dd-privacy="mask">{record?.date}</span>
+      </p>
     </va-card>
   );
 };

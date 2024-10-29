@@ -1,29 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Email from './Email';
-import Phone from './Phone';
-import GoogleMapLink from './GoogleMapLink';
-import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
+import AddressEmailPhone from './AddressEmailPhone';
 
 export default function ContactCard({
   repName,
   orgName,
-  address,
+  addressData,
   phone,
   email,
 }) {
-  const { contact, extension } = parsePhoneNumber(phone);
-  const addressExists =
-    address.addressLine1 &&
-    address.city &&
-    address.stateCode &&
-    address.zipCode;
-
-  const recordContactLinkClick = () => {
-    // pending analytics event
-  };
-
   return (
     <va-card show-shadow>
       <div className="vads-u-margin-top--1p5 vads-u-display--flex">
@@ -33,24 +19,11 @@ export default function ContactCard({
             {orgName || repName}
           </h3>
           {orgName && repName && <p style={{ marginTop: 0 }}>{repName}</p>}
-          <div className="vads-u-margin-top--3">
-            {addressExists && (
-              <GoogleMapLink
-                address={address}
-                recordClick={recordContactLinkClick}
-              />
-            )}
-            {contact && (
-              <Phone
-                contact={contact}
-                extension={extension}
-                recordClick={recordContactLinkClick}
-              />
-            )}
-            {email && (
-              <Email email={email} recordClick={recordContactLinkClick} />
-            )}
-          </div>
+          <AddressEmailPhone
+            addressData={addressData}
+            email={email}
+            phone={phone}
+          />
         </div>
       </div>
     </va-card>
@@ -58,7 +31,7 @@ export default function ContactCard({
 }
 
 ContactCard.propTypes = {
-  address: PropTypes.object,
+  addressData: PropTypes.object,
   email: PropTypes.string,
   orgName: PropTypes.string,
   phone: PropTypes.string,

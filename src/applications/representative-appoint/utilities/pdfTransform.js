@@ -81,22 +81,13 @@ export function pdfTransform(formData) {
           email: applicantEmail || '',
         };
 
-  // transform representative data
-  const repAttributes = selectedRep?.attributes || {};
+  const representative = {
+    id: selectedRep?.id,
+  };
 
-  const representative = isAttorneyOrClaimsAgent(formData)
-    ? {
-        name: {
-          first: repAttributes.firstName || '',
-          middle: repAttributes.middleName || '',
-          last: repAttributes.lastName || '',
-        },
-        type: repAttributes.individualType || '',
-        address: createAddress(repAttributes),
-        phone: repAttributes.phone || '',
-        email: repAttributes.email || '',
-      }
-    : { organizationName: formData.selectedAccreditedOrganizationId || '' };
+  if (!isAttorneyOrClaimsAgent(formData)) {
+    representative.organizationId = formData.selectedAccreditedOrganizationId;
+  }
 
   return {
     veteran,

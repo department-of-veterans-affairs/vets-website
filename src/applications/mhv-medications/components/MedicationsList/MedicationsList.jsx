@@ -47,7 +47,8 @@ const MedicationsList = props => {
 
   return (
     <>
-      <h2
+      <h2 className="sr-only no-print">List of Medications</h2>
+      <p
         className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"
         id="showingRx"
@@ -60,7 +61,7 @@ const MedicationsList = props => {
         <span className="print-only">
           {`Showing ${totalMedications} medications, ${sortOptionLowercase}`}
         </span>
-      </h2>
+      </p>
       <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
       <div className="print-only vads-u-margin--0 vads-u-width--full">
         {rxList?.length > 0 &&
