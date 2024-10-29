@@ -85,12 +85,6 @@ class VitalsListPage extends BaseListPage {
   verifyFocusDisplayingRecords = recordsDisplaying => {
     cy.focused().should('have.text', recordsDisplaying);
   };
-
-  // verifyFocusDisplayingRecords = recordsDisplaying => {
-  //   cy.focused().then($el => {
-  //     $el.should('have.text', recordsDisplaying);
-  //   });
-  // };
 }
 
 export default new VitalsListPage();

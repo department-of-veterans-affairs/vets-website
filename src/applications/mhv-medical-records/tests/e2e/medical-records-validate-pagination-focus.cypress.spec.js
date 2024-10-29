@@ -11,7 +11,7 @@ describe('Medical Records View Vitals', () => {
     cy.visit('my-health/medical-records');
   });
 
-  it('Visits View Vitals List', () => {
+  it('Click next previous page, verify focus', () => {
     VitalsListPage.goToVitals();
     VitalsListPage.clickLinkByRecordListItemIndex(0);
 
