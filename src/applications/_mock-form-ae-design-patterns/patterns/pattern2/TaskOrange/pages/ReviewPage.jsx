@@ -7,6 +7,7 @@ import { setupPages } from '../utils/reviewPage';
 import { formConfigForOrangeTask } from '../config/form';
 
 const ReviewPage = props => {
+  const { location } = props;
   const [privacyCheckbox, setPrivacyCheckbox] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -45,13 +46,18 @@ const ReviewPage = props => {
           return (
             <div key={index}>
               <div className={chapterClasses}>
-                <h2 id={index} className="vads-u-margin--0">
+                <h2
+                  id={index}
+                  className="vads-u-margin--0 vads-u-font-size--h3"
+                >
                   {title}
                 </h2>
               </div>
 
               {getChapterPagesFromChapterIndex(index).map(page => {
-                const depends = page.depends ? page.depends(props.data) : true;
+                const depends = page.depends
+                  ? page.depends({ ...props.data, location })
+                  : true;
                 return page.review && depends
                   ? Object.entries(page.review(props)).map(([label, value]) => (
                       <div className="page-value" key={label}>

@@ -68,16 +68,16 @@ export const PersonalInformationContact = ({
       <div className="vads-u-margin-top--4">
         <InfoSection>
           <InfoSection.SubHeading
-            text="Contact information"
+            text="Communication method"
             editLink={getLink('edit-contact-preference')}
           />
           <InfoSection.InfoBlock
             label="How should we contact you if we have questions about your application?"
-            value="email"
+            value="Email"
           />
 
           <InfoSection.SubHeading
-            text="Address"
+            text="Mailing address"
             editLink={getLink('edit-veteran-address')}
             id="veteranAddress"
             name="veteranAddress"
@@ -96,7 +96,10 @@ export const PersonalInformationContact = ({
           />
           <InfoSection.InfoBlock label="City" value={address?.city} />
           <InfoSection.InfoBlock label="State" value={address?.state} />
-          <InfoSection.InfoBlock label="Zip code" value={address?.postalCode} />
+          <InfoSection.InfoBlock
+            label="Postal code"
+            value={address?.postalCode}
+          />
 
           <InfoSection.SubHeading
             text="Other contact information"

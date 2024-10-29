@@ -72,7 +72,7 @@ const formConfig = {
       'Please sign in again to resume your application for education benefits.',
   },
   dev: {
-    showNavLinks: true,
+    showNavLinks: environment?.isLocalhost(),
   },
   prefillEnabled: true,
   prefillTransformer,
@@ -136,7 +136,7 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Personal information',
+      title: 'Contact information',
       pages: {
         otherContactInfo: {
           hideNavButtons: true,
