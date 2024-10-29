@@ -294,7 +294,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.date}
                 </h3>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
                   Result
                 </h4>
                 <p
@@ -304,7 +304,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.measurement}
                 </p>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
                   Location
                 </h4>
                 <p
@@ -314,7 +314,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.location}
                 </p>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
                   Provider notes
                 </h4>
                 <p

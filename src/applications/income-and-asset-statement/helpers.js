@@ -1,5 +1,8 @@
 import get from 'platform/utilities/data/get';
 
+export const annualReceivedIncomeRequired = (form, index) =>
+  get(['annuities', index, 'receivingIncomeFromAnnuity'], form);
+
 export const formatCurrency = num => `$${num.toLocaleString()}`;
 
 export const otherRecipientRelationshipExplanationRequired = (
@@ -28,3 +31,6 @@ export const showRecipientName = recipientRelationship =>
   recipientRelationship === 'PARENT' ||
   recipientRelationship === 'CUSTODIAN' ||
   recipientRelationship === 'OTHER';
+
+export const surrenderValueRequired = (form, index) =>
+  get(['annuities', index, 'canBeLiquidated'], form);
