@@ -1,4 +1,5 @@
-import defaultVitals from '../../fixtures/vitals.json';
+// import defaultVitals from '../../fixtures/vitals.json';
+import defaultVitals from '../fixtures/vitals.json';
 import BaseListPage from './BaseListPage';
 
 class VitalsListPage extends BaseListPage {
@@ -80,6 +81,16 @@ class VitalsListPage extends BaseListPage {
       .find('[class="usa-pagination__link usa-pagination__previous-page"]')
       .click({ waitForAnimations: true });
   };
+
+  verifyFocusDisplayingRecords = recordsDisplaying => {
+    cy.focused().should('have.text', recordsDisplaying);
+  };
+
+  // verifyFocusDisplayingRecords = recordsDisplaying => {
+  //   cy.focused().then($el => {
+  //     $el.should('have.text', recordsDisplaying);
+  //   });
+  // };
 }
 
 export default new VitalsListPage();
