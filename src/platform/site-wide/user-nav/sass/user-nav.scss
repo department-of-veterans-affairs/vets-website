@@ -190,6 +190,14 @@
       display: inline-block;
     }
   }
+
+  #signin-signup-modal-title {
+    margin: 2rem 0 0;
+  }
+
+  .help-info {
+    margin: 2rem 0 0;
+  }
 }
 
 .verify {
@@ -247,10 +255,6 @@
 }
 
 .login.login-page {
-  #signin-signup-modal-title {
-    margin-top: 2rem !important;
-  }
-
   .downtime-notification.row {
     margin: 0 auto 1em;
     padding: 0 0.5rem;

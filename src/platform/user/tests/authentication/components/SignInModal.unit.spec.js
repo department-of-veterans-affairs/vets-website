@@ -34,8 +34,7 @@ describe('SignInModal', () => {
     });
     const modal = $('va-modal[visible]', screen.container);
     expect(modal).to.not.be.null;
-    expect(screen.queryByText('Sign in')).to.not.be.null;
-
+    expect(screen.queryByText('Sign in or create an account')).to.not.be.null;
   });
 
   it('should verify the close button works as expected', () => {

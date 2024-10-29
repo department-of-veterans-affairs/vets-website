@@ -9,12 +9,7 @@ export default function LoginHeader({ loggedOut }) {
       <div className="row">
         {loggedOut && <LogoutAlert />}
         <div className="columns small-12">
-          <h1
-            id="signin-signup-modal-title"
-            className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
-          >
-            Sign in or create an account
-          </h1>
+          <h1 id="signin-signup-modal-title">Sign in or create an account</h1>
         </div>
       </div>
       <DowntimeBanners />
