@@ -15,7 +15,7 @@ const ConfirmationPage = ({ form, getClaimStatus, claimStatus }) => {
   // Fetch claim status if not already available
   useEffect(
     () => {
-      if (!claimStatus) {
+      if (!claimStatus && !apiError) {
         getClaimStatus('Chapter35')
           .then(response => {
             // Only trigger error if response has a status code >= 400
