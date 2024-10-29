@@ -55,6 +55,21 @@
         "incomeGenerationMethod": "INTELLECTUAL_PROPERTY"
       }
     ],
+    "view:isAddingAnnuities": true,
+    "annuities": [
+      {
+        "establishedDate": "2018-06-15",
+        "marketValueAtEstablishment": 50000.75,
+        "addedFundsAfterEstablishment": true,
+        "addedFundsDate": "2020-09-22",
+        "addedFunds": 10000.25,
+        "revocable": false,
+        "receivingIncomeFromAnnuity": true,
+        "annualReceivedIncome": 12000.0,
+        "canBeLiquidated": true,
+        "surrenderValue": 45000.5
+      }
+    ],
     "statementOfTruthSignature": "John Doe"
   }
 }

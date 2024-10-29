@@ -84,6 +84,8 @@ export const requiredForSubtopicPage = [
   'Prosthetics',
   'Veteran Health Identification Card (VHIC) for health appointments',
   'Veteran ID Card (VIC) for discounts',
+  'Transfer of benefits',
+  'Work study',
 ];
 
 // List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service

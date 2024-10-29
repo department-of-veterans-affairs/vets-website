@@ -1,5 +1,5 @@
 import { inRange } from 'lodash';
-import { isBefore } from 'date-fns';
+import { isAfter, isBefore } from 'date-fns';
 import { DEPENDENT_VIEW_FIELDS, HIGH_DISABILITY_MINIMUM } from '../constants';
 import { replaceStrValues } from './general';
 import content from '../../locales/en/content.json';
@@ -191,7 +191,7 @@ export function includeTeraInformation(formData) {
  * Helper that determines if the form data indicates the user has a birthdate that
  * makes them eligibile for radiation clean-up efforts
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user was born in 1965 or earlier
+ * @returns {Boolean} - true if the user was born before Jan 1, 1966
  */
 export function includeRadiationCleanUpEfforts(formData) {
   if (!formData['view:isTeraBranchingEnabled']) {
@@ -201,7 +201,26 @@ export function includeRadiationCleanUpEfforts(formData) {
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isBefore(
     new Date(veteranDateOfBirth),
-    new Date(1965, 12, 31),
+    new Date('1966-01-01'),
+  );
+  return includeTeraInformation(formData) && couldHaveServed;
+}
+
+/**
+ * Helper that determines if the form data indicates the user has a birthdate that
+ * makes them eligibile for gulf war service
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user was born before Feb 29, 1976
+ */
+export function includeGulfWarService(formData) {
+  if (!formData['view:isTeraBranchingEnabled']) {
+    return includeTeraInformation(formData);
+  }
+
+  const { veteranDateOfBirth } = formData;
+  const couldHaveServed = isBefore(
+    new Date(veteranDateOfBirth),
+    new Date('1976-02-29'),
   );
   return includeTeraInformation(formData) && couldHaveServed;
 }
@@ -215,14 +234,53 @@ export function includeRadiationCleanUpEfforts(formData) {
  */
 export function includeGulfWarServiceDates(formData) {
   const { gulfWarService } = formData;
-  return includeTeraInformation(formData) && gulfWarService;
+  return (
+    includeTeraInformation(formData) &&
+    includeGulfWarService(formData) &&
+    gulfWarService
+  );
+}
+
+/**
+ * Helper that determines if the form data indicates the user has a birthdate that
+ * makes them eligibile for post-9/11 service
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user was born after Feb 28, 1976
+ */
+export function includePostSept11Service(formData) {
+  if (!formData['view:isTeraBranchingEnabled']) {
+    return false;
+  }
+
+  const { veteranDateOfBirth } = formData;
+  const couldHaveServed = isAfter(
+    new Date(veteranDateOfBirth),
+    new Date('1976-02-28'),
+  );
+  return includeTeraInformation(formData) && couldHaveServed;
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user served in specific post-9/11 locations
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they served in the specified
+ * post-9/11 locations
+ */
+export function includePostSept11ServiceDates(formData) {
+  const { gulfWarService } = formData;
+  return (
+    includeTeraInformation(formData) &&
+    includePostSept11Service(formData) &&
+    gulfWarService
+  );
 }
 
 /**
  * Helper that determines if the form data indicates the user has a birthdate that
  * makes them eligibile for agent orange exposure
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user was born on or before July 31, 1965 or earlier
+ * @returns {Boolean} - true if the user was born before Aug 1, 1965 or earlier
  */
 export function includeAgentOrangeExposure(formData) {
   if (!formData['view:isTeraBranchingEnabled']) {
@@ -232,7 +290,7 @@ export function includeAgentOrangeExposure(formData) {
   const { veteranDateOfBirth } = formData;
   const couldHaveServed = isBefore(
     new Date(veteranDateOfBirth),
-    new Date(1965, 7, 31),
+    new Date('1965-08-01'),
   );
   return includeTeraInformation(formData) && couldHaveServed;
 }
