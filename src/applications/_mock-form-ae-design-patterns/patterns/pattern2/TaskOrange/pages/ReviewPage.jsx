@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButtonPair,
+  VaPrivacyAgreement,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { setupPages } from '../utils/reviewPage';
 import { formConfigForOrangeTask } from '../config/form';
@@ -32,6 +35,9 @@ const ReviewPage = props => {
         props.goToPath('/confirmation');
       }
     },
+    onBack: () => {
+      props.goBack();
+    },
   };
 
   return (
@@ -46,12 +52,12 @@ const ReviewPage = props => {
           return (
             <div key={index}>
               <div className={chapterClasses}>
-                <h2
+                <h3
                   id={index}
                   className="vads-u-margin--0 vads-u-font-size--h3"
                 >
                   {title}
-                </h2>
+                </h3>
               </div>
 
               {getChapterPagesFromChapterIndex(index).map(page => {
@@ -84,7 +90,13 @@ const ReviewPage = props => {
         <Link to="review-then-submit2">Finish this application later</Link>
       </p>
       {/* {props.contentBeforeButtons} */}
-      <va-button onClick={handlers.onSubmit} text="Submit" uswds />
+      <VaButtonPair
+        class="vads-u-margin-top--2"
+        continue
+        onPrimaryClick={handlers.onSubmit}
+        onSecondaryClick={handlers.onBack}
+        uswds
+      />
       {/* {props.contentAfterButtons} */}
     </article>
   );
@@ -97,6 +109,7 @@ ReviewPage.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
+  location: PropTypes.object,
   name: PropTypes.string,
   pagePerItemIndex: PropTypes.number,
   schema: PropTypes.shape({}),

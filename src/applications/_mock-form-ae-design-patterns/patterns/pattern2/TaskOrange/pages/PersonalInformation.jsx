@@ -12,7 +12,7 @@ import { InfoSection } from '../../../../shared/components/InfoSection';
 const getLinkFactory = (rootUrl, review = false) => {
   return id => {
     const url = `${rootUrl}personal-information/${id}`;
-    return review ? `${url}?review` : url;
+    return review ? `${url}?review=true` : url;
   };
 };
 
@@ -70,6 +70,7 @@ export const PersonalInformationContact = ({
           <InfoSection.SubHeading
             text="Communication method"
             editLink={getLink('edit-contact-preference')}
+            level={4}
           />
           <InfoSection.InfoBlock
             label="How should we contact you if we have questions about your application?"
@@ -81,6 +82,7 @@ export const PersonalInformationContact = ({
             editLink={getLink('edit-veteran-address')}
             id="veteranAddress"
             name="veteranAddress"
+            level={4}
           />
           {success &&
             updatedSection === 'veteranAddress' && (
@@ -106,6 +108,7 @@ export const PersonalInformationContact = ({
             editLink={getLink('edit-other-contact-information')}
             id="otherContactInformation"
             name="otherContactInformation"
+            level={4}
           />
 
           {success &&

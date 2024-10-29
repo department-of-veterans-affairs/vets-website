@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { withRouter } from 'react-router';
 
-export const ContactInfoEditBase = props => {
+export const MailingAddressEditBase = props => {
   const dispatch = useDispatch();
 
   const { location } = props;
@@ -51,4 +51,4 @@ export const ContactInfoEditBase = props => {
   );
 };
 
-export const ContactInfoEditReroute = withRouter(ContactInfoEditBase);
+export const MailingAddressEdit = withRouter(MailingAddressEditBase);

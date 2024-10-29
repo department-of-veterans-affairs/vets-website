@@ -8,6 +8,8 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { scrollAndFocusTarget } from 'applications/_mock-form-ae-design-patterns/utils/focus';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
+  addressSchema,
+  addressUI,
   descriptionUI,
   emailSchema,
   emailUI,
@@ -15,7 +17,6 @@ import {
   phoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import * as addressFormDefinition from 'platform/forms-system/src/js/definitions/address';
 import { PrefillAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/PrefillAlert';
 import PreSubmitInfo from '../pages/PreSubmitInfo';
 import contactInformationPage from '../pages/contactInformation';
@@ -36,7 +37,7 @@ import {
 } from '../pages/ApplicantInformation';
 import ReviewPage from '../pages/ReviewPage';
 import { EditNavigationWithRouter } from '../components/EditNavigation';
-import { ContactInfoEditReroute } from '../pages/ContactInfoEditReroute';
+import { MailingAddressEdit } from '../pages/MailingAddressEdit';
 
 const {
   date,
@@ -211,30 +212,6 @@ const formConfig = {
           review: null,
         },
         contactInformation: merge({}, contactInformationPage(fullSchema1990)),
-        contactInformationEdit: {
-          title: 'Edit contact information',
-          taskListHide: true,
-          path: 'personal-information/edit-veteran-address',
-          CustomPage: ContactInfoEditReroute,
-          CustomPageReview: null,
-          uiSchema: {
-            ...descriptionUI(PrefillAlert, { hideOnReview: true }),
-            veteranAddress: addressFormDefinition.uiSchema(
-              'Edit mailing address',
-            ),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:pageTitle': blankSchema,
-              veteranAddress: addressFormDefinition.schema(
-                fullSchema1990,
-                true,
-              ),
-            },
-          },
-          depends: () => false,
-        },
       },
     },
     review: {
@@ -253,6 +230,23 @@ const formConfig = {
             properties: {},
           },
           scrollAndFocusTarget,
+        },
+        contactInformationEdit: {
+          title: 'Edit contact information',
+          path: 'personal-information/edit-veteran-address',
+          CustomPage: MailingAddressEdit,
+          CustomPageReview: null,
+          uiSchema: {
+            ...descriptionUI(<PrefillAlert slim />, { hideOnReview: true }),
+            veteranAddress: addressUI(),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:pageTitle': blankSchema,
+              veteranAddress: addressSchema(),
+            },
+          },
         },
       },
     },
