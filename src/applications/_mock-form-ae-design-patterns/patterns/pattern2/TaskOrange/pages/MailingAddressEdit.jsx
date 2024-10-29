@@ -3,6 +3,7 @@ import { SchemaForm, setData } from 'platform/forms-system/exportsFile';
 import { useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
 export const MailingAddressEditBase = props => {
   const dispatch = useDispatch();
@@ -65,6 +66,15 @@ export const MailingAddressEditBase = props => {
       </div>
     </>
   );
+};
+
+MailingAddressEditBase.propTypes = {
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  location: PropTypes.object,
 };
 
 export const MailingAddressEdit = withRouter(MailingAddressEditBase);

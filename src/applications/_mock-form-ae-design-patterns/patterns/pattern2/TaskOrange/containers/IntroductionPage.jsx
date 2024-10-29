@@ -5,25 +5,12 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_NOT_STARTED,
-} from 'applications/static-pages/wizard';
 import SaveInProgressInfo from '../components/SaveInProgressInfo';
 
 export class IntroductionPage extends React.Component {
-  state = {
-    status: sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
-  };
-
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
-
-  setWizardStatus = value => {
-    sessionStorage.setItem(WIZARD_STATUS, value);
-    this.setState({ status: value });
-  };
 
   render() {
     const { route, showWizard } = this.props;
