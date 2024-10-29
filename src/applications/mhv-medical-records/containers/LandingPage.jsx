@@ -46,7 +46,7 @@ const LandingPage = () => {
   const phase0p5Flag = useSelector(
     state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
   );
-  const { isAccelerating } = useAcceleratedData();
+  const { isAcceleratingAllergies } = useAcceleratedData();
 
   useEffect(
     () => {
@@ -91,7 +91,7 @@ const LandingPage = () => {
             Get results of your VA medical tests. This includes blood tests,
             X-rays, and other imaging tests.
           </p>
-          {isAccelerating ? (
+          {isAcceleratingAllergies ? (
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL('/pages/health_record/results', true)}
@@ -123,7 +123,7 @@ const LandingPage = () => {
             This includes summaries of your stays in health facilities (called
             admission and discharge summaries).
           </p>
-          {isAccelerating ? (
+          {isAcceleratingAllergies ? (
             <>
               <a
                 className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
@@ -162,7 +162,7 @@ const LandingPage = () => {
             Get a list of all vaccines (immunizations) in your VA medical
             records.
           </p>
-          {isAccelerating ? (
+          {isAcceleratingAllergies ? (
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL(
@@ -214,7 +214,7 @@ const LandingPage = () => {
             Get a list of health conditions your VA providers are helping you
             manage.
           </p>
-          {isAccelerating ? (
+          {isAcceleratingAllergies ? (
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL('/pages/health_record/conditions', true)}
@@ -251,7 +251,7 @@ const LandingPage = () => {
             <li>Height and weight</li>
             <li>Temperature</li>
           </ul>
-          {isAccelerating ? (
+          {isAcceleratingAllergies ? (
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL('/pages/health_record/results', true)}

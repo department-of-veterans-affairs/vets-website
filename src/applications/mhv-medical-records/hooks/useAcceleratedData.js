@@ -6,10 +6,16 @@ import { useMemo, useEffect } from 'react';
 
 const useAcceleratedData = () => {
   const dispatch = useDispatch();
-  const useAcceleratedApi = useSelector(
+  const isAcceleratingAllergiesEnabled = useSelector(
     state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryAllergiesEnabled
+      ],
+  );
+  const isAcceleratingVitalsEnabled = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryVitalsEnabled
       ],
   );
 
@@ -22,14 +28,23 @@ const useAcceleratedData = () => {
   );
 
   const isCerner = useSelector(selectIsCernerPatient);
-  const isAccelerating = useMemo(
+  const isAcceleratingAllergies = useMemo(
     () => {
-      return useAcceleratedApi && isCerner;
+      return isAcceleratingAllergiesEnabled && isCerner;
     },
-    [useAcceleratedApi, isCerner],
+    [isAcceleratingAllergiesEnabled, isCerner],
   );
+
+  const isAcceleratingVitals = useMemo(
+    () => {
+      return isAcceleratingVitalsEnabled && isCerner;
+    },
+    [isAcceleratingVitalsEnabled, isCerner],
+  );
+
   return {
-    isAccelerating,
+    isAcceleratingAllergies,
+    isAcceleratingVitals,
   };
 };
 
