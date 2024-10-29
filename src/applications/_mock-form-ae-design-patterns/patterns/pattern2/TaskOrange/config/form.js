@@ -237,14 +237,13 @@ const formConfig = {
           CustomPage: MailingAddressEdit,
           CustomPageReview: null,
           uiSchema: {
-            ...descriptionUI(<PrefillAlert slim />, { hideOnReview: true }),
-            veteranAddress: addressUI(),
+            veteranAddress: addressUI({ omit: ['street3'] }),
           },
           schema: {
             type: 'object',
             properties: {
               'view:pageTitle': blankSchema,
-              veteranAddress: addressSchema(),
+              veteranAddress: addressSchema({ omit: ['street3'] }),
             },
           },
         },
