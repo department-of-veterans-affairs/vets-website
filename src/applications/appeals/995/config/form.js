@@ -76,11 +76,7 @@ import submitForm from './submitForm';
 import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence } from '../utils/focus';
-import {
-  showScNewForm,
-  hasHousingRisk,
-  hasOtherHousingRisk,
-} from '../utils/livingSituation';
+import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
 
 import submissionError from '../../shared/content/submissionError';
 import GetFormHelp from '../../shared/content/GetFormHelp';
@@ -97,6 +93,8 @@ import {
   mayHaveLegacyAppeals,
   appStateSelector,
 } from '../../shared/utils/issues';
+
+import { showScNewForm } from '../utils/toggle';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
