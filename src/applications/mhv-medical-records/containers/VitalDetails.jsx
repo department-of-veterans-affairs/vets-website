@@ -75,7 +75,7 @@ const VitalDetails = props => {
   );
   const listState = useSelector(state => state.mr.vitals.listState);
   const refresh = useSelector(state => state.mr.refresh);
-  const [hasPagination, setHasPagination] = useState(false);
+  const [hasUsedPagination, setHasUsedPagination] = useState(false);
 
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
@@ -117,7 +117,7 @@ const VitalDetails = props => {
   const onPageChange = page => {
     setCurrentVitals(paginatedVitals.current[page - 1]);
     setCurrentPage(page);
-    setHasPagination(true);
+    setHasUsedPagination(true);
   };
 
   useEffect(
@@ -138,7 +138,7 @@ const VitalDetails = props => {
           }`,
         );
 
-        if (!hasPagination) {
+        if (!hasUsedPagination) {
           // If pagination is not present, focus on the main heading (h1)
           focusElement(document.querySelector('h1'));
         } else {
@@ -147,7 +147,7 @@ const VitalDetails = props => {
         }
       }
     },
-    [currentPage, records, hasPagination],
+    [currentPage, records, hasUsedPagination],
   );
 
   usePrintTitle(
