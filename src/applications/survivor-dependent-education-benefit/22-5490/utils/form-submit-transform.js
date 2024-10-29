@@ -342,7 +342,6 @@ export function transform5490Form(_formConfig, form) {
       lastName: userFullName?.last,
       suffix: userFullName?.suffix,
       dateOfBirth: form?.data?.relativeDateOfBirth,
-      ssn: form?.data?.relativeSocialSecurityNumber,
       notificationMethod: getNotificationMethod(form?.data?.notificationMethod),
       contactInfo: {
         addressLine1: form?.data?.mailingAddressInput?.address?.street,
