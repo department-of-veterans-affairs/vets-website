@@ -77,7 +77,7 @@ describe('Unavailable supplies component', () => {
       />,
     );
     getByRole('heading', { name: /Unavailable for reorder/ });
-    const cards = queryAllByTestId('mhv-supply-unavail-card');
+    const cards = queryAllByTestId('mhv-supply-intro-unavail-card');
     expect(cards.length).to.be.eql(2);
     // Check the entries are sorted by name.
     within(cards[0]).getByText(new RegExp(unavailSuppliesList[1].productName));

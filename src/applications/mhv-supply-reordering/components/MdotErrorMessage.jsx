@@ -94,7 +94,7 @@ const MdotErrorMessage = ({ errorCode }) => {
         </va-alert>
       );
   }
-  return content;
+  return <div data-testid="mhv-supply-intro-error">{content}</div>;
 };
 
 MdotErrorMessage.propTypes = {

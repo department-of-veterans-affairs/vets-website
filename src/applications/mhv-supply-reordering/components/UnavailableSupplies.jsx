@@ -15,7 +15,7 @@ const UnavailableSupplies = ({ mdotData }) => {
     .map((supply, index) => (
       <div
         key={`mhv-supply-unavail-${index}`}
-        data-testid="mhv-supply-unavail-card"
+        data-testid="mhv-supply-intro-unavail-card"
       >
         <va-card class="mhv-c-reorder-unavail-card">
           <div>

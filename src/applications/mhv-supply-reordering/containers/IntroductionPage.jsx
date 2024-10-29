@@ -45,7 +45,7 @@ export const IntroductionPage = ({
   const loadingContent = (
     <div className="vads-u-margin--5">
       <va-loading-indicator
-        data-testid="mhv-supply-reorder-loading"
+        data-testid="mhv-supply-intro-reorder-loading"
         message="Please wait while we load your information..."
       />
     </div>
@@ -63,7 +63,7 @@ export const IntroductionPage = ({
         />
       )}
       {showForm && (
-        <div>
+        <div data-testid="mhv-supply-intro-content">
           {numAvailSupplies > 0 && (
             <div>
               <h2>

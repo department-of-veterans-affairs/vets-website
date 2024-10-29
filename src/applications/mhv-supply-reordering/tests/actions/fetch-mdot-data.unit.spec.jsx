@@ -83,7 +83,7 @@ describe('MDOT fetch data', () => {
         expect(dispatch.calledTwice).to.be.true;
         const dispatchErrorCall = dispatch.secondCall.args[0];
         expect(dispatchErrorCall.type).to.eql(MDOT_API_STATES.ERROR);
-        // Note: mockApiRequest does not support error message in catch
+        // Note: mockApiRequest does not send the same type of error data as a real API call
       });
     });
 
