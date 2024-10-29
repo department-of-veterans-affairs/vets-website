@@ -126,21 +126,33 @@ ${record.results}`;
         <h2>Details about this test</h2>
         {record.labType && (
           <>
-            <h3 className=" vads-u-font-family--sans">Lab type</h3>
+            <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+              Lab type
+            </h3>
             <p data-testid="microbio-sample-tested">{record.labType}</p>
           </>
         )}
-        <h3 className=" vads-u-font-family--sans">Site or sample tested</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Site or sample tested
+        </h3>
         <p data-testid="microbio-sample-tested">{record.sampleTested}</p>
-        <h3 className=" vads-u-font-family--sans">Collection sample</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Collection sample
+        </h3>
         <p data-testid="microbio-sample-from">{record.sampleFrom}</p>
-        <h3 className=" vads-u-font-family--sans">Ordered by</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Ordered by
+        </h3>
         <p data-testid="microbio-ordered-by">{record.orderedBy}</p>
-        <h3 className=" vads-u-font-family--sans">Location</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Location
+        </h3>
         <p data-testid="microbio-collecting-location">
           {record.collectingLocation}
         </p>
-        <h3 className=" vads-u-font-family--sans">Date completed</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Date completed
+        </h3>
         <p data-testid="microbio-date-completed">{record.dateCompleted}</p>
       </div>
 

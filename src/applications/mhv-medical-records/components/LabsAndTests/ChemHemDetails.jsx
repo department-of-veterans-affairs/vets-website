@@ -135,17 +135,27 @@ Lab comments: ${entry.labComments}\n`,
       {/*                   TEST DETAILS                          */}
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        <h3 className=" vads-u-font-family--sans">Type of test</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Type of test
+        </h3>
         <p data-testid="chem-hem-category">{record.category}</p>
-        <h3 className=" vads-u-font-family--sans">Site or sample tested</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Site or sample tested
+        </h3>
         <p data-testid="chem-hem-sample-tested">{record.sampleTested}</p>
-        <h3 className=" vads-u-font-family--sans">Ordered by</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Ordered by
+        </h3>
         <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
-        <h3 className=" vads-u-font-family--sans">Location</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Location
+        </h3>
         <p data-testid="chem-hem-collecting-location">
           {record.collectingLocation}
         </p>
-        <h3 className=" vads-u-font-family--sans">Lab comments</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Lab comments
+        </h3>
         <ItemList list={record.comments} />
       </div>
       {/*         RESULTS CARDS            */}
@@ -158,7 +168,7 @@ Lab comments: ${entry.labComments}\n`,
             for your health. To ask a question now, send a secure message to
             your care team.
           </p>
-          <h4 className="vads-u-margin--0 vads-u-font-family--sans">
+          <h4 className="vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
             Standard range
           </h4>
           <p className="vads-u-margin-top--0">
