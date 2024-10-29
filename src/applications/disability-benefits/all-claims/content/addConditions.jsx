@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const addConditionsInstructions = (
+export const ConditionInstructions = (
   <>
     <p>Enter one condition below. You can add more conditions later.</p>
     <h4>If your conditions aren’t listed</h4>
@@ -21,13 +21,24 @@ export const addConditionsInstructions = (
   </>
 );
 
-export const duplicateAlert = () => {
-  return (
-    <va-alert status="error" uswds>
-      <h3 slot="headline">Duplicate</h3>
-      <p className="vads-u-font-size--base">
-        You’ve already added this condition to your claim.
-      </p>
-    </va-alert>
-  );
-};
+export const DuplicateAlert = () => (
+  <va-alert status="error" uswds>
+    <h3 slot="headline">Duplicate</h3>
+    <p className="vads-u-font-size--base">
+      You’ve already added this condition to your claim.
+    </p>
+  </va-alert>
+);
+
+export const ServiceConnectedDisabilityDescription = () => (
+  <va-additional-info trigger="What does service-connected disability mean?">
+    <p>
+      To be eligible for service-connected disability benefits, you’ll need to
+      show that your disability was caused by an event, injury, or disease
+      during your military service. You’ll need to show your condition is linked
+      to your service by submitting evidence, such as medical reports or lay
+      statements, with your claim. We may ask you to have a claim exam if you
+      don’t submit evidence or if we need more information to decide your claim.
+    </p>
+  </va-additional-info>
+);

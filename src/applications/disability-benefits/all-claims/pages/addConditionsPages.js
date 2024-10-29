@@ -7,7 +7,6 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastMonthYearDateSchema,
   currentOrPastMonthYearDateUI,
-  // descriptionUI,
   radioSchema,
   radioUI,
   selectSchema,
@@ -19,8 +18,9 @@ import {
 
 import Autocomplete from '../components/Autocomplete';
 import {
-  addConditionsInstructions,
-  duplicateAlert,
+  ConditionInstructions,
+  DuplicateAlert,
+  ServiceConnectedDisabilityDescription,
 } from '../content/addConditions';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import { missingConditionMessage } from '../validations';
@@ -34,6 +34,20 @@ const causeOptions = {
     'My condition existed before I served in the military, but it got worse because of my military service.',
   VA:
     'My condition was caused by an injury or event that happened when I was receiving VA care.',
+};
+
+const createCauseFollowUpTitles = formData => {
+  const { condition, cause } = formData;
+  const conditionTitle = condition || 'condition';
+
+  const causeTitle = {
+    NEW: `Details of injury or exposure that caused ${conditionTitle}`,
+    SECONDARY: `Details of the other condition that caused ${conditionTitle}`,
+    WORSENED: `Details of the injury or exposure that worsened ${conditionTitle}`,
+    VA: 'Details of the injury or event in VA care',
+  };
+
+  return causeTitle[cause];
 };
 
 const createCauseDescriptions = condition => {
@@ -107,9 +121,8 @@ const addConditionPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Name of new condition you want to claim',
       nounSingular: arrayBuilderOptions.nounSingular,
-      description: addConditionsInstructions,
+      description: ConditionInstructions,
     }),
-    // ...descriptionUI(addDisabilitiesInstructions), // Allows demoing description not disappearing on edit but has too much spacing
     condition: {
       'ui:title': 'Enter your condition',
       'ui:field': data => (
@@ -127,7 +140,7 @@ const addConditionPage = {
       // 'ui:validations': [validateDisabilityName], // This is a better solution for the duplicate validation but appStateData is undefined
     },
     'view:duplicateAlert': {
-      'ui:description': duplicateAlert,
+      'ui:description': DuplicateAlert,
       'ui:options': {
         hideIf: formData => !isDuplicate(formData),
       },
@@ -158,168 +171,104 @@ const causePage = {
       title: 'What caused your condition?',
       labels: causeOptions,
     }),
+    'view:serviceConnectedDisabilityDescription': {
+      'ui:description': ServiceConnectedDisabilityDescription,
+    },
   },
   schema: {
     type: 'object',
     properties: {
       cause: radioSchema(Object.keys(causeOptions)),
+      'view:serviceConnectedDisabilityDescription': {
+        type: 'object',
+        properties: {},
+      },
     },
     required: ['cause'],
   },
 };
 
+const createCauseFollowUpConditional = (formData, index, causeType) => {
+  const cause = formData?.newConditions
+    ? formData.newConditions[index]?.cause
+    : formData.cause;
+  return cause !== causeType;
+};
+
 /** @returns {PageSchema} */
 const causeFollowUpPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      const condition = formData.condition ? formData.condition : 'condition';
-
-      if (formData?.cause === 'NEW') {
-        return `Details of injury or exposure that caused ${condition}`;
-      }
-      if (formData?.cause === 'SECONDARY') {
-        return `Details of the other condition that caused ${condition}`;
-      }
-      if (formData?.cause === 'WORSENED') {
-        return `Details of the injury or exposure that worsened ${condition}`;
-      }
-      if (formData?.cause === 'VA') {
-        return 'Details of the injury or event in VA care';
-      }
-      return '';
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      createCauseFollowUpTitles(formData),
+    ),
     primaryDescription: textareaUI({
       title:
         'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
-      hideIf: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause !== 'NEW';
-        }
-        return formData?.cause !== 'NEW';
-      },
-      required: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause === 'NEW';
-        }
-        return formData?.cause === 'NEW';
-      },
+      hideIf: (formData, index) =>
+        createCauseFollowUpConditional(formData, index, 'NEW'),
+      required: (formData, index) =>
+        !createCauseFollowUpConditional(formData, index, 'NEW'),
       charcount: true,
     }),
     causedByCondition: selectUI({
       title:
         'Please choose the disability that caused the new disability you’re claiming here.',
-      hideIf: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause !== 'SECONDARY';
-        }
-        return formData?.cause !== 'SECONDARY';
-      },
-      required: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause === 'SECONDARY';
-        }
-        return formData?.cause === 'SECONDARY';
-      },
+      hideIf: (formData, index) =>
+        createCauseFollowUpConditional(formData, index, 'SECONDARY'),
+      required: (formData, index) =>
+        !createCauseFollowUpConditional(formData, index, 'SECONDARY'),
     }),
     causedByConditionDescription: textareaUI({
       title:
         'Please briefly describe how the disability you selected caused your new disability.',
-      hideIf: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause !== 'SECONDARY';
-        }
-        return formData?.cause !== 'SECONDARY';
-      },
-      required: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause === 'SECONDARY';
-        }
-        return formData?.cause === 'SECONDARY';
-      },
+      hideIf: (formData, index) =>
+        createCauseFollowUpConditional(formData, index, 'SECONDARY'),
+      required: (formData, index) =>
+        !createCauseFollowUpConditional(formData, index, 'SECONDARY'),
       charcount: true,
     }),
     worsenedDescription: textUI({
       title:
         'Please briefly describe the injury or exposure during your military service that caused your existing disability to get worse.',
-      hideIf: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause !== 'WORSENED';
-        }
-        return formData?.cause !== 'WORSENED';
-      },
-      required: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause === 'WORSENED';
-        }
-        return formData?.cause === 'WORSENED';
-      },
+      hideIf: (formData, index) =>
+        createCauseFollowUpConditional(formData, index, 'WORSENED'),
+      required: (formData, index) =>
+        !createCauseFollowUpConditional(formData, index, 'WORSENED'),
       charcount: true,
     }),
     worsenedEffects: textareaUI({
       title:
         'Please tell us how the disability affected you before your service, and how it affects you now after your service.',
-      hideIf: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause !== 'WORSENED';
-        }
-        return formData?.cause !== 'WORSENED';
-      },
-      required: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause === 'WORSENED';
-        }
-        return formData?.cause === 'WORSENED';
-      },
+      hideIf: (formData, index) =>
+        createCauseFollowUpConditional(formData, index, 'WORSENED'),
+      required: (formData, index) =>
+        !createCauseFollowUpConditional(formData, index, 'WORSENED'),
       charcount: true,
     }),
     vaMistreatmentDescription: textareaUI({
       title:
         'Please briefly describe the injury or event while you were under VA care that caused your disability.',
-      hideIf: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause !== 'VA';
-        }
-        return formData?.cause !== 'VA';
-      },
-      required: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause === 'VA';
-        }
-        return formData?.cause === 'VA';
-      },
+      hideIf: (formData, index) =>
+        createCauseFollowUpConditional(formData, index, 'VA'),
+      required: (formData, index) =>
+        !createCauseFollowUpConditional(formData, index, 'VA'),
       charcount: true,
     }),
     vaMistreatmentLocation: textUI({
       title: 'Please tell us where this happened.',
-      hideIf: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause !== 'VA';
-        }
-        return formData?.cause !== 'VA';
-      },
-      required: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause === 'VA';
-        }
-        return formData?.cause === 'VA';
-      },
+      hideIf: (formData, index) =>
+        createCauseFollowUpConditional(formData, index, 'VA'),
+      required: (formData, index) =>
+        !createCauseFollowUpConditional(formData, index, 'VA'),
       charcount: true,
     }),
     vaMistreatmentDate: currentOrPastMonthYearDateUI({
       title:
         'Please tell us when this happened. If you’re having trouble remembering, do your best to estimate.',
-      hideIf: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause !== 'VA';
-        }
-        return formData?.cause !== 'VA';
-      },
-      required: (formData, index) => {
-        if (formData?.newConditions) {
-          return formData?.newConditions?.[index]?.cause === 'VA';
-        }
-        return formData?.cause === 'VA';
-      },
+      hideIf: (formData, index) =>
+        createCauseFollowUpConditional(formData, index, 'VA'),
+      required: (formData, index) =>
+        !createCauseFollowUpConditional(formData, index, 'VA'),
     }),
   },
   schema: {
