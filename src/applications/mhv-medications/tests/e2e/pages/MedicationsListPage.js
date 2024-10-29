@@ -713,6 +713,57 @@ class MedicationsListPage {
   verifyFilterAccordionOnMedicationsListPage = () => {
     cy.get('[data-testid="filter-accordion"]').should('be.visible');
   };
+
+  verifyLabelTextWhenFilterAccordionExpanded = () => {
+    cy.get('[data-testid="filter-option"]')
+      .shadow()
+      .find('[class="usa-legend"]', { force: true })
+      .should('contain', 'Select a filter');
+  };
+
+  clickfilterAccordionDropdownOnListPage = () => {
+    cy.get('[data-testid="rx-filter"]').should('exist');
+    cy.get('[data-testid="rx-filter"]').click({ waitForAnimations: true });
+  };
+
+  verifyFilterOptionsOnListPage = (text, description) => {
+    cy.get(`[label="${text}"]`)
+      .should('be.visible')
+      .and('contain', description);
+  };
+
+  clickFilterRadioButtonOptionOnListPage = option => {
+    cy.get(`[label="${option}"]`).click();
+  };
+
+  verifyFilterHeaderTextHasFocusafterExpanded = () => {
+    cy.get('[data-testid="rx-filter"]')
+      .shadow()
+      .find('[type="button"]')
+      .should('have.text', 'Filter list')
+      .and('have.focus');
+  };
+
+  verifyFilterButtonWhenAccordionExpanded = () => {
+    cy.get('[data-testid="filter-button"]')
+      .shadow()
+      .find('[type="button"]')
+      .should('be.visible')
+      .and('have.text', 'Filter');
+  };
+
+  clickFilterButtonOnAccordion = () => {
+    cy.get('[data-testid="filter-button"]')
+      .shadow()
+      .find('[type="button"]')
+      .click({ waitForAnimations: true });
+  };
+
+  verifyNameOfFirstRxOnMedicationsList = rxName => {
+    cy.get(
+      '.landing-page-content > [data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+    ).should('contain', rxName);
+  };
 }
 
 export default MedicationsListPage;

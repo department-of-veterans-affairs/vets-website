@@ -85,6 +85,7 @@ export const requiredForSubtopicPage = [
   'Prosthetics',
   'Veteran Health Identification Card (VHIC) for health appointments',
   'Veteran ID Card (VIC) for discounts',
+  'Transfer of benefits',
   'Work study',
 ];
 

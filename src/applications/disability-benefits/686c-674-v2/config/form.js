@@ -30,8 +30,6 @@ import {
   deceasedDependentDateOfDeathPage,
   deceasedDependentLocationOfDeathPage,
 } from './chapters/report-dependent-death/deceasedDependentArrayPages';
-import { reportChildMarriage } from './chapters/report-marriage-of-child';
-import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
   currentMarriageInformation,
   currentMarriageInformationPartTwo,
@@ -81,9 +79,21 @@ import {
   veteranContactInformation,
 } from './chapters/veteran-information';
 import {
-  stepchildren,
-  stepchildInformation,
-} from './chapters/stepchild-no-longer-part-of-household';
+  removeChildStoppedAttendingSchoolOptions,
+  removeChildStoppedAttendingSchoolIntroPage,
+  removeChildStoppedAttendingSchoolSummaryPage,
+  childInformationPage,
+  dateChildLeftSchoolPage,
+  childIncomeQuestionPage,
+} from './chapters/report-child-stopped-attending-school/removeChildStoppedAttendingSchoolArrayPages';
+import {
+  removeMarriedChildIntroPage,
+  removeMarriedChildOptions,
+  removeMarriedChildSummaryPage,
+  marriedChildInformationPage,
+  marriedChildIncomeQuestionPage,
+  dateChildMarriedPage,
+} from './chapters/report-marriage-of-child/removeMarriedChildArrayPages';
 import {
   addStudentsOptions,
   addStudentsIntroPage,
@@ -112,6 +122,16 @@ import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
+import {
+  childAddressPage,
+  householdChildInfoPage,
+  parentOrGuardianPage,
+  removeChildHouseholdIntroPage,
+  removeChildHouseholdOptions,
+  removeChildHouseholdSummaryPage,
+  supportAmountPage,
+  veteranSupportsChildPage,
+} from './chapters/stepchild-no-longer-part-of-household/removeChildHouseholdArrayPages';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -848,33 +868,130 @@ export const formConfig = {
       title:
         'Information needed to remove a stepchild who has left your household',
       pages: {
-        stepchildren: {
-          depends: formData =>
-            isChapterFieldRequired(
+        ...arrayBuilderPages(removeChildHouseholdOptions, pageBuilder => ({
+          removeChildHouseholdIntro: pageBuilder.introPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path: '686-stepchild-no-longer-part-of-household',
+            uiSchema: removeChildHouseholdIntroPage.uiSchema,
+            schema: removeChildHouseholdIntroPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdSummary: pageBuilder.summaryPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path: '686-stepchild-no-longer-part-of-household/summary',
+            uiSchema: removeChildHouseholdSummaryPage.uiSchema,
+            schema: removeChildHouseholdSummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdPartOne: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/child-information',
+            uiSchema: householdChildInfoPage.uiSchema,
+            schema: householdChildInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdPartTwo: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/veteran-supports-child',
+            uiSchema: veteranSupportsChildPage.uiSchema,
+            schema: veteranSupportsChildPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+            onNavForward: ({
               formData,
-              TASK_KEYS.reportStepchildNotInHousehold,
-            ),
-          title:
-            'Information needed to report a stepchild is no longer part of your household: Basic information',
-          path: '686-stepchild-no-longer-part-of-household',
-          uiSchema: stepchildren.uiSchema,
-          schema: stepchildren.schema,
-        },
-        stepchildInformation: {
-          depends: formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportStepchildNotInHousehold,
-            ),
-          title:
-            'Information needed to report a stepchild is no longer part of your household: Additional information',
-          path: '686-stepchild-no-longer-part-of-household/:index',
-          showPagePerItem: true,
-          arrayPath: 'stepChildren',
-          uiSchema: stepchildInformation.uiSchema,
-          schema: stepchildInformation.schema,
-          updateFormData: stepchildInformation.updateFormData,
-        },
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (formData?.supportingStepchild) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `686-stepchild-no-longer-part-of-household/${index}/child-address${urlParamsString}`,
+                );
+              }
+            },
+          }),
+          removeChildHouseholdPartThree: pageBuilder.itemPage({
+            // conditional page
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/child-support-amount',
+            uiSchema: supportAmountPage.uiSchema,
+            schema: supportAmountPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdPartFour: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/child-address',
+            uiSchema: childAddressPage.uiSchema,
+            schema: childAddressPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+            onNavBack: ({
+              _formData,
+              pathname,
+              urlParams,
+              goPath,
+              _goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              return goPath(
+                `686-stepchild-no-longer-part-of-household/${index}/veteran-supports-child${urlParamsString}`,
+              );
+            },
+          }),
+          removeChildHouseholdPartFive: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/parent-or-guardian',
+            uiSchema: parentOrGuardianPage.uiSchema,
+            schema: parentOrGuardianPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+        })),
       },
     },
 
@@ -962,18 +1079,68 @@ export const formConfig = {
     reportChildMarriage: {
       title: 'Remove one or more children who got married',
       pages: {
-        childInformation: {
-          depends: formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportMarriageOfChildUnder18,
-            ),
-          title:
-            'Information needed to report the marriage of a child under 18',
-          path: '686-report-marriage-of-child',
-          uiSchema: reportChildMarriage.uiSchema,
-          schema: reportChildMarriage.schema,
-        },
+        ...arrayBuilderPages(removeMarriedChildOptions, pageBuilder => ({
+          removeMarriedChildIntro: pageBuilder.introPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child',
+            uiSchema: removeMarriedChildIntroPage.uiSchema,
+            schema: removeMarriedChildIntroPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildSummary: pageBuilder.summaryPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/summary',
+            uiSchema: removeMarriedChildSummaryPage.uiSchema,
+            schema: removeMarriedChildSummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildPartOne: pageBuilder.itemPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/:index/child-information',
+            uiSchema: marriedChildInformationPage.uiSchema,
+            schema: marriedChildInformationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildPartTwo: pageBuilder.itemPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/:index/date-child-married',
+            uiSchema: dateChildMarriedPage.uiSchema,
+            schema: dateChildMarriedPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildPartThree: pageBuilder.itemPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/:index/child-income',
+            uiSchema: marriedChildIncomeQuestionPage.uiSchema,
+            schema: marriedChildIncomeQuestionPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+        })),
       },
     },
 
@@ -981,18 +1148,73 @@ export const formConfig = {
       title:
         'Remove one or more children between ages 18 and 23 who left school',
       pages: {
-        childNoLongerInSchool: {
-          depends: formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-            ),
-          title:
-            'Information needed to report a child 18-23 years old stopped attending school',
-          path: 'report-child-stopped-attending-school',
-          uiSchema: reportChildStoppedAttendingSchool.uiSchema,
-          schema: reportChildStoppedAttendingSchool.schema,
-        },
+        ...arrayBuilderPages(
+          removeChildStoppedAttendingSchoolOptions,
+          pageBuilder => ({
+            childNoLongerInSchoolIntro: pageBuilder.introPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path: 'report-child-stopped-attending-school',
+              uiSchema: removeChildStoppedAttendingSchoolIntroPage.uiSchema,
+              schema: removeChildStoppedAttendingSchoolIntroPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolSummary: pageBuilder.summaryPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path: 'report-child-stopped-attending-school/summary',
+              uiSchema: removeChildStoppedAttendingSchoolSummaryPage.uiSchema,
+              schema: removeChildStoppedAttendingSchoolSummaryPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolPartOne: pageBuilder.itemPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path:
+                'report-child-stopped-attending-school/:index/child-information',
+              uiSchema: childInformationPage.uiSchema,
+              schema: childInformationPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolPartTwo: pageBuilder.itemPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path:
+                'report-child-stopped-attending-school/:index/date-child-left-school',
+              uiSchema: dateChildLeftSchoolPage.uiSchema,
+              schema: dateChildLeftSchoolPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolPartThree: pageBuilder.itemPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path: 'report-child-stopped-attending-school/:index/child-income',
+              uiSchema: childIncomeQuestionPage.uiSchema,
+              schema: childIncomeQuestionPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+          }),
+        ),
       },
     },
 
