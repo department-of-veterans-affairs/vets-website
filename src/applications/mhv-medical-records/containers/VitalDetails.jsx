@@ -302,7 +302,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.date}
                 </h3>
-                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Result
                 </h4>
                 <p
@@ -312,7 +312,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.measurement}
                 </p>
-                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Location
                 </h4>
                 <p
@@ -322,7 +322,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.location}
                 </p>
-                <h4 className=" vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Provider notes
                 </h4>
                 <p
@@ -358,7 +358,7 @@ Provider notes: ${vital.notes}\n\n`,
                   {vital.date}
                 </h3>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
-                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Measurement:{' '}
                   </h4>
                   <p className="vads-u-display--inline" data-dd-privacy="mask">
@@ -366,7 +366,7 @@ Provider notes: ${vital.notes}\n\n`,
                   </p>
                 </div>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
-                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Location:{' '}
                   </h4>
                   <p className="vads-u-display--inline" data-dd-privacy="mask">
@@ -374,7 +374,7 @@ Provider notes: ${vital.notes}\n\n`,
                   </p>
                 </div>
                 <div className="vads-u-margin-left--1p5">
-                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Provider notes:{' '}
                   </h4>
                   <p className="vads-u-display--inline" data-dd-privacy="mask">
