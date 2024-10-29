@@ -4,6 +4,7 @@ import GiBillApp from './containers/GiBillApp';
 import SearchPage from './containers/SearchPage';
 import ComparePage from './containers/ComparePage';
 import ProfilePage from './containers/ProfilePage';
+import SearchLicensesCertificationsPage from './containers/SearchLicensesCertificationsPage';
 
 export const buildRoutes = () => {
   return (
@@ -16,6 +17,12 @@ export const buildRoutes = () => {
         <Route
           path="/institution/:facilityCode"
           render={({ match }) => <ProfilePage match={match} />}
+        />
+        <Route
+          path="/lc-search"
+          render={({ match }) => (
+            <SearchLicensesCertificationsPage match={match} />
+          )}
         />
         <Route
           path="/compare"
