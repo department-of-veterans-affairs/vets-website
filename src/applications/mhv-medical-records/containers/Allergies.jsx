@@ -69,13 +69,16 @@ const Allergies = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
+  const dispatchAction = isCurrent => {
+    return getAllergiesList(isCurrent, isAcceleratingAllergies);
+  };
+
   useListRefresh({
     listState,
     listCurrentAsOf: allergiesCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.ALLERGY,
-    dispatchAction: isCurrent =>
-      getAllergiesList({ isCurrent, isAcceleratingAllergies }),
+    dispatchAction,
     dispatch,
   });
 

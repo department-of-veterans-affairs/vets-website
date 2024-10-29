@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -46,7 +46,15 @@ const LandingPage = () => {
   const phase0p5Flag = useSelector(
     state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
   );
-  const { isAcceleratingAllergies } = useAcceleratedData();
+  const {
+    isAcceleratingAllergies,
+    isAcceleratingVitals,
+  } = useAcceleratedData();
+
+  const isAcceleratingEnabled = useMemo(
+    () => isAcceleratingAllergies || isAcceleratingVitals,
+    [isAcceleratingAllergies, isAcceleratingVitals],
+  );
 
   useEffect(
     () => {
@@ -91,7 +99,7 @@ const LandingPage = () => {
             Get results of your VA medical tests. This includes blood tests,
             X-rays, and other imaging tests.
           </p>
-          {isAcceleratingAllergies ? (
+          {isAcceleratingEnabled ? (
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL('/pages/health_record/results', true)}
@@ -123,7 +131,7 @@ const LandingPage = () => {
             This includes summaries of your stays in health facilities (called
             admission and discharge summaries).
           </p>
-          {isAcceleratingAllergies ? (
+          {isAcceleratingEnabled ? (
             <>
               <a
                 className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
@@ -162,7 +170,7 @@ const LandingPage = () => {
             Get a list of all vaccines (immunizations) in your VA medical
             records.
           </p>
-          {isAcceleratingAllergies ? (
+          {isAcceleratingEnabled ? (
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL(
@@ -196,13 +204,28 @@ const LandingPage = () => {
           medical records. This includes medication side effects (also called
           adverse drug reactions).
         </p>
-        <Link
-          to="/allergies"
-          className="vads-c-action-link--blue"
-          data-testid="allergies-landing-page-link"
-        >
-          Go to your allergies and reactions
-        </Link>
+        {isAcceleratingEnabled && !isAcceleratingAllergies ? (
+          <a
+            className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
+            href={getCernerURL(
+              '/pages/health_record/health-record-allergies/',
+              true,
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="allergies-oh-landing-page-link"
+          >
+            View your allergies on My VA Health (opens in new tab)
+          </a>
+        ) : (
+          <Link
+            to="/allergies"
+            className="vads-c-action-link--blue"
+            data-testid="allergies-landing-page-link"
+          >
+            Go to your allergies and reactions
+          </Link>
+        )}
       </section>
 
       {displayConditions && (
@@ -214,7 +237,7 @@ const LandingPage = () => {
             Get a list of health conditions your VA providers are helping you
             manage.
           </p>
-          {isAcceleratingAllergies ? (
+          {isAcceleratingEnabled ? (
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL('/pages/health_record/conditions', true)}
@@ -251,12 +274,13 @@ const LandingPage = () => {
             <li>Height and weight</li>
             <li>Temperature</li>
           </ul>
-          {isAcceleratingAllergies ? (
+          {isAcceleratingEnabled && !isAcceleratingVitals ? (
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL('/pages/health_record/results', true)}
               target="_blank"
               rel="noopener noreferrer"
+              data-testid="vitals-oh-landing-page-link"
             >
               View your vitals on My VA Health (opens in new tab)
             </a>
