@@ -260,9 +260,9 @@ const FileField = props => {
       if (checkResults.checkIsEncryptedPdf) {
         allFiles[idx] = {
           file: currentFile,
-          name: currentFile.name,
+          name: 'Upload additional evidence',
           errorMessage:
-            'We weren’t able to upload your file. Make sure the file is not encrypted and an accepted format before continuing.',
+            'We weren’t able to upload your file. Make sure the file is not encrypted and an accepted format.',
         };
         props.onChange(allFiles);
         return;
