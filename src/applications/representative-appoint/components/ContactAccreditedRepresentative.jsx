@@ -1,17 +1,48 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
-
-import AddressEmailPhone from './AddressEmailPhone';
+import { useReviewPage } from '../hooks/useReviewPage';
 import { getEntityAddressAsObject } from '../utilities/helpers';
 
+import AddressEmailPhone from './AddressEmailPhone';
+
 const ContactAccreditedRepresentative = props => {
+  const { formData, goBack, goForward, goToPath } = props;
   const rep = props?.formData?.['view:selectedRepresentative'];
   const repAttributes = rep?.attributes;
   const addressData = getEntityAddressAsObject(repAttributes);
   const email = repAttributes?.email;
   const phone = repAttributes?.phone;
   const isOrg = rep?.type === 'organization';
+  const isReviewPage = useReviewPage();
+
+  const representative = formData?.['view:selectedRepresentative'];
+
+  const orgSelectionRequired =
+    !!representative &&
+    representative.attributes?.individualType === 'representative' &&
+    representative.attributes?.accreditedOrganizations?.data?.length > 1;
+
+  const handleGoBack = () => {
+    if (isReviewPage) {
+      goToPath('/representative-select?review=true');
+    } else {
+      goBack(formData);
+    }
+  };
+
+  const handleGoForward = () => {
+    if (isReviewPage) {
+      if (orgSelectionRequired) {
+        goToPath('/representative-organization?review=true');
+      } else {
+        goToPath('/review-and-submit');
+      }
+    } else {
+      goForward(formData);
+    }
+  };
 
   const warningContent = () => {
     if (isOrg) {
@@ -97,12 +128,17 @@ const ContactAccreditedRepresentative = props => {
           </div>
         </va-card>
       )}
+
+      <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
     </div>
   );
 };
 
 ContactAccreditedRepresentative.propTypes = {
   formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

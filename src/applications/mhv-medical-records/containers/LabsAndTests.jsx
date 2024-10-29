@@ -65,7 +65,6 @@ const LabsAndTests = () => {
       <h1 className="page-title vads-u-margin-bottom--1">
         Lab and test results
       </h1>
-      <h2 className="sr-only">List of Lab and test results</h2>
 
       <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
         Most lab and test results are available{' '}
