@@ -381,18 +381,15 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formData => {
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
   return (
-    // Using VEAP (Ch 32) for testing - Will swap it out for VR&E when added to Topics
     formData.relationshipToVeteran ===
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
     formData.selectCategory === CategoryEducation &&
-    formData.selectTopic !== 'VEAP (Ch 32)'
+    formData.selectTopic !== 'Veteran Readiness and Employment (Chapter 31)'
   );
 };
 
 const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
   return (
-    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
-      'Someone else' &&
     formData.relationshipToVeteran !==
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
     formData.selectCategory === 'Education benefits and work study'
