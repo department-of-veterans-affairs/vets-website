@@ -55,17 +55,8 @@ const ConfirmationPage = ({ form }) => {
     );
   }
 
-  // Default to showing the Fry confirmation if no matching benefit type is found
-  return (
-    <UnderReviewConfirmationFry
-      user={`${fullName.first} ${fullName.middle || ''} ${
-        fullName.last
-      } ${fullName.suffix || ''}`}
-      dateReceived={newReceivedDate}
-      formId={formId}
-      printPage={printPage}
-    />
-  );
+  // No component rendered if chosenBenefit is not 'fry' or 'dea'
+  return null;
 };
 
 const mapStateToProps = state => ({
