@@ -53,7 +53,7 @@ export const ConfirmationPage = ({
     window.print();
   }, []);
 
-  // Show loading indicator while waiting for claimStatus
+  // Step 1: Show loading indicator if `claimStatus` is still loading
   if (!claimStatus) {
     return (
       <LoadingIndicator
@@ -63,38 +63,7 @@ export const ConfirmationPage = ({
     );
   }
 
-  // Render Chapter 30 or Chapter 1606 UnderReview components if chosenBenefit and feature flag conditions are met
-  if (chosenBenefit === 'chapter30' && meb160630Automation) {
-    return (
-      <UnderReviewChapter30
-        claimantName={claimantName}
-        confirmationDate={confirmationDate}
-        confirmationError={confirmationError}
-        confirmationLoading={confirmationLoading}
-        printPage={printPage}
-        sendConfirmation={sendConfirmation}
-        userEmail={userEmail}
-        userFirstName={userFirstName}
-      />
-    );
-  }
-
-  if (chosenBenefit === 'chapter1606' && meb160630Automation) {
-    return (
-      <UnderReviewChapter1606
-        claimantName={claimantName}
-        confirmationDate={confirmationDate}
-        confirmationError={confirmationError}
-        confirmationLoading={confirmationLoading}
-        printPage={printPage}
-        sendConfirmation={sendConfirmation}
-        userEmail={userEmail}
-        userFirstName={userFirstName}
-      />
-    );
-  }
-
-  // Default confirmation rendering based on claimStatus
+  // Step 2: Switch statement to handle various confirmation results and conditions
   switch (confirmationResult) {
     case CLAIM_STATUS_RESPONSE_ELIGIBLE: {
       return (
@@ -126,7 +95,36 @@ export const ConfirmationPage = ({
     }
     case CLAIM_STATUS_RESPONSE_IN_PROGRESS:
     case CLAIM_STATUS_RESPONSE_ERROR: {
-      // Use ConfirmationPending only if primary conditions are not met
+      // Additional check for Chapter 30 or 1606 with `meb160630Automation` feature flag
+      if (chosenBenefit === 'chapter30' && meb160630Automation) {
+        return (
+          <UnderReviewChapter30
+            claimantName={claimantName}
+            confirmationDate={confirmationDate}
+            confirmationError={confirmationError}
+            confirmationLoading={confirmationLoading}
+            printPage={printPage}
+            sendConfirmation={sendConfirmation}
+            userEmail={userEmail}
+            userFirstName={userFirstName}
+          />
+        );
+      }
+      if (chosenBenefit === 'chapter1606' && meb160630Automation) {
+        return (
+          <UnderReviewChapter1606
+            claimantName={claimantName}
+            confirmationDate={confirmationDate}
+            confirmationError={confirmationError}
+            confirmationLoading={confirmationLoading}
+            printPage={printPage}
+            sendConfirmation={sendConfirmation}
+            userEmail={userEmail}
+            userFirstName={userFirstName}
+          />
+        );
+      }
+      // Fallback to ConfirmationPending if conditions are not met
       return (
         <ConfirmationPending
           claimantName={claimantName}
@@ -141,6 +139,7 @@ export const ConfirmationPage = ({
       );
     }
     default: {
+      // Default loading indicator if claimStatus doesn't match any case
       return (
         <LoadingIndicator
           className="meb-confirmation-page meb-confirmation-page_loading vads-u-margin-bottom--6"
