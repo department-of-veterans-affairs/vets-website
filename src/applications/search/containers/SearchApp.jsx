@@ -300,7 +300,7 @@ const SearchApp = ({
     !hasErrors &&
     !searchIsLoading;
 
-  const searchGovIssues =
+  const shouldShowMaintenanceBanner =
     searchGovIssuesWithinMaintenanceWindow || searchGovMaintenance;
 
   return (
@@ -319,10 +319,13 @@ const SearchApp = ({
             appTitle="Search App"
             dependencies={[externalServices.search]}
           >
-            {// Search API returned errors OR
-            // errors with user input before submitting
-            shouldShowErrorMessage && <Errors userInput={userInput} />}
-            {searchGovIssues && (
+            {// Search API returned errors OR errors with user input before
+            //  submitting AND the maintenance banner is NOT going to be displayed
+            shouldShowErrorMessage &&
+              !shouldShowMaintenanceBanner && <Errors userInput={userInput} />}
+            {// Search API is either within the maintenance window AND has returned
+            //  no results OR the search_gov_maintenance Flipper has been enabled
+            shouldShowMaintenanceBanner && (
               <SearchMaintenance unexpectedMaintenance={searchGovMaintenance} />
             )}
             <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-bottom--4">
@@ -332,6 +335,7 @@ const SearchApp = ({
               <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
                 <VaSearchInput
                   class="vads-u-width--full"
+                  disableAnalytics
                   id="search-results-page-dropdown-input-field"
                   data-e2e-id="search-results-page-dropdown-input-field"
                   label="Enter a keyword, phrase, or question"

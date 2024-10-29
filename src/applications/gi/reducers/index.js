@@ -11,6 +11,7 @@ import search from './search';
 import errorReducer from './error';
 import filterBeforeResultsReducer from './filterBeforeResultsReducer';
 import focusSearchReducer from './searchFocusReducer';
+import licenseCertificationSearch from './licenseCertificationSearch';
 
 const rootReducer = {
   autocomplete,
@@ -26,6 +27,7 @@ const rootReducer = {
   errorReducer,
   filterBeforeResultsReducer,
   focusSearchReducer,
+  licenseCertificationSearch,
 };
 
 export default rootReducer;
