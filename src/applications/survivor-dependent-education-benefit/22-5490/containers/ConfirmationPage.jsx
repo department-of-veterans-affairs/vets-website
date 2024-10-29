@@ -6,12 +6,13 @@ import { focusElement } from 'platform/utilities/ui';
 import UnderReviewConfirmation from '../components/confirmation/UnderReviewConfirmation';
 import { fetchClaimStatus } from '../actions';
 
-const ConfirmationPage = ({ form }) => {
-  const { getClaimStatus, claimStatus, formId, data } = form;
+const ConfirmationPage = ({ form, getClaimStatus, claimStatus }) => {
   const [apiError, setApiError] = useState(false); // Track if a 400 or 500 error happens
+  const { formId, data } = form;
   const { fullName } = data;
   let newReceivedDate;
 
+  // Fetch claim status if not already available
   useEffect(
     () => {
       if (!claimStatus) {
@@ -44,7 +45,6 @@ const ConfirmationPage = ({ form }) => {
 
   // Handle API errors
   if (apiError) {
-    // Show error page if apiError is true
     return (
       <UnderReviewConfirmation
         user={`${fullName.first} ${fullName.middle || ''} ${
@@ -57,6 +57,7 @@ const ConfirmationPage = ({ form }) => {
     );
   }
 
+  // Show loading indicator while waiting for claim status
   if (!claimStatus) {
     return (
       <va-loading-indicator
@@ -68,25 +69,21 @@ const ConfirmationPage = ({ form }) => {
     );
   }
 
+  // Render the UnderReviewConfirmation component once the claim status is available
   return (
-    <>
-      {/* Render the UnderReviewConfirmation component */}
-      <UnderReviewConfirmation
-        user={`${fullName.first} ${fullName.middle || ''} ${
-          fullName.last
-        } ${fullName.suffix || ''}`}
-        dateReceived={newReceivedDate}
-        formId={formId}
-        printPage={printPage}
-      />
-    </>
+    <UnderReviewConfirmation
+      user={`${fullName.first} ${fullName.middle || ''} ${
+        fullName.last
+      } ${fullName.suffix || ''}`}
+      dateReceived={newReceivedDate}
+      formId={formId}
+      printPage={printPage}
+    />
   );
 };
 
 const mapStateToProps = state => ({
   claimStatus: state?.data?.claimStatus,
-  claimStatusFetchInProgress: state?.data?.claimStatusFetchInProgress,
-  claimStatusFetchComplete: state?.data?.claimStatusFetchComplete,
   form: state.form,
 });
 
@@ -95,6 +92,7 @@ const mapDispatchToProps = {
 };
 
 ConfirmationPage.propTypes = {
+  getClaimStatus: PropTypes.func.isRequired,
   claimStatus: PropTypes.shape({
     claimStatus: PropTypes.string,
     receivedDate: PropTypes.string,
