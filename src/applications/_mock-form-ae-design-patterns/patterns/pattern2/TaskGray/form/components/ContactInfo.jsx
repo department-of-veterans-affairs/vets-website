@@ -100,6 +100,9 @@ export const ContactInformationBase = ({ location }) => {
     </InfoSection>
   );
 };
+ContactInformationBase.propTypes = {
+  location: PropTypes.object,
+};
 
 export const ContactInformationInfoSection = withRouter(ContactInformationBase);
 
@@ -419,6 +422,7 @@ ContactInfo.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   keys: contactInfoPropTypes.keys,
+  location: PropTypes.object,
   requiredKeys: PropTypes.shape([PropTypes.string]),
   setFormData: PropTypes.func,
   testContinueAlert: PropTypes.bool, // for unit testing only

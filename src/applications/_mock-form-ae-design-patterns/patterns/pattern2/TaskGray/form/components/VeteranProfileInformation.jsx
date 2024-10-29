@@ -51,8 +51,6 @@ export const VeteranProfileInformation = ({
   goBack,
   goForward,
   profile,
-  veteran,
-  data,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
