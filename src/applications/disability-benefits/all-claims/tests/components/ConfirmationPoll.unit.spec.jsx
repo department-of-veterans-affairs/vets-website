@@ -6,7 +6,7 @@ import {
   mockApiRequest,
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
-
+import { Toggler } from 'platform/utilities/feature-toggles';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
@@ -33,7 +33,8 @@ const getData = ({
   },
   featureToggles: {
     loading: false,
-    disability526NewConfirmationPage,
+    [Toggler.TOGGLE_NAMES
+      .disability526NewConfirmationPage]: disability526NewConfirmationPage,
   },
 });
 
@@ -109,7 +110,11 @@ describe('ConfirmationPoll', () => {
       failureResponse,
     ]);
 
-    const form = mount(<ConfirmationPoll {...defaultProps} pollRate={10} />);
+    const form = mount(
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPoll {...defaultProps} pollRate={10} />
+      </Provider>,
+    );
     // Should stop after the first success
     setTimeout(() => {
       expect(global.fetch.callCount).to.equal(3);
@@ -140,6 +145,28 @@ describe('ConfirmationPoll', () => {
     }, 500);
   });
 
+  it('should display loading message', done => {
+    mockApiRequest(pendingResponse.response);
+
+    const form = mount(
+      <Provider
+        store={mockStore(
+          getData({
+            disability526NewConfirmationPage: true,
+          }),
+        )}
+      >
+        <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={10} />
+      </Provider>,
+    );
+    setTimeout(() => {
+      const alert = form.find('va-loading-indicator');
+      expect(alert.html()).to.contain('Preparing your submission');
+      form.unmount();
+      done();
+    }, 50);
+  });
+
   it('should render long wait alert', done => {
     mockMultipleApiRequests([
       pendingResponse,
@@ -149,7 +176,9 @@ describe('ConfirmationPoll', () => {
     ]);
 
     const form = mount(
-      <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={10} />,
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={10} />,
+      </Provider>,
     );
     setTimeout(() => {
       expect(global.fetch.callCount).to.equal(4);
