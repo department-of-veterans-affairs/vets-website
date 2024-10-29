@@ -15,6 +15,8 @@ import ConfirmationApproved from '../components/confirmation/ConfirmationApprove
 import ConfirmationDenied from '../components/confirmation/ConfirmationDenied';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ConfirmationPending from '../components/confirmation/ConfirmationPending';
+import UnderReviewChapter30 from '../components/confirmation/UnderReviewChapter30'; // Custom component for Chapter 30
+import UnderReviewChapter1606 from '../components/confirmation/UnderReviewChapter1606'; // Custom component for Chapter 1606
 
 import { formatReadableDate } from '../helpers';
 import { formFields } from '../constants';
@@ -28,6 +30,8 @@ export const ConfirmationPage = ({
   sendConfirmation,
   confirmationLoading,
   confirmationError,
+  chosenBenefit,
+  meb160630Automation,
 }) => {
   useEffect(
     () => {
@@ -48,6 +52,40 @@ export const ConfirmationPage = ({
   const printPage = useCallback(() => {
     window.print();
   }, []);
+
+  // Determine the appropriate component to display based on claimStatus and chosenBenefit
+  if (chosenBenefit === 'chapter30' && meb160630Automation) {
+    // Show Chapter 30 UnderReview component if the benefit is chapter30 and non33 automation feature flag is on
+    return (
+      <UnderReviewChapter30
+        user={claimantName}
+        confirmationError={confirmationError}
+        confirmationLoading={confirmationLoading}
+        dateReceived={confirmationDate}
+        printPage={printPage}
+        sendConfirmation={sendConfirmation}
+        userEmail={userEmail}
+        userFirstName={userFirstName}
+      />
+    );
+  }
+  if (chosenBenefit === 'chapter1606' && meb160630Automation) {
+    // Show Chapter 1606 UnderReview component if the benefit is chapter1606 and non33 automation feature flag is on
+    return (
+      <UnderReviewChapter1606
+        user={claimantName}
+        confirmationError={confirmationError}
+        confirmationLoading={confirmationLoading}
+        dateReceived={confirmationDate}
+        printPage={printPage}
+        sendConfirmation={sendConfirmation}
+        userEmail={userEmail}
+        userFirstName={userFirstName}
+      />
+    );
+  }
+
+  // Default confirmation rendering based on claimStatus
   switch (confirmationResult) {
     case CLAIM_STATUS_RESPONSE_ELIGIBLE: {
       return (
@@ -115,7 +153,10 @@ const mapStateToProps = state => ({
   confirmationError: state.confirmationError || null,
   confirmationLoading: state.confirmationLoading || false,
   confirmationSuccess: state.confirmationSuccess || false,
+  chosenBenefit: state?.form?.data?.chosenBenefit, // Access chosenBenefit from form data
+  meb160630Automation: state.featureToggles?.meb160630Automation, // Access feature flag for automation
 });
+
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,
   sendConfirmation: sendConfirmationAction,
@@ -129,6 +170,7 @@ export default connect(
 ConfirmationPage.propTypes = {
   getClaimStatus: PropTypes.func.isRequired,
   sendConfirmation: PropTypes.func.isRequired,
+  chosenBenefit: PropTypes.string,
   claimStatus: PropTypes.shape({
     claimStatus: PropTypes.string,
     receivedDate: PropTypes.string,
@@ -136,6 +178,7 @@ ConfirmationPage.propTypes = {
   confirmationError: PropTypes.object,
   confirmationLoading: PropTypes.bool,
   confirmationSuccess: PropTypes.bool,
+  meb160630Automation: PropTypes.bool,
   userEmail: PropTypes.string,
   userFirstName: PropTypes.string,
   userFullName: PropTypes.shape({
