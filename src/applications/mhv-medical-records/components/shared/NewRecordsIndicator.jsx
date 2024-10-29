@@ -168,27 +168,24 @@ const NewRecordsIndicator = ({
       </div>
       <div className="print-only">
         {!lastSuccessfulUpdate && (
-          <span>
+          <>
             <p>
-              <b>
-                Your records may not be up to date.
-                <br />
-              </b>
+              <b>Your records may not be up to date.</b>
+            </p>
+            <p>
               There’s a problem with our system, and we can’t access the date
               your records were last updated. We’re sorry. Please check back
               later for updates. If it still doesn’t work, call us at
               877-327-0022 (TTY:711). We’re here Monday through Friday, 8:00 a.m
               to 8:00 p. ET.
             </p>
-          </span>
+          </>
         )}
         {lastSuccessfulUpdate && (
-          <>
-            <p>
-              Last updated at {lastSuccessfulUpdate.time} on{' '}
-              {lastSuccessfulUpdate.date}
-            </p>
-          </>
+          <p>
+            Last updated at {lastSuccessfulUpdate.time} on{' '}
+            {lastSuccessfulUpdate.date}
+          </p>
         )}
       </div>
     </>
