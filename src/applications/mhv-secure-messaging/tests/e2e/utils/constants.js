@@ -210,6 +210,7 @@ export const Locators = {
     ALERT_TEXT: `[data-testid="alert-text"]`,
     ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
     VA_ALERT: `va-alert`,
+    REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
