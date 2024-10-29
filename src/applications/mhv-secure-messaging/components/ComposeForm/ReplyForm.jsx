@@ -155,7 +155,6 @@ const ReplyForm = props => {
         <MessageActionButtons
           threadId={threadId}
           hideDraft={hideDraft}
-          hideReplyButton
           replyMsgId={replyMessage.messageId}
           showEditDraftButton={
             !cannotReply && !showBlockedTriageGroupAlert && !hideDraft
