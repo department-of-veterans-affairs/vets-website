@@ -27,7 +27,7 @@
     "lodash",
 
     "@babel/plugin-proposal-function-sent",
-    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-transform-export-namespace-from",
     "@babel/plugin-proposal-numeric-separator",
     "@babel/plugin-proposal-throw-expressions",
 
@@ -322,7 +322,7 @@
         "transform-react-remove-prop-types",
 
         "@babel/plugin-proposal-function-sent",
-        "@babel/plugin-proposal-export-namespace-from",
+        "@babel/plugin-transform-export-namespace-from",
         "@babel/plugin-proposal-numeric-separator",
         "@babel/plugin-proposal-throw-expressions",
 
