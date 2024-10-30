@@ -145,18 +145,7 @@ const formConfig = {
         applicantRaceAndEthnicity: {
           title: 'Your personal information',
           path: 'applicant-information-6',
-          CustomPageReview: props => (
-            <CustomPageReview
-              data={props.data}
-              editPage={props.editPage}
-              title="Your ethnicity and race"
-              question="What is your ethnicity?"
-              dataValue="ethnicity"
-              moreRow
-              questionTwo="What is your race?"
-              dataValue2="originRace"
-            />
-          ),
+          reviewTitle: 'Your ethnicity and race',
           uiSchema: applicantRaceAndEthnicity.uiSchema,
           schema: applicantRaceAndEthnicity.schema,
           depends: formData => formData.raceAndGender === 'Yes',

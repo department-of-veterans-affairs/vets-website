@@ -85,25 +85,6 @@ describe('Edu 10282 form config', () => {
       const { applicantState } = formConfig.chapters.personalInformation.pages;
       expect(applicantState.depends({ country: 'United States' })).to.be.true;
     });
-    it('should render CustomPageReview for applicant race and ethnicity question', () => {
-      const props = {
-        data: {
-          ethnicity: 'Prefer not to answer',
-        },
-        editPage: () => {},
-      };
-
-      const wrapper = shallow(
-        <personalInformation.applicantRaceAndEthnicity.CustomPageReview
-          {...props}
-        />,
-      );
-      const customPageReviewProps = wrapper.find(CustomPageReview).props();
-      expect(customPageReviewProps).to.not.be.undefined;
-      expect(customPageReviewProps.data).to.not.be.undefined;
-      expect(customPageReviewProps.editPage).to.not.be.undefined;
-      wrapper.unmount();
-    });
     it('should return applicant race and ethnicity if race and gender is true', () => {
       const raceAndEthnicity =
         formConfig.chapters.personalInformation.pages.applicantRaceAndEthnicity;
