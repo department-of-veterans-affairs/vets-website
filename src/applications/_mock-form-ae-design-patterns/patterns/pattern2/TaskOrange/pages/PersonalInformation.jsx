@@ -56,6 +56,8 @@ export const PersonalInformationContact = ({
 
   const getLink = getLinkFactory(`${config.urlPrefix}`, onReviewPage);
 
+  const subHeadingLevel = onReviewPage ? 4 : 3;
+
   return (
     <>
       {!onReviewPage && (
@@ -70,60 +72,66 @@ export const PersonalInformationContact = ({
           <InfoSection.SubHeading
             text="Communication method"
             editLink={getLink('edit-contact-preference')}
-            level={4}
+            level={subHeadingLevel}
           />
-          <InfoSection.InfoBlock
-            label="How should we contact you if we have questions about your application?"
-            value="Email"
-          />
+          <dl>
+            <InfoSection.InfoBlock
+              label="How should we contact you if we have questions about your application?"
+              value="Email"
+            />
+          </dl>
 
           <InfoSection.SubHeading
             text="Mailing address"
             editLink={getLink('edit-veteran-address')}
             id="veteranAddress"
             name="veteranAddress"
-            level={4}
+            level={subHeadingLevel}
           />
           {success &&
             updatedSection === 'veteranAddress' && (
               <SaveSuccessAlert updatedText="Address information" />
             )}
-          <InfoSection.InfoBlock
-            label="Street address"
-            value={address?.street}
-          />
-          <InfoSection.InfoBlock
-            label="Street address line 2"
-            value={address?.street2 || 'Not provided'}
-          />
-          <InfoSection.InfoBlock label="City" value={address?.city} />
-          <InfoSection.InfoBlock label="State" value={address?.state} />
-          <InfoSection.InfoBlock
-            label="Postal code"
-            value={address?.postalCode}
-          />
+          <dl>
+            <InfoSection.InfoBlock
+              label="Street address"
+              value={address?.street}
+            />
+            <InfoSection.InfoBlock
+              label="Street address line 2"
+              value={address?.street2 || 'Not provided'}
+            />
+            <InfoSection.InfoBlock label="City" value={address?.city} />
+            <InfoSection.InfoBlock label="State" value={address?.state} />
+            <InfoSection.InfoBlock
+              label="Postal code"
+              value={address?.postalCode}
+            />
+          </dl>
 
           <InfoSection.SubHeading
             text="Other contact information"
             editLink={getLink('edit-other-contact-information')}
             id="otherContactInformation"
             name="otherContactInformation"
-            level={4}
+            level={subHeadingLevel}
           />
 
           {success &&
             updatedSection === 'otherContactInformation' && (
               <SaveSuccessAlert updatedText="Other contact information" />
             )}
-          <InfoSection.InfoBlock label="Email address" value={email} />
-          <InfoSection.InfoBlock
-            label="Mobile phone number"
-            value={formatPhoneNumber(mobilePhone)}
-          />
-          <InfoSection.InfoBlock
-            label="Home phone number"
-            value={formatPhoneNumber(homePhone)}
-          />
+          <dl>
+            <InfoSection.InfoBlock label="Email address" value={email} />
+            <InfoSection.InfoBlock
+              label="Mobile phone number"
+              value={formatPhoneNumber(mobilePhone)}
+            />
+            <InfoSection.InfoBlock
+              label="Home phone number"
+              value={formatPhoneNumber(homePhone)}
+            />
+          </dl>
         </InfoSection>
       </div>
 

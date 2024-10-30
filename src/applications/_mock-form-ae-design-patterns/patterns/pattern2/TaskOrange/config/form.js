@@ -111,10 +111,7 @@ const formConfig = {
           CustomPage: ApplicantInformation,
           CustomPageReview: null,
           uiSchema: {},
-          schema: {
-            type: 'string',
-            properties: {},
-          },
+          schema: blankSchema,
           review: props => ({
             'Applicant Information': (() => {
               const {
@@ -141,7 +138,6 @@ const formConfig = {
       title: 'Contact information',
       pages: {
         otherContactInfo: {
-          hideNavButtons: true,
           title: 'Edit other contact information',
           taskListHide: true,
           path: 'personal-information/edit-other-contact-information',

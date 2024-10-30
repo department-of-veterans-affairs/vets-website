@@ -30,7 +30,7 @@ export const MailingAddressEditBase = props => {
       goBack();
     },
     onCancel: () => {
-      goBack();
+      goToPath('/2/task-orange/review-then-submit');
     },
   };
   return (
@@ -49,6 +49,7 @@ export const MailingAddressEditBase = props => {
         // internally by the SchemaForm component
         name="Contact Info Form"
         title="Contact Info Form"
+        idSchema={{}}
         schema={schema}
         data={data}
         uiSchema={uiSchema}
