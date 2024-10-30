@@ -30,11 +30,15 @@ export const ConfirmationPage = ({
       if (!claimStatus) {
         getClaimStatus()
           .then(response => {
-            if (!response || response.status >= 400) {
-              setApiError(true);
+            // Only trigger error if response has a status code >= 400
+            if (response?.status >= 400) {
+              setApiError(true); // Set error if the response status indicates a failure
             }
           })
-          .catch(() => setApiError(true)); // Catch any network errors
+          .catch(() => {
+            // Catch any network errors and set error to true
+            setApiError(true);
+          });
       }
     },
     [getClaimStatus, claimStatus],
@@ -59,6 +63,7 @@ export const ConfirmationPage = ({
 
   // Handle API errors
   if (apiError) {
+    // Show error page if apiError is true
     return (
       <UnderReviewConfirmation
         user={claimantName}
@@ -73,7 +78,6 @@ export const ConfirmationPage = ({
     );
   }
 
-  // Display loading indicator until claimStatus is fetched
   if (!claimStatus) {
     return (
       <va-loading-indicator

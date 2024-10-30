@@ -5,7 +5,6 @@ import ItemList from '../shared/ItemList';
 
 const AllergyListItem = props => {
   const { record } = props;
-
   return (
     <va-card
       background
@@ -13,7 +12,11 @@ const AllergyListItem = props => {
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <Link to={`/allergies/${record.id}`} data-dd-privacy="mask">
+      <Link
+        to={`/allergies/${record.id}`}
+        data-dd-privacy="mask"
+        data-testid={`allergy-link-${record.id}`}
+      >
         <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
           {record.name} <span className="sr-only">on {record.date}</span>
         </span>
@@ -59,22 +62,36 @@ const AllergyListItem = props => {
           {record.type}
         </span>
       </div>
-      <div className="print-only">
-        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
-          Location:
-        </span>{' '}
-        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
-          {record.location}
-        </span>
-      </div>
-      <div className="print-only">
-        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
-          Observed or historical:
-        </span>{' '}
-        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
-          {record.observedOrReported}
-        </span>
-      </div>
+      {!record.isOracleHealthData && (
+        <div className="print-only">
+          <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+            Location:
+          </span>{' '}
+          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+            {record.location}
+          </span>
+        </div>
+      )}
+      {!record.isOracleHealthData && (
+        <div className="print-only">
+          <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+            Observed or historical:
+          </span>{' '}
+          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+            {record.observedOrReported}
+          </span>
+        </div>
+      )}
+      {record.isOracleHealthData && (
+        <div className="print-only">
+          <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+            Recorded by:
+          </span>{' '}
+          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+            {record.notes}
+          </span>
+        </div>
+      )}
       <div className="print-only">
         <span className="vads-u-display--inline-block vads-u-font-weight--bold">
           Provider notes:
