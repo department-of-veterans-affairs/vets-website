@@ -1,11 +1,8 @@
 //~~~~~~~ Needed for now because we haven't transferred grid classes yet
-$grid-columns-small: 1 !default;
-$grid-columns-medium: 6 !default;
-$grid-columns-large: 12 !default;
 $site-max-width: 1000px;
-$small: new-breakpoint(min-width $small-screen $grid-columns-small) !default;
-$medium: new-breakpoint(min-width $medium-screen $grid-columns-medium);
-$large: new-breakpoint(min-width $large-screen $grid-columns-large) !default;
+$small: $small-screen;
+$medium: $medium-screen;
+$large: $large-screen;
 
 @mixin flexbox-col($size) {
     flex: 0 0 percentage($size / $grid-columns);
