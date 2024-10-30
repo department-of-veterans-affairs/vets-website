@@ -184,7 +184,7 @@ class ViewPaymentsLists extends Component {
               through direct deposit, you’ll need your bank account information
               too.
             </p>
-            <h2 className="vads-u-margin-top--0 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
+            <h2 className="vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
               Need help?
             </h2>
             <p>
