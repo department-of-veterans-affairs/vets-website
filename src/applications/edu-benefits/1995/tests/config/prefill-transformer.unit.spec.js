@@ -25,11 +25,24 @@ describe('SC prefill transformer', () => {
       data: {},
     },
     pages: { testPage: 'Page 1' },
+    state: {
+      user: {
+        profile: {
+          edipi: '123456789',
+          icn: '111222333',
+        },
+      },
+    },
   };
 
   it('should return built out template from prefill data', () => {
-    const { pages, formData, metadata } = noTransformData;
-    const noTransformActual = prefillTransformer(pages, formData, metadata);
+    const { pages, formData, metadata, state } = noTransformData;
+    const noTransformActual = prefillTransformer(
+      pages,
+      formData,
+      metadata,
+      state,
+    );
     expect(noTransformActual).to.not.equal(noTransformData);
   });
 

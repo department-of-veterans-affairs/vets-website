@@ -7,6 +7,7 @@ import {
   relationshipOptionsSomeoneElse,
   requiredForSubtopicPage,
   whoIsYourQuestionAboutLabels,
+  VRandE,
 } from '../constants';
 import manifest from '../manifest.json';
 
@@ -244,7 +245,7 @@ const formConfig = {
         formData.selectCategory === CategoryEducation &&
         formData.relationshipToVeteran ===
           relationshipOptionsSomeoneElse.WORK &&
-        formData.selectTopic !== 'VEAP (Ch 32)',
+        formData.selectTopic !== VRandE,
       pages: {
         ...aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
       },
@@ -253,8 +254,6 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
         formData.relationshipToVeteran !==
           relationshipOptionsSomeoneElse.WORK &&
         formData.selectCategory === CategoryEducation,

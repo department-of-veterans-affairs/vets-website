@@ -150,7 +150,7 @@ Location: ${record.location}\n`;
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
           <div>
-            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans">
+            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-family--sans">
               Location
             </h2>
             <p
@@ -160,7 +160,7 @@ Location: ${record.location}\n`;
             >
               {record.location}
             </p>
-            {/* <h2 className="vads-u-font-family--sans vads-u-margin-bottom--0">
+            {/* <h2 className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-bottom--0">
               Reactions recorded by provider
             </h2>
             <ItemList list={record.reactions} /> */}

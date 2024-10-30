@@ -31,7 +31,7 @@ const SubHeading = ({
   const H = `h${level || 3}`;
   return (
     <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center vads-u-border-bottom--1px vads-u-margin-bottom--2">
-      <H className="vads-u-margin--0" id={id} tabindex="-1" name={name}>
+      <H className="vads-u-margin--0" id={id} tabIndex="-1" name={name}>
         {text}
       </H>
       {editLink && (
@@ -75,7 +75,7 @@ InfoBlock.propTypes = {
 
 export const InfoSection = ({ title, children, titleLevel }) => (
   <section className="vads-u-margin-bottom--4">
-    {title && <Heading text={title} level={titleLevel} tabindex="-1" />}
+    {title && <Heading text={title} level={titleLevel} tabIndex="-1" />}
     <div className="vads-u-margin--0">{children}</div>
   </section>
 );

@@ -198,8 +198,14 @@ export const getFormName = formData => {
   return "Appointment of Individual As Claimant's Representative";
 };
 
-const isOrg = formData =>
-  formData['view:selectedRepresentative']?.type === 'organization';
+export const isVSORepresentative = formData => {
+  const rep = formData['view:selectedRepresentative'];
+
+  if (rep.attributes?.accreditedOrganizations?.data?.length > 0) {
+    return true;
+  }
+  return false;
+};
 
 export const isAttorneyOrClaimsAgent = formData => {
   const repType =
@@ -211,6 +217,9 @@ export const isAttorneyOrClaimsAgent = formData => {
     repType === 'claims_agent'
   );
 };
+
+const isOrg = formData =>
+  formData['view:selectedRepresentative']?.type === 'organization';
 
 export const getOrgName = formData => {
   if (isOrg(formData)) {
@@ -232,6 +241,34 @@ export const getOrgName = formData => {
   }
 
   return orgs[0]?.attributes?.name;
+};
+
+// Rep name used in Terms and Conditions agreement
+export const getRepresentativeName = formData => {
+  const rep = formData['view:selectedRepresentative'];
+
+  if (!rep) {
+    return null;
+  }
+
+  if (isOrg(formData)) {
+    return formData['view:selectedRepresentative']?.attributes?.name;
+  }
+  return isVSORepresentative(formData)
+    ? formData.selectedAccreditedOrganizationName
+    : rep.attributes.fullName;
+};
+
+export const getApplicantName = formData => {
+  const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
+
+  const applicantFullName = applicantIsVeteran
+    ? formData.veteranFullName
+    : formData.applicantName;
+
+  return `${applicantFullName.first} ${applicantFullName.middle} ${
+    applicantFullName.last
+  } ${applicantFullName.suffix}`;
 };
 
 export const convertRepType = input => {
