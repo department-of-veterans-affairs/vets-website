@@ -6,8 +6,8 @@ export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/contents?type=category`, // &user_mock_data=true
-  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`,
-  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`,
+  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`, // &user_mock_data=true
+  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID`, // &user_mock_data=true
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
