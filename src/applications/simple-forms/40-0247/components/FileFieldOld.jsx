@@ -74,7 +74,7 @@ import { usePreviousValue } from 'platform/forms-system/src/js/helpers';
  * @property {DOMFileObject} file - (Encrypted PDF only) File object, used
  *  when user submits password
  */
-const FileField = props => {
+const FileFieldOld = props => {
   const {
     enableShortWorkflow,
     errorSchema,
@@ -700,7 +700,7 @@ const FileField = props => {
   );
 };
 
-FileField.propTypes = {
+FileFieldOld.propTypes = {
   schema: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
@@ -730,6 +730,6 @@ const mapStateToProps = state => ({
   enableShortWorkflow: toggleValues(state).file_upload_short_workflow_enabled,
 });
 
-export { FileField };
+export { FileFieldOld };
 
-export default connect(mapStateToProps)(FileField);
+export default connect(mapStateToProps)(FileFieldOld);
