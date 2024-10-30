@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
@@ -50,7 +49,10 @@ export default function InstitutionProfile({
     scrollTo('school-locations', getScrollOptions());
   };
   // environment variable to keep ratings out of production until ready
-  const isProduction = !environment.isProduction();
+  const isShowRatingsToggle = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolShowRatings,
+  );
+
   let stars = false;
   let ratingCount = 0;
   let institutionRatingIsNotNull = false;
@@ -83,10 +85,7 @@ export default function InstitutionProfile({
   }
   /** ************************************************************************ */
   const displayStars =
-    isProduction &&
-    stars &&
-    isProduction &&
-    ratingCount >= MINIMUM_RATING_COUNT;
+    isShowRatingsToggle && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -131,7 +130,7 @@ export default function InstitutionProfile({
             jumpToId="getting-started-with-benefits"
           />
           {displayStars &&
-            isProduction && (
+            isShowRatingsToggle && (
               <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
             )}
           <JumpLink
@@ -254,7 +253,7 @@ export default function InstitutionProfile({
         <GettingStartedWithBenefits />
       </ProfileSection>
       {displayStars &&
-        isProduction && (
+        isShowRatingsToggle && (
           <ProfileSection label="Veteran ratings" id="veteran-ratings">
             <div>
               <SchoolRatings
