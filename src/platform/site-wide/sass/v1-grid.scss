@@ -1,0 +1,114 @@
+//~~~~~~~ Needed for now because we haven't transferred grid classes yet
+$grid-columns-small: 1 !default;
+$grid-columns-medium: 6 !default;
+$grid-columns-large: 12 !default;
+$site-max-width: 1000px;
+$small: new-breakpoint(min-width $small-screen $grid-columns-small) !default;
+$medium: new-breakpoint(min-width $medium-screen $grid-columns-medium);
+$large: new-breakpoint(min-width $large-screen $grid-columns-large) !default;
+
+@mixin flexbox-col($size) {
+    flex: 0 0 percentage($size / $grid-columns);
+    max-width: percentage($size / $grid-columns); // IE10+ and Firefox
+}
+
+@mixin equal-width-flexbox-col() {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+$breakpoints: (
+  xsmall-screen:        $xsmall-screen,
+  small-screen:         $small-screen,
+  medium-screen:        $medium-screen,
+  small-desktop-screen: $small-desktop-screen,
+  large-screen:         $large-screen
+);
+
+@import "~uswds/src/stylesheets/lib/settings/grid";
+@import "~uswds/src/stylesheets/lib/functions/private";
+@import "~uswds/src/stylesheets/lib/grid/private";
+@import "~uswds/src/stylesheets/lib/grid/omega";
+@import "~uswds/src/stylesheets/lib/grid/shift";
+@import "~uswds/src/stylesheets/lib/helpers/directional-values";
+@import "~uswds/src/stylesheets/lib/addons/padding";
+@import "~uswds/src/stylesheets/lib/grid/span-columns";
+@import "~uswds/src/stylesheets/lib/mixins/clearfix";
+@import "~uswds/src/stylesheets/lib/grid/outer-container";
+@import "~uswds/src/stylesheets/core/utilities";
+@import "~uswds/src/stylesheets/core/grid";
+//~~~~~~~
+
+// Grid container
+.vads-l-grid-container,
+.vads-l-grid-container--full {
+  @include outer-container($site-max-width);
+}
+
+.vads-l-grid-container {
+  @include padding(null $site-margins-mobile);
+
+  @include media($medium-screen) {
+    @include padding(null $site-margins);
+  }
+}
+
+.vads-l-grid-container--full {
+  padding: 0;
+  max-width: 100%;
+}
+
+.vads-l-row {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 100%;
+}
+
+%grid-column {
+  box-sizing: border-box;
+  min-height: 1px; // Prevent columns from collapsing when empty
+  min-width: 0; // Resize columns as expected (https://css-tricks.com/flexbox-truncated-text/)
+  position: relative;
+  width: 100%;
+}
+
+@for $i from 1 through $grid-columns {
+  // Example: vads-l-col--6
+  .vads-l-col--#{$i} {
+    /* stylelint-disable-next-line */
+    @extend %grid-column;
+  }
+}
+
+.vads-l-col {
+  /* stylelint-disable-next-line */
+  @extend %grid-column;
+  @include equal-width-flexbox-col;
+}
+
+@for $i from 1 through $grid-columns {
+  // Example: vads-l-col--12
+  .vads-l-col--#{$i} {
+    @include flexbox-col($i);
+  }
+}
+
+// Breakpoint prefix grids. All
+@each $bp_name, $bp_value in $breakpoints {
+
+  @media (min-width: $bp_value) {
+    // Provide breakpoint classes for equal-width columns
+    // Example: vads-l-lg-col
+    .#{$bp_name}\:vads-l-col {
+      @include equal-width-flexbox-col;
+    }
+
+    @for $i from 1 through $grid-columns {
+      // Example: vads-l-lg-col--12
+      .#{$bp_name}\:vads-l-col--#{$i} {
+        @include flexbox-col($i);
+      }
+    }
+  }
+}

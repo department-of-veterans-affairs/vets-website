@@ -1,9 +1,12 @@
 $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
+
 @import "modules/m-overrides";
-//~~~~~~~ Needed for now because we haven't transferred grid classes yet
-@import "~uswds/src/stylesheets/core/grid";
-//~~~~~~~
+
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
+
+@import "v1-grid";
 
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/uswds-typography";
