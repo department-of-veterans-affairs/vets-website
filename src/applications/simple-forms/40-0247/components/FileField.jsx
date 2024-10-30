@@ -20,8 +20,6 @@ import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/
 import { ERROR_ELEMENTS } from 'platform/utilities/constants';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import {
-  // ShowPdfPassword,
-  // PasswordLabel,
   PasswordSuccess,
   readAndCheckFile,
   checkTypeAndExtensionMatches,
