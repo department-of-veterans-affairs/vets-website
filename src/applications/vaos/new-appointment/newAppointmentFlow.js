@@ -241,7 +241,7 @@ const flow = {
   },
   vaFacilityV2: {
     url: '/new-appointment/va-facility-2',
-    label: 'Choose a VA location',
+    label: 'Which VA location would you like to go to?',
     next: vaFacilityNext,
   },
   scheduleCerner: {
@@ -480,7 +480,7 @@ export default function getNewAppointmentFlow(state) {
       ...flow.vaFacilityV2,
       label: isSingleVaFacility
         ? 'Your appointment location'
-        : 'Choose a VA location',
+        : 'Which VA location would you like to go to?',
 
       url: featureBreadcrumbUrlUpdate
         ? 'location'

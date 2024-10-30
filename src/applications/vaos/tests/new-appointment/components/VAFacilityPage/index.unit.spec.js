@@ -196,7 +196,8 @@ describe('VAOS Page: VAFacilityPage', () => {
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
 
-      expect(screen.getByText(/Choose a VA location/i)).to.exist;
+      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+        .exist;
 
       // Should contain radio buttons
       facilities.slice(0, 5).forEach(f => {
@@ -734,11 +735,12 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          'Choose a VA location | Veterans Affairs',
+          'Which VA location would you like to go to? | Veterans Affairs',
         );
       });
 
-      expect(screen.getByText(/Choose a VA location/i)).to.exist;
+      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+        .exist;
 
       expect(screen.baseElement).to.contain.text(
         'Select a VA facility where you’re registered that offers primary care appointments.',
@@ -838,7 +840,8 @@ describe('VAOS Page: VAFacilityPage', () => {
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
 
-      expect(screen.getByText(/Choose a VA location/i)).to.exist;
+      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+        .exist;
       expect(screen.baseElement).to.contain.text('By your home address');
 
       // It should sort by distance, making Closest facility the first facility
