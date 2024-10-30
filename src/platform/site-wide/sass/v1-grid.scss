@@ -44,10 +44,10 @@ $breakpoints: (
 }
 
 .vads-l-grid-container {
-  @include padding(null $site-margins-mobile);
+  @include padding(null 0.9375rem);
 
   @include media($medium-screen) {
-    @include padding(null $site-margins);
+    @include padding(null 1.875rem);
   }
 }
 
