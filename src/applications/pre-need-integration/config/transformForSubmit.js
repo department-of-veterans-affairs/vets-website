@@ -22,3 +22,7 @@ export default function transformForSubmit(formConfig, form) {
     escapedCharacterReplacer,
   );
 }
+
+// Logic goes here for payload
+// if applicant is equal to self, keep it / otherwise delete it
+// setData with buttons in flow
