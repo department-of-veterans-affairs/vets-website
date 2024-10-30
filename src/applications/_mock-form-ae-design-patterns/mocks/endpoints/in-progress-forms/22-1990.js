@@ -20,6 +20,7 @@ const responses = {
           state: 'CO',
           country: 'USA',
           postalCode: '80521',
+          isMilitary: false,
         },
         toursOfDuty: [
           {

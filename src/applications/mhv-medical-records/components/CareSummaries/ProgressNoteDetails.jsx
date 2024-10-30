@@ -118,19 +118,27 @@ ${record.note}`;
 
       <div className="test-details-container max-80">
         <h2>Details</h2>
-        <h3 className=" vads-u-font-family--sans">Location</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Location
+        </h3>
         <p data-testid="progress-location" data-dd-privacy="mask">
           {record.location}
         </p>
-        <h3 className=" vads-u-font-family--sans">Written by</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Written by
+        </h3>
         <p data-testid="note-record-written-by" data-dd-privacy="mask">
           {record.writtenBy}
         </p>
-        <h3 className=" vads-u-font-family--sans">Signed by</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Signed by
+        </h3>
         <p data-testid="note-record-signed-by" data-dd-privacy="mask">
           {record.signedBy}
         </p>
-        <h3 className=" vads-u-font-family--sans">Date signed</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Date signed
+        </h3>
         <p data-testid="progress-signed-date" data-dd-privacy="mask">
           {record.dateSigned}
         </p>
