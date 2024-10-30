@@ -7,22 +7,14 @@ import InterstitialChanges from '../containers/InterstitialChanges';
 
 const generateStore = ({
   signInChangesEnabled = true,
-  email = 'test@example.com',
-  logingovUuid = null,
-  idmeUuid = null,
+  userEmails = {},
 } = {}) => ({
   getState: () => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       sign_in_changes_enabled: signInChangesEnabled,
     },
-    user: {
-      profile: {
-        email,
-        logingovUuid,
-        idmeUuid,
-      },
-    },
+    userEmails,
   }),
   subscribe: sinon.stub(),
   dispatch: () => {},
@@ -52,7 +44,7 @@ describe('InterstitialChanges', () => {
 
   it('renders AccountSwitch when user has Login.gov account', () => {
     const store = generateStore({
-      logingovUuid: 'some-logingov-uuid',
+      userEmails: { logingov: 'logingov@test.com' },
     });
     const screen = render(
       <Provider store={store}>
@@ -61,19 +53,22 @@ describe('InterstitialChanges', () => {
     );
 
     expect(screen.getByText(/Start using your/i)).to.exist;
-    expect(screen.getByText(/tes\*@example.com/i)).to.exist;
+    expect(screen.getByText(/log\*{5}@test\.com/i)).to.exist;
   });
   it('renders AccountSwitch when user has ID.me account', () => {
     const store = generateStore({
-      idmeUuid: 'jsdkfhgkjhk',
+      userEmails: { idme: 'idme@test.com' },
     });
     const screen = render(
       <Provider store={store}>
         <InterstitialChanges />
       </Provider>,
     );
-    expect(screen.getByText(/Start using your/i)).to.exist;
-    expect(screen.getByText(/tes\*@example.com/i)).to.exist;
+
+    expect(
+      screen.getAllByRole('heading', { level: 2 })[0].textContent,
+    ).to.match(/Start using your/i);
+    expect(screen.getByText(/idm\*@test\.com/i)).to.exist;
   });
 
   it('uses the correct returnUrl from sessionStorage', () => {
