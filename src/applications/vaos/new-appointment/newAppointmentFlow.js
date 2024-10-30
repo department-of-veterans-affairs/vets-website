@@ -269,7 +269,7 @@ const flow = {
   },
   selectDateTime: {
     url: '/new-appointment/select-date',
-    label: 'Choose a date and time',
+    label: 'What date and time do you want for this appointment?',
     next: 'reasonForAppointment',
   },
   requestDateTime: {

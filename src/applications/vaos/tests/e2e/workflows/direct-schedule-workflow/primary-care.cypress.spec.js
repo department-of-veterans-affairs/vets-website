@@ -271,7 +271,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           DateTimeSelectPageObject.assertUrl()
-            .assertHeading({ name: /Choose a date and time/i })
+            .assertHeading({
+              name: /What date and time do you want for this appointment?/i,
+            })
             .selectFirstAvailableDate()
             .clickNextButton();
 
