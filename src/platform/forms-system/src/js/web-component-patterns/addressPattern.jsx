@@ -316,6 +316,9 @@ export function addressUI(options) {
           cachedPath = addressPath;
           const countryUI = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
+          /* Set isMilitary to either `true` or `undefined` (not `false`) so that
+          `hideEmptyValueInReview` works as expected. See docs: https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-about-schema-and-uischema#VAFormsLibrary-AboutschemaanduiSchema-ui:options */
+          addressFormData.isMilitary = addressFormData.isMilitary || undefined;
           const { isMilitary } = addressFormData;
           // 'inert' is the preferred solution for now
           // instead of disabled via DST guidance

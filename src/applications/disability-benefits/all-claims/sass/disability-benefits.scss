@@ -290,7 +290,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 }
 
 // Adjusts labels in the ArrayField around combobox groups.
-.cc-combobox-container {
+.cc-autocomplete-container {
   .schemaform-label,
   .va-growable-expanded legend {
     display: none !important; // there is an !important elsewhere in the cascade that needs overruled here
@@ -298,7 +298,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 }
 
 // Overrides spacing coming from foundation-sites.scss breaking layout.
-.cc-combobox-container .row {
+.cc-autocomplete-container .row {
   margin: 0;
 }
 

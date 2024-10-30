@@ -24,6 +24,8 @@ import {
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
+  SC_NEW_FORM_TOGGLE,
+  SC_NEW_FORM_DATA,
 } from '../constants';
 
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
@@ -50,6 +52,7 @@ export const App = ({
   legacyCount,
   accountUuid,
   inProgressFormId,
+  toggles,
 }) => {
   const { pathname } = location || {};
   // Make sure we're only loading issues once - see
@@ -134,6 +137,26 @@ export const App = ({
     ],
   );
 
+  useEffect(
+    () => {
+      const isUpdated = toggles[SC_NEW_FORM_TOGGLE] || false;
+      if (
+        !toggles.loading &&
+        (typeof formData[SC_NEW_FORM_DATA] === 'undefined' ||
+          formData[SC_NEW_FORM_DATA] !== isUpdated)
+      ) {
+        setFormData({
+          ...formData,
+          [SC_NEW_FORM_DATA]: isUpdated,
+        });
+        // temp storage, used for homelessness page focus management
+        sessionStorage.setItem('hlrUpdated', isUpdated);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toggles, formData[SC_NEW_FORM_DATA]],
+  );
+
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       <ITFWrapper
@@ -206,6 +229,10 @@ App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  toggles: PropTypes.shape({
+    [SC_NEW_FORM_TOGGLE]: PropTypes.bool,
+    loading: PropTypes.bool,
+  }),
 };
 
 const mapStateToProps = state => ({
@@ -216,6 +243,7 @@ const mapStateToProps = state => ({
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,
+  toggles: state.featureToggles || {},
 });
 
 const mapDispatchToProps = {

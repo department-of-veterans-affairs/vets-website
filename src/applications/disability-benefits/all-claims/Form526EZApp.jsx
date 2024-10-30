@@ -24,6 +24,7 @@ import {
   DOCUMENT_TITLE_SUFFIX,
   PAGE_TITLE_SUFFIX,
   SHOW_8940_4192,
+  SHOW_ADD_DISABILITIES_ENHANCEMENT,
   WIZARD_STATUS,
 } from './constants';
 import {
@@ -159,6 +160,16 @@ export const Form526Entry = ({
           ...formData,
           'view:showAddDisabilitiesEnhancement': showAddDisabilitiesEnhancement,
         }),
+      );
+    },
+    [showAddDisabilitiesEnhancement],
+  );
+
+  useEffect(
+    () => {
+      window.sessionStorage.setItem(
+        SHOW_ADD_DISABILITIES_ENHANCEMENT,
+        showAddDisabilitiesEnhancement,
       );
     },
     [showAddDisabilitiesEnhancement],
