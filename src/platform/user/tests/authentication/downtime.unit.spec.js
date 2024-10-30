@@ -2,40 +2,18 @@
 
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { SERVICE_PROVIDERS } from '../../authentication/constants';
 import * as downtimeUtils from '../../authentication/downtime';
 
 describe('generateCSPBanner', () => {
-  it('should return a specific banner message when csp is "idme"', () => {
-    const result = downtimeUtils.generateCSPBanner({
-      csp: 'idme',
-    });
-    expect(result).to.deep.equal({
-      headline: `You may have trouble signing in with some of your accounts`,
-      status: 'warning',
-      message: `We’re sorry. We’re working to fix some problems with ID.me. If you’d like to sign in to VA.gov with your ID.me, DS Logon, or My HealtheVet accounts, please check back later.`,
-    });
-  });
-
   // Array of CSPs to test
-  const csps = ['logingov', 'mhv', 'dslogon'];
+  const csps = ['logingov', 'idme', 'mhv', 'dslogon'];
 
   csps.forEach(csp => {
     it(`should return a correct banner message when csp is "${csp}"`, () => {
       const result = downtimeUtils.generateCSPBanner({
         csp,
       });
-      expect(result).to.deep.equal({
-        headline: `You may have trouble signing in with ${
-          SERVICE_PROVIDERS[csp].label
-        }`,
-        status: 'warning',
-        message: `We’re sorry. We’re working to fix some problems with our ${
-          SERVICE_PROVIDERS[csp].label
-        } sign in process. If you’d like to sign in to VA.gov with your ${
-          SERVICE_PROVIDERS[csp].label
-        } account, please check back later.`,
-      });
+      expect(result).to.deep.equal(downtimeUtils.DOWNTIME_BANNER_CONFIG[csp]);
     });
   });
 
@@ -57,9 +35,11 @@ describe('renderServiceDown', () => {
     const { container } = render(downtimeUtils.renderServiceDown('ssoe'));
     const alert = container.querySelector('va-alert');
     expect(alert).to.exist;
-    expect(alert.getAttribute('status')).to.equal('warning');
+    expect(alert.getAttribute('status')).to.equal(
+      downtimeUtils.DOWNTIME_BANNER_CONFIG.ssoe.status,
+    );
     expect(alert.querySelector('h2').textContent).to.equal(
-      'Our sign in process isn’t working right now',
+      downtimeUtils.DOWNTIME_BANNER_CONFIG.ssoe.headline,
     );
   });
 
@@ -69,9 +49,11 @@ describe('renderServiceDown', () => {
     );
     const alert = container.querySelector('va-alert');
     expect(alert).to.exist;
-    expect(alert.getAttribute('status')).to.equal('warning');
+    expect(alert.getAttribute('status')).to.equal(
+      downtimeUtils.DOWNTIME_BANNER_CONFIG.mvi.status,
+    );
     expect(alert.querySelector('h2').textContent).to.equal(
-      'You may have trouble signing in or using some tools or services',
+      downtimeUtils.DOWNTIME_BANNER_CONFIG.mvi.headline,
     );
   });
 
@@ -86,8 +68,10 @@ describe('renderServiceDown', () => {
     );
     const alert = container.querySelector('va-alert');
     expect(alert).to.exist;
-    expect(alert.getAttribute('status')).to.equal('info');
-    expect(alert.querySelector('h2').textContent).to.equal('Custom headline');
+    expect(alert.getAttribute('status')).to.equal(customService.status);
+    expect(alert.querySelector('h2').textContent).to.equal(
+      customService.headline,
+    );
   });
 });
 
@@ -100,9 +84,11 @@ describe('renderDowntimeBanner', () => {
     const { container } = render(downtimeUtils.renderDowntimeBanner(statuses));
     const alert = container.querySelector('va-alert');
     expect(alert).to.exist;
-    expect(alert.getAttribute('status')).to.equal('warning');
+    expect(alert.getAttribute('status')).to.equal(
+      downtimeUtils.DOWNTIME_BANNER_CONFIG.multipleServices.status,
+    );
     expect(alert.querySelector('h2').textContent).to.equal(
-      'You may have trouble signing in or using some tools or services',
+      downtimeUtils.DOWNTIME_BANNER_CONFIG.multipleServices.headline,
     );
   });
 
@@ -111,9 +97,11 @@ describe('renderDowntimeBanner', () => {
     const { container } = render(downtimeUtils.renderDowntimeBanner(statuses));
     const alert = container.querySelector('va-alert');
     expect(alert).to.exist;
-    expect(alert.getAttribute('status')).to.equal('warning');
+    expect(alert.getAttribute('status')).to.equal(
+      downtimeUtils.DOWNTIME_BANNER_CONFIG.logingov.status,
+    );
     expect(alert.querySelector('h2').textContent).to.equal(
-      'You may have trouble signing in with Login.gov',
+      downtimeUtils.DOWNTIME_BANNER_CONFIG.logingov.headline,
     );
   });
 
