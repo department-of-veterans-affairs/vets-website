@@ -9,7 +9,6 @@ import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import Modals from '../components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
-import { OnThisPageDetails } from '../components/OnThisPageDetails';
 import {
   formatDate,
   verifyCurrentBalance,
@@ -49,7 +48,7 @@ const DetailPage = ({ match }) => {
   );
 
   return (
-    <>
+    <article>
       <VaBreadcrumbs
         breadcrumbList={[
           {
@@ -88,7 +87,7 @@ const DetailPage = ({ match }) => {
           . Payments after this date will not be reflected here.
         </p>
         <Alert type={alert} copay={selectedCopay} />
-        <OnThisPageDetails />
+        <va-on-this-page />
         <HTMLStatementList selectedId={selectedId} />
         <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
         <FinancialHelp />
@@ -101,7 +100,7 @@ const DetailPage = ({ match }) => {
           <Modals.Rights />
         </Modals>
       </div>
-    </>
+    </article>
   );
 };
 
