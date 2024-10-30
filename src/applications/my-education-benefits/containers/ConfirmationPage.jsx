@@ -36,10 +36,10 @@ export const ConfirmationPage = ({
   useEffect(
     () => {
       if (!claimStatus) {
-        getClaimStatus();
+        getClaimStatus(chosenBenefit || 'Chapter33');
       }
     },
-    [getClaimStatus, claimStatus],
+    [getClaimStatus, claimStatus, chosenBenefit],
   );
 
   const confirmationResult = claimStatus?.claimStatus;
