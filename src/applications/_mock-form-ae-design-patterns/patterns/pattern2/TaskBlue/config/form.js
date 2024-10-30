@@ -1,6 +1,5 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import profileContactInfo from './profileContactInfo';
-import { customText } from '../content/saveInProgress';
 
 import manifest from '../../../../manifest.json';
 
@@ -48,7 +47,10 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for mock form ae design patterns benefits.',
   },
-  customText,
+  customText: {
+    appType: 'application',
+    finishAppLaterMessage: 'Finish this request later',
+  },
   title: 'Request a Board Appeal',
   subTitle: 'VA Form 10182 (Notice of Disagreement)',
   defaultDefinitions: {},

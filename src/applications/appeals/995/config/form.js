@@ -27,10 +27,18 @@ import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInformation';
 import addIssue from '../pages/addIssue';
 import primaryPhone from '../pages/primaryPhone';
+
+import housingRisk from '../pages/housingRisk';
+import livingSituation from '../pages/livingSituation';
+import otherHousingRisk from '../pages/otherHousingRisk';
+import pointOfContact from '../pages/pointOfContact';
+
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
+
 import notice5103 from '../pages/notice5103';
+import facilityTypes from '../pages/facilityTypes';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
@@ -68,8 +76,13 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
+import { focusEvidence } from '../utils/focus';
+import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
+
+import submissionError from '../../shared/content/submissionError';
+import GetFormHelp from '../../shared/content/GetFormHelp';
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import {
-  focusEvidence,
   focusAlertH3,
   focusRadioH3,
   focusH3,
@@ -77,14 +90,12 @@ import {
   focusIssue,
 } from '../../shared/utils/focus';
 
-import submissionError from '../../shared/content/submissionError';
-import GetFormHelp from '../../shared/content/GetFormHelp';
-import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
-
 import {
   mayHaveLegacyAppeals,
   appStateSelector,
 } from '../../shared/utils/issues';
+
+import { showScNewForm } from '../utils/toggle';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -169,6 +180,45 @@ const formConfig = {
       },
     },
 
+    housing: {
+      title: 'Living situation',
+      pages: {
+        housingRisk: {
+          title: 'Housing risk',
+          path: 'housing-risk',
+          uiSchema: housingRisk.uiSchema,
+          schema: housingRisk.schema,
+          depends: showScNewForm,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        livingSituation: {
+          title: 'Living situation',
+          path: 'living-situation',
+          uiSchema: livingSituation.uiSchema,
+          schema: livingSituation.schema,
+          depends: hasHousingRisk,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        otherHousingRisk: {
+          title: 'Other housing risks',
+          path: 'other-housing-risks',
+          uiSchema: otherHousingRisk.uiSchema,
+          schema: otherHousingRisk.schema,
+          depends: hasOtherHousingRisk,
+          initialData: {
+            'view:otherHousingRisk': {},
+          },
+        },
+        contact: {
+          title: 'Your point of contact',
+          path: 'point-of-contact',
+          uiSchema: pointOfContact.uiSchema,
+          schema: pointOfContact.schema,
+          depends: hasHousingRisk,
+        },
+      },
+    },
+
     issues: {
       title: 'Issues for review',
       pages: {
@@ -221,6 +271,14 @@ const formConfig = {
           initialData: {
             form5103Acknowledged: false,
           },
+        },
+        facilityTypes: {
+          title: 'Facility types',
+          path: 'facility-types',
+          uiSchema: facilityTypes.uiSchema,
+          schema: facilityTypes.schema,
+          depends: showScNewForm,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
