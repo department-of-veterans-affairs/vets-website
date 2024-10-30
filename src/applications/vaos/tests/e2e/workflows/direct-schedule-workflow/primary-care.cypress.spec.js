@@ -276,7 +276,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .assertHeading({ name: /Tell us the reason for this appointment/i })
+            .assertHeading({ name: /What’s the reason for this appointment?/i })
             .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();

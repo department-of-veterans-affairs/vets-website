@@ -391,10 +391,6 @@ export default function getNewAppointmentFlow(state) {
     },
     reasonForAppointment: {
       ...flow.reasonForAppointment,
-      label:
-        FLOW_TYPES.DIRECT === flowType
-          ? 'Tell us the reason for this appointment'
-          : 'What’s the reason for this appointment?',
       url: featureBreadcrumbUrlUpdate
         ? 'reason'
         : '/new-appointment/reason-appointment',
