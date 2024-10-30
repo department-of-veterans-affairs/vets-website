@@ -366,6 +366,9 @@ export const Data = {
     SAVE_DRAFT_WO_ATTCH: `Save draft without attachments`,
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
+  URL: {
+    LANDING_PAGE: `http://localhost:3001/my-health/secure-messages/`,
+  },
 };
 export const Assertions = {
   MESSAGES: 'Messages',
