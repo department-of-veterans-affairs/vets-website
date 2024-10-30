@@ -236,40 +236,6 @@ const ContactInfo = ({
   // Loop to separate pages when editing
   // Each Link includes an ID for focus management on the review & submit page
   const contactSection = [
-    // keys.homePhone ? (
-    //   <va-card
-    //     show-shadow
-    //     data-testid="mini-summary-card"
-    //     class="vads-u-margin-y--3 contact-info-card"
-    //     key="home"
-    //     uswds
-    //   >
-    //     <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
-    //       {content.homePhone}
-    //     </Headers>
-    //     <span className="dd-privacy-hidden" data-dd-action-name="home phone">
-    //       {renderTelephone(dataWrap[keys.homePhone])}
-    //     </span>
-    //     <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--1 vads-u-margin-bottom--neg1">
-    //       <Link
-    //         id="edit-home-phone"
-    //         to="2/task-blue/veteran-information/edit-home-phone"
-    //         aria-label={content.editHomePhone}
-    //         className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5"
-    //       >
-    //         <span>
-    //           <strong>{editText}</strong>
-    //           <va-icon
-    //             icon="navigate_next"
-    //             size={3}
-    //             className="vads-u-padding-left--0p5"
-    //           />
-    //         </span>
-    //       </Link>
-    //     </div>
-    //   </va-card>
-    // ) : null,
-
     keys.mobilePhone ? (
       <va-card
         show-shadow
