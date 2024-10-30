@@ -1,17 +1,17 @@
 import React from 'react';
 
 const labels = {
-  "I'm a Veteran": "I'm a Veteran",
-  "I'm a Veteran's spouse": "I'm a Veteran's spouse",
-  "I'm a Veteran's child": "I'm a Veteran's child",
-  "I'm a Veteran's caregiver (who isn't their spouse or child)":
+  veteran: "I'm a Veteran",
+  veteransSpouse: "I'm a Veteran's spouse",
+  veteransChild: "I'm a Veteran's child",
+  veteransCaregiver:
     "I'm a Veteran's caregiver (who isn't their spouse or child)",
-  "I'm an active duty service member": "I'm an active duty service member",
-  "I'm a member of the National Guard": "I'm a member of the National Guard",
-  "I'm a Reservist": "I'm a Reservist",
-  "I'm a member of the Individual Ready Reserve":
-    "I'm a member of the Individual Ready Reserve",
+  activeduty: "I'm an active duty service member",
+  nationalGuard: "I'm a member of the National Guard",
+  reservist: "I'm a Reservist",
+  individualReadyReserve: "I'm a member of the Individual Ready Reserve",
 };
+
 const uiTitle = (
   <h3 className="vads-u-margin--0 " data-testid="veteran-description">
     Which of these best describes you?

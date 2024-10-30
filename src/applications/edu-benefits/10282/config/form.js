@@ -154,7 +154,7 @@ const formConfig = {
               dataValue="ethnicity"
               moreRow
               questionTwo="What is your race?"
-              dataValue2="orginRace"
+              dataValue2="originRace"
             />
           ),
           uiSchema: applicantRaceAndEthnicity.uiSchema,
