@@ -8,6 +8,7 @@ export default function prefillTransformer(pages, formData, metadata) {
             first: formData.application.claimant.name.first,
             last: formData.application.claimant.name.last,
           },
+          //   street: formData.application.claimant.mailingAddress.street,
         },
         claimant: {
           name: {
