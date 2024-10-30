@@ -360,7 +360,7 @@ export class ConfirmationPage extends React.Component {
                               <div>
                                 <a
                                   href={b.learnMoreURL}
-                                  external
+                                  target="_blank"
                                   rel="noreferrer"
                                   aria-label={`Learn more about ${b.name}`}
                                 >
@@ -373,7 +373,7 @@ export class ConfirmationPage extends React.Component {
                               <div>
                                 <a
                                   href={b.applyNowURL}
-                                  external
+                                  target="_blank"
                                   rel="noreferrer"
                                   aria-label={`Apply now for ${b.name}`}
                                 >

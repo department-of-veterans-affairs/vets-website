@@ -19,7 +19,6 @@ const BenefitCard = ({ benefit }) => {
               <va-link
                 href={learnMoreURL}
                 external
-                rel="noreferrer noopener"
                 text="Learn more"
                 type="secondary"
                 label={`Learn more about ${name}`}
@@ -28,7 +27,7 @@ const BenefitCard = ({ benefit }) => {
           </div>
           <div className="vads-u-display--inline-block">
             {applyNowURL && (
-              <va-link-action
+              <va-link
                 href={applyNowURL}
                 external
                 text="Apply now"
