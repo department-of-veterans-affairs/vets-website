@@ -264,7 +264,7 @@ const flow = {
   },
   preferredDate: {
     url: '/new-appointment/preferred-date',
-    label: 'When do you want to schedule this appointment?',
+    label: 'When are you available for this appointment?',
     next: 'selectDateTime',
   },
   selectDateTime: {

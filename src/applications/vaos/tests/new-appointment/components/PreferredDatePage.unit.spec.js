@@ -39,7 +39,7 @@ describe('VAOS Page: PreferredDatePage', () => {
     ).to.exist;
 
     expect(screen.baseElement).to.contain.text(
-      'When do you want to schedule this appointment?',
+      'When are you available for this appointment?',
     );
 
     expect(screen.baseElement).to.contain.text(
