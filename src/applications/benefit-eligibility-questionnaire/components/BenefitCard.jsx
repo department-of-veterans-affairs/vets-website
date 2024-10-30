@@ -18,6 +18,7 @@ const BenefitCard = ({ benefit }) => {
             {learnMoreURL && (
               <va-link-action
                 href={learnMoreURL}
+                target="_blank"
                 text="Learn more"
                 type="secondary"
                 label={`Learn more about ${name}`}
@@ -28,6 +29,7 @@ const BenefitCard = ({ benefit }) => {
             {applyNowURL && (
               <va-link-action
                 href={applyNowURL}
+                target="_blank"
                 text="Apply now"
                 type="secondary"
                 label={`Apply now for ${name}`}
