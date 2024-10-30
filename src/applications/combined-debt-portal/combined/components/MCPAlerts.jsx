@@ -8,9 +8,9 @@ const Alert = ({ children }) => children;
 
 Alert.Error = () => (
   <va-alert
-    class="row vads-u-margin-bottom--5"
     status="error"
     data-testid="error-alert"
+    class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
   >
     <h2 slot="headline">
       We can’t access your current copay balances right now
@@ -48,9 +48,9 @@ Alert.PastDue = ({ copay }) => {
 
   return (
     <va-alert
-      class="row vads-u-margin-bottom--5"
       status="info"
       data-testid="past-due-balance-alert"
+      class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
     >
       <h2 slot="headline">Your balance may be overdue</h2>
       <p>
@@ -89,9 +89,9 @@ Alert.ZeroBalance = ({ copay }) => {
 
   return (
     <va-alert
-      class="row vads-u-margin-bottom--5"
       status="info"
       data-testid="zero-balance-alert"
+      class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
     >
       <h2 slot="headline">You don’t need to make a payment at this time</h2>
       <p>
@@ -125,9 +125,9 @@ Alert.ZeroBalance.propTypes = {
 
 Alert.NoHealthcare = () => (
   <va-alert
-    class="row vads-u-margin-bottom--5"
     status="warning"
     data-testid="no-healthcare-alert"
+    class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
   >
     <h2 slot="headline">You’re not enrolled in VA health care</h2>
     <p>
@@ -153,9 +153,9 @@ Alert.NoHealthcare = () => (
 
 Alert.NoHistory = () => (
   <va-alert
-    class="row vads-u-margin-bottom--5"
     status="info"
     data-testid="no-history-alert"
+    class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
   >
     <h2 slot="headline">
       You haven’t received a copay bill in the past 6 months
@@ -176,7 +176,12 @@ Alert.NoHistory = () => (
 );
 
 Alert.Status = ({ copay }) => (
-  <va-alert background-only status="info" data-testid="status-alert">
+  <va-alert
+    background-only
+    status="info"
+    data-testid="status-alert"
+    class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
+  >
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}
