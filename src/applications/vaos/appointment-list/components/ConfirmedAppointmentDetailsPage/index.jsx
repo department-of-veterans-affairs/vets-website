@@ -58,7 +58,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
   const fetchClaimStatus =
-    featureFetchClaimStatus && location.pathname.includes('past');
+    featureFetchClaimStatus && location.pathname.includes('/past/');
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
