@@ -34,6 +34,7 @@ const CustomPageReview = ({
           secondary
           className="edit-page float-right"
           onClick={handleEdit}
+          label={`Edit ${title}`}
           text="Edit"
           uswds
         />
