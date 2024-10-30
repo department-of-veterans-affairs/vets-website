@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ADDRESS_DATA from 'platform/forms/address/data';
 import Dropdown from './Dropdown';
 import { fetchLicenseCertificationResults } from '../actions';
 import { updateLcFilterDropdowns } from '../utils/helpers';
@@ -9,32 +10,35 @@ import { updateLcFilterDropdowns } from '../utils/helpers';
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
 const dropdownSchema = [
   {
     label: 'category',
     options: [
-      { optionValue: 'Select', optionLabel: '-Select-' },
-      { optionValue: 'License', optionLabel: 'License' },
+      { optionValue: '', optionLabel: '-Select-' },
+      { optionValue: 'licenses', optionLabel: 'License' },
       {
-        optionValue: 'Certification',
+        optionValue: 'certifications',
         optionLabel: 'Certification',
       },
       {
-        optionValue: 'Prep Course',
+        optionValue: 'preps',
         optionLabel: 'Prep Course',
       },
     ],
     alt: 'category type',
-    current: { optionValue: 'Select', optionLabel: '-Select-' },
+    current: { optionValue: '', optionLabel: '-Select-' },
   },
   {
     label: 'state',
     options: [
       { optionValue: 'All', optionLabel: 'All' },
-      { optionValue: 'State', optionLabel: 'State' },
+      ...Object.entries(ADDRESS_DATA.states).map(state => {
+        return { optionValue: state[0], optionLabel: state[1] };
+      }),
     ],
     alt: 'state',
-    current: { optionValue: 'All', optionLabel: 'All' },
+    current: { optionValue: 'all', optionLabel: 'All' },
   },
 ];
 
