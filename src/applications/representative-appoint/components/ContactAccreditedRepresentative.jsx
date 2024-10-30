@@ -21,7 +21,9 @@ const ContactAccreditedRepresentative = props => {
 
   const orgSelectionRequired =
     !!representative &&
-    representative.attributes?.individualType === 'representative' &&
+    ['representative', 'veteran_service_officer'].includes(
+      representative.attributes?.individualType,
+    ) &&
     representative.attributes?.accreditedOrganizations?.data?.length > 1;
 
   const handleGoBack = () => {

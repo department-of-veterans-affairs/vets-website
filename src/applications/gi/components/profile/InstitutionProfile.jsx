@@ -24,6 +24,7 @@ import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
 import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
 import YellowRibbonTable from './YellowRibbonTable';
+import Programs from './Programs';
 
 export default function InstitutionProfile({
   institution,
@@ -39,12 +40,21 @@ export default function InstitutionProfile({
 }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.showYellowRibbonTable);
+  const toggleGiProgramsFlag = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
+  );
+
+  const programTypes = [
+    'Non College Degree',
+    'Institution of Higher Learning',
+    'On The Job Training',
+  ];
 
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-  const { type } = institution;
+  const { type, facilityCode, name } = institution;
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
@@ -287,6 +297,15 @@ export default function InstitutionProfile({
             constants={constants}
             version={version}
             onViewLess={scrollToLocations}
+          />
+        </ProfileSection>
+      )}
+      {toggleGiProgramsFlag && (
+        <ProfileSection label="Programs" id="programs">
+          <Programs
+            programTypes={programTypes}
+            facilityCode={facilityCode}
+            institutionName={name}
           />
         </ProfileSection>
       )}

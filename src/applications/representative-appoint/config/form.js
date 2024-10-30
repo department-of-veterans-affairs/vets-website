@@ -9,6 +9,10 @@ import { pdfTransform } from '../utilities/pdfTransform';
 import { generatePDF } from '../api/generatePDF';
 import NextStepsPage from '../containers/NextStepsPage';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
+import {
+  isAttorneyOrClaimsAgent,
+  preparerIsVeteran,
+} from '../utilities/helpers';
 
 import {
   authorizeMedical,
@@ -36,7 +40,6 @@ import {
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
-import { preparerIsVeteran } from '../utilities/helpers';
 
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
@@ -62,8 +65,9 @@ const formConfig = {
     submitButtonText: 'Continue',
   },
   submit: async form => {
+    const is2122a = isAttorneyOrClaimsAgent(form.data);
     const transformedFormData = pdfTransform(form.data);
-    const pdfResponse = await generatePDF(transformedFormData);
+    const pdfResponse = await generatePDF(transformedFormData, is2122a);
     localStorage.setItem('formPdf', pdfResponse);
 
     return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
@@ -147,8 +151,10 @@ const formConfig = {
           CustomPage: SelectOrganization,
           depends: formData =>
             !!formData['view:selectedRepresentative'] &&
-            formData['view:selectedRepresentative'].attributes
-              ?.individualType === 'representative' &&
+            ['representative', 'veteran_service_officer'].includes(
+              formData['view:selectedRepresentative'].attributes
+                ?.individualType,
+            ) &&
             formData['view:selectedRepresentative'].attributes
               ?.accreditedOrganizations?.data?.length > 1,
           uiSchema: selectedAccreditedOrganizationId.uiSchema,
