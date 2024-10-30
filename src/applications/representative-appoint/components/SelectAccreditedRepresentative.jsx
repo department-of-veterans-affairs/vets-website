@@ -38,7 +38,7 @@ const SelectAccreditedRepresentative = props => {
 
   const handleGoBack = () => {
     if (isReviewPage) {
-      goToPath('/review-and-submit');
+      goToPath('/claimant-type');
     } else {
       goBack(formData);
     }
