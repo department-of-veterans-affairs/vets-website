@@ -1,6 +1,6 @@
-import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-import allergies from './fixtures/allergies/sample-lighthouse.json';
-import oracleHealthUser from './fixtures/user/oracle-health.json';
+import MedicalRecordsSite from '../mr_site/MedicalRecordsSite';
+import allergies from '../fixtures/allergies/sample-lighthouse.json';
+import oracleHealthUser from '../fixtures/user/oracle-health.json';
 
 describe('Medical Records View Allergies', () => {
   it('Visits Medical Records View Allergies List', () => {

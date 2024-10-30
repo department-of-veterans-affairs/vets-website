@@ -1,6 +1,6 @@
-import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
+import MedicalRecordsSite from '../mr_site/MedicalRecordsSite';
 // import VitalsListPage from './pages/VitalsListPage';
-import oracleHealthUser from './fixtures/user/oracle-health.json';
+import oracleHealthUser from '../fixtures/user/oracle-health.json';
 
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
@@ -32,7 +32,9 @@ describe('Medical Records View Vitals', () => {
       'be.visible',
     );
 
-    cy.get('[data-testid="vitals-landing-page-link"]').should('be.visible');
+    cy.get('[data-testid="vitals-landing-page-link"]')
+      .should('be.visible')
+      .click();
 
     // Axe check
     cy.injectAxe();
