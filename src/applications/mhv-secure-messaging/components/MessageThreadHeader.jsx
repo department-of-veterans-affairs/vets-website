@@ -15,10 +15,7 @@ import {
   RecipientStatus,
   BlockedTriageAlertStyles,
 } from '../util/constants';
-import {
-  scrollIfFocusedAndNotInView,
-  updateTriageGroupRecipientStatus,
-} from '../util/helpers';
+import { scrollIfFocusedAndNotInView } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
@@ -31,6 +28,7 @@ const MessageThreadHeader = props => {
     setIsCreateNewModalVisible,
     recipients,
   } = props;
+
   const {
     threadId,
     messageId,
@@ -50,7 +48,7 @@ const MessageThreadHeader = props => {
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
-  const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
+  const [currentRecipient, setCurrentRecipient] = useState(null);
 
   const messages = useSelector(state => state.sm.threadDetails.messages);
 
@@ -61,31 +59,25 @@ const MessageThreadHeader = props => {
     [history, messageId],
   );
 
-  useEffect(() => {
-    if (message) {
-      const tempRecipient = {
-        recipientId,
-        name:
-          messages.find(m => m.triageGroupName === message.triageGroupName)
-            ?.triageGroupName || message.triageGroupName,
-        type: Recipients.CARE_TEAM,
-        status: RecipientStatus.ALLOWED,
-      };
+  useEffect(
+    () => {
+      if (message) {
+        const tempRecipient = {
+          recipientId,
+          name:
+            messages.find(m => m.triageGroupName === message.triageGroupName)
+              ?.triageGroupName || message.triageGroupName,
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
+        };
 
-      const {
-        isAssociated,
-        isBlocked,
-        formattedRecipient,
-      } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
-
-      if (!isAssociated || isBlocked) {
-        setShowBlockedTriageGroupAlert(true);
-        setBlockedTriageGroupList([formattedRecipient]);
+        setCurrentRecipient(tempRecipient);
       }
-    }
 
-    // The Blocked Triage Group alert should stay visible until the user navigates away
-  }, []);
+      // The Blocked Triage Group alert should stay visible until the user navigates away
+    },
+    [message, recipients],
+  );
 
   useEffect(
     () => {
@@ -140,12 +132,13 @@ const MessageThreadHeader = props => {
         />
       </header>
 
-      {showBlockedTriageGroupAlert && (
+      {currentRecipient && (
         <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
           <BlockedTriageGroupAlert
-            blockedTriageGroupList={blockedTriageGroupList}
             alertStyle={BlockedTriageAlertStyles.ALERT}
             parentComponent={ParentComponent.MESSAGE_THREAD}
+            currentRecipient={currentRecipient}
+            setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
           />
         </div>
       )}
