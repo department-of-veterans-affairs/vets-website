@@ -38,6 +38,7 @@ import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
 
 import notice5103 from '../pages/notice5103';
+import facilityTypes from '../pages/facilityTypes';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
@@ -270,6 +271,14 @@ const formConfig = {
           initialData: {
             form5103Acknowledged: false,
           },
+        },
+        facilityTypes: {
+          title: 'Facility types',
+          path: 'facility-types',
+          uiSchema: facilityTypes.uiSchema,
+          schema: facilityTypes.schema,
+          depends: showScNewForm,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
