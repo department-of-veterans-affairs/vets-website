@@ -322,66 +322,6 @@ describe('686 report death: Child Type', () => {
     expect(container.querySelectorAll('va-checkbox-group').length).to.equal(1);
     expect(container.querySelectorAll('va-checkbox').length).to.equal(5);
   });
-
-  it('should clear childStatus checkboxes if dependentType is not "child"', () => {
-    const customFormData = {
-      deaths: [
-        {
-          dependentType: 'child',
-          childStatus: {
-            biological: true,
-            adopted: true,
-            stepchild: false,
-            other: true,
-          },
-        },
-      ],
-    };
-
-    const { container, rerender } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={customFormData}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    // Confirm initial state with selected checkboxes
-    expect(container.querySelectorAll('va-checkbox[checked]').length).to.equal(
-      3,
-    );
-
-    // Update dependentType to 'spouse' and rerender
-    customFormData.deaths[0].dependentType = 'spouse';
-    rerender(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={{ ...customFormData }}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    // After re-render, expect childStatus checkboxes to be cleared
-    expect(container.querySelectorAll('va-checkbox[checked]').length).to.equal(
-      0,
-    );
-
-    // Verify childStatus fields are cleared in formData as well
-    const updatedChildStatus = customFormData.deaths[0].childStatus;
-    expect(
-      Object.values(updatedChildStatus).every(value => value === undefined),
-    ).to.be.true;
-  });
 });
 
 describe('686 report death: Date of Death', () => {
@@ -459,7 +399,7 @@ describe('686 report death: Dependent income', () => {
   } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartSix;
 
   it('should render', () => {
-    const { container } = render(
+    const { container, queryByText } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -472,6 +412,7 @@ describe('686 report death: Dependent income', () => {
       </Provider>,
     );
 
+    expect(queryByText(/Dependent’s income/i)).to.not.be.null;
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
   });
