@@ -108,7 +108,7 @@ export class ConfirmationPoll extends React.Component {
           </Toggler.Enabled>
           <Toggler.Disabled>
             {pendingMessage(this.state.longWait)}
-          </Toggler.Disabled>{' '}
+          </Toggler.Disabled>
         </Toggler>
       );
     }
@@ -119,6 +119,7 @@ export class ConfirmationPoll extends React.Component {
       submittedAt,
       jobId,
       isSubmittingBDD,
+      route,
     } = this.props;
 
     setTimeout(() => focusElement('h2'));
@@ -131,6 +132,7 @@ export class ConfirmationPoll extends React.Component {
         disabilities={disabilities}
         submittedAt={submittedAt}
         isSubmittingBDD={isSubmittingBDD}
+        route={route}
       />
     );
   }
@@ -167,6 +169,9 @@ ConfirmationPoll.propTypes = {
   jobId: PropTypes.string,
   longWaitTime: PropTypes.number,
   pollRate: PropTypes.number,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
   submittedAt: PropTypes.object,
 };
 
