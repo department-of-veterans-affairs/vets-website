@@ -6,7 +6,6 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import { head } from 'lodash';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
-import DebtDetailsOnThisPageLinks from '../components/DebtDetailsOnThisPageLinks';
 import HistoryTable from '../components/HistoryTable';
 import {
   setPageFocus,
@@ -37,9 +36,9 @@ const DebtDetails = () => {
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
-  const hasPaymentHistory =
-    currentDebt.fiscalTransactionData &&
-    currentDebt.fiscalTransactionData.length > 0;
+  // const hasPaymentHistory =
+  //   currentDebt.fiscalTransactionData &&
+  //   currentDebt.fiscalTransactionData.length > 0;
 
   const howToUserData = {
     fileNumber: currentDebt.fileNumber,
@@ -109,7 +108,7 @@ const DebtDetails = () => {
         label="Breadcrumb"
         wrapping
       />
-      <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
+      <article className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 className="vads-u-margin-bottom--2" tabIndex="-1">
           {title}
         </h1>
@@ -131,15 +130,9 @@ const DebtDetails = () => {
             {whyContent}
           </va-additional-info>
         )}
-        <DebtDetailsOnThisPageLinks
-          isDetailsPage
-          hasHistory={hasFilteredHistory}
-          hasPaymentHistory={hasPaymentHistory}
-          showDebtLetterDownload={showDebtLetterDownload}
-          shouldShowPaymentHistory={shouldShowPaymentHistory}
-        />
+        <va-on-this-page />
         {shouldShowPaymentHistory && (
-          <div>
+          <article>
             <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
               Debt details
             </h2>
@@ -169,7 +162,7 @@ const DebtDetails = () => {
               </div>
             </div>
             <PaymentHistoryTable currentDebt={currentDebt} />
-          </div>
+          </article>
         )}
         {hasFilteredHistory && (
           <>
@@ -201,7 +194,7 @@ const DebtDetails = () => {
         )}
         <HowDoIPay userData={howToUserData} />
         <NeedHelp />
-      </div>
+      </article>
     </>
   );
 };
