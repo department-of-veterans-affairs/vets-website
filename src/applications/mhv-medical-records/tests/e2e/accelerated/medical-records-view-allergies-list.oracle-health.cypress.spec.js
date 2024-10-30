@@ -3,7 +3,7 @@ import allergies from '../fixtures/allergies/sample-lighthouse.json';
 import oracleHealthUser from '../fixtures/user/oracle-health.json';
 
 describe('Medical Records View Allergies', () => {
-  it('Visits Medical Records View Allergies List', () => {
+  beforeEach(() => {
     const site = new MedicalRecordsSite();
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
@@ -17,6 +17,9 @@ describe('Medical Records View Allergies', () => {
       expect(req.url).to.contain('use_oh_data_path=1');
       req.reply(allergies);
     }).as('allergiesList');
+  });
+
+  it('Visits Medical Records View Allergies List', () => {
     cy.visit('my-health/medical-records');
 
     // check for MY Va Health links
