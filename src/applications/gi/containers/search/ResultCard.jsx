@@ -226,12 +226,14 @@ export function ResultCard({
   };
 
   const estimateTuition = ({ qualifier, value }) => {
-    if (qualifier === '% of instate tuition') {
-      return <span>{value}% in-state</span>;
-    }
     if (qualifier === null) {
       return value;
     }
+
+    if (qualifier === '% of instate tuition') {
+      return <span>{value}% in-state</span>;
+    }
+
     const lesserVal = tuitionOutOfState
       ? Math.min(value, tuitionOutOfState)
       : value;
