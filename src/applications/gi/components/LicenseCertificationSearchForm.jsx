@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dropdown from './Dropdown';
 import { fetchLicenseCertificationResults } from '../actions';
+import { updateLcFilterDropdowns } from '../utils/helpers';
 // import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 function capitalizeFirstLetter(string) {
@@ -55,7 +56,7 @@ function LicenseCertificationSearchForm({
   const handleSearch = () => {
     // console.log('update query parameters here');
 
-    dispatchFetchLicenseCertificationResults();
+    dispatchFetchLicenseCertificationResults(); // add filter options as argument
   };
 
   const handleReset = () => {
@@ -64,25 +65,8 @@ function LicenseCertificationSearchForm({
   };
 
   const handleChange = e => {
-    const updatedFieldIndex = dropdowns.findIndex(dropdown => {
-      return dropdown.label === e.target.id;
-    });
-
-    const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
-      option => option.optionValue === e.target.value,
-    );
-
-    setDropdowns(
-      dropdowns.map(
-        (dropdown, index) =>
-          index === updatedFieldIndex
-            ? {
-                ...dropdown,
-                current: dropdown.options[selectedOptionIndex],
-              }
-            : dropdown,
-      ),
-    );
+    const newDropdowns = updateLcFilterDropdowns(dropdowns, e.target);
+    setDropdowns(newDropdowns);
   };
 
   return (
