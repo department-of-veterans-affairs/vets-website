@@ -15,7 +15,7 @@ const useAcceleratedData = () => {
   const isAcceleratingVitalsEnabled = useSelector(
     state =>
       state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryVitalsEnabled
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryVitalSignsEnabled
       ],
   );
 
