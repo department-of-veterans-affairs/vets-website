@@ -10,14 +10,14 @@
   min-width: 100%;
 }
 
-.nav-tabs li{
+.nav-tabs li {
   flex: 1 1 auto;
 }
 
 [data-location="2/task-blue/veteran-information/edit-home-phone"] {
-.schemaform-first-field {
-  margin-top: 1.875rem !important;
-}
+  .schemaform-first-field {
+    margin-top: 1.875rem !important;
+  }
 }
 
 [data-location="2/task-blue/veteran-details"], [data-location="2/task-blue/veteran-information"], [data-location="2/task-blue/veteran-information/edit-mailing-address"]{
@@ -34,7 +34,6 @@ padding-left: 0;
     &.gray-task {
       height: unset;
     }
-
   }
   &:nth-of-type(4) {
     @include media($medium-screen) {
@@ -45,6 +44,10 @@ padding-left: 0;
 
 #form-26-1880 {
   margin-top: 2rem;
+
+  .schemaform-chapter-progress {
+    padding-left: 0;
+  }
 }
 
 div.progress-box.progress-box-schemaform > div.form-panel > div > va-card {
@@ -52,7 +55,7 @@ div.progress-box.progress-box-schemaform > div.form-panel > div > va-card {
 }
 
 [data-dd-action-name="street"] {
-margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 // custom styles for the dev panel stdout
 .fade-enter {
