@@ -162,18 +162,17 @@ export const deceasedDependentChildTypePage = {
         labels: childTypeLabels,
       }),
       'ui:options': {
-        // updateSchema: (formData, schema, _uiSchema, index) => {
-        //   const itemData = formData?.deaths?.[index];
-        //   console.log(itemData?.dependentType !== 'child');
-        //   console.log(itemData?.childStatus);
-        //   if (
-        //     itemData?.dependentType !== 'child' &&
-        //     itemData?.childStatus !== undefined
-        //   ) {
-        //     itemData.childStatus = undefined;
-        //   }
-        //   return schema;
-        // },
+        updateSchema: (formData, schema, _uiSchema, index) => {
+          const itemData = formData?.deaths?.[index];
+
+          if (itemData?.dependentType !== 'child' && itemData?.childStatus) {
+            Object.keys(itemData.childStatus).forEach(key => {
+              itemData.childStatus[key] = undefined;
+            });
+          }
+
+          return schema;
+        },
       },
     },
   },
