@@ -12,16 +12,22 @@ const gaGenderInfoHelpText = () => {
 };
 
 export const genderInfoHelpText = (
-  <va-additional-info
-    trigger="What to know before you decide to share your gender identity"
-    onClick={gaGenderInfoHelpText}
-  >
-    <span>
-      <ul className="form-22-10282-container">
+  <>
+    <p className="vads-u-color--gray-medium vads-u-margin-top--0 vads-u-margin-bottom--0">
+      You can change your selection at any time. If you decide you no longer
+      want to share your gender identity, select{' '}
+      <strong>Prefer not to answer.</strong>
+    </p>
+    <va-additional-info
+      trigger="What to know before you decide to share your gender identity"
+      class="vads-u-margin-top--2 vads-u-margin-bottom--2"
+      onClick={gaGenderInfoHelpText}
+    >
+      <ul className="form-22-10282-container-gender-ul-description vads-u-padding-left--0">
         <li>
           Sharing your gender identity in your VA.gov profile is optional. If
           you get healthcare at VA, this information can help your care team
-          better assess your health needs and risks.
+          better better assess your health needs and risks.
         </li>
         <li>
           But you should know that any information you share in your VA.gov
@@ -34,23 +40,19 @@ export const genderInfoHelpText = (
           your health records only, talk with your health care team.
         </li>
       </ul>
-    </span>
-  </va-additional-info>
+    </va-additional-info>
+  </>
 );
 
 const uiSchema = {
-  'ui:title': (
-    <h3 className="vads-u-margin--0 vads-u-color--base" data-testid="gender">
-      How would you describe your gender?
-    </h3>
-  ),
   gender: {
     'ui:title': (
-      <p className="vads-u-color--gray-medium vads-u-margin-top--0 vads-u-margin-bottom--0">
-        You can change your selection at any time. If you decide you no longer
-        want to share your gender identity, select{' '}
-        <strong>Prefer not to answer.</strong>
-      </p>
+      <h3
+        className="vads-u-margin-bottom-2 vads-u-color--base"
+        data-testid="gender"
+      >
+        How would you describe your gender?
+      </h3>
     ),
     'ui:description': genderInfoHelpText,
     'ui:widget': 'radio',
