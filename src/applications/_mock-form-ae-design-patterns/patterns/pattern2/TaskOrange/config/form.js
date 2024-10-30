@@ -8,6 +8,8 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { scrollAndFocusTarget } from 'applications/_mock-form-ae-design-patterns/utils/focus';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
+  addressSchema,
+  addressUI,
   descriptionUI,
   emailSchema,
   emailUI,
@@ -15,7 +17,6 @@ import {
   phoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import * as addressFormDefinition from 'platform/forms-system/src/js/definitions/address';
 import { PrefillAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/PrefillAlert';
 import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
 import PreSubmitInfo from '../pages/PreSubmitInfo';
@@ -37,6 +38,7 @@ import {
 } from '../pages/ApplicantInformation';
 import ReviewPage from '../pages/ReviewPage';
 import { EditNavigationWithRouter } from '../components/EditNavigation';
+import { MailingAddressEdit } from '../pages/MailingAddressEdit';
 
 const {
   date,
@@ -70,6 +72,9 @@ const formConfig = {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
       'Please sign in again to resume your application for education benefits.',
+  },
+  dev: {
+    showNavLinks: environment?.isLocalhost(),
   },
   prefillEnabled: true,
   prefillTransformer,
@@ -133,7 +138,7 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Personal information',
+      title: 'Contact information',
       pages: {
         otherContactInfo: {
           hideNavButtons: true,
@@ -174,7 +179,6 @@ const formConfig = {
                 hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
                 forceDivWrapper: true, // It's all info and links, so we don't need a fieldset or legend
               },
-              'ui:reviewId': 'other-contact-information',
               'ui:title': '',
               'ui:description': '',
               'ui:widget': props => {
@@ -209,53 +213,6 @@ const formConfig = {
           review: null,
         },
         contactInformation: merge({}, contactInformationPage(fullSchema1990)),
-        contactInformationEdit: {
-          hideNavButtons: true,
-          title: 'Edit mailing address',
-          taskListHide: true,
-          path: 'personal-information/edit-mailing-address',
-          uiSchema: {
-            ...descriptionUI(PrefillAlert, { hideOnReview: true }),
-            veteranAddress: addressFormDefinition.uiSchema(
-              'Edit mailing address',
-            ),
-            'view:editNavigation': {
-              'ui:options': {
-                hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
-                forceDivWrapper: true, // It's all info and links, so we don't need a fieldset or legend
-              },
-              'ui:reviewId': 'veteranAddress',
-              'ui:title': '',
-              'ui:description': '',
-              'ui:widget': props => {
-                return (
-                  <EditNavigationWithRouter
-                    {...props}
-                    fields={['email', 'homePhone', 'mobilePhone']}
-                    returnPath="/personal-information"
-                  />
-                );
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:pageTitle': blankSchema,
-              veteranAddress: addressFormDefinition.schema(
-                fullSchema1990,
-                true,
-              ),
-              'view:editNavigation': {
-                type: 'string',
-              },
-            },
-            required: ['email'],
-          },
-          scrollAndFocusTarget,
-          depends: () => false,
-          review: null,
-        },
       },
     },
     review: {
@@ -276,6 +233,22 @@ const formConfig = {
           scrollAndFocusTarget,
         },
         taskCompleted: taskCompletePagePattern2,
+        contactInformationEdit: {
+          title: 'Edit contact information',
+          path: 'personal-information/edit-veteran-address',
+          CustomPage: MailingAddressEdit,
+          CustomPageReview: null,
+          uiSchema: {
+            veteranAddress: addressUI({ omit: ['street3'] }),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:pageTitle': blankSchema,
+              veteranAddress: addressSchema({ omit: ['street3'] }),
+            },
+          },
+        },
       },
     },
   },
