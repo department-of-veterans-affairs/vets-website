@@ -1,17 +1,21 @@
 import { Actions } from '../util/actionTypes';
-import { getVitalsList } from '../api/MrApi';
+import { getVitalsList, getAcceleratedVitals } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { isArrayAndHasItems } from '../util/helpers';
 import { getListWithRetry } from './common';
 
-export const getVitals = (isCurrent = false) => async dispatch => {
+export const getVitals = (
+  isCurrent = false,
+  isAccelerating = false,
+) => async dispatch => {
   dispatch({
     type: Actions.Vitals.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getListWithRetry(dispatch, getVitalsList);
+    const getVitalsData = isAccelerating ? getAcceleratedVitals : getVitalsList;
+    const response = await getListWithRetry(dispatch, getVitalsData);
     dispatch({
       type: Actions.Vitals.GET_LIST,
       response,

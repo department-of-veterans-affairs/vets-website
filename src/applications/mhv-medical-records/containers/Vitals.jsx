@@ -21,6 +21,7 @@ import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -35,12 +36,18 @@ const Vitals = () => {
     state => state.mr.vitals.listCurrentAsOf,
   );
 
+  const { isAcceleratingVitals } = useAcceleratedData();
+
+  const dispatchAction = isCurrent => {
+    return getVitals(isCurrent, isAcceleratingVitals);
+  };
+
   useListRefresh({
     listState,
     listCurrentAsOf: vitalsCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
-    dispatchAction: getVitals,
+    dispatchAction,
     dispatch,
   });
 

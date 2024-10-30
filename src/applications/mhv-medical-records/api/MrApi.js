@@ -81,6 +81,15 @@ export const getVitalsList = () => {
   });
 };
 
+export const getAcceleratedVitals = async () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1`,
+    {
+      headers,
+    },
+  );
+};
+
 export const getConditions = async () => {
   return apiRequest(`${apiBasePath}/medical_records/conditions`, {
     headers,
