@@ -64,9 +64,9 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
         data-testid="ezr-login-alert"
         uswds
       >
-        <h3 slot="headline">
+        <h2 className="vads-u-font-size--h3" slot="headline">
           Sign in now to save time and save your work in progress
-        </h3>
+        </h2>
         <p>Here&rsquo;s how signing in now helps you:</p>
         <ul>
           <li>
