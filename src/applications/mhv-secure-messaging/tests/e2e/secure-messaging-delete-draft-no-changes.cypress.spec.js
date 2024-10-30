@@ -5,7 +5,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 
-describe('SM DELETE UNSAVED DRAFT', () => {
+describe('SM DELETE DRAFT WITH NO CHANGES', () => {
   it('navigate back to inbox', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
