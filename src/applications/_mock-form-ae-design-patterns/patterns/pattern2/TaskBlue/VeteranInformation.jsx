@@ -6,8 +6,6 @@ import { isValid, format } from 'date-fns';
 import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 
-import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from './constants';
 
@@ -17,13 +15,6 @@ import { APP_URLS } from '../../../utils/constants';
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
-const mask = value => {
-  const number = (value || '').toString().slice(-4);
-  return srSubstitute(
-    `●●●–●●–${number}`,
-    `ending with ${number.split('').join(' ')}`,
-  );
-};
 
 const VeteranInformation = ({ formData }) => {
   const { veteranSocialSecurityNumber } = formData || {};
@@ -47,12 +38,9 @@ const VeteranInformation = ({ formData }) => {
         </strong>
         {veteranSocialSecurityNumber ? (
           <p className="ssn">
-            <strong>Social Security number: </strong>
-            <span
-              className="dd-privacy-mask"
-              data-dd-action-name="Veteran's SSN"
-            >
-              {mask(veteranSocialSecurityNumber)}
+            <strong>Last 4 digits of Social Security number: </strong>
+            <span data-dd-action-name="Veteran's SSN">
+              {veteranSocialSecurityNumber.slice(-4)}
             </span>
           </p>
         ) : null}
