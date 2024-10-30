@@ -178,13 +178,14 @@ export async function fetchRequestById({ id }) {
  * @export
  * @async
  * @param {string} id MAS or community care booked appointment id
- * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
+ * @param {avs} Boolean to fetch avs data
+ * @param {fetchClaimStatus} Boolean to fetch travel claim data
  * @returns {Appointment} A transformed appointment with the given id
  */
 export async function fetchBookedAppointment({
   id,
   avs = true,
-  fetchClaimStatus,
+  fetchClaimStatus = true,
 }) {
   try {
     const appointment = await getAppointment(id, avs, fetchClaimStatus);

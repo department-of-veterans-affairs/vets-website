@@ -16,10 +16,7 @@ import {
   fetchPastAppointments,
   startNewAppointmentFlow,
 } from '../../redux/actions';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureTravelPayViewClaimDetails,
-} from '../../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
 import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
 
@@ -111,12 +108,6 @@ export default function PastAppointmentsListNew() {
     selectFeatureBreadcrumbUrlUpdate(state),
   );
 
-  const featureTravelPayViewClaimDetails = useSelector(state =>
-    selectFeatureTravelPayViewClaimDetails(state),
-  );
-
-  const fetchClaimStatus = featureTravelPayViewClaimDetails;
-
   useEffect(() => {
     if (pastStatus === FETCH_STATUS.notStarted) {
       const selectedDateRange = dateRangeOptions[pastSelectedIndex];
@@ -125,7 +116,6 @@ export default function PastAppointmentsListNew() {
           selectedDateRange.startDate,
           selectedDateRange.endDate,
           pastSelectedIndex,
-          fetchClaimStatus,
         ),
       );
     }
@@ -152,7 +142,6 @@ export default function PastAppointmentsListNew() {
         selectedDateRange.startDate,
         selectedDateRange.endDate,
         index,
-        fetchClaimStatus,
       ),
     );
   };

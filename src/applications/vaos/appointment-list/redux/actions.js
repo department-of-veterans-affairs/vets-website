@@ -356,12 +356,7 @@ export function fetchPendingAppointments() {
   };
 }
 
-export function fetchPastAppointments(
-  startDate,
-  endDate,
-  selectedIndex,
-  fetchClaimStatus = false,
-) {
+export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       getState(),
@@ -381,7 +376,7 @@ export function fetchPastAppointments(
         startDate,
         endDate,
         avs: true,
-        fetchClaimStatus,
+        fetchClaimStatus: true,
       });
 
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
@@ -483,11 +478,7 @@ export function fetchRequestDetails(id) {
   };
 }
 
-export function fetchConfirmedAppointmentDetails(
-  id,
-  type,
-  fetchClaimStatus = false,
-) {
+export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
@@ -522,7 +513,6 @@ export function fetchConfirmedAppointmentDetails(
           id,
           type,
           useV2,
-          fetchClaimStatus,
         });
       }
 
