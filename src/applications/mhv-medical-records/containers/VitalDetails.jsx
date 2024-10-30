@@ -75,6 +75,7 @@ const VitalDetails = props => {
   );
   const listState = useSelector(state => state.mr.vitals.listState);
   const refresh = useSelector(state => state.mr.refresh);
+  const [hasUsedPagination, setHasUsedPagination] = useState(false);
 
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
@@ -113,6 +114,12 @@ const VitalDetails = props => {
     [vitalType],
   );
 
+  const onPageChange = page => {
+    setCurrentVitals(paginatedVitals.current[page - 1]);
+    setCurrentPage(page);
+    setHasUsedPagination(true);
+  };
+
   useEffect(
     () => {
       return () => {
@@ -125,15 +132,22 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (records?.length) {
-        focusElement(document.querySelector('h1'));
         updatePageTitle(
           `${vitalTypeDisplayNames[records[0].type]} - ${
             pageTitles.VITALS_PAGE_TITLE
           }`,
         );
+
+        if (!hasUsedPagination) {
+          // If pagination is not present, focus on the main heading (h1)
+          focusElement(document.querySelector('h1'));
+        } else {
+          focusElement(document.querySelector('#showingRecords'));
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        }
       }
     },
-    [records],
+    [currentPage, records, hasUsedPagination],
   );
 
   usePrintTitle(
@@ -145,11 +159,6 @@ const VitalDetails = props => {
 
   const paginateData = data => {
     return chunk(data, perPage);
-  };
-
-  const onPageChange = page => {
-    setCurrentVitals(paginatedVitals.current[page - 1]);
-    setCurrentPage(page);
   };
 
   const fromToNums = (page, total) => {
@@ -168,20 +177,6 @@ const VitalDetails = props => {
     [records],
   );
 
-  useEffect(
-    () => {
-      if (currentPage > 1 && records?.length) {
-        focusElement(document.querySelector('#showingRecords'));
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth',
-        });
-      }
-    },
-    [currentPage, records],
-  );
-
   const displayNums = fromToNums(currentPage, records?.length);
 
   useEffect(
@@ -191,7 +186,7 @@ const VitalDetails = props => {
         dispatch(getVitalDetails(formattedVitalType, vitalsList));
       }
     },
-    [vitalType, vitalsList, dispatch],
+    [vitalType, vitalsList, dispatch, updatedRecordType],
   );
 
   const lastUpdatedText = getLastUpdatedText(
