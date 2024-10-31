@@ -2,7 +2,6 @@ import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { FileField } from '../components/FileField';
-import { FileFieldOld } from '../components/FileFieldOld';
 import SupportingDocsViewField from '../components/SupportingDocsViewField';
 
 import {
@@ -23,8 +22,7 @@ export default {
     'ui:objectViewField': SupportingDocsViewField,
     veteranSupportingDocuments: {
       'ui:title': 'Upload documents',
-      // MBMS-66936 set ui:field to FileField and delete FileFieldOld.jsx
-      'ui:field': !environment.isProduction() ? FileField : FileFieldOld,
+      'ui:field': FileField,
       'ui:options': {
         hideLabelText: true,
         showFieldLabel: true,
