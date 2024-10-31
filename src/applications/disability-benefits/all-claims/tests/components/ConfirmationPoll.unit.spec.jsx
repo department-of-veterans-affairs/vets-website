@@ -15,6 +15,7 @@ import {
   ConfirmationPoll,
   selectAllDisabilityNames,
 } from '../../components/ConfirmationPoll';
+import formConfig from '../../config/form';
 
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
@@ -93,6 +94,10 @@ describe('ConfirmationPoll', () => {
     disabilities: [],
     submittedAt: Date.now(),
     isSubmittingBDD: false,
+    route: {
+      formConfig,
+      pageList: [],
+    },
   };
 
   it('should make an api call after mounting', () => {
@@ -139,6 +144,7 @@ describe('ConfirmationPoll', () => {
         disabilities: defaultProps.disabilities,
         submittedAt: defaultProps.submittedAt,
         isSubmittingBDD: defaultProps.isSubmittingBDD,
+        route: defaultProps.route,
       });
       tree.unmount();
       done();

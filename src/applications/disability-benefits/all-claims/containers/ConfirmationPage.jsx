@@ -80,7 +80,7 @@ ConfirmationPage.propTypes = {
     middle: PropTypes.string,
     suffix: PropTypes.string,
   }).isRequired,
-  submittedAt: PropTypes.string.isRequired,
+  submittedAt: PropTypes.object.isRequired,
   claimId: PropTypes.string,
   isSubmittingBDD: PropTypes.bool,
   jobId: PropTypes.string,
