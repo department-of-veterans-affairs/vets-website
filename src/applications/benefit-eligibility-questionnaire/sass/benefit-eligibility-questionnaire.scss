@@ -12,6 +12,11 @@
   width: 75ch !important;
 }
 
+.benefit-eligibility-questionnaire .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 #filters-section-desktop {
   @media (min-width: $medium-screen) {
     border-right: 2px solid var(--vads-color-gray-medium);
