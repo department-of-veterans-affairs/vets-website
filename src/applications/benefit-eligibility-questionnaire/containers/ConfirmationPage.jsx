@@ -15,7 +15,7 @@ import SaveResultsModal from '../components/SaveResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
 
 export class ConfirmationPage extends React.Component {
-  static sortBenefitObj(benefitObj, sortKey) {
+  sortBenefitObj(benefitObj, sortKey) {
     return [...benefitObj].sort((a, b) => {
       let aValue = a[sortKey] || '';
       let bValue = b[sortKey] || '';
