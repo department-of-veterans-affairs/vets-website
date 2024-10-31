@@ -25,47 +25,53 @@ export const selectSchemas = page => {
   }
 };
 
-const formatChapters = chapters =>
-  chapters.reduce((formattedChapters, chapter) => {
-    let pages;
+const formatChapter = chapter => {
+  let pages;
 
-    if (chapter.type === 'digital_form_your_personal_info') {
-      const [nameAndDob, identificationInfo] = chapter.pages;
+  if (chapter.type === 'digital_form_your_personal_info') {
+    const [nameAndDob, identificationInfo] = chapter.pages;
 
-      pages = {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: nameAndDob.pageTitle,
-          ...digitalFormNameAndDoB(nameAndDob),
-        },
-        identificationInformation: {
-          path: 'identification-information',
-          title: identificationInfo.pageTitle,
-          ...digitalFormIdentificationInfo(identificationInfo),
-        },
-      };
-    } else {
-      pages = {
-        // For now, all chapters except for "Your personal information" are
-        // assumed to contain only one page, and there are no
-        // separate IDs for pages. This will probably change at some point.
-        [chapter.id]: {
-          path: chapter.id.toString(),
-          title: chapter.pageTitle,
-          ...selectSchemas(chapter),
-        },
-      };
-    }
-
-    const formattedChapter = {
-      [getChapterKey(chapter)]: {
-        title: chapter.chapterTitle,
-        pages,
+    pages = {
+      nameAndDateOfBirth: {
+        path: 'name-and-date-of-birth',
+        title: nameAndDob.pageTitle,
+        ...digitalFormNameAndDoB(nameAndDob),
+      },
+      identificationInformation: {
+        path: 'identification-information',
+        title: identificationInfo.pageTitle,
+        ...digitalFormIdentificationInfo(identificationInfo),
       },
     };
+  } else {
+    pages = {
+      // For now, all chapters except for "Your personal information" are
+      // assumed to contain only one page, and there are no
+      // separate IDs for pages. This will probably change at some point.
+      [chapter.id]: {
+        path: chapter.id.toString(),
+        title: chapter.pageTitle,
+        ...selectSchemas(chapter),
+      },
+    };
+  }
 
-    return { ...formattedChapters, ...formattedChapter };
-  }, {});
+  return {
+    [getChapterKey(chapter)]: {
+      title: chapter.chapterTitle,
+      pages,
+    },
+  };
+};
+
+const formatChapters = chapters =>
+  chapters.reduce(
+    (formattedChapters, chapter) => ({
+      ...formattedChapters,
+      ...formatChapter(chapter),
+    }),
+    {},
+  );
 
 export const createFormConfig = form => {
   if (form.rootUrl) {
