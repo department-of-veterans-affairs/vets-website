@@ -94,7 +94,16 @@ const failOnCrossAppImport = options['fail-on-cross-app-import'];
 // Generate full cross app import report when no apps are specified
 if (!appFolders && !checkAllowlist) {
   const outputPath = path.join('./tmp', 'cross-app-imports.json');
-  fs.outputFileSync(outputPath, JSON.stringify(getCrossAppImports(), null, 2));
+  const crossAppJson = getCrossAppImports();
+  fs.outputFileSync(outputPath, JSON.stringify(crossAppJson(), null, 2));
+  console.log(
+    'list of apps with cross-app imports:',
+    JSON.stringify(
+      crossAppJson.filter(
+        app => Object.keys(app.appsThatThisAppImportsFrom).length > 1,
+      ),
+    ),
+  );
 
   console.log(`Cross app import report saved at: ${outputPath}`);
   process.exit(0);
