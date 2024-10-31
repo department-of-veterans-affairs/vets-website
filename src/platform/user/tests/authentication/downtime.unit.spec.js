@@ -2,13 +2,11 @@
 
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { SERVICE_PROVIDERS } from '../../authentication/constants';
 import * as downtimeUtils from '../../authentication/downtime';
 
 describe('generateCSPBanner', () => {
-  // Array of CSPs to test
-  const csps = ['logingov', 'idme', 'mhv', 'dslogon'];
-
-  csps.forEach(csp => {
+  Object.keys(SERVICE_PROVIDERS).forEach(csp => {
     it(`should return a correct banner message when csp is "${csp}"`, () => {
       const result = downtimeUtils.generateCSPBanner({
         csp,
