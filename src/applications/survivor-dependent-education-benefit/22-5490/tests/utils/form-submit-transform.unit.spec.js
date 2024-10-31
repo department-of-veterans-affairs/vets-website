@@ -138,7 +138,7 @@ describe('form submit transform', () => {
         expect(submissionObject.serviceMember.dateOfBirth).to.eql('1990-01-01');
       });
       it('sets up ssn', () => {
-        expect(submissionObject.serviceMember.ssn).to.eql('321321321');
+        expect(submissionObject.serviceMember.ssn).to.eql('123123123');
       });
     });
 

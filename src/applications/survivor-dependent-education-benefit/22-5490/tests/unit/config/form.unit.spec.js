@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -14,39 +14,102 @@ import {
 } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../config/form';
 
+const expectedFieldTypes = 'input, select, textarea';
+// const expectedFieldTypesWebComponents =
+//   'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
+
+const initialData = {
+  user: {
+    profile: {
+      userFullName: {
+        first: 'Michael',
+        middle: 'Thomas',
+        last: 'Wazowski',
+        suffix: 'Esq.',
+      },
+      dob: '1990-02-03',
+    },
+  },
+  form: {
+    data: {},
+  },
+  data: {
+    formData: {
+      data: {
+        attributes: {
+          claimant: {
+            firstName: 'john',
+            middleName: 'doe',
+            lastName: 'smith',
+            dateOfBirth: '1990-01-01',
+          },
+        },
+      },
+    },
+  },
+};
+
 describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
-  it('should fill out the applicant information fields', () => {
+  it('should render errors on applicant information fields when no first name is provided', async () => {
     const {
       schema,
       uiSchema,
     } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         data={{}}
         formData={{}}
+        idSchema="test"
       />,
     );
 
-    fillData(form, 'input#root_fullName_first', 'John');
-    fillData(form, 'input#root_fullName_last', 'Doe');
-    fillData(form, 'input#root_ssn', '123456789');
-    selectRadio(form, 'root_relationShipToMember', 'spouse');
-
-    expect(form.find('input#root_fullName_first').props().value).to.equal(
-      'John',
-    );
-    expect(form.find('input#root_fullName_last').props().value).to.equal('Doe');
-    expect(form.find('input#root_ssn').props().value).to.equal('123456789');
-    expect(
-      form
-        .find('input[name="root_relationShipToMember"][value="spouse"]')
-        .props().checked,
-    ).to.be.true;
-    form.unmount();
+    await waitFor(() => {
+      expect(container.querySelectorAll(expectedFieldTypes)).to.have.lengthOf(
+        10,
+      );
+    });
   });
+
+  describe('applicantInformation', () => {
+    it('should fill out the applicant information fields', () => {
+      const {
+        schema,
+        uiSchema,
+      } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
+      const form = mount(
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{}}
+          formData={{}}
+        />,
+      );
+
+      fillData(form, 'input#root_fullName_first', 'John');
+      fillData(form, 'input#root_fullName_last', 'Doe');
+      fillData(form, 'input#root_ssn', '123456789');
+      selectRadio(form, 'root_relationShipToMember', 'spouse');
+
+      expect(form.find('input#root_fullName_first').props().value).to.equal(
+        'John',
+      );
+      expect(form.find('input#root_fullName_last').props().value).to.equal(
+        'Doe',
+      );
+      expect(form.find('input#root_ssn').props().value).to.equal('123456789');
+      expect(
+        form
+          .find('input[name="root_relationShipToMember"][value="spouse"]')
+          .props().checked,
+      ).to.be.true;
+      form.unmount();
+    });
+  });
+
   it('should fill out the benefit selection fields', () => {
     const {
       schema,
@@ -81,36 +144,6 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       uiSchema,
     } = formConfig.chapters.yourInformationChapter.pages.reviewPersonalInformation;
 
-    const initialData = {
-      user: {
-        profile: {
-          userFullName: {
-            first: 'Michael',
-            middle: 'Thomas',
-            last: 'Wazowski',
-            suffix: 'Esq.',
-          },
-          dob: '1990-02-03',
-        },
-      },
-      form: {
-        data: {},
-      },
-      data: {
-        formData: {
-          data: {
-            attributes: {
-              claimant: {
-                firstName: 'john',
-                middleName: 'doe',
-                lastName: 'smith',
-                dateOfBirth: '1990-01-01',
-              },
-            },
-          },
-        },
-      },
-    };
     const middleware = [thunk];
     const mockStore = configureStore(middleware);
 
@@ -136,6 +169,9 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     container.unmount();
   });
   it('should fill out the marriage information fields', () => {
+    const formData = {
+      relationShipToMember: 'spouse',
+    };
     const {
       schema,
       uiSchema,
@@ -146,7 +182,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         data={{}}
-        formData={{}}
+        formData={formData}
       />,
     );
     selectRadio(form, 'root_marriageStatus', 'married');
