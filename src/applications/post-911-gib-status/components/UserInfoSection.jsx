@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  formatDateShort,
-  formatDateParsedZoneLong,
-} from 'platform/utilities/date';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { formatDateShort } from 'platform/utilities/date';
+
 import InfoPair from './InfoPair';
 import {
   formatPercent,
-  formatVAFileNumber,
   formatMonthDayFields,
   benefitEndDateExplanation,
   notQualifiedWarning,
@@ -21,11 +17,6 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
   const percentageBenefit =
     formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
   const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const post911GiBillStatusFlag = useToggleValue(
-    TOGGLE_NAMES.post911GiBillStatusFlag,
-  );
-
   let currentAsOfAlert;
   if (showCurrentAsOfAlert) {
     currentAsOfAlert = (
@@ -104,22 +95,6 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
           id="gibs-full-name"
           additionalClass="section-line"
         />
-        {!post911GiBillStatusFlag && (
-          <>
-            <InfoPair
-              label="Date of birth"
-              name="dateOfBirth"
-              value={formatDateParsedZoneLong(enrollmentData.dateOfBirth)}
-              additionalClass="section-line"
-            />
-            <InfoPair
-              label="VA file number"
-              value={formatVAFileNumber(enrollmentData.vaFileNumber)}
-              additionalClass="section-line"
-            />
-          </>
-        )}
-
         <InfoPair
           label="Regional Processing Office"
           value={enrollmentData.regionalProcessingOffice}
