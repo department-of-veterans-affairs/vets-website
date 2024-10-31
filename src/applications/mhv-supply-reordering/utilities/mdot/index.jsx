@@ -1,6 +1,10 @@
 import sortBy from 'lodash/sortBy';
 import head from 'lodash/head';
 
+/*
+This file contains utilities to process the data received from the MDOT API.
+*/
+
 /**
  * Determines if a supply can be reordered.
  * @param {*} supply a supply

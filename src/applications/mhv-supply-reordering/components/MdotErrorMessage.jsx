@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { dlcServiceTelephone } from '../constants';
 
+/**
+ * Generates alerts depending on the error message received from the MDOT API.
+ * @param {string} errorCode the API error code
+ */
 const MdotErrorMessage = ({ errorCode }) => {
   const supplyDescription = 'hearing aid or CPAP supplies';
 

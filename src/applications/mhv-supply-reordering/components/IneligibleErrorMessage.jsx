@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
+/**
+ * Generates an alert for a veteran that is not eligible to order supplies.
+ * @param {string} nextAvailabilityDate the date supplies will be available to reorder
+ * @returns the alert
+ */
 const IneligibleErrorMessage = ({ nextAvailabilityDate }) => {
   const formattedDate = format(new Date(nextAvailabilityDate), 'MMMM d, yyyy');
   return (

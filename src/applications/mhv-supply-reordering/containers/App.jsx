@@ -13,6 +13,7 @@ import { fetchMdotData } from '../actions';
  * @param {Object} location form location
  * @param {*} children children for the form
  * @param {function} fetchMdotFunc function to fetch the MDOT data
+ * @param {*} user the user information
  */
 const App = ({ location, children, fetchMdotFunc, user }) => {
   const useSiS = useSelector(signInServiceEnabled);
