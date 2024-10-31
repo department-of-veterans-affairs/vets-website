@@ -1,6 +1,5 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import profileContactInfo from './profileContactInfo';
-import { customText } from '../content/saveInProgress';
 
 import manifest from '../../../../manifest.json';
 
@@ -9,7 +8,7 @@ import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPa
 import { GetFormHelp } from '../GetFormHelp';
 
 import veteranInfo from '../pages/veteranInfo';
-import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
+import { taskCompletePagePattern2 } from '../../../../shared/config/taskCompletePage';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -48,7 +47,10 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for mock form ae design patterns benefits.',
   },
-  customText,
+  customText: {
+    appType: 'application',
+    finishAppLaterMessage: 'Finish this request later',
+  },
   title: 'Request a Board Appeal',
   subTitle: 'VA Form 10182 (Notice of Disagreement)',
   defaultDefinitions: {},
@@ -73,7 +75,7 @@ const formConfig = {
           ],
           included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
         }),
-        taskCompletePage,
+        taskCompletePagePattern2,
       },
     },
   },

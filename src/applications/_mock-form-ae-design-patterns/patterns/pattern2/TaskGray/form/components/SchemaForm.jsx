@@ -292,7 +292,7 @@ SchemaForm.propTypes = {
   uiSchema: PropTypes.object.isRequired,
   addNameAttribute: PropTypes.bool,
   appStateData: PropTypes.object,
-  children: PropTypes.object,
+  children: PropTypes.array,
   data: PropTypes.any,
   editModeOnReviewPage: PropTypes.bool,
   formContext: PropTypes.object,
