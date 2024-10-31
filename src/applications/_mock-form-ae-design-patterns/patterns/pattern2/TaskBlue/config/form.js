@@ -8,7 +8,7 @@ import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPa
 import { GetFormHelp } from '../GetFormHelp';
 
 import veteranInfo from '../pages/veteranInfo';
-import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
+import { taskCompletePagePattern2 } from '../../../../shared/config/taskCompletePage';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -75,7 +75,7 @@ const formConfig = {
           ],
           included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
         }),
-        taskCompletePage,
+        taskCompletePagePattern2,
       },
     },
   },

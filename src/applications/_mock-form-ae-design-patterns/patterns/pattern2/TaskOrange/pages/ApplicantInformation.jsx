@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import {
+  focusElement,
+  scrollTo,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 import { InfoSection } from '../../../../shared/components/InfoSection';
 import { maskSSN } from '../../../../utils/helpers/general';
 import { genderLabels } from '../utils/labels';
@@ -38,6 +42,8 @@ export const ApplicantInformationBase = ({
   const title = isReviewPage ? null : 'Applicant information';
   const formattedDob =
     veteranDateOfBirth && format(parseISO(veteranDateOfBirth), 'MMMM dd, yyyy');
+  const ssn = maskSSN(veteranSocialSecurityNumber);
+
   return (
     <InfoSection title={title} titleLevel={3}>
       {isReviewPage && (
@@ -48,22 +54,24 @@ export const ApplicantInformationBase = ({
           <AdditionalInfoContent />
         </va-additional-info>
       )}
-      <InfoSection.InfoBlock
-        label="First name"
-        value={veteranFullName?.first}
-      />
-      <InfoSection.InfoBlock
-        label="Middle name"
-        value={veteranFullName?.middle}
-      />
-      <InfoSection.InfoBlock label="Last name" value={veteranFullName?.last} />
-      <InfoSection.InfoBlock label="Suffix" value={veteranFullName?.suffix} />
-      <InfoSection.InfoBlock
-        label="Social Security number"
-        value={maskSSN(veteranSocialSecurityNumber)}
-      />
-      <InfoSection.InfoBlock label="Date of birth" value={formattedDob} />
-      <InfoSection.InfoBlock label="Gender" value={genderLabels?.[gender]} />
+      <dl>
+        <InfoSection.InfoBlock
+          label="First name"
+          value={veteranFullName?.first}
+        />
+        <InfoSection.InfoBlock
+          label="Middle name"
+          value={veteranFullName?.middle}
+        />
+        <InfoSection.InfoBlock
+          label="Last name"
+          value={veteranFullName?.last}
+        />
+        <InfoSection.InfoBlock label="Suffix" value={veteranFullName?.suffix} />
+        <InfoSection.InfoBlock label="Social Security number" value={ssn} />
+        <InfoSection.InfoBlock label="Date of birth" value={formattedDob} />
+        <InfoSection.InfoBlock label="Gender" value={genderLabels?.[gender]} />
+      </dl>
     </InfoSection>
   );
 };
@@ -73,7 +81,10 @@ ApplicantInformationBase.propTypes = {
   location: PropTypes.object,
   veteranDateOfBirth: PropTypes.string,
   veteranFullName: PropTypes.object,
-  veteranSocialSecurityNumber: PropTypes.string,
+  veteranSocialSecurityNumber: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+  ]),
 };
 
 export const ApplicantInformationInfoSection = withRouter(
@@ -93,6 +104,23 @@ export const ApplicantInformation = ({
     gender,
     veteranDateOfBirth,
   } = data;
+
+  const progressBar = document.getElementById('nav-form-header');
+
+  useEffect(
+    () => {
+      const timeout = setTimeout(() => {
+        scrollTo('topScrollElement');
+        if (progressBar) {
+          progressBar.style.display = 'block';
+          focusElement(progressBar);
+        }
+      }, 250);
+
+      return () => clearTimeout(timeout);
+    },
+    [progressBar],
+  );
 
   return (
     <>
