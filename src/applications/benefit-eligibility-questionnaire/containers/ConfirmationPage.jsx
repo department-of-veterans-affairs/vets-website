@@ -242,8 +242,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <article>
-          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
-          <div role="heading" aria-level="2" tabIndex={0}>
+          <div role="heading" aria-level="2">
             <p>
               <b>
                 Note: This tool is not an application for VA benefits and it
