@@ -58,12 +58,14 @@ describe('digitalFormAddress', () => {
 });
 
 describe('digitalFormNameAndDoB', () => {
+  const dobPage = {
+    pageTitle: 'Name and Date of Birth',
+    includeDateOfBirth: true,
+  };
   let dobIncluded;
 
   beforeEach(() => {
-    dobIncluded = digitalFormNameAndDoB(
-      findChapterByType('digital_form_name_and_date_of_bi'),
-    );
+    dobIncluded = digitalFormNameAndDoB(dobPage);
   });
 
   it('contains fullName', () => {
@@ -84,16 +86,11 @@ describe('digitalFormNameAndDoB', () => {
 
   context('when includeDateOfBirth is false', () => {
     it('does not contain dateOfBirth', () => {
-      const nameOnlyChapter = {
-        id: 158254,
-        chapterTitle: 'Name only chapter',
-        type: 'digital_form_name_and_date_of_bi',
+      const nameOnlyPage = {
         pageTitle: 'Name and Date of Birth',
-        additionalFields: {
-          includeDateOfBirth: false,
-        },
+        includeDateOfBirth: false,
       };
-      const nameOnly = digitalFormNameAndDoB(nameOnlyChapter);
+      const nameOnly = digitalFormNameAndDoB(nameOnlyPage);
 
       expect(nameOnly.schema.properties.dateOfBirth).to.eq(undefined);
       expect(nameOnly.uiSchema.dateOfBirth).to.eq(undefined);
@@ -105,9 +102,10 @@ describe('digitalFormIdentificationInfo', () => {
   let vetIdOnly;
 
   beforeEach(() => {
-    vetIdOnly = digitalFormIdentificationInfo(
-      findChapterByType('digital_form_identification_info'),
-    );
+    const [, identificationInfo] = findChapterByType(
+      'digital_form_your_personal_info',
+    ).pages;
+    vetIdOnly = digitalFormIdentificationInfo(identificationInfo);
   });
 
   it('contains veteranId', () => {
@@ -119,17 +117,12 @@ describe('digitalFormIdentificationInfo', () => {
 
   context('when includeServiceNumber is true', () => {
     it('includes serviceNumber', () => {
-      const serviceNumberChapter = {
-        id: 158255,
-        chapterTitle: 'Service Number Included',
-        type: 'digital_form_identification_info',
+      const serviceNumberPage = {
         pageTitle: 'Identification Information',
-        additionalFields: {
-          includeServiceNumber: true,
-        },
+        includeServiceNumber: true,
       };
       const serviceNumberIncluded = digitalFormIdentificationInfo(
-        serviceNumberChapter,
+        serviceNumberPage,
       );
 
       expect(serviceNumberIncluded.schema.properties.serviceNumber).to.eq(
