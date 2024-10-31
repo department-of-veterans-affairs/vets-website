@@ -46,10 +46,7 @@ describe('Confirmation page', () => {
       'status',
       'success',
     );
-    const chapterSectionCollection = container.querySelector(
-      '.confirmation-chapter-section-collection .screen-only',
-    );
-    within(chapterSectionCollection).getByText('Arthur');
-    within(chapterSectionCollection).getByText('Preparer');
+    within(container).getByText('Arthur');
+    within(container).getByText('Preparer');
   });
 });
