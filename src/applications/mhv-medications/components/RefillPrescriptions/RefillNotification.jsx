@@ -56,7 +56,7 @@ const RefillNotification = ({ refillStatus }) => {
     successfulMeds?.length === 0 &&
     failedMeds?.length === 0;
   const isPartiallySubmitted = failedMeds?.length > 0;
-  const isSuccess = true;
+  const isSuccess = successfulMeds?.length > 0;
   return (
     <>
       <va-alert
