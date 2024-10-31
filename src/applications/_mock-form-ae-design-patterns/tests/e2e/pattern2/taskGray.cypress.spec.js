@@ -174,6 +174,6 @@ describe('Prefill pattern - Gray Task', () => {
 
     // once the task is complete it should redirect to the pattern landing page
     cy.findByRole('button', { name: /Continue/i }).click();
-    cy.url().should('contain', 'mock-form-ae-design-patterns/');
+    cy.url().should('contain', '/review-then-submit');
   });
 });
