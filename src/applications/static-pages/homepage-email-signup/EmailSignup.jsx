@@ -33,6 +33,8 @@ const EmailSignup = () => {
       setInputError(
         `You entered a character we can’t accept. Try removing spaces and any special characters like commas or brackets.`,
       );
+    } else {
+      setInputError(null);
     }
   };
 
@@ -72,56 +74,55 @@ const EmailSignup = () => {
           </p>
         </va-banner>
       )}
-      <div className="homepage-email-update-wrapper vads-u-background-color--primary-alt-lightest">
-        <div className="vads-u-padding-x--2p5 vads-u-padding-top--2p5">
-          <div className="vads-u-display--flex vads-u-justify-content--center">
-            <form
-              acceptCharset="UTF-8"
-              className="vads-u-margin-top--2p5 medium-screen:vads-u-margin-top--0"
-            >
-              <va-text-input
-                autocomplete="email"
-                charcount
-                class="vads-u-width--full medium-screen:vads-u-width-auto homepage-email-input"
-                error={inputError || null}
-                form-heading="Sign up to get the latest VA updates"
-                form-heading-level="2"
-                inputmode="email"
-                label="Email Address"
-                maxlength={130}
-                onInput={e => setEmail(e.target.value)}
-                required
-                type="email"
-                use-forms-pattern="single"
+      <div className="homepage-email-update-wrapper vads-u-background-color--primary-alt-lightest vads-u-padding-x--2p5 vads-u-padding-top--2p5">
+        <div className="vads-u-display--flex vads-u-justify-content--center">
+          <form
+            acceptCharset="UTF-8"
+            className="medium-screen:vads-u-margin-top--2p5 medium-screen:vads-u-margin-top--0"
+          >
+            <va-text-input
+              autocomplete="email"
+              charcount
+              class="vads-u-width--full medium-screen:vads-u-width-auto homepage-email-input"
+              error={inputError || null}
+              form-heading="Sign up to get the latest VA updates"
+              form-heading-level="2"
+              inputmode="email"
+              label="Email Address"
+              maxlength={130}
+              onBlur={setInputErrorMessage}
+              onInput={e => setEmail(e.target.value)}
+              required
+              type="email"
+              use-forms-pattern="single"
+            />
+            <va-button
+              disable-analytics
+              onClick={onSignup}
+              class="vads-u-margin-bottom--2 vads-u-margin-top--1p5"
+              text="Sign up"
+            />
+          </form>
+        </div>
+        <div className="vads-u-display--none medium-screen:vads-u-display--block">
+          <div className="veteran-banner-container vads-u-margin-y--0 vads-u-margin-x--auto">
+            <picture>
+              <source
+                srcSet="/img/homepage/veterans-banner-mobile-1.png 640w, /img/homepage/veterans-banner-mobile-2.png 920w, /img/homepage/veterans-banner-mobile-3.png 1316w"
+                media="(max-width: 767px)"
               />
-              <va-button
-                disable-analytics
-                onClick={onSignup}
-                class="vads-u-width--full medium-screen:vads-u-width--auto vads-u-display--block vads-u-margin-bottom--2 vads-u-margin-top--1p5"
-                text="Sign up"
+              <source
+                srcSet="/img/homepage/veterans-banner-tablet-1.png 1008w, /img/homepage/veterans-banner-tablet-2.png 1887w"
+                media="(max-width: 1008px)"
               />
-            </form>
-          </div>
-          <div className="vads-u-display--none medium-screen:vads-u-display--block">
-            <div className="veteran-banner-container vads-u-margin-y--0 vads-u-margin-x--auto">
-              <picture>
-                <source
-                  srcSet="/img/homepage/veterans-banner-mobile-1.png 640w, /img/homepage/veterans-banner-mobile-2.png 920w, /img/homepage/veterans-banner-mobile-3.png 1316w"
-                  media="(max-width: 767px)"
-                />
-                <source
-                  srcSet="/img/homepage/veterans-banner-tablet-1.png 1008w, /img/homepage/veterans-banner-tablet-2.png 1887w"
-                  media="(max-width: 1008px)"
-                />
-                <img
-                  className="vads-u-width--full"
-                  src="/img/homepage/veterans-banner-desktop-1.png"
-                  srcSet="/img/homepage/veterans-banner-desktop-1.png 1280w, /img/homepage/veterans-banner-desktop-2.png 2494w"
-                  loading="lazy"
-                  alt="Veteran portraits"
-                />
-              </picture>
-            </div>
+              <img
+                className="vads-u-width--full"
+                src="/img/homepage/veterans-banner-desktop-1.png"
+                srcSet="/img/homepage/veterans-banner-desktop-1.png 1280w, /img/homepage/veterans-banner-desktop-2.png 2494w"
+                loading="lazy"
+                alt="Veteran portraits"
+              />
+            </picture>
           </div>
         </div>
       </div>
