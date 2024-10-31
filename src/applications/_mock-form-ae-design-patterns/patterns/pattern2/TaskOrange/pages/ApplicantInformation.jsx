@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import {
+  focusElement,
+  scrollTo,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 import { InfoSection } from '../../../../shared/components/InfoSection';
 import { maskSSN } from '../../../../utils/helpers/general';
 import { genderLabels } from '../utils/labels';
@@ -93,6 +97,23 @@ export const ApplicantInformation = ({
     gender,
     veteranDateOfBirth,
   } = data;
+
+  const progressBar = document.getElementById('nav-form-header');
+
+  useEffect(
+    () => {
+      const timeout = setTimeout(() => {
+        scrollTo('topScrollElement');
+        if (progressBar) {
+          progressBar.style.display = 'block';
+          focusElement(progressBar);
+        }
+      }, 250);
+
+      return () => clearTimeout(timeout);
+    },
+    [progressBar],
+  );
 
   return (
     <>
