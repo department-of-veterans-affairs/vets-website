@@ -117,3 +117,6 @@ export const selectFeatureRemovePodiatry = state =>
 
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
+
+export const selectFeaturetravelPaySubmitMileageExpense = state =>
+  toggleValues(state).travelPaySubmitMileageExpense;
