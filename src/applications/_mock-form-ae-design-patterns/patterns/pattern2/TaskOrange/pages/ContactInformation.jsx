@@ -1,11 +1,13 @@
 import React, { useContext, useEffect } from 'react';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { PatternConfigContext } from 'applications/_mock-form-ae-design-patterns/shared/context/PatternConfigContext';
 import { withRouter } from 'react-router';
-import { SaveSuccessAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/SaveSuccessAlert';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
+
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToElement } from 'platform/forms-system/exportsFile';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
+
+import { PatternConfigContext } from 'applications/_mock-form-ae-design-patterns/shared/context/PatternConfigContext';
+import { SaveSuccessAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/SaveSuccessAlert';
 import { formatPhoneNumber } from '../../../../utils/helpers/general';
 import { InfoSection } from '../../../../shared/components/InfoSection';
 
@@ -16,15 +18,15 @@ const getLinkFactory = (rootUrl, review = false) => {
   };
 };
 
-export const PersonalInformationContactReviewBase = props => {
-  return <PersonalInformationContact {...props} onReviewPage />;
+export const ContactInformationReviewBase = props => {
+  return <ContactInformation {...props} onReviewPage />;
 };
 
-export const PersonalInformationContactReview = withRouter(
-  PersonalInformationContactReviewBase,
+export const ContactInformationReview = withRouter(
+  ContactInformationReviewBase,
 );
 
-export const PersonalInformationContact = ({
+export const ContactInformation = ({
   data,
   goBack,
   goForward,
@@ -146,7 +148,7 @@ export const PersonalInformationContact = ({
   );
 };
 
-PersonalInformationContact.propTypes = {
+ContactInformation.propTypes = {
   data: PropTypes.object.isRequired,
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
