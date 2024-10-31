@@ -77,6 +77,12 @@ jobs:
         env:
           TEST_TYPE: unit_test
 
+      - name: Upload cross app import artifact
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: cross-app-import-report
+          path: ./tmp/cross-app-imports.json
+
   eslint-disable-check:
     name: ESLint Disable Check
     runs-on: ubuntu-latest
