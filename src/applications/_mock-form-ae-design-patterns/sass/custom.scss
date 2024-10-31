@@ -1,7 +1,7 @@
 // hacky fix for address save button sizing
 [data-action="save-edit"] {
-  line-height: 0.9;
-  padding: 0.75rem 1.25rem;
+  line-height: .9;
+  padding: 0.75rem 1.25rem !important;
 }
 
 // form panel is only 32em wide, so we need to override the default width
@@ -20,10 +20,16 @@
   }
 }
 
+[data-location="2/task-blue/veteran-details"], [data-location="2/task-blue/veteran-information"], [data-location="2/task-blue/veteran-information/edit-mailing-address"]{
+.schemaform-chapter-progress {
+padding-left: 0;
+}
+}
+
 .contact-info-card {
   @include media($medium-screen) {
     width: 18.8rem;
-    height: 8.8rem;
+    // height: 8.8rem;
 
     &.gray-task {
       height: unset;

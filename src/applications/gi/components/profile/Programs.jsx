@@ -1,0 +1,41 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+export default function Programs({
+  programTypes,
+  facilityCode,
+  institutionName,
+}) {
+  return (
+    <>
+      <p>The following programs are approved by the VA at this institution.</p>
+      {programTypes.map((programType, index) => (
+        <span
+          key={index}
+          className="program-link-wrapper vads-u-display--flex vads-u-justify-content--space-between"
+        >
+          <p className="vads-u-font-weight--bold vads-u-padding-right--2">
+            {programType}
+          </p>
+          <Link
+            to={{
+              pathname: `/institution/${facilityCode}/${programType
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, '-')}`,
+              state: { institutionName },
+            }}
+            className="vads-u-display--flex vads-u-align-items--center"
+          >
+            See All
+          </Link>
+        </span>
+      ))}
+    </>
+  );
+}
+
+Programs.propTypes = {
+  programTypes: PropTypes.array.isRequired,
+};
