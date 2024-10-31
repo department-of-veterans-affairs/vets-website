@@ -49,8 +49,14 @@ const scrollToError = () => {
 const filesPath = `../files`;
 
 class AdditionalEvidencePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.sectionRef = React.createRef();
+  }
+
   componentDidMount() {
     this.props.resetUploads();
+    this.scrollToSection();
   }
 
   // eslint-disable-next-line camelcase
@@ -67,6 +73,9 @@ class AdditionalEvidencePage extends React.Component {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
+    if (this.props.location.hash !== prevProps.location.hash) {
+      this.scrollToSection();
+    }
   }
 
   componentWillUnmount() {
@@ -74,6 +83,15 @@ class AdditionalEvidencePage extends React.Component {
       this.props.clearAdditionalEvidenceNotification();
     }
   }
+
+  scrollToSection = () => {
+    if (this.props.location.hash === '#add-files') {
+      this.sectionRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  };
 
   goToFilesPage() {
     this.props.getClaim(this.props.claim.id);
@@ -109,7 +127,11 @@ class AdditionalEvidencePage extends React.Component {
       );
 
       content = (
-        <div className="additional-evidence-container">
+        <div
+          className="additional-evidence-container"
+          id="add-files"
+          ref={this.sectionRef}
+        >
           {message && (
             <>
               <Element name="uploadError" />
@@ -241,6 +263,7 @@ AdditionalEvidencePage.propTypes = {
   getClaim: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  location: PropTypes.object,
   message: PropTypes.object,
   navigate: PropTypes.func,
   params: PropTypes.object,
