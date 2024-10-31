@@ -38,7 +38,9 @@ const EmailSignup = () => {
     }
   };
 
-  const onSignup = async () => {
+  const onSignup = async e => {
+    e.preventDefault();
+
     if (!email || !isValidEmail(email)) {
       setInputErrorMessage();
       return;
@@ -46,14 +48,18 @@ const EmailSignup = () => {
 
     logEvents();
 
-    fetch(GOV_DELIVERY_URL, {
+    await fetch(GOV_DELIVERY_URL, {
       method: 'POST',
-      body: {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         email,
         utf8: '✓',
         // eslint-disable-next-line camelcase
         category_id: 'USVACHOOSE_C1',
-      },
+      }),
     })
       .then(response => {
         if (response.ok) {
@@ -79,6 +85,7 @@ const EmailSignup = () => {
           <form
             acceptCharset="UTF-8"
             className="medium-screen:vads-u-margin-top--2p5 medium-screen:vads-u-margin-top--0"
+            onSubmit={onSignup}
           >
             <va-text-input
               autocomplete="email"
@@ -96,12 +103,12 @@ const EmailSignup = () => {
               type="email"
               use-forms-pattern="single"
             />
-            <va-button
-              disable-analytics
-              onClick={onSignup}
-              class="vads-u-margin-bottom--2 vads-u-margin-top--1p5"
-              text="Sign up"
-            />
+            <button
+              type="submit"
+              className="vads-u-width--auto vads-u-margin-bottom--2 vads-u-margin-top--1p5"
+            >
+              Sign up
+            </button>
           </form>
         </div>
         <div className="vads-u-display--none medium-screen:vads-u-display--block">
