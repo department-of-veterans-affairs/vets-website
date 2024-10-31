@@ -1,15 +1,15 @@
 import React from 'react';
 
 import {
-  PersonalInformationContactReview,
-  PersonalInformationContact,
+  ContactInformation,
+  ContactInformationReview,
 } from '../../pages/ContactInformation';
 
 export const contactInformation = {
   title: 'Contact information',
   path: 'personal-information/contact-information',
   initialData: {},
-  CustomPage: PersonalInformationContact,
+  CustomPage: ContactInformation,
   CustomPageReview: null,
   uiSchema: {},
   schema: {
@@ -18,7 +18,7 @@ export const contactInformation = {
   },
   review: props => ({
     'Contact Information': (() => {
-      return <PersonalInformationContactReview {...props} />;
+      return <ContactInformationReview {...props} />;
     })(),
   }),
 };

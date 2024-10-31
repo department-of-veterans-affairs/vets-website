@@ -5,7 +5,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
 import manifest from '../manifest.json';
 
-import contactInformation from './pages/contactInformation';
+import { contactInformation } from './pages/contactInformation';
 import { reviewAndSubmit } from './pages/reviewAndSubmit';
 import { applicantInformation } from './pages/applicantInformation';
 import { editVeteranAddress } from './pages/editVeteranAddress';
