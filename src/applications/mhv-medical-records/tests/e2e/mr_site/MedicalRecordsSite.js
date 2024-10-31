@@ -17,10 +17,10 @@ class MedicalRecordsSite {
     // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
   };
 
-  mockFeatureToggles = ({
+  mockFeatureToggles = (
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
-  }) => {
+  ) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
