@@ -25,6 +25,7 @@ const formConfig = {
   trackingPrefix: 'edu-',
   formId: VA_FORM_IDS.FORM_22_1990,
   version: 1,
+  migrations: [],
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
