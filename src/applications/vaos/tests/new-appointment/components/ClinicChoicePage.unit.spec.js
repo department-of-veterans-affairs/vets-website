@@ -65,28 +65,32 @@ describe('VAOS Page: ClinicChoicePage', () => {
       store,
     });
 
-    await screen.findByText(/Choose a VA clinic/i);
-
-    expect(screen.baseElement).to.contain.text(
-      'Primary care appointments are available at the following Cheyenne VA Medical Center clinics:',
+    // Then the primary header should have focus
+    const radioSelector = screen.container.querySelector('va-radio');
+    expect(radioSelector).to.exist;
+    expect(radioSelector).to.have.attribute(
+      'label',
+      'Which VA clinic would you like to go to?',
     );
-    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
 
-    expect(screen.baseElement).to.contain.text(
-      'Choose a clinic below or request a different clinic for this appointment.',
-    );
-    expect(await screen.findAllByRole('radio')).to.have.length(3);
-    expect(screen.getByLabelText('Green team clinic')).to.have.tagName('input');
-    expect(screen.getByLabelText('Red team clinic')).to.have.tagName('input');
-    expect(screen.getByLabelText('I need a different clinic')).to.have.tagName(
-      'input',
+    // And the user should see radio buttons for each clinic
+    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    expect(radioOptions).to.have.lengthOf(3);
+    expect(radioOptions[0]).to.have.attribute('label', 'Green team clinic');
+    expect(radioOptions[1]).to.have.attribute('label', 'Red team clinic');
+    expect(radioOptions[2]).to.have.attribute(
+      'label',
+      'I need a different clinic',
     );
 
     userEvent.click(screen.getByText(/continue/i));
 
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'You must provide a response',
-    );
+    // Then there should be a validation error
+    // Assertion currently disabled due to
+    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
+    // expect(await screen.findByRole('alert')).to.contain.text(
+    //   'You must provide a response',
+    // );
     expect(screen.history.push.called).not.to.be.true;
 
     await cleanup();
@@ -127,15 +131,12 @@ describe('VAOS Page: ClinicChoicePage', () => {
       store,
     });
 
-    await screen.findByText(/Choose a VA clinic/i);
-    expect(screen.baseElement).to.contain.text(
-      'In the last 24 months you’ve had an amputation care appointment at the following Cheyenne VA Medical Center clinics:',
-    );
-
-    userEvent.click(screen.getByLabelText(/red team/i));
-    await waitFor(
-      () => expect(screen.getByLabelText(/red team/i).checked).to.be.true,
-    );
+    // And the user selected a clinic
+    const radioSelector = screen.container.querySelector('va-radio');
+    let changeEvent = new CustomEvent('selected', {
+      detail: { value: '983_309' },
+    });
+    radioSelector.__events.vaValueChange(changeEvent);
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
@@ -145,12 +146,10 @@ describe('VAOS Page: ClinicChoicePage', () => {
     );
 
     // choosing the third option sends you to request flow
-    userEvent.click(screen.getByText(/need a different clinic/i));
-    await waitFor(
-      () =>
-        expect(screen.getByLabelText(/need a different clinic/i).checked).to.be
-          .true,
-    );
+    changeEvent = new CustomEvent('selected', {
+      detail: { value: 'NONE' },
+    });
+    radioSelector.__events.vaValueChange(changeEvent);
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
@@ -192,33 +191,30 @@ describe('VAOS Page: ClinicChoicePage', () => {
       store,
     });
 
-    await screen.findByText(/last amputation care appointment/i);
-    expect(screen.baseElement).to.contain.text(
-      'Your last amputation care appointment was at Green team clinic:',
+    // Then the primary header should have focus
+    const radioSelector = screen.container.querySelector('va-radio');
+    expect(radioSelector).to.exist;
+    expect(radioSelector).to.have.attribute(
+      'label',
+      'Would you like to make an appointment at Green team clinic?',
     );
-    expect(screen.baseElement).to.contain.text('Choose a VA clinic');
-    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text(
-      'Cheyenne, WyomingWY 82001-5356',
-    );
-    expect(screen.getByTestId('facility-telephone')).to.exist;
 
-    expect(screen.baseElement).to.contain.text(
-      'Would you like to make an appointment at Green team clinic',
+    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    expect(radioOptions).to.have.lengthOf(2);
+    expect(radioOptions[0]).to.have.attribute(
+      'label',
+      'Yes, make my appointment here',
     );
-    expect(screen.getAllByRole('radio').length).to.equal(2);
-    expect(
-      screen.getByLabelText('Yes, make my appointment here'),
-    ).to.have.tagName('input');
-    expect(
-      screen.getByLabelText('No, I need a different clinic'),
-    ).to.have.tagName('input');
+    expect(radioOptions[1]).to.have.attribute(
+      'label',
+      'No, I need a different clinic',
+    );
 
     // Yes should go to direct flow
-    userEvent.click(screen.getByLabelText(/yes/i));
-    await waitFor(
-      () => expect(screen.getByLabelText(/yes/i).checked).to.be.true,
-    );
+    let changeEvent = new CustomEvent('selected', {
+      detail: { value: '983_308' },
+    });
+    radioSelector.__events.vaValueChange(changeEvent);
 
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
@@ -228,8 +224,10 @@ describe('VAOS Page: ClinicChoicePage', () => {
     );
 
     // No sends you to the request flow
-    userEvent.click(screen.getByText(/No/));
-    await waitFor(() => expect(screen.getByLabelText(/No/).checked).to.be.true);
+    changeEvent = new CustomEvent('selected', {
+      detail: { value: 'NONE' },
+    });
+    radioSelector.__events.vaValueChange(changeEvent);
 
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
@@ -274,12 +272,12 @@ describe('VAOS Page: ClinicChoicePage', () => {
       store,
     });
 
-    await screen.findByText(/Choose a VA clinic/i);
-
-    userEvent.click(screen.getByLabelText(/red team/i));
-    await waitFor(
-      () => expect(screen.getByLabelText(/red team/i).checked).to.be.true,
-    );
+    // And the user selected a clinic
+    const radioSelector = screen.container.querySelector('va-radio');
+    const changeEvent = new CustomEvent('selected', {
+      detail: { value: '983_309' },
+    });
+    radioSelector.__events.vaValueChange(changeEvent);
     userEvent.click(screen.getByRole('button', { name: /Continue/i }));
 
     await cleanup();
@@ -287,9 +285,10 @@ describe('VAOS Page: ClinicChoicePage', () => {
     screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
     });
-    await waitFor(
-      () => expect(screen.getByLabelText(/red team/i).checked).to.be.true,
-    );
+
+    await waitFor(() => {
+      expect(radioSelector).to.have.attribute('value', '983_309');
+    });
 
     await cleanup();
   });

@@ -120,7 +120,7 @@ describe('VAOS request schedule flow - Audiology', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectClinic({ selection: /Clinic 1/i })
+          .selectClinic({ selection: '983_1' }) // Clinic 1
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()

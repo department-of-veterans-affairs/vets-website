@@ -250,7 +250,7 @@ const flow = {
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
-    label: 'Choose a VA clinic',
+    label: 'Which VA clinic would you like to go to?',
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
         dispatch(startRequestAppointmentFlow());

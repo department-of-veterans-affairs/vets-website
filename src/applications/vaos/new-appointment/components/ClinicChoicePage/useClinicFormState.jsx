@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import useFormState from '../../../hooks/useFormState';
 import { getSiteIdFromFacilityId } from '../../../services/location';
 import { getClinicId } from '../../../services/healthcare-service';
@@ -28,11 +29,17 @@ const initialSchema = {
 };
 const uiSchema = {
   clinicId: {
-    'ui:widget': 'radio',
+    'ui:widget': 'radio', // Required
+    'ui:webComponentField': VaRadioField,
+    'ui:options': {
+      classNames: 'vads-u-margin-top--neg2',
+      showFieldLabel: false,
+      labelHeaderLevel: '1',
+    },
   },
 };
 
-export default function useClinicFormState() {
+export default function useClinicFormState(pageTitle) {
   const initialData = useSelector(getFormData);
   const location = useSelector(selectChosenFacilityInfo);
 
@@ -125,8 +132,7 @@ export default function useClinicFormState() {
           properties: {
             clinicId: {
               type: 'string',
-              title:
-                'Choose a clinic below or request a different clinic for this appointment.',
+              title: pageTitle,
               enum: filteredClinics.map(clinic => clinic.id).concat('NONE'),
               enumNames: filteredClinics
                 .map(clinic => clinic.serviceName)
