@@ -157,7 +157,7 @@ const AreaOfDisagreement = ({
           error={inputErrorMessage}
           onInput={handlers.onInput}
           value={disagreements.otherEntry}
-          maxlength={maxLength}
+          maxLength={maxLength}
           uswds
           charcount
         />
