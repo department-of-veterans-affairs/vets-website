@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import {
   focusElement,
@@ -29,22 +30,47 @@ export default class ConfirmationPage extends React.Component {
     setTimeout(() => focusElement('va-alert h2'), 100);
   }
 
+  // the legacy 526 confirmation page that has 3 states
+  LegacyConfirmationPage = props => {
+    switch (props.submissionStatus) {
+      case submissionStatuses.succeeded:
+        return successfulSubmitContent(props);
+      case submissionStatuses.retry:
+      case submissionStatuses.exhausted:
+      case submissionStatuses.apiFailure:
+        return retryableErrorContent(props);
+      default:
+        return submitErrorContent(props);
+    }
+  };
+
+  // the new 526 submission confirmation that has one state
+  ConfirmationPageContent = props => (
+    // TODO: #95241 implement new confirmation page
+    <>
+      <Toggler
+        toggleName={Toggler.TOGGLE_NAMES.disability526NewConfirmationPage}
+      >
+        <Toggler.Enabled>
+          <div
+            hidden
+            aria-hidden
+            id="new-confirmation-page"
+            data-testid="new-confirmation-page"
+          />
+        </Toggler.Enabled>
+      </Toggler>
+
+      {this.LegacyConfirmationPage(props)}
+    </>
+  );
+
   render() {
     // Reset everything
     sessionStorage.removeItem(WIZARD_STATUS);
     sessionStorage.removeItem(FORM_STATUS_BDD);
     sessionStorage.removeItem(SAVED_SEPARATION_DATE);
-
-    switch (this.props.submissionStatus) {
-      case submissionStatuses.succeeded:
-        return successfulSubmitContent(this.props);
-      case submissionStatuses.retry:
-      case submissionStatuses.exhausted:
-      case submissionStatuses.apiFailure:
-        return retryableErrorContent(this.props);
-      default:
-        return submitErrorContent(this.props);
-    }
+    return this.ConfirmationPageContent(this.props);
   }
 }
 

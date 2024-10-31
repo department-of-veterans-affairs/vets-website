@@ -145,7 +145,6 @@ export const checkboxGroupUI = ({
       }
       return {
         data,
-        label: title,
       };
     },
     'ui:options': {

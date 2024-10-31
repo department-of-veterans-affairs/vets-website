@@ -99,6 +99,19 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-stepchild-no-longer-part-of-household/0/child-address': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('select#options[name="root_address_state"]', { timeout: 1000 })
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.get('select#options[name="root_address_state"]').select('AL');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       'add-child/0/additional-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#root_doesChildLiveWithYouYes').click();
