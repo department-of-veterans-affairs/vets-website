@@ -18,6 +18,8 @@ import ReviewPage from '../../pages/ReviewPage';
 import { VIEW_FIELD_SCHEMA } from '../../../../../utils/constants';
 // import { taskCompletePage } from '../../../../../shared/config/taskCompletePage';
 
+import { taskCompletePagePattern2 } from '../../../../../shared/config/taskCompletePage';
+
 // import { serviceHistory } from './chapters/service';
 
 // import { loanScreener, loanHistory } from './chapters/loans';
@@ -134,6 +136,7 @@ const formConfig = {
           },
           scrollAndFocusTarget,
         },
+        taskCompletePagePattern2,
       },
     },
   },
