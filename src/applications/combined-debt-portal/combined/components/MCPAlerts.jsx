@@ -7,11 +7,7 @@ import { currency, calcDueDate, formatDate } from '../utils/helpers';
 const Alert = ({ children }) => children;
 
 Alert.Error = () => (
-  <va-alert
-    status="error"
-    data-testid="error-alert"
-    class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
-  >
+  <va-alert status="error" data-testid="error-alert">
     <h2 slot="headline">
       We can’t access your current copay balances right now
     </h2>
@@ -47,11 +43,7 @@ Alert.PastDue = ({ copay }) => {
   const statementDate = formatDate(copay?.pSStatementDateOutput);
 
   return (
-    <va-alert
-      status="info"
-      data-testid="past-due-balance-alert"
-      class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
-    >
+    <va-alert status="info" data-testid="past-due-balance-alert">
       <h2 slot="headline">Your balance may be overdue</h2>
       <p>
         Your balance on
@@ -88,11 +80,7 @@ Alert.ZeroBalance = ({ copay }) => {
   const statementDate = formatDate(copay?.pSStatementDateOutput);
 
   return (
-    <va-alert
-      status="info"
-      data-testid="zero-balance-alert"
-      class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
-    >
+    <va-alert status="info" data-testid="zero-balance-alert">
       <h2 slot="headline">You don’t need to make a payment at this time</h2>
       <p>
         Your balance is $0 and was updated on
@@ -124,11 +112,7 @@ Alert.ZeroBalance.propTypes = {
 };
 
 Alert.NoHealthcare = () => (
-  <va-alert
-    status="warning"
-    data-testid="no-healthcare-alert"
-    class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
-  >
+  <va-alert status="warning" data-testid="no-healthcare-alert">
     <h2 slot="headline">You’re not enrolled in VA health care</h2>
     <p>
       You can’t check copay balances at this time because our records show that
@@ -152,11 +136,7 @@ Alert.NoHealthcare = () => (
 );
 
 Alert.NoHistory = () => (
-  <va-alert
-    status="info"
-    data-testid="no-history-alert"
-    class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
-  >
+  <va-alert status="info" data-testid="no-history-alert">
     <h2 slot="headline">
       You haven’t received a copay bill in the past 6 months
     </h2>
@@ -176,12 +156,7 @@ Alert.NoHistory = () => (
 );
 
 Alert.Status = ({ copay }) => (
-  <va-alert
-    background-only
-    status="info"
-    data-testid="status-alert"
-    class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
-  >
+  <va-alert background-only status="info" data-testid="status-alert">
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}

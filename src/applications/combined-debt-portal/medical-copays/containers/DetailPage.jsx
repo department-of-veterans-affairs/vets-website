@@ -87,7 +87,7 @@ const DetailPage = ({ match }) => {
           . Payments after this date will not be reflected here.
         </p>
         <Alert type={alert} copay={selectedCopay} />
-        <va-on-this-page />
+        <va-on-this-page class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0" />
         <HTMLStatementList selectedId={selectedId} />
         <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
         <FinancialHelp />

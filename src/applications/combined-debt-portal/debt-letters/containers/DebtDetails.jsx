@@ -36,10 +36,6 @@ const DebtDetails = () => {
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
-  // const hasPaymentHistory =
-  //   currentDebt.fiscalTransactionData &&
-  //   currentDebt.fiscalTransactionData.length > 0;
-
   const howToUserData = {
     fileNumber: currentDebt.fileNumber,
     payeeNumber: currentDebt.payeeNumber,
