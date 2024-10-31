@@ -39,6 +39,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {},
+  saveInProgress: {},
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
   footerContent: FormFooter,
