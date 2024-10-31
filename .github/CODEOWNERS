@@ -19,24 +19,24 @@
 
 # Platform Design System
 
-src/platform/forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
-src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
-src/applications/_mock-form @department-of-veterans-affairs/platform-va-product-forms
-src/applications/simple-forms @department-of-veterans-affairs/platform-va-product-forms
-src/platform/static-pages/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
-script/component-migration @department-of-veterans-affairs/platform-design-system-fe
-src/applications/ds-playground @department-of-veterans-affairs/platform-design-system-fe
-src/applications/ds-v3-playground @department-of-veterans-affairs/platform-design-system-fe
-src/applications/sah @department-of-veterans-affairs/platform-va-product-forms
-src/applications/static-pages/wizard @department-of-veterans-affairs/platform-va-product-forms
+src/platform/forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/_mock-form @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/static-pages/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+script/component-migration @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/ds-playground @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/ds-v3-playground @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/sah @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/wizard @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Platform Design System - Header/footer (VA.gov and TeamSites)
-src/platform/site-wide/header @department-of-veterans-affairs/platform-design-system-fe
-src/platform/site-wide/legacy @department-of-veterans-affairs/platform-design-system-fe
-src/platform/site-wide/mega-menu @department-of-veterans-affairs/platform-design-system-fe
-src/platform/site-wide/mobile-menu-button @department-of-veterans-affairs/platform-design-system-fe
-src/platform/site-wide/va-footer @department-of-veterans-affairs/platform-design-system-fe
-src/applications/proxy-rewrite @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/vfs-public-websites-frontend
+src/platform/site-wide/header @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/legacy @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/mega-menu @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/mobile-menu-button @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/va-footer @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/proxy-rewrite @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # octo-identity authentication
 

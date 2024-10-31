@@ -80,11 +80,40 @@ export const App = ({
         return;
       }
 
-      if (!fetchedPersonalInfo || !fetchedContactInfo) {
+
+      if (
+        (!fetchedPersonalInfo && !meb160630Automation) ||
+        (!fetchedContactInfo && !meb160630Automation)
+      ) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
-        getPersonalInfo(showMebEnhancements09);
-      } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
+        getPersonalInfo('Chapter33');
+      } else if (
+        !formData[formFields.claimantId] &&
+        claimantInfo?.claimantId &&
+        !meb160630Automation
+      ) {
+        setFormData({
+          ...formData,
+          ...claimantInfo,
+        });
+      }
+
+      if (
+        (!fetchedPersonalInfo &&
+          meb160630Automation &&
+          formData?.chosenBenefit) ||
+        (!fetchedContactInfo &&
+          (meb160630Automation && formData?.chosenBenefit))
+      ) {
+        setFetchedPersonalInfo(true);
+        setFetchedContactInfo(true);
+        getPersonalInfo(formData?.chosenBenefit);
+      } else if (
+        !formData[formFields.claimantId] &&
+        claimantInfo?.claimantId &&
+        meb160630Automation
+      ) {
         setFormData({
           ...formData,
           ...claimantInfo,

@@ -35,7 +35,7 @@ const vitals = require('./medical-records/vitals');
 
 const responses = {
   ...commonResponses,
-  'GET /v0/user': user.acceleratedCernerUser,
+  'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
