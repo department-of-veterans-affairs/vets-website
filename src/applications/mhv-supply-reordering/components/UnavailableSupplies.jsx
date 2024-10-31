@@ -1,6 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { getUnavailableSupplies } from '../utilities/mdot';
 
@@ -17,7 +18,12 @@ const UnavailableSupplies = ({ mdotData }) => {
         key={`mhv-supply-unavail-${index}`}
         data-testid="mhv-supply-intro-unavail-card"
       >
-        <va-card class="mhv-c-reorder-unavail-card">
+        <va-card
+          class={classNames({
+            'mhv-c-reorder-unavail-card': true,
+            'vads-u-margin-bottom--1p5': index < unavailSupplies.length - 1,
+          })}
+        >
           <div>
             <strong>{supply.productGroup}</strong> <br />
             Device: {supply.productName} <br />
@@ -46,7 +52,6 @@ const UnavailableSupplies = ({ mdotData }) => {
             </p>
           )}
         </va-card>
-        {index < unavailSupplies.length - 1 && <br />}
       </div>
     ));
 
@@ -54,14 +59,14 @@ const UnavailableSupplies = ({ mdotData }) => {
     <>
       {unavailSupplies?.length > 0 && (
         <div>
-          <h3>Unavailable for reorder</h3>
+          <h2>Unavailable for reorder</h2>
           <p>
             Showing {unavailSupplies.length} medical{' '}
             {unavailSupplies.length > 1
               ? 'supplies, alphabetically by name'
               : 'supply'}
           </p>
-          <hr />
+          <hr className="vads-u-margin-top--0 vads-u-margin-bottom--2" />
           {cards}
         </div>
       )}

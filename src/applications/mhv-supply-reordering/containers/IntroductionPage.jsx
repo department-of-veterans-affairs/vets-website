@@ -66,18 +66,22 @@ export const IntroductionPage = ({
         <div data-testid="mhv-supply-intro-content">
           {numAvailSupplies > 0 && (
             <div>
-              <h2>
-                You have {numAvailSupplies}{' '}
-                {numAvailSupplies > 1 ? 'supplies' : 'supply'} available
-              </h2>
-              <SaveInProgressIntro
-                headingLevel={3}
-                prefillEnabled={formConfig.prefillEnabled}
-                messages={formConfig.savedFormMessages}
-                pageList={pageList}
-                startText="Start a new order"
-                formConfig={formConfig}
-              />
+              <va-card background>
+                <h2>Available for reorder</h2>
+                <p>
+                  You have {numAvailSupplies}{' '}
+                  {numAvailSupplies > 1 ? 'supplies' : 'supply'} available to
+                  reorder
+                </p>
+                <SaveInProgressIntro
+                  headingLevel={3}
+                  prefillEnabled={formConfig.prefillEnabled}
+                  messages={formConfig.savedFormMessages}
+                  pageList={pageList}
+                  startText="Start a new order"
+                  formConfig={formConfig}
+                />
+              </va-card>
             </div>
           )}
 
