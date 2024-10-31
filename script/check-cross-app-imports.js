@@ -100,10 +100,10 @@ if (!appFolders && !checkAllowlist) {
   console.log(
     'list of apps with cross-app imports:',
     JSON.stringify(
-      Object.entries(
-        crossAppJson.filter(
-          app => Object.keys(app.appsThatThisAppImportsFrom).length > 1,
-        ),
+      Object.keys(crossAppJson).filter(
+        app =>
+          app.appsThatThisAppImportsFrom &&
+          Object.keys(app.appsThatThisAppImportsFrom.length > 0),
       ),
     ),
   );
