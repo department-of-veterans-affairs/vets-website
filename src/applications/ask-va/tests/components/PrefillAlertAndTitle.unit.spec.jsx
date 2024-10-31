@@ -25,7 +25,7 @@ describe('PrefillAlertAndTitle Component', () => {
 
     expect(
       getByText(
-        'We’ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below. Any updates you make here to your contact information will only apply to this form.',
+        'We’ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below. Any updates you make here will only apply to this form.',
       ),
     ).to.exist;
 
@@ -49,7 +49,7 @@ describe('PrefillAlertAndTitle Component', () => {
 
     expect(
       getByText(
-        'We’ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below. Any updates you make here to your contact information will only apply to this form.',
+        'We’ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below. Any updates you make here will only apply to this form.',
       ),
     ).to.exist;
 

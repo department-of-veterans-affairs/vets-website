@@ -276,7 +276,6 @@ export class ConfirmationPage extends React.Component {
               id="filters-section-mobile-toggle"
             >
               <va-link-action
-                message-aria-describedby="Filter and sort"
                 text="Filter and sort"
                 type="secondary"
                 onClick={() => this.toggleMobileFiltersClass()}
@@ -308,11 +307,32 @@ export class ConfirmationPage extends React.Component {
                 <option key="All" value="All">
                   All
                 </option>
-                <option key="Education" value="Education">
-                  Education
+                <option key="Burials" value="Burials">
+                  Burials and memorials
                 </option>
                 <option key="Careers" value="Careers">
                   Careers & Employment
+                </option>
+                <option key="Disability" value="Disability">
+                  Disability
+                </option>
+                <option key="Education" value="Education">
+                  Education
+                </option>
+                <option key="Health Care" value="Health Care">
+                  Health Care
+                </option>
+                <option key="Housing" value="Housing">
+                  Housing Assistance
+                </option>
+                <option key="Life Insurance" value="Life Insurance">
+                  Life Insurance
+                </option>
+                <option key="Loan Guaranty" value="Loan Guaranty">
+                  Loan Guaranty
+                </option>
+                <option key="Pension" value="Pension">
+                  Pension
                 </option>
                 <option key="Support" value="Support">
                   More Support

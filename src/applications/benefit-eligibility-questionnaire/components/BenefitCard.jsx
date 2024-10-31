@@ -16,8 +16,9 @@ const BenefitCard = ({ benefit }) => {
         <div>
           <div className="vads-u-display--inline-block vads-u-margin-right--2">
             {learnMoreURL && (
-              <va-link-action
+              <va-link
                 href={learnMoreURL}
+                external
                 text="Learn more"
                 type="secondary"
                 label={`Learn more about ${name}`}
@@ -26,8 +27,9 @@ const BenefitCard = ({ benefit }) => {
           </div>
           <div className="vads-u-display--inline-block">
             {applyNowURL && (
-              <va-link-action
+              <va-link
                 href={applyNowURL}
+                external
                 text="Apply now"
                 type="secondary"
                 label={`Apply now for ${name}`}
