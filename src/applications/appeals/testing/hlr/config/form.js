@@ -20,7 +20,7 @@ import contactInfo from '../pages/contactInformation';
 import contestableIssuesPage from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
-import AreaOfDisagreement from '../components/AreaOfDisagreement';
+import AreaOfDisagreement from '../../../shared/components/AreaOfDisagreement';
 import optIn from '../pages/optIn';
 import issueSummary from '../pages/issueSummary';
 import informalConference from '../pages/informalConference';

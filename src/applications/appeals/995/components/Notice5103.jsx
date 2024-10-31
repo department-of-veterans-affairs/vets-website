@@ -2,15 +2,11 @@ import React, { useState } from 'react';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import {
-  scrollToFirstError,
-  waitForRenderThenFocus,
-} from 'platform/utilities/ui';
 
 import { Notice5103Description, content } from '../content/notice5103';
 
 import { customPageProps995 } from '../../shared/props';
+import { focusFirstError } from '../../shared/utils/focus';
 
 const Notice5103 = ({
   data = {},
@@ -29,8 +25,7 @@ const Notice5103 = ({
     onGoForward: () => {
       if (!data.form5103Acknowledged) {
         setHasError(true);
-        scrollToFirstError($('va-checkbox'));
-        waitForRenderThenFocus('input', $('va-checkbox').shadowRoot);
+        setTimeout(focusFirstError);
       } else if (onReviewPage) {
         setHasError(false);
         updatePage();
@@ -44,8 +39,7 @@ const Notice5103 = ({
       setFormData({ ...data, form5103Acknowledged: checked });
       setHasError(!checked);
       if (!checked) {
-        scrollToFirstError($('va-checkbox'));
-        waitForRenderThenFocus('input', $('va-checkbox').shadowRoot);
+        setTimeout(focusFirstError);
       }
     },
   };

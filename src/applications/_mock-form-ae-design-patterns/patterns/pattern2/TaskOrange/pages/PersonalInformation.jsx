@@ -1,17 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { PatternConfigContext } from 'applications/_mock-form-ae-design-patterns/shared/context/PatternConfigContext';
 import { withRouter } from 'react-router';
 import { SaveSuccessAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/SaveSuccessAlert';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
+import { scrollToElement } from 'platform/forms-system/exportsFile';
 import { formatPhoneNumber } from '../../../../utils/helpers/general';
 import { InfoSection } from '../../../../shared/components/InfoSection';
 
 const getLinkFactory = (rootUrl, review = false) => {
   return id => {
     const url = `${rootUrl}personal-information/${id}`;
-    return review ? `${url}?review` : url;
+    return review ? `${url}?review=true` : url;
   };
 };
 
@@ -34,12 +35,20 @@ export const PersonalInformationContact = ({
 }) => {
   const config = useContext(PatternConfigContext);
 
-  const reviewId = location?.state?.reviewId;
-  const success = location?.state?.success;
+  const updatedSection = location?.query?.updatedSection;
+  const success = location?.query?.success;
 
-  if (reviewId) {
-    waitForRenderThenFocus(`#${reviewId}`);
-  }
+  useEffect(
+    () => {
+      if (updatedSection) {
+        setTimeout(() => {
+          waitForRenderThenFocus(`#${updatedSection}`);
+          scrollToElement(updatedSection);
+        }, 100);
+      }
+    },
+    [updatedSection],
+  );
 
   const { homePhone, mobilePhone, email } = data;
 
@@ -59,18 +68,26 @@ export const PersonalInformationContact = ({
       <div className="vads-u-margin-top--4">
         <InfoSection>
           <InfoSection.SubHeading
-            text="Contact information"
+            text="Communication method"
             editLink={getLink('edit-contact-preference')}
+            level={4}
           />
           <InfoSection.InfoBlock
             label="How should we contact you if we have questions about your application?"
-            value="email"
+            value="Email"
           />
 
           <InfoSection.SubHeading
-            text="Address"
-            editLink={getLink('edit-address')}
+            text="Mailing address"
+            editLink={getLink('edit-veteran-address')}
+            id="veteranAddress"
+            name="veteranAddress"
+            level={4}
           />
+          {success &&
+            updatedSection === 'veteranAddress' && (
+              <SaveSuccessAlert updatedText="Address information" />
+            )}
           <InfoSection.InfoBlock
             label="Street address"
             value={address?.street}
@@ -81,16 +98,21 @@ export const PersonalInformationContact = ({
           />
           <InfoSection.InfoBlock label="City" value={address?.city} />
           <InfoSection.InfoBlock label="State" value={address?.state} />
-          <InfoSection.InfoBlock label="Zip code" value={address?.zipCode} />
+          <InfoSection.InfoBlock
+            label="Postal code"
+            value={address?.postalCode}
+          />
 
           <InfoSection.SubHeading
             text="Other contact information"
             editLink={getLink('edit-other-contact-information')}
-            id="other-contact-information"
+            id="otherContactInformation"
+            name="otherContactInformation"
+            level={4}
           />
 
           {success &&
-            reviewId === 'other-contact-information' && (
+            updatedSection === 'otherContactInformation' && (
               <SaveSuccessAlert updatedText="Other contact information" />
             )}
           <InfoSection.InfoBlock label="Email address" value={email} />
