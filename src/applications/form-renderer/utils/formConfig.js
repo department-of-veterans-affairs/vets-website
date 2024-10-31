@@ -12,7 +12,7 @@ import {
 const getChapterKey = chapter =>
   chapter.type === 'digital_form_your_personal_info'
     ? 'personalInformationChapter'
-    : chapter.id;
+    : `chapter${chapter.id}`;
 
 export const selectSchemas = page => {
   switch (page.type) {
