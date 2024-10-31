@@ -47,7 +47,6 @@ export default function ConfirmedAppointmentDetailsPage() {
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const appointmentDate = moment.parseZone(appointment?.start);
-
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
@@ -70,7 +69,7 @@ export default function ConfirmedAppointmentDetailsPage() {
       let pageTitle = 'VA appointment on';
       let prefix = null;
 
-      if (selectIsPast(appointment)) prefix = 'Past';
+      if (isPast) prefix = 'Past';
       else if (selectIsCanceled(appointment)) prefix = 'Canceled';
 
       if (isCommunityCare)
@@ -151,7 +150,6 @@ export default function ConfirmedAppointmentDetailsPage() {
       </PageLayout>
     );
   }
-
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
