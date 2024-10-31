@@ -205,18 +205,24 @@ Provider notes: ${allergyData.notes} \n`;
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
           <div
-            className="condition-details max-80 vads-u-margin-top--4"
+            className="max-80 vads-u-margin-top--4"
             data-testid="allergy-reaction"
           >
-            <h2 className="vads-u-font-family--sans">Signs and symptoms</h2>
+            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+              Signs and symptoms
+            </h2>
             <ItemList list={allergyData.reaction} />
-            <h2 className="vads-u-font-family--sans">Type of allergy</h2>
+            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+              Type of allergy
+            </h2>
             <p data-dd-privacy="mask" data-testid="allergy-type">
               {allergyData.type}
             </p>
             {!allergyData.isOracleHealthData && (
               <>
-                <h2 className="vads-u-font-family--sans">Location</h2>
+                <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+                  Location
+                </h2>
                 <p data-dd-privacy="mask" data-testid="allergy-location">
                   {allergyData.location}
                 </p>
@@ -224,7 +230,7 @@ Provider notes: ${allergyData.notes} \n`;
             )}
             {!allergyData.isOracleHealthData && (
               <>
-                <h2 className="vads-u-font-family--sans">
+                <h2 className="vads-u-font-size--md vads-u-font-family--sans">
                   Observed or historical
                 </h2>
                 <p data-dd-privacy="mask" data-testid="allergy-observed">
@@ -234,13 +240,17 @@ Provider notes: ${allergyData.notes} \n`;
             )}
             {allergyData.isOracleHealthData && (
               <>
-                <h2 className="vads-u-font-family--sans">Recorded by</h2>
+                <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+                  Recorded by
+                </h2>
                 <p data-dd-privacy="mask" data-testid="allergy-observed">
                   {allergyData.provider}
                 </p>
               </>
             )}
-            <h2 className="vads-u-font-family--sans">Provider notes</h2>
+            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+              Provider notes
+            </h2>
             <p data-dd-privacy="mask" data-testid="allergy-notes">
               {allergyData.notes}
             </p>

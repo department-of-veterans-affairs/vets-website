@@ -337,10 +337,14 @@ export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
   );
 
   // if TG is not associated or is blocked, formattedRecipient will include status of "not associated" or "blocked"
-  if (!isAssociated) {
-    formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
-  } else if (isBlocked) {
-    formattedRecipient.status = RecipientStatus.BLOCKED;
+  if (formattedRecipient) {
+    if (!isAssociated) {
+      formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
+    } else if (isBlocked) {
+      formattedRecipient.status = RecipientStatus.BLOCKED;
+    } else {
+      formattedRecipient.status = RecipientStatus.ALLOWED;
+    }
   }
 
   return { isAssociated, isBlocked, formattedRecipient };

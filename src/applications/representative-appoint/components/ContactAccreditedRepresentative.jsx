@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 import { useReviewPage } from '../hooks/useReviewPage';
+import { getEntityAddressAsObject } from '../utilities/helpers';
 
 import AddressEmailPhone from './AddressEmailPhone';
-import { getEntityAddressAsObject } from '../utilities/helpers';
 
 const ContactAccreditedRepresentative = props => {
   const { formData, goBack, goForward, goToPath } = props;
@@ -21,7 +21,9 @@ const ContactAccreditedRepresentative = props => {
 
   const orgSelectionRequired =
     !!representative &&
-    representative.attributes?.individualType === 'representative' &&
+    ['representative', 'veteran_service_officer'].includes(
+      representative.attributes?.individualType,
+    ) &&
     representative.attributes?.accreditedOrganizations?.data?.length > 1;
 
   const handleGoBack = () => {
@@ -39,8 +41,6 @@ const ContactAccreditedRepresentative = props => {
       } else {
         goToPath('/review-and-submit');
       }
-    } else if (orgSelectionRequired) {
-      goToPath('/representative-organization');
     } else {
       goForward(formData);
     }
@@ -138,6 +138,9 @@ const ContactAccreditedRepresentative = props => {
 
 ContactAccreditedRepresentative.propTypes = {
   formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
