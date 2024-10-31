@@ -24,7 +24,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990`,
   trackingPrefix: 'edu-',
   formId: VA_FORM_IDS.FORM_22_1990,
-  version: 1,
+  version: 0,
   migrations: [],
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
