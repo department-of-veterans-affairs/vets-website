@@ -9,13 +9,23 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import { useParams } from 'react-router-dom';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
-import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  GA_PREFIX,
+  TRAVEL_CLAIM_MESSAGES,
+} from '../../utils/constants';
+import { getDaysRemainingToFileClaim } from '../../utils/appointment';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
 import AfterVisitSummary from '../AfterVisitSummary';
 import {
   selectFacility,
   selectIsPast,
+  selectAppointmentTravelClaim,
 } from '../../appointment-list/redux/selectors';
+import {
+  selectFeatureTravelPayViewClaimDetails,
+  selectFeaturetravelPaySubmitMileageExpense,
+} from '../../redux/selectors';
 import StatusAlert from '../StatusAlert';
 import FacilityPhone from '../FacilityPhone';
 
@@ -202,6 +212,123 @@ function CancelButton({ appointment }) {
   return null;
 }
 
+export function TravelReimbursement({
+  appointmentDate,
+  claimData,
+  daysRemainingToFileClaim,
+  isPastAppointment,
+}) {
+  if (!isPastAppointment) return null;
+  if (!claimData) return null;
+
+  let body = null;
+
+  if (
+    claimData.message === TRAVEL_CLAIM_MESSAGES.noClaim &&
+    daysRemainingToFileClaim > 0
+  ) {
+    body = (
+      <>
+        <p className="vads-u-margin-y--0p5">
+          Days left to file: {daysRemainingToFileClaim}
+        </p>
+        <p className="vads-u-margin-y--0p5">
+          <va-link
+            data-testid="file-claim-link"
+            className="vads-u-margin-y--0p5"
+            href={`/appointments/claims/?date=${appointmentDate}`}
+            text="File a travel reimbursement claim"
+          />
+        </p>
+      </>
+    );
+  }
+  if (
+    claimData.message === TRAVEL_CLAIM_MESSAGES.noClaim &&
+    daysRemainingToFileClaim < 1
+  ) {
+    body = (
+      <>
+        <p className="vads-u-margin-y--0p5">
+          Days left to file: {daysRemainingToFileClaim}
+        </p>
+        <p className="vads-u-margin-y--0p5">
+          You didn’t file a claim for this appointment. You can only file for
+          reimbursement within 30 days of the appointment.
+        </p>
+        <p className="vads-u-margin-y--0p5">
+          <va-link
+            data-testid="how-to-file-claim-link"
+            className="vads-u-margin-y--0p5"
+            href="https://www.va.gov/resources/how-to-file-a-va-travel-reimbursement-claim-online/"
+            text="Learn more about travel reimbursement"
+          />
+        </p>
+      </>
+    );
+  }
+  if (claimData.id) {
+    body = (
+      <>
+        <p className="vads-u-margin-y--0p5">
+          You’ve already filed a claim for this appointment.
+        </p>
+        <p className="vads-u-margin-y--0p5">
+          <va-link
+            data-testid="view-claim-link"
+            href={`/appointments/claims/${claimData.id}`}
+            text="Check your claim status"
+          />
+        </p>
+      </>
+    );
+  }
+
+  if (!body) return null;
+
+  return <Section heading="Travel reimbursement">{body}</Section>;
+}
+
+TravelReimbursement.propTypes = {
+  appointmentDate: PropTypes.string,
+  claimData: PropTypes.object,
+  daysRemainingToFileClaim: PropTypes.number,
+  isPastAppointment: PropTypes.bool,
+};
+
+export function AppointmentTasks({
+  appointmentDate,
+  claimData,
+  daysRemainingToFileClaim,
+  isPastAppointment,
+}) {
+  if (!isPastAppointment) return null;
+  if (!appointmentDate) return null;
+  if (!claimData) return null;
+  if (claimData.message !== TRAVEL_CLAIM_MESSAGES.noClaim) return null;
+  if (daysRemainingToFileClaim < 1) return null;
+  return (
+    <Section heading="Appointment tasks">
+      <va-link-action
+        data-testid="file-claim-link"
+        className="vads-u-margin-top--1"
+        href={`/appointments/claims/?date=${appointmentDate}`}
+        text="File a travel reimbursement claim"
+      />
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1 action-link-below-text">
+        Days left to file: {daysRemainingToFileClaim}
+      </p>
+    </Section>
+  );
+}
+
+AppointmentTasks.propTypes = {
+  appointmentDate: PropTypes.string,
+  claimData: PropTypes.object,
+  daysRemainingToFileClaim: PropTypes.number,
+  isPastAppointment: PropTypes.bool,
+};
+
 export default function DetailPageLayout({
   children,
   data: appointment,
@@ -209,10 +336,21 @@ export default function DetailPageLayout({
 }) {
   const { id } = useParams();
   const { facility } = useSelector(state => selectFacility(state, id));
+  const travelPayViewClaimDetails = useSelector(state =>
+    selectFeatureTravelPayViewClaimDetails(state),
+  );
+  const travelPaySubmitMileageExpense = useSelector(state =>
+    selectFeaturetravelPaySubmitMileageExpense(state),
+  );
 
   if (!appointment) return null;
 
   const isPastAppointment = selectIsPast(appointment);
+
+  const claimData = selectAppointmentTravelClaim(appointment);
+  const daysRemainingToFileClaim = getDaysRemainingToFileClaim(
+    appointment.start,
+  );
 
   return (
     <>
@@ -220,6 +358,15 @@ export default function DetailPageLayout({
       <AppointmentCard appointment={appointment}>
         <h1 className="vads-u-font-size--h2">{heading}</h1>
         <StatusAlert appointment={appointment} facility={facility} />
+        {travelPaySubmitMileageExpense &&
+          travelPayViewClaimDetails && (
+            <AppointmentTasks
+              appointmentDate={appointment.start}
+              claimData={claimData}
+              daysRemainingToFileClaim={daysRemainingToFileClaim}
+              isPastAppointment={isPastAppointment}
+            />
+          )}
         {isPastAppointment &&
           APPOINTMENT_STATUS.booked === appointment.status && (
             <Section heading="After visit summary">
@@ -227,6 +374,14 @@ export default function DetailPageLayout({
             </Section>
           )}
         {children}
+        {travelPayViewClaimDetails && (
+          <TravelReimbursement
+            appointmentDate={appointment.start}
+            claimData={claimData}
+            daysRemainingToFileClaim={daysRemainingToFileClaim}
+            isPastAppointment={isPastAppointment}
+          />
+        )}
         <div
           className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"
           style={{ rowGap: '16px' }}

@@ -607,6 +607,10 @@ export function selectAtlasConfirmationCode(appointment) {
   return appointment?.videoData?.atlasConfirmationCode;
 }
 
+export function selectAppointmentTravelClaim(appointment) {
+  return appointment?.vaos?.apiData?.claim;
+}
+
 export function selectConfirmedAppointmentData(state, appointment) {
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
