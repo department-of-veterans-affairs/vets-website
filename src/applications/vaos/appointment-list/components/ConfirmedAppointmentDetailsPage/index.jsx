@@ -68,43 +68,28 @@ export default function ConfirmedAppointmentDetailsPage() {
   useEffect(
     () => {
       let pageTitle = 'VA appointment on';
-      let prefix = null;
+      let prefix = 'Upcoming';
 
       if (selectIsPast(appointment)) prefix = 'Past';
       else if (selectIsCanceled(appointment)) prefix = 'Canceled';
 
       if (isCommunityCare)
-        pageTitle = prefix
-          ? `${prefix} community care appointment on`
-          : 'Community care appointment on';
-      else if (isInPerson) {
+        pageTitle = `${prefix} Community Care Appointment On`;
+      if (isInPerson) {
         if (appointment?.vaos?.isCompAndPenAppointment)
-          pageTitle = prefix
-            ? `${prefix} claim exam appointment on`
-            : 'Claim exam appointment on';
-        else
-          pageTitle = prefix
-            ? `${prefix} in-person appointment on`
-            : 'In-person appointment on';
+          pageTitle = `${prefix} Claim Exam Appointment On`;
+        else pageTitle = `${prefix} In-person Appointment On`;
       }
       if (isVideo) {
-        pageTitle = prefix
-          ? `${prefix} video appointment on`
-          : 'Video appointment on';
+        pageTitle = `${prefix} Video Appointment On`;
         if (isClinicVideoAppointment(appointment)) {
-          pageTitle = prefix
-            ? `${prefix} video appointment at a VA location on`
-            : 'Video appointment at a VA location on';
+          pageTitle = `${prefix} Video Appointment At A VA Location On`;
         }
         if (isAtlasVideoAppointment(appointment)) {
-          pageTitle = prefix
-            ? `${prefix} video appointment at an ATLAS location on`
-            : 'Video appointment at an ATLAS location on';
+          pageTitle = `${prefix} Video Appointment At An ATLAS Location On`;
         }
       } else if (isVAPhoneAppointment(appointment)) {
-        pageTitle = prefix
-          ? `${prefix} phone appointment on`
-          : 'Phone appointment on';
+        pageTitle = `${prefix} Phone Appointment On`;
       }
       const pageTitleSuffix = featureBreadcrumbUrlUpdate
         ? ' | Veterans Affairs'
