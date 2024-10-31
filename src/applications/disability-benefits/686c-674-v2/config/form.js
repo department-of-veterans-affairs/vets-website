@@ -453,18 +453,6 @@ export const formConfig = {
               isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           }),
         })),
-
-        marriageAdditionalEvidence: {
-          depends: formData =>
-            typeof formData?.currentMarriageInformation?.type === 'string' &&
-            formData?.currentMarriageInformation?.type !==
-              MARRIAGE_TYPES.ceremonial &&
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Additional evidence needed to add spouse',
-          path: 'add-spouse-evidence',
-          uiSchema: marriageAdditionalEvidence.uiSchema,
-          schema: marriageAdditionalEvidence.schema,
-        },
       },
     },
 
@@ -1010,6 +998,23 @@ export const formConfig = {
           title: 'Your net worth',
           uiSchema: householdIncome.uiSchema,
           schema: householdIncome.schema,
+        },
+      },
+    },
+
+    marriageAdditionalEvidence: {
+      title: 'Additional evidence needed to add spouse',
+      pages: {
+        marriageAdditionalEvidence: {
+          depends: formData =>
+            typeof formData?.currentMarriageInformation?.type === 'string' &&
+            formData?.currentMarriageInformation?.type !==
+              MARRIAGE_TYPES.ceremonial &&
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          title: 'Additional evidence needed to add spouse',
+          path: 'add-spouse-evidence',
+          uiSchema: marriageAdditionalEvidence.uiSchema,
+          schema: marriageAdditionalEvidence.schema,
         },
       },
     },
