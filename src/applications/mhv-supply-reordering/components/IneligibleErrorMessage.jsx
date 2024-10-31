@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { dlcServiceTelephone } from '../constants';
 
 /**
  * Generates an alert for a veteran that is not eligible to order supplies.
@@ -19,8 +21,8 @@ const IneligibleErrorMessage = ({ nextAvailabilityDate }) => {
         </span>
         <span className="vads-u-margin-top--1">
           If you need an item sooner, call the DLC Customer Service Section at{' '}
-          <va-telephone contact="3032736200" /> or email{' '}
-          <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+          {dlcServiceTelephone}(<va-telephone contact={CONTACTS['711']} tty />)
+          or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
         </span>
       </div>
     </va-alert>
