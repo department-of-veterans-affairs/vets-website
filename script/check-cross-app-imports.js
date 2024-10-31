@@ -96,15 +96,24 @@ if (!appFolders && !checkAllowlist) {
   const outputPath = path.join('./tmp', 'cross-app-imports.json');
   const crossAppJson = getCrossAppImports();
   fs.outputFileSync(outputPath, JSON.stringify(crossAppJson, null, 2));
+  // console.log(
+  //   'list of apps with cross-app imports:',
+  //   JSON.stringify(
+  //     Object.keys(crossAppJson).filter(app => {
+  //       const appData = crossAppJson[app];
+  //       return (
+  //         appData.appsThatThisAppImportsFrom &&
+  //         Object.keys(appData.appsThatThisAppImportsFrom.length > 0)
+  //       );
+  //     }),
+  //   ),
+  // );
   console.log(
     'list of apps with cross-app imports:',
     JSON.stringify(
-      Object.keys(crossAppJson).filter(app => {
+      Object.keys(crossAppJson).map(app => {
         const appData = crossAppJson[app];
-        return (
-          appData.appsThatThisAppImportsFrom &&
-          Object.keys(appData.appsThatThisAppImportsFrom.length > 0)
-        );
+        return Object.keys(appData.appsThatThisAppImportsFrom.length);
       }),
     ),
   );
