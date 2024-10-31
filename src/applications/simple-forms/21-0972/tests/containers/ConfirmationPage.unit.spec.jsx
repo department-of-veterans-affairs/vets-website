@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
-import { within } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
@@ -37,7 +36,7 @@ describe('Confirmation page', () => {
   const mockStore = configureStore(middleware);
 
   it('it should show status success and the correct name of person', () => {
-    const { container } = render(
+    const { container, getByText } = render(
       <Provider store={mockStore(storeBase)}>
         <ConfirmationPage route={{ formConfig }} />
       </Provider>,
@@ -46,7 +45,7 @@ describe('Confirmation page', () => {
       'status',
       'success',
     );
-    within(container).getByText('Arthur');
-    within(container).getByText('Preparer');
+    getByText('Arthur');
+    getByText('Preparer');
   });
 });
