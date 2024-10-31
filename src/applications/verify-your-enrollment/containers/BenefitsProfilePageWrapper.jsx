@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useSelector } from 'react-redux';
+import { selectProfile } from '~/platform/user/selectors';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
 import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
@@ -30,10 +32,10 @@ const BenefitsProfileWrapper = ({ children }) => {
     pendingDocuments,
     latestAddress,
     claimantId,
-    profile,
     fullName,
   } = useData();
 
+  const profile = useSelector(selectProfile);
   const applicantName = latestAddress?.veteranName;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(

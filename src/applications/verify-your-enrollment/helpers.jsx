@@ -1237,6 +1237,5 @@ export const groupVerificationsByMonth = verifications => {
       existing.totalCreditHours += verification.totalCreditHours;
     }
   });
-
   return Array.from(grouped.values());
 };

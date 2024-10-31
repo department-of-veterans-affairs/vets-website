@@ -2,7 +2,6 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   isVerificationEndDateValid,
-  // isVerificationEndDateValid,
   removeCommas,
   splitAddressLine,
 } from '../helpers';
@@ -72,37 +71,21 @@ export const updateVerifications = verifications => ({
 export const fetchClaimantId = () => {
   return async dispatch => {
     dispatch({ type: CHECK_CLAIMANT_START });
-    let profile = null;
     try {
-      const {
-        data: {
-          attributes: { profile: profileData },
+      const response = await apiRequest(
+        `${API_URL}/dgib_verifications/claimant_lookup`,
+        {
+          method: 'GET',
         },
-      } = await apiRequest('/user', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      profile = profileData;
-      const response = await apiRequest('/dgi/vye/claimant_lookup', {
-        method: 'POST',
-        body: JSON.stringify({ ssn: profile?.birlsId }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      );
       dispatch({
         type: CHECK_CLAIMANT_SUCCESS,
         claimantId: response.claimantId,
-        profile,
       });
     } catch (errors) {
       dispatch({
         type: CHECK_CLAIMANT_FAIL,
         errors,
-        profile,
       });
     }
   };
@@ -231,7 +214,7 @@ export const verifyEnrollmentAction = verifications => {
       },
     } = getState();
     const URL = claimantId
-      ? '/verifications/vye/verify_claimant'
+      ? 'https://localhost:8080/verifications/vye/verify_claimant'
       : `${API_URL}/verify`;
     const newVerifications = enrollmentVerifications?.filter(
       verification =>
