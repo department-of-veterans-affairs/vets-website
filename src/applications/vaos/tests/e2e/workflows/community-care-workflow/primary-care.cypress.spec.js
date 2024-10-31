@@ -85,7 +85,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility(/Community care facility/i)
+          .selectTypeOfFacility('communityCare')
           .clickNextButton();
 
         DateTimeRequestPageObject.assertUrl({ isVARequest: false })
@@ -138,7 +138,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility(/Community care facility/i)
+          .selectTypeOfFacility('communityCare')
           .clickNextButton();
 
         DateTimeRequestPageObject.assertUrl({ isVARequest: false })
@@ -209,7 +209,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility(/Community care facility/i)
+          .selectTypeOfFacility('communityCare')
           .clickNextButton();
 
         DateTimeRequestPageObject.assertUrl({ isVARequest: false })
@@ -267,7 +267,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility(/Community care facility/i)
+          .selectTypeOfFacility('communityCare')
           .clickNextButton();
 
         DateTimeRequestPageObject.assertUrl({ isVARequest: false })
@@ -343,7 +343,7 @@ describe('VAOS community care flow - Primary care', () => {
         .clickNextButton();
 
       TypeOfFacilityPageObject.assertUrl()
-        .selectTypeOfFacility(/Community care facility/i)
+        .selectTypeOfFacility('communityCare')
         .clickNextButton();
 
       DateTimeRequestPageObject.assertUrl({ isVARequest: false })
@@ -407,7 +407,7 @@ describe('VAOS community care flow - Primary care', () => {
         .clickNextButton();
 
       TypeOfFacilityPageObject.assertUrl()
-        .selectTypeOfFacility(/Community care facility/i)
+        .selectTypeOfFacility('communityCare')
         .clickNextButton();
 
       DateTimeRequestPageObject.assertUrl({ isVARequest: false })

@@ -10,10 +10,10 @@ export class TypeOfFacilityPageObject extends PageObject {
   }
 
   selectTypeOfFacility(label) {
-    cy.findByLabelText(label)
-      .as('radio')
-      .focus();
-    cy.get('@radio').check();
+    cy.get('va-radio')
+      .shadow()
+      .get(`va-radio-option[value=${label}]`)
+      .click();
 
     return this;
   }

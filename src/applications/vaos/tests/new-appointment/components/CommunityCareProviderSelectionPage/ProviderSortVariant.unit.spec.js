@@ -89,7 +89,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     // Given the CC iteration flag is on
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfFacility(store, 'communityCare');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
       {
@@ -133,7 +133,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
 
     await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -193,7 +193,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
 
     await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -256,7 +256,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
 
     await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -352,7 +352,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
 
     await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -429,7 +429,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
 
     await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfFacility(store, 'communityCare');
 
     // Belgrade is the 2nd of three options so the expectation is
     // that it should be selected when we get to the CommunityCareProviderSelectionPage.
@@ -502,7 +502,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
 
     await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfFacility(store, 'communityCare');
 
     // Belgrade is the 2nd of three options so the expectation is
     // that it should be selected when we get to the CommunityCareProviderSelectionPage.
@@ -534,7 +534,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     // Given the CC iteration flag is on
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfFacility(store, 'communityCare');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
       {

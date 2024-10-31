@@ -362,7 +362,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility(/Community care facility/i)
+          .selectTypeOfFacility('communityCare')
           .clickNextButton();
 
         DateTimeRequestPageObject.assertUrl({ isVARequest: false })

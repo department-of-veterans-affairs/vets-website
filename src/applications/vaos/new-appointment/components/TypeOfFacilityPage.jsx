@@ -3,6 +3,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
 import { getFormPageInfo } from '../redux/selectors';
@@ -15,6 +16,7 @@ import {
   startDirectScheduleFlow,
   updateFormData,
 } from '../redux/actions';
+import { getPageTitle } from '../newAppointmentFlow';
 
 const initialSchema = {
   type: 'object',
@@ -23,49 +25,38 @@ const initialSchema = {
     facilityType: {
       type: 'string',
       enum: Object.keys(FACILITY_TYPES).map(key => FACILITY_TYPES[key]),
-    },
-  },
-};
-
-const uiSchema = {
-  facilityType: {
-    'ui:title':
-      'You’re eligible to see either a VA provider or community care provider for this type of care.',
-    'ui:widget': 'radio',
-    'ui:options': {
-      labels: {
-        [FACILITY_TYPES.VAMC]: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              VA medical center or clinic
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              Go to a VA medical center or clinic for this appointment
-            </span>
-          </>
-        ),
-        [FACILITY_TYPES.COMMUNITY_CARE]: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Community care facility
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              Go to a community care facility near your home
-            </span>
-          </>
-        ),
-      },
+      enumNames: ['VA medical center or clinic', 'Community care facility'],
     },
   },
 };
 
 const pageKey = 'typeOfFacility';
-const pageTitle = 'Choose where you want to receive your care';
 
 export default function TypeOfFacilityPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
+  const uiSchema = {
+    facilityType: {
+      'ui:title': pageTitle,
+      'ui:widget': 'radio', // Required
+      'ui:webComponentField': VaRadioField,
+      'ui:options': {
+        classNames: 'vads-u-margin-top--neg2',
+        showFieldLabel: false,
+        labelHeaderLevel: '1',
+        descriptions: {
+          [FACILITY_TYPES.VAMC]:
+            'Go to a VA medical center or clinic for this appointment',
+          [FACILITY_TYPES.COMMUNITY_CARE]:
+            'Go to a community care facility near your home',
+        },
+      },
+    },
+  };
 
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
@@ -86,7 +77,6 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
 
   return (
     <div className="vaos-form__facility-type vaos-form__detailed-radio">
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       {!!schema && (
         <SchemaForm
           name="Type of appointment"
