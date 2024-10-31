@@ -96,7 +96,11 @@ if (!appFolders && !checkAllowlist) {
   const outputPath = path.join('./tmp', 'cross-app-imports.json');
   const crossAppJson = getCrossAppImports();
   fs.outputFileSync(outputPath, JSON.stringify(crossAppJson, null, 2));
-  console.log(Object.entries(crossAppJson));
+  console.log(
+    Object.keys(crossAppJson).map(app =>
+      Object.keys(app.appsThatThisAppImportsFrom),
+    ),
+  );
   console.log(
     'list of apps with cross-app imports:',
     JSON.stringify(
