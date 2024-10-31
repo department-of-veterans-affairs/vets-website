@@ -235,7 +235,7 @@ describe('introduction page', () => {
     });
 
     it('and has only one available supply', () => {
-      const { getByTestId, getByRole, queryByTestId } = render(
+      const { getByTestId, getByRole, queryByTestId, getByText } = render(
         <Provider store={dataStore([availSuppliesList[0]])}>
           <IntroductionPage {...props} />
         </Provider>,
@@ -246,20 +246,20 @@ describe('introduction page', () => {
         hidden: true,
       });
       expect(queryByTestId('mhv-supply-intro-unavail-card')).to.be.null;
-      getByRole('heading', { name: /You have 1 supply available/ });
+      getByRole('heading', { name: /Available for reorder/ });
+      getByText(/You have 1 supply available/);
     });
 
     it('and has more than one available supply', () => {
-      const { getByRole } = render(
+      const { getByRole, getByText } = render(
         <Provider store={dataStore(availSuppliesList)}>
           <IntroductionPage {...props} />
         </Provider>,
       );
-      getByRole('heading', {
-        name: new RegExp(
-          `You have ${availSuppliesList.length} supplies available`,
-        ),
-      });
+      getByRole('heading', { name: /Available for reorder/ });
+      getByText(
+        new RegExp(`You have ${availSuppliesList.length} supplies available`),
+      );
     });
 
     it('and has both available and unavailable supplies', () => {
@@ -270,11 +270,7 @@ describe('introduction page', () => {
           <IntroductionPage {...props} />
         </Provider>,
       );
-      getByRole('heading', {
-        name: new RegExp(
-          `You have ${availSuppliesList.length} supplies available`,
-        ),
-      });
+      getByRole('heading', { name: /Available for reorder/ });
       getByRole('heading', {
         name: noAvailableSuppliesHeading,
       });
