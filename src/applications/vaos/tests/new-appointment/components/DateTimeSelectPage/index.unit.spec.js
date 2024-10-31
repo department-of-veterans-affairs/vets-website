@@ -71,7 +71,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
@@ -140,7 +140,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
     await setPreferredDate(store, moment());
@@ -222,7 +222,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
@@ -394,7 +394,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
@@ -518,7 +518,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
@@ -587,7 +587,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       ],
     });
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
 
@@ -631,7 +631,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       },
     });
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
 
@@ -670,7 +670,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /mental health/i);
+    await setTypeOfCare(store, '502'); // mental health
     await setVAFacility(store, '983', 'outpatientMentalHealth');
     await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
@@ -701,7 +701,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
@@ -763,7 +763,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
@@ -869,7 +869,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);

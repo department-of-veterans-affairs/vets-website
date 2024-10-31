@@ -81,7 +81,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
@@ -134,7 +134,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert()
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
@@ -205,7 +205,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
@@ -263,7 +263,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert()
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
@@ -339,7 +339,7 @@ describe('VAOS community care flow - Primary care', () => {
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare(/Primary care/i)
+        .selectTypeOfCare('323') // primary care
         .clickNextButton();
 
       TypeOfFacilityPageObject.assertUrl()
@@ -403,7 +403,7 @@ describe('VAOS community care flow - Primary care', () => {
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare(/Primary care/i)
+        .selectTypeOfCare('323') // primary care
         .clickNextButton();
 
       TypeOfFacilityPageObject.assertUrl()

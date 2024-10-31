@@ -133,7 +133,7 @@ const flow = {
   },
   typeOfCare: {
     url: '/new-appointment',
-    label: 'Schedule an appointment',
+    label: 'What type of care do you need?',
     async next(state, dispatch) {
       if (isCovidVaccine(state)) {
         recordEvent({

@@ -104,7 +104,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/COVID-19 vaccine/i)
+          .selectTypeOfCare('covid') // COVID-19 vaccine
           .clickNextButton();
 
         PlanAheadPageObject.assertUrl().clickNextButton();
@@ -165,7 +165,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert()
-          .selectTypeOfCare(/COVID-19 vaccine/i)
+          .selectTypeOfCare('covid') // COVID-19 vaccine
           .clickNextButton();
 
         PlanAheadPageObject.assertUrl().clickNextButton();
@@ -267,7 +267,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/COVID-19 vaccine/i)
+          .selectTypeOfCare('covid') // COVID-19 vaccine
           .clickNextButton();
 
         PlanAheadPageObject.assertUrl().clickNextButton();
@@ -333,7 +333,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: true })
-          .selectTypeOfCare(/COVID-19 vaccine/i)
+          .selectTypeOfCare('covid') // COVID-19 vaccine
           .clickNextButton();
 
         PlanAheadPageObject.assertUrl().clickNextButton();
@@ -407,7 +407,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare(/COVID-19 vaccine/i)
+        .selectTypeOfCare('covid') // COVID-19 vaccine
         .clickNextButton();
 
       PlanAheadPageObject.assertUrl().clickNextButton();
@@ -450,7 +450,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare(/COVID-19 vaccine/i)
+        .selectTypeOfCare('covid') // COVID-19 vaccine
         .clickNextButton();
 
       PlanAheadPageObject.assertUrl().clickNextButton();
@@ -499,7 +499,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare(/COVID-19 vaccine/i)
+        .selectTypeOfCare('covid') // COVID-19 vaccine
         .clickNextButton();
 
       ContactFacilityPageObject.assertUrl().assertText(
@@ -552,7 +552,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare(/COVID-19 vaccine/i)
+        .selectTypeOfCare('covid') // COVID-19 vaccine
         .clickNextButton();
 
       PlanAheadPageObject.assertUrl().clickNextButton();

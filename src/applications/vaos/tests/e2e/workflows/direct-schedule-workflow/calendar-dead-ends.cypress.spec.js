@@ -83,7 +83,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
@@ -133,7 +133,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
@@ -181,7 +181,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
@@ -256,7 +256,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
@@ -306,7 +306,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
@@ -354,7 +354,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()

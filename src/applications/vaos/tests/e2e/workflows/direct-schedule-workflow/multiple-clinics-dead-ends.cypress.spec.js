@@ -71,7 +71,7 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare(/Primary care/i)
+          .selectTypeOfCare('323') // primary care
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()

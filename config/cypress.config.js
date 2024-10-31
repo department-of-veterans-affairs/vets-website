@@ -10,7 +10,7 @@ const cypressConfig = {
   video: true,
   videoCompression: false,
   retries: {
-    runMode: 2,
+    runMode: 0,
     openMode: 0,
   },
   env: {
