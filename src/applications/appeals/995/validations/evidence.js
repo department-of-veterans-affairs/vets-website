@@ -1,6 +1,10 @@
 import { isValidUSZipCode } from 'platform/forms/address';
 
-import { errorMessages, REGEX_EMPTY_DATE } from '../constants';
+import {
+  errorMessages,
+  REGEX_EMPTY_DATE,
+  SC_NEW_FORM_DATA,
+} from '../constants';
 import { validateDate, validateYMDate } from './date';
 
 import { MAX_LENGTH } from '../../shared/constants';
@@ -50,15 +54,41 @@ export const validateVaIssues = (
 
 // Overloading fullDate parameter with evidence date type to control error
 // messaging
-export const validateVaFromDate = (errors, data) =>
+/* errors, fieldData, formData, schema, uiSchema, index, appStateData */
+export const validateVaFromDate = (
+  errors,
+  data,
+  _formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) =>
+  !appStateData[SC_NEW_FORM_DATA] &&
   validateDate(errors, data.evidenceDates?.from, { dateType: 'evidence' });
 
-export const validateVaToDate = (errors, data) => {
+export const validateVaToDate = (
+  errors,
+  data,
+  _formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) =>
+  !appStateData[SC_NEW_FORM_DATA] &&
   validateToDate(errors, data, 'evidenceDates');
-};
 
-export const validateVaDate = (errors, data) =>
-  validateYMDate(errors, data.treatmentDate);
+export const validateVaDate = (
+  errors,
+  data,
+  _formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) =>
+  appStateData[SC_NEW_FORM_DATA] && validateYMDate(errors, data.treatmentDate);
 
 export const buildVaLocationString = (
   data,

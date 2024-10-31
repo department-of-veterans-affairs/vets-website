@@ -5,6 +5,7 @@ import {
   validateVaIssues,
   validateVaFromDate,
   validateVaToDate,
+  validateVaDate,
   validateVaUnique,
 } from '../validations/evidence';
 
@@ -137,6 +138,7 @@ export default {
           validateVaIssues,
           validateVaFromDate,
           validateVaToDate,
+          validateVaDate,
           validateVaUnique,
         ],
         'ui:options': {

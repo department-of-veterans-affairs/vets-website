@@ -95,15 +95,15 @@ const EvidenceVaRecords = ({
     )[0],
     from: showScNewForm
       ? null
-      : checkValidations([validateVaFromDate], currentData),
+      : checkValidations([validateVaFromDate], currentData, data),
     to: showScNewForm
       ? null
-      : checkValidations([validateVaToDate], currentData),
+      : checkValidations([validateVaToDate], currentData, data),
     treatmentDate:
       showScNewForm &&
       (currentData.noDate
         ? null
-        : checkValidations([validateVaDate], currentData)),
+        : checkValidations([validateVaDate], currentData, data)),
   };
 
   useEffect(
