@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 import { useReviewPage } from '../hooks/useReviewPage';
+import { getEntityAddressAsObject } from '../utilities/helpers';
 
 import AddressEmailPhone from './AddressEmailPhone';
-import { getEntityAddressAsObject } from '../utilities/helpers';
 
 const ContactAccreditedRepresentative = props => {
   const { formData, goBack, goForward, goToPath } = props;
@@ -21,7 +21,9 @@ const ContactAccreditedRepresentative = props => {
 
   const orgSelectionRequired =
     !!representative &&
-    representative.attributes?.individualType === 'representative' &&
+    ['representative', 'veteran_service_officer'].includes(
+      representative.attributes?.individualType,
+    ) &&
     representative.attributes?.accreditedOrganizations?.data?.length > 1;
 
   const handleGoBack = () => {
@@ -39,29 +41,9 @@ const ContactAccreditedRepresentative = props => {
       } else {
         goToPath('/review-and-submit');
       }
-    } else if (orgSelectionRequired) {
-      goToPath('/representative-organization');
     } else {
       goForward(formData);
     }
-  };
-
-  const warningContent = () => {
-    if (isOrg) {
-      return (
-        <p>
-          You’ll need to contact the accredited representative you’ve selected
-          to make sure they’re available to help you, and you’ll need to ask
-          them which VSO to name on your form.
-        </p>
-      );
-    }
-    return (
-      <p>
-        You’ll need to contact the accredited representative you’ve selected to
-        make sure they’re available to help you.
-      </p>
-    );
   };
 
   const subNameContent = () => {
@@ -71,8 +53,8 @@ const ContactAccreditedRepresentative = props => {
     if (isOrg) {
       return (
         <p>
-          You can work with any accredited VSO representative at this
-          organization.
+          <strong>Note:</strong> You can work with any accredited VSO
+          representative at this organization.
         </p>
       );
     }
@@ -109,7 +91,10 @@ const ContactAccreditedRepresentative = props => {
       <div className="vads-u-display--flex vads-u-margin-bottom--4">
         <va-alert status="warning">
           <h2 slot="headline">Contact the accredited representative</h2>
-          {warningContent()}
+          <p className="vads-u-margin-bottom--0">
+            You’ll need to contact the accredited representative you’ve selected
+            to make sure they’re available to help you.
+          </p>
         </va-alert>
       </div>
       {repAttributes && (
@@ -138,6 +123,9 @@ const ContactAccreditedRepresentative = props => {
 
 ContactAccreditedRepresentative.propTypes = {
   formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
