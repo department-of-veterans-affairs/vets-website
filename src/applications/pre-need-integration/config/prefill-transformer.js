@@ -28,6 +28,8 @@ export default function prefillTransformer(pages, formData, metadata) {
             state: formData.application.claimant.address.state,
             postalCode: formData.application.claimant.address.postalCode,
           },
+          ssn: formData.application.claimant.ssn,
+          dateOfBirth: formData.application.claimant.dateOfBirth,
         },
       },
     },
