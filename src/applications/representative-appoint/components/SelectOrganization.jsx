@@ -13,6 +13,10 @@ const SelectOrganization = props => {
 
   const isReviewPage = useReviewPage();
 
+  const isReplacingRep =
+    !!formData['view:representativeStatus']?.id &&
+    !!formData['view:selectedRepresentative'];
+
   const handleGoBack = () => {
     if (isReviewPage) {
       goToPath('representative-contact?review=true');
@@ -23,7 +27,11 @@ const SelectOrganization = props => {
 
   const handleGoForward = () => {
     if (isReviewPage) {
-      goToPath('/review-and-submit');
+      if (isReplacingRep) {
+        goToPath('/representative-replace?review=true');
+      } else {
+        goToPath('/review-and-submit');
+      }
     } else {
       goForward(formData);
     }

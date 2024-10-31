@@ -80,9 +80,9 @@ export function libraryCurrent() {
     ) {
       element.setAttribute('data-number', increment);
       if (increment % 2 !== 0) {
-        element.classList.add('large-screen:vads-u-margin-right--3');
+        element.classList.add('desktop-lg:vads-u-margin-right--3');
       } else {
-        element.classList.remove('large-screen:vads-u-margin-right--3');
+        element.classList.remove('desktop-lg:vads-u-margin-right--3');
       }
       numVal = element.getAttribute('data-number');
       increment += 1;

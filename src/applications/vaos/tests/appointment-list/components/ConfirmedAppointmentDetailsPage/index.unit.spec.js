@@ -128,7 +128,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     // Arrange
     const response = new MockAppointmentResponse();
 
-    mockAppointmentApi({ response, avs: true });
+    mockAppointmentApi({ response, avs: true, fetchClaimStatus: true });
     mockGetUpcomingAppointmentsApi({
       response: [response],
       avs: true,
@@ -161,7 +161,11 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createAtlasResponses({
         localStartTime: today,
       });
-      mockAppointmentApi({ response: responses[0], avs: true });
+      mockAppointmentApi({
+        response: responses[0],
+        avs: true,
+        fetchClaimStatus: true,
+      });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -185,7 +189,11 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createAtlasResponses({
         localStartTime: yesterday,
       });
-      mockAppointmentApi({ response: responses[0], avs: true });
+      mockAppointmentApi({
+        response: responses[0],
+        avs: true,
+        fetchClaimStatus: true,
+      });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -210,7 +218,11 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         localStartTime: today,
       });
       responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
-      mockAppointmentApi({ response: responses[0], avs: true });
+      mockAppointmentApi({
+        response: responses[0],
+        avs: true,
+        fetchClaimStatus: true,
+      });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -234,7 +246,11 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createGfeResponses({
         localStartTime: today,
       });
-      mockAppointmentApi({ response: responses[0], avs: true });
+      mockAppointmentApi({
+        response: responses[0],
+        avs: true,
+        fetchClaimStatus: true,
+      });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -258,7 +274,11 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createGfeResponses({
         localStartTime: yesterday,
       });
-      mockAppointmentApi({ response: responses[0], avs: true });
+      mockAppointmentApi({
+        response: responses[0],
+        avs: true,
+        fetchClaimStatus: true,
+      });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -283,7 +303,11 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         localStartTime: today,
       });
       responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
-      mockAppointmentApi({ response: responses[0], avs: true });
+      mockAppointmentApi({
+        response: responses[0],
+        avs: true,
+        fetchClaimStatus: true,
+      });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -307,7 +331,11 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createClinicResponses({
         localStartTime: today,
       });
-      mockAppointmentApi({ response: responses[0], avs: true });
+      mockAppointmentApi({
+        response: responses[0],
+        avs: true,
+        fetchClaimStatus: true,
+      });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -331,7 +359,11 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createClinicResponses({
         localStartTime: yesterday,
       });
-      mockAppointmentApi({ response: responses[0], avs: true });
+      mockAppointmentApi({
+        response: responses[0],
+        avs: true,
+        fetchClaimStatus: true,
+      });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -356,7 +388,11 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         localStartTime: today,
       });
       responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
-      mockAppointmentApi({ response: responses[0], avs: true });
+      mockAppointmentApi({
+        response: responses[0],
+        avs: true,
+        fetchClaimStatus: true,
+      });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
