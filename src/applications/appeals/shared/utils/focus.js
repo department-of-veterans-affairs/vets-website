@@ -13,7 +13,7 @@ import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 import { LAST_ISSUE } from '../constants';
 
 export const focusFirstError = (root = document) => {
-  const error = $('[error]', root);
+  const error = $('[error], .usa-input-error', root);
   if (error) {
     scrollToFirstError({ focusOnAlertRole: true });
     return true;
