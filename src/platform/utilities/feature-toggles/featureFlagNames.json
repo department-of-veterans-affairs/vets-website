@@ -1,6 +1,7 @@
 {
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
+  "allClaimsAddDisabilitiesEnhancement": "all_claims_add_disabilities_enhancement",
   "askVaDashboardFeature": "ask_va_dashboard_feature",
   "askVaFormFeature": "ask_va_form_feature",
   "askVaIntroductionPageFeature": "ask_va_introduction_page_feature",
@@ -98,6 +99,7 @@
   "gibctEybBottomSheet": "gibct_eyb_bottom_sheet",
   "gibctSchoolRatings": "gibct_school_ratings",
   "giSandboxComparisonToolToggle": "gi_sandbox_comparision_tool_toggle",
+  "giComparisonToolProgramsToggleFlag": "gi_comparison_tool_programs_toggle_flag",
   "haCpapSuppliesCta": "ha_cpap_supplies_cta",
   "hcaBrowserMonitoringEnabled": "hca_browser_monitoring_enabled",
   "hcaEnrollmentStatusOverrideEnabled": "hca_enrollment_status_override_enabled",

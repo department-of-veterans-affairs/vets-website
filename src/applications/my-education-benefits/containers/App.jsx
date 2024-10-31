@@ -80,11 +80,38 @@ export const App = ({
         return;
       }
 
-      if (!fetchedPersonalInfo || !fetchedContactInfo) {
+      if (
+        (!fetchedPersonalInfo && !meb160630Automation) ||
+        (!fetchedContactInfo && !meb160630Automation)
+      ) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
-        getPersonalInfo(showMebEnhancements09);
-      } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
+        getPersonalInfo('Chapter33');
+      } else if (
+        !formData[formFields.claimantId] &&
+        claimantInfo?.claimantId &&
+        !meb160630Automation
+      ) {
+        setFormData({
+          ...formData,
+          ...claimantInfo,
+        });
+      }
+      if (
+        (!fetchedPersonalInfo &&
+          meb160630Automation &&
+          formData?.chosenBenefit) ||
+        (!fetchedContactInfo &&
+          (meb160630Automation && formData?.chosenBenefit))
+      ) {
+        setFetchedPersonalInfo(true);
+        setFetchedContactInfo(true);
+        getPersonalInfo(formData?.chosenBenefit);
+      } else if (
+        !formData[formFields.claimantId] &&
+        claimantInfo?.firstName &&
+        meb160630Automation
+      ) {
         setFormData({
           ...formData,
           ...claimantInfo,
@@ -101,9 +128,7 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMeb1990EZMaintenanceAlert,
-      showMeb1990EZR6MaintenanceMessage,
-      showMebEnhancements09,
+      meb160630Automation,
     ],
   );
 
@@ -116,8 +141,11 @@ export const App = ({
       // the firstName check ensures that eligibility only gets called after we have obtained claimant info
       // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
       if (firstName && !fetchedEligibility) {
+        const chosenBenefit = meb160630Automation
+          ? formData?.chosenBenefit
+          : 'Chapter33';
         setFetchedEligibility(true);
-        getEligibility();
+        getEligibility(chosenBenefit);
       } else if (eligibility && !formData.eligibility) {
         setFormData({
           ...formData,
@@ -169,8 +197,12 @@ export const App = ({
       // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
       // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
       if (mebExclusionPeriodEnabled && firstName && !fetchedExclusionPeriods) {
+        const chosenBenefit = meb160630Automation
+          ? formData?.chosenBenefit
+          : 'Chapter33';
+
         setFetchedExclusionPeriods(true);
-        getExclusionPeriods();
+        getExclusionPeriods(chosenBenefit);
       }
       if (exclusionPeriods && !formData.exclusionPeriods) {
         const updatedFormData = {
