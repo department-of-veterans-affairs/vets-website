@@ -17,24 +17,14 @@ const { get, omit, set } = dataUtils;
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
+import CustomGroupCheckboxTileField from '../components/CustomGroupCheckboxTileField.jsx';
 
 import {
-  accreditationLabel,
-  changeInDegreeLabel,
   conditionallyShowPrefillMessage,
-  creditTransferLabel,
-  financialIssuesLabel,
-  gradePolicyLabel,
-  jobOpportunitiesLabel,
   PREFILL_FLAGS,
   prefillTransformer,
-  qualityLabel,
-  recruitingLabel,
-  refundIssuesLabel,
-  studentLoansLabel,
   submit,
   trackingPrefix,
-  transcriptReleaseLabel,
   transform,
   validateMatch,
 } from '../helpers';
@@ -522,60 +512,25 @@ const formConfig = {
               'ui:validations': [validateBooleanGroup],
               'ui:options': {
                 showFieldLabel: true,
+                labels: [
+                  'recruiting',
+                  'accreditation',
+                  'financialIssues',
+                  'studentLoans',
+                  'jobOpportunities',
+                  'changeInDegree',
+                  'quality',
+                  'gradePolicy',
+                  'transcriptRelease',
+                  'creditTransfer',
+                  'refundIssues',
+                  'other',
+                ],
               },
               'ui:errorMessages': {
                 atLeastOne: 'Please select at least one',
               },
-              'ui:order': [
-                'recruiting',
-                'accreditation',
-                'financialIssues',
-                'studentLoans',
-                'jobOpportunities',
-                'changeInDegree',
-                'quality',
-                'gradePolicy',
-                'transcriptRelease',
-                'creditTransfer',
-                'refundIssues',
-                'other',
-              ],
-              recruiting: {
-                'ui:title': recruitingLabel,
-              },
-              studentLoans: {
-                'ui:title': studentLoansLabel,
-              },
-              quality: {
-                'ui:title': qualityLabel,
-              },
-              creditTransfer: {
-                'ui:title': creditTransferLabel,
-              },
-              accreditation: {
-                'ui:title': accreditationLabel,
-              },
-              jobOpportunities: {
-                'ui:title': jobOpportunitiesLabel,
-              },
-              gradePolicy: {
-                'ui:title': gradePolicyLabel,
-              },
-              refundIssues: {
-                'ui:title': refundIssuesLabel,
-              },
-              financialIssues: {
-                'ui:title': financialIssuesLabel,
-              },
-              changeInDegree: {
-                'ui:title': changeInDegreeLabel,
-              },
-              transcriptRelease: {
-                'ui:title': transcriptReleaseLabel,
-              },
-              other: {
-                'ui:title': 'Other',
-              },
+              'ui:field': CustomGroupCheckboxTileField,
             },
             issueDescription: {
               'ui:title':
