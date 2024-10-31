@@ -1,4 +1,4 @@
-const userResponse = (supplies = []) => {
+const userResponse = (supplies = [], eligible = true) => {
   return {
     status: 200,
     data: {
@@ -29,9 +29,9 @@ const userResponse = (supplies = []) => {
         vetEmail: 'vets.gov.user+1@gmail.com',
         dateOfBirth: '1933-04-05',
         eligibility: {
-          accessories: true,
-          apneas: true,
-          batteries: true,
+          accessories: eligible,
+          apneas: eligible,
+          batteries: eligible,
         },
         supplies,
       },
@@ -164,6 +164,7 @@ const MDOT_USERS = Object.freeze({
   ERROR_SERVER: 'server error',
   ERROR_DECEASED: 'deceased',
   NO_UNAVAIL: 'no unavail',
+  NOT_ELIG: 'not elig',
   DEFAULT: 'default',
 });
 
@@ -183,6 +184,9 @@ const response = userType => {
 
     case MDOT_USERS.NO_UNAVAIL:
       return userResponse(availSuppliesList);
+
+    case MDOT_USERS.NOT_ELIG:
+      return userResponse(unavailSuppliesList, false);
 
     default:
       return userResponse([...availSuppliesList, ...unavailSuppliesList]);
