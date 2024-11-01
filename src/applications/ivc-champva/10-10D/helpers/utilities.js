@@ -40,36 +40,49 @@ export const applicantListSchema = (requireds, propertyList) => {
   };
 };
 
-/**
- * Gets the appropriate form key needed in the signature box so we can
- * corroborate who is signing the form.
- *
- * @param {object} formData All data currently in the form
- * @returns
- */
-export function getNameKeyForSignature(formData) {
-  let nameKey;
-  if (formData.certifierRole === 'sponsor') {
-    nameKey = 'veteransFullName';
-  } else if (formData.certifierRole === 'applicant') {
-    nameKey = 'applicants[0].applicantName';
-  } else {
-    nameKey = 'certifierName';
-  }
-
-  return nameKey;
-}
-
 // Extracting this to a function so there aren't a thousand identical
 // ternaries we have to change later
 export function sponsorWording(formData, isPosessive = true, cap = true) {
-  let retVal = '';
-  if (formData?.certifierRole === 'sponsor') {
-    retVal = isPosessive ? 'your' : 'you';
-  } else {
-    retVal = isPosessive ? 'sponsor’s' : 'sponsor';
-  }
-
+  const retVal = isPosessive ? 'sponsor’s' : 'sponsor';
   // Optionally capitalize first letter and return
   return cap ? retVal.charAt(0).toUpperCase() + retVal.slice(1) : retVal;
+}
+
+/**
+ * Adds a new `applicant` object to the start of the `formData.applicants`
+ * array. This is used to add the certifier info to the first applicant
+ * slot so users don't have to enter info twice if the certifier is also an app.
+ * @param {object} formData standard formData object
+ * @param {object} name standard fullNameUI name to populate
+ * @param {string} email email address to populate
+ * @param {string} phone phone number to populate
+ * @param {object} address standard addressUI address object to populate
+ */
+export function populateFirstApplicant(formData, name, email, phone, address) {
+  const modifiedFormData = formData; // changes will affect original formData
+  const newApplicant = {
+    applicantName: name,
+    applicantEmailAddress: email,
+    applicantAddress: address,
+    applicantPhone: phone,
+  };
+  if (modifiedFormData.applicants) {
+    if (
+      // Make sure we're only adding it once:
+      !modifiedFormData.applicants.some(
+        a =>
+          a.applicantName.first === name.first &&
+          a.applicantEmailAddress === email,
+      )
+    ) {
+      modifiedFormData.applicants = [
+        newApplicant,
+        ...modifiedFormData.applicants,
+      ];
+    }
+  } else {
+    // No applicants yet. Create:
+    modifiedFormData.applicants = [newApplicant];
+  }
+  return modifiedFormData;
 }

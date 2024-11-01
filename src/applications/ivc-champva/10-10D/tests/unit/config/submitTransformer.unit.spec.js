@@ -9,7 +9,6 @@ describe('transform for submit', () => {
     const transformed = JSON.parse(
       transformForSubmit(formConfig, {
         data: {
-          certifierRole: 'other',
           certifierRelationship: 'Spouse',
         },
       }),
@@ -20,7 +19,6 @@ describe('transform for submit', () => {
     const transformed = JSON.parse(
       transformForSubmit(formConfig, {
         data: {
-          certifierRole: 'other',
           certifierRelationship: {
             relationshipToVeteran: 'other',
             otherRelationshipToVeteran: 'Sibling',
@@ -36,14 +34,6 @@ describe('transform for submit', () => {
     );
     expect(transformed.veteran.ssnOrTin).to.equal('');
   });
-  it('should format certifier information', () => {
-    const modified = JSON.parse(JSON.stringify(mockData));
-    modified.data.certifierRole = 'sponsor';
-    const transformed = JSON.parse(transformForSubmit(formConfig, modified));
-    expect(transformed.certification.firstName).equals(
-      modified.data.veteransFullName.first,
-    );
-  });
   it('should attach applicant name to each uploaded file', () => {
     const modified = JSON.parse(JSON.stringify(mockData));
     const fileKey = Object.keys(REQUIRED_FILES)[0]; // grab a file we expect to be uploaded
@@ -57,29 +47,9 @@ describe('transform for submit', () => {
       transformed.applicants[0].applicantName.first,
     );
   });
-  it('should set sponsor info as primary contact if certifierRole == sponsor', () => {
-    const sponsorCert = {
-      data: {
-        certifierRole: 'sponsor',
-        sponsorPhone: '1231231234',
-        veteransFullName: { first: 'Jack', last: 'Veteran' },
-      },
-    };
-    const transformed = JSON.parse(transformForSubmit(formConfig, sponsorCert));
-    expect(transformed.primaryContactInfo.name.first).to.equal(
-      sponsorCert.data.veteransFullName.first,
-    );
-    expect(transformed.primaryContactInfo.name.last).to.equal(
-      sponsorCert.data.veteransFullName.last,
-    );
-    expect(transformed.primaryContactInfo.phone).to.equal(
-      sponsorCert.data.sponsorPhone,
-    );
-  });
   it('should set certifier info as primary contact if certifierRole == other', () => {
     const certifierCert = {
       data: {
-        certifierRole: 'other',
         certifierPhone: '1231231234',
         certifierName: { first: 'Jack', last: 'Certifier' },
       },
@@ -100,7 +70,6 @@ describe('transform for submit', () => {
   it('should set first applicant info as primary contact if no applicants have an email address and certifierRole == applicant', () => {
     const appCert = {
       data: {
-        certifierRole: 'applicant',
         applicants: [
           {
             applicantAddress: { street: 'fake' },
@@ -135,7 +104,6 @@ describe('transform for submit', () => {
   it('should set primary contact to first applicant with an email if certifierRole == applicant', () => {
     const appCert = {
       data: {
-        certifierRole: 'applicant',
         applicants: [
           {
             applicantAddress: { street: 'fake' },

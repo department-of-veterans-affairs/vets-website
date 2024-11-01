@@ -64,23 +64,6 @@ function transformApplicants(applicants) {
   return applicantsPostTransform;
 }
 
-// Since the certifier data may be the sponsor's or a third party, this maps
-// the sponsor's info into the certifier property names for simplicity on BE
-function parseCertifier(transformedData) {
-  return {
-    date: new Date().toJSON().slice(0, 10),
-    firstName: transformedData.veteransFullName.first || '',
-    lastName: transformedData.veteransFullName.last || '',
-    middleInitial: transformedData?.veteransFullName?.middle || '',
-    phoneNumber: transformedData?.sponsorPhone || '',
-    relationship: 'sponsor',
-    streetAddress: transformedData?.sponsorAddress?.streetCombined || '',
-    city: transformedData?.sponsorAddress?.city || '',
-    state: transformedData?.sponsorAddress?.state || '',
-    postalCode: transformedData?.sponsorAddress?.postalCode || '',
-  };
-}
-
 // Set up the `primaryContactInfo` for the backend notification API service.
 function getPrimaryContact(data) {
   // If a certification name is present, third party signer is the certifier
@@ -170,10 +153,6 @@ export default function transformForSubmit(formConfig, form) {
     // Include everything we originally received
     rawData: transformedData,
   };
-
-  // Fill in certification data with sponsor info as needed
-  if (form.data.certifierRole === 'sponsor')
-    dataPostTransform.certification = { ...parseCertifier(transformedData) };
 
   // Flatten supporting docs for all applicants to a single array
   const supDocs = [];

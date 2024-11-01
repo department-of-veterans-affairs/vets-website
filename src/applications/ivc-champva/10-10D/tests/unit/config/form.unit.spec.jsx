@@ -34,7 +34,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.certifierInformation.pages.page5.schema,
   formConfig.chapters.certifierInformation.pages.page5.uiSchema,
-  6,
+  7,
   'Signer relationship',
   {
     certifierRelationship: {
@@ -59,7 +59,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
   5,
   'Sponsor - name and date of birth (alternate)',
-  { ...mockData.data, certifierRole: 'sponsor' },
+  { ...mockData.data },
 );
 
 // Cover when certifierRole !== sponsor or applicant
@@ -69,7 +69,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
   5,
   'Sponsor - name and date of birth (alternate 2)',
-  { ...mockData.data, certifierRole: 'other' },
+  { ...mockData.data },
 );
 
 testNumberOfWebComponentFields(
@@ -97,16 +97,6 @@ testNumberOfWebComponentFields(
   1,
   "Sponsor's phone number",
   { sponsorIsDeceased: false },
-);
-
-// certifierRole: 'sponsor' triggers the 'your' custom wording branch
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.sponsorInformation.pages.page11.schema,
-  formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
-  1,
-  "Sponsor's phone number",
-  { sponsorIsDeceased: false, certifierRole: 'sponsor' },
 );
 
 testNumberOfWebComponentFields(
