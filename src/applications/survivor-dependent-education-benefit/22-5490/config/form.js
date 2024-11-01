@@ -205,6 +205,10 @@ const formConfig = {
                           'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
                         );
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -225,6 +229,10 @@ const formConfig = {
                           'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
                         );
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -253,6 +261,10 @@ const formConfig = {
                           'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
                         );
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                      );
                     }
                   },
                 ],
