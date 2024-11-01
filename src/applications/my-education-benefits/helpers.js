@@ -308,7 +308,8 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]: claimant?.claimantId,
+    [formFields.claimantId]:
+      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
         first: firstName || undefined,
@@ -437,7 +438,8 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]: claimant?.claimantId,
+    [formFields.claimantId]:
+      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
         first: firstName || undefined,
@@ -573,7 +575,8 @@ export function prefillTransformerV3(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]: claimant?.claimantId,
+    [formFields.claimantId]:
+      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
         first: firstName || undefined,

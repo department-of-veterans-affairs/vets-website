@@ -70,6 +70,24 @@
         "surrenderValue": 45000.5
       }
     ],
+
+    "assetTransfers": [
+      {
+        "originalOwnerRelationship": "VETERAN",
+        "otherOriginalOwnerRelationshipType": "",
+        "transferMethod": "SOLD",
+        "otherTransferMethod": "",
+        "assetType": "Real Estate Property",
+        "newOwnerName": "Alice Johnson",
+        "newOwnerRelationship": "Friend",
+        "saleReportedToIrs": true,
+        "transferDate": "2023-05-15",
+        "assetTransferredUnderFairMarketValue": false,
+        "fairMarketValue": 250000.0,
+        "saleValue": 240000.0,
+        "capitalGainValue": 10000.0
+      }
+    ],
     "statementOfTruthSignature": "John Doe"
   }
 }
