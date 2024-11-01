@@ -125,7 +125,6 @@ const FolderHeader = props => {
                   ? BlockedTriageAlertStyles.INFO
                   : BlockedTriageAlertStyles.WARNING
               }
-              blockedTriageGroupList={[]}
               parentComponent={ParentComponent.FOLDER_HEADER}
             />
           )}

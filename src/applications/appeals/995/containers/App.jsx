@@ -149,8 +149,6 @@ export const App = ({
           ...formData,
           [SC_NEW_FORM_DATA]: isUpdated,
         });
-        // temp storage, used for homelessness page focus management
-        sessionStorage.setItem('hlrUpdated', isUpdated);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
