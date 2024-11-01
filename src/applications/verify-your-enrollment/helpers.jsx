@@ -1239,3 +1239,11 @@ export const groupVerificationsByMonth = verifications => {
   });
   return Array.from(grouped.values());
 };
+
+export const toSnakeCase = obj => {
+  return Object.keys(obj).reduce((acc, key) => {
+    const snakeKey = key.replace(/[A-Z]/g, '_$1').toLocaleLowerCase();
+    acc[snakeKey] = obj[key];
+    return acc;
+  }, {});
+};

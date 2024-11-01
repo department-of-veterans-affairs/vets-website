@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectProfile } from '~/platform/user/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   getCurrentDateFormatted,
@@ -13,6 +14,7 @@ export const useData = () => {
   const dispatch = useDispatch();
   const response = useSelector(state => state.personalInfo);
   const claimantIdResponse = useSelector(state => state.checkClaimant);
+  const profile = useSelector(selectProfile);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.isDGIBEndpoint);
   useEffect(
@@ -42,9 +44,9 @@ export const useData = () => {
   const { month, day } = remainingBenefits(
     userInfo?.remEnt || remainingEntitlement,
   );
-  const fullName = `${claimantIdResponse.profile?.firstName} ${
-    claimantIdResponse.profile?.middleName
-  } ${claimantIdResponse.profile?.lastName}`;
+  const fullName = `${profile?.userFullName?.first} ${
+    profile.fullName?.middle
+  } ${profile.fullName?.last}`;
   const chapter = response?.personalInfo?.recordResponse?.verifiedDetails.at(-1)
     .benefitType;
   return {
@@ -58,7 +60,7 @@ export const useData = () => {
     month,
     ...userInfo,
     claimantId: claimantIdResponse?.claimantId,
-    profile: claimantIdResponse?.profile,
+    profile,
     fullName,
     enrollmentVerifications,
   };

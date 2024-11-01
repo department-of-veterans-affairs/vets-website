@@ -4,6 +4,7 @@ import {
   isVerificationEndDateValid,
   removeCommas,
   splitAddressLine,
+  toSnakeCase,
 } from '../helpers';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
@@ -73,9 +74,12 @@ export const fetchClaimantId = () => {
     dispatch({ type: CHECK_CLAIMANT_START });
     try {
       const response = await apiRequest(
-        `${API_URL}/dgib_verifications/claimant_lookup`,
+        `${API_URL}/dgib_verifications/claimant_lookup?ssn=123456789`,
         {
           method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
       );
       dispatch({
@@ -109,7 +113,7 @@ export const fetchPersonalInfo = () => {
           //   },
           // ),
           apiRequest(
-            `/verifications/vye/${claimantId}/get_verification_record`,
+            `${API_URL}/dgib_verifications/${claimantId}/get_verification_record`,
             {
               method: 'GET',
               headers: {
@@ -227,16 +231,13 @@ export const verifyEnrollmentAction = verifications => {
         : null;
     const body = claimantId
       ? (() => {
-          return {
-            // eslint-disable-next-line camelcase
-            claimant_id: claimantId,
-            // eslint-disable-next-line camelcase
-            verified_period_begin_date: lastVerification?.verificationBeginDate,
-            // eslint-disable-next-line camelcase
-            verified_period_end_date: lastVerification?.verificationEndDate,
-            // eslint-disable-next-line camelcase
-            verified_through_method: lastVerification?.verificationThroughDate,
+          const requestBody = {
+            claimantId,
+            verifiedPeriodBeginDate: lastVerification?.verificationBeginDate,
+            verifiedPeriodEndDate: lastVerification?.verificationEndDate,
+            verificationThroughDate: lastVerification?.verificationThroughDate,
           };
+          return toSnakeCase(requestBody);
         })()
       : { awardIds: verifications };
     try {

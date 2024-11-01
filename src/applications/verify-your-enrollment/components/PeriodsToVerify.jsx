@@ -122,6 +122,7 @@ const PeriodsToVerify = ({
           enrollmentData?.verifications.length !== 0) ||
           (!showEnrollmentVerifications &&
             claimantId &&
+            error &&
             enrollmentVerifications?.length !== 0)) &&
           !justVerified && (
             <div className="vads-u-margin-top--2">
