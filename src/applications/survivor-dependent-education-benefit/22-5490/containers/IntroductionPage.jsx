@@ -128,12 +128,6 @@ export const IntroductionPage = ({
             about 15 minutes.
           </p>
           <va-additional-info trigger="What happens after I apply?">
-            <p>
-              <strong>
-                You may be eligible for Fry Scholarship benefits if you’re the
-                child or surviving spouse of:
-              </strong>
-            </p>
             <ul className="vads-u-margin-bottom--0">
               <li>
                 {' '}
