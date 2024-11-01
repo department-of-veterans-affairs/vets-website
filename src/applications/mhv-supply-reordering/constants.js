@@ -1,4 +1,3 @@
-import React from 'react';
 import environment from 'platform/utilities/environment';
 
 export const TITLE = 'Order medical supplies';
@@ -11,7 +10,3 @@ export const MDOT_API_STATES = Object.freeze({
   SUCCESS: 'SUCCESS',
   PENDING: 'PENDING',
 });
-
-export const dlcServiceTelephone = (
-  <va-telephone contact="3032736200">303-273-6200</va-telephone>
-);

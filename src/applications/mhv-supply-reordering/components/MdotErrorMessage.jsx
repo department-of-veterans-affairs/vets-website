@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { dlcServiceTelephone } from '../constants';
+import DlcServiceTelephone from './DlcSupportTelephone';
 
 /**
  * Generates alerts depending on the error message received from the MDOT API.
@@ -50,8 +50,7 @@ const MdotErrorMessage = ({ errorCode }) => {
 
             <span className="vads-u-margin-top--1">
               If you need to place an order, call the DLC Customer Service
-              Section at {dlcServiceTelephone}(
-              <va-telephone contact={CONTACTS['711']} tty />) or email{' '}
+              Section at <DlcServiceTelephone /> or email{' '}
               <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </span>
           </div>
@@ -90,8 +89,7 @@ const MdotErrorMessage = ({ errorCode }) => {
             </p>
             <p className="vads-u-margin-top--0">
               For help ordering {supplyDescription}, please call the DLC
-              Customer Service Section at {dlcServiceTelephone}(
-              <va-telephone contact={CONTACTS['711']} tty />) or email{' '}
+              Customer Service Section at <DlcServiceTelephone /> or email{' '}
               <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
           </div>
