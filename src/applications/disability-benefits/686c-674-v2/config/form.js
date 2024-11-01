@@ -29,7 +29,6 @@ import {
   deceasedDependentChildTypePage,
   deceasedDependentDateOfDeathPage,
   deceasedDependentLocationOfDeathPage,
-  deceasedDependentIncomePage,
 } from './chapters/report-dependent-death/deceasedDependentArrayPages';
 import {
   currentMarriageInformation,
@@ -119,6 +118,10 @@ import {
   studentAssetsPage,
   remarksPage,
 } from './chapters/674/addStudentsArrayPages';
+import { householdIncome } from './chapters/household-income';
+
+import manifest from '../manifest.json';
+import prefillTransformer from './prefill-transformer';
 import {
   childAddressPage,
   householdChildInfoPage,
@@ -129,10 +132,6 @@ import {
   supportAmountPage,
   veteranSupportsChildPage,
 } from './chapters/stepchild-no-longer-part-of-household/removeChildHouseholdArrayPages';
-import { householdIncome } from './chapters/household-income';
-
-import manifest from '../manifest.json';
-import prefillTransformer from './prefill-transformer';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -608,8 +607,8 @@ export const formConfig = {
               }
             },
           }),
-          // conditional page
           addStudentsPartSeven: pageBuilder.itemPage({
+            // conditional page
             title: 'Add one or more students between ages 18 and 23',
             path:
               'report-674/add-students/:index/student-education-benefits/start-date',
@@ -667,7 +666,6 @@ export const formConfig = {
               }
             },
           }),
-          // conditional page
           addStudentsPartTen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path:
@@ -685,6 +683,7 @@ export const formConfig = {
             schema: schoolAccreditationPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            // onNavBack must return to the condition page. formData can only be checked for this pages data, not previous pages while in Add mode. This is because formData is not fully in state/redux until the loop completes the first time.
             onNavBack: ({
               _formData,
               pathname,
@@ -734,7 +733,6 @@ export const formConfig = {
               }
             },
           }),
-          // conditional page
           addStudentsPartFourteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/previous-term-dates',
@@ -783,8 +781,8 @@ export const formConfig = {
               );
             },
           }),
-          // conditional page
           addStudentsPartSixteen: pageBuilder.itemPage({
+            // conditional page
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/all-student-income',
             uiSchema: studentEarningsPage.uiSchema,
@@ -792,8 +790,8 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
           }),
-          // conditional page
           addStudentsPartSeventeen: pageBuilder.itemPage({
+            // conditional page
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/expected-student-income',
             uiSchema: studentFutureEarningsPage.uiSchema,
@@ -801,8 +799,8 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
           }),
-          // conditional page
           addStudentsPartEighteen: pageBuilder.itemPage({
+            // conditional page
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/student-assets',
             uiSchema: studentAssetsPage.uiSchema,
@@ -939,8 +937,8 @@ export const formConfig = {
               }
             },
           }),
-          // conditional page
           removeChildHouseholdPartThree: pageBuilder.itemPage({
+            // conditional page
             title:
               'Information needed to report a stepchild is no longer part of your household',
             path:
@@ -1027,7 +1025,7 @@ export const formConfig = {
           }),
           dependentAdditionalInformationPartTwo: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
-            path: '686-report-dependent-death/:index/dependent-type',
+            path: '686-report-dependent-death/:index/child-status',
             uiSchema: deceasedDependentTypePage.uiSchema,
             schema: deceasedDependentTypePage.schema,
             depends: formData =>
@@ -1050,7 +1048,6 @@ export const formConfig = {
               }
             },
           }),
-          // conditional page
           dependentAdditionalInformationPartThree: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
             path: '686-report-dependent-death/:index/child-type',
@@ -1066,34 +1063,12 @@ export const formConfig = {
             schema: deceasedDependentDateOfDeathPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `686-report-dependent-death/${index}/dependent-type${urlParamsString}`,
-              );
-            },
           }),
           dependentAdditionalInformationPartFive: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
             path: '686-report-dependent-death/:index/location-of-death',
             uiSchema: deceasedDependentLocationOfDeathPage.uiSchema,
             schema: deceasedDependentLocationOfDeathPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-          }),
-          dependentAdditionalInformationPartSix: pageBuilder.itemPage({
-            title: 'Information needed to remove a dependent who has died',
-            path: '686-report-dependent-death/:index/dependent-income',
-            uiSchema: deceasedDependentIncomePage.uiSchema,
-            schema: deceasedDependentIncomePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
           }),
