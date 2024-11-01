@@ -102,6 +102,7 @@ describe('populateFirstApplicant', () => {
     const formData = { applicants: [{ applicantName: { first: 'Test' } }] };
     const result = populateFirstApplicant(
       formData,
+      '',
       newAppInfo.name,
       newAppInfo.email,
       newAppInfo.phone,
@@ -116,6 +117,7 @@ describe('populateFirstApplicant', () => {
     const formData = {};
     const result = populateFirstApplicant(
       formData,
+      '',
       newAppInfo.name,
       newAppInfo.email,
       newAppInfo.phone,

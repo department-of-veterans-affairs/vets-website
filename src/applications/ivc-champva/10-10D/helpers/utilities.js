@@ -53,12 +53,24 @@ export function sponsorWording(formData, isPosessive = true, cap = true) {
  * array. This is used to add the certifier info to the first applicant
  * slot so users don't have to enter info twice if the certifier is also an app.
  * @param {object} formData standard formData object
+ * @param {string} path formconfig page path of the page where this function should apply
  * @param {object} name standard fullNameUI name to populate
  * @param {string} email email address to populate
  * @param {string} phone phone number to populate
  * @param {object} address standard addressUI address object to populate
  */
-export function populateFirstApplicant(formData, name, email, phone, address) {
+export function populateFirstApplicant(
+  formData,
+  path,
+  name,
+  email,
+  phone,
+  address,
+) {
+  // Make sure we apply this change when the user is on the certifier relationship
+  // page, as firing later in the form would potentially add duplicate info:
+  if (!window.location.href.endsWith(path)) return formData;
+
   const modifiedFormData = formData; // changes will affect original formData
   const newApplicant = {
     applicantName: name,
@@ -68,10 +80,10 @@ export function populateFirstApplicant(formData, name, email, phone, address) {
   };
   if (modifiedFormData.applicants) {
     if (
-      // Make sure we're only adding it once:
+      // Make sure we haven't already added this applicant:
       !modifiedFormData.applicants.some(
         a =>
-          a.applicantName.first === name.first &&
+          a.applicantName.first === name.first ||
           a.applicantEmailAddress === email,
       )
     ) {
@@ -81,7 +93,7 @@ export function populateFirstApplicant(formData, name, email, phone, address) {
       ];
     }
   } else {
-    // No applicants yet. Create:
+    // No applicants yet. Create array and add ours:
     modifiedFormData.applicants = [newApplicant];
   }
   return modifiedFormData;

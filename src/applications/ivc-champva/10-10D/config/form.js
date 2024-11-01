@@ -113,6 +113,9 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
+// Used by populateFirstApplicant fn:
+const SIGNER_REL_PATH = 'signer-relationship';
+
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any required files have not been uploaded
 function showFileOverviewPage(formData) {
@@ -237,7 +240,7 @@ const formConfig = {
           },
         },
         page5: {
-          path: 'signer-relationship',
+          path: SIGNER_REL_PATH,
           title: 'Certification',
           uiSchema: {
             ...titleUI(
@@ -284,6 +287,7 @@ const formConfig = {
                     // If the certifier is also an applicant, pre-populate first app slot with certifier info:
                     populateFirstApplicant(
                       formData,
+                      SIGNER_REL_PATH, // Used to verify we only ever apply this fn in one location
                       formData.certifierName,
                       formData.certifierEmail,
                       formData.certifierPhone,
