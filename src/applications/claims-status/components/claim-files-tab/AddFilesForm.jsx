@@ -184,9 +184,9 @@ class AddFilesForm extends React.Component {
               href="/disability/how-to-file-claim"
               target="_blank"
             >
-              How to File a Claim (opens in a new tab).
+              How to File a Claim page (opens in a new tab)
             </a>{' '}
-            page.
+            .
           </p>
           <VaFileInput
             id="file-upload"
