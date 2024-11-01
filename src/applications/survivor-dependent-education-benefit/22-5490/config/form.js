@@ -200,10 +200,6 @@ const formConfig = {
                         errors.addError(
                           'First character must be a letter with no leading space.',
                         );
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                        );
                       }
                     } else if (!isValidName(field)) {
                       errors.addError(
@@ -224,10 +220,6 @@ const formConfig = {
                         );
                       } else if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                        );
                       }
                     } else if (!isValidName(field)) {
                       errors.addError(
@@ -255,10 +247,6 @@ const formConfig = {
                       ) {
                         errors.addError(
                           'First character must be a letter with no leading space.',
-                        );
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
                         );
                       }
                     } else if (!isValidName(field)) {
