@@ -16,7 +16,6 @@ import alertMessage from '../../combined/utils/alert-messages';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
-import { OnThisPageOverview } from '../components/OnThisPageOverview';
 import MCPAlerts from '../../combined/components/MCPAlerts';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
@@ -120,15 +119,15 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
     return (
-      <>
-        <OnThisPageOverview multiple={statements?.length > 1} />
+      <article>
+        <va-on-this-page />
         <Balances statements={statementsByUniqueFacility} />
         {renderOtherVA(debts?.length, debtError)}
         <HowToPay isOverview />
         <FinancialHelp />
         <DisputeCharges />
         <BalanceQuestions />
-      </>
+      </article>
     );
   };
   return (
