@@ -209,7 +209,16 @@ const newContactMethod33 = {
             ];
           const mobilePhone = mobilePhoneInfo?.phone;
           const isInternational = mobilePhoneInfo?.isInternational;
-          return isValidPhone(mobilePhone) || !isInternational;
+          const isYes = formData[
+            'view:receiveTextMessages'
+          ]?.receiveTextMessages
+            ?.slice(0, 4)
+            ?.includes('Yes');
+
+          return (
+            (isValidPhone(mobilePhone) && !isYes) ||
+            (!isInternational && !isYes)
+          );
         },
       },
     },
