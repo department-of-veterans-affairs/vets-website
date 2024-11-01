@@ -3,7 +3,34 @@ import { datadogRum } from '@datadog/browser-rum';
 
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 
+const getCookie = name => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2)
+    return parts
+      .pop()
+      .split(';')
+      .shift();
+  return null;
+};
+
+const checkDdSCookie = () => {
+  const ddSCookie = getCookie('_dd_s');
+  if (!ddSCookie) {
+    return;
+  }
+
+  const cookieParts = ddSCookie.split('&');
+  const idPart = cookieParts.find(part => part.startsWith('id='));
+
+  if (!idPart) {
+    // Cookie _dd_s does not have an id value. nullify the cookie to reinitialize the DD_RUM.
+    document.cookie = '_dd_s=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+};
+
 const initializeDatadogRum = config => {
+  checkDdSCookie();
   const datadogRumConfig = config;
   if (!datadogRumConfig.env) {
     datadogRumConfig.env = environment.vspEnvironment();
