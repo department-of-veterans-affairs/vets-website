@@ -67,7 +67,7 @@ const Vitals = () => {
         dispatch(reloadRecords());
       };
     },
-    [dispatch],
+    [dispatch, listState],
   );
 
   useEffect(

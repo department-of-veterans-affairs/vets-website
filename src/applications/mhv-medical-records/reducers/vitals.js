@@ -122,6 +122,7 @@ export const vitalReducer = (state = initialState, action) => {
       if (
         Array.isArray(originalList) &&
         Array.isArray(updatedList) &&
+        // FIXME: the updated list could be the same length as the original list but have different contents.
         originalList.length !== updatedList.length
       ) {
         return {

@@ -138,9 +138,10 @@ const responses = {
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
   'GET /my_health/v1/medical_records/vitals': (req, res) => {
-    const { use_oh_data_path } = req.query;
+    const { use_oh_data_path, from, to } = req.query;
     if (use_oh_data_path === '1') {
-      return res.json(acceleratedVitals.all);
+      const vitalsData = acceleratedVitals.all(from, to);
+      return res.json(vitalsData);
     }
     return res.json(vitals.all);
   },
