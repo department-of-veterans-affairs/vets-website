@@ -66,6 +66,14 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Get changed files
+        id: get-files-changed
+        continue-on-error: true
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url'
+
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
         with:
@@ -82,6 +90,25 @@ jobs:
         with:
           name: cross-app-import-report
           path: ./tmp/cross-app-imports.json
+
+      - name: Check for apps in changed files that are not isolated
+        run: node script/github-actions/annotate-non-isolated-apps.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Create isolation annotations file
+        if: ${{ env.e2e-annotations-json != '[]' }}
+        run: |
+          echo "ISOLATION_ANNOTATIONS_JSON" > isolation-annotations.json
+          cat e2e-annotations.json
+
+      - name: Annotate files that belong to apps not isolated
+        if: ${{ env.e2e-annotations-json != '[]' }}
+        uses: ./.github/workflows/annotations
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'App Isolation Annotations'
+          input_json: './isolation-annotations.json'
 
   eslint-disable-check:
     name: ESLint Disable Check

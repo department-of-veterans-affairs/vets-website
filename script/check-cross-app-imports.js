@@ -5,6 +5,7 @@ const omit = require('lodash/omit');
 const pickBy = require('lodash/pickBy');
 const findImports = require('find-imports');
 const commandLineArgs = require('command-line-args');
+const core = require('@actions/core');
 
 const {
   buildGraph,
@@ -96,8 +97,8 @@ if (!appFolders && !checkAllowlist) {
   const outputPath = path.join('./tmp', 'cross-app-imports.json');
   const crossAppJson = getCrossAppImports();
   fs.outputFileSync(outputPath, JSON.stringify(crossAppJson, null, 2));
-  console.log(
-    'list of apps with cross-app imports:',
+  core.exportVariable(
+    'APPS_NOT_ISOLATED',
     JSON.stringify(
       Object.keys(crossAppJson).filter(app => {
         const appData = crossAppJson[app];
@@ -108,20 +109,6 @@ if (!appFolders && !checkAllowlist) {
       }),
     ),
   );
-  // console.log(
-  //   'list of apps with cross-app imports:',
-  //   JSON.stringify(
-  //     Object.keys(crossAppJson).map(app => {
-  //       const appData = crossAppJson[app];
-  //       console.log(app);
-  //       console.log(appData);
-  //       return appData.appsThatThisAppImportsFrom
-  //         ? Object.keys(appData.appsThatThisAppImportsFrom).length
-  //         : 0;
-  //     }),
-  //   ),
-  // );
-
   console.log(`Cross app import report saved at: ${outputPath}`);
   process.exit(0);
 }
