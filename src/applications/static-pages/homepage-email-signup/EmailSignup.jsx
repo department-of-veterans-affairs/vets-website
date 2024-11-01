@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { isValidEmail } from 'platform/forms/validations';
-import './email-signup.scss';
 
 const EmailSignup = () => {
   const [inputError, setInputError] = useState(null);
