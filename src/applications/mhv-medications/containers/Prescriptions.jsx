@@ -40,6 +40,7 @@ import {
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
   SESSION_SELECTED_PAGE_NUMBER,
+  sourcesToHide,
   filterOptions,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -398,7 +399,12 @@ const Prescriptions = () => {
             false,
           )
             .then(response => {
-              const list = response.data.map(rx => ({ ...rx.attributes }));
+              const list = response.data
+                .map(rx => ({ ...rx.attributes }))
+                // temporary plug until those sources are ready at va.gov
+                .filter(rx => {
+                  return !sourcesToHide.includes(rx.prescriptionSource);
+                });
               setPrescriptionsFullList(list);
               setHasFullListDownloadError(false);
             })
@@ -595,7 +601,7 @@ const Prescriptions = () => {
                     className={`landing-page-content vads-u-margin-top--${
                       isShowingErrorNotification ? '5' : '3'
                     }
-                    small-screen:vads-u-margin-top--${
+                    mobile-lg:vads-u-margin-top--${
                       isShowingErrorNotification ? '5' : '3'
                     }`}
                   >

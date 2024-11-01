@@ -234,3 +234,5 @@ export const allergyTypes = {
 };
 
 export const EMPTY_FIELD = 'None noted';
+
+export const sourcesToHide = ['PD', 'PF'];

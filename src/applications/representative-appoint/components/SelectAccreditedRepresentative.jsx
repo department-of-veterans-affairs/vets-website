@@ -37,8 +37,8 @@ const SelectAccreditedRepresentative = props => {
   };
 
   const handleGoBack = () => {
-    if (isReviewPage()) {
-      goToPath('/review-and-submit');
+    if (isReviewPage) {
+      goToPath('/claimant-type');
     } else {
       goBack(formData);
     }
@@ -167,7 +167,7 @@ const SelectAccreditedRepresentative = props => {
       </p>
       <va-link
         href="/get-help-from-accredited-representative/find-rep"
-        text="Find an accredited representative or VSO"
+        text="Find a VA accredited representative or VSO (opens in new tab)"
       />
       <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
     </div>

@@ -10,7 +10,14 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, CHAPTER_2, URL, getApiUrl } from '../constants';
+import {
+  CHAPTER_1,
+  CHAPTER_2,
+  CHAPTER_3,
+  URL,
+  getApiUrl,
+  CategoryEducation,
+} from '../constants';
 import CatAndTopicSummary from '../components/CatAndTopicSummary';
 import { setSubtopicID } from '../actions';
 
@@ -24,8 +31,11 @@ const SubTopicSelectPage = props => {
   const [validationError, setValidationError] = useState(null);
 
   const showError = data => {
-    if (data.selectSubtopic) {
+    if (data.selectSubtopic && data.selectCategory !== CategoryEducation) {
       return goToPath(`/${CHAPTER_2.PAGE_1.PATH}`);
+    }
+    if (data.selectSubtopic && data.selectCategory === CategoryEducation) {
+      return goToPath(`/${CHAPTER_3.RELATIONSHIP_TO_VET.PATH}`);
     }
     focusElement('va-radio');
     return setValidationError('Please select a subtopic');

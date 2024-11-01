@@ -97,6 +97,7 @@ ${record.note}`;
         className="vads-u-margin-bottom--0"
         aria-describedby="progress-note-date"
         data-testid="progress-note-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -117,14 +118,30 @@ ${record.note}`;
 
       <div className="test-details-container max-80">
         <h2>Details</h2>
-        <h3 className=" vads-u-font-family--sans">Location</h3>
-        <p data-testid="progress-location">{record.location}</p>
-        <h3 className=" vads-u-font-family--sans">Written by</h3>
-        <p data-testid="note-record-written-by">{record.writtenBy}</p>
-        <h3 className=" vads-u-font-family--sans">Signed by</h3>
-        <p data-testid="note-record-signed-by">{record.signedBy}</p>
-        <h3 className=" vads-u-font-family--sans">Date signed</h3>
-        <p data-testid="progress-signed-date">{record.dateSigned}</p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Location
+        </h3>
+        <p data-testid="progress-location" data-dd-privacy="mask">
+          {record.location}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Written by
+        </h3>
+        <p data-testid="note-record-written-by" data-dd-privacy="mask">
+          {record.writtenBy}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Signed by
+        </h3>
+        <p data-testid="note-record-signed-by" data-dd-privacy="mask">
+          {record.signedBy}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Date signed
+        </h3>
+        <p data-testid="progress-signed-date" data-dd-privacy="mask">
+          {record.dateSigned}
+        </p>
       </div>
 
       <div className="test-results-container">
@@ -132,6 +149,7 @@ ${record.note}`;
         <p
           data-testid="note-record"
           className="monospace vads-u-line-height--6"
+          data-dd-privacy="mask"
         >
           {record.note}
         </p>
