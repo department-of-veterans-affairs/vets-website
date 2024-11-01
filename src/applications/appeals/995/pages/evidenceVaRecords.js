@@ -67,7 +67,7 @@ const notRequiredLocations = newForm => {
   };
 };
 
-const newSchema = {
+export const newSchema = {
   type: 'object',
   oneOf: [
     {
@@ -98,7 +98,7 @@ const newSchema = {
   properties: {},
 };
 
-const oldSchema = {
+export const oldSchema = {
   type: 'object',
   oneOf: [
     {

@@ -58,37 +58,38 @@ export const validateVaIssues = (
 export const validateVaFromDate = (
   errors,
   data,
-  _formData,
+  formData = {},
   _schema,
   _uiSchema,
   _index,
-  appStateData,
+  appStateData = {},
 ) =>
-  !appStateData[SC_NEW_FORM_DATA] &&
+  !(appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
   validateDate(errors, data.evidenceDates?.from, { dateType: 'evidence' });
 
 export const validateVaToDate = (
   errors,
   data,
-  _formData,
+  formData = {},
   _schema,
   _uiSchema,
   _index,
-  appStateData,
+  appStateData = {},
 ) =>
-  !appStateData[SC_NEW_FORM_DATA] &&
+  !(appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
   validateToDate(errors, data, 'evidenceDates');
 
 export const validateVaDate = (
   errors,
   data,
-  _formData,
+  formData = {},
   _schema,
   _uiSchema,
   _index,
-  appStateData,
+  appStateData = {},
 ) =>
-  appStateData[SC_NEW_FORM_DATA] && validateYMDate(errors, data.treatmentDate);
+  (appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
+  validateYMDate(errors, data.treatmentDate);
 
 export const buildVaLocationString = (
   data,
