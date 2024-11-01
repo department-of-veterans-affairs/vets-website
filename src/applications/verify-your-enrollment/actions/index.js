@@ -74,7 +74,7 @@ export const fetchClaimantId = () => {
     dispatch({ type: CHECK_CLAIMANT_START });
     try {
       const response = await apiRequest(
-        `${API_URL}/dgib_verifications/claimant_lookup?ssn=123456789`,
+        `${API_URL}/dgib_verifications/claimant_lookup`,
         {
           method: 'GET',
           headers: {
@@ -112,15 +112,13 @@ export const fetchPersonalInfo = () => {
           //     },
           //   },
           // ),
-          apiRequest(
-            `${API_URL}/dgib_verifications/${claimantId}/get_verification_record`,
-            {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
+          apiRequest(`${API_URL}/dgib_verifications/verification_record`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
             },
-          ),
+            body: JSON.stringify({ claimantId }),
+          }),
         ]);
         dispatch({
           type: FETCH_PERSONAL_INFO_SUCCESS,
@@ -218,7 +216,7 @@ export const verifyEnrollmentAction = verifications => {
       },
     } = getState();
     const URL = claimantId
-      ? 'https://localhost:8080/verifications/vye/verify_claimant'
+      ? `${API_URL}/dgib_verifications/claimant_lookup`
       : `${API_URL}/verify`;
     const newVerifications = enrollmentVerifications?.filter(
       verification =>
