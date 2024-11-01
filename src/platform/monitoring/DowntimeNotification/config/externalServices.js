@@ -27,6 +27,10 @@ export default {
   idme: 'idme',
   // COE, Certificate of Eligibility form and LGY Eligibility Manager API
   coe: 'coe',
+  // Lighthouse Benefits Claims API
+  lighthouseBenefitsClaims: 'lighthouse_benefits_claims',
+  // Lighthouse Benefits Intake API
+  lighthouseBenefitsIntake: 'lighthouse_benefits_intake',
   // Login.gov, identity provider
   logingov: 'logingov',
   // Master Veteran Index (source of veteran profile info)
@@ -43,6 +47,8 @@ export default {
   mhvMeds: 'mhv_meds',
   // PEGA form ingestion for IVC CHAMPVA forms (10-10d, 10-7959x)
   pega: 'pega',
+  // SAHSHA API for form 26-4555
+  sahsha: 'sahsha',
   // Search.gov API
   search: 'search',
   // The Image Management System (education forms)
