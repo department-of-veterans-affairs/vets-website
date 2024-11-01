@@ -45,7 +45,7 @@ const MedicationsListCard = ({ rx }) => {
           }
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
-          to={`/prescription/${rx.prescriptionId}`}
+          to={`/my-medications/prescription/${rx.prescriptionId}`}
           onClick={handleLinkClick}
         >
           {rx.prescriptionName ||

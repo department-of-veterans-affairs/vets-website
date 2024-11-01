@@ -45,7 +45,7 @@ const AuthorizedRoutes = () => {
     >
       <ScrollToTop />
       <Switch>
-        <AppRoute exact path="/" key="App">
+        <AppRoute exact path="/my-secure-messages" key="mhvSecureMessages">
           <LandingPageAuth />
         </AppRoute>
         <AppRoute exact path={Paths.FOLDERS} key="Folders">

@@ -396,7 +396,7 @@ const LandingPage = () => {
                   </p>
                   <p>
                     <a
-                      href="/my-health/secure-messages/new-message/"
+                      href="/my-health/my-secure-messages/new-message/"
                       rel="noreferrer"
                       data-dd-action-name={
                         dataDogActionNames.landingPage.COMPOSE_A_MESSAGE_LINK
@@ -474,7 +474,7 @@ const LandingPage = () => {
                     Send a secure message to your VA care team.
                   </p>
                   <a
-                    href="/my-health/secure-messages/new-message/"
+                    href="/my-health/my-secure-messages/new-message/"
                     rel="noreferrer"
                     data-dd-action-name={
                       dataDogActionNames.landingPage.COMPOSE_A_MESSAGE_LINK

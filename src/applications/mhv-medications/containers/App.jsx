@@ -16,6 +16,9 @@ import {
   MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { medicationsUrls } from '../util/constants';
+import 'platform/polyfills';
+import '../sass/medications.scss';
+import '~/platform/mhv/secondary-nav/sass/mhv-sec-nav.scss';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);

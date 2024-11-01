@@ -17,19 +17,19 @@ export const rxListSortingOptions = {
 export const medicationsUrls = {
   VA_HOME: '/../../../',
   MHV_HOME: '/../../my-health',
-  MEDICATIONS_URL: '/my-health/medications',
-  MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
-  MEDICATIONS_ABOUT: '/my-health/medications/about',
+  MEDICATIONS_URL: '/my-health/my-medications',
+  MEDICATIONS_LOGIN: '/my-health/my-medications?next=loginModal&oauth=true',
+  MEDICATIONS_ABOUT: '/my-health/my-medications/about',
   MEDICATIONS_ABOUT_ACCORDION_RENEW:
-    '/my-health/medications/about#accordion-renew-rx',
-  MEDICATIONS_REFILL: '/my-health/medications/refill',
-  PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
+    '/my-health/my-medications/about#accordion-renew-rx',
+  MEDICATIONS_REFILL: '/my-health/my-medications/refill',
+  PRESCRIPTION_DETAILS: '/my-health/my-medications/prescription',
   subdirectories: {
-    BASE: '/',
-    ABOUT: '/about',
-    REFILL: '/refill',
-    DETAILS: '/prescription',
-    DOCUMENTATION: '/documentation',
+    BASE: '/my-medications/',
+    ABOUT: '/my-medications/about',
+    REFILL: '/my-medications/refill',
+    DETAILS: '/my-medications/prescription',
+    DOCUMENTATION: '/my-medications/documentation',
   },
 };
 
@@ -37,33 +37,33 @@ export const filterOptions = {
   ALL_MEDICATIONS: {
     label: 'All medications',
     description: 'All medications in your VA medical records',
-    url: '/',
+    url: '/my-medications',
   },
   ACTIVE: {
     label: 'Active',
     name: 'filter option',
     description: 'Active prescriptions and non-VA medications',
-    url: '/',
+    url: '/my-medications',
   },
   RECENTLY_REQUESTED: {
     label: 'Recently requested',
     name: 'filter option',
     description: 'Refill requests in process or shipped in the last 15 days',
-    url: '/',
+    url: '/my-medications',
   },
   RENEWAL: {
     label: 'Renewal needed before refill',
     name: 'filter option',
     description:
       'Prescriptions that just ran out of refills or became too old to refill (expired)',
-    url: '/',
+    url: '/my-medications',
   },
   NON_ACTIVE: {
     label: 'Non-active',
     name: 'filter option',
     description:
       'Prescriptions that are discontinued, expired, or have an unkown status',
-    url: '/',
+    url: '/my-medications',
   },
 };
 

@@ -8,12 +8,12 @@ const medicalRecordsLink = {
   title: 'Records',
   actionName: `${actionPrefix} - Records`,
   icon: 'note_add',
-  href: `/my-health/medical-records`,
+  href: `/medical-records`,
 };
 
 const transitionalMedicalRecordsLink = {
   ...medicalRecordsLink,
-  href: '/my-health/records',
+  href: '/records',
 };
 
 /**
@@ -24,7 +24,7 @@ export const mhvSecNavItems = [
     title: 'My HealtheVet',
     actionName: `${actionPrefix} - My HealtheVet`,
     icon: 'home',
-    href: '/my-health',
+    href: '/',
   },
   {
     title: 'Appointments',
@@ -32,21 +32,21 @@ export const mhvSecNavItems = [
     abbreviation: 'Appts',
     ariaLabel: 'Appointments',
     icon: 'calendar_today',
-    href: `/my-health/appointments`,
+    href: `/appointments`,
   },
   {
     title: 'Messages',
     actionName: `${actionPrefix} - Messages`,
     icon: 'forum',
-    href: `/my-health/secure-messages`,
+    href: `/my-secure-messages`,
   },
   {
     title: 'Medications',
     abbreviation: 'Meds',
     actionName: `${actionPrefix} - Medications`,
     icon: 'pill',
-    href: '/my-health/medications/about',
-    appRootUrl: '/my-health/medications',
+    href: '/my-medications/about',
+    appRootUrl: '/my-medications',
   },
 ];
 
@@ -64,13 +64,16 @@ const MhvSecondaryNav = () => {
 
   if (loading) return <></>;
 
+  // Unified Mhv SPA - skip Medical Records
+  // eslint-disable-next-line sonarjs/no-all-duplicated-branches
   if (
     mhvTransitionalMedicalRecordsLandingPage &&
     !mhvIntegrationMedicalRecordsToPhase1
   ) {
     items.push(transitionalMedicalRecordsLink);
   } else {
-    items.push(medicalRecordsLink);
+    // items.push(medicalRecordsLink);
+    items.push(transitionalMedicalRecordsLink);
   }
 
   return <MhvSecondaryNavMenu items={items} />;
