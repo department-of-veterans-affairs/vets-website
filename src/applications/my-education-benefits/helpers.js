@@ -849,6 +849,7 @@ export const formPages = {
     mailingAddress: 'mailingAddress',
     mailingAddressMilitaryBaseUpdates: 'mailingAddressMilitaryBaseUpdates',
     preferredContactMethod: 'preferredContactMethod',
+    newPreferredContactMethod: 'newPreferredContactMethod',
   },
   serviceHistory: 'serviceHistory',
   benefitSelectionLegacy: 'benefitSelectionLegacy',
