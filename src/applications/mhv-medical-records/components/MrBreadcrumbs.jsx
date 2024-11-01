@@ -101,7 +101,7 @@ const MrBreadcrumbs = () => {
       label="Breadcrumb"
       home-veterans-affairs
       onRouteChange={handleRoutechange}
-      className="small-screen:vads-u-margin-y--2"
+      className="mobile-lg:vads-u-margin-y--2"
       dataTestid="breadcrumbs"
       uswds
     />
