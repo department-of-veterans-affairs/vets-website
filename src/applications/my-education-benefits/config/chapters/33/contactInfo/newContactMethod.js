@@ -1,5 +1,6 @@
 import React from 'react';
 import { createSelector } from 'reselect';
+import { Link } from 'react-router';
 
 import TextNotificationsDisclaimer from '../../../../components/TextNotificationsDisclaimer';
 import { formFields } from '../../../../constants';
@@ -122,14 +123,6 @@ const newContactMethod33 = {
       ),
     },
     'view:noElectronicCommunicationAlert': {
-      'ui:options': {
-        hideIf: formData => {
-          return (
-            formData['view:receiveTextMessages']?.receiveTextMessages !==
-            "I don't want to receive electronic notifications"
-          );
-        },
-      },
       'ui:description': (
         <va-alert status="warning">
           <>
@@ -178,8 +171,24 @@ const newContactMethod33 = {
       'ui:description': (
         <va-alert status="warning">
           <>
-            You can’t choose to get text message notifications because we don’t
-            have a mobile phone number on file for you.
+            <p>
+              You can’t choose to get text message notifications because we
+              don’t have a mobile phone number on file for you.
+            </p>
+
+            <Link
+              aria-label="Go back and add a mobile phone number"
+              to={{
+                pathname: 'contact-information/email-phone',
+              }}
+            >
+              <va-button
+                uswds
+                onClick={() => {}}
+                secondary
+                text="Go back and add a mobile phone number"
+              />
+            </Link>
           </>
         </va-alert>
       ),
@@ -199,9 +208,26 @@ const newContactMethod33 = {
       'ui:description': (
         <va-alert status="warning">
           <>
-            You can’t choose to get text notifications because you have an
-            international mobile phone number. At this time, we can send text
-            messages about your education benefits to U.S. mobile phone numbers.
+            <p>
+              You can’t choose to get text notifications because you have an
+              international mobile phone number. At this time, we can send text
+              messages about your education benefits to U.S. mobile phone
+              numbers.
+            </p>
+
+            <Link
+              aria-label="Go back and add a domestic phone number"
+              to={{
+                pathname: 'contact-information/email-phone',
+              }}
+            >
+              <va-button
+                uswds
+                onClick={() => {}}
+                secondary
+                text="Go back and add a domestic phone number"
+              />
+            </Link>
           </>
         </va-alert>
       ),
