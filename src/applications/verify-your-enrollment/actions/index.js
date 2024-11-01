@@ -103,15 +103,13 @@ export const fetchPersonalInfo = () => {
     if (claimantId) {
       try {
         const [recordResponse] = await Promise.all([
-          // apiRequest(
-          //   `http://localhost:8080/verifications/vye/${claimantId}/status`,
-          //   {
-          //     method: 'GET',
-          //     headers: {
-          //       'Content-Type': 'application/json',
-          //     },
+          // apiRequest(`${API_URL}/dgib_verifications/claimant_status`, {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
           //   },
-          // ),
+          //   body: JSON.stringify({ claimantId }),
+          // }),
           apiRequest(`${API_URL}/dgib_verifications/verification_record`, {
             method: 'POST',
             headers: {
