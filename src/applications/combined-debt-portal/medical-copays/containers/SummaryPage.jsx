@@ -119,7 +119,7 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
     return (
-      <article>
+      <article className="vads-u-padding-x--0">
         <va-on-this-page />
         <Balances statements={statementsByUniqueFacility} />
         {renderOtherVA(debts?.length, debtError)}
