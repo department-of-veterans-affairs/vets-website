@@ -150,7 +150,10 @@ describe('526 wizard', () => {
       .first()
       .click();
     // title changes & gets focus
-    cy.get('h1').should('have.text', h1Text + h1Addition);
+    cy.get('h1[data-testid="form-title"]').should(
+      'have.text',
+      h1Text + h1Addition,
+    );
     cy.focused().should('have.text', h1Text + h1Addition);
     cy.checkStorage(WIZARD_STATUS, 'complete');
     cy.location('pathname').should(
