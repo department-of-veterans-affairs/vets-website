@@ -314,8 +314,7 @@ export const ConfirmationPage = props => {
       formConfig={formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
-      // uncomment when ready
-      // pdfUrl={submission.response?.pdfUrl}
+      pdfUrl={submission.response?.pdfUrl}
     >
       <ConfirmationView.SubmissionAlert />
       <ConfirmationView.SavePdfDownload />
