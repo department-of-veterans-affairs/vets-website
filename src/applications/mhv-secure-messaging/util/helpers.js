@@ -183,19 +183,55 @@ export const getLastSentMessage = messages => {
   );
 };
 
+// export const handleHeader = (folderId, folder) => {
+//   switch (folderId) {
+//     case Folders.INBOX.id: // Inbox
+//       return Folders.INBOX.header;
+//     case Folders.SENT.id: // Sent
+//       return Folders.SENT.header;
+//     case Folders.DRAFTS.id: // Drafts
+//       return Folders.DRAFTS.header;
+//     case Folders.DELETED.id: // Trash
+//       return Folders.DELETED.header;
+//     default:
+//       return folder.name;
+//   }
+// };
+
 export const handleHeader = (folderId, folder) => {
+  let folderName;
+
   switch (folderId) {
     case Folders.INBOX.id: // Inbox
-      return Folders.INBOX.header;
+      folderName = Folders.INBOX.header;
+      break;
     case Folders.SENT.id: // Sent
-      return Folders.SENT.header;
+      folderName = Folders.SENT.header;
+      break;
     case Folders.DRAFTS.id: // Drafts
-      return Folders.DRAFTS.header;
+      folderName = Folders.DRAFTS.header;
+      break;
     case Folders.DELETED.id: // Trash
-      return Folders.DELETED.header;
+      folderName = Folders.DELETED.header;
+      break;
     default:
-      return folder.name;
+      folderName = folder.name;
   }
+
+  const isCustomFolder =
+    folderName !== Folders.INBOX.header &&
+    folderName !== Folders.SENT.header &&
+    folderName !== Folders.DRAFTS.header &&
+    folderName !== Folders.DELETED.header;
+
+  const ddTitle = `${isCustomFolder ? 'Custom folder' : `${folderName}`} h1`;
+  const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+
+  return {
+    folderName,
+    ddTitle,
+    ddPrivacy,
+  };
 };
 
 export const updateMessageInThread = (thread, response) => {
