@@ -113,8 +113,10 @@ if (!appFolders && !checkAllowlist) {
     JSON.stringify(
       Object.keys(crossAppJson).map(app => {
         const appData = crossAppJson[app];
+        console.log(app);
+        console.log(appData);
         return appData.appsThatThisAppImportsFrom
-          ? Object.keys(appData.appsThatThisAppImportsFrom.length)
+          ? Object.keys(appData.appsThatThisAppImportsFrom).length
           : 0;
       }),
     ),
