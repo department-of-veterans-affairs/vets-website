@@ -256,7 +256,7 @@ describe('686 report death: Dependent information', () => {
   } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartOne;
 
   it('should render', () => {
-    const { container } = render(
+    const { container, queryByText } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -269,6 +269,7 @@ describe('686 report death: Dependent information', () => {
       </Provider>,
     );
 
+    expect(queryByText(/Dependent who has died/i)).to.not.be.null;
     expect($$('va-text-input', container).length).to.equal(4);
     expect($$('va-memorable-date', container).length).to.equal(1);
   });
@@ -279,124 +280,6 @@ describe('686 report death: Dependent Type', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartTwo;
-
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData()}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(3);
-  });
-});
-
-describe('686 report death: Child Type', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartThree;
-
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData()}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    expect(container.querySelectorAll('va-checkbox-group').length).to.equal(1);
-    expect(container.querySelectorAll('va-checkbox').length).to.equal(5);
-  });
-});
-
-describe('686 report death: Date of Death', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartFour;
-
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData()}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    expect($$('va-memorable-date', container).length).to.equal(1);
-  });
-});
-
-describe('686 report death: Location of Death', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartFive;
-
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData()}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    expect($$('va-checkbox', container).length).to.equal(1);
-    expect($$('va-text-input', container).length).to.equal(1);
-    expect($$('va-select', container).length).to.equal(1);
-  });
-
-  it('should render w/ hidden State selector', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData()}
-          arrayPath={arrayPath}
-          pagePerItemIndex={2}
-        />
-      </Provider>,
-    );
-
-    expect($$('va-checkbox', container).length).to.equal(1);
-    expect($$('va-text-input', container).length).to.equal(1);
-  });
-});
-
-describe('686 report death: Dependent income', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartSix;
 
   it('should render', () => {
     const { container, queryByText } = render(
@@ -412,8 +295,183 @@ describe('686 report death: Dependent income', () => {
       </Provider>,
     );
 
-    expect(queryByText(/Dependent’s income/i)).to.not.be.null;
+    expect(queryByText(/Your relationship to John Doe/i)).to.not.be.null;
     expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(2);
+    expect($$('va-radio-option', container).length).to.equal(3);
+  });
+
+  it('should render alternate title if fullName is empty', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Your relationship to the deceased dependent/i)).to.not
+      .be.null;
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(3);
+  });
+});
+
+describe('686 report death: Child Type', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartThree;
+
+  it('should render', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Your relationship to John Doe/i)).to.not.be.null;
+    expect($$('va-checkbox-group', container).length).to.equal(1);
+    expect($$('va-checkbox', container).length).to.equal(5);
+  });
+
+  it('should render alternate title if fullName is empty', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Your relationship to the deceased dependent/i)).to.not
+      .be.null;
+    expect($$('va-checkbox-group', container).length).to.equal(1);
+    expect($$('va-checkbox', container).length).to.equal(5);
+  });
+});
+
+describe('686 report death: Date of Death', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartFour;
+
+  it('should render', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/When did John Doe die?/i)).to.not.be.null;
+    expect($$('va-memorable-date', container).length).to.equal(1);
+  });
+
+  it('should render alternate title if fullName is empty', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/When did the dependent die?/i)).to.not.be.null;
+    expect($$('va-memorable-date', container).length).to.equal(1);
+  });
+});
+
+describe('686 report death: Location of Death', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartFive;
+
+  it('should render', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Where did John Doe die?/i)).to.not.be.null;
+    expect($$('va-checkbox', container).length).to.equal(1);
+    expect($$('va-text-input', container).length).to.equal(1);
+    expect($$('va-select', container).length).to.equal(1);
+  });
+
+  it('should render alternate title if fullName is empty', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Where did the dependent die?/i)).to.not.be.null;
+    expect($$('va-checkbox', container).length).to.equal(1);
+    expect($$('va-text-input', container).length).to.equal(1);
+    expect($$('va-select', container).length).to.equal(1);
+  });
+
+  it('should render w/ hidden State selector', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={2}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Where did Tom Riddle die?/i)).to.not.be.null;
+    expect($$('va-checkbox', container).length).to.equal(1);
+    expect($$('va-text-input', container).length).to.equal(1);
   });
 });
