@@ -426,31 +426,10 @@ export class ConfirmationPage extends React.Component {
                     </ul>
                   </va-alert-expandable>
                 ) : (
-                  <va-banner
-                    className="response-no-results"
-                    headline="No Results Found"
-                    type="warning"
-                    visible
-                  >
-                    <p>
-                      <>
-                        {this.props.results.data &&
-                        this.props.results.data.length > 0
-                          ? "We're unable to recomend benefits based on your responses. You can "
-                          : "We're unable to recomend benefits that maych your filters. You can adjust your filters or "}
-                      </>
-                      <va-link
-                        data-testid="back-link-banner"
-                        href="#"
-                        onClick={this.handleClick}
-                        text="Go back review and update your entries"
-                      />
-                    </p>
-                    <p>
-                      We're adding more benefits, so we encourage you to try
-                      again in the future.
-                    </p>
-                  </va-banner>
+                  <NoResultsBanner
+                    data={this.props.results.data}
+                    handleClick={this.handleClick}
+                  />
                 )}
               </div>
 
@@ -531,6 +510,33 @@ export class ConfirmationPage extends React.Component {
     );
   }
 }
+
+const NoResultsBanner = ({ data, handleClick }) => (
+  <va-banner
+    className="response-no-results"
+    headline="No Results Found"
+    type="warning"
+    visible
+  >
+    <p>
+      <>
+        {data && data.length > 0
+          ? "We're unable to recomend benefits based on your responses. You can "
+          : "We're unable to recomend benefits that match your filters. You can adjust your filters or "}
+      </>
+      <va-link
+        data-testid="back-link-banner"
+        href="#"
+        onClick={handleClick}
+        text="Go back review and update your entries"
+      />
+    </p>
+    <p>
+      We’re adding more benefits, so we encourage you to try again in the
+      future.
+    </p>
+  </va-banner>
+);
 
 const mapDispatchToProps = {
   setSubmission: setSubmissionAction,
