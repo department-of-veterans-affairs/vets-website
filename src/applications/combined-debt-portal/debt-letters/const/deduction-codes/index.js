@@ -16,8 +16,8 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
       return (
         <section>
           <p className="vads-u-margin-top--0">
-            Some reasons you have debt related to your compensation and pension
-            benefits might include:
+            Here are some common reasons for debt from disability and pension
+            overpayments:
           </p>
 
           <ul>
@@ -25,22 +25,17 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
               You’ve received a payment for disability compensation and military
               pay at the same time.
             </li>
-            <li>
-              You didn’t let us know of a change in your marital or dependent
-              status.
-            </li>
-            <li>
-              You’ve received two payments for the same compensation and pension
-              benefits.
-            </li>
-            <li>You didn’t let us know of additional income you might have.</li>
-            <li>
-              You didn’t let us know that you were incarcerated (sent to jail or
-              prison).
-            </li>
-            <li>There was a change in your active-duty status.</li>
-            <li>Your eligibility for a benefit has changed.</li>
+            <li>Your income changed</li>
+            <li>You received duplicate payments for the same benefit</li>
           </ul>
+          <p>
+            If you have questions about your VA debt, call us at{' '}
+            <va-telephone contact="8008270648" /> (
+            <va-telephone contact="711" tty="true" />
+            ). If you’re outside the U.S., call{' '}
+            <va-telephone contact="6127136415" international />. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+          </p>
         </section>
       );
     case '41':
@@ -52,33 +47,21 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
       return (
         <section>
           <p className="vads-u-margin-top--0">
-            Some reasons you have debt related to your education benefits might
-            include:
+            Here are some common reasons for debt from education benefit
+            overpayments:
           </p>
-
           <ul>
-            <li>You were suspended or put on academic probation.</li>
-            <li>
-              You made a change in your course enrollment or withdrew from a
-              class. <br />
-              <strong>Note:</strong> A change in course enrollment can cause an
-              overpayment in tuition, housing, and book and supplies.
-            </li>
-            <li>There was a change in your housing situation.</li>
-            <li>We made a duplicate payment to you.</li>
-            <li>
-              You withdrew from your college, university, or higher-education
-              program.
-            </li>
-            <li>There was a change in your active-duty status.</li>
-            <li>Your eligibility for a benefit has changed.</li>
+            <li>You were suspended or put on academic probation</li>
+            <li>You withdrew from a class or program</li>
+            <li>You received duplicate payments for the same benefit</li>
           </ul>
-
           <p className="vads-u-margin-bottom--0">
-            <strong>Note: </strong>
-            For Post-9/11 GI Bill benefits, we make separate payments for
-            tuition, housing, and books and supplies. When there is a change in
-            one of these benefits, we’ll collect the three debts separately.
+            If you have questions about your VA debt, call us at{' '}
+            <va-telephone contact="8008270648" /> (
+            <va-telephone contact="711" tty="true" />
+            ). If you’re outside the U.S., call{' '}
+            <va-telephone contact="6127136415" international />. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         </section>
       );
