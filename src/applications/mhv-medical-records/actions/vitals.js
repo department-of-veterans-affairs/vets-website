@@ -8,14 +8,19 @@ import { getListWithRetry } from './common';
 export const getVitals = (
   isCurrent = false,
   isAccelerating = false,
+  vitalsDate = '',
 ) => async dispatch => {
   dispatch({
     type: Actions.Vitals.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const getVitalsData = isAccelerating ? getAcceleratedVitals : getVitalsList;
-    const response = await getListWithRetry(dispatch, getVitalsData);
+    let response;
+    if (isAccelerating) {
+      response = await getAcceleratedVitals(vitalsDate);
+    } else {
+      response = await getListWithRetry(dispatch, getVitalsList);
+    }
     dispatch({
       type: Actions.Vitals.GET_LIST,
       response,

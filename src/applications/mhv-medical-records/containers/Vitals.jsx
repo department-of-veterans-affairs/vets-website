@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { format } from 'date-fns';
+import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   updatePageTitle,
   usePrintTitle,
@@ -15,6 +17,8 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
 } from '../util/constants';
+import { Actions } from '../util/actionTypes';
+import * as Constants from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
@@ -31,6 +35,9 @@ const Vitals = () => {
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
   const [cards, setCards] = useState(null);
+  const [acceleratedVitalsDate, setAcceleratedVitalsDate] = useState(
+    format(new Date(), 'yyyy-MM'),
+  );
   const activeAlert = useAlerts(dispatch);
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
@@ -39,7 +46,7 @@ const Vitals = () => {
   const { isAcceleratingVitals } = useAcceleratedData();
 
   const dispatchAction = isCurrent => {
-    return getVitals(isCurrent, isAcceleratingVitals);
+    return getVitals(isCurrent, isAcceleratingVitals, acceleratedVitalsDate);
   };
 
   useListRefresh({
@@ -166,6 +173,31 @@ const Vitals = () => {
     );
   };
 
+  const updateDate = event => {
+    const [year, month] = event.target.value.split('-');
+    setAcceleratedVitalsDate(`${year}-${month}`);
+    dispatch({
+      type: Actions.Vitals.UPDATE_LIST_STATE,
+      payload: Constants.loadStates.PRE_FETCH,
+    });
+  };
+
+  const datePicker = () => {
+    return (
+      <div>
+        <VaDate
+          label="Select a month and year"
+          // Limit to current month and year
+          name="vitals-date-picker"
+          monthYearOnly
+          value={new Date().toISOString().split('T')[0]}
+          onDateChange={updateDate}
+          data-testid="date-picker"
+        />
+      </div>
+    );
+  };
+
   return (
     <div id="vitals">
       <PrintHeader />
@@ -176,6 +208,7 @@ const Vitals = () => {
         {`Vitals are basic health numbers your providers check at your
         appointments. ${vitals?.length === 0 ? 'Vitals include:' : ''}`}
       </p>
+      {isAcceleratingVitals && datePicker()}
       {content()}
     </div>
   );

@@ -81,9 +81,11 @@ export const getVitalsList = () => {
   });
 };
 
-export const getAcceleratedVitals = async () => {
+export const getAcceleratedVitals = async vitalsDate => {
+  const from = `&from=${vitalsDate}-01`;
+  const to = `&to=${vitalsDate}-31`;
   return apiRequest(
-    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1`,
+    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1${from}${to}`,
     {
       headers,
     },
