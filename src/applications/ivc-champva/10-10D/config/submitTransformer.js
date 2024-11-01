@@ -64,40 +64,6 @@ function transformApplicants(applicants) {
   return applicantsPostTransform;
 }
 
-// Set up the `primaryContactInfo` for the backend notification API service.
-function getPrimaryContact(data) {
-  // If a certification name is present, third party signer is the certifier
-  const useCert =
-    data?.certification?.firstName && data?.certification?.firstName !== '';
-
-  // Either the first applicant with an email address, or the first applicant
-  const primaryApp =
-    data?.applicants?.filter(
-      app => app.applicantEmailAddress && app.applicantEmailAddress.length > 0,
-    )[0] ?? data?.applicants?.[0];
-
-  return {
-    name: {
-      first:
-        (useCert
-          ? data?.certification?.firstName
-          : primaryApp?.applicantName?.first) ?? false,
-      last:
-        (useCert
-          ? data?.certification?.lastName
-          : primaryApp?.applicantName?.last) ?? false,
-    },
-    email:
-      (useCert
-        ? data?.certification?.email
-        : primaryApp?.applicantEmailAddress) ?? false,
-    phone:
-      (useCert
-        ? data?.certification?.phoneNumber
-        : primaryApp?.applicantPhone) ?? false,
-  };
-}
-
 export default function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
@@ -112,6 +78,9 @@ export default function transformForSubmit(formConfig, form) {
     transformedData.certifierAddress = concatStreets(
       transformedData.certifierAddress,
     );
+
+  const currentDate =
+    fmtDate(new Date().toISOString().replace(/T.*/, '')) || '';
 
   const dataPostTransform = {
     veteran: {
@@ -135,20 +104,27 @@ export default function transformForSubmit(formConfig, form) {
       isActiveServiceDeath: transformedData?.sponsorDeathConditions,
     },
     applicants: transformApplicants(transformedData.applicants ?? []),
-    certification: {
-      date: fmtDate(new Date().toISOString().replace(/T.*/, '')) || '',
-      lastName: transformedData?.certifierName?.last || '',
-      middleInitial: transformedData?.certifierName?.middle || '',
-      firstName: transformedData?.certifierName?.first || '',
-      phoneNumber: transformedData?.certifierPhone || '',
-      relationship: transformRelationship(
-        transformedData?.certifierRelationship,
-      ),
-      streetAddress: transformedData?.certifierAddress?.streetCombined || '',
-      city: transformedData?.certifierAddress?.city || '',
-      state: transformedData?.certifierAddress?.state || '',
-      postalCode: transformedData?.certifierAddress?.postalCode || '',
-    },
+    // If certifier is also applicant, we don't need to fill out the
+    // bottom "Certification" section of the PDF:
+    certification:
+      transformedData?.certifierRelationship?.relationshipToVeteran
+        ?.applicant === true
+        ? { date: currentDate }
+        : {
+            date: currentDate,
+            lastName: transformedData?.certifierName?.last || '',
+            middleInitial: transformedData?.certifierName?.middle || '',
+            firstName: transformedData?.certifierName?.first || '',
+            phoneNumber: transformedData?.certifierPhone || '',
+            relationship: transformRelationship(
+              transformedData?.certifierRelationship,
+            ),
+            streetAddress:
+              transformedData?.certifierAddress?.streetCombined || '',
+            city: transformedData?.certifierAddress?.city || '',
+            state: transformedData?.certifierAddress?.state || '',
+            postalCode: transformedData?.certifierAddress?.postalCode || '',
+          },
     supportingDocs: [],
     // Include everything we originally received
     rawData: transformedData,
@@ -180,11 +156,20 @@ export default function transformForSubmit(formConfig, form) {
   dataPostTransform.supportingDocs = dataPostTransform.supportingDocs
     .flat()
     .concat(supDocs);
-  dataPostTransform.certifierRole = transformedData.certifierRole;
+  // TODO - remove usage of `certifierRole` in vets-api
+  dataPostTransform.certifierRole =
+    dataPostTransform?.certifierRelationship?.relationshipToVeteran
+      ?.applicant === true
+      ? 'applicant'
+      : 'other';
   dataPostTransform.statementOfTruthSignature =
     transformedData.statementOfTruthSignature;
   // `primaryContactInfo` is who BE callback API emails if there's a notification event
-  dataPostTransform.primaryContactInfo = getPrimaryContact(dataPostTransform);
+  dataPostTransform.primaryContactInfo = {
+    name: transformedData.certifierName,
+    email: transformedData.certifierEmail,
+    phone: transformedData.certifierPhone,
+  };
   return JSON.stringify({
     ...dataPostTransform,
     formNumber: formConfig.formId,
