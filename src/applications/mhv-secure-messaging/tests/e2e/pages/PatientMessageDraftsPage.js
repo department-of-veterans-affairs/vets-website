@@ -2,7 +2,7 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import mockSingleDraft from '../fixtures/draftsResponse/single-draft-response.json';
-import { AXE_CONTEXT, Data, Locators, Paths } from '../utils/constants';
+import { Data, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
@@ -11,7 +11,7 @@ import mockMessages from '../fixtures/messages-response.json';
 import FolderLoadPage from './FolderLoadPage';
 import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
 import mockReplyDraftResponse from '../fixtures/draftPageResponses/single-reply-draft-response.json';
-import mockSavedDraftResponse from '../fixtures/draftPageResponses/single-saved-draft-response.json';
+import mockSavedDraftResponse from '../fixtures/draftPageResponses/single-draft-response.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -36,140 +36,140 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="Drafts"]>a').click({ force: true });
   };
 
-  loadDraftMessages = (
-    draftMessages = mockDraftMessagesResponse,
-    detailedMessage = mockDraftResponse,
-  ) => {
-    this.mockDraftMessages = draftMessages;
-    this.setDraftTestMessageDetails(detailedMessage);
+  // loadDraftMessages = (
+  //   draftMessages = mockDraftMessagesResponse,
+  //   detailedMessage = mockDraftResponse,
+  // ) => {
+  //   this.mockDraftMessages = draftMessages;
+  //   this.setDraftTestMessageDetails(detailedMessage);
+  //
+  //   cy.intercept(
+  //     'GET',
+  //     `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
+  //     mockDraftFolderMetaResponse,
+  //   ).as('draftsFolderMetaResponse');
+  //   cy.intercept(
+  //     'GET',
+  //     `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
+  //     this.mockDraftMessages,
+  //   ).as('draftsResponse');
+  //
+  //   FolderLoadPage.loadFolders();
+  //   cy.get('[data-testid="Drafts"]>a').click({ force: true });
+  //   // cy.wait('@draftsFolderMetaResponse');
+  //   // cy.wait('@draftsResponse');
+  // };
 
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
-      mockDraftFolderMetaResponse,
-    ).as('draftsFolderMetaResponse');
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
-      this.mockDraftMessages,
-    ).as('draftsResponse');
+  // setDraftTestMessageDetails = mockMessage => {
+  //   if (this.mockDraftMessages.data.length > 0) {
+  //     cy.log(`draftMessages size ${this.mockDraftMessages.data.length}`);
+  //     this.mockDraftMessages.data.at(
+  //       0,
+  //     ).attributes.sentDate = new Date().toISOString();
+  //     this.mockDraftMessages.data.at(0).attributes.messageId =
+  //       mockMessage.data.attributes.messageId;
+  //     this.mockDraftMessages.data.at(0).attributes.subject =
+  //       mockMessage.data.attributes.subject;
+  //     this.mockDraftMessages.data.at(0).attributes.body =
+  //       mockMessage.data.attributes.body;
+  //     this.mockDraftMessages.data.at(0).attributes.category =
+  //       mockMessage.data.attributes.category;
+  //     this.mockDetailedMessage = mockMessage;
+  //   }
+  // };
 
-    FolderLoadPage.loadFolders();
-    cy.get('[data-testid="Drafts"]>a').click({ force: true });
-    // cy.wait('@draftsFolderMetaResponse');
-    // cy.wait('@draftsResponse');
-  };
-
-  setDraftTestMessageDetails = mockMessage => {
-    if (this.mockDraftMessages.data.length > 0) {
-      cy.log(`draftMessages size ${this.mockDraftMessages.data.length}`);
-      this.mockDraftMessages.data.at(
-        0,
-      ).attributes.sentDate = new Date().toISOString();
-      this.mockDraftMessages.data.at(0).attributes.messageId =
-        mockMessage.data.attributes.messageId;
-      this.mockDraftMessages.data.at(0).attributes.subject =
-        mockMessage.data.attributes.subject;
-      this.mockDraftMessages.data.at(0).attributes.body =
-        mockMessage.data.attributes.body;
-      this.mockDraftMessages.data.at(0).attributes.category =
-        mockMessage.data.attributes.category;
-      this.mockDetailedMessage = mockMessage;
-    }
-  };
-
-  loadMessageDetails = (
-    mockParentMessageDetails,
-    mockThread = mockSingleDraft,
-    previousMessageIndex = 1,
-    mockPreviousMessageDetails = mockDraftResponse,
-  ) => {
-    this.currentThread = mockThread;
-    // this.currentThread.data.at(0).attributes.sentDate =
-    //  mockParentMessageDetails.data.attributes.sentDate;
-    this.currentThread.data.at(0).id =
-      mockParentMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(0).attributes.messageId =
-      mockParentMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(0).attributes.subject =
-      mockParentMessageDetails.data.attributes.subject;
-    this.currentThread.data.at(0).attributes.body =
-      mockParentMessageDetails.data.attributes.body;
-    this.currentThread.data.at(0).attributes.category =
-      mockParentMessageDetails.data.attributes.category;
-    this.currentThread.data.at(0).attributes.recipientId =
-      mockParentMessageDetails.data.attributes.recipientId;
-    this.currentThread.data.at(0).attributes.senderName =
-      mockParentMessageDetails.data.attributes.senderName;
-    this.currentThread.data.at(0).attributes.recipientName =
-      mockParentMessageDetails.data.attributes.recipientName;
-
-    cy.log(
-      `loading parent message details.${
-        this.currentThread.data.at(0).attributes.messageId
-      }`,
-    );
-    if (this.currentThread.data.lenghth > 1) {
-      this.currentThread.data.at(previousMessageIndex).attributes.sentDate =
-        mockPreviousMessageDetails.data.attributes.sentDate;
-      this.currentThread.data.at(previousMessageIndex).id =
-        mockPreviousMessageDetails.data.attributes.messageId;
-      this.currentThread.data.at(previousMessageIndex).attributes.messageId =
-        mockPreviousMessageDetails.data.attributes.messageId;
-      this.currentThread.data.at(previousMessageIndex).attributes.subject =
-        mockPreviousMessageDetails.data.attributes.subject;
-      this.currentThread.data.at(previousMessageIndex).attributes.body =
-        mockPreviousMessageDetails.data.attributes.body;
-      this.currentThread.data.at(previousMessageIndex).attributes.category =
-        mockPreviousMessageDetails.data.attributes.category;
-      this.currentThread.data.at(previousMessageIndex).attributes.recipientId =
-        mockPreviousMessageDetails.data.attributes.recipientId;
-      this.currentThread.data.at(previousMessageIndex).attributes.senderName =
-        mockPreviousMessageDetails.data.attributes.senderName;
-      this.currentThread.data.at(
-        previousMessageIndex,
-      ).attributes.recipientName =
-        mockPreviousMessageDetails.data.attributes.recipientName;
-      this.currentThread.data.at(
-        previousMessageIndex,
-      ).attributes.triageGroupName =
-        mockPreviousMessageDetails.data.attributes.triageGroupName;
-    }
-    cy.log(
-      `message thread  = ${JSON.stringify(
-        mockParentMessageDetails.data.attributes.messageId,
-      )}`,
-    );
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        this.currentThread.data.at(0).attributes.messageId
-      }`,
-      mockParentMessageDetails,
-    ).as('message1');
-
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockParentMessageDetails.data.attributes.messageId
-      }/thread?full_body=true`,
-      this.currentThread,
-    ).as('full-thread');
-
-    cy.contains(mockParentMessageDetails.data.attributes.subject).click({
-      waitForAnimations: true,
-    });
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-    // cy.wait('@message1');
-    cy.wait('@full-thread');
-  };
+  // loadMessageDetails = (
+  //   mockParentMessageDetails,
+  //   mockThread = mockSingleDraft,
+  //   previousMessageIndex = 1,
+  //   mockPreviousMessageDetails = mockDraftResponse,
+  // ) => {
+  //   this.currentThread = mockThread;
+  //   // this.currentThread.data.at(0).attributes.sentDate =
+  //   //  mockParentMessageDetails.data.attributes.sentDate;
+  //   this.currentThread.data.at(0).id =
+  //     mockParentMessageDetails.data.attributes.messageId;
+  //   this.currentThread.data.at(0).attributes.messageId =
+  //     mockParentMessageDetails.data.attributes.messageId;
+  //   this.currentThread.data.at(0).attributes.subject =
+  //     mockParentMessageDetails.data.attributes.subject;
+  //   this.currentThread.data.at(0).attributes.body =
+  //     mockParentMessageDetails.data.attributes.body;
+  //   this.currentThread.data.at(0).attributes.category =
+  //     mockParentMessageDetails.data.attributes.category;
+  //   this.currentThread.data.at(0).attributes.recipientId =
+  //     mockParentMessageDetails.data.attributes.recipientId;
+  //   this.currentThread.data.at(0).attributes.senderName =
+  //     mockParentMessageDetails.data.attributes.senderName;
+  //   this.currentThread.data.at(0).attributes.recipientName =
+  //     mockParentMessageDetails.data.attributes.recipientName;
+  //
+  //   cy.log(
+  //     `loading parent message details.${
+  //       this.currentThread.data.at(0).attributes.messageId
+  //     }`,
+  //   );
+  //   if (this.currentThread.data.lenghth > 1) {
+  //     this.currentThread.data.at(previousMessageIndex).attributes.sentDate =
+  //       mockPreviousMessageDetails.data.attributes.sentDate;
+  //     this.currentThread.data.at(previousMessageIndex).id =
+  //       mockPreviousMessageDetails.data.attributes.messageId;
+  //     this.currentThread.data.at(previousMessageIndex).attributes.messageId =
+  //       mockPreviousMessageDetails.data.attributes.messageId;
+  //     this.currentThread.data.at(previousMessageIndex).attributes.subject =
+  //       mockPreviousMessageDetails.data.attributes.subject;
+  //     this.currentThread.data.at(previousMessageIndex).attributes.body =
+  //       mockPreviousMessageDetails.data.attributes.body;
+  //     this.currentThread.data.at(previousMessageIndex).attributes.category =
+  //       mockPreviousMessageDetails.data.attributes.category;
+  //     this.currentThread.data.at(previousMessageIndex).attributes.recipientId =
+  //       mockPreviousMessageDetails.data.attributes.recipientId;
+  //     this.currentThread.data.at(previousMessageIndex).attributes.senderName =
+  //       mockPreviousMessageDetails.data.attributes.senderName;
+  //     this.currentThread.data.at(
+  //       previousMessageIndex,
+  //     ).attributes.recipientName =
+  //       mockPreviousMessageDetails.data.attributes.recipientName;
+  //     this.currentThread.data.at(
+  //       previousMessageIndex,
+  //     ).attributes.triageGroupName =
+  //       mockPreviousMessageDetails.data.attributes.triageGroupName;
+  //   }
+  //   cy.log(
+  //     `message thread  = ${JSON.stringify(
+  //       mockParentMessageDetails.data.attributes.messageId,
+  //     )}`,
+  //   );
+  //   cy.intercept(
+  //     'GET',
+  //     `${Paths.INTERCEPT.MESSAGES}/${
+  //       this.currentThread.data.at(0).attributes.messageId
+  //     }`,
+  //     mockParentMessageDetails,
+  //   ).as('message1');
+  //
+  //   cy.intercept(
+  //     'GET',
+  //     `${Paths.INTERCEPT.MESSAGES}/${
+  //       mockParentMessageDetails.data.attributes.messageId
+  //     }/thread?full_body=true`,
+  //     this.currentThread,
+  //   ).as('full-thread');
+  //
+  //   cy.contains(mockParentMessageDetails.data.attributes.subject).click({
+  //     waitForAnimations: true,
+  //   });
+  //   cy.injectAxe();
+  //   cy.axeCheck(AXE_CONTEXT, {
+  //     rules: {
+  //       'aria-required-children': {
+  //         enabled: false,
+  //       },
+  //     },
+  //   });
+  //   // cy.wait('@message1');
+  //   cy.wait('@full-thread');
+  // };
 
   loadSingleDraft = (
     mockThread = mockDraftsRespone,
@@ -300,7 +300,9 @@ class PatientMessageDraftsPage {
   confirmDeleteDraft = draftMessage => {
     cy.intercept(
       'DELETE',
-      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        draftMessage.data[0].attributes.messageId
+      }`,
       draftMessage,
     ).as('deletedDraftResponse');
 
@@ -343,10 +345,12 @@ class PatientMessageDraftsPage {
     cy.get(Locators.ALERTS.NOTIFICATION).should('be.visible');
   };
 
-  confirmDeleteDraftWithEnterKey = draftMessage => {
+  confirmDeleteDraftWithEnterKey = (draftMessage = mockSavedDraftResponse) => {
     cy.intercept(
       'DELETE',
-      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        draftMessage.data[0].attributes.messageId
+      }`,
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
@@ -436,14 +440,26 @@ class PatientMessageDraftsPage {
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ force: true });
   };
 
-  saveExistingDraftMessage = mockResponse => {
+  saveExistingDraft = (
+    category,
+    subject,
+    requestData = mockSavedDraftResponse,
+  ) => {
     cy.intercept(
       'PUT',
-      `/my_health/v1/messaging/message_drafts/3163320/replydraft/3163906`,
-      { data: mockResponse },
-    ).as('saveDraft');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ waitForAnimations: true });
-    // cy.wait('@saveDraft');
+      `/my_health/v1/messaging/message_drafts/${
+        requestData.data[0].attributes.messageId
+      }`,
+      {},
+    ).as('draft_message');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+
+    cy.get('@draft_message')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(category);
+        expect(message.subject).to.eq(subject);
+      });
   };
 
   saveDraftByKeyboard = () => {

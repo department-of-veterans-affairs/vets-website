@@ -5,8 +5,8 @@ import requestBody from './fixtures/message-compose-request-body.json';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockDraftResponse from './fixtures/message-draft-response.json';
-import mockThreadResponse from './fixtures/draftsResponse/single-draft-response.json';
 import { Alerts, DefaultFolders } from '../../util/constants';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 
 describe('SM back navigation', () => {
   beforeEach(() => {
@@ -33,22 +33,17 @@ describe('SM back navigation', () => {
   });
 
   it('user navigate to drafts folder after message sent', () => {
-    PatientMessageDraftsPage.loadDraftMessages();
-    PatientMessageDraftsPage.loadMessageDetails(
-      mockDraftResponse,
-      mockThreadResponse,
-    );
+    PatientMessageDraftsPage.loadDrafts();
+    PatientMessageDraftsPage.loadSingleDraft();
     PatientMessageDraftsPage.sendDraftMessage(mockDraftResponse);
     PatientMessageDraftsPage.verifyConfirmationMessage(
       Alerts.Message.SEND_MESSAGE_SUCCESS,
     );
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    GeneralFunctionsPage.verifyPageHeader(`Drafts`);
+    GeneralFunctionsPage.verifyUrl(`drafts`);
 
-    cy.get(Locators.HEADER).should('have.text', DefaultFolders.DRAFTS.header);
-    cy.location().should(loc => {
-      expect(loc.pathname).to.eq(Paths.UI_MAIN + Paths.DRAFTS);
-    });
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
