@@ -1,14 +1,9 @@
 import { apiRequestWithUrl } from '../utils';
 
-export async function getPatientDetails(
-  facilityId,
-  clinicId,
-  startDate,
-  endDate,
-) {
+export async function getPatientReferrals() {
   try {
     const response = await apiRequestWithUrl(
-      `/vaos/v2/epsApi/referralDetails?facilityId=${facilityId}&clinicId=${clinicId}&start=${startDate}&end=${endDate}`,
+      `/vaos/v2/epsApi/referralDetails`,
       {
         method: 'GET',
       },
