@@ -169,7 +169,7 @@ const ch3Pages = {
     reviewTitle: 'Your personal information',
     depends: form => {
       const { first, last, socialSecurityNumber } = form.aboutYourself;
-      return first && last && socialSecurityNumber;
+      return !(first && last && socialSecurityNumber);
     },
   },
   aboutYourselfRelationshipFamilyMember: {
@@ -180,7 +180,7 @@ const ch3Pages = {
     reviewTitle: 'Your personal information',
     depends: form => {
       const { first, last, socialSecurityNumber } = form.aboutYourself;
-      return first && last && socialSecurityNumber;
+      return !(first && last && socialSecurityNumber);
     },
   },
   searchSchools: {
