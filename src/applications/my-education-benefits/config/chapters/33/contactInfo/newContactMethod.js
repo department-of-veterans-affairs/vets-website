@@ -123,6 +123,14 @@ const newContactMethod33 = {
       ),
     },
     'view:noElectronicCommunicationAlert': {
+      'ui:options': {
+        hideIf: formData => {
+          return (
+            formData['view:receiveTextMessages']?.receiveTextMessages !==
+            "I don't want to receive electronic notifications"
+          );
+        },
+      },
       'ui:description': (
         <va-alert status="warning">
           <>
