@@ -1,6 +1,3 @@
-import sortBy from 'lodash/sortBy';
-import head from 'lodash/head';
-
 /*
 This file contains utilities to process the data received from the MDOT API.
 */
@@ -62,11 +59,12 @@ export const getEligibilityDate = mdotData => {
     mdotData?.supplies &&
     mdotData.supplies.length > 0
   ) {
-    const sortedByAvailability = sortBy(
-      mdotData.supplies.filter(supply => supply.availableForReorder === true),
-      'nextAvailabilityDate',
-    );
-    return head(sortedByAvailability)?.nextAvailabilityDate || null;
+    const sortedByAvailability = mdotData.supplies
+      .filter(supply => supply.availableForReorder === true)
+      .sort((a, b) =>
+        a.nextAvailabilityDate.localeCompare(b.nextAvailabilityDate),
+      );
+    return sortedByAvailability[0]?.nextAvailabilityDate || null;
   }
   return null;
 };

@@ -1,5 +1,4 @@
 import { apiRequest } from 'platform/utilities/api';
-import head from 'lodash/head';
 import { MDOT_API_STATES, MDOT_API_URL } from '../constants';
 
 /**
@@ -42,15 +41,15 @@ export const fetchMdotData = () => async dispatch => {
   dispatch(initiateApiCall());
   apiRequest(MDOT_API_URL)
     .then(body => {
-      if (body.errors) {
-        const mdotError = head(body.errors);
+      if (body.errors && body.errors.length > 0) {
+        const mdotError = body.errors[0];
         return dispatch(handleError(mdotError.status, mdotError.code));
       }
       return dispatch(handleSuccess(body.formData));
     })
     .catch(error => {
-      if (error.errors) {
-        const mdotError = head(error.errors);
+      if (error.errors && error.errors.length > 0) {
+        const mdotError = error.errors[0];
         return dispatch(handleError(mdotError.status, mdotError.code));
       }
       // We don't have error information from the API, so assume a server error.
