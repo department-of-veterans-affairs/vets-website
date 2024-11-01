@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,18 +8,11 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import ViewPaymentsLists from '../components/view-payments-lists/ViewPaymentsLists';
-import { setFocus } from '../utils';
 
 function ViewPaymentsApp(props) {
-  const headerRef = useRef(null);
-  useEffect(
-    () => {
-      if (headerRef.current) {
-        setFocus('.your-va-payments-header');
-      }
-    },
-    [headerRef],
-  );
+  const headerRef = useCallback(node => {
+    node?.focus();
+  }, []);
 
   return (
     <RequiredLoginView

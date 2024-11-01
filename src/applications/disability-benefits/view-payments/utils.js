@@ -45,13 +45,3 @@ export const NoPaymentsContent = (
     </p>
   </>
 );
-
-export function setFocus(selector) {
-  const el =
-    typeof selector === 'string' ? document.querySelector(selector) : selector;
-
-  if (el) {
-    el.setAttribute('tabIndex', -1);
-    el.focus();
-  }
-}
