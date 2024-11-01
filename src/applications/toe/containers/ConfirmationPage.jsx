@@ -28,7 +28,7 @@ export const ConfirmationPage = ({
   useEffect(
     () => {
       if (!claimStatus) {
-        getClaimStatus()
+        getClaimStatus('toe')
           .then(response => {
             // Only trigger error if response has a status code >= 400
             if (response?.status >= 400) {
