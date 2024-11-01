@@ -180,8 +180,9 @@ const newContactMethod33 = {
         <va-alert status="warning">
           <>
             <p>
-              You can’t choose to get text message notifications because we
-              don’t have a mobile phone number on file for you.
+              We can’t send you text message notifications because we don’t have
+              a mobile phone number on file for you or your number is an
+              international number.
             </p>
 
             <Link
@@ -194,7 +195,7 @@ const newContactMethod33 = {
                 uswds
                 onClick={() => {}}
                 secondary
-                text="Go back and add a mobile phone number"
+                text="Go back and add or update your mobile phone number"
               />
             </Link>
           </>
@@ -208,45 +209,7 @@ const newContactMethod33 = {
             ];
           const mobilePhone = mobilePhoneInfo?.phone;
           const isInternational = mobilePhoneInfo?.isInternational;
-          return isValidPhone(mobilePhone) || isInternational;
-        },
-      },
-    },
-    'view:internationalTextMessageAlert': {
-      'ui:description': (
-        <va-alert status="warning">
-          <>
-            <p>
-              You can’t choose to get text notifications because you have an
-              international mobile phone number. At this time, we can send text
-              messages about your education benefits to U.S. mobile phone
-              numbers.
-            </p>
-
-            <Link
-              aria-label="Go back and add a domestic phone number"
-              to={{
-                pathname: 'contact-information/email-phone',
-              }}
-            >
-              <va-button
-                uswds
-                onClick={() => {}}
-                secondary
-                text="Go back and add a domestic phone number"
-              />
-            </Link>
-          </>
-        </va-alert>
-      ),
-      'ui:options': {
-        hideIf: formData => {
-          const mobilePhoneNumberInfo =
-            formData?.[formFields?.viewPhoneNumbers]?.[
-              formFields?.mobilePhoneNumber
-            ];
-          const isInternational = mobilePhoneNumberInfo?.isInternational;
-          return !isInternational;
+          return isValidPhone(mobilePhone) || !isInternational;
         },
       },
     },
