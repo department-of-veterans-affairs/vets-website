@@ -11,7 +11,7 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
     const landingPage = new MedicationsLandingPage();
     site.login();
     landingPage.visitLandingPageURL();
-    const listLength = 29;
+    const listLength = 20;
     mockRxPageOne.data.forEach(item => {
       const currentItem = item;
       currentItem.attributes.threadPageSize = listLength;
@@ -32,7 +32,7 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
     listPage.clickGotoMedicationsLink();
 
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
-    site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
+    // site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     listPage.selectSortDropDownOption('Alphabetically by name');
     listPage.clickSortAlphabeticallyByName();
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByName(

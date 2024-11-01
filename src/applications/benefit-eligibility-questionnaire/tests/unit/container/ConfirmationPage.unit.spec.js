@@ -146,6 +146,8 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
 
     const sortSelect = container.querySelector('[name="sort-benefits"]');
     sortSelect.__events.vaSelect({ target: { value: 'goal' } });
+    const updateButton = container.querySelector('#update-results');
+    fireEvent.click(updateButton);
 
     const benefitNames = wrapper
       .getAllByRole('listitem')
@@ -160,6 +162,8 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
 
     const sortSelect = container.querySelector('[name="sort-benefits"]');
     sortSelect.__events.vaSelect({ target: { value: 'alphabetical' } });
+    const updateButton = container.querySelector('#update-results');
+    fireEvent.click(updateButton);
 
     const benefitNames = wrapper
       .getAllByRole('listitem')
@@ -174,7 +178,9 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     container = wrapper.container;
 
     const filterSelect = container.querySelector('[name="filter-benefits"]');
-    filterSelect.__events.vaSelect({ target: { value: 'Employment' } });
+    filterSelect.__events.vaSelect({ target: { value: 'Careers' } });
+    const updateButton = container.querySelector('#update-results');
+    fireEvent.click(updateButton);
 
     const benefitNames = wrapper
       .getAllByRole('listitem')
@@ -189,11 +195,13 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
 
     const filterSelect = container.querySelector('[name="filter-benefits"]');
     filterSelect.__events.vaSelect({ target: { value: 'All' } });
+    const updateButton = container.querySelector('#update-results');
+    fireEvent.click(updateButton);
 
     const benefitNames = wrapper
       .getAllByRole('listitem')
       .map(li => li.textContent);
-    expect(benefitNames).to.have.lengthOf(17);
+    expect(benefitNames).to.have.lengthOf(23);
     expect(benefitNames[0]).to.contain('Careers');
     expect(benefitNames[1]).to.contain('Education');
   });
