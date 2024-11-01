@@ -1,9 +1,7 @@
 import React, { useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import ADDRESS_DATA from 'platform/forms/address/data';
+import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
-import { fetchLicenseCertificationResults } from '../actions';
 import { updateLcFilterDropdowns } from '../utils/helpers';
 // import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -27,7 +25,7 @@ const dropdownSchema = [
       },
     ],
     alt: 'category type',
-    current: { optionValue: '', optionLabel: '-Select-' },
+    current: { optionValue: 'all', optionLabel: '-Select-' },
   },
   {
     label: 'state',
@@ -51,17 +49,9 @@ const dropdownSchema = [
 //   'forms',
 // ];
 
-function LicenseCertificationSearchForm({
-  dispatchFetchLicenseCertificationResults,
-}) {
+export default function LicenseCertificationSearchForm({ handleSearch }) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
   const nameSearchRef = useRef(null);
-
-  const handleSearch = () => {
-    // console.log('update query parameters here');
-
-    dispatchFetchLicenseCertificationResults(); // add filter options as argument
-  };
 
   const handleReset = () => {
     setDropdowns(dropdownSchema);
@@ -102,7 +92,7 @@ function LicenseCertificationSearchForm({
         />
       </div>
 
-      {dropdowns[0].current.optionValue !== 'Prep Course' && (
+      {dropdowns[0].current.optionLabel !== 'Prep Course' && (
         <Dropdown
           disabled={false}
           label={capitalizeFirstLetter(dropdowns[1].label)}
@@ -117,7 +107,10 @@ function LicenseCertificationSearchForm({
         />
       )}
       <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
-        <va-button text="Submit" onClick={handleSearch} />
+        <va-button
+          text="Submit"
+          onClick={() => handleSearch(nameSearchRef.current.value)}
+        />
         <va-button
           text="Reset Search"
           className="usa-button-secondary"
@@ -129,14 +122,5 @@ function LicenseCertificationSearchForm({
 }
 
 LicenseCertificationSearchForm.propTypes = {
-  dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
 };
-
-const mapDispatchToProps = {
-  dispatchFetchLicenseCertificationResults: fetchLicenseCertificationResults,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(LicenseCertificationSearchForm);

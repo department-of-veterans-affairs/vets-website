@@ -1,36 +1,29 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
+import { Route, Switch } from 'react-router-dom';
+
 import LicenseCertificationSearch from './search/LicenseCertificationSearch';
 import LicenseCertificationSearchResults from './search/LicenseCertificationSearchResults';
 
-function SearchLicensesCertificationsPage({ fetchingLc, hasFetchedOnce }) {
-  if (fetchingLc) {
-    return <h2>Loading</h2>;
-  }
+export default function SearchLicensesCertificationsPage() {
   return (
     <div className="lc-search-page">
       <div className="content-wrapper">
-        {hasFetchedOnce ? (
-          <LicenseCertificationSearchResults />
-        ) : (
-          <LicenseCertificationSearch />
-        )}
+        <Switch>
+          <Route
+            exact
+            path="/lc-search/results"
+            render={({ match }) => (
+              <LicenseCertificationSearchResults match={match} />
+            )}
+          />
+          <Route
+            exact
+            path="/lc-search"
+            render={({ match }) => <LicenseCertificationSearch match={match} />}
+          />
+        </Switch>
       </div>
     </div>
   );
 }
-
-SearchLicensesCertificationsPage.propTypes = {
-  fetchingLc: PropTypes.bool.isRequired,
-  hasFetchedOnce: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = state => {
-  return {
-    fetchingLc: state.licenseCertificationSearch.fetchingLc,
-    hasFetchedOnce: state.licenseCertificationSearch.hasFetchedOnce,
-  };
-};
-
-export default connect(mapStateToProps)(SearchLicensesCertificationsPage);
