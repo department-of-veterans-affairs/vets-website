@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -13,10 +13,6 @@ import {
   DefinitionTester,
 } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../config/form';
-
-const expectedFieldTypes = 'input, select, textarea';
-// const expectedFieldTypesWebComponents =
-//   'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
 
 const initialData = {
   user: {
@@ -50,29 +46,6 @@ const initialData = {
 };
 
 describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
-  it('should render errors on applicant information fields when no first name is provided', async () => {
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
-    const { container } = render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={{}}
-        formData={{}}
-        idSchema="test"
-      />,
-    );
-
-    await waitFor(() => {
-      expect(container.querySelectorAll(expectedFieldTypes)).to.have.lengthOf(
-        10,
-      );
-    });
-  });
-
   describe('applicantInformation', () => {
     it('should fill out the applicant information fields', () => {
       const {
@@ -106,6 +79,168 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
           .find('input[name="root_relationShipToMember"][value="spouse"]')
           .props().checked,
       ).to.be.true;
+      form.unmount();
+    });
+
+    it('should render an error when no first/last name are provided', () => {
+      const {
+        schema,
+        uiSchema,
+      } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
+
+      const form = mount(
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{}}
+          formData={{}}
+        />,
+      );
+
+      form.find('input#root_fullName_first').simulate('change', {
+        target: { value: '' },
+      });
+      form.find('input#root_fullName_last').simulate('change', {
+        target: { value: '' },
+      });
+      form.find('input#root_ssn').simulate('change', {
+        target: { value: '123456789' },
+      });
+      form.find('select#root_dateOfBirthMonth').simulate('change', {
+        target: { value: '1' },
+      });
+      form.find('select#root_dateOfBirthDay').simulate('change', {
+        target: { value: '1' },
+      });
+      form.find('input#root_dateOfBirthYear').simulate('change', {
+        target: { value: '1990' },
+      });
+      selectRadio(form, 'root_relationShipToMember', 'spouse');
+
+      form.find('form').simulate('submit');
+      const errorMessages = form.find('.usa-input-error-message');
+
+      expect(errorMessages.length).to.be.at.least(1);
+      expect(errorMessages.at(0).text()).to.include(
+        'Error Please enter a first name',
+      );
+      expect(errorMessages.at(1).text()).to.include(
+        'Error Please enter a last name',
+      );
+
+      form.unmount();
+    });
+
+    it('should render errors when names are too long', () => {
+      const {
+        schema,
+        uiSchema,
+      } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
+
+      const form = mount(
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{}}
+          formData={{}}
+        />,
+      );
+
+      form.find('input#root_fullName_first').simulate('change', {
+        target: { value: 'abcdefghijklmnopqrstuvwxyz' },
+      });
+      form.find('input#root_fullName_middle').simulate('change', {
+        target: { value: 'abcdefghijklmnopqrstuvwxyz' },
+      });
+      form.find('input#root_fullName_last').simulate('change', {
+        target: { value: 'abcdefghijklmnopqrstuvwxyzabcd' },
+      });
+      form.find('input#root_ssn').simulate('change', {
+        target: { value: '123456789' },
+      });
+      form.find('select#root_dateOfBirthMonth').simulate('change', {
+        target: { value: '1' },
+      });
+      form.find('select#root_dateOfBirthDay').simulate('change', {
+        target: { value: '1' },
+      });
+      form.find('input#root_dateOfBirthYear').simulate('change', {
+        target: { value: '1990' },
+      });
+      selectRadio(form, 'root_relationShipToMember', 'spouse');
+
+      form.find('form').simulate('submit');
+      const errorMessages = form.find('.usa-input-error-message');
+
+      expect(errorMessages.length).to.be.at.least(1);
+      expect(errorMessages.at(0).text()).to.include(
+        'Error Must be 20 characters or less',
+      );
+      expect(errorMessages.at(1).text()).to.include(
+        'Error Must be 20 characters or less',
+      );
+      expect(errorMessages.at(2).text()).to.include(
+        'Error Must be 26 characters or less',
+      );
+
+      form.unmount();
+    });
+
+    it('should render errors when first/middle/last names are invalid', () => {
+      const {
+        schema,
+        uiSchema,
+      } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
+
+      const form = mount(
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{}}
+          formData={{}}
+        />,
+      );
+
+      form.find('input#root_fullName_first').simulate('change', {
+        target: { value: '((((9' },
+      });
+      form.find('input#root_fullName_middle').simulate('change', {
+        target: { value: '&&&&' },
+      });
+      form.find('input#root_fullName_last').simulate('change', {
+        target: { value: '&&&&' },
+      });
+      form.find('input#root_ssn').simulate('change', {
+        target: { value: '123456789' },
+      });
+      form.find('select#root_dateOfBirthMonth').simulate('change', {
+        target: { value: '1' },
+      });
+      form.find('select#root_dateOfBirthDay').simulate('change', {
+        target: { value: '1' },
+      });
+      form.find('input#root_dateOfBirthYear').simulate('change', {
+        target: { value: '1990' },
+      });
+      selectRadio(form, 'root_relationShipToMember', 'spouse');
+
+      form.find('form').simulate('submit');
+      const errorMessages = form.find('.usa-input-error-message');
+
+      expect(errorMessages.length).to.be.at.least(1);
+      expect(errorMessages.at(0).text()).to.include(
+        'Error Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+      );
+      expect(errorMessages.at(1).text()).to.include(
+        'Error Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+      );
+      expect(errorMessages.at(2).text()).to.include(
+        'Error Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+      );
+
       form.unmount();
     });
   });
@@ -169,7 +304,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     container.unmount();
   });
   it('should fill out the marriage information fields', () => {
-    const formData = {
+    const baseData = {
       relationShipToMember: 'spouse',
     };
     const {
@@ -182,7 +317,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         data={{}}
-        formData={formData}
+        formData={baseData}
       />,
     );
     selectRadio(form, 'root_marriageStatus', 'married');
