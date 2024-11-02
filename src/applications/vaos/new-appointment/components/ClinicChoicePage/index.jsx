@@ -53,7 +53,7 @@ export default function ClinicChoicePage() {
   }, []);
 
   return (
-    <div>
+    <div className="vaos-form__radio-field">
       <SchemaForm
         name="Clinic choice"
         title="Clinic choice"

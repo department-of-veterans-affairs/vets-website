@@ -105,7 +105,7 @@ export default function TypeOfCarePage() {
   });
 
   return (
-    <div>
+    <div className="vaos-form__radio-field">
       {showUpdateAddressAlert && (
         <UpdateAddressAlert
           onClickUpdateAddress={heading => {

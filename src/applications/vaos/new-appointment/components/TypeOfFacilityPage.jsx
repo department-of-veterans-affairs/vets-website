@@ -76,7 +76,7 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
   }, []);
 
   return (
-    <div className="vaos-form__facility-type vaos-form__detailed-radio">
+    <div className="vaos-form__facility-type vaos-form__radio-field-descriptive">
       {!!schema && (
         <SchemaForm
           name="Type of appointment"
