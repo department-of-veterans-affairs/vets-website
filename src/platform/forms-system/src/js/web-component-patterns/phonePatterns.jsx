@@ -77,7 +77,7 @@ const internationalPhoneUI = options => {
     'ui:errorMessages': {
       required: 'Enter up to a 15-digit phone number (with or without dashes)',
       pattern:
-        'Enter a valid international phone number up to 15-digits (with our without dashes)',
+        'Enter a valid international phone number up to 15-digits (with or without dashes)',
     },
   };
 };

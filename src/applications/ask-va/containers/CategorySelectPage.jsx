@@ -29,7 +29,11 @@ const CategorySelectPage = props => {
 
   const onModalNo = () => {
     isLoading(true);
-    onChange({ ...formData, selectCategory: undefined });
+    onChange({
+      ...formData,
+      selectCategory: undefined,
+      allowAttachments: undefined,
+    });
     setShowModal({ show: false, selected: '' });
     setTimeout(() => isLoading(false), 200);
   };
@@ -50,7 +54,11 @@ const CategorySelectPage = props => {
       setShowModal({ show: true, selected: `${selectedValue}` });
     } else {
       dispatch(setCategoryID(selected.id));
-      onChange({ ...formData, selectCategory: selectedValue });
+      onChange({
+        ...formData,
+        selectCategory: selectedValue,
+        allowAttachments: selected.attributes.allowAttachments,
+      });
     }
   };
 

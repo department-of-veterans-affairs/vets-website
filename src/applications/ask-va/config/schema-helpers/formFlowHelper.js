@@ -157,12 +157,20 @@ const ch3Pages = {
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
     reviewTitle: 'Your personal information',
+    depends: form => {
+      const { first, last, socialSecurityNumber } = form.aboutYourself;
+      return !(first && last && socialSecurityNumber);
+    },
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
     reviewTitle: 'Your personal information',
+    depends: form => {
+      const { first, last, socialSecurityNumber } = form.aboutYourself;
+      return !(first && last && socialSecurityNumber);
+    },
   },
   aboutYourselfRelationshipFamilyMember: {
     editModeOnReviewPage: false,
@@ -170,6 +178,10 @@ const ch3Pages = {
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
     reviewTitle: 'Your personal information',
+    depends: form => {
+      const { first, last, socialSecurityNumber } = form.aboutYourself;
+      return !(first && last && socialSecurityNumber);
+    },
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -320,9 +332,17 @@ const ch3Pages = {
     title: CHAPTER_3.BRANCH_OF_SERVICE.TITLE,
     uiSchema: yourBranchOfServicePage.uiSchema,
     schema: yourBranchOfServicePage.schema,
-    depends: form =>
-      branchOfServiceRuleforCategories.includes(form.selectCategory) ||
-      form.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL,
+    depends: form => {
+      const authCheck =
+        form.aboutYourself.first &&
+        form.aboutYourself.last &&
+        form.aboutYourself.socialSecurityNumber;
+      return (
+        (authCheck &&
+          branchOfServiceRuleforCategories.includes(form.selectCategory)) ||
+        form.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+      );
+    },
   },
 };
 
@@ -381,18 +401,15 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formData => {
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
   return (
-    // Using VEAP (Ch 32) for testing - Will swap it out for VR&E when added to Topics
     formData.relationshipToVeteran ===
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
     formData.selectCategory === CategoryEducation &&
-    formData.selectTopic !== 'VEAP (Ch 32)'
+    formData.selectTopic !== 'Veteran Readiness and Employment (Chapter 31)'
   );
 };
 
 const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
   return (
-    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
-      'Someone else' &&
     formData.relationshipToVeteran !==
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
     formData.selectCategory === 'Education benefits and work study'
@@ -562,6 +579,7 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
+  'aboutYourselfGeneral',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
