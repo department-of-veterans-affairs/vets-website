@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { filterChange } from '../actions';
 
 function ClearFiltersBtn({
@@ -49,15 +50,23 @@ function ClearFiltersBtn({
   return (
     <>
       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-      <button
+      {/* <button
         className="clear-filters-btn"
         onClick={clearAllFilters}
         data-testid={testId}
         onKeyDown={onKeyDown}
+      > */}
+      <VaButton
+        text="Reset search"
+        secondary
+        // className="apply-filter-button"
+        onClick={clearAllFilters}
+        onKeyDown={onKeyDown}
+        data-testid={testId}
       >
         {' '}
         {children}
-      </button>
+      </VaButton>
     </>
   );
 }

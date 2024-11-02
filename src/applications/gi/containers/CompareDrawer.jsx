@@ -295,7 +295,15 @@ export function CompareDrawer({
                   </div>
                   <div className="vads-u-margin-right--2">
                     {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-                    <button
+                    <va-button
+                      // type="button"
+                      tabIndex={0}
+                      // class="usa-button vads-u-width--full"
+                      disabled={loaded.length < 2}
+                      text="Compare"
+                      onClick={openCompare}
+                    />
+                    {/* <button
                       type="button"
                       tabIndex={0}
                       className="usa-button vads-u-width--full"
@@ -303,7 +311,7 @@ export function CompareDrawer({
                       onClick={openCompare}
                     >
                       Compare
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 <ol id="compare-list-item" className="compare-list">
