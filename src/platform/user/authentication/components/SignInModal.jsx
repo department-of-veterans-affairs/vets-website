@@ -18,18 +18,17 @@ export default function SignInModal({ visible, onClose, useSiS }) {
       }
       setPrevVisible(visible);
     },
-    [visible, useSiS],
+    [visible, useSiS, prevVisible],
   );
 
-  return (
+  return visible ? (
     <VaModal
       large
       visible={visible}
       onCloseEvent={onClose}
       id="signin-signup-modal"
-      className={visible ? 'open' : 'close'}
     >
       <LoginContainer />
     </VaModal>
-  );
+  ) : null;
 }
