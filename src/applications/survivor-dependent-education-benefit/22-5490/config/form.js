@@ -196,10 +196,6 @@ const formConfig = {
                         errors.addError('Please enter your first name');
                       } else if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
-                      } else if (field[0] === ' ' || field[0] === "'") {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
                       }
                     } else if (!isValidName(field)) {
                       errors.addError(
@@ -214,11 +210,7 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
-                      if (field[0] === ' ' || field[0] === "'") {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else if (field.length > 20) {
+                      if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
                       }
                     } else if (!isValidName(field)) {
@@ -240,14 +232,6 @@ const formConfig = {
                         errors.addError('Must be 2 characters or more');
                       } else if (field.length > 26) {
                         errors.addError('Must be 26 characters or less');
-                      } else if (
-                        field[0] === ' ' ||
-                        field[0] === "'" ||
-                        field[0] === '-'
-                      ) {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
                       }
                     } else if (!isValidName(field)) {
                       errors.addError(

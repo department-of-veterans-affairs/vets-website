@@ -1,10 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 
 import {
   fillData,
@@ -13,37 +9,6 @@ import {
   DefinitionTester,
 } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../config/form';
-
-const initialData = {
-  user: {
-    profile: {
-      userFullName: {
-        first: 'Michael',
-        middle: 'Thomas',
-        last: 'Wazowski',
-        suffix: 'Esq.',
-      },
-      dob: '1990-02-03',
-    },
-  },
-  form: {
-    data: {},
-  },
-  data: {
-    formData: {
-      data: {
-        attributes: {
-          claimant: {
-            firstName: 'john',
-            middleName: 'doe',
-            lastName: 'smith',
-            dateOfBirth: '1990-01-01',
-          },
-        },
-      },
-    },
-  },
-};
 
 describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
   describe('applicantInformation', () => {
@@ -188,6 +153,58 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       form.unmount();
     });
 
+    it('should render an error when last name is too short', () => {
+      const {
+        schema,
+        uiSchema,
+      } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
+
+      const form = mount(
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{}}
+          formData={{}}
+        />,
+      );
+
+      form.find('input#root_fullName_first').simulate('change', {
+        target: { value: 'john' },
+      });
+      form.find('input#root_fullName_middle').simulate('change', {
+        target: { value: 'tesh' },
+      });
+      form.find('input#root_fullName_last').simulate('change', {
+        target: { value: 'a' },
+      });
+      form.find('input#root_ssn').simulate('change', {
+        target: { value: '123456789' },
+      });
+      form.find('select#root_dateOfBirthMonth').simulate('change', {
+        target: { value: '1' },
+      });
+      form.find('select#root_dateOfBirthDay').simulate('change', {
+        target: { value: '1' },
+      });
+      form.find('input#root_dateOfBirthYear').simulate('change', {
+        target: { value: '1990' },
+      });
+      selectRadio(form, 'root_relationShipToMember', 'spouse');
+
+      form.find('form').simulate('submit');
+
+      const errorMessages = form.find('.usa-input-error-message');
+
+      expect(errorMessages.length).to.be.at.least(1);
+
+      expect(errorMessages.at(0).text()).to.include(
+        'Must be 2 characters or more',
+      );
+
+      form.unmount();
+    });
+
     it('should render errors when first/middle/last names are invalid', () => {
       const {
         schema,
@@ -279,29 +296,23 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       uiSchema,
     } = formConfig.chapters.yourInformationChapter.pages.reviewPersonalInformation;
 
-    const middleware = [thunk];
-    const mockStore = configureStore(middleware);
-
-    const { container } = render(
-      <Provider store={mockStore(initialData)}>
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={initialData?.data}
-          formData={initialData?.data?.formData}
-        />
-      </Provider>,
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={{}}
+        formData={{}}
+      />,
     );
 
-    selectRadio(container, 'root_highSchoolDiploma', 'yes');
-    fillDate(container, 'root_graduationDate', '1992-07-07');
+    selectRadio(form, 'root_highSchoolDiploma', 'yes');
+    fillDate(form, 'root_graduationDate', '1992-07-07');
     expect(
-      container
-        .find('input[name="root_highSchoolDiploma"][value="yes"]')
-        .props().checked,
+      form.find('input[name="root_highSchoolDiploma"][value="yes"]').props()
+        .checked,
     ).to.be.true;
-    container.unmount();
+    form.unmount();
   });
 
   it('should fill out the marriage information fields', () => {
@@ -405,7 +416,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     );
     form.unmount();
   });
-  xit('should fill out the mailing address fields', () => {
+  it('should fill out the mailing address fields', () => {
     const {
       schema,
       uiSchema,
@@ -419,22 +430,40 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         formData={{}}
       />,
     );
-    fillData(form, '#root_mailingAddressInput_country', 'USA');
-    fillData(form, '#root_mailingAddressInput_street', '123 Main St');
-    fillData(form, '#root_mailingAddressInput_city', 'Anytown');
-    fillData(form, '#root_mailingAddressInput_state', 'CA');
-    fillData(form, '#root_mailingAddressInput_postalCode', '12345');
+    form
+      .find('select#root_mailingAddressInput_address_country')
+      .simulate('change', {
+        target: { value: 'USA' },
+      });
+    fillData(
+      form,
+      'input#root_mailingAddressInput_address_street',
+      '123 Main St',
+    );
+    fillData(form, 'input#root_mailingAddressInput_address_city', 'Anytown');
+    form
+      .find('select#root_mailingAddressInput_address_state')
+      .simulate('change', {
+        target: { value: 'CA' },
+      });
+    fillData(
+      form,
+      'input#root_mailingAddressInput_address_postalCode',
+      '12345',
+    );
     expect(
-      form.find('#root_mailingAddressInput_street').prop('value'),
+      form.find('input#root_mailingAddressInput_address_street').prop('value'),
     ).to.equal('123 Main St');
-    expect(form.find('#root_mailingAddressInput_city').prop('value')).to.equal(
-      'Anytown',
-    );
-    expect(form.find('#root_mailingAddressInput_state').prop('value')).to.equal(
-      'CA',
-    );
     expect(
-      form.find('#root_mailingAddressInput_postalCode').prop('value'),
+      form.find('input#root_mailingAddressInput_address_city').prop('value'),
+    ).to.equal('Anytown');
+    expect(
+      form.find('select#root_mailingAddressInput_address_state').prop('value'),
+    ).to.equal('CA');
+    expect(
+      form
+        .find('input#root_mailingAddressInput_address_postalCode')
+        .prop('value'),
     ).to.equal('12345');
     form.unmount();
   });
