@@ -28,10 +28,9 @@ const transformedMaximalDataActual = {
   highestLevelOfEducation: {
     level: "A bachelor's degree",
   },
-  gender: 'Prefer not to answer',
-  ethnicity: 'Prefer not to answer',
-  orginRace: ['Prefer not to answer'],
   raceAndGender: 'Yes',
+  ethnicity: 'Prefer not to answer',
+  orginRace: { noAnswer: true },
   state: 'Texas',
   country: 'United States',
   contactInfo: {
@@ -39,7 +38,7 @@ const transformedMaximalDataActual = {
     mobilePhone: '4442341242',
     homePhone: '3434232434',
   },
-  veteranDesc: "I'm a Veteran's child",
+  veteranDesc: 'veteransChild',
   veteranFullName: {
     first: 'Jane',
     middle: 'Test',
