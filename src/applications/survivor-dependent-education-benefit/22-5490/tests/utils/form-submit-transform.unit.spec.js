@@ -1,20 +1,86 @@
 import { expect } from 'chai';
 import { submissionForm } from '../fixtures/data/form-submission-test-data';
-import { transform5490Form } from '../../utils/form-submit-transform';
+import {
+  transform5490Form,
+  getSchemaCountryCode,
+  getLTSCountryCode,
+  getAddressType,
+} from '../../utils/form-submit-transform';
 
 let mockSubmissionForm = {};
 let submissionObject = {};
+
 describe('form submit transform', () => {
   beforeEach(() => {
     mockSubmissionForm = JSON.parse(JSON.stringify(submissionForm));
     submissionObject = JSON.parse(transform5490Form({}, mockSubmissionForm));
   });
-  describe('has transform5490Form method', () => {
+
+  describe('getSchemaCountryCode', () => {
+    it('returns default schema country code for null input', () => {
+      expect(getSchemaCountryCode(null)).to.eql('USA');
+    });
+
+    it('returns default schema country code for non-string input', () => {
+      expect(getSchemaCountryCode(123)).to.eql('USA');
+    });
+
+    it('returns correct schema country code for valid three-character code', () => {
+      expect(getSchemaCountryCode('CAN')).to.eql('CAN'); // Canada
+    });
+
+    it('returns correct schema country code for two-character LTS code', () => {
+      expect(getSchemaCountryCode('CA')).to.eql('CAN'); // Canada
+    });
+  });
+
+  describe('getLTSCountryCode', () => {
+    it('returns LTS country code for a valid schema country code', () => {
+      expect(getLTSCountryCode('CAN')).to.eql('CA'); // Canada
+    });
+
+    it('returns LTS country code for a valid two-character input', () => {
+      expect(getLTSCountryCode('CA')).to.eql('CA'); // Canada
+    });
+
+    it('returns "ZZ" for an unrecognized country code', () => {
+      expect(getLTSCountryCode('XYZ')).to.eql('ZZ'); // Unknown country
+    });
+  });
+
+  describe('getAddressType', () => {
+    it('returns null for undefined or null mailing address', () => {
+      expect(getAddressType(null)).to.eql(null);
+      expect(getAddressType(undefined)).to.eql(null);
+    });
+
+    it('returns "MILITARY_OVERSEAS" when livesOnMilitaryBase is true', () => {
+      const mailingAddress = { livesOnMilitaryBase: true };
+      expect(getAddressType(mailingAddress)).to.eql('MILITARY_OVERSEAS');
+    });
+
+    it('returns "DOMESTIC" for a United States address', () => {
+      const mailingAddress = {
+        address: { country: 'USA' },
+      };
+      expect(getAddressType(mailingAddress)).to.eql('DOMESTIC');
+    });
+
+    it('returns "FOREIGN" for an address outside the United States', () => {
+      const mailingAddress = {
+        address: { country: 'CAN' },
+      };
+      expect(getAddressType(mailingAddress)).to.eql('FOREIGN');
+    });
+  });
+
+  describe('transform5490Form', () => {
     describe('creates a type property', () => {
-      it('is set to to Chapter', () => {
+      it('is set to Chapter35Submission', () => {
         expect(submissionObject['@type']).to.eql('Chapter35Submission');
       });
     });
+
     describe('creates claimant information', () => {
       it('sets up first name', () => {
         expect(submissionObject.claimant.firstName).to.eql('Hector');
