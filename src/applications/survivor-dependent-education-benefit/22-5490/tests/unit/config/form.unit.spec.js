@@ -343,7 +343,11 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
-        data={{ marriageStatus: 'divorced' }}
+        data={{
+          marriageStatus: 'divorced',
+          relationShipToMember: 'spouse',
+          remarriageStatus: 'yes',
+        }}
         formData={{}}
       />,
     );
@@ -460,6 +464,62 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     ).to.equal('12345');
     form.unmount();
   });
+
+  it('should fill render errors when comleting mailing address fields', () => {
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.contactInformationChapter.pages.mailingAddress;
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={{}}
+        formData={{}}
+      />,
+    );
+    form
+      .find('select#root_mailingAddressInput_address_country')
+      .simulate('change', {
+        target: { value: 'USA' },
+      });
+    fillData(form, 'input#root_mailingAddressInput_address_street', '');
+    fillData(form, 'input#root_mailingAddressInput_address_city', 'Anytown');
+    form
+      .find('select#root_mailingAddressInput_address_state')
+      .simulate('change', {
+        target: { value: 'CA' },
+      });
+    fillData(
+      form,
+      'input#root_mailingAddressInput_address_postalCode',
+      '12345',
+    );
+    form.find('form').simulate('submit');
+    const errorMessages = form.find('.usa-input-error-message');
+
+    expect(errorMessages.length).to.be.at.least(1);
+    expect(errorMessages.at(0).text()).to.include(
+      'Please enter your full street address',
+    );
+
+    fillData(form, 'input#root_mailingAddressInput_address_street', 'SA');
+    form.find('form').simulate('submit');
+
+    expect(errorMessages.at(0).text()).to.include('minimum of 3 characters');
+
+    fillData(
+      form,
+      'input#root_mailingAddressInput_address_street',
+      'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    );
+    form.find('form').simulate('submit');
+
+    expect(errorMessages.at(0).text()).to.include('maximum of 40 characters');
+    form.unmount();
+  });
+
   it('should fill out the contact method fields', () => {
     const {
       schema,
