@@ -369,7 +369,9 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     ).to.be.true;
     form.unmount();
   });
-  xit('should fill out the contact information fields', () => {
+
+  // @here fix this issue! think it's
+  it('should fill out the contact information fields', () => {
     const {
       schema,
       uiSchema,
