@@ -398,8 +398,7 @@ const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = form
 
 const generalQuestionCondition = formData => {
   return (
-    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
-      "It's a general question" ||
+    formData.whoIsYourQuestionAbout === "It's a general question" ||
     (formData.selectCategory === 'Education benefits and work study' &&
       formData.selectTopic === 'Veteran Readiness and Employment (Chapter 31)')
   );
