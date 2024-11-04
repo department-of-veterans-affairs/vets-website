@@ -31,8 +31,8 @@ const { ONE_TIME, ...careFrequencyLabelsWithoutOneTime } = careFrequencyLabels;
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'careExpenses',
-  nounSingular: 'Care expense',
-  nounPlural: 'Care expenses',
+  nounSingular: 'care expense',
+  nounPlural: 'care expenses',
   required: false,
   isItemIncomplete: item =>
     !item?.recipients ||
@@ -42,13 +42,15 @@ const options = {
     !item.paymentAmount, // include all required fields here
   text: {
     summaryTitleWithoutItems: 'Care expenses',
-    getItemName: item => recipientTypeLabels[item.recipients],
+    getItemName: item => item.provider,
     cardDescription: item =>
       item?.paymentAmount && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
-            Care provider:{' '}
-            <span className="vads-u-font-weight--bold">{item.provider}</span>
+            Care recipient:{' '}
+            <span className="vads-u-font-weight--bold">
+              {recipientTypeLabels[item.recipients]}
+            </span>
           </li>
           <li>
             Care type:{' '}
