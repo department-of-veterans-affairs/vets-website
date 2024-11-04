@@ -97,6 +97,7 @@ export const App = ({
           ...claimantInfo,
         });
       }
+
       if (
         (!fetchedPersonalInfo &&
           meb160630Automation &&
@@ -109,7 +110,7 @@ export const App = ({
         getPersonalInfo(formData?.chosenBenefit);
       } else if (
         !formData[formFields.claimantId] &&
-        claimantInfo &&
+        claimantInfo?.claimantId &&
         meb160630Automation
       ) {
         setFormData({
