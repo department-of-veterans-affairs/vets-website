@@ -27,7 +27,7 @@ describe('deduction-codes', () => {
       const { getByText } = render(renderWhyMightIHaveThisDebt('30'));
       expect(
         getByText(
-          /Some reasons you have debt related to your compensation and pension benefits/,
+          'Here are some common reasons for debt from disability and pension overpayments:',
         ),
       ).to.exist;
     });
@@ -36,7 +36,7 @@ describe('deduction-codes', () => {
       const { getByText } = render(renderWhyMightIHaveThisDebt('41'));
       expect(
         getByText(
-          /Some reasons you have debt related to your education benefits/,
+          'Here are some common reasons for debt from education benefit overpayments:',
         ),
       ).to.exist;
     });
