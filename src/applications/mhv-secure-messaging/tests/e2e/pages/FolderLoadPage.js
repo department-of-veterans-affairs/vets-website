@@ -3,7 +3,7 @@ import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
+import mockDraftMessages from '../fixtures/draftPageResponses/draft-threads-response.json';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import { Data, Assertions, Locators, Paths, Alerts } from '../utils/constants';

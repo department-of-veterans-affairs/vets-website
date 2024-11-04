@@ -64,6 +64,13 @@ class GeneralFunctionsPage {
     cy.get(`h1`).should(`have.text`, text);
   };
 
+  verifyThreadLength = threadResponse => {
+    cy.get(Locators.THREADS).should(
+      'have.length',
+      `${threadResponse.data.length}`,
+    );
+  };
+
   verifyMaintenanceBanner = (startDate, endDate, text) => {
     cy.get(Locators.ALERTS.VA_ALERT)
       .find(`h2`)

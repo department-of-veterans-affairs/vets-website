@@ -1,10 +1,10 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientMessagesSentPage from './pages/PatientMessageSentPage';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import mockDraftMessages from './fixtures/draftsResponse/drafts-messages-response.json';
+import mockDraftMessages from './fixtures/draftPageResponses/draft-threads-response.json';
 
 describe('SM DRAFT FOLDER VERIFICATION', () => {
   beforeEach(() => {
@@ -17,8 +17,8 @@ describe('SM DRAFT FOLDER VERIFICATION', () => {
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientMessagesSentPage.verifyFolderHeaderText('Drafts');
-    PatientMessagesSentPage.verifyResponseBodyLength();
+    GeneralFunctionsPage.verifyPageHeader(`Drafts`);
+    GeneralFunctionsPage.verifyThreadLength(mockDraftMessages);
   });
 
   it('checks for "End of conversations in this folder" text', () => {

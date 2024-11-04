@@ -3,6 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 import FolderLoadPage from './pages/FolderLoadPage';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 
 describe('Secure Messaging Inbox Message Sort', () => {
   beforeEach(() => {
@@ -13,7 +14,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientMessagesSentPage.verifyFolderHeaderText('Inbox');
+    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
     PatientMessagesSentPage.verifyResponseBodyLength();
   });
 

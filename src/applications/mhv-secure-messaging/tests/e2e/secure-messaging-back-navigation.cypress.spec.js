@@ -4,7 +4,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
-import mockDraftResponse from './fixtures/message-draft-response.json';
+import mockDraftResponse from './fixtures/draftPageResponses/draft-threads-response.json';
 import { Alerts, DefaultFolders } from '../../util/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 
