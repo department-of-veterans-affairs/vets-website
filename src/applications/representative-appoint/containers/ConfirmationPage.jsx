@@ -5,23 +5,18 @@ import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NeedHelp from '../components/NeedHelp';
 import sendNextStepsEmail from '../api/sendNextStepsEmail';
-import {
-  getEntityAddressAsString,
-  getRepType,
-  getFormNumber,
-  getFormName,
-} from '../utilities/helpers';
+import { getFormNumber, getFormName } from '../utilities/helpers';
 
 export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
   const { data: formData } = useSelector(state => state.form);
   const selectedEntity = formData['view:selectedRepresentative'];
-  const emailAddress = formData.email;
+  const emailAddress = formData.applicantEmail || formData.veteranEmail;
   const firstName =
     formData.applicantName?.first || formData.veteranFullName.first;
-  const representativeName = selectedEntity?.name || selectedEntity?.fullName;
-
+  const entityType =
+    selectedEntity.type === 'organization' ? 'organization' : 'individual';
   const handlers = {
     onClickDownloadForm: e => {
       e.preventDefault();
@@ -37,9 +32,8 @@ export default function ConfirmationPage({ router }) {
           await sendNextStepsEmail({
             emailAddress,
             firstName,
-            representativeType: getRepType(selectedEntity),
-            representativeName,
-            representativeAddress: getEntityAddressAsString(formData),
+            entityType,
+            entityId: selectedEntity.id,
             formNumber: getFormNumber(formData),
             formName: getFormName(formData),
           });
