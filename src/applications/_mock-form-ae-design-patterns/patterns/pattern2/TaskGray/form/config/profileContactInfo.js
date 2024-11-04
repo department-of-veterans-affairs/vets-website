@@ -62,6 +62,7 @@ const profileContactInfo = ({
   addressSchema,
   emailSchema,
   phoneSchema,
+  review,
 
   // keys to use in form data
   wrapperKey = 'veteran',
@@ -192,6 +193,7 @@ const profileContactInfo = ({
         clearReturnState();
         return formData;
       },
+      review,
     },
     // edit pages; only accessible via ContactInfo component links
     ...config,

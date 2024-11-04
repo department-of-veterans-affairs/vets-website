@@ -36,6 +36,7 @@ export default function App({ children }) {
   const { isLoading, travelClaims, error } = useSelector(
     state => state.travelPay,
   );
+  const [hasFetchedClaims, setHasFetchedClaims] = useState(false);
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
@@ -162,11 +163,12 @@ export default function App({ children }) {
 
   useEffect(
     () => {
-      if (userLoggedIn && travelClaims.length === 0) {
+      if (userLoggedIn && !hasFetchedClaims && travelClaims.length === 0) {
         dispatch(getTravelClaims());
+        setHasFetchedClaims(true);
       }
     },
-    [dispatch, userLoggedIn, travelClaims],
+    [dispatch, userLoggedIn, travelClaims, hasFetchedClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
