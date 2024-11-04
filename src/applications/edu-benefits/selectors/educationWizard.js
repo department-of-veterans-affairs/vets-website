@@ -28,3 +28,6 @@ export const showMebDgi40Feature = state =>
 
 export const merge1995And5490Feature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.merge1995And5490];
+
+export const meb160630Automation = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.meb160630Automation];

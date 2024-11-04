@@ -49,8 +49,7 @@ export default function FacilityDirectionsLink({ location, icon }) {
     <span>
       <NewTabAnchor
         href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
-        aria-label={`Directions to ${location.name ||
-          location.providerPractice}`}
+        renderAriaLabel={false}
       >
         {icon && <va-icon icon="directions" size="3" />}
         Directions

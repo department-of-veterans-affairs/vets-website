@@ -26,14 +26,14 @@ describe('Goals Form', () => {
 
   it('should render the correct title for goals checkbox group', () => {
     const checkboxGroup = document.querySelector(
-      'va-checkbox-group[label="What goal(s) do you want to accomplish?"]',
+      'va-checkbox-group[label="What goals do you want to accomplish?"]',
     );
     expect(checkboxGroup).to.exist;
   });
 
   it('should render the correct hint for goals checkbox group', () => {
     const hint = document.querySelector(
-      'va-checkbox-group[hint="You may only select this for one employer address."]',
+      'va-checkbox-group[hint="Check all that apply."]',
     );
     expect(hint).to.exist;
   });

@@ -17,6 +17,7 @@ import { customSubmit686 } from '../analytics/helpers';
 // Chapter imports
 import {
   formerSpouseInformation,
+  formerSpouseInformationPartThree,
   formerSpouseInformationPartTwo,
 } from './chapters/report-divorce';
 import {
@@ -29,8 +30,6 @@ import {
   deceasedDependentDateOfDeathPage,
   deceasedDependentLocationOfDeathPage,
 } from './chapters/report-dependent-death/deceasedDependentArrayPages';
-import { reportChildMarriage } from './chapters/report-marriage-of-child';
-import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
   currentMarriageInformation,
   currentMarriageInformationPartTwo,
@@ -80,30 +79,59 @@ import {
   veteranContactInformation,
 } from './chapters/veteran-information';
 import {
-  stepchildren,
-  stepchildInformation,
-} from './chapters/stepchild-no-longer-part-of-household';
+  removeChildStoppedAttendingSchoolOptions,
+  removeChildStoppedAttendingSchoolIntroPage,
+  removeChildStoppedAttendingSchoolSummaryPage,
+  childInformationPage,
+  dateChildLeftSchoolPage,
+  childIncomeQuestionPage,
+} from './chapters/report-child-stopped-attending-school/removeChildStoppedAttendingSchoolArrayPages';
 import {
-  studentInformation,
-  studentAdditionalInformationView,
-  studentAdditionalInformation,
-  studentAdditionalInformationPartTwo,
-  studentAdditionalInformationPartThree,
-  studentAdditionalInformationPartFour,
-  studentAdditionalInformationPartFive,
-  studentAdditionalInformationPartSix,
-  studentAdditionalInformationPartSeven,
-  studentAdditionalInformationPartEight,
-  studentAdditionalInformationPartNine,
-  studentAdditionalInformationPartTen,
-  studentAdditionalInformationPartEleven,
-  studentAdditionalInformationPartTwelve,
-  studentAdditionalInformationPartThirteen,
-} from './chapters/674';
+  removeMarriedChildIntroPage,
+  removeMarriedChildOptions,
+  removeMarriedChildSummaryPage,
+  marriedChildInformationPage,
+  marriedChildIncomeQuestionPage,
+  dateChildMarriedPage,
+} from './chapters/report-marriage-of-child/removeMarriedChildArrayPages';
+import {
+  addStudentsOptions,
+  addStudentsIntroPage,
+  addStudentsSummaryPage,
+  studentInformationPage,
+  studentIDInformationPage,
+  studentIncomePage,
+  studentAddressPage,
+  studentMaritalStatusPage,
+  studentEducationBenefitsPage,
+  studentProgramInfoPage,
+  studentEducationBenefitsStartDatePage,
+  studentStoppedAttendingDatePage,
+  studentAttendancePage,
+  schoolAccreditationPage,
+  studentTermDatesPage,
+  previousTermQuestionPage,
+  previousTermDatesPage,
+  claimsOrReceivesPensionPage,
+  studentEarningsPage,
+  studentFutureEarningsPage,
+  studentAssetsPage,
+  remarksPage,
+} from './chapters/674/addStudentsArrayPages';
 import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
+import {
+  childAddressPage,
+  householdChildInfoPage,
+  parentOrGuardianPage,
+  removeChildHouseholdIntroPage,
+  removeChildHouseholdOptions,
+  removeChildHouseholdSummaryPage,
+  supportAmountPage,
+  veteranSupportsChildPage,
+} from './chapters/stepchild-no-longer-part-of-household/removeChildHouseholdArrayPages';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -494,152 +522,315 @@ export const formConfig = {
     report674: {
       title: 'Add one or more students between ages 18 and 23',
       pages: {
-        studentInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/add-students',
-          uiSchema: studentInformation.uiSchema,
-          schema: studentInformation.schema,
-        },
-        studentAdditionalInformationView: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/additional-student-information',
-          uiSchema: studentAdditionalInformationView.uiSchema,
-          schema: studentAdditionalInformationView.schema,
-        },
-        studentAdditionalInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-identification',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformation.uiSchema,
-          schema: studentAdditionalInformation.schema,
-        },
-        studentAdditionalInformationPartTwo: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-address',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartTwo.uiSchema,
-          schema: studentAdditionalInformationPartTwo.schema,
-        },
-        studentAdditionalInformationPartThree: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-marriage',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartThree.uiSchema,
-          schema: studentAdditionalInformationPartThree.schema,
-        },
-        studentAdditionalInformationPartFour: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-education-benefits',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartFour.uiSchema,
-          schema: studentAdditionalInformationPartFour.schema,
-        },
-        studentAdditionalInformationPartFive: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/school-name',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartFive.uiSchema,
-          schema: studentAdditionalInformationPartFive.schema,
-        },
-        studentAdditionalInformationPartSix: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-attendance',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartSix.uiSchema,
-          schema: studentAdditionalInformationPartSix.schema,
-        },
-        studentAdditionalInformationPartSeven: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/school-accreditation',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartSeven.uiSchema,
-          schema: studentAdditionalInformationPartSeven.schema,
-        },
-        studentAdditionalInformationPartEight: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/school-term-dates',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartEight.uiSchema,
-          schema: studentAdditionalInformationPartEight.schema,
-        },
-        studentAdditionalInformationPartNine: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-previous-term',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartNine.uiSchema,
-          schema: studentAdditionalInformationPartNine.schema,
-        },
-        studentAdditionalInformationPartTen: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-income-at-school',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartTen.uiSchema,
-          schema: studentAdditionalInformationPartTen.schema,
-        },
-        studentAdditionalInformationPartEleven: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-expected-income-at-school',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartEleven.uiSchema,
-          schema: studentAdditionalInformationPartEleven.schema,
-        },
-        studentAdditionalInformationPartTwelve: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/student-assets',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartTwelve.uiSchema,
-          schema: studentAdditionalInformationPartTwelve.schema,
-        },
-        studentAdditionalInformationPartThirteen: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title: 'Add one or more students between ages 18 and 23',
-          path: 'report-674/:index/additional-remarks',
-          arrayPath: 'studentInformation',
-          showPagePerItem: true,
-          uiSchema: studentAdditionalInformationPartThirteen.uiSchema,
-          schema: studentAdditionalInformationPartThirteen.schema,
-        },
+        ...arrayBuilderPages(addStudentsOptions, pageBuilder => ({
+          addStudentsIntro: pageBuilder.introPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674',
+            uiSchema: addStudentsIntroPage.uiSchema,
+            schema: addStudentsIntroPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsSummary: pageBuilder.summaryPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students',
+            uiSchema: addStudentsSummaryPage.uiSchema,
+            schema: addStudentsSummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartOne: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-information',
+            uiSchema: studentInformationPage.uiSchema,
+            schema: studentInformationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartTwo: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-identification',
+            uiSchema: studentIDInformationPage.uiSchema,
+            schema: studentIDInformationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartThree: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-income',
+            uiSchema: studentIncomePage.uiSchema,
+            schema: studentIncomePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartFour: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-address',
+            uiSchema: studentAddressPage.uiSchema,
+            schema: studentAddressPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartFive: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-marital-status',
+            uiSchema: studentMaritalStatusPage.uiSchema,
+            schema: studentMaritalStatusPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartSix: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-education-benefits',
+            uiSchema: studentEducationBenefitsPage.uiSchema,
+            schema: studentEducationBenefitsPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavForward: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (
+                Object.values(formData?.typeOfProgramOrBenefit).includes(true)
+              ) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/student-program-information${urlParamsString}`,
+                );
+              }
+            },
+          }),
+          addStudentsPartSeven: pageBuilder.itemPage({
+            // conditional page
+            title: 'Add one or more students between ages 18 and 23',
+            path:
+              'report-674/add-students/:index/student-education-benefits/start-date',
+            uiSchema: studentEducationBenefitsStartDatePage.uiSchema,
+            schema: studentEducationBenefitsStartDatePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartEight: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-program-information',
+            uiSchema: studentProgramInfoPage.uiSchema,
+            schema: studentProgramInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavBack: ({
+              _formData,
+              pathname,
+              urlParams,
+              goPath,
+              _goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              return goPath(
+                `/report-674/add-students/${index}/student-education-benefits${urlParamsString}`,
+              );
+            },
+          }),
+          addStudentsPartNine: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path:
+              'report-674/add-students/:index/student-attendance-information',
+            uiSchema: studentAttendancePage.uiSchema,
+            schema: studentAttendancePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavForward: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (!formData?.schoolInformation?.studentIsEnrolledFullTime) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/school-or-program-accreditation${urlParamsString}`,
+                );
+              }
+            },
+          }),
+          addStudentsPartTen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path:
+              'report-674/add-students/:index/date-student-stopped-attending',
+            uiSchema: studentStoppedAttendingDatePage.uiSchema,
+            schema: studentStoppedAttendingDatePage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartEleven: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path:
+              'report-674/add-students/:index/school-or-program-accreditation',
+            uiSchema: schoolAccreditationPage.uiSchema,
+            schema: schoolAccreditationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            // onNavBack must return to the condition page. formData can only be checked for this pages data, not previous pages while in Add mode. This is because formData is not fully in state/redux until the loop completes the first time.
+            onNavBack: ({
+              _formData,
+              pathname,
+              urlParams,
+              goPath,
+              _goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              return goPath(
+                `/report-674/add-students/${index}/student-attendance-information${urlParamsString}`,
+              );
+            },
+          }),
+          addStudentsPartTwelve: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/term-dates',
+            uiSchema: studentTermDatesPage.uiSchema,
+            schema: studentTermDatesPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartThirteen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-previously-attended',
+            uiSchema: previousTermQuestionPage.uiSchema,
+            schema: previousTermQuestionPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavForward: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (formData?.schoolInformation?.studentDidAttendSchoolLastTerm) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
+                );
+              }
+            },
+          }),
+          addStudentsPartFourteen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/previous-term-dates',
+            uiSchema: previousTermDatesPage.uiSchema,
+            schema: previousTermDatesPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartFifteen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/additional-student-income',
+            uiSchema: claimsOrReceivesPensionPage.uiSchema,
+            schema: claimsOrReceivesPensionPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavForward: ({
+              formData,
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (formData?.claimsOrReceivesPension) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `/report-674/add-students/${index}/additional-remarks${urlParamsString}`,
+                );
+              }
+            },
+            onNavBack: ({
+              _formData,
+              pathname,
+              urlParams,
+              goPath,
+              _goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              return goPath(
+                `/report-674/add-students/${index}/student-previously-attended${urlParamsString}`,
+              );
+            },
+          }),
+          addStudentsPartSixteen: pageBuilder.itemPage({
+            // conditional page
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/all-student-income',
+            uiSchema: studentEarningsPage.uiSchema,
+            schema: studentEarningsPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartSeventeen: pageBuilder.itemPage({
+            // conditional page
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/expected-student-income',
+            uiSchema: studentFutureEarningsPage.uiSchema,
+            schema: studentFutureEarningsPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartEighteen: pageBuilder.itemPage({
+            // conditional page
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/student-assets',
+            uiSchema: studentAssetsPage.uiSchema,
+            schema: studentAssetsPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+          }),
+          addStudentsPartNineteen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/additional-remarks',
+            uiSchema: remarksPage.uiSchema,
+            schema: remarksPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            onNavBack: ({
+              _formData,
+              pathname,
+              urlParams,
+              goPath,
+              _goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              return goPath(
+                `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
+              );
+            },
+          }),
+        })),
       },
     },
 
@@ -662,6 +853,14 @@ export const formConfig = {
           uiSchema: formerSpouseInformationPartTwo.uiSchema,
           schema: formerSpouseInformationPartTwo.schema,
         },
+        formerSpouseInformationPartThree: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+          title: 'Information needed to report a divorce',
+          path: 'report-a-divorce/former-spouse-income',
+          uiSchema: formerSpouseInformationPartThree.uiSchema,
+          schema: formerSpouseInformationPartThree.schema,
+        },
       },
     },
 
@@ -669,33 +868,130 @@ export const formConfig = {
       title:
         'Information needed to remove a stepchild who has left your household',
       pages: {
-        stepchildren: {
-          depends: formData =>
-            isChapterFieldRequired(
+        ...arrayBuilderPages(removeChildHouseholdOptions, pageBuilder => ({
+          removeChildHouseholdIntro: pageBuilder.introPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path: '686-stepchild-no-longer-part-of-household',
+            uiSchema: removeChildHouseholdIntroPage.uiSchema,
+            schema: removeChildHouseholdIntroPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdSummary: pageBuilder.summaryPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path: '686-stepchild-no-longer-part-of-household/summary',
+            uiSchema: removeChildHouseholdSummaryPage.uiSchema,
+            schema: removeChildHouseholdSummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdPartOne: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/child-information',
+            uiSchema: householdChildInfoPage.uiSchema,
+            schema: householdChildInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdPartTwo: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/veteran-supports-child',
+            uiSchema: veteranSupportsChildPage.uiSchema,
+            schema: veteranSupportsChildPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+            onNavForward: ({
               formData,
-              TASK_KEYS.reportStepchildNotInHousehold,
-            ),
-          title:
-            'Information needed to report a stepchild is no longer part of your household: Basic information',
-          path: '686-stepchild-no-longer-part-of-household',
-          uiSchema: stepchildren.uiSchema,
-          schema: stepchildren.schema,
-        },
-        stepchildInformation: {
-          depends: formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportStepchildNotInHousehold,
-            ),
-          title:
-            'Information needed to report a stepchild is no longer part of your household: Additional information',
-          path: '686-stepchild-no-longer-part-of-household/:index',
-          showPagePerItem: true,
-          arrayPath: 'stepChildren',
-          uiSchema: stepchildInformation.uiSchema,
-          schema: stepchildInformation.schema,
-          updateFormData: stepchildInformation.updateFormData,
-        },
+              pathname,
+              urlParams,
+              goPath,
+              goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              if (formData?.supportingStepchild) {
+                goNextPath(urlParams);
+              } else {
+                goPath(
+                  `686-stepchild-no-longer-part-of-household/${index}/child-address${urlParamsString}`,
+                );
+              }
+            },
+          }),
+          removeChildHouseholdPartThree: pageBuilder.itemPage({
+            // conditional page
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/child-support-amount',
+            uiSchema: supportAmountPage.uiSchema,
+            schema: supportAmountPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+          removeChildHouseholdPartFour: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/child-address',
+            uiSchema: childAddressPage.uiSchema,
+            schema: childAddressPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+            onNavBack: ({
+              _formData,
+              pathname,
+              urlParams,
+              goPath,
+              _goNextPath,
+            }) => {
+              const index = getArrayIndexFromPathName(pathname);
+              const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+              return goPath(
+                `686-stepchild-no-longer-part-of-household/${index}/veteran-supports-child${urlParamsString}`,
+              );
+            },
+          }),
+          removeChildHouseholdPartFive: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/parent-or-guardian',
+            uiSchema: parentOrGuardianPage.uiSchema,
+            schema: parentOrGuardianPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ),
+          }),
+        })),
       },
     },
 
@@ -783,18 +1079,68 @@ export const formConfig = {
     reportChildMarriage: {
       title: 'Remove one or more children who got married',
       pages: {
-        childInformation: {
-          depends: formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportMarriageOfChildUnder18,
-            ),
-          title:
-            'Information needed to report the marriage of a child under 18',
-          path: '686-report-marriage-of-child',
-          uiSchema: reportChildMarriage.uiSchema,
-          schema: reportChildMarriage.schema,
-        },
+        ...arrayBuilderPages(removeMarriedChildOptions, pageBuilder => ({
+          removeMarriedChildIntro: pageBuilder.introPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child',
+            uiSchema: removeMarriedChildIntroPage.uiSchema,
+            schema: removeMarriedChildIntroPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildSummary: pageBuilder.summaryPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/summary',
+            uiSchema: removeMarriedChildSummaryPage.uiSchema,
+            schema: removeMarriedChildSummaryPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildPartOne: pageBuilder.itemPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/:index/child-information',
+            uiSchema: marriedChildInformationPage.uiSchema,
+            schema: marriedChildInformationPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildPartTwo: pageBuilder.itemPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/:index/date-child-married',
+            uiSchema: dateChildMarriedPage.uiSchema,
+            schema: dateChildMarriedPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+          removeMarriedChildPartThree: pageBuilder.itemPage({
+            title:
+              'Information needed to report the marriage of a child under 18',
+            path: '686-report-marriage-of-child/:index/child-income',
+            uiSchema: marriedChildIncomeQuestionPage.uiSchema,
+            schema: marriedChildIncomeQuestionPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportMarriageOfChildUnder18,
+              ),
+          }),
+        })),
       },
     },
 
@@ -802,18 +1148,73 @@ export const formConfig = {
       title:
         'Remove one or more children between ages 18 and 23 who left school',
       pages: {
-        childNoLongerInSchool: {
-          depends: formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-            ),
-          title:
-            'Information needed to report a child 18-23 years old stopped attending school',
-          path: 'report-child-stopped-attending-school',
-          uiSchema: reportChildStoppedAttendingSchool.uiSchema,
-          schema: reportChildStoppedAttendingSchool.schema,
-        },
+        ...arrayBuilderPages(
+          removeChildStoppedAttendingSchoolOptions,
+          pageBuilder => ({
+            childNoLongerInSchoolIntro: pageBuilder.introPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path: 'report-child-stopped-attending-school',
+              uiSchema: removeChildStoppedAttendingSchoolIntroPage.uiSchema,
+              schema: removeChildStoppedAttendingSchoolIntroPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolSummary: pageBuilder.summaryPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path: 'report-child-stopped-attending-school/summary',
+              uiSchema: removeChildStoppedAttendingSchoolSummaryPage.uiSchema,
+              schema: removeChildStoppedAttendingSchoolSummaryPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolPartOne: pageBuilder.itemPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path:
+                'report-child-stopped-attending-school/:index/child-information',
+              uiSchema: childInformationPage.uiSchema,
+              schema: childInformationPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolPartTwo: pageBuilder.itemPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path:
+                'report-child-stopped-attending-school/:index/date-child-left-school',
+              uiSchema: dateChildLeftSchoolPage.uiSchema,
+              schema: dateChildLeftSchoolPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+            childNoLongerInSchoolPartThree: pageBuilder.itemPage({
+              title:
+                'Information needed to report a child 18-23 years old stopped attending school',
+              path: 'report-child-stopped-attending-school/:index/child-income',
+              uiSchema: childIncomeQuestionPage.uiSchema,
+              schema: childIncomeQuestionPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(
+                  formData,
+                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+                ),
+            }),
+          }),
+        ),
       },
     },
 

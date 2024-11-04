@@ -108,7 +108,7 @@ class PatientComposePage {
       .type(text, { force: true });
   };
 
-  verifyFocusOnMessageAttachment = () => {
+  verifyFocusOnAttachmentMessage = () => {
     cy.get(Locators.ALERTS.SUCCESS_ALERT)
       .should('be.visible')
       .should('have.focus');
@@ -278,7 +278,7 @@ class PatientComposePage {
       cy.get(Locators.BUTTONS.ATTACH_FILE)
         .shadow()
         .find('[type="button"]')
-        .should('contain', Data.ATTACH_FILE);
+        .should('contain', Data.BUTTONS.ATTACH_FILE);
     } else {
       cy.get(Locators.BUTTONS.ATTACH_FILE)
         .shadow()
@@ -298,10 +298,8 @@ class PatientComposePage {
     });
   };
 
-  verifyRemoveAttachmentButtonHasFocus = (_attachmentIndex = 0) => {
-    cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT)
-      .eq(_attachmentIndex)
-      .should('have.focus');
+  verifyAttachButtonHasFocus = () => {
+    cy.get(Locators.BUTTONS.ATTACH_FILE).should(`be.focused`);
   };
 
   clickOnDeleteDraftButton = () => {

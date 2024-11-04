@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { mockConstants, renderWithStoreAndRouter } from '../../helpers';
 import ResultCard from '../../../containers/search/ResultCard';
 
@@ -96,6 +97,9 @@ describe('<ResultCard>', () => {
       {
         initialState: {
           constants: mockConstants(),
+          featureToggles: {
+            [Toggler.TOGGLE_NAMES.giComparisonToolShowRatings]: true,
+          },
         },
       },
     );
@@ -146,6 +150,8 @@ describe('<ResultCard>', () => {
         },
       },
     );
+    expect(screen.queryByText('Housing benefit:')).to.exist;
+    expect(screen.getByText('$1,596')).to.exist;
     expect(screen.queryByText('You may be eligible for up to:')).to.exist;
     expect(screen.getByText('$14,900')).to.exist;
   });
@@ -159,6 +165,8 @@ describe('<ResultCard>', () => {
         },
       },
     );
+    expect(screen.queryByText('Housing benefit:')).to.exist;
+    expect(screen.getByText('$1,596')).to.exist;
     expect(screen.queryByText('You may be eligible for up to:')).to.exist;
     expect(screen.getByText('100% in-state')).to.exist;
   });
