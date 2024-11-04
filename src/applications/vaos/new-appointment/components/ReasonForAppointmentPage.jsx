@@ -140,7 +140,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
 
   return (
     <div
-      className={classNames('vaos-form__radio-field-descriptive', {
+      className={classNames('vaos-form__radio-field', {
         'vads-u-margin-top--neg3': !isCommunityCare,
       })}
     >
