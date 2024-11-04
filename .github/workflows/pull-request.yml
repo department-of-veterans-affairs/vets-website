@@ -68,8 +68,8 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Get changed files
-        id: get-files-changed
+      - name: Get changed apps
+        id: get-changed-apps
         continue-on-error: true
         uses: ./.github/workflows/get-changed-apps
         with:
