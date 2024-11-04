@@ -29,12 +29,12 @@ const UneditableData = () => {
   const maskedSsn = maskSSN(veteranSsn);
 
   return (
-    <div id="uneditable-data" className="vads-u-margin-top--4">
-      <h2>Uneditable data</h2>
+    <div id="uneditable-data">
+      <h2 className="vads-u-margin-top--9">Uneditable data</h2>
 
       {/* 1st Option */}
       <div className="vads-u-margin-bottom--3">
-        <p className="vads-u-font-size--md">
+        <p className="vads-u-font-size--md vads-u-margin-top--4">
           Confirm your information before you continue.
         </p>
         <InfoSection title="Applicant information" titleLevel={3}>
@@ -55,13 +55,13 @@ const UneditableData = () => {
 
       <va-additional-info
         trigger="How to change this information"
-        class="vads-u-margin-bottom--5"
+        class="vads-u-padding-bottom--9"
       >
         <AdditionalInfoContent />
       </va-additional-info>
 
       {/* 2nd Option */}
-      <div className="vads-u-margin-top--8 vads-u-border-top--2px">
+      <div className="vads-u-margin-top--9 vads-u-border-top--2px">
         <p className="vads-u-font-size--md">
           Confirm your information before you continue.
         </p>
@@ -94,7 +94,7 @@ const UneditableData = () => {
         </va-card>
 
         <div>
-          <p className="vads-u-margin-top--5">
+          <p className="vads-u-margin-top--5 vads-u-padding-bottom--9">
             <strong>Note:</strong> To protect your personal information, we
             don’t allow online changes to your name, date of birth, or Social
             Security number. If you need to change this information, call us at
@@ -110,7 +110,7 @@ const UneditableData = () => {
       </div>
 
       {/* 3rd Option */}
-      <div className="vads-u-margin-top--8 vads-u-border-top--2px">
+      <div className="vads-u-margin-top--9 vads-u-border-top--2px">
         <h3 className="vads-u-margin-y--4">
           Confirm the personal information we have on file for you.
         </h3>
