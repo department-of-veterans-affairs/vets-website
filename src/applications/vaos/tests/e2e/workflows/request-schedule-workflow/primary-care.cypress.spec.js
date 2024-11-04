@@ -364,7 +364,7 @@ describe('VAOS request schedule flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility('vamc')
+          .selectTypeOfFacility(/VA medical center or clinic/i)
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()

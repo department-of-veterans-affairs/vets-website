@@ -148,7 +148,7 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           TypeOfFacilityPageObject.assertUrl()
-            .selectTypeOfFacility('communityCare')
+            .selectTypeOfFacility(/Community care facility/i)
             .clickNextButton();
 
           AudiologyPageObject.assertUrl()
@@ -204,7 +204,7 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           TypeOfFacilityPageObject.assertUrl()
-            .selectTypeOfFacility('communityCare')
+            .selectTypeOfFacility(/Community care facility/i)
             .clickNextButton();
 
           AudiologyPageObject.assertUrl()
@@ -281,7 +281,7 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           TypeOfFacilityPageObject.assertUrl()
-            .selectTypeOfFacility('communityCare')
+            .selectTypeOfFacility(/Community care facility/i)
             .clickNextButton();
 
           AudiologyPageObject.assertUrl()
@@ -341,7 +341,7 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           TypeOfFacilityPageObject.assertUrl()
-            .selectTypeOfFacility('communityCare')
+            .selectTypeOfFacility(/Community care facility/i)
             .clickNextButton();
 
           AudiologyPageObject.assertUrl()
