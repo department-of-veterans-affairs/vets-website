@@ -2763,6 +2763,124 @@
         ],
         "kind": "telehealth",
         "status": "booked",
+        "serviceType": "audiology",
+        "serviceName": "C&P BEV AUDIO FTC",
+        "friendlyName": "C&P BEV AUDIO FTC",
+        "patientIcn": "1012846043V576341",
+        "locationId": "983",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": "dfn-983",
+                "value": "520648070"
+              }
+            ],
+            "name": {
+              "family": "Chapman",
+              "given": [
+                "Jeremy"
+              ]
+            },
+            "practiceName": "Cheyenne VA Medical Center"
+          }
+        ],
+        "start": "2024-10-12T19:55:00Z",
+        "end": "2024-10-12T20:15:00Z",
+        "minutesDuration": 20,
+        "created": "2024-12-12T19:57:42.025Z",
+        "cancellable": false,
+        "patientInstruction": "",
+        "telehealth": {
+          "url": "https://pexip.mapsandbox.net/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000005810@pexip.mapsandbox.net&pin=356403&aid=381ba035-c30a-4f21-ad0e-1204a6ef3fc8#",
+          "group": false,
+          "vvsKind": "ADHOC"
+        },
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [],
+          "patientHasMobileGfe": true
+        },
+        "localStartTime": "2024-10-12T11:00:00.000-06:00",
+        "location": {
+          "id": "983",
+          "type": "appointments",
+          "attributes": {
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "2360 East Pershing Boulevard"
+              ],
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "d9faffb0d9cf0c641e53faf221fb0a08b2f6c661cc470a94817556dc0ce3589b",
+      "type": "appointments",
+      "attributes": {
+        "id": "d9faffb0d9cf0c641e53faf221fb0a08b2f6c661cc470a94817556dc0ce3589b",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
+            "value": "381ba035-c30a-4f21-ad0e-1204a6ef3fc8"
+          }
+        ],
+        "kind": "telehealth",
+        "status": "cancell",
+        "serviceType": "audiology",
+        "serviceName": "C&P BEV AUDIO FTC",
+        "friendlyName": "C&P BEV AUDIO FTC",
         "patientIcn": "1012846043V576341",
         "locationId": "983",
         "practitioners": [

@@ -79,7 +79,9 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectClinic({ selection: 'NONE' }) // I need a different clinic
+          .selectClinic({
+            selection: /I need a different clinic/i,
+          })
           .assertWarningAlert({
             text: /This facility does not allow online requests for this type of care/i,
           })

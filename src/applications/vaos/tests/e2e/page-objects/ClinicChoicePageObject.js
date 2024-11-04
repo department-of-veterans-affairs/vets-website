@@ -21,7 +21,8 @@ export class ClinicChoicePageObject extends PageObject {
     } else {
       cy.get('va-radio')
         .shadow()
-        .get(`va-radio-option[value=${selection}]`)
+        .get('va-radio-option')
+        .contains(selection)
         .click();
     }
 
