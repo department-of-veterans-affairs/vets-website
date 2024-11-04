@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { mockConstants, renderWithStoreAndRouter } from '../../helpers';
 import ResultCard from '../../../containers/search/ResultCard';
 
@@ -96,6 +97,9 @@ describe('<ResultCard>', () => {
       {
         initialState: {
           constants: mockConstants(),
+          featureToggles: {
+            [Toggler.TOGGLE_NAMES.giComparisonToolShowRatings]: true,
+          },
         },
       },
     );
