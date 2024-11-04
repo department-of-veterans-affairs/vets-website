@@ -101,7 +101,7 @@ jobs:
       - name: Create isolation annotations file
         if: ${{ env.ISOLATION_ANNOTATIONS_JSON != '[]' }}
         run: |
-          echo "ISOLATION_ANNOTATIONS_JSON" > isolation-annotations.json
+          echo "$ISOLATION_ANNOTATIONS_JSON" > isolation-annotations.json
           cat isolation-annotations.json
 
       - name: Annotate files that belong to apps not isolated
