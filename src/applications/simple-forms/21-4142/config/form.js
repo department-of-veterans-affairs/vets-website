@@ -1,6 +1,7 @@
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -240,6 +241,9 @@ const formConfig = {
         },
       },
     },
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

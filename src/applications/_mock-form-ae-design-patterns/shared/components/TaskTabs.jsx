@@ -20,7 +20,7 @@ export const TaskTabs = ({ location, formConfig }) => {
   };
 
   return (
-    <nav>
+    <nav aria-label="Research study task navigation">
       <ul
         className="nav-tabs vads-l-row vads-u-margin-y--0 vads-u-padding-left--0"
         style={{ listStyleType: 'none' }}
