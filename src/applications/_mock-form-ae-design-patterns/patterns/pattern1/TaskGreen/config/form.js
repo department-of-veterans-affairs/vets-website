@@ -17,7 +17,7 @@ import { EditAddress } from '../EditContactInfoTaskGreen';
 import { GetFormHelp } from '../../../../shared/components/GetFormHelp';
 import VeteranProfileInformation from '../VeteranProfileInformation';
 import { MailingAddressInfoPageTaskGreen } from '../MailingAddressInfoPageTaskGreen';
-import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
+import { taskCompletePagePattern1 } from '../../../../shared/config/taskCompletePage';
 
 export const errorMessages = {
   missingEmail: 'Add an email address to your profile',
@@ -132,7 +132,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        taskCompletePage,
+        taskCompletePagePattern1,
       },
     },
   },

@@ -5,25 +5,12 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_NOT_STARTED,
-} from 'applications/static-pages/wizard';
 import SaveInProgressInfo from '../components/SaveInProgressInfo';
 
 export class IntroductionPage extends React.Component {
-  state = {
-    status: sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
-  };
-
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
-
-  setWizardStatus = value => {
-    sessionStorage.setItem(WIZARD_STATUS, value);
-    this.setState({ status: value });
-  };
 
   render() {
     const { route, showWizard } = this.props;
@@ -37,15 +24,15 @@ export class IntroductionPage extends React.Component {
         <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
         <div className="subway-map">
           <SaveInProgressInfo {...sipProps} route={route} />
-          <h4>Follow the steps below to apply for education benefits.</h4>
+          <h3>Follow the steps below to apply for education benefits.</h3>
           <div className="process schemaform-process">
             <ol>
               <li className="process-step list-one">
                 <div>
-                  <h5>Prepare</h5>
+                  <h4>Prepare</h4>
                 </div>
                 <div>
-                  <h6>To fill out this application, you’ll need your:</h6>
+                  <h5>To fill out this application, you’ll need your:</h5>
                 </div>
                 <ul>
                   <li>Social Security number (required)</li>
@@ -68,7 +55,7 @@ export class IntroductionPage extends React.Component {
                   </a>
                   .
                 </p>
-                <h6>Learn about educational programs</h6>
+                <h5>Learn about educational programs</h5>
                 <p>
                   See what benefits you’ll get at the school you want to attend.{' '}
                   <a href="/education/gi-bill-comparison-tool/">
@@ -79,7 +66,7 @@ export class IntroductionPage extends React.Component {
               </li>
               <li className="process-step list-two">
                 <div>
-                  <h5>Apply</h5>
+                  <h4>Apply</h4>
                 </div>
                 <p>Complete this education benefits form.</p>
                 <p>
@@ -89,7 +76,7 @@ export class IntroductionPage extends React.Component {
               </li>
               <li className="process-step list-three">
                 <div>
-                  <h5>VA review</h5>
+                  <h4>VA review</h4>
                 </div>
                 <p>
                   We usually process claims within 30 days. We’ll let you know
@@ -105,7 +92,7 @@ export class IntroductionPage extends React.Component {
               </li>
               <li className="process-step list-four">
                 <div>
-                  <h5>Decision</h5>
+                  <h4>Decision</h4>
                 </div>
                 <p>
                   You’ll get a Certificate of Eligibility (COE), or award

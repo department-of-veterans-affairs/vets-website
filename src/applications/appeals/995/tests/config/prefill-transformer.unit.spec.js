@@ -37,6 +37,16 @@ describe('SC prefill transformer', () => {
     });
   });
 
+  it('should return empty prefills with no data', () => {
+    const { pages, metadata } = noTransformData;
+    const noTransformActual = prefillTransformer(pages, null, metadata);
+    expect(noTransformActual).to.deep.equal({
+      metadata: noTransformData.metadata,
+      formData: buildData({}).result,
+      pages: noTransformData.pages,
+    });
+  });
+
   it('should transform ssn & vafn when present', () => {
     const { pages, metadata } = noTransformData;
     const data = buildData({

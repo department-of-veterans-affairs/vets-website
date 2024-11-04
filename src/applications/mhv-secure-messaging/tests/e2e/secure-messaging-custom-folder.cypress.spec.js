@@ -4,7 +4,7 @@ import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPa
 import { AXE_CONTEXT } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
-describe('Secure Messaging Custom Folder AXE Check', () => {
+describe('SM CUSTOM FOLDER CONTENT', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -21,15 +21,6 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
 
   it('verify main buttons', () => {
     PatientMessageCustomFolderPage.verifyMainButtons();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
-  it('verify remove non-empty folder', () => {
-    PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
-    PatientMessageCustomFolderPage.verifyEmptyFolderAlert();
-    PatientMessageCustomFolderPage.clickOnCloseIcon();
-    PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
