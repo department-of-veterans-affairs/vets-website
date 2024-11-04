@@ -1,14 +1,11 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import { expect } from 'chai';
+import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import CustomPhoneNumberField from '../../components/CustomPhoneNumberField';
 
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import CustomPhoneNumberField from '../../../components/CustomPhoneNumberField';
-
-const initialData = {
+const initialState = {
   user: {
     profile: {
       userFullName: {
@@ -42,18 +39,24 @@ const initialData = {
       },
     },
   },
+  schema: {
+    type: 'number',
+  },
+  options: {
+    inputType: 'number',
+  },
 };
 
 describe('CustomPhoneNumberField', () => {
-  const middleware = [thunk];
-  const mockStore = configureStore(middleware);
+  const mockStore = configureStore();
+  const store = mockStore(initialState);
 
   xit('should render with data', () => {
-    const { container } = render(
-      <Provider store={mockStore(initialData)}>
+    const wrapper = mount(
+      <Provider store={store}>
         <CustomPhoneNumberField />
       </Provider>,
     );
-    expect($('.personal-info-header', container)).to.exist;
+    expect(wrapper.text()).to.include('John M Doe');
   });
 });
