@@ -26,7 +26,7 @@ const PrefillAlerts = () => {
       </div>
 
       {/* 3rd Option */}
-      <va-alert tabIndex="0">
+      <va-alert tabIndex="0" class="vads-u-padding-bottom--5">
         <h3 className="vads-u-margin-top--0">
           We’ve prefilled some of your information
         </h3>
