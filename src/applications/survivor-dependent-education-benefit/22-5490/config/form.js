@@ -387,7 +387,7 @@ const formConfig = {
                           className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
-                        Monthly stipened
+                        Monthly stipend
                       </li>
                     </ul>
 
