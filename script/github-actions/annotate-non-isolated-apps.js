@@ -19,7 +19,7 @@ const CHANGED_FILES = process.env.CHANGED_FILES
 console.log('apps not isolated: ', APPS_NOT_ISOLATED);
 console.log('changed apps: ', CHANGED_FILES);
 
-const matchingApps = APPS_NOT_ISOLATED.find(app =>
+const matchingApps = APPS_NOT_ISOLATED.filter(app =>
   CHANGED_FILES.some(filePath => filePath.includes(app)),
 );
 
