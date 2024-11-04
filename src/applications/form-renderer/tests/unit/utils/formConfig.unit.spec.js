@@ -65,7 +65,7 @@ describe('createFormConfig', () => {
   });
 
   it('properly formats each chapter', () => {
-    const testChapter = formConfig.chapters[161344];
+    const testChapter = formConfig.chapters.chapter161344;
     const page = testChapter.pages[161344];
 
     expect(testChapter.title).to.eq(address.chapterTitle);
