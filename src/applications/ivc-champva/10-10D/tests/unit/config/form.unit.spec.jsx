@@ -52,7 +52,7 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
-// Cover when certifierRole !== sponsor or applicant
+// Signer is applicant:
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page6.schema,
