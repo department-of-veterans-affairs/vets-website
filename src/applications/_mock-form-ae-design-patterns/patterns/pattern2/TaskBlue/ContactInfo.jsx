@@ -34,7 +34,6 @@ import {
   convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
 } from '../../../utils/data/task-purple/profile';
-import { PrefillAlert } from '../../../shared/components/alerts/PrefillAlert';
 
 /**
  * Render contact info page
@@ -237,40 +236,6 @@ const ContactInfo = ({
   // Loop to separate pages when editing
   // Each Link includes an ID for focus management on the review & submit page
   const contactSection = [
-    keys.homePhone ? (
-      <va-card
-        show-shadow
-        data-testid="mini-summary-card"
-        class="vads-u-margin-y--3 contact-info-card"
-        key="home"
-        uswds
-      >
-        <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
-          {content.homePhone}
-        </Headers>
-        <span className="dd-privacy-hidden" data-dd-action-name="home phone">
-          {renderTelephone(dataWrap[keys.homePhone])}
-        </span>
-        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--1 vads-u-margin-bottom--neg1">
-          <Link
-            id="edit-home-phone"
-            to="2/task-blue/veteran-information/edit-home-phone"
-            aria-label={content.editHomePhone}
-            className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5"
-          >
-            <span>
-              <strong>{editText}</strong>
-              <va-icon
-                icon="navigate_next"
-                size={3}
-                className="vads-u-padding-left--0p5"
-              />
-            </span>
-          </Link>
-        </div>
-      </va-card>
-    ) : null,
-
     keys.mobilePhone ? (
       <va-card
         show-shadow
@@ -382,15 +347,14 @@ const ContactInfo = ({
   return (
     <>
       {editState !== 'address,updated' ? (
-        <PrefillAlert>
+        <va-alert>
           <h3 className="vads-u-margin-top--0">
             We’ve prefilled some of your information
           </h3>
-          <strong>Note:</strong> We’ve prefilled some of your information from
-          your account. If you need to correct anything, you can select edit
-          below. Unless you choose otherwise, all updates will be made to this
-          this form and your VA.gov profile.
-        </PrefillAlert>
+          If you need to make changes, you can click edit below. You can choose
+          later if you also want to save this information to your VA.gov
+          profile.
+        </va-alert>
       ) : null}
       <div className="vads-u-margin-y--2">
         <Element name={`${contactInfoPageKey}ScrollElement`} />

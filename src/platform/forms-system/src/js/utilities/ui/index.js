@@ -120,11 +120,26 @@ export const scrollToElement = name => {
 };
 
 export function setGlobalScroll() {
-  window.Forms = window.Forms || {
-    scroll: {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
+  window.Forms = window.Forms || {};
+
+  // Set default scroll values if they don't exist
+  window.Forms.scroll = window.Forms.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true,
   };
+
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  ).matches;
+
+  // If user prefers reduced motion, merge the settings
+  if (prefersReducedMotion) {
+    window.Forms.scroll = {
+      ...window.Forms.scroll,
+      duration: 0,
+      delay: 0,
+      smooth: false,
+    };
+  }
 }
