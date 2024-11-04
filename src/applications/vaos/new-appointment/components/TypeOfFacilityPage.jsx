@@ -25,7 +25,6 @@ const initialSchema = {
     facilityType: {
       type: 'string',
       enum: Object.keys(FACILITY_TYPES).map(key => FACILITY_TYPES[key]),
-      enumNames: ['VA medical center or clinic', 'Community care facility'],
     },
   },
 };
@@ -48,11 +47,15 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
         classNames: 'vads-u-margin-top--neg2',
         showFieldLabel: false,
         labelHeaderLevel: '1',
+        labels: {
+          [FACILITY_TYPES.VAMC]: 'VA medical center or clinic',
+          [FACILITY_TYPES.COMMUNITY_CARE]: 'Community care facility',
+        },
         descriptions: {
           [FACILITY_TYPES.VAMC]:
-            'Go to a VA medical center or clinic for this appointment',
+            'A VA medical center or clinic for this type of appointment',
           [FACILITY_TYPES.COMMUNITY_CARE]:
-            'Go to a community care facility near your home',
+            'A community care facility near your home',
         },
       },
     },
