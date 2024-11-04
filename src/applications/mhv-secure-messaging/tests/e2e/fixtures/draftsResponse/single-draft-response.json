@@ -1,31 +1,32 @@
 {
   "data": [
     {
-      "id": "7208913",
-      "type": "message_thread_details",
+      "id": "3997562",
+      "type": "message_threads",
       "attributes": {
-        "messageId": 7208913,
-        "category": "APPOINTMENT",
-        "subject": "Appointment Inquiry",
-        "body": "Test Compose Draft",
+        "threadId": 3997562,
+        "folderId": -2,
+        "messageId": 3997563,
+        "threadPageSize": 342,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "newSavedDraft",
+        "body": "new saved draft",
+        "triageGroupName": "TG-7410",
         "attachment": null,
         "sentDate": null,
-        "senderId": 6177,
-        "senderName": "MANIVASAGAM, RAJESH",
-        "recipientId": 6832726,
+        "draftDate": "2024-10-02T16:17:36.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK",
         "recipientName": "TG-7410",
-        "readReceipt": null,
-        "triageGroupName": "TG-7410",
+        "recipientId": 6832726,
         "proxySenderName": null,
-        "threadId": 2712820,
-        "folderId": -2,
-        "messageBody": "Test Compose Draft",
-        "draftDate": "2023-03-21T15:11:48.000+00:00",
-        "toDate": null,
-        "hasAttachments": false
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false
       },
       "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7177474"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3997562"
       }
     }
   ]

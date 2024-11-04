@@ -3,7 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import inboxFilterResponse from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
-import mockDraftMessages from '../fixtures/draftPageResponses/draft-threads-response.json';
+import mockDraftMessages from '../fixtures/draftsResponse/draft-threads-response.json';
 import FolderLoadPage from '../pages/FolderLoadPage';
 
 describe('Draft page keyboard navigation for filter & sort features', () => {

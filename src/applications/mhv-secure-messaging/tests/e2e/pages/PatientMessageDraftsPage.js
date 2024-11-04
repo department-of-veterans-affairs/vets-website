@@ -7,9 +7,9 @@ import { Alerts } from '../../../util/constants';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import FolderLoadPage from './FolderLoadPage';
-import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
-import mockReplyDraftResponse from '../fixtures/draftPageResponses/single-reply-draft-response.json';
-import mockSavedDraftResponse from '../fixtures/draftPageResponses/single-draft-response.json';
+import mockDraftsRespone from '../fixtures/draftsResponse/draft-threads-response.json';
+import mockReplyDraftResponse from '../fixtures/draftsResponse/single-reply-draft-response.json';
+import mockSavedDraftResponse from '../fixtures/draftsResponse/single-draft-response.json';
 
 class PatientMessageDraftsPage {
   loadDrafts = (messagesResponse = mockDraftsRespone) => {

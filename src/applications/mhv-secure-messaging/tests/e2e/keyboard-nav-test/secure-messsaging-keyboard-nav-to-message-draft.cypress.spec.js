@@ -1,4 +1,4 @@
-import mockSavedDraftResponse from '../fixtures/draftPageResponses/single-draft-response.json';
+import mockSavedDraftResponse from '../fixtures/draftsResponse/single-draft-response.json';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';

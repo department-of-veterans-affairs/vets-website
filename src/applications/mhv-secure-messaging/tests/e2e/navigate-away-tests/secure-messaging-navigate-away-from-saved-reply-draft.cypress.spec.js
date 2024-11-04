@@ -4,7 +4,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import { Alerts, AXE_CONTEXT, Data } from '../utils/constants';
 import PatientComposePage from '../pages/PatientComposePage';
-import mockReplyDraftResponse from '../fixtures/draftPageResponses/single-reply-draft-response.json';
+import mockReplyDraftResponse from '../fixtures/draftsResponse/single-reply-draft-response.json';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM NAVIGATE AWAY FROM SAVED REPLY DRAFT', () => {

@@ -3,7 +3,7 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
-import mockDraftMessages from '../fixtures/draftPageResponses/draft-threads-response.json';
+import mockDraftMessages from '../fixtures/draftsResponse/draft-threads-response.json';
 
 describe('Secure Messaging Draft Folder filter-sort checks', () => {
   beforeEach(() => {

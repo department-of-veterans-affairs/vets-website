@@ -4,7 +4,7 @@ import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import mockDraftMessages from './fixtures/draftPageResponses/draft-threads-response.json';
+import mockDraftMessages from './fixtures/draftsResponse/draft-threads-response.json';
 
 describe('SM DRAFT FOLDER VERIFICATION', () => {
   beforeEach(() => {

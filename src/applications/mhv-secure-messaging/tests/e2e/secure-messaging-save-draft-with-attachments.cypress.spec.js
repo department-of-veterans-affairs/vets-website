@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import mockSavedDraftResponse from './fixtures/draftPageResponses/single-draft-response.json';
+import mockSavedDraftResponse from './fixtures/draftsResponse/single-draft-response.json';
 import { AXE_CONTEXT, Data, Alerts } from './utils/constants';
 
 describe('Secure Messaging Draft Save with Attachments', () => {

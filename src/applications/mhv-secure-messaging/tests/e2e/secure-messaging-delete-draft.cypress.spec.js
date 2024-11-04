@@ -1,4 +1,4 @@
-import mockSingleDraft from './fixtures/draftPageResponses/single-draft-response.json';
+import mockSingleDraft from './fixtures/draftsResponse/single-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
