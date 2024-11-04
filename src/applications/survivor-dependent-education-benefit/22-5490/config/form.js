@@ -1182,8 +1182,7 @@ const formConfig = {
                     <Link
                       aria-label="Go back and add a mobile phone number"
                       to={{
-                        pathname: 'phone-email',
-                        search: '?redirect',
+                        pathname: '/contact-information',
                       }}
                     >
                       <va-button
