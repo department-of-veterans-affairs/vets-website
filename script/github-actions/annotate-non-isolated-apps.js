@@ -23,7 +23,16 @@ const matchingApps = APPS_NOT_ISOLATED.filter(app =>
   CHANGED_FILES.some(filePath => filePath.includes(app)),
 );
 
+const matchingFiles = CHANGED_FILES.filter(filePath =>
+  APPS_NOT_ISOLATED.some(app => filePath.includes(app)),
+);
+
+// if (matchingApps && matchingApps.length > 0) {
+// }
+
 console.log('apps not isolated being updated: ', matchingApps);
+console.log('files belonging to apps not isolated: ', matchingFiles);
+
 // if (APPS_NOT_ISOLATED.length > 0) {
 //   const annotationsJson = TESTS_BLOCKING_MERGE.map(spec => {
 //     return {
