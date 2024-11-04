@@ -104,7 +104,7 @@ describe('Feedback Tool Test', () => {
     cy.url().should('not.contain', '/school-information');
 
     // Feedback information
-    cy.get('input[name="root_issue_recruiting"]').should('exist');
+    cy.get('va-checkbox[id="root_issue_recruiting"]').should('exist');
     cy.axeCheck();
 
     cy.get('#root_issue_other').click();
