@@ -64,7 +64,8 @@ describe('Questionnaire Form - SubTitle Function', () => {
       const currentLocation = { pathname: '/some-other-page' };
       const title = formConfig.subTitle({ currentLocation });
       expect(title).to.equal(
-        'Please answer the questions to help us recommend helpful resources and benefits.',
+        `Please answer the questions to help us recommend
+helpful resources and benefits.`,
       );
     });
   });
