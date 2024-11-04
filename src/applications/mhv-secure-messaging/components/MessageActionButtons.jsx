@@ -53,7 +53,7 @@ const MessageActionButtons = props => {
       ) : (
         !hideReplyButton && (
           <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto mobile-lg:vads-u-margin-right--1">
-            <ReplyButton key="replyButton" visible={!hideReplyButton} />
+            <ReplyButton key="replyButton" visible />
           </div>
         )
       )}
