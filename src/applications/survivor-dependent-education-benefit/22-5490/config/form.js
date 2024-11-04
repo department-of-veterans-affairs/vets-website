@@ -1201,6 +1201,81 @@ const formConfig = {
                 },
               },
             },
+            'view:emailOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get email notifications because your
+                    email is on file for another person with education benefits.
+                    You will not be able to take full advantage of VA’s
+                    electronic notifications and enrollment verifications
+                    available. If you cannot, certain electronic services will
+                    be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isNo = formData[
+                    'view:receiveTextMessages'
+                  ]?.receiveTextMessages
+                    ?.slice(0, 3)
+                    ?.includes('No,');
+                  const noDuplicates = formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  );
+                  // Return true if isNo is false OR noDuplicates is not false
+                  return !isNo || noDuplicates;
+                },
+              },
+            },
+            'view:mobilePhoneOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isYes = formData[
+                    'view:receiveTextMessages'
+                  ]?.receiveTextMessages
+                    ?.slice(0, 4)
+                    ?.includes('Yes');
+                  const duplicatesDetected = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === true,
+                  );
+                  const mobilePhone = formData?.mobilePhone.phone;
+
+                  return !isYes || !duplicatesDetected || !mobilePhone;
+                },
+              },
+            },
             notificationMethod: {
               'ui:title': 'Choose how you want to get notifications?',
               'ui:widget': 'radio',
