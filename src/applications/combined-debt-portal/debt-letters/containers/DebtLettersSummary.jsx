@@ -115,7 +115,7 @@ const DebtLettersSummary = () => {
     }
 
     return (
-      <>
+      <article className="vads-u-padding-x--0">
         <DebtCardsList />
         {renderOtherVA(mcpStatements?.length, mcpError)}
         {showDebtLetterDownload ? (
@@ -155,7 +155,7 @@ const DebtLettersSummary = () => {
             </p>
           </div>
         </va-need-help>
-      </>
+      </article>
     );
   };
 
