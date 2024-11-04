@@ -104,7 +104,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
-            .selectTypeOfCare('323') // primary care
+            .selectTypeOfCare(/Primary care/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -180,7 +180,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: true })
-            .selectTypeOfCare('323') // primary care
+            .selectTypeOfCare(/Primary care/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl().clickNextButton();
@@ -252,7 +252,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
-            .selectTypeOfCare('323') // primary care
+            .selectTypeOfCare(/Primary care/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -334,7 +334,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
-            .selectTypeOfCare('323') // primary care
+            .selectTypeOfCare(/Primary care/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -373,7 +373,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
-            .selectTypeOfCare('323') // primary care
+            .selectTypeOfCare(/Primary care/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -450,7 +450,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
-            .selectTypeOfCare('323') // primary care
+            .selectTypeOfCare(/Primary care/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -517,7 +517,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: true })
-            .selectTypeOfCare('323') // primary care
+            .selectTypeOfCare(/Primary care/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -591,7 +591,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
-            .selectTypeOfCare('323') // primary care
+            .selectTypeOfCare(/Primary care/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -676,7 +676,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare('323') // primary care
+          .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()

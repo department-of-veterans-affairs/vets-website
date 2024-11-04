@@ -81,7 +81,7 @@ describe('VAOS community care flow - Podiatry', () => {
           AppointmentListPageObject.visit().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
-            .selectTypeOfCare('tbd-podiatry') // podiatry
+            .selectTypeOfCare(/Podiatry/)
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl({ isVARequest: false })
@@ -148,7 +148,7 @@ describe('VAOS community care flow - Podiatry', () => {
           AppointmentListPageObject.visit().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
-            .selectTypeOfCare('tbd-podiatry') // podiatry
+            .selectTypeOfCare(/Podiatry/)
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl({ isVARequest: false })
@@ -199,7 +199,7 @@ describe('VAOS community care flow - Podiatry', () => {
           AppointmentListPageObject.visit().scheduleAppointment();
 
           TypeOfCarePageObject.assertUrl()
-            .selectTypeOfCare('tbd-podiatry') // podiatry
+            .selectTypeOfCare(/Podiatry/)
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl({ isVARequest: false })
@@ -270,7 +270,7 @@ describe('VAOS community care flow - Podiatry', () => {
       AppointmentListPageObject.visit().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
-        .selectTypeOfCare('tbd-podiatry') // podiatry
+        .selectTypeOfCare(/Podiatry/)
         .clickNextButton();
 
       // Assert

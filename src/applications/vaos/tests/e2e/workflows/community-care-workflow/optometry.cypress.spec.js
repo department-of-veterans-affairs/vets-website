@@ -93,7 +93,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
-            .selectTypeOfCare('EYE') // eye care
+            .selectTypeOfCare(/eye care/i)
             .clickNextButton();
 
           TypeOfEyeCarePageObject.assertUrl()
@@ -148,7 +148,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: true })
-            .selectTypeOfCare('EYE') // eye care
+            .selectTypeOfCare(/eye care/i)
             .clickNextButton();
 
           TypeOfEyeCarePageObject.assertUrl()
@@ -225,7 +225,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
-            .selectTypeOfCare('EYE') // eye care
+            .selectTypeOfCare(/eye care/i)
             .clickNextButton();
 
           TypeOfEyeCarePageObject.assertUrl()
@@ -280,7 +280,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: true })
-            .selectTypeOfCare('EYE') // eye care
+            .selectTypeOfCare(/eye care/i)
             .clickNextButton();
 
           TypeOfEyeCarePageObject.assertUrl()
@@ -354,7 +354,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare('EYE') // eye care
+          .selectTypeOfCare(/eye care/i)
           .clickNextButton();
 
         TypeOfEyeCarePageObject.assertUrl()

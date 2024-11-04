@@ -49,7 +49,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare('323') // primary care
+          .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl().assertErrorAlert({
@@ -97,7 +97,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare('323') // primary care
+          .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
@@ -149,7 +149,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare('323') // primary care
+          .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
@@ -207,7 +207,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare('323') // primary care
+          .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
@@ -265,7 +265,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare('323') // primary care
+          .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()

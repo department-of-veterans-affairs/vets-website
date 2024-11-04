@@ -108,7 +108,7 @@ describe('VAOS request schedule flow - Audiology', () => {
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
-          .selectTypeOfCare('EYE') // eye care
+          .selectTypeOfCare(/eye care/i)
           .clickNextButton();
 
         TypeOfEyeCarePageObject.assertUrl()

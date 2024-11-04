@@ -83,7 +83,7 @@ describe('VAOS select appointment date', () => {
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare('covid') // COVID-19 vaccine
+        .selectTypeOfCare(/COVID-19 vaccine/i)
         .clickNextButton();
 
       PlanAheadPageObject.assertUrl().clickNextButton();
@@ -144,7 +144,7 @@ describe('VAOS select appointment date', () => {
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare('covid') // COVID-19 vaccine
+        .selectTypeOfCare(/COVID-19 vaccine/i)
         .clickNextButton();
 
       PlanAheadPageObject.assertUrl().clickNextButton();
@@ -209,7 +209,7 @@ describe('VAOS select appointment date', () => {
         breadcrumb: 'Choose the type of care you need',
       })
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare('covid') // COVID-19 vaccine
+        .selectTypeOfCare(/COVID-19 vaccine/i)
         .clickNextButton();
 
       PlanAheadPageObject.assertUrl().clickNextButton();
@@ -269,7 +269,7 @@ describe('VAOS select appointment date', () => {
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare('covid') // COVID-19 vaccine
+        .selectTypeOfCare(/COVID-19 vaccine/i)
         .clickNextButton();
 
       PlanAheadPageObject.assertUrl().clickNextButton();

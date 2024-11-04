@@ -87,7 +87,7 @@ describe('VAOS community care flow - Audiology', () => {
 
       TypeOfCarePageObject.assertUrl()
         .assertAddressAlert({ exist: false })
-        .selectTypeOfCare('203') // audiology and speech
+        .selectTypeOfCare(/Audiology and speech/)
         .clickNextButton();
 
       VAFacilityPageObject.assertUrl()
@@ -144,7 +144,7 @@ describe('VAOS community care flow - Audiology', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
-            .selectTypeOfCare('203') // audiology and speech
+            .selectTypeOfCare(/Audiology and speech/)
             .clickNextButton();
 
           TypeOfFacilityPageObject.assertUrl()
@@ -200,7 +200,7 @@ describe('VAOS community care flow - Audiology', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert()
-            .selectTypeOfCare('203') // audiology and speech
+            .selectTypeOfCare(/Audiology and speech/)
             .clickNextButton();
 
           TypeOfFacilityPageObject.assertUrl()
@@ -277,7 +277,7 @@ describe('VAOS community care flow - Audiology', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert({ exist: false })
-            .selectTypeOfCare('203') // audiology and speech
+            .selectTypeOfCare(/Audiology and speech/)
             .clickNextButton();
 
           TypeOfFacilityPageObject.assertUrl()
@@ -337,7 +337,7 @@ describe('VAOS community care flow - Audiology', () => {
 
           TypeOfCarePageObject.assertUrl()
             .assertAddressAlert()
-            .selectTypeOfCare('203') // audiology and speech
+            .selectTypeOfCare(/Audiology and speech/)
             .clickNextButton();
 
           TypeOfFacilityPageObject.assertUrl()
