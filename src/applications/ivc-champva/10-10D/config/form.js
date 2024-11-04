@@ -43,6 +43,7 @@ import {
   applicantListSchema,
   sponsorWording,
   populateFirstApplicant,
+  page15aDepends,
 } from '../helpers/utilities';
 import { MAX_APPLICANTS, ADDITIONAL_FILES_HINT } from './constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
@@ -597,11 +598,7 @@ const formConfig = {
           showPagePerItem: true,
           keepInPageOnReview: false,
           title: item => `${applicantWording(item)} address selection`,
-          // Only show if we have addresses to pull from:
-          depends: (formData, index) =>
-            (index && index > 0) || // We will have app0's address
-            (get('street', formData?.certifierAddress) ||
-              get('street', formData?.sponsorAddress)),
+          depends: (formData, index) => page15aDepends(formData, index),
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {

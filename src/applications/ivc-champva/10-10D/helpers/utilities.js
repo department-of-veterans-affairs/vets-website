@@ -1,3 +1,4 @@
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { MAX_APPLICANTS } from '../config/constants';
 
 export const getFileSize = num => {
@@ -97,4 +98,17 @@ export function populateFirstApplicant(
     modifiedFormData.applicants = [newApplicant];
   }
   return modifiedFormData;
+}
+
+// Only show address dropdown if we're not the certifier
+// AND there's another address present to choose from:
+export function page15aDepends(formData, index) {
+  const certifierIsApp =
+    get('certifierRelationship.relationshipToVeteran.applicant', formData) ===
+    true;
+  const certAddress = get('street', formData?.certifierAddress);
+
+  return (
+    (index && index > 0) || (certAddress && !(certifierIsApp && index === 0))
+  );
 }
