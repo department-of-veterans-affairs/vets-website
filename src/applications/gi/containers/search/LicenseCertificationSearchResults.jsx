@@ -5,11 +5,7 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { useLocation } from 'react-router-dom';
 import LCSearchResult from './LCSearchResult';
 
-function LicenseCertificationSearchResults({
-  lcResults,
-  fetchingLc,
-  hasFetchedOnce,
-}) {
+function LicenseCertificationSearchResults({ lcResults, fetchingLc, error }) {
   const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -30,42 +26,57 @@ function LicenseCertificationSearchResults({
     return <h2>Loading</h2>;
   }
 
-  if (!fetchingLc && hasFetchedOnce) {
-    return (
-      <div>
-        <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
+  if (error) {
+    return <p className="">{error}</p>;
+  }
+
+  return (
+    <div>
+      <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
+        {lcResults.length !== 0 ? (
+          <>
+            <div className="row">
+              <h1 className="vads-u-text-align--center mobile-lg:vads-u-text-align--left">
+                Licenses and Certifications Search Results
+              </h1>
+
+              <p className="vads-u-color--gray-dark lc-filter-options">
+                Showing {itemsPerPage} of {lcResults.length} results for: {name}
+              </p>
+              <p className="lc-filter-options">
+                <strong>License/Certification Name: </strong>
+              </p>
+            </div>
+            <div className="row">
+              <va-accordion openSingle>
+                {currentResults.map((result, index) => {
+                  return <LCSearchResult key={index} result={result} />;
+                })}
+              </va-accordion>
+            </div>
+            <VaPagination
+              page={currentPage}
+              pages={totalPages}
+              maxPageListLength={itemsPerPage}
+              onPageSelect={e => handlePageChange(e.detail.page)}
+            />
+          </>
+        ) : (
           <div className="row">
             <h1 className="vads-u-text-align--center mobile-lg:vads-u-text-align--left">
               Licenses and Certifications Search Results
             </h1>
-            <p className="vads-u-color--gray-dark lc-filter-options">
-              Showing {itemsPerPage} of {lcResults.length} results for: {name}
-            </p>
-            <p className="lc-filter-options">
-              <strong>License/Certification Name: </strong>
-            </p>
+
+            <p>No results for this search</p>
           </div>
-          <div className="row">
-            <va-accordion openSingle>
-              {currentResults.map((result, index) => {
-                return <LCSearchResult key={index} result={result} />;
-              })}
-            </va-accordion>
-          </div>
-          <VaPagination
-            page={currentPage}
-            pages={totalPages}
-            maxPageListLength={itemsPerPage}
-            onPageSelect={e => handlePageChange(e.detail.page)}
-          />
-        </section>
-      </div>
-    );
-  }
+        )}
+      </section>
+    </div>
+  );
 }
 
 LicenseCertificationSearchResults.propTypes = {
-  hasFetchedOnce: PropTypes.bool.isRequired,
+  error: PropTypes.string,
   fetchingLc: PropTypes.bool.isRequired,
   lcResults: PropTypes.array.isRequired,
 };
