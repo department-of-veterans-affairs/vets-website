@@ -21,6 +21,7 @@ import navigation from '../site-wide/user-nav/reducers';
 import layout from '../site-wide/layout/reducers';
 import profile from '../user/profile/reducers';
 import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
+import searchAnalyticsReducer from '../site-wide/search-analytics/search-analytics-reducer';
 import { FeatureToggleReducer } from '../site-wide/feature-toggles/reducers';
 
 const brandConsolidatedReducers = {
@@ -39,6 +40,7 @@ export const commonReducer = {
   drupalStaticData,
   navigation,
   scheduledDowntime,
+  searchAnalytics: searchAnalyticsReducer,
   i18State: i18Reducer,
   user: combineReducers({ login, profile }),
   layout,

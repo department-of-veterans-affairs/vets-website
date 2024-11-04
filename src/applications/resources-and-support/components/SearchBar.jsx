@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 import {
   VaRadio,
@@ -7,12 +8,19 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { updateSearchAnalytics } from 'platform/site-wide/search-analytics/search-analytics-actions';
 import URLSearchParams from 'url-search-params';
 import resourcesSettings from '../manifest.json';
 
 const searchUrl = getAppUrl('search');
 
-function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
+function SearchBar({
+  onInputChange,
+  previousValue,
+  setSearchData,
+  userInput,
+  updateSearchGAData
+}) {
   const [isGlobalSearch, setGlobalSearch] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [inputError, setInputError] = useState(false);
@@ -87,20 +95,10 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
     }
 
     if (isGlobalSearch) {
-      recordEvent({
-        event: 'view_search_results',
-        'search-page-path': document.location.pathname,
-        'search-query': userInput,
-        'search-results-total-count': undefined,
-        'search-results-total-pages': undefined,
-        'search-selection': GLOBAL,
-        'search-typeahead-enabled': false,
-        'search-location': RESOURCES,
-        'sitewide-search-app-used': false, // this is not the sitewide search app
-        'type-ahead-option-keyword-selected': undefined,
-        'type-ahead-option-position': undefined,
-        'type-ahead-options-list': undefined,
-        'type-ahead-options-count': undefined,
+      updateSearchGAData({
+        pagePath: '/resources',
+        searchLocation: RESOURCES,
+        sitewideSearch: false
       });
     }
 
@@ -233,11 +231,16 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
   );
 }
 
+const mapDispatchToProps = {
+  updateSearchGAData: updateSearchAnalytics
+};
+
 SearchBar.propTypes = {
   previousValue: PropTypes.string,
   userInput: PropTypes.string,
   onInputChange: PropTypes.func,
   setSearchData: PropTypes.func,
+  updateSearchGAData: PropTypes.func
 };
 
-export default SearchBar;
+export default connect(null, mapDispatchToProps)(SearchBar);
