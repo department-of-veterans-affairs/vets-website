@@ -209,15 +209,13 @@ const newContactMethod33 = {
             ];
           const mobilePhone = mobilePhoneInfo?.phone;
           const isInternational = mobilePhoneInfo?.isInternational;
-          const isYes = formData[
+          const wantsTexts = formData[
             'view:receiveTextMessages'
-          ]?.receiveTextMessages
-            ?.slice(0, 4)
-            ?.includes('Yes');
+          ]?.receiveTextMessages?.startsWith('Yes');
 
-          return (
-            (isValidPhone(mobilePhone) && !isYes) ||
-            (!isInternational && !isYes)
+          return !(
+            wantsTexts &&
+            (!isValidPhone(mobilePhone) || isInternational)
           );
         },
       },
