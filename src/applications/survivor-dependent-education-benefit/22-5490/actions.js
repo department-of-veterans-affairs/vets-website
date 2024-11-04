@@ -166,25 +166,3 @@ export function fetchClaimStatus(selectedChapter) {
     });
   };
 }
-
-// export function fetchDirectDeposit() {
-//   const ddEndpoint = LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT;
-
-//   return async dispatch => {
-//     dispatch({ type: FETCH_DIRECT_DEPOSIT });
-
-//     return apiRequest(ddEndpoint)
-//       .then(response => {
-//         dispatch({
-//           type: FETCH_DIRECT_DEPOSIT_SUCCESS,
-//           response,
-//         });
-//       })
-//       .catch(errors => {
-//         dispatch({
-//           type: FETCH_DIRECT_DEPOSIT_FAILED,
-//           errors,
-//         });
-//       });
-//   };
-// }
