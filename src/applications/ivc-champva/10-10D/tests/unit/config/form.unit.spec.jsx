@@ -52,24 +52,17 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
-// Cover alternate path for when certifierRole == 'sponsor'
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.sponsorInformation.pages.page6.schema,
-  formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
-  5,
-  'Sponsor - name and date of birth (alternate)',
-  { ...mockData.data },
-);
-
 // Cover when certifierRole !== sponsor or applicant
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page6.schema,
   formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
   5,
-  'Sponsor - name and date of birth (alternate 2)',
-  { ...mockData.data },
+  'Sponsor - name and date of birth (alternate)',
+  {
+    ...mockData.data,
+    certifierRelationship: { relationshipToVeteran: { applicant: true } },
+  },
 );
 
 testNumberOfWebComponentFields(
