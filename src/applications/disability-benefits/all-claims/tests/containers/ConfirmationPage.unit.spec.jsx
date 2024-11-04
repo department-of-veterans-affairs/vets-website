@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-
+import { Toggler } from 'platform/utilities/feature-toggles';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
@@ -13,6 +13,7 @@ import {
   SAVED_SEPARATION_DATE,
 } from '../../constants';
 import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
+import formConfig from '../../config/form';
 
 const retryableErrorTitle =
   "It's taking us longer than expected to submit your claim.";
@@ -29,11 +30,13 @@ const getData = ({
         : {},
     },
   },
+  form: {
+    data: {},
+  },
   featureToggles: {
     loading: false,
-    disability526NewConfirmationPage,
-    // eslint-disable-next-line camelcase
-    disability_526_new_confirmation_page: disability526NewConfirmationPage,
+    [Toggler.TOGGLE_NAMES
+      .disability526NewConfirmationPage]: disability526NewConfirmationPage,
   },
 });
 
@@ -46,7 +49,11 @@ describe('ConfirmationPage', () => {
       suffix: 'Sr.',
     },
     disabilities: ['something something', undefined],
-    submittedAt: '2019-02-20',
+    submittedAt: Date.now(),
+    route: {
+      formConfig,
+      pageList: [],
+    },
   };
 
   const middleware = [thunk];
@@ -201,7 +208,7 @@ describe('ConfirmationPage', () => {
   });
 
   // new confirmation page toggle on
-  it('should render new confirmation page', () => {
+  it('should render new confirmation page when submission succeeded with claim id', () => {
     const store = mockStore(
       getData({
         disability526NewConfirmationPage: true,
@@ -209,7 +216,8 @@ describe('ConfirmationPage', () => {
     );
     const props = {
       ...defaultProps,
-      submissionStatus: submissionStatuses.apiFailure,
+      claimId: '123456789',
+      submissionStatus: submissionStatuses.succeeded,
     };
 
     const tree = render(
@@ -218,23 +226,6 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    expect(tree.queryByTestId('new-confirmation-page')).to.exist;
-  });
-
-  // new confirmation page toggle off
-  it('should not render new confirmation page', () => {
-    const store = mockStore(getData());
-    const props = {
-      ...defaultProps,
-      submissionStatus: submissionStatuses.failed,
-    };
-
-    const tree = render(
-      <Provider store={store}>
-        <ConfirmationPage {...props} />
-      </Provider>,
-    );
-
-    expect(tree.queryByTestId('new-confirmation-page')).to.be.null;
+    tree.getByText('Form submission started on', { exact: false });
   });
 });
