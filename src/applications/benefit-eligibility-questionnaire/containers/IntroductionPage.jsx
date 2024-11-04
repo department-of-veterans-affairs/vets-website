@@ -13,7 +13,6 @@ const IntroductionPage = ({ router }) => {
     <article className="schemaform-intro">
       <FormTitle title={formConfig.title} subtitle="" />
       <Heading />
-
       <va-link-action
         href="#"
         onClick={startForm}
@@ -21,6 +20,26 @@ const IntroductionPage = ({ router }) => {
         text="Get started"
         data-testid="get-started"
       />
+
+      <div role="heading" aria-level="2">
+        <p>
+          <b>Note:</b> This tool is not an application for VA benefits. And it
+          doesn’t confirm your eligibility. On the results page, we’ll help you
+          learn more about eligibility and how to apply.
+        </p>
+        <p>
+          If you’re a family member, caregiver, or survivor of a Veteran,
+          <br />
+          <va-link
+            href="https://www.va.gov/family-and-caregiver-benefits/"
+            external
+            text="visit this page"
+            type="secondary"
+            label="visit this page"
+          />
+          to learn about potential benefits for you.
+        </p>
+      </div>
     </article>
   );
 };
