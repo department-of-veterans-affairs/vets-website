@@ -150,7 +150,11 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: { date },
-  dev: { showNavLinks: true, collapsibleNavLinks: true },
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+    disableWindowUnloadInCI: true,
+  },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
