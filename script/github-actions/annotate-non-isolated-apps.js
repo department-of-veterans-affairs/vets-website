@@ -9,13 +9,14 @@ const APPS_NOT_ISOLATED = process.env.APPS_NOT_ISOLATED
   ? JSON.parse(process.env.APPS_NOT_ISOLATED)
   : [];
 const CHANGED_FILES = process.env.CHANGED_FILES
-  ? process.env.CHANGED_FILES.split(' ').map(filePath =>
-      filePath
-        .split('/')
-        .slice(0, 3)
-        .join('/'),
-    )
-  : [];
+  ? process.env.CHANGED_FILES.split(' ')
+  : // .map(filePath =>
+    //     filePath
+    //       .split('/')
+    //       .slice(0, 3)
+    //       .join('/'),
+    //   )
+    [];
 console.log('apps not isolated: ', APPS_NOT_ISOLATED);
 console.log('changed apps: ', CHANGED_FILES);
 
