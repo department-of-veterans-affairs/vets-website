@@ -46,6 +46,7 @@ import additionalEvidence from './chapters/05-additional-information/additionalE
 
 import { submit } from '../utils/helpers';
 import manifest from '../manifest.json';
+import migrations from '../migrations';
 
 const {
   fullName,
@@ -54,6 +55,7 @@ const {
   date,
   usaPhone,
   dateRange,
+  benefitsIntakeFullName,
 } = fullSchemaBurials.definitions;
 
 const formConfig = {
@@ -73,8 +75,8 @@ const formConfig = {
       saved: 'Your burial benefits application has been saved.',
     },
   },
-  version: 0,
-  migrations: [],
+  version: 1,
+  migrations,
   prefillEnabled: true,
   downtime: {
     dependencies: [externalServices.icmhs],
@@ -98,6 +100,7 @@ const formConfig = {
     date,
     usaPhone,
     dateRange,
+    benefitsIntakeFullName,
   },
   chapters: {
     claimantInformation: {

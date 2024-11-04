@@ -25,6 +25,10 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   max-width: 30rem;
 }
 
+.schemaform-description {
+  max-width: 30rem;
+}
+
 .schemaform-widget-wrapper {
   max-width: 480px;
 }
@@ -459,4 +463,8 @@ ul.react-tabs__tab-list {
 
 .search-hint-text {
   color: var(--vads-color-base-dark);
+}
+
+.ask-va-modal-content {
+  margin-bottom: 2rem;
 }

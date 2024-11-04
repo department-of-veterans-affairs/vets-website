@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
@@ -128,12 +129,6 @@ export const IntroductionPage = ({
             about 15 minutes.
           </p>
           <va-additional-info trigger="What happens after I apply?">
-            <p>
-              <strong>
-                You may be eligible for Fry Scholarship benefits if you’re the
-                child or surviving spouse of:
-              </strong>
-            </p>
             <ul className="vads-u-margin-bottom--0">
               <li>
                 {' '}
@@ -175,12 +170,26 @@ export const IntroductionPage = ({
   );
 };
 
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.arrayOf(PropTypes.string),
+    }),
+    pageList: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
+  isLOA3: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  isPersonalInfoFetchFailed: PropTypes.bool,
+  showMeb5490EMaintenanceAlert: PropTypes.bool,
+};
+
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
-  isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
+  isPersonalInfoFetchFailed: state.data?.isPersonalInfoFetchFailed || false,
   showMeb5490EMaintenanceAlert:
-    state.featureToggles.showMeb5490EMaintenanceAlert,
+    state.featureToggles?.showMeb5490EMaintenanceAlert,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
