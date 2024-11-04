@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
-
+import sinon from 'sinon';
 import createCommonStore from 'platform/startup/store';
 import StatusPage from '../../containers/StatusPage';
 
@@ -62,6 +62,23 @@ describe('<StatusPage>', () => {
     const tree = shallow(<StatusPage store={store} {...props} />);
     expect(tree.find('.va-introtext').exists()).to.be.false;
     expect(tree.find('.usa-button-primary').exists()).to.be.false;
+    tree.unmount();
+  });
+  it('should navigate to print page when print button is clicked', () => {
+    const mockRouter = { push: sinon.spy() };
+    const props = { ...defaultProps, router: mockRouter };
+
+    const tree = mount(
+      <Provider store={store}>
+        <StatusPage {...props} />
+      </Provider>,
+    );
+
+    const printButton = tree.find('#print-button').at(0);
+    printButton.simulate('click');
+    expect(mockRouter.push.calledOnce).to.be.true;
+    expect(mockRouter.push.calledWithExactly('/print')).to.be.true;
+
     tree.unmount();
   });
 });
