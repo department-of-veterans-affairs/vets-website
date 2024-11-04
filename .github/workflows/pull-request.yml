@@ -99,13 +99,13 @@ jobs:
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
 
       - name: Create isolation annotations file
-        if: ${{ env.e2e-annotations-json != '[]' }}
+        if: ${{ env.ISOLATION_ANNOTATIONS_JSON != '[]' }}
         run: |
           echo "ISOLATION_ANNOTATIONS_JSON" > isolation-annotations.json
-          cat e2e-annotations.json
+          cat isolation-annotations.json
 
       - name: Annotate files that belong to apps not isolated
-        if: ${{ env.e2e-annotations-json != '[]' }}
+        if: ${{ env.ISOLATION_ANNOTATIONS_JSON != '[]' }}
         uses: ./.github/workflows/annotations
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
