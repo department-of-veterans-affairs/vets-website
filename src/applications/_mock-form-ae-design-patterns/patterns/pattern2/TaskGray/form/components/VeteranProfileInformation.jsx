@@ -101,16 +101,18 @@ export const VeteranProfileInformation = ({
         <p className="vads-u-margin-y--4">
           <strong>Note:</strong> To protect your personal information, we don’t
           allow online changes to your name, date of birth, or Social Security
-          number. If you need to change this information, call us at Veterans
-          Benefits Assistance at <va-telephone contact={CONTACTS.VA_BENEFITS} />
-          . We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+          number. If you need to change this information, call us at{' '}
+          <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+          <va-telephone contact="711" tty />) . We’re here Monday through
+          Friday, 8:00 a.m. to 9:00 p.m.{' '}
           <dfn>
             <abbr title="Eastern Time">ET</abbr>
           </dfn>
-          .{' '}
+          . We’ll give you instructions for how to change your information. Or
+          you can learn how to change your legal name on file with VA.{' '}
           <va-link
             href={APP_URLS.facilities}
-            text="Find instructions for how to change your legal name"
+            text="Learn how to change your legal name (opens in new tab)"
           />
         </p>
       </div>
