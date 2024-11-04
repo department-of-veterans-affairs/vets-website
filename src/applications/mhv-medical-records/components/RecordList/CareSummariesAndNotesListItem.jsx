@@ -39,19 +39,21 @@ const CareSummariesAndNotesListItem = props => {
   return (
     <va-card
       background
-      class="record-list-item vads-u-margin-y--2p5 vads-u-padding-x--3"
+      class="record-list-item vads-u-padding-y--2p5 vads-u-margin-bottom--2p5 vads-u-padding-x--3"
       data-testid="record-list-item"
     >
       {/* web view header */}
       <Link
         to={`/summaries-and-notes/${record.id}`}
         data-dd-privacy="mask"
-        className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print"
+        className="no-print"
       >
-        {record.name}
-        <span className="sr-only" data-testid="sr-note-date">
-          on {isDischargeSummary ? dsDisplayDate(record) : record.date}
-        </span>
+        <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+          {record.name}
+          <span className="sr-only" data-testid="sr-note-date">
+            on {isDischargeSummary ? dsDisplayDate(record) : record.date}
+          </span>
+        </div>
       </Link>
 
       {/* print view header */}

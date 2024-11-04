@@ -8,7 +8,7 @@ const AllergyListItem = props => {
   return (
     <va-card
       background
-      class="record-list-item vads-u-margin-y--2p5 vad-u-padding-y--2p5 vads-u-padding-x--3"
+      class="record-list-item vads-u-padding-y--2p5 vads-u-margin-bottom--2p5 vads-u-padding-x--3 left-align-print"
       data-testid="record-list-item"
     >
       {/* web view header */}
@@ -16,9 +16,11 @@ const AllergyListItem = props => {
         to={`/allergies/${record.id}`}
         data-dd-privacy="mask"
         data-testid={`allergy-link-${record.id}`}
-        className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print"
+        className="no-print"
       >
-        {record.name} <span className="sr-only">on {record.date}</span>
+        <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+          {record.name} <span className="sr-only">on {record.date}</span>
+        </div>
       </Link>
 
       {/* print view header */}
@@ -35,7 +37,7 @@ const AllergyListItem = props => {
       </div>
 
       {/* print view fields */}
-      <div className="print-only">
+      <div className="print-only print-indent">
         <span className="vads-u-display--inline-block vads-u-font-weight--bold">
           Date entered:
         </span>{' '}
@@ -43,13 +45,13 @@ const AllergyListItem = props => {
           {record.date}
         </span>
       </div>
-      <div className="print-only">
+      <div className="print-only print-indent">
         <span className="vads-u-display--inline-block vads-u-font-weight--bold">
           Signs and symptoms:
         </span>{' '}
         <ItemList list={record.reaction} />
       </div>
-      <div className="print-only">
+      <div className="print-only print-indent">
         <span className="vads-u-display--inline-block vads-u-font-weight--bold">
           Type of allergy:
         </span>{' '}
@@ -58,7 +60,7 @@ const AllergyListItem = props => {
         </span>
       </div>
       {!record.isOracleHealthData && (
-        <div className="print-only">
+        <div className="print-only print-indent">
           <span className="vads-u-display--inline-block vads-u-font-weight--bold">
             Location:
           </span>{' '}
@@ -68,7 +70,7 @@ const AllergyListItem = props => {
         </div>
       )}
       {!record.isOracleHealthData && (
-        <div className="print-only">
+        <div className="print-only print-indent">
           <span className="vads-u-display--inline-block vads-u-font-weight--bold">
             Observed or historical:
           </span>{' '}
@@ -78,7 +80,7 @@ const AllergyListItem = props => {
         </div>
       )}
       {record.isOracleHealthData && (
-        <div className="print-only">
+        <div className="print-only print-indent">
           <span className="vads-u-display--inline-block vads-u-font-weight--bold">
             Recorded by:
           </span>{' '}
@@ -87,7 +89,7 @@ const AllergyListItem = props => {
           </span>
         </div>
       )}
-      <div className="print-only">
+      <div className="print-only print-indent">
         <span className="vads-u-display--inline-block vads-u-font-weight--bold">
           Provider notes:
         </span>{' '}

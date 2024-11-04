@@ -9,15 +9,13 @@ const LabsAndTestsListItem = props => {
   return (
     <va-card
       background
-      class="record-list-item vads-u-padding--3 vads-u-margin-y--2p5"
+      class="record-list-item vads-u-padding-y--2p5 vads-u-margin-bottom--2p5 vads-u-padding-x--3"
       data-testid="record-list-item"
     >
-      <Link
-        to={`/labs-and-tests/${record.id}`}
-        data-dd-privacy="mask"
-        className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4"
-      >
-        {record.name} <span className="sr-only">on {record.date}</span>
+      <Link to={`/labs-and-tests/${record.id}`} data-dd-privacy="mask">
+        <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+          {record.name} <span className="sr-only">on {record.date}</span>
+        </div>
       </Link>
 
       <div>
