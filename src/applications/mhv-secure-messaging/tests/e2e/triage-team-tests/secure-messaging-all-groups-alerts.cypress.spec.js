@@ -49,7 +49,7 @@ describe('SM TRIAGE GROUPS ALERTS', () => {
     cy.get(Locators.ALERTS.TRIAGE_GROUP)
       .find(`p`)
       .should(`be.visible`)
-      .and(`contain.text`, Alerts.BLOCKED.ALL_PARAGRAPH);
+      .and(`contain.text`, Alerts.BLOCKED.FROM_ALL);
 
     cy.get(Locators.ALERTS.TRIAGE_ALERT).should(
       'have.attr',

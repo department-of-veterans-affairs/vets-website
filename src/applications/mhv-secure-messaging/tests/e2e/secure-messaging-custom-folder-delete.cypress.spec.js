@@ -41,7 +41,7 @@ describe('SM DELETE CUSTOM FOLDER', () => {
     PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
 
     cy.get(Locators.BUTTONS.ALERT_CLOSE).should(`be.focused`);
-    cy.get(Locators.ALERTS.REMOVE_THIS_FOLDER)
+    cy.get(Locators.BUTTONS.REMOVE_THIS_FOLDER)
       .find(`va-button[text*='keep']`)
       .click();
     cy.get(Locators.BUTTONS.REMOVE_FOLDER).should(`be.focused`);

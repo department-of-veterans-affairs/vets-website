@@ -300,7 +300,7 @@ class PatientMessageCustomFolderPage {
       updatedFoldersResponse,
     ).as('updatedFoldersList');
 
-    cy.get(Locators.ALERTS.REMOVE_THIS_FOLDER)
+    cy.get(Locators.BUTTONS.REMOVE_THIS_FOLDER)
       .find(`va-button[text*='remove']`)
       .click();
   };

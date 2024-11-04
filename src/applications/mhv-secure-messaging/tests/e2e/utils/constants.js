@@ -142,6 +142,7 @@ export const Locators = {
     CL_SAVE: `[data-testid="contact-list-save"]`,
     CL_GO_BACK: '[data-testid="contact-list-go-back"]',
     ALERT_CLOSE: `.first-focusable-child`,
+    REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -157,7 +158,7 @@ export const Locators = {
     HEADER: `#heading`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
-    TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]>h2',
+    TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]',
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
@@ -266,6 +267,8 @@ export const Alerts = {
     HEADER: `You can't send messages to`,
     PARAGRAPH:
       'If you need to contact this care team, call your VA health facility.',
+    FROM_ALL:
+      'If you need to contact your care teams, call your VA health facility.',
     LINK: 'Find your VA health facility',
   },
   CONTACT_LIST: {
