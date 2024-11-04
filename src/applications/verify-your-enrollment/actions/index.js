@@ -214,7 +214,7 @@ export const verifyEnrollmentAction = verifications => {
       },
     } = getState();
     const URL = claimantId
-      ? `${API_URL}/dgib_verifications/claimant_lookup`
+      ? `http://localhost:8080/dgib_verifications/verify_claimant`
       : `${API_URL}/verify`;
     const newVerifications = enrollmentVerifications?.filter(
       verification =>
