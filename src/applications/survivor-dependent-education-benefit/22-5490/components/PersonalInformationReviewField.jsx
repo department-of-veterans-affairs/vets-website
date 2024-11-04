@@ -29,7 +29,7 @@ const PersonalInformationReviewField = ({
   userFullName,
 }) => {
   const formattedDateOfBirth = formatDateString(dateOfBirth);
-
+  const formattedGraduationDate = formatDateString(data?.graduationDate);
   return (
     <>
       <div className="form-review-panel-page">
@@ -54,6 +54,15 @@ const PersonalInformationReviewField = ({
             <dt>Did you earn a high school or equivalency certificate?</dt>
             <dd>{data?.highSchoolDiploma}</dd>
           </div>
+
+          {data?.highSchoolDiploma === 'yes' && (
+            <div className="review-row">
+              <dt>
+                When did you earn a high school or equivalency certificate?
+              </dt>
+              <dd>{formattedGraduationDate}</dd>
+            </div>
+          )}
         </dl>
       </div>
     </>
