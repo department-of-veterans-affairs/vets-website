@@ -87,3 +87,5 @@ export default {
   VIEW_EDUCATION_LETTERS_LOGIN: 'view-education-letters-login',
   VYE_ENROLLMENT_LOGIN_WIDGET: 'vye-enrollment-login-widget',
 };
+
+// TODO add the banner widget it here

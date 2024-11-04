@@ -166,6 +166,7 @@ createNearByVALocations(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
+// TODO
 createFacilityMapSatelliteMainOffice(store);
 createFacilityPageSatelliteLocations(store);
 createBasicFacilityListWidget();
