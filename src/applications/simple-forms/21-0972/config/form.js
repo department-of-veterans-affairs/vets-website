@@ -1,5 +1,6 @@
 import React from 'react';
 import footerContent from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
@@ -310,6 +311,9 @@ const formConfig = {
         },
       },
     },
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

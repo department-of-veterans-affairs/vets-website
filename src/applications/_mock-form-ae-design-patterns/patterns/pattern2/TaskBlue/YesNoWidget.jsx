@@ -60,7 +60,9 @@ export default function YesNoWidget({
         onChange={_ => onChangeEvent('Y')}
         {...getProps('Y')}
       />
-      <label htmlFor={`${id}Yes`}>{labels.Y || 'Yes'}</label>
+      <label htmlFor={`${id}Yes`}>
+        {labels.Y || 'Yes, also update my profile'}
+      </label>
       <input
         type="radio"
         checked={value === values.N}
@@ -72,7 +74,9 @@ export default function YesNoWidget({
         onChange={_ => onChangeEvent('N')}
         {...getProps('N')}
       />
-      <label htmlFor={`${id}No`}>{labels.N || 'No'}</label>
+      <label htmlFor={`${id}No`}>
+        {labels.N || 'No, only update this form'}
+      </label>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import manifest from '../../../../manifest.json';
 
 import IntroductionPage from '../IntroductionPage';
 import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
-import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
+import { taskCompletePagePattern1 } from '../../../../shared/config/taskCompletePage';
 import { GetFormHelp } from '../GetFormHelp';
 
 const formConfig = {
@@ -65,7 +65,7 @@ const formConfig = {
           ],
           included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
         }),
-        taskCompletePage,
+        taskCompletePagePattern1,
       },
     },
   },
