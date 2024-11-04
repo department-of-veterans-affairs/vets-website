@@ -22,7 +22,6 @@ import {
   setCaretToPos,
   navigateToFolderByFolderId,
   resetUserSession,
-  updateTriageGroupRecipientStatus,
   dateFormat,
   scrollToTop,
 } from '../../util/helpers';
@@ -100,11 +99,7 @@ const ComposeForm = props => {
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
-  const [
-    showBlockedTriageGroupAlert,
-    setShowBlockedTriageGroupAlert,
-  ] = useState(false);
-  const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
+  const [currentRecipient, setCurrentRecipient] = useState(null);
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
   const categories = useSelector(state => state.sm.categories?.categories);
@@ -209,40 +204,22 @@ const ComposeForm = props => {
     [recipients, draft, allowedRecipients],
   );
 
-  useEffect(() => {
-    if (draft) {
-      const tempRecipient = {
-        recipientId: draft.recipientId,
-        name: draft.triageGroupName,
-        type: Recipients.CARE_TEAM,
-        status: RecipientStatus.ALLOWED,
-      };
+  useEffect(
+    () => {
+      if (draft) {
+        const tempRecipient = {
+          recipientId: draft.recipientId,
+          name: draft.triageGroupName,
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
+        };
 
-      const {
-        isAssociated,
-        isBlocked,
-        formattedRecipient,
-      } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
-
-      if (!isAssociated) {
-        setShowBlockedTriageGroupAlert(true);
-        setBlockedTriageGroupList([
-          formattedRecipient,
-          ...recipients.blockedRecipients,
-        ]);
-      } else if (isBlocked) {
-        setShowBlockedTriageGroupAlert(true);
-        setBlockedTriageGroupList(recipients.blockedRecipients);
+        setCurrentRecipient(tempRecipient);
       }
-    } else {
-      setShowBlockedTriageGroupAlert(
-        recipients.associatedBlockedTriageGroupsQty > 0,
-      );
-      setBlockedTriageGroupList(recipients.blockedRecipients);
-    }
-
-    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
-  }, []);
+      // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+    },
+    [draft],
+  );
 
   useEffect(
     () => {
@@ -750,12 +727,11 @@ const ComposeForm = props => {
         render={renderMHVDowntime}
       />
 
-      {showBlockedTriageGroupAlert &&
-      (noAssociations || allTriageGroupsBlocked) ? (
+      {noAssociations || allTriageGroupsBlocked ? (
         <BlockedTriageGroupAlert
-          blockedTriageGroupList={blockedTriageGroupList}
           alertStyle={BlockedTriageAlertStyles.ALERT}
           parentComponent={ParentComponent.COMPOSE_FORM}
+          currentRecipient={currentRecipient}
         />
       ) : (
         <EmergencyNote dropDownFlag />
@@ -817,8 +793,8 @@ const ComposeForm = props => {
           saveDraftHandler={saveDraftHandler}
         />
         <div>
-          {showBlockedTriageGroupAlert &&
-            (!noAssociations && !allTriageGroupsBlocked) && (
+          {!noAssociations &&
+            !allTriageGroupsBlocked && (
               <div
                 className="
                   vads-u-border-top--1px
@@ -827,9 +803,9 @@ const ComposeForm = props => {
                   vads-u-margin-bottom--neg2"
               >
                 <BlockedTriageGroupAlert
-                  blockedTriageGroupList={blockedTriageGroupList}
                   alertStyle={BlockedTriageAlertStyles.ALERT}
                   parentComponent={ParentComponent.COMPOSE_FORM}
+                  currentRecipient={currentRecipient}
                 />
               </div>
             )}

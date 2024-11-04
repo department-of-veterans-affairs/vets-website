@@ -4,6 +4,7 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import {
+  fillDateWebComponentPattern,
   fillStandardTextInput,
   fillTextWebComponent,
   selectRadioWebComponent,
@@ -21,6 +22,8 @@ let addedUnassociatedIncomeItem = false;
 let addedAssociatedIncomeItem = false;
 let addedOwnedAssetItem = false;
 let addedRoyaltiesItem = false;
+let addedAssetTransferItem = false;
+let addedAnnuityItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -207,6 +210,85 @@ const testConfig = createTestConfig(
             selectYesNoWebComponent('canBeSold', canBeSold);
 
             addedRoyaltiesItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'asset-transfers-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingAssetTransfers = data['view:isAddingAssetTransfers'];
+            if (addedAssetTransferItem) {
+              isAddingAssetTransfers = false;
+              addedAssetTransferItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingAssetTransfers',
+              isAddingAssetTransfers,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'asset-transfers/0/market-value': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { assetTransfers } = data;
+            const {
+              fairMarketValue,
+              saleValue,
+              capitalGainValue,
+            } = assetTransfers[0];
+
+            fillStandardTextInput('fairMarketValue', fairMarketValue);
+            fillStandardTextInput('saleValue', saleValue);
+            fillStandardTextInput('capitalGainValue', capitalGainValue);
+
+            addedAssetTransferItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'annuities-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingAnnuities = data['view:isAddingAnnuities'];
+            if (addedAnnuityItem) {
+              isAddingAnnuities = false;
+              addedAnnuityItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingAnnuities',
+              isAddingAnnuities,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'annuities/0/added-funds': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { annuities } = data;
+            const { addedFundsDate, addedFunds } = annuities[0];
+
+            fillDateWebComponentPattern('addedFundsDate', addedFundsDate);
+            fillStandardTextInput('addedFunds', addedFunds);
+
+            addedAnnuityItem = true;
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()
