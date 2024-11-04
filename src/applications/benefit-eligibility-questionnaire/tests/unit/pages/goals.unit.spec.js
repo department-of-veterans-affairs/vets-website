@@ -26,7 +26,7 @@ describe('Goals Form', () => {
 
   it('should render the correct title for goals checkbox group', () => {
     const checkboxGroup = document.querySelector(
-      'va-checkbox-group[label="What goal(s) do you want to accomplish?"]',
+      'va-checkbox-group[label="What goals do you want to accomplish?"]',
     );
     expect(checkboxGroup).to.exist;
   });
