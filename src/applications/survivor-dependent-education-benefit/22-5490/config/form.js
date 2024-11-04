@@ -1164,6 +1164,36 @@ const formConfig = {
                 </>
               ),
             },
+            notificationMethod: {
+              'ui:title': 'Choose how you want to get notifications?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  yes: 'Yes, send me text message notifications',
+                  no: 'No, just send me email notifications',
+                },
+              },
+              'ui:validations': [
+                (errors, field, formData) => {
+                  const isYes = field === 'yes';
+                  const phoneExist = !!formData?.mobilePhone.phone;
+                  const isInternational =
+                    formData?.mobilePhone?.isInternational;
+
+                  if (isYes) {
+                    if (!phoneExist) {
+                      errors.addError(
+                        "You can't select that response because we don't have a mobile phone number on file for you.",
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        "You can't select that response because you have an international mobile phone number",
+                      );
+                    }
+                  }
+                },
+              ],
+            },
             'view:noMobilePhoneAlert': {
               'ui:description': (
                 <va-alert
@@ -1225,15 +1255,12 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  const isNo = formData[
-                    'view:receiveTextMessages'
-                  ]?.receiveTextMessages
-                    ?.slice(0, 3)
-                    ?.includes('No,');
+                  const isNo = formData?.notificationMethod === 'no';
+
                   const noDuplicates = formData?.duplicateEmail?.some(
                     entry => entry?.dupe === false,
                   );
-                  // Return true if isNo is false OR noDuplicates is not false
+
                   return !isNo || noDuplicates;
                 },
               },
@@ -1262,49 +1289,15 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  const isYes = formData[
-                    'view:receiveTextMessages'
-                  ]?.receiveTextMessages
-                    ?.slice(0, 4)
-                    ?.includes('Yes');
-                  const duplicatesDetected = formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === true,
-                  );
+                  const isYes = formData?.notificationMethod === 'yes';
                   const mobilePhone = formData?.mobilePhone.phone;
+                  const noDuplicates = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  );
 
-                  return !isYes || !duplicatesDetected || !mobilePhone;
+                  return !isYes || noDuplicates || !mobilePhone;
                 },
               },
-            },
-            notificationMethod: {
-              'ui:title': 'Choose how you want to get notifications?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  yes: 'Yes, send me text message notifications',
-                  no: 'No, just send me email notifications',
-                },
-              },
-              'ui:validations': [
-                (errors, field, formData) => {
-                  const isYes = field === 'yes';
-                  const phoneExist = !!formData?.mobilePhone.phone;
-                  const isInternational =
-                    formData?.mobilePhone?.isInternational;
-
-                  if (isYes) {
-                    if (!phoneExist) {
-                      errors.addError(
-                        "You can't select that response because we don't have a mobile phone number on file for you.",
-                      );
-                    } else if (isInternational) {
-                      errors.addError(
-                        "You can't select that response because you have an international mobile phone number",
-                      );
-                    }
-                  }
-                },
-              ],
             },
           },
           schema: {
@@ -1319,13 +1312,21 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              notificationMethod: {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
               'view:noMobilePhoneAlert': {
                 type: 'object',
                 properties: {},
               },
-              notificationMethod: {
-                type: 'string',
-                enum: ['yes', 'no'],
+              'view:emailOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:mobilePhoneOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
               },
             },
           },
