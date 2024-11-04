@@ -7,12 +7,11 @@ import Error from './Error';
 import { getRoutesFromFormConfig } from '../routes';
 import {
   formLoadingFailed,
-  fetchFormConfig,
-  mockFetchForms,
+  fetchAndBuildFormConfig,
 } from '../actions/form-load';
 import { getReducerFromFormConfig } from '../reducers/form-render';
 
-const FormRenderer = ({ formId, rootUrl }) => {
+const FormRenderer = ({ formId, rootUrl, trackingPrefix }) => {
   const dispatch = useDispatch();
   const store = useStore();
   const [routes, setRoutes] = useState(null);
@@ -35,12 +34,17 @@ const FormRenderer = ({ formId, rootUrl }) => {
         const route = getRoutesFromFormConfig(formConfig);
         setRoutes(route);
       } else if (formId) {
-        dispatch(fetchFormConfig(formId, mockFetchForms));
+        dispatch(
+          fetchAndBuildFormConfig(formId, {
+            rootUrl,
+            trackingPrefix,
+          }),
+        );
       } else {
         dispatch(formLoadingFailed('No form id'));
       }
     },
-    [formConfig, dispatch, store, formId],
+    [formConfig, dispatch, store, formId, rootUrl, trackingPrefix],
   );
 
   if (formLoadingError) {
@@ -70,6 +74,7 @@ const FormRenderer = ({ formId, rootUrl }) => {
 FormRenderer.propTypes = {
   formId: PropTypes.string,
   rootUrl: PropTypes.string,
+  trackingPrefix: PropTypes.string,
 };
 
 export default FormRenderer;

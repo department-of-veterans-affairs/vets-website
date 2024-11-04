@@ -33,7 +33,10 @@ describe('createFormConfig', () => {
     };
     stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
 
-    formConfig = createFormConfig(normalizedForm);
+    formConfig = createFormConfig(normalizedForm, {
+      rootUrl: '/root-url',
+      trackingPrefix: 'tracking-prefix-',
+    });
   });
 
   afterEach(() => {
@@ -41,9 +44,9 @@ describe('createFormConfig', () => {
   });
 
   it('returns a properly formatted Form Config object', () => {
-    // expect(formConfig.rootUrl).to.eq(`${manifest.rootUrl}/2121212`);
-    expect(formConfig.urlPrefix).to.eq(`/2121212/`);
-    expect(formConfig.trackingPrefix).to.eq('2121212-');
+    expect(formConfig.rootUrl).to.eq('/root-url');
+    expect(formConfig.urlPrefix).to.eq(`/`);
+    expect(formConfig.trackingPrefix).to.eq('tracking-prefix-');
     expect(formConfig.title).to.eq('Form with Two Steps');
     expect(formConfig.formId).to.eq('2121212');
     expect(formConfig.subTitle).to.eq('VA Form 2121212');
