@@ -54,7 +54,9 @@ describe('<AddFilesForm>', () => {
       );
       expect(checkbox.required).to.be.true;
       const link = $('#how-to-file-claim', container);
-      expect(link.text).to.equal('How to File a Claim');
+      expect(link.text).to.equal(
+        'How to File a Claim page (opens in a new tab)',
+      );
       expect($('.files-form-information', container)).to.exist;
     });
 
