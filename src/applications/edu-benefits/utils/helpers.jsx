@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { hasSession } from 'platform/user/profile/utilities';
 import { dateFieldToDate } from 'platform/utilities/date';
 import { format, isBefore, isValid, parse } from 'date-fns';
 
@@ -8,6 +9,7 @@ export function getLabel(options, value) {
 
   return matched ? matched.label : null;
 }
+
 export function convertToggle() {
   const url = window.location.href;
   const params = new URLSearchParams(new URL(url).search);
@@ -134,6 +136,7 @@ export function showYesNo(field) {
 
   return field.value === 'Y' ? 'Yes' : 'No';
 }
+
 export function isValidRoutingNumber(value) {
   if (/^\d{9}$/.test(value)) {
     const digits = value.split('').map(val => parseInt(val, 10));
@@ -146,3 +149,54 @@ export function isValidRoutingNumber(value) {
   }
   return false;
 }
+
+const additionalSchema = {
+  edipi: {
+    type: 'string',
+  },
+  icn: {
+    type: 'string',
+  },
+};
+
+const additionalUiSchema = {
+  edipi: {
+    'ui:options': {
+      hideIf: () => true,
+    },
+  },
+  icn: {
+    'ui:options': {
+      hideIf: () => true,
+    },
+  },
+};
+
+/**
+ * Adds additional schema to the Applicant Information if the
+ * user is authenticated which contains EDIPI and ICN fields.
+ */
+export const updateApplicantInformationPage = page =>
+  hasSession()
+    ? {
+        ...page,
+        schema: {
+          ...page.schema,
+          properties: {
+            ...page.schema.properties,
+            ...additionalSchema,
+          },
+        },
+        uiSchema: {
+          ...page.uiSchema,
+          ...additionalUiSchema,
+        },
+      }
+    : page;
+
+export const applicantInformationTransform = formData => {
+  const clonedData = _.cloneDeep(formData);
+  delete clonedData.edipi;
+  delete clonedData.icn;
+  return clonedData;
+};

@@ -10,6 +10,7 @@ import {
   focusElement,
   focusOnChange,
   getFocusableElements,
+  setGlobalScroll,
 } from '../../../src/js/utilities/ui';
 import { ReviewCollapsibleChapter } from '../../../src/js/review/ReviewCollapsibleChapter';
 
@@ -405,5 +406,82 @@ describe('getFocuableElements', () => {
     global.document = dom;
     const focusableElements = await getFocusableElements(dom);
     expect(focusableElements.length).to.eq(0);
+  });
+});
+
+describe('setGlobalScroll', () => {
+  beforeEach(() => {
+    // Reset window.Forms before each test
+    window.Forms = undefined;
+
+    // Clear the mock for matchMedia before each test
+    window.matchMedia = () => ({ matches: false });
+  });
+
+  it("should initialize window.Forms.scroll with default values if it doesn't exist", () => {
+    setGlobalScroll();
+
+    expect(window.Forms).to.exist;
+    expect(window.Forms.scroll).to.deep.equal({
+      duration: 500,
+      delay: 0,
+      smooth: true,
+    });
+  });
+
+  it('should not overwrite existing window.Forms.scroll values', () => {
+    window.Forms = {
+      scroll: {
+        duration: 1000,
+        delay: 100,
+        smooth: false,
+      },
+    };
+
+    setGlobalScroll();
+
+    expect(window.Forms.scroll).to.deep.equal({
+      duration: 1000,
+      delay: 100,
+      smooth: false,
+    });
+  });
+
+  it('should override default scroll values when user prefers reduced motion', () => {
+    // Simulate prefers-reduced-motion
+    window.matchMedia = () => ({
+      matches: true,
+    });
+
+    setGlobalScroll();
+
+    expect(window.Forms.scroll).to.deep.equal({
+      duration: 0,
+      delay: 0,
+      smooth: false,
+    });
+  });
+
+  it('should combine existing window.Forms.scroll values with reduced motion settings', () => {
+    window.Forms = {
+      scroll: {
+        duration: 1000,
+        delay: 100,
+        smooth: true,
+        offset: 30,
+      },
+    };
+    window.matchMedia = () => ({
+      matches: true,
+    });
+
+    setGlobalScroll();
+
+    expect(window.Forms.scroll).to.deep.equal({
+      duration: 0,
+      delay: 0,
+      smooth: false,
+      offset: 30,
+    });
   });
 });

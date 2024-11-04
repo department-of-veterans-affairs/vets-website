@@ -9,7 +9,6 @@ import {
 
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import EmergencyNote from '../EmergencyNote';
-import { updateTriageGroupRecipientStatus } from '../../util/helpers';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
@@ -54,33 +53,29 @@ const ReplyForm = props => {
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
-  const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
   const [hideDraft, setHideDraft] = useState(false);
+  const [currentRecipient, setCurrentRecipient] = useState(null);
 
-  useEffect(() => {
-    const draftToEdit = drafts?.[0];
-    if (draftToEdit) {
-      const tempRecipient = {
-        recipientId: draftToEdit.recipientId,
-        name:
-          messages.find(m => m.triageGroupName === draftToEdit.triageGroupName)
-            ?.triageGroupName || draftToEdit.triageGroupName,
-        type: Recipients.CARE_TEAM,
-        status: RecipientStatus.ALLOWED,
-      };
-      const {
-        isAssociated,
-        isBlocked,
-        formattedRecipient,
-      } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
+  useEffect(
+    () => {
+      const draftToEdit = drafts?.[0];
+      if (draftToEdit) {
+        const tempRecipient = {
+          recipientId: draftToEdit.recipientId,
+          name:
+            messages.find(
+              m => m.triageGroupName === draftToEdit.triageGroupName,
+            )?.triageGroupName || draftToEdit.triageGroupName,
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
+        };
 
-      if (!isAssociated || isBlocked) {
-        setShowBlockedTriageGroupAlert(true);
-        setBlockedTriageGroupList([formattedRecipient]);
+        setCurrentRecipient(tempRecipient);
       }
-    }
-    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
-  }, []);
+      // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+    },
+    [drafts, recipients],
+  );
 
   useEffect(
     () => {
@@ -144,11 +139,12 @@ const ReplyForm = props => {
           visible={cannotReply && !showBlockedTriageGroupAlert}
         />
 
-        {showBlockedTriageGroupAlert && (
+        {currentRecipient && (
           <BlockedTriageGroupAlert
-            blockedTriageGroupList={blockedTriageGroupList}
             alertStyle={BlockedTriageAlertStyles.ALERT}
             parentComponent={ParentComponent.REPLY_FORM}
+            currentRecipient={currentRecipient}
+            setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
           />
         )}
 
