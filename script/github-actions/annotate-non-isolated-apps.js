@@ -8,7 +8,7 @@
 const APPS_NOT_ISOLATED = process.env.APPS_NOT_ISOLATED
   ? JSON.parse(process.env.APPS_NOT_ISOLATED)
   : [];
-const CHANGED_APPS = process.env.CHANGED_FILES
+const CHANGED_FILES = process.env.CHANGED_FILES
   ? process.env.CHANGED_FILES.split(' ').map(filePath =>
       filePath
         .split('/')
@@ -17,7 +17,13 @@ const CHANGED_APPS = process.env.CHANGED_FILES
     )
   : [];
 console.log('apps not isolated: ', APPS_NOT_ISOLATED);
-console.log('changed apps: ', CHANGED_APPS);
+console.log('changed apps: ', CHANGED_FILES);
+
+const matchingApps = APPS_NOT_ISOLATED.find(app =>
+  CHANGED_FILES.some(filePath => filePath.includes(app)),
+);
+
+console.log('apps not isolated being updated: ', matchingApps);
 // if (APPS_NOT_ISOLATED.length > 0) {
 //   const annotationsJson = TESTS_BLOCKING_MERGE.map(spec => {
 //     return {
