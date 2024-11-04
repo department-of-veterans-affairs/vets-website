@@ -9,7 +9,7 @@ describe('Accessibility', () => {
   });
 
   it('has accessible 21a form intro', () => {
-    cy.visit('/representative');
+    cy.visit('/representative/accreditation/attorney-claims-agent-form-21a');
     cy.injectAxe();
     cy.axeCheck();
   });
