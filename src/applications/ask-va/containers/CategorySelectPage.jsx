@@ -10,12 +10,7 @@ import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import {
-  CHAPTER_1,
-  URL,
-  getApiUrl,
-  requireSignInCategories,
-} from '../constants';
+import { CHAPTER_1, URL, getApiUrl } from '../constants';
 
 const CategorySelectPage = props => {
   const { onChange, loggedIn, goBack, goToPath, formData } = props;
@@ -50,7 +45,7 @@ const CategorySelectPage = props => {
     const selectedValue = event.detail.value;
     const selected = apiData.find(cat => cat.attributes.name === selectedValue);
     localStorage.removeItem('askVAFiles');
-    if (requireSignInCategories.includes(selectedValue) && !loggedIn) {
+    if (selected.attributes.requiresAuthentication && !loggedIn) {
       setShowModal({ show: true, selected: `${selectedValue}` });
     } else {
       dispatch(setCategoryID(selected.id));
@@ -128,7 +123,7 @@ const CategorySelectPage = props => {
       <RequireSignInModal
         onClose={onModalNo}
         show={showModal.show}
-        restrictedItem={showModal.selected}
+        restrictedItem="category"
       />
     </>
   ) : (

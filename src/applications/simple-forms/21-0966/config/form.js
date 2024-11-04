@@ -1,4 +1,5 @@
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import manifest from '../manifest.json';
 
@@ -348,6 +349,9 @@ const formConfig = {
         },
       },
     },
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

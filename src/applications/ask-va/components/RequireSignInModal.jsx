@@ -17,7 +17,7 @@ const RequireSignInModal = ({ onClose, show, restrictedItem, message }) => {
   return (
     <VaModal
       clickToClose
-      status="info TEST"
+      status="continue"
       modalTitle="You must Sign In to continue"
       onCloseEvent={onClose}
       visible={show}
@@ -26,14 +26,25 @@ const RequireSignInModal = ({ onClose, show, restrictedItem, message }) => {
         <p className="ask-va-modal-content">{message}</p>
       ) : (
         <p className="ask-va-modal-content">
-          To continue with {restrictedItem} selected you must Sign In or make
-          another selection.
+          Because your question is about this {restrictedItem}, you need to sign
+          in. When you sign in, we can communicate with you{' '}
+          <strong>securely</strong> about the specific details of{' '}
+          <strong>your benefits.</strong>
         </p>
       )}
-      <Link aria-label="Go sign in" to="/contact-us/ask-va-too/introduction">
-        <VaButton onClick={() => {}} primary text="Sign in and Start Over" />
+      <Link
+        className="margin-top-1"
+        aria-label="Go sign in"
+        to="/contact-us/ask-va-too/introduction"
+      >
+        <VaButton onClick={() => {}} primary text="Sign in" />
       </Link>
-      <VaButton onClick={onClose} secondary text="Do Not Sign In" />
+      <VaButton
+        className="margin-top-1"
+        onClick={onClose}
+        secondary
+        text={`Go back to ${message ? 'question' : restrictedItem}`}
+      />
     </VaModal>
   );
 };

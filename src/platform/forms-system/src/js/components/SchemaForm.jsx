@@ -165,7 +165,7 @@ class SchemaForm extends React.Component {
   }
 
   validate(formData, errors) {
-    const { schema, uiSchema, appStateData } = this.props;
+    const { schema, uiSchema, appStateData, getFormData } = this.props;
     if (uiSchema) {
       uiSchemaValidate(
         errors,
@@ -175,6 +175,7 @@ class SchemaForm extends React.Component {
         '',
         null,
         appStateData,
+        getFormData,
       );
     }
     return errors;
@@ -227,7 +228,6 @@ class SchemaForm extends React.Component {
 }
 
 SchemaForm.propTypes = {
-  idSchema: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   schema: PropTypes.object.isRequired,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
@@ -239,8 +239,10 @@ SchemaForm.propTypes = {
   editModeOnReviewPage: PropTypes.bool,
   formContext: PropTypes.shape({}),
   formOptions: PropTypes.shape({}),
+  getFormData: PropTypes.func,
   hideTitle: PropTypes.bool,
-  pagePerItemIndex: PropTypes.number,
+  idSchema: PropTypes.object,
+  pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   reviewMode: PropTypes.bool,
   safeRenderCompletion: PropTypes.bool,
   onChange: PropTypes.func,
