@@ -11,7 +11,7 @@ export const AddStudentsIntro = () => (
       Approval of School Attendance (VA Form 21-674).
     </p>
     <p>
-      You must add at least one student.{' '}
+      You must add at least one student. You may add up to 7 students.{' '}
       <strong>
         If we asked you to enter this information in a previous section
       </strong>

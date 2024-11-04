@@ -6,8 +6,8 @@ import {
   relationshipOptionsMyself,
   relationshipOptionsSomeoneElse,
   requiredForSubtopicPage,
+  TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
-  VRandE,
 } from '../constants';
 import manifest from '../manifest.json';
 
@@ -141,8 +141,10 @@ const formConfig = {
           CustomPageReview: CustomPageReviewField,
           uiSchema: whoIsYourQuestionAboutPage.uiSchema,
           schema: whoIsYourQuestionAboutPage.schema,
-          // Hidden - EDU Question are always 'General Question'
-          depends: form => form.selectCategory !== CategoryEducation,
+          // Hidden - EDU Question are always 'General Question' unless topic is VR&E
+          depends: form =>
+            form.selectCategory !== CategoryEducation ||
+            form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31,
         },
         relationshipToVeteran: {
           editModeOnReviewPage: false,
@@ -245,7 +247,7 @@ const formConfig = {
         formData.selectCategory === CategoryEducation &&
         formData.relationshipToVeteran ===
           relationshipOptionsSomeoneElse.WORK &&
-        formData.selectTopic !== VRandE,
+        formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31,
       pages: {
         ...aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
       },
