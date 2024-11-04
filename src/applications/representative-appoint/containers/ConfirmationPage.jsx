@@ -12,11 +12,15 @@ export default function ConfirmationPage({ router }) {
   const [signedFormError, setSignedFormError] = useState(false);
   const { data: formData } = useSelector(state => state.form);
   const selectedEntity = formData['view:selectedRepresentative'];
-  const emailAddress = formData.applicantEmail || formData.veteranEmail;
-  const firstName =
-    formData.applicantName?.first || formData.veteranFullName.first;
-  const entityType =
-    selectedEntity.type === 'organization' ? 'organization' : 'individual';
+  const sendNextStepsEmailPayload = {
+    formNumber: getFormNumber(formData),
+    formName: getFormName(formData),
+    firstName: formData.applicantName?.first || formData.veteranFullName.first,
+    emailAddress: formData.applicantEmail || formData.veteranEmail,
+    entityId: selectedEntity.id,
+    entityType:
+      selectedEntity.type === 'organization' ? 'organization' : 'individual',
+  };
   const handlers = {
     onClickDownloadForm: e => {
       e.preventDefault();
@@ -29,14 +33,7 @@ export default function ConfirmationPage({ router }) {
     onClickContinueButton: async () => {
       if (signedForm) {
         try {
-          await sendNextStepsEmail({
-            emailAddress,
-            firstName,
-            entityType,
-            entityId: selectedEntity.id,
-            formNumber: getFormNumber(formData),
-            formName: getFormName(formData),
-          });
+          await sendNextStepsEmail(sendNextStepsEmailPayload);
         } catch (error) {
           // Should we set an error state to display a message in the UI?
         }
