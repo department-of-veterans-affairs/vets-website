@@ -68,8 +68,8 @@ const WhoIsYourQuestionAboutCustomPage = props => {
         show: true,
         message: (
           <div>
-            Because your question is about this about yourself or someone else,
-            you need to sign in. When you sign in, we can{' '}
+            Because your question is about yourself or someone else, you need to
+            sign in. When you sign in, we can{' '}
             <strong>communicate with you securely</strong> about the specific
             details of your benefits.{' '}
           </div>
