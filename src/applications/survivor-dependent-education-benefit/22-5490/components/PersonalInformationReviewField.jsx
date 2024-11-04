@@ -29,6 +29,7 @@ const PersonalInformationReviewField = ({
   userFullName,
 }) => {
   const formattedDateOfBirth = formatDateString(dateOfBirth);
+
   return (
     <>
       <div className="form-review-panel-page">
