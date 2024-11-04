@@ -15,12 +15,16 @@ export const RouteLeavingGuard = ({
   confirmButtonText,
   cancelButtonText,
   saveDraftHandler,
+  setSavedDraft,
+  setSaveError,
+  removeModal,
 }) => {
   const [lastLocation, updateLastLocation] = useState();
   const [confirmedNavigation, updateConfirmedNavigation] = useState(false);
   const [modalVisible, updateModalVisible] = useState(false);
 
   const showModal = location => {
+    removeModal(true);
     updateModalVisible(true);
     updateLastLocation(location);
   };
@@ -41,7 +45,7 @@ export const RouteLeavingGuard = ({
   const handleConfirmNavigationClick = () => {
     if (
       cancelButtonText ===
-      ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft
+      ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.cancelButtonText
     ) {
       saveDraftHandler('manual');
     }
@@ -53,8 +57,20 @@ export const RouteLeavingGuard = ({
   };
 
   const handleCancelNavigationClick = e => {
+    removeModal(false);
     updateModalVisible(false);
-    saveDraftHandler('manual', e);
+    setSavedDraft(false);
+    setSaveError(null);
+
+    const isCancelButtonTextMatching =
+      cancelButtonText ===
+        ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.cancelButtonText ||
+      cancelButtonText ===
+        ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.cancelButtonText;
+
+    if (isCancelButtonTextMatching) {
+      saveDraftHandler('manual', e);
+    }
   };
 
   useEffect(
@@ -83,7 +99,7 @@ export const RouteLeavingGuard = ({
         <p>
           {cancelButtonText !==
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-              .saveDraft && p1}
+              .cancelButtonText && p1}
         </p>
         {p2 && <p>{p2}</p>}
         <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
@@ -114,6 +130,8 @@ RouteLeavingGuard.propTypes = {
   p1: PropTypes.string,
   p2: PropTypes.any,
   saveDraftHandler: PropTypes.func,
+  setSaveError: PropTypes.func,
+  setSavedDraft: PropTypes.func,
   shouldBlockNavigation: PropTypes.func,
   title: PropTypes.string,
   updateModalVisible: PropTypes.func,

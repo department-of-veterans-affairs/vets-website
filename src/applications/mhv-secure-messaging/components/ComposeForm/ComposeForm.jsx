@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
-import { datadogRum } from '@datadog/browser-rum';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -171,6 +169,7 @@ const ComposeForm = props => {
       ) {
         setNavigationError({
           ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+          p1: '',
         });
       }
       if (typeOfError === ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR) {
@@ -576,23 +575,20 @@ const ComposeForm = props => {
 
       const savedDraftWithNoEdits =
         (savedDraft && !isEditedForm()) || (!!draft && !isEditedForm());
+
       if (isBlankForm()) {
         error = null;
       } else if (partiallySavedDraft) {
         error = ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR;
-        updateModalVisible(true);
       } else if (
         attachments.length > 0 &&
         (unsavedFilledDraft || savedDraftWithEdits || savedDraftWithNoEdits)
       ) {
         error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
-        updateModalVisible(true);
       } else if (!draft && unsavedFilledDraft && !attachments.length) {
         error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_ERROR;
-        updateModalVisible(true);
       } else if (savedDraftWithEdits && !attachments.length) {
         error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_CHANGES_ERROR;
-        updateModalVisible(true);
       }
       setUnsavedNavigationError(error);
     },
@@ -762,47 +758,8 @@ const ComposeForm = props => {
       )}
 
       <form className="compose-form" id="sm-compose-form">
-        {saveError && (
-          <VaModal
-            modalTitle={saveError.title}
-            onCloseEvent={() => {
-              setSaveError(null);
-              focusElement(lastFocusableElement);
-              datadogRum.addAction('Save Error Modal Closed');
-            }}
-            status="warning"
-            data-testid="quit-compose-double-dare"
-            data-dd-action-name="Save Error Modal"
-            visible
-          >
-            {saveError?.cancelButtonText && (
-              <va-button
-                text={saveError.cancelButtonText}
-                onClick={() => {
-                  setSavedDraft(false);
-                  setSaveError(null);
-                }}
-                data-dd-action-name={`${saveError.cancelButtonText} Button`}
-              />
-            )}
-            {saveError?.confirmButtonText && (
-              <va-button
-                secondary
-                class="vads-u-margin-y--1p5"
-                text={saveError.confirmButtonText}
-                data-dd-action-name={`${saveError.confirmButtonText} Button`}
-                onClick={() => {
-                  saveDraftHandler('manual');
-                  setSaveError(null);
-                }}
-              />
-            )}
-          </VaModal>
-        )}
         <RouteLeavingGuard
           when={!!navigationError}
-          modalVisible={modalVisible}
-          updateModalVisible={updateModalVisible}
           navigate={path => {
             history.push(path);
           }}
@@ -815,6 +772,9 @@ const ComposeForm = props => {
           confirmButtonText={navigationError?.confirmButtonText}
           cancelButtonText={navigationError?.cancelButtonText}
           saveDraftHandler={saveDraftHandler}
+          setSavedDraft={setSavedDraft}
+          setSaveError={setSaveError}
+          removeModal={updateModalVisible}
         />
         <div>
           {showBlockedTriageGroupAlert &&
