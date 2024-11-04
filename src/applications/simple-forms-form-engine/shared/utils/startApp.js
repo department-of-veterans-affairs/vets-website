@@ -7,14 +7,22 @@ import reducer from '../reducers';
 import FormRenderer from '../containers/FormRenderer';
 import { removeTrailingSlash } from './string';
 
-export const startFormEngineFormApp = ({ formId, rootUrl }) => {
+export const startFormEngineFormApp = ({
+  formId,
+  rootUrl,
+  trackingPrefix = null,
+}) => {
   const rootUrlNoTrailingSlash = removeTrailingSlash(rootUrl);
 
   startAppFromIndex({
     url: rootUrlNoTrailingSlash,
     reducer,
     component: (
-      <FormRenderer formId={formId} rootUrl={rootUrlNoTrailingSlash} />
+      <FormRenderer
+        formId={formId}
+        rootUrl={rootUrlNoTrailingSlash}
+        trackingPrefix={trackingPrefix}
+      />
     ),
   });
 };

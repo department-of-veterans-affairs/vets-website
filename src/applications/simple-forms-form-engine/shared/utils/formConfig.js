@@ -45,20 +45,15 @@ const formatChapters = chapters =>
     return { ...formattedChapters, ...formattedChapter };
   }, {});
 
-export const createFormConfig = form => {
-  if (form.rootUrl) {
-    // It's probably already a Form Config object
-    return form;
-  }
-
+export const createFormConfig = (form, options) => {
   const { chapters, formId, ombInfo, title } = form;
+  const { rootUrl, trackingPrefix } = options;
   const subTitle = `VA Form ${formId}`;
 
   return {
-    // rootUrl: `${rootUrl}/${formId}`,
-    // urlPrefix: `/${formId}/`,
+    rootUrl,
     urlPrefix: '/',
-    // trackingPrefix: `${formId}-`,
+    trackingPrefix,
     // eslint-disable-next-line no-console
     submit: () => console.log(`Submitted ${subTitle}`),
     introduction: props => <IntroductionPage {...props} ombInfo={ombInfo} />,
