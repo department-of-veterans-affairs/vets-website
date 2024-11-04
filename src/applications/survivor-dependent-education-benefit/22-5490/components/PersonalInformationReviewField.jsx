@@ -29,18 +29,18 @@ const PersonalInformationReviewField = ({
   userFullName,
 }) => {
   const formattedDateOfBirth = formatDateString(dateOfBirth);
-
   return (
     <>
       <div className="form-review-panel-page">
-        <button
-          aria-label={`Edit ${title}`}
-          className="edit-btn primary-outline"
-          onClick={editPage}
-          type="button"
-        >
-          Edit
-        </button>
+        <div className="form-review-panel-page-header-row">
+          <va-button
+            aria-label={`Edit ${title}`}
+            secondary
+            text="Edit"
+            onClick={editPage}
+          />
+        </div>
+
         <dl className="review">
           <div className="review-row">
             <p className="va-address-block">
