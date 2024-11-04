@@ -271,7 +271,7 @@ export function TravelReimbursement({
     body = (
       <>
         <p className="vads-u-margin-y--0p5">
-          You’ve already filed a claim for this appointment.
+          You've already filed a claim for this facility and date.
         </p>
         <p className="vads-u-margin-y--0p5">
           <va-link
