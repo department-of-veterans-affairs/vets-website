@@ -17,16 +17,24 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
-  // Determine the active flow
-  const isApplicantFlow = formConfig.flow === 'applicant'; // or use a similar condition
+  console.log(transformedData.application.applicant.mailingAddress);
 
-  // Remove duplicate data based on the active flow
+  const isApplicantFlow = formConfig.flow === 'applicant';
+
   if (isApplicantFlow) {
-    // In applicant flow, remove unnecessary claimant data
-    delete transformedData.application.claimant;
+    // In applicant flow, remove only the specific claimant data from prefillTransformer
+    if (transformedData.application.claimant) {
+      delete transformedData.application.claimant.name;
+      delete transformedData.application.claimant.address;
+      delete transformedData.application.claimant.ssn;
+      delete transformedData.application.claimant.dateOfBirth;
+    }
   } else {
-    // In claimant flow, remove unnecessary applicant data
-    delete transformedData.application.applicant;
+    // In claimant (veteran) flow, remove only the specific applicant data from prefillTransformer
+    if (transformedData.application.applicant) {
+      delete transformedData.application.applicant.name;
+      delete transformedData.application.applicant.mailingAddress; //HERE
+    }
   }
 
   return JSON.stringify(
