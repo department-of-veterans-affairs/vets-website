@@ -48,7 +48,7 @@ describe('<FormRenderer /> component', () => {
     expect(getByText(/Loading.*some-form-id/)).to.exist;
   });
 
-  it('does not renders an error if formConfig is set', async () => {
+  it('does not render an error if formConfig is set', async () => {
     const store = mockStore({
       formLoad: {
         isLoading: false,
@@ -63,11 +63,14 @@ describe('<FormRenderer /> component', () => {
     store.injectReducer = () => {};
 
     // mock getRoutesFromFormConfig
-    sinon.stub(routes, 'getRoutesFromFormConfig').returns({});
+    sinon.stub(routes, 'getRoutesFromFormConfig').returns({
+      path: `/`,
+      component: () => <div>Test Component</div>,
+    });
 
-    const { queryByText } = renderApp(store, 'some-form-id');
+    const { getByText } = renderApp(store, 'some-form-id');
     await waitFor(() => {
-      expect(queryByText(/Error.*/)).not.to.exist;
+      expect(getByText(/Test Component/)).to.exist;
     });
   });
 });
