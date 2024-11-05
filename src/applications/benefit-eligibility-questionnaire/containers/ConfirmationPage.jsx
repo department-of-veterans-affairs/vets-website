@@ -103,8 +103,8 @@ export class ConfirmationPage extends React.Component {
         Showing {this.state.resultsCount} {resultsText}, filtered to show{' '}
         <b>{this.state.filterValue} results</b>, sorted{' '}
         {this.state.sortValue === 'alphabetical'
-          ? 'alphabetically'
-          : `by ${this.state.sortValue}`}
+          ? 'alphabetically by benefit name'
+          : `alphabetically by benefit ${this.state.sortValue}`}
       </>
     );
   }
@@ -157,14 +157,8 @@ export class ConfirmationPage extends React.Component {
 
   handleFilterSelect = e => {
     const key = e.target.value;
-    const filterStrings = {
-      All: 'All',
-      Education: 'Education',
-      Careers: 'Careers & Employment',
-      Support: 'More Support',
-    };
 
-    this.setState(() => ({ filterValue: filterStrings[key] }));
+    this.setState(() => ({ filterValue: key }));
   };
 
   filterBenefits = sortingCallback => {
