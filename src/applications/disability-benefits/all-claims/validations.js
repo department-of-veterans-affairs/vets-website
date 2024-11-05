@@ -482,46 +482,26 @@ export const validateDisabilityName = (
  * @param {Object} err - Errors object from rjsf, which includes an addError method
  * @param {Object} fieldData - The data associated with the current schema. Disability name.
  * @param {Object} formData - Full formData for the form
- * @param {Object} _schema - Schema for the form
- * @param {Object} _uiSchema - The UI Schema object
- * @param {number} _index - If using an array, includes the index of the page
- * @param {Object} _appStateData - Data from appStateSelector
  */
-export const validateConditionName = (
-  err,
-  fieldData = '',
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  _appStateData,
-) => {
-  if (
-    !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
-    fieldData.length > 255
-  ) {
+export const validateConditionName = (err, fieldData = '', formData = {}) => {
+  if (fieldData.length > 255) {
     err.addError('This needs to be less than 256 characters');
   }
 
-  if (
-    !fieldData ||
-    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase()
-  ) {
+  if (!fieldData || fieldData === NULL_CONDITION_STRING) {
     err.addError(missingConditionMessage);
   }
 
-  // Alert Veteran to duplicates
   const currentList =
     formData?.newConditions?.map(condition =>
       condition.condition?.toLowerCase(),
     ) || [];
-  // look for full text duplicates
   const itemLowerCased = fieldData?.toLowerCase() || '';
-  // look for duplicates that may occur from stripping out
   const itemSippableId = sippableId(fieldData || '');
   const itemCount = currentList.filter(
     item => item === itemLowerCased || sippableId(item) === itemSippableId,
   );
+
   if (itemCount.length > 1) {
     err.addError('You’ve already added this condition to your claim');
   }

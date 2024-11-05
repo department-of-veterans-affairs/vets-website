@@ -1,5 +1,7 @@
 import React from 'react';
+import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -16,11 +18,20 @@ import {
 
 import Autocomplete from '../components/Autocomplete';
 import {
+  conditionObjects,
+  conditionOptions,
+} from '../content/conditionOptions';
+import {
   AddConditionInstructions,
   ServiceConnectedDisabilityDescription,
 } from '../content/newConditions';
-import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import { missingConditionMessage, validateConditionName } from '../validations';
+
+const sideOfBodyOptions = {
+  LEFT: 'Left',
+  RIGHT: 'Right',
+  BILATERAL: 'Bilateral (both sides)',
+};
 
 const causeOptions = {
   NEW:
@@ -77,6 +88,24 @@ const causeFollowUpChecks = {
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
 };
 
+const createItemName = item => {
+  const condition = capitalizeFirstLetter(item?.condition);
+
+  if (item?.sideOfBody) {
+    return `${condition}, ${item?.sideOfBody.toLowerCase()}`;
+  }
+
+  return condition;
+};
+
+const hasSideOfBody = formData => {
+  const conditionObject = conditionObjects.find(
+    condition => condition.option === formData.condition,
+  );
+
+  return conditionObject ? conditionObject.sideOfBody : false;
+};
+
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
   arrayPath: 'newConditions',
@@ -90,7 +119,7 @@ const arrayBuilderOptions = {
     (causeFollowUpChecks[item.cause] && causeFollowUpChecks[item.cause](item)),
   maxItems: 100,
   text: {
-    getItemName: item => capitalizeFirstLetter(item?.condition),
+    getItemName: item => createItemName(item),
     cardDescription: item =>
       createCauseDescriptions(item?.causedByCondition)[(item?.cause)],
   },
@@ -122,7 +151,7 @@ const addConditionPage = {
       'ui:title': 'Enter your condition',
       'ui:field': data => (
         <Autocomplete
-          availableResults={Object.values(disabilityLabelsRevised)}
+          availableResults={conditionOptions}
           debounceDelay={200}
           id={data.idSchema.$id}
           formData={data.formData}
@@ -154,6 +183,25 @@ const addConditionPage = {
 };
 
 /** @returns {PageSchema} */
+const sideOfBodyPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `Where is your ${formData.condition || 'condition'}?`,
+    ),
+    sideOfBody: radioUI({
+      title: 'Side of body',
+      labels: sideOfBodyOptions,
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      sideOfBody: radioSchema(Object.keys(sideOfBodyOptions)),
+    },
+  },
+};
+
+/** @returns {PageSchema} */
 const datePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -162,7 +210,7 @@ const datePage = {
     date: textUI({
       title:
         'What is the approximate date this condition began? If you’re having trouble remembering the exact date you can provide a year.',
-      hint: 'For example: January 2000 or simply 2000',
+      hint: 'For example: January 2004 or 2004',
       charcount: true,
     }),
   },
@@ -280,7 +328,7 @@ const causeFollowUpPage = {
         type: 'string',
         maxLength: 400,
       },
-      causedByCondition: selectSchema(Object.values(disabilityLabelsRevised)),
+      causedByCondition: selectSchema(conditionOptions),
       causedByConditionDescription: {
         type: 'string',
         maxLength: 400,
@@ -332,7 +380,7 @@ const summaryPage = {
 
 const newConditionsPages = arrayBuilderPages(
   arrayBuilderOptions,
-  pageBuilder => ({
+  (pageBuilder, helpers) => ({
     newConditionsIntro: pageBuilder.introPage({
       title: 'New conditions intro',
       path: 'new-conditions-intro',
@@ -353,6 +401,22 @@ const newConditionsPages = arrayBuilderPages(
       depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: addConditionPage.uiSchema,
       schema: addConditionPage.schema,
+      onNavForward: props => {
+        const { formData, pathname, urlParams, goPath } = props;
+        const index = getArrayIndexFromPathName(pathname);
+        const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+        return hasSideOfBody(formData)
+          ? helpers.navForwardKeepUrlParams(props)
+          : goPath(`new-conditions/${index}/date${urlParamsString}`);
+      },
+    }),
+    newConditionsSideOfBody: pageBuilder.itemPage({
+      title: 'Side of body of new condition',
+      path: 'new-conditions/:index/side-of-body',
+      depends: formData => formData['view:showAddDisabilitiesEnhancement'],
+      uiSchema: sideOfBodyPage.uiSchema,
+      schema: sideOfBodyPage.schema,
     }),
     newConditionsDate: pageBuilder.itemPage({
       title: 'Date of new condition',
