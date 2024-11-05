@@ -351,9 +351,9 @@ const ContactInfo = ({
           <h3 className="vads-u-margin-top--0">
             We’ve prefilled some of your information
           </h3>
-          If you need to make changes, you can click edit below. You can choose
-          later if you also want to save this information to your VA.gov
-          profile.
+          If you need to make changes, you can select edit on this screen. You
+          can choose later if you also want to save this information to your
+          VA.gov profile.
         </va-alert>
       ) : null}
       <div className="vads-u-margin-y--2">
