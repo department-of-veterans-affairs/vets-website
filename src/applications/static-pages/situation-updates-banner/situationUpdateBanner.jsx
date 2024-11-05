@@ -15,9 +15,7 @@ export default function SituationUpdateBanner({
       headline={headline}
       show-close={showClose}
     >
-      <div slot="content">
-        <span>{content}</span>
-      </div>
+      <p>{content}</p>
     </va-banner>
   );
 }
