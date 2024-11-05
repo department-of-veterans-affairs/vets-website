@@ -46,10 +46,13 @@ const BenefitApplications = ({
     const handleAnchorLink = () => {
       if (document.location.hash === '#benefit-applications') {
         const elt = sectionRef.current;
-        elt?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        const offset = 150;
-        window.scrollBy(0, -offset);
-        elt.focus();
+        const sectionPosition =
+          elt?.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: sectionPosition,
+          behavior: 'smooth',
+        });
+        elt?.focus();
       }
     };
 
