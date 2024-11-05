@@ -61,10 +61,6 @@ export const getContent = (appName = 'application') => ({
         This is the contact information we have on file for you. We’ll send any
         updates or information about your {appName} to this address.
       </p>
-      <p>
-        <strong>Note:</strong> Any updates you make here will only be reflected
-        in this form.
-      </p>
     </>
   ),
 
