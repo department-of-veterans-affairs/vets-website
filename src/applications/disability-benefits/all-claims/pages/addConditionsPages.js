@@ -19,11 +19,10 @@ import {
 import Autocomplete from '../components/Autocomplete';
 import {
   ConditionInstructions,
-  DuplicateAlert,
   ServiceConnectedDisabilityDescription,
 } from '../content/addConditions';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
-import { missingConditionMessage } from '../validations';
+import { missingConditionMessage, validateConditionName } from '../validations';
 
 const causeOptions = {
   NEW:
@@ -101,20 +100,6 @@ const introPage = {
   },
 };
 
-const isDuplicate = formData => {
-  const { newConditions } = formData;
-
-  if (!newConditions || newConditions.length < 2) {
-    return false;
-  }
-
-  const conditionNames = newConditions.map(condition =>
-    condition.condition?.toLowerCase().trim(),
-  );
-
-  return new Set(conditionNames).size !== conditionNames.length;
-};
-
 /** @returns {PageSchema} */
 const addConditionPage = {
   uiSchema: {
@@ -137,12 +122,9 @@ const addConditionPage = {
       'ui:errorMessages': {
         required: missingConditionMessage,
       },
-      // 'ui:validations': [validateDisabilityName], // This is a better solution for the duplicate validation but appStateData is undefined
-    },
-    'view:duplicateAlert': {
-      'ui:description': DuplicateAlert,
+      'ui:validations': [validateConditionName],
       'ui:options': {
-        hideIf: formData => !isDuplicate(formData),
+        useAllFormData: true,
       },
     },
   },
