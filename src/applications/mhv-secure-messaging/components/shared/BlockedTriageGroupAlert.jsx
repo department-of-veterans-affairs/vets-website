@@ -224,6 +224,8 @@ const BlockedTriageGroupAlert = props => {
       status="warning"
       trigger={alertTitleText}
       data-testid="blocked-triage-group-alert"
+      data-dd-privacy="mask"
+      data-dd-action-name="Blocked Triage Group Alert Expandable"
     >
       <div className="vads-u-padding-left--4 vads-u-padding-bottom--1">
         <p className="vads-u-margin-bottom--1p5">{alertInfoText}</p>
@@ -233,7 +235,12 @@ const BlockedTriageGroupAlert = props => {
           blockedTriageList?.length > 1 && (
             <ul>
               {blockedTriageList?.map((blockedTriageGroup, i) => (
-                <li data-testid="blocked-triage-group" key={i}>
+                <li
+                  data-testid="blocked-triage-group"
+                  key={i}
+                  data-dd-privacy="mask"
+                  data-dd-action-name="Blocked Triage Group Name"
+                >
                   {`${
                     blockedTriageGroup.type === Recipients.FACILITY
                       ? 'Care teams at '
@@ -253,7 +260,12 @@ const BlockedTriageGroupAlert = props => {
       visible
       data-testid="blocked-triage-group-alert"
     >
-      <h2 slot="headline">{alertTitleText}</h2>
+      <h2
+        slot="headline"
+        data-dd-action-name="Blocked Triage Group Alert Header"
+      >
+        {alertTitleText}
+      </h2>
       <div>
         <p className="vads-u-margin-bottom--1p5">{alertInfoText}</p>
         <a href="/find-locations/">Find your VA health facility</a>
