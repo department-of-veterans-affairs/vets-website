@@ -12,19 +12,20 @@ export const RouteLeavingGuard = ({
   title,
   p1,
   p2,
+  setIsModalVisible,
   confirmButtonText,
   cancelButtonText,
   saveDraftHandler,
-  setSavedDraft,
-  setSaveError,
-  removeModal,
+  savedDraft,
+  saveError,
+  setSetErrorModal,
 }) => {
   const [lastLocation, updateLastLocation] = useState();
   const [confirmedNavigation, updateConfirmedNavigation] = useState(false);
   const [modalVisible, updateModalVisible] = useState(false);
 
   const showModal = location => {
-    removeModal(true);
+    setIsModalVisible(true);
     updateModalVisible(true);
     updateLastLocation(location);
   };
@@ -44,8 +45,9 @@ export const RouteLeavingGuard = ({
   };
   const handleConfirmNavigationClick = () => {
     if (
-      cancelButtonText ===
-      ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.cancelButtonText
+      confirmButtonText ===
+      ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+        .confirmButtonText
     ) {
       saveDraftHandler('manual');
     }
@@ -57,10 +59,9 @@ export const RouteLeavingGuard = ({
   };
 
   const handleCancelNavigationClick = e => {
-    removeModal(false);
+    setIsModalVisible(false);
     updateModalVisible(false);
-    setSavedDraft(false);
-    setSaveError(null);
+    setSetErrorModal(false);
 
     const isCancelButtonTextMatching =
       cancelButtonText ===
@@ -83,6 +84,15 @@ export const RouteLeavingGuard = ({
     [confirmedNavigation],
   );
 
+  useEffect(
+    () => {
+      if (savedDraft && !!saveError) {
+        updateModalVisible(true);
+      }
+    },
+    [saveError, savedDraft],
+  );
+
   return (
     <>
       <Prompt when={when} message={handleBlockedNavigation} />
@@ -99,7 +109,7 @@ export const RouteLeavingGuard = ({
         <p>
           {cancelButtonText !==
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-              .cancelButtonText && p1}
+              .confirmButtonText && p1}
         </p>
         {p2 && <p>{p2}</p>}
         <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
@@ -130,8 +140,10 @@ RouteLeavingGuard.propTypes = {
   p1: PropTypes.string,
   p2: PropTypes.any,
   saveDraftHandler: PropTypes.func,
-  setSaveError: PropTypes.func,
-  setSavedDraft: PropTypes.func,
+  saveError: PropTypes.bool,
+  savedDraft: PropTypes.func,
+  setIsModalVisible: PropTypes.func,
+  setSetErrorModal: PropTypes.func,
   shouldBlockNavigation: PropTypes.func,
   title: PropTypes.string,
   updateModalVisible: PropTypes.func,

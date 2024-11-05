@@ -735,22 +735,27 @@ const ComposeForm = props => {
 
       <form className="compose-form" id="sm-compose-form">
         <RouteLeavingGuard
-          when={!!navigationError}
+          when={!!navigationError || !!saveError}
           navigate={path => {
             history.push(path);
           }}
           shouldBlockNavigation={() => {
             return !!navigationError;
           }}
-          title={navigationError?.title}
-          p1={navigationError?.p1}
-          p2={navigationError?.p2}
-          confirmButtonText={navigationError?.confirmButtonText}
-          cancelButtonText={navigationError?.cancelButtonText}
+          title={navigationError?.title || saveError?.title}
+          p1={navigationError?.p1 || saveError?.p1}
+          p2={navigationError?.p2 || saveError?.p2}
+          confirmButtonText={
+            navigationError?.confirmButtonText || saveError?.confirmButtonText
+          }
+          cancelButtonText={
+            navigationError?.cancelButtonText || saveError?.cancelButtonText
+          }
           saveDraftHandler={saveDraftHandler}
-          setSavedDraft={setSavedDraft}
-          setSaveError={setSaveError}
-          removeModal={updateModalVisible}
+          savedDraft={savedDraft}
+          saveError={!!saveError}
+          setSetErrorModal={setSavedDraft}
+          setIsModalVisible={updateModalVisible}
         />
         <div>
           {!noAssociations &&
