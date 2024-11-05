@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
+import FacilityAddress from '../../../components/FacilityAddress';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import {
   routeToNextAppointmentPage,
@@ -18,6 +19,7 @@ import {
   selectEligibility,
 } from '../../redux/selectors';
 import useClinicFormState from './useClinicFormState';
+import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
 import { getPageTitle } from '../../newAppointmentFlow';
 
 function formatTypeOfCare(careLabel) {
@@ -40,11 +42,19 @@ export default function ClinicChoicePage() {
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
   const eligibility = useSelector(selectEligibility);
 
-  const { data, schema, uiSchema, setData } = useClinicFormState(pageTitle);
+  const {
+    data,
+    schema,
+    uiSchema,
+    setData,
+    firstMatchingClinic,
+  } = useClinicFormState(pageTitle);
 
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
   const usingUnsupportedRequestFlow =
     data.clinicId === 'NONE' && !eligibility?.request;
+  const usingPastClinics =
+    typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
 
   useEffect(() => {
     scrollAndFocus();
@@ -54,6 +64,25 @@ export default function ClinicChoicePage() {
 
   return (
     <div className="vaos-form__radio-field">
+      {schema.properties.clinicId.enum.length === 2 && (
+        <>
+          <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+          {usingPastClinics && (
+            <>Your last {typeOfCareLabel} appointment was at </>
+          )}
+          {!usingPastClinics && (
+            <>{typeOfCare.name} appointments are available at </>
+          )}
+          {firstMatchingClinic.serviceName}:
+          <div className="vads-u-margin-top--2">
+            <FacilityAddress
+              name={facility.name}
+              facility={facility}
+              level={2}
+            />
+          </div>
+        </>
+      )}
       <SchemaForm
         name="Clinic choice"
         title="Clinic choice"
