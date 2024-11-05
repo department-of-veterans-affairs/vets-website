@@ -1,3 +1,5 @@
+import content from '../../locales/en/content.json';
+import { replaceStrValues } from './general';
 /**
  * Helper to get the item name for the emergency contact.
  * @param {Object} item - The emergency contact item containing fullName.
@@ -21,13 +23,13 @@ export const getCardDescription = item => `${item?.primaryPhone || ''}`;
  * Helper to generate the delete title text for the modal.
  * @returns {String} - Returns the delete confirmation title for the emergency contact.
  */
-export const getDeleteTitle = () => 'Delete this emergency contact?';
+export const getDeleteTitle = () => content['emergency-contact-delete-title'];
 
 /**
  * Helper to generate the confirmation text for deleting the emergency contact.
  * @returns {String} - Returns the delete confirmation text for the emergency contact.
  */
-export const getDeleteYes = () => 'Yes, delete this emergency contact';
+export const getDeleteYes = () => content['emergency-contact-delete-yes'];
 
 /**
  * Helper to generate the delete description text.
@@ -35,10 +37,17 @@ export const getDeleteYes = () => 'Yes, delete this emergency contact';
  * @returns {String} - Returns the delete description, including the first and last name or a fallback if the names are missing.
  */
 export const getDeleteDescription = item => {
-  if (item && item.fullName && item.fullName.first && item.fullName.last) {
-    return `This will delete ${item.fullName.first} ${
-      item.fullName.last
-    } and all the information from your list of emergency contacts.`;
+  const firstName = item?.itemData?.fullName?.first;
+  const lastName = item?.itemData?.fullName?.last;
+
+  if (firstName && lastName) {
+    const fullName = `${firstName} ${lastName}`;
+    return replaceStrValues(
+      content['emergency-contact-delete-description'],
+      fullName,
+    );
   }
-  return 'This will delete this contact and all the information from your list of emergency contacts.'; // Fallback if data is missing
+
+  // Fallback if data is missing
+  return content['emergency-contact-delete-description-default'];
 };

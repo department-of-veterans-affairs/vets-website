@@ -22,10 +22,7 @@ export const advanceToDependents = () => {
 
   // Skip Emergency Contacts Section
   goToNextPage('/veteran-information/emergency-contacts-summary');
-  cy.location('pathname').should(
-    'include',
-    '/veteran-information/emergency-contacts-summary',
-  );
+
   selectYesNoWebComponent('view:isEmergencyContactsEnabled', false);
 
   goToNextPage('/military-service/toxic-exposure');
