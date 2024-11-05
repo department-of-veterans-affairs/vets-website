@@ -1543,5 +1543,10 @@
     "src": "/ROCHEYENNE",
     "dest": "/cheyenne-va-regional-benefit-office/",
     "catchAll": true
+  },
+  {
+    "domain": "www.visn21.va.gov",
+    "src": "/locations/manila.asp",
+    "dest": "/manila-va-clinic/"
   }
 ]
