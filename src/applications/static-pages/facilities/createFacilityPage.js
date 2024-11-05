@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { fetchFacility } from './actions';
 import widgetTypes from '../widgetTypes';
-// CREATE A SIMILAR VERSION FOR BANNER
+
 export default async function createFacilityPage(store) {
   let facilityID = '';
   const detailWidget = document.querySelector(

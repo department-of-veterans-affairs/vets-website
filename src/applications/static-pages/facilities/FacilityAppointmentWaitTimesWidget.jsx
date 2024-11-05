@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import FacilityApiAlert from './FacilityApiAlert';
 import FacilityDataLink from './FacilityDataLink';
-// CREATE SIMILAR FOR BANNER
+
 export class FacilityAppointmentWaitTimesWidget extends React.Component {
   appointmentWaitTime(waitTime, service, established = false) {
     return (
