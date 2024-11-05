@@ -47,7 +47,7 @@ describe('AccountSwitch', () => {
       <Provider store={mockStore}>
         <AccountSwitch
           userEmails={{
-            logingov: 'logingov@example.com',
+            logingov: 'logi@example.com',
             idme: 'idme@example.com',
           }}
         />
