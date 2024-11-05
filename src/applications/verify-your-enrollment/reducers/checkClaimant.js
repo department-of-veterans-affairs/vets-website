@@ -2,6 +2,7 @@ import {
   CHECK_CLAIMANT_START,
   CHECK_CLAIMANT_SUCCESS,
   CHECK_CLAIMANT_FAIL,
+  CHECK_CLAIMANT_END,
 } from '../actions';
 
 const initialState = {
@@ -31,6 +32,11 @@ const claimantIdReducer = (state = initialState, action) => {
         isLoading: false,
         error: action.errors,
         profile: action.profile,
+      };
+    case CHECK_CLAIMANT_END:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

@@ -52,7 +52,7 @@ export const useData = () => {
   return {
     personalInfo: response?.personalInfo,
     errorMessage: response,
-    loading: response?.isLoading,
+    loading: response?.isLoading || claimantIdResponse?.isLoading,
     expirationDate,
     updated,
     indicator: userInfo?.indicator || chapter,

@@ -36,7 +36,7 @@ export const SET_SUGGESTED_ADDRESS_PICKED = 'SET_SUGGESTED_ADDRESS_PICKED';
 export const CHECK_CLAIMANT_START = 'CHECK_CLAIMANT_START';
 export const CHECK_CLAIMANT_SUCCESS = 'CHECK_CLAIMANT_SUCCESS';
 export const CHECK_CLAIMANT_FAIL = 'CHECK_CLAIMANT_FAIL';
-
+export const CHECK_CLAIMANT_END = 'CHECK_CLAIMANT_END';
 export const handleSuggestedAddressPicked = value => ({
   type: SET_SUGGESTED_ADDRESS_PICKED,
   payload: value,
@@ -72,16 +72,20 @@ export const updateVerifications = verifications => ({
 export const fetchClaimantId = () => {
   return async dispatch => {
     dispatch({ type: CHECK_CLAIMANT_START });
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Request timed out')), 5000),
+    );
+
     try {
-      const response = await apiRequest(
-        `${API_URL}/dgib_verifications/claimant_lookup`,
-        {
+      const response = await Promise.race([
+        apiRequest(`${API_URL}/dgib_verifications/claimant_lookup`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-        },
-      );
+        }),
+        timeoutPromise,
+      ]);
       dispatch({
         type: CHECK_CLAIMANT_SUCCESS,
         claimantId: response.claimantId,
@@ -89,8 +93,10 @@ export const fetchClaimantId = () => {
     } catch (errors) {
       dispatch({
         type: CHECK_CLAIMANT_FAIL,
-        errors,
+        errors: errors.message || errors,
       });
+    } finally {
+      dispatch({ type: CHECK_CLAIMANT_END });
     }
   };
 };

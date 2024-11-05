@@ -1242,7 +1242,7 @@ export const groupVerificationsByMonth = verifications => {
 
 export const toSnakeCase = obj => {
   return Object.keys(obj).reduce((acc, key) => {
-    const snakeKey = key.replace(/[A-Z]/g, '_$1').toLocaleLowerCase();
+    const snakeKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
     acc[snakeKey] = obj[key];
     return acc;
   }, {});
