@@ -5,7 +5,6 @@ function AddingDetails() {
     <va-alert
       class="vads-u-margin-bottom--1"
       close-btn-aria-label="Close notification"
-      disable-analytics="false"
       full-width="false"
       slim
       status="info"
