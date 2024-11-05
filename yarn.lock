@@ -2876,13 +2876,13 @@
     "@uswds/uswds" "^3.8.1"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/css-library@^0.13.1-rc1":
-  version "0.13.1-rc1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.13.1-rc1.tgz#3277b2df6226ed8e1f0a562c01269de62946526d"
-  integrity sha512-jgkgdOP3t6htLuMJ37gBcauf2saH/SYC9/+BTS/cMB2bLLRXnGHZq5yyTwK9gGTOW9bokn/fpPteEw4qL5j5/g==
+"@department-of-veterans-affairs/css-library@^0.13.1-rc2":
+  version "0.13.1-rc2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.13.1-rc2.tgz#7c531f7b3e0caa7110b41d5da0b4ded63107527c"
+  integrity sha512-XAIW3xNjpO5VOLkgJRUjbz0YK2L9qWHY6YXXq/laxWK9S0pj2AiAKMAZLQ/kO2zGu609xSvKtheocXegqDyCqQ==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
-    "@uswds/uswds" "^3.8.1"
+    "@uswds/uswds" "^3.9.0"
     rimraf "^5.0.5"
 
 "@department-of-veterans-affairs/eslint-plugin@^1.18.2":
@@ -4843,6 +4843,15 @@
   version "3.8.2"
   resolved "https://registry.npmjs.org/@uswds/uswds/-/uswds-3.8.2.tgz#230668293c33f6866995ba9d03d6f42aba251336"
   integrity sha512-8sTx/GqlbTwSIK+0AFOGrYdaW1rKVB7Bp0+v9AMVt3I5vPK7CL0+I6vlclSf3U7ysJZeTTdkNS8q89sIAeL+AA==
+  dependencies:
+    object-assign "4.1.1"
+    receptor "1.0.0"
+    resolve-id-refs "0.1.0"
+
+"@uswds/uswds@^3.9.0":
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/@uswds/uswds/-/uswds-3.9.0.tgz#e98b52995a001ff091a9c61baeb487064c98bc6a"
+  integrity sha512-8THm36j7iLjrDiI1D0C6b3hHsmM/Sy5Iiz+IjE+i/gYzVUMG9XVthxAZYonhU97Q1b079n6nYwlUmDSYowJecQ==
   dependencies:
     object-assign "4.1.1"
     receptor "1.0.0"
