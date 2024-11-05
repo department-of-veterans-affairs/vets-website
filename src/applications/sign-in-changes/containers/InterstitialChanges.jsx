@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/exports';
 import CreateAccount from '../components/CreateAccount';
 import AccountSwitch from '../components/AccountSwitch';
 
 export default function InterstitialChanges() {
-  // ***PLACE BACKEND CALL TO NEW ROUTE HERE***
-  // backend call will return JSON payload containing stored user emails for modern creds.
-  // mocked payload below
-  const mockedUserEmails = {
-    idme: 'idme@test.com',
-    logingov: 'logingov@test.com',
-  };
+  const [userEmails, setUserEmails] = useState({});
 
-  const showAccount = mockedUserEmails?.logingov || mockedUserEmails?.idme;
+  useEffect(() => {
+    apiRequest('/sign-in-changes-reminder', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setUserEmails(data.user?.credential_type?.email || {});
+      })
+      .catch(() => {});
+  }, []);
+
+  const showAccount = userEmails?.logingov || userEmails?.idme;
   const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/';
   return (
     <div className="row vads-u-margin-y--6 vads-u-padding-x--2 login">
@@ -29,13 +38,13 @@ export default function InterstitialChanges() {
         <strong>ID.me</strong> account.
       </p>
       {showAccount ? (
-        <AccountSwitch userEmails={mockedUserEmails} />
+        <AccountSwitch userEmails={userEmails} />
       ) : (
         <CreateAccount />
       )}
       <h2>Or continue using your old account</h2>
       <p className="vads-u-font-size--base">
-        You’ll can use you <strong>My HealtheVet</strong> account to sign in
+        You’ll can use your <strong>My HealtheVet</strong> account to sign in
         until <strong>January 31, 2025</strong>.
       </p>
       <VaLink
