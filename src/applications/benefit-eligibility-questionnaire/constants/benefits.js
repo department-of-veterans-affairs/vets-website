@@ -749,4 +749,54 @@ export const BENEFITS_LIST = [
     learnMoreURL: 'https://www.va.gov/burials-memorials/eligibility/',
     applyNowURL: 'https://www.va.gov/burials-memorials/pre-need-eligibility/',
   },
+  {
+    name: 'Transfer your GI Bill benefits',
+    category: categories.EDUCATION,
+    id: 'TGI',
+    description:
+      'If you’re a spouse or dependent child of a Veteran or service member, you may be eligible to use transferred education benefits for your classes and training. Learn more about these benefits and how to apply.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL:
+      'https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/',
+    applyNowURL: '',
+  },
+  {
+    name: 'Apply for a discharge upgrade',
+    category: categories.MORE_SUPPORT,
+    id: 'DCU',
+    description:
+      'Click the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [anyType.ANY],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.DISHONORABLE,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://www.va.gov/discharge-upgrade-instructions/',
+    applyNowURL: '',
+  },
 ];
