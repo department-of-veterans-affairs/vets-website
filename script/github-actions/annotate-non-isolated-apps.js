@@ -32,7 +32,6 @@ if (APPS_NOT_ISOLATED.length > 0) {
     };
   });
 
-  console.log(annotationsJson);
   core.exportVariable(
     `ISOLATION_ANNOTATIONS_JSON`,
     JSON.stringify(annotationsJson),
