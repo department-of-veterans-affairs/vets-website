@@ -14,7 +14,6 @@ import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 import {
   claimAvailable,
   isClaimOpen,
-  setPageFocus,
   setTabDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab } from '../utils/page';
@@ -28,11 +27,6 @@ class FilesPage extends React.Component {
     const { claim } = this.props;
     // Only set the document title at mount-time if the claim is already available.
     if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
-
-    setTimeout(() => {
-      const { lastPage, loading } = this.props;
-      setPageFocus(lastPage, loading);
-    }, 100);
   }
 
   componentDidUpdate(prevProps) {
