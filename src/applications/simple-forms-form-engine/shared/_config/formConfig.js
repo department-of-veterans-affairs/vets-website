@@ -1,7 +1,6 @@
 /**
- * This file - in its current form - is temporary. We want to temporarily define
- * two `formConfig` objects that can be dynamically chosen based on the url.
- * Eventually, the `formConfig` object that drives the application will
+ * This file defines form objects that help build and test the Form Renderer.
+ * In a real use-case scenario, the `formConfig` object will
  * be calculated after fetching configuration from Drupal.
  *
  * As such, we purposely do not name this file `form.js` so as to bypass
@@ -9,7 +8,31 @@
  * in `src/applications`.
  */
 
-// import fullSchema from 'vets-json-schema/dist/-schema.json';
+// Here is an example of conditional pages:
+//
+// import { dependsOn } from '../utils/conditional';
+// chapters: {
+//   chapter1: {
+//     title: 'Chapter 1',
+//     pages: {
+//       page1: {
+//         depends: dependsOn({
+//           operator: 'or',
+//           conditions: [
+//             {
+//               field: 'isEligible1',
+//               value: true,
+//             },
+//             {
+//               field: 'isEligible2',
+//               value: true,
+//             },
+//           ],
+//         }),
+//       },
+//     },
+//   },
+// },
 
 // This is a sample of the data structure produced by content-build.
 export const normalizedForm = {
@@ -23,31 +46,19 @@ export const normalizedForm = {
   },
   chapters: [
     {
-      id: 158253,
-      chapterTitle: 'First Step',
-      type: 'digital_form_name_and_date_of_bi',
-      pageTitle: 'Name and Date of Birth',
-      additionalFields: {
-        includeDateOfBirth: true,
-      },
-    },
-    {
-      id: 158254,
-      chapterTitle: 'Second Step',
-      type: 'digital_form_name_and_date_of_bi',
-      pageTitle: 'Name and Date of Birth',
-      additionalFields: {
-        includeDateOfBirth: false,
-      },
-    },
-    {
-      id: 160592,
-      chapterTitle: 'Generated Identification Information',
-      type: 'digital_form_identification_info',
-      pageTitle: 'Identification Information',
-      additionalFields: {
-        includeServiceNumber: false,
-      },
+      id: 162008,
+      type: 'digital_form_your_personal_info',
+      chapterTitle: 'Your personal information',
+      pages: [
+        {
+          pageTitle: 'Name',
+          includeDateOfBirth: false,
+        },
+        {
+          pageTitle: 'Identification information',
+          includeServiceNumber: false,
+        },
+      ],
     },
     {
       id: 161344,
@@ -86,22 +97,19 @@ export const employmentQuestionnaire = {
   },
   chapters: [
     {
-      id: 20001,
-      chapterTitle: "Veteran's personal information",
-      type: 'digital_form_name_and_date_of_bi',
-      pageTitle: 'Name and Date of Birth',
-      additionalFields: {
-        includeDateOfBirth: true,
-      },
-    },
-    {
-      id: 20002,
-      chapterTitle: 'Identification information',
-      type: 'digital_form_identification_info',
-      pageTitle: 'Identification Information',
-      additionalFields: {
-        includeServiceNumber: true,
-      },
+      id: 162013,
+      type: 'digital_form_your_personal_info',
+      chapterTitle: 'Your personal information',
+      pages: [
+        {
+          pageTitle: 'Name and date of birth',
+          includeDateOfBirth: true,
+        },
+        {
+          pageTitle: 'Identification information',
+          includeServiceNumber: true,
+        },
+      ],
     },
     {
       id: 20003,
