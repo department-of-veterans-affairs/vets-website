@@ -20,7 +20,9 @@ const LabsAndTestsListItem = props => {
 
       <div>
         {/* date */}
-        <div data-dd-privacy="mask">{record.date}</div>
+        <div className="vads-u-margin-bottom--0p5" data-dd-privacy="mask">
+          {record.date}
+        </div>
 
         {/* ordered by */}
         {(record.type === labTypes.CHEM_HEM ||

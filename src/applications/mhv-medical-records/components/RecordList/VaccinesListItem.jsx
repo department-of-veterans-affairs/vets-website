@@ -8,7 +8,7 @@ const VaccinesListItem = props => {
   return (
     <va-card
       background
-      class="record-list-item vads-u-padding-y--2p5 vads-u-margin-bottom--2p5 vads-u-padding-x--3 left-align-print"
+      class="record-list-item vads-u-padding-y--2p5 vads-u-margin-bottom--2p5 vads-u-padding-x--3 left-align-print margin-zero-print"
       data-testid="record-list-item"
     >
       {/* web view header */}
@@ -24,7 +24,7 @@ const VaccinesListItem = props => {
 
       {/* print view header */}
       <h2
-        className="print-only vads-u-margin-y--2"
+        className="print-only vads-u-margin-bottom--1 vads-u-margin-top--0"
         aria-hidden="true"
         data-dd-privacy="mask"
       >

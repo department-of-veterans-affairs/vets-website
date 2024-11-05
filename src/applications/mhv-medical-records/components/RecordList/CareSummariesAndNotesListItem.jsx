@@ -62,7 +62,7 @@ const CareSummariesAndNotesListItem = props => {
       </h2>
 
       {/* fields */}
-      <div data-testid="note-item-date">
+      <div className="vads-u-margin-bottom--0p5" data-testid="note-item-date">
         {isDischargeSummary && dischargeSummaryDateField(record)}
         {!isDischargeSummary && (
           <span className="vads-u-display--inline" data-dd-privacy="mask">
@@ -70,7 +70,9 @@ const CareSummariesAndNotesListItem = props => {
           </span>
         )}
       </div>
-      <div data-dd-privacy="mask">{record.location}</div>
+      <div className="vads-u-margin-bottom--0p5" data-dd-privacy="mask">
+        {record.location}
+      </div>
       <div>
         <span className="vads-u-display--inline">
           {isDischargeSummary ? 'Discharged by ' : 'Written by '}
