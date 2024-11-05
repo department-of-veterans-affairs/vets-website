@@ -19,7 +19,7 @@ const BankruptcyDetails = ({
   const {
     additionalData: { bankruptcy = {} },
     reviewNavigation = false,
-    'view:reviewPageNavigationTogglee': showReviewNavigation,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
 
   const [courtError, setCourtError] = useState(null);
