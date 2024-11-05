@@ -9,13 +9,12 @@ export default function InterstitialChanges() {
   const [userEmails, setUserEmails] = useState({});
 
   useEffect(() => {
-    apiRequest('/sign-in-changes-reminder', {
-      method: 'GET',
+    apiRequest('/user/credential_emails', {
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then(response => response.json())
       .then(data => {
         setUserEmails(data.user?.credential_type?.email || {});
       })
