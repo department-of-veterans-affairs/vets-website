@@ -62,9 +62,6 @@ export const addStudentsOptions = {
     !item?.address?.city ||
     !item?.address?.state ||
     !item?.address?.postalCode ||
-    // (item?.wasMarried === true && !item?.wasMarried) ||
-    // (item?.tuitionIsPaidByGovAgency === true &&
-    //   !item?.tuitionIsPaidByGovAgency) ||
     !item?.schoolInformation?.name ||
     (item?.schoolInformation?.studentIsEnrolledFullTime === true &&
       !item?.schoolInformation?.studentIsEnrolledFullTime) ||
@@ -82,7 +79,7 @@ export const addStudentsOptions = {
     (item?.typeOfProgramOrBenefit &&
       Object.values(item.typeOfProgramOrBenefit).includes(true) &&
       !item?.benefitPaymentDate),
-  maxItems: 7,
+  maxItems: 20,
   text: {
     summaryTitle: 'Review your students',
     getItemName: item =>
@@ -283,6 +280,21 @@ export const studentEducationBenefitsStartDatePage = {
           (editMode && Object.values(editMode).includes(true))
         );
       },
+      'ui:options': {
+        updateSchema: (formData, schema, _uiSchema, index) => {
+          const itemData = formData?.studentInformation?.[index];
+
+          const values = Object.values(itemData?.typeOfProgramOrBenefit || {});
+          const typeOfProgramOrBenefit =
+            values.includes(false) && !values.some(value => value === true);
+
+          if (typeOfProgramOrBenefit) {
+            itemData.benefitPaymentDate = undefined;
+          }
+
+          return schema;
+        },
+      },
     },
   },
   schema: {
@@ -367,6 +379,17 @@ export const studentStoppedAttendingDatePage = {
         ...currentOrPastDateUI(
           'When did the student stop attending school continuously?',
         ),
+        'ui:options': {
+          updateSchema: (formData, schema, _uiSchema, index) => {
+            const itemData = formData?.studentInformation?.[index];
+
+            if (itemData?.schoolInformation?.studentIsEnrolledFullTime) {
+              itemData.schoolInformation.dateFullTimeEnded = undefined;
+            }
+
+            return schema;
+          },
+        },
       },
     },
   },
@@ -467,7 +490,7 @@ export const previousTermQuestionPage = {
       studentDidAttendSchoolLastTerm: yesNoUI({
         title: 'Did the student attend school last term?',
         description: generateHelpText(
-          'This includes any kind type of school or training, including high school.',
+          'This includes any type of school or training, including high school.',
         ),
         required: () => true,
       }),
@@ -493,6 +516,20 @@ export const previousTermDatesPage = {
     ),
     schoolInformation: {
       lastTermSchoolInformation: {
+        'ui:options': {
+          updateSchema: (formData, schema, _uiSchema, index) => {
+            const itemData = formData?.studentInformation?.[index];
+
+            if (
+              itemData?.schoolInformation?.studentDidAttendSchoolLastTerm ===
+              false
+            ) {
+              itemData.schoolInformation.lastTermSchoolInformation = undefined;
+            }
+
+            return schema;
+          },
+        },
         termBegin: {
           ...currentOrPastDateUI('When did the previous school term start?'),
           'ui:required': (formData, index) => {
@@ -565,6 +602,19 @@ export const studentEarningsPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       () => 'Student’s income in the year their current school term began',
     ),
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema, index) => {
+        const itemData = formData?.studentInformation?.[index];
+
+        if (itemData?.claimsOrReceivesPension === false) {
+          itemData.studentEarningsFromSchoolYear = undefined;
+          itemData.studentExpectedEarningsNextYear = undefined;
+          itemData.studentNetworthInformation = undefined;
+        }
+
+        return schema;
+      },
+    },
     studentEarningsFromSchoolYear: {
       earningsFromAllEmployment: numberUI('Earnings from all employment'),
       annualSocialSecurityPayments: numberUI('Annual Social Security'),

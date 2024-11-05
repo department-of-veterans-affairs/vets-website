@@ -35,12 +35,8 @@ const SubHeading = ({
         {text}
       </H>
       {editLink && (
-        <Link
-          to={editLink}
-          className="vads-u-text-decoration--none"
-          text="Edit"
-        >
-          Edit
+        <Link to={editLink} className="vads-u-text-decoration--none">
+          Edit <span className="sr-only">{text?.toLowerCase?.()}</span>
         </Link>
       )}
     </div>
@@ -52,25 +48,22 @@ SubHeading.propTypes = {
   editLink: PropTypes.string,
   id: PropTypes.string,
   level: PropTypes.number,
+  name: PropTypes.string,
 };
 
 const InfoBlock = ({ label, value, placeholder }) => (
   <div className="vads-u-margin-bottom--2">
-    <dl>
-      <dt className="vads-u-font-size--sm vads-u-color--gray-medium">
-        {label}
-      </dt>
-      <dd className="vads-u-margin-left--0">
-        {valueOrPlaceholder(value, placeholder)}
-      </dd>
-    </dl>
+    <dt className="vads-u-font-size--sm vads-u-color--gray-medium">{label}</dt>
+    <dd className="vads-u-margin-left--0">
+      {valueOrPlaceholder(value, placeholder)}
+    </dd>
   </div>
 );
 
 InfoBlock.propTypes = {
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };
 
 export const InfoSection = ({ title, children, titleLevel }) => (

@@ -191,20 +191,16 @@ const formConfig = {
                 ...fullNameUI.first,
                 'ui:validations': [
                   (errors, field) => {
-                    if (!isValidName(field)) {
+                    if (isValidName(field)) {
                       if (field.length === 0) {
                         errors.addError('Please enter your first name');
                       } else if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
-                      } else if (field[0] === ' ' || field[0] === "'") {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                        );
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -213,18 +209,14 @@ const formConfig = {
                 ...fullNameUI.middle,
                 'ui:validations': [
                   (errors, field) => {
-                    if (!isValidName(field)) {
-                      if (field[0] === ' ' || field[0] === "'") {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else if (field.length > 20) {
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                        );
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -233,24 +225,18 @@ const formConfig = {
                 ...fullNameUI.last,
                 'ui:validations': [
                   (errors, field) => {
-                    if (!isValidLastName(field)) {
+                    if (isValidLastName(field)) {
                       if (field.length === 0) {
                         errors.addError('Please enter your last name');
-                      } else if (field.length > 20) {
-                        errors.addError('Must be 20 characters or less');
-                      } else if (
-                        field[0] === ' ' ||
-                        field[0] === "'" ||
-                        field[0] === '-'
-                      ) {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
-                        );
+                      } else if (field.length < 2) {
+                        errors.addError('Must be 2 characters or more');
+                      } else if (field.length > 26) {
+                        errors.addError('Must be 26 characters or less');
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -385,7 +371,7 @@ const formConfig = {
                           className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
-                        Monthly stipened
+                        Monthly stipend
                       </li>
                     </ul>
 

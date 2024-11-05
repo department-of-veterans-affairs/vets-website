@@ -77,6 +77,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       requests: [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
+      fetchClaimStatus: true,
     });
     mockVAOSAppointmentsFetch({
       start: testDates()
@@ -90,6 +91,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       requests: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
+      fetchClaimStatus: true,
     });
 
     // Act
@@ -131,6 +133,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
+      fetchClaimStatus: true,
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -216,6 +219,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
+      fetchClaimStatus: true,
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -264,6 +268,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
+      fetchClaimStatus: true,
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -305,6 +310,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
+      fetchClaimStatus: true,
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -375,6 +381,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
+      fetchClaimStatus: true,
     });
 
     const myInitialState = {
