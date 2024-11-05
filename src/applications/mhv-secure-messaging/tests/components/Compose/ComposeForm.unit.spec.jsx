@@ -372,7 +372,7 @@ describe('Compose form component', () => {
 
     fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
-      modal = screen.queryByTestId('quit-compose-double-dare');
+      modal = screen.queryByTestId('navigation-warning-modal');
       expect(modal).to.exist;
     });
     expect(modal).to.have.attribute(

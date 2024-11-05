@@ -105,6 +105,7 @@ export const RouteLeavingGuard = ({
         status="warning"
         visible={modalVisible}
         data-dd-action-name="Navigation Warning Modal"
+        data-testid="navigation-warning-modal"
       >
         <p>
           {cancelButtonText !==
