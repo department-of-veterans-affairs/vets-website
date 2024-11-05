@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -42,11 +42,14 @@ const BenefitApplications = ({
     [getFormStatuses, isFormSubmissionStatusWork],
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleAnchorLink = () => {
       if (document.location.hash === '#benefit-applications') {
         const elt = sectionRef.current;
         elt?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const offset = 150;
+        window.scrollBy(0, -offset);
+        elt.focus();
       }
     };
 
@@ -58,6 +61,7 @@ const BenefitApplications = ({
       data-testid="dashboard-section-benefit-application-drafts"
       id="benefit-applications"
       ref={sectionRef}
+      tabIndex={-1}
     >
       <h2>
         {isFormSubmissionStatusWork
