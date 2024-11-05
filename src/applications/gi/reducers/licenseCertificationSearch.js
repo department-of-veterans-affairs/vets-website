@@ -11,7 +11,6 @@ export const INITIAL_STATE = {
   fetchingLc: false,
   lcResults: [],
   error: null,
-  hasFetchedOnce: false,
   fetchingLcResult: false,
   hasFetchedResult: false,
   lcResultInfo: {},
@@ -33,7 +32,7 @@ export default function(state = INITIAL_STATE, action) {
         ...newState,
         fetchingLc: false,
         lcResults: action.payload.results,
-        hasFetchedOnce: true,
+        error: false,
       };
     case FETCH_LC_RESULTS_FAILED:
       return {

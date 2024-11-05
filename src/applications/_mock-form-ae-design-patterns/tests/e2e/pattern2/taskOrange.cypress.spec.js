@@ -80,6 +80,10 @@ describe('Prefill pattern - Orange Task', () => {
 
     cy.findByRole('button', { name: /continue/i }).click();
 
+    cy.url().should('contain', '/contact-information');
+
+    cy.findByRole('button', { name: /continue/i }).click();
+
     // check prefilled review page
     cy.url().should('contain', '/review-then-submit');
     cy.findByText('Mailing address').should('exist');
