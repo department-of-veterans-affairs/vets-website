@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SchemaForm, setData } from 'platform/forms-system/exportsFile';
 import { useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import { scrollTo } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 export const MailingAddressEditBase = props => {
   const dispatch = useDispatch();
@@ -30,9 +31,18 @@ export const MailingAddressEditBase = props => {
       goBack();
     },
     onCancel: () => {
-      goBack();
+      goToPath('/2/task-orange/review-then-submit');
     },
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      scrollTo('topScrollElement');
+    }, 250);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <>
       <va-alert status="info" slim class="vads-u-margin-y--3">
@@ -49,6 +59,7 @@ export const MailingAddressEditBase = props => {
         // internally by the SchemaForm component
         name="Contact Info Form"
         title="Contact Info Form"
+        idSchema={{}}
         schema={schema}
         data={data}
         uiSchema={uiSchema}

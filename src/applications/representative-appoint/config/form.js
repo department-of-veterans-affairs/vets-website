@@ -48,6 +48,8 @@ import SelectedAccreditedRepresentativeReview from '../components/SelectAccredit
 import ContactAccreditedRepresentative from '../components/ContactAccreditedRepresentative';
 import SelectOrganization from '../components/SelectOrganization';
 
+import SubmissionError from '../components/SubmissionError';
+
 // import { prefillTransformer } from '../prefill-transformer';
 // import ClaimantType from '../components/ClaimantType';
 
@@ -80,6 +82,7 @@ const formConfig = {
     CustomComponent: PreSubmitInfo,
     required: true,
   },
+  submissionError: SubmissionError,
   saveInProgress: {
     messages: {
       inProgress:

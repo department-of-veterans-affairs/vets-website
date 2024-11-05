@@ -12,6 +12,13 @@
   width: 75ch !important;
 }
 
+.benefit-eligibility-questionnaire .schemaform-subtitle {
+  @media (min-width: $medium-screen) {
+    width: 100%;
+    white-space: pre-line;
+  }
+}
+
 .benefit-eligibility-questionnaire .row {
   margin-left: 0;
   margin-right: 0;
