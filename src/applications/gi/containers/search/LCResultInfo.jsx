@@ -16,8 +16,15 @@ function LCResultInfo(resultInfo) {
           {tests.map((test, i) => {
             return (
               <va-table-row key={i}>
-                <span>{test.testName}</span>
-                <span>{test.fee}</span>
+                <span>{test.name}</span>
+                <span>
+                  {test.fee.toLocaleString('en-US', {
+                    currency: 'USD',
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                    style: 'currency',
+                  })}
+                </span>
               </va-table-row>
             );
           })}

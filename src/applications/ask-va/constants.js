@@ -64,8 +64,10 @@ export const branchesOfService = [
 ];
 
 export const CategoryEducation = 'Education benefits and work study';
-
-export const VRandE = 'Veteran Readiness and Employment (Chapter 31)';
+export const CategoryVeteranReadinessAndEmployment =
+  'Veteran Readiness and Employment';
+export const TopicVeteranReadinessAndEmploymentChapter31 =
+  'Veteran Readiness and Employment (Chapter 31)';
 
 export const requireSignInCategories = [
   CategoryEducation,
