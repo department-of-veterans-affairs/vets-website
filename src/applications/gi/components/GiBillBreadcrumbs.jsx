@@ -10,6 +10,7 @@ const GiBillBreadcrumbs = () => {
   const profileMatch = useRouteMatch('/institution/:facilityCode');
   const compareMatch = useRouteMatch('/compare');
   const lcMatch = useRouteMatch('/lc-search');
+  const lcResultsMatch = useRouteMatch('/lc-search/results');
   const crumbLiEnding = giDocumentTitle();
   const formatedProgramType = formatProgramType(
     ProgramsTypeMatch?.params?.programType,
@@ -55,6 +56,12 @@ const GiBillBreadcrumbs = () => {
     crumbs.push({
       href: '/education/gi-bill-comparison-tool/lc-search',
       label: 'Licensces and Certifications',
+    });
+  }
+  if (lcResultsMatch) {
+    crumbs.push({
+      href: '/education/gi-bill-comparison-tool/lc-search/results',
+      label: 'Search Results',
     });
   }
 
