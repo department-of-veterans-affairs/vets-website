@@ -517,7 +517,7 @@ const formConfig = {
             },
             graduationDate: {
               ...currentOrPastDateUI(
-                'When did you earn your high school diploma or equivalency?',
+                'When did you earn your high school diploma or equivalency certificate?',
               ),
               'ui:required': formData => {
                 return formData?.highSchoolDiploma === 'yes';
