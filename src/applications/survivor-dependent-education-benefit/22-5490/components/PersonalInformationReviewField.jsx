@@ -2,23 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-function ordinalSuffix(num) {
-  const suffixes = ['th', 'st', 'nd', 'rd'];
-  const mod100 = num % 100;
-  return (
-    num + (suffixes[(mod100 - 20) % 10] || suffixes[mod100] || suffixes[0])
-  );
-}
-
-function formatDateString(dateString) {
+function formatDiplomaDate(dateString) {
   const dateObj = new Date(dateString);
   const year = dateObj.getUTCFullYear();
-  const month = dateObj.toLocaleString('en-US', {
-    month: 'long',
-    timeZone: 'UTC',
-  });
-  const day = ordinalSuffix(dateObj.getUTCDate());
-  return `${month} ${day}, ${year}`;
+  const month = `0${dateObj.getMonth() + 1}`.slice(-2);
+  const day = `0${dateObj.getDate()}`.slice(-2);
+  return `${month}/${day}/${year}`;
 }
 
 const PersonalInformationReviewField = ({
@@ -28,8 +17,8 @@ const PersonalInformationReviewField = ({
   title,
   userFullName,
 }) => {
-  const formattedDateOfBirth = formatDateString(dateOfBirth);
-  const formattedGraduationDate = formatDateString(data?.graduationDate);
+  const formattedDateOfBirth = formatDiplomaDate(dateOfBirth);
+  const formattedGraduationDate = formatDiplomaDate(data?.graduationDate);
   return (
     <>
       <div className="form-review-panel-page">
@@ -51,14 +40,17 @@ const PersonalInformationReviewField = ({
             </p>
           </div>
           <div className="review-row">
-            <dt>Did you earn a high school or equivalency certificate?</dt>
+            <dt>
+              Did you earn a high school diploma or equivalency certificate?
+            </dt>
             <dd>{data?.highSchoolDiploma}</dd>
           </div>
 
           {data?.highSchoolDiploma === 'yes' && (
             <div className="review-row">
               <dt>
-                When did you earn a high school or equivalency certificate?
+                When did you earn a high school diploma or equivalency
+                certificate?
               </dt>
               <dd>{formattedGraduationDate}</dd>
             </div>

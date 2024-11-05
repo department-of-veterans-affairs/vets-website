@@ -506,7 +506,7 @@ const formConfig = {
             },
             highSchoolDiploma: {
               'ui:title':
-                'Did you earn a high school or equivalency certificate?',
+                'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
