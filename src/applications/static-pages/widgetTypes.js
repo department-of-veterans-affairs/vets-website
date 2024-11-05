@@ -74,6 +74,7 @@ export default {
   SCO_EVENTS: 'sco-events',
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
   SIDE_NAV: 'side-nav',
+  SITUATION_UPDATES_BANNER: 'situation-updates-banner',
   SUPPLEMENTAL_CLAIM: 'supplemental_claim',
   THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
   VET_CENTER_HOURS: 'vet-center-hours',
@@ -87,5 +88,3 @@ export default {
   VIEW_EDUCATION_LETTERS_LOGIN: 'view-education-letters-login',
   VYE_ENROLLMENT_LOGIN_WIDGET: 'vye-enrollment-login-widget',
 };
-
-// TODO add the banner widget it here
