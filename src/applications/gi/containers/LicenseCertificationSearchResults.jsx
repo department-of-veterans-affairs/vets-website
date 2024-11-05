@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
-import LCSearchResult from './LCSearchResult';
+import LicenseCertificationSearchResult from './LicenseCertificationSearchResult';
+import { fetchLicenseCertificationResults } from '../actions';
 
-function LicenseCertificationSearchResults({ lcResults, fetchingLc, error }) {
+function LicenseCertificationSearchResults({
+  dispatchFetchLicenseCertificationResults,
+  lcResults,
+  fetchingLc,
+  hasFetchedOnce,
+  error,
+}) {
   const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const name = searchParams.get('name');
+  const type = searchParams.get('type');
 
   const itemsPerPage = 5;
 
@@ -18,6 +26,14 @@ function LicenseCertificationSearchResults({ lcResults, fetchingLc, error }) {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+
+  useEffect(
+    () => {
+      dispatchFetchLicenseCertificationResults(name, type);
+    },
+    [dispatchFetchLicenseCertificationResults, name, type],
+  );
+
   const handlePageChange = page => {
     setCurrentPage(page);
   };
@@ -33,7 +49,7 @@ function LicenseCertificationSearchResults({ lcResults, fetchingLc, error }) {
   return (
     <div>
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        {lcResults.length !== 0 ? (
+        {hasFetchedOnce && lcResults.length !== 0 ? (
           <>
             <div className="row">
               <h1 className="vads-u-text-align--center mobile-lg:vads-u-text-align--left">
@@ -41,7 +57,8 @@ function LicenseCertificationSearchResults({ lcResults, fetchingLc, error }) {
               </h1>
 
               <p className="vads-u-color--gray-dark lc-filter-options">
-                Showing {itemsPerPage} of {lcResults.length} results for: {name}
+                Showing {itemsPerPage} of {lcResults.length} results for:{' '}
+                {name || null}
               </p>
               <p className="lc-filter-options">
                 <strong>License/Certification Name: </strong>
@@ -50,7 +67,12 @@ function LicenseCertificationSearchResults({ lcResults, fetchingLc, error }) {
             <div className="row">
               <va-accordion openSingle>
                 {currentResults.map((result, index) => {
-                  return <LCSearchResult key={index} result={result} />;
+                  return (
+                    <LicenseCertificationSearchResult
+                      key={index}
+                      result={result}
+                    />
+                  );
                 })}
               </va-accordion>
             </div>
@@ -76,9 +98,11 @@ function LicenseCertificationSearchResults({ lcResults, fetchingLc, error }) {
 }
 
 LicenseCertificationSearchResults.propTypes = {
-  error: PropTypes.string,
+  dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
   fetchingLc: PropTypes.bool.isRequired,
-  lcResults: PropTypes.array.isRequired,
+  hasFetchedOnce: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  lcResults: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
@@ -87,4 +111,11 @@ const mapStateToProps = state => ({
   lcResults: state.licenseCertificationSearch.lcResults,
 });
 
-export default connect(mapStateToProps)(LicenseCertificationSearchResults);
+const mapDispatchToProps = {
+  dispatchFetchLicenseCertificationResults: fetchLicenseCertificationResults,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LicenseCertificationSearchResults);

@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { Route, Switch } from 'react-router-dom';
-
-import LicenseCertificationSearch from './search/LicenseCertificationSearch';
-import LicenseCertificationSearchResults from './search/LicenseCertificationSearchResults';
+import LicenseCertificationSearchResults from '../containers/LicenseCertificationSearchResults';
+import LicenseCertificationSearch from './LicenseCertificationSearch';
 
 export default function SearchLicensesCertificationsPage() {
   return (
