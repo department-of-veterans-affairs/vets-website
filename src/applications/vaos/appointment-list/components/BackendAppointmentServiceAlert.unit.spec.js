@@ -4,13 +4,16 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { waitFor } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
-import { AppointmentList } from '../../../appointment-list';
-import PastAppointmentsList from '../../../appointment-list/components/PastAppointmentsList';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
-import { createMockAppointment } from '../../mocks/data';
-import { getVAOSAppointmentMock, getVAOSRequestMock } from '../../mocks/mock';
-import RequestedAppointmentsListGroup from '../../../appointment-list/components/RequestedAppointmentsListGroup';
+import { renderWithStoreAndRouter, getTestDate } from '../../tests/mocks/setup';
+import { AppointmentList } from '..';
+import PastAppointmentsList from './PastAppointmentsList';
+import { mockVAOSAppointmentsFetch } from '../../tests/mocks/helpers';
+import { createMockAppointment } from '../../tests/mocks/data';
+import {
+  getVAOSAppointmentMock,
+  getVAOSRequestMock,
+} from '../../tests/mocks/mock';
+import RequestedAppointmentsListGroup from './RequestedAppointmentsListGroup';
 
 describe('VAOS Backend Service Alert', () => {
   const initialState = {

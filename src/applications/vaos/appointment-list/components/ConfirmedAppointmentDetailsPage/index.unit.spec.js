@@ -5,17 +5,20 @@ import MockDate from 'mockdate';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/react';
-import { APPOINTMENT_STATUS } from '../../../../utils/constants';
-import { renderWithStoreAndRouter, getTestDate } from '../../../mocks/setup';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import {
+  renderWithStoreAndRouter,
+  getTestDate,
+} from '../../../tests/mocks/setup';
 
-import { AppointmentList } from '../../../../appointment-list';
+import { AppointmentList } from '../..';
 import {
   mockAppointmentApi,
   mockGetPendingAppointmentsApi,
   mockGetUpcomingAppointmentsApi,
-} from '../../../mocks/helpers';
-import { mockFacilitiesFetch } from '../../../mocks/fetch';
-import MockAppointmentResponse from '../../../e2e/fixtures/MockAppointmentResponse';
+} from '../../../tests/mocks/helpers';
+import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
+import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
 
 describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   const initialState = {

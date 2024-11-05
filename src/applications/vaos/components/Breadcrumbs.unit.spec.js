@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '../mocks/setup';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import { renderWithStoreAndRouter } from '../tests/mocks/setup';
+import Breadcrumbs from './Breadcrumbs';
 
 describe('VAOS Component: Breadcrumbs', () => {
   const initialState = {

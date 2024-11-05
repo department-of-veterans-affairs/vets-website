@@ -6,21 +6,21 @@ import { expect } from 'chai';
 import MockDate from 'mockdate';
 import moment from 'moment';
 import React from 'react';
-import { AppointmentList } from '../../../appointment-list';
-import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
-import MockAppointmentResponse from '../../e2e/fixtures/MockAppointmentResponse';
-import MockFacilityResponse from '../../e2e/fixtures/MockFacilityResponse';
-import { mockFacilityFetch } from '../../mocks/fetch';
+import { AppointmentList } from '..';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
+import MockAppointmentResponse from '../../tests/e2e/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../tests/e2e/fixtures/MockFacilityResponse';
+import { mockFacilityFetch } from '../../tests/mocks/fetch';
 import {
   mockAppointmentApi,
   mockAppointmentUpdateApi,
   mockAppointmentsApi,
-} from '../../mocks/helpers';
+} from '../../tests/mocks/helpers';
 import {
   createTestStore,
   getTestDate,
   renderWithStoreAndRouter,
-} from '../../mocks/setup';
+} from '../../tests/mocks/setup';
 
 describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
   const testDate = getTestDate();

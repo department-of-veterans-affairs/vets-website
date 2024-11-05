@@ -5,8 +5,11 @@ import { waitFor } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
-import EnrolledRoute from '../../components/EnrolledRoute.jsx';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../tests/mocks/setup.js';
+import EnrolledRoute from './EnrolledRoute.jsx';
 
 const initialState = {
   featureToggles: {

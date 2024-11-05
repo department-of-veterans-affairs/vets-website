@@ -4,11 +4,11 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { within } from '@testing-library/dom';
-import reducers from '../../../redux/reducer';
-import { getVAOSRequestMock } from '../../mocks/mock';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
-import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
-import RequestedAppointmentsList from '../../../appointment-list/components/RequestedAppointmentsList';
+import reducers from '../../redux/reducer';
+import { getVAOSRequestMock } from '../../tests/mocks/mock';
+import { mockVAOSAppointmentsFetch } from '../../tests/mocks/helpers';
+import { renderWithStoreAndRouter, getTestDate } from '../../tests/mocks/setup';
+import RequestedAppointmentsList from './RequestedAppointmentsList';
 
 const initialState = {
   featureToggles: {

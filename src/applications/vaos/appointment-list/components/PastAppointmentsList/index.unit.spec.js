@@ -4,15 +4,16 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { within } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
-import PastAppointmentsList, {
-  getPastAppointmentDateRangeOptions,
-} from '../../../appointment-list/components/PastAppointmentsList';
-import { getVAOSAppointmentMock } from '../../mocks/mock';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
-import { createMockAppointment } from '../../mocks/data';
-import { mockFacilitiesFetch } from '../../mocks/fetch';
-import MockAppointmentResponse from '../../e2e/fixtures/MockAppointmentResponse';
+import {
+  renderWithStoreAndRouter,
+  getTestDate,
+} from '../../../tests/mocks/setup';
+import PastAppointmentsList, { getPastAppointmentDateRangeOptions } from '.';
+import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
+import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
+import { createMockAppointment } from '../../../tests/mocks/data';
+import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
+import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
 
 const initialState = {
   featureToggles: {
@@ -37,7 +38,7 @@ const testDates = () => {
   };
 };
 
-describe('VAOS Page: PastAppointmentsList V2 api', () => {
+describe('VAOS Page: PastAppointmentsList api', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
