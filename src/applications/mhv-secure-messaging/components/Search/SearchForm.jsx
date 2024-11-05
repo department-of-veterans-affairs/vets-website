@@ -214,6 +214,15 @@ const SearchForm = props => {
     );
   };
 
+  const isCustomFolder =
+    folder.name !== DefaultFolders.INBOX.header &&
+    folder.name !== DefaultFolders.SENT.header &&
+    folder.name !== DefaultFolders.DRAFTS.header &&
+    folder.name !== DefaultFolders.DELETED.header;
+
+  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folder.name}`}`;
+  const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+
   const filterLabelHeading = useMemo(
     () => {
       return `Filter messages in ${
@@ -249,6 +258,8 @@ const SearchForm = props => {
               setFiltersCleared(false);
             }
           }}
+          data-dd-privacy={ddPrivacy}
+          data-dd-action-name={`Filter Messages in ${ddTitle}`}
         >
           {filterLabelHeading}
         </h2>
