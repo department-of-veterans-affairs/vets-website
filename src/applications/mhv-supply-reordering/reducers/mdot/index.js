@@ -1,5 +1,8 @@
 import { MDOT_API_STATES } from '../../constants';
 
+/**
+ * The initial state for this app.
+ */
 const initialState = {
   isError: false,
   errorCode: '',

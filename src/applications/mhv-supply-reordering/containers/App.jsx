@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { signInServiceEnabled } from '~/platform/user/authentication/selectors';
+import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import { fetchMdotData } from '../actions';
 
@@ -10,8 +13,11 @@ import { fetchMdotData } from '../actions';
  * @param {Object} location form location
  * @param {*} children children for the form
  * @param {function} fetchMdotFunc function to fetch the MDOT data
+ * @param {*} user the user information
  */
-const App = ({ location, children, fetchMdotFunc }) => {
+const App = ({ location, children, fetchMdotFunc, user }) => {
+  const useSiS = useSelector(signInServiceEnabled);
+
   useEffect(
     () => {
       fetchMdotFunc();
@@ -20,9 +26,15 @@ const App = ({ location, children, fetchMdotFunc }) => {
   );
 
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <RequiredLoginView
+      useSiS={useSiS}
+      user={user}
+      serviceRequired={[backendServices.USER_PROFILE]}
+    >
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </RequiredLoginView>
   );
 };
 
@@ -32,13 +44,18 @@ App.propTypes = {
   location: PropTypes.shape({
     basename: PropTypes.string,
   }),
+  user: PropTypes.object,
 };
+
+const mapStateToProps = state => ({
+  user: state.user,
+});
 
 const mapDispatchToProps = dispatch => ({
   fetchMdotFunc: () => dispatch(fetchMdotData()),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(App);

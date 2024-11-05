@@ -1,6 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { getUnavailableSupplies } from '../utilities/mdot';
 
@@ -8,13 +9,21 @@ import { getUnavailableSupplies } from '../utilities/mdot';
  * Shows a list of unavailable supplies if it exists.
  * @param {*} mdotData the MDOT data for the user
  */
-const UnavailableSupplies = mdotData => {
-  const unavailSupplies = getUnavailableSupplies(mdotData.supplies);
+const UnavailableSupplies = ({ mdotData }) => {
+  const unavailSupplies = getUnavailableSupplies(mdotData);
   const cards = unavailSupplies
     ?.sort((a, b) => a.productName.localeCompare(b.productName))
     .map((supply, index) => (
-      <div key={`mhv-supply-unavail-${index}`}>
-        <va-card show-shadow>
+      <div
+        key={`mhv-supply-unavail-${index}`}
+        data-testid="mhv-supply-intro-unavail-card"
+      >
+        <va-card
+          class={classNames({
+            'mhv-c-reorder-unavail-card': true,
+            'vads-u-margin-bottom--1p5': index < unavailSupplies.length - 1,
+          })}
+        >
           <div>
             <strong>{supply.productGroup}</strong> <br />
             Device: {supply.productName} <br />
@@ -35,29 +44,33 @@ const UnavailableSupplies = mdotData => {
           {!supply.availableForReorder && (
             <p>
               This item is not available for reordering. To reorder, you can
-              call your VA healthcare team or send them a message.
+              call <a href="/find-locations">your VA healthcare team</a> or{' '}
+              <a href="/my-health/secure-messages/new-message/">
+                send them a message
+              </a>
+              .
             </p>
           )}
         </va-card>
-        {index < unavailSupplies.length - 1 && <br />}
       </div>
     ));
 
   return (
-    <div>
+    <>
       {unavailSupplies?.length > 0 && (
         <div>
-          <h3>Unavailable for reorder</h3>
+          <h2>Unavailable for reorder</h2>
           <p>
             Showing {unavailSupplies.length} medical{' '}
             {unavailSupplies.length > 1
               ? 'supplies, alphabetically by name'
               : 'supply'}
           </p>
+          <hr className="vads-u-margin-top--0 vads-u-margin-bottom--2" />
           {cards}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -29,7 +29,7 @@ const formMessages = {
 };
 
 const customText = {
-  appType: 'supply reorder',
+  appType: 'order',
   appAction: 'placing your supply reorder',
 };
 

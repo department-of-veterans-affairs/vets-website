@@ -1,4 +1,4 @@
-const userResponse = (supplies = []) => {
+const userResponse = (supplies = [], eligible = true) => {
   return {
     status: 200,
     data: {
@@ -29,9 +29,9 @@ const userResponse = (supplies = []) => {
         vetEmail: 'vets.gov.user+1@gmail.com',
         dateOfBirth: '1933-04-05',
         eligibility: {
-          accessories: true,
-          apneas: true,
-          batteries: true,
+          accessories: eligible,
+          apneas: eligible,
+          batteries: eligible,
         },
         supplies,
       },
@@ -44,7 +44,7 @@ const userResponse = (supplies = []) => {
   };
 };
 
-const suppliesList = [
+const availSuppliesList = [
   {
     productName: 'ERHK HE11 680 MINI',
     productGroup: 'Accessory',
@@ -72,6 +72,9 @@ const suppliesList = [
     nextAvailabilityDate: '2022-12-05',
     quantity: 1,
   },
+];
+
+const unavailSuppliesList = [
   {
     productName: 'AIRCURVE10-ASV-CLIMATELINE',
     productGroup: 'Apnea',
@@ -104,7 +107,37 @@ const veteranNotFoundResponse = {
         detail: 'The veteran could not be found',
         code: 'MDOT_invalid',
         source: 'MDOT::Client',
-        status: '401',
+        status: '404',
+      },
+    ],
+  },
+};
+
+const veteranDeceased = {
+  status: 403,
+  data: {
+    errors: [
+      {
+        title: 'Veteran is Deceased',
+        detail: 'The veteran is deceased; supplies cannot be ordered',
+        code: 'MDOT_deceased',
+        source: 'MDOT::Client',
+        status: '403',
+      },
+    ],
+  },
+};
+
+const suppliesNotFound = {
+  status: 404,
+  data: {
+    errors: [
+      {
+        title: 'Supplies Not Found',
+        detail: 'The medical supplies could not be found',
+        code: 'MDOT_supplies_not_found',
+        source: 'MDOT::Client',
+        status: '404',
       },
     ],
   },
@@ -126,25 +159,37 @@ const internalServerError = {
 };
 
 const MDOT_USERS = Object.freeze({
-  NO_SUPPLIES: 'no supplies',
-  WITH_SUPPLIES: 'with supplies',
-  NOT_FOUND: 'no supplies',
-  SERVER_ERROR: 'server error',
+  ERROR_NO_SUPPLIES: 'no supplies',
+  ERROR_NOT_FOUND: 'not found',
+  ERROR_SERVER: 'server error',
+  ERROR_DECEASED: 'deceased',
+  NO_UNAVAIL: 'no unavail',
+  NOT_ELIG: 'not elig',
+  DEFAULT: 'default',
 });
 
 const response = userType => {
   switch (userType) {
-    case MDOT_USERS.NO_SUPPLIES:
-      return userResponse();
+    case MDOT_USERS.ERROR_NO_SUPPLIES:
+      return suppliesNotFound;
 
-    case MDOT_USERS.NOT_FOUND:
+    case MDOT_USERS.ERROR_NOT_FOUND:
       return veteranNotFoundResponse;
 
-    case MDOT_USERS.SERVER_ERROR:
+    case MDOT_USERS.ERROR_SERVER:
       return internalServerError;
 
+    case MDOT_USERS.ERROR_DECEASED:
+      return veteranDeceased;
+
+    case MDOT_USERS.NO_UNAVAIL:
+      return userResponse(availSuppliesList);
+
+    case MDOT_USERS.NOT_ELIG:
+      return userResponse(unavailSuppliesList, false);
+
     default:
-      return userResponse(suppliesList);
+      return userResponse([...availSuppliesList, ...unavailSuppliesList]);
   }
 };
 
