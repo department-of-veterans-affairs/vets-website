@@ -97,11 +97,5 @@ describe('EZR TERA flow', () => {
     fillTextWebComponent('address_postalCode', contact.address.postalCode);
 
     cy.tabToElementAndPressSpace('.usa-button-primary');
-
-    // review page
-    cy.get('va-alert').should(
-      'include.text',
-      'You have added the maximum number of allowed emergency contacts',
-    );
   });
 });

@@ -7,7 +7,6 @@ import {
   getDeleteDescription,
 } from '../../../utils/helpers/emergencyContactUtils';
 import content from '../../../locales/en/content.json';
-// import {} from '../../../utils/helpers/form-config';
 import {
   emergencyContactsPage,
   emergencyContactsAddressPage,
