@@ -302,6 +302,8 @@ const responses = {
     };
     currentMockId += 1;
     mockAppts.push(submittedAppt);
+
+    // TODO: conditionally return success message if CC
     return res.json({ data: submittedAppt });
   },
   'PUT /vaos/v2/appointments/:id': (req, res) => {

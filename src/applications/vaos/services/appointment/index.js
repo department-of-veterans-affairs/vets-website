@@ -547,6 +547,21 @@ export async function createAppointment({ appointment }) {
   return transformVAOSAppointment(result);
 }
 
+/**
+ * Creates a Community Care appointment and returs a success or error message
+ * @param {Object} params
+ * @param {VAOSAppointment} params.appointment The appointment to send
+ * @returns {Object} Success or an error message
+ */
+
+export async function createCommunityCareAppointment({ appointment }) {
+  try {
+    return await postAppointment(appointment);
+  } catch (e) {
+    return { error: e };
+  }
+}
+
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
 
 /**
