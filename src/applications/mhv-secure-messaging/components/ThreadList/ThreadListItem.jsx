@@ -75,8 +75,8 @@ const ThreadListItem = props => {
 
   const ddTitle =
     location.pathname === Paths.DRAFTS || location.pathname === Paths.SENT
-      ? 'triage group name'
-      : 'clinician name';
+      ? 'Triage Group Name'
+      : 'Clinician Name';
 
   return (
     <div
@@ -125,7 +125,7 @@ const ThreadListItem = props => {
           ) : (
             <span
               data-dd-privacy="mask"
-              data-dd-action-name="triage group name"
+              data-dd-action-name="Triage Group Name"
             >
               To: {recipientName}
             </span>

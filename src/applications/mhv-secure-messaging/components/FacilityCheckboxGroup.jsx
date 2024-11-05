@@ -63,7 +63,7 @@ const FacilityCheckboxGroup = props => {
                 onVaChange={() => {
                   updatePreferredTeam(team.triageTeamId, null);
                 }}
-                data-dd-action-name="triage group name"
+                data-dd-action-name="Triage Group Name"
               />
             );
           })}

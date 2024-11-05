@@ -225,7 +225,7 @@ const BlockedTriageGroupAlert = props => {
       trigger={alertTitleText}
       data-testid="blocked-triage-group-alert"
       data-dd-privacy="mask"
-      data-dd-action-name="blocked triage group alert expandable"
+      data-dd-action-name="Blocked Triage Group Alert Expandable"
     >
       <div className="vads-u-padding-left--4 vads-u-padding-bottom--1">
         <p className="vads-u-margin-bottom--1p5">{alertInfoText}</p>
@@ -239,7 +239,7 @@ const BlockedTriageGroupAlert = props => {
                   data-testid="blocked-triage-group"
                   key={i}
                   data-dd-privacy="mask"
-                  data-dd-action-name="blocked triage group name"
+                  data-dd-action-name="Blocked Triage Group Name"
                 >
                   {`${
                     blockedTriageGroup.type === Recipients.FACILITY
@@ -262,7 +262,7 @@ const BlockedTriageGroupAlert = props => {
     >
       <h2
         slot="headline"
-        data-dd-action-name="blocked triage group alert header"
+        data-dd-action-name="Blocked Triage Group Alert Header"
       >
         {alertTitleText}
       </h2>

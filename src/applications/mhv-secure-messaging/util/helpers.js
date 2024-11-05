@@ -183,21 +183,6 @@ export const getLastSentMessage = messages => {
   );
 };
 
-// export const handleHeader = (folderId, folder) => {
-//   switch (folderId) {
-//     case Folders.INBOX.id: // Inbox
-//       return Folders.INBOX.header;
-//     case Folders.SENT.id: // Sent
-//       return Folders.SENT.header;
-//     case Folders.DRAFTS.id: // Drafts
-//       return Folders.DRAFTS.header;
-//     case Folders.DELETED.id: // Trash
-//       return Folders.DELETED.header;
-//     default:
-//       return folder.name;
-//   }
-// };
-
 export const handleHeader = (folderId, folder) => {
   let folderName;
 
@@ -224,7 +209,7 @@ export const handleHeader = (folderId, folder) => {
     folderName !== Folders.DRAFTS.header &&
     folderName !== Folders.DELETED.header;
 
-  const ddTitle = `${isCustomFolder ? 'Custom folder' : `${folderName}`} h1`;
+  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folderName}`} h1`;
   const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
 
   return {

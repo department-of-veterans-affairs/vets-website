@@ -220,7 +220,7 @@ const SearchForm = props => {
     folder.name !== DefaultFolders.DRAFTS.header &&
     folder.name !== DefaultFolders.DELETED.header;
 
-  const ddTitle = `${isCustomFolder ? 'Custom folder' : `${folder.name}`}`;
+  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folder.name}`}`;
   const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
 
   const filterLabelHeading = useMemo(
@@ -259,7 +259,7 @@ const SearchForm = props => {
             }
           }}
           data-dd-privacy={ddPrivacy}
-          data-dd-action-name={`Filter messages in ${ddTitle}`}
+          data-dd-action-name={`Filter Messages in ${ddTitle}`}
         >
           {filterLabelHeading}
         </h2>

@@ -135,7 +135,7 @@ const ReplyForm = props => {
           ref={header}
           className="page-title"
           data-dd-privacy="mask"
-          data-dd-action-name="reply form header"
+          data-dd-action-name="Reply Form Header"
         >
           {messageTitle}
         </h1>

@@ -16,7 +16,7 @@ const FoldersList = props => {
 
     const ddTitle = `${
       isCustomFolder ? 'Custom' : `${folderName}`
-    } folder link`;
+    } Folder Link`;
     const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
 
     return { ddTitle, ddPrivacy };
@@ -24,7 +24,7 @@ const FoldersList = props => {
 
   return (
     <div className="vads-u-margin-top--2">
-      <ul className="folders-list" data-dd-action-name="Folders list container">
+      <ul className="folders-list" data-dd-action-name="Folders List Container">
         {!!folders.length &&
           folders.map(folder => (
             <li
