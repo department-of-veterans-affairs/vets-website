@@ -43,7 +43,6 @@ export default function CancelPageLayout() {
   const { id } = useParams();
   const {
     appointment,
-    bookingNotes,
     clinicName,
     clinicPhone,
     clinicPhoneExtension,
@@ -61,7 +60,7 @@ export default function CancelPageLayout() {
   );
 
   const heading = getHeading(appointment);
-  const [reason, otherDetails] = bookingNotes.split(':');
+  const { reasonForAppointment, patientComments } = appointment || {};
   const facilityId = locationId;
 
   return (
@@ -176,7 +175,11 @@ export default function CancelPageLayout() {
           />
         </Where>
       )}
-      <Details reason={reason} otherDetails={otherDetails} level={3} />
+      <Details
+        reason={reasonForAppointment}
+        otherDetails={patientComments}
+        level={3}
+      />
     </>
   );
 }

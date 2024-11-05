@@ -9,16 +9,18 @@ const responses = {
         },
         gender: 'M',
         veteranDateOfBirth: '1956-07-10',
-        veteranSocialSecurityNumber: '796123607',
-        homePhone: '8015551217',
-        mobilePhone: '6493315849',
+        veteranSocialSecurityNumber: '123456789',
+        homePhone: '5558081234',
+        mobilePhone: '5554044567',
+        email: 'test@test.com',
         veteranAddress: {
-          street: '419 LaPorte Ave',
-          street2: 'Apt C',
+          street: '1234 Fake St.',
+          street2: 'Apt Z',
           city: 'Fort Collins',
           state: 'CO',
           country: 'USA',
           postalCode: '80521',
+          isMilitary: false,
         },
         toursOfDuty: [
           {

@@ -9,11 +9,14 @@ import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 import grayTaskConfig from './patterns/pattern2/TaskGray/form/config/form';
 import CoeApp from './patterns/pattern2/TaskGray/form/containers/App';
 import Form1990Entry from './patterns/pattern2/TaskOrange/Form1990App';
-import orangeTaskConfig from './patterns/pattern2/TaskOrange/config/form';
+import blueFormConfig from './patterns/pattern2/TaskBlue/config/form';
+import { formConfigForOrangeTask } from './patterns/pattern2/TaskOrange/config/form';
 
 import App from './App';
+import ReviewPage from './patterns/pattern2/post-study/ReviewPage';
 
 import { LandingPage } from './shared/components/pages/LandingPage';
+import DevPanel from './dev/client/DevPanel';
 import { PatternConfigProvider } from './shared/context/PatternConfigContext';
 import { getPatterns, getTabs } from './utils/data/tabs';
 
@@ -95,9 +98,9 @@ const pattern2Routes = [
     ),
     indexRoute: {
       onEnter: (nextState, replace) =>
-        replace('/2/task-orange/introduction?loggedIn=true'),
+        replace('/2/task-orange/introduction?loggedIn=false'),
     },
-    childRoutes: createRoutesWithSaveInProgress(orangeTaskConfig),
+    childRoutes: createRoutesWithSaveInProgress(formConfigForOrangeTask),
   },
   {
     path: '/2/task-blue',
@@ -110,13 +113,29 @@ const pattern2Routes = [
       onEnter: (nextState, replace) =>
         replace('/2/task-blue/introduction?loggedIn=true'),
     },
-    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
+    childRoutes: createRoutesWithSaveInProgress(blueFormConfig),
+  },
+  {
+    path: '/2/post-study',
+    component: props => <ReviewPage {...props} />,
+    // indexRoute: {
+    //   onEnter: (nextState, replace) =>
+    //     replace('/2/task-blue/introduction?loggedIn=true'),
+    // },
   },
 ];
 
 const routes = [
   ...pattern1Routes,
   ...pattern2Routes,
+  {
+    path: '/dev',
+    component: props => (
+      <div className="vads-l-grid-container--full">
+        <DevPanel {...props} />
+      </div>
+    ),
+  },
   {
     path: '*',
     component: props => (

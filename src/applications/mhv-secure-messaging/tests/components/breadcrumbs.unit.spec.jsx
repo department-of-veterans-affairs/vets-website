@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
@@ -33,6 +33,7 @@ describe('Breadcrumbs', () => {
       folders: { folder: inbox },
     },
   };
+  afterEach(() => cleanup());
 
   it('renders breadcrumb that includes "My HealtheVet" on Landing Page', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
@@ -86,7 +87,7 @@ describe('Breadcrumbs', () => {
     const { breadcrumbList } = breadcrumbs;
 
     // Validate the props
-    await waitFor(() =>
+    waitFor(() =>
       expect(breadcrumbList[breadcrumbList.length - 1]).to.deep.equal(
         Breadcrumbs.DRAFTS,
       ),

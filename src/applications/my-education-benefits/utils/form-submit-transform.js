@@ -359,7 +359,10 @@ export function createMilitaryClaimant(submissionForm) {
   );
   // Construct And Return the claimant object
   return {
-    claimantId: submissionForm[formFields.claimantId],
+    claimantId:
+      submissionForm[formFields.claimantId] === 100
+        ? ''
+        : submissionForm[formFields.claimantId],
     firstName: userFullName?.first,
     middleName: userFullName?.middle,
     lastName: userFullName?.last,
@@ -556,7 +559,14 @@ export function createSubmissionForm(submissionForm, formId) {
   };
   // Conditionally add the @type (chosenBenefit) only if meb160630Automation is true
   if (submissionForm?.meb160630Automation) {
-    submissionData['@type'] = submissionForm?.chosenBenefit;
+    if (submissionForm?.chosenBenefit === 'chapter1606') {
+      submissionData['@type'] = 'Chapter1606Submission';
+    } else if (submissionForm?.chosenBenefit === 'chapter30') {
+      submissionData['@type'] = 'Chapter30Submission';
+    } else {
+      submissionData['@type'] = 'Chapter33Submission';
+    }
   }
+
   return submissionData;
 }

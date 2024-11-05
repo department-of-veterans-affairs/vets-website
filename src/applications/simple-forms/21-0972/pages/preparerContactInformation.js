@@ -17,6 +17,6 @@ export default {
       preparerPhone: phoneSchema,
       preparerEmail: emailSchema,
     },
-    required: ['preparerPhone'],
+    required: ['preparerPhone', 'preparerEmail'],
   },
 };

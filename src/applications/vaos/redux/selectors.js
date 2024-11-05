@@ -111,3 +111,9 @@ export const selectFeatureOHDirectSchedule = state =>
 
 export const selectFeatureOHRequest = state =>
   toggleValues(state).vaOnlineSchedulingOhRequest;
+
+export const selectFeatureRemovePodiatry = state =>
+  toggleValues(state).vaOnlineSchedulingRemovePodiatry;
+
+export const selectFeatureTravelPayViewClaimDetails = state =>
+  toggleValues(state).travelPayViewClaimDetails;

@@ -67,16 +67,14 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
     fireEvent.click(detailLinks);
     expect(await screen.findByText('Request for appointment')).to.be.ok;
-    const link = screen.getByRole('link', {
-      name: 'Back to request for appointments',
-    });
+    const link = screen.container.querySelector(
+      'va-link[text="Back to pending appointments"]',
+    );
     userEvent.click(link);
     expect(screen.history.push.called).to.be.true;
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0].pathname).to.equal(
-        '/pending',
-      ),
-    );
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal('/pending');
+    });
   });
 
   it('should show error message when single fetch errors', async () => {
@@ -121,7 +119,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        'Request for primary care appointment | Veterans Affairs',
+        'Pending Request For Appointment | Veterans Affairs',
       );
     });
   });
@@ -145,7 +143,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Request for hearing aid support community care appointment | Veterans Affairs`,
+        `Pending Request For Community Care Appointment | Veterans Affairs`,
       );
     });
   });
@@ -168,7 +166,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        'Canceled request for primary care appointment | Veterans Affairs',
+        'Canceled Request For Appointment | Veterans Affairs',
       );
     });
   });
@@ -323,15 +321,13 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       expect(await screen.findByText('Would you like to cancel this request?'))
         .to.be.ok;
 
-      const link = screen.getByRole('link', {
-        name: 'Back to request for appointments',
-      });
+      const link = screen.container.querySelector(
+        'va-link[text="Back to pending appointments"]',
+      );
       fireEvent.click(link);
       expect(screen.history.push.called).to.be.true;
       await waitFor(() => {
-        expect(screen.history.push.lastCall.args[0].pathname).to.equal(
-          '/pending',
-        );
+        expect(screen.history.push.lastCall.args[0]).to.equal('/pending');
         expect(
           screen.queryByRole('heading', {
             level: 1,
@@ -406,9 +402,9 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         screen.queryByText(/You have canceled your appointment/i);
       });
 
-      const link = screen.getByRole('link', {
-        name: 'Back to request for appointments',
-      });
+      const link = screen.container.querySelector(
+        'va-link[text="Back to pending appointments"]',
+      );
       fireEvent.click(link);
       await waitFor(
         () => expect(screen.queryByText(/Pending appointments/i)).to.be.ok,

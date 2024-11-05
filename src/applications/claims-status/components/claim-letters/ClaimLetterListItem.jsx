@@ -26,6 +26,21 @@ const docTypeToDescription = {
   1605: 'Copy of request for medical records sent to a non-VA provider',
 };
 
+const docTypeToGAEventName = {
+  27: 'Appeal decision',
+  704: '5103',
+  706: '5103',
+  858: '5103',
+  184: 'Claim decision or other notification',
+  34: 'Specific evidence request',
+  700: 'Specific evidence request',
+  859: 'Specific evidence request',
+  408: 'Exam scheduled',
+  942: 'Evidence final notification',
+  864: '3rd party records request',
+  1605: '3rd party records request',
+};
+
 const getDescription = docType => {
   const defaultDescription = 'Notification letter';
 
@@ -45,6 +60,7 @@ const downloadHandler = docType => {
     'gtm.elementUrl': `${
       environment.API_URL
     }/v0/claim_letters/[${docType}]:id.pdf`,
+    'letter-type': docTypeToGAEventName[docType],
   });
 };
 
@@ -62,7 +78,7 @@ const ClaimLetterListItem = ({ letter }) => {
         <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--3 vads-u-margin-bottom--1">
           {getDescription(letter.docType)}
         </span>{' '}
-        <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-warm-dark vads-u-line-height--4 vads-u-margin-bottom--0p5">
+        <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-warm-dark vads-u-line-height--4 vads-u-margin-bottom--0p5 vads-u-font-family--sans">
           {formattedDate}
         </span>
       </h2>
