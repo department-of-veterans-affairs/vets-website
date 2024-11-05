@@ -50,27 +50,6 @@ export const findFormByFormId = (forms, formId) => {
   throw new Error(`Form config not found for form id '${formId}'`);
 };
 
-// export const fetchFormConfig = (
-//   formId,
-//   fetchMethod = fetchDrupalDigitalForms,
-// ) => {
-//   return async dispatch => {
-//     dispatch(formLoadingInitiated(formId));
-//     try {
-//       const forms = await fetchMethod();
-//       const form = findFormByFormId(forms, formId);
-//       const formConfig = createFormConfig(form);
-
-//       dispatch(formLoadingSucceeded(formConfig));
-
-//       return formConfig;
-//     } catch (error) {
-//       dispatch(formLoadingFailed(error));
-//       return undefined;
-//     }
-//   };
-// };
-
 export const fetchAndBuildFormConfig = (
   formId,
   options,
