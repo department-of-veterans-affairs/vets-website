@@ -89,6 +89,7 @@ const VeteranInformation = ({ formData }) => {
         We’ll give you instructions for how to change your information. Or you
         can learn how to change your legal name on file with VA.{' '}
         <va-link
+          external
           href={APP_URLS.facilities}
           text="Learn how to change your legal name (opens in new tab)"
         />
