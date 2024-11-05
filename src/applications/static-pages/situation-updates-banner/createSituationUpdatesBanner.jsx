@@ -14,7 +14,7 @@ export default async function createSituationUpdatesBanner(store) {
       id: '1',
       bundle: 'situation-updates',
       headline: 'Situation update',
-      alertType: 'info',
+      alertType: 'warning',
       content:
         "We're having issues at this location. Please avoid this facility until further notice.",
       context: 'global',
