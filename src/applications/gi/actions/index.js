@@ -84,11 +84,11 @@ export function fetchLicenseCertificationResults(name, type) {
         throw new Error(res.statusText);
       })
       .then(results => {
-        return dispatch({
+        const { data } = results;
+
+        dispatch({
           type: FETCH_LC_RESULTS_SUCCEEDED,
-          payload: {
-            ...results,
-          },
+          payload: data,
         });
       })
       .catch(err => {
@@ -99,9 +99,9 @@ export function fetchLicenseCertificationResults(name, type) {
       });
   };
 }
-export function fetchLcResult(type, name) {
+export function fetchLcResult(link) {
   return dispatch => {
-    const url = `${api.url}/lce/${type}s/${name}`;
+    const url = `${api.url}/${link}`;
     dispatch({ type: FETCH_LC_RESULT_STARTED });
 
     return fetch(url, api.settings)
@@ -112,11 +112,9 @@ export function fetchLcResult(type, name) {
         throw new Error(res.statusText);
       })
       .then(result => {
-        return dispatch({
+        dispatch({
           type: FETCH_LC_RESULT_SUCCEEDED,
-          payload: {
-            ...result,
-          },
+          payload: result.data,
         });
       })
       .catch(err => {

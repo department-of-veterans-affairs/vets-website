@@ -1,8 +1,6 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
 
-function LCResultInfo(resultInfo) {
+export default function LicenseCertificationResultInfo(resultInfo) {
   const { institution, tests } = resultInfo.resultInfo;
 
   return (
@@ -72,13 +70,3 @@ function LCResultInfo(resultInfo) {
     </>
   );
 }
-
-LCResultInfo.propTypes = {
-  resultInfo: PropTypes.object,
-};
-
-const mapStateToProps = state => ({
-  resultInfo: state.licenseCertificationSearch.lcResultInfo,
-});
-
-export default connect(mapStateToProps)(LCResultInfo);

@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
-import LCSearchResult from './LCSearchResult';
-import { fetchLicenseCertificationResults } from '../../actions';
+import LicenseCertificationSearchResult from './LicenseCertificationSearchResult';
+import { fetchLicenseCertificationResults } from '../actions';
 
 function LicenseCertificationSearchResults({
   dispatchFetchLicenseCertificationResults,
   lcResults,
   fetchingLc,
+  hasFetchedOnce,
   error,
 }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,7 +49,7 @@ function LicenseCertificationSearchResults({
   return (
     <div>
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        {lcResults.length !== 0 ? (
+        {hasFetchedOnce && lcResults.length !== 0 ? (
           <>
             <div className="row">
               <h1 className="vads-u-text-align--center mobile-lg:vads-u-text-align--left">
@@ -56,7 +57,8 @@ function LicenseCertificationSearchResults({
               </h1>
 
               <p className="vads-u-color--gray-dark lc-filter-options">
-                Showing {itemsPerPage} of {lcResults.length} results for: {name}
+                Showing {itemsPerPage} of {lcResults.length} results for:{' '}
+                {name || null}
               </p>
               <p className="lc-filter-options">
                 <strong>License/Certification Name: </strong>
@@ -65,7 +67,12 @@ function LicenseCertificationSearchResults({
             <div className="row">
               <va-accordion openSingle>
                 {currentResults.map((result, index) => {
-                  return <LCSearchResult key={index} result={result} />;
+                  return (
+                    <LicenseCertificationSearchResult
+                      key={index}
+                      result={result}
+                    />
+                  );
                 })}
               </va-accordion>
             </div>
@@ -92,8 +99,9 @@ function LicenseCertificationSearchResults({
 
 LicenseCertificationSearchResults.propTypes = {
   dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
-  error: PropTypes.string,
   fetchingLc: PropTypes.bool.isRequired,
+  hasFetchedOnce: PropTypes.bool.isRequired,
+  error: PropTypes.string,
   lcResults: PropTypes.array,
 };
 

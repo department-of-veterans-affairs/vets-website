@@ -1,12 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import LicenseCertificationSearchForm from '../../components/LicenseCertificationSearchForm';
+import LicenseCertificationSearchForm from './LicenseCertificationSearchForm';
 
 export default function LicenseCertificationSearch() {
   const history = useHistory();
 
   const handleSearch = (name, type) => {
-    history.push(`/lc-search/results?type=${type}&name=${name}`);
+    return name
+      ? history.push(`/lc-search/results?type=${type}&name=${name}`)
+      : history.push(`/lc-search/results?type=${type}`);
   };
 
   return (
