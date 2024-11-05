@@ -64,6 +64,7 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
+import createSituationUpdatesBanner from './situation-updates-banner/createSituationUpdatesBanner';
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
@@ -166,7 +167,6 @@ createNearByVALocations(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
-// TODO
 createFacilityMapSatelliteMainOffice(store);
 createFacilityPageSatelliteLocations(store);
 createBasicFacilityListWidget();
@@ -201,6 +201,7 @@ createScheduleViewVAAppointmentsPage(
   widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
 );
 createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
+createSituationUpdatesBanner(store);
 createViewTestAndLabResultsPage(
   store,
   widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
