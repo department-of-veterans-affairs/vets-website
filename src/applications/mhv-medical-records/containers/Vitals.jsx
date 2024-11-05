@@ -90,11 +90,11 @@ const Vitals = () => {
       if (vitals?.length) {
         // create vital type cards based on the types of records present
         const firstOfEach = [];
-        Object.keys(vitalTypes).forEach(type => {
-          const firstOfType = vitals.find(item => item.type === type);
+        for (let [key, types] of Object.entries(vitalTypes)) {
+          const firstOfType = vitals.find(item => types.includes(item.type));
           if (firstOfType) firstOfEach.push(firstOfType);
-          else firstOfEach.push({ type, noRecords: true });
-        });
+          else firstOfEach.push({ key, noRecords: true });
+        }
         setCards(firstOfEach);
       }
     },
