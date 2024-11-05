@@ -19,6 +19,7 @@ import {
   submitErrorContent,
 } from '../content/confirmation-page';
 import { alertBody } from '../content/confirmation-poll';
+import { ClaimConfirmationInfo } from '../components/ClaimConfirmationInfo';
 
 export default class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -57,6 +58,13 @@ export default class ConfirmationPage extends React.Component {
             actions={<></>}
             content={alertBody}
           />
+          <ClaimConfirmationInfo
+            claimId={props.claimId}
+            conditions={props.disabilities}
+            dateSubmitted={props.submittedAt}
+            fullName={props.fullName}
+          />
+          <ConfirmationView.PrintThisPage />
         </ConfirmationView>
       </Toggler.Enabled>
       <Toggler.Disabled>{this.LegacyConfirmationPage(props)}</Toggler.Disabled>
