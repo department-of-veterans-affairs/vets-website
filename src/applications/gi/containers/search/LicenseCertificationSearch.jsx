@@ -1,18 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import LicenseCertificationSearchForm from '../../components/LicenseCertificationSearchForm';
-import { fetchLicenseCertificationResults } from '../../actions';
 
-function LicenseCertificationSearch({
-  dispatchFetchLicenseCertificationResults,
-}) {
+export default function LicenseCertificationSearch() {
   const history = useHistory();
 
-  const handleSearch = name => {
-    history.push(`/lc-search/results?name=${name}`);
-    dispatchFetchLicenseCertificationResults(name); // add filter options as argument
+  const handleSearch = (name, type) => {
+    history.push(`/lc-search/results?type=${type}&name=${name}`);
   };
 
   return (
@@ -33,16 +27,3 @@ function LicenseCertificationSearch({
     </div>
   );
 }
-
-LicenseCertificationSearch.propTypes = {
-  dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = {
-  dispatchFetchLicenseCertificationResults: fetchLicenseCertificationResults,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(LicenseCertificationSearch);

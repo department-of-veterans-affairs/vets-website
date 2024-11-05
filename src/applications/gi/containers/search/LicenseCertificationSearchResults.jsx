@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import LCSearchResult from './LCSearchResult';
+import { fetchLicenseCertificationResults } from '../../actions';
 
-function LicenseCertificationSearchResults({ lcResults, fetchingLc, error }) {
+function LicenseCertificationSearchResults({
+  dispatchFetchLicenseCertificationResults,
+  lcResults,
+  fetchingLc,
+  error,
+}) {
   const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const name = searchParams.get('name');
+  const type = searchParams.get('type');
 
   const itemsPerPage = 5;
 
@@ -18,6 +25,14 @@ function LicenseCertificationSearchResults({ lcResults, fetchingLc, error }) {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+
+  useEffect(
+    () => {
+      dispatchFetchLicenseCertificationResults(name, type);
+    },
+    [dispatchFetchLicenseCertificationResults, name, type],
+  );
+
   const handlePageChange = page => {
     setCurrentPage(page);
   };
@@ -76,9 +91,10 @@ function LicenseCertificationSearchResults({ lcResults, fetchingLc, error }) {
 }
 
 LicenseCertificationSearchResults.propTypes = {
+  dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
   error: PropTypes.string,
   fetchingLc: PropTypes.bool.isRequired,
-  lcResults: PropTypes.array.isRequired,
+  lcResults: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
@@ -87,4 +103,11 @@ const mapStateToProps = state => ({
   lcResults: state.licenseCertificationSearch.lcResults,
 });
 
-export default connect(mapStateToProps)(LicenseCertificationSearchResults);
+const mapDispatchToProps = {
+  dispatchFetchLicenseCertificationResults: fetchLicenseCertificationResults,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LicenseCertificationSearchResults);
