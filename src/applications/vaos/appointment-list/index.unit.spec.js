@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '../mocks/setup';
-import { AppointmentList } from '../../appointment-list/index';
+import { renderWithStoreAndRouter } from '../tests/mocks/setup';
+import { AppointmentList } from './index';
 
 const initialState = {
   featureToggles: {

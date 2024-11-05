@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import NeedHelp from '../../components/NeedHelp';
+import NeedHelp from './NeedHelp';
 
 describe('VAOS Component: NeedHelp', () => {
   it('should show contact information and feedback link', () => {

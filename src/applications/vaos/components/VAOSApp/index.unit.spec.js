@@ -6,8 +6,11 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import moment from 'moment';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import VAOSApp from '../../../components/VAOSApp';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../tests/mocks/setup';
+import VAOSApp from '.';
 
 const initialState = {
   featureToggles: {

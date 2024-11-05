@@ -4,11 +4,11 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import MockDate from 'mockdate';
 import userEvent from '@testing-library/user-event';
-import moment from '../../lib/moment-tz';
-import AddToCalendar from '../../components/AddToCalendar';
+import moment from '../lib/moment-tz';
+import AddToCalendar from './AddToCalendar';
 
-import { getICSTokens, ICS_LINE_LIMIT } from '../../utils/calendar';
-import { getTestDate } from '../mocks/setup';
+import { getICSTokens, ICS_LINE_LIMIT } from '../utils/calendar';
+import { getTestDate } from '../tests/mocks/setup';
 
 describe('VAOS Component: AddToCalendar', () => {
   it('should render link with calendar info', () => {
