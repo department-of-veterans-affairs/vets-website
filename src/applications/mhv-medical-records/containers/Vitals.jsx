@@ -175,11 +175,15 @@ const Vitals = () => {
 
   const updateDate = event => {
     const [year, month] = event.target.value.split('-');
-    setAcceleratedVitalsDate(`${year}-${month}`);
-    dispatch({
-      type: Actions.Vitals.UPDATE_LIST_STATE,
-      payload: Constants.loadStates.PRE_FETCH,
-    });
+
+    // Ignore transient date changes.
+    if (year.length === 4 && month.length === 2) {
+      setAcceleratedVitalsDate(`${year}-${month}`);
+      dispatch({
+        type: Actions.Vitals.UPDATE_LIST_STATE,
+        payload: Constants.loadStates.PRE_FETCH,
+      });
+    }
   };
 
   const datePicker = () => {
