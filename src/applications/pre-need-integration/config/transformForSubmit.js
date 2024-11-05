@@ -17,12 +17,24 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
+  // Determine the active flow
+  const isApplicantFlow = formConfig.flow === 'applicant'; // or use a similar condition
+
+  // Remove duplicate data based on the active flow
+  if (isApplicantFlow) {
+    // In applicant flow, remove unnecessary claimant data
+    delete transformedData.application.claimant;
+  } else {
+    // In claimant flow, remove unnecessary applicant data
+    delete transformedData.application.applicant;
+  }
+
   return JSON.stringify(
-    { ...transformedData, formNumber: formConfig.formId, version: 'int' },
+    {
+      ...transformedData,
+      formNumber: formConfig.formId,
+      version: 'int',
+    },
     escapedCharacterReplacer,
   );
 }
-
-// Logic goes here for payload
-// if applicant is equal to self, keep it / otherwise delete it
-// setData with buttons in flow
