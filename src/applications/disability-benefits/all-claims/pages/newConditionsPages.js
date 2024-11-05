@@ -28,8 +28,8 @@ import {
 import { missingConditionMessage, validateConditionName } from '../validations';
 
 const sideOfBodyOptions = {
-  LEFT: 'Left',
   RIGHT: 'Right',
+  LEFT: 'Left',
   BILATERAL: 'Bilateral (both sides)',
 };
 
@@ -50,7 +50,7 @@ const createCauseFollowUpTitles = formData => {
 
   const causeTitle = {
     NEW: `Details of injury or exposure that caused ${conditionTitle}`,
-    SECONDARY: `Details of the other condition that caused ${conditionTitle}`,
+    SECONDARY: `Details of the service-connected disability that caused ${conditionTitle}`,
     WORSENED: `Details of the injury or exposure that worsened ${conditionTitle}`,
     VA: 'Details of the injury or event in VA care',
   };
@@ -65,6 +65,19 @@ const createCauseFollowUpConditional = (formData, index, causeType) => {
   return cause !== causeType;
 };
 
+// TODO: Fix functionality on edit
+const getOtherConditions = (formData, currentIndex) => {
+  const ratedDisabilities =
+    formData?.ratedDisabilities?.map(disability => disability.name) || [];
+
+  const otherNewConditions =
+    formData?.newConditions
+      ?.filter((_, index) => index !== currentIndex)
+      ?.map(condition => condition.condition) || [];
+
+  return [...ratedDisabilities, ...otherNewConditions];
+};
+
 const createCauseDescriptions = condition => {
   return {
     NEW: 'Caused by an injury or exposure during my service.',
@@ -77,7 +90,7 @@ const createCauseDescriptions = condition => {
 };
 
 const capitalizeFirstLetter = string => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return string?.charAt(0).toUpperCase() + string?.slice(1);
 };
 
 const causeFollowUpChecks = {
@@ -270,15 +283,17 @@ const causeFollowUpPage = {
     }),
     causedByCondition: selectUI({
       title:
-        'Choose the disability that caused the new disability you’re claiming here.',
+        'Choose the service-connected disability that caused the new condition that you’re claiming here.',
+      updateSchema: (formData, _schema, _uiSchema, index) => {
+        return selectSchema(getOtherConditions(formData, index));
+      },
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'SECONDARY'),
       required: (formData, index) =>
         !createCauseFollowUpConditional(formData, index, 'SECONDARY'),
     }),
     causedByConditionDescription: textareaUI({
-      title:
-        'Briefly describe how the disability you selected caused your new disability.',
+      title: 'Briefly describe how this disability caused your new condition.',
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'SECONDARY'),
       required: (formData, index) =>
