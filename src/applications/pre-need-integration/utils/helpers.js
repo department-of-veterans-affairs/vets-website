@@ -10,7 +10,6 @@ import { focusElement } from 'platform/utilities/ui';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
@@ -27,6 +26,11 @@ import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
+import SsnField, {
+  maskSSN,
+} from 'platform/forms-system/src/js/web-component-fields/SsnField';
+import SSNReviewWidget from 'platform/forms-system/src/js/review/SSNWidget';
+import { validateSSN } from 'platform/forms-system/src/js/validation';
 import jsonData from './Military Ranks.json';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
@@ -810,8 +814,17 @@ class SSNWidget extends React.Component {
   }
 }
 
-// Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
+// Implements SSN Web component and masking
+export const ssnDashesUI = {
+  'ui:title': 'SSN',
+  'ui:webComponentField': SsnField,
+  'ui:reviewWidget': SSNReviewWidget,
+  'ui:confirmationField': ({ formData }) => ({ data: maskSSN(formData) }),
+  'ui:validations': [validateSSN],
+  'ui:errorMessages': {
+    required: 'Please enter a Social Security number',
+  },
+};
 
 export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
   'ui:title': 'Applicant’s Social Security number',
