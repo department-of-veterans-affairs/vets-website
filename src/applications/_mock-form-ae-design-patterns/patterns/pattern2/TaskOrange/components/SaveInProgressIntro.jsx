@@ -174,9 +174,9 @@ class SaveInProgressIntro extends React.Component {
             <va-alert status="info" uswds visible>
               <div className="usa-alert-body">
                 <strong>Note:</strong> Since you’re signed in, we can prefill
-                part of your {appType} based on your profile details. You can
-                also save your {appType} in progress and come back later to
-                finish filling it out.
+                part of your form based on your profile details. You can also
+                save your form in progress and come back later to finish filling
+                it out.
               </div>
             </va-alert>
             <br />
@@ -458,6 +458,7 @@ SaveInProgressIntro.propTypes = {
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
+  continueMsg: PropTypes.string,
   customLink: PropTypes.any,
   devOnly: PropTypes.shape({
     forceShowFormControls: PropTypes.bool,
