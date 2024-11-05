@@ -10,8 +10,8 @@ describe('Unauthed User Flow Test', () => {
     appPaths.forEach(path => {
       cy.visit(path);
       cy.get('body').should('be.visible');
-      cy.get('#signin-signup-modal').should('be.visible');
-      cy.get('h1').should('contain', 'Sign in');
+      cy.get('.login').should('be.visible');
+      cy.get('#signin-signup-modal-title').should('contain', 'Sign in');
     });
   });
 });
