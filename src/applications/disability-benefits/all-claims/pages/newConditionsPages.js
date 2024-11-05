@@ -5,8 +5,6 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastMonthYearDateSchema,
-  currentOrPastMonthYearDateUI,
   radioSchema,
   radioUI,
   selectSchema,
@@ -18,9 +16,9 @@ import {
 
 import Autocomplete from '../components/Autocomplete';
 import {
-  ConditionInstructions,
+  AddConditionInstructions,
   ServiceConnectedDisabilityDescription,
-} from '../content/addConditions';
+} from '../content/newConditions';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import { missingConditionMessage, validateConditionName } from '../validations';
 
@@ -49,6 +47,13 @@ const createCauseFollowUpTitles = formData => {
   return causeTitle[cause];
 };
 
+const createCauseFollowUpConditional = (formData, index, causeType) => {
+  const cause = formData?.newConditions
+    ? formData.newConditions[index]?.cause
+    : formData.cause;
+  return cause !== causeType;
+};
+
 const createCauseDescriptions = condition => {
   return {
     NEW: 'Caused by an injury or exposure during my service.',
@@ -60,6 +65,18 @@ const createCauseDescriptions = condition => {
   };
 };
 
+const capitalizeFirstLetter = string => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+const causeFollowUpChecks = {
+  NEW: item => !item?.primaryDescription,
+  SECONDARY: item =>
+    !item?.causedByCondition || !item?.causedByConditionDescription,
+  WORSENED: item => !item?.worsenedDescription || !item?.worsenedEffects,
+  VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
+};
+
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
   arrayPath: 'newConditions',
@@ -68,19 +85,12 @@ const arrayBuilderOptions = {
   required: true,
   isItemIncomplete: item =>
     !item?.condition ||
+    !item?.date ||
     !item?.cause ||
-    (item?.cause === 'NEW' && !item?.primaryDescription) ||
-    (item?.cause === 'SECONDARY' &&
-      (!item?.causedByCondition || !item?.causedByConditionDescription)) ||
-    (item?.cause === 'WORSENED' &&
-      (!item?.worsenedDescription || !item?.worsenedEffects)) ||
-    (item?.cause === 'VA' &&
-      (!item?.vaMistreatmentDescription ||
-        !item?.vaMistreatmentLocation ||
-        !item?.vaMistreatmentDate)),
+    (causeFollowUpChecks[item.cause] && causeFollowUpChecks[item.cause](item)),
   maxItems: 100,
   text: {
-    getItemName: item => item?.condition,
+    getItemName: item => capitalizeFirstLetter(item?.condition),
     cardDescription: item =>
       createCauseDescriptions(item?.causedByCondition)[(item?.cause)],
   },
@@ -91,7 +101,7 @@ const introPage = {
   uiSchema: {
     ...titleUI(
       'New conditions',
-      'On the next few screens, we’ll ask you about the new conditions you’re claiming. You must add at least one condition.',
+      'In the next few screens, we’ll ask you about the new condition or conditions you’re filing for compensation.',
     ),
   },
   schema: {
@@ -104,9 +114,9 @@ const introPage = {
 const addConditionPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Name of new condition you want to claim',
+      title: 'Tell us the new condition you want to claim',
       nounSingular: arrayBuilderOptions.nounSingular,
-      description: ConditionInstructions,
+      description: AddConditionInstructions,
     }),
     condition: {
       'ui:title': 'Enter your condition',
@@ -144,6 +154,31 @@ const addConditionPage = {
 };
 
 /** @returns {PageSchema} */
+const datePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `Date of ${formData.condition || 'condition'}`,
+    ),
+    date: textUI({
+      title:
+        'What is the approximate date this condition began? If you’re having trouble remembering the exact date you can provide a year.',
+      hint: 'For example: January 2000 or simply 2000',
+      charcount: true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      date: {
+        type: 'string',
+        maxLength: 25,
+      },
+    },
+    required: ['date'],
+  },
+};
+
+/** @returns {PageSchema} */
 const causePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -170,13 +205,6 @@ const causePage = {
   },
 };
 
-const createCauseFollowUpConditional = (formData, index, causeType) => {
-  const cause = formData?.newConditions
-    ? formData.newConditions[index]?.cause
-    : formData.cause;
-  return cause !== causeType;
-};
-
 /** @returns {PageSchema} */
 const causeFollowUpPage = {
   uiSchema: {
@@ -185,7 +213,7 @@ const causeFollowUpPage = {
     ),
     primaryDescription: textareaUI({
       title:
-        'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
+        'Briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'NEW'),
       required: (formData, index) =>
@@ -194,7 +222,7 @@ const causeFollowUpPage = {
     }),
     causedByCondition: selectUI({
       title:
-        'Please choose the disability that caused the new disability you’re claiming here.',
+        'Choose the disability that caused the new disability you’re claiming here.',
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'SECONDARY'),
       required: (formData, index) =>
@@ -202,7 +230,7 @@ const causeFollowUpPage = {
     }),
     causedByConditionDescription: textareaUI({
       title:
-        'Please briefly describe how the disability you selected caused your new disability.',
+        'Briefly describe how the disability you selected caused your new disability.',
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'SECONDARY'),
       required: (formData, index) =>
@@ -211,7 +239,7 @@ const causeFollowUpPage = {
     }),
     worsenedDescription: textUI({
       title:
-        'Please briefly describe the injury or exposure during your military service that caused your existing disability to get worse.',
+        'Briefly describe the injury or exposure during your military service that caused your existing disability to get worse.',
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'WORSENED'),
       required: (formData, index) =>
@@ -220,7 +248,7 @@ const causeFollowUpPage = {
     }),
     worsenedEffects: textareaUI({
       title:
-        'Please tell us how the disability affected you before your service, and how it affects you now after your service.',
+        'Tell us how the disability affected you before your service, and how it affects you now after your service.',
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'WORSENED'),
       required: (formData, index) =>
@@ -229,7 +257,7 @@ const causeFollowUpPage = {
     }),
     vaMistreatmentDescription: textareaUI({
       title:
-        'Please briefly describe the injury or event while you were under VA care that caused your disability.',
+        'Briefly describe the injury or event while you were under VA care that caused your disability.',
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'VA'),
       required: (formData, index) =>
@@ -237,20 +265,12 @@ const causeFollowUpPage = {
       charcount: true,
     }),
     vaMistreatmentLocation: textUI({
-      title: 'Please tell us where this happened.',
+      title: 'Tell us where this happened.',
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'VA'),
       required: (formData, index) =>
         !createCauseFollowUpConditional(formData, index, 'VA'),
       charcount: true,
-    }),
-    vaMistreatmentDate: currentOrPastMonthYearDateUI({
-      title:
-        'Please tell us when this happened. If you’re having trouble remembering, do your best to estimate.',
-      hideIf: (formData, index) =>
-        createCauseFollowUpConditional(formData, index, 'VA'),
-      required: (formData, index) =>
-        !createCauseFollowUpConditional(formData, index, 'VA'),
     }),
   },
   schema: {
@@ -281,7 +301,6 @@ const causeFollowUpPage = {
         type: 'string',
         maxLength: 25,
       },
-      vaMistreatmentDate: currentOrPastMonthYearDateSchema,
     },
   },
 };
@@ -298,7 +317,7 @@ const summaryPage = {
       arrayBuilderOptions,
       {},
       {
-        hint: ' ',
+        hint: ' ', // Because there is maxItems: 100 if this empty string is not present the hint will count down from 100 which is a confusing user experience
       },
     ),
   },
@@ -311,38 +330,45 @@ const summaryPage = {
   },
 };
 
-const addConditionsPages = arrayBuilderPages(
+const newConditionsPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
-    addConditionsIntro: pageBuilder.introPage({
+    newConditionsIntro: pageBuilder.introPage({
       title: 'New conditions intro',
       path: 'new-conditions-intro',
       depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
-    addConditionsSummary: pageBuilder.summaryPage({
+    newConditionsSummary: pageBuilder.summaryPage({
       title: 'Review your new conditions',
       path: 'new-conditions-summary',
       depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    addConditionsAddCondition: pageBuilder.itemPage({
+    newConditionsAddCondition: pageBuilder.itemPage({
       title: 'Name of new condition',
       path: 'new-conditions/:index/add',
       depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: addConditionPage.uiSchema,
       schema: addConditionPage.schema,
     }),
-    addConditionsCause: pageBuilder.itemPage({
+    newConditionsDate: pageBuilder.itemPage({
+      title: 'Date of new condition',
+      path: 'new-conditions/:index/date',
+      depends: formData => formData['view:showAddDisabilitiesEnhancement'],
+      uiSchema: datePage.uiSchema,
+      schema: datePage.schema,
+    }),
+    newConditionsCause: pageBuilder.itemPage({
       title: 'Cause of new condition',
       path: 'new-conditions/:index/cause',
       depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: causePage.uiSchema,
       schema: causePage.schema,
     }),
-    addConditionsCauseFollowUp: pageBuilder.itemPage({
+    newConditionsCauseFollowUp: pageBuilder.itemPage({
       title: 'Cause of new condition follow up',
       path: 'new-conditions/:index/cause-follow-up',
       depends: formData => formData['view:showAddDisabilitiesEnhancement'],
@@ -352,4 +378,4 @@ const addConditionsPages = arrayBuilderPages(
   }),
 );
 
-export default addConditionsPages;
+export default newConditionsPages;

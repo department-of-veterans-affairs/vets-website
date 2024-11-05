@@ -1,5 +1,4 @@
 import * as adaptiveBenefits from './adaptiveBenefits';
-import addConditionsPages from './addConditionsPages';
 import * as addDisabilities from './addDisabilities';
 import * as additionalBehaviorChanges from './additionalBehaviorChanges';
 import * as additionalDocuments from './additionalDocuments';
@@ -49,6 +48,7 @@ import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
 import * as militaryDutyImpact from './militaryDutyImpact';
 import * as militaryHistory from './militaryHistory';
+import newConditionsPages from './newConditionsPages';
 import * as newDisabilityFollowUp from './newDisabilityFollowUp';
 import * as newPTSDFollowUp from './newPTSDFollowUp';
 import * as pastEducationTraining from './pastEducationTraining';
@@ -117,7 +117,6 @@ import * as workBehaviorChanges from './workBehaviorChanges';
 
 export {
   adaptiveBenefits,
-  addConditionsPages,
   addDisabilities,
   additionalBehaviorChanges,
   additionalDocuments,
@@ -167,6 +166,7 @@ export {
   mentalHealthChanges,
   militaryDutyImpact,
   militaryHistory,
+  newConditionsPages,
   newDisabilityFollowUp,
   newPTSDFollowUp,
   pastEducationTraining,

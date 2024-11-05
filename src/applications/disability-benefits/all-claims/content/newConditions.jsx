@@ -1,12 +1,12 @@
 import React from 'react';
 
-export const ConditionInstructions = (
+export const AddConditionInstructions = (
   <>
-    <p>Enter one condition below. You can add more conditions later.</p>
-    <h4>If your conditions aren’t listed</h4>
+    <p>Add a condition below. You can add more conditions later.</p>
+    <h4>If your condition isn’t listed</h4>
     <p>
       You can claim a condition that isn’t listed. Enter your condition,
-      diagnosis, or short description of your symptoms.
+      diagnosis or short description of your symptoms.
     </p>
     <h4>Examples of conditions</h4>
     <ul>
@@ -18,16 +18,8 @@ export const ConditionInstructions = (
       <li>Hypertension (high blood pressure)</li>
       <li>Migraines (headaches)</li>
     </ul>
+    <h4>Add a new condition</h4>
   </>
-);
-
-export const DuplicateAlert = () => (
-  <va-alert status="error" uswds>
-    <h3 slot="headline">Duplicate</h3>
-    <p className="vads-u-font-size--base">
-      You’ve already added this condition to your claim.
-    </p>
-  </va-alert>
 );
 
 export const ServiceConnectedDisabilityDescription = () => (

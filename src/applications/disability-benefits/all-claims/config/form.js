@@ -53,7 +53,6 @@ import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
   adaptiveBenefits,
-  addConditionsPages,
   addDisabilities,
   additionalBehaviorChanges,
   additionalDocuments,
@@ -74,6 +73,7 @@ import {
   individualUnemployability,
   mentalHealthChanges,
   militaryHistory,
+  newConditionsPages,
   newDisabilityFollowUp,
   newPTSDFollowUp,
   paymentInformation,
@@ -326,7 +326,7 @@ const formConfig = {
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
-        ...addConditionsPages,
+        ...newConditionsPages,
         addDisabilities: {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
