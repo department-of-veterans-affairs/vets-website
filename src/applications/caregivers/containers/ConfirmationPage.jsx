@@ -29,7 +29,7 @@ const ConfirmationPage = () => {
       <ConfirmationFAQ />
 
       <a
-        className="vads-c-action-link--green no-print"
+        className="vads-c-action-link--green vads-u-margin-y--4 no-print"
         href="https://www.va.gov"
       >
         Go back to VA.gov
