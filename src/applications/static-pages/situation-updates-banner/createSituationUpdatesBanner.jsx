@@ -1,15 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import widgetTypes from '../widgetTypes';
 import SituationUpdateBanner from './situationUpdateBanner';
 
-export default async function createSituationUpdatesBanner(store) {
-  const bannerWidget = document.querySelector(
-    `[data-widget-type="${widgetTypes.SITUATION_UPDATES_BANNER}"]`,
-  );
+export default function createSituationUpdatesBanner(store) {
+  const BannerComponent = () => {
+    const {
+      TOGGLE_NAMES,
+      useToggleValue,
+      useToggleLoadingValue,
+    } = useFeatureToggle();
+    const alternativeBannersEnabled = useToggleValue(
+      TOGGLE_NAMES.bannerUseAlternativeBanners,
+    );
+    const isLoadingFeatureFlags = useToggleLoadingValue();
 
-  if (bannerWidget) {
+    if (isLoadingFeatureFlags || !alternativeBannersEnabled) {
+      return null;
+    }
+
     const defaultProps = {
       id: '1',
       bundle: 'situation-updates',
@@ -24,13 +35,20 @@ export default async function createSituationUpdatesBanner(store) {
       findFacilitiesCTA: false,
       limitSubpageInheritance: false,
     };
-    const props = { ...defaultProps }; // add `, ...situationUpdatesResponse` after `defaults` to include the response
+    const bannerProps = { ...defaultProps }; // add `, ...situationUpdatesResponse` after `defaultProps` to include the response
 
-    ReactDOM.render(
+    return (
       <Provider store={store}>
-        <SituationUpdateBanner {...props} />
-      </Provider>,
-      bannerWidget,
+        <SituationUpdateBanner {...bannerProps} />
+      </Provider>
     );
+  };
+
+  const bannerWidget = document.querySelector(
+    `[data-widget-type="${widgetTypes.SITUATION_UPDATES_BANNER}"]`,
+  );
+
+  if (bannerWidget) {
+    ReactDOM.render(<BannerComponent />, bannerWidget);
   }
 }
