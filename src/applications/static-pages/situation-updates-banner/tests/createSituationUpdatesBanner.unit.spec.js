@@ -3,9 +3,10 @@ import sinon from 'sinon';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import createSituationUpdatesBanner from '../createSituationUpdatesBanner';
+import createSituationUpdatesBanner, {
+  BannerContainer,
+} from '../createSituationUpdatesBanner';
 import widgetTypes from '../../widgetTypes';
-import SituationUpdateBanner from '../situationUpdateBanner';
 
 describe('createSituationUpdatesBanner', () => {
   let sandbox;
@@ -15,7 +16,12 @@ describe('createSituationUpdatesBanner', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     store = {
-      getState: () => ({}),
+      getState: () => ({
+        featureToggles: {
+          loading: false,
+          bannerUseAlternativeBanners: true,
+        },
+      }),
       subscribe: () => {},
       dispatch: sinon.spy(),
     };
@@ -58,15 +64,6 @@ describe('createSituationUpdatesBanner', () => {
 
     // Check if SituationUpdateBanner is rendered with correct props
     const situationBanner = element.props.children;
-    expect(situationBanner.type).to.equal(SituationUpdateBanner);
-    expect(situationBanner.props).to.include({
-      id: '1',
-      bundle: 'situation-updates',
-      headline: 'Situation update',
-      alertType: 'warning',
-      content:
-        "We're having issues at this location. Please avoid this facility until further notice.",
-      context: 'global',
-    });
+    expect(situationBanner.type).to.equal(BannerContainer);
   });
 });
