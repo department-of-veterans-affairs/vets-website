@@ -29,6 +29,7 @@ const Description = (
 
 export const FdcWarning = (
   <div className="usa-alert usa-alert-info background-color-only">
+    <va-icon icon="info" size={4} />
     <div className="usa-alert-body">
       <div className="usa-alert-text">
         Your application will be submitted as a fully developed claim.
@@ -39,6 +40,7 @@ export const FdcWarning = (
 
 export const NoFDCWarning = (
   <div className="usa-alert usa-alert-info background-color-only">
+    <va-icon icon="info" size={4} />
     <div className="usa-alert-body">
       <div className="usa-alert-text">
         Your application doesn’t qualify for the Fully Developed Claim (FDC)

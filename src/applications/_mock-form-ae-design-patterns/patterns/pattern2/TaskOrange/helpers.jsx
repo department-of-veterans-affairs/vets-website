@@ -34,6 +34,7 @@ export function prefillTransformer(pages, formData, metadata) {
 
 export const benefitsEligibilityBox = (
   <div className="usa-alert usa-alert-info">
+    <va-icon icon="info" size={4} />
     <div className="usa-alert-body">
       <ul>
         <li>You may be eligible for more than 1 education benefit program.</li>
