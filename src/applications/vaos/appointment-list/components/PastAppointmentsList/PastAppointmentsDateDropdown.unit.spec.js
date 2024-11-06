@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import sinon from 'sinon';
-import PastAppointmentsDateDropdown from '../PastAppointmentsDateDropdown';
-import { getPastAppointmentDateRangeOptions } from '..';
-import { renderWithStoreAndRouter } from '../../../../tests/mocks/setup';
+import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
+import { getPastAppointmentDateRangeOptions } from '.';
+import { renderWithStoreAndRouter } from '../../../tests/mocks/setup';
 
 const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
 

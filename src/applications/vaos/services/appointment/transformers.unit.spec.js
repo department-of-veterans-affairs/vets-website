@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getAppointmentType } from '../transformers';
+import { getAppointmentType } from './transformers';
 
 describe('getAppointmentType util', () => {
   it('should return appointment type as request', async () => {
