@@ -7,6 +7,9 @@ export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
 export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
 
+export const SC_NEW_FORM_TOGGLE = 'sc_new_form';
+export const SC_NEW_FORM_DATA = 'showScNewForm';
+
 // *** URLS ***
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
@@ -43,9 +46,12 @@ export const SUBMIT_URL = '/v1/supplemental_claims';
 export const PRIMARY_PHONE = 'view:primaryPhone';
 export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
 
+export const OTHER_HOUSING_RISK_MAX = 100;
+
 export const EVIDENCE_VA = 'view:hasVaEvidence';
 export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
 export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
+export const MST_OPTION = 'mstOption';
 
 // Including a default until we determine how to get around the user restarting
 // the application after using the "Finish this application later" link

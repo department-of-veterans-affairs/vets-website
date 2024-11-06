@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 
 import {
   focusElement,
@@ -21,7 +21,6 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
 import { Element } from 'platform/utilities/scroll';
-import { PrefillAlert } from '../../../../../shared/components/alerts/PrefillAlert';
 
 import {
   setReturnState,
@@ -32,6 +31,9 @@ import {
   convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
 } from '../../../../../utils/data/task-gray/profile';
+import { InfoSection } from '../../../../../shared/components/InfoSection';
+import { isOnReviewPage } from '../../../TaskOrange/utils/reviewPage';
+import { formatPhoneNumber } from '../../../../../utils/helpers/general';
 
 /**
  * Render contact info page
@@ -49,7 +51,62 @@ import {
  * @param {String[]} requiredKeys - list of keys of required fields
  * @returns
  */
-const ContactInfo = ({
+
+export const ContactInformationBase = ({ location }) => {
+  const profile = useSelector(selectProfile) || {};
+  const contactInfo = profile.vapContactInfo || {};
+  const { areaCode, phoneNumber } = contactInfo.homePhone;
+  const fullNumber = areaCode + phoneNumber;
+
+  const isReviewPage = isOnReviewPage(location?.pathname);
+  const title = isReviewPage ? null : 'Contact information';
+  return (
+    <InfoSection title={title} titleLevel={3}>
+      <InfoSection.SubHeading level={4} text="Mailing Address" editLink="/" />
+      <InfoSection.InfoBlock
+        label="Street address"
+        value={contactInfo?.mailingAddress?.addressLine1}
+      />
+      <InfoSection.InfoBlock
+        label="Street address line 2"
+        value={contactInfo?.mailingAddress?.addressLine2 || 'Not provided'}
+      />
+      <InfoSection.InfoBlock
+        label="City"
+        value={contactInfo?.mailingAddress?.city}
+      />
+      <InfoSection.InfoBlock
+        label="State"
+        value={contactInfo?.mailingAddress?.stateCode}
+      />
+      <InfoSection.InfoBlock
+        label="Zip code"
+        value={contactInfo?.mailingAddress?.zipCode}
+      />
+
+      <InfoSection.SubHeading
+        text="Additional contact information"
+        editLink="/"
+        level={4}
+      />
+      <InfoSection.InfoBlock
+        label="Phone number"
+        value={formatPhoneNumber(fullNumber)}
+      />
+      <InfoSection.InfoBlock
+        label="Email address"
+        value={contactInfo?.email.emailAddress}
+      />
+    </InfoSection>
+  );
+};
+ContactInformationBase.propTypes = {
+  location: PropTypes.object,
+};
+
+export const ContactInformationInfoSection = withRouter(ContactInformationBase);
+
+export const ContactInfo = ({
   data,
   goBack,
   goForward,
@@ -276,11 +333,13 @@ const ContactInfo = ({
   return (
     <>
       {editState !== 'address,updated' ? (
-        <PrefillAlert>
-          <strong>Note:</strong> We’ve prefilled some of your information from
-          your account. If you need to correct anything, you can select edit
-          below. All updates will be made to this form and your VA.gov profile.
-        </PrefillAlert>
+        <va-alert>
+          We’ve prefilled some of your information. If you need to make changes,
+          you can select edit on this screen.
+          <strong>
+            Your changes will affect this form and your VA.gov profile.
+          </strong>
+        </va-alert>
       ) : null}
       <div className="vads-u-margin-y--2">
         <Element name={`${contactInfoPageKey}ScrollElement`} />
@@ -363,6 +422,7 @@ ContactInfo.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   keys: contactInfoPropTypes.keys,
+  location: PropTypes.object,
   requiredKeys: PropTypes.shape([PropTypes.string]),
   setFormData: PropTypes.func,
   testContinueAlert: PropTypes.bool, // for unit testing only

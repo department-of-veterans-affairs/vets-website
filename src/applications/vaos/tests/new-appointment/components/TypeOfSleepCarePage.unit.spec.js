@@ -29,7 +29,7 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
   beforeEach(() => mockFetch());
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
-    const nextPage = await setTypeOfCare(store, /sleep/i);
+    const nextPage = await setTypeOfCare(store, 'SLEEP'); // sleep
     expect(nextPage).to.equal('/new-appointment/choose-sleep-care');
 
     const screen = renderWithStoreAndRouter(

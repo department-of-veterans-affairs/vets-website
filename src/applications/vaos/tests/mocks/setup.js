@@ -141,23 +141,23 @@ export function getTestDate() {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {string|RegExp} label The string or regex to pass to *ByText query to get
- *   a radio button to click on
+ * @param {string} value The string value of the radio button to click on
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setTypeOfFacility(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <TypeOfFacilityPage />,
-    { store },
-  );
+export async function setTypeOfFacility(store, value) {
+  const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, { store });
+  await screen.findByText(/Continue/i);
 
-  const radioButton = await findByLabelText(label);
-  fireEvent.click(radioButton);
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 /**
@@ -166,23 +166,23 @@ export async function setTypeOfFacility(store, label) {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {string|RegExp} label The string or regex to pass to *ByText query to get
- *   a radio button to click on
+ * @param {string} value The string value of the radio button to click on
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setTypeOfCare(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <TypeOfCarePage />,
-    { store },
-  );
+export async function setTypeOfCare(store, value) {
+  const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
+  await screen.findByText(/Continue/i);
 
-  const radioButton = await findByLabelText(label);
-  fireEvent.click(radioButton);
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 /**
@@ -306,19 +306,23 @@ export async function setVaccineFacility(store, facilityId, facilityData = {}) {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {string|RegExp} label The string or regex to pass to *ByText query to get
- *   a radio button to click on
+ * @param {string} value The string value of the radio button to click on
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setClinic(store, label) {
+export async function setClinic(store, value) {
   const screen = renderWithStoreAndRouter(
     <Route component={ClinicChoicePage} />,
     {
       store,
     },
   );
+  await screen.findByText(/Continue/i);
 
-  fireEvent.click(await screen.findByLabelText(label));
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
   fireEvent.click(await screen.findByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
@@ -441,8 +445,8 @@ export async function setCommunityCareFlow({
     careType: typeOfCare.cceType,
   });
 
-  await setTypeOfCare(store, new RegExp(typeOfCare.name));
-  await setTypeOfFacility(store, /Community Care/i);
+  await setTypeOfCare(store, typeOfCare.id);
+  await setTypeOfFacility(store, 'communityCare');
 
   return store;
 }
