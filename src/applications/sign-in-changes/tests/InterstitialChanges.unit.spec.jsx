@@ -5,16 +5,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import InterstitialChanges from '../containers/InterstitialChanges';
 
-const generateStore = ({
-  signInChangesEnabled = true,
-  userEmails = {},
-} = {}) => ({
+const generateStore = ({ signInChangesEnabled = true } = {}) => ({
   getState: () => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       sign_in_changes_enabled: signInChangesEnabled,
     },
-    userEmails,
+    user: {
+      // eslint-disable-next-line camelcase
+      credential_type: {
+        email: {},
+      },
+    },
   }),
   subscribe: sinon.stub(),
   dispatch: () => {},
@@ -44,7 +46,12 @@ describe('InterstitialChanges', () => {
 
   it('renders AccountSwitch when user has Login.gov account', () => {
     const store = generateStore({
-      userEmails: { logingov: 'logingov@test.com' },
+      user: {
+        // eslint-disable-next-line camelcase
+        credential_type: {
+          email: { logingov: 'logi@test.com' },
+        },
+      },
     });
     const screen = render(
       <Provider store={store}>
@@ -57,7 +64,12 @@ describe('InterstitialChanges', () => {
   });
   it('renders AccountSwitch when user has ID.me account', () => {
     const store = generateStore({
-      userEmails: { idme: 'idme@test.com' },
+      user: {
+        // eslint-disable-next-line camelcase
+        credential_type: {
+          email: { idme: 'idme@test.com' },
+        },
+      },
     });
     const screen = render(
       <Provider store={store}>
