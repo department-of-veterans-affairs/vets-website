@@ -162,7 +162,7 @@ export const reformatPaymentDates = payments => {
 
 export const alertMessage = (
   <va-alert close-btn-aria-label="Close notification" status="warning" visible>
-    <h2 slot="headline">We’re working to improve what we display here</h2>
+    <h3 slot="headline">We’re working to improve what we display here</h3>
     <p className="vads-u-margin-y--0">
       If you receive education benefits, we’ll be removing information about
       payments we send directly to your school. After making this update, your
