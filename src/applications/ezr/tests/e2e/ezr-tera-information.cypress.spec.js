@@ -1,14 +1,10 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user';
 import mockUserAgentOrangeDob from './fixtures/mocks/tera/mock-user-agent-orange-dob';
-import mockUserRadiationCleanupDob from './fixtures/mocks/tera/mock-user-radiation-cleanup-dob';
-import mockUserGulfWarDob from './fixtures/mocks/tera/mock-user-gulf-war-dob';
 import mockUserCombatOperationsDob from './fixtures/mocks/tera/mock-user-combat-operations-dob';
 import mockUserOtherExposureDob from './fixtures/mocks/tera/mock-user-other-exposure-dob';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import mockPrefillAgentOrangeDob from './fixtures/mocks/tera/mock-prefill-agent-orange-dob.json';
-import mockPrefillRadiationCleanupDob from './fixtures/mocks/tera/mock-prefill-radiation-cleanup-dob.json';
-import mockPrefillGulfWarDob from './fixtures/mocks/tera/mock-prefill-gulf-war-dob.json';
 import mockPrefillCombatOperationsDob from './fixtures/mocks/tera/mock-prefill-combat-operations-dob.json';
 import mockPrefillOtherExposureDob from './fixtures/mocks/tera/mock-prefill-other-exposure-dob.json';
 import {
@@ -100,13 +96,13 @@ describe('EZR TERA flow', () => {
 });
 
 describe("EZR branching logic based on the user's DOB", () => {
-  describe('when the user has a DOB between 1947 and 1950', () => {
+  describe('when the user has a DOB between 1900 and 1965', () => {
     beforeEach(() => {
       setUserData(mockUserAgentOrangeDob, mockPrefillAgentOrangeDob);
       goToToxicExposurePageAndCheckYes();
     });
 
-    it('only displays the agent orange and other toxic exposure pages', () => {
+    it('displays the radiation cleanup, Gulf War, combat operations, agent orange, and other toxic exposure pages', () => {
       goToNextPage('/military-service/agent-orange-exposure');
       cy.get('[name="root_exposedToAgentOrange"]').check('Y');
 
@@ -120,73 +116,7 @@ describe("EZR branching logic based on the user's DOB", () => {
     });
   });
 
-  describe('when the user has a DOB between 1951 and 1965', () => {
-    beforeEach(() => {
-      setUserData(mockUserRadiationCleanupDob, mockPrefillRadiationCleanupDob);
-      goToToxicExposurePageAndCheckYes();
-    });
-
-    it('displays the radiation cleanup, agent orange pages, and other toxic exposure pages', () => {
-      goToNextPage('/military-service/radiation-cleanup-efforts');
-      cy.get('[name="root_radiationCleanupEfforts"]').check('Y');
-      cy.injectAxeThenAxeCheck();
-
-      goToNextPage('/military-service/agent-orange-exposure');
-      cy.get('[name="root_exposedToAgentOrange"]').check('Y');
-
-      goToNextPage('/military-service/agent-orange-exposure-dates');
-      fillAgentOrangeDateRange();
-      cy.injectAxeThenAxeCheck();
-
-      goToNextPage('/military-service/other-toxic-exposure');
-      goToNextPage('/military-service/upload-supporting-documents');
-      goToNextPage('/household-information/marital-status');
-    });
-  });
-
-  describe('when the user has a DOB between 1966 and 1974', () => {
-    beforeEach(() => {
-      setUserData(mockUserOtherExposureDob, mockPrefillOtherExposureDob);
-      goToToxicExposurePageAndCheckYes();
-    });
-
-    it('only displays the other toxic exposure pages', () => {
-      goToNextPage('/military-service/other-toxic-exposure');
-      cy.get('[name="root_view:otherToxicExposures_exposureToOther"]')
-        .scrollIntoView()
-        .click();
-      cy.injectAxeThenAxeCheck();
-
-      goToNextPage('/military-service/other-toxins-or-hazards');
-      fillTextWebComponent('otherToxicExposure', 'Test');
-      cy.injectAxeThenAxeCheck();
-
-      goToNextPage('/military-service/other-toxic-exposure-dates');
-    });
-  });
-
-  describe('when the user has a DOB between 1975 and 1985', () => {
-    beforeEach(() => {
-      setUserData(mockUserGulfWarDob, mockPrefillGulfWarDob);
-      goToToxicExposurePageAndCheckYes();
-    });
-
-    it('displays the Gulf War and other toxic exposure pages', () => {
-      goToNextPage('/military-service/gulf-war-service');
-      cy.get('[name="root_gulfWarService"]').check('Y');
-      cy.injectAxeThenAxeCheck();
-
-      goToNextPage('/military-service/gulf-war-service-dates');
-      fillGulfWarDateRange();
-      cy.injectAxeThenAxeCheck();
-
-      goToNextPage('/military-service/other-toxic-exposure');
-      goToNextPage('/military-service/upload-supporting-documents');
-      goToNextPage('/household-information/marital-status');
-    });
-  });
-
-  describe('when the user has a DOB between 1986 and the present year', () => {
+  describe('when the user has a DOB between 1966 and the present day - 15 years', () => {
     beforeEach(() => {
       setUserData(mockUserCombatOperationsDob, mockPrefillCombatOperationsDob);
       goToToxicExposurePageAndCheckYes();
@@ -208,6 +138,27 @@ describe("EZR branching logic based on the user's DOB", () => {
       goToNextPage('/military-service/other-toxic-exposure');
       goToNextPage('/military-service/upload-supporting-documents');
       goToNextPage('/household-information/marital-status');
+    });
+  });
+
+  describe('when the user has a DOB before 1900 or after the present day - 15 years', () => {
+    beforeEach(() => {
+      setUserData(mockUserOtherExposureDob, mockPrefillOtherExposureDob);
+      goToToxicExposurePageAndCheckYes();
+    });
+
+    it('only displays the other toxic exposure pages', () => {
+      goToNextPage('/military-service/other-toxic-exposure');
+      cy.get('[name="root_view:otherToxicExposures_exposureToOther"]')
+        .scrollIntoView()
+        .click();
+      cy.injectAxeThenAxeCheck();
+
+      goToNextPage('/military-service/other-toxins-or-hazards');
+      fillTextWebComponent('otherToxicExposure', 'Test');
+      cy.injectAxeThenAxeCheck();
+
+      goToNextPage('/military-service/other-toxic-exposure-dates');
     });
   });
 });

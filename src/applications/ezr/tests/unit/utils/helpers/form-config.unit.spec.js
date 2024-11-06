@@ -290,12 +290,12 @@ describe('ezr form config helpers', () => {
   context('when `includeGulfWarServiceDates` executes', () => {
     context(
       'when the `gulfWarService` value is true, `includeTeraInformation` evaluates to true, ' +
-        "and the user's DOB is between 1975 and the present year",
+        "and the user's DOB is between 1900 and the present day - 15 years",
       () => {
         const formData = {
           gulfWarService: true,
           hasTeraResponse: true,
-          veteranDateOfBirth: '1991-07-16',
+          veteranDateOfBirth: '2009-07-16',
         };
         it('returns `true`', () => {
           expect(includeGulfWarServiceDates(formData)).to.be.true;
@@ -305,12 +305,12 @@ describe('ezr form config helpers', () => {
 
     context(
       'when the `gulfWarService` value is false, and/or `includeTeraInformation` evaluates ' +
-        "to false, and/or the user's DOB is not between 1975 and the present year",
+        "to false, and/or the user's DOB is not between 1900 and the present day - 15 years",
       () => {
         const formData = {
           gulfWarService: true,
           hasTeraResponse: false,
-          veteranDateOfBirth: '1987-10-25',
+          veteranDateOfBirth: '1899-10-25',
         };
         it('returns `false`', () => {
           expect(includeGulfWarServiceDates(formData)).to.be.false;
@@ -322,7 +322,7 @@ describe('ezr form config helpers', () => {
   context('when `includeAgentOrangeExposureDates` executes', () => {
     context(
       'when the `exposedToAgentOrange` value is true, `includeTeraInformation` evaluates to true, ' +
-        "and the user's DOB is between 1947 and 1965",
+        "and the user's DOB is between 1900 and 1965",
       () => {
         const formData = {
           exposedToAgentOrange: true,
@@ -337,12 +337,12 @@ describe('ezr form config helpers', () => {
 
     context(
       'when the `exposedToAgentOrange` value is false, and/or `includeTeraInformation` evaluates ' +
-        "to false, and/or the user's DOB is not between 1947 and 1965",
+        "to false, and/or the user's DOB is not between 1900 and 1965",
       () => {
         const formData = {
           exposedToAgentOrange: true,
           hasTeraResponse: false,
-          veteranDateOfBirth: '1955-02-12',
+          veteranDateOfBirth: '1966-02-12',
         };
         it('returns `false`', () => {
           expect(includeAgentOrangeExposureDates(formData)).to.be.false;
@@ -382,7 +382,7 @@ describe('ezr form config helpers', () => {
   context('when `canVeteranProvideAgentOrangeResponse` executes', () => {
     context(
       "when `includeTeraInformation` evaluates to true and the user's DOB is " +
-        'between 1947 and 1965',
+        'between 1900 and 1965',
       () => {
         const formData = {
           hasTeraResponse: true,
@@ -396,11 +396,11 @@ describe('ezr form config helpers', () => {
 
     context(
       "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
-        'is not between 1947 and 1965',
+        'is not between 1900 and 1965',
       () => {
         const formData = {
           hasTeraResponse: true,
-          veteranDateOfBirth: '1941-10-18',
+          veteranDateOfBirth: '1974-10-18',
         };
         it('returns `false`', () => {
           expect(canVeteranProvideAgentOrangeResponse(formData)).to.be.false;
@@ -412,7 +412,7 @@ describe('ezr form config helpers', () => {
   context('when `canVeteranProvideRadiationCleanupResponse` executes', () => {
     context(
       "when `includeTeraInformation` evaluates to true and the user's DOB " +
-        'is between 1951 and 1965',
+        'is between 1900 and 1965',
       () => {
         const formData = {
           hasTeraResponse: true,
@@ -427,11 +427,11 @@ describe('ezr form config helpers', () => {
 
     context(
       "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
-        'is not between 1951 and 1965',
+        'is not between 1900 and 1965',
       () => {
         const formData = {
           hasTeraResponse: true,
-          veteranDateOfBirth: '1950-11-18',
+          veteranDateOfBirth: '1896-11-18',
         };
         it('returns `false`', () => {
           expect(canVeteranProvideRadiationCleanupResponse(formData)).to.be
@@ -444,7 +444,7 @@ describe('ezr form config helpers', () => {
   context('when `canVeteranProvideGulfWarResponse` executes', () => {
     context(
       "when `includeTeraInformation` evaluates to true and the user's DOB " +
-        'is between 1975 and the present year',
+        'is between 1900 and the present day - 15 years',
       () => {
         const formData = {
           hasTeraResponse: true,
@@ -458,11 +458,11 @@ describe('ezr form config helpers', () => {
 
     context(
       "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
-        'is not between 1975 and the present year',
+        'is not between 1900 and the present day - 15 years',
       () => {
         const formData = {
           hasTeraResponse: false,
-          veteranDateOfBirth: '1974-10-18',
+          veteranDateOfBirth: '2023-10-18',
         };
         it('returns `false`', () => {
           expect(canVeteranProvideGulfWarResponse(formData)).to.be.false;
@@ -474,7 +474,7 @@ describe('ezr form config helpers', () => {
   context('when `canVeteranProvideCombatOperationsResponse` executes', () => {
     context(
       "when `includeTeraInformation` evaluates to true and the user's DOB " +
-        'is between 1986 and the present year',
+        'is between 1900 and the present day - 15 years',
       () => {
         const formData = {
           hasTeraResponse: true,
@@ -489,11 +489,11 @@ describe('ezr form config helpers', () => {
 
     context(
       "when `includeTeraInformation` evaluates to false and/or the user's " +
-        'DOB is not between 1986 and the present year',
+        'DOB is not between 1900 and the present day - 15 years',
       () => {
         const formData = {
           hasTeraResponse: false,
-          veteranDateOfBirth: '1987-10-18',
+          veteranDateOfBirth: '1895-10-18',
         };
         it('returns `false`', () => {
           expect(canVeteranProvideCombatOperationsResponse(formData)).to.be
