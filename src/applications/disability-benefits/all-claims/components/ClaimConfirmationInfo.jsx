@@ -22,28 +22,30 @@ export function ClaimConfirmationInfo({
           For {first} {middle} {last} {suffix}
         </p>
       )}
-      <ul>
-        <li>
-          <strong>Date submitted</strong>
-          <div>{formatDate(dateSubmitted)}</div>
-        </li>
-        <li>
-          <strong>Conditions claimed</strong>
-          <ul className="disability-list vads-u-margin-top--0">
-            {conditions.map((disability, i) => (
-              <li key={i} className="vads-u-margin-bottom--0">
-                {typeof disability === 'string'
-                  ? capitalizeEachWord(disability)
-                  : NULL_CONDITION_STRING}
-              </li>
-            ))}
-          </ul>
-        </li>
-        <li>
-          <strong>Claim ID number</strong>
-          <div>{claimId}</div>
-        </li>
-      </ul>
+      <div>
+        <ul className="claim-list">
+          <li>
+            <strong>Date submitted</strong>
+            <div>{formatDate(dateSubmitted)}</div>
+          </li>
+          <li>
+            <strong>Conditions claimed</strong>
+            <ul className="disability-list vads-u-margin-top--0">
+              {conditions.map((disability, i) => (
+                <li key={i} className="vads-u-margin-bottom--0">
+                  {typeof disability === 'string'
+                    ? capitalizeEachWord(disability)
+                    : NULL_CONDITION_STRING}
+                </li>
+              ))}
+            </ul>
+          </li>
+          <li>
+            <strong>Claim ID number</strong>
+            <div>{claimId}</div>
+          </li>
+        </ul>
+      </div>
     </va-summary-box>
   );
 }
