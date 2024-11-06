@@ -308,7 +308,8 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]: claimant?.claimantId,
+    [formFields.claimantId]:
+      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
         first: firstName || undefined,
@@ -437,7 +438,8 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]: claimant?.claimantId,
+    [formFields.claimantId]:
+      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
         first: firstName || undefined,
@@ -573,7 +575,8 @@ export function prefillTransformerV3(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]: claimant?.claimantId,
+    [formFields.claimantId]:
+      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
         first: firstName || undefined,
@@ -829,3 +832,85 @@ export function customDirectDepositDescription() {
     </div>
   );
 }
+
+// utils/caseConverter.js
+export const toSnakeCase = obj => {
+  const result = {};
+  Object.keys(obj).forEach(key => {
+    const snakeKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+    result[snakeKey] = obj[key];
+  });
+  return result;
+};
+
+// Define all the form pages to help ensure uniqueness across all form chapters
+export const formPages = {
+  benefitSelection: 'benefitSelection',
+  applicantInformation: 'applicantInformation',
+  contactInformation: {
+    contactInformation: 'contactInformation',
+    mailingAddress: 'mailingAddress',
+    mailingAddressMilitaryBaseUpdates: 'mailingAddressMilitaryBaseUpdates',
+    preferredContactMethod: 'preferredContactMethod',
+  },
+  serviceHistory: 'serviceHistory',
+  benefitSelectionLegacy: 'benefitSelectionLegacy',
+  additionalConsiderations: {
+    activeDutyKicker: {
+      name: 'active-duty-kicker',
+      order: 1,
+      title:
+        'Do you qualify for an active duty kicker, sometimes called a College Fund?',
+      additionalInfo: {
+        trigger: 'What is an active duty kicker?',
+        info:
+          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+      },
+    },
+    reserveKicker: {
+      name: 'reserve-kicker',
+      order: 2,
+      title:
+        'Do you qualify for a reserve kicker, sometimes called a College Fund?',
+      additionalInfo: {
+        trigger: 'What is a reserve kicker?',
+        info:
+          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+      },
+    },
+    militaryAcademy: {
+      name: 'academy-commission',
+      order: 3,
+      title:
+        'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
+    },
+    seniorRotc: {
+      name: 'rotc-commission',
+      order: 4,
+      title: 'Were you commissioned as a result of Senior ROTC?',
+      additionalInfo: {
+        trigger: 'What is Senior ROTC?',
+        info:
+          'Were you commissioned as the result of a Senior ROTC (Reserve Officers Training Corps) scholarship? If "Yes," please check "Yes". If you received your commission through a non-scholarship program, please check "No."',
+      },
+    },
+    loanPayment: {
+      name: 'loan-payment',
+      order: 5,
+      title:
+        'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
+      additionalInfo: {
+        trigger: 'What does this mean?',
+        info:
+          "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
+      },
+    },
+    sixHundredDollarBuyUp: {
+      name: 'six-hundred-dollar-buy-up',
+      order: 6,
+      title:
+        'Did you make additional contributions (up to $600) to increase the amount of your monthly benefits',
+    },
+  },
+  directDeposit: 'directDeposit',
+};

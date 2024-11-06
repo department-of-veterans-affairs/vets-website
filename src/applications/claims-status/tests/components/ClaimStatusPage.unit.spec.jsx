@@ -8,7 +8,7 @@ import { createStore } from 'redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { ClaimStatusPage } from '../../containers/ClaimStatusPage';
-import { renderWithRouter } from '../utils';
+import { renderWithRouter, rerenderWithRouter } from '../utils';
 
 const params = { id: 1 };
 
@@ -30,33 +30,105 @@ const getStore = (cstUseClaimDetailsV2Enabled = true) =>
   }));
 
 describe('<ClaimStatusPage>', () => {
+  it('should render null when there are no claims', () => {
+    const { container, getByText } = renderWithRouter(
+      <ClaimStatusPage {...props} params={params} />,
+    );
+    expect($('.claim-status', container)).to.not.exist;
+    getByText('Claim status is unavailable');
+  });
+
+  it('should render null when claim is null', () => {
+    const { container, getByText } = renderWithRouter(
+      <ClaimStatusPage {...props} claim={null} params={params} />,
+    );
+    expect($('.claim-status', container)).to.not.exist;
+    getByText('Claim status is unavailable');
+  });
+
   context('cstUseClaimDetailsV2 feature flag enabled', () => {
-    it('should render null when there are no claims', () => {
-      const { container, getByText } = renderWithRouter(
-        <Provider store={getStore()}>
-          <ClaimStatusPage {...props} params={params} />,
-        </Provider>,
-      );
-      expect(document.title).to.equal(
-        'Status Of Your Claim | Veterans Affairs',
-      );
-      expect($('.claim-status', container)).to.not.exist;
-      getByText('Claim status is unavailable');
+    describe('document.title', () => {
+      // Minimum data needed for these test cases.
+      const claim = {
+        attributes: {
+          claimDate: '2024-09-04',
+          claimType: 'Compensation',
+          claimPhaseDates: {
+            previousPhases: {},
+          },
+          trackedItems: [],
+        },
+      };
+      it('should not update document title at mount-time if claim is not available', () => {
+        renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} params={params} />
+          </Provider>,
+        );
+        expect(document.title).to.equal('');
+      });
+      it('should update document title with claim details at mount-time if claim is already loaded', () => {
+        renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} claim={claim} params={params} />
+          </Provider>,
+        );
+        expect(document.title).to.equal(
+          'Status of September 4, 2024 Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should update document title with claim details after mount once the claim has loaded', () => {
+        const { rerender } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} loading params={params} />
+          </Provider>,
+        );
+        rerenderWithRouter(
+          rerender,
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} claim={claim} params={params} />
+          </Provider>,
+        );
+        expect(document.title).to.equal(
+          'Status of September 4, 2024 Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should update document title with a default message after mount once the claim fails to load', () => {
+        const { rerender } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} loading params={params} />
+          </Provider>,
+        );
+        rerenderWithRouter(
+          rerender,
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} claim={null} params={params} />
+          </Provider>,
+        );
+        expect(document.title).to.equal(
+          'Status of Your Claim | Veterans Affairs',
+        );
+      });
+      it('should not update document title after mount if the loading status has not changed', () => {
+        const { rerender } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} loading params={params} />
+          </Provider>,
+        );
+        rerenderWithRouter(
+          rerender,
+          <Provider store={getStore()}>
+            <ClaimStatusPage
+              {...props}
+              loading
+              message={{ title: 'Test', body: 'Body' }}
+              params={params}
+            />
+          </Provider>,
+        );
+        expect(document.title).to.equal('');
+      });
     });
-
-    it('should render null when claim is null', () => {
-      const { container, getByText } = renderWithRouter(
-        <Provider store={getStore()}>
-          <ClaimStatusPage {...props} claim={null} params={params} />,
-        </Provider>,
-      );
-      expect(document.title).to.equal(
-        'Status Of Your Claim | Veterans Affairs',
-      );
-      expect($('.claim-status', container)).to.not.exist;
-      getByText('Claim status is unavailable');
-    });
-
     context('should render status page without a timeline', () => {
       context(
         'shows ClaimStatusHeader, WhatWereDoing, WhatYouNeedToDo and RecentActivity sections',
@@ -111,9 +183,9 @@ describe('<ClaimStatusPage>', () => {
 
             expect(statusPage).to.exist;
             expect(document.title).to.equal(
-              'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+              'Status of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
             );
-            expect($('.claim-timeline', container)).not.to.exist;
+            expect($('va-process-list', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
             getByText('What you need to do');
@@ -167,9 +239,9 @@ describe('<ClaimStatusPage>', () => {
 
             expect(statusPage).to.exist;
             expect(document.title).to.equal(
-              'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+              'Status of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
             );
-            expect($('.claim-timeline', container)).not.to.exist;
+            expect($('va-process-list', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
             getByText('What you need to do');
@@ -182,187 +254,6 @@ describe('<ClaimStatusPage>', () => {
   });
 
   context('when feature flags disabled', () => {
-    it('should render null when there are no claims', () => {
-      const { container, getByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <ClaimStatusPage {...props} params={params} />,
-        </Provider>,
-      );
-      expect(document.title).to.equal(
-        'Status Of Your Claim | Veterans Affairs',
-      );
-      expect($('.claim-status', container)).to.not.exist;
-      getByText('Claim status is unavailable');
-    });
-
-    it('should render null when claim is null', () => {
-      const { container, getByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <ClaimStatusPage {...props} claim={null} params={params} />,
-        </Provider>,
-      );
-      expect(document.title).to.equal(
-        'Status Of Your Claim | Veterans Affairs',
-      );
-      expect($('.claim-status', container)).to.not.exist;
-      getByText('Claim status is unavailable');
-    });
-
-    it('should render page with no alerts and a timeline', () => {
-      const claim = {
-        id: '1',
-        type: 'claim',
-        attributes: {
-          claimDate: '2023-01-01',
-          claimPhaseDates: {
-            currentPhaseBack: true,
-            phaseChangeDate: '2023-03-04',
-            latestPhaseType: 'GATHERING_OF_EVIDENCE',
-            previousPhases: {
-              phase1CompleteDate: '2023-02-08',
-              phase2CompleteDate: '2023-03-04',
-            },
-          },
-          closeDate: null,
-          documentsNeeded: false,
-          decisionLetterSent: false,
-          status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
-          supportingDocuments: [],
-          trackedItems: [
-            {
-              id: 1,
-              displayName: 'Test',
-              description: 'Test',
-              status: 'NEEDED_FROM_YOU',
-            },
-          ],
-        },
-      };
-
-      const tree = SkinDeep.shallowRender(
-        <ClaimStatusPage claim={claim} params={params} />,
-      );
-      expect(tree.subTree('NeedFilesFromYou')).to.be.false;
-      expect(tree.subTree('ClaimsDecision')).to.be.false;
-      expect(tree.subTree('ClaimTimeline')).not.to.be.false;
-    });
-
-    it('should not render a timeline when closed', () => {
-      const claim = {
-        id: '1',
-        type: 'claim',
-        attributes: {
-          claimDate: '2023-01-01',
-          claimPhaseDates: {
-            currentPhaseBack: false,
-            phaseChangeDate: '2023-12-12',
-            latestPhaseType: 'COMPLETE',
-            previousPhases: {
-              phase7CompleteDate: '2023-12-12',
-            },
-          },
-          closeDate: '2023-12-12',
-          documentsNeeded: true,
-          decisionLetterSent: false,
-          status: 'COMPLETE',
-          supportingDocuments: [],
-          trackedItems: [
-            {
-              id: 1,
-              displayName: 'Test',
-              description: 'Test',
-              status: 'NEEDED_FROM_YOU',
-            },
-          ],
-        },
-      };
-
-      const tree = SkinDeep.shallowRender(
-        <ClaimStatusPage claim={claim} params={params} />,
-      );
-
-      expect(tree.subTree('ClaimsDecision')).to.be.false;
-      expect(tree.subTree('ClaimComplete')).not.to.be.false;
-      expect(tree.subTree('ClaimTimeline')).to.be.false;
-    });
-
-    it('should not render ClaimComplete with decision letter', () => {
-      const claim = {
-        id: '1',
-        type: 'claim',
-        attributes: {
-          claimDate: '2023-01-01',
-          claimPhaseDates: {
-            currentPhaseBack: false,
-            phaseChangeDate: '2023-12-12',
-            latestPhaseType: 'COMPLETE',
-            previousPhases: {
-              phase7CompleteDate: '2023-12-12',
-            },
-          },
-          closeDate: '2023-12-12',
-          documentsNeeded: false,
-          decisionLetterSent: true,
-          status: 'COMPLETE',
-          supportingDocuments: [],
-          trackedItems: [
-            {
-              id: 1,
-              displayName: 'Test',
-              description: 'Test',
-              status: 'NEEDED_FROM_YOU',
-            },
-          ],
-        },
-      };
-
-      const tree = SkinDeep.shallowRender(
-        <ClaimStatusPage claim={claim} params={params} />,
-      );
-
-      expect(tree.subTree('ClaimsDecision')).to.exist;
-      expect(tree.subTree('ClaimComplete')).to.be.false;
-      expect(tree.subTree('ClaimTimeline')).to.be.false;
-    });
-
-    it('should render need files from you component', () => {
-      const claim = {
-        id: '1',
-        type: 'claim',
-        attributes: {
-          claimDate: '2023-01-01',
-          claimPhaseDates: {
-            currentPhaseBack: false,
-            phaseChangeDate: '2023-03-04',
-            latestPhaseType: 'GATHERING_OF_EVIDENCE',
-            previousPhases: {
-              phase1CompleteDate: '2023-02-08',
-              phase2CompleteDate: '2023-03-04',
-            },
-          },
-          closeDate: null,
-          documentsNeeded: true,
-          decisionLetterSent: false,
-          status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
-          supportingDocuments: [],
-          trackedItems: [
-            {
-              id: 1,
-              displayName: 'Test',
-              description: 'Test',
-              status: 'NEEDED_FROM_YOU',
-            },
-          ],
-        },
-      };
-
-      const tree = SkinDeep.shallowRender(
-        <ClaimStatusPage claim={claim} params={params} />,
-      );
-
-      expect(tree.subTree('NeedFilesFromYou')).not.to.be.false;
-    });
-
     it('should not render need files from you when closed', () => {
       const claim = {
         id: '1',

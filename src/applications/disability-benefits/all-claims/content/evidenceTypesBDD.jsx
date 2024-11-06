@@ -6,20 +6,12 @@ export const evidenceTypeTitle = (
   </h3>
 );
 
-export const privateMedicalRecords = 'Private medical records';
-
-export const bddShaOtherEvidence =
-  'Required Separation Health Assessment - Part A Self-Assessment or other documents like your DD Form 214, supporting (lay) statements, or other evidence';
-
 export const defaultOtherEvidence = (
   <>
     Additional VA forms, medical records, separation documents (DD Form 214),
     supporting (lay) statements, or other evidence
   </>
 );
-
-export const evidenceTypeError =
-  'Please select at least one type of supporting evidence';
 
 export const evidenceTypeHelp = (
   <va-additional-info trigger="Which evidence type should I choose?">

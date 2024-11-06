@@ -6,7 +6,7 @@ import { createStore } from 'redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { OverviewPage } from '../../containers/OverviewPage';
-import { renderWithRouter } from '../utils';
+import { renderWithRouter, rerenderWithRouter } from '../utils';
 
 const props = {
   claim: {},
@@ -147,9 +147,6 @@ describe('<OverviewPage>', () => {
       </Provider>,
     );
     expect($('.overview-container', container)).to.not.exist;
-    expect(document.title).to.equal(
-      'Overview Of Your Claim | Veterans Affairs',
-    );
     getByText('Claim status is unavailable');
   });
 
@@ -160,13 +157,80 @@ describe('<OverviewPage>', () => {
       </Provider>,
     );
     expect($('.overview-container', container)).to.not.exist;
-    expect(document.title).to.equal(
-      'Overview Of Your Claim | Veterans Affairs',
-    );
     getByText('Claim status is unavailable');
   });
 
   context('cstClaimPhases feature flag enabled', () => {
+    describe('document.title', () => {
+      it('should not update document title at mount-time if claim is not available', () => {
+        renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} />
+          </Provider>,
+        );
+        expect(document.title).to.equal('');
+      });
+      it('should update document title with claim details at mount-time if claim is already loaded', () => {
+        renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={openDependencyClaim} />
+          </Provider>,
+        );
+        expect(document.title).to.equal(
+          'Overview of January 1, 2023 Dependency Claim | Veterans Affairs',
+        );
+      });
+      it('should update document title with claim details after mount once the claim has loaded', () => {
+        const { rerender } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} loading />
+          </Provider>,
+        );
+        rerenderWithRouter(
+          rerender,
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={openCompensationClaim} />
+          </Provider>,
+        );
+        expect(document.title).to.equal(
+          'Overview of January 1, 2023 Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should update document title with a default message after mount once the claim fails to load', () => {
+        const { rerender } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} loading />
+          </Provider>,
+        );
+        rerenderWithRouter(
+          rerender,
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={null} />
+          </Provider>,
+        );
+        expect(document.title).to.equal(
+          'Overview of Your Claim | Veterans Affairs',
+        );
+      });
+      it('should not update document title after mount if the loading status has not changed', () => {
+        const { rerender } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} loading />
+          </Provider>,
+        );
+        rerenderWithRouter(
+          rerender,
+          <Provider store={getStore()}>
+            <OverviewPage
+              {...props}
+              loading
+              message={{ title: 'Test', body: 'Body' }}
+            />
+          </Provider>,
+        );
+        expect(document.title).to.equal('');
+      });
+    });
     context('when claim is closed and disability compensation claim', () => {
       it('should render empty content when loading', () => {
         const { container } = renderWithRouter(
@@ -220,9 +284,10 @@ describe('<OverviewPage>', () => {
         getByText(
           'Learn about the VA claim process and what happens after you file your claim.',
         );
+
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
     context('when claim is open and disability compensation claim', () => {
@@ -280,7 +345,7 @@ describe('<OverviewPage>', () => {
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
   });
@@ -312,7 +377,7 @@ describe('<OverviewPage>', () => {
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
     context('when claim is closed and dependency compensation claim', () => {
@@ -341,7 +406,7 @@ describe('<OverviewPage>', () => {
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
     context('when claim is open and disability compensation claim', () => {
@@ -370,7 +435,7 @@ describe('<OverviewPage>', () => {
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
     context('when claim is open and dependency compensation claim', () => {
@@ -399,7 +464,7 @@ describe('<OverviewPage>', () => {
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
   });

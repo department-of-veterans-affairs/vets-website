@@ -34,6 +34,10 @@ describe('Secure Messaging Pilot feature flag', () => {
       Paths.UI_PILOT,
     );
 
+    cy.wait('@Recipients')
+      .its('request.url')
+      .should('contain', 'requires_oh=');
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 

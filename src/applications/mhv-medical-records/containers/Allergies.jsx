@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
-  formatName,
   updatePageTitle,
   crisisLineHeader,
   reportGeneratedBy,
@@ -14,7 +13,6 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   recordType,
   ALERT_TYPE_ERROR,
@@ -26,7 +24,13 @@ import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  getLastUpdatedText,
+  formatNameFirstLast,
+} from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -37,9 +41,12 @@ import {
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
+import useAcceleratedData from '../hooks/useAcceleratedData';
+
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+
   const updatedRecordList = useSelector(
     state => state.mr.allergies.updatedList,
   );
@@ -55,7 +62,10 @@ const Allergies = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+
   const user = useSelector(state => state.user.profile);
+  const { isAccelerating } = useAcceleratedData();
+
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
@@ -64,7 +74,8 @@ const Allergies = props => {
     listCurrentAsOf: allergiesCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.ALLERGY,
-    dispatchAction: getAllergiesList,
+    dispatchAction: isCurrent =>
+      getAllergiesList({ isCurrent, isAccelerating }),
     dispatch,
   });
 
@@ -82,7 +93,6 @@ const Allergies = props => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
     },
@@ -96,17 +106,38 @@ const Allergies = props => {
     updatePageTitle,
   );
 
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.ALLERGY,
+  );
+
   const generateAllergiesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateAllergiesIntro(allergies);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
+    const { title, value, subject, preface } = generateAllergiesIntro(
+      refresh.status,
+      lastUpdatedText,
+    );
+    const scaffold = generatePdfScaffold(user, title, value, subject, preface);
+    const pdfData = {
+      ...scaffold,
+      ...generateAllergiesContent(allergies, isAccelerating),
+    };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
   const generateAllergyListItemTxt = item => {
     setDownloadStarted(true);
+    if (isAccelerating) {
+      return `
+${txtLine}\n\n
+${item.name}\n
+Date entered: ${item.date}\n
+Signs and symptoms: ${item.reaction}\n
+Type of Allergy: ${item.type}\n
+Recorded By: ${item.provider}\n
+Provider notes: ${item.notes}\n`;
+    }
     return `
 ${txtLine}\n\n
 ${item.name}\n
@@ -122,7 +153,7 @@ Provider notes: ${item.notes}\n`;
     const content = `
 ${crisisLineHeader}\n\n
 Allergies and reactions\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Review allergies, reactions, and side effects in your VA medical
@@ -172,6 +203,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
             dispatch(reloadRecords());
           }}
         />
+
         <PrintDownload
           list
           downloadPdf={generateAllergiesPdf}
@@ -179,7 +211,13 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           downloadTxt={generateAllergiesTxt}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        <RecordList records={allergies} type={recordType.ALLERGIES} />
+        <RecordList
+          records={allergies?.map(allergy => ({
+            ...allergy,
+            isOracleHealthData: isAccelerating,
+          }))}
+          type={recordType.ALLERGIES}
+        />
       </RecordListSection>
     </div>
   );

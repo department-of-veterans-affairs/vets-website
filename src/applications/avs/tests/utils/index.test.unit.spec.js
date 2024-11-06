@@ -3,9 +3,11 @@ import {
   allArraysEmpty,
   allFieldsEmpty,
   fieldHasValue,
+  parseProblemDateTime,
   parseVistaDateTime,
   parseVistaDate,
   stripDst,
+  formatImmunizationDate,
   getShortTimezone,
   getFormattedAppointmentTime,
   getFormattedAppointmentDate,
@@ -14,6 +16,89 @@ import {
 
 describe('avs', () => {
   describe('utils', () => {
+    describe('formatImmunizationDate', () => {
+      it('should format a valid date correctly', () => {
+        const date = '06/24/2020';
+        const formattedDate = formatImmunizationDate(date);
+        expect(formattedDate).to.equal('June 24, 2020'); // Adjust based on the actual output of formatDateLong
+      });
+
+      it('should return "N/A" for an improperly formatted date', () => {
+        const date = '00/00/1998';
+        const formattedDate = formatImmunizationDate(date);
+        expect(formattedDate).to.equal('N/A');
+      });
+
+      it('should return "N/A" for an invalid date', () => {
+        const date = 'invalid-date';
+        const formattedDate = formatImmunizationDate(date);
+        expect(formattedDate).to.equal('N/A');
+      });
+
+      it('should return "N/A" for an empty date string', () => {
+        const date = '';
+        const formattedDate = formatImmunizationDate(date);
+        expect(formattedDate).to.equal('N/A');
+      });
+
+      it('should return "N/A" for a null date', () => {
+        const date = null;
+        const formattedDate = formatImmunizationDate(date);
+        expect(formattedDate).to.equal('N/A');
+      });
+
+      it('should return "N/A" for an undefined date', () => {
+        const date = undefined;
+        const formattedDate = formatImmunizationDate(date);
+        expect(formattedDate).to.equal('N/A');
+      });
+    });
+    describe('parseProblemDateTime', () => {
+      it('should correctly parse dates for all months', () => {
+        const months = [
+          { name: 'Jan', number: 0 },
+          { name: 'Feb', number: 1 },
+          { name: 'Mar', number: 2 },
+          { name: 'Apr', number: 3 },
+          { name: 'May', number: 4 },
+          { name: 'Jun', number: 5 },
+          { name: 'Jul', number: 6 },
+          { name: 'Aug', number: 7 },
+          { name: 'Sep', number: 8 },
+          { name: 'Oct', number: 9 },
+          { name: 'Nov', number: 10 },
+          { name: 'Dec', number: 11 },
+        ];
+
+        months.forEach(month => {
+          const dateString = `XXX ${month.name} 11 00:00:00 PDT 2023`;
+          const expectedDate = new Date(2023, month.number, 11);
+          const parsedDate = parseProblemDateTime(dateString);
+
+          expect(parsedDate.getFullYear()).to.equal(expectedDate.getFullYear());
+          expect(parsedDate.getMonth()).to.equal(expectedDate.getMonth());
+          expect(parsedDate.getDate()).to.equal(expectedDate.getDate());
+        });
+      });
+
+      it('should correctly parse a specific date', () => {
+        const dateString = 'Thu Apr 07 00:00:00 EST 2005';
+        const expectedDate = new Date(2005, 3, 7); // April is month 3 (zero-based)
+        const parsedDate = parseProblemDateTime(dateString);
+
+        expect(parsedDate.getFullYear()).to.equal(expectedDate.getFullYear());
+        expect(parsedDate.getMonth()).to.equal(expectedDate.getMonth());
+        expect(parsedDate.getDate()).to.equal(expectedDate.getDate());
+      });
+
+      it('should handle invalid date strings gracefully', () => {
+        const dateString = 'Invalid Date String';
+        const parsedDate = parseProblemDateTime(dateString);
+
+        expect(parsedDate.toString()).to.equal('Invalid Date');
+      });
+    });
+
     describe('parse vista datetime format', () => {
       it('correctly parses an ambiguous datetime', () => {
         const vistaDateTime = '11/12/2018@16:00';

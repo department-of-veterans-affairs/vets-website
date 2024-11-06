@@ -13,7 +13,6 @@ import DetailPageLayout, {
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -44,10 +43,6 @@ export default function VideoLayoutAtlas({ data: appointment }) {
     shallowEqual,
   );
 
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
-  );
-
   const address = facility?.address;
   let heading = 'Video appointment at an ATLAS location';
   if (isPastAppointment)
@@ -60,11 +55,10 @@ export default function VideoLayoutAtlas({ data: appointment }) {
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="How to join">
-            You will use this appointment code to find your appointment using
-            the computer provided at the site:
+            You’ll use this appointment code to find your appointment using the
+            computer provided at the site:
             <br />
             {atlasConfirmationCode}
-            <br />
             <br />
           </Section>
         )}
@@ -98,8 +92,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
         >
           <Address address={videoProviderAddress} />
           <div className="vads-u-margin-top--1 vads-u-color--link-default">
-            <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-            <FacilityDirectionsLink location={facility} />
+            <FacilityDirectionsLink location={facility} icon />
           </div>
         </Where>
       )}
@@ -132,22 +125,19 @@ export default function VideoLayoutAtlas({ data: appointment }) {
         </Section>
       )}
 
-      {featureMedReviewInstructions &&
-        !isPastAppointment &&
+      {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
             <ul className="vads-u-margin-top--0">
               <li>
-                Bring your insurance cards, a list of medications, and other
-                things to share with your provider
+                Bring your insurance cards. And bring a list of your medications
+                and other information to share with your provider.
                 <br />
-                <a
-                  target="_self"
+                <va-link
+                  text="Find a full list of things to bring to your appointment"
                   href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
-                >
-                  Find out what to bring to your appointment
-                </a>
+                />
               </li>
               <li>
                 Get your device ready to join.

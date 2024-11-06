@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import LogoutAlert from './LogoutAlert';
 import DowntimeBanners from './DowntimeBanner';
 
@@ -14,7 +13,7 @@ export default function LoginHeader({ loggedOut }) {
             id="signin-signup-modal-title"
             className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
           >
-            Sign in
+            Sign in or create an account
           </h1>
         </div>
       </div>

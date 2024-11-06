@@ -63,7 +63,7 @@ describe('verify sorting feature with only one filter result', () => {
     PatientInboxPage.clickFilterMessagesButton(mockSingleFilterResult);
     PatientInboxPage.verifyFilterResults('draft', mockSingleFilterResult);
 
-    cy.get(Locators.DROPDOWN).should('not.exist');
+    cy.get(Locators.DROPDOWN.SORT).should('not.exist');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

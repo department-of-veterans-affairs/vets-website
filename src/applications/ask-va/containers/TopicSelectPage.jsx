@@ -1,29 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { setTopicID } from '../actions';
+import CatAndTopicSummary from '../components/CatAndTopicSummary';
+import RequireSignInModal from '../components/RequireSignInModal';
 import { ServerErrorAlert } from '../config/helpers';
 import {
   CHAPTER_1,
-  CHAPTER_2,
   URL,
-  envUrl,
-  requireSignInTopics,
+  getApiUrl,
   requiredForSubtopicPage,
 } from '../constants';
-import RequireSignInModal from '../components/RequireSignInModal';
-import CatAndTopicSummary from '../components/CatAndTopicSummary';
 
 const TopicSelectPage = props => {
-  const { onChange, loggedIn, goBack, goToPath, formData, categoryID } = props;
+  const {
+    onChange,
+    loggedIn,
+    goBack,
+    goToPath,
+    goForward,
+    formData,
+    categoryID,
+  } = props;
   const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
@@ -42,7 +48,7 @@ const TopicSelectPage = props => {
       if (requiredForSubtopicPage.includes(data.selectTopic)) {
         return goToPath(`/${CHAPTER_1.PAGE_3.PATH}`);
       }
-      return goToPath(`/${CHAPTER_2.PAGE_1.PATH}`);
+      return goForward(data);
     }
     focusElement('va-radio');
     return setValidationError('Please select a topic');
@@ -53,10 +59,13 @@ const TopicSelectPage = props => {
     const selected = apiData.find(
       topic => topic.attributes.name === selectedValue,
     );
-    dispatch(setTopicID(selected.id));
-    onChange({ ...formData, selectTopic: selectedValue });
-    if (requireSignInTopics.includes(selectedValue) && !loggedIn)
+
+    if (selected.attributes.requiresAuthentication && !loggedIn) {
       setShowModal({ show: true, selected: selectedValue });
+    } else {
+      dispatch(setTopicID(selected.id));
+      onChange({ ...formData, selectTopic: selectedValue });
+    }
   };
 
   const getApiData = url => {
@@ -74,11 +83,9 @@ const TopicSelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(
-        `${envUrl}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${URL.GET_TOPICS}`,
-      );
+      getApiData(getApiUrl(URL.GET_TOPICS, { PARENT_ID: categoryID }));
     },
-    [loggedIn],
+    [loggedIn, categoryID],
   );
 
   useEffect(
@@ -110,7 +117,7 @@ const TopicSelectPage = props => {
           required
           uswds
         >
-          {apiData.map(topic => (
+          {apiData?.map(topic => (
             <VaRadioOption
               key={topic.id}
               name="select_topic"
@@ -129,7 +136,7 @@ const TopicSelectPage = props => {
       <RequireSignInModal
         onClose={onModalNo}
         show={showModal.show}
-        restrictedItem={showModal.selected}
+        restrictedItem="topic"
       />
     </>
   ) : (

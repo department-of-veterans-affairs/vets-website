@@ -21,10 +21,6 @@ const HEALTH_TOOL_LINKS = freeze({
       href: '/health-care/schedule-view-va-appointments/appointments',
       text: 'Manage upcoming appointments',
     },
-    {
-      href: '/find-locations',
-      text: 'Find VA locations',
-    },
   ]),
   MESSAGES: freeze([
     {
@@ -34,10 +30,6 @@ const HEALTH_TOOL_LINKS = freeze({
     {
       href: '/my-health/secure-messages/new-message/',
       text: 'Start a new message',
-    },
-    {
-      href: '/my-health/secure-messages/folders/',
-      text: 'Manage folders',
     },
   ]),
   MEDICATIONS: freeze([
@@ -52,12 +44,8 @@ const HEALTH_TOOL_LINKS = freeze({
   ]),
   MEDICAL_RECORDS: freeze([
     {
-      href: '/my-health/medical-records/download-all',
-      text: 'Download medical record (Blue Button®)',
-    },
-    {
-      href: '/my-health/medical-records/labs-and-tests',
-      text: 'Lab and test results',
+      href: '/my-health/medical-records/',
+      text: 'Get medical records',
     },
   ]),
   PAYMENTS: freeze([
@@ -74,12 +62,8 @@ const HEALTH_TOOL_LINKS = freeze({
   ]),
   MEDICAL_SUPPLIES: freeze([
     {
-      href: '/health-care/order-hearing-aid-batteries-and-accessories',
-      text: 'Order hearing aid batteries and accessories',
-    },
-    {
-      href: '/health-care/order-cpap-supplies/',
-      text: 'Order CPAP supplies',
+      href: '/health-care/order-hearing-aid-or-CPAP-supplies-form/introduction',
+      text: 'Order hearing aid and CPAP supplies',
     },
     {
       href: '/health-care/order-medical-supplies/',

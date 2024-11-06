@@ -109,75 +109,102 @@ export const formConfig1 = {
   },
 };
 
-export const formConfig2 = {
-  rootUrl: `${manifest.rootUrl}/456-xyz`,
-  urlPrefix: '/456-xyz/',
-  trackingPrefix: '456-xyz-',
-  // eslint-disable-next-line no-console
-  submit: () => console.log('submit form 2'),
-  introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
-  formId: '456-xyz',
-  saveInProgress: {},
-  version: 0,
-  prefillEnabled: true,
-  savedFormMessages: {
-    notFound: 'Form 2 NOT FOUND',
-    noAuth: 'Please sign in again to continue Form 2.',
+// This is a sample of the data structure produced by content-build.
+export const normalizedForm = {
+  cmsId: 71160,
+  formId: '2121212',
+  title: 'Form with Two Steps',
+  ombInfo: {
+    expDate: '8/29/2025',
+    ombNumber: '1212-1212',
+    resBurden: 30,
   },
-  title: 'Form 456-XYZ',
-  defaultDefinitions: {},
-  chapters: {
-    f2c1: {
-      title: 'Form 2 Chapter 1',
-      pages: {
-        f2c1p1: {
-          path: 'f2c1p1',
-          title: 'Form 2 Chapter 1 Page 1',
-          uiSchema: {
-            favoriteFood: {
-              'ui:title': 'Favorite Food',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  P: 'Pizza',
-                  H: 'Hamburger',
-                  S: 'Salad',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [],
-            properties: {
-              favoriteFood: {
-                type: 'string',
-                enum: ['P', 'H', 'S'],
-              },
-            },
-          },
+  chapters: [
+    {
+      id: 162008,
+      type: 'digital_form_your_personal_info',
+      chapterTitle: 'Your personal information',
+      pages: [
+        {
+          pageTitle: 'Name',
+          includeDateOfBirth: false,
         },
-        f2c1p2: {
-          path: 'f2c1p2',
-          title: 'Form 2 Chapter 1 Page 2',
-          uiSchema: {
-            otherInformation: {
-              'ui:title': 'Other Information',
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [],
-            properties: {
-              otherInformation: {
-                type: 'string',
-              },
-            },
-          },
+        {
+          pageTitle: 'Identification information',
+          includeServiceNumber: false,
         },
+      ],
+    },
+    {
+      id: 161344,
+      chapterTitle: 'Generated Address',
+      type: 'digital_form_address',
+      pageTitle: 'Address',
+      additionalFields: {
+        militaryAddressCheckbox: false,
       },
     },
-  },
+    {
+      id: 161351,
+      chapterTitle: 'Generated Phone',
+      type: 'digital_form_phone_and_email',
+      pageTitle: 'Phone and email address',
+      additionalFields: {
+        includeEmail: false,
+      },
+    },
+  ],
 };
+
+/**
+ * This is a mock of VA Form 21-4140. It will provide a blueprint we can test
+ * against, and it will serve as the output goal for Drupal and content-build
+ * tickets related to the Form Engine: Recreating VA Form 21-4140 epic.
+ */
+export const employmentQuestionnaire = {
+  cmsId: 10001,
+  formId: '21-4140',
+  title: 'Employment Questionnaire',
+  ombInfo: {
+    expDate: '7/31/2024',
+    ombNumber: '2900-0079',
+    resBurden: 5,
+  },
+  chapters: [
+    {
+      id: 162013,
+      type: 'digital_form_your_personal_info',
+      chapterTitle: 'Your personal information',
+      pages: [
+        {
+          pageTitle: 'Name and date of birth',
+          includeDateOfBirth: true,
+        },
+        {
+          pageTitle: 'Identification information',
+          includeServiceNumber: true,
+        },
+      ],
+    },
+    {
+      id: 20003,
+      chapterTitle: "Veteran's mailing information",
+      type: 'digital_form_address',
+      pageTitle: 'Address',
+      additionalFields: {
+        militaryAddressCheckbox: true,
+      },
+    },
+    {
+      id: 20004,
+      chapterTitle: "Veteran's contact information",
+      type: 'digital_form_phone_and_email',
+      pageTitle: 'Phone and email address',
+      additionalFields: {
+        includeEmail: true,
+      },
+    },
+  ],
+};
+
+export default [formConfig1, normalizedForm, employmentQuestionnaire];

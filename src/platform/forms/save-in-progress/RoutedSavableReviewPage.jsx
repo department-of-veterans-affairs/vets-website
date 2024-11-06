@@ -3,10 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { Element } from 'platform/utilities/scroll';
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 
 import DowntimeNotification, {
   externalServiceStatus,
@@ -23,13 +22,6 @@ class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = debounce(1000, this.autoSave);
-  }
-
-  componentDidMount() {
-    scrollToTop('topScrollElement', getScrollOptions());
-    // The first h2 is the breadcrumb "Step 1 of..." which is a chapter
-    // containing multiple pages, so the h2 won't be unique between pages
-    focusElement('h2');
   }
 
   autoSave = () => {
@@ -67,6 +59,7 @@ class RoutedSavableReviewPage extends React.Component {
 
     return (
       <div>
+        <Element name="topContentElement" />
         {CustomReviewTopContent && <CustomReviewTopContent />}
         {!hideReviewChapters && (
           <ReviewChapters

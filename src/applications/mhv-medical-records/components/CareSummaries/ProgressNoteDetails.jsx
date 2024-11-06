@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
   updatePageTitle,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
@@ -17,6 +16,7 @@ import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -28,7 +28,6 @@ import {
   generateProgressNoteContent,
 } from '../../util/pdfHelpers/notes';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { setIsDetails } from '../../actions/isDetails';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -40,18 +39,6 @@ const ProgressNoteDetails = props => {
       ],
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
-
-  const dispatch = useDispatch();
-
-  useEffect(
-    () => {
-      dispatch(setIsDetails(true));
-      return () => {
-        dispatch(setIsDetails(false));
-      };
-    },
-    [dispatch],
-  );
 
   useEffect(
     () => {
@@ -84,7 +71,7 @@ const ProgressNoteDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${txtLine}\n\n
@@ -110,6 +97,7 @@ ${record.note}`;
         className="vads-u-margin-bottom--0"
         aria-describedby="progress-note-date"
         data-testid="progress-note-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -130,27 +118,39 @@ ${record.note}`;
 
       <div className="test-details-container max-80">
         <h2>Details</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="progress-location">{record.location}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="progress-location" data-dd-privacy="mask">
+          {record.location}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Written by
         </h3>
-        <p data-testid="note-record-written-by">{record.writtenBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="note-record-written-by" data-dd-privacy="mask">
+          {record.writtenBy}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Signed by
         </h3>
-        <p data-testid="note-record-signed-by">{record.signedBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="note-record-signed-by" data-dd-privacy="mask">
+          {record.signedBy}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Date signed
         </h3>
-        <p data-testid="progress-signed-date">{record.dateSigned}</p>
+        <p data-testid="progress-signed-date" data-dd-privacy="mask">
+          {record.dateSigned}
+        </p>
       </div>
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p data-testid="note-record" className="monospace">
+        <p
+          data-testid="note-record"
+          className="monospace vads-u-line-height--6"
+          data-dd-privacy="mask"
+        >
           {record.note}
         </p>
       </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ariaLabels } from '../../constants';
 import { upperCaseFirstLetterOnly } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
@@ -139,3 +140,7 @@ export default function Academics({ institution, onShowModal }) {
     </div>
   );
 }
+Academics.propTypes = {
+  institution: PropTypes.object,
+  onShowModal: PropTypes.func,
+};

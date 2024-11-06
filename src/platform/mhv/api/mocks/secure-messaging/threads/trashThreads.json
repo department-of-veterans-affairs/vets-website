@@ -1,0 +1,60 @@
+{
+    "data": [
+      {
+        "id": "2993391",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 2993391,
+          "folderId": -3,
+          "messageId": 2993392,
+          "body": "Testing 123",
+          "threadPageSize": 2,
+          "messageCount": 2,
+          "category": "TEST_RESULTS",
+          "subject": "CBC Lab Results",
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "sentDate": "2023-09-01T14:47:58.000Z",
+          "draftDate": null,
+          "senderId": 2992380,
+          "senderName": "COSTELLO, ANNE  M",
+          "recipientName": "LEE, JAMIE ",
+          "recipientId": 2991831,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/2993391"
+        }
+      },
+      {
+        "id": "2991842",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 2991842,
+          "folderId": -3,
+          "messageId": 2991843,
+          "body": "Testing 123",
+          "threadPageSize": 2,
+          "messageCount": 2,
+          "category": "OTHER",
+          "subject": "General Inquiry - 1",
+          "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "sentDate": "2023-08-31T15:33:51.000Z",
+          "draftDate": null,
+          "senderId": 2339005,
+          "senderName": "TRAN, AN ",
+          "recipientName": "LEE, JAMIE ",
+          "recipientId": 2991831,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/2991842"
+        }
+      }
+    ]
+  }

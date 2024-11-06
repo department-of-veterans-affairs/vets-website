@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import DetailPageLayout, {
+  CCDetails,
   Section,
   What,
   When,
@@ -10,7 +11,6 @@ import DetailPageLayout, {
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -22,7 +22,6 @@ import Address from '../Address';
 
 export default function CCLayout({ data: appointment }) {
   const {
-    comment,
     facility,
     isPastAppointment,
     ccProvider,
@@ -34,14 +33,10 @@ export default function CCLayout({ data: appointment }) {
     shallowEqual,
   );
 
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
-  );
-
   if (!appointment) return null;
 
   const { address, providerName, treatmentSpecialty } = ccProvider;
-  const [reason, otherDetails] = comment ? comment?.split(':') : [];
+  const { patientComments } = appointment || {};
 
   let heading = 'Community care appointment';
   if (isPastAppointment) heading = 'Past community care appointment';
@@ -81,8 +76,7 @@ export default function CCLayout({ data: appointment }) {
             <>
               <Address address={address} />
               <div className="vads-u-margin-top--1 vads-u-color--link-default">
-                <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-                <FacilityDirectionsLink location={{ address }} />
+                <FacilityDirectionsLink location={{ address }} icon />
               </div>
             </>
           )}
@@ -94,29 +88,21 @@ export default function CCLayout({ data: appointment }) {
             </>
           )}
         </Section>
-        <Section heading="Details you shared with your provider">
-          <span>
-            Reason:{' '}
-            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-          </span>
-          <br />
-          <span>Other details: {`${otherDetails || 'Not available'}`}</span>
-        </Section>
-        {featureMedReviewInstructions &&
-          !isPastAppointment &&
+        <CCDetails otherDetails={patientComments} />
+        {!isPastAppointment &&
           (APPOINTMENT_STATUS.booked === status ||
             APPOINTMENT_STATUS.cancelled === status) && (
             <Prepare>
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                Bring your insurance cards, a list of medications, and other
-                things to share with your provider.
+                Bring your insurance cards. And bring a list of your medications
+                and other information to share with your provider.
               </p>
-              <a
-                target="_self"
-                href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
-              >
-                Find out what to bring to your appointment
-              </a>
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+                <va-link
+                  text="Find a full list of things to bring to your appointment"
+                  href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+                />
+              </p>
             </Prepare>
           )}
         {APPOINTMENT_STATUS.booked === status &&

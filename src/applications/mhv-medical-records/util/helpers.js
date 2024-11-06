@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { format as dateFnsFormat, parseISO } from 'date-fns';
+import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
 import {
   EMPTY_FIELD,
   interpretationMap,
@@ -24,17 +24,44 @@ export const dateFormat = (timestamp, format = null) => {
 };
 
 /**
- * @param {*} datetime (2017-08-02T09:50:57-04:00)
+ * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
 export const dateFormatWithoutTimezone = datetime => {
   let withoutTimezone = datetime;
   if (typeof datetime === 'string' && datetime.includes('-')) {
-    withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+    // Check if datetime has a timezone and strip it off if present
+    if (datetime.includes('T')) {
+      withoutTimezone = datetime
+        .substring(datetime.indexOf('T'), datetime.length)
+        .includes('-')
+        ? datetime.substring(0, datetime.lastIndexOf('-'))
+        : datetime.replace('Z', '');
+    } else {
+      // Handle the case where the datetime is just a date (e.g., "2000-08-09")
+      const parsedDate = parseISO(datetime);
+      if (isValid(parsedDate)) {
+        return dateFnsFormat(parsedDate, 'MMMM d, yyyy', { in: 'UTC' });
+      }
+    }
+  } else {
+    withoutTimezone = new Date(datetime).toISOString().replace('Z', '');
   }
-  return moment(withoutTimezone).format('MMMM D, YYYY, h:mm a');
-};
 
+  const parsedDateTime = parseISO(withoutTimezone);
+  if (isValid(parsedDateTime)) {
+    const formattedDate = dateFnsFormat(
+      parsedDateTime,
+      'MMMM d, yyyy, h:mm a',
+      { in: 'UTC' },
+    );
+    return formattedDate.replace(/AM|PM/, match =>
+      match.toLowerCase().replace('m', '.m.'),
+    );
+  }
+
+  return null;
+};
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
  * @returns {String} formatted timestamp
@@ -67,23 +94,6 @@ export const getReactions = record => {
  */
 export const isArrayAndHasItems = obj => {
   return Array.isArray(obj) && obj.length;
-};
-
-/**
- * Concatenate all the record.category[].text values in a FHIR record.
- *
- * @param {Object} record
- * @returns {String} list of text values, separated by a comma
- */
-export const concatCategoryCodeText = record => {
-  if (isArrayAndHasItems(record.category)) {
-    const textFields = record.category
-      .filter(category => category.text)
-      .map(category => category.text);
-
-    return textFields.join(', ');
-  }
-  return null;
 };
 
 /**
@@ -343,7 +353,7 @@ export const formatDate = str => {
     return str;
   }
   if (monthRegex.test(str)) {
-    return dateFnsFormat(parseISO(str), 'MMMM, yyyy');
+    return dateFnsFormat(parseISO(str), 'MMMM, yyyy', { in: 'UTC' });
   }
   return formatDateLong(str);
 };
@@ -353,15 +363,24 @@ export const formatDate = str => {
  *
  * @param {Date} date
  */
-export const formatDateAndTime = date => {
+export const formatDateAndTime = rawDate => {
+  let date = rawDate;
+  if (typeof rawDate === 'string') {
+    date = new Date(rawDate);
+  }
+
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const period = hours >= 12 ? 'p.m.' : 'a.m.';
   const formattedHours = hours % 12 || 12; // Convert to 12-hour format
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const timePart = `${formattedHours}:${formattedMinutes} ${period} ET`;
+  const timePart = `${formattedHours}:${formattedMinutes} ${period}`;
 
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
   const datePart = date.toLocaleDateString('en-US', options);
 
   return {
@@ -416,4 +435,102 @@ export const decodeBase64Report = data => {
       .replace(/\r\n|\r/g, '\n'); // Standardize line endings
   }
   return null;
+};
+const generateHash = async data => {
+  const dataBuffer = new TextEncoder().encode(data);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+};
+
+export const radiologyRecordHash = async record => {
+  const { procedureName, radiologist, stationNumber, eventDate } = record;
+  const dataString = `${procedureName}|${radiologist}|${stationNumber}|${eventDate}`;
+  return (await generateHash(dataString)).substring(0, 8);
+};
+
+/**
+ * @function getLastUpdatedText
+ * @description Generates a string that displays the last successful update for a given extract type.
+ * It checks the refresh state status and formats the time and date of the last update.
+ *
+ * @param {Array} refreshStateStatus - The array of refresh state objects containing extract types and their statuses.
+ * @param {string} extractType - The type of extract we want to find in the refresh state (e.g., CHEM_HEM).
+ *
+ * @returns {string|null} - Returns a formatted string with the time and date of the last update, or null if no update is found.
+ */
+export const getLastUpdatedText = (refreshStateStatus, extractType) => {
+  if (refreshStateStatus) {
+    const extract = refreshStateStatus.find(
+      status => status.extract === extractType,
+    );
+
+    if (extract?.lastSuccessfulCompleted) {
+      const lastSuccessfulUpdate = formatDateAndTime(
+        extract.lastSuccessfulCompleted,
+      );
+
+      if (lastSuccessfulUpdate) {
+        return `Last updated at ${lastSuccessfulUpdate.time} on ${
+          lastSuccessfulUpdate.date
+        }`;
+      }
+    }
+  }
+
+  return null;
+};
+
+/**
+ * @param {Object} nameObject {first, middle, last, suffix}
+ * @returns {String} formatted timestamp
+ */
+
+export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
+  let returnName = '';
+
+  let firstName = `${first}`;
+  let lastName = `${last}`;
+
+  if (!first) {
+    return lastName;
+  }
+  if (middle) firstName += ` ${middle}`;
+  if (suffix) lastName += `, ${suffix}`;
+
+  returnName = `${firstName} ${lastName}`;
+
+  return returnName;
+};
+
+/**
+ * @param {Object} nameObject name
+ * @returns {String} formatted timestamp
+ */
+
+export const formatNameFirstToLast = name => {
+  try {
+    if (typeof name === 'object') {
+      if ('family' in name && 'given' in name) {
+        const firstname = name.given?.join(' ');
+        const lastname = name.family;
+        return `${firstname} ${lastname}`;
+      }
+
+      const parts = name?.text.split(',');
+      if (parts.length !== 2) {
+        return name;
+      }
+      const [lastname, firstname] = parts;
+      return `${firstname} ${lastname}`;
+    }
+    const parts = name.split(',');
+    if (parts.length !== 2) {
+      return name;
+    }
+    const [lastname, firstname] = parts;
+    return `${firstname} ${lastname}`;
+  } catch {
+    return null;
+  }
 };

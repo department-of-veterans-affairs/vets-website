@@ -1,72 +1,37 @@
 import React from 'react';
-
-const CHARACTER_OF_DISCHARGE = [
-  'Honorable',
-  'Under Honorable Conditions (General)',
-  'Under Honorable Conditions',
-  'Dishonorable',
-  'Uncharacterized',
-  'Bad Conduct',
-  "I'm not sure",
-];
+import { selectUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  characterOfDischargeTypes,
+  characterOfDischargeTypeLabels,
+} from '../constants/benefits';
 
 export default {
   uiSchema: {
-    // 'view:characterOfDischarge': {
-    characterOfDischarge: {
-      'ui:title': (
-        <>
-          <p>
-            <b>What was your character of discharge?</b>
-            <span className="schemaform-required-span">(*Required)</span>
-          </p>
-        </>
-      ),
-      'ui:description': (
-        <>
-          <p>
-            If you served multiple titles with different characters of
-            discharge, please select the "highest" of your discharge statuses.
-          </p>
-          <p>
-            If you feel your character of discharge is unjust, you can apply for
-            a discharge upgrade.
-          </p>
-        </>
-      ),
-      // 'ui:webComponentField': VaSelectField,
-      'ui:widget': 'select',
-      'ui:options': {
-        placeholder: 'Select',
-
-        widgetProps: {
-          honorable: { characterOfDischarge: 'Honorable' },
-          underHonorableConditionsGeneral: {
-            characterOfDischarge: 'Under Honorable Conditions (General)',
-          },
-          underHonorableConditions: {
-            characterOfDischarge: 'Under Honorable Conditions',
-          },
-          dishonorable: { characterOfDischarge: 'Dishonorable' },
-          uncharacterized: { characterOfDischarge: 'Uncharacterized' },
-          badConduct: { characterOfDischarge: 'Bad Conduct' },
-          notSure: { characterOfDischarge: "I'm not sure" },
-        },
-      },
-      'ui:required': () => true,
-      'ui:errorMessages': {
+    characterOfDischarge: selectUI({
+      title:
+        'What is the highest character of discharge you have received or expect to receive?',
+      hint: `If you served multiple times with different characters of discharge,
+      please select the "highest" of your discharge statuses. 
+      If you feel your character of discharge is unjust, you can apply for
+      a discharge upgrade.`,
+      required: () => true,
+      errorMessages: {
         required: 'Character of discharge is required',
       },
-    },
-    // },
+    }),
     characterOfDischargeTWO: {
       'ui:title': '',
       'ui:description': (
         <>
           <p>
-            <a href="https://www.va.gov/discharge-upgrade-instructions">
-              Learn more about the discharge upgrade process.
-            </a>
+            <a
+              target="_blank"
+              href="https://www.va.gov/discharge-upgrade-instructions"
+              rel="noreferrer"
+            >
+              Learn more about the discharge upgrade process (opens in a new
+              tab)
+            </a>{' '}
             <br />
             Not sure about this question? Call us at{' '}
             <va-telephone contact="8006982411" /> (
@@ -81,10 +46,12 @@ export default {
   },
   schema: {
     type: 'object',
+    required: ['characterOfDischarge'],
     properties: {
       characterOfDischarge: {
         type: 'string',
-        enum: CHARACTER_OF_DISCHARGE,
+        enum: Object.keys(characterOfDischargeTypes),
+        enumNames: Object.values(characterOfDischargeTypeLabels),
       },
       characterOfDischargeTWO: { type: 'object', properties: {} },
     },

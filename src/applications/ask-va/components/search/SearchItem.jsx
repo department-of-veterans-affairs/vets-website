@@ -74,7 +74,7 @@ const SearchItem = ({
               key={facility.id}
               id={facility.id}
               label={facilityInfo(facility)}
-              value={facilityInfo(facility)}
+              value={facility.id}
               name="primary"
               checked={selected === facilityInfo(facility)}
               uswds

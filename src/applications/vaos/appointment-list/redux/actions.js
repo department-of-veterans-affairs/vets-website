@@ -30,6 +30,7 @@ import {
   fetchBookedAppointment,
   cancelAppointment,
 } from '../../services/appointment';
+
 import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -374,6 +375,8 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       const results = await fetchAppointments({
         startDate,
         endDate,
+        avs: true,
+        fetchClaimStatus: true,
       });
 
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));

@@ -57,6 +57,7 @@ const Confirmation = props => {
     setCheckinComplete,
     getCheckinComplete,
     setCompleteTimestamp,
+    getCompleteTimestamp,
   } = useStorage(APP_NAMES.CHECK_IN);
 
   useEffect(
@@ -90,9 +91,12 @@ const Confirmation = props => {
           });
           const { status } = json;
           if (status === 200) {
+            const completeTime = getCompleteTimestamp(window);
             setCheckinComplete(window, true);
-            setCompleteTimestamp(window, Date.now());
             setIsCheckInLoading(false);
+            if (!completeTime) {
+              setCompleteTimestamp(window, Date.now());
+            }
           } else {
             updateError('check-in-post-error');
           }
@@ -102,11 +106,7 @@ const Confirmation = props => {
       }
       if (error) {
         updateError('check-in-demographics-patch-error');
-      } else if (
-        appointment &&
-        !getCheckinComplete(window)?.complete &&
-        (isComplete || demographicsFlagsEmpty)
-      ) {
+      } else if (appointment && (isComplete || demographicsFlagsEmpty)) {
         sendCheckInData();
       } else if (appointment && getCheckinComplete(window)) {
         setIsCheckInLoading(false);
@@ -123,6 +123,7 @@ const Confirmation = props => {
       getCheckinComplete,
       setCheckinComplete,
       setCompleteTimestamp,
+      getCompleteTimestamp,
       setECheckinStartedCalled,
       isTravelReimbursementEnabled,
       travelPayEligible,

@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
@@ -19,7 +20,6 @@ import {
   yesNoSchema,
   yesNoUI,
   radioSchema,
-  radioUI,
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -41,16 +41,13 @@ import {
   isInRange,
   onReviewPage,
   applicantListSchema,
-  getNameKeyForSignature,
   sponsorWording,
+  populateFirstApplicant,
+  page15aDepends,
 } from '../helpers/utilities';
 import { MAX_APPLICANTS, ADDITIONAL_FILES_HINT } from './constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
-import {
-  thirdPartyInfoUiSchema,
-  thirdPartyInfoSchema,
-} from '../../shared/components/ThirdPartyInfo';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
 import {
   applicantBirthCertConfig,
@@ -65,11 +62,10 @@ import {
   appMedicareOver65IneligibleConfig,
   applicantOhiCardsConfig,
   applicantOtherInsuranceCertificationConfig,
-  applicantMarriageCertConfig,
   applicantBirthCertUploadUiSchema,
   applicantAdoptedUploadUiSchema,
   applicantStepChildUploadUiSchema,
-  applicantMarriageCertUploadUiSchema,
+  applicantRemarriageCertUploadUiSchema,
   applicantMedicarePartAPartBCardsUploadUiSchema,
   applicantMedicarePartDCardsUploadUiSchema,
   appMedicareOver65IneligibleUploadUiSchema,
@@ -118,15 +114,15 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
+// Used by populateFirstApplicant fn:
+const SIGNER_REL_PATH = 'signer-relationship';
+
 // Control whether we show the file overview page by calling `hasReq` to
-// determine if any files have not been uploaded
+// determine if any required files have not been uploaded
 function showFileOverviewPage(formData) {
   try {
     return (
-      hasReq(formData.applicants, true, true) ||
-      hasReq(formData.applicants, false, true) ||
-      hasReq(formData, true, true) ||
-      hasReq(formData, false, true)
+      hasReq(formData.applicants, true, true) || hasReq(formData, true, true)
     );
   } catch {
     return false;
@@ -153,7 +149,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData => getNameKeyForSignature(formData),
+      fullNamePath: _formData => 'certifierName',
     },
   },
   submissionError: SubmissionError,
@@ -161,6 +157,9 @@ const formConfig = {
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: true,
+  },
+  downtime: {
+    dependencies: [externalServices.pega],
   },
   saveInProgress: {
     messages: {
@@ -185,39 +184,9 @@ const formConfig = {
     certifierInformation: {
       title: 'Signer information',
       pages: {
-        page1: {
-          // initialData: mockData.data,
-          path: 'signer-type',
-          title: 'Which of these best describes you?',
-          uiSchema: {
-            ...titleUI('Your information'),
-            certifierRole: radioUI({
-              title: 'Which of these best describes you?',
-              required: () => true,
-              labels: {
-                applicant: 'I’m applying for benefits for myself',
-                sponsor:
-                  'I’m a Veteran applying for benefits for my spouse or dependents',
-                other:
-                  'I’m a representative applying for benefits on behalf of someone else',
-              },
-            }),
-            ...thirdPartyInfoUiSchema,
-          },
-          schema: {
-            type: 'object',
-            required: ['certifierRole'],
-            properties: {
-              titleSchema,
-              certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
-              ...thirdPartyInfoSchema,
-            },
-          },
-        },
         page2: {
           path: 'signer-info',
           title: 'Certification',
-          depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI('Your name'),
             certifierName: fullNameUI(),
@@ -234,7 +203,6 @@ const formConfig = {
         page3: {
           path: 'signer-mailing-address',
           title: 'Certification',
-          depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI(
               'Your mailing address',
@@ -254,27 +222,27 @@ const formConfig = {
         page4: {
           path: 'signer-contact-info',
           title: 'Certification',
-          depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI(
               'Your contact information',
-              'We use this information to contact you if we have more questions.',
+              'We use this information to contact you and verify other details.',
             ),
             certifierPhone: phoneUI(),
+            certifierEmail: emailUI(),
           },
           schema: {
             type: 'object',
-            required: ['certifierPhone'],
+            required: ['certifierPhone', 'certifierEmail'],
             properties: {
               titleSchema,
               certifierPhone: phoneSchema,
+              certifierEmail: emailSchema,
             },
           },
         },
         page5: {
-          path: 'signer-relationship',
+          path: SIGNER_REL_PATH,
           title: 'Certification',
-          depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI(
               'Your relationship to the applicant',
@@ -286,6 +254,7 @@ const formConfig = {
                 hint: 'Select all that apply',
                 required: () => true,
                 labels: {
+                  applicant: 'I’m applying for benefits for myself',
                   spouse: 'I’m an applicant’s spouse',
                   child: 'I’m an applicant’s child',
                   parent: 'I’m an applicant’s parent',
@@ -310,6 +279,23 @@ const formConfig = {
               'ui:options': {
                 updateSchema: (formData, formSchema) => {
                   const fs = formSchema;
+                  if (
+                    get(
+                      'certifierRelationship.relationshipToVeteran.applicant',
+                      formData,
+                    )
+                  ) {
+                    // If the certifier is also an applicant, pre-populate first app slot with certifier info:
+                    populateFirstApplicant(
+                      formData,
+                      SIGNER_REL_PATH, // Used to verify we only ever apply this fn in one location
+                      formData.certifierName,
+                      formData.certifierEmail,
+                      formData.certifierPhone,
+                      formData.certifierAddress,
+                    );
+                  }
+                  // If 'other', open the text field to specify:
                   if (
                     get(
                       'certifierRelationship.relationshipToVeteran.other',
@@ -347,6 +333,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   relationshipToVeteran: checkboxGroupSchema([
+                    'applicant',
                     'spouse',
                     'child',
                     'parent',
@@ -396,7 +383,6 @@ const formConfig = {
         page8: {
           path: 'sponsor-status',
           title: 'Sponsor status',
-          depends: formData => get('certifierRole', formData) !== 'sponsor',
           uiSchema: {
             sponsorInfoTitle: titleUI(
               'Sponsor status',
@@ -422,9 +408,7 @@ const formConfig = {
         page9: {
           path: 'sponsor-status-date',
           title: 'Sponsor status details',
-          depends: formData =>
-            get('certifierRole', formData) !== 'sponsor' &&
-            get('sponsorIsDeceased', formData),
+          depends: formData => get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: titleUI('Sponsor status details'),
             sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
@@ -537,7 +521,7 @@ const formConfig = {
               },
               items: {
                 applicantName: fullNameUI(),
-                applicantDob: dateOfBirthUI({ required: true }),
+                applicantDob: dateOfBirthUI({ required: () => true }),
               },
             },
           },
@@ -614,11 +598,7 @@ const formConfig = {
           showPagePerItem: true,
           keepInPageOnReview: false,
           title: item => `${applicantWording(item)} address selection`,
-          // Only show if we have addresses to pull from:
-          depends: (formData, index) =>
-            (index && index > 0) || // We will have app0's address
-            (get('street', formData?.certifierAddress) ||
-              get('street', formData?.sponsorAddress)),
+          depends: (formData, index) => page15aDepends(formData, index),
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {
@@ -986,17 +966,17 @@ const formConfig = {
               get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'spouse'
+              ) === 'spouse' && get('sponsorIsDeceased', formData)
             );
           },
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
-          uiSchema: applicantMarriageCertUploadUiSchema,
+          uiSchema: applicantRemarriageCertUploadUiSchema,
           schema: applicantListSchema([], {
             titleSchema,
-            ...applicantMarriageCertConfig.schema,
-            applicantMarriageCert: fileWithMetadataSchema(
+            'view:fileUploadBlurb': blankSchema,
+            applicantRemarriageCert: fileWithMetadataSchema(
               acceptableFiles.spouseCert,
             ),
           }),

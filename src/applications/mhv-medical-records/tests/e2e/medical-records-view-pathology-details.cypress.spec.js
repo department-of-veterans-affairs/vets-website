@@ -14,12 +14,17 @@ describe('Medical Records View Labs And Tests', () => {
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[8]);
     PathologyDetailsPage.verifyLabName(record.code.text);
     PathologyDetailsPage.verifyLabDate(
-      moment(record.effectiveDateTime).format('MMMM D, YYYY'),
+      moment(record.contained[0].collection.collectedDateTime).format(
+        'MMMM D, YYYY',
+      ),
     );
     PathologyDetailsPage.verifySampleTested(record.contained[0].type.text);
     PathologyDetailsPage.verifyLabLocation('None noted');
-    PathologyDetailsPage.verifyLabComments('None noted');
     PathologyDetailsPage.verifyReport('None noted');
+    PathologyDetailsPage.verifyDateCompleted(
+      moment(record.effectiveDateTime).format('MMMM D, YYYY'),
+    );
+
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

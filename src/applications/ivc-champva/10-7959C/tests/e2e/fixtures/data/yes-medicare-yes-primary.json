@@ -33,7 +33,7 @@
     "applicantPrimaryExpirationDate": "2010-01-01",
     "applicantPrimaryThroughEmployer": false,
     "applicantPrimaryHasPrescription": true,
-    "applicantPrimaryEOB": false,
+    "applicantPrimaryEob": false,
     "applicantPrimaryInsuranceType": "medigap",
     "primaryMedigapPlan": "A",
     "primaryAdditionalComments": "Additional primary comment",

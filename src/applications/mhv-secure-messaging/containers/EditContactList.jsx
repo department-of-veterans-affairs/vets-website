@@ -1,69 +1,68 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { useHistory, useLocation } from 'react-router-dom';
+import _ from 'lodash';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import {
+  VaAlert,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FacilityCheckboxGroup from '../components/FacilityCheckboxGroup';
 import GetFormHelp from '../components/GetFormHelp';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import {
   BlockedTriageAlertStyles,
+  ErrorMessages,
   PageTitles,
   ParentComponent,
+  Paths,
 } from '../util/constants';
 import { updateTriageTeamRecipients } from '../actions/recipients';
+import SmRouteNavigationGuard from '../components/shared/SmRouteNavigationGuard';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import { focusOnErrorField } from '../util/formHelpers';
+import { closeAlert } from '../actions/alerts';
 
 const EditContactList = () => {
   const dispatch = useDispatch();
-  const [navigationError, setNavigationError] = useState(false);
-  const [allTriageTeams, setAllTriageTeams] = useState([]);
+  const location = useLocation();
+  const history = useHistory();
+  const [allTriageTeams, setAllTriageTeams] = useState(null);
+  const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
+  const [checkboxError, setCheckboxError] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const [
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
 
-  const {
-    allFacilities,
-    blockedFacilities,
-    blockedTriageGroupList,
-    allRecipients,
-  } = useSelector(state => {
-    const { recipients } = state.sm;
-    return {
-      allFacilities: recipients.allFacilities,
-      blockedFacilities: recipients.blockedFacilities,
-      blockedTriageGroupList: recipients.blockedRecipients,
-      allRecipients: recipients.allRecipients,
-    };
-  });
+  const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
+
+  const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
+
+  const activeDraftId = useSelector(
+    state => state.sm.threadDetails?.drafts?.[0]?.messageId,
+  );
+
+  const recipients = useSelector(state => state.sm.recipients);
+  const { allFacilities, blockedFacilities, allRecipients, error } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
-  useEffect(
-    () => {
-      setAllTriageTeams(allRecipients);
-    },
-    [allRecipients],
+  const isContactListChanged = useMemo(
+    () => !_.isEqual(allRecipients, allTriageTeams),
+    [allRecipients, allTriageTeams],
   );
 
-  useEffect(
-    () => {
-      if (blockedTriageGroupList.length > 0) {
-        setShowBlockedTriageGroupAlert(true);
-      }
-    },
-    [blockedTriageGroupList],
+  const isMinimumSelected = useMemo(
+    () => _.some(allTriageTeams, { preferredTeam: true }),
+    [allTriageTeams],
   );
-
-  useEffect(() => {
-    updatePageTitle(
-      `${ParentComponent.CONTACT_LIST} ${PageTitles.PAGE_TITLE_TAG}`,
-    );
-    focusElement(document.querySelector('h1'));
-  }, []);
 
   const updatePreferredTeam = (triageTeamId, selected) => {
     setAllTriageTeams(prevTeams =>
@@ -79,30 +78,125 @@ const EditContactList = () => {
     );
   };
 
-  const onFormSubmit = e => {
+  const navigateBack = useCallback(
+    () => {
+      if (previousUrl === Paths.COMPOSE && activeDraftId) {
+        history.push(`${Paths.MESSAGE_THREAD}${activeDraftId}/`);
+      } else if (previousUrl) {
+        history.push(previousUrl);
+      } else {
+        history.push(Paths.INBOX);
+      }
+    },
+    [history, previousUrl],
+  );
+
+  const handleSave = async e => {
     e.preventDefault();
-    dispatch(updateTriageTeamRecipients(allTriageTeams));
+    if (isSaving) return;
+    setIsSaving(true);
+    if (!isMinimumSelected) {
+      await setCheckboxError(ErrorMessages.ContactList.MINIMUM_SELECTION);
+      focusOnErrorField();
+      setIsSaving(false);
+    } else {
+      dispatch(updateTriageTeamRecipients(allTriageTeams)).finally(() => {
+        setIsSaving(false);
+      });
+    }
+  };
+
+  const handleCancel = e => {
+    e.preventDefault();
+    navigateBack();
+  };
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
+
+  useEffect(
+    () => {
+      setAllTriageTeams(allRecipients);
+    },
+    [allRecipients],
+  );
+
+  useEffect(() => {
+    updatePageTitle(
+      `${ParentComponent.CONTACT_LIST} ${PageTitles.PAGE_TITLE_TAG}`,
+    );
+    focusElement(document.querySelector('h1'));
+  }, []);
+
+  useEffect(
+    () => {
+      if (isContactListChanged) {
+        dispatch(closeAlert());
+      }
+      setIsNavigationBlocked(isContactListChanged);
+    },
+    [dispatch, isContactListChanged],
+  );
+
+  useEffect(
+    () => {
+      if (isMinimumSelected) {
+        setCheckboxError('');
+      }
+    },
+    [isMinimumSelected],
+  );
+
+  const GoBackButton = () => {
+    if (!allTriageTeams) {
+      setIsNavigationBlocked(false);
+    }
+    return (
+      <button
+        type="button"
+        className={`
+          ${allTriageTeams?.length ? 'usa-button-secondary' : ''}
+          vads-u-display--flex
+          vads-u-flex-direction--row
+          vads-u-justify-content--center
+          vads-u-align-items--center
+          vads-u-margin-y--0
+        `}
+        data-testid="contact-list-go-back"
+        data-dd-action-name="Contact List Go Back Button"
+        onClick={handleCancel}
+      >
+        <div className="vads-u-margin-right--0p5">
+          <va-icon icon="navigate_far_before" aria-hidden="true" />
+        </div>
+        <span>Go back</span>
+      </button>
+    );
   };
 
   return (
     <div>
-      <VaModal
-        modalTitle="Save changes to your contact list?"
-        onCloseEvent={() => {
-          setNavigationError(false);
-        }}
-        onPrimaryButtonClick={function noRefCheck() {}}
-        onSecondaryButtonClick={() => setNavigationError(false)}
-        primaryButtonText="Save and exit"
-        secondaryButtonText="Continue editing"
-        visible={navigationError}
-        status="warning"
+      <SmRouteNavigationGuard
+        when={isNavigationBlocked}
+        onConfirmButtonClick={handleSave}
+        onCancelButtonClick={handleCancel}
+        modalTitle={navigationError?.title}
+        confirmButtonText={navigationError?.confirmButtonText}
+        cancelButtonText={navigationError?.cancelButtonText}
       />
-
       <h1>Contact list</h1>
+      <AlertBackgroundBox closeable focus />
       <p
         className={`${
-          allFacilities.length > 1 || showBlockedTriageGroupAlert
+          allFacilities?.length > 1 || showBlockedTriageGroupAlert
             ? 'vads-u-margin-bottom--4'
             : 'vads-u-margin-bottom--0'
         }`}
@@ -110,70 +204,98 @@ const EditContactList = () => {
         Select the teams you want to show in your contact list when you start a
         new message.{' '}
       </p>
-      {showBlockedTriageGroupAlert && (
-        <div
-          className={`${allFacilities.length > 1 && 'vads-u-margin-bottom--4'}`}
-        >
-          <BlockedTriageGroupAlert
-            blockedTriageGroupList={blockedTriageGroupList}
-            alertStyle={BlockedTriageAlertStyles.ALERT}
-            parentComponent={ParentComponent.CONTACT_LIST}
-          />
+      {error && (
+        <div>
+          <VaAlert
+            role="alert"
+            aria-live="polite"
+            class="vads-u-margin-y--4"
+            status="error"
+            visible
+            data-testid="contact-list-empty-alert"
+          >
+            <h2 className="vads-u-margin-y--0">
+              We can’t load your contact list right now
+            </h2>
+            <p>
+              We’re sorry. There’s a problem with our system. Try again later.
+            </p>
+            <p>
+              If it still doesn’t work, call us at{' '}
+              <VaTelephone contact={CONTACTS.MY_HEALTHEVET} /> (
+              <VaTelephone contact={CONTACTS['711']} tty />
+              ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+            </p>
+          </VaAlert>
+          <GoBackButton />
         </div>
       )}
-      <form className="contactListForm">
-        {allFacilities.map(stationNumber => {
-          if (!blockedFacilities.includes(stationNumber)) {
-            const facilityName = getVamcSystemNameFromVhaId(
-              ehrDataByVhaId,
-              stationNumber,
-            );
+      {allTriageTeams?.length > 0 && (
+        <>
+          <div
+            className={`${allFacilities?.length > 1 &&
+              'vads-u-margin-bottom--4'}`}
+          >
+            <BlockedTriageGroupAlert
+              alertStyle={BlockedTriageAlertStyles.ALERT}
+              parentComponent={ParentComponent.CONTACT_LIST}
+              setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+            />
+          </div>
 
-            return (
-              <FacilityCheckboxGroup
-                key={stationNumber}
-                facilityName={facilityName}
-                multipleFacilities={allFacilities.length > 1}
-                updatePreferredTeam={updatePreferredTeam}
-                triageTeams={allTriageTeams
-                  .filter(
-                    team =>
-                      team.stationNumber === stationNumber &&
-                      team.blockedStatus === false,
-                  )
-                  .sort((a, b) => a.name.localeCompare(b.name))}
+          <form className="contactListForm">
+            {allFacilities.map(stationNumber => {
+              if (!blockedFacilities.includes(stationNumber)) {
+                const facilityName = getVamcSystemNameFromVhaId(
+                  ehrDataByVhaId,
+                  stationNumber,
+                );
+
+                return (
+                  <FacilityCheckboxGroup
+                    key={stationNumber}
+                    errorMessage={checkboxError}
+                    facilityName={facilityName}
+                    multipleFacilities={allFacilities?.length > 1}
+                    updatePreferredTeam={updatePreferredTeam}
+                    triageTeams={allTriageTeams
+                      .filter(
+                        team =>
+                          team.stationNumber === stationNumber &&
+                          team.blockedStatus === false,
+                      )
+                      .sort((a, b) => a.name.localeCompare(b.name))}
+                  />
+                );
+              }
+              return null;
+            })}
+
+            <div
+              className="
+                  vads-u-margin-top--3
+                  vads-u-display--flex
+                  vads-u-flex-direction--column
+                  mobile-lg:vads-u-flex-direction--row
+                  mobile-lg:vads-u-align-content--flex-start
+                "
+            >
+              <GoBackButton />
+              <va-button
+                text="Save contact list"
+                class="
+                    vads-u-margin-y--1
+                    mobile-lg:vads-u-margin-y--0
+                  "
+                onClick={e => handleSave(e)}
+                data-testid="contact-list-save"
+                data-dd-action-name="Contact List Save Button"
               />
-            );
-          }
-          return null;
-        })}
-        <div
-          className="
-            vads-u-margin-top--3
-            vads-u-display--flex
-            vads-u-flex-direction--column
-            small-screen:vads-u-flex-direction--row
-            small-screen:vads-u-align-content--flex-start
-          "
-        >
-          <va-button
-            text="Save and exit"
-            class="
-              vads-u-margin-bottom--1
-              small-screen:vads-u-margin-bottom--0
-            "
-            onClick={onFormSubmit}
-          />
-          <va-button
-            text="Cancel"
-            secondary
-            onClick={() => {
-              setNavigationError(true);
-            }}
-          />
-        </div>
-        <GetFormHelp />
-      </form>
+            </div>
+            <GetFormHelp />
+          </form>
+        </>
+      )}
     </div>
   );
 };

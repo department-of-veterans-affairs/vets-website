@@ -11,7 +11,8 @@
 		"ghcr.io/devcontainers/features/desktop-lite:1": {
 			"vncPort": "5900",
 			"webPort": "6080"
-		}
+		},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
 	},
 	"customizations": {
 		"vscode": {

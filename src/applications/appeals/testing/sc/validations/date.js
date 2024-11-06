@@ -53,3 +53,44 @@ export const isValidDate = dateString => {
   validateDate(errors, dateString);
   return isValid;
 };
+
+export const validateYMDate = (errors, rawDateString = '') => {
+  // Add "-01" (day) to the YYYY-MM date for processing
+  const date = createDateObject(`${rawDateString}-01`);
+  const error = errorMessages.evidence;
+
+  if (date.isInvalid) {
+    // The va-memorable-date component currently overrides the error message
+    // when the value is blank
+    errors.addError(error.blankDate);
+    date.errors.other = true; // other part error
+  } else if (date.hasErrors) {
+    errors.addError(sharedErrorMessages.invalidDate);
+    date.errors.other = true; // other part error
+  } else if (date.isTodayOrInFuture) {
+    // Lighthouse won't accept same day (as submission) decision date
+    errors.addError(error.pastDate);
+    date.errors.year = true; // only the year is invalid at this point
+  } else if (isBefore(date.dateObj, minDate)) {
+    errors.addError(error.newerDate);
+    date.errors.year = true; // only the year is invalid at this point
+  }
+
+  // add second error message containing the part of the date with an error;
+  // used to add `aria-invalid` to the specific input
+  createScreenReaderErrorMsg(errors, date.errors);
+};
+
+/**
+ * Use above validation to set initial edit state
+ */
+export const isValidVaDate = dateString => {
+  let isValid = true;
+  const errors = {
+    addError: () => {
+      isValid = false;
+    },
+  };
+  validateYMDate(errors, dateString);
+  return isValid;
+};

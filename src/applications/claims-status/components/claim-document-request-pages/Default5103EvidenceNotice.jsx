@@ -6,7 +6,12 @@ import {
   VaCheckbox,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { buildDateFormatter, isAutomated5103Notice } from '../../utils/helpers';
+import {
+  buildDateFormatter,
+  is5103Notice,
+  isStandard5103Notice,
+  isAutomated5103Notice,
+} from '../../utils/helpers';
 import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
@@ -54,7 +59,7 @@ function Default5103EvidenceNotice({
   const submit = () => {
     if (addedEvidence) {
       if (useLighthouse5103) {
-        submit5103(params.id, true);
+        submit5103(params.id, params.trackedItemId, true);
       } else {
         submitRequest(params.id, true);
       }
@@ -65,9 +70,9 @@ function Default5103EvidenceNotice({
     }
   };
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
-  const isStandard5103Notice = item.displayName === '5103 Evidence Notice';
+  const formattedRequestedDate = buildDateFormatter()(item.requestedDate);
 
-  if (!isAutomated5103Notice(item.displayName) && !isStandard5103Notice) {
+  if (!is5103Notice(item.displayName)) {
     return null;
   }
 
@@ -83,50 +88,62 @@ function Default5103EvidenceNotice({
   return (
     <div id="default-5103-notice-page" className="vads-u-margin-bottom--3">
       <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-        5103 Evidence Notice
+        Review evidence list (5103 notice)
       </h1>
-      <p>
-        We sent you a “5103 notice” letter that lists the types of evidence we
-        may need to decide your claim.
-      </p>
-      <Link className="active-va-link" to="/your-claim-letters">
-        Go to claim letters
-        <va-icon icon="chevron_right" size={3} aria-hidden="true" />
-      </Link>
-      {isAutomated5103Notice(item.displayName) && (
-        <p data-testid="due-date-information">
-          You don’t need to do anything on this page. We’ll wait until{' '}
-          <strong>{formattedDueDate}</strong>, to move your claim to the next
-          step.
+      {isStandard5103Notice(item.displayName) ? (
+        <p>
+          We sent you a “List of evidence we may need (5103 notice)” letter.
+          This letter lets you know about different types of additional evidence
+          that could help your claim.
+        </p>
+      ) : (
+        <p>
+          On <strong>{formattedRequestedDate}</strong>, we sent you a “List of
+          evidence we may need (5103 notice)” letter. This letter lets you know
+          about different types of additional evidence that could help your
+          claim.
         </p>
       )}
-      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
-        If you have more evidence to submit
-      </h2>
+      <h2>Read your 5103 notice letter</h2>
       <p>
-        <strong>Note:</strong> You can add evidence at any time. But if you add
-        evidence later in the process, your claim will move back to this step.
-        So we encourage you to add all your evidence now.
+        You can read your “List of evidence we may need (5103 notice)” letter on
+        the claim letters page.
       </p>
-      <Link data-testid="upload-evidence-link" to="../files">
-        Upload your evidence here
+      <Link className="active-va-link" to="/your-claim-letters">
+        Find this letter on the claim letters page
+        <va-icon icon="chevron_right" size={3} aria-hidden="true" />
       </Link>
-      <p>
-        If you finish adding evidence before that date,{' '}
-        <strong>
-          you can submit the 5103 notice response waiver attached to the letter.
-        </strong>{' '}
-        This might help speed up the claim process.
-      </p>
       <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
-        If you don’t have more evidence to submit
+        Submit additional evidence, if applicable
       </h2>
       <p>
-        If you’re finished adding evidence, submit the evidence waiver. We’ll
-        move your claim to the next step as soon as possible.
+        If you’d like to submit additional evidence based on information in your
+        “List of evidence we may need (5103 notice)” letter, you can submit that
+        evidence here.
+      </p>
+      <Link
+        className="active-va-link"
+        data-testid="upload-evidence-link"
+        to="../files"
+      >
+        Upload additional evidence
+        <va-icon icon="chevron_right" size={3} aria-hidden="true" />
+      </Link>
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+        Submit an evidence waiver
+      </h2>
+      <p>
+        Submitting this waiver will let VA know that as of now, you’re done
+        submitting additional evidence. This allows your claim to move into the
+        review stage as quickly as possible.
+      </p>
+      <p>
+        <strong>Note:</strong> You can add evidence to support your claim at any
+        time. However, if you add evidence later, your claim will move back to
+        this step, so we encourage you to add all your evidence now.
       </p>
       <VaCheckbox
-        label="I’m finished adding evidence to support my claim."
+        label="As of now, I’m finished adding evidence to support my claim"
         className="vads-u-margin-y--3"
         checked={addedEvidence}
         error={checkboxErrorMessage}
@@ -141,6 +158,14 @@ function Default5103EvidenceNotice({
         text={buttonMsg}
         onClick={submit}
       />
+
+      {isAutomated5103Notice(item.displayName) && (
+        <p data-testid="due-date-information">
+          <strong>Note:</strong> If you don’t submit the evidence waiver, we'll
+          wait for you to add evidence until <strong>{formattedDueDate}</strong>
+          . Then we'll continue processing your claim.
+        </p>
+      )}
     </div>
   );
 }

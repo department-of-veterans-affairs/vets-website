@@ -1,4 +1,5 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import SearchControls from '../components/search/SearchControls';
@@ -8,10 +9,8 @@ import { convertToLatLng } from '../utils/mapbox';
 
 const facilities = { data: [] };
 
-// Mock facilities api call locally
-// const facilities = healthFacilityMockData;
-
-const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
+const YourVAHealthFacilityPage = props => {
+  const { data, setFormData, goBack, goForward } = props;
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
@@ -52,6 +51,10 @@ const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
     setPageURL(url);
   };
 
+  const updateForm = selection => {
+    setFormData({ ...data, yourHealthFacility: selection });
+  };
+
   return (
     <>
       <h3>{CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE}</h3>
@@ -75,7 +78,7 @@ const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
               facilityData={apiData}
               pageURL={pageURL}
               getData={getApiData}
-              onChange={onChange}
+              onChange={updateForm}
             />
           )}
         </div>
@@ -84,6 +87,12 @@ const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
       </form>
     </>
   );
+};
+
+YourVAHealthFacilityPage.propTypes = {
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 export default YourVAHealthFacilityPage;

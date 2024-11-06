@@ -9,14 +9,14 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { selectProfile } from '~/platform/user/selectors';
 
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
-import ConfirmationPdfMessages from '../../shared/components/ConfirmationPdfMessages';
+// import ConfirmationPdfMessages from '../../shared/components/ConfirmationPdfMessages';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 
 import { boardReviewLabels } from '../content/boardReview';
 import { hearingTypeLabels } from '../content/hearingType';
 
 import { getReadableDate } from '../../shared/utils/dates';
-import { NOD_PDF_DOWNLOAD_URL } from '../../shared/constants';
+// import { NOD_PDF_DOWNLOAD_URL } from '../../shared/constants';
 
 export const ConfirmationPageV2 = () => {
   const alertRef = useRef(null);
@@ -29,7 +29,7 @@ export const ConfirmationPageV2 = () => {
       if (alertRef?.current) {
         scrollTo('topScrollElement');
         // delay focus for Safari
-        waitForRenderThenFocus('h2', alertRef.current);
+        waitForRenderThenFocus('#main h2', alertRef.current);
       }
     },
     [alertRef],
@@ -48,16 +48,23 @@ export const ConfirmationPageV2 = () => {
           alt="VA logo"
           width="300"
         />
+        <h2 className="vads-u-margin-top--0">Request a Board Appeal</h2>
       </div>
 
       <va-alert status="success" ref={alertRef} uswds>
         <h2 slot="headline">
-          You submitted your Board Appeal request on {submitDate}
+          Your Board Appeal request submission is in progress
+          {/* You submitted your Board Appeal request on {submitDate} */}
         </h2>
+        <p>
+          You submitted the request on {submitDate}. It can take a few days for
+          the Board to receive your request. We’ll send you a confirmation
+          letter, once we’ve processed your request.
+        </p>
       </va-alert>
 
       <div className="screen-only">
-        <va-summary-box uswds class="vads-u-margin-top--2">
+        {/* <va-summary-box uswds class="vads-u-margin-top--2">
           <h3 slot="headline" className="vads-u-margin-top--0">
             Save a PDF copy of your Board Appeal request
           </h3>
@@ -73,7 +80,7 @@ export const ConfirmationPageV2 = () => {
             already submitted your completed Board Appeal request. We ask that
             you don’t send us another copy.
           </p>
-        </va-summary-box>
+        </va-summary-box> */}
 
         <h3>Print this confirmation page</h3>
         <p>
@@ -83,7 +90,7 @@ export const ConfirmationPageV2 = () => {
         <va-button onClick={window.print} text="Print this page" />
       </div>
 
-      <h2 className="vads-u-font-size--h3">What to expect next</h2>
+      <h2>What to expect next</h2>
       <p>
         We’re reviewing your request for a Board Appeal. If the Board agrees to
         review your case, you’ll get a letter telling you that the Board has
@@ -164,9 +171,7 @@ export const ConfirmationPageV2 = () => {
         decision reviews can delay the process.
       </p>
 
-      <h2 className="vads-u-font-size--h3">
-        How to contact us if you have questions
-      </h2>
+      <h2>How to contact us if you have questions</h2>
       <p>You can ask us a question online through Ask VA.</p>
       <p>
         <a href="https://ask.va.gov/">Contact us online through Ask VA.</a>

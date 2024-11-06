@@ -31,7 +31,12 @@ export const REQUIRED_FILES = {
   applicantMedicarePartDCard: 'Medicare Card (Part D)',
   applicantMedicareIneligibleProof: 'Proof of Medicare Ineligibility',
   applicantOhiCard: 'Other Health Insurance Cards',
-  applicantOtherInsuranceCertification: 'VA Form 10-7959C',
+  applicantOtherInsuranceCertification: {
+    name:
+      'Completed and signed CHAMPVA Other Health Insurance (OHI) Certification ',
+    linkText: 'Get VA Form 10-7959c to download (opens in a new tab)',
+    href: 'https://www.va.gov/find-forms/about-form-10-7959c/',
+  },
 };
 
 /* Similar to the above, this provides a mapping of file keynames
@@ -40,7 +45,7 @@ export const OPTIONAL_FILES = {
   applicantBirthCertOrSocialSecCard:
     'Birth Certificate or Social Security Card',
   applicantHelplessCert: 'VBA Rating (Helpless Child)',
-  applicantMarriageCert: 'Proof of Marriage or Legal Union to Sponsor',
+  applicantRemarriageCert: 'Proof of Remarriage or Legal Union, or separation',
   applicantSecondMarriageCert: 'Proof of Marriage or Legal Union to Other',
   applicantSecondMarriageDivorceCert:
     'Proof of Legal Separation from Marriage Or Legal Union to Other',

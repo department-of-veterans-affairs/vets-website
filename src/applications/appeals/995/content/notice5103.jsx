@@ -4,6 +4,8 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 import recordEvent from 'platform/monitoring/record-event';
 
+import { focusH3AfterAlert } from '../utils/focus';
+
 export const Notice5103Description = ({ onReviewPage }) => {
   const [visibleAlert, setVisibleAlert] = useState(true);
   const Header = onReviewPage ? 'h4' : 'h3';
@@ -20,6 +22,7 @@ export const Notice5103Description = ({ onReviewPage }) => {
   const hideAlert = () => {
     setVisibleAlert(false);
     recordEvent({ ...analyticsEvent, event: 'int-alert-box-close' });
+    setTimeout(() => focusH3AfterAlert({ name: 'notice5103', onReviewPage }));
   };
   if (visibleAlert) {
     recordEvent({ ...analyticsEvent, event: 'visible-alert-box' });
@@ -43,7 +46,9 @@ export const Notice5103Description = ({ onReviewPage }) => {
           submit this form for review.
         </p>
       </VaAlert>
-      <Header>Review and acknowledge the notice of evidence needed.</Header>
+      <Header id="header">
+        Review and acknowledge the notice of evidence needed.
+      </Header>
     </>
   );
 };
@@ -82,7 +87,11 @@ export const reviewField = ({ children }) => (
   <div className="review-row">
     <dt>{content.label}</dt>
     <dd>
-      {children?.props?.formData ? 'Yes, I certify' : 'No, I didn’t certify'}
+      {children?.props?.formData ? (
+        'Yes, I certify'
+      ) : (
+        <span className="usa-input-error-message">No, I didn’t certify</span>
+      )}
     </dd>
   </div>
 );

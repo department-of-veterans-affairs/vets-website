@@ -1,10 +1,10 @@
 export const QUESTION_MAP = Object.freeze({
-  HOME: 'How to Apply for a Discharge Upgrade',
+  HOME: 'How to apply for a discharge upgrade',
   SERVICE_BRANCH: 'What was your branch of service?',
   DISCHARGE_YEAR: 'What year were you discharged from the military?',
   DISCHARGE_MONTH: 'What month were you discharged?',
   REASON: 'Tell us why you want to change your discharge paperwork.',
-  DISCHARGE_TYPE: `What's your character of discharge?`,
+  DISCHARGE_TYPE: "What's your character of discharge?",
   INTENTION:
     'Do you want to change your name, discharge date, or something written in the "other remarks" section of your DD214?',
   COURT_MARTIAL: 'Was your discharge the outcome of a general court-martial?',
@@ -92,4 +92,19 @@ export const RESPONSES = Object.freeze({
   FAILURE_TO_EXHAUST_BCMR_NO: `No, the BCMR denied my application for other reasons, such as not agreeing with the evidence in my application.`,
   FAILURE_TO_EXHAUST_BCNR_YES: `Yes, the BCNR denied my application due to "failure to exhaust other remedies."`,
   FAILURE_TO_EXHAUST_BCNR_NO: `No, the BCNR denied my application for other reasons, such as not agreeing with the evidence in my application.`,
+});
+
+export const REVIEW_LABEL_MAP = Object.freeze({
+  SERVICE_BRANCH: 'Branch of service:',
+  DISCHARGE_YEAR: 'Year of discharge:',
+  DISCHARGE_MONTH: 'Month of discharge:',
+  REASON: 'Reason for changing discharge paperwork:',
+  DISCHARGE_TYPE: 'Category that best describes you:',
+  INTENTION: 'Information you want to change:',
+  COURT_MARTIAL: 'Discharge was the outcome of a general court-martial:',
+  PREV_APPLICATION: 'Previously denied a discharge upgrade:',
+  PREV_APPLICATION_YEAR: 'Year applied for discharge upgrade:',
+  PREV_APPLICATION_TYPE: 'Type of previous application:',
+  FAILURE_TO_EXHAUST: 'Reason application denied:',
+  PRIOR_SERVICE: 'Completed an earlier period of service:',
 });

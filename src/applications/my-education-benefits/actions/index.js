@@ -1,6 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
+import { toSnakeCase } from '../helpers';
+
 export const CLAIMANT_INFO_ENDPOINT = `${
   environment.API_URL
 }/meb_api/v0/claimant_info`;
@@ -56,20 +58,27 @@ export const FETCH_DUPLICATE_CONTACT_INFO_SUCCESS =
   'FETCH_DUPLICATE_CONTACT_INFO_SUCCESS';
 export const FETCH_DUPLICATE_CONTACT_INFO_FAILURE =
   'FETCH_DUPLICATE_CONTACT_INFO_FAILURE';
+const CONFIRMATION_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/send_confirmation_email`;
+export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
+export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
+export const SEND_CONFIRMATION_FAILURE = 'SEND_CONFIRMATION_FAILURE';
 export const UPDATE_GLOBAL_EMAIL = 'UPDATE_GLOBAL_EMAIL';
 export const UPDATE_GLOBAL_PHONE_NUMBER = 'UPDATE_GLOBAL_PHONE_NUMBER';
 export const ACKNOWLEDGE_DUPLICATE = 'ACKNOWLEDGE_DUPLICATE';
 export const TOGGLE_MODAL = 'TOGGLE_MODAL';
+
 const FIVE_SECONDS = 5000;
 const ONE_MINUTE_IN_THE_FUTURE = () => {
   return new Date(new Date().getTime() + 60000);
 };
-export function fetchPersonalInformation(showMebEnhancements09) {
+export function fetchPersonalInformation(selectedChapter) {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
-    return apiRequest(CLAIMANT_INFO_ENDPOINT)
+    return apiRequest(`${CLAIMANT_INFO_ENDPOINT}?type=${selectedChapter}`)
       .then(response => {
-        if (!response?.data?.attributes?.claimant && !showMebEnhancements09) {
+        if (!response?.data?.attributes?.claimant) {
           window.location.href =
             '/education/apply-for-education-benefits/application/1990/';
         }
@@ -83,13 +92,10 @@ export function fetchPersonalInformation(showMebEnhancements09) {
           type: FETCH_PERSONAL_INFORMATION_FAILED,
           errors,
         });
-        if (!showMebEnhancements09) {
-          window.location.href =
-            '/education/apply-for-education-benefits/application/1990/';
-        }
       });
   };
 }
+
 const poll = ({
   endpoint,
   validate = response => response && response.data,
@@ -129,7 +135,7 @@ function getNowDate() {
   const date = new Date();
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
-export function fetchClaimStatus() {
+export function fetchClaimStatus(selectedChapter) {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
     const timeoutResponse = {
@@ -139,7 +145,7 @@ export function fetchClaimStatus() {
       },
     };
     poll({
-      endpoint: CLAIM_STATUS_ENDPOINT,
+      endpoint: `${CLAIM_STATUS_ENDPOINT}?type=${selectedChapter}`,
       validate: response =>
         response?.data?.attributes?.claimStatus &&
         response.data.attributes.claimStatus !==
@@ -151,9 +157,9 @@ export function fetchClaimStatus() {
     });
   };
 }
-export function fetchEligibility() {
+export function fetchEligibility(selectedChapter) {
   return async dispatch => {
-    dispatch({ type: FETCH_ELIGIBILITY });
+    dispatch({ type: `${FETCH_ELIGIBILITY}?type=${selectedChapter}` });
     return apiRequest(ELIGIBILITY_ENDPOINT)
       .then(response =>
         dispatch({
@@ -164,6 +170,30 @@ export function fetchEligibility() {
       .catch(errors =>
         dispatch({
           type: FETCH_ELIGIBILITY_FAILURE,
+          errors,
+        }),
+      );
+  };
+}
+
+export function sendConfirmation(params) {
+  return async dispatch => {
+    dispatch({ type: SEND_CONFIRMATION });
+    const snakeCaseParams = toSnakeCase(params);
+    return apiRequest(CONFIRMATION_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify(snakeCaseParams),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response =>
+        dispatch({
+          type: SEND_CONFIRMATION_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: SEND_CONFIRMATION_FAILURE,
           errors,
         }),
       );
@@ -212,9 +242,9 @@ export function fetchDuplicateContactInfo(email, phoneNumber) {
       );
   };
 }
-export function fetchExclusionPeriods() {
+export function fetchExclusionPeriods(selectedChapter) {
   return async dispatch => {
-    dispatch({ type: FETCH_EXCLUSION_PERIODS });
+    dispatch({ type: `${FETCH_EXCLUSION_PERIODS}?=type=${selectedChapter}` });
     try {
       const response = await apiRequest(EXCLUSION_PERIODS_ENDPOINT);
       dispatch({

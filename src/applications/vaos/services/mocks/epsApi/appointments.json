@@ -1,0 +1,61 @@
+{
+    "appointments": [
+      {
+        "appointmentDetails": {
+          "cancelReason": {
+            "id": "3b13a8cb-d4f3-4678-8bed-7fa3931c0c40",
+            "name": "Patient"
+          },
+          "isLastest": true,
+          "lastRetrieved": "2009-01-05T02:59:23Z",
+          "phone": "555-555-1000",
+          "start": "2026-01-01T17:00:00Z",
+          "status": "booked"
+        },
+        "createdBy": {
+          "byPatient": true,
+          "system": {
+            "id": "45604d54-7c49-4d9b-b669-53cbaf2a5189",
+            "name": "The ACME Healthcare EPS Client",
+            "type": "external"
+          },
+          "user": {
+            "id": "a1b6673e-d409-4876-a0ff-a77bb4840aca"
+          }
+        },
+        "error": "conflict",
+        "id": "b79e46ba-1b09-4195-ae0a-ea42baedea6e",
+        "networkId": "00eff3f3-ecfb-41ff-9ebc-78ed811e17f9",
+        "patientId": "b6cc1875-5313-4ca8-af8b-74adac0c5d0c",
+        "providerServiceId": "69cd9203-5e92-47a3-aa03-94b03752872a",
+        "referral": {
+          "id": "69cd9203-5e92-47a3-aa03-94b03752872a",
+          "referralNumber": "12345"
+        },
+        "slotIds": [
+          "dba0855e-5681-411d-801c-036f4f046988"
+        ],
+        "state": "submitted"
+      },
+      {
+        "createdBy": {
+          "byPatient": false,
+          "system": {
+            "type": "epsApi"
+          },
+          "user": {
+            "id": "a1b6673e-d409-4876-a0ff-a77bb4840aca"
+          }
+        },
+        "id": "bfd486ae-b04e-42a7-b049-8c689b6caef2",
+        "patientId": "b6cc1875-5313-4ca8-af8b-74adac0c5d0c",
+        "referral": {
+          "id": "69cd9203-5e92-47a3-aa03-94b03752872a"
+        },
+        "state": "draft"
+      }
+    ],
+    "count": 2,
+    "nextToken": "YTI0NTM5NzUtNzA2My00NTU5LWJiYWYtZTg3MGY4ZWZlYzg5",
+    "total": 5
+  }

@@ -1,8 +1,8 @@
-import VeteranInformation from '../../../shared/components/VeteranInformation';
+import MockVeteranInformation from '../components/_MockVeteranInformation';
 
 const veteranInformation = {
   uiSchema: {
-    'ui:description': VeteranInformation,
+    'ui:description': MockVeteranInformation,
     'ui:options': {
       hideOnReview: true,
     },

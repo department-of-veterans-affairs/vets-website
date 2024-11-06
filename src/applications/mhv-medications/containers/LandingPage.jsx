@@ -103,10 +103,10 @@ const LandingPage = () => {
     return (
       <>
         <div className="main-content">
-          <section className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4">
+          <section className="vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4">
             <h1
               data-testid="landing-page-heading"
-              className="small-screen:vads-u-margin-bottom--0 vads-u-margin-bottom--1"
+              className="mobile-lg:vads-u-margin-bottom--0 vads-u-margin-bottom--1"
             >
               About medications
             </h1>
@@ -197,7 +197,7 @@ const LandingPage = () => {
               )}
             </>
           )}
-          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--4 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
+          <div className="no-print vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
           <section>
             <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
               What to know as you try out this tool
@@ -657,7 +657,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6 vads-l-col--12 medium-screen:vads-l-col--8">
+      <div className="landing-page mobile-lg:vads-u-margin-top--1 vads-u-margin-bottom--6">
         {content()}
       </div>
     </RequiredLoginView>

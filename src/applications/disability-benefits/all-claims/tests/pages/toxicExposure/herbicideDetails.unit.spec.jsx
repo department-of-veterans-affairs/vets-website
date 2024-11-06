@@ -1,7 +1,5 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import { expect } from 'chai';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -11,8 +9,10 @@ import {
   dateRangeDescriptionWithLocation,
   endDateApproximate,
   herbicidePageTitle,
+  notSureDatesDetails,
   startDateApproximate,
 } from '../../../content/toxicExposure';
+import { pageSubmitTest } from '../../unit.helpers.spec';
 
 /**
  * Unit tests for the herbicide details pages. Verifies each page can render and submit with
@@ -53,7 +53,8 @@ describe('herbicideDetails', () => {
         expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
           .to.exist;
 
-        getByText('I’m not sure of the dates I served in this location');
+        expect($(`va-checkbox[label="${notSureDatesDetails}"]`, container)).to
+          .exist;
 
         const addlInfo = container.querySelector('va-additional-info');
         expect(addlInfo).to.have.attribute(
@@ -85,18 +86,22 @@ describe('herbicideDetails', () => {
       });
 
       it(`should submit without dates for ${locationId}`, () => {
-        const onSubmit = sinon.spy();
-        const { getByText } = render(
-          <DefinitionTester
-            schema={pageSchema.schema}
-            uiSchema={pageSchema.uiSchema}
-            data={formData}
-            onSubmit={onSubmit}
-          />,
+        pageSubmitTest(
+          schemas[`herbicide-location-${locationId}`],
+          formData,
+          true,
         );
+      });
 
-        userEvent.click(getByText('Submit'));
-        expect(onSubmit.calledOnce).to.be.true;
+      it(`should submit with both dates for ${locationId}`, () => {
+        const data = JSON.parse(JSON.stringify(formData));
+        data.toxicExposure.herbicideDetails = {};
+        data.toxicExposure.herbicideDetails[locationId] = {
+          startDate: '1975-04-02',
+          endDate: '1978-08-05',
+        };
+
+        pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
       });
     });
 });

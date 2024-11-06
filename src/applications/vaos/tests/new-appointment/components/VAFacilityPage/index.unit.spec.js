@@ -18,8 +18,6 @@ import {
   mockGetCurrentPosition,
 } from '../../../mocks/helpers';
 import { getSchedulingConfigurationMock } from '../../../mocks/mock';
-import { NewAppointment } from '../../../../new-appointment';
-import { FETCH_STATUS } from '../../../../utils/constants';
 import { createMockFacility } from '../../../mocks/data';
 import {
   mockEligibilityFetches,
@@ -121,7 +119,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -188,7 +186,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         directPastVisits: true,
       });
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -198,7 +196,8 @@ describe('VAOS Page: VAFacilityPage', () => {
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
 
-      expect(screen.getByText(/Choose a VA location/i)).to.exist;
+      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+        .exist;
 
       // Should contain radio buttons
       facilities.slice(0, 5).forEach(f => {
@@ -248,7 +247,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         directPastVisits: true,
       });
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -334,7 +333,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
       };
       const store = createTestStore(state);
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -407,7 +406,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       mockSchedulingConfigurations(configs);
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -430,7 +429,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     it('should display an error message when facilities call fails', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -513,7 +512,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
@@ -600,7 +599,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
@@ -676,7 +675,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -685,7 +684,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       await cleanup();
 
-      await setTypeOfCare(store, /eye care/i);
+      await setTypeOfCare(store, 'EYE'); // eye care
       await setTypeOfEyeCare(store, /optometry/i);
 
       screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -726,7 +725,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       const store = createTestStore({
         ...initialState,
       });
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -736,11 +735,12 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          'Choose a VA location | Veterans Affairs',
+          'Which VA location would you like to go to? | Veterans Affairs',
         );
       });
 
-      expect(screen.getByText(/Choose a VA location/i)).to.exist;
+      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+        .exist;
 
       expect(screen.baseElement).to.contain.text(
         'Select a VA facility where you’re registered that offers primary care appointments.',
@@ -830,7 +830,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -840,7 +840,8 @@ describe('VAOS Page: VAFacilityPage', () => {
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
 
-      expect(screen.getByText(/Choose a VA location/i)).to.exist;
+      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+        .exist;
       expect(screen.baseElement).to.contain.text('By your home address');
 
       // It should sort by distance, making Closest facility the first facility
@@ -903,7 +904,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -936,13 +937,6 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       userEvent.click(screen.getAllByRole('radio')[0]);
       fireEvent.click(screen.getByText(/Continue/));
-      await waitFor(() => {
-        expect(
-          global.window.dataLayer.find(
-            ev => ev.event === 'vaos-variant-final-distanceFromCurrentLocation',
-          ),
-        ).to.exist;
-      });
     });
 
     it('should sort alphabetically when user selects dropdown option for alphabetical', async () => {
@@ -986,7 +980,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
       await screen.findAllByRole('radio');
@@ -1005,11 +999,6 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       firstRadio = screen.container.querySelector('.form-radio-buttons');
       expect(firstRadio).to.contain.text('ABC facility');
-      expect(
-        global.window.dataLayer.find(
-          ev => ev.event === 'vaos-variant-method-alphabetical',
-        ),
-      ).to.exist;
     });
 
     it('should sort alphabetically when user does not have an address', async () => {
@@ -1055,51 +1044,13 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
       await screen.findAllByRole('radio');
       // default sorted by home address
       const firstRadio = screen.container.querySelector('.form-radio-buttons');
       expect(firstRadio).to.contain.text('Closest facility');
-    });
-
-    it('should fire variant shown and default sort method events when variant shown', async () => {
-      const store = createTestStore({
-        ...initialState,
-        newAppointment: {
-          ...initialState.newAppointment,
-          facilityPageSortMethod: 'alphabetical',
-          childFacilitiesStatus: FETCH_STATUS.succeeded,
-          data: {
-            vaFacility: '983',
-          },
-          pages: {
-            vaFacilityV2: {
-              properties: {
-                vaFacility: {
-                  enum: [{}, {}],
-                },
-              },
-            },
-          },
-        },
-      });
-
-      renderWithStoreAndRouter(<NewAppointment />, {
-        store,
-      });
-
-      await waitFor(() => {
-        expect(
-          global.window.dataLayer.find(ev => ev.event === 'vaos-variant-shown'),
-        ).to.exist;
-        expect(
-          global.window.dataLayer.find(
-            ev => ev.event === 'vaos-variant-default-alphabetical',
-          ),
-        ).to.exist;
-      });
     });
   });
 
@@ -1152,7 +1103,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       ]);
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const { baseElement, findByText, history } = renderWithStoreAndRouter(
         <VAFacilityPage />,
@@ -1226,7 +1177,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       ]);
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, /eye care/i);
+      await setTypeOfCare(store, 'EYE'); // eye care
       await setTypeOfEyeCare(store, /optometry/i);
 
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -1356,7 +1307,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
       });
 
-      await setTypeOfCare(store, /primary care/i);
+      await setTypeOfCare(store, '323'); // primary care
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -1385,6 +1336,134 @@ describe('VAOS Page: VAFacilityPage', () => {
           '/new-appointment/how-to-schedule',
         ),
       );
+    });
+  });
+
+  describe('when OH Direct Scheduling is enabled', () => {
+    beforeEach(() => mockFetch());
+
+    const initialState = {
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+          data: {
+            ehrDataByVhaId: {
+              '442': {
+                vhaId: '442',
+                vamcFacilityName: 'Cheyenne VA Medical Center',
+                vamcSystemName: 'VA Cheyenne health care',
+                ehr: 'cerner',
+              },
+              '552': {
+                vhaId: '552',
+                vamcFacilityName: 'Dayton VA Medical Center',
+                vamcSystemName: 'VA Dayton health care',
+                ehr: 'cerner',
+              },
+            },
+            cernerFacilities: [
+              {
+                vhaId: '442',
+                vamcFacilityName: 'Cheyenne VA Medical Center',
+                vamcSystemName: 'VA Cheyenne health care',
+                ehr: 'cerner',
+              },
+              {
+                vhaId: '552',
+                vamcFacilityName: 'Dayton VA Medical Center',
+                vamcSystemName: 'VA Dayton health care',
+                ehr: 'cerner',
+              },
+            ],
+            vistaFacilities: [],
+          },
+        },
+      },
+      featureToggles: {
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingUseDsot: true,
+        vaOnlineSchedulingFacilitiesServiceV2: true,
+        vaOnlineSchedulingOhDirectSchedule: true,
+      },
+      user: {
+        profile: {
+          facilities: [
+            {
+              facilityId: '442', // Must use real facility id when using DSOT
+              isCerner: false, // Not used when using DSOT
+            },
+            { facilityId: '552', isCerner: false },
+          ],
+        },
+      },
+    };
+
+    it('should not display MHV scheduling link for foodAndNutrition appointments', async () => {
+      mockFacilitiesFetch({
+        children: true,
+        facilities: [
+          createMockFacility({
+            id: '983',
+            name: 'First cerner facility',
+            lat: 39.1362562,
+            long: -83.1804804,
+          }),
+          createMockFacility({
+            id: '984',
+            name: 'Second Cerner facility',
+            lat: 39.1362562,
+            long: -83.1804804,
+          }),
+        ],
+      });
+
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'foodAndNutrition',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'foodAndNutrition',
+          directEnabled: true,
+        }),
+      ]);
+
+      const store = createTestStore({
+        ...initialState,
+        user: {
+          ...initialState.user,
+          profile: {
+            ...initialState.user.profile,
+            vapContactInfo: {
+              residentialAddress: {
+                latitude: 39.1362562,
+                longitude: -84.6804804,
+              },
+            },
+          },
+        },
+      });
+
+      await setTypeOfCare(store, '123'); // nutrition and food
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
+
+      // Make sure Cerner facilities show up
+      expect(await screen.findByText(/First Cerner facility/i)).to.be.ok;
+      expect(await screen.getByText(/Second Cerner facility/i)).to.be.ok;
+
+      // Make sure Cerner link does not show up for foodAndNutrition
+      const cernerSiteLabel = document.querySelector(
+        `label[for="${screen.getByLabelText(/First Cerner facility/i).id}"]`,
+      );
+
+      expect(
+        within(cernerSiteLabel).queryByRole('link', { name: /My VA Health/ }),
+      ).not.to.exist;
     });
   });
 });

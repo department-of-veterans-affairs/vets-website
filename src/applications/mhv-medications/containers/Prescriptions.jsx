@@ -18,6 +18,7 @@ import {
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   getPrescriptionsPaginatedSortedList,
+  getPaginatedFilteredList,
   getAllergiesList,
 } from '../actions/prescriptions';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -33,11 +34,14 @@ import {
   PDF_TXT_GENERATE_STATUS,
   rxListSortingOptions,
   SESSION_SELECTED_SORT_OPTION,
+  SESSION_SELECTED_FILTER_OPTION,
   defaultSelectedSortOption,
   medicationsUrls,
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
   SESSION_SELECTED_PAGE_NUMBER,
+  sourcesToHide,
+  filterOptions,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -49,6 +53,7 @@ import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
+  selectFilterFlag,
   selectRefillContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
@@ -56,6 +61,7 @@ import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { pageType } from '../util/dataDogConstants';
+import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -80,6 +86,12 @@ const Prescriptions = () => {
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
+  // **Remove sort funtions and logic once filter feature is developed and live.**
+  const showFilterContent = useSelector(selectFilterFlag);
+  const filteredList = useSelector(
+    state => state.rx.prescriptions?.prescriptionsFilteredList,
+  );
+
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
@@ -93,6 +105,9 @@ const Prescriptions = () => {
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
   const [sortingInProgress, setSortingInProgress] = useState(false);
+  const [filterOption, setFilterOption] = useState(
+    sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) || null,
+  );
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
@@ -109,6 +124,11 @@ const Prescriptions = () => {
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
     setLoading(newIsLoading);
     setLoadingMessage(newLoadingMessage);
+  };
+
+  const updateFilter = option => {
+    dispatch(getPaginatedFilteredList(option));
+    sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, option);
   };
 
   const updateSortOption = sortOption => {
@@ -141,18 +161,15 @@ const Prescriptions = () => {
     scrollLocation?.current?.scrollIntoView();
   };
 
-  useEffect(
-    () => {
-      if (!isLoading) {
-        if (prescriptionId) {
-          goToPrevious();
-        } else {
-          focusElement(document.querySelector('h1'));
-        }
+  useEffect(() => {
+    if (!isLoading) {
+      if (prescriptionId) {
+        goToPrevious();
+      } else {
+        focusElement(document.querySelector('h1'));
       }
-    },
-    [isLoading, prescriptionId],
-  );
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -216,6 +233,19 @@ const Prescriptions = () => {
       }
     },
     [isLoading, paginatedPrescriptionsList, isAlertVisible],
+  );
+
+  useEffect(
+    () => {
+      if (!filteredList) {
+        dispatch(
+          getPaginatedFilteredList(
+            filterOption || filterOptions.ALL_MEDICATIONS.label,
+          ),
+        );
+      }
+    },
+    [filteredList, dispatch, filterOption],
   );
 
   const pdfData = useCallback(
@@ -334,7 +364,6 @@ const Prescriptions = () => {
         pdfData(rxList, allergiesList),
       ).then(() => {
         setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
-        updateLoadingStatus(false, '');
       });
     },
     [userName, pdfData, setPdfTxtGenerateStatus],
@@ -349,7 +378,6 @@ const Prescriptions = () => {
         }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
       );
       setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
-      updateLoadingStatus(false, '');
     },
     [userName, txtData, setPdfTxtGenerateStatus],
   );
@@ -369,7 +397,12 @@ const Prescriptions = () => {
             false,
           )
             .then(response => {
-              const list = response.data.map(rx => ({ ...rx.attributes }));
+              const list = response.data
+                .map(rx => ({ ...rx.attributes }))
+                // temporary plug until those sources are ready at va.gov
+                .filter(rx => {
+                  return !sourcesToHide.includes(rx.prescriptionSource);
+                });
               setPrescriptionsFullList(list);
               setHasFullListDownloadError(false);
             })
@@ -447,12 +480,13 @@ const Prescriptions = () => {
     const isTxtOrPdf =
       format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
     if (
-      isTxtOrPdf ||
-      !allergies ||
-      (format === PRINT_FORMAT.PRINT_FULL_LIST && !prescriptionsFullList.length)
+      (isTxtOrPdf ||
+        !allergies ||
+        (format === PRINT_FORMAT.PRINT_FULL_LIST &&
+          !prescriptionsFullList.length)) &&
+      !prescriptionsFullList.length
     ) {
-      if (!prescriptionsFullList.length) setIsRetrievingFullList(true);
-      updateLoadingStatus(true, 'Loading...');
+      setIsRetrievingFullList(true);
     }
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
@@ -471,146 +505,204 @@ const Prescriptions = () => {
   );
 
   const content = () => {
-    if (!isLoading) {
-      return (
-        <div className="landing-page no-print">
-          <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
-            Medications
-          </h1>
-          <p
-            className="vads-u-margin-top--0 vads-u-margin-bottom--4"
-            data-testid="Title-Notes"
-          >
-            When you share your medications list with providers, make sure you
-            also tell them about your allergies and reactions to medications.{' '}
-            {!showAllergiesContent && (
-              <>
-                If you print or download this list, we’ll include a list of your
-                allergies.
-              </>
-            )}
-          </p>
-          {showAllergiesContent && (
-            <a
-              href="/my-health/medical-records/allergies"
-              rel="noreferrer"
-              className="vads-u-display--block vads-u-margin-bottom--3"
-              data-testid="allergies-link"
-            >
-              Go to your allergies and reactions
-            </a>
-          )}
-          {prescriptionsApiError ? (
+    return (
+      <div className="landing-page no-print">
+        <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
+          Medications
+        </h1>
+        <p
+          className="vads-u-margin-top--0 vads-u-margin-bottom--4"
+          data-testid="Title-Notes"
+        >
+          When you share your medications list with providers, make sure you
+          also tell them about your allergies and reactions to medications.{' '}
+          {!showAllergiesContent && (
             <>
-              <ApiErrorNotification errorType="access" content="medications" />
-              <CernerFacilityAlert className="vads-u-margin-top--2" />
+              If you print or download this list, we’ll include a list of your
+              allergies.
             </>
-          ) : (
-            <>
-              <CernerFacilityAlert />
-              {paginatedPrescriptionsList &&
-              paginatedPrescriptionsList.length === 0 ? (
-                <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                  <h2 className="vads-u-margin--0">
-                    You don’t have any VA prescriptions or medication records
-                  </h2>
-                  <p className="vads-u-margin-y--3">
-                    If you need a prescription or you want to tell us about a
-                    medication you’re taking, tell your care team at your next
-                    appointment.
-                  </p>
-                </div>
-              ) : (
-                <>
-                  {showRefillContent && (
-                    <va-card background>
-                      <div className="vads-u-padding-x--1">
-                        <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                          Refill your prescriptions
-                        </h2>
-                        <p className="vads-u-margin-y--3">
-                          Find a list of prescriptions you can refill online.
-                        </p>
-                        <Link
-                          className="vads-c-action-link--green vads-u-margin--0"
-                          to={medicationsUrls.subdirectories.REFILL}
-                          data-testid="prescriptions-nav-link-to-refill"
-                        >
-                          Refill prescriptions
-                        </Link>
-                      </div>
-                    </va-card>
-                  )}
-                  <Alert
-                    isAlertVisible={isAlertVisible}
-                    paginatedPrescriptionsList={paginatedPrescriptionsList}
-                    ssoe={ssoe}
-                  />
-                  {isShowingErrorNotification && (
-                    <div className="vads-u-margin-y--3">
-                      <ApiErrorNotification
-                        errorType={getErrorTypeFromFormat(
-                          pdfTxtGenerateStatus.format,
-                        )}
-                        content="records"
+          )}
+        </p>
+        {showAllergiesContent && (
+          <a
+            href="/my-health/medical-records/allergies"
+            rel="noreferrer"
+            className="vads-u-display--block vads-u-margin-bottom--3"
+            data-testid="allergies-link"
+          >
+            Go to your allergies and reactions
+          </a>
+        )}
+        {prescriptionsApiError ? (
+          <>
+            <ApiErrorNotification errorType="access" content="medications" />
+            <CernerFacilityAlert className="vads-u-margin-top--2" />
+          </>
+        ) : (
+          <>
+            <CernerFacilityAlert />
+            {paginatedPrescriptionsList &&
+            paginatedPrescriptionsList.length === 0 ? (
+              <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+                <h2 className="vads-u-margin--0">
+                  You don’t have any VA prescriptions or medication records
+                </h2>
+                <p className="vads-u-margin-y--3">
+                  If you need a prescription or you want to tell us about a
+                  medication you’re taking, tell your care team at your next
+                  appointment.
+                </p>
+              </div>
+            ) : (
+              <>
+                {showRefillContent && (
+                  <va-card background>
+                    <div className="vads-u-padding-x--1">
+                      <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+                        Refill prescriptions
+                      </h2>
+                      <Link
+                        className="vads-c-action-link--green vads-u-margin--0"
+                        to={medicationsUrls.subdirectories.REFILL}
+                        data-testid="prescriptions-nav-link-to-refill"
                       >
-                        <div>
-                          If it still doesn’t work, call us at{' '}
-                          <va-telephone contact="8773270022" /> (
-                          <va-telephone contact={CONTACTS[711]} tty />
-                          ). We’re here Monday through Friday, 8:00 a.m. to 8:00
-                          p.m. ET.
-                        </div>
-                      </ApiErrorNotification>
+                        Start a refill request
+                      </Link>
                     </div>
-                  )}
-                  {paginatedPrescriptionsList?.length ? (
-                    <div
-                      className={`landing-page-content vads-u-margin-top--${
-                        isShowingErrorNotification ? '5' : '3'
-                      }
-                      small-screen:vads-u-margin-top--${
-                        isShowingErrorNotification ? '5' : '4'
-                      }`}
+                  </va-card>
+                )}
+                <Alert
+                  isAlertVisible={isAlertVisible}
+                  paginatedPrescriptionsList={paginatedPrescriptionsList}
+                  ssoe={ssoe}
+                />
+                {isShowingErrorNotification && (
+                  <div className="vads-u-margin-y--3">
+                    <ApiErrorNotification
+                      errorType={getErrorTypeFromFormat(
+                        pdfTxtGenerateStatus.format,
+                      )}
+                      content="records"
                     >
-                      <PrintDownload
-                        onDownload={handleFullListDownload}
-                        isSuccess={
-                          pdfTxtGenerateStatus.status ===
-                          PDF_TXT_GENERATE_STATUS.Success
-                        }
-                        list
-                      />
-                      <BeforeYouDownloadDropdown page={pageType.LIST} />
-                      <MedicationsListSort
-                        value={selectedSortOption}
-                        sortRxList={sortRxList}
-                      />
-                      <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
+                      <div>
+                        If it still doesn’t work, call us at{' '}
+                        <va-telephone contact="8773270022" /> (
+                        <va-telephone contact={CONTACTS[711]} tty />
+                        ). We’re here Monday through Friday, 8:00 a.m. to 8:00
+                        p.m. ET.
+                      </div>
+                    </ApiErrorNotification>
+                  </div>
+                )}
+                {paginatedPrescriptionsList?.length ? (
+                  <div
+                    className={`landing-page-content vads-u-margin-top--${
+                      isShowingErrorNotification ? '5' : '3'
+                    }
+                    mobile-lg:vads-u-margin-top--${
+                      isShowingErrorNotification ? '5' : '3'
+                    }`}
+                  >
+                    {showFilterContent ? (
+                      <>
+                        <h2
+                          className="vads-u-margin-y--3"
+                          data-testid="med-list"
+                        >
+                          Medications list
+                        </h2>
+                        <MedicationsListFilter
+                          updateFilter={updateFilter}
+                          filterOption={filterOption}
+                          setFilterOption={setFilterOption}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <PrintDownload
+                          onDownload={handleFullListDownload}
+                          isSuccess={
+                            pdfTxtGenerateStatus.status ===
+                            PDF_TXT_GENERATE_STATUS.Success
+                          }
+                          isLoading={
+                            !allergiesError &&
+                            pdfTxtGenerateStatus.status ===
+                              PDF_TXT_GENERATE_STATUS.InProgress
+                          }
+                          list
+                        />
+                        <BeforeYouDownloadDropdown page={pageType.LIST} />
+                      </>
+                    )}
+                    <MedicationsListSort
+                      value={selectedSortOption}
+                      sortRxList={sortRxList}
+                    />
+                    <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
+                    {isLoading ? (
+                      <div className="vads-u-height--viewport vads-u-padding-top--3">
+                        <va-loading-indicator
+                          message={loadingMessage}
+                          setFocus
+                          data-testid="loading-indicator"
+                        />
+                      </div>
+                    ) : (
                       <MedicationsList
-                        pagination={pagination}
-                        rxList={paginatedPrescriptionsList}
+                        pagination={
+                          showFilterContent
+                            ? {
+                                currentPage: 1,
+                                perPage: 20,
+                                totalEntries: 20,
+                                totalPages: 1,
+                              }
+                            : pagination
+                        }
+                        rxList={
+                          showFilterContent
+                            ? filteredList
+                            : paginatedPrescriptionsList
+                        }
                         scrollLocation={scrollLocation}
                         selectedSortOption={selectedSortOption}
                         updateLoadingStatus={updateLoadingStatus}
                       />
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                </>
-              )}
-            </>
-          )}
-        </div>
-      );
-    }
-    return (
-      <va-loading-indicator
-        message={loadingMessage}
-        setFocus
-        data-testid="loading-indicator"
-      />
+                    )}
+                    {showFilterContent && (
+                      <>
+                        <PrintDownload
+                          onDownload={handleFullListDownload}
+                          isSuccess={
+                            pdfTxtGenerateStatus.status ===
+                            PDF_TXT_GENERATE_STATUS.Success
+                          }
+                          isLoading={
+                            !allergiesError &&
+                            pdfTxtGenerateStatus.status ===
+                              PDF_TXT_GENERATE_STATUS.InProgress
+                          }
+                          list
+                        />
+                        <BeforeYouDownloadDropdown page={pageType.LIST} />
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <div className="vads-u-padding-y--3">
+                    <va-loading-indicator
+                      message={loadingMessage}
+                      setFocus
+                      data-testid="loading-indicator"
+                    />
+                  </div>
+                )}
+              </>
+            )}
+          </>
+        )}
+      </div>
     );
   };
   return (

@@ -9,7 +9,7 @@ import {
 
 describe('form-load reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer.formLoad(undefined, {})).to.deep.equal(initialState);
+    expect(reducer(undefined, {})).to.deep.equal(initialState);
   });
 
   it('should handle FORM_LOADING_INITIATED', () => {
@@ -23,7 +23,7 @@ describe('form-load reducer', () => {
       formId: action.formId,
       formConfig: null,
     };
-    expect(reducer.formLoad(initialState, action)).to.deep.equal(expectedState);
+    expect(reducer(initialState, action)).to.deep.equal(expectedState);
   });
 
   it('should handle FORM_LOADING_SUCCEEDED', () => {
@@ -48,7 +48,7 @@ describe('form-load reducer', () => {
       formId: '123-abc',
       formConfig: action.formConfig,
     };
-    expect(reducer.formLoad(currentState, action)).to.deep.equal(expectedState);
+    expect(reducer(currentState, action)).to.deep.equal(expectedState);
   });
 
   it('should handle FORM_LOADING_FAILED', () => {
@@ -71,6 +71,6 @@ describe('form-load reducer', () => {
       formId: 'bad-form-id',
       formConfig: null,
     };
-    expect(reducer.formLoad(currentState, action)).to.deep.equal(expectedState);
+    expect(reducer(currentState, action)).to.deep.equal(expectedState);
   });
 });

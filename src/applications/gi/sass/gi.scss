@@ -1,4 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 @import "partials/gi-vet-tec";
@@ -41,7 +42,7 @@
     a {
       // background-image: none;
       text-align: center;
-      font-family: $font-sans;
+      font-family: var(--font-source-sans);
       font-size: 0.85rem;
       line-height: 2.5rem;
       margin-right: 1.5625rem;
@@ -245,6 +246,51 @@
   background-color: rgba(255, 255, 255, 0.7);
   z-index: 10000;
 }
+
 .input-container-width {
   width: 100% !important;
+}
+
+.yr-table-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  &:nth-of-type(2) {
+    width: inherit;
+    gap: 0;
+
+    @media (min-width: 900px) {
+      width: 15rem;
+      gap: 4rem;
+    }
+  }
+}
+
+.sort-icon {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.lc-dropdown-filter {
+  max-width: 30rem;
+}
+
+.lc-filter-options {
+  padding: 0.5rem;
+  margin: 0;
+}
+
+.provider-info-container > span {
+  gap: 1rem;
+}
+
+.required-label {
+  color: $color-red-dark;
+}
+
+.remove-bullets {
+  list-style: none;
+  padding-left: 0;
 }

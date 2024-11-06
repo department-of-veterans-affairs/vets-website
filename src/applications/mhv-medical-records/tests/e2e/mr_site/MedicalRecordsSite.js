@@ -1,22 +1,33 @@
 import mockUser from '../fixtures/user.json';
+import vamc from '../fixtures/facilities/vamc-ehr.json';
+
 // import mockNonMRuser from '../fixtures/non_mr_user.json';
 // import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
 class MedicalRecordsSite {
-  login = (userFixture = mockUser) => {
-    this.mockFeatureToggles();
+  login = (userFixture = mockUser, isAccelerating = false) => {
+    this.mockFeatureToggles(isAccelerating);
     this.mockVamcEhr();
+    this.mockMaintenanceWindow();
     cy.login(userFixture);
     // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
     // window.localStorage.setItem('isLoggedIn', true);
     // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
   };
 
-  mockFeatureToggles = () => {
+  mockFeatureToggles = (isAccelerating = false) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
         features: [
+          {
+            name: 'mhv_integration_medical_records_to_phase_1',
+            value: true,
+          },
+          {
+            name: 'mhv_accelerated_delivery_allergies_enabled',
+            value: isAccelerating,
+          },
           {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
             value: false,
@@ -83,7 +94,11 @@ class MedicalRecordsSite {
   };
 
   mockVamcEhr = () => {
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {}).as('vamcEhr');
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamc).as('vamcEhr');
+  };
+
+  mockMaintenanceWindow = () => {
+    cy.intercept('GET', '/v0/maintenance_windows', {}).as('maintenanceWindow');
   };
 
   verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {

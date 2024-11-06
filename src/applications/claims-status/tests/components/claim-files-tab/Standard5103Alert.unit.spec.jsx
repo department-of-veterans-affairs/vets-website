@@ -12,12 +12,9 @@ describe('<Standard5103Alert>', () => {
   context('when user navigates to page directly', () => {
     it('should render va-alert with item data', () => {
       const { getByText } = renderWithRouter(<Standard5103Alert />);
-      getByText('5103 Evidence Notice');
+      getByText('Review evidence list (5103 notice)');
       getByText(
-        'We sent you a "5103 notice" letter that lists the types of evidence we may need to decide your claim.',
-      );
-      getByText(
-        'Upload the waiver attached to the letter if you’re finished adding evidence.',
+        'We sent you a “List of evidence we may need (5103 notice)” letter. This letter lets you know if submitting additional evidence will help decide your claim.',
       );
       getByText('Details');
       expect(sessionStorage.getItem('previousPage')).to.not.exist;

@@ -110,6 +110,7 @@ HowToPay.propTypes = {
     state: PropTypes.string,
     ziPCde: PropTypes.string,
   }),
+  isOverview: PropTypes.bool,
 };
 
 export default HowToPay;

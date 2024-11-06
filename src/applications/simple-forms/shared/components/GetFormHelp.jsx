@@ -11,13 +11,13 @@ export default function() {
       </p>
       <p className="help-talk">
         <strong>
-          If you need help gathering your information or filling out this form,
+          If you need help gathering your information or filling out your form,
         </strong>{' '}
-        contact a local Veterans Service Organization (VSO).
+        you can appoint a VA accredited representative.
       </p>
       <va-link
-        href="https://va.gov/vso/"
-        text="Find a local Veterans Service Organization"
+        href="https://www.va.gov/get-help-from-accredited-representative/"
+        text="Get help filling out a form"
       />
     </>
   );

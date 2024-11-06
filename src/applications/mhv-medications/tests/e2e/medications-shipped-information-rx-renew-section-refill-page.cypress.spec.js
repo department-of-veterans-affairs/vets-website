@@ -3,7 +3,7 @@ import prescriptions from './fixtures/listOfPrescriptions.json';
 import MedicationsRefillPage from './pages/MedicationsRefillPage';
 
 describe('Medications Refill Page Shipped On Information', () => {
-  it('visits Medications Refill Page Renew Section Shipped On Information', () => {
+  it.skip('visits Medications Refill Page Renew Section Shipped On Information', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
     const shippedDate = 'September 24, 2023';

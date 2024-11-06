@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import AuthenticatedShortFormAlert from '../FormAlerts/AuthenticatedShortFormAlert';
 import { formatDate } from '../../utils/helpers/general';
 import { normalizeFullName } from '../../utils/helpers';
-import { APP_URLS } from '../../utils/constants';
+import { APP_URLS, HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 
 const AuthProfileInformation = ({ user }) => {
   const { veteranFullName, veteranDateOfBirth, totalDisabilityRating } = user;
@@ -12,9 +13,18 @@ const AuthProfileInformation = ({ user }) => {
     ? formatDate(veteranDateOfBirth, 'MMMM dd, yyyy')
     : null;
   const veteranName = normalizeFullName(veteranFullName, true);
+
+  const ShortFormAlert =
+    totalDisabilityRating >= HIGH_DISABILITY_MINIMUM ? (
+      <AuthenticatedShortFormAlert />
+    ) : null;
+
   return (
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
+      {ShortFormAlert}
+
       <p>This is the personal information we have on file for you.</p>
+
       <va-card data-testid="hca-profile-card" background>
         <ul className="hca-list-style-none">
           <li>
@@ -52,6 +62,7 @@ const AuthProfileInformation = ({ user }) => {
           </li>
         </ul>
       </va-card>
+
       <p>
         <strong>Note:</strong> If you need to update your personal information,
         call our VA benefits hotline at{' '}

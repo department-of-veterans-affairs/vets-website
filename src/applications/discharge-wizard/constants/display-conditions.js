@@ -1,4 +1,5 @@
 import { range } from 'lodash';
+import { months } from 'platform/static-data/options-for-select';
 import { RESPONSES } from './question-data-map';
 
 const get15YearsPast = () => `${new Date().getFullYear() - 15}`;
@@ -12,8 +13,18 @@ const yearResponses = range(currentYear - 1992).map(i => {
 yearResponses.push('Before 1992');
 
 const validYearsForNonOldDischarge = yearResponses.filter(year => {
-  return currentYear - year <= 15;
+  return currentYear - year < 15;
 });
+
+const determineMonths = months.reduce((newArray, month) => {
+  const currentMonth = new Date().getMonth() + 1;
+  if (currentMonth <= month.value) {
+    newArray.push(month.value.toString());
+  }
+  return newArray;
+}, []);
+
+const year15Yearsago = (new Date().getFullYear() - 15).toString();
 
 const {
   ARMY,
@@ -171,10 +182,21 @@ export const DISPLAY_CONDITIONS = Object.freeze({
     },
   },
   FAILURE_TO_EXHAUST: {
-    DISCHARGE_YEAR: [...validYearsForNonOldDischarge],
-    COURT_MARTIAL: [COURT_MARTIAL_NO, NOT_SURE],
-    INTENTION: [INTENTION_NO],
-    PREV_APPLICATION_TYPE: [PREV_APPLICATION_BCMR, PREV_APPLICATION_BCNR],
+    FORK: {
+      0: {
+        DISCHARGE_YEAR: [...validYearsForNonOldDischarge],
+        COURT_MARTIAL: [COURT_MARTIAL_NO, NOT_SURE],
+        INTENTION: [INTENTION_NO],
+        PREV_APPLICATION_TYPE: [PREV_APPLICATION_BCMR, PREV_APPLICATION_BCNR],
+      },
+      1: {
+        DISCHARGE_YEAR: [year15Yearsago],
+        DISCHARGE_MONTH: [...determineMonths],
+        COURT_MARTIAL: [COURT_MARTIAL_NO, NOT_SURE],
+        INTENTION: [INTENTION_NO],
+        PREV_APPLICATION_TYPE: [PREV_APPLICATION_BCMR, PREV_APPLICATION_BCNR],
+      },
+    },
   },
   PRIOR_SERVICE: {
     FORK: {
@@ -288,11 +310,98 @@ export const DISPLAY_CONDITIONS = Object.freeze({
           PREV_APPLICATION_AFTER_2017,
         ],
         PREV_APPLICATION_TYPE: [PREV_APPLICATION_BCMR, PREV_APPLICATION_BCNR],
+      },
+      7: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [REASON_SEXUAL_ORIENTATION],
+        DISCHARGE_TYPE: [DISCHARGE_DISHONORABLE],
+        INTENTION: [INTENTION_NO],
+        COURT_MARTIAL: [COURT_MARTIAL_NO, NOT_SURE],
+        PREV_APPLICATION: [YES],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_AFTER_2014,
+          PREV_APPLICATION_AFTER_2011,
+          PREV_APPLICATION_AFTER_2017,
+        ],
+        PREV_APPLICATION_TYPE: [PREV_APPLICATION_BCMR, PREV_APPLICATION_BCNR],
         FAILURE_TO_EXHAUST: [
           FAILURE_TO_EXHAUST_BCMR_YES,
           FAILURE_TO_EXHAUST_BCMR_NO,
           FAILURE_TO_EXHAUST_BCNR_YES,
           FAILURE_TO_EXHAUST_BCNR_NO,
+        ],
+      },
+      8: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [
+          REASON_PTSD,
+          REASON_TBI,
+          REASON_SEXUAL_ORIENTATION,
+          REASON_SEXUAL_ASSAULT,
+          REASON_ERROR,
+          REASON_UNJUST,
+        ],
+        PREV_APPLICATION: [YES],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_AFTER_2014,
+          PREV_APPLICATION_AFTER_2011,
+          PREV_APPLICATION_AFTER_2017,
+        ],
+        PREV_APPLICATION_TYPE: [PREV_APPLICATION_BCMR, PREV_APPLICATION_BCNR],
+        FAILURE_TO_EXHAUST: [
+          FAILURE_TO_EXHAUST_BCMR_YES,
+          FAILURE_TO_EXHAUST_BCMR_NO,
+          FAILURE_TO_EXHAUST_BCNR_YES,
+          FAILURE_TO_EXHAUST_BCNR_NO,
+        ],
+      },
+      9: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [
+          REASON_PTSD,
+          REASON_TBI,
+          REASON_SEXUAL_ORIENTATION,
+          REASON_SEXUAL_ASSAULT,
+          REASON_UNJUST,
+          REASON_ERROR,
+        ],
+        COURT_MARTIAL: [COURT_MARTIAL_NO, NOT_SURE],
+        PREV_APPLICATION: [YES],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_AFTER_2014,
+          PREV_APPLICATION_AFTER_2011,
+          PREV_APPLICATION_AFTER_2017,
+        ],
+        PREV_APPLICATION_TYPE: [
+          PREV_APPLICATION_DRB_DOCUMENTARY,
+          PREV_APPLICATION_DRB_PERSONAL,
+        ],
+      },
+      10: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [
+          REASON_PTSD,
+          REASON_TBI,
+          REASON_SEXUAL_ORIENTATION,
+          REASON_SEXUAL_ASSAULT,
+          REASON_ERROR,
+          REASON_UNJUST,
+        ],
+        PREV_APPLICATION: [YES],
+        PREV_APPLICATION_TYPE: [
+          PREV_APPLICATION_DRB_DOCUMENTARY,
+          PREV_APPLICATION_DRB_PERSONAL,
+          PREV_APPLICATION_BCMR,
+          PREV_APPLICATION_BCNR,
+          NOT_SURE,
         ],
       },
     },

@@ -23,6 +23,7 @@ export const {
   centralMailVaFile,
   bankAccount,
   files,
+  benefitsIntakeFullName,
 } = fullSchemaPensions.definitions;
 
 export const defaultDefinitions = {
@@ -36,4 +37,5 @@ export const defaultDefinitions = {
   monthlyIncome,
   expectedIncome,
   netWorth,
+  benefitsIntakeFullName,
 };

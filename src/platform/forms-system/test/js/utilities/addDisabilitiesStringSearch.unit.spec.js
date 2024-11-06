@@ -137,14 +137,11 @@ describe('fullStringSimilaritySearch', () => {
   it('should return results that start with user input, substring count, then LCS single vs multi', () => {
     const userInput = ['tinnitus', 'kidney cancer'];
     const expectedReturn = [
+      ['tinnitus (ringing or hissing in ears)'],
       [
-        'tinnitus (ringing or hissing in ears)',
-        'hearing loss, other than tinnitus',
-      ],
-      [
-        'kidney cancer (renal cancer), right',
-        'kidney cancer (renal cancer), left',
         'kidney cancer (renal cancer), bilateral',
+        'kidney cancer (renal cancer), left',
+        'kidney cancer (renal cancer), right',
         'colorectal cancer or colon cancer',
         'laryngeal cancer (cancer of larynx)',
       ],

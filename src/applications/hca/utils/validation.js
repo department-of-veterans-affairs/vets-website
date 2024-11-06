@@ -117,3 +117,17 @@ export function validatePolicyNumber(errors, fieldData) {
     );
   }
 }
+
+export function validateInsurancePolicy(item) {
+  const {
+    insuranceName,
+    insurancePolicyHolderName,
+    'view:policyNumberOrGroupCode': policyNumberOrGroupCode,
+  } = item || {};
+  const { insurancePolicyNumber, insuranceGroupCode } = policyNumberOrGroupCode;
+  return (
+    !insuranceName ||
+    !insurancePolicyHolderName ||
+    (!insurancePolicyNumber && !insuranceGroupCode)
+  );
+}

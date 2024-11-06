@@ -13,41 +13,39 @@ export const initialState = {
   error: null,
 };
 
-export default {
-  formLoad: (state = initialState, action) => {
-    switch (action.type) {
-      case FORM_LOADING_INITIATED:
-        return {
-          ...state,
-          isLoading: true,
-          isError: false,
-          isSuccess: false,
-          formId: action.formId,
-          formConfig: null,
-        };
+export default (state = initialState, action) => {
+  switch (action?.type) {
+    case FORM_LOADING_INITIATED:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        isSuccess: false,
+        formId: action.formId,
+        formConfig: null,
+      };
 
-      case FORM_LOADING_SUCCEEDED:
-        return {
-          ...state,
-          isLoading: false,
-          isError: false,
-          isSuccess: true,
-          error: null,
-          formConfig: action.formConfig,
-        };
+    case FORM_LOADING_SUCCEEDED:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        isSuccess: true,
+        error: null,
+        formConfig: action.formConfig,
+      };
 
-      case FORM_LOADING_FAILED:
-        return {
-          ...state,
-          isLoading: false,
-          isError: true,
-          isSuccess: false,
-          error: action.error,
-          formConfig: null,
-        };
+    case FORM_LOADING_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        isSuccess: false,
+        error: action.error,
+        formConfig: null,
+      };
 
-      default:
-        return state;
-    }
-  },
+    default:
+      return state;
+  }
 };

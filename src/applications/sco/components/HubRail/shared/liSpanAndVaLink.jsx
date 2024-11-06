@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const LiSpanAndVaLink = ({ href, hrefText }) => (
   <li>
-    <va-link href={href} text={hrefText} uswds />
+    <va-link href={href} text={hrefText} />
   </li>
 );
 

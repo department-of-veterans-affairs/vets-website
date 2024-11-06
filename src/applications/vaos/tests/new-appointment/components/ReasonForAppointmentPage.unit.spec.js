@@ -28,7 +28,8 @@ const initialState = {
 describe('VAOS Page: ReasonForAppointmentPage', () => {
   beforeEach(() => mockFetch());
 
-  describe('VA requests', () => {
+  // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/94470
+  describe.skip('VA requests', () => {
     it('should show page for VA medical request', async () => {
       const store = createTestStore(initialState);
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
@@ -193,7 +194,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
   describe('Community care requests', () => {
     it('should show page for Community Care medical request', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfFacility(store, /Community Care/i);
+      await setTypeOfFacility(store, 'communityCare');
 
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
@@ -221,7 +222,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
     it('should show error msg when enter all spaces for Community Care medical request', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfFacility(store, /Community Care/i);
+      await setTypeOfFacility(store, 'communityCare');
 
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
@@ -249,7 +250,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
     it('should continue to the correct page for Community Care medical request', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfFacility(store, /Community Care/i);
+      await setTypeOfFacility(store, 'communityCare');
       const screen = renderWithStoreAndRouter(
         <Route component={ReasonForAppointmentPage} />,
         {

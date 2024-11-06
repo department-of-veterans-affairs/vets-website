@@ -138,8 +138,18 @@ export default function ArrayBuilderSummaryPage({
         }
       };
 
+      const resetYesNo = () => {
+        // We shouldn't persist the 'yes' answer after an item is entered/cancelled
+        // We should ask the yes/no question again after an item is entered/cancelled
+        // Since it is required, it shouldn't be left null/undefined
+        if (props.data[hasItemsKey]) {
+          props.setData({ ...props.data, [hasItemsKey]: undefined });
+        }
+      };
+
       cleanupEmptyItems();
       redirectToIntroIfEmpty();
+      resetYesNo();
     }, []);
 
     useEffect(
@@ -264,7 +274,7 @@ export default function ArrayBuilderSummaryPage({
       // alert
       setShowUpdatedAlert(false);
 
-      setRemovedItemText(getText('alertItemDeleted', item));
+      setRemovedItemText(getText('alertItemDeleted', item, props.data));
       setRemovedItemIndex(index);
       setShowRemovedAlert(true);
       requestAnimationFrame(() => {
@@ -287,15 +297,13 @@ export default function ArrayBuilderSummaryPage({
       }
     }
 
-    const Title = (
-      <>
-        <Heading
-          className="vads-u-color--gray-dark vads-u-margin-top--0"
-          data-title-for-noun-singular={`${nounSingular}`}
-        >
-          {getText('summaryTitle', updatedItemData)}
-        </Heading>
-      </>
+    const Title = ({ textType }) => (
+      <Heading
+        className="vads-u-color--gray-dark vads-u-margin-top--0"
+        data-title-for-noun-singular={nounSingular}
+      >
+        {getText(textType, updatedItemData, props.data)}
+      </Heading>
     );
 
     const UpdatedAlert = ({ show }) => {
@@ -306,7 +314,7 @@ export default function ArrayBuilderSummaryPage({
               onDismiss={onDismissUpdatedAlert}
               nounSingular={nounSingular}
               index={updateItemIndex}
-              text={getText('alertItemUpdated', updatedItemData)}
+              text={getText('alertItemUpdated', updatedItemData, props.data)}
             />
           ) : null}
         </div>
@@ -354,7 +362,11 @@ export default function ArrayBuilderSummaryPage({
         <UpdatedAlert show={showUpdatedAlert} />
         <ReviewErrorAlert show={showReviewErrorAlert} />
         <ArrayBuilderCards
-          cardDescription={getText('cardDescription', updatedItemData)}
+          cardDescription={getText(
+            'cardDescription',
+            updatedItemData,
+            props.data,
+          )}
           arrayPath={arrayPath}
           nounSingular={nounSingular}
           nounPlural={nounPlural}
@@ -374,7 +386,7 @@ export default function ArrayBuilderSummaryPage({
       return (
         <>
           {arrayData?.length ? (
-            Title
+            <Title textType="summaryTitle" />
           ) : (
             <>
               <div className="form-review-panel-page-header-row">
@@ -382,12 +394,14 @@ export default function ArrayBuilderSummaryPage({
                   className="form-review-panel-page-header vads-u-font-size--h5"
                   data-title-for-noun-singular={`${nounSingular}`}
                 >
-                  {getText('summaryTitle', updatedItemData)}
+                  {getText('summaryTitle', updatedItemData, props.data)}
                 </h4>
               </div>
               <dl className="review">
                 <div className="review-row">
-                  <dt>{getText('yesNoBlankReviewQuestion')}</dt>
+                  <dt>
+                    {getText('yesNoBlankReviewQuestion', null, props.data)}
+                  </dt>
                   <dd>
                     <span
                       className="dd-privacy-hidden"
@@ -400,12 +414,21 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
+          {getText('summaryDescription', null, props.data) && (
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
+              {getText('summaryDescription', null, props.data)}
+            </span>
+          )}
           <Cards />
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
               <va-button
                 data-action="add"
-                text={getText('reviewAddButtonText', updatedItemData)}
+                text={getText(
+                  'reviewAddButtonText',
+                  updatedItemData,
+                  props.data,
+                )}
                 onClick={addAnotherItemButtonClick}
                 name={`${nounPlural}AddButton`}
                 primary
@@ -417,26 +440,37 @@ export default function ArrayBuilderSummaryPage({
       );
     }
 
+    const newUiSchema = { ...uiSchema };
+    let newSchema = schema;
+
     if (arrayData?.length > 0) {
-      uiSchema['ui:title'] = (
+      newUiSchema['ui:title'] = (
         <>
-          {Title}
+          <Title textType="summaryTitle" />
+          {getText('summaryDescription', null, props.data) && (
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
+              {getText('summaryDescription', null, props.data)}
+            </span>
+          )}
           {isMaxItemsReached && (
             <MaxItemsAlert>
-              {getText('alertMaxItems', updatedItemData)}
+              {getText('alertMaxItems', updatedItemData, props.data)}
             </MaxItemsAlert>
           )}
         </>
       );
       // ensure new reference to trigger re-render
-      uiSchema['ui:description'] = <Cards />;
+      newUiSchema['ui:description'] = <Cards />;
     } else {
-      uiSchema['ui:title'] = undefined;
-      uiSchema['ui:description'] = undefined;
+      newUiSchema['ui:title'] = <Title textType="summaryTitleWithoutItems" />;
+      newUiSchema['ui:description'] =
+        getText('summaryDescriptionWithoutItems', null, props.data) ||
+        undefined;
     }
 
     if (schema?.properties && maxItems && arrayData?.length >= maxItems) {
-      schema.properties[hasItemsKey]['ui:hidden'] = true;
+      newSchema = { ...schema };
+      newSchema.properties[hasItemsKey]['ui:hidden'] = true;
     }
 
     return (
@@ -445,8 +479,8 @@ export default function ArrayBuilderSummaryPage({
         title={props.title}
         data={props.data}
         appStateData={props.appStateData}
-        schema={schema}
-        uiSchema={uiSchema}
+        schema={newSchema}
+        uiSchema={newUiSchema}
         pagePerItemIndex={props.pagePerItemIndex}
         formContext={props.formContext}
         trackingPrefix={props.trackingPrefix}

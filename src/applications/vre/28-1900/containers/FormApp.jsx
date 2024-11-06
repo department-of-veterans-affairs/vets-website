@@ -6,6 +6,8 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import { isLoggedIn, isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
+import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import { WIZARD_STATUS, VRE_FORM_NUMBER } from '../constants';
 import IdentityNotVerified from '../components/IdentityNotVerified';
@@ -44,6 +46,12 @@ function FormApp(props) {
     </>
   );
 
+  const { TOGGLE_NAMES } = useFeatureToggle();
+  useBrowserMonitoring({
+    location,
+    toggleName: TOGGLE_NAMES.disablityBenefitsBrowserMonitoringEnabled,
+  });
+
   if (isLoading) {
     return <va-loading-indicator message="Loading your information..." />;
   }
@@ -64,10 +72,12 @@ function FormApp(props) {
   }
   // if a user has not done the wizard, send them there.
   // else if a user is trying to access parts of the form unauthenticated, redirect them to the intro page.
+
   if (!wizardStatus) {
     router.push('/start');
     return <va-loading-indicator message="Loading VRE Orientation..." />;
-  } else if (!loggedIn && CHAPTER_NAMES.includes(formPath)) {
+  }
+  if (!loggedIn && CHAPTER_NAMES.includes(formPath)) {
     router.push('/introduction');
   }
   return content;

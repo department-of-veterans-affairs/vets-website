@@ -1,10 +1,14 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import { maskSSN } from 'platform/forms-system/src/js/web-component-fields/SsnField';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    veteranSSN: ssnUI,
+    veteranSSN: {
+      ...ssnUI,
+      'ui:confirmationField': ({ formData }) => ({ data: maskSSN(formData) }),
+    },
     veteranVaFileNumber: {
       'ui:title': 'VA file number (if available)',
       'ui:errorMessages': {

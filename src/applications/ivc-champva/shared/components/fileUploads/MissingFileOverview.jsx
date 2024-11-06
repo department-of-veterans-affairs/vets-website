@@ -37,14 +37,7 @@ import { getConditionalPages } from '../../utilities';
 import SupportingDocsVerification from './supportingDocsVerification';
 import MissingFileList from './MissingFileList';
 
-const mailInfo = (
-  showOpt = true,
-  address,
-  officeName,
-  faxNum,
-  preamble,
-  appType,
-) => {
+const mailInfo = (address, officeName, faxNum, preamble, appType) => {
   const faxNumMarkup = (
     <VaTelephone
       contact={JSON.stringify({
@@ -64,13 +57,6 @@ const mailInfo = (
           <p>Mail your {appType} and supporting document copies to:</p>
         </>
       )}
-      {showOpt ? (
-        <p>
-          Optional files are not required to complete your {appType}, but may
-          prevent delays in your processing time.
-          <br />
-        </p>
-      ) : null}
       <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
         <p className="vads-u-padding-x--10px vads-u-margin-left--1">
           {address ?? (
@@ -82,13 +68,11 @@ const mailInfo = (
               P.O. Box 469028
               <br />
               Denver, CO 80246-9028
-              <br />
-              United States of America
             </>
           )}
         </p>
       </address>
-      Or fax your documents here:
+      Or fax it to:
       {officeName ? (
         <>
           <br />
@@ -189,8 +173,8 @@ export function checkFlags(pages, person, newListOfMissingFiles) {
  * @param {object} param0.fileNameMap - object with formConfig keys for all possible files (required and optional) mapped to a user-friendly string (e.g., `{schoolCert: 'School Certificate'}`). This should be a superset containing `requiredFiles`
  * @param {object} param0.requiredDescription - optional string to display over bulleted list of missing `required` files
  * @param {object} param0.requiredFiles - object with required file's formConfig keys mapped to a user-friendly string (e.g., `{birthCert: 'Birth Certificate'}`)
- * @param {string} param0.nonListNameKey - key in `data` that points to a name property to use in the page display (e.g., if nonListNameKey is `veteranFullName`, `data.veteranFullName` should be something like `{first: '', last: ''}`
- * @param {object} param0.optionalDescription - optional string to display over bulleted list of missing `optional` files
+ * @param {string} param0.listNameKey - (optional) key in `data` that points to a name property to use in the page display (e.g., if listNameKey is `applicantName`, `data.applicants.applicantName` should be something like `{first: '', last: ''}`
+ * @param {string} param0.nonListNameKey - (optional) key in `data` that points to a name property to use in the page display (e.g., if nonListNameKey is `veteranFullName`, `data.veteranFullName` should be something like `{first: '', last: ''}`
  * @param {boolean} param0.showNameHeader - whether or not to show the person's name above their grouping of missing files
  * @param {boolean} param0.showFileBullets - whether or not to show the file type in a separate <li> above the clickable link (only works when `param0.disableLinks===false`)
  * @param {boolean} param0.showRequirementHeaders - whether or not to show "[Required/Optional] documents" above each section
@@ -211,12 +195,12 @@ export default function MissingFileOverview({
   mailPreamble,
   officeName,
   requiredDescription,
-  optionalDescription,
   faxNum,
   showConsent,
   allPages,
   fileNameMap,
   requiredFiles,
+  listNameKey,
   nonListNameKey,
   showNameHeader,
   showFileBullets,
@@ -342,15 +326,11 @@ export default function MissingFileOverview({
 
   // Set up some display properties/custom text:
   const rh = showRequirementHeaders ?? true ? 'Required documents' : '';
-  const oh = showRequirementHeaders ?? true ? 'Optional documents' : '';
   const snh = showNameHeader ?? true;
   const sfb = showFileBullets ?? false;
   const rd =
     requiredDescription ??
     'We require these documents in order to process this form.';
-  const od =
-    optionalDescription ??
-    'These documents help us process this application faster.';
 
   return (
     <form onSubmit={onGoForward}>
@@ -361,9 +341,9 @@ export default function MissingFileOverview({
           {hasReq(sponsorMiss, true, showConsent) ? (
             <MissingFileList
               data={sponsorMiss}
-              nameKey="name"
+              nameKey={nonListNameKey ?? 'name'}
               title={rh}
-              subset
+              subset // subset `true` means required files
               description={rd}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
@@ -374,7 +354,7 @@ export default function MissingFileOverview({
           {hasReq(apps, true, showConsent) ? (
             <MissingFileList
               data={apps}
-              nameKey="applicantName"
+              nameKey={listNameKey ?? 'applicantName'}
               title={rh}
               subset
               description={rd}
@@ -384,36 +364,9 @@ export default function MissingFileOverview({
               showFileBullets={sfb}
             />
           ) : null}
-          {hasReq(sponsorMiss, false, showConsent) ? (
-            <MissingFileList
-              data={sponsorMiss}
-              nameKey="name"
-              title={oh}
-              subset={false}
-              description={od}
-              disableLinks={disableLinks}
-              fileNameMap={fileNameMap}
-              showNameHeader={snh}
-              showFileBullets={sfb}
-            />
-          ) : null}
-          {hasReq(apps, false, showConsent) ? (
-            <MissingFileList
-              data={apps}
-              nameKey="applicantName"
-              title={oh}
-              subset={false}
-              description={od}
-              disableLinks={disableLinks}
-              fileNameMap={fileNameMap}
-              showNameHeader={snh}
-              showFileBullets={sfb}
-            />
-          ) : null}
           {requiredFilesStillMissing && showMail ? (
             <>
               {mailInfo(
-                optionalFilesStillMissing,
                 mailingAddress,
                 officeName,
                 faxNum,
@@ -458,11 +411,11 @@ MissingFileOverview.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   heading: PropTypes.node,
+  listNameKey: PropTypes.string,
   mailPreamble: PropTypes.any,
   mailingAddress: PropTypes.any,
   nonListNameKey: PropTypes.string,
   officeName: PropTypes.string,
-  optionalDescription: PropTypes.string,
   optionalWarningHeading: PropTypes.node,
   requiredDescription: PropTypes.string,
   requiredFiles: PropTypes.any,

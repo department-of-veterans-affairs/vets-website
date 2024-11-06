@@ -1,4 +1,3 @@
-import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
 import { mockGETEndpoints } from '../helpers';
 import DirectDepositPage from './page-objects/DirectDeposit';
 
@@ -29,25 +28,6 @@ describe('Direct Deposit - Happy Path', () => {
 
       // exclusive to new unified page
       cy.findAllByTestId('unified-direct-deposit').should('exist');
-
-      cy.findByRole('heading', { name: 'Direct deposit information' }).should(
-        'exist',
-      );
-
-      cy.injectAxeThenAxeCheck();
-    });
-
-    it('should show legacy direct deposit page when profileShowDirectDepositSingleForm is false', () => {
-      directDeposit.setup({
-        featureToggles: generateFeatureToggles(),
-      });
-
-      directDeposit.visitPage();
-
-      directDeposit.confirmDirectDepositInSubnav();
-
-      // exclusive to legacy page
-      cy.findAllByTestId('legacy-direct-deposit').should('exist');
 
       cy.findByRole('heading', { name: 'Direct deposit information' }).should(
         'exist',

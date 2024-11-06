@@ -1,10 +1,18 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 
+import set from 'platform/utilities/data/set';
+import get from 'platform/utilities/data/get';
+
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  fullNameUI,
+  checkboxGroupSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { apiRequest } from 'platform/utilities/api';
 import { formatISO } from 'date-fns';
+
+import { validateBenefitsIntakeName } from './validation';
 
 function checkStatus(guid) {
   const headers = { 'Content-Type': 'application/json' };
@@ -60,32 +68,9 @@ function pollStatus(
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
-export function transformCountryCode(countryCode) {
-  switch (countryCode) {
-    case 'USA':
-      return 'US';
-    case 'MEX':
-      return 'MX';
-    case 'CAN':
-      return 'CA';
-    default:
-      return countryCode;
-  }
-}
-
 export function transform(formConfig, form) {
   const localTime = formatISO(new Date());
-  const correctedForm = {
-    ...form,
-    data: {
-      ...form?.data,
-      claimantAddress: {
-        ...form?.data?.claimantAddress,
-        country: transformCountryCode(form?.data?.claimantAddress?.country),
-      },
-    },
-  };
-  const formData = transformForSubmit(formConfig, correctedForm);
+  const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
     burialClaim: {
       form: formData,
@@ -157,4 +142,16 @@ export const checkboxGroupSchemaWithReviewLabels = keys => {
     };
   });
   return schema;
+};
+
+export const benefitsIntakeFullNameUI = (formatTitle, uiOptions = {}) => {
+  let uiSchema = fullNameUI(formatTitle, uiOptions);
+  ['first', 'last'].forEach(part => {
+    const validations = [
+      ...get([part, 'ui:validations'], uiSchema),
+      validateBenefitsIntakeName,
+    ];
+    uiSchema = set(`${part}.ui:validations`, validations, uiSchema);
+  });
+  return uiSchema;
 };

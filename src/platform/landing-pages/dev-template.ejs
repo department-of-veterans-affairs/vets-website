@@ -56,7 +56,7 @@
     <!-- Header Minimal -->
     <div
       id="header-minimal"
-      class="vads-u-display--none vads-u-background-color--primary-darkest"
+      class="vads-u-display--none vads-u-background-color--primary-darker"
       <% if (minimalHeader.excludePaths) { %>
         data-exclude-paths='<%= JSON.stringify(minimalHeader.excludePaths).replace(/"/g, "&quot;") %>'
       <% } %>
@@ -68,8 +68,8 @@
         <% if (minimalHeader.subtitle) { %>
           subheader="<%= minimalHeader.subtitle %>"
         <% } %>
-        <% if (minimalHeader.disableHeadings) { %>
-          disable-headings="<%= minimalHeader.disableHeadings %>"
+        <% if (minimalHeader.enableHeadings) { %>
+          enable-headings="<%= minimalHeader.enableHeadings %>"
         <% } %>
       ></va-header-minimal>
     </div>

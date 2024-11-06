@@ -6,7 +6,6 @@ import {
   getlabsAndTestsDetails,
 } from '../actions/labsAndTests';
 import EkgDetails from '../components/LabsAndTests/EkgDetails';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
 import MicroDetails from '../components/LabsAndTests/MicroDetails';
 import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
@@ -18,29 +17,21 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { useIsDetails } from '../hooks/useIsDetails';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
   const labAndTestDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
+  const labAndTestList = useSelector(
+    state => state.mr.labsAndTests.labsAndTestsList,
+  );
   const fullState = useSelector(state => state);
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
 
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/labs-and-tests',
-            label: 'Lab and test results',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearLabsAndTestDetails());
       };
@@ -51,10 +42,10 @@ const LabAndTestDetails = () => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getlabsAndTestsDetails(labId));
+        dispatch(getlabsAndTestsDetails(labId, labAndTestList));
       }
     },
-    [labId, dispatch],
+    [labId, labAndTestList, dispatch],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;

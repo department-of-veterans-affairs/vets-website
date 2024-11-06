@@ -12,24 +12,24 @@ const LabsAndTestsListItem = props => {
       class="record-list-item vads-u-padding--3 vads-u-margin-y--2p5"
       data-testid="record-list-item"
     >
-      <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5">
+      <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
         <Link to={`/labs-and-tests/${record.id}`} data-dd-privacy="mask">
           {record.name} <span className="sr-only">on {record.date}</span>
         </Link>
-      </h3>
+      </span>
       <div>
         {/* date */}
-        <div>{record.date}</div>
+        <div data-dd-privacy="mask">{record.date}</div>
 
         {/* ordered by */}
         {(record.type === labTypes.CHEM_HEM ||
           record.type === labTypes.MICROBIOLOGY ||
           record.type === labTypes.RADIOLOGY ||
           record.type === labTypes.PATHOLOGY) && (
-          <div>{`Ordered by ${record.orderedBy}`}</div>
+          <div data-dd-privacy="mask">{`Ordered by ${record.orderedBy}`}</div>
         )}
         {record.type === labTypes.EKG && (
-          <div>{`Signed by ${record.signedBy}`}</div>
+          <div data-dd-privacy="mask">{`Signed by ${record.signedBy}`}</div>
         )}
       </div>
     </va-card>

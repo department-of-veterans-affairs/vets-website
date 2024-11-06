@@ -4,12 +4,15 @@ import { format, isValid, parseISO } from 'date-fns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { scrollAndFocus, scrollToTop } from 'platform/utilities/ui';
+import titleCase from 'platform/utilities/data/titleCase';
 import { setUpPage, isTab } from './page';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
   DATE_FORMATS,
   disabilityCompensationClaimTypeCodes,
+  addOrRemoveDependentClaimTypeCodes,
+  standard5103Item,
 } from '../constants';
 
 // Adding !! so that we convert this to a boolean
@@ -324,51 +327,49 @@ export function groupClaimsByDocsNeeded(list) {
 }
 
 export const DOC_TYPES = [
-  { value: 'L029', label: 'Copy of a DD214' },
-  { value: 'L450', label: 'STR - Dental - Photocopy' },
-  { value: 'L451', label: 'STR - Medical - Photocopy' },
+  {
+    value: 'L014',
+    label: 'Birth Certificate',
+  },
+  {
+    value: 'L029',
+    label: 'Copy of a DD214',
+  },
+  {
+    value: 'L418',
+    label: 'Court papers / documents',
+  },
+  {
+    value: 'L033',
+    label: 'Death Certificate',
+  },
+  {
+    value: 'L702',
+    label: 'Disability Benefits Questionnaire (DBQ)',
+  },
+  {
+    value: 'L037',
+    label: 'Divorce Decree',
+  },
+  {
+    value: 'L703',
+    label: 'Goldmann Perimetry Chart/Field Of Vision Chart',
+  },
+  {
+    value: 'L051',
+    label: 'Marriage Certificate',
+  },
   {
     value: 'L049',
     label: 'Medical Treatment Record - Non-Government Facility',
   },
-  { value: 'L034', label: 'Military Personnel Record' },
   {
-    value: 'L107',
-    label: 'VA Form 21-4142 - Authorization To Disclose Information',
+    value: 'L034',
+    label: 'Military Personnel Record',
   },
   {
-    value: 'L827',
-    label:
-      'VA Form 21-4142a - General Release for Medical Provider Information',
-  },
-  {
-    value: 'L229',
-    label:
-      'VA Form 21-0781a - Statement in Support of Claim for PTSD Secondary to Personal Assault',
-  },
-  {
-    value: 'L228',
-    label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
-  },
-  {
-    value: 'L149',
-    label:
-      'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
-  },
-  {
-    value: 'L115',
-    label:
-      'VA Form 21-4192 - Request for Employment Information in Connection with Claim for Disability',
-  },
-  {
-    value: 'L159',
-    label:
-      'VA Form 26-4555 - Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant',
-  },
-  {
-    value: 'L117',
-    label:
-      'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904',
+    value: 'L070',
+    label: 'Photographs',
   },
   {
     value: 'L139',
@@ -379,19 +380,65 @@ export const DOC_TYPES = [
     label: 'VA Form 21-674 - Request for Approval of School Attendance',
   },
   {
-    value: 'L102',
+    value: 'L107',
+    label: 'VA Form 21-4142 - Authorization To Disclose Information',
+  },
+  {
+    value: 'L827',
     label:
-      'VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid & Attendance',
+      'VA Form 21-4142a - General Release for Medical Provider Information',
+  },
+  {
+    value: 'L117',
+    label:
+      'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904',
+  },
+  {
+    value: 'L149',
+    label:
+      'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
+  },
+  {
+    value: 'L159',
+    label:
+      'VA Form 26-4555 - Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant',
+  },
+  {
+    value: 'L115',
+    label:
+      'VA Form 21-4192 - Request for Employment Information in Connection with Claim for Disability',
   },
   {
     value: 'L222',
     label:
       'VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid & Attendance',
   },
-  { value: 'L702', label: 'Disability Benefits Questionnaire (DBQ)' },
-  { value: 'L703', label: 'Goldmann Perimetry Chart/Field Of Vision Chart' },
-  { value: 'L070', label: 'Photographs' },
-  { value: 'L023', label: 'Other Correspondence' },
+  {
+    value: 'L102',
+    label:
+      'VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid & Attendance',
+  },
+  {
+    value: 'L228',
+    label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+  },
+  {
+    value: 'L229',
+    label:
+      'VA Form 21-0781a - Statement in Support of Claim for PTSD Secondary to Personal Assault',
+  },
+  {
+    value: 'L023',
+    label: 'Other Correspondence',
+  },
+  {
+    value: 'L450',
+    label: 'STR - Dental - Photocopy',
+  },
+  {
+    value: 'L451',
+    label: 'STR - Medical - Photocopy',
+  },
 ];
 
 export function getDocTypeDescription(docType) {
@@ -1064,35 +1111,90 @@ export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
   };
 };
 
+// Covers two cases:
+//   1. Standard 5103s we get back from the API (only occurs when they're closed).
+//   2. Standard 5103s that we're mocking within our application logic.
+export const isStandard5103Notice = itemDisplayName => {
+  return (
+    itemDisplayName === '5103 Notice Response' ||
+    itemDisplayName === standard5103Item.displayName
+  );
+};
+
 export const isAutomated5103Notice = itemDisplayName => {
   return itemDisplayName === 'Automated 5103 Notice Response';
+};
+
+export const is5103Notice = itemDisplayName => {
+  return (
+    isAutomated5103Notice(itemDisplayName) ||
+    isStandard5103Notice(itemDisplayName)
+  );
+};
+
+// Capitalizes the first letter in a given string
+export const sentenceCase = str => {
+  return typeof str === 'string' && str.length > 0
+    ? str[0].toUpperCase().concat(str.substring(1))
+    : '';
+};
+
+// Returns a title for a claim for the specified placement:
+//   'detail' for the heading on the single page view
+//   'breadcrumb' for the breadcrumbs on the single page view
+//   'document' for the browser tab title on the single page view
+//   the default return is for the list view (card heading)
+export const generateClaimTitle = (claim, placement, tab) => {
+  // This will default to 'disability compensation'
+  const claimType = getClaimType(claim).toLowerCase();
+  const isRequestToAddOrRemoveDependent = addOrRemoveDependentClaimTypeCodes.includes(
+    claim?.attributes?.claimTypeCode,
+  );
+  // Determine which word should follow the tab name.
+  // "Files for...", "Status of...", "Details of...", "Overview of..."
+  const tabPrefix = `${tab} ${tab === 'Files' ? 'for' : 'of'}`;
+  // Use the following to (somewhat) cut down on repetition in the switch below.
+  const addOrRemoveDependentClaimTitle = 'request to add or remove a dependent';
+  const baseClaimTitle = isRequestToAddOrRemoveDependent
+    ? addOrRemoveDependentClaimTitle
+    : `${claimType} claim`;
+  // This switch may not scale well; it might be better to create a map of the strings instead.
+  // For examples of output given different parameters, see the unit tests.
+  switch (placement) {
+    case 'detail':
+      return `Your ${baseClaimTitle}`;
+    case 'breadcrumb':
+      if (claimAvailable(claim)) {
+        return `${tabPrefix} your ${baseClaimTitle}`;
+      }
+      // Default message if claim fails to load.
+      return `${tabPrefix} your claim`;
+    case 'document':
+      if (claimAvailable(claim)) {
+        const formattedDate = buildDateFormatter()(claim.attributes.claimDate);
+        return titleCase(`${tabPrefix} ${formattedDate} ${baseClaimTitle}`);
+      }
+      // Default message if claim fails to load.
+      return `${tabPrefix} Your Claim`;
+    default:
+      return isRequestToAddOrRemoveDependent
+        ? sentenceCase(addOrRemoveDependentClaimTitle)
+        : `Claim for ${claimType}`;
+  }
 };
 
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
 export function setDocumentRequestPageTitle(displayName) {
   return isAutomated5103Notice(displayName)
-    ? '5103 Evidence Notice'
+    ? 'Review evidence list (5103 notice)'
     : `Request for ${displayName}`;
 }
 
 // Used to set page title for the CST Tabs
 export function setTabDocumentTitle(claim, tabName) {
-  if (claimAvailable(claim)) {
-    const claimDate = buildDateFormatter()(claim.attributes.claimDate);
-    const claimType = getClaimType(claim);
-    const title =
-      tabName === 'Files'
-        ? `${tabName} For ${claimDate} ${claimType} Claim`
-        : `${tabName} Of ${claimDate} ${claimType} Claim`;
-    setDocumentTitle(title);
-  } else {
-    const title =
-      tabName === 'Files'
-        ? `${tabName} For Your Claim`
-        : `${tabName} Of Your Claim`;
-    setDocumentTitle(title);
-  }
+  setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
+
 // Used to set the page focus on the CST Tabs
 export function setPageFocus(lastPage, loading) {
   if (!isTab(lastPage)) {
@@ -1128,4 +1230,16 @@ export const getTrackedItemDateFromStatus = item => {
     default:
       return item.requestedDate;
   }
+};
+
+// Many of the display names for tracked items provided by the API are rather
+//   esoteric, so we replace some of them to make them more user-friendly.
+const trackedItemsHumanReadableNames = new Map([
+  ['PMR Pending', 'Private Medical Record'],
+]);
+// Currently only being used by reducers/serialize, but it might need to be
+//   moved elsewhere if future application logic depends on the original
+//   `displayName` of the tracked item.
+export const getTrackedItemHumanReadableName = name => {
+  return trackedItemsHumanReadableNames.get(name) || name;
 };

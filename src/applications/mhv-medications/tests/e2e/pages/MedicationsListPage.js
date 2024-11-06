@@ -13,7 +13,11 @@ import { medicationsUrls } from '../../../util/constants';
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
     // cy.intercept('GET', '/my-health/medications', prescriptions);
-    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/allergies',
+      allergies,
+    ).as('allergies');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
@@ -131,6 +135,14 @@ class MedicationsListPage {
       });
   };
 
+  verifyZeroAllergiesOnNetworkResponseForUserWithNoAllergies = totalAllergies => {
+    cy.get('@allergies')
+      .its('response')
+      .then(res => {
+        expect(res.body.total).to.eq(totalAllergies);
+      });
+  };
+
   clickPrintThisPageOfTheListButtonOnListPage = () => {
     cy.get('[data-testid="download-print-button"]').should('exist');
     cy.get('[data-testid="download-print-button"]').click({
@@ -187,6 +199,10 @@ class MedicationsListPage {
     });
   };
 
+  verifyFocusOnPrintDownloadDropDownButton = () => {
+    cy.get('[data-testid="print-records-button"]').should('have.focus');
+  };
+
   verifyPrintMedicationsListEnabledOnListPage = () => {
     cy.get('[data-testid="print-records-button"] > span').should(
       'contain',
@@ -228,6 +244,10 @@ class MedicationsListPage {
     });
   };
 
+  verifyLoadingSpinnerForDownloadOnListPage = () => {
+    cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
+  };
+
   clickDownloadListAsTxtButtonOnListPage = () => {
     cy.intercept(
       'GET',
@@ -239,7 +259,7 @@ class MedicationsListPage {
       'Download a text file',
     );
     cy.get('[data-testid="download-txt-button"]').click({
-      waitForAnimations: true,
+      force: true,
     });
   };
 
@@ -482,13 +502,20 @@ class MedicationsListPage {
       prescriptions,
     );
     cy.intercept(
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=prescription_name&sort[]=dispensed_date',
+      // prescriptions,
+      req => {
+        return Cypress.Promise.delay(500).then(() => req.continue());
+      },
+    ).as('prescriptions');
+    cy.get('[data-testid="sort-button"]').should('be.visible');
+    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+    cy.get('[data-testid="loading-indicator"]').should('exist');
+    cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     );
-
-    cy.get('[data-testid="sort-button"]').should('be.visible');
-    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 
   verifyPaginationDisplayedforSortAlphabeticallyByName = (
@@ -511,13 +538,19 @@ class MedicationsListPage {
       prescriptions,
     );
     cy.intercept(
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      req => {
+        return Cypress.Promise.delay(500).then(() => req.continue());
+      },
+    ).as('prescriptions');
+    cy.get('[data-testid="sort-button"]').should('be.visible');
+    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+    cy.get('[data-testid="loading-indicator"]').should('exist');
+    cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
       prescriptions,
     );
-
-    cy.get('[data-testid="sort-button"]').should('be.visible');
-    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 
   verifyPaginationDisplayedforSortLastFilledFirst = (
@@ -664,6 +697,76 @@ class MedicationsListPage {
       'contain',
       'Go to your allergies and reactions',
     );
+  };
+
+  verifyRefillPageLinkTextOnMedicationsListPage = () => {
+    cy.get('[data-testid="prescriptions-nav-link-to-refill"]').should(
+      'contain',
+      'Start a refill request',
+    );
+  };
+
+  verifyMedicationsListHeaderTextOnListPage = () => {
+    cy.get('[data-testid="med-list"]').should('have.text', 'Medications list');
+  };
+
+  verifyFilterAccordionOnMedicationsListPage = () => {
+    cy.get('[data-testid="filter-accordion"]').should('be.visible');
+  };
+
+  verifyLabelTextWhenFilterAccordionExpanded = () => {
+    cy.get('[data-testid="filter-option"]')
+      .shadow()
+      .find('[class="usa-legend"]', { force: true })
+      .should('contain', 'Select a filter');
+  };
+
+  clickfilterAccordionDropdownOnListPage = () => {
+    cy.get('[data-testid="rx-filter"]').should('exist');
+    cy.get('[data-testid="rx-filter"]').click({ waitForAnimations: true });
+  };
+
+  verifyFilterOptionsOnListPage = (text, description) => {
+    cy.get(`[label="${text}"]`)
+      .should('be.visible')
+      .and('contain', description);
+  };
+
+  clickFilterRadioButtonOptionOnListPage = option => {
+    cy.get(`[label="${option}"]`).click();
+  };
+
+  verifyFilterHeaderTextHasFocusafterExpanded = () => {
+    cy.get('[data-testid="rx-filter"]')
+      .shadow()
+      .find('[type="button"]')
+      .should('have.text', 'Filter list')
+      .and('have.focus');
+  };
+
+  verifyFilterButtonWhenAccordionExpanded = () => {
+    cy.get('[data-testid="filter-button"]')
+      .shadow()
+      .find('[type="button"]')
+      .should('be.visible')
+      .and('have.text', 'Filter');
+  };
+
+  clickFilterButtonOnAccordion = () => {
+    cy.get('[data-testid="filter-button"]')
+      .shadow()
+      .find('[type="button"]')
+      .click({ waitForAnimations: true });
+  };
+
+  verifyNameOfFirstRxOnMedicationsList = rxName => {
+    cy.get(
+      '.landing-page-content > [data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+    ).should('contain', rxName);
+  };
+
+  verifyAllMedicationsRadioButtonIsChecked = () => {
+    cy.get(`input[type="radio"][value="All medications"]`).should('be.checked');
   };
 }
 

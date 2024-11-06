@@ -18,7 +18,11 @@ const options = {
   isItemIncomplete: item =>
     !item?.previousFullName?.first || !item.previousFullName?.last, // include all required fields here
   text: {
-    getItemName: item => formatFullName(item.previousFullName),
+    getItemName: item =>
+      item?.previousFullName
+        ? formatFullName(item.previousFullName)
+        : undefined,
+    summaryTitleWithoutItems: 'Other Service names',
   },
 };
 
@@ -33,6 +37,7 @@ const summaryPage = {
       options,
       {
         title: 'Did you serve under another name?',
+        labelHeaderLevel: ' ',
         hint: null,
         labels: {
           Y: 'Yes, I have a previous name to report',
@@ -63,6 +68,7 @@ const otherNamePage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Previous name',
       nounSingular: options.nounSingular,
+      hasMultipleItemPages: false,
     }),
     previousFullName: fullNameUI(title => `Previous ${title}`),
   },

@@ -73,6 +73,8 @@ describe('check-in experience', () => {
             <ValidateDisplay
               validateHandler={validateHandler}
               setDobError={setDobError}
+              dobInput={{ setDob: () => {} }}
+              lastNameInput={{ setLastName: () => {} }}
             />
           </CheckInProvider>,
         );
@@ -134,6 +136,8 @@ describe('check-in experience', () => {
               <ValidateDisplay
                 validateHandler={validateHandler}
                 setDobError={setDobError}
+                dobInput={{ setDob: () => {} }}
+                lastNameInput={{ setLastName: () => {} }}
               />
             </CheckInProvider>,
           );

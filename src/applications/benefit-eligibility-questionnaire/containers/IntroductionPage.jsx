@@ -1,33 +1,54 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import formConfig from '../config/form';
+import { Heading } from '../components/Heading';
 
-const IntroductionPage = () => {
+const IntroductionPage = ({ router }) => {
+  const startForm = event => {
+    event.preventDefault();
+    router.push('/goals');
+  };
   return (
     <article className="schemaform-intro">
-      <FormTitle
-        title="Complete the benefit eligibility questionnaire"
-        subtitle=""
-      />
-      <p>
-        Our recommendation tool can help you find benefits and resources that
-        are specific to your goals, needs, and circumstances. This is our first
-        version — it’s mostly focused on employment benefits and resources.
-        Please check in the future for additional benefits and resources.
-        Welcome to VA — we’re glad to have you.
-      </p>
-      <p>
-        We’ll ask you to answer a few quick questions to personalize our
-        recommendations.
-      </p>
+      <FormTitle title={formConfig.title} subtitle="" />
+      <Heading />
+
       <va-link-action
-        href="/benefit-eligibility-questionnaire/goals"
+        href="#"
+        onClick={startForm}
         message-aria-describedby="Get started"
         text="Get started"
+        data-testid="get-started"
       />
-      <p />
+
+      <div role="heading" aria-level="2">
+        <p>
+          <b>Note:</b> This tool is not an application for VA benefits. And it
+          doesn’t confirm your eligibility. On the results page, we’ll help you
+          learn more about eligibility and how to apply.
+        </p>
+        <p>
+          If you’re a family member, caregiver, or survivor of a Veteran,
+          <br />
+          <va-link
+            href="https://www.va.gov/family-and-caregiver-benefits/"
+            external
+            text="visit this page"
+            type="secondary"
+            label="visit this page"
+          />
+          to learn about potential benefits for you.
+        </p>
+      </div>
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default IntroductionPage;

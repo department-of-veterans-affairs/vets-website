@@ -32,7 +32,6 @@ export const howToChangeLegalNameInfoLink =
 
 // add field title to make it a required field for the change of address form
 export const addressFormRequiredData = [
-  'countryCodeIso3',
   'addressLine1',
   'city',
   'stateCode',
@@ -54,7 +53,7 @@ export const Paragraph = ({ title, date, className }) => {
       {title}:
       <span
         className="vads-u-font-weight--normal vads-u-font-family--sans text-color vads-u-display--inline-block vads-u-margin-left--1"
-        data-testId="del-date"
+        data-testid="del-date"
       >
         {date}
       </span>

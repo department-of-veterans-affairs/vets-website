@@ -2,18 +2,24 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { mockLightHouseFacilitiesResponseWithTransformedAddresses } from '../../../mocks/responses';
+import content from '../../../../locales/en/content.json';
+import { mockFetchFacilitiesResponse } from '../../../mocks/responses';
 import FacilityList from '../../../../components/FormFields/FacilityList';
 
 describe('CG <FacilityList>', () => {
-  const getData = ({ reviewMode = false, submitted = false, value = '' }) => ({
+  const getData = ({
+    reviewMode = false,
+    submitted = false,
+    value = undefined,
+    error = undefined,
+  }) => ({
     props: {
-      facilities: mockLightHouseFacilitiesResponseWithTransformedAddresses.data,
+      facilities: mockFetchFacilitiesResponse.facilities,
       formContext: { reviewMode, submitted },
       onChange: sinon.spy(),
       query: 'Tampa',
       value,
+      error,
     },
   });
   const subject = ({ props }) => {
@@ -33,18 +39,19 @@ describe('CG <FacilityList>', () => {
     });
 
     it('should render facility name container when in review mode', () => {
-      const { props } = getData({ reviewMode: true, value: 'vha_111AA' });
+      const { props } = getData({ reviewMode: true, value: 'vha_757QC' });
       const { selectors } = subject({ props });
       expect(selectors().name).to.exist;
+      expect(selectors().name.textContent).to.contain('Columbus VA Clinic');
       expect(selectors().vaRadio).to.not.exist;
     });
-  });
 
-  context('when form has been submitted with no value', () => {
-    it('should add `error` prop to the `va-radio` web component', () => {
-      const { props } = getData({ submitted: true });
+    it('should render &mdash; when facility id is not found in review mode', () => {
+      const { props } = getData({ reviewMode: true, value: 'flerp' });
       const { selectors } = subject({ props });
-      expect(selectors().vaRadio).to.have.attr('error');
+      expect(selectors().name).to.exist;
+      expect(selectors().name.textContent).to.contain('&mdash;');
+      expect(selectors().vaRadio).to.not.exist;
     });
   });
 
@@ -53,11 +60,28 @@ describe('CG <FacilityList>', () => {
       const { props } = getData({});
       const { selectors } = subject({ props });
       await waitFor(() => {
-        const value = props.facilities[0].id.split('_').pop();
+        const value = props.facilities[0].id;
         selectors().vaRadio.__events.vaValueChange({ detail: { value } });
         expect(props.onChange.calledWith(value)).to.be.true;
         expect(selectors().vaRadio).to.not.have.attr('error');
       });
+    });
+  });
+
+  context('errors', () => {
+    it('renders error when form has been submitted with no value', () => {
+      const { props } = getData({ submitted: true });
+      const { selectors } = subject({ props });
+      expect(selectors().vaRadio).to.have.attr(
+        'error',
+        content['validation-facilities--default-required'],
+      );
+    });
+
+    it('renders error when passed error string', () => {
+      const { props } = getData({ error: 'some error' });
+      const { selectors } = subject({ props });
+      expect(selectors().vaRadio).to.have.attr('error', 'some error');
     });
   });
 });

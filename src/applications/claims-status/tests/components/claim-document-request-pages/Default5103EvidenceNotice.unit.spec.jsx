@@ -10,9 +10,10 @@ import { Default5103EvidenceNotice } from '../../../components/claim-document-re
 
 const claimId = 1;
 
-const item5103 = {
+const automated5103 = {
   closedDate: null,
-  description: 'Automated 5103 Notice Response',
+  description:
+    'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
   displayName: 'Automated 5103 Notice Response',
   id: 467558,
   overdue: true,
@@ -25,19 +26,30 @@ const item5103 = {
   date: '2024-03-07',
 };
 
+const standard5103 = {
+  description:
+    'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
+  displayName: 'Review evidence list (5103 notice)',
+};
+
 describe('<Default5103EvidenceNotice>', () => {
   it('should render component when item is a 5103 notice', () => {
     const { getByText, getByTestId, container } = renderWithRouter(
-      <Default5103EvidenceNotice item={item5103} params={{ id: claimId }} />,
+      <Default5103EvidenceNotice
+        item={standard5103}
+        params={{ id: claimId }}
+      />,
     );
     expect($('#default-5103-notice-page', container)).to.exist;
-    getByText('5103 Evidence Notice');
-    expect($('.active-va-link', container)).to.have.text('Go to claim letters');
-    getByText('If you have more evidence to submit');
-    expect(getByTestId('upload-evidence-link').textContent).to.equal(
-      'Upload your evidence here',
+    getByText('Review evidence list (5103 notice)');
+    expect($('.active-va-link', container)).to.have.text(
+      'Find this letter on the claim letters page',
     );
-    getByText('If you don’t have more evidence to submit');
+    getByText('Submit additional evidence, if applicable');
+    expect(getByTestId('upload-evidence-link').textContent).to.equal(
+      'Upload additional evidence',
+    );
+    getByText('Submit an evidence waiver');
     expect($('va-checkbox', container)).to.exist;
     expect($('va-button', container)).to.exist;
   });
@@ -66,7 +78,7 @@ describe('<Default5103EvidenceNotice>', () => {
 
   context('when useLighthouse5103 false', () => {
     const props = {
-      item: item5103,
+      item: automated5103,
       params: { id: claimId },
       useLighthouse5103: false,
     };
@@ -87,6 +99,7 @@ describe('<Default5103EvidenceNotice>', () => {
             decisionRequested
           />,
         );
+
         expect($('#default-5103-notice-page', container)).to.exist;
         expect($('va-checkbox', container)).to.exist;
         expect($('va-button', container)).to.exist;
@@ -156,7 +169,7 @@ describe('<Default5103EvidenceNotice>', () => {
 
   context('when useLighthouse5103 true', () => {
     const props = {
-      item: item5103,
+      item: automated5103,
       params: { id: claimId },
       useLighthouse5103: true,
     };

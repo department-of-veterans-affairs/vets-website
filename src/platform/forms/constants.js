@@ -41,16 +41,12 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_10216: '22-10216',
   FORM_22_10282: '22-10282',
   FORM_22_1990: '22-1990',
-  FORM_22_1990E: '22-1990E',
   FORM_22_1990EMEB: '22-1990EMEB',
   FORM_22_1990EZ: '22-1990EZ',
-  FORM_22_1990N: '22-1990N',
-  FORM_22_1990S: '22-1990S',
   FORM_22_1995: '22-1995',
   FORM_22_1995S: '22-1995S',
   FORM_22_5490: '22-5490',
   FORM_22_5490E: '22-5490E',
-  FORM_22_5495: '22-5495',
   FORM_22_8794: '22-8794',
   FORM_26_1880: '26-1880',
   FORM_26_4555: '26-4555',
@@ -76,6 +72,8 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_VA_2346A: 'MDOT',
   FORM_XX_123: 'XX-123',
   FORM_MOCK_AE_DESIGN_PATTERNS: 'FORM-MOCK-AE-DESIGN-PATTERNS',
+  FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION:
+    'WELCOME_VA_SETUP_REVIEW_INFORMATION',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -86,91 +84,9 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
   // 526 save-in-progress endpoint that adds an `updatedRatedDisabilities` array
   // to the saved form data from /v0/disability_compensation_in_progress_forms/
   [VA_FORM_IDS.FORM_21_526EZ]: '/v0/disability_compensation_in_progress_forms/',
+  [VA_FORM_IDS.FORM_21A]:
+    '/accredited_representative_portal/v0/in_progress_forms/',
 });
-
-export const FORM_BENEFITS = {
-  [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
-  [VA_FORM_IDS.FORM_10_10D]: 'application for champva benefits',
-  [VA_FORM_IDS.FORM_10_10EZ]: 'health care benefits',
-  [VA_FORM_IDS.FORM_10_7959A]: 'CHAMPVA claim form',
-  [VA_FORM_IDS.FORM_10_7959C]: 'other health insurance certification',
-  [VA_FORM_IDS.FORM_10_7959F_1]:
-    'Foreign Medical Program (FMP) Registration Form',
-  [VA_FORM_IDS.FORM_10182]: 'Board Appeal',
-  [VA_FORM_IDS.FORM_20_0995]: 'Supplemental Claim',
-  [VA_FORM_IDS.FORM_20_0996]: 'Higher-Level Review',
-  [VA_FORM_IDS.FORM_20_10206]: 'personal records request',
-  [VA_FORM_IDS.FORM_20_10207]: 'priority processing',
-  [VA_FORM_IDS.FORM_21_0845]:
-    'authorization for personal information to third party',
-  [VA_FORM_IDS.FORM_21_0966]: 'intent to File',
-  [VA_FORM_IDS.FORM_21_0972]: 'alternate signer',
-  [VA_FORM_IDS.FORM_21_10210]: 'lay/witness statement',
-  [VA_FORM_IDS.FORM_21_22]: 'VSO representative appointment application',
-  [VA_FORM_IDS.FORM_21_22A]:
-    'Individual representative appointment application',
-  [VA_FORM_IDS.FORM_21_4142]: 'authorization to release medical information',
-  [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
-  [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
-  [VA_FORM_IDS.FORM_21P_0847]: 'substitute claimant',
-  [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
-  [VA_FORM_IDS.FORM_21P_530]: 'burial benefits',
-  [VA_FORM_IDS.FORM_22_0993]: 'opt out',
-  [VA_FORM_IDS.FORM_22_0994]: 'VET TEC',
-  [VA_FORM_IDS.FORM_22_10203]: 'Rogers STEM Scholarship',
-  [VA_FORM_IDS.FORM_22_1990]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_1990E]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_1990EZ]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_1990N]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_1995]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_5490]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
-  [VA_FORM_IDS.FORM_26_1880]: 'VA home loan certification of eligibility',
-  [VA_FORM_IDS.FORM_26_4555]: 'specially adapted housing grant',
-  [VA_FORM_IDS.FORM_28_1900]: 'Veteran Readiness and Employment Benefits',
-  [VA_FORM_IDS.FORM_28_8832]: 'personalized career planning and guidance',
-  [VA_FORM_IDS.FORM_40_0247]: 'presidential memorial certificate',
-  [VA_FORM_IDS.FORM_40_10007]:
-    'pre-need determination of eligibility in a VA national cemetery',
-  [VA_FORM_IDS.FORM_5655]: 'financial status report',
-  [VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW]: 'form upload flow',
-  [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
-};
-
-export const FORM_TITLES = Object.keys(FORM_BENEFITS).reduce((titles, key) => {
-  let formNumber;
-  if (key === VA_FORM_IDS.FORM_40_10007) {
-    formNumber = '';
-  } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
-    formNumber = ' (10-10EZ)';
-  } else if (key === VA_FORM_IDS.FEEDBACK_TOOL) {
-    formNumber = ' (GI Bill School Feedback Tool)';
-  } else {
-    formNumber = ` (${key})`;
-  }
-  const formTitle = `${FORM_BENEFITS[key]}${formNumber}`;
-  titles[key] = formTitle; // eslint-disable-line no-param-reassign
-  return titles;
-}, {});
-
-export const FORM_DESCRIPTIONS = Object.keys(FORM_BENEFITS).reduce(
-  (descriptions, key) => {
-    let formNumber;
-    if (key === VA_FORM_IDS.FORM_40_10007) {
-      formNumber = '';
-    } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
-      formNumber = '(10-10EZ)';
-    } else {
-      formNumber = `(${key})`;
-    }
-    let formDescription = `${FORM_BENEFITS[key]} application ${formNumber}`;
-    if (key === VA_FORM_IDS.FORM_VA_2346A) {
-      formDescription = `${FORM_BENEFITS[key]} ${formNumber}`;
-    }
-    return { ...descriptions, [key]: formDescription };
-  },
-  {},
-);
 
 // Entries previously added to FORM_LINKS go in here:
 export const getAllFormLinks = getAppUrlImpl => {
@@ -219,17 +135,14 @@ export const getAllFormLinks = getAppUrlImpl => {
       '21P-0847-substitute-claimant',
     )}/`,
     [VA_FORM_IDS.FORM_21P_527EZ]: `${tryGetAppUrl('pensions')}/`,
-    [VA_FORM_IDS.FORM_21P_530]: `${tryGetAppUrl('burials-ez')}/`,
+    [VA_FORM_IDS.FORM_21P_530V2]: `${tryGetAppUrl('burials-ez')}/`,
     [VA_FORM_IDS.FORM_22_0993]: `${tryGetAppUrl('0993-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_0994]: `${tryGetAppUrl('0994-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_10203]: `${tryGetAppUrl('10203-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1990]: `${tryGetAppUrl('1990-edu-benefits')}/`,
-    [VA_FORM_IDS.FORM_22_1990E]: `${tryGetAppUrl('1990e-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1990EZ]: `${tryGetAppUrl('1990ez-edu-benefits')}/`,
-    [VA_FORM_IDS.FORM_22_1990N]: `${tryGetAppUrl('1990n-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1995]: `${tryGetAppUrl('1995-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_5490]: `${tryGetAppUrl('5490-edu-benefits')}/`,
-    [VA_FORM_IDS.FORM_22_5495]: `${tryGetAppUrl('5495-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_26_1880]: `${tryGetAppUrl('coe')}/`,
     [VA_FORM_IDS.FORM_26_4555]: `${tryGetAppUrl('4555-adapted-housing')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900-chapter-31')}/`,
@@ -240,6 +153,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_40_10007]: `${tryGetAppUrl('pre-need')}/`,
     [VA_FORM_IDS.FORM_5655]: `${tryGetAppUrl('request-debt-help-form-5655')}/`,
     [VA_FORM_IDS.FORM_VA_2346A]: `${tryGetAppUrl('order-form-2346')}/`,
+    [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
+      'welcome-va-setup-review-information',
+    )}/`,
   };
 };
 
@@ -256,97 +172,11 @@ export const memoizedGetFormLink = (getAppUrlImpl = getAppUrl) => {
   };
 };
 
-export const TRACKING_PREFIXES = {
-  [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
-  [VA_FORM_IDS.FORM_10_10D]: '10-10D-',
-  [VA_FORM_IDS.FORM_10_10EZ]: 'hca-',
-  [VA_FORM_IDS.FORM_10_7959F_1]: '10-7959f-1-FMP-',
-  [VA_FORM_IDS.FORM_10_7959C]: '10-7959C-',
-  [VA_FORM_IDS.FORM_10_7959A]: '10-7959a-',
-  [VA_FORM_IDS.FORM_10182]: '10182-board-appeal-',
-  [VA_FORM_IDS.FORM_20_0995]: '995-supplemental-claim-',
-  [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
-  [VA_FORM_IDS.FORM_20_10206]: 'pa-10206-',
-  [VA_FORM_IDS.FORM_20_10207]: 'pp-10207-',
-  [VA_FORM_IDS.FORM_21_0845]: 'auth-disclose-0845',
-  [VA_FORM_IDS.FORM_21_0966]: '21-0966-intent-to-file-a-claim-',
-  [VA_FORM_IDS.FORM_21_0972]: '21-0972-alternate-signer-',
-  [VA_FORM_IDS.FORM_21_10210]: 'lay-witness-10210-',
-  [VA_FORM_IDS.FORM_21_22]: 'appoint-a-rep-21-22',
-  [VA_FORM_IDS.FORM_21_22A]: 'appoint-a-rep-21-22',
-  [VA_FORM_IDS.FORM_21_4142]: 'medical-release-4142-',
-  [VA_FORM_IDS.FORM_21_526EZ]: 'disability-526EZ-',
-  [VA_FORM_IDS.FORM_21_686C]: '686-',
-  [VA_FORM_IDS.FORM_21P_0847]: '21P-0847-substitute-claimant-',
-  [VA_FORM_IDS.FORM_21P_527EZ]: 'pensions-527EZ-',
-  [VA_FORM_IDS.FORM_21P_530]: 'burials-530-',
-  [VA_FORM_IDS.FORM_22_0993]: 'edu-0993-',
-  [VA_FORM_IDS.FORM_22_0994]: 'edu-0994-',
-  [VA_FORM_IDS.FORM_22_10203]: 'edu-10203-',
-  [VA_FORM_IDS.FORM_22_1990]: 'edu-',
-  [VA_FORM_IDS.FORM_22_1990E]: 'edu-1990e-',
-  [VA_FORM_IDS.FORM_22_1990EZ]: 'edu-1990ez-',
-  [VA_FORM_IDS.FORM_22_1990N]: 'edu-1990n-',
-  [VA_FORM_IDS.FORM_22_1995]: 'edu-1995-',
-  [VA_FORM_IDS.FORM_22_5490]: 'edu-5490-',
-  [VA_FORM_IDS.FORM_22_5495]: 'edu-5495-',
-  [VA_FORM_IDS.FORM_26_1880]: '26-1880-',
-  [VA_FORM_IDS.FORM_26_4555]: 'adapted-housing-4555-',
-  [VA_FORM_IDS.FORM_28_8832]: '28-8832-',
-  [VA_FORM_IDS.FORM_40_0247]: '0247-pmc',
-  [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
-  [VA_FORM_IDS.FORM_5655]: 'fsr-5655-',
-  [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
-};
-
-export const SIP_ENABLED_FORMS = new Set([
-  VA_FORM_IDS.FEEDBACK_TOOL,
-  VA_FORM_IDS.FORM_10_10D,
-  VA_FORM_IDS.FORM_10_10EZ,
-  VA_FORM_IDS.FORM_10_7959F_1,
-  VA_FORM_IDS.FORM_10_7959C,
-  VA_FORM_IDS.FORM_10_7959A,
-  VA_FORM_IDS.FORM_10182,
-  VA_FORM_IDS.FORM_20_0995,
-  VA_FORM_IDS.FORM_20_0996,
-  VA_FORM_IDS.FORM_20_10206,
-  VA_FORM_IDS.FORM_20_10207,
-  VA_FORM_IDS.FORM_21_0845,
-  VA_FORM_IDS.FORM_21_0966,
-  VA_FORM_IDS.FORM_21_0972,
-  VA_FORM_IDS.FORM_21_10210,
-  VA_FORM_IDS.FORM_21_22,
-  VA_FORM_IDS.FORM_21_22A,
-  VA_FORM_IDS.FORM_21_4142,
-  VA_FORM_IDS.FORM_21_526EZ,
-  VA_FORM_IDS.FORM_21_686C,
-  VA_FORM_IDS.FORM_21P_0847,
-  VA_FORM_IDS.FORM_21P_527EZ,
-  VA_FORM_IDS.FORM_21P_530,
-  VA_FORM_IDS.FORM_22_0993,
-  VA_FORM_IDS.FORM_22_0994,
-  VA_FORM_IDS.FORM_22_10203,
-  VA_FORM_IDS.FORM_22_1990,
-  VA_FORM_IDS.FORM_22_1990E,
-  VA_FORM_IDS.FORM_22_1990EZ,
-  VA_FORM_IDS.FORM_22_1990N,
-  VA_FORM_IDS.FORM_22_1995,
-  VA_FORM_IDS.FORM_22_5490,
-  VA_FORM_IDS.FORM_22_5495,
-  VA_FORM_IDS.FORM_26_1880,
-  VA_FORM_IDS.FORM_26_4555,
-  VA_FORM_IDS.FORM_28_1900,
-  VA_FORM_IDS.FORM_28_8832,
-  VA_FORM_IDS.FORM_40_0247,
-  VA_FORM_IDS.FORM_40_10007,
-  VA_FORM_IDS.FORM_5655,
-  VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW,
-  VA_FORM_IDS.FORM_VA_2346A,
-]);
-
 /**
  * The following MY_VA_SIP_FORMS array is a work-in-progress, maintained by the Authenticated Experience team.
- * Platform documentation have NOT been updated to reflect this change
+ * Platform documentation have been updated to reflect this change
+ *
+ * https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-set-up-save-in-progress-si
  */
 
 export const MY_VA_SIP_FORMS = [
@@ -372,11 +202,25 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'pa-10206-',
   },
   {
+    id: VA_FORM_IDS.FORM_20_10207,
+    benefit: 'priority processing',
+    title: 'priority processing (20-10207)',
+    description: 'priority processing application (20-10207)',
+    trackingPrefix: 'pp-10207-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21_0972,
     benefit: 'alternate signer',
     title: 'alternate signer (21-0972)',
     description: 'alternate signer application (21-0972)',
     trackingPrefix: '21-0972-alternate-signer-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0966,
+    benefit: 'intent to file',
+    title: 'intent to file (21-0966)',
+    description: 'intent to file application (21-0966)',
+    trackingPrefix: '21-0966-intent-to-file-a-claim-',
   },
   {
     id: VA_FORM_IDS.FORM_21_10210,
@@ -408,6 +252,14 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'disability-526EZ-',
   },
   {
+    id: VA_FORM_IDS.FORM_21_0845,
+    benefit: 'authorization for personal information to third party',
+    title: 'authorization for personal information to third party (21-0845)',
+    description:
+      'authorization for personal information to third party application (21-0845)',
+    trackingPrefix: 'auth-disclose-0845-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21P_0847,
     benefit: 'substitute claimant',
     title: 'substitute claimant (21P-0847)',
@@ -422,10 +274,10 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'pensions-527EZ-',
   },
   {
-    id: VA_FORM_IDS.FORM_21P_530,
+    id: VA_FORM_IDS.FORM_21P_530V2,
     benefit: 'burial benefits',
-    title: 'burial benefits (21P-530)',
-    description: 'burial benefits application (21P-530)',
+    title: 'burial benefits (21P-530EZ)',
+    description: 'burial benefits application (21P-530EZ)',
     trackingPrefix: 'burials-530-',
   },
   {
@@ -450,25 +302,11 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'edu-',
   },
   {
-    id: VA_FORM_IDS.FORM_22_1990E,
-    benefit: 'education benefits',
-    title: 'education benefits (22-1990E)',
-    description: 'education benefits application (22-1990E)',
-    trackingPrefix: 'edu-1990e-',
-  },
-  {
     id: VA_FORM_IDS.FORM_22_1990EZ,
     benefit: 'education benefits',
     title: 'education benefits (22-1990EZ)',
     description: 'education benefits application (22-1990EZ)',
     trackingPrefix: 'edu-1990ez-',
-  },
-  {
-    id: VA_FORM_IDS.FORM_22_1990N,
-    benefit: 'education benefits',
-    title: 'education benefits (22-1990N)',
-    description: 'education benefits application (22-1990N)',
-    trackingPrefix: 'edu-1990n-',
   },
   {
     id: VA_FORM_IDS.FORM_22_1995,
@@ -485,13 +323,6 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'edu-5490-',
   },
   {
-    id: VA_FORM_IDS.FORM_22_5495,
-    benefit: 'education benefits',
-    title: 'education benefits (22-5495)',
-    description: 'education benefits application (22-5495)',
-    trackingPrefix: 'edu-5495-',
-  },
-  {
     id: VA_FORM_IDS.FORM_22_10203,
     benefit: 'Rogers STEM Scholarship',
     title: 'Rogers STEM Scholarship (22-10203)',
@@ -504,7 +335,7 @@ export const MY_VA_SIP_FORMS = [
     title: 'VA home loan certification of eligibility (26-1880)',
     description:
       'VA home loan certification of eligibility application (26-1880)',
-    trackingPrefix: 'undefined',
+    trackingPrefix: '26-1880-',
   },
   {
     id: VA_FORM_IDS.FORM_26_4555,
@@ -593,4 +424,91 @@ export const MY_VA_SIP_FORMS = [
     description: 'Individual representative appointment application',
     trackingPrefix: 'appoint-a-rep-21-22',
   },
+  {
+    id: VA_FORM_IDS.FORM_10_7959F_1,
+    benefit: `Foreign Medical Program (FMP) Registration Form`,
+    title: `Foreign Medical Program (FMP) Registration Form (10-7959f-1)`,
+    description: '',
+    trackingPrefix: '10-7959f-1-FMP-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_10_7959C,
+    benefit: `other health insurance certification`,
+    title: `other health insurance certification (10-7959C)`,
+    description: '',
+    trackingPrefix: '10-7959C-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_10_7959A,
+    benefit: `CHAMPVA claim form`,
+    title: `CHAMPVA claim form (10-7959a)`,
+    description: '',
+    trackingPrefix: '10-7959a-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_40_0247,
+    benefit: `presidential memorial certificate`,
+    title: `presidential memorial certificate (0247-pmc)`,
+    description: '',
+    trackingPrefix: '0247-pmc-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW,
+    benefit: `form upload flow`,
+    title: `form upload flow`,
+    description: '',
+    trackingPrefix: '',
+  },
+  {
+    id: VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
+    benefit: 'welcome va setup review information form',
+    title: 'Welcome VA Setup Review Information Form',
+    description: 'welcome va setup review information form',
+    trackingPrefix: 'welcome-va-setup-review-information-',
+  },
 ];
+
+export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {
+  acc[form.id] = form.benefit;
+  return acc;
+}, {});
+
+export const FORM_DESCRIPTIONS = Object.keys(FORM_BENEFITS).reduce(
+  (descriptions, key) => {
+    let formNumber;
+    if (key === VA_FORM_IDS.FORM_40_10007) {
+      formNumber = '';
+    } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
+      formNumber = '(10-10EZ)';
+    } else {
+      formNumber = `(${key})`;
+    }
+    let formDescription = `${FORM_BENEFITS[key]} application ${formNumber}`;
+    if (key === VA_FORM_IDS.FORM_VA_2346A) {
+      formDescription = `${FORM_BENEFITS[key]} ${formNumber}`;
+    }
+    return { ...descriptions, [key]: formDescription };
+  },
+  {},
+);
+
+export const FORM_TITLES = Object.keys(FORM_BENEFITS).reduce((titles, key) => {
+  let formNumber;
+  if (key === VA_FORM_IDS.FORM_40_10007) {
+    formNumber = '';
+  } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
+    formNumber = ' (10-10EZ)';
+  } else if (key === VA_FORM_IDS.FEEDBACK_TOOL) {
+    formNumber = ' (GI Bill School Feedback Tool)';
+  } else {
+    formNumber = ` (${key})`;
+  }
+  const formTitle = `${FORM_BENEFITS[key]}${formNumber}`;
+  titles[key] = formTitle; // eslint-disable-line no-param-reassign
+  return titles;
+}, {});
+
+export const TRACKING_PREFIXES = MY_VA_SIP_FORMS.reduce((acc, form) => {
+  acc[form.id] = form.trackingPrefix;
+  return acc;
+}, {});

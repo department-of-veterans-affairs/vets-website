@@ -1,97 +1,85 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import NeedHelp from '../components/NeedHelp';
+import sendNextStepsEmail from '../api/sendNextStepsEmail';
+import { getFormNumber, getFormName } from '../utilities/helpers';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
+export default function ConfirmationPage({ router }) {
+  const [signedForm, setSignedForm] = useState(false);
+  const [signedFormError, setSignedFormError] = useState(false);
+  const { data: formData } = useSelector(state => state.form);
+  const selectedEntity = formData['view:selectedRepresentative'];
+  const sendNextStepsEmailPayload = {
+    formNumber: getFormNumber(formData),
+    formName: getFormName(formData),
+    firstName: formData.applicantName?.first || formData.veteranFullName.first,
+    emailAddress: formData.applicantEmail || formData.veteranEmail,
+    entityId: selectedEntity.id,
+    entityType:
+      selectedEntity.type === 'organization' ? 'organization' : 'individual',
+  };
+  const handlers = {
+    onClickDownloadForm: e => {
+      e.preventDefault();
+    },
+    onChangeSignedFormCheckbox: () => {
+      setSignedForm(prevState => !prevState);
 
-  render() {
-    const { form } = this.props;
-    const {
-      // submission,
-      formId,
-      data,
-    } = form;
+      if (signedFormError) setSignedFormError(false);
+    },
+    onClickContinueButton: async () => {
+      if (signedForm) {
+        try {
+          await sendNextStepsEmail(sendNextStepsEmailPayload);
+        } catch (error) {
+          // Should we set an error state to display a message in the UI?
+        }
 
-    const { fullName } = data;
+        router.push('/next-steps');
+      } else {
+        setSignedFormError(true);
+      }
+    },
+  };
 
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Fill out your form to appoint a VA accredited representative or VSO
-            Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-          {/* 
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null} */}
-          <button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
-          >
-            Print this for your records
-          </button>
-        </div>
-      </div>
-    );
-  }
+  return (
+    <>
+      <h2 className="vads-u-font-size--h3">
+        Download, print, and sign your form
+      </h2>
+      <p>First, you’ll need to download your form.</p>
+      <va-link
+        download
+        href=""
+        label="Download your form"
+        onClick={handlers.onClickDownloadForm}
+        text="Download your form"
+      />
+      <p className="vads-u-margin-top--4">
+        Then, you’ll need to print and sign your form.
+      </p>
+      <VaCheckbox
+        checked={signedForm}
+        className="vads-u-margin-bottom--4"
+        error={
+          signedFormError
+            ? "Please confirm that you've downloaded, printed, and signed your form."
+            : null
+        }
+        label="I've downloaded, printed, and signed my form"
+        name="signedForm"
+        required
+        onVaChange={handlers.onChangeSignedFormCheckbox}
+      />
+      <va-button continue onClick={handlers.onClickContinueButton} />
+      <NeedHelp />
+    </>
+  );
 }
 
 ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
+  router: PropTypes.object,
 };
-
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);

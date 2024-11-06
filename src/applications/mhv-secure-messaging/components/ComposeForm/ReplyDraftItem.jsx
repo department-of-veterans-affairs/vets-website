@@ -22,7 +22,11 @@ import FileInput from './FileInput';
 import DraftSavedInfo from './DraftSavedInfo';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
-import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
+import {
+  ErrorMessages,
+  draftAutoSaveTimeout,
+  Alerts,
+} from '../../util/constants';
 import useDebounce from '../../hooks/use-debounce';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -45,6 +49,7 @@ const ReplyDraftItem = props => {
     showBlockedTriageGroupAlert,
     setHideDraft,
     setIsEditing,
+    setIsSending,
   } = props;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -73,6 +78,17 @@ const ReplyDraftItem = props => {
   const [saveError, setSaveError] = useState(null);
   const [focusToTextarea, setFocusToTextarea] = useState(false);
   const [draftId, setDraftId] = useState(null);
+
+  const alertsList = useSelector(state => state.sm.alerts.alertList);
+  const attachmentScanError = useMemo(
+    () =>
+      alertsList?.filter(
+        alert =>
+          alert.content === Alerts.Message.ATTACHMENT_SCAN_FAIL &&
+          alert.isActive,
+      ).length > 0,
+    [alertsList],
+  );
 
   const localStorageValues = useMemo(() => {
     return {
@@ -141,7 +157,7 @@ const ReplyDraftItem = props => {
         messageValid = false;
       }
       setMessageInvalid(!messageValid);
-      return messageValid;
+      return { messageValid };
     },
     [messageBody],
   );
@@ -177,18 +193,17 @@ const ReplyDraftItem = props => {
         return;
       }
 
-      const isValidMessage = checkMessageValidity();
+      const { messageValid } = checkMessageValidity();
 
       if (type === 'manual') {
-        setMessageInvalid(false);
-        if (isValidMessage) {
+        if (messageValid) {
           setLastFocusableElement(e.target);
         }
         if (attachments.length) {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-        }
+        } else focusOnErrorField();
         setNavigationError(
           attachments.length
             ? {
@@ -218,7 +233,7 @@ const ReplyDraftItem = props => {
         body: messageBody,
       };
 
-      if (isValidMessage) {
+      if (messageValid) {
         if (!draftId) {
           setFieldsString(newFieldsString);
           dispatch(saveReplyDraft(replyMessage.messageId, formData, type));
@@ -248,12 +263,14 @@ const ReplyDraftItem = props => {
   );
   const sendMessageHandler = useCallback(
     async e => {
+      const { messageValid } = checkMessageValidity();
+
       await setMessageInvalid(false);
-      if (checkMessageValidity()) {
+      if (messageValid) {
         setSendMessageFlag(true);
         setNavigationError(null);
         setLastFocusableElement(e.target);
-      }
+      } else focusOnErrorField();
     },
     [checkMessageValidity, setLastFocusableElement],
   );
@@ -336,20 +353,26 @@ const ReplyDraftItem = props => {
         } else {
           sendData = JSON.stringify(messageData);
         }
-
+        setIsSending(true);
         dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
           .then(() => {
-            if (draftsCount > 1) {
-              // send a call to get updated thread
-              dispatch(retrieveMessageThread(replyMessage.messageId));
-            } else {
-              navigateToFolderByFolderId(
-                draft?.threadFolderId ? draft?.threadFolderId : folderId,
-                history,
-              );
-            }
+            setTimeout(() => {
+              if (draftsCount > 1) {
+                // send a call to get updated thread
+                dispatch(retrieveMessageThread(replyMessage.messageId)).then(
+                  setIsSending(false),
+                );
+              } else {
+                setIsSending(false);
+                navigateToFolderByFolderId(
+                  draft?.threadFolderId ? draft?.threadFolderId : folderId,
+                  history,
+                );
+              }
+            }, 1000);
           })
           .catch(() => {
+            setIsSending(false);
             setSendMessageFlag(false);
             setIsAutosave(true);
           });
@@ -461,6 +484,7 @@ const ReplyDraftItem = props => {
           data-testid="draft-reply-to"
           style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
           data-dd-privacy="mask"
+          data-dd-action-name="Reply Draft Accordion Header"
         >
           <div className="vads-u-margin-right--0p5 vads-u-margin-top--0p25">
             <va-icon icon="undo" aria-hidden="true" />
@@ -516,6 +540,7 @@ const ReplyDraftItem = props => {
                 attachFileSuccess={attachFileSuccess}
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
+                attachmentScanError={attachmentScanError}
               />
 
               <FileInput
@@ -523,6 +548,7 @@ const ReplyDraftItem = props => {
                 setAttachments={setAttachments}
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
+                attachmentScanError={attachmentScanError}
               />
             </section>
           )}
@@ -567,6 +593,7 @@ ReplyDraftItem.propTypes = {
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,
+  setIsSending: PropTypes.func,
 };
 
 export default ReplyDraftItem;

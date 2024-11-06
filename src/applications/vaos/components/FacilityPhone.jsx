@@ -31,11 +31,6 @@ export default function FacilityPhone({
       {typeof icon === 'undefined' &&
         typeof level === 'undefined' &&
         `${heading} `}
-      {!!icon === true && (
-        <span>
-          <va-icon icon="phone" size="3" srtext="Phone icon" />{' '}
-        </span>
-      )}
       <VaTelephone
         contact={contact}
         extension={extension}

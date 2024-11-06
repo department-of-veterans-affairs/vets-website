@@ -1,70 +1,83 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { VaTextarea } from '@department-of-veterans-affairs/web-components/react-bindings';
 import ButtonGroup from '../shared/ButtonGroup';
 
 const ResolutionComments = ({
-  data,
   goBack,
   goForward,
   goToPath,
-  setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const {
-    additionalData,
-    reviewNavigation = false,
-    selectedDebtsAndCopays = [],
-    'view:reviewPageNavigationToggle': showReviewNavigation,
-  } = data;
+  const dispatch = useDispatch();
+  const formData = useSelector(state => state.form.data);
 
-  const [commentText, setCommentText] = useState(
-    additionalData?.additionalComments || '',
-  );
-  const [error, setError] = useState(null);
+  const {
+    selectedDebtsAndCopays = [],
+    additionalData = {}, // Ensure additionalData is an object by default
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = formData;
+
   const commentsRequired = selectedDebtsAndCopays.some(
     debt => debt?.resolutionOption === 'waiver',
   );
 
-  // notify user they are returning to review page if they are in review mode
+  const commentText = additionalData?.additionalComments || '';
+
+  const onCommentChange = ({ target }) => {
+    const updatedFormData = {
+      ...formData,
+      additionalData: {
+        ...additionalData,
+        additionalComments: target.value,
+      },
+    };
+    dispatch(setData(updatedFormData));
+  };
+
+  const [error, setError] = React.useState(null);
+
+  const onSubmit = event => {
+    event.preventDefault();
+    if (!commentText.length && commentsRequired) {
+      setError('Please provide a response');
+      return;
+    }
+    setError(null);
+    const updatedFormData = {
+      ...formData,
+      additionalData: {
+        ...additionalData,
+        additionalComments: commentText,
+      },
+    };
+
+    dispatch(setData(updatedFormData));
+
+    if (reviewNavigation && showReviewNavigation) {
+      dispatch(
+        setData({
+          ...updatedFormData,
+          reviewNavigation: false,
+        }),
+      );
+      goToPath('/review-and-submit');
+    } else {
+      goForward(updatedFormData);
+    }
+  };
+
   const continueButtonText =
     reviewNavigation && showReviewNavigation
       ? 'Continue to review page'
       : 'Continue';
 
-  const onContinue = () => {
-    if (!commentText.length && commentsRequired) {
-      setError('Please provide a response');
-    } else {
-      setError(null);
-      setFormData({
-        ...data,
-        additionalData: {
-          ...additionalData,
-          additionalComments: commentText,
-        },
-      });
-    }
-  };
-
-  const onSubmit = event => {
-    event.preventDefault();
-    if (error) return;
-    onContinue();
-    if (reviewNavigation && showReviewNavigation) {
-      setFormData({
-        ...data,
-        reviewNavigation: false,
-      });
-      goToPath('/review-and-submit');
-    } else {
-      goForward(data);
-    }
-  };
-
   return (
-    <form onSubmit={onSubmit}>
+    <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">Supporting personal statement</h3>
@@ -76,12 +89,7 @@ const ResolutionComments = ({
           label="Please tell us more about why you need help with this debt(s)"
           maxlength="32000"
           name="resolution-comments"
-          onInput={({ target }) => {
-            if (target.value.length > 0) {
-              setError(null);
-            }
-            setCommentText(target.value);
-          }}
+          onInput={onCommentChange}
           required={commentsRequired}
           type="text"
           value={commentText}

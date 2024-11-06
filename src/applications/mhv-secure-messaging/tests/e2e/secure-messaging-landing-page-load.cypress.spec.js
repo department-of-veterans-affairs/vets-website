@@ -49,6 +49,13 @@ describe('SM main page', () => {
     cy.location('pathname').should('contain', 'inbox');
   });
 
+  it('verify previous version link', () => {
+    cy.get(Locators.LINKS.OLD_VERSION)
+      .should(`not.have.attr`, `target`, `_blank`)
+      .invoke(`attr`, `href`)
+      .should(`contain`, `mhv-portal-web/secure-messaging`);
+  });
+
   it('verify breadcrumbs', () => {
     FolderLoadPage.verifyBreadCrumbsLength(3);
 

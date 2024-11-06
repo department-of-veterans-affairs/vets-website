@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  formatDateShort,
-  formatDateParsedZoneLong,
-} from 'platform/utilities/date';
-import InfoPair from './InfoPair';
+import { formatDateShort } from 'platform/utilities/date';
 
+import InfoPair from './InfoPair';
 import {
   formatPercent,
-  formatVAFileNumber,
   formatMonthDayFields,
   benefitEndDateExplanation,
   notQualifiedWarning,
@@ -21,7 +17,6 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
   const percentageBenefit =
     formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
   const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
-
   let currentAsOfAlert;
   if (showCurrentAsOfAlert) {
     currentAsOfAlert = (
@@ -42,8 +37,8 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
       enrollmentData.delimitingDate,
     );
   } else if (
-    enrollmentData.remainingEntitlement.months > 0 ||
-    enrollmentData.remainingEntitlement.days > 0
+    enrollmentData.remainingEntitlement?.months > 0 ||
+    enrollmentData.remainingEntitlement?.days > 0
   ) {
     benefitEndDate = benefitEndDateExplanation(
       'remainingEntitlement',
@@ -98,17 +93,6 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
           label="Name"
           value={fullName}
           id="gibs-full-name"
-          additionalClass="section-line"
-        />
-        <InfoPair
-          label="Date of birth"
-          name="dateOfBirth"
-          value={formatDateParsedZoneLong(enrollmentData.dateOfBirth)}
-          additionalClass="section-line"
-        />
-        <InfoPair
-          label="VA file number"
-          value={formatVAFileNumber(enrollmentData.vaFileNumber)}
           additionalClass="section-line"
         />
         <InfoPair

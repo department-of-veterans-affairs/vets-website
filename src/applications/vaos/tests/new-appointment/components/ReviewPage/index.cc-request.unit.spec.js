@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import moment from 'moment';
 import { expect } from 'chai';
 
 import userEvent from '@testing-library/user-event';
@@ -201,7 +200,8 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   });
 
   it('should record GA tracking events', async () => {
-    const tomorrow = moment().add(1, 'days');
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     store = createTestStore({
       ...defaultState,
       newAppointment: {
@@ -246,7 +246,8 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   });
 
   it('should show error message on failure', async () => {
-    const tomorrow = moment().add(1, 'days');
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     store = createTestStore({
       ...defaultState,
       newAppointment: {

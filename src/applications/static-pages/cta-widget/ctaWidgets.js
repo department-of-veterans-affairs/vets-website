@@ -42,7 +42,6 @@ export const CTA_WIDGET_TYPES = {
   VIEW_APPOINTMENTS: 'view-appointments',
   VIEW_DEPENDENTS: 'view-dependents',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
-  VRRAP: 'vrrap',
 };
 
 export const ctaWidgetsLookup = {
@@ -352,21 +351,6 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'view your VA payment history',
-  },
-  [CTA_WIDGET_TYPES.VRRAP]: {
-    // Note: VRRAP stopped accepting new enrollments after 12/10/2022
-    // This should probably be removed
-    id: CTA_WIDGET_TYPES.VRRAP,
-    deriveToolUrlDetails: () => ({
-      url:
-        'education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s',
-      redirect: false,
-    }),
-    hasRequiredMhvAccount: () => false,
-    isHealthTool: false,
-    mhvToolName: null,
-    requiredServices: backendServices.EDUCATION_BENEFITS,
-    serviceDescription: 'apply for VRRAP',
   },
   [CTA_WIDGET_TYPES.EDUCATION_LETTERS]: {
     id: CTA_WIDGET_TYPES.EDUCATION_LETTERS,

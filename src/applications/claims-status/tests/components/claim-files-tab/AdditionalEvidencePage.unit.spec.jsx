@@ -570,7 +570,7 @@ describe('<AdditionalEvidencePage>', () => {
         expect($('.primary-alert', container)).to.exist;
         expect(getByTestId(`item-${claim.attributes.trackedItems[0].id}`)).to
           .exist;
-        getByText('Automated 5103 Notice Response');
+        getByText('Review evidence list (5103 notice)');
         expect(queryByTestId('standard-5103-notice-alert')).to.not.exist;
         expect(queryByText('5103 Evidence Notice')).to.be.null;
       });
@@ -621,7 +621,7 @@ describe('<AdditionalEvidencePage>', () => {
 
         expect($('.primary-alert', container)).to.exist;
         expect(getByTestId('standard-5103-notice-alert')).to.exist;
-        getByText('5103 Evidence Notice');
+        getByText('Review evidence list (5103 notice)');
         expect(queryByText('Automated 5103 Notice Response')).to.be.null;
       });
     });

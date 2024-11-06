@@ -11,25 +11,26 @@ const ConditionListItem = props => {
       class="record-list-item vads-u-padding--3 vads-u-margin-y--2p5"
       data-testid="record-list-item"
     >
-      <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4 no-print">
-        <Link
-          to={`/conditions/${record.id}`}
-          className="vads-u-margin--0"
-          data-dd-privacy="mask"
-        >
-          <span>
-            {record.name} <span className="sr-only">on {record.date}</span>
-          </span>
-        </Link>
-      </h3>
-      <h3
+      <Link
+        to={`/conditions/${record.id}`}
+        className="vads-u-margin--0"
+        data-dd-privacy="mask"
+      >
+        <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
+          {record.name} <span className="sr-only">on {record.date}</span>
+        </span>
+      </Link>
+      <span
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+        aria-hidden="true"
         data-dd-privacy="mask"
       >
         {record.name}
-      </h3>
+      </span>
 
-      <p className="vads-u-margin--0">Date entered: {record?.date}</p>
+      <p className="vads-u-margin--0">
+        Date entered: <span data-dd-privacy="mask">{record?.date}</span>
+      </p>
     </va-card>
   );
 };

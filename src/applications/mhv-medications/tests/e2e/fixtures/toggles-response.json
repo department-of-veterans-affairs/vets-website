@@ -17,6 +17,10 @@
             {
                 "name": "mhv_medications_display_allergies",
                 "value": true
+            },
+            {
+                "name": "mhv_medications_display_filter",
+                "value": true
             }
         ]
     }

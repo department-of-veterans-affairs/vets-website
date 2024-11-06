@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
-import { setData } from '~/platform/forms-system/src/js/actions';
-import recordEvent from '~/platform/monitoring/record-event';
-import { focusElement } from '~/platform/utilities/ui';
-import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
-import { isLoggedIn } from '~/platform/user/selectors';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { setData } from 'platform/forms-system/src/js/actions';
+import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
+import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { isLoggedIn } from 'platform/user/selectors';
 
 import {
   fetchEnrollmentStatus,
@@ -15,8 +15,10 @@ import {
 } from '../utils/actions/enrollment-status';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
+import useAfterRenderEffect from '../hooks/useAfterRenderEffect';
 import IdentityVerificationForm from '../components/IdentityPage/VerificationForm';
 import VerificationPageDescription from '../components/IdentityPage/VerificationPageDescription';
+import FormFooter from '../components/FormFooter';
 
 const IdentityPage = props => {
   const { router } = props;
@@ -87,25 +89,26 @@ const IdentityPage = props => {
     },
   };
 
-  // redirect to Introduction page if user is logged in
+  /**
+   * reset enrollment status data on when first loading the page if user is
+   * not logged in, else redirect to introduction page
+   */
   useEffect(
     () => {
-      if (loggedIn) router.push('/');
+      if (loggedIn) {
+        router.push('/');
+      } else {
+        const { resetEnrollmentStatus } = props;
+        resetEnrollmentStatus();
+        focusElement('.va-nav-breadcrumbs-list');
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [loggedIn],
   );
 
-  // reset enrollment status data on when first loading the page
-  useEffect(() => {
-    const { resetEnrollmentStatus } = props;
-    resetEnrollmentStatus();
-    focusElement('.va-nav-breadcrumbs-list');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // trigger prefill and navigation if enrollment status criteria is met
-  useEffect(
+  useAfterRenderEffect(
     () => {
       if (fetchAttempted) {
         const { noneOfTheAbove } = HCA_ENROLLMENT_STATUSES;
@@ -121,15 +124,18 @@ const IdentityPage = props => {
   );
 
   return (
-    <div className="schemaform-intro">
-      <VerificationPageDescription onLogin={handlers.showSignInModal} />
-      <IdentityVerificationForm
-        data={localData}
-        onChange={handlers.onChange}
-        onSubmit={handlers.onSubmit}
-        onLogin={handlers.showSignInModal}
-      />
-    </div>
+    <>
+      <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
+        <VerificationPageDescription onLogin={handlers.showSignInModal} />
+        <IdentityVerificationForm
+          data={localData}
+          onChange={handlers.onChange}
+          onSubmit={handlers.onSubmit}
+          onLogin={handlers.showSignInModal}
+        />
+      </div>
+      <FormFooter />
+    </>
   );
 };
 

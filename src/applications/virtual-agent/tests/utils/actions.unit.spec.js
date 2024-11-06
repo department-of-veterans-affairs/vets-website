@@ -11,6 +11,7 @@ import {
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import * as EventsModule from '../../utils/events';
 import * as SubmitFormModule from '../../utils/submitForm';
+import * as ProcessCSATModule from '../../utils/processCSAT';
 
 describe('actions', () => {
   let sandbox;
@@ -307,7 +308,7 @@ describe('actions', () => {
               role: 'user',
             },
             name: 'Skill_Entry',
-            value: 'RX_Skill',
+            value: 'va_vha_healthassistant_bot',
           },
         },
       };
@@ -358,6 +359,99 @@ describe('actions', () => {
 
       expect(setIsRxSkillStub.notCalled).to.be.true;
     });
+    it('should set event skill value and call recordEvent for Skill_Entry action when root bot toggle is on', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'message',
+            text: 'Other',
+            from: {
+              role: 'user',
+            },
+            name: 'Skill_Entry',
+            value: {
+              value: 'some_skill_value',
+            },
+          },
+        },
+      };
+
+      const dispatch = sandbox.stub();
+      const setEventSkillValueStub = sandbox.stub(
+        SessionStorageModule,
+        'setEventSkillValue',
+      );
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch,
+        isRootBotToggleOn: true,
+      })();
+      expect(setEventSkillValueStub.calledOnce).to.be.true;
+      expect(setEventSkillValueStub.calledWithExactly('some_skill_value')).to.be
+        .true;
+      expect(recordEventStub.calledOnce).to.be.true;
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot Skill Entry - some_skill_value',
+          topic: 'some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
+    });
+    it('should not set event skill value or call recordEvent for non-Skill_Entry action', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'message',
+            text: 'Other',
+            from: {
+              role: 'user',
+            },
+            name: 'Other_Action',
+            value: 'some_value',
+          },
+        },
+      };
+
+      const dispatch = sandbox.stub();
+      const setEventSkillValueStub = sandbox.stub(
+        SessionStorageModule,
+        'setEventSkillValue',
+      );
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch })();
+      expect(setEventSkillValueStub.notCalled).to.be.true;
+      expect(recordEventStub.notCalled).to.be.true;
+    });
+    it('should not set event skill value to null if not a Skill_Exit event', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            from: {
+              role: 'bot',
+            },
+            name: 'Other_Action',
+            value: 'some_skill_value',
+          },
+        },
+      };
+
+      const dispatch = sandbox.stub();
+      const setEventSkillValueStub = sandbox.stub(
+        SessionStorageModule,
+        'setEventSkillValue',
+      );
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch })();
+      expect(setEventSkillValueStub.notCalled).to.be.true;
+      expect(recordEventStub.notCalled).to.be.true;
+    });
     it('should set is rx skill to false and trigger rxSkill event if exiting rx', () => {
       const action = {
         payload: {
@@ -368,7 +462,7 @@ describe('actions', () => {
               role: 'user',
             },
             name: 'Skill_Exit',
-            value: 'RX_Skill',
+            value: 'va_vha_healthassistant_bot',
           },
         },
       };
@@ -451,7 +545,7 @@ describe('actions', () => {
       expect(submitFormStub.calledWithExactly(url, body)).to.be.true;
     });
 
-    it('should call submitForm when activity is FormPostButton and component toggle is off', () => {
+    it('should not call submitForm when activity is FormPostButton and component toggle is off', () => {
       const action = {
         payload: {
           activity: {
@@ -493,6 +587,65 @@ describe('actions', () => {
 
       expect(submitFormStub.notCalled).to.be.true;
     });
+
+    it('should call processCSAT when activity is CSATSurveyResponse and root bot toggle is on', () => {
+      const action = {
+        payload: {
+          activity: {
+            valueType: 'CSATSurveyResponse',
+          },
+        },
+      };
+
+      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+        isRootBotToggleOn: true,
+      })();
+
+      expect(processCSATStub.calledOnce).to.be.true;
+    });
+
+    it('should not call processCSAT when root bot toggle is off', () => {
+      const action = {
+        payload: {
+          activity: {
+            valueType: 'CSATSurveyResponse',
+          },
+        },
+      };
+
+      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+        isRootBotToggleOn: false,
+      })();
+
+      expect(processCSATStub.notCalled).to.be.true;
+    });
+
+    it('should not call processCSAT when activity is not CSATSurveyResponse', () => {
+      const action = {
+        payload: {
+          activity: {
+            valueType: 'other',
+          },
+        },
+      };
+
+      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+      })();
+
+      expect(processCSATStub.notCalled).to.be.true;
+    });
   });
 
   describe('processMicrophoneActivity', () => {
@@ -504,7 +657,9 @@ describe('actions', () => {
       };
 
       const recordEventStub = sandbox.stub(RecordEventModule, 'default');
-      sandbox.stub(SessionStorageModule, 'getIsRxSkill').returns(true);
+      sandbox
+        .stub(SessionStorageModule, 'getEventSkillValue')
+        .returns('prescriptions');
 
       processMicrophoneActivity({ action })();
 
@@ -544,7 +699,9 @@ describe('actions', () => {
       };
 
       const recordEventStub = sandbox.stub(RecordEventModule, 'default');
-      sandbox.stub(SessionStorageModule, 'getIsRxSkill').returns(true);
+      sandbox
+        .stub(SessionStorageModule, 'getEventSkillValue')
+        .returns('prescriptions');
 
       processMicrophoneActivity({ action })();
 
@@ -592,7 +749,33 @@ describe('actions', () => {
   });
 
   describe('addActivityData', () => {
-    it('should add values to the activity', () => {
+    it('should add values to the activity when value is a string', () => {
+      const action = {
+        payload: {
+          activity: {
+            value: 'fake-value',
+          },
+        },
+      };
+      const updatedAction = addActivityData(action, {
+        apiSession: 'apiSession',
+        csrfToken: 'csrfToken',
+        apiURL: 'apiURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isMobile: 'isMobile',
+      });
+      expect(updatedAction.payload.activity.value).to.deep.equal({
+        value: 'fake-value',
+        apiSession: 'apiSession',
+        csrfToken: 'csrfToken',
+        apiURL: 'apiURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isMobile: 'isMobile',
+      });
+    });
+    it('should add values to the activity when value is an object', () => {
       const action = {
         payload: {
           activity: {
@@ -606,6 +789,7 @@ describe('actions', () => {
         apiURL: 'apiURL',
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
+        isMobile: 'isMobile',
       });
       expect(updatedAction.payload.activity.value).to.deep.equal({
         language: 'en-US',
@@ -614,6 +798,7 @@ describe('actions', () => {
         apiURL: 'apiURL',
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
+        isMobile: 'isMobile',
       });
     });
   });

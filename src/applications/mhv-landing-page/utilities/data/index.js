@@ -33,33 +33,9 @@ const resolveLandingPageLinks = (
   unreadMessageAriaLabel,
   registered = false,
 ) => {
-  const messagesLinks = [
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[0],
-      ariaLabel: unreadMessageAriaLabel,
-    },
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[1],
-    },
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[2],
-    },
-  ];
-
-  const medicalRecordsLinks = [
-    {
-      href: mhvUrl(authdWithSSOe, '/download-my-data'),
-      text: 'Download medical record (Blue Button®)',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/labs-tests'),
-      text: 'Lab and test results',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/health-history'),
-      text: 'Health history',
-    },
-  ];
+  const messagesLinks = [...HEALTH_TOOL_LINKS.MESSAGES];
+  if (messagesLinks.length > 0)
+    messagesLinks[0].ariaLabel = unreadMessageAriaLabel;
 
   const myVaHealthBenefitsLinks = [
     {
@@ -83,7 +59,7 @@ const resolveLandingPageLinks = (
       text: 'Update health benefits info (10-10EZR)',
     },
     {
-      href: mhvUrl(authdWithSSOe, 'health-information-card'),
+      href: '/health-care/get-health-id-card/',
       text: 'Veteran health information card',
     },
     // {
@@ -94,7 +70,7 @@ const resolveLandingPageLinks = (
 
   const moreResourcesLinks = [
     featureToggles[FEATURE_FLAG_NAMES.mhvVaHealthChatEnabled] && {
-      href: 'https://veteran.apps.va.gov/users/v2/login?redirect_uri=/cirrusmd',
+      href: 'https://eauth.va.gov/MAP/users/v2/landing?redirect_uri=/cirrusmd/',
       text: 'Chat live with a health professional on VA Health Chat',
     },
     {
@@ -142,6 +118,15 @@ const resolveLandingPageLinks = (
     },
   ];
 
+  const paymentsLinks = [
+    HEALTH_TOOL_LINKS.PAYMENTS[0],
+    featureToggles[FEATURE_FLAG_NAMES.travelPayPowerSwitch] && {
+      href: '/my-health/travel-claim-status',
+      text: 'Check travel reimbursement claim status',
+    },
+    HEALTH_TOOL_LINKS.PAYMENTS[1],
+  ].filter(isLinkData);
+
   const cards = [
     {
       title: HEALTH_TOOL_HEADINGS.APPOINTMENTS,
@@ -161,13 +146,15 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
-      links: medicalRecordsLinks,
+      introduction:
+        'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
+      links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
       icon: 'attach_money',
       iconClasses: 'vads-u-margin-right--0 vads-u-margin-left--neg0p5',
-      links: HEALTH_TOOL_LINKS.PAYMENTS,
+      links: paymentsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_SUPPLIES,

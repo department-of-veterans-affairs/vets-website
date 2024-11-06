@@ -2,7 +2,7 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Data, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
@@ -503,7 +503,7 @@ class PatientMessageDraftsPage {
   };
 
   sortMessagesByKeyboard = (text, data, folderId) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });
@@ -561,7 +561,7 @@ class PatientMessageDraftsPage {
     text,
     sortedResponse = mockSortedMessages,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });
@@ -618,11 +618,8 @@ class PatientMessageDraftsPage {
     );
   };
 
-  verifySavedMessageAlertText = MESSAGE_WAS_SAVED => {
-    cy.get(Locators.ALERTS.SAVE_DRAFT).should(
-      'include.text',
-      MESSAGE_WAS_SAVED,
-    );
+  verifySavedMessageAlertText = (text = Data.MESSAGE_WAS_SAVED) => {
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should('include.text', text);
   };
 
   expandAllDrafts = () => {
@@ -702,6 +699,42 @@ class PatientMessageDraftsPage {
     cy.get('va-modal[visible]')
       .find('.va-modal-close')
       .click();
+  };
+
+  verifyThreadRecipientName = (mockResponse, index) => {
+    cy.get(Locators.THREADS)
+      .find(`.vads-u-font-weight--bold`)
+      .eq(index)
+      .should(`be.visible`)
+      .and(`have.text`, mockResponse.data[index].attributes.recipientName);
+  };
+
+  verifyAttachFileBtn = () => {
+    cy.get(Locators.BUTTONS.ATTACH_FILE)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`have.text`, Data.BUTTONS.ATTACH_FILE);
+  };
+
+  verifySendDraftBtn = () => {
+    cy.get(Locators.BUTTONS.SEND)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`contain.text`, Data.BUTTONS.SEND);
+  };
+
+  verifySaveDraftBtn = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT)
+      .should(`be.visible`)
+      .and('contain.text', Data.BUTTONS.SAVE_DRAFT);
+  };
+
+  verifyDeleteDraftBtn = () => {
+    cy.get(Locators.BUTTONS.DELETE_DRAFT)
+      .should(`be.visible`)
+      .and(`contain.text`, Data.BUTTONS.DELETE_DRAFT);
   };
 }
 

@@ -1,7 +1,6 @@
 import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
-  concatCategoryCodeText,
   concatObservationInterpretations,
   dateFormatWithoutTimezone,
   formatDate,
@@ -10,6 +9,7 @@ import {
   getObservationValueWithUnits,
   isArrayAndHasItems,
   decodeBase64Report,
+  formatNameFirstToLast,
 } from '../util/helpers';
 import {
   loincCodes,
@@ -46,16 +46,14 @@ const initialState = {
   labsAndTestsDetails: undefined,
 };
 
-const getLabLocation = (performer, record) => {
-  if (isArrayAndHasItems(performer)) {
-    const locationRef = performer[0]?.reference;
-    const labLocation = extractContainedResource(record, locationRef);
-    return labLocation?.name;
-  }
-  return null;
+export const extractLabLocation = (performer, record) => {
+  if (!isArrayAndHasItems(performer)) return null;
+  const locationRef = performer.find(item => item.reference);
+  const labLocation = extractContainedResource(record, locationRef?.reference);
+  return labLocation?.name || null;
 };
 
-const distillChemHemNotes = (notes, valueProp) => {
+export const distillChemHemNotes = (notes, valueProp) => {
   let noteString;
   if (isArrayAndHasItems(notes)) {
     noteString = notes.map(note => note[valueProp]);
@@ -68,56 +66,55 @@ const distillChemHemNotes = (notes, valueProp) => {
  * @param {Object} record - A FHIR chem/hem Observation object
  * @returns the appropriate frontend object for display
  */
-const convertChemHemObservation = record => {
-  const results = record.contained?.filter(
-    recordItem => recordItem.resourceType === 'Observation',
-  );
-  return results?.filter(obs => obs.valueQuantity).map(result => {
-    const { observationValue, observationUnit } = getObservationValueWithUnits(
-      result,
-    );
-    let observationValueWithUnits = `${observationValue} ${observationUnit}`;
-    const interpretation = concatObservationInterpretations(result);
-    if (observationValueWithUnits && interpretation) {
-      observationValueWithUnits += ` (${interpretation})`;
-    }
-    let standardRange;
-    if (observationUnit) {
+export const convertChemHemObservation = record => {
+  const results = isArrayAndHasItems(record.result)
+    ? record.result.map(item =>
+        extractContainedResource(record, item.reference),
+      )
+    : [];
+
+  return results?.map(result => {
+    let finalObservationValue = '';
+    let standardRange = null;
+    if (result.valueQuantity) {
+      const {
+        observationValue,
+        observationUnit,
+      } = getObservationValueWithUnits(result);
+      const fixedObservationValue =
+        typeof observationValue === 'number'
+          ? observationValue.toFixed(1)
+          : observationValue;
+      finalObservationValue = `${fixedObservationValue} ${observationUnit}`;
       standardRange = isArrayAndHasItems(result.referenceRange)
-        ? `${result.referenceRange[0].text} ${observationUnit}`
+        ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
         : null;
     }
+    if (result.valueString) {
+      finalObservationValue = result.valueString;
+    }
+    const interpretation = concatObservationInterpretations(result);
+    if (finalObservationValue && interpretation) {
+      finalObservationValue += ` (${interpretation})`;
+    }
+
     return {
-      name: result.code.text,
-      result: observationValueWithUnits || EMPTY_FIELD,
+      name: result?.code?.text || EMPTY_FIELD,
+      result: finalObservationValue || EMPTY_FIELD,
       standardRange: standardRange || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
-      labLocation: getLabLocation(result.performer, record) || EMPTY_FIELD,
+      labLocation: extractLabLocation(result.performer, record) || EMPTY_FIELD,
       labComments: distillChemHemNotes(result.note, 'text') || EMPTY_FIELD,
     };
   });
 };
 
-const getPractitioner = (record, serviceRequest) => {
+export const extractPractitioner = (record, serviceRequest) => {
   const practitionerRef = serviceRequest?.requester?.reference;
   const practitioner = extractContainedResource(record, practitionerRef);
   if (isArrayAndHasItems(practitioner?.name)) {
     const practitionerName = practitioner?.name[0];
-    const familyName = practitionerName?.family;
-    const givenNames = practitionerName?.given.join(' ');
-    return `${familyName ? `${familyName}, ` : ''}${givenNames}`;
-  }
-  return null;
-};
-
-const getSpecimen = record => {
-  const specimenRef = isArrayAndHasItems(record.specimen);
-  if (specimenRef) {
-    const specimen = extractContainedResource(
-      record,
-      record.specimen[0]?.reference,
-    );
-    return specimen?.type?.text;
+    return formatNameFirstToLast(practitionerName);
   }
   return null;
 };
@@ -162,20 +159,22 @@ const convertChemHemRecord = record => {
   const basedOnRef =
     isArrayAndHasItems(record.basedOn) && record.basedOn[0]?.reference;
   const serviceRequest = extractContainedResource(record, basedOnRef);
+  const specimen = extractSpecimen(record);
   return {
     id: record.id,
     type: labTypes.CHEM_HEM,
     testType: serviceRequest?.code?.text || EMPTY_FIELD,
     name: extractOrderedTests(record) || 'Chemistry/Hematology',
     category: 'Chemistry and hematology',
-    orderedBy: getPractitioner(record, serviceRequest) || EMPTY_FIELD,
+    orderedBy: extractPractitioner(record, serviceRequest) || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
-    collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
+    collectingLocation:
+      extractLabLocation(record.performer, record) || EMPTY_FIELD,
     comments: distillChemHemNotes(record.extension, 'valueString'),
     results: convertChemHemObservation(record),
-    sampleTested: getSpecimen(record) || EMPTY_FIELD,
+    sampleTested: specimen?.type?.text || EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
   };
 };
@@ -208,11 +207,12 @@ export const extractOrderedBy = record => {
 const convertMicrobiologyRecord = record => {
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
+  const title = record?.code?.text;
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
-    name: 'Microbiology',
-    category: '',
+    name: title || 'Microbiology',
+    labType: title ? 'Microbiology' : null,
     orderedBy: extractOrderedBy(record) || EMPTY_FIELD,
     dateCompleted: record.effectiveDateTime
       ? formatDate(record.effectiveDateTime)
@@ -242,10 +242,12 @@ const convertPathologyRecord = record => {
     id: record.id,
     name: record.code?.text,
     type: labTypes.PATHOLOGY,
-    category: concatCategoryCodeText(record) || EMPTY_FIELD,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
+      : EMPTY_FIELD,
+    dateCollected: specimen?.collection?.collectedDateTime
+      ? dateFormatWithoutTimezone(specimen.collection.collectedDateTime)
       : EMPTY_FIELD,
     sampleTested: specimen?.type?.text || EMPTY_FIELD,
     labLocation,
@@ -311,23 +313,30 @@ const convertEkgRecord = record => {
 //   };
 // };
 
+export const buildRadiologyResults = record => {
+  const reportText = record?.reportText || '\n';
+  const impressionText = record?.impressionText || '\n';
+  return `Report:${reportText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}  
+Impression:${impressionText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}`;
+};
+
 export const convertMhvRadiologyRecord = record => {
+  const orderedBy = formatNameFirstToLast(record.requestingProvider);
+  const imagingProvider = formatNameFirstToLast(record.radiologist);
   return {
-    id: `r${record.id}`,
+    id: `r${record.id}-${record.hash}`,
     name: record.procedureName,
     type: labTypes.RADIOLOGY,
     reason: record.reasonForStudy || EMPTY_FIELD,
-    orderedBy: record.requestingProvider || EMPTY_FIELD,
-    clinicalHistory: record.clinicalHistory
-      ? record.clinicalHistory.trim()
-      : EMPTY_FIELD,
+    orderedBy: orderedBy || EMPTY_FIELD,
+    clinicalHistory: record?.clinicalHistory?.trim() || EMPTY_FIELD,
     imagingLocation: record.performingLocation,
     date: record.eventDate
       ? dateFormatWithoutTimezone(record.eventDate)
       : EMPTY_FIELD,
     sortDate: record.eventDate,
-    imagingProvider: record.radiologist || EMPTY_FIELD,
-    results: record.impressionText,
+    imagingProvider: imagingProvider || EMPTY_FIELD,
+    results: buildRadiologyResults(record),
     images: [],
   };
 };
@@ -407,6 +416,12 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsDetails: convertLabsAndTestsRecord(action.response),
+      };
+    }
+    case Actions.LabsAndTests.GET_FROM_LIST: {
+      return {
+        ...state,
+        labsAndTestsDetails: action.response,
       };
     }
     case Actions.LabsAndTests.GET_LIST: {

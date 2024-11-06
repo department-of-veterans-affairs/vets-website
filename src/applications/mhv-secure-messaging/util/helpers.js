@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import DOMPurify from 'dompurify';
 import {
   DefaultFolders as Folders,
   Paths,
@@ -146,6 +147,21 @@ export const titleCase = str => {
 export const httpRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi; // Accepts 'http'
 export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/gi; // Accepts www and https
 
+export const decodeHtmlEntities = str => {
+  const parser = new DOMParser();
+  const decodedStr = str
+    .replace(/&quot;/g, '"') // Replace &quot; with "
+    .replace(/&#x22;/g, '"') // Replace &#x22; with "
+    .replace(/&lt;/g, '<') // Replace &lt; with <
+    .replace(/&gt;/g, '>') // Replace &gt; with >
+    .replace(/&amp;/g, '&'); // Replace &amp; with &
+
+  const sanitizedStr = DOMPurify.sanitize(decodedStr);
+
+  return parser.parseFromString(sanitizedStr, 'text/html').documentElement
+    .innerText;
+};
+
 /**
  * Comparing a timestampt to current date and time, if older than days return true
  * @param {*} timestamp
@@ -168,18 +184,39 @@ export const getLastSentMessage = messages => {
 };
 
 export const handleHeader = (folderId, folder) => {
+  let folderName;
+
   switch (folderId) {
     case Folders.INBOX.id: // Inbox
-      return Folders.INBOX.header;
+      folderName = Folders.INBOX.header;
+      break;
     case Folders.SENT.id: // Sent
-      return Folders.SENT.header;
+      folderName = Folders.SENT.header;
+      break;
     case Folders.DRAFTS.id: // Drafts
-      return Folders.DRAFTS.header;
+      folderName = Folders.DRAFTS.header;
+      break;
     case Folders.DELETED.id: // Trash
-      return Folders.DELETED.header;
+      folderName = Folders.DELETED.header;
+      break;
     default:
-      return folder.name;
+      folderName = folder.name;
   }
+
+  const isCustomFolder =
+    folderName !== Folders.INBOX.header &&
+    folderName !== Folders.SENT.header &&
+    folderName !== Folders.DRAFTS.header &&
+    folderName !== Folders.DELETED.header;
+
+  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folderName}`} h1`;
+  const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+
+  return {
+    folderName,
+    ddTitle,
+    ddPrivacy,
+  };
 };
 
 export const updateMessageInThread = (thread, response) => {
@@ -321,10 +358,14 @@ export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
   );
 
   // if TG is not associated or is blocked, formattedRecipient will include status of "not associated" or "blocked"
-  if (!isAssociated) {
-    formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
-  } else if (isBlocked) {
-    formattedRecipient.status = RecipientStatus.BLOCKED;
+  if (formattedRecipient) {
+    if (!isAssociated) {
+      formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
+    } else if (isBlocked) {
+      formattedRecipient.status = RecipientStatus.BLOCKED;
+    } else {
+      formattedRecipient.status = RecipientStatus.ALLOWED;
+    }
   }
 
   return { isAssociated, isBlocked, formattedRecipient };
@@ -378,4 +419,41 @@ export const findBlockedFacilities = recipients => {
 
 export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
+};
+
+export const scrollTo = (element, behavior = 'smooth') => {
+  if (element) {
+    element.scrollIntoView({ behavior });
+  }
+};
+
+export const scrollToTop = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+};
+
+export const scrollIfFocusedAndNotInView = (offset = 0) => {
+  const element = document.activeElement; // Get the currently focused element
+
+  if (element) {
+    const rect = element.getBoundingClientRect();
+
+    // Check if the element is out of the viewport
+    const inViewport =
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+
+    if (!inViewport) {
+      // Calculate the position to scroll to, with an offset from the top
+      const scrollY = window.scrollY + rect.top - offset;
+
+      // Scroll to the element with the offset
+      window.scrollTo({
+        top: scrollY,
+        behavior: 'smooth', // Optional smooth scroll
+      });
+    }
+  }
 };

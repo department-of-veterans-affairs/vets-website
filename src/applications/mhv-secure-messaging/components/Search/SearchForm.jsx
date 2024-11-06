@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearSearchResults, runAdvancedSearch } from '../../actions/search';
@@ -17,6 +18,12 @@ import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query, threadCount } = props;
+  const mhvSecureMessagingFilterAccordion = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingFilterAccordion
+      ],
+  );
   const dispatch = useDispatch();
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
@@ -207,6 +214,15 @@ const SearchForm = props => {
     );
   };
 
+  const isCustomFolder =
+    folder.name !== DefaultFolders.INBOX.header &&
+    folder.name !== DefaultFolders.SENT.header &&
+    folder.name !== DefaultFolders.DRAFTS.header &&
+    folder.name !== DefaultFolders.DELETED.header;
+
+  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folder.name}`}`;
+  const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+
   const filterLabelHeading = useMemo(
     () => {
       return `Filter messages in ${
@@ -242,6 +258,8 @@ const SearchForm = props => {
               setFiltersCleared(false);
             }
           }}
+          data-dd-privacy={ddPrivacy}
+          data-dd-action-name={`Filter Messages in ${ddTitle}`}
         >
           {filterLabelHeading}
         </h2>
@@ -256,6 +274,7 @@ const SearchForm = props => {
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
                 data-testid="keyword-search-input"
+                data-dd-action-name={`${filterLabelBody} Input Field`}
                 onKeyPress={e => {
                   if (e.key === 'Enter') handleSearch();
                 }}
@@ -269,6 +288,7 @@ const SearchForm = props => {
           <va-additional-info
             trigger="What's a message ID?"
             class="message-id-info"
+            data-dd-action-name="What's a message ID? Expandable Info"
           >
             A message ID is a number we assign to each message. If you sign up
             for email notifications, we’ll send you an email each time you get a
@@ -291,24 +311,37 @@ const SearchForm = props => {
             />
           </div>
         )}
-        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+        <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
           <va-button
             text="Filter"
             primary
             class="filter-button"
             data-testid="filter-messages-button"
+            data-dd-action-name="Filter Button"
             onClick={e => {
               e.preventDefault();
               handleSearch();
             }}
           />
-          {resultsCount !== undefined && (
+          {/* using toggle to hide this btn temporarily until filter accordion redesign is completed */}
+          {mhvSecureMessagingFilterAccordion ? (
             <va-button
               text="Clear Filters"
               secondary
-              class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+              class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               onClick={handleFilterClear}
+              dd-action-name="Clear Filters Button"
             />
+          ) : (
+            resultsCount !== undefined && (
+              <va-button
+                text="Clear Filters"
+                secondary
+                class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
+                onClick={handleFilterClear}
+                dd-action-name="Clear Filters Button"
+              />
+            )
           )}
           {filtersCleared && (
             <span

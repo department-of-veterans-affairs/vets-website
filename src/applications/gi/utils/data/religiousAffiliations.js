@@ -65,4 +65,5 @@ export const religiousAffiliations = {
   105: 'General Baptist',
   106: 'Muslim',
   107: 'Plymouth Brethren',
+  108: 'Non-Denominational',
 };

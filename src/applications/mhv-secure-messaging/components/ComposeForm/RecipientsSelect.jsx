@@ -33,6 +33,7 @@ import {
 import PropTypes from 'prop-types';
 import { sortRecipients } from '../../util/helpers';
 import { Prompts } from '../../util/constants';
+import CantFindYourTeam from './CantFindYourTeam';
 
 const RecipientsSelect = ({
   recipientsList,
@@ -40,6 +41,8 @@ const RecipientsSelect = ({
   defaultValue,
   error,
   isSignatureRequired,
+  setCheckboxMarked,
+  setElectronicSignature,
 }) => {
   const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
@@ -61,20 +64,34 @@ const RecipientsSelect = ({
     () => {
       if (selectedRecipient) {
         onValueChange(selectedRecipient);
+        setCheckboxMarked(false);
+        setElectronicSignature('');
       }
     },
-    [selectedRecipient],
+    [
+      onValueChange,
+      selectedRecipient,
+      setCheckboxMarked,
+      setElectronicSignature,
+    ],
   );
 
   const handleRecipientSelect = useCallback(
     e => {
-      const recipient = recipientsList.find(r => +r.id === +e.detail.value);
+      if (!+e.detail.value) {
+        setSelectedRecipient({});
+        return;
+      }
+
+      const recipient =
+        recipientsList?.find(r => +r.id === +e.detail.value) || {};
       setSelectedRecipient(recipient);
+
       if (recipient.signatureRequired || isSignatureRequired) {
         setAlertDisplayed(true);
       }
     },
-    [recipientsList, isSignatureRequired],
+    [recipientsList, isSignatureRequired, setSelectedRecipient],
   );
 
   return (
@@ -84,7 +101,7 @@ const RecipientsSelect = ({
         id="recipient-dropdown"
         label="To"
         name="to"
-        value={defaultValue !== undefined ? defaultValue : ''}
+        value={defaultValue}
         onVaSelect={handleRecipientSelect}
         class="composeSelect"
         data-testid="compose-recipient-select"
@@ -92,6 +109,7 @@ const RecipientsSelect = ({
         data-dd-privacy="mask"
         data-dd-action-name="Compose Recipient Dropdown List"
       >
+        <CantFindYourTeam />
         {sortRecipients(recipientsList)?.map(item => (
           <option key={item.id} value={item.id}>
             {item.name}
@@ -100,8 +118,6 @@ const RecipientsSelect = ({
       </VaSelect>
       {alertDisplayed && (
         <VaAlert
-          role="alert"
-          aria-live="polite"
           ref={alertRef}
           class="vads-u-margin-y--2"
           closeBtnAriaLabel="Close notification"
@@ -113,7 +129,7 @@ const RecipientsSelect = ({
           visible
           data-testid="signature-alert"
         >
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
             {isSignatureRequired === true
               ? Prompts.Compose.SIGNATURE_REQUIRED
               : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
@@ -130,6 +146,8 @@ RecipientsSelect.propTypes = {
   defaultValue: PropTypes.number,
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,
+  setCheckboxMarked: PropTypes.func,
+  setElectronicSignature: PropTypes.func,
 };
 
 export default RecipientsSelect;

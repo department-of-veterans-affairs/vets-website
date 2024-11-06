@@ -7,7 +7,6 @@ import mockRecipients from '../fixtures/recipients-response.json';
 import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.json';
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
-import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Assertions, Paths } from '../utils/constants';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
@@ -237,7 +236,7 @@ class PatientInboxPage {
     return newMessage;
   };
 
-  loadPageForNoProvider = (doAxeCheck = false) => {
+  loadPageForNoProvider = (mockRecipientsResponse, doAxeCheck = false) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
     mockMessages.data.at(
@@ -291,7 +290,7 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`,
-      mockNoRecipients,
+      mockRecipientsResponse,
     ).as('recipients');
 
     cy.visit(Paths.UI_MAIN + Paths.INBOX);
@@ -340,11 +339,11 @@ class PatientInboxPage {
   navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
-      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
-      mockSignature,
-    ).as('signature');
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
-    cy.wait('@signature');
+    // cy.wait('@signature');
     if (checkFocusOnVcl) {
       PatientInterstitialPage.CheckFocusOnVcl();
     }
@@ -523,7 +522,7 @@ class PatientInboxPage {
   };
 
   sortMessagesByKeyboard = (text, data, folderId) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });
@@ -592,7 +591,7 @@ class PatientInboxPage {
     option = 'Oldest to newest',
     sortedResponse,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${option}`, { force: true });
@@ -682,10 +681,7 @@ class PatientInboxPage {
   };
 
   clickAdditionalFilterButton = () => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER)
-      .shadow()
-      .find('h3 button')
-      .click();
+    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
   };
 
   selectDateRange = dropDownValue => {
@@ -701,7 +697,7 @@ class PatientInboxPage {
   };
 
   verifyAddFilterButton = (text = 'Add filters') => {
-    cy.get(Locators.BUTTONS.ADD_FILTER_BUTTON).should(
+    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
       'contain.text',
       `${text}`,
     );
@@ -711,6 +707,51 @@ class PatientInboxPage {
     cy.get(Locators.FIELDS.NOT_FOR_PRINT_HEADER)
       .should('be.visible')
       .and('contain.text', text);
+  };
+
+  verifyFilterButtons = () => {
+    cy.get(`[data-testid="search-form"]`)
+      .find(`va-button`)
+      .each(el => {
+        cy.wrap(el).should(`be.visible`);
+      });
+  };
+
+  verifyFilterCategoryDropdown = data => {
+    cy.get(Locators.FIELDS.CATEGORY_OPTION).each(option => {
+      cy.wrap(option)
+        .invoke('text')
+        .then(el => {
+          expect(el.toUpperCase()).to.be.oneOf(data);
+        });
+    });
+  };
+
+  verifyFilterdateRangeDropdown = data => {
+    cy.get(Locators.FIELDS.DATE_RANGE_OPTION).each(option => {
+      cy.wrap(option)
+        .invoke('text')
+        .then(el => {
+          expect(el.toUpperCase()).to.be.oneOf(data);
+        });
+    });
+  };
+
+  maintenanceWindowResponse = (startDate, endDate) => {
+    return {
+      data: [
+        {
+          id: '139',
+          type: 'maintenance_windows',
+          attributes: {
+            externalService: 'mhv_sm',
+            description: 'Description for mhv_sm',
+            startTime: startDate,
+            endTime: endDate,
+          },
+        },
+      ],
+    };
   };
 }
 

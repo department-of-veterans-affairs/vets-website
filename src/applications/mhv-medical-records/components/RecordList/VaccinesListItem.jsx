@@ -9,25 +9,24 @@ const VaccinesListItem = props => {
   return (
     <va-card
       background
-      class="record-list-item vads-u-padding-y--2p5 vads-u-margin-bottom--2p5"
+      class="record-list-item vads-u-padding-y--2p5 vads-u-margin-bottom--2p5 vads-u-padding-x--3"
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5 no-print">
-        <Link to={`/vaccines/${record.id}`} data-dd-privacy="mask">
-          <span>
-            {record.name} <span className="sr-only">on {record.date}</span>
-          </span>
-        </Link>
-      </h3>
+      <Link to={`/vaccines/${record.id}`} data-dd-privacy="mask">
+        <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
+          {record.name} <span className="sr-only">on {record.date}</span>
+        </span>
+      </Link>
 
       {/* print view header */}
-      <h3
+      <span
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+        aria-hidden="true"
         data-dd-privacy="mask"
       >
         {record.name}
-      </h3>
+      </span>
 
       {/* fields */}
       <div>
@@ -40,12 +39,6 @@ const VaccinesListItem = props => {
         <span className="vads-u-display--inline">Location:</span>{' '}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
           {record.location}
-        </span>
-      </div>
-      <div className="print-only">
-        <span className="vads-u-display--inline">Provider notes:</span>{' '}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {record.notes}
         </span>
       </div>
     </va-card>

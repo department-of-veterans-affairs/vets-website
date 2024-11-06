@@ -675,12 +675,9 @@ export const show526Wizard = state => toggleValues(state).show526Wizard;
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
 
-export const show526MaxRating = state =>
-  toggleValues(state).disability526MaximumRating;
-
 export const wrapWithBreadcrumb = (title, component) => (
   <>
-    <div className="row">
+    <div className="row vads-u-padding-x--1p5">
       <VaBreadcrumbs
         uswds
         breadcrumbList={[
@@ -754,7 +751,7 @@ export const formTitle = title => (
  * @returns {string} markup with h4 tag and consistent styling
  */
 export const formSubtitle = subtitle => (
-  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">{subtitle}</h4>
+  <h4 className="vads-u-font-size--h5 vads-u-color--gray-dark">{subtitle}</h4>
 );
 
 /**

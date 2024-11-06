@@ -4,10 +4,10 @@ import { capitalize } from 'lodash';
 
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 
-import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-
 const formatTitle = (title = '') => capitalize(title).replace(/\bva\b/, 'VA');
 
+// TODO: remove this file and replace with "DraftCard"
+// when we remove isFormSubmissionStatusWork toggle
 const ApplicationInProgress = ({
   continueUrl,
   expirationDate,
@@ -55,16 +55,14 @@ const ApplicationInProgress = ({
   );
 
   return (
-    <DashboardWidgetWrapper>
-      <div
-        className="vads-u-width--full vads-u-margin-bottom--3"
-        data-testid="application-in-progress"
-      >
-        <va-card>
-          <div className="vads-u-padding--1">{content}</div>
-        </va-card>
-      </div>
-    </DashboardWidgetWrapper>
+    <div
+      className="vads-u-width--full vads-u-margin-bottom--3"
+      data-testid="application-in-progress"
+    >
+      <va-card>
+        <div className="vads-u-padding--1">{content}</div>
+      </va-card>
+    </div>
   );
 };
 

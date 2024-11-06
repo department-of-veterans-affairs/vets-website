@@ -7,7 +7,6 @@ import {
   selectConfirmedAppointmentData,
   selectIsAtlasVideo,
 } from '../../appointment-list/redux/selectors';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import VideoLayoutVA from './VideoLayoutVA';
 import { isClinicVideoAppointment } from '../../services/appointment';
 import DetailPageLayout, {
@@ -45,10 +44,6 @@ export default function VideoLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
   );
 
   const isAtlasVideo = useSelector(() => selectIsAtlasVideo(appointment));
@@ -90,6 +85,52 @@ export default function VideoLayout({ data: appointment }) {
       <What>{typeOfCareName}</What>
 
       <Who>{videoProviderName}</Who>
+
+      {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
+        isCanceledAppointment) && (
+        <Section heading="Scheduling facility">
+          {!!facility && (
+            <>
+              {facility.name}
+              <br />
+              <span>
+                {address.city}, <State state={address.state} />
+              </span>
+            </>
+          )}
+          <br />
+          {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+          <br />
+          <ClinicOrFacilityPhone
+            clinicPhone={clinicPhone}
+            clinicPhoneExtension={clinicPhoneExtension}
+            facilityPhone={facilityPhone}
+          />
+        </Section>
+      )}
+
+      {!isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <ul className="vads-u-margin-top--0">
+              <li>
+                Bring your insurance cards. And bring a list of your medications
+                and other information to share with your provider.
+                <br />
+                <va-link
+                  text="Find a full list of things to bring to your appointment"
+                  href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+                />
+              </li>
+              <li>
+                Get your device ready to join.
+                <VideoInstructions />
+              </li>
+            </ul>
+          </Prepare>
+        )}
+
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="Need to make changes?">
@@ -117,52 +158,6 @@ export default function VideoLayout({ data: appointment }) {
               facilityPhone={facilityPhone}
             />
           </Section>
-        )}
-      {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
-        isCanceledAppointment) && (
-        <Section heading="Scheduling facility">
-          {!!facility && (
-            <>
-              {facility.name}
-              <br />
-              <span>
-                {address.city}, <State state={address.state} />
-              </span>
-            </>
-          )}
-          <br />
-          {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
-          <br />
-          <ClinicOrFacilityPhone
-            clinicPhone={clinicPhone}
-            clinicPhoneExtension={clinicPhoneExtension}
-            facilityPhone={facilityPhone}
-          />
-        </Section>
-      )}
-      {featureMedReviewInstructions &&
-        !isPastAppointment &&
-        (APPOINTMENT_STATUS.booked === status ||
-          APPOINTMENT_STATUS.cancelled === status) && (
-          <Prepare>
-            <ul className="vads-u-margin-top--0">
-              <li>
-                Bring your insurance cards, a list of medications, and other
-                things to share with your provider
-                <br />
-                <a
-                  target="_self"
-                  href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
-                >
-                  Find out what to bring to your appointment
-                </a>
-              </li>
-              <li>
-                Get your device ready to join.
-                <VideoInstructions />
-              </li>
-            </ul>
-          </Prepare>
         )}
     </DetailPageLayout>
   );

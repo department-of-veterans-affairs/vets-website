@@ -41,9 +41,6 @@ export const App = ({
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
   showDgiDirectDeposit1990EZ,
-  showMebDgi40Features,
-  showMebDgi42Features,
-  showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
@@ -53,6 +50,7 @@ export const App = ({
   duplicateEmail,
   duplicatePhone,
   benefitEffectiveDate,
+  meb160630Automation,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -82,11 +80,39 @@ export const App = ({
         return;
       }
 
-      if (!fetchedPersonalInfo || !fetchedContactInfo) {
+      if (
+        (!fetchedPersonalInfo && !meb160630Automation) ||
+        (!fetchedContactInfo && !meb160630Automation)
+      ) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
-        getPersonalInfo(showMebEnhancements09);
-      } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
+        getPersonalInfo('Chapter33');
+      } else if (
+        !formData[formFields.claimantId] &&
+        claimantInfo?.claimantId &&
+        !meb160630Automation
+      ) {
+        setFormData({
+          ...formData,
+          ...claimantInfo,
+        });
+      }
+
+      if (
+        (!fetchedPersonalInfo &&
+          meb160630Automation &&
+          formData?.chosenBenefit) ||
+        (!fetchedContactInfo &&
+          (meb160630Automation && formData?.chosenBenefit))
+      ) {
+        setFetchedPersonalInfo(true);
+        setFetchedContactInfo(true);
+        getPersonalInfo(formData?.chosenBenefit);
+      } else if (
+        !formData[formFields.claimantId] &&
+        claimantInfo?.claimantId &&
+        meb160630Automation
+      ) {
         setFormData({
           ...formData,
           ...claimantInfo,
@@ -103,9 +129,7 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMeb1990EZMaintenanceAlert,
-      showMeb1990EZR6MaintenanceMessage,
-      showMebEnhancements09,
+      meb160630Automation,
     ],
   );
 
@@ -118,8 +142,11 @@ export const App = ({
       // the firstName check ensures that eligibility only gets called after we have obtained claimant info
       // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
       if (firstName && !fetchedEligibility) {
+        const chosenBenefit = meb160630Automation
+          ? formData?.chosenBenefit
+          : 'Chapter33';
         setFetchedEligibility(true);
-        getEligibility();
+        getEligibility(chosenBenefit);
       } else if (eligibility && !formData.eligibility) {
         setFormData({
           ...formData,
@@ -160,7 +187,6 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMebDgi40Features,
     ],
   );
 
@@ -172,8 +198,12 @@ export const App = ({
       // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
       // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
       if (mebExclusionPeriodEnabled && firstName && !fetchedExclusionPeriods) {
+        const chosenBenefit = meb160630Automation
+          ? formData?.chosenBenefit
+          : 'Chapter33';
+
         setFetchedExclusionPeriods(true);
-        getExclusionPeriods();
+        getExclusionPeriods(chosenBenefit);
       }
       if (exclusionPeriods && !formData.exclusionPeriods) {
         const updatedFormData = {
@@ -200,18 +230,6 @@ export const App = ({
 
   useEffect(
     () => {
-      if (showMebDgi40Features !== formData.showMebDgi40Features) {
-        setFormData({
-          ...formData,
-          showMebDgi40Features,
-        });
-      }
-      if (showMebDgi42Features !== formData.showMebDgi42Features) {
-        setFormData({
-          ...formData,
-          showMebDgi42Features,
-        });
-      }
       if (
         showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
       ) {
@@ -268,12 +286,6 @@ export const App = ({
         });
       }
 
-      if (showMebEnhancements !== formData.showMebEnhancements) {
-        setFormData({
-          ...formData,
-          showMebEnhancements,
-        });
-      }
       if (showMebEnhancements06 !== formData.showMebEnhancements06) {
         setFormData({
           ...formData,
@@ -297,6 +309,14 @@ export const App = ({
           mebAutoPopulateRelinquishmentDate,
         });
       }
+
+      if (meb160630Automation !== formData?.meb160630Automation) {
+        setFormData({
+          ...formData,
+          meb160630Automation,
+        });
+      }
+
       if (
         dgiRudisillHideBenefitsSelectionStep !==
         formData.dgiRudisillHideBenefitsSelectionStep
@@ -344,11 +364,8 @@ export const App = ({
       isLOA3,
       setFormData,
       showDgiDirectDeposit1990EZ,
-      showMebDgi40Features,
-      showMebDgi42Features,
       showMeb1990EZMaintenanceAlert,
       showMeb1990EZR6MaintenanceMessage,
-      showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
@@ -357,6 +374,7 @@ export const App = ({
       duplicateEmail,
       duplicatePhone,
       mebAutoPopulateRelinquishmentDate,
+      meb160630Automation,
     ],
   );
 
@@ -476,14 +494,12 @@ App.propTypes = {
   showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
-  showMebDgi40Features: PropTypes.bool,
-  showMebDgi42Features: PropTypes.bool,
-  showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
   showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
   mebAutoPopulateRelinquishmentDate: PropTypes.bool,
+  meb160630Automation: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

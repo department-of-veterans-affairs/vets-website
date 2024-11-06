@@ -1,11 +1,11 @@
-export const hasPrimaryCaregiver = formData => {
-  return formData['view:hasPrimaryCaregiver'] === true;
-};
+export const hasPrimaryCaregiver = formData =>
+  formData['view:hasPrimaryCaregiver'] === true;
 
 export const hasSecondaryCaregiverOne = formData =>
   formData['view:hasSecondaryCaregiverOne'] === true;
 
 export const hasSecondaryCaregiverTwo = formData =>
+  hasSecondaryCaregiverOne(formData) &&
   formData['view:hasSecondaryCaregiverTwo'] === true;
 
 export const hideCaregiverRequiredAlert = formData => {
@@ -18,9 +18,9 @@ export const hideCaregiverRequiredAlert = formData => {
 
 export const hideUploadWarningAlert = formData => {
   const { signAsRepresentativeDocumentUpload: upload } = formData;
-  const hasDocument = upload?.length;
+  const hasDocument = !!upload?.length;
 
-  if (!hasDocument) return false;
+  if (!hasDocument) return true;
 
   const { guid, name, errorMessage } = upload[0];
   return !(guid && name && !errorMessage);
@@ -86,4 +86,24 @@ export const secondaryTwoHasDifferentMailingAddress = formData => {
   const hasDifferentMailingAddress =
     formData['view:secondaryTwoHomeSameAsMailingAddress'] === false;
   return hasCaregiver && hasDifferentMailingAddress;
+};
+
+export const showFacilityConfirmation = formData => {
+  if (!formData['view:useFacilitiesAPI']) {
+    return false;
+  }
+
+  const plannedClinic = formData['view:plannedClinic'];
+  const hasPlannedClinic =
+    plannedClinic &&
+    typeof plannedClinic === 'object' &&
+    Object.keys(plannedClinic).length > 0;
+
+  if (!hasPlannedClinic) {
+    return false;
+  }
+
+  return (
+    plannedClinic?.veteranSelected?.id !== plannedClinic?.caregiverSupport?.id
+  );
 };

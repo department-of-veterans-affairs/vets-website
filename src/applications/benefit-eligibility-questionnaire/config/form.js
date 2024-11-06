@@ -3,8 +3,9 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
-import getHelp from '../../simple-forms/shared/components/GetFormHelp';
+import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
+import { submitHandler } from '../utils/helpers';
 
 import manifest from '../manifest.json';
 
@@ -15,31 +16,35 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
+import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
+import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
 import giBillStatus from '../pages/giBillStatus';
 import characterOfDischarge from '../pages/characterOfDischarge';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
-const isOnReviewPage = currentLocation => {
+export const isOnReviewPage = currentLocation => {
   return currentLocation?.pathname.includes('/review-and-submit');
 };
 
-const isOnConfirmationPage = currentLocation => {
+export const isOnConfirmationPage = currentLocation => {
   return currentLocation?.pathname.includes('/confirmation');
 };
 
-const formConfig = {
+export const formConfig = {
+  formOptions: {
+    fullWidth: true,
+  },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: submitHandler,
   trackingPrefix: 'benefit-eligibility-questionnaire-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Service;Separation;Discharge;Disability;GI Bill',
+  stepLabels: 'Goals;Service;Separation;Discharge;Disability;GI Bill;Review',
   formId: 'T-QSTNR',
   customText: {
     submitButtonText: 'Submit',
@@ -63,22 +68,14 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  title: ({ currentLocation }) => {
-    if (isOnConfirmationPage(currentLocation)) {
-      return 'Your benefits and resources';
-    }
-    if (isOnReviewPage(currentLocation)) {
-      return 'Review your entries';
-    }
-    return 'Complete the benefit eligibility questionnaire';
-  },
+  title: 'Discover your benefits',
   subTitle: ({ currentLocation }) => {
     if (
       isOnReviewPage(currentLocation) ||
       isOnConfirmationPage(currentLocation)
     )
       return '';
-    return 'Please answer the questions to help us recommend helpful resources and benefits.';
+    return `Please answer the questions to help us recommend\nhelpful resources and benefits.`;
   },
   defaultDefinitions: {
     fullName,
@@ -102,11 +99,37 @@ const formConfig = {
     chapter2: {
       title: 'Service',
       pages: {
+        militaryServiceTimeServed: {
+          path: 'service/time-served',
+          title: 'Military Service Time Served',
+          uiSchema: militaryServiceTimeServed.uiSchema,
+          schema: militaryServiceTimeServed.schema,
+        },
         militaryService: {
-          path: 'military-service',
+          path: 'service/current',
           title: 'Military Service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
+        },
+        militaryServiceCompleted: {
+          path: 'service/completed',
+          title: 'Military Service Completed',
+          uiSchema: militaryServiceCompleted.uiSchema,
+          schema: militaryServiceCompleted.schema,
+          depends: formData =>
+            formData.militaryServiceCurrentlyServing === true,
+          onNavForward: ({ formData, goPath }) => {
+            if (
+              formData.militaryServiceCurrentlyServing === true &&
+              formData.militaryServiceCompleted === false
+            ) {
+              goPath(
+                formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+              );
+            } else {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
       },
     },
@@ -125,7 +148,7 @@ const formConfig = {
       title: 'Character of Discharge',
       pages: {
         characterOfDischarge: {
-          path: 'character-of-discharge',
+          path: 'discharge',
           title: 'Character of Discharge',
           uiSchema: characterOfDischarge.uiSchema,
           schema: characterOfDischarge.schema,
@@ -136,7 +159,7 @@ const formConfig = {
       title: 'Disability',
       pages: {
         disabilityRating: {
-          path: 'disability-rating',
+          path: 'disability',
           title: 'Disability Rating',
           uiSchema: disabilityRating.uiSchema,
           schema: disabilityRating.schema,
@@ -147,7 +170,7 @@ const formConfig = {
       title: 'GI Bill Status',
       pages: {
         giBillStatus: {
-          path: 'gi-bill-status',
+          path: 'gi-bill',
           title: 'GI Bill Status',
           uiSchema: giBillStatus.uiSchema,
           schema: giBillStatus.schema,

@@ -4,6 +4,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsToVaGovRelease = true,
     mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
+    mhvMedicationsDisplayFilter = true,
 
     // medical records
     mhvTransitionalMedicalRecordsLandingPage = true,
@@ -17,6 +18,9 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplaySettingsPage = true,
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
+    mhvSecureMessagingEditContactList = true,
+    mhvSecureMessagingTriageGroupPlainLanguage = false,
+    mhvAcceleratedDeliveryAllergiesEnabled = false,
   } = toggles;
 
   return {
@@ -26,6 +30,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv-mock-session',
           value: true,
+        },
+        {
+          name: 'mhv_accelerated_delivery_allergies_enabled',
+          value: mhvAcceleratedDeliveryAllergiesEnabled,
         },
         {
           name: 'mhv_landing_page_personalization',
@@ -43,8 +51,20 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medications_display_documentation_content',
           value: mhvMedicationsDisplayDocumentationContent,
         },
+        {
+          name: 'mhv_medications_display_filter',
+          value: mhvMedicationsDisplayFilter,
+        },
 
         // medical records
+        {
+          name: 'mhv_integration_medical_records_to_phase_1',
+          value: true,
+        },
+        {
+          name: 'mhv_medical_records_kill_external_links',
+          value: true,
+        },
         {
           name: 'mhv_transitional_medical_records_landing_page',
           value: mhvTransitionalMedicalRecordsLandingPage,
@@ -88,6 +108,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_to_va_gov_release',
           value: mhvMedicalRecordsToVaGovRelease,
+        },
+        {
+          name: 'mhv_secure_messaging_edit_contact_list',
+          value: mhvSecureMessagingEditContactList,
+        },
+        {
+          name: 'mhv_secure_messaging_triage_group_plain_language',
+          value: mhvSecureMessagingTriageGroupPlainLanguage,
         },
       ],
     },

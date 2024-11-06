@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { adjustYearString } from '../../shared/utilities';
+import { adjustYearString, concatStreets } from '../../shared/utilities';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
@@ -42,17 +42,11 @@ export default function transformForSubmit(formConfig, form) {
   // ---
 
   // Combine all three street strings into one
-  copyOfData.applicantAddress.streetCombined = `${
-    copyOfData.applicantAddress.street
-  } ${copyOfData.applicantAddress.street2 ?? ''} ${copyOfData.applicantAddress
-    .street3 ?? ''}`;
+  copyOfData.applicantAddress = concatStreets(copyOfData.applicantAddress);
 
   if (copyOfData.certifierAddress) {
     // Combine streets for 3rd party certifier
-    copyOfData.certifierAddress.streetCombined = `${
-      copyOfData.certifierAddress.street
-    } ${copyOfData.certifierAddress.street2 ?? ''} ${copyOfData.certifierAddress
-      .street3 ?? ''}`;
+    copyOfData.certifierAddress = concatStreets(copyOfData.certifierAddress);
   }
 
   // Date of signature
@@ -63,9 +57,28 @@ export default function transformForSubmit(formConfig, form) {
     copyOfData.medicalUpload,
     copyOfData.primaryEob,
     copyOfData.secondaryEob,
+    copyOfData.pharmacyUpload,
   ]
     .flat(Infinity) // Flatten nested lists of files
     .filter(el => el); // drop any nulls
+
+  /*
+  In order to enable multi-claim backend (see https://github.com/department-of-veterans-affairs/vets-api/pull/18173)
+  create a `claims` array with one entry. When we move to the list-loop
+  claims collection, this will be produced by the "claims" array builder.
+  For now, this is here so that the backend changes may be merged in without 
+  breaking the existing single-claim flow.
+
+  TODO: Remove this claims array when we switch to list loop for claims on frontend
+  */
+  copyOfData.claims = [
+    {
+      claimIsAutoRelated: copyOfData.claimIsAutoRelated,
+      claimIsWorkRelated: copyOfData.claimIsWorkRelated,
+      claimType: copyOfData.claimType,
+      claimId: 0, // Always zero - we only support one claim currently
+    },
+  ];
 
   copyOfData.fileNumber = copyOfData.applicantMemberNumber;
 

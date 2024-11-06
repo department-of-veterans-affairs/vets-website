@@ -32,15 +32,15 @@ const PrepareContent = props => {
         >
           {t('prepare-for-your-appointment', { count: appointmentCount })}
         </h2>
-        <p>{t('bring-insurance-cards-list-medications-other')}</p>
+        <p>{t('bring-insurance-cards-and-list-medications-other')}</p>
         <p className="vads-u-margin-bottom--2">
           <a
             href={`${router.location.basename}/what-to-bring/`}
             hrefLang="en"
             onClick={onPrepareClick}
-            data-testId="what-to-bring-link"
+            data-testid="what-to-bring-link"
           >
-            {t('find-out-what-to-bring')}
+            {t('find-a-full-list-of-things-to-bring')}
           </a>
         </p>
         <HowToLink />

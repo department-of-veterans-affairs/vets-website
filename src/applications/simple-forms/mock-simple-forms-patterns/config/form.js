@@ -25,6 +25,8 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+import mockData from '../tests/e2e/fixtures/data/default.json';
+import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
 // import arrayAddresses from '../pages/mockArrayAddresses';
 
 import {
@@ -36,15 +38,13 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
-import NewConfirmationPage from '../containers/ConfirmationPage.new';
 
-const chapterSelectInitialData = {
+const initialData = {
   chapterSelect: {
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
     arraySinglePage: true,
     checkbox: true,
-    confirmationPageNew: false,
     date: true,
     formsPattern: true,
     miscellaneous: true,
@@ -55,8 +55,18 @@ const chapterSelectInitialData = {
   },
 };
 
+// Prefill entire form with data:
+// Helpful for testing confirmation page
+if (
+  (environment.isLocalhost() || environment.isDev()) &&
+  !environment.isTest()
+) {
+  Object.assign(initialData, mockData.data);
+  Object.assign(initialData, mockArrayBuilderData.data);
+}
+
 function includeChapter(page) {
-  return formData => formData?.chapterSelect[page];
+  return formData => formData?.chapterSelect?.[page];
 }
 
 /** @type {FormConfig} */
@@ -91,7 +101,7 @@ const formConfig = {
           title: 'Chapter Select',
           path: 'chapter-select',
           ...chapterSelect,
-          initialData: chapterSelectInitialData,
+          initialData,
         },
       },
     },
@@ -351,20 +361,6 @@ const formConfig = {
             depends: includeChapter('arrayMultiPageBuilder'),
           }),
         })),
-      },
-    },
-    staticPages: {
-      title: 'Static Pages',
-      pages: {
-        confirmationPageNew: {
-          path: 'confirmation-page-new',
-          title: 'New Confirmation Page',
-          CustomPage: NewConfirmationPage,
-          uiSchema: mockCustomPage.uiSchema,
-          schema: mockCustomPage.schema,
-          pageKey: 'confirmation-page-new',
-          depends: () => false,
-        },
       },
     },
   },

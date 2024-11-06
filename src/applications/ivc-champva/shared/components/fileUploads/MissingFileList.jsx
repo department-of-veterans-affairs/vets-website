@@ -9,11 +9,15 @@ import { makeHumanReadable } from '../../utilities';
  * @param {object} file Object representing a missing file
  * @param {string} entryName String of a person's name
  * @param {number} index entry index number (used to target list-loop element)
- * @param {object} fileNameDict (optional) Mapping of file names to arbitrary display text
+ * @param {object} fileNameMap (optional) Mapping of file names to arbitrary display text
  * @returns JSX
  */
-function alertOrLink(file, entryName, index, fileNameDict = {}) {
-  const fn = fileNameDict?.[file.name] ?? makeHumanReadable(file.name);
+function alertOrLink(file, entryName, index, fileNameMap = {}) {
+  // The fileNameMapvalue may be an object if the particular file in
+  // question has a nested `name` (see 10-10D constants.js file for example)
+  let fn = fileNameMap?.[file.name] ?? makeHumanReadable(file.name);
+  fn = typeof fn !== 'string' && fn.name ? fn.name : fn;
+
   const t = `Upload ${entryName}’s ${fn} now`;
   const href = file?.path
     ? `${file?.path.replace(/:index/, index)}?fileReview=true`
@@ -35,6 +39,66 @@ function alertOrLink(file, entryName, index, fileNameDict = {}) {
   );
 }
 
+// This function produces a single <li> tag that dynamically contains either
+// a link to upload a file, or the text of the file name + additional markup.
+function buildListItems({
+  fileNameMap,
+  file,
+  subset,
+  disableLinks,
+  showFileBullets,
+  entryName,
+  innerIndex,
+  outerIndex,
+  listItemShowNamePrefix,
+}) {
+  const fn = fileNameMap?.[file.name] ?? makeHumanReadable(file.name);
+  const fnStr = typeof fn !== 'string' && fn.name ? fn.name : fn;
+  /*
+    If links are enabled, we show a link to return into the form and upload
+    the missing file. otherwise, we conditionally show the user's name along with
+    the name of the missing file.
+
+    If we have one, we can display an external link to any arbitrary resource that
+    relates to the missing file in question. Usually will be a link to
+    download the PDF. See `REQUIRED_FILES` property in the form-specific 
+    constants.js file to set links
+   */
+  return file.required === subset &&
+    (disableLinks ? file.uploaded === false : true) ? (
+    <li
+      key={file.name + file.uploaded + innerIndex}
+      className="vads-u-margin-y--1"
+    >
+      {!disableLinks ? (
+        <>
+          {showFileBullets ? fnStr : null}
+          <br />
+          {alertOrLink(file, entryName, outerIndex, fileNameMap)}
+        </>
+      ) : (
+        <>
+          {listItemShowNamePrefix ? `${entryName}’s` : ''} {fnStr}
+          {fn?.href !== undefined &&
+            fn?.linkText !== undefined && (
+              <>
+                <br />
+                <a
+                  className="vads-u-margin-left--3"
+                  href={fn.href}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {fn.linkText}
+                </a>
+              </>
+            )}
+        </>
+      )}
+    </li>
+  ) : null;
+}
+
 /**
  * Produce an unordered list JSX component with a list of all missing files
  * a user needs to upload.
@@ -48,6 +112,7 @@ function alertOrLink(file, entryName, index, fileNameDict = {}) {
  * @param {object} param0.filenameMap: (optional) all file names mapped to user-friendly labels
  * @param {boolean} param0.showNameHeader - whether or not to show the person's name above their grouping of missing files
  * @param {boolean} param0.showFileBullets - whether or not to show the file type in a separate <li> above the clickable link (only works when `param0.disableLinks===false`)
+ * @param {boolean} param0.listItemShowNamePrefix - whether or not to prefix <li> with person's name (e.g., "Johnny's Social Security Card" vs "Social Security Card")
  * @returns JSX
  */
 export default function MissingFileList({
@@ -60,6 +125,7 @@ export default function MissingFileList({
   fileNameMap,
   showNameHeader,
   showFileBullets,
+  listItemShowNamePrefix,
 }) {
   // data: an array or a single object, must have 'missingUploads' on it
   const wrapped = Array.isArray(data) ? data : [data];
@@ -75,18 +141,16 @@ export default function MissingFileList({
   return (
     <div>
       <h3 className="vads-u-font-size--h4">{title || ''}</h3>
-      <p>
-        <strong>{description || ''}</strong>
-      </p>
-      {wrapped.map((entry, idx) => {
+      <p>{description || ''}</p>
+      {wrapped.map((entry, outerIndex) => {
         if (
           entry?.missingUploads.filter(f => f.required === subset).length === 0
         )
           return <></>;
-        const entryName = `${entry[nameKey].first || ''}`;
+        const entryName = `${entry[nameKey]?.first ?? ''}`;
         return (
           <div key={`${entryName}-${subset}`}>
-            {showNameHeader ? <strong>{entryName}</strong> : null}
+            {showNameHeader ? <h3>{entryName}</h3> : null}
             <ul
               style={
                 !disableLinks && !showFileBullets
@@ -94,27 +158,21 @@ export default function MissingFileList({
                   : { listStylePosition: 'inside' }
               }
             >
-              {entry.missingUploads?.map((file, index) => {
-                const fn =
-                  fileNameMap?.[file.name] ?? makeHumanReadable(file.name);
-                return file.required === subset &&
-                  (disableLinks ? file.uploaded === false : true) ? (
-                  <li
-                    key={file.name + file.uploaded + index}
-                    className="vads-u-margin-y--1"
-                  >
-                    {!disableLinks ? (
-                      <>
-                        {showFileBullets ? fn : null}
-                        <br />
-                        {alertOrLink(file, entryName, idx, fileNameMap)}
-                      </>
-                    ) : (
-                      `${entryName}’s ${fn}`
-                    )}
-                  </li>
-                ) : null;
-              })}
+              {entry.missingUploads?.map((file, innerIndex) =>
+                // some prop-drilling happening here, but that's to
+                // keep this function slightly higher-level.
+                buildListItems({
+                  fileNameMap,
+                  file,
+                  subset,
+                  disableLinks,
+                  showFileBullets,
+                  entryName,
+                  innerIndex,
+                  outerIndex,
+                  listItemShowNamePrefix,
+                }),
+              )}
             </ul>
           </div>
         );
@@ -128,6 +186,7 @@ MissingFileList.propTypes = {
   description: PropTypes.string,
   disableLinks: PropTypes.bool,
   fileNameMap: PropTypes.any,
+  listItemShowNamePrefix: PropTypes.bool,
   nameKey: PropTypes.string,
   showFileBullets: PropTypes.bool,
   showNameHeader: PropTypes.bool,

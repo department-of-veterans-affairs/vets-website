@@ -12,6 +12,8 @@ import unassociatedIncomes from './chapters/03-unassociated-incomes';
 import associatedIncomes from './chapters/04-associated-incomes';
 import ownedAssets from './chapters/05-owned-assets';
 import royaltiesAndOtherProperties from './chapters/06-royalties-and-other-properties';
+import assetTransfers from './chapters/07-asset-transfers';
+import annuities from './chapters/09-annuities';
 
 // const { } = fullSchema.properties;
 
@@ -36,6 +38,9 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: false,
+  dev: {
+    disableWindowUnloadInCI: true,
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -58,6 +63,8 @@ const formConfig = {
     associatedIncomes,
     ownedAssets,
     royaltiesAndOtherProperties,
+    assetTransfers,
+    annuities,
   },
 };
 

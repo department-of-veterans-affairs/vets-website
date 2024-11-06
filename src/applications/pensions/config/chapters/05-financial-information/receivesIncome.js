@@ -3,6 +3,7 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import { showMultiplePageResponse } from '../../../helpers';
 
 const { receivesIncome } = fullSchemaPensions.properties;
 
@@ -10,6 +11,7 @@ const { receivesIncome } = fullSchemaPensions.properties;
 export default {
   title: 'Receives income',
   path: 'financial/receives-income',
+  depends: () => !showMultiplePageResponse(),
   uiSchema: {
     ...titleUI('Gross monthly income'),
     receivesIncome: yesNoUI({

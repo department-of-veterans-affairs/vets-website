@@ -91,17 +91,22 @@ export const VaContent = ({
       <Header5>{content.vaTitle}</Header5>
       <ul className="evidence-summary remove-bullets">
         {list.map((location, index) => {
-          const { locationAndName, issues = [], evidenceDates = {} } =
-            location || {};
+          const {
+            locationAndName,
+            issues = [],
+            noDate,
+            /* evidenceDates = {}, */
+          } = location || {};
           const path = `/${EVIDENCE_VA_PATH}?index=${index}`;
-          const fromDate = formatDate(evidenceDates.from);
-          const toDate = formatDate(evidenceDates.to);
+          // const fromDate = formatDate(evidenceDates.from);
+          // const toDate = formatDate(evidenceDates.to);
+          const treatmentDate = formatDate(`${location.treatmentDate}-01`);
           const errors = {
             name: locationAndName ? '' : content.missing.location,
             issues: issues.length ? '' : content.missing.condition,
-            from: fromDate ? '' : content.missing.from,
-            to: toDate ? '' : content.missing.to,
-            dates: !fromDate && !toDate ? content.missing.dates : '',
+            // from: fromDate ? '' : content.missing.from,
+            // to: toDate ? '' : content.missing.to,
+            // dates: !fromDate && !toDate ? content.missing.dates : '',
           };
           const hasErrors = Object.values(errors).join('');
 
@@ -122,14 +127,16 @@ export const VaContent = ({
                 >
                   {errors.issues || readableList(issues)}
                 </div>
-                {errors.dates || (
+                {treatmentDate && !noDate && <div>{treatmentDate}</div>}
+                {noDate && <div>{content.noDate}</div>}
+                {/* {errors.dates || (
                   <div
                     className="dd-privacy-hidden"
                     data-dd-action-name="VA location date range"
                   >
                     {errors.from || fromDate} – {errors.to || toDate}
                   </div>
-                )}
+                )} */}
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
                     <Link

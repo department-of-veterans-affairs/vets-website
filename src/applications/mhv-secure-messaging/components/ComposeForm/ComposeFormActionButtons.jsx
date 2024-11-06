@@ -28,9 +28,9 @@ const ComposeFormActionButtons = ({
           text={`Send${draftSequence ? ` draft ${draftSequence}` : ''}`}
           id={`send-button${draftSequence ? `-${draftSequence}` : ''}`}
           class={`
-            small-screen:vads-u-flex--1
-            small-screen:vads-u-margin-bottom--0
-            small-screen:vads-u-margin-right--1
+            mobile-lg:vads-u-flex--1
+            mobile-lg:vads-u-margin-bottom--0
+            mobile-lg:vads-u-margin-right--1
             vads-u-margin-bottom--2
             vads-u-margin-right--0
             vads-u-margin-top--0
@@ -54,9 +54,9 @@ const ComposeFormActionButtons = ({
             vads-u-margin-top--0
             vads-u-padding-x--0p5
             vads-u-width--full
-            xsmall-screen:vads-u-flex--1
-            xsmall-screen:vads-u-margin-bottom--0
-            xsmall-screen:vads-u-margin-right--1
+            mobile:vads-u-flex--1
+            mobile:vads-u-margin-bottom--0
+            mobile:vads-u-margin-right--1
           `}
           data-testid={`save-draft-button${
             draftSequence ? `-${draftSequence}` : ''

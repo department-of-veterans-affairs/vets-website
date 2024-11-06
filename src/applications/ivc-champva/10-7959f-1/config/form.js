@@ -1,4 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { cloneDeep } from 'lodash';
 
 import {
@@ -54,6 +55,9 @@ const formConfig = {
     reviewPageTitle: 'Review and sign',
     submitButtonText: 'Submit',
   },
+  downtime: {
+    dependencies: [externalServices.pega, externalServices.form107959f1],
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -92,15 +96,11 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
-            ...titleUI(
-              'Name and date of birth',
-              'We use this information to verify other details.',
-            ),
-            messageAriaDescribedby:
-              'We use this information to verify other details.',
+            ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
-            veteranDateOfBirth: dateOfBirthUI({ required: true }),
+            veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
           },
+          messageAriaDescribedby: 'Name and date of birth',
           schema: {
             type: 'object',
             required: ['veteranFullName', 'veteranDateOfBirth'],
@@ -175,9 +175,9 @@ const formConfig = {
       pages: {
         page4: {
           path: 'same-as-mailing-address',
-          title: 'Home address ',
+          title: 'Home address status ',
           uiSchema: {
-            ...titleUI('Home address'),
+            ...titleUI('Home address status'),
             sameMailingAddress: yesNoUI({
               title: 'Is your home address the same as your mailing address?',
               labels: {
@@ -200,12 +200,7 @@ const formConfig = {
           title: 'Home address ',
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
-            ...titleUI(
-              `Home address`,
-              `This is your current location, outside the United States.`,
-            ),
-            messageAriaDescribedby:
-              'This is your current location, outside the United States.',
+            ...titleUI(`Home address`),
             physicalAddress: {
               ...addressUI({
                 required: {
@@ -243,7 +238,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['veteranPhoneNumber'],
+            required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
               veteranPhoneNumber: internationalPhoneSchema,

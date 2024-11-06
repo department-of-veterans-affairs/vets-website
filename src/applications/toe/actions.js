@@ -1,6 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
+import { toSnakeCase } from './helpers';
+
 export const CLAIMANT_INFO_ENDPOINT = `${
   environment.API_URL
 }/meb_api/v0/forms_claimant_info`;
@@ -40,6 +42,25 @@ export const DIRECT_DEPOSIT_ENDPOINT = `${
 export const LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT = `${
   environment.API_URL
 }/v0/profile/direct_deposits`;
+
+export const DUPLICATE_CONTACT_INFO_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/duplicate_contact_info`;
+export const FETCH_DUPLICATE_CONTACT = 'FETCH_DUPLICATE_CONTACT';
+export const FETCH_DUPLICATE_CONTACT_INFO_SUCCESS =
+  'FETCH_DUPLICATE_CONTACT_INFO_SUCCESS';
+export const FETCH_DUPLICATE_CONTACT_INFO_FAILURE =
+  'FETCH_DUPLICATE_CONTACT_INFO_FAILURE';
+export const ACKNOWLEDGE_DUPLICATE = 'ACKNOWLEDGE_DUPLICATE';
+const CONFIRMATION_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/forms_send_confirmation_email`;
+export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
+export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
+export const SEND_CONFIRMATION_FAILURE = 'SEND_CONFIRMATION_FAILURE';
+export const TOGGLE_MODAL = 'TOGGLE_MODAL';
+export const UPDATE_GLOBAL_EMAIL = 'UPDATE_GLOBAL_EMAIL';
+export const UPDATE_GLOBAL_PHONE_NUMBER = 'UPDATE_GLOBAL_PHONE_NUMBER';
 
 const FIVE_SECONDS = 5000;
 const ONE_MINUTE_IN_THE_FUTURE = () => {
@@ -137,9 +158,9 @@ function getNowDate() {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
-export function fetchClaimStatus() {
+export function fetchClaimStatus(selectedChapter) {
   return async dispatch => {
-    dispatch({ type: FETCH_CLAIM_STATUS });
+    dispatch({ type: `${CLAIM_STATUS_ENDPOINT}?type=${selectedChapter}` });
     const timeoutResponse = {
       attributes: {
         claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
@@ -161,5 +182,83 @@ export function fetchClaimStatus() {
       successDispatchType: FETCH_CLAIM_STATUS_SUCCESS,
       failureDispatchType: FETCH_CLAIM_STATUS_FAILURE,
     });
+  };
+}
+
+export function fetchDuplicateContactInfo(email, phoneNumber) {
+  return async dispatch => {
+    dispatch({ type: FETCH_DUPLICATE_CONTACT });
+    return apiRequest(DUPLICATE_CONTACT_INFO_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify({
+        emails: email,
+        phones: phoneNumber,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response =>
+        dispatch({
+          type: FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: FETCH_DUPLICATE_CONTACT_INFO_FAILURE,
+          errors,
+        }),
+      );
+  };
+}
+
+export function sendConfirmation(params) {
+  return async dispatch => {
+    dispatch({ type: SEND_CONFIRMATION });
+    const snakeCaseParams = toSnakeCase(params);
+    return apiRequest(CONFIRMATION_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify(snakeCaseParams),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response =>
+        dispatch({
+          type: SEND_CONFIRMATION_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: SEND_CONFIRMATION_FAILURE,
+          errors,
+        }),
+      );
+  };
+}
+
+export function updateGlobalEmail(email) {
+  return {
+    type: UPDATE_GLOBAL_EMAIL,
+    email,
+  };
+}
+
+export function updateGlobalPhoneNumber(mobilePhone) {
+  return {
+    type: UPDATE_GLOBAL_PHONE_NUMBER,
+    mobilePhone,
+  };
+}
+
+export function acknowledgeDuplicate(contactInfo) {
+  return {
+    type: ACKNOWLEDGE_DUPLICATE,
+    contactInfo,
+  };
+}
+
+export function toggleModal(toggle) {
+  return {
+    type: TOGGLE_MODAL,
+    toggle,
   };
 }

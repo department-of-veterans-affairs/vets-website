@@ -1,17 +1,26 @@
 import { expect } from 'chai';
-
 import {
   isLoggedOut,
   hasLowDisabilityRating,
   hasHighCompensation,
+  hasLowCompensation,
   hasNoCompensation,
   notShortFormEligible,
+  includeRegOnlyAuthQuestions,
+  includeRegOnlyGuestQuestions,
+  showRegOnlyAuthConfirmation,
+  showRegOnlyGuestConfirmation,
   dischargePapersRequired,
   isMissingVeteranDob,
   isSigiEnabled,
   hasDifferentHomeAddress,
   includeTeraInformation,
+  includeRadiationCleanUpEfforts,
+  includeGulfWarService,
   includeGulfWarServiceDates,
+  includePostSept11Service,
+  includePostSept11ServiceDates,
+  includeAgentOrangeExposure,
   includeOtherExposureDates,
   includeOtherExposureDetails,
   showFinancialConfirmation,
@@ -21,13 +30,13 @@ import {
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   collectMedicareInformation,
-  useLighthouseFacilityList,
-  useJsonFacilityList,
+  insuranceTextOverrides,
 } from '../../../../utils/helpers/form-config';
 import {
   DEPENDENT_VIEW_FIELDS,
   HIGH_DISABILITY_MINIMUM,
 } from '../../../../utils/constants';
+import content from '../../../../locales/en/content.json';
 
 describe('hca form config helpers', () => {
   context('when `isLoggedOut` executes', () => {
@@ -78,6 +87,22 @@ describe('hca form config helpers', () => {
     });
   });
 
+  context('when `hasLowCompensation` executes', () => {
+    const getData = ({ type = 'none' }) => ({
+      vaCompensationType: type,
+    });
+
+    it('should return `false` when compensation type is not `lowDisability`', () => {
+      const formData = getData({});
+      expect(hasLowCompensation(formData)).to.be.false;
+    });
+
+    it('should return `true` when compensation type is `lowDisability`', () => {
+      const formData = getData({ type: 'lowDisability' });
+      expect(hasLowCompensation(formData)).to.be.true;
+    });
+  });
+
   context('when `hasNoCompensation` executes', () => {
     const getData = ({ type = 'highDisability' }) => ({
       vaCompensationType: type,
@@ -121,8 +146,14 @@ describe('hca form config helpers', () => {
   });
 
   context('when `dischargePapersRequired` executes', () => {
-    const getData = ({ inMvi = true, disabilityRating = 0 }) => ({
-      'view:totalDisabilityRating': disabilityRating,
+    const getData = ({
+      inMvi = true,
+      loggedIn = false,
+      compensation = 'none',
+    }) => ({
+      vaCompensationType: compensation,
+      'view:totalDisabilityRating': 0,
+      'view:isLoggedIn': loggedIn,
       'view:isUserInMvi': inMvi,
     });
 
@@ -137,21 +168,38 @@ describe('hca form config helpers', () => {
     });
 
     it('should return `false` when user is short form eligible', () => {
-      const formData = getData({ disabilityRating: 80 });
+      const formData = getData({ compensation: 'highDisability' });
+      expect(dischargePapersRequired(formData)).to.be.false;
+    });
+
+    it('should return `false` when user is authenticated', () => {
+      const formData = getData({ loggedIn: true });
       expect(dischargePapersRequired(formData)).to.be.false;
     });
   });
 
   context('when `isMissingVeteranDob` executes', () => {
-    it('should return `true` when viewfield is `null`', () => {
-      const formData = { 'view:isLoggedIn': true, 'view:userDob': null };
+    it('should return `true` when veteran information is not populated', () => {
+      const formData = {
+        'view:isLoggedIn': true,
+      };
       expect(isMissingVeteranDob(formData)).to.be.true;
     });
 
-    it('should return `false` when viewfield is populated', () => {
+    it('should return `true` when date of birth value is `null`', () => {
       const formData = {
         'view:isLoggedIn': true,
-        'view:userDob': '1990-01-01',
+        'view:veteranInformation': { veteranDateOfBirth: null },
+      };
+      expect(isMissingVeteranDob(formData)).to.be.true;
+    });
+
+    it('should return `false` when date of birth value is populated', () => {
+      const formData = {
+        'view:isLoggedIn': true,
+        'view:veteranInformation': {
+          veteranDateOfBirth: '1990-01-01',
+        },
       };
       expect(isMissingVeteranDob(formData)).to.be.false;
     });
@@ -181,6 +229,138 @@ describe('hca form config helpers', () => {
     });
   });
 
+  context('when `includeRegOnlyAuthQuestions` executes', () => {
+    const getData = ({
+      enabled = true,
+      loggedIn = true,
+      totalRating = 30,
+    }) => ({
+      'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
+      'view:totalDisabilityRating': totalRating,
+    });
+
+    it('should return `true` when all data values are correct', () => {
+      const formData = getData({});
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.true;
+    });
+
+    it('should return `false` when user is logged out', () => {
+      const formData = getData({ loggedIn: false });
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.false;
+    });
+
+    it('should return `false` when feature toggle is disabled', () => {
+      const formData = getData({ enabled: false });
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.false;
+    });
+
+    it('should return `false` when user has no disability rating', () => {
+      const formData = getData({ totalRating: 0 });
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.false;
+    });
+  });
+
+  context('when `includeRegOnlyGuestQuestions` executes', () => {
+    const getData = ({
+      enabled = true,
+      loggedIn = false,
+      compensationType = 'lowDisability',
+    }) => ({
+      'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
+      vaCompensationType: compensationType,
+    });
+
+    it('should return `true` when all data values are correct', () => {
+      const formData = getData({});
+      expect(includeRegOnlyGuestQuestions(formData)).to.be.true;
+    });
+
+    it('should return `false` when user is logged in', () => {
+      const formData = getData({ loggedIn: true });
+      expect(includeRegOnlyGuestQuestions(formData)).to.be.false;
+    });
+
+    it('should return `false` when feature toggle is disabled', () => {
+      const formData = getData({ enabled: false });
+      expect(includeRegOnlyGuestQuestions(formData)).to.be.false;
+    });
+
+    it('should return `false` when user does not have a `lowDisability` rating', () => {
+      const formData = getData({ compensationType: 'none' });
+      expect(includeRegOnlyGuestQuestions(formData)).to.be.false;
+    });
+  });
+
+  context('when `showRegOnlyAuthConfirmation` executes', () => {
+    const getData = ({
+      enabled = true,
+      loggedIn = true,
+      totalRating = 30,
+      selectedPackage = 'regOnly',
+    }) => ({
+      'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
+      'view:vaBenefitsPackage': selectedPackage,
+      'view:totalDisabilityRating': totalRating,
+    });
+
+    it('should return `true` when all data values are correct', () => {
+      const formData = getData({});
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.true;
+    });
+
+    it('should return `false` when user is logged out', () => {
+      const formData = getData({ loggedIn: false });
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when user skips the question', () => {
+      const formData = getData({ selectedPackage: '' });
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when selects a non-`regOnly` value', () => {
+      const formData = getData({ selectedPackage: 'fullPackage' });
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.false;
+    });
+  });
+
+  context('when `showRegOnlyGuestConfirmation` executes', () => {
+    const getData = ({
+      enabled = true,
+      loggedIn = false,
+      selectedPackage = 'regOnly',
+      compensationType = 'lowDisability',
+    }) => ({
+      'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
+      'view:vaBenefitsPackage': selectedPackage,
+      vaCompensationType: compensationType,
+    });
+
+    it('should return `true` when all data values are correct', () => {
+      const formData = getData({});
+      expect(showRegOnlyGuestConfirmation(formData)).to.be.true;
+    });
+
+    it('should return `false` when user is logged in', () => {
+      const formData = getData({ loggedIn: true });
+      expect(showRegOnlyGuestConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when user skips the question', () => {
+      const formData = getData({ selectedPackage: '' });
+      expect(showRegOnlyGuestConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when selects a non-`regOnly` value', () => {
+      const formData = getData({ selectedPackage: 'fullPackage' });
+      expect(showRegOnlyGuestConfirmation(formData)).to.be.false;
+    });
+  });
+
   context('when `includeTeraInformation` executes', () => {
     const getData = ({ response = null }) => ({
       'view:totalDisabilityRating': 0,
@@ -198,10 +378,86 @@ describe('hca form config helpers', () => {
     });
   });
 
+  context('when `includeRadiationCleanUpEfforts` executes', () => {
+    const getData = ({
+      veteranDateOfBirth = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
+      hasTeraResponse: included,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
+      const formData = getData({ included: true, enabled: false });
+      expect(includeRadiationCleanUpEfforts(formData)).to.be.true;
+    });
+
+    it('should return `true` when Veteran birthdate is before `Jan 1, 1966`', () => {
+      const formData = getData({ veteranDateOfBirth: '1960-01-01' });
+      expect(includeRadiationCleanUpEfforts(formData)).to.be.true;
+    });
+
+    it('should return `false` when Veteran birthdate is after `Dec 31, 1965`', () => {
+      const formData = getData({ veteranDateOfBirth: '1990-01-01' });
+      expect(includeRadiationCleanUpEfforts(formData)).to.be.false;
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includeRadiationCleanUpEfforts(formData)).to.be.false;
+    });
+  });
+
+  context('when `includeGulfWarService` executes', () => {
+    const getData = ({
+      veteranDateOfBirth = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
+      hasTeraResponse: included,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
+      const formData = getData({ included: true, enabled: false });
+      expect(includeGulfWarService(formData)).to.be.true;
+    });
+
+    it('should return `true` when Veteran birthdate is before `Feb 29, 1976`', () => {
+      const formData = getData({ veteranDateOfBirth: '1960-01-01' });
+      expect(includeGulfWarService(formData)).to.be.true;
+    });
+
+    it('should return `false` when Veteran birthdate is after `Feb 28, 1976`', () => {
+      const formData = getData({ veteranDateOfBirth: '1990-01-01' });
+      expect(includeGulfWarService(formData)).to.be.false;
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includeGulfWarService(formData)).to.be.false;
+    });
+  });
+
   context('when `includeGulfWarServiceDates` executes', () => {
-    const getData = ({ response = null, included = true }) => ({
+    const getData = ({
+      veteranDateOfBirth = '1960-01-01',
+      response = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
       hasTeraResponse: included,
       gulfWarService: response,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
+      const formData = getData({ included: true, enabled: false });
+      expect(includeGulfWarService(formData)).to.be.true;
     });
 
     it('should return `true` when response is `true`', () => {
@@ -214,9 +470,112 @@ describe('hca form config helpers', () => {
       expect(includeGulfWarServiceDates(formData)).to.be.false;
     });
 
+    it('should return `false` when Veteran birthdate is after `Feb 28, 1976`', () => {
+      const formData = getData({ veteranDateOfBirth: '1990-01-01' });
+      expect(includeGulfWarServiceDates(formData)).to.be.false;
+    });
+
     it('should return `false` when TERA response is `false`', () => {
       const formData = getData({ included: false });
       expect(includeGulfWarServiceDates(formData)).to.be.false;
+    });
+  });
+
+  context('when `includePostSept11Service` executes', () => {
+    const getData = ({
+      veteranDateOfBirth = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
+      hasTeraResponse: included,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when Veteran birthdate is after `Feb 28, 1976`', () => {
+      const formData = getData({ veteranDateOfBirth: '2005-01-01' });
+      expect(includePostSept11Service(formData)).to.be.true;
+    });
+
+    it('should return `false` when Veteran birthdate is before `Feb 29, 1976`', () => {
+      const formData = getData({ veteranDateOfBirth: '1960-01-01' });
+      expect(includePostSept11Service(formData)).to.be.false;
+    });
+
+    it('should return `false` when feature flag is disabled', () => {
+      const formData = getData({ enabled: false });
+      expect(includePostSept11Service(formData)).to.be.false;
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includePostSept11Service(formData)).to.be.false;
+    });
+  });
+
+  context('when `includePostSept11ServiceDates` executes', () => {
+    const getData = ({
+      veteranDateOfBirth = '2005-01-01',
+      response = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
+      hasTeraResponse: included,
+      gulfWarService: response,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when response is `true`', () => {
+      const formData = getData({ response: true });
+      expect(includePostSept11ServiceDates(formData)).to.be.true;
+    });
+
+    it('should return `false` when response is `false`', () => {
+      const formData = getData({ response: false });
+      expect(includePostSept11ServiceDates(formData)).to.be.false;
+    });
+
+    it('should return `false` when Veteran birthdate is before `Feb 29, 1976`', () => {
+      const formData = getData({ veteranDateOfBirth: '1960-01-01' });
+      expect(includePostSept11ServiceDates(formData)).to.be.false;
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includePostSept11ServiceDates(formData)).to.be.false;
+    });
+  });
+
+  context('when `includeAgentOrangeExposure` executes', () => {
+    const getData = ({
+      veteranDateOfBirth = null,
+      included = true,
+      enabled = true,
+    }) => ({
+      'view:isTeraBranchingEnabled': enabled,
+      hasTeraResponse: included,
+      veteranDateOfBirth,
+    });
+
+    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
+      const formData = getData({ included: true, enabled: false });
+      expect(includeAgentOrangeExposure(formData)).to.be.true;
+    });
+
+    it('should return `true` when Veteran birthdate is before `Aug 1, 1965`', () => {
+      const formData = getData({ veteranDateOfBirth: '1960-01-01' });
+      expect(includeAgentOrangeExposure(formData)).to.be.true;
+    });
+
+    it('should return `false` when Veteran birthdate is after `Jul 31, 1965`', () => {
+      const formData = getData({ veteranDateOfBirth: '1990-01-01' });
+      expect(includeAgentOrangeExposure(formData)).to.be.false;
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includeAgentOrangeExposure(formData)).to.be.false;
     });
   });
 
@@ -464,27 +823,45 @@ describe('hca form config helpers', () => {
     });
   });
 
-  context('when `useLighthouseFacilityList` executes', () => {
-    it('should return `true` when viewfield is set to `true`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': true };
-      expect(useLighthouseFacilityList(formData)).to.be.true;
+  context('when `insuranceTextOverrides` executes', () => {
+    const defaultOutput = {
+      cancelAddTitle: content['insurance-info--array-cancel-add-title'],
+      cancelEditTitle: content['insurance-info--array-cancel-edit-title'],
+      cancelEditDescription:
+        content['insurance-info--array-cancel-edit-description'],
+      cancelEditReviewDescription:
+        content['insurance-info--array-cancel-edit-review-description'],
+      cancelAddYes: content['insurance-info--array-cancel-add-yes'],
+      cancelEditYes: content['insurance-info--array-cancel-edit-yes'],
+    };
+    const executeMethod = ({ item, output }) => {
+      const entries = Object.entries(insuranceTextOverrides());
+      for (const [key, value] of entries) {
+        expect(value(item)).to.deep.eq(output[key]);
+      }
+    };
+
+    it('should return the proper values when item data is present', () => {
+      const item = {
+        insuranceName: 'Cigna',
+        insurancePolicyHolderName: 'Jane Doe',
+      };
+      const expectedOutput = {
+        ...defaultOutput,
+        getItemName: 'Cigna',
+        cardDescription: 'Policyholder: Jane Doe',
+      };
+      executeMethod({ output: expectedOutput, item });
     });
 
-    it('should return `false` when viewfield is set to `false`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': false };
-      expect(useLighthouseFacilityList(formData)).to.be.false;
-    });
-  });
-
-  context('when `useJsonFacilityList` executes', () => {
-    it('should return `false` when viewfield is set to `true`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': true };
-      expect(useJsonFacilityList(formData)).to.be.false;
-    });
-
-    it('should return `true` when viewfield is set to `false`', () => {
-      const formData = { 'view:isFacilitiesApiEnabled': false };
-      expect(useJsonFacilityList(formData)).to.be.true;
+    it('should return the proper values when item data is omitted', () => {
+      const item = {};
+      const expectedOutput = {
+        ...defaultOutput,
+        getItemName: '—',
+        cardDescription: 'Policyholder: —',
+      };
+      executeMethod({ output: expectedOutput, item });
     });
   });
 });

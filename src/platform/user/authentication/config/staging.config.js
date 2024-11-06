@@ -1,4 +1,8 @@
-import { EXTERNAL_APPS, EXTERNAL_REDIRECTS } from '../constants';
+import {
+  EXTERNAL_APPS,
+  EXTERNAL_REDIRECTS,
+  EXTERNAL_REDIRECTS_ALT,
+} from '../constants';
 import {
   defaultSignUpProviders,
   defaultSignInProviders,
@@ -47,6 +51,7 @@ export default {
     OAuthEnabled: false,
     requiresVerification: true,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
+    alternateRedirectUrl: EXTERNAL_REDIRECTS_ALT[EXTERNAL_APPS.MY_VA_HEALTH],
   },
   [EXTERNAL_APPS.EBENEFITS]: {
     allowedSignInProviders: { ...defaultSignInProviders },
@@ -103,8 +108,6 @@ export default {
     },
     oAuthOptions: {
       ...arpWebOAuthOptions,
-      // TODO: refactor `CLIENT_IDS` to vary by environment. This is the value
-      // for the ARP frontend in staging.
       clientId: 'ce6db4d7974daf061dccdd21ba9add14',
     },
     OAuthEnabled: true,

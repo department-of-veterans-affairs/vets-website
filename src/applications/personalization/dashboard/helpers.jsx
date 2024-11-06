@@ -1,15 +1,8 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
-import { isPlainObject } from 'lodash';
+import { capitalize, isPlainObject } from 'lodash';
 import { isAfter, parse } from 'date-fns';
-import {
-  VA_FORM_IDS,
-  FORM_BENEFITS,
-  FORM_TITLES,
-  SIP_ENABLED_FORMS,
-  TRACKING_PREFIXES,
-  MY_VA_SIP_FORMS,
-} from '~/platform/forms/constants';
+import { VA_FORM_IDS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 import recordEvent from '~/platform/monitoring/record-event';
 
@@ -21,47 +14,22 @@ import recordEvent from '~/platform/monitoring/record-event';
 // A dict of presentable form IDs. Generally this is just the form ID itself
 // prefixed with `FORM` for display purposes (ex: 'FORM 21-526EZ'). The only
 // exception to this rule right now is the FEEDBACK-TOOL.
-export const presentableFormIDs = Object.keys(FORM_BENEFITS).reduce(
-  (prefixedIDs, formID) => {
-    if (formID === VA_FORM_IDS.FEEDBACK_TOOL) {
-      prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
-    } else if (formID === VA_FORM_IDS.FORM_10_10EZ) {
-      prefixedIDs[formID] = `FORM 10-10EZ`; // eslint-disable-line no-param-reassign
-    } else {
-      prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
-    }
-    return prefixedIDs;
-  },
-  {},
-);
-
 const idArray = MY_VA_SIP_FORMS.map(item => item.id);
 
-export const presentableFormIDsV2 = idArray.reduce((prefixedIDs, formID) => {
+export const presentableFormIDs = idArray.reduce((prefixedIDs, formID) => {
   if (formID === VA_FORM_IDS.FEEDBACK_TOOL) {
     prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
   } else if (formID === VA_FORM_IDS.FORM_10_10EZ) {
     prefixedIDs[formID] = `FORM 10-10EZ`; // eslint-disable-line no-param-reassign
+  } else if (formID === VA_FORM_IDS.FORM_21P_530V2) {
+    prefixedIDs[formID] = `FORM 21P-530EZ`; // eslint-disable-line no-param-reassign
   } else {
     prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
   }
   return prefixedIDs;
 }, {});
 
-export function isSIPEnabledForm(savedForm) {
-  const formNumber = savedForm.form;
-  if (!FORM_TITLES[formNumber] || !getFormLink(formNumber)) {
-    Sentry.captureMessage('vets_sip_list_item_missing_info');
-    return false;
-  }
-  if (!SIP_ENABLED_FORMS.has(formNumber)) {
-    const prefix = TRACKING_PREFIXES[formNumber];
-    throw new Error(`Could not find form ${prefix} in list of sipEnabledForms`);
-  }
-  return true;
-}
-
-export const isSIPEnabledFormV2 = savedForm => {
+export const isSIPEnabledForm = savedForm => {
   const formNumber = savedForm.form;
   const foundForm = MY_VA_SIP_FORMS.find(form => form.id === formNumber);
 
@@ -116,6 +84,9 @@ export function sipFormSorter(formA, formB) {
   [formA, formB].forEach(isValidForm);
   return formA.metadata.expiresAt - formB.metadata.expiresAt;
 }
+
+export const formatFormTitle = (title = '') =>
+  capitalize(title).replace(/\bva\b/, 'VA');
 
 export const recordDashboardClick = (
   product,
@@ -179,4 +150,27 @@ export const getLatestCopay = statements => {
     }
     return acc;
   }, null);
+};
+
+export const normalizeSubmissionStatus = apiStatusValue => {
+  const value = apiStatusValue.toLowerCase();
+  switch (value) {
+    case 'vbms':
+      return 'received';
+    case 'error':
+    case 'expired':
+      return 'actionNeeded';
+    default:
+      return 'inProgress';
+  }
+};
+
+const SUBMISSION_STATUS_MAP = {
+  inProgress: 'Submission in Progress',
+  actionNeeded: 'Action Needed',
+  received: 'Received',
+};
+
+export const formatSubmissionDisplayStatus = status => {
+  return SUBMISSION_STATUS_MAP[status];
 };

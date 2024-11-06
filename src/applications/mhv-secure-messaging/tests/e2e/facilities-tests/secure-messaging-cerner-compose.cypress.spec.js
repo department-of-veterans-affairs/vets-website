@@ -1,5 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
+import mockFeatureToggles from '../fixtures/toggles-response.json';
 import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-mixed.json';
 import noCernerFacilitiesUser from '../fixtures/userResponse/user.json';
 import mockOneCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-all.json';
@@ -11,6 +12,7 @@ import { AXE_CONTEXT } from '../utils/constants';
 describe('Secure Messaging Inbox Cerner', () => {
   it('Displays warning with cerner facilities list for mixed Cerner Facilities', () => {
     SecureMessagingSite.login(
+      mockFeatureToggles,
       mockEhrData,
       true,
       mockMixedCernerFacilitiesUser,
@@ -27,6 +29,7 @@ describe('Secure Messaging Inbox Cerner', () => {
 
   it('Displays warning with cerner facilities list for one Cerner Facility', () => {
     SecureMessagingSite.login(
+      mockFeatureToggles,
       mockEhrData,
       true,
       mockOneCernerFacilitiesUser,
@@ -45,6 +48,7 @@ describe('Secure Messaging Inbox Cerner', () => {
 
   it('Does not display warning with no cerner facilities', () => {
     SecureMessagingSite.login(
+      mockFeatureToggles,
       mockEhrData,
       true,
       noCernerFacilitiesUser,

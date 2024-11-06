@@ -21,7 +21,7 @@ export default {
     nonVeteranFullName: fullNameNoSuffixUI(label =>
       getFullNameLabels(label, true),
     ),
-    nonVeteranDateOfBirth: dateOfBirthUI({ required: true }),
+    nonVeteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',

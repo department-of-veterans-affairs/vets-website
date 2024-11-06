@@ -10,37 +10,37 @@ const UploadFileToVa = () => {
       <MainContentSubDiv id="upload-files-to-va" header="Upload files to VA">
         <LiSpanAndVaLinkAndPTag
           href="https://www.my.va.gov/EducationFileUploads/s/"
-          hrefText="Education File Upload Portal"
+          hrefText="Education File upload portal"
           pText="Upload forms and other accepted documents supporting compliance actions, designating or removing certifying officials, and more."
         />
       </MainContentSubDiv>
-      <va-accordion open uswds>
+      <va-accordion uswds>
         <va-accordion-item
-          open
           uswds
+          level="3"
           header="Forms library and other accepted documents"
-          subheader="Check out the forms and documents which you can submit to VA via the Education File Upload Portal."
+          subheader="Check out the forms and documents which you can submit to VA via the Education File upload portal."
         >
           Accepted forms
           <ul>
             <LiSpanAndVaLink
-              hrefText="Designation of Certifying Official(s) - VA Form 22-8794 (PDF, 3 pages)"
+              hrefText="Download Designation of Certifying Official(s) - VA Form 22-8794 (PDF, 3 pages)"
               href="https://www.vba.va.gov/pubs/forms/VBA-22-8794-ARE.pdf"
             />
             <LiSpanAndVaLink
-              hrefText="Statement of Assurance of Compliance with 85 Percent Enrollment Ratios - VA Form 22-10215 (PDF, 4 pages)"
+              hrefText="Download Statement of Assurance of Compliance with 85 Percent Enrollment Ratios - VA Form 22-10215 (PDF, 4 pages)"
               href="https://www.vba.va.gov/pubs/forms/vba-22-10215-are.pdf"
             />
             <LiSpanAndVaLink
-              hrefText="Statement of Assurance of Compliance with 85 Percent Enrollment Ratios Continuation Sheet - VA Form 22-10215a (PDF, 2 pages)"
+              hrefText="Download Statement of Assurance of Compliance with 85 Percent Enrollment Ratios Continuation Sheet - VA Form 22-10215a (PDF, 2 pages)"
               href="https://www.vba.va.gov/pubs/forms/vba-22-10215a-are.pdf"
             />
             <LiSpanAndVaLink
-              hrefText="35% Exemption Request from 85/15 Reporting Requirement - VA Form 22-10216 (PDF, 2 pages)"
+              hrefText="Download 35% Exemption Request from 85/15 Reporting Requirement - VA Form 22-10216 (PDF, 2 pages)"
               href="https://www.vba.va.gov/pubs/forms/vba-22-10216-are.pdf"
             />
             <LiSpanAndVaLink
-              hrefText="Conflicting Interests Certification for Proprietary Schools - VA Form 22-1919 (PDF, 1 page)"
+              hrefText="Download Conflicting Interests Certification for Proprietary Schools - VA Form 22-1919 (PDF, 1 page)"
               href="https://www.vba.va.gov/pubs/forms/VBA-22-1919-ARE.pdf"
             />
           </ul>

@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { applicantInformationTransform } from '../../utils/helpers';
 
 export function transform(formConfig, form) {
   const newSchoolTransform = formData => {
     let clonedData = _.cloneDeep(formData);
-
     delete clonedData.newSchoolName;
     delete clonedData.newSchoolAddress;
 
@@ -16,6 +16,14 @@ export function transform(formConfig, form) {
         address: formData.newSchoolAddress,
       },
     };
+    return clonedData;
+  };
+
+  const benefitAppliedForTransform = formData => {
+    const clonedData = _.cloneDeep(formData);
+    if (formData.changeAnotherBenefit !== 'Yes') {
+      clonedData.benefitAppliedFor = undefined;
+    }
     return clonedData;
   };
 
@@ -53,8 +61,10 @@ export function transform(formConfig, form) {
   });
 
   const transformedData = [
+    applicantInformationTransform,
     newSchoolTransform,
     fryScholarshipTransform,
+    benefitAppliedForTransform,
     contactInfoTransform,
     usFormTransform, // This needs to be last function call in array
   ].reduce((formData, transformer) => transformer(formData), form.data);

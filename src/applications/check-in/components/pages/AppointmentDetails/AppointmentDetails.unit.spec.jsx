@@ -402,6 +402,17 @@ describe('check-in experience', () => {
           );
           expect(getByTestId('prepare-content')).to.exist;
         });
+        it('should not display the incomplete info warning', () => {
+          const { queryByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(queryByTestId('info-warning')).to.not.exist;
+        });
       });
       describe('CVT pre-check-in appointment', () => {
         it('renders correct heading for appointment type', () => {
@@ -567,6 +578,17 @@ describe('check-in experience', () => {
           );
           expect(queryByTestId('prepare-content')).to.not.exist;
         });
+        it('should not display the incomplete info warning', () => {
+          const { queryByTestId } = render(
+            <CheckInProvider
+              store={dayOfCheckInStore}
+              router={appointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(queryByTestId('info-warning')).to.not.exist;
+        });
       });
       describe('Day-of check-in eligible appointment', () => {
         it('Renders the check-in button and no message', () => {
@@ -621,6 +643,30 @@ describe('check-in experience', () => {
           expect(queryByTestId('appointment-action-message')).to.not.exist;
           expect(queryByTestId('check-in-button')).to.not.exist;
         });
+        it('should display the check-in incomplete info warning', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={dayOfCheckInStore}
+              router={upcomingAppointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('info-warning')).to.exist;
+          expect(getByTestId('check-in-info')).to.exist;
+        });
+        it('should display the pre-check-in incomplete info warning', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={upcomingAppointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('info-warning')).to.exist;
+          expect(getByTestId('pre-check-in-info')).to.exist;
+        });
         describe('Canceled appointments', () => {
           it('Renders the canceled alert', () => {
             const { getByTestId } = render(
@@ -667,6 +713,17 @@ describe('check-in experience', () => {
             );
             expect(queryByTestId('canceled-by-patient')).to.not.exist;
             expect(queryByTestId('canceled-by-faciity')).to.not.exist;
+          });
+          it('should not display the incomplete info warning', () => {
+            const { queryByTestId } = render(
+              <CheckInProvider
+                store={dayOfCheckInStore}
+                router={upcomingAppointmentFiveRoute}
+              >
+                <AppointmentDetails />
+              </CheckInProvider>,
+            );
+            expect(queryByTestId('info-warning')).to.not.exist;
           });
         });
       });

@@ -2,30 +2,31 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import moment from 'moment';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import VideoLayout from '../../../components/layout/VideoLayout';
-import moment from '../../../lib/moment-tz';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
-  selectFeatureAppointmentDetailsRedesign,
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureVaosV2Next,
-} from '../../../redux/selectors';
+  isAtlasVideoAppointment,
+  isClinicVideoAppointment,
+  isVAPhoneAppointment,
+} from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
+import {
+  closeCancelAppointment,
+  fetchConfirmedAppointmentDetails,
+} from '../../redux/actions';
 import {
   getConfirmedAppointmentDetailsInfo,
   selectIsCanceled,
   selectIsInPerson,
   selectIsPast,
 } from '../../redux/selectors';
-import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import PageLayout from '../PageLayout';
-import DetailsCC from './DetailsCC';
 import DetailsVA from './DetailsVA';
-import DetailsVideo from './DetailsVideo';
-import { isVAPhoneAppointment } from '../../../services/appointment';
+import CCLayout from '../../../components/layout/CCLayout';
 
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
@@ -42,17 +43,10 @@ export default function ConfirmedAppointmentDetailsPage() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-  const featureVaosV2Next = useSelector(state =>
-    selectFeatureVaosV2Next(state),
-  );
-  const featureAppointmentDetailsRedesign = useSelector(
-    selectFeatureAppointmentDetailsRedesign,
-  );
   const isInPerson = selectIsInPerson(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const appointmentDate = moment.parseZone(appointment?.start);
-
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
@@ -63,34 +57,45 @@ export default function ConfirmedAppointmentDetailsPage() {
     () => {
       dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
       scrollAndFocus();
+      return () => {
+        dispatch(closeCancelAppointment());
+      };
     },
     [id, dispatch, appointmentTypePrefix],
   );
 
   useEffect(
     () => {
-      let pageTitle;
-      let prefix = null;
+      let pageTitle = 'VA appointment on';
+      let prefix = 'Upcoming';
 
       if (isPast) prefix = 'Past';
-      else if (isCanceled) prefix = 'Canceled';
+      else if (selectIsCanceled(appointment)) prefix = 'Canceled';
 
       if (isCommunityCare)
-        pageTitle = prefix ? `${prefix} community care` : 'Community care';
-      else if (isInPerson) {
+        pageTitle = `${prefix} Community Care Appointment On`;
+      if (isInPerson) {
         if (appointment?.vaos?.isCompAndPenAppointment)
-          pageTitle = prefix ? `${prefix} claim exam` : 'Claim exam';
-        else pageTitle = prefix ? `${prefix} in-person` : 'In-person';
-      } else if (isVideo) pageTitle = prefix ? `${prefix} video` : 'Video';
-      else if (isVAPhoneAppointment) {
-        pageTitle = prefix ? `${prefix} phone` : 'Phone';
+          pageTitle = `${prefix} Claim Exam Appointment On`;
+        else pageTitle = `${prefix} In-person Appointment On`;
       }
-
+      if (isVideo) {
+        pageTitle = `${prefix} Video Appointment On`;
+        if (isClinicVideoAppointment(appointment)) {
+          pageTitle = `${prefix} Video Appointment At A VA Location On`;
+        }
+        if (isAtlasVideoAppointment(appointment)) {
+          pageTitle = `${prefix} Video Appointment At An ATLAS Location On`;
+        }
+      } else if (isVAPhoneAppointment(appointment)) {
+        pageTitle = `${prefix} Phone Appointment On`;
+      }
       const pageTitleSuffix = featureBreadcrumbUrlUpdate
         ? ' | Veterans Affairs'
         : '';
+
       if (appointment && appointmentDate) {
-        document.title = `${pageTitle} appointment on ${appointmentDate.format(
+        document.title = `${pageTitle} ${appointmentDate.format(
           'dddd, MMMM D, YYYY',
         )}${pageTitleSuffix}`;
         scrollAndFocus();
@@ -130,7 +135,6 @@ export default function ConfirmedAppointmentDetailsPage() {
       </PageLayout>
     );
   }
-
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
@@ -139,33 +143,8 @@ export default function ConfirmedAppointmentDetailsPage() {
     );
   }
 
-  if (featureAppointmentDetailsRedesign) {
-    return (
-      <PageLayout showNeedHelp>
-        {isVA && (
-          <DetailsVA
-            appointment={appointment}
-            facilityData={facilityData}
-            useV2={useV2}
-          />
-        )}
-        {isCommunityCare && (
-          <DetailsCC
-            appointment={appointment}
-            useV2={useV2}
-            featureVaosV2Next={featureVaosV2Next}
-          />
-        )}
-        {isVideo && <VideoLayout data={appointment} />}
-      </PageLayout>
-    );
-  }
-
   return (
-    <PageLayout showNeedHelp={featureAppointmentDetailsRedesign}>
-      {isVideo && (
-        <DetailsVideo appointment={appointment} facilityData={facilityData} />
-      )}
+    <PageLayout isDetailPage showNeedHelp>
       {isVA && (
         <DetailsVA
           appointment={appointment}
@@ -173,14 +152,8 @@ export default function ConfirmedAppointmentDetailsPage() {
           useV2={useV2}
         />
       )}
-      {isCommunityCare && (
-        <DetailsCC
-          appointment={appointment}
-          useV2={useV2}
-          featureVaosV2Next={featureVaosV2Next}
-        />
-      )}
-      <CancelAppointmentModal />
+      {isCommunityCare && <CCLayout data={appointment} />}
+      {isVideo && <VideoLayout data={appointment} />}
     </PageLayout>
   );
 }

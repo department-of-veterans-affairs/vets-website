@@ -1,10 +1,15 @@
-import { EXTERNAL_APPS, EXTERNAL_REDIRECTS } from '../constants';
+import {
+  EXTERNAL_APPS,
+  EXTERNAL_REDIRECTS,
+  EXTERNAL_REDIRECTS_ALT,
+} from '../constants';
 import {
   defaultSignUpProviders,
   defaultSignInProviders,
   defaultMobileQueryParams,
   defaultWebOAuthOptions,
   defaultMobileOAuthOptions,
+  arpWebOAuthOptions,
 } from './constants';
 
 export default {
@@ -46,6 +51,7 @@ export default {
     OAuthEnabled: false,
     requiresVerification: true,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
+    alternateRedirectUrl: EXTERNAL_REDIRECTS_ALT[EXTERNAL_APPS.MY_VA_HEALTH],
   },
   [EXTERNAL_APPS.EBENEFITS]: {
     allowedSignInProviders: { ...defaultSignInProviders },
@@ -84,5 +90,28 @@ export default {
     requiresVerification: true,
     oAuthOptions: defaultMobileOAuthOptions,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE],
+  },
+  [EXTERNAL_APPS.ARP]: {
+    allowedSignInProviders: {
+      idme: true,
+      logingov: true,
+    },
+    allowedSignUpProviders: {
+      idme: true,
+      logingov: true,
+    },
+    isMobile: false,
+    queryParams: {
+      allowOAuth: true,
+      allowPostLogin: true,
+      allowRedirect: false,
+    },
+    oAuthOptions: {
+      ...arpWebOAuthOptions,
+      clientId: 'fe0d4b2cac7935e7eec5946b8ee31643',
+    },
+    OAuthEnabled: true,
+    requiresVerification: false,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP],
   },
 };

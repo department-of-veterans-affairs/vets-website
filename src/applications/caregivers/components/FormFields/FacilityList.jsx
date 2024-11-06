@@ -1,31 +1,33 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
 import content from '../../locales/en/content.json';
 
 const FacilityList = props => {
-  const { facilities, formContext, onChange, query, value } = props;
-  const { reviewMode, submitted } = formContext;
-
-  const [dirty, setDirty] = useState(false);
+  const { facilities, onChange, query, value, error } = props;
+  const reviewMode = props?.formContext?.reviewMode || false;
+  const submitted = props?.formContext?.submitted || false;
 
   const handleChange = e => {
     onChange(e.detail.value);
-    setDirty(true);
   };
 
-  const showError = () =>
-    (submitted || dirty) && !value
-      ? content['validation-facialities--default-required']
+  const showError = () => {
+    if (error) {
+      return error;
+    }
+
+    return submitted && !value
+      ? content['validation-facilities--default-required']
       : null;
+  };
 
   const getFacilityName = useCallback(
     val => {
-      const facility = facilities.find(f => f.id.split('_').pop() === val);
+      const facility = facilities.find(f => f.id === val);
       return facility?.name || '&mdash;';
     },
     [facilities],
@@ -37,23 +39,16 @@ const FacilityList = props => {
     return validParts.join(', ');
   };
 
-  const facilityOptions = facilities.map(f => (
+  const facilityOptions = facilities.map(facility => (
     <VaRadioOption
-      key={f.id}
+      key={facility.id}
       name="facility"
-      label={f.attributes.name}
-      value={f.id.split('_').pop()}
-      description={formatAddress(f.attributes.address.physical)}
+      label={facility.name}
+      value={facility.id}
+      description={formatAddress(facility.address.physical)}
       tile
     />
   ));
-
-  useEffect(
-    () => {
-      focusElement('#caregiver_facility_results');
-    },
-    [facilities],
-  );
 
   if (reviewMode) {
     return (
@@ -70,10 +65,13 @@ const FacilityList = props => {
   return (
     <div
       role="radiogroup"
-      className="vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+      className="vads-u-margin-top--2"
       aria-labelledby="facility-list-heading"
     >
-      <div className="vads-u-margin-top--1" id="caregiver_facility_results">
+      <div
+        className="vads-u-margin-top--1 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
+        id="caregiver_facility_results"
+      >
         Showing 1-
         {facilities.length} of {facilities.length} facilities for{' '}
         <strong>“{query}”</strong>
@@ -84,7 +82,6 @@ const FacilityList = props => {
         value={value}
         onVaValueChange={handleChange}
         error={showError()}
-        required
       >
         {facilityOptions}
       </VaRadio>
@@ -93,10 +90,11 @@ const FacilityList = props => {
 };
 
 FacilityList.propTypes = {
-  value: PropTypes.string.isRequired,
+  error: PropTypes.string,
   facilities: PropTypes.array,
   formContext: PropTypes.object,
   query: PropTypes.string,
+  value: PropTypes.string,
   onChange: PropTypes.func,
 };
 

@@ -6,6 +6,8 @@ import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import allergies from '../tests/fixtures/allergies.json';
+import { radiologyRecordHash } from '../util/helpers';
+import radiology from '../tests/fixtures/radiologyRecordsMhv.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -42,6 +44,23 @@ export const getMhvRadiologyTests = () => {
   return apiRequest(`${apiBasePath}/medical_records/radiology`, {
     headers,
   });
+};
+
+export const getMhvRadiologyDetails = async id => {
+  const numericId = +id.substring(1).split('-')[0];
+  const response = await getMhvRadiologyTests();
+  let details = response.find(record => +record.id === numericId);
+  if (!details) {
+    // If the underlying radiology ID has changed due to wipe-and-replace, use the hash to compare.
+    const hashId = id.split('-')[1];
+    details = (await Promise.all(
+      response.map(async record => ({
+        ...record,
+        hash: await radiologyRecordHash(record),
+      })),
+    )).find(record => record.hash === hashId);
+  }
+  return details;
 };
 
 export const getNotes = () => {
@@ -84,6 +103,24 @@ export const getAllergy = id => {
   return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
     headers,
   });
+};
+
+export const getAcceleratedAllergies = async () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
+    {
+      headers,
+    },
+  );
+};
+
+export const getAcceleratedAllergy = id => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/allergies/${id}?use_oh_data_path=1`,
+    {
+      headers,
+    },
+  );
 };
 
 /**
@@ -130,6 +167,24 @@ export const postSharingUpdateStatus = (optIn = false) => {
   });
 };
 
+export const getImagingStudies = () => {
+  return apiRequest(`${apiBasePath}/medical_records/imaging`, { headers });
+};
+
+export const requestImagingStudy = studyId => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/imaging/${studyId}/request`,
+    { headers },
+  );
+};
+
+export const getImageList = studyId => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/imaging/${studyId}/images`,
+    { headers },
+  );
+};
+
 /**
  * Get all of a patient's medical records for generating a Blue Button report
  * @returns an object with
@@ -143,6 +198,7 @@ export const postSharingUpdateStatus = (optIn = false) => {
 export const getDataForBlueButton = () => {
   return new Promise(resolve => {
     const data = {
+      radiology,
       labsAndTests,
       careSummariesAndNotes: notes,
       vaccines,

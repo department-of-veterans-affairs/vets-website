@@ -4,11 +4,10 @@ import {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
   titleUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { MUST_MATCH_ALERT } from '../config/constants';
 import { onCloseAlert } from '../helpers';
+import { CustomAlertPage } from './helpers';
 
 /** @type {PageSchema} */
 export const veteranIdentificationInformationPage = {
@@ -17,46 +16,24 @@ export const veteranIdentificationInformationPage = {
       'Veteran identification information',
       'You must enter either a Social Security number or a VA File number.',
     ),
-    veteranId: ssnOrVaFileNumberUI(),
+    idNumber: ssnOrVaFileNumberUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      veteranId: ssnOrVaFileNumberSchema,
+      idNumber: ssnOrVaFileNumberSchema,
     },
   },
 };
 
 /** @type {CustomPageType} */
 export function VeteranIdentificationInformationPage(props) {
-  return (
-    <>
-      {MUST_MATCH_ALERT('veteran-identification', onCloseAlert, props.data)}
-      <SchemaForm
-        name={props.name}
-        title={props.title}
-        data={props.data}
-        appStateData={props.appStateData}
-        schema={props.schema}
-        uiSchema={props.uiSchema}
-        pagePerItemIndex={props.pagePerItemIndex}
-        formContext={props.formContext}
-        trackingPrefix={props.trackingPrefix}
-        onChange={props.onChange}
-        onSubmit={props.onSubmit}
-      >
-        <>
-          {props.contentBeforeButtons}
-          <FormNavButtons
-            goBack={props.goBack}
-            goForward={props.onContinue}
-            submitToContinue
-          />
-          {props.contentAfterButtons}
-        </>
-      </SchemaForm>
-    </>
+  const alert = MUST_MATCH_ALERT(
+    'veteran-identification',
+    onCloseAlert,
+    props.data,
   );
+  return <CustomAlertPage {...props} alert={alert} />;
 }
 
 VeteranIdentificationInformationPage.propTypes = {
@@ -69,11 +46,11 @@ VeteranIdentificationInformationPage.propTypes = {
   data: PropTypes.object,
   formContext: PropTypes.object,
   goBack: PropTypes.func,
+  pagePerItemIndex: PropTypes.number,
+  title: PropTypes.string,
+  trackingPrefix: PropTypes.string,
   onChange: PropTypes.func,
   onContinue: PropTypes.func,
   onReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
-  title: PropTypes.string,
-  trackingPrefix: PropTypes.string,
 };

@@ -10,13 +10,11 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   clearVitalDetails,
   getVitalDetails,
@@ -30,6 +28,8 @@ import {
   macroCase,
   makePdf,
   generateTextFile,
+  getLastUpdatedText,
+  formatNameFirstLast,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -46,7 +46,6 @@ import {
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import { useIsDetails } from '../hooks/useIsDetails';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
 
@@ -76,6 +75,7 @@ const VitalDetails = props => {
   );
   const listState = useSelector(state => state.mr.vitals.listState);
   const refresh = useSelector(state => state.mr.refresh);
+  const [hasUsedPagination, setHasUsedPagination] = useState(false);
 
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
@@ -102,8 +102,6 @@ const VitalDetails = props => {
     [dispatch],
   );
 
-  useIsDetails(dispatch);
-
   const updatedRecordType = useMemo(
     () => {
       const typeMap = {
@@ -116,16 +114,14 @@ const VitalDetails = props => {
     [vitalType],
   );
 
+  const onPageChange = page => {
+    setCurrentVitals(paginatedVitals.current[page - 1]);
+    setCurrentPage(page);
+    setHasUsedPagination(true);
+  };
+
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/vitals',
-            label: 'Vitals',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearVitalDetails());
       };
@@ -136,15 +132,22 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (records?.length) {
-        focusElement(document.querySelector('h1'));
         updatePageTitle(
           `${vitalTypeDisplayNames[records[0].type]} - ${
             pageTitles.VITALS_PAGE_TITLE
           }`,
         );
+
+        if (!hasUsedPagination) {
+          // If pagination is not present, focus on the main heading (h1)
+          focusElement(document.querySelector('h1'));
+        } else {
+          focusElement(document.querySelector('#showingRecords'));
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        }
       }
     },
-    [records],
+    [currentPage, records, hasUsedPagination],
   );
 
   usePrintTitle(
@@ -156,11 +159,6 @@ const VitalDetails = props => {
 
   const paginateData = data => {
     return chunk(data, perPage);
-  };
-
-  const onPageChange = page => {
-    setCurrentVitals(paginatedVitals.current[page - 1]);
-    setCurrentPage(page);
   };
 
   const fromToNums = (page, total) => {
@@ -179,20 +177,6 @@ const VitalDetails = props => {
     [records],
   );
 
-  useEffect(
-    () => {
-      if (currentPage > 1 && records?.length) {
-        focusElement(document.querySelector('#showingRecords'));
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth',
-        });
-      }
-    },
-    [currentPage, records],
-  );
-
   const displayNums = fromToNums(currentPage, records?.length);
 
   useEffect(
@@ -202,12 +186,21 @@ const VitalDetails = props => {
         dispatch(getVitalDetails(formattedVitalType, vitalsList));
       }
     },
-    [vitalType, vitalsList, dispatch],
+    [vitalType, vitalsList, dispatch, updatedRecordType],
+  );
+
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.VPR,
   );
 
   const generateVitalsPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVitalsIntro(records);
+
+    const { title, subject, preface } = generateVitalsIntro(
+      records,
+      lastUpdatedText,
+    );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVitalsContent(records) };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
@@ -219,7 +212,7 @@ const VitalDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${vitalTypeDisplayNames[records[0].type]}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${records
@@ -249,9 +242,14 @@ Provider notes: ${vital.notes}\n\n`,
     return (
       <>
         <PrintHeader />
-        <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
+        <h1
+          className="vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4 no-print"
+          data-dd-privacy="mask"
+        >
           {vitalDisplayName}
         </h1>
+        <h2 className="sr-only">List of {vitalDisplayName} results</h2>
+
         <NewRecordsIndicator
           refreshState={refresh}
           extractType={refreshExtractTypes.VPR}
@@ -264,6 +262,7 @@ Provider notes: ${vital.notes}\n\n`,
             dispatch(reloadRecords());
           }}
         />
+
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
           downloadPdf={generateVitalsPdf}
@@ -276,7 +275,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h2
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
             vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
-            vads-u-margin-top--3 small-screen:vads-u-margin-top--4"
+            vads-u-margin-top--3 mobile-lg:vads-u-margin-top--4"
           id="showingRecords"
         >
           {`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
@@ -289,16 +288,16 @@ Provider notes: ${vital.notes}\n\n`,
             currentVitals?.map((vital, idx) => (
               <li
                 key={idx}
-                className="vads-u-margin--0 vads-u-padding-y--3 small-screen:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+                className="vads-u-margin--0 vads-u-padding-y--3 mobile-lg:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
               >
                 <h3
                   data-testid="vital-date"
-                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--3"
+                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
                 >
                   {vital.date}
                 </h3>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Result
                 </h4>
                 <p
@@ -308,7 +307,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.measurement}
                 </p>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Location
                 </h4>
                 <p
@@ -318,7 +317,7 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.location}
                 </p>
-                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Provider notes
                 </h4>
                 <p
@@ -333,7 +332,10 @@ Provider notes: ${vital.notes}\n\n`,
         </ul>
 
         {/* print view start */}
-        <h1 className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only">
+        <h1
+          className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only"
+          data-dd-privacy="mask"
+        >
           Vitals: {vitalTypeDisplayNames[records[0].type]}
         </h1>
         <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 print-only">
@@ -351,7 +353,7 @@ Provider notes: ${vital.notes}\n\n`,
                   {vital.date}
                 </h3>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
-                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Measurement:{' '}
                   </h4>
                   <p className="vads-u-display--inline" data-dd-privacy="mask">
@@ -359,7 +361,7 @@ Provider notes: ${vital.notes}\n\n`,
                   </p>
                 </div>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
-                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Location:{' '}
                   </h4>
                   <p className="vads-u-display--inline" data-dd-privacy="mask">
@@ -367,7 +369,7 @@ Provider notes: ${vital.notes}\n\n`,
                   </p>
                 </div>
                 <div className="vads-u-margin-left--1p5">
-                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
                     Provider notes:{' '}
                   </h4>
                   <p className="vads-u-display--inline" data-dd-privacy="mask">

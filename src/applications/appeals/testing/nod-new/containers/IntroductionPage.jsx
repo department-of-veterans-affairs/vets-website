@@ -5,7 +5,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollTo from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
 import {
@@ -41,7 +41,7 @@ const IntroductionPage = ({ route }) => {
             label: 'Board Appeals',
           },
           {
-            href: '/decision-reviews/testing/nod-new',
+            href: '/decision-reviews/test-nod',
             label: 'Request a Board Appeal',
           },
         ]}
@@ -70,7 +70,7 @@ const IntroductionPage = ({ route }) => {
       <p className="vads-u-margin-top--4">
         <a
           className="vads-c-action-link--green"
-          href="/decision-reviews/testing/nod-new/task-list"
+          href="/decision-reviews/test-nod/task-list"
         >
           Start the Board Appeal request
         </a>
@@ -182,7 +182,7 @@ const IntroductionPage = ({ route }) => {
       <div>
         <a
           className="vads-c-action-link--green"
-          href="/decision-reviews/testing/nod-new/task-list"
+          href="/decision-reviews/test-nod/task-list"
         >
           Start the Board Appeal request
         </a>

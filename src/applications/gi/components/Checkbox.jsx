@@ -78,14 +78,21 @@ const Checkbox = ({
 };
 
 Checkbox.propTypes = {
-  checked: PropTypes.bool,
-  errorMessage: PropTypes.string,
-  name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  ariaLabel: PropTypes.string,
+  checked: PropTypes.bool,
+  className: PropTypes.string,
+  errorMessage: PropTypes.string,
+  id: PropTypes.string,
+  inputAriaLabel: PropTypes.string,
+  inputAriaLabelledBy: PropTypes.string,
+  labelAriaLabel: PropTypes.string,
   required: PropTypes.bool,
+  screenReaderOnly: PropTypes.string,
+  showArialLabelledBy: PropTypes.bool,
   onFocus: PropTypes.func,
-  ariaLabel: PropTypes.string.isRequired,
 };
 
 Checkbox.defaultProps = {

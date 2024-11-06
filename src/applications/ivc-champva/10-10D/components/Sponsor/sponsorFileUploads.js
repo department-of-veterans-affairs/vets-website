@@ -6,6 +6,9 @@ const marriagePapers = [
   'Marriage certificate',
   'Civil union papers',
   'Affidavit of common law marriage',
+  'Divorce decree',
+  'Annulment decree',
+  'Death certificate',
 ];
 
 export const acceptableFiles = {

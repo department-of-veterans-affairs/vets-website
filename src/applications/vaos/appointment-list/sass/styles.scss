@@ -1,3 +1,4 @@
+
 .vaos-flex-break {
   flex-basis: 100%;
   height: 0;
@@ -171,6 +172,14 @@ $gap-values: (
   5: 40px,
 );
 
+$breakpoints: (
+  xsmall-screen:        $xsmall-screen,
+  small-screen:         $small-screen,
+  medium-screen:        $medium-screen,
+  small-desktop-screen: $small-desktop-screen,
+  large-screen:         $large-screen
+);
+
 // Standard utilitiles
 @each $name, $value in $gap-values {
   .vaos-appts__column-gap--#{$name} {
@@ -195,9 +204,6 @@ $gap-values: (
 .vaos-appts__column--alignItems {
   @include media($medium-screen) {
     align-items: stretch;
-  }
-  @include media($small-desktop-screen) {
-    align-items: center;
   }
 }
 

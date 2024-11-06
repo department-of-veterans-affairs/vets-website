@@ -58,7 +58,7 @@ const IntroductionPage = props => {
           />
         </va-process-list-item>
         <va-process-list-item header="Gather your information">
-          <h4 className="vads-u-margiin-y--1">
+          <h4 className="vads-u-margin-y--1">
             Here’s what you’ll need to apply:
           </h4>
           <ul>
@@ -167,11 +167,13 @@ const IntroductionPage = props => {
         retentionPeriodStart="when you start"
         continueMsg={<FormReactivationAlert />}
       />
-      <va-omb-info
-        res-burden={30}
-        omb-number="2900-0002"
-        exp-date="08/31/2025"
-      />
+      <div className="vads-u-margin-top--2">
+        <va-omb-info
+          res-burden={30}
+          omb-number="2900-0002"
+          exp-date="08/31/2025"
+        />
+      </div>
     </article>
   ) : (
     <div className="schemaform-intro">

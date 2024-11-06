@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "./prescription-details";
 @import "./print-download";
 
@@ -60,6 +60,15 @@
   }
   .right-angle {
     text-decoration: none;
+  }
+}
+.usa-button {
+  width: 100%;
+}
+
+.filter-accordion {
+  .filter-submit-btn::part(button) {
+    width: 100%;
   }
 }
 .va-button {
@@ -153,6 +162,10 @@
 .renew-card-details > p {
   margin: 0px;
 }
+//fixed misaligned icon for filter component
+#filter > span {
+  vertical-align: top;
+}
 
 .pagination {
   max-width: 500px;
@@ -160,6 +173,9 @@
 }
 
 @media print {
+  .main-content {
+    width: 100%;
+  }
   .landing-page {
     margin-top: 10px;
   }
@@ -253,12 +269,6 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
-  }
-}
-
-.vads-u-width--responsive{
-  @media (max-width: $small-screen) {
-    width: 100% !important;
   }
 }
 

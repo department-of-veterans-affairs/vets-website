@@ -14,6 +14,8 @@ const SearchControls = props => {
     userLocation,
     searchQuery,
     geoCodeError,
+    searchTitle,
+    searchHint,
   } = props;
 
   const [queryState, setQueryState] = useState(searchQuery);
@@ -66,7 +68,7 @@ const SearchControls = props => {
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
           >
-            City or postal code
+            {searchTitle}
             <span className="form-required-span">(*Required)</span>
           </label>
           {geolocationInProgress ? (
@@ -94,6 +96,7 @@ const SearchControls = props => {
             Please fill in a city or postal code.
           </span>
         )}
+        {searchHint && <p className="search-hint-text">{searchHint}</p>}
         <div className="search-input">
           <input
             className="usa-input"

@@ -1,6 +1,5 @@
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { validateCurrency } from '../../utils/validations';
-// import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default {
   uiSchema: {
@@ -11,7 +10,6 @@ export default {
           'What is the total amount you pay for rent and/or mortgage payments each month?',
         'ui:webComponentField': VaTextInputField,
         'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
           currency: true,
           width: 'lg',
           hint:

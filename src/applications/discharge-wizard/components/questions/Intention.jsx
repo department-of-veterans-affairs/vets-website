@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { Element } from 'platform/utilities/scroll';
 
 // Relative Imports
 import { shouldShowQuestion } from '../../helpers';
 import { questionLabels } from '../../constants';
-
-const { Element } = Scroll;
 
 const Intention = ({
   formValues,

@@ -11,7 +11,7 @@ const BreadcrumbsV2 = () => (
       },
       {
         href: '/discharge-upgrade-instructions/introduction',
-        label: 'Discharge upgrade',
+        label: 'How to apply for a discharge upgrade',
       },
     ]}
   />

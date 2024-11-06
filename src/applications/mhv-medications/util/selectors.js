@@ -5,3 +5,6 @@ export const selectRefillContentFlag = state =>
 
 export const selectAllergiesFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayAllergies];
+
+export const selectFilterFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayFilter];

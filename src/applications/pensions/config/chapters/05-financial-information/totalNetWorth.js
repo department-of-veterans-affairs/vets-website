@@ -15,12 +15,12 @@ const { totalNetWorth } = fullSchemaPensions.properties;
 
 const path = !showIncomeAndAssetsClarification()
   ? 'financial/total-net-worth'
-  : 'temporarily-hidden';
+  : 'temporarily-hidden-total-net-worth';
 
 /** @type {PageSchema} */
 export default {
-  title: path,
-  path: 'financial/total-net-worth',
+  title: 'Total net worth',
+  path,
   depends: () => !showIncomeAndAssetsClarification(),
   uiSchema: {
     ...titleUI(

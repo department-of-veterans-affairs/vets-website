@@ -22,6 +22,7 @@ import { formatFacilityAddress, getFacilityPhone } from '../location';
 import {
   transformVAOSAppointment,
   transformVAOSAppointments,
+  getAppointmentType,
 } from './transformers';
 import { captureError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -53,18 +54,6 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
   'Deleted',
 ]);
 
-// We want to throw an error for any partial results errors from MAS,
-// but some sites in staging always errors. So, keep those in a list to
-// ignore errors from
-// const BAD_STAGING_SITES = new Set(['556', '612']);
-// function hasPartialResults(response) {
-//   return (
-//     response.errors?.length > 0 &&
-//     (environment.isProduction() ||
-//       response.errors.some(err => !BAD_STAGING_SITES.has(err.source)))
-//   );
-// }
-
 // Sort the requested appointments, latest appointments appear at the top of the list.
 function apptRequestSort(a, b) {
   return new Date(b.created).getTime() - new Date(a.created).getTime();
@@ -77,22 +66,31 @@ function apptRequestSort(a, b) {
  * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @param {Boolean} useV2VA Toggle fetching VA appointments via VAOS api services version 2
- * @param {Boolean} useV2CC Toggle fetching CC appointments via VAOS api services version 2
+ * @param {Boolean} fetchClaimStatus Boolean to fetch travel claim data
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
-export async function fetchAppointments({ startDate, endDate }) {
+export async function fetchAppointments({
+  startDate,
+  endDate,
+  avs = false,
+  fetchClaimStatus = false,
+}) {
   try {
     const appointments = [];
-    const allAppointments = await getAppointments(startDate, endDate, [
-      'booked',
-      'arrived',
-      'fulfilled',
-      'cancelled',
-    ]);
+    const allAppointments = await getAppointments(
+      startDate,
+      endDate,
+      ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      avs,
+      fetchClaimStatus,
+    );
 
     const filteredAppointments = allAppointments.data.filter(appt => {
-      return !appt.requestedPeriods;
+      // Filter out appointments that are not VA or CC appointments
+      return (
+        getAppointmentType(appt) === APPOINTMENT_TYPES.vaAppointment ||
+        getAppointmentType(appt) === APPOINTMENT_TYPES.ccAppointment
+      );
     });
 
     appointments.push(...transformVAOSAppointments(filteredAppointments), {
@@ -125,9 +123,13 @@ export async function getAppointmentRequests({ startDate, endDate }) {
       'cancelled',
     ]);
 
-    const requestsWithoutAppointments = appointments.data.filter(
-      appt => !!appt.requestedPeriods,
-    );
+    const requestsWithoutAppointments = appointments.data.filter(appt => {
+      // Filter out appointments that are not requests
+      return (
+        getAppointmentType(appt) === APPOINTMENT_TYPES.request ||
+        getAppointmentType(appt) === APPOINTMENT_TYPES.ccRequest
+      );
+    });
 
     requestsWithoutAppointments.sort(apptRequestSort);
 
@@ -176,12 +178,17 @@ export async function fetchRequestById({ id }) {
  * @export
  * @async
  * @param {string} id MAS or community care booked appointment id
- * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
+ * @param {avs} Boolean to fetch avs data
+ * @param {fetchClaimStatus} Boolean to fetch travel claim data
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id }) {
+export async function fetchBookedAppointment({
+  id,
+  avs = true,
+  fetchClaimStatus = true,
+}) {
   try {
-    const appointment = await getAppointment(id);
+    const appointment = await getAppointment(id, avs, fetchClaimStatus);
     return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {

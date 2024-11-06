@@ -38,9 +38,9 @@ describe('unified check-in experience', () => {
       );
 
       expect(getByTestId('what-to-do-next')).to.exist;
-      expect(getByTestId('upcoming-appointments-vaos')).to.exist;
-      expect(getByTestId('upcoming-appointments-header')).to.exist;
+      expect(getByTestId('upcoming-appointments-vista')).to.exist;
       expect(getByTestId('appointments-accordions')).to.exist;
+      expect(getByTestId('link-list-block')).to.exist;
 
       // Restore the hook
       useGetCheckInDataStub.restore();
@@ -65,7 +65,7 @@ describe('unified check-in experience', () => {
     });
     it('shows the date & time the appointments were loaded & a refresh link', () => {
       const checkIn = render(
-        <CheckInProvider store={{ features: appointmentsOn }}>
+        <CheckInProvider store={{ features: appointmentsOn, app: 'dayOf' }}>
           <AppointmentsPage />
         </CheckInProvider>,
       );

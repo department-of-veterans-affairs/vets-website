@@ -1,23 +1,35 @@
+import {
+  yesNoUI,
+  yesNoSchema,
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  expectedSeparationTypes,
+  expectedSeparationLabels,
+} from '../constants/benefits';
+
 export default {
   uiSchema: {
-    militaryService: {
-      'ui:title': 'Are you currently serving in the military?',
-      'ui:widget': 'radio',
-      'ui:options': {
-        widgetProps: {
-          YES: { militaryService: 'Yes' },
-          NO: { militaryService: 'No' },
-        },
-      },
+    militaryServiceCurrentlyServing: yesNoUI({
+      title: 'Are you currently serving in the military?',
+      hint:
+        'This includes active-duty service, and service in the National Gaurd and Reserve.',
+    }),
+    expectedSeparation: {
+      ...radioUI({
+        title: 'When do you expect to separate or retire from the service?',
+        labels: expectedSeparationLabels,
+        required: () => false,
+        hideIf: formData => formData.militaryServiceCurrentlyServing !== true,
+      }),
     },
   },
   schema: {
     type: 'object',
     properties: {
-      militaryService: {
-        type: 'string',
-        enum: ['Yes', 'No'],
-      },
+      militaryServiceCurrentlyServing: yesNoSchema,
+      expectedSeparation: radioSchema(Object.keys(expectedSeparationTypes)),
     },
   },
 };

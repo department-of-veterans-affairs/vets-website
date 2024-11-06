@@ -57,7 +57,7 @@ export const applicantMemberNumberSchema = {
           'ui:title': 'CHAMPVA member number',
           'ui:errorMessages': {
             required: 'Please enter your CHAMPVA member number',
-            pattern: 'Must be letters and numbers only',
+            pattern: 'Must be numbers only',
           },
           'ui:options': {
             uswds: true,
@@ -78,8 +78,9 @@ export const applicantMemberNumberSchema = {
       titleSchema,
       applicantMemberNumber: {
         type: 'string',
-        pattern: '^[0-9a-zA-Z]+$',
-        maxLength: 20,
+        pattern: '^[0-9]+$',
+        maxLength: 9,
+        minLength: 8,
       },
     },
   },

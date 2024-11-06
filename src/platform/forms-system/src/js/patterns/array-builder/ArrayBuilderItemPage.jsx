@@ -64,14 +64,6 @@ export default function ArrayBuilderItemPage({
       return null;
     }
 
-    const handleClick = e => {
-      // ideally we could just pass 'submit' to VaButton
-      // but it doesn't work until this is fixed:
-      // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2379
-      e.preventDefault();
-      onSubmit();
-    };
-
     return (
       <SchemaForm
         name={props.name}
@@ -82,6 +74,7 @@ export default function ArrayBuilderItemPage({
         uiSchema={uiSchema}
         pagePerItemIndex={props.pagePerItemIndex}
         formContext={props.formContext}
+        getFormData={props.getFormData}
         trackingPrefix={props.trackingPrefix}
         onChange={onChange}
         onSubmit={onSubmit}
@@ -124,7 +117,7 @@ export default function ArrayBuilderItemPage({
               <div>
                 <VaButton
                   continue
-                  onClick={handleClick}
+                  submit="prevent"
                   // "Continue" will display instead of `text`
                   // prop until this is fixed:
                   // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2733
@@ -150,6 +143,7 @@ export default function ArrayBuilderItemPage({
     PageContentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
+    getFormData: PropTypes.func,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
     onChange: PropTypes.func,

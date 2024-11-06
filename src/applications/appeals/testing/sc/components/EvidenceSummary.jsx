@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Element } from 'react-scroll';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -9,6 +8,7 @@ import {
   scrollToFirstError,
 } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
 
 import {
   hasVAEvidence,
@@ -134,14 +134,14 @@ const EvidenceSummary = ({
 
     onGoForward: () => {
       if (hasErrors) {
-        scrollToFirstError();
+        scrollToFirstError({ focusOnAlertRole: true });
       } else {
         goForward(data);
       }
     },
     onUpdate: () => {
       if (hasErrors) {
-        scrollToFirstError();
+        scrollToFirstError({ focusOnAlertRole: true });
       } else {
         updatePage();
       }
@@ -155,6 +155,14 @@ const EvidenceSummary = ({
     content.removeEvidence[
       removeData.type === LIMITATION_KEY ? 'limitationTitle' : 'title'
     ];
+
+  let modalPrimaryButtonText = content.removeEvidence.modalRemove;
+
+  if (removeData.type === 'limitation') {
+    modalPrimaryButtonText = content.removeEvidence.modalRemoveLimitation;
+  } else if (removeData.type === 'upload') {
+    modalPrimaryButtonText = content.removeEvidence.modalDelete;
+  }
 
   const props = {
     handlers,
@@ -204,13 +212,7 @@ const EvidenceSummary = ({
           onCloseEvent={handlers.closeModal}
           onPrimaryButtonClick={handlers.removeEvidence}
           onSecondaryButtonClick={handlers.closeModal}
-          primaryButtonText={
-            content.removeEvidence[
-              removeData.type === 'limitation'
-                ? 'modalRemoveLimitation'
-                : 'modalRemove'
-            ]
-          }
+          primaryButtonText={modalPrimaryButtonText}
           secondaryButtonText={
             content.removeEvidence[
               removeData.type === 'limitation'
@@ -233,7 +235,7 @@ const EvidenceSummary = ({
         />
         <UploadContent list={otherEvidence} {...props} />
 
-        {content.addMoreLink}
+        {content.addMoreLink()}
 
         <div className="form-nav-buttons vads-u-margin-top--4">
           {onReviewPage && (
