@@ -74,6 +74,7 @@ export default function ArrayBuilderItemPage({
         uiSchema={uiSchema}
         pagePerItemIndex={props.pagePerItemIndex}
         formContext={props.formContext}
+        getFormData={props.getFormData}
         trackingPrefix={props.trackingPrefix}
         onChange={onChange}
         onSubmit={onSubmit}
@@ -142,6 +143,7 @@ export default function ArrayBuilderItemPage({
     PageContentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
+    getFormData: PropTypes.func,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
     onChange: PropTypes.func,

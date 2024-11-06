@@ -8,6 +8,8 @@ export const getAppData = state => ({
   formId: state?.form?.formId,
   isPersonalInfoFetchComplete: state.data?.personalInfoFetchComplete,
   isSponsorsFetchComplete: state.data?.fetchedSponsorsComplete,
+  duplicateEmail: state.data?.duplicateEmail,
+  duplicatePhone: state.data?.duplicatePhone,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
   savedForms: state?.user?.profile?.savedForms,

@@ -1102,20 +1102,12 @@
           }
         ],
         "status": "final",
-        "category": [
+        "category" : [
           {
-            "coding": [
+            "coding" : [
               {
-                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
-                "code": "LAB"
-              }
-            ]
-          },
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
-                "code": "SP"
+                "system" : "http://loinc.org",
+                "code" : "LP7839-6"
               }
             ]
           }

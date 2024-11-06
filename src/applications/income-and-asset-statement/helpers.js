@@ -20,6 +20,12 @@ export const otherGeneratedIncomeTypeExplanationRequired = (form, index) =>
     form,
   ) === 'OTHER';
 
+export const otherNewOwnerRelationshipExplanationRequired = (form, index) =>
+  get(['assetTransfers', index, 'originalOwnerRelationship'], form) === 'OTHER';
+
+export const otherTransferMethodExplanationRequired = (form, index) =>
+  get(['assetTransfers', index, 'transferMethod'], form) === 'OTHER';
+
 export const recipientNameRequired = (form, index, arrayKey) =>
   get([arrayKey, index, 'recipientRelationship'], form) === 'CHILD' ||
   get([arrayKey, index, 'recipientRelationship'], form) === 'PARENT' ||
