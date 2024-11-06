@@ -41,7 +41,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       testData.data.application.claimant.name.last,
     );
     cy.fill(
-      'input[name="root_application_claimant_ssn"]',
+      'va-text-input[name="root_application_claimant_ssn"]',
       testData.data.application.claimant.ssn,
     );
     cy.fillDate(
@@ -64,7 +64,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       testData.data.application.veteran.currentName.last,
     );
     cy.fill(
-      'input[name="root_application_veteran_ssn"]',
+      'va-text-input[name="root_application_veteran_ssn"]',
       testData.data.application.veteran.ssn,
     );
     preneedHelpers.clickContinue();

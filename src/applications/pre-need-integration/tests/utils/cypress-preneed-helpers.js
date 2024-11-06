@@ -57,7 +57,7 @@ function fillApplicantInfo(name, ssn, dob, relationship) {
   validateProgressBar('1');
   cy.fillName('root_application_claimant_name', name);
   cy.fill('#root_application_claimant_name_maiden', name.maiden);
-  cy.fill('input[name="root_application_claimant_ssn"]', ssn);
+  cy.fill('va-input-text', ssn);
   cy.fillDate('root_application_claimant_dateOfBirth', dob);
   cy.selectRadio('root_application_claimant_relationshipToVet', relationship);
   clickContinue();
