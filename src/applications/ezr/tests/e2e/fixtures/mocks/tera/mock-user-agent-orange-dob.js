@@ -34,7 +34,7 @@ const mockUser = {
       ],
       va_profile: {
         status: 'OK',
-        birth_date: '19511118',
+        birth_date: '19481118',
         family_name: 'Hunter',
         gender: 'M',
         given_names: ['Julio', 'E'],

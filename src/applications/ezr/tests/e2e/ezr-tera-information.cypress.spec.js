@@ -79,16 +79,27 @@ describe('EZR TERA flow', () => {
     cy.get('[name="root_radiationCleanupEfforts"]').check('Y');
     cy.injectAxeThenAxeCheck();
 
+    goToNextPage('/military-service/gulf-war-service');
+    cy.get('[name="root_gulfWarService"]').check('Y');
+    cy.injectAxeThenAxeCheck();
+
+    goToNextPage('/military-service/gulf-war-service-dates');
+    fillGulfWarDateRange();
+    cy.injectAxeThenAxeCheck();
+
+    goToNextPage('/military-service/operation-support');
+    cy.get('[name="root_combatOperationService"]').check('Y');
+    cy.injectAxeThenAxeCheck();
+
     goToNextPage('/military-service/agent-orange-exposure');
     cy.get('[name="root_exposedToAgentOrange"]').check('Y');
-    cy.injectAxeThenAxeCheck();
 
     goToNextPage('/military-service/agent-orange-exposure-dates');
     fillAgentOrangeDateRange();
     cy.injectAxeThenAxeCheck();
 
     goToNextPage('/military-service/other-toxic-exposure');
-    [...Array(4)].forEach(_ => goToPreviousPage());
+    [...Array(7)].forEach(_ => goToPreviousPage());
     cy.get('[name="root_hasTeraResponse"]').check('N');
     // Expect the tera section to be skipped. Instead, the user will move to the household section
     goToNextPage('/household-information/marital-status');
@@ -103,6 +114,22 @@ describe("EZR branching logic based on the user's DOB", () => {
     });
 
     it('displays the radiation cleanup, Gulf War, combat operations, agent orange, and other toxic exposure pages', () => {
+      goToNextPage('/military-service/radiation-cleanup-efforts');
+      cy.get('[name="root_radiationCleanupEfforts"]').check('Y');
+      cy.injectAxeThenAxeCheck();
+
+      goToNextPage('/military-service/gulf-war-service');
+      cy.get('[name="root_gulfWarService"]').check('Y');
+      cy.injectAxeThenAxeCheck();
+
+      goToNextPage('/military-service/gulf-war-service-dates');
+      fillGulfWarDateRange();
+      cy.injectAxeThenAxeCheck();
+
+      goToNextPage('/military-service/operation-support');
+      cy.get('[name="root_combatOperationService"]').check('Y');
+      cy.injectAxeThenAxeCheck();
+
       goToNextPage('/military-service/agent-orange-exposure');
       cy.get('[name="root_exposedToAgentOrange"]').check('Y');
 
@@ -141,7 +168,7 @@ describe("EZR branching logic based on the user's DOB", () => {
     });
   });
 
-  describe('when the user has a DOB before 1900 or after the present day - 15 years', () => {
+  describe('when the user has a DOB after the present day - 15 years', () => {
     beforeEach(() => {
       setUserData(mockUserOtherExposureDob, mockPrefillOtherExposureDob);
       goToToxicExposurePageAndCheckYes();
