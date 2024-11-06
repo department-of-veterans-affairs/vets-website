@@ -2,15 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import environment from 'platform/utilities/environment';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-
-const content = {
-  headlineText: 'You’ve submitted your alternate signer certification',
-  nextStepsText:
-    'You may now sign other forms on behalf of the Veteran or non-Veteran claimant you identified in this form.',
-};
 
 const childContent = (
   <>
@@ -317,44 +309,28 @@ export const ConfirmationPage = props => {
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
-  // TODO: Make this condition default after testing in dev
-  if (environment.isLocalhost() || environment.isDev()) {
-    return (
-      <ConfirmationView
-        formConfig={formConfig}
-        confirmationNumber={confirmationNumber}
-        submitDate={submitDate}
-        // uncomment when ready
-        // pdfUrl={submission.response?.pdfUrl}
-      >
-        <ConfirmationView.SubmissionAlert />
-        <ConfirmationView.SavePdfDownload />
-        <ConfirmationView.ChapterSectionCollection />
-        <ConfirmationView.PrintThisPage />
-        <ConfirmationView.WhatsNextProcessList
-          item2Content={`If we need information after reviewing
+  return (
+    <ConfirmationView
+      formConfig={formConfig}
+      confirmationNumber={confirmationNumber}
+      submitDate={submitDate}
+      pdfUrl={submission.response?.pdfUrl}
+    >
+      <ConfirmationView.SubmissionAlert />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList
+        item2Content={`If we need information after reviewing
             your form, we’ll contact you. After we review your form,
             you may sign other forms on behalf of the Veteran or
             non-Veteran claimant you identified in this form.`}
-        />
-        {childContent}
-        <ConfirmationView.HowToContact />
-        <ConfirmationView.GoBackLink />
-        <ConfirmationView.NeedHelp />
-      </ConfirmationView>
-    );
-  }
-
-  return (
-    <ConfirmationPageView
-      submitterHeader="Who submitted this form"
-      formType="alternate signer certification"
-      submitterName={form.data.preparerFullName}
-      submitDate={submitDate}
-      confirmationNumber={confirmationNumber}
-      content={content}
-      childContent={childContent}
-    />
+      />
+      {childContent}
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
   );
 };
 

@@ -88,7 +88,7 @@ const benefitSelection = {
                   className="my-education-benefit-selection-icon"
                   aria-hidden="true"
                 />{' '}
-                Monthly stipened
+                Monthly stipend
               </li>
             </ul>
 
@@ -125,7 +125,7 @@ const benefitSelection = {
                   className="my-education-benefit-selection-icon"
                   aria-hidden="true"
                 />{' '}
-                Monthly stipened
+                Monthly stipend
               </li>
             </ul>
 

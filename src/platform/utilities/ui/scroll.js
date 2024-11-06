@@ -8,14 +8,27 @@ const { scroller } = Scroll;
 // Allows smooth scrolling to be overridden by our E2E tests
 export function getScrollOptions(additionalOptions) {
   const globals = window.Forms || {};
+  const defaults = {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  };
   const reducedMotion = window?.matchMedia('(prefers-reduced-motion: reduce)')
     ?.matches;
-  const defaults = {
-    duration: reducedMotion ? 0 : 500,
-    delay: 0,
-    smooth: !reducedMotion,
+  const motionPreference = reducedMotion
+    ? {
+        duration: 0,
+        delay: 0,
+        smooth: false,
+      }
+    : {};
+
+  return {
+    ...defaults,
+    ...globals.scroll,
+    ...additionalOptions,
+    ...motionPreference,
   };
-  return { ...defaults, ...globals.scroll, ...additionalOptions };
 }
 
 export function scrollTo(elem, options = getScrollOptions()) {

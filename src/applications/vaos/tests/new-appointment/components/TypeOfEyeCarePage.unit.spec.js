@@ -48,7 +48,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
   });
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
-    const nextPage = await setTypeOfCare(store, /eye care/i);
+    const nextPage = await setTypeOfCare(store, 'EYE'); // eye care
     expect(nextPage).to.equal('/new-appointment/choose-eye-care');
 
     const screen = renderWithStoreAndRouter(
@@ -111,7 +111,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     });
 
     const store = createTestStore(initialState);
-    const nextPage = await setTypeOfCare(store, /eye care/i);
+    const nextPage = await setTypeOfCare(store, 'EYE'); // eye care
     expect(nextPage).to.equal('/new-appointment/choose-eye-care');
 
     const screen = renderWithStoreAndRouter(

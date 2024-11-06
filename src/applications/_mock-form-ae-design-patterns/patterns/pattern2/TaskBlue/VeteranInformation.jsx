@@ -6,8 +6,7 @@ import { isValid, format } from 'date-fns';
 import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 
-import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from './constants';
 
 import { parseDateToDateObj } from '../../../utils/dates';
@@ -16,13 +15,6 @@ import { APP_URLS } from '../../../utils/constants';
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
-const mask = value => {
-  const number = (value || '').toString().slice(-4);
-  return srSubstitute(
-    `●●●–●●–${number}`,
-    `ending with ${number.split('').join(' ')}`,
-  );
-};
 
 const VeteranInformation = ({ formData }) => {
   const { veteranSocialSecurityNumber } = formData || {};
@@ -36,68 +28,75 @@ const VeteranInformation = ({ formData }) => {
       <h3 className="vads-u-margin-y--2">
         Confirm the personal information we have on file for you.
       </h3>
-      <va-card background="true">
-        <strong
-          className="name dd-privacy-hidden"
-          data-dd-action-name="Veteran's name"
-        >
-          {`${first || ''} ${middle || ''} ${last || ''}`}
-          {suffix ? `, ${suffix}` : null}
-        </strong>
-        {veteranSocialSecurityNumber ? (
-          <p className="ssn">
-            <strong>Social Security number: </strong>
-            <span
-              className="dd-privacy-mask"
-              data-dd-action-name="Veteran's SSN"
+      <div className="vads-u-display--flex">
+        <va-card background="true">
+          <p>
+            <strong
+              className="name dd-privacy-hidden"
+              data-dd-action-name="Veteran's name"
             >
-              {mask(veteranSocialSecurityNumber)}
-            </span>
+              Name:{' '}
+            </strong>
+            {`${first || ''} ${middle || ''} ${last || ''}`}
+            {suffix ? `, ${suffix}` : null}
           </p>
-        ) : null}
-        {/* {vaFileLastFour ? ( */}
-        {/* <p className="vafn">
+          {veteranSocialSecurityNumber ? (
+            <p className="ssn">
+              <strong>Last 4 digits of Social Security number: </strong>
+              <span data-dd-action-name="Veteran's SSN">
+                {veteranSocialSecurityNumber.slice(-4)}
+              </span>
+            </p>
+          ) : null}
+          {/* {vaFileLastFour ? ( */}
+          {/* <p className="vafn">
           VA file number:{' '}
           <span
-            className="dd-privacy-mask"
-            data-dd-action-name="Veteran's VA file number"
+          className="dd-privacy-mask"
+          data-dd-action-name="Veteran's VA file number"
           >
-            {mask(vaFileLastFour)}
+          {mask(vaFileLastFour)}
           </span>
-        </p>
-        ) : null} */}
-        <p>
-          <strong>Date of birth: </strong>
-          {isValid(dobDateObj) ? (
+          </p>
+          ) : null} */}
+          <p>
+            <strong>Date of birth: </strong>
+            {isValid(dobDateObj) ? (
+              <span
+                className="dob dd-privacy-mask"
+                data-dd-action-name="Veteran's date of birth"
+              >
+                {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
+              </span>
+            ) : null}
+          </p>
+          <p>
+            <strong>Gender: </strong>
             <span
-              className="dob dd-privacy-mask"
-              data-dd-action-name="Veteran's date of birth"
+              className="gender dd-privacy-hidden"
+              data-dd-action-name="Veteran's gender"
             >
-              {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
+              {genderLabels?.[gender] || ''}
             </span>
-          ) : null}
-        </p>
-        <p>
-          <strong>Gender: </strong>
-          <span
-            className="gender dd-privacy-hidden"
-            data-dd-action-name="Veteran's gender"
-          >
-            {genderLabels?.[gender] || ''}
-          </span>
-        </p>
-      </va-card>
+          </p>
+        </va-card>
+      </div>
 
       <br role="presentation" />
 
-      <p>
+      <p className="vads-u-margin-bottom--4">
         <strong>Note:</strong> To protect your personal information, we don’t
         allow online changes to your name, date of birth, or Social Security
-        number. If you need to change this information for your health benefits,
-        call your VA health facility.{' '}
+        number. If you need to change this information, call us at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact="711" tty />
+        ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m. ET.
+        We’ll give you instructions for how to change your information. Or you
+        can learn how to change your legal name on file with VA.{' '}
         <va-link
+          external
           href={APP_URLS.facilities}
-          text="Find your VA health facility"
+          text="Learn how to change your legal name (opens in new tab)"
         />
       </p>
     </>
