@@ -87,7 +87,7 @@ const createCauseFollowUpConditional = (formData, index, causeType) => {
   return cause !== causeType;
 };
 
-// TODO: Fix functionality on edit
+// TODO: Fix functionality on edit and update list when other conditions are edited
 const getOtherConditions = (formData, currentIndex) => {
   const ratedDisabilities =
     formData?.ratedDisabilities?.map(disability => disability.name) || [];

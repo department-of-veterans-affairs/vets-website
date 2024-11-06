@@ -197,6 +197,7 @@ const formConfig = {
       title: ({ onReviewPage }) =>
         `${onReviewPage ? 'Review ' : ''}Veteran Details`,
       pages: {
+        ...newConditionsPages,
         veteranInformation: {
           title: 'Veteran information',
           path: 'veteran-information',
@@ -326,7 +327,6 @@ const formConfig = {
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
-        ...newConditionsPages,
         addDisabilities: {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
