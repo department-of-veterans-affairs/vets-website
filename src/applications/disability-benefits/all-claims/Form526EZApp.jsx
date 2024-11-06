@@ -153,6 +153,7 @@ export const Form526Entry = ({
     [inProgressFormId, location, profile, showSubforms, wizardStatus],
   );
 
+  // Set the feature flag in the formData so when turned on it shows the addConditions multi-page list and loop
   useEffect(
     () => {
       dispatch(
@@ -165,6 +166,7 @@ export const Form526Entry = ({
     [showAddDisabilitiesEnhancement],
   );
 
+  // Set the feature flag in the session storage so when turned on the addDisabilities page uses the Autocomplete instead of the Combobox (cannot use formData in this case)
   useEffect(
     () => {
       window.sessionStorage.setItem(
@@ -191,10 +193,10 @@ export const Form526Entry = ({
 
   // The router should be doing this, but we're getting lots of Sentry errors
   // See github.com/department-of-veterans-affairs/va.gov-team/issues/29893
-  // if (!loggedIn && !isIntroPage(location)) {
-  //   router.push('/introduction');
-  //   return wrapWithBreadcrumb(title, showLoading());
-  // }
+  if (!loggedIn && !isIntroPage(location)) {
+    router.push('/introduction');
+    return wrapWithBreadcrumb(title, showLoading());
+  }
 
   // showWizard feature flag loads _after_ page has rendered causing the full
   // page content to render, then the wizard to render if this flag is true, so

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
@@ -50,7 +49,7 @@ class IntroductionPage extends React.Component {
     };
 
     const sipProps = {
-      hideUnauthedStartLink: environment.isProduction(),
+      hideUnauthedStartLink: true,
       headingLevel: 2,
       prefillEnabled: formConfig.prefillEnabled,
       formId,
