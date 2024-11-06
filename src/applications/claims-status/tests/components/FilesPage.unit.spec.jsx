@@ -1,5 +1,6 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
+// import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -24,16 +25,19 @@ const props = {
   clearNotification: () => {},
   lastPage: '',
   loading: false,
+  location: { hash: '' },
   message: {},
 };
 
 describe('<FilesPage>', () => {
   let stub;
+  // let setPageFocusSpy;
   before(() => {
     // Stubbing out AdditionalEvidencePage because we're not interested
     // in setting up all of the redux state needed to test it
     stub = sinon.stub(AdditionalEvidencePage, 'default');
     stub.returns(<div data-testid="additional-evidence-page" />);
+    // setPageFocusSpy = sinon.spy();
   });
 
   after(() => {
@@ -73,6 +77,17 @@ describe('<FilesPage>', () => {
     expect($('.claim-files', container)).to.not.exist;
     getByText('Claim status is unavailable');
   });
+
+  // it('should call setPageFocus with lastPage and loading after 100ms when location.hash is empty', done => {
+  //   shallow(<FilesPage {...props} />);
+
+  //   setTimeout(() => {
+  //     expect(setPageFocusSpy.calledOnce).to.be.true;
+  //     // expect(setPageFocusSpy.calledWith(props.lastPage, props.loading)).to.be
+  //     //   .true;
+  //     done();
+  //   }, 110); // Allow a bit more time than the timeout in the component
+  // });
 
   describe('document.title', () => {
     // Minimum data needed for these test cases.

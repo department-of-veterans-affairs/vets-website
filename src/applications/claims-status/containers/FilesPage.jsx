@@ -10,10 +10,12 @@ import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
 import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
 import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
+import withRouter from '../utils/withRouter';
 
 import {
   claimAvailable,
   isClaimOpen,
+  setPageFocus,
   setTabDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab } from '../utils/page';
@@ -27,6 +29,13 @@ class FilesPage extends React.Component {
     const { claim } = this.props;
     // Only set the document title at mount-time if the claim is already available.
     if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
+
+    if (!this.props.location.hash) {
+      setTimeout(() => {
+        const { lastPage, loading } = this.props;
+        setPageFocus(lastPage, loading);
+      }, 100);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -135,6 +144,7 @@ FilesPage.propTypes = {
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  location: PropTypes.object,
   message: PropTypes.shape({
     body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     title: PropTypes.string,
@@ -142,9 +152,11 @@ FilesPage.propTypes = {
   }),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FilesPage);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FilesPage),
+);
 
 export { FilesPage };
