@@ -225,7 +225,8 @@ const formConfig = {
       depends: formData =>
         formData.whoIsYourQuestionAbout ===
           whoIsYourQuestionAboutLabels.MYSELF &&
-        formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN,
+        formData.relationshipToVeteran ===
+          relationshipOptionsMyself.FAMILY_MEMBER,
       pages: {
         ...aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
       },
