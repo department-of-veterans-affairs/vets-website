@@ -142,10 +142,7 @@ const mailingAddress33 = {
           ],
           'ui:options': {
             replaceSchema: formData => {
-              if (
-                formData.showMebDgi40Features &&
-                formData['view:mailingAddress']?.livesOnMilitaryBase
-              ) {
+              if (formData['view:mailingAddress']?.livesOnMilitaryBase) {
                 return {
                   type: 'string',
                   title: 'APO/FPO',
@@ -161,11 +158,13 @@ const mailingAddress33 = {
           },
         },
         state: {
-          'ui:required': formData =>
-            !formData.showMebDgi40Features ||
-            (formData.showMebDgi40Features &&
-              (formData['view:mailingAddress']?.livesOnMilitaryBase ||
-                formData['view:mailingAddress']?.address?.country === 'USA')),
+          'ui:title': 'State/County/Province',
+          'ui:required': formData => {
+            return (
+              formData['view:mailingAddress']?.livesOnMilitaryBase ||
+              formData['view:mailingAddress']?.address?.country === 'USA'
+            );
+          },
         },
         postalCode: {
           'ui:errorMessages': {
