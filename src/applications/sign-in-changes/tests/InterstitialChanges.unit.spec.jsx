@@ -1,33 +1,39 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import { setupServer } from 'msw/node';
+import { rest } from 'msw';
 import InterstitialChanges from '../containers/InterstitialChanges';
 
-const generateStore = ({ signInChangesEnabled = true } = {}) => ({
+const store = ({ signInChangesEnabled = true } = {}) => ({
   getState: () => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       sign_in_changes_enabled: signInChangesEnabled,
     },
-    user: {
-      // eslint-disable-next-line camelcase
-      credential_type: {
-        email: {},
-      },
-    },
   }),
-  subscribe: sinon.stub(),
+  subscribe: () => {},
   dispatch: () => {},
 });
 
 describe('InterstitialChanges', () => {
+  const oldLocation = global.window.location;
+  const server = setupServer();
+
+  before(() => server.listen());
+  afterEach(() => {
+    global.window.location = oldLocation;
+    cleanup();
+    server.resetHandlers();
+  });
+  after(() => server.close());
+
   it('renders the static content correctly', () => {
-    const store = generateStore();
+    const mockStore = store();
     const expectedReturnUrl = '/';
     const screen = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <InterstitialChanges />
       </Provider>,
     );
@@ -45,16 +51,17 @@ describe('InterstitialChanges', () => {
   });
 
   it('renders AccountSwitch when user has Login.gov account', () => {
-    const store = generateStore({
-      user: {
-        // eslint-disable-next-line camelcase
-        credential_type: {
-          email: { logingov: 'logi@test.com' },
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/user/credential_emails`,
+        (_, res, ctx) => {
+          return res(ctx.status(401), ctx.json({ logingov: 'logi@test.com' }));
         },
-      },
-    });
+      ),
+    );
     const screen = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <InterstitialChanges />
       </Provider>,
     );
@@ -63,16 +70,17 @@ describe('InterstitialChanges', () => {
     expect(screen.getByText(/log\*{5}@test\.com/i)).to.exist;
   });
   it('renders AccountSwitch when user has ID.me account', () => {
-    const store = generateStore({
-      user: {
-        // eslint-disable-next-line camelcase
-        credential_type: {
-          email: { idme: 'idme@test.com' },
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/user/credential_emails`,
+        (_, res, ctx) => {
+          return res(ctx.status(401), ctx.json({ idme: 'idme@test.com' }));
         },
-      },
-    });
+      ),
+    );
     const screen = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <InterstitialChanges />
       </Provider>,
     );
@@ -84,11 +92,11 @@ describe('InterstitialChanges', () => {
   });
 
   it('uses the correct returnUrl from sessionStorage', () => {
-    const store = generateStore();
+    const mockStore = store();
     const expectedReturnUrl = 'continue-url';
     sessionStorage.setItem('authReturnUrl', expectedReturnUrl);
     const screen = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <InterstitialChanges />
       </Provider>,
     );

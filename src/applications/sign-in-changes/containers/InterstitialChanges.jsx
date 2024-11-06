@@ -15,9 +15,7 @@ export default function InterstitialChanges() {
         'Content-Type': 'application/json',
       },
     })
-      .then(data => {
-        setUserEmails(data.user?.credential_type?.email || {});
-      })
+      .then(data => setUserEmails(data || {}))
       .catch(() => {});
   }, []);
 
