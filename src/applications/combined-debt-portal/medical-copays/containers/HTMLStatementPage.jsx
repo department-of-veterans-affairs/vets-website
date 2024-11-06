@@ -10,7 +10,6 @@ import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
 import StatementCharges from '../components/StatementCharges';
 import DownloadStatement from '../components/DownloadStatement';
-import { OnThisPageStatements } from '../components/OnThisPageStatements';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import BalanceQuestions from '../components/BalanceQuestions';
@@ -78,7 +77,7 @@ const HTMLStatementPage = ({ match }) => {
         <p className="va-introtext" data-testid="facility-name">
           {`${selectedCopay?.station.facilityName}`}
         </p>
-        <OnThisPageStatements />
+        <va-on-this-page />
         <AccountSummary
           currentBalance={selectedCopay.pHNewBalance}
           newCharges={selectedCopay.pHTotCharges}

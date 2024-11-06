@@ -5,17 +5,20 @@ const BenefitCard = ({ benefit }) => {
   const { name, category, description, learnMoreURL, applyNowURL } = benefit;
   return (
     <div className="vads-u-margin-bottom--2">
-      <va-card>
-        <div className="vads-u-margin-bottom--2">
+      <va-card tabIndex="0">
+        <h3>
           <span className="usa-label">{category}</span>
-        </div>
-        <h3>{name}</h3>
+          <br />
+          <br />
+          <span>{name}</span>
+        </h3>
         <p className="vads-u-margin-y--0">{description}</p>
         <div>
           <div className="vads-u-display--inline-block vads-u-margin-right--2">
             {learnMoreURL && (
-              <va-link-action
+              <va-link
                 href={learnMoreURL}
+                external
                 text="Learn more"
                 type="secondary"
                 label={`Learn more about ${name}`}
@@ -24,8 +27,9 @@ const BenefitCard = ({ benefit }) => {
           </div>
           <div className="vads-u-display--inline-block">
             {applyNowURL && (
-              <va-link-action
+              <va-link
                 href={applyNowURL}
+                external
                 text="Apply now"
                 type="secondary"
                 label={`Apply now for ${name}`}

@@ -22,6 +22,7 @@ import {
 
 import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 import guardianInformation from '../pages/guardianInformation';
+import { updateApplicantInformationPage } from '../../utils/helpers';
 
 export const applicantInformationField = (automatedTest = false) => {
   if (isProductionOfTestProdEnv(automatedTest)) {
@@ -38,7 +39,7 @@ export const applicantInformationField = (automatedTest = false) => {
       }),
     };
   }
-  return {
+  const applicantInformationPage = {
     ...createApplicantInformationPage(fullSchema1995, {
       isVeteran: true,
       fields: [
@@ -58,6 +59,7 @@ export const applicantInformationField = (automatedTest = false) => {
     }),
     uiSchema: applicantInformationUpdate.uiSchema,
   };
+  return updateApplicantInformationPage(applicantInformationPage);
 };
 
 export const benefitSelectionUiSchema = (automatedTest = false) => {

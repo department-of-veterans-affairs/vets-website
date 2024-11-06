@@ -8,6 +8,7 @@ import {
   ALERT_TYPES,
   APP_TYPES,
 } from '../../combined/utils/helpers';
+import { SpecialHurricaneAlert } from '../../combined/components/DisasterAlert';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
 import OtherVADebts from '../../combined/components/OtherVADebts';
@@ -15,7 +16,6 @@ import alertMessage from '../../combined/utils/alert-messages';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
-import { OnThisPageOverview } from '../components/OnThisPageOverview';
 import MCPAlerts from '../../combined/components/MCPAlerts';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
@@ -119,15 +119,15 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
     return (
-      <>
-        <OnThisPageOverview multiple={statements?.length > 1} />
+      <article className="vads-u-padding-x--0">
+        <va-on-this-page />
         <Balances statements={statementsByUniqueFacility} />
         {renderOtherVA(debts?.length, debtError)}
         <HowToPay isOverview />
         <FinancialHelp />
         <DisputeCharges />
         <BalanceQuestions />
-      </>
+      </article>
     );
   };
   return (
@@ -157,6 +157,7 @@ const OverviewPage = () => {
           of your facilities. Find out how to make payments or request financial
           help.
         </p>
+        <SpecialHurricaneAlert />
         {renderContent()}
       </div>
     </>

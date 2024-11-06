@@ -16,8 +16,7 @@ import { ServerErrorAlert } from '../config/helpers';
 import {
   CHAPTER_1,
   URL,
-  envUrl,
-  requireSignInTopics,
+  getApiUrl,
   requiredForSubtopicPage,
 } from '../constants';
 
@@ -60,10 +59,13 @@ const TopicSelectPage = props => {
     const selected = apiData.find(
       topic => topic.attributes.name === selectedValue,
     );
-    dispatch(setTopicID(selected.id));
-    onChange({ ...formData, selectTopic: selectedValue });
-    if (requireSignInTopics.includes(selectedValue) && !loggedIn)
+
+    if (selected.attributes.requiresAuthentication && !loggedIn) {
       setShowModal({ show: true, selected: selectedValue });
+    } else {
+      dispatch(setTopicID(selected.id));
+      onChange({ ...formData, selectTopic: selectedValue });
+    }
   };
 
   const getApiData = url => {
@@ -81,11 +83,9 @@ const TopicSelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(
-        `${envUrl}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${URL.GET_TOPICS}`,
-      );
+      getApiData(getApiUrl(URL.GET_TOPICS, { PARENT_ID: categoryID }));
     },
-    [loggedIn],
+    [loggedIn, categoryID],
   );
 
   useEffect(
@@ -117,7 +117,7 @@ const TopicSelectPage = props => {
           required
           uswds
         >
-          {apiData.map(topic => (
+          {apiData?.map(topic => (
             <VaRadioOption
               key={topic.id}
               name="select_topic"
@@ -136,7 +136,7 @@ const TopicSelectPage = props => {
       <RequireSignInModal
         onClose={onModalNo}
         show={showModal.show}
-        restrictedItem={showModal.selected}
+        restrictedItem="topic"
       />
     </>
   ) : (

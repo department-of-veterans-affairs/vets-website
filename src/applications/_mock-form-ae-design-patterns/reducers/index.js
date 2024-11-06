@@ -5,9 +5,13 @@ import {
 import { createInitialState } from 'platform/forms-system/src/js/state/helpers';
 import vapService from '@@vap-svc/reducers';
 import formConfig from '../shared/config/fallbackForm';
-import { SET_NEW_FORM_CONFIG } from '../actions/actions';
+import {
+  SET_NEW_FORM_CONFIG,
+  UPDATE_SAVE_TO_PROFILE,
+} from '../actions/actions';
+import { vadxReducer } from '../slice';
 
-const reducer = (state = {}, action) => {
+const reducer = (state = { saveToProfile: null }, action) => {
   if (action.type === SET_NEW_FORM_CONFIG) {
     // only reset the form if the new form config has a different tracking prefix (this was the easiest way to determine if the form config changed)
     if (action.formConfig.trackingPrefix === state?.trackingPrefix) {
@@ -21,6 +25,13 @@ const reducer = (state = {}, action) => {
     return { ...state, ...updated };
   }
 
+  if (action.type === UPDATE_SAVE_TO_PROFILE) {
+    return {
+      ...state,
+      saveToProfile: action.payload,
+    };
+  }
+
   const initialState = createInitialState(formConfig);
   return createSaveInProgressFormReducer(formConfig)(
     { ...initialState, ...state },
@@ -31,4 +42,5 @@ const reducer = (state = {}, action) => {
 export default {
   form: reducer,
   vapService,
+  vadx: vadxReducer,
 };

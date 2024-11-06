@@ -6,7 +6,6 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
-  formatName,
   updatePageTitle,
   crisisLineHeader,
   txtLine,
@@ -20,6 +19,7 @@ import {
   makePdf,
   getNameDateAndTime,
   generateTextFile,
+  formatNameFirstLast,
 } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -72,7 +72,7 @@ const PathologyDetails = props => {
     const content = `
 ${crisisLineHeader}\n\n    
 ${record.name} \n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 Details about this test: \n
 ${txtLine} \n
@@ -114,23 +114,33 @@ ${record.results} \n`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>
-        <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="pathology-sample-tested" data-dd-privacy="mask">
+          {record.sampleTested}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="pathology-location">{record.labLocation}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="pathology-location" data-dd-privacy="mask">
+          {record.labLocation}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="date-completed">{record.date}</p>
+        <p data-testid="date-completed" data-dd-privacy="mask">
+          {record.date}
+        </p>
       </div>
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p data-testid="pathology-report" className="monospace">
+        <p
+          data-testid="pathology-report"
+          className="monospace"
+          data-dd-privacy="mask"
+        >
           {record.results}
         </p>
       </div>

@@ -11,7 +11,7 @@ const ActionLink = props => {
 
   const linkText =
     app === APP_NAMES.PRE_CHECK_IN
-      ? t('review-your-information-now')
+      ? t('review-your-information-now-to-complete-pre-check-in')
       : t('check-in-now');
 
   let label = false;

@@ -12,7 +12,6 @@ const MessageActionButtons = props => {
   const {
     threadId,
     hideReplyButton,
-    handleReplyButton,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
     showEditDraftButton = false,
@@ -32,16 +31,7 @@ const MessageActionButtons = props => {
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column tablet:vads-u-flex-direction--row">
-      {!hideReplyButton && (
-        <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto mobile-lg:vads-u-margin-right--1">
-          <ReplyButton
-            key="replyButton"
-            visible={!hideReplyButton}
-            onReply={handleReplyButton}
-          />
-        </div>
-      )}
-      {showEditDraftButton && (
+      {showEditDraftButton ? (
         <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto mobile-lg:vads-u-margin-right--1">
           <button
             type="button"
@@ -60,6 +50,12 @@ const MessageActionButtons = props => {
             </span>
           </button>
         </div>
+      ) : (
+        !hideReplyButton && (
+          <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto mobile-lg:vads-u-margin-right--1">
+            <ReplyButton key="replyButton" visible />
+          </div>
+        )
       )}
 
       <div className="vads-u-display--flex vads-u-flex--1 vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row ">
@@ -95,7 +91,6 @@ const MessageActionButtons = props => {
 
 MessageActionButtons.propTypes = {
   handleEditDraftButton: PropTypes.func,
-  handleReplyButton: PropTypes.func,
   hasMultipleDrafts: PropTypes.bool,
   hideReplyButton: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,

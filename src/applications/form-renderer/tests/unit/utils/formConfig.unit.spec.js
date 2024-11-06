@@ -6,17 +6,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as IntroductionPage from 'applications/form-renderer/containers/IntroductionPage';
 import { render } from '@testing-library/react';
-import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
-import * as addressPatterns from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
-import {
-  employmentQuestionnaire,
-  normalizedForm,
-} from '../../../_config/formConfig';
+import * as digitalFormPatterns from 'applications/form-renderer/utils/digitalFormPatterns';
+import { normalizedForm } from '../../../_config/formConfig';
 import { createFormConfig, selectSchemas } from '../../../utils/formConfig';
 import manifest from '../../../manifest.json';
 
+const [yourPersonalInfo, address, phoneAndEmail] = normalizedForm.chapters;
+
 describe('createFormConfig', () => {
   let formConfig;
+  let identificationSpy;
+  let nameSpy;
   let stub;
 
   beforeEach(() => {
@@ -37,11 +37,19 @@ describe('createFormConfig', () => {
     };
     stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
 
+    identificationSpy = sinon.spy(
+      digitalFormPatterns,
+      'digitalFormIdentificationInfo',
+    );
+    nameSpy = sinon.spy(digitalFormPatterns, 'digitalFormNameAndDoB');
+
     formConfig = createFormConfig(normalizedForm);
   });
 
   afterEach(() => {
     stub.restore();
+    identificationSpy.restore();
+    nameSpy.restore();
   });
 
   it('returns a properly formatted Form Config object', () => {
@@ -57,13 +65,13 @@ describe('createFormConfig', () => {
   });
 
   it('properly formats each chapter', () => {
-    const testChapter = formConfig.chapters[158253];
-    const page = testChapter.pages[158253];
+    const testChapter = formConfig.chapters.chapter161344;
+    const page = testChapter.pages[161344];
 
-    expect(testChapter.title).to.eq('First Step');
+    expect(testChapter.title).to.eq(address.chapterTitle);
     expect(Object.keys(testChapter.pages).length).to.eq(1);
-    expect(page.path).to.eq('158253');
-    expect(page.title).to.eq('Name and Date of Birth');
+    expect(page.path).to.eq('161344');
+    expect(page.title).to.eq(address.pageTitle);
     expect(page.schema).not.to.eq(undefined);
     expect(page.uiSchema['ui:title']).not.to.eq(undefined);
   });
@@ -81,109 +89,43 @@ describe('createFormConfig', () => {
       `resBurden: ${normalizedForm.ombInfo.resBurden}`,
     );
   });
+
+  it('returns a personal information chapter', () => {
+    const [nameAndDob, identificationInfo] = yourPersonalInfo.pages;
+
+    expect(formConfig.chapters.personalInformationChapter.title).to.eq(
+      yourPersonalInfo.chapterTitle,
+    );
+
+    expect(identificationSpy.calledWith(identificationInfo)).to.eq(true);
+    expect(nameSpy.calledWith(nameAndDob)).to.eq(true);
+  });
 });
 
 describe('selectSchemas', () => {
-  context('with Name and Date of Birth pattern', () => {
-    let dobIncluded;
-
-    beforeEach(() => {
-      dobIncluded = selectSchemas(normalizedForm.chapters[0]);
-    });
-
-    it('contains fullName', () => {
-      expect(dobIncluded.schema.properties.fullName).to.eq(
-        webComponentPatterns.fullNameSchema,
-      );
-      expect(dobIncluded.uiSchema.fullName).to.not.eq(undefined);
-    });
-
-    context('when includeDateOfBirth is true', () => {
-      it('contains dateOfBirth', () => {
-        expect(dobIncluded.schema.properties.dateOfBirth).to.eq(
-          webComponentPatterns.dateOfBirthSchema,
-        );
-        expect(dobIncluded.uiSchema.dateOfBirth).to.not.eq(undefined);
-      });
-    });
-
-    context('when includeDateOfBirth is false', () => {
-      it('does not contain dateOfBirth', () => {
-        const nameOnly = selectSchemas(normalizedForm.chapters[1]);
-
-        expect(nameOnly.schema.properties.dateOfBirth).to.eq(undefined);
-        expect(nameOnly.uiSchema.dateOfBirth).to.eq(undefined);
-      });
-    });
-  });
-
-  context('with Identification Information pattern', () => {
-    let serviceNumberIncluded;
-
-    beforeEach(() => {
-      serviceNumberIncluded = selectSchemas(
-        employmentQuestionnaire.chapters[1],
-      );
-    });
-
-    it('contains veteranId', () => {
-      expect(serviceNumberIncluded.schema.properties.veteranId).to.eq(
-        webComponentPatterns.ssnOrVaFileNumberSchema,
-      );
-      expect(serviceNumberIncluded.uiSchema.veteranId).to.not.eq(undefined);
-    });
-
-    context('when includeServiceNumber is true', () => {
-      it('includes serviceNumber', () => {
-        expect(serviceNumberIncluded.schema.properties.serviceNumber).to.eq(
-          webComponentPatterns.serviceNumberSchema,
-        );
-        expect(serviceNumberIncluded.uiSchema.serviceNumber).to.not.eq(
-          undefined,
-        );
-      });
-    });
-
-    context('when includeServiceNumber is false', () => {
-      it('does not include serviceNumber', () => {
-        const vetIdOnly = selectSchemas(normalizedForm.chapters[2]);
-
-        expect(vetIdOnly.schema.properties.serviceNumber).to.eq(undefined);
-        expect(vetIdOnly.uiSchema.serviceNumber).to.eq(undefined);
-      });
-    });
-  });
+  let spy;
 
   context('with Address pattern', () => {
-    let addressSpy;
-    let noMiliarySpy;
-
     beforeEach(() => {
-      addressSpy = sinon.spy(addressPatterns, 'addressSchema');
-      noMiliarySpy = sinon.spy(addressPatterns, 'addressNoMilitarySchema');
+      spy = sinon.spy(digitalFormPatterns, 'digitalFormAddress');
     });
 
-    afterEach(() => {
-      addressSpy.restore();
-      noMiliarySpy.restore();
+    it('calls digitalFormAddress', () => {
+      selectSchemas(address);
+
+      expect(spy.calledWith(address)).to.eq(true);
+    });
+  });
+
+  context('with Phone and Email Address pattern', () => {
+    beforeEach(() => {
+      spy = sinon.spy(digitalFormPatterns, 'digitalFormPhoneAndEmail');
     });
 
-    context('when militaryAddressCheckbox is true', () => {
-      it('calls addressSchema', () => {
-        const schemas = selectSchemas(employmentQuestionnaire.chapters[2]);
+    it('calls digitalFormPhoneAndEmail', () => {
+      selectSchemas(phoneAndEmail);
 
-        expect(addressSpy.calledOnce).to.eq(true);
-        expect(schemas.uiSchema.address).to.not.eq(undefined);
-      });
-    });
-
-    context('when militaryAddressCheckbo is false', () => {
-      it('calls addressNoMilitarySchema', () => {
-        const schemas = selectSchemas(normalizedForm.chapters[3]);
-
-        expect(noMiliarySpy.calledOnce).to.eq(true);
-        expect(schemas.uiSchema.address).to.not.eq(undefined);
-      });
+      expect(spy.calledWith(phoneAndEmail)).to.eq(true);
     });
   });
 });

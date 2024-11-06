@@ -119,17 +119,17 @@ export const Locators = {
     MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
-    SAVE_DRAFT: '#save-draft-button',
+    SAVE_DRAFT: '[data-testid="save-draft-button"]',
     PRINT_ONE_MESS: '[data-testid="radio-print-one-message"]',
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
-    DELETE_DRAFT: '#delete-draft-button',
+    DELETE_DRAFT: '[data-testid="delete-draft-button"]',
     EDIT_FOLDER: '[data-testid="edit-folder-button"]',
     DELETE_FOLDER: '[data-testid="remove-folder-button"]',
     PRINT: '[data-testid="print-button"]',
     SORT: '[data-testid="sort-button"]',
     ATTACH_FILE: '[data-testid="attach-file-button"]',
     REMOVE_ATTACHMENT: '[data-testid="remove-attachment-button"]',
-    REMOVE_ALL_ATTCH: `[data-testid="attachment-virus-alert"]>button`,
+    REMOVE_ALL_ATTCH: `[data-testid="remove-all-attachments-button"]`,
     CONFIRM_REMOVE_ATTACHMENT:
       '[data-testid="confirm-remove-attachment-button"]',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
@@ -139,9 +139,11 @@ export const Locators = {
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
+    EDIT_DRAFT: `[data-testid="edit-draft-button-body"]`,
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
     CL_SAVE: `[data-testid="contact-list-save"]`,
     CL_GO_BACK: '[data-testid="contact-list-go-back"]',
+    ALERT_CLOSE: `.first-focusable-child`,
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -157,7 +159,7 @@ export const Locators = {
     HEADER: `#heading`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
-    TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]>h2',
+    TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]',
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
@@ -208,6 +210,7 @@ export const Locators = {
     ALERT_TEXT: `[data-testid="alert-text"]`,
     ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
     VA_ALERT: `va-alert`,
+    REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -239,9 +242,15 @@ export const Locators = {
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',
   },
+  SUBHEADERS: {
+    NUMBER_OF_THREADS: `[data-testid="displaying-number-of-threads"]`,
+  },
   DROPDOWN: {
     RECIPIENTS: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
+  },
+  ICONS: {
+    ATTCH_ICON: '[data-testid="attachment-icon"]',
   },
 };
 
@@ -257,6 +266,8 @@ export const Alerts = {
     HEADER: `You can't send messages to`,
     PARAGRAPH:
       'If you need to contact this care team, call your VA health facility.',
+    ALL_PARAGRAPH:
+      'If you need to contact your care teams, call your VA health facility.',
     LINK: 'Find your VA health facility',
   },
   CONTACT_LIST: {
@@ -287,8 +298,8 @@ export const Alerts = {
   EL_SIGN_CHECK: `You must certify by checking the box.`,
   SAVE_SIGN: `We can't save your signature in a draft message`,
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
-  VIRUS_ATTCH: `The file you attached has a virus. Remove the file to send your message.`,
-  VIRUS_MULTI_ATTCH: `One or more of the files you attached has a virus. You’ll need to remove it to send your message.`,
+  VIRUS_ATTCH: `Your message failed to send. Your file failed our scan. Try sending your message without any attachments.`,
+  VIRUS_MULTI_ATTCH: `Your message failed to send. One or more of your files failed our scan. Try sending your message without any attachments.`,
 };
 
 export const Data = {
@@ -314,7 +325,6 @@ export const Data = {
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
   SUBJECT_CANNOT_BLANK: 'Subject cannot be blank.',
   BODY_CANNOT_BLANK: 'Message body cannot be blank.',
-  ATTACH_FILE: 'Attach file',
   ATTACH_ADDITIONAL_FILE: 'Attach additional file',
   MESSAGE_CANNOT_SAVE_YET: "We can't save this message yet",
   CONTINUE_EDITING: 'Continue editing',
@@ -340,10 +350,15 @@ export const Data = {
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   BUTTONS: {
-    EDIT_DRAFT: `Edit draft`,
+    ATTACH_FILE: 'Attach file',
+    SEND: `Send`,
+    SAVE_DRAFT: `Save draft`,
     SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
     SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
     SAVE_AND_EXIT: `Save contact list`,
+    EDIT_DRAFT: `Edit draft`,
+    EDIT_DRAFT_REPLY: `Edit draft reply`,
+    DELETE_DRAFT: `Delete draft`,
     GO_BACK: `Go back`,
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',

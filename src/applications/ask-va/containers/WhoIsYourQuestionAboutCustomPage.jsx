@@ -7,13 +7,13 @@ import { connect } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequired from '../components/SignInMyBeRequired';
+import { flowPaths } from '../config/schema-helpers/formFlowHelper';
 import {
   CategoryEducation,
-  whoIsYourQuestionAboutLabels,
-  CHAPTER_3,
   CHAPTER_2,
+  CHAPTER_3,
+  whoIsYourQuestionAboutLabels,
 } from '../constants';
-import { flowPaths } from '../config/schema-helpers/formFlowHelper';
 
 const WhoIsYourQuestionAboutCustomPage = props => {
   const { onChange, loggedIn, goBack, goToPath, formData } = props;
@@ -43,7 +43,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
     if (data.whoIsYourQuestionAbout) {
       if (
         data.selectCategory !== CategoryEducation &&
-        data.whoIsYourQuestionAbout !== radioOptions()[2].value
+        data.whoIsYourQuestionAbout !== whoIsYourQuestionAboutLabels.GENERAL
       ) {
         return goToPath(`/${CHAPTER_3.RELATIONSHIP_TO_VET.PATH}`);
       }
@@ -61,12 +61,19 @@ const WhoIsYourQuestionAboutCustomPage = props => {
       formData.selectTopic === caregiverSelected.topic &&
       formData.selectSubtopic === caregiverSelected.subtopic &&
       !loggedIn &&
-      (selectedValue === radioOptions()[0].value ||
-        selectedValue === radioOptions()[1].value)
+      (selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
+        selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE)
     ) {
       setShowModal({
         show: true,
-        message: `If your question is about yourself or someone else you need to sign in.`,
+        message: (
+          <div>
+            Because your question is about yourself or someone else, you need to
+            sign in. When you sign in, we can{' '}
+            <strong>communicate with you securely</strong> about the specific
+            details of your benefits.{' '}
+          </div>
+        ),
       });
     } else {
       onChange({ ...formData, whoIsYourQuestionAbout: selectedValue });
@@ -91,7 +98,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
               key={option.value}
               name="who-is-your-question-about"
               label={option.label}
-              value={option.value}
+              value={option.label}
               checked={formData.whoIsYourQuestionAbout === option.value}
               aria-describedby={
                 formData.whoIsYourQuestionAbout === option.value
