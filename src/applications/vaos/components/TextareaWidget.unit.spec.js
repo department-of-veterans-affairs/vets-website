@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import TextareaWidget from '../../components/TextareaWidget';
+import TextareaWidget from './TextareaWidget';
 
 describe('VAOS Component: TextareaWidget', () => {
   beforeEach(() => mockFetch());

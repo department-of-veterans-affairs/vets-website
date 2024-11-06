@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import ErrorBoundary from '../../components/ErrorBoundary';
+import ErrorBoundary from './ErrorBoundary';
 
 describe('VAOS Component: ErrorBoundary', () => {
   it('should render error message when there is an error', async () => {

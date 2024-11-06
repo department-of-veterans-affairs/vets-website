@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import NewTabAnchor from '../../components/NewTabAnchor';
+import NewTabAnchor from './NewTabAnchor';
 
 describe('VAOS Component: NewTabAnchor', () => {
   it('should create anchor tag with default attributes', () => {

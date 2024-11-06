@@ -1,14 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LCResultInfo from './LCResultInfo';
-import { fetchLcResult } from '../../actions';
+import LicenseCertificationResultInfo from '../components/LicenseCertificationResultInfo';
+import { fetchLcResult } from '../actions';
 
-function LCSearchResult({ result, hasFetchedResult, dispatchFetchLcResult }) {
-  const { name, type } = result;
+function LicenseCertificationSearchResult({
+  result,
+  hasFetchedResult,
+  dispatchFetchLcResult,
+  resultInfo,
+}) {
+  const { link, type, name } = result;
 
   const handleClick = () => {
-    dispatchFetchLcResult();
+    dispatchFetchLcResult(link);
   };
 
   return (
@@ -18,19 +23,25 @@ function LCSearchResult({ result, hasFetchedResult, dispatchFetchLcResult }) {
       subheader={type}
       onClick={() => handleClick()}
     >
-      {hasFetchedResult ? <LCResultInfo /> : <h3>Loading</h3>}
+      {hasFetchedResult ? (
+        <LicenseCertificationResultInfo resultInfo={resultInfo} />
+      ) : (
+        <h3>Loading</h3>
+      )}
     </va-accordion-item>
   );
 }
 
-LCSearchResult.propTypes = {
+LicenseCertificationSearchResult.propTypes = {
   dispatchFetchLcResult: PropTypes.func.isRequired,
   hasFetchedResult: PropTypes.bool.isRequired,
   result: PropTypes.object.isRequired,
+  resultInfo: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   hasFetchedResult: state.licenseCertificationSearch.hasFetchedResult,
+  resultInfo: state.licenseCertificationSearch.lcResultInfo,
 });
 
 const mapDispatchToProps = {
@@ -40,4 +51,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LCSearchResult);
+)(LicenseCertificationSearchResult);

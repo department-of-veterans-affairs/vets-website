@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { stateNames } from '../../components/State';
+import { stateNames } from './State';
 
-import FacilityAddress from '../../components/FacilityAddress';
+import FacilityAddress from './FacilityAddress';
 
 const facility = {
   id: '377c',

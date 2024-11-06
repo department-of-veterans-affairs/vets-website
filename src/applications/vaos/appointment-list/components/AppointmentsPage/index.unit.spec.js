@@ -13,10 +13,10 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
   getTestDate,
-} from '../../mocks/setup';
-import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
-import { getVAOSRequestMock } from '../../mocks/mock';
+} from '../../../tests/mocks/setup';
+import AppointmentsPage from '.';
+import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
+import { getVAOSRequestMock } from '../../../tests/mocks/mock';
 
 const initialState = {
   featureToggles: {
