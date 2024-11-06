@@ -17,24 +17,21 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
-  console.log(transformedData.application.applicant.mailingAddress);
+  if (
+    form.data.application.applicant.applicantRelationshipToClaimant === 'Self'
+  ) {
+    delete transformedData.application.applicant.name;
+    delete transformedData.application.applicant.mailingAddress;
+  }
 
-  const isApplicantFlow = formConfig.flow === 'applicant';
-
-  if (isApplicantFlow) {
-    // In applicant flow, remove only the specific claimant data from prefillTransformer
-    if (transformedData.application.claimant) {
-      delete transformedData.application.claimant.name;
-      delete transformedData.application.claimant.address;
-      delete transformedData.application.claimant.ssn;
-      delete transformedData.application.claimant.dateOfBirth;
-    }
-  } else {
-    // In claimant (veteran) flow, remove only the specific applicant data from prefillTransformer
-    if (transformedData.application.applicant) {
-      delete transformedData.application.applicant.name;
-      delete transformedData.application.applicant.mailingAddress; //HERE
-    }
+  if (
+    form.data.application.applicant.applicantRelationshipToClaimant ===
+    'Authorized Agent/Rep'
+  ) {
+    delete transformedData.application.applicant.name;
+    delete transformedData.application.applicant.mailingAddress;
+    delete transformedData.application.applicant.ssn;
+    delete transformedData.application.applicant.dateOfBirth;
   }
 
   return JSON.stringify(
