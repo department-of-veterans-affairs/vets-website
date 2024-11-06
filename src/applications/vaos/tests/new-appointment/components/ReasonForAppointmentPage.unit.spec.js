@@ -194,7 +194,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
   describe('Community care requests', () => {
     it('should show page for Community Care medical request', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfFacility(store, /Community Care/i);
+      await setTypeOfFacility(store, 'communityCare');
 
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
@@ -222,7 +222,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
     it('should show error msg when enter all spaces for Community Care medical request', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfFacility(store, /Community Care/i);
+      await setTypeOfFacility(store, 'communityCare');
 
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
@@ -250,7 +250,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
     it('should continue to the correct page for Community Care medical request', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfFacility(store, /Community Care/i);
+      await setTypeOfFacility(store, 'communityCare');
       const screen = renderWithStoreAndRouter(
         <Route component={ReasonForAppointmentPage} />,
         {

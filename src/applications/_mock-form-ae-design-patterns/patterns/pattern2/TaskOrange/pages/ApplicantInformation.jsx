@@ -18,15 +18,21 @@ const AdditionalInfoContent = () => {
       <p className="vads-u-margin-top--0">
         To protect your personal information, we don’t allow online changes to
         your name, date of birth, or Social Security number. If you need to
-        change this information, call Veterans Benefits Assistance at{' '}
-        <va-telephone contact="8008271000" />. We’re here Monday through Friday,
-        between 8:00 a.m. and 9:00 p.m. ET.
+        change this information, call us at{' '}
+        <va-telephone contact="8008271000" /> (
+        <va-telephone contact="711" tty />) . We’re here Monday through Friday,
+        between 8:00 a.m. and 9:00 p.m. ET. We’ll give you instructions for how
+        to change your information.
       </p>
 
-      <va-link
-        text="Find instructions for how to change your legal name"
-        href="/resources/how-to-change-your-legal-name-on-file-with-va/"
-      />
+      <p className="vads-u-margin-bottom--0">
+        Or you can learn how to change your legal name on file with VA.{' '}
+        <va-link
+          external
+          text="Learn how to change your legal name (opens in new tab)"
+          href="/resources/how-to-change-your-legal-name-on-file-with-va/"
+        />
+      </p>
     </div>
   );
 };
@@ -48,7 +54,7 @@ export const ApplicantInformationBase = ({
     <InfoSection title={title} titleLevel={3}>
       {isReviewPage && (
         <va-additional-info
-          trigger="Why isn't this information editable here?"
+          trigger="How to change this information"
           class="vads-u-margin-y--2"
         >
           <AdditionalInfoContent />
