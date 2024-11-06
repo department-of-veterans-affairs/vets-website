@@ -36,7 +36,6 @@ import {
   currentMarriageInformationPartFour,
   currentMarriageInformationPartFive,
   doesLiveWithSpouse,
-  marriageAdditionalEvidence,
   spouseInformation,
   spouseInformationPartTwo,
   spouseInformationPartThree,
@@ -1002,8 +1001,8 @@ export const formConfig = {
       },
     },
 
-    marriageAdditionalEvidence: {
-      title: 'Additional evidence needed to add spouse',
+    additionalEvidence: {
+      title: 'Additional information',
       pages: {
         marriageAdditionalEvidence: {
           depends: formData =>
@@ -1013,8 +1012,15 @@ export const formConfig = {
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Additional evidence needed to add spouse',
           path: 'add-spouse-evidence',
-          uiSchema: marriageAdditionalEvidence.uiSchema,
-          schema: marriageAdditionalEvidence.schema,
+          uiSchema: spouseAdditionalEvidence.uiSchema,
+          schema: spouseAdditionalEvidence.schema,
+        },
+        childAdditionalEvidence: {
+          // depends: formData => isChapterFieldRequired(formData, TASK_KEYS.addChild),
+          title: 'Additional evidence needed to add spouse',
+          path: 'add-spouse-evidence',
+          uiSchema: finalChildAdditionalEvidence.uiSchema,
+          schema: finalChildAdditionalEvidence.schema,
         },
       },
     },
