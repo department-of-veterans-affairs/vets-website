@@ -88,8 +88,8 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
   it('should display list of providers when choose a provider clicked', async () => {
     // Given the CC iteration flag is on
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfFacility(store, 'communityCare');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
       {
@@ -132,8 +132,8 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -192,8 +192,8 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -255,8 +255,8 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -351,8 +351,8 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -428,8 +428,8 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfFacility(store, 'communityCare');
 
     // Belgrade is the 2nd of three options so the expectation is
     // that it should be selected when we get to the CommunityCareProviderSelectionPage.
@@ -501,8 +501,8 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfFacility(store, 'communityCare');
 
     // Belgrade is the 2nd of three options so the expectation is
     // that it should be selected when we get to the CommunityCareProviderSelectionPage.
@@ -533,8 +533,8 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
   it('should display an error message when lookup fails', async () => {
     // Given the CC iteration flag is on
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, /primary care/i);
-    await setTypeOfFacility(store, /Community Care/i);
+    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfFacility(store, 'communityCare');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
       {

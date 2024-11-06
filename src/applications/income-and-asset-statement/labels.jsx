@@ -9,6 +9,14 @@ export const relationshipLabels = {
   OTHER: 'Other',
 };
 
+export const transferMethodLabels = {
+  SOLD: 'Sold',
+  GIFTED: 'Gifted',
+  CONVEYED: 'Conveyed',
+  TRADED: 'Traded',
+  OTHER: 'Other',
+};
+
 export const claimantTypeLabels = {
   VETERAN: 'Veteran',
   SPOUSE: 'Surviving spouse',

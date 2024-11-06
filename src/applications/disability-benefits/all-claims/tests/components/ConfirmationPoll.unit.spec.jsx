@@ -6,7 +6,7 @@ import {
   mockApiRequest,
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
-
+import { Toggler } from 'platform/utilities/feature-toggles';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
@@ -15,6 +15,7 @@ import {
   ConfirmationPoll,
   selectAllDisabilityNames,
 } from '../../components/ConfirmationPoll';
+import formConfig from '../../config/form';
 
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
@@ -33,7 +34,8 @@ const getData = ({
   },
   featureToggles: {
     loading: false,
-    disability526NewConfirmationPage,
+    [Toggler.TOGGLE_NAMES
+      .disability526NewConfirmationPage]: disability526NewConfirmationPage,
   },
 });
 
@@ -92,6 +94,10 @@ describe('ConfirmationPoll', () => {
     disabilities: [],
     submittedAt: Date.now(),
     isSubmittingBDD: false,
+    route: {
+      formConfig,
+      pageList: [],
+    },
   };
 
   it('should make an api call after mounting', () => {
@@ -109,7 +115,11 @@ describe('ConfirmationPoll', () => {
       failureResponse,
     ]);
 
-    const form = mount(<ConfirmationPoll {...defaultProps} pollRate={10} />);
+    const form = mount(
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPoll {...defaultProps} pollRate={10} />
+      </Provider>,
+    );
     // Should stop after the first success
     setTimeout(() => {
       expect(global.fetch.callCount).to.equal(3);
@@ -134,10 +144,33 @@ describe('ConfirmationPoll', () => {
         disabilities: defaultProps.disabilities,
         submittedAt: defaultProps.submittedAt,
         isSubmittingBDD: defaultProps.isSubmittingBDD,
+        route: defaultProps.route,
       });
       tree.unmount();
       done();
     }, 500);
+  });
+
+  it('should display loading message', done => {
+    mockApiRequest(pendingResponse.response);
+
+    const form = mount(
+      <Provider
+        store={mockStore(
+          getData({
+            disability526NewConfirmationPage: true,
+          }),
+        )}
+      >
+        <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={10} />
+      </Provider>,
+    );
+    setTimeout(() => {
+      const alert = form.find('va-loading-indicator');
+      expect(alert.html()).to.contain('Preparing your submission');
+      form.unmount();
+      done();
+    }, 50);
   });
 
   it('should render long wait alert', done => {
@@ -149,7 +182,9 @@ describe('ConfirmationPoll', () => {
     ]);
 
     const form = mount(
-      <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={10} />,
+      <Provider store={mockStore(getData())}>
+        <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={10} />,
+      </Provider>,
     );
     setTimeout(() => {
       expect(global.fetch.callCount).to.equal(4);
