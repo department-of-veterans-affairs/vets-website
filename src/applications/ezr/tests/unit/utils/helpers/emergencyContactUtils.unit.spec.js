@@ -63,7 +63,7 @@ describe('Emergency Contact Utils', () => {
 
   describe('getDeleteDescription', () => {
     it('should return the full delete description when first and last name are provided', () => {
-      const item = { fullName: { first: 'John', last: 'Doe' } };
+      const item = { itemData: { fullName: { first: 'John', last: 'Doe' } } };
       const result = getDeleteDescription(item);
       expect(result).to.equal(
         'This will delete John Doe and all the information from your list of emergency contacts.',
@@ -71,7 +71,7 @@ describe('Emergency Contact Utils', () => {
     });
 
     it('should return a fallback delete description when names are missing', () => {
-      const itemWithMissingNames = { fullName: {} };
+      const itemWithMissingNames = { itemData: { fullName: {} } };
       const result = getDeleteDescription(itemWithMissingNames);
       expect(result).to.equal(
         'This will delete this contact and all the information from your list of emergency contacts.',
