@@ -55,14 +55,6 @@ import {
  */
 export const getContent = (appName = 'application') => ({
   title: 'Contact information',
-  description: (
-    <>
-      <p>
-        This is the contact information we have on file for you. We’ll send any
-        updates or information about your {appName} to this address.
-      </p>
-    </>
-  ),
 
   // page titles & link aria-labels
   editHomePhone: 'Edit home phone number',
