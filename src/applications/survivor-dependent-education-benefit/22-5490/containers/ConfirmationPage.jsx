@@ -8,7 +8,7 @@ import UnderReviewConfirmationDEAChapter35 from '../components/confirmation/Unde
 
 const ConfirmationPage = ({ form }) => {
   const { formId, data } = form;
-  const { fullName, chosenBenefit } = data;
+  const { claimantFullName, chosenBenefit } = data;
 
   // Set a default received date to today's date if claimStatus is not available
   const newReceivedDate = new Date().toLocaleDateString('en-US', {
@@ -32,9 +32,9 @@ const ConfirmationPage = ({ form }) => {
   if (chosenBenefit === 'fry') {
     return (
       <UnderReviewConfirmationFry
-        user={`${fullName.first} ${fullName.middle || ''} ${
-          fullName.last
-        } ${fullName.suffix || ''}`}
+        user={`${claimantFullName.first} ${claimantFullName.middle || ''} ${
+          claimantFullName.last
+        } ${claimantFullName.suffix || ''}`}
         dateReceived={newReceivedDate}
         formId={formId}
         printPage={printPage}
@@ -45,9 +45,9 @@ const ConfirmationPage = ({ form }) => {
   if (chosenBenefit === 'dea') {
     return (
       <UnderReviewConfirmationDEAChapter35
-        user={`${fullName.first} ${fullName.middle || ''} ${
-          fullName.last
-        } ${fullName.suffix || ''}`}
+        user={`${claimantFullName.first} ${claimantFullName.middle || ''} ${
+          claimantFullName.last
+        } ${claimantFullName.suffix || ''}`}
         dateReceived={newReceivedDate}
         formId={formId}
         printPage={printPage}
@@ -61,12 +61,13 @@ const ConfirmationPage = ({ form }) => {
 
 const mapStateToProps = state => ({
   form: state.form,
+  claimantFullName: state.user?.profile?.userFullName,
 });
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: PropTypes.shape({
+      claimantFullName: PropTypes.shape({
         first: PropTypes.string,
         middle: PropTypes.string,
         last: PropTypes.string,
