@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import NoAppointments from '../NoAppointments';
+import NoAppointments from './NoAppointments';
 
 describe('VAOS Component: NoAppointments', () => {
   const initialState = {

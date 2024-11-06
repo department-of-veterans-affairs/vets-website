@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { VideoVisitInstructions } from '../VideoVisitInstructions';
+import { VideoVisitInstructions } from './VideoVisitInstructions';
 
 describe('VAOS Component: VideoVisitInstructions', () => {
   it('renders instructions for medication review', () => {

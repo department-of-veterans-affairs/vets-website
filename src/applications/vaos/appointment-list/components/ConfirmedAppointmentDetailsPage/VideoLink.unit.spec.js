@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import moment from 'moment-timezone';
-import VideoLink from '../VideoLink';
+import VideoLink from './VideoLink';
 
 describe('VAOS Component: VideoLink', () => {
   it('renders join appoinment link', () => {

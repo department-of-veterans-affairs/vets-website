@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import ProviderName from '../ProviderName';
+import ProviderName from './ProviderName';
 
 describe('VAOS Component: ProviderName', () => {
   const appointmentData = {
