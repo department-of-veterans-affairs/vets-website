@@ -190,4 +190,4 @@ export const formatMultiSelectAndText = (data, fieldName) => {
 };
 
 export const renderDOB = dob =>
-  dob ? format(parseStringOrDate(dob), 'LL') : NOT_SET_TEXT;
+  dob ? format(parseStringOrDate(dob), 'MMMM d, yyyy') : NOT_SET_TEXT;

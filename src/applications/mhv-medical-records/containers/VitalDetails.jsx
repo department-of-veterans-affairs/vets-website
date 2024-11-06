@@ -75,6 +75,7 @@ const VitalDetails = props => {
   );
   const listState = useSelector(state => state.mr.vitals.listState);
   const refresh = useSelector(state => state.mr.refresh);
+  const [hasUsedPagination, setHasUsedPagination] = useState(false);
 
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
@@ -113,6 +114,12 @@ const VitalDetails = props => {
     [vitalType],
   );
 
+  const onPageChange = page => {
+    setCurrentVitals(paginatedVitals.current[page - 1]);
+    setCurrentPage(page);
+    setHasUsedPagination(true);
+  };
+
   useEffect(
     () => {
       return () => {
@@ -125,15 +132,22 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (records?.length) {
-        focusElement(document.querySelector('h1'));
         updatePageTitle(
           `${vitalTypeDisplayNames[records[0].type]} - ${
             pageTitles.VITALS_PAGE_TITLE
           }`,
         );
+
+        if (!hasUsedPagination) {
+          // If pagination is not present, focus on the main heading (h1)
+          focusElement(document.querySelector('h1'));
+        } else {
+          focusElement(document.querySelector('#showingRecords'));
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        }
       }
     },
-    [records],
+    [currentPage, records, hasUsedPagination],
   );
 
   usePrintTitle(
@@ -145,11 +159,6 @@ const VitalDetails = props => {
 
   const paginateData = data => {
     return chunk(data, perPage);
-  };
-
-  const onPageChange = page => {
-    setCurrentVitals(paginatedVitals.current[page - 1]);
-    setCurrentPage(page);
   };
 
   const fromToNums = (page, total) => {
@@ -168,20 +177,6 @@ const VitalDetails = props => {
     [records],
   );
 
-  useEffect(
-    () => {
-      if (currentPage > 1 && records?.length) {
-        focusElement(document.querySelector('#showingRecords'));
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth',
-        });
-      }
-    },
-    [currentPage, records],
-  );
-
   const displayNums = fromToNums(currentPage, records?.length);
 
   useEffect(
@@ -191,7 +186,7 @@ const VitalDetails = props => {
         dispatch(getVitalDetails(formattedVitalType, vitalsList));
       }
     },
-    [vitalType, vitalsList, dispatch],
+    [vitalType, vitalsList, dispatch, updatedRecordType],
   );
 
   const lastUpdatedText = getLastUpdatedText(
@@ -248,7 +243,7 @@ Provider notes: ${vital.notes}\n\n`,
       <>
         <PrintHeader />
         <h1
-          className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print"
+          className="vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4 no-print"
           data-dd-privacy="mask"
         >
           {vitalDisplayName}
@@ -280,7 +275,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h2
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
             vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
-            vads-u-margin-top--3 small-screen:vads-u-margin-top--4"
+            vads-u-margin-top--3 mobile-lg:vads-u-margin-top--4"
           id="showingRecords"
         >
           {`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
@@ -297,7 +292,7 @@ Provider notes: ${vital.notes}\n\n`,
               >
                 <h3
                   data-testid="vital-date"
-                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--3"
+                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
                 >
                   {vital.date}

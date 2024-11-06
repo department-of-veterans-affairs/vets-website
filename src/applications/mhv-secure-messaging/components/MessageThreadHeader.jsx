@@ -1,24 +1,20 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import MessageActionButtons from './MessageActionButtons';
 import {
   Categories,
-  Paths,
   PageTitles,
   Recipients,
   ParentComponent,
   RecipientStatus,
   BlockedTriageAlertStyles,
 } from '../util/constants';
-import {
-  scrollIfFocusedAndNotInView,
-  updateTriageGroupRecipientStatus,
-} from '../util/helpers';
+import { scrollIfFocusedAndNotInView } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
@@ -31,16 +27,9 @@ const MessageThreadHeader = props => {
     setIsCreateNewModalVisible,
     recipients,
   } = props;
-  const {
-    threadId,
-    messageId,
-    category,
-    subject,
-    sentDate,
-    recipientId,
-  } = message;
 
-  const history = useHistory();
+  const { threadId, category, subject, sentDate, recipientId } = message;
+
   const dispatch = useDispatch();
   const location = useLocation();
   const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
@@ -50,42 +39,29 @@ const MessageThreadHeader = props => {
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
-  const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
+  const [currentRecipient, setCurrentRecipient] = useState(null);
 
   const messages = useSelector(state => state.sm.threadDetails.messages);
 
-  const handleReplyButton = useCallback(
+  useEffect(
     () => {
-      history.push(`${Paths.REPLY}${messageId}/`);
-    },
-    [history, messageId],
-  );
+      if (message) {
+        const tempRecipient = {
+          recipientId,
+          name:
+            messages.find(m => m.triageGroupName === message.triageGroupName)
+              ?.triageGroupName || message.triageGroupName,
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
+        };
 
-  useEffect(() => {
-    if (message) {
-      const tempRecipient = {
-        recipientId,
-        name:
-          messages.find(m => m.triageGroupName === message.triageGroupName)
-            ?.triageGroupName || message.triageGroupName,
-        type: Recipients.CARE_TEAM,
-        status: RecipientStatus.ALLOWED,
-      };
-
-      const {
-        isAssociated,
-        isBlocked,
-        formattedRecipient,
-      } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
-
-      if (!isAssociated || isBlocked) {
-        setShowBlockedTriageGroupAlert(true);
-        setBlockedTriageGroupList([formattedRecipient]);
+        setCurrentRecipient(tempRecipient);
       }
-    }
 
-    // The Blocked Triage Group alert should stay visible until the user navigates away
-  }, []);
+      // The Blocked Triage Group alert should stay visible until the user navigates away
+    },
+    [message, recipients],
+  );
 
   useEffect(
     () => {
@@ -140,12 +116,13 @@ const MessageThreadHeader = props => {
         />
       </header>
 
-      {showBlockedTriageGroupAlert && (
+      {currentRecipient && (
         <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
           <BlockedTriageGroupAlert
-            blockedTriageGroupList={blockedTriageGroupList}
             alertStyle={BlockedTriageAlertStyles.ALERT}
             parentComponent={ParentComponent.MESSAGE_THREAD}
+            currentRecipient={currentRecipient}
+            setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
           />
         </div>
       )}
@@ -153,7 +130,6 @@ const MessageThreadHeader = props => {
       <MessageActionButtons
         threadId={threadId}
         hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
-        handleReplyButton={handleReplyButton}
         isCreateNewModalVisible={isCreateNewModalVisible}
         setIsCreateNewModalVisible={setIsCreateNewModalVisible}
       />
