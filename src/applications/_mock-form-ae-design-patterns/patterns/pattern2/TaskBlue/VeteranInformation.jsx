@@ -30,13 +30,16 @@ const VeteranInformation = ({ formData }) => {
       </h3>
       <div className="vads-u-display--flex">
         <va-card background="true">
-          <strong
-            className="name dd-privacy-hidden"
-            data-dd-action-name="Veteran's name"
-          >
+          <p>
+            <strong
+              className="name dd-privacy-hidden"
+              data-dd-action-name="Veteran's name"
+            >
+              Name:{' '}
+            </strong>
             {`${first || ''} ${middle || ''} ${last || ''}`}
             {suffix ? `, ${suffix}` : null}
-          </strong>
+          </p>
           {veteranSocialSecurityNumber ? (
             <p className="ssn">
               <strong>Last 4 digits of Social Security number: </strong>
