@@ -35,10 +35,6 @@ function setUserData(user, prefillData) {
           name: 'hcaSigiEnabled',
           value: false,
         },
-        {
-          name: 'ezrTeraBranchingEnabled',
-          value: true,
-        },
       ],
     },
   });
