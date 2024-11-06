@@ -24,16 +24,6 @@ export default function transformForSubmit(formConfig, form) {
     delete transformedData.application.applicant.mailingAddress;
   }
 
-  if (
-    form.data.application.applicant.applicantRelationshipToClaimant ===
-    'Authorized Agent/Rep'
-  ) {
-    delete transformedData.application.applicant.name;
-    delete transformedData.application.applicant.mailingAddress;
-    delete transformedData.application.applicant.ssn;
-    delete transformedData.application.applicant.dateOfBirth;
-  }
-
   return JSON.stringify(
     {
       ...transformedData,
