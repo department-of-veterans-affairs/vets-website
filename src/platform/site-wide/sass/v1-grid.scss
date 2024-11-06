@@ -1,8 +1,51 @@
+/**
+new-breakpoint is needed for v1 grid utilities it returns a query that includes a width in px and a number of columns to use
+in a grid layout. This matters specifically in uswds/src/stylesheets/core/grid and uswds/src/stylesheets/lib/grid/span-columns
+*/
+$default-feature: min-width;
+$visual-grid-breakpoints: ();
+
+@function new-breakpoint($query: $feature $value $columns, $total-columns: $grid-columns) {
+  @if length($query) == 1 {
+    $query: $default-feature nth($query, 1) $total-columns;
+  } @else if is-even(length($query)) {
+    $query: append($query, $total-columns);
+  }
+
+  @if is-not(belongs-to($query, $visual-grid-breakpoints)) {
+    $visual-grid-breakpoints: append($visual-grid-breakpoints, $query, comma) !global;
+  }
+
+  @return $query;
+}
+
+@function is-not($value) {
+  @return if($value, false, true);
+}
+
+// Checks if a number is even
+@function is-even($int) {
+  @return $int % 2 == 0;
+}
+
+// Checks if an element belongs to a list or not
+@function belongs-to($tested-item, $list) {
+  @return is-not(not-belongs-to($tested-item, $list));
+}
+
+@function not-belongs-to($tested-item, $list) {
+  @return is-not(index($list, $tested-item));
+}
+
 //~~~~~~~ Needed for now because we haven't transferred grid classes yet
 $site-max-width: 1000px;
-$small: $small-screen;
-$medium: $medium-screen;
-$large: $large-screen;
+$small: new-breakpoint(min-width $small-screen, 1);
+$medium: new-breakpoint(min-width $medium-screen, 6);
+$large: new-breakpoint(min-width $large-screen, 12);
+
+// $small: $small-screen;
+// $medium: $medium-screen;
+// $large: $large-screen;
 
 @mixin flexbox-col($size) {
     flex: 0 0 percentage($size / $grid-columns);
@@ -34,6 +77,7 @@ $breakpoints: (
 @import "~uswds/src/stylesheets/lib/mixins/clearfix";
 @import "~uswds/src/stylesheets/lib/grid/outer-container";
 @import "~uswds/src/stylesheets/core/utilities";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~uswds/src/stylesheets/core/grid";
 //~~~~~~~
 
