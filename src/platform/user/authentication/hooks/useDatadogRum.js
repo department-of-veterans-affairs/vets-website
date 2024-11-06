@@ -30,7 +30,7 @@ const initDDRum = () => {
     site: 'ddog-gov.com',
     service: 'identity',
     env,
-    sessionSampleRate: 20,
+    sessionSampleRate: 100,
     sessionReplaySampleRate,
     trackInteractions,
     trackUserInteractions,
