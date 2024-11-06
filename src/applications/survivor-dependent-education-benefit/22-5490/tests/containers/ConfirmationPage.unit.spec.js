@@ -86,7 +86,6 @@ describe('<ConfirmationPage>', () => {
 
     // Check for the presence of the new "DEA, Chapter 35" title
     expect(getByText('DEA, Chapter 35')).to.exist;
-
   });
 
   it('should render nothing if chosenBenefit is neither "fry" nor "dea"', () => {
