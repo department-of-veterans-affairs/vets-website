@@ -454,9 +454,8 @@ export const validateDisabilityName = (
   }
 
   const missingCondition =
-    !fieldData ||
-    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase() ||
-    (fieldData.length > 0 && fieldData.trim() === '');
+    !fieldData?.trim() ||
+    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
 
   if (missingCondition) {
     err.addError(missingConditionMessage);
