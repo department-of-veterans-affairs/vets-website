@@ -556,7 +556,7 @@ export const fullMaidenNameUI = merge({}, fullNameUI, {
 
 // Implements SSN Web component and masking
 export const ssnDashesUI = {
-  'ui:title': 'SSN',
+  'ui:title': 'Social Security number',
   'ui:webComponentField': SsnField,
   'ui:reviewWidget': SSNReviewWidget,
   'ui:confirmationField': ({ formData }) => ({ data: maskSSN(formData) }),
