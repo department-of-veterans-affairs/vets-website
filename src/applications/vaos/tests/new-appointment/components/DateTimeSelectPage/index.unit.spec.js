@@ -71,9 +71,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
-    await setClinic(store, /green team/i);
+    await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -140,9 +140,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
-    await setClinic(store, /green team/i);
+    await setClinic(store, '983_308');
     await setPreferredDate(store, moment());
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -222,9 +222,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
-    await setClinic(store, /green team/i);
+    await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -286,7 +286,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       ],
     });
 
-    await setClinic(store, /red team/i);
+    await setClinic(store, '983_309');
     screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
       store,
     });
@@ -394,9 +394,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
-    await setClinic(store, /Yes/i);
+    await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -518,9 +518,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
-    await setClinic(store, /yes/i);
+    await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
@@ -587,9 +587,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       ],
     });
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
-    await setClinic(store, /yes/i);
+    await setClinic(store, '983_308');
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(
@@ -631,9 +631,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       },
     });
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
-    await setClinic(store, /yes/i);
+    await setClinic(store, '983_308');
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(
@@ -670,9 +670,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /mental health/i);
+    await setTypeOfCare(store, '502'); // mental health
     await setVAFacility(store, '983', 'outpatientMentalHealth');
-    await setClinic(store, /yes/i);
+    await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(
@@ -701,9 +701,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
-    await setClinic(store, /yes/i);
+    await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(
@@ -763,9 +763,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
-    await setClinic(store, /Yes/i);
+    await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
 
     // When the page is displayed
@@ -869,9 +869,9 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfCare(store, '323'); // primary care
     await setVAFacility(store, '983');
-    await setClinic(store, /Yes/i);
+    await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
