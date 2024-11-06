@@ -232,7 +232,12 @@ WhatsNextProcessListWithContext.propTypes = {
   item2Header: PropTypes.string,
 };
 
-export const SavePdfDownload = ({ pdfUrl, trackingPrefix, className }) => {
+export const SavePdfDownload = ({
+  pdfUrl,
+  trackingPrefix,
+  className,
+  formId,
+}) => {
   const onClick = () => {
     recordEvent({
       event: `${trackingPrefix}confirmation-pdf-download`,
@@ -254,7 +259,7 @@ export const SavePdfDownload = ({ pdfUrl, trackingPrefix, className }) => {
         filetype="PDF"
         href={pdfUrl}
         onClick={onClick}
-        text="Download a copy of your VA Form"
+        text={`Download a copy of your VA Form ${formId}`}
       />
     </div>
   ) : null;
@@ -262,6 +267,7 @@ export const SavePdfDownload = ({ pdfUrl, trackingPrefix, className }) => {
 
 SavePdfDownload.propTypes = {
   className: PropTypes.string,
+  formId: PropTypes.string,
   pdfUrl: PropTypes.string,
   trackingPrefix: PropTypes.string,
 };
@@ -274,6 +280,7 @@ export const SavePdfDownloadWithContext = ({ className }) => {
       pdfUrl={pdfUrl}
       trackingPrefix={formConfig.trackingPrefix}
       className={className}
+      formId={formConfig.formId}
     />
   );
 };
