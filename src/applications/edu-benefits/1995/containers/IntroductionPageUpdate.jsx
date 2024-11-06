@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -195,5 +196,16 @@ export class IntroductionPageUpdate extends React.Component {
 const mapStateToProps = state => ({
   showWizard: showEduBenefits1995Wizard(state),
 });
+
+IntroductionPageUpdate.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
+  showWizard: PropTypes.bool,
+};
 
 export default connect(mapStateToProps)(IntroductionPageUpdate);
