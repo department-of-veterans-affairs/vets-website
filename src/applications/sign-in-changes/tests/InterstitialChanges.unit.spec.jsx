@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
@@ -50,7 +50,7 @@ describe('InterstitialChanges', () => {
     ).to.have.attribute('href', expectedReturnUrl);
   });
 
-  it('renders AccountSwitch when user has Login.gov account', () => {
+  it('renders AccountSwitch when user has Login.gov account', async () => {
     const mockStore = store();
     server.use(
       rest.get(
@@ -65,11 +65,12 @@ describe('InterstitialChanges', () => {
         <InterstitialChanges />
       </Provider>,
     );
-
-    expect(screen.getByText(/Start using your/i)).to.exist;
-    expect(screen.getByText(/log\*{5}@test\.com/i)).to.exist;
+    await waitFor(() => {
+      expect(screen.getByText(/Start using your/i)).to.exist;
+      expect(screen.getByText(/log\*{5}@test\.com/i)).to.exist;
+    });
   });
-  it('renders AccountSwitch when user has ID.me account', () => {
+  it('renders AccountSwitch when user has ID.me account', async () => {
     const mockStore = store();
     server.use(
       rest.get(
@@ -84,11 +85,12 @@ describe('InterstitialChanges', () => {
         <InterstitialChanges />
       </Provider>,
     );
-
-    expect(
-      screen.getAllByRole('heading', { level: 2 })[0].textContent,
-    ).to.match(/Start using your/i);
-    expect(screen.getByText(/idm\*@test\.com/i)).to.exist;
+    await waitFor(() => {
+      expect(
+        screen.getAllByRole('heading', { level: 2 })[0].textContent,
+      ).to.match(/Start using your/i);
+      expect(screen.getByText(/idm\*@test\.com/i)).to.exist;
+    });
   });
 
   it('uses the correct returnUrl from sessionStorage', () => {
