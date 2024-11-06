@@ -2,11 +2,12 @@ import {
   defaultFocusSelector,
   focusElement,
   focusByOrder,
-  scrollTo,
   scrollToFirstError,
   waitForRenderThenFocus,
   scrollAndFocus,
 } from 'platform/utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
+
 import { focusReview } from 'platform/forms-system/src/js/utilities/ui/focus-review';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 

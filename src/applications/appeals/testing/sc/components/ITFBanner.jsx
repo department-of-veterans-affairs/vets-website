@@ -5,8 +5,8 @@ import { VaButtonPair } from '@department-of-veterans-affairs/component-library/
 import {
   focusElement,
   waitForRenderThenFocus,
-  scrollTo,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
 
 import {
   itfMessage,

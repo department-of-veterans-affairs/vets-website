@@ -2,13 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import {
-  focusElement,
-  scrollTo,
-  scrollToFirstError,
-} from 'platform/utilities/ui';
+import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { Element } from 'platform/utilities/scroll';
+import { Element, scrollTo } from 'platform/utilities/scroll';
 
 import {
   hasVAEvidence,
