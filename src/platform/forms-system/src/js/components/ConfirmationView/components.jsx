@@ -280,6 +280,7 @@ export const SavePdfDownloadWithContext = ({ className }) => {
       pdfUrl={pdfUrl}
       trackingPrefix={formConfig.trackingPrefix}
       className={className}
+      formId={formConfig.formId}
     />
   );
 };
