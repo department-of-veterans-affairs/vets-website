@@ -45,6 +45,13 @@ export const tabsConfig = {
       bgColor: '--vads-color-primary-dark',
       textColor: '--vads-color-white',
     },
+    {
+      name: 'Post Study',
+      path: '/2/post-study',
+      description: 'Pattern 2 - Post Study Review',
+      bgColor: '--vads-color-warning',
+      textColor: '--vads-color-black',
+    },
   ],
 };
 
