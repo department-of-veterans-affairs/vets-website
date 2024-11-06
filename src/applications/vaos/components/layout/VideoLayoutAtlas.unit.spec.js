@@ -4,7 +4,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import VideoLayoutAtlas from '../layout/VideoLayoutAtlas';
+import VideoLayoutAtlas from './VideoLayoutAtlas';
 import { VIDEO_TYPES } from '../../utils/constants';
 
 describe('VAOS Component: VideoLayoutAtlas', () => {

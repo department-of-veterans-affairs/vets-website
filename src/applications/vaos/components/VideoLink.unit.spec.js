@@ -6,9 +6,9 @@ import {
   getTestDate,
   createTestStore,
   renderWithStoreAndRouter,
-} from '../../tests/mocks/setup';
+} from '../tests/mocks/setup';
 
-import VideoLink from '../VideoLink';
+import VideoLink from './VideoLink';
 
 beforeEach(() => {
   MockDate.set(getTestDate());

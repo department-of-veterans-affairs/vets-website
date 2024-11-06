@@ -5,7 +5,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import CCLayout from '../layout/CCLayout';
+import CCLayout from './CCLayout';
 
 describe('VAOS Component: CCLayout', () => {
   const initialState = {};
