@@ -77,7 +77,6 @@ describe('Pre-need applicant veteran applicant details', () => {
     fillData(form, 'input#root_application_veteran_placeOfBirth', 'Test Place');
 
     form.find('form').simulate('submit');
-
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
