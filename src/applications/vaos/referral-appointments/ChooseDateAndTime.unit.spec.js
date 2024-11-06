@@ -2,8 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 // import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
-import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
-import ChooseDateAndTime from '../../referral-appointments/ChooseDateAndTime';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../tests/mocks/setup';
+import ChooseDateAndTime from './ChooseDateAndTime';
 
 // Tests skipped for now since there are issues with displaying TZ and redux/data in flux.
 describe('VAOS referral-appointments', () => {

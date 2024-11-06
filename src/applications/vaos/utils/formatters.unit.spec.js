@@ -1,11 +1,6 @@
 import { expect } from 'chai';
 
-import {
-  titleCase,
-  sentenceCase,
-  lowerCase,
-  aOrAn,
-} from '../../utils/formatters';
+import { titleCase, sentenceCase, lowerCase, aOrAn } from './formatters';
 
 describe('VAOS Formatters', () => {
   describe('titleCase', () => {

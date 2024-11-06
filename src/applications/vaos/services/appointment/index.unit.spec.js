@@ -15,16 +15,19 @@ import {
   getLongTermAppointmentHistoryV2,
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
-} from '../../../services/appointment';
+} from '.';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
-} from '../../../utils/constants';
-import moment from '../../../lib/moment-tz';
-import { createMockAppointment } from '../../mocks/data';
-import { getDateRanges, mockVAOSAppointmentsFetch } from '../../mocks/helpers';
-import { generateAppointmentUrl } from '../../../utils/appointment';
+} from '../../utils/constants';
+import moment from '../../lib/moment-tz';
+import { createMockAppointment } from '../../tests/mocks/data';
+import {
+  getDateRanges,
+  mockVAOSAppointmentsFetch,
+} from '../../tests/mocks/helpers';
+import { generateAppointmentUrl } from '../../utils/appointment';
 
 function setRequestedPeriod(date, amOrPm) {
   const isAM = amOrPm.toUpperCase() === 'AM';

@@ -5,8 +5,8 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
-import { getAvailableHealthcareServices } from '../../../services/healthcare-service';
-import mockClinics from '../../../services/mocks/v2/clinics.json';
+import { getAvailableHealthcareServices } from '.';
+import mockClinics from '../mocks/v2/clinics.json';
 
 describe('VAOS Services: Healthcare ', () => {
   beforeEach(() => {

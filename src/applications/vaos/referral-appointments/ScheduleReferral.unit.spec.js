@@ -1,9 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ScheduleReferral from '../../../referral-appointments/ScheduleReferral';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { referral } from '../../../referral-appointments/temp-data/referral';
+import ScheduleReferral from './ScheduleReferral';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../tests/mocks/setup';
+import { referral } from './temp-data/referral';
 
 describe('scheduleReferral component', () => {
   it('should display the subtitle correctly given different numbers of appointments', async () => {

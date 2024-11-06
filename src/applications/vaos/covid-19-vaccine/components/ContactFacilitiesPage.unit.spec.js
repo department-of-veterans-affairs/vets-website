@@ -2,12 +2,15 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import ContactFacilitiesPage from '../../../covid-19-vaccine/components/ContactFacilitiesPage';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { createMockFacility } from '../../mocks/data';
-import { mockFacilitiesFetch } from '../../mocks/fetch';
-import { mockSchedulingConfigurations } from '../../mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../mocks/mock';
+import ContactFacilitiesPage from './ContactFacilitiesPage';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../tests/mocks/setup';
+import { createMockFacility } from '../../tests/mocks/data';
+import { mockFacilitiesFetch } from '../../tests/mocks/fetch';
+import { mockSchedulingConfigurations } from '../../tests/mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 
 describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   const initialState = {

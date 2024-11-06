@@ -8,12 +8,12 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
   setVaccineFacility,
-} from '../../mocks/setup';
+} from '../../tests/mocks/setup';
 
-import ClinicChoicePage from '../../../covid-19-vaccine/components/ClinicChoicePage';
-import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
-import { mockEligibilityFetches } from '../../mocks/fetch';
-import { createMockClinic } from '../../mocks/data';
+import ClinicChoicePage from './ClinicChoicePage';
+import { TYPE_OF_CARE_ID } from '../utils';
+import { mockEligibilityFetches } from '../../tests/mocks/fetch';
+import { createMockClinic } from '../../tests/mocks/data';
 
 const initialState = {
   featureToggles: {

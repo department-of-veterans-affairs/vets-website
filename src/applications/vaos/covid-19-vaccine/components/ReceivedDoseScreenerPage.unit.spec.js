@@ -2,9 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../tests/mocks/setup';
 
-import ReceivedDoseScreenerPage from '../../../covid-19-vaccine/components/ReceivedDoseScreenerPage';
+import ReceivedDoseScreenerPage from './ReceivedDoseScreenerPage';
 
 const initialState = {
   featureToggles: {

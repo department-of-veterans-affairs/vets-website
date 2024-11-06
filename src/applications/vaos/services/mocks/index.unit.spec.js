@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import generateMockSlots from '../../../services/mocks/var/slots';
+import generateMockSlots from './var/slots';
 
 describe('calendar mock data', () => {
   it('should generate 300 mock slots', () => {

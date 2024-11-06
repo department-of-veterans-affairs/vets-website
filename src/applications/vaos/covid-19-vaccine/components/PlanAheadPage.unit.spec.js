@@ -3,8 +3,11 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
-import PlanAheadPage from '../../../covid-19-vaccine/components/PlanAheadPage';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import PlanAheadPage from './PlanAheadPage';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../tests/mocks/setup';
 
 const store = createTestStore();
 

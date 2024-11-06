@@ -9,22 +9,25 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import VAFacilityPage from '../../../../covid-19-vaccine/components/VAFacilityPage';
+import VAFacilityPage from '.';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-} from '../../../mocks/setup';
-import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
-import { createMockClinic, createMockFacility } from '../../../mocks/data';
+} from '../../../tests/mocks/setup';
+import { TYPE_OF_CARE_ID } from '../../utils';
+import {
+  createMockClinic,
+  createMockFacility,
+} from '../../../tests/mocks/data';
 import {
   mockEligibilityFetches,
   mockFacilitiesFetch,
-} from '../../../mocks/fetch';
+} from '../../../tests/mocks/fetch';
 import {
   mockSchedulingConfigurations,
   mockGetCurrentPosition,
-} from '../../../mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../../mocks/mock';
+} from '../../../tests/mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 
 const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 

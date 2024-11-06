@@ -10,11 +10,14 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../tests/mocks/setup';
 
-import ReviewPage from '../../../covid-19-vaccine/components/ReviewPage';
-import { onCalendarChange } from '../../../covid-19-vaccine/redux/actions';
-import { mockAppointmentSubmit } from '../../mocks/helpers';
+import ReviewPage from './ReviewPage';
+import { onCalendarChange } from '../redux/actions';
+import { mockAppointmentSubmit } from '../../tests/mocks/helpers';
 
 describe('VAOS vaccine flow: ReviewPage', () => {
   let store;

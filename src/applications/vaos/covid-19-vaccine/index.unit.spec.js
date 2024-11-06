@@ -6,12 +6,15 @@ import {
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { NewBookingSection } from '../../../covid-19-vaccine';
-import { mockFacilitiesFetch } from '../../mocks/fetch';
-import { createMockFacility } from '../../mocks/data';
-import { mockSchedulingConfigurations } from '../../mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../mocks/mock';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../tests/mocks/setup';
+import { NewBookingSection } from '.';
+import { mockFacilitiesFetch } from '../tests/mocks/fetch';
+import { createMockFacility } from '../tests/mocks/data';
+import { mockSchedulingConfigurations } from '../tests/mocks/helpers';
+import { getSchedulingConfigurationMock } from '../tests/mocks/mock';
 
 const initialState = {
   featureToggles: {
