@@ -156,12 +156,14 @@ export const Form526Entry = ({
   // Set the feature flag in the formData so when turned on it shows the addConditions multi-page list and loop
   useEffect(
     () => {
-      dispatch(
-        setFormData({
-          ...formData,
-          'view:showAddDisabilitiesEnhancement': showAddDisabilitiesEnhancement,
-        }),
-      );
+      if (showAddDisabilitiesEnhancement) {
+        dispatch(
+          setFormData({
+            ...formData,
+            'view:showAddDisabilitiesEnhancement': showAddDisabilitiesEnhancement,
+          }),
+        );
+      }
     },
     [showAddDisabilitiesEnhancement],
   );
