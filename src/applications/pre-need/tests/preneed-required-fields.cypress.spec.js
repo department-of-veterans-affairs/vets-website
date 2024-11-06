@@ -40,10 +40,10 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'input[name=root_application_claimant_name_last]',
       testData.data.application.claimant.name.last,
     );
-    cy.fill(
-      'va-text-input[name="root_application_claimant_ssn"]',
-      testData.data.application.claimant.ssn,
-    );
+    cy.get('va-text-input[name="root_application_claimant_ssn"]')
+      .shadow()
+      .find('input')
+      .type(testData.data.application.claimant.ssn);
     cy.fillDate(
       'root_application_claimant_dateOfBirth',
       testData.data.application.claimant.dateOfBirth,
@@ -63,10 +63,10 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'input[name=root_application_veteran_currentName_last]',
       testData.data.application.veteran.currentName.last,
     );
-    cy.fill(
-      'va-text-input[name="root_application_veteran_ssn"]',
-      testData.data.application.veteran.ssn,
-    );
+    cy.get('va-text-input[name="root_application_veteran_ssn"]')
+      .shadow()
+      .find('input')
+      .type(testData.data.application.veteran.ssn);
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-details');
 
