@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash';
-import { isInMPI } from 'platform/user/selectors';
+import { isInMPI, selectProfile } from 'platform/user/selectors';
 import set from 'platform/utilities/data/set';
 
 /**
@@ -41,7 +41,7 @@ export const sanitizeAddress = address => {
  * and updated form data
  */
 export const prefillTransformer = (pages, formData, metadata, state) => {
-  const { vapContactInfo } = state.user.profile;
+  const { vapContactInfo } = selectProfile(state);
   const { mailingAddress, residentialAddress } = vapContactInfo;
   const veteranHomeAddress = sanitizeAddress(residentialAddress);
   const veteranAddress = sanitizeAddress(mailingAddress);
