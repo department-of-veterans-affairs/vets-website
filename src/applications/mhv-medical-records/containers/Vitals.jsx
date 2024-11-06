@@ -93,7 +93,7 @@ const Vitals = () => {
         for (let [key, types] of Object.entries(vitalTypes)) {
           const firstOfType = vitals.find(item => types.includes(item.type));
           if (firstOfType) firstOfEach.push(firstOfType);
-          else firstOfEach.push({ key, noRecords: true });
+          else firstOfEach.push({ type: key, noRecords: true });
         }
         setCards(firstOfEach);
       }

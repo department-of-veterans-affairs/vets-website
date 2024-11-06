@@ -6,9 +6,7 @@ import { vitalTypeDisplayNames } from '../../util/constants';
 
 const VitalListItem = props => {
   const { record } = props;
-  const displayName = record.noRecords
-    ? ''
-    : vitalTypeDisplayNames[record.type];
+  const displayName = vitalTypeDisplayNames[record.type];
 
   const updatedRecordType = useMemo(
     () => {
