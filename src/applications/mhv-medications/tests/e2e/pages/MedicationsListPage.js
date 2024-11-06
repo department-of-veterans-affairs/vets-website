@@ -764,6 +764,10 @@ class MedicationsListPage {
       '.landing-page-content > [data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
     ).should('contain', rxName);
   };
+
+  verifyAllMedicationsRadioButtonIsChecked = () => {
+    cy.get(`input[type="radio"][value="All medications"]`).should('be.checked');
+  };
 }
 
 export default MedicationsListPage;
