@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import AppointmentCardIcon from '../AppointmentCard/AppointmentCardIcon';
+import AppointmentCardIcon from './AppointmentCardIcon';
 
 const appointmentData = {
   start: '2024-07-19T08:00:00-07:00',

@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
-import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
-import AfterVisitSummary from '../AfterVisitSummary';
+import { renderWithStoreAndRouter } from '../tests/mocks/setup';
+import AfterVisitSummary from './AfterVisitSummary';
 
 describe('VAOS Component: AfterVisitSummary', () => {
   const initialState = {};

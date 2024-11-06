@@ -5,7 +5,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import ClaimExamLayout from '../layout/ClaimExamLayout';
+import ClaimExamLayout from './ClaimExamLayout';
 
 describe('VAOS Component: ClaimExamLayout', () => {
   const initialState = {
