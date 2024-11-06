@@ -4,7 +4,6 @@ import {
   isVerificationEndDateValid,
   removeCommas,
   splitAddressLine,
-  toSnakeCase,
 } from '../helpers';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
@@ -220,7 +219,7 @@ export const verifyEnrollmentAction = verifications => {
       },
     } = getState();
     const URL = claimantId
-      ? `http://localhost:8080/dgib_verifications/verify_claimant`
+      ? `${API_URL}/dgib_verifications/verify_claimant`
       : `${API_URL}/verify`;
     const newVerifications = enrollmentVerifications?.filter(
       verification =>
@@ -233,13 +232,16 @@ export const verifyEnrollmentAction = verifications => {
         : null;
     const body = claimantId
       ? (() => {
-          const requestBody = {
+          return {
             claimantId,
             verifiedPeriodBeginDate: lastVerification?.verificationBeginDate,
             verifiedPeriodEndDate: lastVerification?.verificationEndDate,
-            verificationThroughDate: lastVerification?.verificationThroughDate,
+            verifiedThroughDate: lastVerification?.verificationEndDate,
+            verificationMethod: 'VYE',
+            appCommunication: {
+              responseype: 'Y',
+            },
           };
-          return toSnakeCase(requestBody);
         })()
       : { awardIds: verifications };
     try {
