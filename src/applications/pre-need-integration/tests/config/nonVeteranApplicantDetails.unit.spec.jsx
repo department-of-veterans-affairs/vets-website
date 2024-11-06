@@ -24,7 +24,8 @@ describe('Pre-need applicant non veteran applicant details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(5);
+    expect(form.find('va-text-input').length).to.equal(1);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -42,7 +43,10 @@ describe('Pre-need applicant non veteran applicant details', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('va-text-input').props().error).to.equal(
+      'Please enter a Social Security number',
+    );
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -59,7 +63,10 @@ describe('Pre-need applicant non veteran applicant details', () => {
     );
     fillData(form, 'input#root_application_claimant_name_first', 'test');
     fillData(form, 'input#root_application_claimant_name_last', 'test2');
-    fillData(form, 'input#root_application_claimant_ssn', '234443344');
+    // Use simulate to change the value of va-text-input
+    form
+      .find('va-text-input')
+      .simulate('input', { target: { value: '234443344' } });
     fillData(form, 'select#root_application_claimant_dateOfBirthMonth', '2');
     fillData(form, 'select#root_application_claimant_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_claimant_dateOfBirthYear', '2001');

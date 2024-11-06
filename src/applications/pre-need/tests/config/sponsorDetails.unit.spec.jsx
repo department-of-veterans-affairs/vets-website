@@ -63,12 +63,10 @@ describe('Pre-need sponsor details', () => {
 
     fillData(form, 'input#root_application_veteran_currentName_first', 'test');
     fillData(form, 'input#root_application_veteran_currentName_last', 'test2');
-
     // Use simulate to change the value of va-text-input
     form
       .find('va-text-input')
       .simulate('input', { target: { value: '234443344' } });
-
     fillData(form, 'select#root_application_veteran_dateOfBirthMonth', '2');
     fillData(form, 'select#root_application_veteran_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_veteran_dateOfBirthYear', '2001');
