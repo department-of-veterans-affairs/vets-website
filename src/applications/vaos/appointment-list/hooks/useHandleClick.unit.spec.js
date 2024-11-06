@@ -3,8 +3,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import Sinon from 'sinon';
 import PropTypes from 'prop-types';
-import { renderWithStoreAndRouter } from '../../../tests/mocks/setup';
-import useHandleClick from '../useHandleClick';
+import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
+import useHandleClick from './useHandleClick';
 
 function UseHandleClick({ idClickable }) {
   const handler = useHandleClick({

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { formatHeader } from '../DetailsVA.util';
+import { formatHeader } from './DetailsVA.util';
 
 describe('appointment-list / components / ConfirmedAppointmentDetailsPage / DetailsVA.util', () => {
   it('should return appointment type header as COVID-19 vaccine', () => {

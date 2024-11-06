@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-
-import { selectTypeOfCareName } from '../selectors';
+import { selectTypeOfCareName } from './selectors';
 
 describe('appointment-list / redux / selectors', () => {
   it('should return COMPENSATION & PENSION as type of care', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import AppointmentColumn from '../AppointmentsPage/AppointmentColumn';
+import AppointmentColumn from './AppointmentColumn';
 
 function assertTextDecoration(element, style, value) {
   // Check if the property belongs to the CSSStyleDeclaration instance.

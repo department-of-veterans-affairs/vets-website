@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import PrintButton from '../PrintButton';
+import PrintButton from './PrintButton';
 
 describe('VAOS Component: PrintButton', () => {
   const initialState = {

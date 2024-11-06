@@ -2,8 +2,8 @@
 import React from 'react';
 import Sinon from 'sinon';
 import { fireEvent } from '@testing-library/dom';
-import { renderWithStoreAndRouter } from '../../../tests/mocks/setup';
-import useHandleKeyDown from '../useHandleKeyDown';
+import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
+import useHandleKeyDown from './useHandleKeyDown';
 
 function UseHandleKeyDown() {
   const handler = useHandleKeyDown({

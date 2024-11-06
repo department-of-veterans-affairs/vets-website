@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import AtlasLocation from '../AtlasLocation';
-import { AtlasAppoinment } from '../../../../tests/mocks/unit-test-helpers';
+import AtlasLocation from './AtlasLocation';
+import { AtlasAppoinment } from '../../../tests/mocks/unit-test-helpers';
 
 describe('VAOS Component: AtlasLocation', () => {
   const initialState = {

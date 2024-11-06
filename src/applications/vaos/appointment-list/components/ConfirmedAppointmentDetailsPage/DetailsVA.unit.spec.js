@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import DetailsVA from '../DetailsVA';
-import { Facility } from '../../../../tests/mocks/unit-test-helpers';
-import { createTestStore } from '../../../../tests/mocks/setup';
+import DetailsVA from './DetailsVA';
+import { Facility } from '../../../tests/mocks/unit-test-helpers';
+import { createTestStore } from '../../../tests/mocks/setup';
 
 const facilityData = new Facility();
 

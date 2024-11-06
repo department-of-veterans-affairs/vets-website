@@ -5,11 +5,8 @@ import { fireEvent } from '@testing-library/react';
 import moment from 'moment';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import StatusAlert from '../../../../components/StatusAlert';
-import {
-  Facility,
-  MockAppointment,
-} from '../../../../tests/mocks/unit-test-helpers';
+import StatusAlert from './StatusAlert';
+import { Facility, MockAppointment } from '../tests/mocks/unit-test-helpers';
 
 const facilityData = new Facility();
 
