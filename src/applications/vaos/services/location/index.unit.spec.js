@@ -11,14 +11,14 @@ import {
   getLocation,
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
-} from '../../../services/location';
-import facilityDetails from '../../../services/mocks/v2/facilities.json';
-import ccProviders from '../../../services/mocks/v2/cc_providers.json';
-import { VHA_FHIR_ID } from '../../../utils/constants';
-import { mockFacilitiesFetch } from '../../mocks/fetch';
-import { createMockFacility } from '../../mocks/data';
-import { mockSchedulingConfigurations } from '../../mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../mocks/mock';
+} from '.';
+import facilityDetails from '../mocks/v2/facilities.json';
+import ccProviders from '../mocks/v2/cc_providers.json';
+import { VHA_FHIR_ID } from '../../utils/constants';
+import { mockFacilitiesFetch } from '../../tests/mocks/fetch';
+import { createMockFacility } from '../../tests/mocks/data';
+import { mockSchedulingConfigurations } from '../../tests/mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 
 describe('VAOS Services: Location ', () => {
   describe('getLocations', () => {

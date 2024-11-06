@@ -6,7 +6,7 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import moment from 'moment';
-import { getSlots } from '../../../services/slot';
+import { getSlots } from '.';
 
 describe('VAOS Services: Slot ', () => {
   describe('getSlots', () => {

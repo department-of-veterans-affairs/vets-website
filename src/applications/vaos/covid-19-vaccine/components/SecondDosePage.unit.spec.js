@@ -4,9 +4,12 @@ import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 
 import { waitFor } from '@testing-library/dom';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../tests/mocks/setup';
 
-import SecondDosePage from '../../../covid-19-vaccine/components/SecondDosePage';
+import SecondDosePage from './SecondDosePage';
 
 const initialState = {
   featureToggles: {

@@ -4,8 +4,8 @@ import {
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { getCommunityCareFacilities } from '../../../services/vaos/index';
-import { calculateBoundingBox } from '../../../utils/address';
+import { getCommunityCareFacilities } from './index';
+import { calculateBoundingBox } from '../../utils/address';
 
 describe('VAOS Services: CC facilities API', () => {
   beforeEach(() => {});

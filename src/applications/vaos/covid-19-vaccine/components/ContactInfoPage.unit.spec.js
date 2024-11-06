@@ -3,8 +3,11 @@ import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 
 import { cleanup } from '@testing-library/react';
-import ContactInfoPage from '../../../covid-19-vaccine/components/ContactInfoPage';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import ContactInfoPage from './ContactInfoPage';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../tests/mocks/setup';
 
 describe('VAOS Page: ContactInfoPage', () => {
   it('should submit with valid data', async () => {

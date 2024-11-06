@@ -2,8 +2,8 @@ import { expect } from 'chai';
 
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
-import { mapToFHIRErrors, fhirSearch } from '../../services/utils';
-import mockData from '../../services/mocks/fhir/mock_organizations.json';
+import { mapToFHIRErrors, fhirSearch } from './utils';
+import mockData from './mocks/fhir/mock_organizations.json';
 
 describe('VAOS Utils: FHIR ', () => {
   describe('mapToFHIRError', () => {

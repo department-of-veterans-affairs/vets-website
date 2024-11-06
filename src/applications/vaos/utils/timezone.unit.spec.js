@@ -3,7 +3,7 @@ import {
   getTimezoneAbbrByFacilityId,
   getTimezoneNameFromAbbr,
   stripDST,
-} from '../../utils/timezone';
+} from './timezone';
 
 describe('VAOS Utils: timezone', () => {
   describe('getTimezoneAbbrByFacilityId', () => {

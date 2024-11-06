@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRealFacilityId } from '../../utils/appointment';
+import { getRealFacilityId } from './appointment';
 
 describe('VAOS appointment helpers', () => {
   describe('getRealFacilityId', () => {

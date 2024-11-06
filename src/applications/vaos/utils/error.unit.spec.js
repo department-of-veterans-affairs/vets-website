@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getErrorCodes } from '../../utils/error';
+import { getErrorCodes } from './error';
 
 describe('VAOS Utils: getErrorCodes', () => {
   describe('getErrorCodes', () => {

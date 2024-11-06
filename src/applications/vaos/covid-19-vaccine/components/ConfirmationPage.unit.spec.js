@@ -2,10 +2,13 @@ import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import moment from 'moment';
 import React from 'react';
-import ConfirmationPage from '../../../covid-19-vaccine/components/ConfirmationPage';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { FETCH_STATUS } from '../../../utils/constants';
-import { getICSTokens } from '../../../utils/calendar';
+import ConfirmationPage from './ConfirmationPage';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../tests/mocks/setup';
+import { FETCH_STATUS } from '../../utils/constants';
+import { getICSTokens } from '../../utils/calendar';
 
 const initialState = {
   featureToggles: {
