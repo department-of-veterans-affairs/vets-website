@@ -53,6 +53,16 @@ describe('<ConfirmationPage>', () => {
     expect(
       getByText(/Application for VA Education Benefits \(VA Form 22-5490\)/i),
     ).to.exist;
+
+    // Check for the presence of the new "FRY, Chapter 33" title
+    expect(getByText('FRY, Chapter 33')).to.exist;
+
+    // Check for the received application title text
+    expect(getByText('We’ve received your application')).to.exist;
+
+    // Check for the application form title
+    expect(getByText('Application for VA Education Benefits (VA Form 22-5490)'))
+      .to.exist;
   });
 
   it('should render the UnderReviewConfirmationDEAChapter35 component with the new title when chosenBenefit is "dea"', () => {
@@ -73,6 +83,10 @@ describe('<ConfirmationPage>', () => {
     expect(
       getByText(/Application for VA Education Benefits \(VA Form 22-5490\)/i),
     ).to.exist;
+
+    // Check for the presence of the new "DEA, Chapter 35" title
+    expect(getByText('DEA, Chapter 35')).to.exist;
+
   });
 
   it('should render nothing if chosenBenefit is neither "fry" nor "dea"', () => {
