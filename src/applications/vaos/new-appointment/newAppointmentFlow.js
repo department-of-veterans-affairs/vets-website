@@ -133,7 +133,7 @@ const flow = {
   },
   typeOfCare: {
     url: '/new-appointment',
-    label: 'Schedule an appointment',
+    label: 'What type of care do you need?',
     async next(state, dispatch) {
       if (isCovidVaccine(state)) {
         recordEvent({
@@ -174,7 +174,7 @@ const flow = {
   },
   typeOfFacility: {
     url: '/new-appointment/choose-facility-type',
-    label: 'Choose where you want to receive your care',
+    label: 'Where do you want to receive care?',
     next(state, dispatch) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -241,7 +241,7 @@ const flow = {
   },
   vaFacilityV2: {
     url: '/new-appointment/va-facility-2',
-    label: 'Choose a VA location',
+    label: 'Which VA location would you like to go to?',
     next: vaFacilityNext,
   },
   scheduleCerner: {
@@ -250,7 +250,7 @@ const flow = {
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
-    label: 'Choose a VA clinic',
+    label: 'Which VA clinic would you like to go to?',
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
         dispatch(startRequestAppointmentFlow());
@@ -264,12 +264,12 @@ const flow = {
   },
   preferredDate: {
     url: '/new-appointment/preferred-date',
-    label: 'When do you want to schedule this appointment?',
+    label: 'When are you available for this appointment?',
     next: 'selectDateTime',
   },
   selectDateTime: {
     url: '/new-appointment/select-date',
-    label: 'Choose a date and time',
+    label: 'What date and time do you want for this appointment?',
     next: 'reasonForAppointment',
   },
   requestDateTime: {
@@ -391,10 +391,6 @@ export default function getNewAppointmentFlow(state) {
     },
     reasonForAppointment: {
       ...flow.reasonForAppointment,
-      label:
-        FLOW_TYPES.DIRECT === flowType
-          ? 'Tell us the reason for this appointment'
-          : 'What’s the reason for this appointment?',
       url: featureBreadcrumbUrlUpdate
         ? 'reason'
         : '/new-appointment/reason-appointment',
@@ -484,7 +480,7 @@ export default function getNewAppointmentFlow(state) {
       ...flow.vaFacilityV2,
       label: isSingleVaFacility
         ? 'Your appointment location'
-        : 'Choose a VA location',
+        : 'Which VA location would you like to go to?',
 
       url: featureBreadcrumbUrlUpdate
         ? 'location'

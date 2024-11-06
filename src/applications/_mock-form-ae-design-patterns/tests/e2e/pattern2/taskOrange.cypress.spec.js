@@ -80,15 +80,17 @@ describe('Prefill pattern - Orange Task', () => {
 
     cy.findByRole('button', { name: /continue/i }).click();
 
-    // cy.wait('@mockSip');
+    cy.url().should('contain', '/contact-information');
 
-    // check prefilled contact info page
-    cy.url().should('contain', '/personal-information/contact-information');
-    cy.findByText('Address').should('exist');
-    cy.findByText('1234 Fake St.').should('exist');
-    cy.findByText('Fort Collins').should('exist');
-    cy.findByText('CO').should('exist');
-    cy.findByText('80521').should('exist');
+    cy.findByRole('button', { name: /continue/i }).click();
+
+    // check prefilled review page
+    cy.url().should('contain', '/review-then-submit');
+    cy.findByText('Mailing address').should('exist');
+    cy.findByText('123 Mailing Address St.').should('exist');
+    cy.findByText('Futlon').should('exist');
+    cy.findByText('NY').should('exist');
+    cy.findByText('97064').should('exist');
 
     cy.injectAxeThenAxeCheck();
   });

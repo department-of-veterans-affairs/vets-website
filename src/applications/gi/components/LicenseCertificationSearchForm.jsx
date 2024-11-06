@@ -1,65 +1,66 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Dropdown from './Dropdown';
-import { fetchLicenseCertification } from '../actions';
+import { updateLcFilterDropdowns } from '../utils/helpers';
+// import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
 const dropdownSchema = [
   {
     label: 'category',
     options: [
-      { optionValue: 'License', optionLabel: 'License' },
+      { optionValue: 'all', optionLabel: 'All' },
+      { optionValue: 'license', optionLabel: 'License' },
       {
-        optionValue: 'Certification',
+        optionValue: 'certification',
         optionLabel: 'Certification',
       },
       {
-        optionValue: 'Prep Course',
+        optionValue: 'prep',
         optionLabel: 'Prep Course',
       },
     ],
     alt: 'category type',
-    current: { optionValue: 'License', optionLabel: 'License' },
+    current: { optionValue: 'all', optionLabel: 'All' },
   },
   {
     label: 'state',
     options: [
-      { optionValue: 'All', optionLabel: 'All' },
-      { optionValue: 'State', optionLabel: 'State' },
+      { optionValue: 'all', optionLabel: 'All' },
+      ...Object.entries(ADDRESS_DATA.states).map(state => {
+        return { optionValue: state[0], optionLabel: state[1] };
+      }),
     ],
     alt: 'state',
-    current: { optionValue: 'All', optionLabel: 'All' },
+    current: { optionValue: 'all', optionLabel: 'All' },
   },
 ];
 
-function LicenseCertificationSearchForm({ dispatchFetchLicenseCertification }) {
+// const mockSuggestions = [
+//   'foreign study',
+//   'forever gi bill',
+//   'form',
+//   'form finder',
+//   'form search',
+//   'forms',
+// ];
+
+export default function LicenseCertificationSearchForm({ handleSearch }) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
+  const nameSearchRef = useRef(null);
+
+  const handleReset = () => {
+    setDropdowns(dropdownSchema);
+    nameSearchRef.current.value = '';
+  };
 
   const handleChange = e => {
-    // identify the changed field
-    const updatedFieldIndex = dropdowns.findIndex(dropdown => {
-      return dropdown.label === e.target.id;
-    });
-
-    // identify the selected option
-    const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
-      option => option.optionValue === e.target.value,
-    );
-
-    setDropdowns(
-      dropdowns.map(
-        (dropdown, index) =>
-          index === updatedFieldIndex
-            ? {
-                ...dropdown,
-                current: dropdown.options[selectedOptionIndex],
-              }
-            : dropdown,
-      ),
-    );
+    const newDropdowns = updateLcFilterDropdowns(dropdowns, e.target);
+    setDropdowns(newDropdowns);
   };
 
   return (
@@ -77,16 +78,21 @@ function LicenseCertificationSearchForm({ dispatchFetchLicenseCertification }) {
         required={dropdowns[0].label === 'category'}
       />
       <div>
+        {/* <VaSearchInput */}
         <va-text-input
           label={
             dropdowns[0].current.optionValue !== 'Prep Course'
               ? 'License/Certification Name'
               : 'Course Name'
           }
+          ref={nameSearchRef}
+          // suggestions={mockSuggestions}
+          className="lc-dropdown-filter"
+          style={{ border: 'red' }}
         />
       </div>
 
-      {dropdowns[0].current.optionValue !== 'Prep Course' && (
+      {dropdowns[0].current.optionLabel !== 'Prep Course' && (
         <Dropdown
           disabled={false}
           label={capitalizeFirstLetter(dropdowns[1].label)}
@@ -100,22 +106,26 @@ function LicenseCertificationSearchForm({ dispatchFetchLicenseCertification }) {
           required={dropdowns[1].label === 'category'}
         />
       )}
-      <div className="button-wrapper row vads-u-padding-y--6">
-        <va-button text="Submit" onClick={dispatchFetchLicenseCertification} />
+      <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
+        <va-button
+          text="Submit"
+          onClick={() =>
+            handleSearch(
+              nameSearchRef.current.value,
+              dropdowns[0].current.optionValue,
+            )
+          }
+        />
+        <va-button
+          text="Reset Search"
+          className="usa-button-secondary"
+          onClick={handleReset}
+        />
       </div>
     </form>
   );
 }
 
 LicenseCertificationSearchForm.propTypes = {
-  dispatchFetchLicenseCertification: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
 };
-
-const mapDispatchToProps = {
-  dispatchFetchLicenseCertification: fetchLicenseCertification,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(LicenseCertificationSearchForm);

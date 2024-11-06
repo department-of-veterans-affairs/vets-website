@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
 import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
@@ -90,16 +91,21 @@ export default function TypeOfCarePage() {
     },
     uiSchema: {
       typeOfCareId: {
-        'ui:title': 'What care do you need?',
-        'ui:widget': 'radio',
+        'ui:title': pageTitle,
+        'ui:widget': 'radio', // Required
+        'ui:webComponentField': VaRadioField,
+        'ui:options': {
+          classNames: 'vads-u-margin-top--neg2',
+          showFieldLabel: false,
+          labelHeaderLevel: '1',
+        },
       },
     },
     initialData,
   });
 
   return (
-    <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+    <div className="vaos-form__radio-field">
       {showUpdateAddressAlert && (
         <UpdateAddressAlert
           onClickUpdateAddress={heading => {

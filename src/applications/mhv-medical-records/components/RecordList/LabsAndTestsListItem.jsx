@@ -19,17 +19,17 @@ const LabsAndTestsListItem = props => {
       </span>
       <div>
         {/* date */}
-        <div>{record.date}</div>
+        <div data-dd-privacy="mask">{record.date}</div>
 
         {/* ordered by */}
         {(record.type === labTypes.CHEM_HEM ||
           record.type === labTypes.MICROBIOLOGY ||
           record.type === labTypes.RADIOLOGY ||
           record.type === labTypes.PATHOLOGY) && (
-          <div>{`Ordered by ${record.orderedBy}`}</div>
+          <div data-dd-privacy="mask">{`Ordered by ${record.orderedBy}`}</div>
         )}
         {record.type === labTypes.EKG && (
-          <div>{`Signed by ${record.signedBy}`}</div>
+          <div data-dd-privacy="mask">{`Signed by ${record.signedBy}`}</div>
         )}
       </div>
     </va-card>
