@@ -20,7 +20,7 @@ Cypress.Commands.add('loginArpUser', () => {
 const setUpInterceptsAndVisit = featureToggles => {
   cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
   setFeatureToggles(featureToggles);
-  cy.visit('/representative');
+  cy.visit('/representative/accreditation/attorney-claims-agent-form-21a');
   cy.injectAxe();
 };
 

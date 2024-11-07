@@ -8,7 +8,7 @@ describe('Header on mobile', () => {
       isAppEnabled: true,
       isInPilot: true,
     });
-    cy.visit('/representative');
+    cy.visit('/representative/accreditation/attorney-claims-agent-form-21a');
 
     cy.injectAxe();
   });
@@ -29,7 +29,7 @@ describe('Header on screens wider than mobile', () => {
       isAppEnabled: true,
       isInPilot: true,
     });
-    cy.visit('/representative');
+    cy.visit('/representative/accreditation/attorney-claims-agent-form-21a');
 
     cy.injectAxe();
   });
