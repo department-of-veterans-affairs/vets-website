@@ -463,13 +463,18 @@ class MedicationsListPage {
     );
   };
 
-  selectSortDropDownOption = text => {
+  selectSortDropDownOption = (text, intercept) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions?page=1&per_page=20&sort[]=${intercept}`,
+      prescriptions,
+    );
     cy.get('[data-testid="sort-dropdown"]')
       .find('#options')
       .select(text, { force: true });
   };
 
-  clickSortAlphabeticallyByStatus = () => {
+  loadRxDefaultSortAlphabeticallyByStatus = () => {
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
@@ -480,8 +485,6 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     );
-    cy.get('[data-testid="sort-button"]').should('be.visible');
-    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 
   verifyPaginationDisplayedforSortAlphabeticallyByStatus = (
@@ -495,7 +498,7 @@ class MedicationsListPage {
     );
   };
 
-  clickSortAlphabeticallyByName = () => {
+  loadRxAfterSortAlphabeticallyByName = () => {
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
@@ -508,8 +511,7 @@ class MedicationsListPage {
         return Cypress.Promise.delay(500).then(() => req.continue());
       },
     ).as('prescriptions');
-    cy.get('[data-testid="sort-button"]').should('be.visible');
-    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+
     cy.get('[data-testid="loading-indicator"]').should('exist');
     cy.intercept(
       'GET',
@@ -531,7 +533,7 @@ class MedicationsListPage {
       );
   };
 
-  clickSortLastFilledFirst = () => {
+  loadRxAfterSortLastFilledFirst = () => {
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
@@ -543,8 +545,7 @@ class MedicationsListPage {
         return Cypress.Promise.delay(500).then(() => req.continue());
       },
     ).as('prescriptions');
-    cy.get('[data-testid="sort-button"]').should('be.visible');
-    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+
     cy.get('[data-testid="loading-indicator"]').should('exist');
     cy.intercept(
       'GET',
