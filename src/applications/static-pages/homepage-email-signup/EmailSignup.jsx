@@ -20,6 +20,14 @@ const EmailSignup = () => {
     return email?.length && isValidEmail(email);
   };
 
+  const onInput = event => {
+    setEmail(event.target.value);
+
+    if (inputError) {
+      setInputErrorState();
+    }
+  };
+
   const onSignup = () => {
     setInputErrorState();
 
@@ -38,56 +46,58 @@ const EmailSignup = () => {
   };
 
   return (
-    <form
-      acceptCharset="UTF-8"
-      action="https://public.govdelivery.com/accounts/USVACHOOSE/subscribers/qualify"
-      id="email-signup-form"
-      method="POST"
-      onSubmit={validEmail}
-    >
-      <input type="hidden" name="utf8" value="✓" />
-      <input
-        type="hidden"
-        name="category_id"
-        id="category_id_top"
-        value="USVACHOOSE_C1"
-      />
-      <input
-        type="hidden"
-        name="email"
-        id="homepage-hidden-email"
-        value={email}
-      />
-      <va-text-input
-        autocomplete="email"
-        charcount
-        class="homepage-email-input"
-        error={inputError || null}
-        form-heading="Sign up to get the latest VA updates"
-        form-heading-level="2"
-        inputmode="email"
-        label="Email address"
-        maxlength={130}
-        onBlur={setInputErrorState}
-        onInput={e => setEmail(e.target.value)}
-        onKeyDown={event => {
-          if (event.key === 'Enter') {
+    <div className="form-panel">
+      <form
+        acceptCharset="UTF-8"
+        action="https://public.govdelivery.com/accounts/USVACHOOSE/subscribers/qualify"
+        id="email-signup-form"
+        method="POST"
+        onSubmit={validEmail}
+      >
+        <input type="hidden" name="utf8" value="✓" />
+        <input
+          type="hidden"
+          name="category_id"
+          id="category_id_top"
+          value="USVACHOOSE_C1"
+        />
+        <input
+          type="hidden"
+          name="email"
+          id="homepage-hidden-email"
+          value={email}
+        />
+        <va-text-input
+          autocomplete="email"
+          charcount
+          class="homepage-email-input"
+          error={inputError || null}
+          form-heading="Sign up to get the latest VA updates"
+          form-heading-level="2"
+          inputmode="email"
+          label="Email address"
+          maxlength={130}
+          onBlur={setInputErrorState}
+          onInput={onInput}
+          onKeyDown={event => {
+            if (event.key === 'Enter') {
+              onSignup();
+            }
+          }}
+          required
+          type="email"
+          use-forms-pattern="single"
+        />
+        <va-button
+          class="vads-u-width--auto vads-u-margin-bottom--2 vads-u-margin-top--1p5"
+          onClick={event => {
+            event.preventDefault();
             onSignup();
-          }
-        }}
-        required
-        type="email"
-        use-forms-pattern="single"
-      />
-      <va-button
-        class="vads-u-width--auto vads-u-margin-bottom--2 vads-u-margin-top--1p5"
-        onClick={event => {
-          event.preventDefault();
-          onSignup();
-        }}
-        text="Sign up"
-      />
-    </form>
+          }}
+          text="Sign up"
+        />
+      </form>
+    </div>
   );
 };
 
