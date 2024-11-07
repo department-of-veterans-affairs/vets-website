@@ -125,6 +125,19 @@ const mailingAddress33 = {
             (errors, field) => {
               if (isOnlyWhitespace(field)) {
                 errors.addError('Please enter your full street address');
+              } else if (field?.length < 3) {
+                errors.addError('minimum of 3 characters');
+              } else if (field?.length > 40) {
+                errors.addError('maximum of 40 characters');
+              }
+            },
+          ],
+        },
+        street2: {
+          'ui:validations': [
+            (errors, field) => {
+              if (field?.length > 40) {
+                errors.addError('maximum of 40 characters');
               }
             },
           ],
@@ -137,6 +150,10 @@ const mailingAddress33 = {
             (errors, field) => {
               if (isOnlyWhitespace(field)) {
                 errors.addError('Please enter a valid city');
+              } else if (field?.length < 2) {
+                errors.addError('minimum of 2 characters');
+              } else if (field?.length > 40) {
+                errors.addError('maximum of 40 characters');
               }
             },
           ],
