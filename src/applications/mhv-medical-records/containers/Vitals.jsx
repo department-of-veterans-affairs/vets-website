@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format } from 'date-fns';
@@ -45,10 +45,18 @@ const Vitals = () => {
 
   const { isAcceleratingVitals } = useAcceleratedData();
 
-  const dispatchAction = isCurrent => {
-    return getVitals(isCurrent, isAcceleratingVitals, acceleratedVitalsDate);
-  };
-
+  const dispatchAction = useMemo(
+    () => {
+      return isCurrent => {
+        return getVitals(
+          isCurrent,
+          isAcceleratingVitals,
+          acceleratedVitalsDate,
+        );
+      };
+    },
+    [acceleratedVitalsDate, isAcceleratingVitals],
+  );
   useListRefresh({
     listState,
     listCurrentAsOf: vitalsCurrentAsOf,
@@ -175,7 +183,6 @@ const Vitals = () => {
 
   const updateDate = event => {
     const [year, month] = event.target.value.split('-');
-
     // Ignore transient date changes.
     if (year.length === 4 && month.length === 2) {
       setAcceleratedVitalsDate(`${year}-${month}`);
