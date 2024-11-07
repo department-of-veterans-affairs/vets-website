@@ -49,6 +49,8 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
 
+import useAcceleratedData from '../hooks/useAcceleratedData';
+
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
   const { runningUnitTest } = props;
@@ -65,7 +67,7 @@ const VitalDetails = props => {
   const dispatch = useDispatch();
 
   const perPage = 10;
-  const [currentVitals, setCurrentVitals] = useState([]);
+  const [currentVitals, setCurrentVitals] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
   const activeAlert = useAlerts(dispatch);
@@ -80,6 +82,12 @@ const VitalDetails = props => {
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
+
+  const { isAcceleratingVitals } = useAcceleratedData();
+
+  if (records?.length === 0 && isAcceleratingVitals) {
+    window.location.replace('/my-health/medical-records/vitals');
+  }
 
   useListRefresh({
     listState,
@@ -394,6 +402,7 @@ Provider notes: ${vital.notes}\n\n`,
       </>
     );
   }
+
   return (
     <div className="vads-u-margin-y--8">
       <va-loading-indicator
