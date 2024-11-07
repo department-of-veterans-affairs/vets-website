@@ -13,6 +13,32 @@ const folders = {
   '123456': customFolderThreads,
 };
 
+const senderInfo = {
+  cb: { id: 2992380, name: 'BROADUS, CALVIN' },
+  ay: { id: 3914360, name: 'YOUNG, ANDRE' },
+  do: { id: 5290587, name: 'OWENS, DANA' },
+  cw: { id: 1982284, name: 'WALLACE, CHRISTOPHER' },
+  jc: { id: 6873519, name: 'CAMPALONG, JEREMY' },
+};
+
+const categoryInfo = {
+  APPOINTMENTS: 'APPOINTMENTS',
+  COVID: 'COVID',
+  EDUCATION: 'EDUCATION',
+  OTHER: 'OTHER',
+  MEDICATIONS: 'MEDICATIONS',
+  TEST_RESULTS: 'TEST_RESULTS',
+};
+
+const triageGroupNames = {
+  AUDIOLOGY: 'DETROIT: Audiology, House, Gregory, Md',
+  CARDIOLOGY: 'DETROIT: Cardiology, Yang, Christina, Md',
+  PRIMARY: '** DETROIT: Primary Care, Lydon, John R. Md',
+  MHVCOORD: 'DETROIT: MHV Coordinator, Prince, Diana',
+  PHARMACY: 'DETROIT: Pharmacy',
+  DERMATOLOGY: 'DETROIT: Dermatology, Bishop, Walter, Md',
+};
+
 const paginatedThreads = (req, res) => {
   const { index } = req.params;
   const { pageSize, pageNumber, sortField, sortOrder } = req.query;
@@ -89,4 +115,7 @@ const moveThread = (req, res) => {
 module.exports = {
   paginatedThreads,
   moveThread,
+  senderInfo,
+  categoryInfo,
+  triageGroupNames,
 };
