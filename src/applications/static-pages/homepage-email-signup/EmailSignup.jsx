@@ -16,10 +16,6 @@ const EmailSignup = () => {
     }
   };
 
-  const validEmail = () => {
-    return email?.length && isValidEmail(email);
-  };
-
   const onInput = event => {
     setEmail(event.target.value);
 
@@ -31,7 +27,7 @@ const EmailSignup = () => {
   const onSignup = () => {
     setInputErrorState();
 
-    if (validEmail()) {
+    if (email?.length && isValidEmail(email)) {
       recordEvent({
         event: 'homepage-email-sign-up',
         'button-click-label': 'Sign up',
@@ -52,7 +48,6 @@ const EmailSignup = () => {
         action="https://public.govdelivery.com/accounts/USVACHOOSE/subscribers/qualify"
         id="email-signup-form"
         method="POST"
-        onSubmit={validEmail}
       >
         <input type="hidden" name="utf8" value="✓" />
         <input
