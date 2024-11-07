@@ -11,7 +11,6 @@ function LicenseCertificationSearchResults({
   lcResults,
   fetchingLc,
   hasFetchedOnce,
-  error,
 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
@@ -40,10 +39,6 @@ function LicenseCertificationSearchResults({
 
   if (fetchingLc) {
     return <h2>Loading</h2>;
-  }
-
-  if (error) {
-    return <p className="">{error}</p>;
   }
 
   return (
@@ -101,7 +96,6 @@ LicenseCertificationSearchResults.propTypes = {
   dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
   fetchingLc: PropTypes.bool.isRequired,
   hasFetchedOnce: PropTypes.bool.isRequired,
-  error: PropTypes.string,
   lcResults: PropTypes.array,
 };
 

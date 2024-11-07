@@ -1,31 +1,24 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
+import { waitFor } from '@testing-library/react';
 import LicenseCertificationSearchResults from '../../containers/LicenseCertificationSearchResults';
-
-const mockStore = configureMockStore();
-const store = mockStore({
-  licenseCertificationSearch: {
-    fetchingLc: false,
-    hasFetchedOnce: true,
-    lcResults: [
-      { link: '/sample-link-1', type: 'Certification', name: 'Sample Name 1' },
-      { link: '/sample-link-2', type: 'Certification', name: 'Sample Name 2' },
-    ],
-  },
-});
+import { renderWithStoreAndRouter } from '../helpers';
 
 describe('<LicenseCertificationSearchResults />', () => {
-  it('should render without crashing', () => {
-    const wrapper = shallow(
-      <Provider store={store}>
-        <LicenseCertificationSearchResults />
-      </Provider>,
+  it('should render', async () => {
+    const screen = renderWithStoreAndRouter(
+      <LicenseCertificationSearchResults />,
+      {
+        initialState: {
+          fetchingLc: true,
+          lcResults: [],
+          hasFetchedOnce: false,
+        },
+      },
     );
 
-    expect(wrapper.exists()).to.be.ok;
-    wrapper.unmount();
+    await waitFor(() => {
+      expect(screen).to.not.be.null;
+    });
   });
 });
