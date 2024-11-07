@@ -10,15 +10,19 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import moment from 'moment';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+
+import TypeOfCarePage from './index';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../../tests/mocks/setup';
 import {
   mockVAOSParentSites,
   mockV2CommunityCareEligibility,
-} from '../../mocks/helpers';
+} from '../../../tests/mocks/helpers';
 
-import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
-import { NewAppointment } from '../../../new-appointment';
-import { createMockFacility } from '../../mocks/data';
+import { NewAppointment } from '../..';
+import { createMockFacility } from '../../../tests/mocks/data';
 import { FLOW_TYPES } from '../../../utils/constants';
 
 const initialState = {
