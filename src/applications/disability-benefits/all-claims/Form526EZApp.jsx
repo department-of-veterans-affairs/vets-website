@@ -3,7 +3,6 @@ import { connect, useDispatch } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
@@ -196,7 +195,7 @@ export const Form526Entry = ({
 
   // The router should be doing this, but we're getting lots of Sentry errors
   // See github.com/department-of-veterans-affairs/va.gov-team/issues/29893
-  if (!loggedIn && !isIntroPage(location) && environment.isProduction()) {
+  if (!loggedIn && !isIntroPage(location) && !showAddDisabilitiesEnhancement) {
     router.push('/introduction');
     return wrapWithBreadcrumb(title, showLoading());
   }
