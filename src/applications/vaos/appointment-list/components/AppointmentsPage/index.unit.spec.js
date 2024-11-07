@@ -27,6 +27,7 @@ const initialState = {
     show_new_schedule_view_appointments_page: true,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: false,
+    vaOnlineSchedulingReviewRequestAndReferrals: false,
   },
 };
 
@@ -484,6 +485,63 @@ describe('VAOS Page: AppointmentsPage', () => {
           e => e === `vaos-status-past-link-clicked`,
         ),
       );
+    });
+  });
+
+  describe('when review requests and referrals flag is on', () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingReviewRequestAndReferrals: true,
+      },
+      user: userState,
+    };
+
+    it('should display reivew request and referrals link', async () => {
+      // Given the veteran lands on the VAOS homepage
+      const appointment = getVAOSRequestMock();
+      appointment.id = '1';
+      appointment.attributes = {
+        id: '1',
+        kind: 'clinic',
+        locationId: '983',
+        requestedPeriods: [{}],
+        serviceType: 'primaryCare',
+        status: 'proposed',
+      };
+
+      mockVAOSAppointmentsFetch({
+        start: moment()
+          .subtract(1, 'month')
+          .format('YYYY-MM-DD'),
+        end: moment()
+          .add(395, 'days')
+          .format('YYYY-MM-DD'),
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        requests: [appointment],
+      });
+      mockVAOSAppointmentsFetch({
+        start: moment()
+          .subtract(120, 'days')
+          .format('YYYY-MM-DD'),
+        end: moment().format('YYYY-MM-DD'),
+        statuses: ['proposed', 'cancelled'],
+        requests: [appointment],
+      });
+      // Given the veteran lands on the VAOS homepage
+      // When the page displays
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+        initialState: defaultState,
+      });
+
+      // Then it should display the upcoming appointments
+      await screen.findByRole('heading', { name: 'Appointments' });
+
+      expect(await screen.findByTestId('review-requests-and-referrals-1')).to
+        .exist;
+
+      expect(screen.queryByRole('link', { name: /Pending \(1\)/ })).not.to
+        .exist;
     });
   });
 });

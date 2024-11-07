@@ -25,6 +25,7 @@ module.exports = [
   { name: 'vaOnlineSchedulingStartSchedulingLink', value: true },
   { name: 'vaOnlineSchedulingDatadogRum', value: true },
   { name: 'vaOnlineSchedulingCCDirectScheduling', value: false },
+  { name: 'vaOnlineSchedulingReviewRequestAndReferrals', value: false },
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: false },
   { name: 'vaOnlineSchedulingOhDirectSchedule', value: false },
   { name: 'vaOnlineSchedulingOhRequest', value: false },

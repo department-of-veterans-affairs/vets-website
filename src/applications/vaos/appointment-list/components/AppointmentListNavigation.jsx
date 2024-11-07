@@ -1,8 +1,10 @@
 import React from 'react';
 import { useLocation, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
+import { selectFeatureCCReviewRequestAndReferrals } from '../../redux/selectors';
 import { GA_PREFIX } from '../../utils/constants';
 import PrintButton from './ConfirmedAppointmentDetailsPage/PrintButton';
 
@@ -12,6 +14,10 @@ export default function AppointmentListNavigation({ count, callback }) {
   const isPending = location.pathname.endsWith('/pending');
   const isPast = location.pathname.endsWith('/past');
   const isUpcoming = location.pathname.endsWith('/');
+
+  const featureCCReviewRequestAndReferrals = useSelector(state =>
+    selectFeatureCCReviewRequestAndReferrals(state),
+  );
 
   return (
     <div
@@ -38,23 +44,25 @@ export default function AppointmentListNavigation({ count, callback }) {
               Upcoming
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/pending"
-              style={{ whiteSpace: 'nowrap' }}
-              onClick={() => {
-                callback(true);
-                recordEvent({
-                  event: `${GA_PREFIX}-status-pending-link-clicked`,
-                });
-              }}
-              aria-current={
-                Boolean(isPending).toString() // eslint-disable-next-line jsx-a11y/aria-proptypes
-              }
-            >
-              {`Pending (${count})`}
-            </NavLink>
-          </li>
+          {!featureCCReviewRequestAndReferrals && (
+            <li>
+              <NavLink
+                to="/pending"
+                style={{ whiteSpace: 'nowrap' }}
+                onClick={() => {
+                  callback(true);
+                  recordEvent({
+                    event: `${GA_PREFIX}-status-pending-link-clicked`,
+                  });
+                }}
+                aria-current={
+                  Boolean(isPending).toString() // eslint-disable-next-line jsx-a11y/aria-proptypes
+                }
+              >
+                {`Pending (${count})`}
+              </NavLink>
+            </li>
+          )}
           <li>
             <NavLink
               to="/past"

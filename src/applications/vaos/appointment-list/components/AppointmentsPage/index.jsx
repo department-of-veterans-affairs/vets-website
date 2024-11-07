@@ -24,6 +24,7 @@ import {
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
+import ReviewRequestsAndReferrals from '../ReviewRequestsAndReferrals';
 import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
@@ -164,6 +165,7 @@ export default function AppointmentsPage() {
           <ReferralAppLink linkText="Review and manage your appointment notifications" />
         </div>
       )}
+      <ReviewRequestsAndReferrals count={count} />
       <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
       <Switch>
         <Route exact path="/">
