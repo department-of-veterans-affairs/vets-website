@@ -47,6 +47,7 @@ import veteranMailingAddress from './chapters/veteranInformation/mailingAddress'
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContantInformation from './chapters/veteranInformation/contactInformation';
 import emergencyContactPages from './chapters/veteranInformation/emergencyContacts';
+import nextOfKinPages from './chapters/veteranInformation/nextOfKin';
 
 // chapter 2 - Household Information
 import maritalStatus from './chapters/householdInformation/maritalStatus';
@@ -216,6 +217,16 @@ const formConfig = {
         },
         emergencyContactsAddressPage: {
           ...emergencyContactPages.emergencyContactsAddressPage,
+        },
+        nextOfKinSummary: {
+          ...nextOfKinPages.nextOfKinSummary,
+        },
+        nextOfKinPage: {
+          ...nextOfKinPages.nextOfKinPage,
+          depends: formData => formData['view:isNextOfKinEnabled'],
+        },
+        nextOfKinAddressPage: {
+          ...nextOfKinPages.nextOfKinAddressPage,
         },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page
