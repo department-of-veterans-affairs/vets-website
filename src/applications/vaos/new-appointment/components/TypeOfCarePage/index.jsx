@@ -103,7 +103,7 @@ export default function TypeOfCarePage() {
     <div className="vaos-form__radio-field">
       <h1 className="vads-u-font-size--h2">
         {pageTitle}
-        <span className="schemaform-required-span vaos-calendar__page_header vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal">
+        <span className="schemaform-required-span vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal">
           (*Required)
         </span>
       </h1>
