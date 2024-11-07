@@ -50,7 +50,9 @@ const MedicationsList = props => {
   return (
     <>
       {/* clean after filter flag is removed */}
-      {!showFilterContent && <h2 className="sr-only no-print">List of Medications</h2>}
+      {!showFilterContent && (
+        <h2 className="sr-only no-print">List of Medications</h2>
+      )}
       <p
         className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"

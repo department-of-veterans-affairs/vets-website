@@ -9,7 +9,10 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 import { rxListSortingOptions } from '../../util/constants';
-import { selectFilterFlag, selectRefillContentFlag } from '../../util/selectors';
+import {
+  selectFilterFlag,
+  selectRefillContentFlag
+} from '../../util/selectors';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const MedicationsListSort = props => {
