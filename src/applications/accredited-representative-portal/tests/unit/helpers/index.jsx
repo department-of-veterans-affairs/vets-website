@@ -6,17 +6,13 @@ import { render } from '@testing-library/react';
 import createReduxStore from '../../../store';
 import rootReducer from '../../../reducers';
 
-/**
- * Beginning to look like an overwrought wrapping of multiple underlying APIs'
- * options. Can look out for a refactor.
- */
-export function renderTestApp(children, { initAction, initialEntries } = {}) {
+export function renderTestApp(children, { initAction } = {}) {
   const store = createReduxStore(rootReducer);
   if (initAction) store.dispatch(initAction);
 
   return render(
     <Provider store={store}>
-      <MemoryRouter initialEntries={initialEntries}>{children}</MemoryRouter>
+      <MemoryRouter>{children}</MemoryRouter>
     </Provider>,
   );
 }
