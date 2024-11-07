@@ -20,11 +20,10 @@ const EmailSignup = () => {
     return email?.length && isValidEmail(email);
   };
 
-  const onSignupClick = e => {
-    e.preventDefault();
+  const onSignup = () => {
     setInputErrorState();
 
-    if (!inputError && validEmail()) {
+    if (validEmail()) {
       recordEvent({
         event: 'homepage-email-sign-up',
         'button-click-label': 'Sign up',
@@ -62,7 +61,7 @@ const EmailSignup = () => {
       <va-text-input
         autocomplete="email"
         charcount
-        class="vads-u-width--full medium-screen:vads-u-width-auto homepage-email-input"
+        class="homepage-email-input"
         error={inputError || null}
         form-heading="Sign up to get the latest VA updates"
         form-heading-level="2"
@@ -71,13 +70,21 @@ const EmailSignup = () => {
         maxlength={130}
         onBlur={setInputErrorState}
         onInput={e => setEmail(e.target.value)}
+        onKeyDown={event => {
+          if (event.key === 'Enter') {
+            onSignup();
+          }
+        }}
         required
         type="email"
         use-forms-pattern="single"
       />
       <va-button
         class="vads-u-width--auto vads-u-margin-bottom--2 vads-u-margin-top--1p5"
-        onClick={onSignupClick}
+        onClick={event => {
+          event.preventDefault();
+          onSignup();
+        }}
         text="Sign up"
       />
     </form>

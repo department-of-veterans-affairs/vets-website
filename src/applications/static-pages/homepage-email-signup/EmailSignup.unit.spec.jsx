@@ -1,9 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import EmailSignup from './EmailSignup';
 import { createStore } from 'redux';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import EmailSignup from './EmailSignup';
 
 describe('homepage email signup', () => {
   const store = createStore(() => {});
@@ -15,9 +15,25 @@ describe('homepage email signup', () => {
       </Provider>,
     );
 
-    console.log('container: ', container.innerHTML);
-
     expect(container.querySelector('#email-signup-form')).to.exist;
-    expect(container.querySelectorAll('input[type="hidden"]').length).to.equal(3);
+    expect(container.querySelectorAll('input[type="hidden"]').length).to.equal(
+      3,
+    );
+    expect(container.querySelector('.homepage-email-input')).to.exist;
+    expect(container.querySelector('va-button')).to.exist;
+  });
+
+  it('should not show an error message by default', () => {
+    const screen = render(
+      <Provider store={store}>
+        <EmailSignup />
+      </Provider>,
+    );
+
+    expect(
+      screen.queryByText(
+        'Enter a valid email address without spaces using this format: email@domain.com',
+      ),
+    ).not.to.exist;
   });
 });
