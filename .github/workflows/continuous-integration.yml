@@ -1318,14 +1318,14 @@ jobs:
 
       - name: Merge all coverage reports
         run: |
-          node script/github-actions/merge-unit-test-coverage.js $(find qa-standards-dashboard-data/coverage -name '*.json')
+          node script/github-actions/merge-unit-test-coverage.js $(find qa-standards-dashboard-data/coverage -name '*.json') > qa-standards-dashboard-data/merged_coverage_report.txt
 
       - name: Archive merged coverage reports
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: merged-coverage-report
-          path: qa-standards-dashboard-data/merged-coverage-report.json
+          path: qa-standards-dashboard-data/merged_coverage_report.txt
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
