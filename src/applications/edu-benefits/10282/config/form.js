@@ -3,10 +3,14 @@ import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import FormFooter from 'platform/forms/components/FormFooter';
+import {
+  titleUI,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
-  applicantInformationName,
   applicantInformationCountry,
   veteranDesc,
   applicantContactInfo,
@@ -55,9 +59,9 @@ const formConfig = {
     CustomComponent: StatementOfTruth,
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for 	education benefits.',
+    notFound: 'Please start over to apply for education benefits.',
     noAuth:
-      'Please sign in again to continue your application for 	education benefits.',
+      'Please sign in again to continue your application for education benefits.',
   },
 
   title: 'Apply for the IBM SkillsBuild program',
@@ -78,7 +82,16 @@ const formConfig = {
         applicantName: {
           title: 'Your personal information',
           path: 'applicant/information',
-          ...applicantInformationName.applicantInformationField(),
+          uiSchema: {
+            ...titleUI('Your name'),
+            veteranFullName: fullNameNoSuffixUI(false),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranFullName: fullNameNoSuffixSchema,
+            },
+          },
         },
         veteranDesc: {
           title: 'Your personal information',
