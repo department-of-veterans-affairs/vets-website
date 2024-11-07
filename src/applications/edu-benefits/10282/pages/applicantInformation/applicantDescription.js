@@ -1,4 +1,4 @@
-import React from 'react';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 
 const labels = {
   veteran: "I'm a Veteran",
@@ -12,21 +12,15 @@ const labels = {
   individualReadyReserve: "I'm a member of the Individual Ready Reserve",
 };
 
-const uiTitle = (
-  <h3 className="vads-u-margin--0 " data-testid="veteran-description">
-    Which of these best describes you?
-  </h3>
-);
-
 export const uiSchema = {
   veteranDesc: {
-    'ui:title': uiTitle,
-    'ui:widget': 'radio',
+    'ui:title': 'Which of these best describes you?',
+    'ui:options': {
+      labelHeaderLevel: '3',
+    },
+    'ui:webComponentField': VaRadioField,
     'ui:errorMessages': {
       required: 'You must select one of the options',
-    },
-    'ui:options': {
-      labels,
     },
   },
 };
@@ -34,6 +28,10 @@ export const schema = {
   type: 'object',
   required: ['veteranDesc'],
   properties: {
-    veteranDesc: { type: 'string', enum: Object.keys(labels) },
+    veteranDesc: {
+      type: 'string',
+      enum: Object.keys(labels),
+      enumNames: Object.values(labels),
+    },
   },
 };

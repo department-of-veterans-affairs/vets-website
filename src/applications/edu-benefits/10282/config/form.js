@@ -4,9 +4,9 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import {
-  titleUI,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -80,11 +80,11 @@ const formConfig = {
       title: 'Your personal information',
       pages: {
         applicantName: {
-          title: 'Your personal information',
+          title: 'Your name',
           path: 'applicant/information',
           uiSchema: {
-            ...titleUI('Your name'),
             veteranFullName: fullNameNoSuffixUI(false),
+            ...titleUI('Your name'),
           },
           schema: {
             type: 'object',
@@ -94,18 +94,8 @@ const formConfig = {
           },
         },
         veteranDesc: {
-          title: 'Your personal information',
+          title: 'Your relationship to Veteran',
           path: 'applicant-information-1',
-          CustomPageReview: props => (
-            <CustomPageReview
-              data={props.data}
-              editPage={props.editPage}
-              title="Your relationship to Veteran"
-              question="Which one best describes you?"
-              dataValue="veteranDesc"
-              className="vads-u-margin-top--neg4"
-            />
-          ),
           uiSchema: veteranDesc.uiSchema,
           schema: veteranDesc.schema,
         },
