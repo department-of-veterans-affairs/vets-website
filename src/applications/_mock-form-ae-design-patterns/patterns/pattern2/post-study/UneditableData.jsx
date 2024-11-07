@@ -8,7 +8,7 @@ const AdditionalInfoContent = () => {
     <div>
       <p className="vads-u-margin-top--0">
         To protect your personal information, we don’t allow online changes to
-        your name, date of birth, or Social Security number. If you need to
+        your name, Social Security number, date of birth, or gender. If you need
         change this information, call us at{' '}
         <va-telephone contact="8008271000" /> (
         <va-telephone contact={CONTACTS[711]} tty />
@@ -112,8 +112,8 @@ const UneditableData = () => {
           <div>
             <p className="vads-u-margin-top--5 vads-u-padding-bottom--9">
               <strong>Note:</strong> To protect your personal information, we
-              don’t allow online changes to your name, date of birth, or Social
-              Security number. If you need to change this information, call us
+              don’t allow online changes to your name, Social Security number,
+              date of birth, or gender. If you need to change this information,
               at <va-telephone contact="8008271000" /> (
               <va-telephone contact={CONTACTS[711]} tty />
               ). We’re here Monday through Friday, between 8:00 a.m. and 9:00
@@ -172,8 +172,8 @@ const UneditableData = () => {
           <div className="vads-u-padding-bottom--7">
             <p className="vads-u-margin-top--4">
               <strong>Note:</strong> To protect your personal information, we
-              don’t allow online changes to your name, date of birth, or Social
-              Security number. If you need to change this information, call us
+              don’t allow online changes to your name, Social Security number,
+              date of birth, or gender. If you need to change this information,
               at <va-telephone contact="8008271000" /> (
               <va-telephone contact={CONTACTS[711]} tty />
               ). We’re here Monday through Friday, between 8:00 a.m. and 9:00
