@@ -378,7 +378,8 @@
     "**/minimist": "^1.2.6",
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
-    "**/fbjs": "^3.0.4"
+    "**/fbjs": "^3.0.4",
+    "body-parser": "1.20.3"
   },
   "workspaces": {
     "packages": [
