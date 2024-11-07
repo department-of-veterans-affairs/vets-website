@@ -14,12 +14,12 @@ const responses = {
         mobilePhone: '5554044567',
         email: 'test@test.com',
         veteranAddress: {
-          street: '1234 Fake St.',
-          street2: 'Apt Z',
-          city: 'Fort Collins',
-          state: 'CO',
+          street: '123 Mailing Address St.',
+          city: 'Futlon',
+          state: 'NY',
           country: 'USA',
-          postalCode: '80521',
+          postalCode: '97064',
+          isMilitary: false,
         },
         toursOfDuty: [
           {

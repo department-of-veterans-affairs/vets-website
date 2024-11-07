@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButtonPair,
+  VaPrivacyAgreement,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { setupPages } from '../utils/reviewPage';
 import { formConfigForOrangeTask } from '../config/form';
 
 const ReviewPage = props => {
+  const { location } = props;
   const [privacyCheckbox, setPrivacyCheckbox] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -28,8 +32,11 @@ const ReviewPage = props => {
     onSubmit: () => {
       setSubmitted(true);
       if (privacyCheckbox) {
-        props.goToPath('/confirmation');
+        props.goToPath('/2/task-orange/complete');
       }
+    },
+    onBack: () => {
+      props.goBack();
     },
   };
 
@@ -45,26 +52,26 @@ const ReviewPage = props => {
           return (
             <div key={index}>
               <div className={chapterClasses}>
-                <h2 id={index} className="vads-u-margin--0">
+                <h3
+                  id={index}
+                  className="vads-u-margin--0 vads-u-font-size--h3"
+                >
                   {title}
-                </h2>
+                </h3>
               </div>
-              <ul className="review-pages vads-u-padding--0 usa-unstyled-list vads-u--margin-top--2">
-                {getChapterPagesFromChapterIndex(index).map(page => {
-                  const depends = page.depends
-                    ? page.depends(props.data)
-                    : true;
-                  return page.review && depends
-                    ? Object.entries(page.review(props)).map(
-                        ([label, value]) => (
-                          <li key={label}>
-                            <div className="page-value">{value}</div>
-                          </li>
-                        ),
-                      )
-                    : null;
-                })}
-              </ul>
+
+              {getChapterPagesFromChapterIndex(index).map(page => {
+                const depends = page.depends
+                  ? page.depends({ ...props.data, location })
+                  : true;
+                return page.review && depends
+                  ? Object.entries(page.review(props)).map(([label, value]) => (
+                      <div className="page-value" key={label}>
+                        {value}
+                      </div>
+                    ))
+                  : null;
+              })}
             </div>
           );
         })}
@@ -83,7 +90,12 @@ const ReviewPage = props => {
         <Link to="review-then-submit2">Finish this application later</Link>
       </p>
       {/* {props.contentBeforeButtons} */}
-      <va-button onClick={handlers.onSubmit} text="Submit" uswds />
+      <VaButtonPair
+        class="vads-u-margin-top--2"
+        continue
+        onPrimaryClick={handlers.onSubmit}
+        onSecondaryClick={handlers.onBack}
+      />
       {/* {props.contentAfterButtons} */}
     </article>
   );
@@ -92,25 +104,11 @@ const ReviewPage = props => {
 ReviewPage.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    veteran: PropTypes.shape({
-      homePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
-      mobilePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
-    }).isRequired,
-  }),
+  data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
+  location: PropTypes.object,
   name: PropTypes.string,
   pagePerItemIndex: PropTypes.number,
   schema: PropTypes.shape({}),

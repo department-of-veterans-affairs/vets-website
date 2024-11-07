@@ -114,9 +114,16 @@ describe('Select related disabilities for unemployability', () => {
       labels
         .at(0)
         .find('p')
-        .last()
+        .first()
         .text(),
     ).to.equal('Current rating: 40%');
+    expect(
+      labels
+        .at(0)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal('You’re already at the maximum rating for this disability.');
 
     expect(
       labels
@@ -142,9 +149,16 @@ describe('Select related disabilities for unemployability', () => {
       labels
         .at(2)
         .find('p')
-        .last()
+        .first()
         .text(),
     ).to.equal('Current rating: 100%');
+    expect(
+      labels
+        .at(2)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal('You’re already at the maximum rating for this disability.');
 
     expect(
       labels

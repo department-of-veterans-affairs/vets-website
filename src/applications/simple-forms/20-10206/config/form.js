@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import getHelp from '../../shared/components/GetFormHelp';
 
 import manifest from '../manifest.json';
@@ -293,6 +294,9 @@ const formConfig = {
     appType: 'request',
     appAction: 'requesting your personal records',
     submitButtonText: 'Submit request',
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

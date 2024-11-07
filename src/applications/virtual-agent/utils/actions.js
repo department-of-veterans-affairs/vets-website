@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
+
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+
 import piiReplace from './piiReplace';
 import {
   getConversationIdKey,
@@ -14,6 +16,7 @@ import {
 } from './sessionStorage';
 import { sendWindowEventWithActionPayload } from './events';
 import submitForm from './submitForm';
+import processCSAT from './processCSAT';
 
 const START_CONVERSATION = 'startConversation';
 const EVENT = 'event';
@@ -59,7 +62,7 @@ function getEventName(action) {
 function getEventValue(action, isRootBotToggleOn) {
   // if toggle on then use this if off the just do action?.payload?.activity?.value
   if (isRootBotToggleOn) {
-    return action?.payload?.activity?.value.value ?? '';
+    return action?.payload?.activity?.value?.value ?? '';
   }
 
   return action?.payload?.activity?.value ?? '';
@@ -148,6 +151,7 @@ export const processIncomingActivity = ({
   const isMessageFromBot =
     data.type === 'message' && data.text && data.from.role === 'bot';
   const isFormPostButton = data.value?.type === 'FormPostButton';
+  const isCSATSurveyResponse = data.valueType === 'CSATSurveyResponse';
 
   if (isAtBeginningOfConversation) {
     setIsTrackingUtterances(true);
@@ -172,6 +176,10 @@ export const processIncomingActivity = ({
 
   if (isComponentToggleOn && isFormPostButton) {
     submitForm(data.value.url, data.value.body);
+  }
+
+  if (isRootBotToggleOn && isCSATSurveyResponse) {
+    processCSAT(data);
   }
 
   const trackingUtterances = getIsTrackingUtterances();
@@ -201,7 +209,7 @@ export const processMicrophoneActivity = ({ action }) => () => {
 
 export function addActivityData(
   action,
-  { apiSession, csrfToken, apiURL, userFirstName, userUuid },
+  { apiSession, csrfToken, apiURL, userFirstName, userUuid, isMobile },
 ) {
   const updatedAction = action;
   if (updatedAction.payload?.activity) {
@@ -213,6 +221,7 @@ export function addActivityData(
         apiURL,
         userFirstName,
         userUuid,
+        isMobile,
       };
     } else {
       updatedAction.payload.activity.value = {
@@ -222,6 +231,7 @@ export function addActivityData(
         apiURL,
         userFirstName,
         userUuid,
+        isMobile,
       };
     }
   }

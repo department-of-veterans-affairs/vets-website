@@ -8,6 +8,8 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
+import * as focusUtils from '~/platform/utilities/ui/focus';
+
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import {
   errorMessages,
@@ -33,6 +35,14 @@ import sharedErrorMessage from '../../../shared/content/errorMessages';
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
 describe('<EvidenceVaRecords>', () => {
+  let focusElementSpy;
+  beforeEach(() => {
+    focusElementSpy = sinon.stub(focusUtils, 'focusElement');
+  });
+  afterEach(() => {
+    focusElementSpy.restore();
+  });
+
   const validDate = parseDateWithOffset({ months: -2 });
   const mockData = {
     contestedIssues: [
@@ -249,7 +259,6 @@ describe('<EvidenceVaRecords>', () => {
   // *** EMPTY PAGE ***
   describe('empty page navigation', () => {
     const getAndTestAllErrors = container => {
-      expect(document.activeElement).to.eq($('[error]', container));
       const errors = errorMessages.evidence;
       const errorEls = getErrorElements(container);
       expect(errorEls[0].error).to.eq(errors.locationMissing);
@@ -421,7 +430,7 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         expect(goSpy.called).to.be.false;
         expect(getErrorElements(container).length).to.eq(3);
-        expect(document.activeElement).to.eq($('[error]', container));
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
       });
     });
 
@@ -516,7 +525,7 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         expect(goSpy.called).to.be.false;
         expect(getErrorElements(container).length).to.eq(3);
-        expect(document.activeElement).to.eq($('[error]', container));
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
       });
     });
   });

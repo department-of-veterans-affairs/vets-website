@@ -24,7 +24,7 @@ export const digitalFormAddress = ({ additionalFields, pageTitle }) => {
   return { schema, uiSchema };
 };
 
-export const digitalFormNameAndDoB = ({ additionalFields, pageTitle }) => {
+export const digitalFormNameAndDoB = ({ includeDateOfBirth, pageTitle }) => {
   const schema = {
     ...defaultSchema,
     properties: {
@@ -36,7 +36,7 @@ export const digitalFormNameAndDoB = ({ additionalFields, pageTitle }) => {
     fullName: webComponentPatterns.fullNameUI(),
   };
 
-  if (additionalFields.includeDateOfBirth) {
+  if (includeDateOfBirth) {
     schema.properties.dateOfBirth = webComponentPatterns.dateOfBirthSchema;
     uiSchema.dateOfBirth = webComponentPatterns.dateOfBirthUI();
   }
@@ -45,7 +45,7 @@ export const digitalFormNameAndDoB = ({ additionalFields, pageTitle }) => {
 };
 
 export const digitalFormIdentificationInfo = ({
-  additionalFields,
+  includeServiceNumber,
   pageTitle,
 }) => {
   const schema = {
@@ -59,7 +59,7 @@ export const digitalFormIdentificationInfo = ({
     veteranId: webComponentPatterns.ssnOrVaFileNumberUI(),
   };
 
-  if (additionalFields.includeServiceNumber) {
+  if (includeServiceNumber) {
     schema.properties.serviceNumber = webComponentPatterns.serviceNumberSchema;
     uiSchema.serviceNumber = webComponentPatterns.serviceNumberUI();
   }

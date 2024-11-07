@@ -64,6 +64,68 @@ export const FILTER_BEFORE_RESULTS = 'FILTER_BEFORE_RESULTS';
 export const UPDATE_QUERY_PARAMS = 'UPDATE_QUERY_PARAMS';
 export const FOCUS_SEARCH = 'FOCUS_SEARCH';
 
+export const FETCH_LC_RESULTS_FAILED = 'FETCH_LC_RESULTS_FAILED';
+export const FETCH_LC_RESULTS_STARTED = 'FETCH_LC_RESULTS_STARTED';
+export const FETCH_LC_RESULTS_SUCCEEDED = 'FETCH_LC_RESULTS_SUCCEEDED';
+export const FETCH_LC_RESULT_FAILED = 'FETCH_LC_RESULT_FAILED';
+export const FETCH_LC_RESULT_STARTED = 'FETCH_LC_RESULT_STARTED';
+export const FETCH_LC_RESULT_SUCCEEDED = 'FETCH_LC_RESULT_SUCCEEDED';
+
+export function fetchLicenseCertificationResults(name, type) {
+  return dispatch => {
+    const url = `${api.url}/lce?type=${type}`;
+    dispatch({ type: FETCH_LC_RESULTS_STARTED });
+
+    return fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error(res.statusText);
+      })
+      .then(results => {
+        const { data } = results;
+
+        dispatch({
+          type: FETCH_LC_RESULTS_SUCCEEDED,
+          payload: data,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: FETCH_LC_RESULTS_FAILED,
+          payload: err.message,
+        });
+      });
+  };
+}
+export function fetchLcResult(link) {
+  return dispatch => {
+    const url = `${api.url}/${link}`;
+    dispatch({ type: FETCH_LC_RESULT_STARTED });
+
+    return fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error(res.statusText);
+      })
+      .then(result => {
+        dispatch({
+          type: FETCH_LC_RESULT_SUCCEEDED,
+          payload: result.data,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: FETCH_LC_RESULT_FAILED,
+          payload: err.message,
+        });
+      });
+  };
+}
+
 export const focusSearch = () => {
   return {
     type: FOCUS_SEARCH,

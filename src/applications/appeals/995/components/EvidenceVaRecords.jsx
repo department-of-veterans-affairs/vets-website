@@ -12,7 +12,7 @@ import {
   validateVaUnique,
   isEmptyVaEntry,
 } from '../validations/evidence';
-import { focusEvidence } from '../utils/focus';
+import { focusEvidence } from '../../shared/utils/focus';
 import {
   HeaderAndModal,
   IssueAndDates,

@@ -1,34 +1,49 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
-
-import AddressEmailPhone from './AddressEmailPhone';
+import { useReviewPage } from '../hooks/useReviewPage';
 import { getEntityAddressAsObject } from '../utilities/helpers';
 
+import AddressEmailPhone from './AddressEmailPhone';
+
 const ContactAccreditedRepresentative = props => {
+  const { formData, goBack, goForward, goToPath } = props;
   const rep = props?.formData?.['view:selectedRepresentative'];
   const repAttributes = rep?.attributes;
   const addressData = getEntityAddressAsObject(repAttributes);
   const email = repAttributes?.email;
   const phone = repAttributes?.phone;
   const isOrg = rep?.type === 'organization';
+  const isReviewPage = useReviewPage();
 
-  const warningContent = () => {
-    if (isOrg) {
-      return (
-        <p>
-          You’ll need to contact the accredited representative you’ve selected
-          to make sure they’re available to help you, and you’ll need to ask
-          them which VSO to name on your form.
-        </p>
-      );
+  const representative = formData?.['view:selectedRepresentative'];
+
+  const orgSelectionRequired =
+    !!representative &&
+    ['representative', 'veteran_service_officer'].includes(
+      representative.attributes?.individualType,
+    ) &&
+    representative.attributes?.accreditedOrganizations?.data?.length > 1;
+
+  const handleGoBack = () => {
+    if (isReviewPage) {
+      goToPath('/representative-select?review=true');
+    } else {
+      goBack(formData);
     }
-    return (
-      <p>
-        You’ll need to contact the accredited representative you’ve selected to
-        make sure they’re available to help you.
-      </p>
-    );
+  };
+
+  const handleGoForward = () => {
+    if (isReviewPage) {
+      if (orgSelectionRequired) {
+        goToPath('/representative-organization?review=true');
+      } else {
+        goToPath('/review-and-submit');
+      }
+    } else {
+      goForward(formData);
+    }
   };
 
   const subNameContent = () => {
@@ -38,8 +53,8 @@ const ContactAccreditedRepresentative = props => {
     if (isOrg) {
       return (
         <p>
-          You can work with any accredited VSO representative at this
-          organization.
+          <strong>Note:</strong> You can work with any accredited VSO
+          representative at this organization.
         </p>
       );
     }
@@ -76,7 +91,10 @@ const ContactAccreditedRepresentative = props => {
       <div className="vads-u-display--flex vads-u-margin-bottom--4">
         <va-alert status="warning">
           <h2 slot="headline">Contact the accredited representative</h2>
-          {warningContent()}
+          <p className="vads-u-margin-bottom--0">
+            You’ll need to contact the accredited representative you’ve selected
+            to make sure they’re available to help you.
+          </p>
         </va-alert>
       </div>
       {repAttributes && (
@@ -97,12 +115,17 @@ const ContactAccreditedRepresentative = props => {
           </div>
         </va-card>
       )}
+
+      <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
     </div>
   );
 };
 
 ContactAccreditedRepresentative.propTypes = {
   formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

@@ -179,10 +179,14 @@ class AddFilesForm extends React.Component {
           <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--3">
             Please only submit evidence that supports this claim. To submit
             supporting documents for a new disability claim, please visit our{' '}
-            <a id="how-to-file-claim" href="/disability/how-to-file-claim">
-              How to File a Claim
+            <a
+              id="how-to-file-claim"
+              href="/disability/how-to-file-claim"
+              target="_blank"
+            >
+              How to File a Claim page (opens in a new tab)
             </a>{' '}
-            page.
+            .
           </p>
           <VaFileInput
             id="file-upload"
