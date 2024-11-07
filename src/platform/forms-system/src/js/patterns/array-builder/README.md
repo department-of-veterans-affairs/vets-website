@@ -301,13 +301,36 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
 Use the [Optional flow](#example-pages-optional-flow) as a starting point, and make the following replacements:
 
 ```js
+const title = 'Events from your service';
+const description = (
+  <div>
+    <p>Lorem ipsum dolor sit amet.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
+  </div>
+);
+
 /** @type {ArrayBuilderOptions} */
 const options = {
   ...
-  useLinkInsteadOfYesNo: true, // or useButtonInsteadOfYesNo: true,
+  useLinkInsteadOfYesNo: true,
+  required: false,
   text: {
-    ...
-    summaryAddLinkText: data => 'Custom text' // or summaryAddButtonText: data => 'Custom text', (optional)
+    getItemName: item => item.name,
+    summaryTitle: title,
+    summaryTitleWithoutItems: title,
+    summaryDescription: description,
+    summaryDescriptionWithoutItems: description,
+    summaryAddLinkText: (props) => {
+      return props.itemData?.length ? 'Add another event' : 'Add an event';
+    },
+    reviewAddButtonText: (props) => {
+      return props.itemData?.length ? 'Add another event' : 'Add an event';
+    },
+    yesNoBlankReviewQuestion: 'Did you have any events?', // No
+    cardDescription: item =>
+      `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
+        item?.dateRange?.to,
+      )}`,
   },
 };
 ```
