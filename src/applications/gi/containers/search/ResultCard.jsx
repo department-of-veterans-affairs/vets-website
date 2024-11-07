@@ -5,7 +5,8 @@ import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+
 import {
   addCompareInstitution,
   removeCompareInstitution,
@@ -23,9 +24,6 @@ import {
 import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../../components/profile/schoolRatings/RatingsStars';
 import SchoolClassification from '../../components/SchoolClassification';
-
-// environment variable to keep ratings out of production until ready
-const isProduction = !environment.isProduction();
 
 export function ResultCard({
   compare,
@@ -57,6 +55,11 @@ export function ResultCard({
     programLengthInHours,
     type,
   } = institution;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  // environment variable to keep ratings out of production until ready
+  const isShowRatingsToggle = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolShowRatings,
+  );
 
   let ratingCount = 0;
   let ratingAverage = false;
@@ -184,7 +187,7 @@ export function ResultCard({
 
   // toggle for production/staging------------------------------------------------
   let ratingsInformation = false;
-  if (isProduction) {
+  if (isShowRatingsToggle) {
     const stars = convertRatingToStars(ratingAverage);
     const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
@@ -223,12 +226,14 @@ export function ResultCard({
   };
 
   const estimateTuition = ({ qualifier, value }) => {
-    if (qualifier === '% of instate tuition') {
-      return <span>{value}% in-state</span>;
-    }
     if (qualifier === null) {
       return value;
     }
+
+    if (qualifier === '% of instate tuition') {
+      return <span>{value}% in-state</span>;
+    }
+
     const lesserVal = tuitionOutOfState
       ? Math.min(value, tuitionOutOfState)
       : value;

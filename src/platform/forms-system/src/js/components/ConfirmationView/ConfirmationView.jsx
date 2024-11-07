@@ -130,6 +130,7 @@ export const ConfirmationView = props => {
       <SavePdfDownload
         pdfUrl={pdfUrl}
         trackingPrefix={formConfig.trackingPrefix}
+        formId={formConfig.formId}
       />
       <ChapterSectionCollection formConfig={formConfig} />
       <PrintThisPage />
@@ -144,6 +145,7 @@ export const ConfirmationView = props => {
 
 ConfirmationView.propTypes = {
   formConfig: PropTypes.shape({
+    formId: PropTypes.string,
     trackingPrefix: PropTypes.string,
     chapters: PropTypes.object,
   }).isRequired,
