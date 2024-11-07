@@ -6,7 +6,7 @@ import {
   FETCH_USER,
   FETCH_USER_FAILURE,
   FETCH_USER_SUCCESS,
-} from '../actions/user';
+} from '../../../actions/user';
 
 function getNullProfileState() {
   return {

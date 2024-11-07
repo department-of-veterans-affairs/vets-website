@@ -5,7 +5,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
 import App from './containers/App';
-import formConfig from './accreditation/21a/config/form';
+import formConfig from './config/form';
 
 const form21aRoutes = {
   path: formConfig.urlPrefix,
