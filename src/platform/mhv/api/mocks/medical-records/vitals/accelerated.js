@@ -10726,7 +10726,7 @@ const singleInJanuary = [
         reference:
           'https://sandbox-api.va.gov/services/fhir/v0/r4/Encounter/4-1abONcOSZ9W4SB',
       },
-      effectiveDateTime: '2013-01-26T06:10:16Z',
+      effectiveDateTime: '2024-01-26T06:10:16Z',
       issued: '2013-01-26T06:10:16Z',
       performer: [
         {
@@ -10815,8 +10815,10 @@ const all = (from, _to) => {
 
   for (const entry of bucket) {
     // include entry if effectiveDateTime is between from and to
+    const entryDate = new Date(entry.resource.effectiveDateTime);
+
     if (
-      new Date(entry.resource.effectiveDateTime) <= fromDate &&
+      new Date(entry.resource.effectiveDateTime) >= fromDate &&
       new Date(entry.resource.effectiveDateTime) <= toDate
     ) {
       // console.log('got match');
