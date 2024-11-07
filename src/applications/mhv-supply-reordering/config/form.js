@@ -72,6 +72,7 @@ const formConfig = {
   chapters,
   ...formMessages,
   customText,
+  fullWidth: true,
 };
 
 export default formConfig;

@@ -17,7 +17,7 @@ const breadcrumbList = [
   },
   {
     href: '/my-health',
-    label: 'My HealtheVet',
+    label: 'Health care',
   },
   {
     href: manifest.rootUrl,

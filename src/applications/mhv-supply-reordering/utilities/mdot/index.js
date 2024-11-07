@@ -35,6 +35,14 @@ export const getAvailableSupplies = mdotData => {
 };
 
 /**
+ * Returns a list of supply names available for reorder
+ * @param {*} mdotData mdotData
+ * @returns array of supply names
+ */
+export const getAvailableSupplyNames = mdotData =>
+  getAvailableSupplies(mdotData).map(supply => supply.name);
+
+/**
  * Determine if the user is eligible to reorder supplies.
  * @param {*} mdotData the MDOT data
  * @returns true if the user is eligible for reordering supplies

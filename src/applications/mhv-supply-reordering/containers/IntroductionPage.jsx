@@ -13,6 +13,7 @@ import {
   numAvailableSupplies,
   isEligible,
   getEligibilityDate,
+  getAvailableSupplies,
 } from '../utilities/mdot';
 
 /**
@@ -29,6 +30,7 @@ export const IntroductionPage = ({
   const isLoading = profile.loading || mdotIsPending;
   const { formConfig, pageList } = route;
   const numAvailSupplies = numAvailableSupplies(mdotData);
+  const availableSupplies = getAvailableSupplies(mdotData);
   const showMdotError = !isLoading && mdotIsError;
   const showIneligibleError =
     !isLoading && !showMdotError && !isEligible(mdotData);
@@ -52,7 +54,7 @@ export const IntroductionPage = ({
   );
 
   return (
-    <article className="schemaform-intro vads-u-padding--2">
+    <>
       <FormTitle title={TITLE} />
       <p>{SUBTITLE}</p>
       {isLoading && loadingContent}
@@ -67,12 +69,19 @@ export const IntroductionPage = ({
           {numAvailSupplies > 0 && (
             <div>
               <va-card background>
-                <h2>Available for reorder</h2>
-                <p>
+                <h2 className="vads-u-margin-top--0">Available for reorder</h2>
+                <p className="vads-u-margin-bottom--0">
                   You have {numAvailSupplies}{' '}
-                  {numAvailSupplies > 1 ? 'supplies' : 'supply'} available to
-                  reorder
+                  {numAvailSupplies > 1 ? 'supplies' : 'supply'} available for
+                  reorder.
                 </p>
+                <ul className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+                  {availableSupplies.map(({ productId, productName }) => (
+                    <li key={productId}>{productName}</li>
+                  ))}
+                </ul>
+              </va-card>
+              <div className="vads-u-margin-top--2">
                 <SaveInProgressIntro
                   headingLevel={3}
                   prefillEnabled={formConfig.prefillEnabled}
@@ -81,7 +90,7 @@ export const IntroductionPage = ({
                   startText="Start a new order"
                   formConfig={formConfig}
                 />
-              </va-card>
+              </div>
             </div>
           )}
 
@@ -96,7 +105,7 @@ export const IntroductionPage = ({
           <UnavailableSupplies mdotData={mdotData} />
         </div>
       )}
-    </article>
+    </>
   );
 };
 

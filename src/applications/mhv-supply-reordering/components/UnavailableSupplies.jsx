@@ -58,8 +58,8 @@ const UnavailableSupplies = ({ mdotData }) => {
   return (
     <>
       {unavailSupplies?.length > 0 && (
-        <div>
-          <h2>Unavailable for reorder</h2>
+        <div className="vads-u-margin-top--5">
+          <h2 className="vads-u-margin-top--0">Unavailable for reorder</h2>
           <p>
             Showing {unavailSupplies.length} medical{' '}
             {unavailSupplies.length > 1
