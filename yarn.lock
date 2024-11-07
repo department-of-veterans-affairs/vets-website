@@ -2855,25 +2855,25 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^48.0.0":
-  version "48.0.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-48.0.0.tgz#f16de4d22b5003a4816565175e29c05881e20602"
-  integrity sha512-YWQw6RmU2V1qZ0/5LGRaD+aVBNKUmxRxbGeEQ86jg/tuY4/NWLGb1Os6G8b5ckLlOikSIEUtQuG4HvCCX9491A==
+"@department-of-veterans-affairs/component-library@^48.0.1":
+  version "48.0.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-48.0.1.tgz#7d5bd14527e40fb8171e4bf1e54bcafb472c2113"
+  integrity sha512-i3cGvjRAy/zpVEjcp7oHhr+tJ5PtYvqrug/QXokS9p41khcinrt0vGZzw7zWBOm6Yx5ZxL5TKzdotYUthAY6Ag==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "15.3.0"
+    "@department-of-veterans-affairs/web-components" "16.0.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.13.1":
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.13.1.tgz#22110ec8279af84e1d87f46ce86afbc2aec36521"
-  integrity sha512-01GId2VLbn81sVmIjMYpjIv0IA3gfNC6hahysmQol6Xp9u/Ce6jfWt8gQJS/rl2D+TpjoJtLeG8qYonVvpvRoA==
+"@department-of-veterans-affairs/css-library@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.14.0.tgz#8dadef0f8d4822414b97d679bb7f204c0a5978d1"
+  integrity sha512-9uA73qZKi7eoSAuEgeDw11pONj4AJrO2QgnysnGQBP16TL1IT4lU4O3UQmuuWblSCUAQPbx5E0Z4iLBNrm5amQ==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
-    "@uswds/uswds" "^3.8.1"
+    "@uswds/uswds" "^3.9.0"
     rimraf "^5.0.5"
 
 "@department-of-veterans-affairs/eslint-plugin@^1.18.2":
@@ -2943,12 +2943,11 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@15.3.0":
-  version "15.3.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-15.3.0.tgz#45c7499a9f459674ce8d6da55a1cf5c8313201dc"
-  integrity sha512-jx9Y7mWQb2abKEh9foef50AW8fQiYwuq1lucg6VbWJZtprEOxf19oMX9tIwxZzvg3KLgsT1lejouvRONdHr4zQ==
+"@department-of-veterans-affairs/web-components@16.0.1":
+  version "16.0.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-16.0.1.tgz#9669fad66c1557cb7213c065f68ba4594e6eaa51"
+  integrity sha512-1aJgtxuygZ7eAOqZzKCFUoQs6oNMUprIURS35i75wWVZSF634UiiMFJyFffxBWoj7YHrvGbIM2dQjo/6urJCgg==
   dependencies:
-    "@department-of-veterans-affairs/css-library" "^0.13.1"
     "@stencil/core" "4.20.0"
     aria-hidden "^1.1.3"
     body-scroll-lock "^4.0.0-beta.0"
@@ -4864,10 +4863,10 @@
   dependencies:
     "@types/node" "*"
 
-"@uswds/uswds@^3.8.1":
-  version "3.8.2"
-  resolved "https://registry.npmjs.org/@uswds/uswds/-/uswds-3.8.2.tgz#230668293c33f6866995ba9d03d6f42aba251336"
-  integrity sha512-8sTx/GqlbTwSIK+0AFOGrYdaW1rKVB7Bp0+v9AMVt3I5vPK7CL0+I6vlclSf3U7ysJZeTTdkNS8q89sIAeL+AA==
+"@uswds/uswds@^3.9.0":
+  version "3.9.0"
+  resolved "https://registry.npmjs.org/@uswds/uswds/-/uswds-3.9.0.tgz#e98b52995a001ff091a9c61baeb487064c98bc6a"
+  integrity sha512-8THm36j7iLjrDiI1D0C6b3hHsmM/Sy5Iiz+IjE+i/gYzVUMG9XVthxAZYonhU97Q1b079n6nYwlUmDSYowJecQ==
   dependencies:
     object-assign "4.1.1"
     receptor "1.0.0"
