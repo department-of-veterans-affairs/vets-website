@@ -3,10 +3,52 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect } from 'react';
 import { connectDrupalStaticDataFileVaHealthServices } from 'platform/site-wide/drupal-static-data/source-files/va-health-services/connect';
 
-/*
- * @returns { { isServiceTypeFilterLoading: Boolean, serviceTypeFilter: (term: string, facilityType: string) => [string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string][] } }
- */
-export default function useServiceTypeFilter() {
+const termMatcher = (term, hsdatum, index, includes = false) => {
+  if (includes) {
+    return !!hsdatum[index]?.toLowerCase().includes(term) || false;
+  }
+  return hsdatum[index]?.toLowerCase().search(term) || -1;
+};
+
+const matchHelper = (term, hsdatum) => {
+  const regexTerm = new RegExp(term, 'i');
+  const returnMatcher = {
+    nameMatch: termMatcher(regexTerm, hsdatum, 0),
+    akaMatch: termMatcher(regexTerm, hsdatum, 1),
+    commonCondMatch: hsdatum[2].findIndex(commonCond =>
+      commonCond.toLowerCase().startsWith(term.toLowerCase()),
+    ),
+    apiIdMatch: termMatcher(regexTerm, hsdatum, 3),
+    descriptionMatch: termMatcher(regexTerm, hsdatum, 10, true),
+    tricareDescriptionMatch: termMatcher(regexTerm, hsdatum, 11, true),
+  };
+  if (
+    returnMatcher.nameMatch >= 0 ||
+    returnMatcher.akaMatch >= 0 ||
+    returnMatcher.commonCondMatch >= 0 ||
+    returnMatcher.apiIdMatch >= 0
+  ) {
+    returnMatcher.priorityMatch = 1;
+    returnMatcher.secondaryMatch = 0;
+  } else if (
+    returnMatcher.descriptionMatch ||
+    returnMatcher.tricareDescriptionMatch
+  ) {
+    returnMatcher.secondaryMatch = 1;
+    returnMatcher.priorityMatch = 0;
+  }
+  return returnMatcher;
+};
+
+const prioritySort = (a, b) => {
+  if (a.priorityMatch > b.priorityMatch) return -1;
+  if (a.priorityMatch < b.priorityMatch) return 1;
+  if (a.secondaryMatch > b.secondaryMatch) return -1;
+  if (a.secondaryMatch < b.secondaryMatch) return 1;
+  return 0;
+};
+
+export default function useServiceType() {
   const dispatch = useDispatch();
 
   const selector = useSelector(
@@ -23,7 +65,7 @@ export default function useServiceTypeFilter() {
   /**
    * @param { string } term
    * @param { string? } facilityType
-   * @returns { [string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string][] }
+   * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, apiIdMatch: number, descriptionMatch: boolean, tricareDescriptionMatch: boolean, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }[]}
    */
   const serviceTypeFilter = useCallback(
     (term, facilityType = '') => {
@@ -32,66 +74,16 @@ export default function useServiceTypeFilter() {
       if (selector.data) {
         const selectorFiltered = selector.data
           .map(hsdatum => {
-            const regexTermMatcher = new RegExp(term, 'i');
-            const nameMatch =
-              hsdatum[0]?.toLowerCase().search(regexTermMatcher) || -1;
-            const akaMatch =
-              hsdatum[1]?.toLowerCase().search(regexTermMatcher) || -1;
-            const commonCondMatch = hsdatum[2].findIndex(commonCond =>
-              commonCond.toLowerCase().startsWith(term.toLowerCase()),
-            );
-            const apiIdMatch =
-              hsdatum[3]?.toLowerCase().search(regexTermMatcher) || -1;
-            const descriptionMatch =
-              !!hsdatum[10]?.toLowerCase().includes(term.toLowerCase()) ||
-              false;
-            const tricareDescriptionMatch =
-              !!hsdatum[11]?.toLowerCase().includes(term.toLowerCase()) ||
-              false;
-
-            if (
-              nameMatch >= 0 ||
-              akaMatch >= 0 ||
-              commonCondMatch >= 0 ||
-              apiIdMatch >= 0 ||
-              descriptionMatch ||
-              tricareDescriptionMatch
-            ) {
-              return {
-                hsdatum,
-                nameMatch,
-                akaMatch,
-                commonCondMatch,
-                apiIdMatch,
-                descriptionMatch,
-                tricareDescriptionMatch,
-              };
+            const matched = matchHelper(term, hsdatum);
+            if (matched.priorityMatch || matched.secondaryMatch) {
+              return matched;
             }
             return null;
           })
           .filter(v => v);
 
-        selectorFiltered.sort((a, b) => {
-          const aPriorityMatch =
-            a.nameMatch >= 0 ||
-            a.akaMatch >= 0 ||
-            a.commonCondMatch >= 0 ||
-            a.apiIdMatch >= 0;
-          const bPriorityMatch =
-            b.nameMatch >= 0 ||
-            b.akaMatch >= 0 ||
-            b.commonCondMatch >= 0 ||
-            b.apiIdMatch >= 0;
-          const aSecondaryMatch =
-            a.descriptionMatch || a.tricareDescriptionMatch;
-          const bSecondaryMatch =
-            b.descriptionMatch || b.tricareDescriptionMatch;
-          if (aPriorityMatch && !bPriorityMatch) return -1;
-          if (!aPriorityMatch && bPriorityMatch) return 1;
-          if (aSecondaryMatch && !bSecondaryMatch) return -1;
-          if (!aSecondaryMatch && bSecondaryMatch) return 1;
-          return 0;
-        });
+        selectorFiltered.sort(prioritySort);
+
         if (facilityType) {
           return selectorFiltered.filter(
             hsdatum =>
