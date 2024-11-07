@@ -2,7 +2,7 @@ import React from 'react';
 
 const NeedHelp = () => (
   <>
-    <article className="vads-u-font-family--sans vads-u-padding-x--0">
+    <article className="vads-u-padding-x--0">
       <h2
         id="howDoIGetHelp"
         className="vads-u-margin-top--4 vads-u-margin-bottom--0"

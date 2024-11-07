@@ -58,7 +58,7 @@ const ManageFolderButtons = props => {
   );
 
   const openDelModal = () => {
-    dispatch(closeAlert());
+    if (alertStatus) dispatch(closeAlert());
     if (threads.threadList.length > 0) {
       setIsEmptyWarning(true);
     } else {

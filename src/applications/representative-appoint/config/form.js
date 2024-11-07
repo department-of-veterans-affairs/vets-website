@@ -48,6 +48,8 @@ import SelectedAccreditedRepresentativeReview from '../components/SelectAccredit
 import ContactAccreditedRepresentative from '../components/ContactAccreditedRepresentative';
 import SelectOrganization from '../components/SelectOrganization';
 
+import SubmissionError from '../components/SubmissionError';
+
 // import { prefillTransformer } from '../prefill-transformer';
 // import ClaimantType from '../components/ClaimantType';
 
@@ -67,8 +69,7 @@ const formConfig = {
   submit: async form => {
     const is2122a = isAttorneyOrClaimsAgent(form.data);
     const transformedFormData = pdfTransform(form.data);
-    const pdfResponse = await generatePDF(transformedFormData, is2122a);
-    localStorage.setItem('formPdf', pdfResponse);
+    await generatePDF(transformedFormData, is2122a);
 
     return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
   },
@@ -80,6 +81,7 @@ const formConfig = {
     CustomComponent: PreSubmitInfo,
     required: true,
   },
+  submissionError: SubmissionError,
   saveInProgress: {
     messages: {
       inProgress:

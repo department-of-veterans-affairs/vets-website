@@ -12,6 +12,6 @@ describe('<BenefitCard>', () => {
 
     expect(container.querySelector('h3')).to.contain.text(benefit.name);
     expect(container.querySelector('p')).to.have.text(benefit.description);
-    expect(container.querySelectorAll('va-link')).to.have.lengthOf(2);
+    expect(container.querySelectorAll('va-link')).to.have.lengthOf(1);
   });
 });

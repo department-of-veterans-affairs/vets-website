@@ -11,7 +11,7 @@ export const SaveSuccessAlert = ({ updatedText = 'information' }) => {
       class="vads-u-margin-bottom--2"
     >
       <p className="vads-u-margin-y--0">
-        {`${updatedText} sucessfully updated`}.
+        {`${updatedText} sucessfully updated in this form`}.
       </p>
     </va-alert>
   );
