@@ -1,5 +1,6 @@
 import React from 'react';
 import recordEvent from '~/platform/monitoring/record-event';
+import { updateSearchAnalytics } from 'platform/site-wide/search-analytics/search-analytics-actions';
 import SearchDropdownComponent from './SearchDropdownComponent';
 import { replaceWithStagingDomain } from '../../../../utilities/environment/stagingDomains';
 

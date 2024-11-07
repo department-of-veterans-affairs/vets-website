@@ -6,7 +6,6 @@ import {
   VaRadio,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 import { updateSearchAnalytics } from 'platform/site-wide/search-analytics/search-analytics-actions';
 import URLSearchParams from 'url-search-params';
@@ -19,7 +18,7 @@ function SearchBar({
   previousValue,
   setSearchData,
   userInput,
-  updateSearchGAData
+  updateSearchGAData,
 }) {
   const [isGlobalSearch, setGlobalSearch] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -98,7 +97,7 @@ function SearchBar({
       updateSearchGAData({
         pagePath: '/resources',
         searchLocation: RESOURCES,
-        sitewideSearch: false
+        sitewideSearch: false,
       });
     }
 
@@ -232,7 +231,7 @@ function SearchBar({
 }
 
 const mapDispatchToProps = {
-  updateSearchGAData: updateSearchAnalytics
+  updateSearchGAData: updateSearchAnalytics,
 };
 
 SearchBar.propTypes = {
@@ -240,7 +239,10 @@ SearchBar.propTypes = {
   userInput: PropTypes.string,
   onInputChange: PropTypes.func,
   setSearchData: PropTypes.func,
-  updateSearchGAData: PropTypes.func
+  updateSearchGAData: PropTypes.func,
 };
 
-export default connect(null, mapDispatchToProps)(SearchBar);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SearchBar);
