@@ -12,7 +12,7 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
     - [Step 2. Create either "required" pages flow or "optional" pages flow](#step-2-create-either-required-pages-flow-or-optional-pages-flow)
     - [Example Pages "Required" Flow](#example-pages-required-flow)
     - [Example Pages "Optional" Flow](#example-pages-optional-flow)
-    - [Example with action link or button instead of yes/no question](#example-with-action-link-or-button-instead-of-yesno-question)
+    - [Example using action link (or button) instead of yes/no question](#example-using-action-link-or-button-instead-of-yesno-question)
     - [Example content at bottom of page](#example-content-at-bottom-of-page)
   - [Web Component Patterns](#web-component-patterns)
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
@@ -297,7 +297,7 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
 );
 ```
 
-### Example with action link or button instead of yes/no question
+### Example using action link (or button) instead of yes/no question
 Use the [Optional flow](#example-pages-optional-flow) as a starting point, and make the following replacements:
 
 ```js
@@ -335,7 +335,9 @@ const options = {
 };
 ```
 
-If you use `useLinkInsteadOfYesNo` or `useButtonInsteadOfYesNo`, then `uiSchema` or `schema` will no longer be necessary to give to the `pageBuilder.summaryPage`, because there are no longer any form fields.
+If you want to use a button instead of a link, use `useButtonInsteadOfYesNo: true`.
+
+`uiSchema` or `schema` no longer be necessary if using a link or button.
 
 ### Example content at bottom of page
 If you want additional content below the link or button, you can use the `ContentBeforeButtons` prop at the `form/config` page level.

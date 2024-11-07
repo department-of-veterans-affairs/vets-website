@@ -72,7 +72,7 @@ const ArrayBuilderSummaryReviewPage = ({
             data-action="add"
             text={arrayBuilderOptions.getText(
               'reviewAddButtonText',
-              updatedItemData,
+              arrayData,
               customPageProps.data,
             )}
             onClick={addAnotherItemButtonClick}
