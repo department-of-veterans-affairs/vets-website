@@ -1,5 +1,5 @@
 import formConfig from '../../../../config/form';
-import { ownedAssetPages } from '../../../../config/chapters/05-owned-assets/ownedAssetPages';
+import { annuityPages } from '../../../../config/chapters/09-annuities/annuityPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import {
   testNumberOfFieldsByType,
@@ -7,40 +7,40 @@ import {
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
-describe('owned asset list and loop pages', () => {
-  const { ownedAssetPagesSummary } = ownedAssetPages;
+describe('annuity list and loop pages', () => {
+  const { annuityPagesSummary } = annuityPages;
 
   describe('summary page', () => {
-    const { schema, uiSchema } = ownedAssetPagesSummary;
+    const { schema, uiSchema } = annuityPagesSummary;
     testNumberOfFieldsByType(
       formConfig,
       schema,
       uiSchema,
       { 'va-radio': 1 },
-      'owned asset summary page',
+      'annuity summary page',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
       1,
-      'owned asset summary page',
+      'annuity summary page',
     );
     testSubmitsWithoutErrors(
       formConfig,
       schema,
       uiSchema,
-      'owned asset summary page',
+      'annuity summary page',
       testData.data,
       { loggedIn: true },
     );
   });
 
-  describe('income recipient page', () => {
+  describe('information page', () => {
     //  Add unit tests for this page
   });
 
-  describe('income type page', () => {
+  describe('type page', () => {
     //  Add unit tests for this page
   });
 });
