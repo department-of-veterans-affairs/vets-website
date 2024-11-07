@@ -6,27 +6,12 @@ import { replaceWithStagingDomain } from '../../../../utilities/environment/stag
 
 const Search = () => {
   const onInputSubmit = componentState => {
-    const savedSuggestions = componentState?.savedSuggestions || [];
-    const suggestions = componentState?.suggestions || [];
     const inputValue = componentState?.inputValue;
-    const validSuggestions =
-      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
 
-    // event logging, note suggestion will be undefined during a userInput search
-    recordEvent({
-      event: 'view_search_results',
-      'search-page-path': document.location.pathname,
-      'search-query': inputValue,
-      'search-results-total-count': undefined,
-      'search-results-total-pages': undefined,
-      'search-selection': 'All VA.gov',
-      'search-typeahead-enabled': true,
-      'search-location': 'Search Header',
-      'sitewide-search-app-used': true,
-      'type-ahead-option-keyword-selected': undefined,
-      'type-ahead-option-position': undefined,
-      'type-ahead-options-list': validSuggestions,
-      'type-ahead-options-count': validSuggestions.length,
+    updateSearchGAData({
+      pagePath: document.location.pathname,
+      searchLocation: 'Header Search',
+      sitewideSearch: false
     });
 
     const searchUrl = replaceWithStagingDomain(
@@ -46,6 +31,12 @@ const Search = () => {
 
     const validSuggestions =
       savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
+
+    updateSearchGAData({
+      pagePath: document.location.pathname,
+      searchLocation: 'Header Search',
+      sitewideSearch: false
+    });
 
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({

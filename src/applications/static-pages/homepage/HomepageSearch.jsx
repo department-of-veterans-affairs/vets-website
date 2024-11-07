@@ -11,7 +11,7 @@ import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
  * Search component that appears in the Common Tasks section (midpage)
  * which uses the new Search Input component from the VA Design System
  */
-const HomepageSearch = updateSearchGAData => {
+const HomepageSearch = ({ updateSearchGAData }) => {
   const [userInput, setUserInput] = useState('');
   const [latestSuggestions, setLatestSuggestions] = useState([]);
 
@@ -46,6 +46,8 @@ const HomepageSearch = updateSearchGAData => {
       pagePath: '/',
       searchLocation: 'Homepage Search',
       sitewideSearch: false,
+      typeaheadKeywordSelected: e.target.value,
+      typeaheadList: latestSuggestions
     });
 
     // relocate to search results, preserving history
@@ -54,6 +56,7 @@ const HomepageSearch = updateSearchGAData => {
 
   return (
     <VaSearchInput
+      disableAnalytics
       value={userInput}
       label="Search VA.gov"
       onInput={handleInputChange}

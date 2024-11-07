@@ -6,7 +6,9 @@ import { CLEAR_SEARCH_ANALYTICS, UPDATE_SEARCH_ANALYTICS } from './search-analyt
 export const initialState = {
   pagePath: null,
   searchLocation: null,
-  sitewideSearchAppUsed: false
+  sitewideSearchAppUsed: false,
+  typeaheadKeywordSelected: null,
+  typeaheadList: null
 };
 
 export default (state = initialState, action = {}) => {
@@ -17,7 +19,9 @@ export default (state = initialState, action = {}) => {
       return {
         pagePath: action.pagePath,
         searchLocation: action.searchLocation,
-        sitewideSearchAppUsed: action.sitewideSearchAppUsed
+        sitewideSearchAppUsed: action.sitewideSearchAppUsed,
+        typeaheadKeywordSelected: action.typeaheadKeywordSelected || null,
+        typeaheadList: action.typeaheadList || null
       }
   }
 
