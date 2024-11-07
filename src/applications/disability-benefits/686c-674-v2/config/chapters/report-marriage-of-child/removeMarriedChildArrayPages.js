@@ -104,10 +104,10 @@ export const marriedChildInformationPage = {
 export const dateChildMarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'When did this child stop attending school?',
+      () => 'When did this child get married?',
     ),
     dateMarried: {
-      ...currentOrPastDateUI('When did this child stop attending school?'),
+      ...currentOrPastDateUI('When did this child get married?'),
       'ui:required': () => true,
     },
   },
