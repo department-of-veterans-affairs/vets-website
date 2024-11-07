@@ -1,19 +1,15 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import createReduxStore from '../../../../../../store';
 
 import MobileLogoRow from '../../../../../../components/common/Header/MobileHeader/MobileLogoRow';
-import { TestAppContainer } from '../../../../helpers';
+import { TestApp } from '../../../../helpers';
 
 function renderTestApp({ initAction } = {}) {
-  const store = createReduxStore();
-  if (initAction) store.dispatch(initAction);
-
   return render(
-    <TestAppContainer store={store}>
+    <TestApp initAction={initAction}>
       <MobileLogoRow />
-    </TestAppContainer>,
+    </TestApp>,
   );
 }
 

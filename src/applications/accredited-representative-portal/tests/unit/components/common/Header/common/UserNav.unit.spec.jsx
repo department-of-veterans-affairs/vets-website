@@ -1,11 +1,10 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-import createReduxStore from '../../../../../../store';
 
 import UserNav from '../../../../../../components/common/Header/common/UserNav';
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../../../constants';
-import { TestAppContainer } from '../../../../helpers';
+import { TestApp } from '../../../../helpers';
 import {
   FETCH_USER_SUCCESS,
   FETCH_USER_FAILURE,
@@ -13,13 +12,10 @@ import {
 } from '../../../../../../actions/user';
 
 function renderTestApp({ isMobile, initAction } = {}) {
-  const store = createReduxStore();
-  if (initAction) store.dispatch(initAction);
-
   return render(
-    <TestAppContainer store={store}>
+    <TestApp initAction={initAction}>
       <UserNav isMobile={isMobile} />
-    </TestAppContainer>,
+    </TestApp>,
   );
 }
 
