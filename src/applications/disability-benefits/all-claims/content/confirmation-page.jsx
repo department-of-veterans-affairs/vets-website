@@ -280,3 +280,75 @@ export const submitErrorContent = props => {
     'error',
   );
 };
+
+export const howLongForDecision = (
+  <>
+    <h2>How long will it take VA to make a decision on my claim?</h2>
+    <p>
+      We process applications in the order we receive them. The amount of time
+      it takes us to review you claim depends on:
+    </p>
+    <ul>
+      <li>The type of claim you filed. </li>
+      <li>
+        How many injuries or conditions you claimed and how complex they are.{' '}
+      </li>
+      <li>
+        How long it takes us to collect the evidence needed to decide your
+        claim. We may contact you if we have questions or need more information.
+      </li>
+    </ul>
+  </>
+);
+
+export const dependentsAdditionalBenefits = (
+  <>
+    <h2>If I have dependents, how can I receive additional benefits?</h2>
+    <p>
+      <strong>If you have a spouse or child</strong>, you may be entitled to
+      additional payments.
+    </p>
+    <va-link-action
+      href="https://www.va.gov/view-change-dependents/"
+      text="Apply online to add a dependent"
+      type="secondary"
+    />
+    <p>
+      Or you can fill out and submit an Application Request to Add and/or Remove
+      Dependents (VA Form 21-686c)
+    </p>
+    <p>
+      <va-link
+        download
+        filetype="PDF"
+        href="https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf"
+        text="Download VA Form 21-686c PDF"
+      />
+    </p>
+    <p>
+      <strong>Note:</strong> If you’re claiming your child who became
+      permanently disabled before they turned 18, you’ll need to submit all
+      military and private medical records relating to the child’s disabilities
+      with your application.
+    </p>
+    <p>
+      <strong>
+        If you’re claiming a child who’s between 18 and 23 years old and
+        attending school full time
+      </strong>
+      , you’ll need to fill out and submit a Request for Approval of School
+      Attendance (VA Form 21-674) so we can verify their attendance.
+    </p>
+    <p>
+      <DownloadPDF formNumber="21-674" fileName="VBA-21-674-ARE" size="1.3" />
+    </p>
+    <p>
+      <strong>If you have dependent parents</strong>, you may be entitled to
+      additional payments. Fill out and submit a Statement of Dependency of
+      Parent(s) (VA Form 21P-509).
+    </p>
+    <p>
+      <DownloadPDF formNumber="21P-509" fileName="VBA-21P-509-ARE" size="1" />
+    </p>
+  </>
+);
