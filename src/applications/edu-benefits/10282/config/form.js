@@ -133,15 +133,6 @@ const formConfig = {
         genderRaceQuestion: {
           title: 'Optional demographic information',
           path: 'applicant-information-5',
-          CustomPageReview: props => (
-            <CustomPageReview
-              data={props.data}
-              editPage={props.editPage}
-              title="Optional demographic questions"
-              question="Do you want to answer these optional questions?"
-              dataValue="raceAndGender"
-            />
-          ),
           uiSchema: genderRaceQuestion.uiSchema,
           schema: genderRaceQuestion.schema,
         },
