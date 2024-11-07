@@ -58,7 +58,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983', 'primaryCare', { facilityData });
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
@@ -124,7 +124,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, '211'); // amputation
+    await setTypeOfCare(store, /amputation care/i);
     await setVAFacility(store, '983', 'amputation', { facilityData });
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
@@ -184,7 +184,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, '211'); // amputation
+    await setTypeOfCare(store, /amputation care/i);
     await setVAFacility(store, '983', 'amputation', { facilityData });
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
@@ -265,7 +265,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
 
     let screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
@@ -326,7 +326,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     const store = createTestStore(initialState);
 
-    await setTypeOfCare(store, '211'); // amputation
+    await setTypeOfCare(store, /amputation care/i);
     await setVAFacility(store, '983', 'amputation', { facilityData });
 
     // When the page is displayed
