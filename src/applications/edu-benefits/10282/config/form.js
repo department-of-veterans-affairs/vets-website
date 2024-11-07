@@ -147,15 +147,6 @@ const formConfig = {
         applicantGender: {
           title: 'Your gender identity',
           path: 'applicant-information-7',
-          CustomPageReview: props => (
-            <CustomPageReview
-              data={props.data}
-              editPage={props.editPage}
-              title="Your gender identity"
-              question="How would you describe your gender?"
-              dataValue="gender"
-            />
-          ),
           uiSchema: applicantGender.uiSchema,
           schema: applicantGender.schema,
           depends: formData => formData.raceAndGender === 'Yes',
