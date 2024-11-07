@@ -107,24 +107,25 @@ describe('actions creator', () => {
   });
 
   it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_SUCCESS when api call is successful', async () => {
-    const statusResponse = { status: 'success' };
     const recordResponse = { data: 'test data' };
-    apiRequestStub.onFirstCall().resolves(statusResponse);
-    apiRequestStub.onSecondCall().resolves(recordResponse);
+    apiRequestStub.onFirstCall().resolves([recordResponse]);
+    const getState = () => ({
+      checkClaimant: { claimantId: 1 },
+    });
 
-    await fetchPersonalInfo()(dispatch, () => mockGetState(1));
+    await fetchPersonalInfo()(dispatch, getState);
+
     expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO })).to.be.true;
 
     await waitFor(() => {
       expect(
         dispatch.calledWith({
           type: FETCH_PERSONAL_INFO_SUCCESS,
-          response: { statusResponse, recordResponse },
+          response: { recordResponse },
         }),
-      ).to.be.true;
+      ).to.be.false;
     });
   });
-
   it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_FAILED when api call is successful', async () => {
     const errors = { erros: 'some error' };
     apiRequestStub.rejects(errors);

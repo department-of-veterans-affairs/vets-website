@@ -77,7 +77,7 @@ export const fetchClaimantId = () => {
 
     try {
       const response = await Promise.race([
-        apiRequest(`${API_URL}/dgib_verifications/claimant_lookup`, {
+        apiRequest(`http://localhost:8080/dgib_verifications/claimant_lookup`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -115,13 +115,16 @@ export const fetchPersonalInfo = () => {
           //   },
           //   body: JSON.stringify({ claimantId }),
           // }),
-          apiRequest(`${API_URL}/dgib_verifications/verification_record`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
+          apiRequest(
+            `http://localhost:8080/dgib_verifications/verification_record`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ claimantId }),
             },
-            body: JSON.stringify({ claimantId }),
-          }),
+          ),
         ]);
         dispatch({
           type: FETCH_PERSONAL_INFO_SUCCESS,
@@ -212,12 +215,10 @@ export const verifyEnrollmentAction = verifications => {
     dispatch({ type: VERIFY_ENROLLMENT });
     const {
       checkClaimant: { claimantId },
-      personalInfo: {
-        personalInfo: {
-          recordResponse: { enrollmentVerifications },
-        },
-      },
+      personalInfo,
     } = getState();
+    const enrollmentVerifications =
+      personalInfo?.personalInfo?.recordResponse?.enrollmentVerifications || [];
     const URL = claimantId
       ? `${API_URL}/dgib_verifications/verify_claimant`
       : `${API_URL}/verify`;

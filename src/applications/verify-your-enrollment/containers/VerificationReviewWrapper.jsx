@@ -204,9 +204,6 @@ const VerificationReviewWrapper = ({
                         label="Yes, this information is correct"
                         checked={isChecked}
                         onVaChange={handleCheckboxChange}
-                        aria-describedby="authorize-text"
-                        enable-analytics
-                        uswds
                       />
                     </label>
                   </div>

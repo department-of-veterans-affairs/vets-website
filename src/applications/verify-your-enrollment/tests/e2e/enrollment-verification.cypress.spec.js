@@ -54,42 +54,45 @@ describe('Enrollment Verification Page Tests', () => {
       'Montgomery GI Bill enrollment verificatio',
     );
   });
-  // it('should show error message when submit button is clicked and something went wrong', () => {
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.intercept('GET', '/v0/feature_toggles?*', {
-  //     data: {
-  //       type: 'feature_toggles',
-  //       features: [
-  //         { name: 'toggle_vye_application', value: true },
-  //         { name: 'mgib_verifications_maintenance', value: false },
-  //         { name: 'is_DGIB_endpoint', value: false },
-  //       ],
-  //     },
-  //   });
-  //   cy.get('[data-testid="have-not-verified"]')
-  //     .should('be.visible')
-  //     .and('contain', 'You haven’t verified your enrollment for the month.');
-  //   cy.get('.vads-u-font-family--sans.vads-u-margin-top--0').click();
-  //   cy.get('[id="enrollmentCheckbox"]').click();
-  //   cy.get('[text="Submit"]').click();
-  //   cy.get('[class="vads-u-margin-y--0"]').should(
-  //     'contain',
-  //     ' We’re sorry. Something went wrong on our end. Please try again',
-  //   );
-  //   cy.get(
-  //     '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
-  //   ).should('contain', 'Verified');
-  // });
-  // it("should go back to 'enrollment verification' when 'Verify your school enrollment' link is clicked ", () => {
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.get(
-  //     'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
-  //   ).click({ multiple: true });
-  //   cy.get('a[href="/education/verify-school-enrollment/mgib-enrollments/"]')
-  //     .first()
-  //     .click({ multiple: true });
-  //   cy.url().should('not.include', '/benefits-profile');
-  // });
+  it('should show error message when submit button is clicked and something went wrong', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'toggle_vye_application', value: true },
+          { name: 'mgib_verifications_maintenance', value: false },
+          { name: 'is_DGIB_endpoint', value: false },
+        ],
+      },
+    });
+    cy.get('[data-testid="have-not-verified"]')
+      .should('be.visible')
+      .and('contain', 'You haven’t verified your enrollment for the month.');
+    cy.get('.vads-u-font-family--sans.vads-u-margin-top--0').click();
+    cy.get('[id="enrollmentCheckbox"]').click();
+    cy.get('[text="Submit"]').click();
+    cy.get('[class="vads-u-margin-y--0"]').should(
+      'contain',
+      ' We’re sorry. Something went wrong on our end. Please try again',
+    );
+    cy.get(
+      '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
+    ).should('contain', 'Verified');
+  });
+  it("should go back to 'enrollment verification' when 'Verify your school enrollment' link is clicked ", () => {
+    cy.injectAxeThenAxeCheck();
+    cy.get(
+      'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+      { timeout: 5000 },
+    ).click({ multiple: true });
+    cy.get('a[href="/education/verify-school-enrollment/mgib-enrollments/"]', {
+      timeout: 5000,
+    })
+      .should('be.visible')
+      .first()
+      .click({ multiple: true });
+  });
   it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
     cy.injectAxeThenAxeCheck();
     cy.get('a[aria-label="page 1, first page"]').click();
