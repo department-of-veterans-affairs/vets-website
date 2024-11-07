@@ -50,12 +50,15 @@ function filterEmptyItems(arrayData) {
 }
 
 function checkHasYesNoReviewError(reviewErrors, hasItemsKey) {
-  return reviewErrors?.errors?.some(obj => obj.name === hasItemsKey);
+  return (
+    hasItemsKey && reviewErrors?.errors?.some(obj => obj.name === hasItemsKey)
+  );
 }
 
 function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
   // use the same error message as the yes/no field
-  const error = reviewErrors?.errors?.find(obj => obj.name === hasItemsKey);
+  const error =
+    hasItemsKey && reviewErrors?.errors?.find(obj => obj.name === hasItemsKey);
   return error?.message;
 }
 
@@ -149,7 +152,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         // We shouldn't persist the 'yes' answer after an item is entered/cancelled
         // We should ask the yes/no question again after an item is entered/cancelled
         // Since it is required, it shouldn't be left null/undefined
-        if (props.data[hasItemsKey]) {
+        if (props.data?.[hasItemsKey]) {
           props.setData({ ...props.data, [hasItemsKey]: undefined });
         }
       };
@@ -192,8 +195,8 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           (uiSchema &&
             schema?.properties &&
             isMaxItemsReached &&
-            props.data[hasItemsKey] !== false) ||
-          (isReviewPage && props.data[hasItemsKey] == null)
+            props.data?.[hasItemsKey] !== false) ||
+          (isReviewPage && props.data?.[hasItemsKey] == null)
         ) {
           // 1. If the user has reached the max items, we want to make sure the
           //    yes/no field is set to false because it will be hidden yet required.
@@ -439,7 +442,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     const hideAdd = maxItems && arrayData?.length >= maxItems;
 
-    if (schema?.properties && hideAdd) {
+    if (schema?.properties && hideAdd && newSchema.properties?.[hasItemsKey]) {
       newSchema = { ...schema };
       newSchema.properties[hasItemsKey]['ui:hidden'] = true;
     }
