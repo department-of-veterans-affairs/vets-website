@@ -32,17 +32,17 @@ const UnavailableSupplies = ({ mdotData }) => {
             {format(new Date(supply.lastOrderDate), 'MMMM d, yyyy')}
           </div>
           {supply.availableForReorder && (
-            <p>
+            <p className="vads-u-margin-bottom--0">
               You can’t order this supply online until{' '}
               {format(new Date(supply.nextAvailabilityDate), 'MMMM d, yyyy')}.
               If you need this supply now call us at{' '}
-              <va-telephone contact="3032736200">303-273-6200</va-telephone> (
+              <va-telephone contact="3032736200" /> (
               <va-telephone contact={CONTACTS['711']} tty />
               ).
             </p>
           )}
           {!supply.availableForReorder && (
-            <p>
+            <p className="vads-u-margin-bottom--0">
               This item is not available for reordering. To reorder, you can
               call <a href="/find-locations">your VA healthcare team</a> or{' '}
               <a href="/my-health/secure-messages/new-message/">
@@ -58,7 +58,7 @@ const UnavailableSupplies = ({ mdotData }) => {
   return (
     <>
       {unavailSupplies?.length > 0 && (
-        <div className="vads-u-margin-top--5">
+        <div className="vads-u-margin-y--5">
           <h2 className="vads-u-margin-top--0">Unavailable for reorder</h2>
           <p>
             Showing {unavailSupplies.length} medical{' '}
