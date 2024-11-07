@@ -12,7 +12,10 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { clearSearchAnalytics, updateSearchAnalytics } from 'platform/site-wide/search-analytics/search-analytics-actions';
+import {
+  getSearchGADataFromStorage,
+  removeSearchGADataFromStorage,
+} from 'platform/site-wide/search-analytics-storage';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -35,13 +38,10 @@ import ResultsList from '../components/ResultsList';
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 
 const SearchApp = ({
-  clearSearchGAData,
   fetchSearchResults,
   router,
   search,
-  searchAnalyticsData,
   searchGovMaintenance,
-  updateSearchGAData
 }) => {
   const userInputFromURL = router?.location?.query?.query || '';
   const pageFromURL = router?.location?.query?.page || undefined;
@@ -74,21 +74,19 @@ const SearchApp = ({
   const hasErrors = !!(errors && errors.length > 0);
 
   const getSearchAnalyticsLocationData = () => {
+    const searchAnalyticsData = getSearchGADataFromStorage();
+
     // If this value is set, we used another app or context to do a site-wide search
     // other than the search functionality on /search
-    if (searchAnalyticsData?.pagePath) {
-      return {
-        path: searchAnalyticsData.pagePath,
-        searchLocation: searchAnalyticsData.searchLocation,
-        sitewideSearch: searchAnalyticsData.sitewideSearchAppUsed
-      };
+    if (getSearchGADataFromStorage?.pagePath) {
+      return searchAnalyticsData;
     }
 
     return {
       path: document.location.pathname,
       searchLocation: 'Search Results Page',
       sitewideSearch: false,
-    }
+    };
   };
 
   // If there's data in userInput when this component loads,
@@ -98,9 +96,9 @@ const SearchApp = ({
     const searchAnalyticsLocationData = getSearchAnalyticsLocationData();
 
     // Once we land on the /search page and save the search location (searchAnalyticsLocationData)
-    // we don't need that data anymore so we can clean it up 
-    clearSearchGAData();
-    
+    // we don't need that data anymore so we can clean it up
+    removeSearchGADataFromStorage();
+
     if (initialUserInput && isSearchTermValid(initialUserInput)) {
       setFormWasSubmitted(true);
 
@@ -108,10 +106,7 @@ const SearchApp = ({
         trackEvent: true,
         eventName: 'onload_view_search_results',
         userInput: initialUserInput,
-        keywordSelected: undefined,
-        keywordPosition: undefined,
-        suggestionsList: undefined,
-        ...searchAnalyticsLocationData
+        ...searchAnalyticsLocationData,
       });
     }
   }, []);
@@ -190,9 +185,6 @@ const SearchApp = ({
         path: document.location.pathname,
         userInput,
         searchLocation: 'Search Results Page',
-        keywordSelected: undefined,
-        keywordPosition: undefined,
-        suggestionsList: undefined,
         sitewideSearch: false,
       });
 
@@ -225,8 +217,6 @@ const SearchApp = ({
         path: document.location.pathname,
         userInput,
         searchLocation: 'Search Results Page',
-        keywordSelected: undefined,
-        keywordPosition: undefined,
         suggestionsList: validSuggestions,
         sitewideSearch: false,
       });
@@ -330,8 +320,6 @@ const SearchApp = ({
   const shouldShowMaintenanceBanner =
     searchGovIssuesWithinMaintenanceWindow || searchGovMaintenance;
 
-  console.log('document: ', document.referrer);
-
   return (
     <div className="search-app" data-e2e-id="search-app">
       <Breadcrumbs />
@@ -395,13 +383,11 @@ const mapStateToProps = state => ({
   searchGovMaintenance: toggleValues(state)[
     FEATURE_FLAG_NAMES.searchGovMaintenance
   ],
-  searchAnalyticsData: state.searchAnalytics
+  searchAnalyticsData: state.searchAnalytics,
 });
 
 const mapDispatchToProps = {
-  clearSearchGAData: clearSearchAnalytics,
   fetchSearchResults: retrieveSearchResults,
-  updateSearchGAData: updateSearchAnalytics
 };
 
 SearchApp.propTypes = {
@@ -429,11 +415,6 @@ SearchApp.propTypes = {
     push: PropTypes.func,
   }),
   searchGovMaintenance: PropTypes.bool,
-  searchAnalyticsData: PropTypes.shape({
-    pagePath: PropTypes.string,
-    searchLocation: PropTypes.string,
-    sitewideSearchAppUsed: PropTypes.bool
-  })
 };
 
 const SearchAppContainer = withRouter(

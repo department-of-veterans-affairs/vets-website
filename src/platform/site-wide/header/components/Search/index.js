@@ -1,6 +1,6 @@
 import React from 'react';
 import recordEvent from '~/platform/monitoring/record-event';
-import { updateSearchAnalytics } from 'platform/site-wide/search-analytics/search-analytics-actions';
+import { addSearchGADataToStorage } from 'platform/site-wide/search-analytics-storage';
 import SearchDropdownComponent from './SearchDropdownComponent';
 import { replaceWithStagingDomain } from '../../../../utilities/environment/stagingDomains';
 
@@ -8,10 +8,10 @@ const Search = () => {
   const onInputSubmit = componentState => {
     const inputValue = componentState?.inputValue;
 
-    updateSearchGAData({
+    addSearchGADataToStorage({
       pagePath: document.location.pathname,
       searchLocation: 'Header Search',
-      sitewideSearch: false
+      sitewideSearch: false,
     });
 
     const searchUrl = replaceWithStagingDomain(
@@ -32,10 +32,10 @@ const Search = () => {
     const validSuggestions =
       savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
 
-    updateSearchGAData({
+    addSearchGADataToStorage({
       pagePath: document.location.pathname,
       searchLocation: 'Header Search',
-      sitewideSearch: false
+      sitewideSearch: false,
     });
 
     // event logging, note suggestion will be undefined during a userInput search

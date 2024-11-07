@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { updateSearchAnalytics } from 'platform/site-wide/search-analytics/search-analytics-actions';
+import { addSearchGADataToStorage } from 'platform/site-wide/search-analytics-storage';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
 
@@ -11,7 +10,7 @@ import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
  * Search component that appears in the Common Tasks section (midpage)
  * which uses the new Search Input component from the VA Design System
  */
-const HomepageSearch = ({ updateSearchGAData }) => {
+const HomepageSearch = () => {
   const [userInput, setUserInput] = useState('');
   const [latestSuggestions, setLatestSuggestions] = useState([]);
 
@@ -42,12 +41,12 @@ const HomepageSearch = ({ updateSearchGAData }) => {
       )}&t=${false}`,
     );
 
-    updateSearchGAData({
+    addSearchGADataToStorage({
       pagePath: '/',
       searchLocation: 'Homepage Search',
       sitewideSearch: false,
       typeaheadKeywordSelected: e.target.value,
-      typeaheadList: latestSuggestions
+      typeaheadList: latestSuggestions,
     });
 
     // relocate to search results, preserving history
@@ -67,16 +66,9 @@ const HomepageSearch = ({ updateSearchGAData }) => {
   );
 };
 
-const mapDispatchToProps = {
-  updateSearchGAData: updateSearchAnalytics,
-};
-
 HomepageSearch.propTypes = {
   suggestions: PropTypes.array,
   value: PropTypes.string,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(HomepageSearch);
+export default HomepageSearch;

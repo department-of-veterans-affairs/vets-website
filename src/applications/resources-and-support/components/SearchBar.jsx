@@ -1,25 +1,18 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import classNames from 'classnames';
 import {
   VaRadio,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
-import { updateSearchAnalytics } from 'platform/site-wide/search-analytics/search-analytics-actions';
+import { addSearchGADataToStorage } from 'platform/site-wide/search-analytics-storage';
 import URLSearchParams from 'url-search-params';
 import resourcesSettings from '../manifest.json';
 
 const searchUrl = getAppUrl('search');
 
-function SearchBar({
-  onInputChange,
-  previousValue,
-  setSearchData,
-  userInput,
-  updateSearchGAData,
-}) {
+function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
   const [isGlobalSearch, setGlobalSearch] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [inputError, setInputError] = useState(false);
@@ -94,7 +87,7 @@ function SearchBar({
     }
 
     if (isGlobalSearch) {
-      updateSearchGAData({
+      addSearchGADataToStorage({
         pagePath: '/resources',
         searchLocation: RESOURCES,
         sitewideSearch: false,
@@ -230,19 +223,11 @@ function SearchBar({
   );
 }
 
-const mapDispatchToProps = {
-  updateSearchGAData: updateSearchAnalytics,
-};
-
 SearchBar.propTypes = {
   previousValue: PropTypes.string,
   userInput: PropTypes.string,
   onInputChange: PropTypes.func,
   setSearchData: PropTypes.func,
-  updateSearchGAData: PropTypes.func,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(SearchBar);
+export default SearchBar;
