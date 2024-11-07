@@ -27,7 +27,7 @@ export const removeMarriedChildOptions = {
     !item?.birthDate ||
     !item?.ssn ||
     !item?.dateMarried,
-  maxItems: 7,
+  maxItems: 20,
   text: {
     summaryTitle: 'Review your children under 18 who got married',
     getItemName: item =>
