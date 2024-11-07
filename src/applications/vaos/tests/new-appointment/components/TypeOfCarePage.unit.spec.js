@@ -138,10 +138,13 @@ describe('VAOS Page: TypeOfCarePage', () => {
       ),
     ).to.not.exist;
 
-    fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
+
+    expect(await screen.findByText('What type of care do you need?')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
+    fireEvent.click(await screen.findByLabelText(/primary care/i));
+    fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/new-appointment/va-facility-2',
