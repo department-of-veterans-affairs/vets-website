@@ -22,9 +22,6 @@ export default function ConfirmationPage({ router }) {
       selectedEntity.type === 'organization' ? 'organization' : 'individual',
   };
   const handlers = {
-    onClickDownloadForm: e => {
-      e.preventDefault();
-    },
     onChangeSignedFormCheckbox: () => {
       setSignedForm(prevState => !prevState);
 
@@ -53,9 +50,10 @@ export default function ConfirmationPage({ router }) {
       <p>First, you’ll need to download your form.</p>
       <va-link
         download
-        href=""
+        filetype="PDF"
+        href={localStorage.getItem('pdfUrl')}
+        filename={`VA Form ${getFormNumber(formData)}`}
         label="Download your form"
-        onClick={handlers.onClickDownloadForm}
         text="Download your form"
       />
       <p className="vads-u-margin-top--4">
