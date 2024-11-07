@@ -194,10 +194,6 @@ const addConditionPage = {
       condition: {
         type: 'string',
       },
-      'view:duplicateAlert': {
-        type: 'object',
-        properties: {},
-      },
     },
     required: ['condition'],
   },
