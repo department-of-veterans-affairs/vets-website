@@ -7,7 +7,7 @@
   },
   "veteranSocialSecurityNumber": "333224444",
   "vaClaimsHistory": true,
-  "vaFileNumber": "12345678",
+  "vaFileNumber": "123456789",
   "veteranDateOfBirth": "1960-01-01",
   "serviceBranch": {
     "army": true,
@@ -17,7 +17,7 @@
     "from": "2003-03-02",
     "to": "2007-03-20"
   },
-  "serviceNumber": "123456",
+  "serviceNumber": "123456789",
   "serveUnderOtherNames": true,
   "previousNames": [
     {
@@ -260,7 +260,7 @@
     "state": "ME",
     "postalCode": "01050"
   },
-  "email": "test@example.com",
+  "veteranEmail": "test@example.com",
   "Primary phone": "5551234567",
   "mobilePhone": "5551234567",
   "internationalPhone": "001-555-123-4567",

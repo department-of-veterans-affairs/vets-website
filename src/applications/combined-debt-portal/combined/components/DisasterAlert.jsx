@@ -43,6 +43,7 @@ const SpecialHurricaneAlert = () => {
     <va-alert-expandable
       status="info"
       trigger="Need help with VA debt after a natural disaster?"
+      class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
       uswds
     >
       <ul>

@@ -2,10 +2,12 @@ import _ from 'lodash';
 import {
   branchOfServiceRuleforCategories,
   CategoryEducation,
+  CategoryVeteranReadinessAndEmployment,
   CHAPTER_2,
   CHAPTER_3,
   healthcareCategoryLabels,
   schoolInYourProfileOptions,
+  TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
   yourRoleOptions,
 } from '../../constants';
@@ -23,7 +25,6 @@ import deathDatePage from '../chapters/personalInformation/deathDate';
 import familyMembersLocationOfResidencePage from '../chapters/personalInformation/familyMembersLocationOfResidence';
 import familyMembersPostalCodePage from '../chapters/personalInformation/familyMembersPostalCode';
 import isQuestionAboutVeteranOrSomeoneElsePage from '../chapters/personalInformation/isQuestionAboutVeteranOrSomeoneElse';
-import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
 import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
 import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
 import relationshipToVeteranPage from '../chapters/personalInformation/relationshipToVeteran';
@@ -97,16 +98,11 @@ const ch3Pages = {
     schema: aboutTheVeteranPage.schema,
     reviewTitle: "Veteran's personal information",
   },
-  veteranDeceased: {
-    title: CHAPTER_3.VET_DECEASED.TITLE,
-    uiSchema: isTheVeteranDeceasedPage.uiSchema,
-    schema: isTheVeteranDeceasedPage.schema,
-  },
   dateOfDeath: {
     title: CHAPTER_3.DEATH_DATE.TITLE,
     uiSchema: deathDatePage.uiSchema,
     schema: deathDatePage.schema,
-    depends: form => form.isVeteranDeceased === 'Yes',
+    depends: form => form.aboutTheVeteran.isVeteranDeceased === true,
   },
   veteransPostalCode: {
     title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
@@ -137,7 +133,7 @@ const ch3Pages = {
     schema: isQuestionAboutVeteranOrSomeoneElsePage.schema,
     CustomPageReview: CustomPageReviewField,
     onNavForward: ({ formData, goPath }) => {
-      if (formData.whoQuestionAbout === "I'm the Veteran") {
+      if (formData.isQuestionAboutVeteranOrSomeoneElse === 'Veteran') {
         goPath(
           `/${
             flowPaths.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran
@@ -157,12 +153,20 @@ const ch3Pages = {
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
     reviewTitle: 'Your personal information',
+    depends: form => {
+      const { first, last, socialSecurityNumber } = form.aboutYourself;
+      return !(first && last && socialSecurityNumber);
+    },
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
     reviewTitle: 'Your personal information',
+    depends: form => {
+      const { first, last, socialSecurityNumber } = form.aboutYourself;
+      return !(first && last && socialSecurityNumber);
+    },
   },
   aboutYourselfRelationshipFamilyMember: {
     editModeOnReviewPage: false,
@@ -170,6 +174,10 @@ const ch3Pages = {
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
     reviewTitle: 'Your personal information',
+    depends: form => {
+      const { first, last, socialSecurityNumber } = form.aboutYourself;
+      return !(first && last && socialSecurityNumber);
+    },
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -298,6 +306,10 @@ const ch3Pages = {
     title: CHAPTER_3.YOUR_VRE_INFORMATION.TITLE,
     uiSchema: yourVREInformationPage.uiSchema,
     schema: yourVREInformationPage.schema,
+    depends: form =>
+      form.selectCategory === CategoryVeteranReadinessAndEmployment ||
+      (form.selectCategory === CategoryEducation &&
+        form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31),
   },
   yourVRECounselor: {
     title: CHAPTER_3.YOUR_VRE_COUNSELOR.TITLE,
@@ -320,9 +332,17 @@ const ch3Pages = {
     title: CHAPTER_3.BRANCH_OF_SERVICE.TITLE,
     uiSchema: yourBranchOfServicePage.uiSchema,
     schema: yourBranchOfServicePage.schema,
-    depends: form =>
-      branchOfServiceRuleforCategories.includes(form.selectCategory) ||
-      form.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL,
+    depends: form => {
+      const authCheck =
+        form.aboutYourself.first &&
+        form.aboutYourself.last &&
+        form.aboutYourself.socialSecurityNumber;
+      return (
+        (authCheck &&
+          branchOfServiceRuleforCategories.includes(form.selectCategory)) ||
+        form.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+      );
+    },
   },
 };
 
@@ -398,8 +418,7 @@ const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = form
 
 const generalQuestionCondition = formData => {
   return (
-    whoIsYourQuestionAboutLabels[formData.whoIsYourQuestionAbout] ===
-      "It's a general question" ||
+    formData.whoIsYourQuestionAbout === "It's a general question" ||
     (formData.selectCategory === 'Education benefits and work study' &&
       formData.selectTopic === 'Veteran Readiness and Employment (Chapter 31)')
   );
@@ -480,7 +499,6 @@ export const aboutMyselfRelationshipVeteranPages = flowPages(
 const aboutMyselfRelationshipFamilyMember = [
   'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
-  'veteranDeceased',
   'dateOfDeath',
   'aboutYourselfRelationshipFamilyMember',
   'yourVAHealthFacility',
@@ -529,8 +547,8 @@ export const aboutSomeoneElseRelationshipFamilyMemberPages = flowPages(
 );
 
 const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
+  'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
-  'veteranDeceased',
   'dateOfDeath',
   'veteransLocationOfResidence',
   'veteransPostalCode',
@@ -557,8 +575,8 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'theirVREInformation',
   'theirVRECounselor',
   'aboutTheVeteran',
-  'veteranDeceased',
   'dateOfDeath',
+  'aboutYourselfGeneral',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -583,7 +601,6 @@ export const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationPages = f
 const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'yourRole',
   'aboutTheVeteran',
-  'veteranDeceased',
   'dateOfDeath',
   'veteransLocationOfResidence',
   'veteransPostalCode',

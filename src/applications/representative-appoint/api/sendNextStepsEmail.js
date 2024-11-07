@@ -9,11 +9,13 @@ export default async function sendNextStepsEmail(body) {
   const apiSettings = {
     mode: 'cors',
     method: 'POST',
+    credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
       'Sec-Fetch-Mode': 'cors',
       'Content-Type': 'application/json',
       'Source-App-Name': manifest.entryName,
+      'X-CSRF-Token': localStorage.getItem('csrfToken'),
     },
     body: JSON.stringify(body),
   };

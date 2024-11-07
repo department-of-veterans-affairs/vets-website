@@ -73,6 +73,11 @@ const ThreadListItem = props => {
   const addressText =
     location.pathname === Paths.DRAFTS ? recipientName : senderName;
 
+  const ddTitle =
+    location.pathname === Paths.DRAFTS || location.pathname === Paths.SENT
+      ? 'Triage Group Name'
+      : 'Clinician Name';
+
   return (
     <div
       className="thread-list-item vads-l-row vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light"
@@ -114,9 +119,16 @@ const ThreadListItem = props => {
         </Link>
         <div className={getClassNames()} data-dd-privacy="mask">
           {location.pathname !== Paths.SENT ? (
-            <span>{getHighlightedText(addressText)}</span>
+            <span data-dd-privacy="mask" data-dd-action-name={ddTitle}>
+              {getHighlightedText(addressText)}
+            </span>
           ) : (
-            <span>To: {recipientName}</span>
+            <span
+              data-dd-privacy="mask"
+              data-dd-action-name="Triage Group Name"
+            >
+              To: {recipientName}
+            </span>
           )}
         </div>
         <div
