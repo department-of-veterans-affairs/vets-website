@@ -20,6 +20,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsToVaGovRelease = true,
     mhvSecureMessagingEditContactList = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
+    mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
     mhvIntegrationMedicalRecordsToPhase1 = true,
@@ -32,6 +33,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv-mock-session',
           value: true,
+        },
+        {
+          name: 'mhv_accelerated_delivery_enabled',
+          value: mhvAcceleratedDeliveryEnabled,
         },
         {
           name: 'mhv_accelerated_delivery_allergies_enabled',
