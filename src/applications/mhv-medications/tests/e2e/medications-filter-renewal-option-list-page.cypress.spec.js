@@ -22,6 +22,9 @@ describe('Medications List Page Renewal Filter Option', () => {
       'Renewal needed before refill',
     );
     listPage.clickFilterButtonOnAccordion();
+    listPage.verifyFocusOnPaginationTextInformationOnListPage(
+      'Showing 1 - 20 of 20 medications',
+    );
     listPage.verifyNameOfFirstRxOnMedicationsList('renewal');
   });
 });

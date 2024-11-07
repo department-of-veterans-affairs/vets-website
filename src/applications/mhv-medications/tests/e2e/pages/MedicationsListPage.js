@@ -769,6 +769,12 @@ class MedicationsListPage {
   verifyAllMedicationsRadioButtonIsChecked = () => {
     cy.get(`input[type="radio"][value="All medications"]`).should('be.checked');
   };
+
+  verifyFocusOnPaginationTextInformationOnListPage = text => {
+    cy.get('[data-testid="page-total-info"]')
+      .should('be.focused')
+      .and('contain', text);
+  };
 }
 
 export default MedicationsListPage;

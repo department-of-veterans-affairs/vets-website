@@ -20,6 +20,9 @@ describe('Medications List Page Recently Requested Filter Option', () => {
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Recently requested');
     listPage.clickFilterButtonOnAccordion();
+    listPage.verifyFocusOnPaginationTextInformationOnListPage(
+      'Showing 1 - 20 of 20 medications',
+    );
     listPage.verifyNameOfFirstRxOnMedicationsList('recently requested');
   });
 });

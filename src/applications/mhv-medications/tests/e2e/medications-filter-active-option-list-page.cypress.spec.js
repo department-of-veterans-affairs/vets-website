@@ -20,6 +20,9 @@ describe('Medications List Page Active Filter Option', () => {
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Active');
     listPage.clickFilterButtonOnAccordion();
+    listPage.verifyFocusOnPaginationTextInformationOnListPage(
+      'Showing 1 - 20 of 20 medications',
+    );
     listPage.verifyNameOfFirstRxOnMedicationsList('active');
   });
 });
