@@ -92,6 +92,7 @@ export default function TypeOfCarePage() {
       typeOfCareId: {
         'ui:widget': 'radio',
         'ui:options': {
+          classNames: 'vads-u-margin-top--neg2',
           hideLabelText: true,
         },
       },
