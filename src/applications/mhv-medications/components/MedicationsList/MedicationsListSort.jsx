@@ -11,7 +11,7 @@ import { datadogRum } from '@datadog/browser-rum';
 import { rxListSortingOptions } from '../../util/constants';
 import {
   selectFilterFlag,
-  selectRefillContentFlag
+  selectRefillContentFlag,
 } from '../../util/selectors';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
