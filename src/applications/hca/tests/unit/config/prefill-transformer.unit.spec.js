@@ -67,9 +67,13 @@ describe('hca `prefillTransformer` utility', () => {
       veteranSocialSecurityNumber: '796121200',
       homePhone: '4445551212',
       email: 'test2@test1.net',
-      isMedicaidEligible: false,
-      isEnrolledMedicarePartA: false,
-      maritalStatus: 'never married',
+      lastServiceBranch: 'air force',
+      lastEntryDate: '2001-03-21',
+      lastDischargeDate: '2014-07-21',
+      dischargeType: 'honorable',
+      postNov111998Combat: true,
+      vaCompensationType: 'lowDisability',
+      'view:demographicCategories': { isSpanishHispanicLatino: false },
     };
     const state = {
       user: {
@@ -136,7 +140,7 @@ describe('hca `prefillTransformer` utility', () => {
 
   it('should return correct form data when profile data omits all addresses', () => {
     const prefillData = getData({});
-    expect(Object.keys(prefillData)).to.have.lengthOf(10);
+    expect(Object.keys(prefillData)).to.have.lengthOf(14);
     expect(Object.keys(prefillData).veteranAddress).to.not.exist;
     expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(undefined);
@@ -144,13 +148,13 @@ describe('hca `prefillTransformer` utility', () => {
 
   it('should return correct form data when user record is located in MPI', () => {
     const prefillData = getData({ status: 'OK' });
-    expect(Object.keys(prefillData)).to.have.lengthOf(11);
+    expect(Object.keys(prefillData)).to.have.lengthOf(15);
     expect(prefillData['view:isUserInMvi']).to.be.true;
   });
 
   it('should return correct form data when profile data omits mailing address', () => {
     const prefillData = getData({ residentialAddress });
-    expect(Object.keys(prefillData)).to.have.lengthOf(11);
+    expect(Object.keys(prefillData)).to.have.lengthOf(15);
     expect(prefillData.veteranAddress).to.equal(undefined);
     expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(undefined);
@@ -158,7 +162,7 @@ describe('hca `prefillTransformer` utility', () => {
 
   it('should return correct form data when profile data includes mailing address that does not match residential address', () => {
     const prefillData = getData({ residentialAddress, mailingAddress });
-    expect(Object.keys(prefillData)).to.have.lengthOf(12);
+    expect(Object.keys(prefillData)).to.have.lengthOf(16);
     expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
     expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.false;
@@ -169,7 +173,7 @@ describe('hca `prefillTransformer` utility', () => {
       residentialAddress,
       mailingAddress: residentialAddress,
     });
-    expect(Object.keys(prefillData)).to.have.lengthOf(11);
+    expect(Object.keys(prefillData)).to.have.lengthOf(15);
     expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
     expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;
