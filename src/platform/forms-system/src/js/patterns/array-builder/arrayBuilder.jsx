@@ -475,7 +475,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     if (!pageConfig.uiSchema) {
       page.uiSchema = {};
     }
-    if (!pageConfig.schema) {
+    if (!pageConfig.schema || !Object.keys(pageConfig.schema).length) {
       page.schema = {
         type: 'object',
         properties: {},
