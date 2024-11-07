@@ -1,16 +1,17 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
-#email-signup-form {
-  @media screen and (min-width: 32rem) {
-    min-width: 30rem;
-  }
-
-  .homepage-email-input::part(form-header) {
-    font-size: 1.25rem;
-  }
-
-  form {
+.email-signup-form {
+  &.form-panel {
     margin: 0 auto;
-    width: 25rem;
+
+    @media screen and (max-width: 767px) {
+      max-width: 30rem;
+    }
+  }
+
+  #email-signup-form {
+    .homepage-email-input::part(form-header) {
+      font-size: 1.25rem;
+    }
   }
 }

@@ -42,7 +42,7 @@ const EmailSignup = () => {
   };
 
   return (
-    <div className="form-panel">
+    <div className="email-signup-form form-panel">
       <form
         acceptCharset="UTF-8"
         action="https://public.govdelivery.com/accounts/USVACHOOSE/subscribers/qualify"
