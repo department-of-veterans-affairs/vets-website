@@ -2,8 +2,9 @@ import React from 'react';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { getUnavailableSupplies } from '../utilities/mdot';
+import DlcPhone from './DlcPhone';
+import { HEALTH_FACILITIES_URL } from '../constants';
 
 /**
  * Shows a list of unavailable supplies if it exists.
@@ -35,16 +36,14 @@ const UnavailableSupplies = ({ mdotData }) => {
             <p className="vads-u-margin-bottom--0">
               You can’t order this supply online until{' '}
               {format(new Date(supply.nextAvailabilityDate), 'MMMM d, yyyy')}.
-              If you need this supply now call us at{' '}
-              <va-telephone contact="3032736200" /> (
-              <va-telephone contact={CONTACTS['711']} tty />
-              ).
+              If you need this supply now call us at <DlcPhone />.
             </p>
           )}
           {!supply.availableForReorder && (
             <p className="vads-u-margin-bottom--0">
               This item is not available for reordering. To reorder, you can
-              call <a href="/find-locations">your VA healthcare team</a> or{' '}
+              call <a href={HEALTH_FACILITIES_URL}>your VA healthcare team</a>
+              or{' '}
               <a href="/my-health/secure-messages/new-message/">
                 send them a message
               </a>
