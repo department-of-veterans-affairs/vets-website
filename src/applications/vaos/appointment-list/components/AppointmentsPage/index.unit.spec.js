@@ -537,7 +537,7 @@ describe('VAOS Page: AppointmentsPage', () => {
       // Then it should display the upcoming appointments
       await screen.findByRole('heading', { name: 'Appointments' });
 
-      expect(await screen.findByTestId('review-requests-and-referrals-1')).to
+      expect(await screen.findByTestId('review-requests-and-referrals')).to
         .exist;
 
       expect(screen.queryByRole('link', { name: /Pending \(1\)/ })).not.to

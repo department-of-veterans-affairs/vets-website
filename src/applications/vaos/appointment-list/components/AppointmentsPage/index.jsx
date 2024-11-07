@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import {
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureCCDirectScheduling,
+  selectFeatureCCReviewRequestAndReferrals,
   // selectFeatureBookingExclusion,
 } from '../../../redux/selectors';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
@@ -54,6 +55,10 @@ export default function AppointmentsPage() {
 
   const featureCCDirectScheduling = useSelector(state =>
     selectFeatureCCDirectScheduling(state),
+  );
+
+  const featureCCReviewRequestAndReferrals = useSelector(state =>
+    selectFeatureCCReviewRequestAndReferrals(state),
   );
 
   const pendingAppointments = useSelector(state =>
@@ -165,8 +170,12 @@ export default function AppointmentsPage() {
           <ReferralAppLink linkText="Review and manage your appointment notifications" />
         </div>
       )}
-      <ReviewRequestsAndReferrals count={count} />
-      <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
+      {featureCCReviewRequestAndReferrals && <ReviewRequestsAndReferrals />}
+      <AppointmentListNavigation
+        hidePendingTab={featureCCReviewRequestAndReferrals}
+        count={count}
+        callback={setHasTypeChanged}
+      />
       <Switch>
         <Route exact path="/">
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
