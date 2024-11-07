@@ -47,11 +47,14 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(
+    const { getByText, container } = renderWithRouter(
       <ClaimDetailLayout currentTab="Status" claim={claim} />,
     );
 
-    expect(tree.everySubTree('AddingDetails')).not.to.be.empty;
+    expect($('va-alert', container)).to.exist;
+    getByText(
+      "We can't show all of the details of your claim. Please check back later.",
+    );
   });
 
   it('should not render adding details info if closed', () => {

@@ -75,7 +75,7 @@ export const formConfig = {
       isOnConfirmationPage(currentLocation)
     )
       return '';
-    return 'Please answer the questions to help us recommend helpful resources and benefits.';
+    return `Please answer the questions to help us recommend\nhelpful resources and benefits.`;
   },
   defaultDefinitions: {
     fullName,

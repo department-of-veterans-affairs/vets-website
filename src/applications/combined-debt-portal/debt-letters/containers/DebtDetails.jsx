@@ -6,7 +6,6 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import { head } from 'lodash';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
-import DebtDetailsOnThisPageLinks from '../components/DebtDetailsOnThisPageLinks';
 import HistoryTable from '../components/HistoryTable';
 import {
   setPageFocus,
@@ -37,9 +36,6 @@ const DebtDetails = () => {
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
-  const hasPaymentHistory =
-    currentDebt.fiscalTransactionData &&
-    currentDebt.fiscalTransactionData.length > 0;
 
   const howToUserData = {
     fileNumber: currentDebt.fileNumber,
@@ -84,7 +80,7 @@ const DebtDetails = () => {
   }
 
   return (
-    <>
+    <article>
       <VaBreadcrumbs
         breadcrumbList={[
           {
@@ -131,13 +127,7 @@ const DebtDetails = () => {
             {whyContent}
           </va-additional-info>
         )}
-        <DebtDetailsOnThisPageLinks
-          isDetailsPage
-          hasHistory={hasFilteredHistory}
-          hasPaymentHistory={hasPaymentHistory}
-          showDebtLetterDownload={showDebtLetterDownload}
-          shouldShowPaymentHistory={shouldShowPaymentHistory}
-        />
+        <va-on-this-page />
         {shouldShowPaymentHistory && (
           <div>
             <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
@@ -202,7 +192,7 @@ const DebtDetails = () => {
         <HowDoIPay userData={howToUserData} />
         <NeedHelp />
       </div>
-    </>
+    </article>
   );
 };
 

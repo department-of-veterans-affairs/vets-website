@@ -20,13 +20,13 @@ export const contactRules = {
     'Disability compensation': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Education benefits and work study': ['EMAIL'],
   },
-  'Burial & Memorial': {
-    'Pre-need eligibility for burial': ['EMAIL', 'PHONE'],
+  'Burials and memorials': {
     'Burial allowance': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Burial allowance for unclaimed Veteran remains': ['EMAIL', 'PHONE'],
-    'Burial in a VA national cemetery': ['EMAIL', 'PHONE'],
     'Burial in a VA grant-funded state or tribal cemetery': ['EMAIL', 'PHONE'],
+    'Burial in a VA national cemetery': ['EMAIL', 'PHONE'],
     'Memorial items': ['EMAIL', 'PHONE'],
+    'Pre-need eligibility for burial': ['EMAIL', 'PHONE'],
     Other: ['EMAIL', 'PHONE'],
   },
   'Center for Minority Veterans': {
@@ -34,7 +34,7 @@ export const contactRules = {
   },
   'Center for Women Veterans': {
     'General question': ['EMAIL'],
-    'Programs and policies': ['EMAIL', 'US_MAIL'],
+    'Programs and policies': ['EMAIL'],
   },
   'Debt for benefit overpayments and health care copay bills': {
     'Education benefit overpayments (for school officials)': [
@@ -75,15 +75,15 @@ export const contactRules = {
   },
   'Disability compensation': {
     'Aid and Attendance or Housebound benefits': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Direct deposit': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'How to file a claim': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Payment issues': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Claim status': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Direct deposit': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Guardianship, custodianship, or fiduciary issues': [
       'EMAIL',
       'PHONE',
       'US_MAIL',
     ],
+    'How to file a claim': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Payment issues': ['EMAIL', 'PHONE', 'US_MAIL'],
   },
   'Education benefits and work study': {
     'Benefits for survivors and dependents': ['EMAIL'],
@@ -124,18 +124,19 @@ export const contactRules = {
     'Foreign Medical Program': ['EMAIL', 'PHONE'],
     'Getting care at a local VA medical center': ['EMAIL', 'PHONE', 'US_MAIL'],
     Prosthetics: ['EMAIL'],
-    "Women's health services": ['EMAIL', 'PHONE'],
     'Vet Centers and readjustment counseling': ['EMAIL'],
+    "Women's health services": ['EMAIL', 'PHONE'],
   },
   'Housing assistance and home loans': {
     Appraisals: ['EMAIL', 'PHONE'],
     'Funding fee refund': ['EMAIL', 'PHONE'],
+    'Help to avoid foreclosure': ['EMAIL', 'PHONE'],
     'Home loan benefits': ['EMAIL', 'PHONE'],
+    'Homes for sale by VA': ['EMAIL', 'PHONE'],
     'Home Loan Certificate of Eligibility (COE) or Restoration of Entitlement (ROE)': [
       'EMAIL',
       'PHONE',
     ],
-    'Help to avoid foreclosure': ['EMAIL', 'PHONE'],
     'Native American Direct Loan (NADL)': ['EMAIL', 'PHONE'],
     'Property titles and taxes for homes sold by VA': ['EMAIL', 'PHONE'],
     'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants': [
@@ -186,10 +187,10 @@ export const contactRules = {
     'Payment issues': ['EMAIL', 'PHONE', 'US_MAIL'],
   },
   'Veteran ID Card (VIC)': {
-    'Veteran ID Card (VIC) for discounts': ['EMAIL'],
     'Veteran Health Identification Card (VHIC) for health appointments': [
       'EMAIL',
     ],
+    'Veteran ID Card (VIC) for discounts': ['EMAIL'],
   },
   'Veteran Readiness and Employment': {
     'Financial issues': ['EMAIL', 'PHONE', 'US_MAIL'],

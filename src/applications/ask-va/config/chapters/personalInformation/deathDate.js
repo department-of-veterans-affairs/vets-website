@@ -1,20 +1,15 @@
 import { validateCurrentOrPastMemorableDate } from 'platform/forms-system/src/js/validation.js';
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
-import { currentOrPastDateSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  currentOrPastDateSchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import { CHAPTER_3 } from '../../../constants';
 
-const questionTitle = (
-  <>
-    <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0  vads-u-color--base">
-      {CHAPTER_3.DEATH_DATE.TITLE}
-    </h3>
-  </>
-);
-
 const deathDatePage = {
   uiSchema: {
-    'ui:title': questionTitle,
+    ...titleUI(CHAPTER_3.DEATH_DATE.TITLE),
     dateOfDeath: {
       'ui:webComponentField': VaMemorableDateField,
       'ui:validations': [validateCurrentOrPastMemorableDate],
@@ -24,6 +19,7 @@ const deathDatePage = {
       },
       'ui:options': {
         hideLabelText: true,
+        labelHeaderLevel: '3',
       },
       'ui:reviewField': ({ children }) => (
         <div className="review-row">

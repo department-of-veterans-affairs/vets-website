@@ -92,15 +92,6 @@ export const EXTERNAL_APPS = {
   ARP: 'arp',
 };
 
-export const SIGNOUT_TYPES = {
-  SLO: 'slo',
-};
-
-export const AUTH_BROKER = {
-  IAM: 'iam',
-  SIS: 'sis',
-};
-
 export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
 
 export const eAuthURL = `https://${
