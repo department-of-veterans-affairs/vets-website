@@ -15,7 +15,7 @@ const responses = {
         email: 'test@test.com',
         veteranAddress: {
           street: '123 Mailing Address St.',
-          city: 'Futlon',
+          city: 'Fulton',
           state: 'NY',
           country: 'USA',
           postalCode: '97064',
