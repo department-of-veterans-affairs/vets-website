@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import { addSearchGADataToStorage } from 'platform/site-wide/search-analytics-storage';
+import {
+  addSearchGADataToStorage,
+  PAGE_PATH,
+  SEARCH_LOCATION,
+  SEARCH_APP_USED,
+  TYPEAHEAD_KEYWORD_SELECTED,
+  TYPEAHEAD_LIST
+} from 'platform/site-wide/search-analytics-storage';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
 
@@ -42,11 +49,11 @@ const HomepageSearch = () => {
     );
 
     addSearchGADataToStorage({
-      pagePath: '/',
-      searchLocation: 'Homepage Search',
-      sitewideSearch: false,
-      typeaheadKeywordSelected: e.target.value,
-      typeaheadList: latestSuggestions,
+      [PAGE_PATH]: '/',
+      [SEARCH_LOCATION]: 'Homepage Search',
+      [SEARCH_APP_USED]: false,
+      [TYPEAHEAD_KEYWORD_SELECTED]: e.target.value,
+      [TYPEAHEAD_LIST]: latestSuggestions,
     });
 
     // relocate to search results, preserving history

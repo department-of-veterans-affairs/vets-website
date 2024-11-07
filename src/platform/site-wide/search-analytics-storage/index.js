@@ -1,31 +1,43 @@
 // We want to log a single Google Analytics event when a user lands on /search with a search term
 // Since we have multiple entry points for a site-wide search, we need an app-agnostic
 // way to capture the search origin for the GA event that fires
+export const PAGE_PATH = 'path';
+export const SEARCH_LOCATION = 'searchLocation';
+export const SEARCH_APP_USED = 'sitewideSearch';
+export const TYPEAHEAD_KEYWORD_SELECTED = 'typeaheadKeywordSelected';
+export const TYPEAHEAD_LIST = 'typeaheadList';
+
 export const addSearchGADataToStorage = data => {
-  localStorage.setItem('pagePath', data?.pagePath);
-  localStorage.setItem('searchLocation', data?.searchLocation);
-  localStorage.setItem('sitewideSearchAppUsed', data?.sitewideSearchAppUsed);
+  localStorage.setItem(PAGE_PATH, data?.[PAGE_PATH]);
+  localStorage.setItem(SEARCH_LOCATION, data?.[SEARCH_LOCATION]);
+  localStorage.setItem(SEARCH_APP_USED, data?.[SEARCH_APP_USED]);
   localStorage.setItem(
-    'typeaheadKeywordSelected',
-    data?.typeaheadKeywordSelected,
+    TYPEAHEAD_KEYWORD_SELECTED,
+    data?.[TYPEAHEAD_KEYWORD_SELECTED],
   );
-  localStorage.setItem('typeaheadList', data?.typeaheadList);
+  localStorage.setItem(TYPEAHEAD_LIST, data?.[TYPEAHEAD_LIST]);
 };
 
 export const getSearchGADataFromStorage = () => {
+  const typeaheadKeyword = localStorage.getItem(TYPEAHEAD_KEYWORD_SELECTED);
+  const typeaheadList = localStorage.getItem(TYPEAHEAD_LIST);
+
   return {
-    pagePath: localStorage.getItem('pagePath'),
-    searchLocation: localStorage.getItem('searchLocation'),
-    sitewideSearchAppUsed: localStorage.getItem('sitewideSearchAppUsed'),
-    typeaheadKeywordSelected: localStorage.getItem('typeaheadKeywordSelected'),
-    typeaheadList: localStorage.getItem('typeaheadList'),
+    path: localStorage.getItem(PAGE_PATH),
+    searchLocation: localStorage.getItem(SEARCH_LOCATION),
+    sitewideSearch: localStorage.getItem(SEARCH_APP_USED),
+    keywordSelected: typeaheadKeyword,
+    keywordPosition: typeaheadKeyword && typeaheadList ?
+      typeaheadList.indexOf(typeaheadKeyword) :
+      null,
+    suggestionsList: typeaheadList
   };
 };
 
 export const removeSearchGADataFromStorage = () => {
-  localStorage.removeItem('pagePath');
-  localStorage.removeItem('searchLocation');
-  localStorage.removeItem('sitewideSearchAppUsed');
-  localStorage.removeItem('typeaheadKeywordSelected');
-  localStorage.removeItem('typeaheadList');
+  localStorage.removeItem(PAGE_PATH);
+  localStorage.removeItem(SEARCH_LOCATION);
+  localStorage.removeItem(SEARCH_APP_USED);
+  localStorage.removeItem(TYPEAHEAD_KEYWORD_SELECTED);
+  localStorage.removeItem(TYPEAHEAD_LIST);
 };

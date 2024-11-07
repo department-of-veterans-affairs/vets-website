@@ -12,10 +12,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import {
-  getSearchGADataFromStorage,
-  removeSearchGADataFromStorage,
-} from 'platform/site-wide/search-analytics-storage';
+import { getSearchGADataFromStorage, removeSearchGADataFromStorage } from 'platform/site-wide/search-analytics-storage';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -43,6 +40,7 @@ const SearchApp = ({
   search,
   searchGovMaintenance,
 }) => {
+  console.log('localStorage in search app: ', localStorage.searchLocation);
   const userInputFromURL = router?.location?.query?.query || '';
   const pageFromURL = router?.location?.query?.page || undefined;
   const typeaheadUsed = router?.location?.query?.t === 'true' || false;
@@ -76,9 +74,11 @@ const SearchApp = ({
   const getSearchAnalyticsLocationData = () => {
     const searchAnalyticsData = getSearchGADataFromStorage();
 
+    console.log('searchAnalyticsData: ', searchAnalyticsData)
+
     // If this value is set, we used another app or context to do a site-wide search
     // other than the search functionality on /search
-    if (getSearchGADataFromStorage?.pagePath) {
+    if (getSearchGADataFromStorage?.path) {
       return searchAnalyticsData;
     }
 
@@ -86,7 +86,7 @@ const SearchApp = ({
       path: document.location.pathname,
       searchLocation: 'Search Results Page',
       sitewideSearch: false,
-    };
+    }
   };
 
   // If there's data in userInput when this component loads,
@@ -95,10 +95,12 @@ const SearchApp = ({
     const initialUserInput = router?.location?.query?.query || '';
     const searchAnalyticsLocationData = getSearchAnalyticsLocationData();
 
-    // Once we land on the /search page and save the search location (searchAnalyticsLocationData)
-    // we don't need that data anymore so we can clean it up
-    removeSearchGADataFromStorage();
+    console.log('searchAnalyticsLocationData: ', searchAnalyticsLocationData);
 
+    // Once we land on the /search page and save the search location (searchAnalyticsLocationData)
+    // we don't need that data anymore so we can clean it up 
+    // removeSearchGADataFromStorage();
+    
     if (initialUserInput && isSearchTermValid(initialUserInput)) {
       setFormWasSubmitted(true);
 
@@ -106,7 +108,7 @@ const SearchApp = ({
         trackEvent: true,
         eventName: 'onload_view_search_results',
         userInput: initialUserInput,
-        ...searchAnalyticsLocationData,
+        ...searchAnalyticsLocationData
       });
     }
   }, []);
@@ -378,13 +380,6 @@ const SearchApp = ({
   );
 };
 
-const mapStateToProps = state => ({
-  search: state.search,
-  searchGovMaintenance: toggleValues(state)[
-    FEATURE_FLAG_NAMES.searchGovMaintenance
-  ],
-  searchAnalyticsData: state.searchAnalytics,
-});
 
 const mapDispatchToProps = {
   fetchSearchResults: retrieveSearchResults,
