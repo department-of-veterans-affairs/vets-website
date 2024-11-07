@@ -95,7 +95,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
   });
   it('should display closest city question when user has multiple supported sites', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -157,7 +157,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
   it('should display list of providers when choose a provider clicked', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -231,7 +231,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
   it('should display Select provider when remove provider clicked', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -296,7 +296,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     // Facility 983 is the 2nd of three options so the expectation is
@@ -339,7 +339,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
   it('should display an error when choose a provider clicked and provider fetch error', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
@@ -377,7 +377,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
   it('should display an alert when no providers are available', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
@@ -432,7 +432,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       // true,
     );
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
@@ -485,7 +485,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
@@ -538,7 +538,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
@@ -601,7 +601,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       careType: 'Podiatry',
     });
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     let screen = renderWithStoreAndRouter(
@@ -637,7 +637,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-    await setTypeOfCare(store, 'tbd-podiatry'); // podiatry
+    await setTypeOfCare(store, /podiatry/i);
 
     screen = renderWithStoreAndRouter(<CommunityCareProviderSelectionPage />, {
       store,
@@ -665,7 +665,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
