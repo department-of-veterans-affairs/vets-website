@@ -69,8 +69,7 @@ const formConfig = {
   submit: async form => {
     const is2122a = isAttorneyOrClaimsAgent(form.data);
     const transformedFormData = pdfTransform(form.data);
-    const pdfResponse = await generatePDF(transformedFormData, is2122a);
-    localStorage.setItem('formPdf', pdfResponse);
+    await generatePDF(transformedFormData, is2122a);
 
     return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
   },

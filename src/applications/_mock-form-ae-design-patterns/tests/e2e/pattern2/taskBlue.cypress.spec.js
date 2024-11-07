@@ -135,10 +135,10 @@ describe('Prefill pattern - Blue Task', () => {
     cy.url().should('contain', '/veteran-information');
 
     cy.findByText('Mobile phone number').should('exist');
-    cy.get('va-telephone[contact="6195551234"]').should('exist');
+    cy.get('va-telephone[contact="5554044567"]').should('exist');
 
     cy.findByText('Email address').should('exist');
-    cy.findByText('myemail72585885@unattended.com').should('exist');
+    cy.findByText('test@test.com').should('exist');
 
     cy.findByText('Mailing address').should('exist');
     cy.findByText('123 Mailing Address St.').should('exist');
