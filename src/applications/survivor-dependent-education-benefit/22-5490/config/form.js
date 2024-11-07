@@ -971,6 +971,15 @@ const formConfig = {
                     },
                   ],
                 },
+                street2: {
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length > 40) {
+                        errors.addError('maximum of 40 characters');
+                      }
+                    },
+                  ],
+                },
                 city: {
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
@@ -979,6 +988,10 @@ const formConfig = {
                     (errors, field) => {
                       if (isOnlyWhitespace(field)) {
                         errors.addError('Please enter a valid city');
+                      } else if (field?.length < 2) {
+                        errors.addError('minimum of 2 characters');
+                      } else if (field?.length > 40) {
+                        errors.addError('maximum of 40 characters');
                       }
                     },
                   ],

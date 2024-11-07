@@ -514,9 +514,17 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       'input#root_mailingAddressInput_address_street',
       'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     );
+
+    fillData(
+      form,
+      'input#root_mailingAddressInput_address_street2',
+      'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    );
     form.find('form').simulate('submit');
 
     expect(errorMessages.at(0).text()).to.include('maximum of 40 characters');
+    expect(errorMessages.at(1).text()).to.include('maximum of 40 characters');
+
     form.unmount();
   });
 
