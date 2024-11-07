@@ -1325,7 +1325,7 @@ jobs:
         uses: ./.github/workflows/upload-artifact
         with:
           name: merged-coverage-report
-          path: ../merged-coverage-report.json
+          path: qa-standards-dashboard-data/merged-coverage-report.json
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
