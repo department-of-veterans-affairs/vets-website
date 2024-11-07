@@ -88,7 +88,7 @@ describe('Prefill pattern - Orange Task', () => {
     cy.url().should('contain', '/review-then-submit');
     cy.findByText('Mailing address').should('exist');
     cy.findByText('123 Mailing Address St.').should('exist');
-    cy.findByText('Futlon').should('exist');
+    cy.findByText('Fulton').should('exist');
     cy.findByText('NY').should('exist');
     cy.findByText('97064').should('exist');
 
