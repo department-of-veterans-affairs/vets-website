@@ -1,5 +1,5 @@
 import formConfig from '../../../../config/form';
-import { ownedAssetPages } from '../../../../config/chapters/05-owned-assets/ownedAssetPages';
+import { assetTransferPages } from '../../../../config/chapters/07-asset-transfers/assetTransferPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import {
   testNumberOfFieldsByType,
@@ -7,40 +7,40 @@ import {
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
-describe('owned asset list and loop pages', () => {
-  const { ownedAssetPagesSummary } = ownedAssetPages;
+describe('asset transfer list and loop pages', () => {
+  const { assetTransferPagesSummary } = assetTransferPages;
 
   describe('summary page', () => {
-    const { schema, uiSchema } = ownedAssetPagesSummary;
+    const { schema, uiSchema } = assetTransferPagesSummary;
     testNumberOfFieldsByType(
       formConfig,
       schema,
       uiSchema,
       { 'va-radio': 1 },
-      'owned asset summary page',
+      'asset transfer summary page',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
       1,
-      'owned asset summary page',
+      'asset transfer summary page',
     );
     testSubmitsWithoutErrors(
       formConfig,
       schema,
       uiSchema,
-      'owned asset summary page',
+      'asset transfer summary page',
       testData.data,
       { loggedIn: true },
     );
   });
 
-  describe('income recipient page', () => {
+  describe('relationship page', () => {
     //  Add unit tests for this page
   });
 
-  describe('income type page', () => {
+  describe('type page', () => {
     //  Add unit tests for this page
   });
 });
