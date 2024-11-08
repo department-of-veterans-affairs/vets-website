@@ -15,7 +15,7 @@ import { BddConfirmationAlert } from './bddConfirmationAlert';
 
 const template = (props, title, content, submissionMessage, messageType) => {
   const { fullName, disabilities, submittedAt, isSubmittingBDD } = props;
-  const { first, last, middle, suffix } = fullName; // TODO: create name format util
+  const { first, last, middle, suffix } = fullName;
   // This is easier than passing down props and checking if the form type
   const pageTitle = document.title.includes('Benefits')
     ? 'Benefits Delivery at Discharge Claim'

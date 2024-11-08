@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { capitalizeEachWord, formatDate } from '../utils';
+import { capitalizeEachWord, formatDate, formatFullName } from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
 
 export function ClaimConfirmationInfo({
@@ -9,15 +9,14 @@ export function ClaimConfirmationInfo({
   conditions,
   claimId,
 }) {
-  const { first, last, middle, suffix } = fullName;
-
+  const name = formatFullName(fullName);
   return (
     <va-summary-box>
       <h2 className="vads-u-font-size--h3" slot="headline">
         Disability Compensation Claim{' '}
         <span className="vads-u-font-weight--normal">(Form 21-526EZ)</span>
       </h2>
-      {fullName && <p>{`For ${first} ${middle} ${last} ${suffix}`}</p>}
+      {name && <p>{`For ${name}`}</p>}
       <div>
         <ul className="claim-list">
           <li>
