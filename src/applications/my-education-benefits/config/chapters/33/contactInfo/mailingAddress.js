@@ -184,15 +184,14 @@ const mailingAddress33 = {
           },
         },
         postalCode: {
-          'ui:errorMessages': {
-            required: 'Zip code must be 5 digits',
-          },
           'ui:options': {
-            replaceSchema: formData => {
+            updateSchema: formData => {
               if (formData['view:mailingAddress']?.address?.country !== 'USA') {
                 return {
                   title: 'Postal Code',
                   type: 'string',
+                  minLength: 3,
+                  maxLength: 10,
                 };
               }
 
