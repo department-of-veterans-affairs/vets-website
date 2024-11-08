@@ -12,12 +12,14 @@ import {
 export default {
   uiSchema: {
     militaryServiceCurrentlyServing: yesNoUI({
+      enableAnalytics: true,
       title: 'Are you currently serving in the military?',
       hint:
         'This includes active-duty service, and service in the National Gaurd and Reserve.',
     }),
     expectedSeparation: {
       ...radioUI({
+        enableAnalytics: true,
         title: 'When do you expect to separate or retire from the service?',
         labels: expectedSeparationLabels,
         required: () => false,
