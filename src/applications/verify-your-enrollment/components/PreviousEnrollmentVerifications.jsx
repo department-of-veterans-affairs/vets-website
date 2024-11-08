@@ -42,15 +42,16 @@ const PreviousEnrollmentVerifications = ({
   const verifiedEnrollments =
     groupVerificationsByMonth(enrollmentVerifications)?.filter(
       enrollment =>
-        !!enrollment.verificationMethod &&
+        enrollment.verificationMethod &&
         isVerificationEndDateValid(enrollment.verificationEndDate),
     ).length || 0;
   const pendingVerificationsDGIB =
     groupVerificationsByMonth(enrollmentVerifications)?.filter(
       enrollment =>
         isVerificationEndDateValid(enrollment.verificationEndDate) &&
-        !verificationMethod.includes(enrollment.verificationMethod),
+        !!verificationMethod.includes(enrollment.verificationMethod),
     ).length || 0;
+
   const totalEnrollmentVerificationsCount = Object.keys(
     combineEnrollmentsWithStartMonth(enrollmentData?.verifications ?? {}),
   ).length;
@@ -66,7 +67,6 @@ const PreviousEnrollmentVerifications = ({
     totalEnrollmentVerificationsCount +
     pendingVerificationsDGIB +
     verifiedEnrollments;
-
   const sortDatesByMonthYear = array => {
     // Helper function to convert "Month YYYY" or "Date unavailable" to a Date object
     function parseDate(dateStr) {

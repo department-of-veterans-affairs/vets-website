@@ -295,7 +295,7 @@ export const getPeriodsToVerifyDGIB = (
       const {
         verificationBeginDate,
         verificationEndDate,
-        lastDepositAmount,
+        // lastDepositAmount,
         totalCreditHours,
         verificationMethod,
       } = enrollmentToBeVerified;
@@ -325,7 +325,7 @@ export const getPeriodsToVerifyDGIB = (
                     ? 'Hours unavailable'
                     : totalCreditHours}
                 </p>
-                <p
+                {/* <p
                   className={enrollmentInfoClassName}
                   data-testid="monthly-rate"
                 >
@@ -335,7 +335,7 @@ export const getPeriodsToVerifyDGIB = (
                   {lastDepositAmount === null
                     ? 'Rate unavailable'
                     : formatCurrency(lastDepositAmount)}
-                </p>
+                </p> */}
               </div>
             )}
         </div>
@@ -548,7 +548,7 @@ export const getGroupedPreviousEnrollmentsDGIB = enrollment => {
             class="vads-u-margin-bottom--4"
           >
             {enrollment.map((monthAward, index) => {
-              const { totalCreditHours, lastDepositAmount } = monthAward;
+              const { totalCreditHours } = monthAward;
               return (
                 <div key={index}>
                   <p className="vads-u-font-weight--bold vads-u-margin--0">
@@ -568,14 +568,14 @@ export const getGroupedPreviousEnrollmentsDGIB = enrollment => {
                       ? 'Hours unavailable'
                       : totalCreditHours}
                   </p>
-                  <p className="vads-u-margin--0">
+                  {/* <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
                       Monthly Rate:
                     </span>{' '}
                     {lastDepositAmount === null
                       ? 'Rate unavailable'
                       : formatCurrency(lastDepositAmount)}
-                  </p>
+                  </p> */}
                   {/* <div className="vads-u-font-style--italic vads-u-margin--0">
                     You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
@@ -685,12 +685,12 @@ export const getSignlePreviousEnrollmentsDGIB = enrollment => {
                   ? 'Hours unavailable'
                   : enrollment?.totalCreditHours}
               </p>
-              <p>
+              {/* <p>
                 <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
                 {enrollment?.lastDepositAmount === null
                   ? 'Rate unavailable'
                   : formatCurrency(enrollment?.lastDepositAmount)}
-              </p>
+              </p> */}
               {/* <div className="vads-u-font-style--italic">
                 You verified on{' '}
                 {translateDateIntoMonthDayYearFormat(
