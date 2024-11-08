@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import DlcServiceTelephone from './DlcSupportTelephone';
+import DlcPhone from './DlcPhone';
+import DlcEmail from './DlcEmail';
 
 /**
  * Generates an alert for a veteran that is not eligible to order supplies.
@@ -20,8 +21,7 @@ const IneligibleErrorMessage = ({ nextAvailabilityDate }) => {
         </span>
         <span className="vads-u-margin-top--1">
           If you need an item sooner, call the DLC Customer Service Section at{' '}
-          <DlcServiceTelephone /> or email{' '}
-          <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+          <DlcPhone /> or email <DlcEmail />.
         </span>
       </div>
     </va-alert>

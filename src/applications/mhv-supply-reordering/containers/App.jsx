@@ -3,10 +3,27 @@ import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { signInServiceEnabled } from '~/platform/user/authentication/selectors';
 import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import { fetchMdotData } from '../actions';
+import manifest from '../manifest.json';
+
+const breadcrumbList = [
+  {
+    href: '/',
+    label: 'VA.gov Home',
+  },
+  {
+    href: '/my-health',
+    label: 'Health care',
+  },
+  {
+    href: manifest.rootUrl,
+    label: manifest.appName,
+  },
+];
 
 /**
  * Root container for the form application.
@@ -32,6 +49,7 @@ const App = ({ location, children, fetchMdotFunc, user }) => {
       serviceRequired={[backendServices.USER_PROFILE]}
     >
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        <VaBreadcrumbs breadcrumbList={breadcrumbList} />
         {children}
       </RoutedSavableApp>
     </RequiredLoginView>

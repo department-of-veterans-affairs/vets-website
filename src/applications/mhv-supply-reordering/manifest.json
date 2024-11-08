@@ -1,5 +1,5 @@
 {
-  "appName": "Health Care Supply Reordering (New)",
+  "appName": "Health Care Supply Reordering",
   "entryFile": "./app-entry.jsx",
   "entryName": "mhv-supply-reordering",
   "rootUrl": "/my-health/order-supplies",

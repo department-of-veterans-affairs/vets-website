@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import DlcServiceTelephone from './DlcSupportTelephone';
+import DlcPhone from './DlcPhone';
+import DlcEmail from './DlcEmail';
+import { HEALTH_FACILITIES_URL } from '../constants';
 
 /**
  * Generates alerts depending on the error message received from the MDOT API.
@@ -27,7 +28,7 @@ const MdotErrorMessage = ({ errorCode }) => {
               If you think this is incorrect, call your health care provider to
               update your record.{' '}
               <a
-                href="https://www.va.gov/find-locations/"
+                href={HEALTH_FACILITIES_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -50,8 +51,7 @@ const MdotErrorMessage = ({ errorCode }) => {
 
             <span className="vads-u-margin-top--1">
               If you need to place an order, call the DLC Customer Service
-              Section at <DlcServiceTelephone /> or email{' '}
-              <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              Section at <DlcPhone /> or email <DlcEmail />.
             </span>
           </div>
         </va-alert>
@@ -67,9 +67,8 @@ const MdotErrorMessage = ({ errorCode }) => {
             <span>We can’t fulfill an order for this Veteran</span>
             <span className="vads-u-margin-top--1">
               If this information is incorrect, please call Veterans Benefits
-              Assistance at <va-telephone contact={CONTACTS.VA_BENEFITS} />(
-              <va-telephone contact={CONTACTS['711']} tty />
-              ), Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.
+              Assistance at <DlcPhone />, Monday through Friday, 8:00 a.m. to
+              9:00 p.m. E.T.
             </span>
           </div>
         </va-alert>
@@ -89,8 +88,7 @@ const MdotErrorMessage = ({ errorCode }) => {
             </p>
             <p className="vads-u-margin-top--0">
               For help ordering {supplyDescription}, please call the DLC
-              Customer Service Section at <DlcServiceTelephone /> or email{' '}
-              <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              Customer Service Section at <DlcPhone /> or email <DlcEmail />.
             </p>
           </div>
         </va-alert>
