@@ -487,7 +487,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
   });
 
-  describe('when review requests and referrals flag is on', () => {
+  describe('when CC direct scheduling flag is on', () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
