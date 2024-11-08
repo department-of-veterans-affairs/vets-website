@@ -27,7 +27,6 @@ const initialState = {
     show_new_schedule_view_appointments_page: true,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: false,
-    vaOnlineSchedulingReviewRequestAndReferrals: false,
   },
 };
 
@@ -492,7 +491,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingReviewRequestAndReferrals: true,
+        vaOnlineSchedulingCCDirectScheduling: true,
       },
       user: userState,
     };
