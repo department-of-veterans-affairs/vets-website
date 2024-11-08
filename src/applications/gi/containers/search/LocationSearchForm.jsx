@@ -2,9 +2,12 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState, createRef } from 'react';
+import React, { useEffect, useState, createRef, useRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 // import environment from 'platform/utilities/environment';
@@ -50,6 +53,7 @@ export function LocationSearchForm({
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
   const inputRef = createRef();
+  const buttonRef = useRef(null);
   // const [error, setError] = useState(null);
   const { error } = errorReducer;
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
@@ -204,6 +208,27 @@ export function LocationSearchForm({
     },
     [search.query.distance],
   );
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (buttonRef.current) {
+        const { shadowRoot } = buttonRef.current;
+
+        if (shadowRoot) {
+          const innerButton = shadowRoot.querySelector('button.usa-button');
+
+          if (innerButton) {
+            const icon = document.createElement('va-icon');
+            icon.className = 'vads-u-margin-left--1';
+            icon.icon = 'search';
+            icon.size = 2;
+            innerButton.prepend(icon);
+          }
+        }
+      }
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   return (
     <div className="location-search-form">
@@ -298,19 +323,11 @@ export function LocationSearchForm({
                   setDistance(e.target.value);
                 }}
               />
-              <button
-                type="submit"
+              <VaButton
+                text="Search"
                 data-testid="location-search-button"
                 className="usa-button location-search-button vads-u-display--flex vads-u-align-items--center vads-u-font-weight--bold"
-              >
-                Search
-                <va-icon
-                  size={2}
-                  icon="search"
-                  aria-hidden="true"
-                  class="vads-u-margin-left--1"
-                />
-              </button>
+              />
             </div>
           </div>
         </div>

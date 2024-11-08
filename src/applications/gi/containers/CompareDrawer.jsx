@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { isSmallScreen } from '../utils/helpers';
@@ -132,18 +133,16 @@ export function CompareDrawer({
               </div>
               <div className="vads-u-padding-top--1p5">
                 {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-                <button
-                  type="button"
-                  className="va-button-link learn-more-button"
+                <VaButton
+                  text="Remove"
+                  className="remove-btn"
                   onClick={() => {
                     setPromptingFacilityCode(facilityCode);
                   }}
                   aria-label={`Remove ${
                     institutions[facilityCode].name
                   } from comparison`}
-                >
-                  Remove
-                </button>
+                />
               </div>
             </div>
           </li>
@@ -295,23 +294,13 @@ export function CompareDrawer({
                   </div>
                   <div className="vads-u-margin-right--2">
                     {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-                    <va-button
-                      // type="button"
+                    <VaButton
                       tabIndex={0}
-                      // class="usa-button vads-u-width--full"
                       disabled={loaded.length < 2}
                       text="Compare"
                       onClick={openCompare}
+                      className="compare-btn"
                     />
-                    {/* <button
-                      type="button"
-                      tabIndex={0}
-                      className="usa-button vads-u-width--full"
-                      disabled={loaded.length < 2}
-                      onClick={openCompare}
-                    >
-                      Compare
-                    </button> */}
                   </div>
                 </div>
                 <ol id="compare-list-item" className="compare-list">

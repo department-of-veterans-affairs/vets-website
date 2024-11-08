@@ -812,8 +812,7 @@ export function FilterBeforeResults({
             />
             <ClearFiltersBtn
               testId="clear-button"
-              // isCleared={isCleared}
-              // setIsCleared={setIsCleared}
+              className="clear-filters-button"
               onClick={onApplyFilterClick}
             >
               Reset search

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 import ClearFiltersBtn from './ClearFiltersBtn';
 
@@ -79,19 +80,18 @@ export default function SearchAccordion({
         >
           {' '}
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-          <button
-            type="button"
+          <VaButton
             id={buttonId}
-            className="update-results-button"
+            className="update-results-button-after"
             onClick={buttonOnClick}
             aria-describedby={ariaDescribedBy}
-          >
-            {buttonLabel}
-          </button>
+            text={buttonLabel}
+          />
           {isProductionOrTestProdEnv() && (
             <ClearFiltersBtn
               onClick={dispatchFocusSearch}
               testId="clear-button"
+              className="clear-filters-button-after"
             >
               Reset search
             </ClearFiltersBtn>

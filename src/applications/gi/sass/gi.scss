@@ -119,6 +119,17 @@
   .learn-more-button {
     background-image: none !important;
     font-weight: inherit !important;
+
+  }
+
+  .remove-btn::part(button){
+    background-color: transparent;
+    color: var(--vads-color-primary);
+    border: none;
+    outline: none;
+    font-weight: normal;
+    text-decoration: underline;
+    padding: 0;
   }
 
   .gids-radio-buttons {
@@ -293,4 +304,7 @@
 .remove-bullets {
   list-style: none;
   padding-left: 0;
+}
+.inst-remove-btn::part(button){
+  background-color: transparent;
 }

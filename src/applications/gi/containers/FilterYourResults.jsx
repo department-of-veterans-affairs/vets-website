@@ -3,12 +3,15 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from 'platform/utilities/environment';
+import PropTypes from 'prop-types';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
-
 import {
   getStateNameForCode,
   sortOptionsByStateName,
@@ -506,20 +509,14 @@ export function FilterYourResults({
             {!search.inProgress && controls}
           </div>
           <div className="modal-button-wrapper">
-            <button
-              type="button"
+            <VaButton
               id={`update-${createId(title)}-button`}
               className="update-results-button"
               onClick={closeAndUpdate}
-            >
-              Update results
-            </button>
+              text="Update results"
+            />
             {!environment.isProduction() && (
-              <ClearFiltersBtn
-                smallScreen={smallScreen}
-                // isCleared={isCleared}
-                // setIsCleared={setIsCleared}
-              >
+              <ClearFiltersBtn smallScreen={smallScreen}>
                 Reset search
               </ClearFiltersBtn>
             )}
@@ -543,7 +540,18 @@ const mapDispatchToProps = {
   dispatchError: setError,
   dispatchFocusSearch: focusSearch,
 };
-
+FilterYourResults.propTypes = {
+  dispatchError: PropTypes.func.isRequired,
+  dispatchFilterChange: PropTypes.func.isRequired,
+  errorReducer: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
+  modalClose: PropTypes.func.isRequired,
+  preview: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
+  searchType: PropTypes.string.isRequired,
+  smallScreen: PropTypes.bool.isRequired,
+  dispatchFocusSearch: PropTypes.func,
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

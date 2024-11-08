@@ -7,10 +7,10 @@ import { filterChange } from '../actions';
 function ClearFiltersBtn({
   filters,
   dispatchFilterChange,
-  children,
   testId,
   onKeyDown,
   onClick,
+  className,
 }) {
   const clearAllFilters = () => {
     dispatchFilterChange({
@@ -59,14 +59,11 @@ function ClearFiltersBtn({
       <VaButton
         text="Reset search"
         secondary
-        // className="apply-filter-button"
+        className={className}
         onClick={clearAllFilters}
         onKeyDown={onKeyDown}
         data-testid={testId}
-      >
-        {' '}
-        {children}
-      </VaButton>
+      />
     </>
   );
 }
@@ -79,6 +76,7 @@ const mapDispatchToProps = {
 };
 ClearFiltersBtn.propTypes = {
   children: PropTypes.node,
+  className: PropTypes.string,
   closeAndUpdate: PropTypes.func,
   dispatchFilterChange: PropTypes.func,
   filters: PropTypes.object,

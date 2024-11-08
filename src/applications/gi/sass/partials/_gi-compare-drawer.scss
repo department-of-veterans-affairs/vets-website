@@ -173,3 +173,16 @@
     }
   }
 }
+.compare-btn{
+  width: 100% !important;
+}
+.compare-btn::part(button){
+  width: 100% !important;
+}
+.institution {
+  padding: 0em 1em 0em 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
