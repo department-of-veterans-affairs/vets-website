@@ -5,7 +5,10 @@ import {
   VaRadioOption,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { filterOptions, SESSION_SELECTED_FILTER_OPTION } from '../../util/constants';
+import {
+  filterOptions,
+  SESSION_SELECTED_FILTER_OPTION
+} from '../../util/constants';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const MedicationsListFilter = props => {
@@ -24,7 +27,9 @@ const MedicationsListFilter = props => {
     if (target) {
       const isOpen = target.getAttribute('open');
       if (!isOpen) {
-        setFilterOption(sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) || null);
+        setFilterOption(
+          sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) || null
+        );
       }
     }
   }
