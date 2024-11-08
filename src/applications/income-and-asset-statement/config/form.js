@@ -13,6 +13,7 @@ import associatedIncomes from './chapters/04-associated-incomes';
 import ownedAssets from './chapters/05-owned-assets';
 import royaltiesAndOtherProperties from './chapters/06-royalties-and-other-properties';
 import assetTransfers from './chapters/07-asset-transfers';
+import trusts from './chapters/08-trusts';
 import annuities from './chapters/09-annuities';
 
 // const { } = fullSchema.properties;
@@ -64,6 +65,7 @@ const formConfig = {
     ownedAssets,
     royaltiesAndOtherProperties,
     assetTransfers,
+    trusts,
     annuities,
   },
 };

@@ -7,7 +7,7 @@ import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utiliti
 const COMBOBOX_LIST_MAX_HEIGHT = '440px';
 const defaultHighlightedIndex = -1;
 
-const getSelectionMessage = searchTerm => {
+const getSelectionMessage = (searchTerm = '') => {
   return searchTerm.trim() === '' ? '' : `${searchTerm} is selected.`;
 };
 
@@ -273,7 +273,7 @@ export class ComboBox extends React.Component {
 
   optionFocus(index) {
     const focusOption = document.getElementById(`option-${index}`);
-    focusOption.focus();
+    focusOption?.focus();
   }
 
   // Click handler for a list item
