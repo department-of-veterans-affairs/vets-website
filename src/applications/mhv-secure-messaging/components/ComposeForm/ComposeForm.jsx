@@ -578,6 +578,7 @@ const ComposeForm = props => {
       ) {
         saveDraftHandler('auto');
         setUnsavedNavigationError();
+        // test
       }
     },
     [
