@@ -19,7 +19,7 @@ describe('RouteLeavingGuard component', () => {
   };
 
   const cancelButtonText =
-    ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft;
+    ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.confirmButtonText;
   const initialProps = {
     cancelButtonText,
     confirmButtonText: 'confirm',
@@ -104,7 +104,7 @@ describe('RouteLeavingGuard component', () => {
   });
 
   it(`save draft handler not called if a secondary button name is not ${
-    ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft
+    ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.confirmButtonText
   }`, async () => {
     const updateModalVisibleSpy = sinon.spy();
     const shouldBlockSpy = sinon.spy(() => {
