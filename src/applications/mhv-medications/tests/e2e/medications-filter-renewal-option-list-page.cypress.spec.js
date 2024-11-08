@@ -1,6 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
+import { Data } from './utils/constants';
 
 describe('Medications List Page Renewal Filter Option', () => {
   it('visits Medications List Page Filter Option Renewal', () => {
@@ -23,7 +24,7 @@ describe('Medications List Page Renewal Filter Option', () => {
     );
     listPage.clickFilterButtonOnAccordion();
     listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      'Showing 1 - 20 of 20 medications',
+      Data.PAGINATION_TEXT,
     );
     listPage.verifyNameOfFirstRxOnMedicationsList('renewal');
   });

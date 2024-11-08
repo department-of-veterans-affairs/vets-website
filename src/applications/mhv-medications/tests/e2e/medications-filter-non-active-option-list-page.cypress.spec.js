@@ -1,6 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
+import Data from './utils/constants';
 
 describe('Medications List Page Non-Active Filter Option', () => {
   it('visits Medications List Page Filter Option Non-Active', () => {
@@ -21,7 +22,7 @@ describe('Medications List Page Non-Active Filter Option', () => {
     listPage.clickFilterRadioButtonOptionOnListPage('Non-active');
     listPage.clickFilterButtonOnAccordion();
     listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      'Showing 1 - 20 of 20 medications',
+      Data.PAGINATION_TEXT,
     );
     listPage.verifyNameOfFirstRxOnMedicationsList('non active');
   });

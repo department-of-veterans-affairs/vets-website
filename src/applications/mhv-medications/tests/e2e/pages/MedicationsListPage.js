@@ -775,6 +775,17 @@ class MedicationsListPage {
       .should('be.focused')
       .and('contain', text);
   };
+
+  verifyFilterCollapsedOnListPage = () => {
+    cy.get('[data-testid="filter-button"]')
+      .shadow()
+      .find('[type="button"]')
+      .should('not.exist');
+    cy.get('[data-testid="filter-option"]')
+      .shadow()
+      .find('[class="usa-legend"]', { force: true })
+      .should('not.exist');
+  };
 }
 
 export default MedicationsListPage;
