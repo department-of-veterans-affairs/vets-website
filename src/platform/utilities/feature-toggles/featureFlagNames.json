@@ -108,6 +108,7 @@
   "hcaTeraBranchingEnabled": "hca_tera_branching_enabled",
   "hcaUseFacilitiesApi": "hca_use_facilities_API",
   "hlrBrowserMonitoringEnabled": "hlr_browser_monitoring_enabled",
+  "hlrConfirmationUpdate": "hlr_confirmation_update",
   "hlrUpdatedContent": "hlr_updateed_contnet",
   "incomeAndAssetsFormEnabled": "income_and_assets_form_enabled",
   "intentToFileLighthouseEnabled": "intent_to_file_lighthouse_enabled",
