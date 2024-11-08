@@ -7,10 +7,10 @@ const dateFns = require('date-fns');
  * @param {Number} numberOfSlots How many slots to create
  * @returns {Object} Provider object
  */
-const getProviderDetails = numberOfSlots => {
+const createProviderDetails = numberOfSlots => {
   const slots = [];
   const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
-  let hourFromNow = 1;
+  let hourFromNow = 12;
   for (let i = 0; i < numberOfSlots; i++) {
     const startTime = dateFns.addHours(tomorrow, hourFromNow);
     slots.push({
@@ -40,4 +40,4 @@ const getProviderDetails = numberOfSlots => {
   };
 };
 
-module.exports = { getProviderDetails };
+module.exports = { createProviderDetails };

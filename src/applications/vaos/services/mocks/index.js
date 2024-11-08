@@ -673,7 +673,7 @@ const responses = {
     });
   },
   'GET /vaos/v2/epsApi/providerDetails': (req, res) => {
-    return res.json({ data: providerUtils.getProviderDetails(5) });
+    return res.json({ data: providerUtils.createProviderDetails(5) });
   },
   'GET /vaos/v2/epsApi/referrals': (req, res) => {
     return res.json({ data: referrals });
