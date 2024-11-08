@@ -1,5 +1,5 @@
 const { sub, formatISO } = require('date-fns');
-const { senderInfo, categoryInfo, triageGroupNames } = require('./index');
+const { senderInfo, categoryInfo, triageGroupNames } = require('./constants');
 
 const sampleId = 3601000;
 
