@@ -17,7 +17,6 @@ import {
   CHAPTER_1,
   URL,
   getApiUrl,
-  requireSignInTopics,
   requiredForSubtopicPage,
 } from '../constants';
 
@@ -61,7 +60,7 @@ const TopicSelectPage = props => {
       topic => topic.attributes.name === selectedValue,
     );
 
-    if (requireSignInTopics.includes(selectedValue) && !loggedIn) {
+    if (selected.attributes.requiresAuthentication && !loggedIn) {
       setShowModal({ show: true, selected: selectedValue });
     } else {
       dispatch(setTopicID(selected.id));
@@ -137,7 +136,7 @@ const TopicSelectPage = props => {
       <RequireSignInModal
         onClose={onModalNo}
         show={showModal.show}
-        restrictedItem={showModal.selected}
+        restrictedItem="topic"
       />
     </>
   ) : (

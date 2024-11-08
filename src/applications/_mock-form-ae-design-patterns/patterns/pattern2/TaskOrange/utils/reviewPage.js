@@ -3,6 +3,9 @@ export const setupPages = formConfig => {
   const chapterTitles = Object.values(formConfig?.chapters || {}).map(
     value => value.title,
   );
+  const reviewTitles = Object.values(formConfig?.chapters || {}).map(
+    value => value.reviewTitle,
+  );
 
   const getChapterPagesFromChapterIndex = chapterIndex => {
     const chapterKey = chapterKeys[chapterIndex];
@@ -13,12 +16,21 @@ export const setupPages = formConfig => {
         ? chapter.pages[page][0]
         : chapter.pages[page];
       // eslint-disable-next-line no-unused-vars
-      const { title, taskListTitle, taskListHide, path, depends, review } = pg;
+      const {
+        title,
+        taskListTitle,
+        reviewTitle,
+        taskListHide,
+        path,
+        depends,
+        review,
+      } = pg;
       return {
         chapterIndex,
         pageIndex: index,
         taskListHide,
         title: taskListTitle || title,
+        reviewTitle,
         review,
         path: `/${path}`,
         depends,
@@ -45,6 +57,7 @@ export const setupPages = formConfig => {
   return {
     chapterKeys,
     chapterTitles,
+    reviewTitles,
     allPages,
     getChapterPagesFromChapterIndex,
     findPageFromPath,
