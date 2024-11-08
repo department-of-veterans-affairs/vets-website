@@ -15,7 +15,7 @@ import { BddConfirmationAlert } from './bddConfirmationAlert';
 
 const template = (props, title, content, submissionMessage, messageType) => {
   const { fullName, disabilities, submittedAt, isSubmittingBDD } = props;
-  const { first, last, middle, suffix } = fullName;
+  const { first, last, middle, suffix } = fullName; // TODO: create name format util
   // This is easier than passing down props and checking if the form type
   const pageTitle = document.title.includes('Benefits')
     ? 'Benefits Delivery at Discharge Claim'
@@ -286,7 +286,7 @@ export const howLongForDecision = (
     <h2>How long will it take VA to make a decision on my claim?</h2>
     <p>
       We process applications in the order we receive them. The amount of time
-      it takes us to review you claim depends on:
+      it takes us to review your claim depends on:
     </p>
     <ul>
       <li>The type of claim you filed. </li>
@@ -322,7 +322,7 @@ export const dependentsAdditionalBenefits = (
         download
         filetype="PDF"
         href="https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf"
-        text="Download VA Form 21-686c PDF"
+        text="Download VA Form 21-686c (2.7MB)"
       />
     </p>
     <p>
@@ -340,7 +340,12 @@ export const dependentsAdditionalBenefits = (
       Attendance (VA Form 21-674) so we can verify their attendance.
     </p>
     <p>
-      <DownloadPDF formNumber="21-674" fileName="VBA-21-674-ARE" size="1.3" />
+      <va-link
+        download
+        filetype="PDF"
+        href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
+        text="Download VA Form 21-674 (1.3MB)"
+      />
     </p>
     <p>
       <strong>If you have dependent parents</strong>, you may be entitled to
@@ -348,7 +353,12 @@ export const dependentsAdditionalBenefits = (
       Parent(s) (VA Form 21P-509).
     </p>
     <p>
-      <DownloadPDF formNumber="21P-509" fileName="VBA-21P-509-ARE" size="1" />
+      <va-link
+        download
+        filetype="PDF"
+        href="https://www.vba.va.gov/pubs/forms/VBA-21P-509-ARE.pdf"
+        text="Download VA Form 21P-509 (1MB)"
+      />
     </p>
   </>
 );

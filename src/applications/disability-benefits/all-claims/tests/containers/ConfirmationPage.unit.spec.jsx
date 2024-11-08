@@ -43,13 +43,13 @@ const getData = ({
 describe('ConfirmationPage', () => {
   const defaultProps = {
     fullName: {
-      first: 'First',
-      middle: 'M',
-      last: 'Last',
+      first: 'Hector',
+      middle: 'Lee',
+      last: 'Brooks',
       suffix: 'Sr.',
     },
     disabilities: ['something something', undefined],
-    submittedAt: Date.now(),
+    submittedAt: new Date('November, 7, 2024'),
     route: {
       formConfig,
       pageList: [],
@@ -207,25 +207,51 @@ describe('ConfirmationPage', () => {
     tree.unmount();
   });
 
-  // new confirmation page toggle on
-  it('should render new confirmation page when submission succeeded with claim id', () => {
-    const store = mockStore(
-      getData({
-        disability526NewConfirmationPage: true,
-      }),
-    );
-    const props = {
-      ...defaultProps,
-      claimId: '123456789',
-      submissionStatus: submissionStatuses.succeeded,
-    };
+  describe('new confirmation page (toggle enabled)', () => {
+    // new confirmation page toggle on
+    it('should render new confirmation page when submission succeeded with claim id', () => {
+      const store = mockStore(
+        getData({
+          disability526NewConfirmationPage: true,
+        }),
+      );
+      const props = {
+        ...defaultProps,
+        claimId: '123456789',
+        submissionStatus: submissionStatuses.succeeded,
+      };
 
-    const tree = render(
-      <Provider store={store}>
-        <ConfirmationPage {...props} />
-      </Provider>,
-    );
+      const { container, getByText } = render(
+        <Provider store={store}>
+          <ConfirmationPage {...props} />
+        </Provider>,
+      );
 
-    tree.getByText('Form submission started on', { exact: false });
+      // success alert
+      getByText('Form submission started on', { exact: false });
+      getByText('Your submission is in progress.', {
+        exact: false,
+      });
+
+      // summary box with claim info
+      getByText('Disability Compensation Claim');
+      getByText('For Hector Lee Brooks Sr.');
+      getByText('Date submitted');
+      getByText('November 7, 2024');
+      getByText('Conditions claimed');
+      getByText('Something Something');
+      getByText('Unknown Condition');
+      getByText('Claim ID number');
+      getByText(props.claimId);
+
+      // rest of sections are present
+      getByText('Print this confirmation page');
+      getByText('What to expect');
+      getByText('How to contact us if you have questions');
+      getByText('How long will it take VA to make a decision on my claim?');
+      getByText('If I have dependents, how can I receive additional benefits?');
+      getByText('Need help?');
+      expect(container.querySelectorAll('va-link')).to.have.lengthOf(5);
+    });
   });
 });

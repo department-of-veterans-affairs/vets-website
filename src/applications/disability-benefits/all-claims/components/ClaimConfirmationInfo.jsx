@@ -17,11 +17,7 @@ export function ClaimConfirmationInfo({
         Disability Compensation Claim{' '}
         <span className="vads-u-font-weight--normal">(Form 21-526EZ)</span>
       </h2>
-      {fullName && (
-        <p>
-          For {first} {middle} {last} {suffix}
-        </p>
-      )}
+      {fullName && <p>{`For ${first} ${middle} ${last} ${suffix}`}</p>}
       <div>
         <ul className="claim-list">
           <li>
