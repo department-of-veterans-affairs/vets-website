@@ -30,7 +30,7 @@ describe('VAOS Page: TypeOfAudiologyCarePage', () => {
   beforeEach(() => mockFetch());
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '203'); // audiology
+    await setTypeOfCare(store, /audiology/i);
 
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfAudiologyCarePage} />,
