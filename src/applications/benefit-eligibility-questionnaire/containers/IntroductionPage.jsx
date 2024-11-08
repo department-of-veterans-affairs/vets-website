@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import formConfig from '../config/form';
+import { Heading } from '../components/Heading';
 
 const IntroductionPage = ({ router }) => {
   const startForm = event => {
@@ -11,25 +12,7 @@ const IntroductionPage = ({ router }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={formConfig.title} subtitle="" />
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
-      <div role="heading" aria-level="2" tabIndex={0}>
-        <p>
-          <b>
-            Note: This tool is not an application for VA benefits and it doesn’t
-            determine your eligibility for benefits.
-          </b>{' '}
-          After you use this tool, you can learn more about eligibility and how
-          to apply.
-        </p>
-        <p>
-          To find VA benefits that may be relevant for you, answer a few
-          questions about your goals and experiences.
-        </p>
-        <p>
-          This is our first version. Right now, this tool focuses on education
-          and career benefits. We’ll add more types of benefits soon.
-        </p>
-      </div>
+      <Heading />
 
       <va-link-action
         href="#"
@@ -38,6 +21,26 @@ const IntroductionPage = ({ router }) => {
         text="Get started"
         data-testid="get-started"
       />
+
+      <div role="heading" aria-level="2">
+        <p>
+          <b>Note:</b> This tool is not an application for VA benefits. And it
+          doesn’t confirm your eligibility. On the results page, we’ll help you
+          learn more about eligibility and how to apply.
+        </p>
+        <p>
+          If you’re a family member, caregiver, or survivor of a Veteran,
+          <br />
+          <va-link
+            href="https://www.va.gov/family-and-caregiver-benefits/"
+            external
+            text="visit this page (opens in a new tab)"
+            type="secondary"
+            label="visit this page"
+          />
+          to learn about potential benefits for you.
+        </p>
+      </div>
     </article>
   );
 };
