@@ -8,7 +8,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { selectProfile } from '~/platform/user/selectors';
 
-import { boardReviewLabels } from '../content/boardReview';
+import { boardReviewConfirmationLabels } from '../content/boardReview';
 import { hearingTypeLabels } from '../content/hearingType';
 
 import {
@@ -245,7 +245,7 @@ export const ConfirmationPageV2 = () => {
             className="vads-u-margin-bottom--2 dd-privacy-hidden"
             data-dd-action-name="board review option"
           >
-            {boardReviewLabels[data.boardReviewOption] || ''}
+            {boardReviewConfirmationLabels[data.boardReviewOption] || ''}
           </div>
         </li>
         {data.boardReviewOption === 'evidence_submission' &&
