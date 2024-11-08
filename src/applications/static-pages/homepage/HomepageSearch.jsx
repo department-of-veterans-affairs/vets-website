@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import {
-  addSearchGADataToStorage,
   PAGE_PATH,
   SEARCH_LOCATION,
   SEARCH_APP_USED,
+  TYPEAHEAD_KEYWORD_SELECTED,
+  TYPEAHEAD_LIST,
+  addSearchGADataToStorage,
+  removeSearchGADataFromStorage,
 } from 'platform/site-wide/search-analytics-storage';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
@@ -18,6 +21,7 @@ import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
 const HomepageSearch = () => {
   const [userInput, setUserInput] = useState('');
   const [latestSuggestions, setLatestSuggestions] = useState([]);
+  const [typeaheadKeywordSelected, setTypeaheadKeywordSelected] = useState(null);
 
   // clear all suggestions and saved suggestions
   const clearSuggestions = () => {
@@ -38,6 +42,20 @@ const HomepageSearch = () => {
     setLatestSuggestions(results);
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      const searchListBox = document.querySelector('va-search-input')
+        .shadowRoot?.querySelector('#va-search-listbox');
+
+      if (searchListBox) {
+        searchListBox.addEventListener('click', event => {
+          console.log('event: ', event.target, latestSuggestions[event.target.value]);
+          setTypeaheadKeywordSelected(event.target.value);
+        });
+      }
+    }, 500);
+  });
+
   const handleSubmit = e => {
     // create a search url
     const searchUrl = replaceWithStagingDomain(
@@ -46,14 +64,23 @@ const HomepageSearch = () => {
       )}&t=${false}`,
     );
 
-    addSearchGADataToStorage({
+    removeSearchGADataFromStorage();
+
+    const analyticsData = {
       [PAGE_PATH]: '/',
       [SEARCH_LOCATION]: 'Homepage Search',
       [SEARCH_APP_USED]: false,
-    });
+    };
+
+    if (typeaheadKeywordSelected) {
+      analyticsData[TYPEAHEAD_KEYWORD_SELECTED] = typeaheadKeywordSelected;
+      analyticsData[TYPEAHEAD_LIST] = latestSuggestions;
+    }
+
+    addSearchGADataToStorage(analyticsData);
 
     // relocate to search results, preserving history
-    window.location.assign(searchUrl);
+    // window.location.assign(searchUrl);
   };
 
   return (

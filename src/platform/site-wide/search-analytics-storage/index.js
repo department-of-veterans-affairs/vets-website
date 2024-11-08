@@ -13,7 +13,6 @@ export const addSearchGADataToStorage = data => {
   localStorage.setItem(SEARCH_APP_USED, data?.[SEARCH_APP_USED]);
 
   if (data?.[TYPEAHEAD_KEYWORD_SELECTED]) {
-    console.log('this is running');
     localStorage.setItem(
       TYPEAHEAD_KEYWORD_SELECTED,
       data[TYPEAHEAD_KEYWORD_SELECTED],
