@@ -41,7 +41,6 @@ const BenefitsProfileWrapper = ({ children }) => {
   const toggleValue = useToggleValue(
     TOGGLE_NAMES.toggleVyeAddressDirectDepositForms,
   );
-
   const signIn = profile?.signIn;
   useEffect(() => {
     focusElement('h1');
