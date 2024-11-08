@@ -53,7 +53,7 @@
   $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   $formation-font-path: "~@department-of-veterans-affairs/formation/assets/fonts";
 
-  @import "~@department-of-veterans-affairs/formation/sass/core";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
 
   /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
@@ -225,6 +225,12 @@
     .usa-grid {
       padding-right: 3rem;
       padding-left: 3rem;
+    }
+
+    // overriding utility class because teamsites has a root font-size of 10px and we don't have a utility class 
+    // in rem that computes exactly to that. 
+    .medium-screen\:vads-u-padding--2 {
+      padding: 16px !important;
     }
   }
 
@@ -821,7 +827,7 @@
 
   @media screen and (min-width: 768px) {
     #va-header-logo-menu {
-      padding: 2em 1.25em 0;
+      padding: 2.4em 1.25em 0 !important;
     }
   }
 

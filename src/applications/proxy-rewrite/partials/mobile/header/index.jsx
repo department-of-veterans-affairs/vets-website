@@ -127,7 +127,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
       {/* end Veterans Crisis Line banner */}
 
       <nav className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
-        <div className="header-logo-row vads-u-background-color--primary-darker vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
+        <div className="header-logo-row vads-u-background-color--primary-darker vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--2p5 vads-u-padding-left--2p5 vads-u-padding-right--1p5">
           {/* start VA logo */}
           <a
             aria-label="VA logo"
@@ -159,7 +159,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
               aria-controls="header-nav-items"
               aria-expanded={menuIsOpen}
               id="header-menu-button"
-              className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
+              className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin--0 vads-u-margin-left--3 vads-u-position--relative"
               type="button"
               onClick={toggleMenu}
               onKeyDown={event => keyDownHandler(event, toggleMenu)}
