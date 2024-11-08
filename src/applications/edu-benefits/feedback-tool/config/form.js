@@ -257,6 +257,7 @@ const formConfig = {
             serviceDateRange: currentOrPastDateRangeUI(
               'Service start date',
               'Service end date',
+              'End of service must be after start of service',
             ),
           },
           schema: {
