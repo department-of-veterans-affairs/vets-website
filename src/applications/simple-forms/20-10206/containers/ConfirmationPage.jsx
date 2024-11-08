@@ -14,6 +14,7 @@ export const ConfirmationPage = props => {
       formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
+      pdfUrl={submission.response?.pdfUrl}
       devOnly={{
         showButtons: true,
       }}
