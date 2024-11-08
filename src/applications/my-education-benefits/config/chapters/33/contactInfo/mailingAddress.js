@@ -134,6 +134,7 @@ const mailingAddress33 = {
           ],
         },
         street2: {
+          'ui:title': 'Street address line 2',
           'ui:validations': [
             (errors, field) => {
               if (field?.length > 40) {
@@ -152,8 +153,8 @@ const mailingAddress33 = {
                 errors.addError('Please enter a valid city');
               } else if (field?.length < 2) {
                 errors.addError('minimum of 2 characters');
-              } else if (field?.length > 40) {
-                errors.addError('maximum of 40 characters');
+              } else if (field?.length > 20) {
+                errors.addError('maximum of 20 characters');
               }
             },
           ],
