@@ -6,8 +6,6 @@ import {
   PAGE_PATH,
   SEARCH_LOCATION,
   SEARCH_APP_USED,
-  TYPEAHEAD_KEYWORD_SELECTED,
-  TYPEAHEAD_LIST
 } from 'platform/site-wide/search-analytics-storage';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
@@ -48,14 +46,10 @@ const HomepageSearch = () => {
       )}&t=${false}`,
     );
 
-    const typeaheadKeywordSelected = latestSuggestions?.indexOf(e.target.value) > -1;
-
     addSearchGADataToStorage({
       [PAGE_PATH]: '/',
       [SEARCH_LOCATION]: 'Homepage Search',
       [SEARCH_APP_USED]: false,
-      [TYPEAHEAD_KEYWORD_SELECTED]: typeaheadKeywordSelected ? e.target.value : null,
-      [TYPEAHEAD_LIST]: typeaheadKeywordSelected ? latestSuggestions : null,
     });
 
     // relocate to search results, preserving history

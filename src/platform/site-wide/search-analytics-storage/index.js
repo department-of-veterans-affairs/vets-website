@@ -11,20 +11,31 @@ export const addSearchGADataToStorage = data => {
   localStorage.setItem(PAGE_PATH, data?.[PAGE_PATH]);
   localStorage.setItem(SEARCH_LOCATION, data?.[SEARCH_LOCATION]);
   localStorage.setItem(SEARCH_APP_USED, data?.[SEARCH_APP_USED]);
-  localStorage.setItem(
-    TYPEAHEAD_KEYWORD_SELECTED,
-    data?.[TYPEAHEAD_KEYWORD_SELECTED],
-  );
-  localStorage.setItem(TYPEAHEAD_LIST, data?.[TYPEAHEAD_LIST]);
+
+  if (data?.[TYPEAHEAD_KEYWORD_SELECTED]) {
+    console.log('this is running');
+    localStorage.setItem(
+      TYPEAHEAD_KEYWORD_SELECTED,
+      data[TYPEAHEAD_KEYWORD_SELECTED],
+    );
+
+    localStorage.setItem(TYPEAHEAD_LIST, data[TYPEAHEAD_LIST]);
+  }  
 };
 
 export const getSearchGADataFromStorage = () => {
+  const keyword = localStorage?.getItem(TYPEAHEAD_KEYWORD_SELECTED) !== 'undefined' ?
+    localStorage?.getItem(TYPEAHEAD_KEYWORD_SELECTED)
+    : undefined;
+
+  const sitewideSearchUsed = localStorage.getItem(SEARCH_APP_USED) === 'true' ? true : false;
+
   return {
     path: localStorage.getItem(PAGE_PATH),
     searchLocation: localStorage.getItem(SEARCH_LOCATION),
-    sitewideSearch: localStorage.getItem(SEARCH_APP_USED),
-    keywordSelected: localStorage?.getItem(TYPEAHEAD_KEYWORD_SELECTED),
-    suggestionsList: localStorage?.getItem(TYPEAHEAD_LIST)
+    sitewideSearch: sitewideSearchUsed,
+    keywordSelected: keyword,
+    suggestionsList: keyword ? localStorage.getItem(TYPEAHEAD_LIST) : undefined
   };
 };
 

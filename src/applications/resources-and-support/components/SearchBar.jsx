@@ -10,7 +10,7 @@ import {
   addSearchGADataToStorage,
   PAGE_PATH,
   SEARCH_LOCATION,
-  SEARCH_APP_USED
+  SEARCH_APP_USED,
 } from 'platform/site-wide/search-analytics-storage';
 import URLSearchParams from 'url-search-params';
 import resourcesSettings from '../manifest.json';

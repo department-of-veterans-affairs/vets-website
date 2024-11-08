@@ -76,14 +76,20 @@ const SearchApp = ({
     // If this value is set, we used another app or context to do a site-wide search
     // other than the search functionality on /search
     if (searchAnalyticsData?.path) {
-      const suggestionsList = Array?.from(searchAnalyticsData?.suggestionsList?.split(',')) || [];
-      const keywordPosition = (suggestionsList?.indexOf(searchAnalyticsData?.keywordSelected) + 1) || undefined;
+      const { keywordSelected, suggestionsList } = searchAnalyticsData;
+      let list = undefined;
+      let keywordPosition = undefined;
 
+      if (keywordSelected && suggestionsList) {
+        list = Array?.from(suggestionsList?.split(',')) || undefined;
+        keywordPosition = (suggestionsList?.indexOf(keywordSelected) + 1);
+      }
+      
       return {
         ...searchAnalyticsData,
         keywordPosition,
-        keywordSelected: searchAnalyticsData?.keywordSelected || undefined,
-        suggestionsList
+        keywordSelected,
+        suggestionsList: list
       };
     }
 
