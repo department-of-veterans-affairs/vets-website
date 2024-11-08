@@ -19,10 +19,12 @@ const senderInfo = {
   do: { id: 5290587, name: 'OWENS, DANA' },
   cw: { id: 1982284, name: 'WALLACE, CHRISTOPHER' },
   jc: { id: 6873519, name: 'CAMPALONG, JEREMY' },
+  mm: { id: 4927381, name: 'MATHERS, MARSHALL' },
+  cy: { id: 5979167, name: 'YOUNG, CALVIN' },
 };
 
 const categoryInfo = {
-  APPOINTMENTS: 'APPOINTMENTS',
+  APPOINTMENT: 'APPOINTMENTS',
   COVID: 'COVID',
   EDUCATION: 'EDUCATION',
   OTHER: 'OTHER',
