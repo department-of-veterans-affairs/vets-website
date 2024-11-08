@@ -78,6 +78,9 @@ const formConfig = {
   version: 1,
   migrations,
   prefillEnabled: true,
+  dev: {
+    disableWindowUnloadInCI: true,
+  },
   downtime: {
     dependencies: [externalServices.icmhs],
   },
