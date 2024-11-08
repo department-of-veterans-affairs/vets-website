@@ -13,7 +13,6 @@ import BenefitCard from '../components/BenefitCard';
 import GetFormHelp from '../components/GetFormHelp';
 import SaveResultsModal from '../components/SaveResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
-import { Heading } from '../components/Heading';
 
 export class ConfirmationPage extends React.Component {
   sortBenefitObj(benefitObj, sortKey) {
@@ -231,7 +230,14 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <article>
-          <Heading />
+          <div role="heading" aria-level="2">
+            <p>
+              Based on your answers, we’ve suggested some benefits for you to
+              explore.
+              <br />
+              Remember to check your eligibility before you apply.
+            </p>
+          </div>
         </article>
 
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
