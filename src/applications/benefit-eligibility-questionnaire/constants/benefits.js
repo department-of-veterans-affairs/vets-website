@@ -97,29 +97,25 @@ export const separationTypeLabels = Object.freeze({
 
 export const disabilityTypes = Object.freeze({
   APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
-  SUBMITTED: 'SUBMITTED',
   STARTED: 'STARTED',
   NOT_APPLIED: 'NOT_APPLIED',
 });
 
 export const disabilityTypeLabels = Object.freeze({
   APPLIED_AND_RECEIVED: "I've applied and received a disability rating.",
-  SUBMITTED: "I've submitted but haven't received a rating yet.",
-  STARTED: "I've started the process but haven't submitted yet.",
+  STARTED: "I've started the process but haven't received a rating.",
   NOT_APPLIED: "I haven't applied for a disability rating.",
 });
 
 export const giBillTypes = Object.freeze({
   APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
-  SUBMITTED: 'SUBMITTED',
   STARTED: 'STARTED',
   NOT_APPLIED: 'NOT_APPLIED',
 });
 
 export const giBillTypeLabels = Object.freeze({
   APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits.",
-  SUBMITTED: "I've submitted but haven't received a decision yet.",
-  STARTED: "I've started the process but haven't submitted yet.",
+  STARTED: "I've started the process but haven't received GI Bill benefits.",
   NOT_APPLIED: "I haven't applied for GI Bill benefits.",
 });
 
@@ -201,11 +197,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         blankType.BLANK,
       ],
-      [mappingTypes.DISABILITY_RATING]: [
-        disabilityTypes.APPLIED_AND_RECEIVED,
-        disabilityTypes.SUBMITTED,
-        disabilityTypes.STARTED,
-      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://skillbridge.osd.mil/program-overview.htm',
@@ -382,7 +374,6 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.APPLIED_AND_RECEIVED,
-        disabilityTypes.SUBMITTED,
         disabilityTypes.STARTED,
       ],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -448,7 +439,10 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
       ],
-      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [
+        disabilityTypes.APPLIED_AND_RECEIVED,
+        disabilityTypes.STARTED,
+      ],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
@@ -543,7 +537,6 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.APPLIED_AND_RECEIVED,
-        disabilityTypes.SUBMITTED,
         disabilityTypes.STARTED,
       ],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -576,12 +569,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         characterOfDischargeTypes.UNCHARACTERIZED,
       ],
-      [mappingTypes.DISABILITY_RATING]: [
-        disabilityTypes.APPLIED_AND_RECEIVED,
-        disabilityTypes.SUBMITTED,
-        disabilityTypes.STARTED,
-        disabilityTypes.NOT_APPLIED,
-      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/life-insurance/options-eligibility/vgli',
@@ -609,7 +597,10 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.NOT_SURE,
         characterOfDischargeTypes.UNCHARACTERIZED,
       ],
-      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [
+        disabilityTypes.STARTED,
+        disabilityTypes.APPLIED_AND_RECEIVED,
+      ],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
