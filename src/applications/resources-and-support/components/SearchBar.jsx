@@ -6,7 +6,12 @@ import {
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
-import { addSearchGADataToStorage } from 'platform/site-wide/search-analytics-storage';
+import {
+  addSearchGADataToStorage,
+  PAGE_PATH,
+  SEARCH_LOCATION,
+  SEARCH_APP_USED
+} from 'platform/site-wide/search-analytics-storage';
 import URLSearchParams from 'url-search-params';
 import resourcesSettings from '../manifest.json';
 
@@ -88,9 +93,9 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
 
     if (isGlobalSearch) {
       addSearchGADataToStorage({
-        pagePath: '/resources',
-        searchLocation: RESOURCES,
-        sitewideSearch: false,
+        [PAGE_PATH]: '/resources',
+        [SEARCH_LOCATION]: RESOURCES,
+        [SEARCH_APP_USED]: false,
       });
     }
 

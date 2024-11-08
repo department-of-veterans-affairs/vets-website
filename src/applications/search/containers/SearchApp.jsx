@@ -40,7 +40,6 @@ const SearchApp = ({
   search,
   searchGovMaintenance,
 }) => {
-  console.log('localStorage in search app: ', localStorage.searchLocation);
   const userInputFromURL = router?.location?.query?.query || '';
   const pageFromURL = router?.location?.query?.page || undefined;
   const typeaheadUsed = router?.location?.query?.t === 'true' || false;
@@ -74,12 +73,18 @@ const SearchApp = ({
   const getSearchAnalyticsLocationData = () => {
     const searchAnalyticsData = getSearchGADataFromStorage();
 
-    console.log('searchAnalyticsData: ', searchAnalyticsData)
-
     // If this value is set, we used another app or context to do a site-wide search
     // other than the search functionality on /search
-    if (getSearchGADataFromStorage?.path) {
-      return searchAnalyticsData;
+    if (searchAnalyticsData?.path) {
+      const suggestionsList = Array?.from(searchAnalyticsData?.suggestionsList?.split(',')) || [];
+      const keywordPosition = (suggestionsList?.indexOf(searchAnalyticsData?.keywordSelected) + 1) || undefined;
+
+      return {
+        ...searchAnalyticsData,
+        keywordPosition,
+        keywordSelected: searchAnalyticsData?.keywordSelected || undefined,
+        suggestionsList
+      };
     }
 
     return {
@@ -94,8 +99,6 @@ const SearchApp = ({
   useEffect(() => {
     const initialUserInput = router?.location?.query?.query || '';
     const searchAnalyticsLocationData = getSearchAnalyticsLocationData();
-
-    console.log('searchAnalyticsLocationData: ', searchAnalyticsLocationData);
 
     // Once we land on the /search page and save the search location (searchAnalyticsLocationData)
     // we don't need that data anymore so we can clean it up 
@@ -380,6 +383,12 @@ const SearchApp = ({
   );
 };
 
+const mapStateToProps = state => ({
+  search: state.search,
+  searchGovMaintenance: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchGovMaintenance
+  ],
+});
 
 const mapDispatchToProps = {
   fetchSearchResults: retrieveSearchResults,

@@ -19,18 +19,12 @@ export const addSearchGADataToStorage = data => {
 };
 
 export const getSearchGADataFromStorage = () => {
-  const typeaheadKeyword = localStorage.getItem(TYPEAHEAD_KEYWORD_SELECTED);
-  const typeaheadList = localStorage.getItem(TYPEAHEAD_LIST);
-
   return {
     path: localStorage.getItem(PAGE_PATH),
     searchLocation: localStorage.getItem(SEARCH_LOCATION),
     sitewideSearch: localStorage.getItem(SEARCH_APP_USED),
-    keywordSelected: typeaheadKeyword,
-    keywordPosition: typeaheadKeyword && typeaheadList ?
-      typeaheadList.indexOf(typeaheadKeyword) :
-      null,
-    suggestionsList: typeaheadList
+    keywordSelected: localStorage?.getItem(TYPEAHEAD_KEYWORD_SELECTED),
+    suggestionsList: localStorage?.getItem(TYPEAHEAD_LIST)
   };
 };
 
