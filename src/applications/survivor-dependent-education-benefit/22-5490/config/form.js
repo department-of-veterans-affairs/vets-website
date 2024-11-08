@@ -1128,7 +1128,7 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:validations': [
                 (errors, field, formData) => {
-                  const isYes = field.startsWith('Yes');
+                  const isYes = field?.startsWith('Yes');
                   const phoneExist = !!formData?.mobilePhone?.phone;
                   const { isInternational } = formData?.mobilePhone;
 
@@ -1258,7 +1258,7 @@ const formConfig = {
                   const mobilePhoneInfo = formData?.mobilePhone;
                   const mobilePhone = mobilePhoneInfo?.phone;
                   const isInternational = mobilePhoneInfo?.isInternational;
-                  const wantsTexts = formData?.notificationMethod.startsWith(
+                  const wantsTexts = formData?.notificationMetho?.startsWith(
                     'Yes',
                   );
 
