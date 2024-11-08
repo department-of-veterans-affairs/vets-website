@@ -1,6 +1,6 @@
 import React from 'react';
 import DlcPhone from './DlcPhone';
-import { HEALTH_FACILITES_URL } from '../constants';
+import { HEALTH_FACILITIES_URL } from '../constants';
 
 /**
  * Help content for the form's footer.
@@ -10,7 +10,7 @@ const GetFormHelp = () => {
     <>
       <p>
         <strong>If you have trouble using your supplies,</strong>{' '}
-        <a href={HEALTH_FACILITES_URL}>
+        <a href={HEALTH_FACILITIES_URL}>
           find the phone number for your local VA health facility
         </a>
         .
