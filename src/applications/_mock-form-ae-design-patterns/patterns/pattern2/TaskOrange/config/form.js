@@ -32,7 +32,7 @@ const formConfig = {
       'Please sign in again to resume your application for education benefits.',
   },
   dev: {
-    showNavLinks: environment?.isLocalhost(),
+    showNavLinks: false,
   },
   prefillEnabled: true,
   prefillTransformer,
