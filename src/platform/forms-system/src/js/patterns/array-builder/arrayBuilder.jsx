@@ -68,6 +68,11 @@ function validateNoSchemaAssociatedWithLinkOrButton(
   useButtonInsteadOfYesNo,
 ) {
   if (useLinkInsteadOfYesNo || useButtonInsteadOfYesNo) {
+    if (useLinkInsteadOfYesNo && useButtonInsteadOfYesNo) {
+      throw new Error(
+        'arrayBuilderPages options cannot include both `useLinkInsteadOfYesNo` and `useButtonInsteadOfYesNo`.',
+      );
+    }
     const noSchemaProp = useLinkInsteadOfYesNo
       ? 'useLinkInsteadOfYesNo'
       : 'useButtonInsteadOfYesNo';
