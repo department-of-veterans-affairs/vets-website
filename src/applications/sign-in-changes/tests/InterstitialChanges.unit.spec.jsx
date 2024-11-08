@@ -18,18 +18,24 @@ const store = ({ signInChangesEnabled = true } = {}) => ({
 });
 
 describe('InterstitialChanges', () => {
-  const oldLocation = global.window.location;
   const server = setupServer();
 
   before(() => server.listen());
   afterEach(() => {
-    global.window.location = oldLocation;
     cleanup();
     server.resetHandlers();
   });
   after(() => server.close());
 
-  it('renders the static content correctly', () => {
+  it('renders the static content correctly', async () => {
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/user/credential_emails`,
+        (_, res, ctx) => {
+          return res(ctx.status(200));
+        },
+      ),
+    );
     const mockStore = store();
     const expectedReturnUrl = '/';
     const screen = render(
@@ -37,17 +43,19 @@ describe('InterstitialChanges', () => {
         <InterstitialChanges />
       </Provider>,
     );
-    expect(
-      screen.getByRole('heading', {
-        name: /You’ll need to sign in with a different account after January 31, 2025/i,
-      }),
-    ).to.exist;
-    expect(screen.getByText(/After this date, we'll remove/i)).to.exist;
-    expect(
-      screen.container.querySelector(
-        'va-link[text="Continue with your My HealtheVet account for now"]',
-      ),
-    ).to.have.attribute('href', expectedReturnUrl);
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', {
+          name: /You’ll need to sign in with a different account after January 31, 2025/i,
+        }),
+      ).to.exist;
+      expect(screen.getByText(/After this date, we'll remove/i)).to.exist;
+      expect(
+        screen.container.querySelector(
+          'va-link[text="Continue with your My HealtheVet account for now"]',
+        ),
+      ).to.have.attribute('href', expectedReturnUrl);
+    });
   });
 
   it('renders AccountSwitch when user has Login.gov account', async () => {
@@ -56,7 +64,10 @@ describe('InterstitialChanges', () => {
       rest.get(
         `https://dev-api.va.gov/v0/user/credential_emails`,
         (_, res, ctx) => {
-          return res(ctx.status(401), ctx.json({ logingov: 'logi@test.com' }));
+          return res(
+            ctx.status(200),
+            ctx.json({ logingov: 'logingov@test.com' }),
+          );
         },
       ),
     );
@@ -76,7 +87,7 @@ describe('InterstitialChanges', () => {
       rest.get(
         `https://dev-api.va.gov/v0/user/credential_emails`,
         (_, res, ctx) => {
-          return res(ctx.status(401), ctx.json({ idme: 'idme@test.com' }));
+          return res(ctx.status(200), ctx.json({ idme: 'idme@test.com' }));
         },
       ),
     );
@@ -93,7 +104,15 @@ describe('InterstitialChanges', () => {
     });
   });
 
-  it('uses the correct returnUrl from sessionStorage', () => {
+  it('uses the correct returnUrl from sessionStorage', async () => {
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/user/credential_emails`,
+        (_, res, ctx) => {
+          return res(ctx.status(200), ctx.json({ logingov: 'logi@test.com' }));
+        },
+      ),
+    );
     const mockStore = store();
     const expectedReturnUrl = 'continue-url';
     sessionStorage.setItem('authReturnUrl', expectedReturnUrl);
@@ -102,17 +121,19 @@ describe('InterstitialChanges', () => {
         <InterstitialChanges />
       </Provider>,
     );
-    expect(
-      screen.getByRole('heading', {
-        name: /You’ll need to sign in with a different account after/i,
-      }),
-    ).to.exist;
-    expect(screen.getByText(/After this date, we'll remove/i)).to.exist;
-    expect(
-      screen.container.querySelector(
-        'va-link[text="Continue with your My HealtheVet account for now"]',
-      ),
-    ).to.have.attribute('href', expectedReturnUrl);
-    sessionStorage.clear();
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', {
+          name: /You’ll need to sign in with a different account after/i,
+        }),
+      ).to.exist;
+      expect(screen.getByText(/After this date, we'll remove/i)).to.exist;
+      expect(
+        screen.container.querySelector(
+          'va-link[text="Continue with your My HealtheVet account for now"]',
+        ),
+      ).to.have.attribute('href', expectedReturnUrl);
+      sessionStorage.clear();
+    });
   });
 });

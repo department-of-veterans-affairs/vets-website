@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLink,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/exports';
 import CreateAccount from '../components/CreateAccount';
 import AccountSwitch from '../components/AccountSwitch';
 
 export default function InterstitialChanges() {
+  document.title =
+    'You’ll need to sign in with a different account after January 31, 2025';
+
   const [userEmails, setUserEmails] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     apiRequest('/user/credential_emails', {
@@ -15,12 +22,20 @@ export default function InterstitialChanges() {
         'Content-Type': 'application/json',
       },
     })
-      .then(data => setUserEmails(data))
+      .then(data => {
+        setUserEmails(data);
+        setIsLoading(false);
+      })
       .catch(() => {});
   }, []);
 
   const showAccount = userEmails?.logingov || userEmails?.idme;
   const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/';
+
+  if (isLoading) {
+    return <VaLoadingIndicator />;
+  }
+
   return (
     <div className="row vads-u-margin-y--6 vads-u-padding-x--2 login">
       <h1
