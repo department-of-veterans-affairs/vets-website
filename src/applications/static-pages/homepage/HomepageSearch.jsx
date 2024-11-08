@@ -48,12 +48,14 @@ const HomepageSearch = () => {
       )}&t=${false}`,
     );
 
+    const typeaheadKeywordSelected = latestSuggestions?.indexOf(e.target.value) > -1;
+
     addSearchGADataToStorage({
       [PAGE_PATH]: '/',
       [SEARCH_LOCATION]: 'Homepage Search',
       [SEARCH_APP_USED]: false,
-      [TYPEAHEAD_KEYWORD_SELECTED]: e.target.value,
-      [TYPEAHEAD_LIST]: latestSuggestions,
+      [TYPEAHEAD_KEYWORD_SELECTED]: typeaheadKeywordSelected ? e.target.value : null,
+      [TYPEAHEAD_LIST]: typeaheadKeywordSelected ? latestSuggestions : null,
     });
 
     // relocate to search results, preserving history

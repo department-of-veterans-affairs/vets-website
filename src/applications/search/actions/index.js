@@ -26,6 +26,7 @@ export function fetchSearchResults(query, page, options) {
     return apiRequest(queryString)
       .then(response => {
         if (options?.trackEvent) {
+          console.log('options: ', options);
           recordEvent({
             event: options?.eventName,
             'search-page-path': options?.path,
