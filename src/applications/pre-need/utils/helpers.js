@@ -6,13 +6,9 @@ import * as Sentry from '@sentry/browser';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { focusElement } from 'platform/utilities/ui';
-import SsnField, {
-  maskSSN,
-} from 'platform/forms-system/src/js/web-component-fields/SsnField';
-import SSNReviewWidget from 'platform/forms-system/src/js/review/SSNWidget';
-import { validateSSN } from 'platform/forms-system/src/js/validation';
 
 import {
   stringifyFormReplacer,
@@ -554,19 +550,8 @@ export const fullMaidenNameUI = merge({}, fullNameUI, {
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
 
-// Implements SSN Web component and masking
-export const ssnDashesUI = {
-  'ui:title': 'Social Security number',
-  'ui:webComponentField': SsnField,
-  'ui:reviewWidget': SSNReviewWidget,
-  'ui:confirmationField': ({ formData }) => ({ data: maskSSN(formData) }),
-  'ui:validations': [validateSSN],
-  'ui:errorMessages': {
-    pattern:
-      'Please enter a valid 9 digit Social Security number (dashes allowed)',
-    required: 'Please enter a Social Security number',
-  },
-};
+// Modify default uiSchema for SSN to insert any missing dashes.
+export const ssnDashesUI = ssnUI;
 
 export const veteranUI = {
   militaryServiceNumber: {
