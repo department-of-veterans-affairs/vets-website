@@ -1080,8 +1080,8 @@ const formConfig = {
               'ui:options': {
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
-                    form => form.mobilePhone?.mobilePhoneNumber?.phone,
-                    form => form?.homePhone?.phoneNumber?.phone,
+                    form => form.mobilePhone?.phone,
+                    form => form?.homePhone?.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
 
@@ -1175,8 +1175,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData => {
                   return (
-                    formData['view:receiveTextMessages']
-                      ?.receiveTextMessages !==
+                    formData?.notificationMethod !==
                     "I don't want to receive electronic notifications"
                   );
                 },
@@ -1240,15 +1239,10 @@ const formConfig = {
                     <Link
                       aria-label="Go back and add a mobile phone number"
                       to={{
-                        pathname: 'contact-information/email-phone',
+                        pathname: 'contact-information',
                       }}
                     >
-                      <va-button
-                        uswds
-                        onClick={() => {}}
-                        secondary
-                        text="Go back and add or update your mobile phone number"
-                      />
+                      Go back and add or update your mobile phone number
                     </Link>
                   </>
                 </va-alert>
@@ -1258,7 +1252,7 @@ const formConfig = {
                   const mobilePhoneInfo = formData?.mobilePhone;
                   const mobilePhone = mobilePhoneInfo?.phone;
                   const isInternational = mobilePhoneInfo?.isInternational;
-                  const wantsTexts = formData?.notificationMetho?.startsWith(
+                  const wantsTexts = formData?.notificationMethod?.startsWith(
                     'Yes',
                   );
 
@@ -1293,8 +1287,7 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  const isNo = formData?.notificationMethod === 'no';
-
+                  const isNo = formData?.notificationMethod?.startsWith('No');
                   const noDuplicates = formData?.duplicateEmail?.some(
                     entry => entry?.dupe === false,
                   );
@@ -1327,7 +1320,7 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  const isYes = formData?.notificationMethod === 'yes';
+                  const isYes = formData?.notificationMethod?.startsWith('Yes');
                   const mobilePhone = formData?.mobilePhone.phone;
                   const noDuplicates = formData?.duplicatePhone?.some(
                     entry => entry?.dupe === false,
@@ -1362,15 +1355,15 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              'view:noElectronicCommunicationText': {
+                type: 'object',
+                properties: {},
+              },
               'view:noElectronicCommunicationAlert': {
                 type: 'object',
                 properties: {},
               },
               'view:textMessagesAlert': {
-                type: 'object',
-                properties: {},
-              },
-              'view:internationalTextMessageAlert': {
                 type: 'object',
                 properties: {},
               },
