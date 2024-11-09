@@ -6,6 +6,7 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import {
   VaTextInputField,
   VaSelectField,
+  VaRadioField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import { addressFormRequiredData, blockURLsRegEx } from '../constants';
 import { MILITARY_STATES } from '../helper';
@@ -52,21 +53,6 @@ const ChangeOfAddressForm = ({
       },
     },
   };
-  const ipc = {
-    title: 'internationalPostalCode',
-    'ui:errorMessages': {
-      required: 'International Postal code is required',
-    },
-    'ui:required': () => true,
-  };
-  const province = {
-    title: 'province',
-    'ui:errorMessages': {
-      required: 'State/Province/Region is required',
-    },
-    'ui:required': () => true,
-  };
-
   const city = {
     title: 'city',
     addressSchema: {
@@ -83,7 +69,7 @@ const ChangeOfAddressForm = ({
         : 'City ',
       'ui:autocomplete': 'address-level2',
       'ui:webComponentField': addressFormData?.['view:livesOnMilitaryBase']
-        ? VaSelectField
+        ? VaRadioField
         : VaTextInputField,
       'ui:errorMessages': {
         required: 'City is required',
@@ -103,7 +89,9 @@ const ChangeOfAddressForm = ({
     addressUISchema: {
       'ui:title': 'State ',
       'ui:autocomplete': 'address-level1',
-      'ui:webComponentField': VaSelectField,
+      'ui:webComponentField': addressFormData?.['view:livesOnMilitaryBase']
+        ? VaRadioField
+        : VaSelectField,
       'ui:errorMessages': {
         required: 'State is required',
       },
@@ -174,13 +162,7 @@ const ChangeOfAddressForm = ({
               [city.addressSchema, stateCode.addressSchema],
               'schema',
             );
-            setAddressSchema(
-              removeObjectKeys(
-                tempSchemaAddObj,
-                [province.title, ipc.title],
-                'schema',
-              ),
-            );
+            setAddressSchema(removeObjectKeys(tempSchemaAddObj, [], 'schema'));
 
             const tempUISchemaAddObj = addObjectKeys(
               getUiSchema(),
@@ -195,7 +177,7 @@ const ChangeOfAddressForm = ({
 
             const tempUISchemaRemoveObj = removeObjectKeys(
               tempUISchemaAddObj,
-              [province.title, ipc.title],
+              [],
               'uiSchema',
             );
             setAddressUISchema(tempUISchemaRemoveObj);
@@ -210,7 +192,7 @@ const ChangeOfAddressForm = ({
               setAddressSchema(
                 removeObjectKeys(
                   createFormSchema(addressFormRequiredData),
-                  [province.title, ipc.title],
+                  [],
                   'schema',
                 ),
               );
@@ -226,11 +208,7 @@ const ChangeOfAddressForm = ({
                 'uiSchema',
               );
               setAddressUISchema(
-                removeObjectKeys(
-                  addNewCityUI,
-                  [province.title, ipc.title],
-                  'uiSchema',
-                ),
+                removeObjectKeys(addNewCityUI, [], 'uiSchema'),
               );
             } else {
               // removes stateCode and zipCode as a requiredField

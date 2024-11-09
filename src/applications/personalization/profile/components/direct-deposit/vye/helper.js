@@ -234,3 +234,17 @@ export function hasAddressFormChanged(currentState) {
   };
   return !deepEqual(initialState, filledCurrentState);
 }
+export function removeCommas(obj) {
+  const newObj = {};
+
+  Object.keys(obj).forEach(key => {
+    if (typeof obj[key] === 'string') {
+      newObj[key] = obj[key].replace(/,/g, '');
+    } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+      newObj[key] = removeCommas(obj[key]);
+    } else {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
+}

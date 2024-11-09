@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
@@ -9,6 +10,7 @@ import {
   formatAddress,
   hasAddressFormChanged,
   prepareAddressData,
+  removeCommas,
   scrollToElement,
 } from '../helper';
 import {
@@ -21,7 +23,7 @@ import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
 import AlertModal from '../components/AlertModal';
 
-const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
+const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const { loading: isLoading, error, data: response } = useSelector(
     state => state.updateAddress,
   );
@@ -49,6 +51,10 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
   const scrollToTopOfForm = () => {
     scrollToElement('Contact information');
   };
+  useEffect(() => {
+    document.title =
+      'Your Montgomery GI Bill benefits information | Veterans Affairs';
+  }, []);
 
   // This Effcet to defalut setNewAddress to mailingAddress
   useEffect(
@@ -61,10 +67,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
     () => {
       setFormData({});
       if (confidenceScore === 100 && response) {
-        const isUSA = address.countryCodeIso3 === 'USA';
         const stateAndZip = {
-          stateCode: isUSA ? address.stateCode : address.province,
-          zipCode: isUSA ? address.zipCode : address.internationalPostalCode,
+          stateCode: address.stateCode,
+          zipCode: address.zipCode,
         };
         setNewAddress({
           street: `${address.addressLine1} ${address.addressLine2 || ''}`,
@@ -91,7 +96,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
       address: addressData,
     };
     try {
-      dispatch(validateAddress(fields, applicantName));
+      dispatch(validateAddress(removeCommas(fields), applicantName));
     } catch (err) {
       throw new Error(err);
     }
@@ -139,39 +144,52 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
   useEffect(
     () => {
       dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+      dispatch({ type: 'RESET_SUCCESS_MESSAGE' });
+      dispatch({ type: 'RESET_ERROR' });
+      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS_ERROR' });
     },
     [dispatch, location.pathname],
   );
   const addressDescription = () => {
     return (
       <>
-        <div className="vads-u-margin-bottom--1">
-          {(error || validationError) && (
-            <Alert
-              status="error"
-              message="We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please try again later."
-            />
-          )}
-          {response?.ok && (
-            <Alert
-              status="success"
-              message="We’ve successfully updated your mailing address for Montgomery GI Bill benefits."
-            />
-          )}
-          <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
-            Payment Mailing address
-          </h3>
-          <p>
-            <>
-              <span className="vads-u-display--block">
-                {`${newAddress?.street ?? ''}`}
-              </span>
-              <span className="vads-u-display--block">
-                {formatAddress(newAddress)}
-              </span>
-            </>
-          </p>
-        </div>
+        {loading ? (
+          <va-loading-indicator
+            label="Loading"
+            message="Loading mailing address..."
+            aria-hidden="true"
+          />
+        ) : (
+          <div className="vads-u-margin-bottom--1">
+            {(error || validationError) && (
+              <Alert
+                status="error"
+                message="We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please try again later."
+              />
+            )}
+            {response?.ok && (
+              <Alert
+                status="success"
+                message="We’ve successfully updated your mailing address for Montgomery GI Bill benefits."
+              />
+            )}
+            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
+              Mailing address
+            </h3>
+            <p>
+              <>
+                <span className="vads-u-display--block">
+                  {newAddress?.street ?? ''}
+                  {newAddress?.street2 && <br />}
+                  {newAddress?.street2 ?? ''}
+                </span>
+                <span className="vads-u-display--block">
+                  {formatAddress(newAddress)}
+                </span>
+              </>
+            </p>
+          </div>
+        )}
       </>
     );
   };
@@ -221,6 +239,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
 
   return (
     <div id={CHANGE_OF_ADDRESS_TITLE}>
+      <h2 className="vads-u-font-family--serif vads-u-margin-y--4">
+        {CHANGE_OF_ADDRESS_TITLE}
+      </h2>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -294,7 +315,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
             >
               <div className="button-container">
                 <LoadingButton
-                  aria-label="save your Mailing address for GI Bill benefits"
+                  aria-label="save your mailing address for GI Bill benefits"
                   type="submit"
                   loadingText="saving Mailling address"
                   className="usa-button-primary vads-u-margin-top--0 address-submit-btn-auto-width"
@@ -304,7 +325,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
                 <va-button
                   text="Cancel"
                   secondary
-                  label="cancel updating your bank information for GI Bill benefits"
+                  label="cancel updating your mailing address for GI Bill benefits"
                   onClick={onCancleButtonClicked}
                   data-qa="cancel-button"
                   data-testid={`${PREFIX}form-cancel-button`}
@@ -319,6 +340,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
 };
 ChangeOfAddressWrapper.propTypes = {
   applicantName: PropTypes.string,
+  loading: PropTypes.bool,
   mailingAddress: PropTypes.object,
 };
 export default ChangeOfAddressWrapper;
