@@ -192,9 +192,7 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your first name');
-                      } else if (field.length > 20) {
+                      if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
                       }
                     } else if (!isValidName(field)) {
@@ -226,9 +224,7 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your last name');
-                      } else if (field.length < 2) {
+                      if (field.length < 2) {
                         errors.addError('Must be 2 characters or more');
                       } else if (field.length > 26) {
                         errors.addError('Must be 26 characters or less');
