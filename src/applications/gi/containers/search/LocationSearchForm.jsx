@@ -325,8 +325,9 @@ export function LocationSearchForm({
               />
               <VaButton
                 text="Search"
+                onClick={e => doSearch(e)}
                 data-testid="location-search-button"
-                className="usa-button location-search-button vads-u-display--flex vads-u-align-items--center vads-u-font-weight--bold"
+                className="loc-search-btn"
               />
             </div>
           </div>

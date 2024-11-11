@@ -803,7 +803,6 @@ export function FilterBeforeResults({
           {smallScreen && renderLocation()}
           <div className="modal-button-wrapper">
             <VaButton
-              type="button"
               id={`update-${createId(title)}-button`}
               className="apply-filter-button vads-u-margin-top--3"
               onClick={closeAndUpdate}

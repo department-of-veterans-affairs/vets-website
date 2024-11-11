@@ -26,7 +26,14 @@
       position: absolute;
       width: 100%;
       bottom: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .loc-search-btn{
+        margin-left: 1rem;
+      }
     }
+
 
     .name-search-inputs {
       position: relative;
@@ -92,4 +99,11 @@
   select {
     width: 200px;
   }
+}
+@media screen and (max-width: $small-screen) {
+  .loc-search-btn{
+  width: 100%;
+  margin-top: 0.53rem
+  }
+
 }
