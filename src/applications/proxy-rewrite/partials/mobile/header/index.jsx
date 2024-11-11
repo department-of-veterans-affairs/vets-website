@@ -6,6 +6,7 @@ import { keyDownHandler } from '../../../utilities/keydown';
 
 const MobileHeader = ({ isDesktop, megaMenuData }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [govBannerIsOpen, setGovBannerIsOpen] = useState(false);
   const [levelOneIndexOpen, setLevelOneIndexOpen] = useState(null);
   const [levelTwoMenuOpen, setLevelTwoMenuOpen] = useState(null);
 
@@ -20,6 +21,10 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
     if (menuIsOpen) {
       clearMenu();
     }
+  };
+
+  const handleBannerClick = () => {
+    setGovBannerIsOpen(!govBannerIsOpen);
   };
 
   return (
@@ -38,6 +43,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
               width="20"
             />
             <button
+              onClick={() => handleBannerClick()}
               aria-controls="official-govt-site-explanation"
               aria-expanded="false"
               className="expand-official-govt-explanation usa-accordion-button va-button-link vads-u-text-decoration--none"
@@ -65,8 +71,10 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
           </div>
         </div>
         <div
-          aria-hidden="true"
-          className="usa-accordion-content vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--1p5 vads-u-padding-y--2"
+          aria-hidden={!govBannerIsOpen ? 'true' : 'false'}
+          className={`usa-accordion-content vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--1p5 vads-u-padding-y--2 ${
+            !govBannerIsOpen ? 'banner-display--none' : 'banner-display--flex'
+          }`}
           id="official-govt-site-explanation"
         >
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-start">
