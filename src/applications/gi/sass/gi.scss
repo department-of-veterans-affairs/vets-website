@@ -321,3 +321,13 @@
 .inst-remove-btn::part(button) {
   background-color: transparent;
 }
+.search-tabs::part(button){
+  background: transparent;
+  color: var(--vads-color-base-light);
+  font-size: 25px;
+  outline: none;
+  &:active{
+    color: rgb(0,0,0)
+  }
+}
+

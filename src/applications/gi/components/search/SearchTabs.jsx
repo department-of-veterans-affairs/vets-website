@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NameSearchForm from '../../containers/search/NameSearchForm';
 import LocationSearchForm from '../../containers/search/LocationSearchForm';
 import { TABS } from '../../constants';
@@ -47,9 +48,9 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
     const testId = label.replaceAll(' ', '-');
     return (
       /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
-      <button
-        type="button"
-        className={tabClasses}
+      <VaButton
+        text={label}
+        className={`${tabClasses} search-tabs`}
         aria-selected={activeTab}
         data-testid={testId}
         role="tab"
@@ -57,9 +58,7 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
           onChange(tabName);
           dispatchError(null);
         }}
-      >
-        {label}
-      </button>
+      />
     );
   };
 

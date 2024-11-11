@@ -177,21 +177,6 @@ export function NameSearchForm({
             />
           </div>
           <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto name-search-button-container">
-            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-            {/* <button
-              className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button vads-u-display--flex vads-u-align-items--center"
-              type="submit"
-              onKeyPress={onKeyEnter}
-              data-testid="search-btn"
-            >
-              <va-icon
-                size={3}
-                icon="search"
-                aria-hidden="true"
-                className="vads-u-margin-right--0p5"
-              />
-              Search
-            </button> */}
             <VaButton
               text="Search"
               onKeyPress={onKeyEnter}
