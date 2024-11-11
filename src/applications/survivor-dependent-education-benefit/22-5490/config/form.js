@@ -162,7 +162,7 @@ const formConfig = {
   footerContent: FormFooter,
   preSubmitInfo: {
     CustomComponent: CustomPreSubmitInfo,
-    required: false,
+    required: true,
     field: 'privacyAgreementAccepted',
   },
   chapters: {
