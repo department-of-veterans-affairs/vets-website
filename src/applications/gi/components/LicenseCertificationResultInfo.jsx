@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default function LicenseCertificationResultInfo(resultInfo) {
-  const { institution, tests } = resultInfo.resultInfo;
+export default function LicenseCertificationResultInfo({ resultInfo }) {
+  const { institution, tests } = resultInfo;
 
   return (
     <>
