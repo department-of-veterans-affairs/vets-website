@@ -1183,12 +1183,7 @@ const formConfig = {
                         pathname: 'contact-information',
                       }}
                     >
-                      <va-button
-                        uswds
-                        onClick={() => {}}
-                        secondary
-                        text="Go back and add a mobile phone number"
-                      />
+                      Go back and add a mobile phone number
                     </Link>
                   </div>
                 </va-alert>
