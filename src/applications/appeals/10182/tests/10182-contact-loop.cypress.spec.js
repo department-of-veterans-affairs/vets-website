@@ -74,7 +74,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel phone change
-    cy.get('button:contains("Cancel")').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // update phone
@@ -100,7 +100,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel email change
-    cy.get('button:contains("Cancel")').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // update email
@@ -126,7 +126,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel address change
-    cy.get('button:contains("Cancel")').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // update address

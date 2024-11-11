@@ -81,7 +81,7 @@ describe('HLR contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('button:contains("Cancel")').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
 
     // Email
@@ -93,7 +93,7 @@ describe('HLR contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('button:contains("Cancel")').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
 
     // Mailing address
@@ -105,7 +105,7 @@ describe('HLR contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('button:contains("Cancel")').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
   });
 

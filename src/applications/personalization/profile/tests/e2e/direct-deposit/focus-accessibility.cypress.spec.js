@@ -10,7 +10,6 @@ describe('Direct Deposit', () => {
 
   it('should open the bank account information form and return to the original state on cancel', () => {
     const editButton = 'va-button[text="Edit"]';
-    const cancelButton = 'button:contains("Cancel")';
     // Mock the API response for direct deposits eligibility
     cy.intercept(
       'GET',
@@ -40,7 +39,7 @@ describe('Direct Deposit', () => {
     cy.get('#bank-account-information').should('be.focused');
 
     // Click the Cancel button to close the form
-    cy.get(cancelButton)
+    cy.findByText('Cancel')
       .should('exist')
       .click();
 

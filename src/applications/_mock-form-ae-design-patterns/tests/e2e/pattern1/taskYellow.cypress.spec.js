@@ -128,7 +128,7 @@ describe('Prefill pattern - Yellow Task', () => {
 
     cy.url().should('contain', '/edit-mailing-address');
 
-    cy.get('button:contains("Cancel")').click();
+    cy.findByText('Cancel').click();
 
     cy.url().should('contain', '/confirm-mailing-address');
   });
