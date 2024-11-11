@@ -24,7 +24,6 @@
   }
 
   .filter-input-box-container {
-    margin-top: -30px;
     position: relative;
     display: flex;
     flex-wrap: nowrap;
@@ -42,13 +41,17 @@
   va-button::part(button) {
     width: 100%;
 
-  @media (min-width: $small-screen) {
+    @media (min-width: $small-screen) {
       width: auto;
     }
   }
 
   .filter-text-input {
     margin: 0px;
+  }
+
+  #filter-input::part(label) {
+    margin-top: 0;
   }
 
   .filter-input-box {

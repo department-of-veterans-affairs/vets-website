@@ -3,23 +3,22 @@ import {
   VaAccordionItem,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import Scroll from 'react-scroll';
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import {
-  getActiveExpandedPages,
-  getPageKeys,
-} from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import {
   setData,
   setEditMode,
   setViewedPages,
   uploadFile,
 } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import {
+  getActiveExpandedPages,
+  getPageKeys,
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import submitTransformer from '../config/submit-transformer';
+import React, { useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import Scroll from 'react-scroll';
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -27,12 +26,13 @@ import {
 } from '../actions';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
+import submitTransformer from '../config/submit-transformer';
+import { URL, envUrl } from '../constants';
 import {
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
   getPageKeysForReview,
 } from '../utils/reviewPageHelper';
-import { URL, envUrl } from '../constants';
 
 const { scroller } = Scroll;
 
@@ -114,9 +114,10 @@ const ReviewPage = props => {
     if (props.loggedIn) {
       // auth call
       postFormData(`${envUrl}${URL.AUTH_INQUIRIES}`, transformedData);
+    } else {
+      // no auth call
+      postFormData(`${envUrl}${URL.INQUIRIES}`, transformedData);
     }
-    // no auth call
-    postFormData(`${envUrl}${URL.INQUIRIES}`, transformedData);
   };
 
   return (

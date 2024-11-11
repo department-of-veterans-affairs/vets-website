@@ -90,16 +90,24 @@ export default function TypeOfCarePage() {
     },
     uiSchema: {
       typeOfCareId: {
-        'ui:title': 'What care do you need?',
         'ui:widget': 'radio',
+        'ui:options': {
+          classNames: 'vads-u-margin-top--neg2',
+          hideLabelText: true,
+        },
       },
     },
     initialData,
   });
 
   return (
-    <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+    <div className="vaos-form__radio-field">
+      <h1 className="vads-u-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {showUpdateAddressAlert && (
         <UpdateAddressAlert
           onClickUpdateAddress={heading => {
