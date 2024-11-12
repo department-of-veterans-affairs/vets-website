@@ -141,7 +141,7 @@ RouteLeavingGuard.propTypes = {
   p1: PropTypes.string,
   p2: PropTypes.any,
   saveDraftHandler: PropTypes.func,
-  saveError: PropTypes.bool,
+  saveError: PropTypes.object,
   savedDraft: PropTypes.func,
   setIsModalVisible: PropTypes.func,
   setSetErrorModal: PropTypes.func,

@@ -71,6 +71,7 @@ const ComposeForm = props => {
             r => +r.id === +selectedRecipientId && r.signatureRequired,
           ) || false,
         );
+        // setIsSignatureRequired(true);
       }
     },
     [selectedRecipientId, allowedRecipients],
@@ -153,6 +154,7 @@ const ComposeForm = props => {
     [signature],
   );
 
+  // console.log('isSignatureRequired', isSignatureRequired);
   const setUnsavedNavigationError = useCallback(
     typeOfError => {
       if (typeOfError === null) {
@@ -380,9 +382,11 @@ const ComposeForm = props => {
       const validSignatureNotRequired = messageValid && !isSignatureRequired;
 
       if (type === 'manual') {
+        setSavedDraft(true);
+
         if (validSignatureNotRequired) {
           setNavigationError(null);
-          setSavedDraft(true);
+          // setSavedDraft(true);
           setLastFocusableElement(e?.target);
         } else focusOnErrorField();
         setUnsavedNavigationError(
@@ -413,6 +417,7 @@ const ComposeForm = props => {
               ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
           }
 
+          // console.log('errorType', errorType);
           if (errorType) {
             setSaveError(errorType);
             if (
@@ -553,6 +558,10 @@ const ComposeForm = props => {
       const savedDraftWithNoEdits =
         (savedDraft && !isEditedForm()) || (!!draft && !isEditedForm());
 
+      // const unsavedDraft = isEditedForm() && !deleteButtonClicked;
+      // console.log('unsavedDraft', unsavedDraft);
+
+      // console.log('partiallySavedDraft', partiallySavedDraft);
       if (isBlankForm()) {
         error = null;
       } else if (partiallySavedDraft) {
@@ -562,12 +571,38 @@ const ComposeForm = props => {
         (unsavedFilledDraft || savedDraftWithEdits || savedDraftWithNoEdits)
       ) {
         error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
-      } else if (!draft && unsavedFilledDraft && !attachments.length) {
+      } else if (
+        !draft &&
+        unsavedFilledDraft &&
+        !attachments.length &&
+        !isSignatureRequired
+      ) {
         error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_ERROR;
       } else if (savedDraftWithEdits && !attachments.length) {
         error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_CHANGES_ERROR;
       }
       setUnsavedNavigationError(error);
+
+      // const unsavedDraft = isEditPopulatedForm() && !deleteButtonClicked;
+      // if (!isEditPopulatedForm() || !isSavedEdits()) {
+      //   setSavedDraft(false);
+      // }
+
+      // let error = null;
+      // if (isBlankForm() || savedDraft) {
+      //   error = null;
+      // } else {
+      //   if (unsavedDraft) {
+      //     setSavedDraft(false);
+      //     error = ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR;
+      //   }
+      //   if (unsavedDraft && attachments.length > 0) {
+      //     error =
+      //       ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
+      //     updateModalVisible(false);
+      //   }
+      // }
+      // setUnsavedNavigationError(error);
     },
     [
       attachments,
@@ -734,6 +769,7 @@ const ComposeForm = props => {
       )}
 
       <form className="compose-form" id="sm-compose-form">
+        {/* {console.log('savedDraft', savedDraft)} */}
         <RouteLeavingGuard
           when={!!navigationError || !!saveError}
           navigate={path => {
@@ -742,18 +778,23 @@ const ComposeForm = props => {
           shouldBlockNavigation={() => {
             return !!navigationError;
           }}
-          title={navigationError?.title || saveError?.title}
-          p1={navigationError?.p1 || saveError?.p1}
-          p2={navigationError?.p2 || saveError?.p2}
+          // if save button is clicked, set saveErrors instead of NavigationErrors
+          title={savedDraft ? saveError?.title : navigationError?.title}
+          p1={savedDraft ? saveError?.p1 : navigationError?.p1}
+          p2={savedDraft ? saveError?.p2 : navigationError?.p2}
           confirmButtonText={
-            navigationError?.confirmButtonText || saveError?.confirmButtonText
+            savedDraft
+              ? saveError?.confirmButtonText
+              : navigationError?.confirmButtonText
           }
           cancelButtonText={
-            navigationError?.cancelButtonText || saveError?.cancelButtonText
+            savedDraft
+              ? saveError?.cancelButtonText
+              : navigationError?.cancelButtonText
           }
           saveDraftHandler={saveDraftHandler}
           savedDraft={savedDraft}
-          saveError={!!saveError}
+          saveError={saveError}
           setSetErrorModal={setSavedDraft}
           setIsModalVisible={updateModalVisible}
         />
