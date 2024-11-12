@@ -103,7 +103,7 @@ ConfirmationPage.propTypes = {
     suffix: PropTypes.string,
   }).isRequired,
   submittedAt: PropTypes.object.isRequired,
-  claimId: PropTypes.string,
+  claimId: PropTypes.number,
   isSubmittingBDD: PropTypes.bool,
   jobId: PropTypes.string,
   route: PropTypes.shape({

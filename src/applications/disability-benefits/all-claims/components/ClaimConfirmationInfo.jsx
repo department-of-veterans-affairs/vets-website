@@ -46,8 +46,8 @@ export function ClaimConfirmationInfo({
 }
 
 ClaimConfirmationInfo.propTypes = {
-  claimId: PropTypes.string,
+  claimId: PropTypes.number,
   conditions: PropTypes.array,
-  dateSubmitted: PropTypes.string,
-  fullName: PropTypes.string,
+  dateSubmitted: PropTypes.object,
+  fullName: PropTypes.object,
 };
