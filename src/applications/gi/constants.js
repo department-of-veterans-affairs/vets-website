@@ -403,28 +403,12 @@ export const SURVIVOR_AND_DEPENDENT_ARRAY = [
   { optionValue: 'child', optionLabel: 'Child' },
 ];
 
-export const yellowRibbonColumns = {
-  degree: {
-    id: 0,
-    description: 'Degree Level',
-    key: 'degreeLevel',
-  },
-  program: {
-    id: 1,
-    description: 'School or Program',
-    key: 'divisionProfessionalSchool',
-  },
-  students: {
-    id: 2,
-    description: 'Funding available (for students)',
-    key: 'numberOfStudents',
-  },
-  funding: {
-    id: 3,
-    description: 'Maximum Yellow Ribbon funding amount (per student, per year)',
-    key: 'contributionAmount',
-  },
-};
+export const yellowRibbonColumns = [
+  { id: 1, description: 'Degree level' },
+  { id: 2, description: 'College or professional school' },
+  { id: 3, description: 'Funding available' },
+  { id: 4, description: 'School contribution' },
+];
 
 export const ERROR_MESSAGES = {
   searchByNameInputEmpty:

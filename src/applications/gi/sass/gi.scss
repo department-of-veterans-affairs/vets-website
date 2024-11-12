@@ -251,22 +251,6 @@
   width: 100% !important;
 }
 
-.yr-table-header {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-
-  &:nth-of-type(2) {
-    width: inherit;
-    gap: 0;
-
-    @media (min-width: 900px) {
-      width: 15rem;
-      gap: 4rem;
-    }
-  }
-}
-
 .sort-icon {
   &:hover {
     cursor: pointer;

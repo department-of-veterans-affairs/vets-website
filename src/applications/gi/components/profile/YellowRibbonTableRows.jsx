@@ -2,30 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const deriveDegreeLevel = degreeLevel => {
-  // Show unknown if there's no degreeLevel.
   if (!degreeLevel) {
     return 'Not provided';
   }
 
-  // Show the degreeLevel.
   return degreeLevel;
 };
 
 export const deriveMaxAmount = contributionAmount => {
-  // Show unknown if there's no contributionAmount.
   if (!contributionAmount) {
     return 'Not provided';
   }
 
-  // Derive the contribution amount number.
   const contributionAmountNum = parseFloat(contributionAmount);
 
-  // Show unlimited contribution amount state.
   if (contributionAmountNum >= 99999) {
     return "Pays remaining tuition that Post-9/11 GI Bill doesn't cover";
   }
 
-  // Show formatted contributionAmount.
   return contributionAmountNum.toLocaleString('en-US', {
     currency: 'USD',
     maximumFractionDigits: 0,
@@ -35,12 +29,10 @@ export const deriveMaxAmount = contributionAmount => {
 };
 
 export const deriveEligibleStudents = numberOfStudents => {
-  // Show unknown if there's no numberOfStudents.
   if (!numberOfStudents) {
     return 'Not provided';
   }
 
-  // Escape early if the data indicates all eligible students.
   if (numberOfStudents >= 99999) {
     return 'All eligible students';
   }
@@ -60,7 +52,31 @@ export const formatDegree = degreeLevel => {
   return degreeLevel;
 };
 
+export function extractProperties(data) {
+  const degreeLevel = [];
+  const divisionProfessionalSchool = [];
+  const numberOfStudents = [];
+  const contributionAmount = [];
+
+  data.forEach(program => {
+    degreeLevel.push(program.degreeLevel);
+    divisionProfessionalSchool.push(program.divisionProfessionalSchool);
+    numberOfStudents.push(program.numberOfStudents);
+    contributionAmount.push(program.contributionAmount);
+  });
+
+  return [
+    degreeLevel,
+    divisionProfessionalSchool,
+    numberOfStudents,
+    contributionAmount,
+  ];
+}
+
 function YellowRibbonTableRows({ programs }) {
+  // programs is an array of objects, with all values pertaining to one program
+  // need an array of arrays, with each array holding the values of a single property, one from each program. e.g. one array holds all the 'numberOfStudents' values from each program
+
   return (
     <>
       {programs.map((program, index) => {
@@ -84,5 +100,5 @@ function YellowRibbonTableRows({ programs }) {
   );
 }
 
-YellowRibbonTableRows.propTypes = { programs: PropTypes.object };
+YellowRibbonTableRows.propTypes = { programs: PropTypes.array };
 export default YellowRibbonTableRows;
