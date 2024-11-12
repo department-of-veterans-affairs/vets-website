@@ -39,7 +39,7 @@ const newConditionsPages = arrayBuilderPages(
         const index = getArrayIndexFromPathName(pathname);
         const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-        return hasSideOfBody(formData)
+        return hasSideOfBody(formData, index)
           ? helpers.navForwardKeepUrlParams(props)
           : goPath(`new-conditions/${index}/date${urlParamsString}`);
       },
@@ -57,6 +57,15 @@ const newConditionsPages = arrayBuilderPages(
       depends: formData => formData['view:showAddDisabilitiesEnhancement'],
       uiSchema: datePage.uiSchema,
       schema: datePage.schema,
+      onNavBack: props => {
+        const { formData, pathname, urlParams, goPath } = props;
+        const index = getArrayIndexFromPathName(pathname);
+        const urlParamsString = stringifyUrlParams(urlParams) || '';
+
+        return hasSideOfBody(formData, index)
+          ? helpers.navBackKeepUrlParams(props)
+          : goPath(`new-conditions/${index}/condition${urlParamsString}`);
+      },
     }),
     newConditionsCause: pageBuilder.itemPage({
       title: 'Cause of new condition',

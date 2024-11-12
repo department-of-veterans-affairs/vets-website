@@ -19,9 +19,13 @@ const causeFollowUpChecks = {
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
 };
 
-export const hasSideOfBody = formData => {
+export const hasSideOfBody = (formData, index) => {
+  const condition = formData?.newConditions
+    ? formData.newConditions[index]?.condition
+    : formData.condition;
+
   const conditionObject = conditionObjects.find(
-    condition => condition.option === formData.condition,
+    conditionObj => conditionObj.option === condition,
   );
 
   return conditionObject ? conditionObject.sideOfBody : false;
