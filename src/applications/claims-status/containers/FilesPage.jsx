@@ -30,7 +30,7 @@ class FilesPage extends React.Component {
     // Only set the document title at mount-time if the claim is already available.
     if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
 
-    if (!this.props.location.hash) {
+    if (!this.props.location?.hash) {
       setTimeout(() => {
         const { lastPage, loading } = this.props;
         setPageFocus(lastPage, loading);

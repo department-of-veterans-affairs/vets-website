@@ -1,6 +1,5 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
-// import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -11,6 +10,7 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
 import { renderWithRouter, rerenderWithRouter } from '../utils';
+import * as page from '../../utils/page';
 
 const getStore = (cst5103UpdateEnabled = false) =>
   createStore(() => ({
@@ -31,13 +31,13 @@ const props = {
 
 describe('<FilesPage>', () => {
   let stub;
-  // let setPageFocusSpy;
+  let setPageFocusSpy;
   before(() => {
     // Stubbing out AdditionalEvidencePage because we're not interested
     // in setting up all of the redux state needed to test it
     stub = sinon.stub(AdditionalEvidencePage, 'default');
     stub.returns(<div data-testid="additional-evidence-page" />);
-    // setPageFocusSpy = sinon.spy();
+    setPageFocusSpy = sinon.spy(page, 'setUpPage');
   });
 
   after(() => {
@@ -78,16 +78,31 @@ describe('<FilesPage>', () => {
     getByText('Claim status is unavailable');
   });
 
-  // it('should call setPageFocus with lastPage and loading after 100ms when location.hash is empty', done => {
-  //   shallow(<FilesPage {...props} />);
+  it('should call setPageFocus when location.hash is empty', done => {
+    renderWithRouter(
+      <Provider store={getStore()}>
+        <FilesPage {...props} />
+      </Provider>,
+    );
 
-  //   setTimeout(() => {
-  //     expect(setPageFocusSpy.calledOnce).to.be.true;
-  //     // expect(setPageFocusSpy.calledWith(props.lastPage, props.loading)).to.be
-  //     //   .true;
-  //     done();
-  //   }, 110); // Allow a bit more time than the timeout in the component
-  // });
+    setTimeout(() => {
+      expect(setPageFocusSpy.calledOnce).to.be.true;
+      done();
+    }, 110); // Allow a bit more time than the timeout in the component
+  });
+
+  it('should not call setPageFocus when location.hash is not empty', done => {
+    renderWithRouter(
+      <Provider store={getStore()}>
+        <FilesPage {...props} location="#add-files" />
+      </Provider>,
+    );
+
+    setTimeout(() => {
+      expect(setPageFocusSpy.calledOnce).to.be.false;
+      done();
+    }, 110); // Allow a bit more time than the timeout in the component
+  });
 
   describe('document.title', () => {
     // Minimum data needed for these test cases.
