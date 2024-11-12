@@ -47,9 +47,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByRole('button', {
-      name: 'Filter your results',
-    });
+    const filterButton = screen.getByTestId('filter-your-results');
     fireEvent.click(filterButton);
 
     const publicSchoolCheckBox = screen.getByRole('checkbox', {
@@ -68,9 +66,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByRole('button', {
-      name: 'Filter your results',
-    });
+    const filterButton = screen.getByTestId('filter-your-results');
     fireEvent.click(filterButton);
 
     const publicSchoolCheckBox = screen.getByRole('checkbox', {
@@ -92,9 +88,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByRole('button', {
-      name: 'Filter your results',
-    });
+    const filterButton = screen.getByTestId('filter-your-results');
     fireEvent.click(filterButton);
 
     const VETTECCheckBox = screen.getByRole('checkbox', {
@@ -134,9 +128,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByRole('button', {
-      name: 'Filter your results',
-    });
+    const filterButton = screen.getByTestId('filter-your-results');
     fireEvent.click(filterButton);
 
     const updateFilterResultsButton = screen.getByRole('button', {
@@ -174,9 +166,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByRole('button', {
-      name: 'Filter your results',
-    });
+    const filterButton = screen.getByTestId('update-tuition-housing');
     fireEvent.click(filterButton);
 
     const aboutTheSchoolCheckBox = screen.getByRole('checkbox', {
@@ -195,9 +185,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Filter your results' }),
-    );
+    fireEvent.click(screen.getByTestId('update-tuition-housing'));
     expect(
       screen.queryByRole('label', {
         name: 'Native American-serving institutions',

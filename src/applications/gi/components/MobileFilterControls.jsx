@@ -53,6 +53,7 @@ export default function MobileFilterControls({ className }) {
       <VaButton
         text="Update tuition, housing, and monthly benefit estimates"
         className="accordion-mob-btns"
+        data-testid="tuition-housing-ben"
         secondary
         onClick={tuitionAndHousingEstimatesClick}
       />
@@ -60,6 +61,7 @@ export default function MobileFilterControls({ className }) {
       <VaButton
         text="Filter your results"
         className="update-results-small-screen"
+        data-testid="filter-your-results"
         secondary
         onClick={filterClick}
       />
