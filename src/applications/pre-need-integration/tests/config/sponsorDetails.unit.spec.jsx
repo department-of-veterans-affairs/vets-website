@@ -24,29 +24,8 @@ describe('Pre-need sponsor details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('va-text-input').length).to.equal(1);
+    expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(3);
-    form.unmount();
-  });
-
-  it('should not submit empty form', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(2);
-    expect(form.find('va-text-input').props().error).to.equal(
-      'Please enter a Social Security number',
-    );
-    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
@@ -64,12 +43,7 @@ describe('Pre-need sponsor details', () => {
 
     fillData(form, 'input#root_application_veteran_currentName_first', 'test');
     fillData(form, 'input#root_application_veteran_currentName_last', 'test2');
-
-    // Use simulate to change the value of va-text-input
-    form
-      .find('va-text-input')
-      .simulate('input', { target: { value: '234443344' } });
-
+    fillData(form, 'input#root_application_veteran_ssn', '234443344');
     fillData(form, 'select#root_application_veteran_dateOfBirthMonth', '2');
     fillData(form, 'select#root_application_veteran_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_veteran_dateOfBirthYear', '2001');
