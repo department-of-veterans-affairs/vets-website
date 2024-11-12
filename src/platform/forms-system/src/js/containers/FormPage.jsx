@@ -356,6 +356,7 @@ class FormPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             setFormData={this.props.setData}
+            pageContentBeforeButtons={pageContentBeforeButtons}
             contentBeforeButtons={contentBeforeNavButtons}
             contentAfterButtons={contentAfterNavButtons}
             appStateData={appStateData}

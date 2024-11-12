@@ -52,3 +52,9 @@ export const generatedIncomeTypeLabels = {
   USE_OF_LAND: 'Use of land',
   OTHER: 'Other',
 };
+
+export const trustTypeLabels = {
+  REVOCABLE: 'Revocable',
+  IRREVOCABLE: 'Irrevocable',
+  BURIAL: 'Burial trust',
+};

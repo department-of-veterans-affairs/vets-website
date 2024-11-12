@@ -1,15 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import LicenseCertificationSearchForm from './LicenseCertificationSearchForm';
+import { handleLcResultsSearch } from '../utils/helpers';
 
 export default function LicenseCertificationSearch() {
   const history = useHistory();
-
-  const handleSearch = (name, type) => {
-    return name
-      ? history.push(`/lc-search/results?type=${type}&name=${name}`)
-      : history.push(`/lc-search/results?type=${type}`);
-  };
 
   return (
     <div>
@@ -23,7 +18,11 @@ export default function LicenseCertificationSearch() {
           </p>
         </div>
         <div className="form-wrapper row">
-          <LicenseCertificationSearchForm handleSearch={handleSearch} />
+          <LicenseCertificationSearchForm
+            handleSearch={(name, type) =>
+              handleLcResultsSearch(history, name, type)
+            }
+          />
         </div>
       </section>
     </div>

@@ -429,6 +429,8 @@
  *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
  *   summaryDescription?: (props: ArrayBuilderTextProps) => string,
  *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryAddLinkText?: (props: ArrayBuilderTextProps) => string,
+ *   summaryAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
  * }} ArrayBuilderText
  */
@@ -453,4 +455,6 @@
  * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
+ * @property {boolean} [useLinkInsteadOfYesNo]
+ * @property {boolean} [useButtonInsteadOfYesNo]
  */

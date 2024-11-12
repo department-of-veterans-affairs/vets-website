@@ -91,7 +91,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '211'); // amputation
+      await setTypeOfCare(store, /amputation care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -131,7 +131,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '502'); // mental health
+      await setTypeOfCare(store, /mental health/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -167,7 +167,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -183,7 +183,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
     it('should show error message when checks fail', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -271,7 +271,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         ],
       });
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '125'); // social work
+      await setTypeOfCare(store, /social work/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -324,7 +324,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '211'); // amputation
+      await setTypeOfCare(store, /amputation care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -378,7 +378,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '211'); // amputation
+      await setTypeOfCare(store, /amputation care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -430,7 +430,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -474,7 +474,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '502'); // mental health
+      await setTypeOfCare(store, /mental health/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -512,7 +512,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -558,7 +558,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       );
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -602,7 +602,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       // And the facitility page is presented
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -656,7 +656,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '502'); // mental health
+      await setTypeOfCare(store, /mental health/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -711,7 +711,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         ...initialState,
         featureToggles: {},
       });
-      await setTypeOfCare(store, '502'); // mental health
+      await setTypeOfCare(store, /mental health/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
