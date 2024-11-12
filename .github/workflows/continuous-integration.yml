@@ -1329,6 +1329,13 @@ jobs:
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
+      
+      - name: Archive merged coverage reports
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: genereated_coverage_report
+          path: qa-standards-dashboard-data/coverage/coverage_report.txt
 
       - name: Copy merged coverage file to data directory
         run: |
