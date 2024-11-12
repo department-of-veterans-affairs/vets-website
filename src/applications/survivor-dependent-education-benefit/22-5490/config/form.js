@@ -1351,11 +1351,11 @@ const formConfig = {
                   "I don't want to receive electronic notifications",
                 ],
               },
-              'view:noMobilePhoneAlert': {
+              'view:noElectronicCommunicationText': {
                 type: 'object',
                 properties: {},
               },
-              'view:noElectronicCommunicationText': {
+              'view:noMobilePhoneAlert': {
                 type: 'object',
                 properties: {},
               },
