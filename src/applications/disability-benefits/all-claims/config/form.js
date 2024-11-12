@@ -109,6 +109,7 @@ import {
   workBehaviorChanges,
 } from '../pages';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
+import { mentalHealthPages } from '../pages/mentalHealth/mentalHealthPages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -543,6 +544,7 @@ const formConfig = {
             serviceInformation: state.form?.data?.serviceInformation,
           }),
         },
+        ...mentalHealthPages,
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {
           title: 'Additional disability benefits',
