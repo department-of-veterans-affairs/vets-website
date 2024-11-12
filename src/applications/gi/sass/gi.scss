@@ -321,13 +321,23 @@
 .inst-remove-btn::part(button) {
   background-color: transparent;
 }
-.search-tabs::part(button){
+.search-tabs{
+  padding-top: 10px;
+  margin-top: 0;
+}
+.search-tabs::part(button), .mob-search-tab::part(button){
   background: transparent;
-  color: var(--vads-color-base-light);
+  color: rgb(117, 117, 117);
   font-size: 25px;
   outline: none;
-  &:active{
-    color: rgb(0,0,0)
-  }
+  border: 0;
+}
+.tab-active::part(button){
+  color: rgb(61, 69, 81);
+}
+.mob-search-tab::part(button){
+  color: rgb(61, 69, 81);
+  font-size: 1rem;
+  margin-left: -100px;
 }
 

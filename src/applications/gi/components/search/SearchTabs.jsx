@@ -41,7 +41,6 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
       'vads-u-text-align--center',
       'vads-u-font-weight--bold',
       'vads-l-grid-container',
-      'vads-u-padding-y--1p5',
       'search-tab',
       `${tabName}-search-tab`,
     );
@@ -50,7 +49,7 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
       /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
       <VaButton
         text={label}
-        className={`${tabClasses} search-tabs`}
+        className={`${tabClasses} search-tabs ${activeTab && 'tab-active'}`}
         aria-selected={activeTab}
         data-testid={testId}
         role="tab"

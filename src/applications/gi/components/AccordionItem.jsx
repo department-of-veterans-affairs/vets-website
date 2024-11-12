@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 
 export default function AccordionItem({
@@ -60,17 +61,17 @@ export default function AccordionItem({
           })}
         >
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-          <button
+          <VaButton
+            text={button}
             id={`${id}-button`}
             onClick={toggle}
-            className="usa-accordion-button"
+            className="mob-search-tab usa-accordion-button"
             aria-expanded={displayExpanded}
             aria-controls={id}
-          >
-            <span className="vads-u-font-family--sans vads-u-color--gray-dark">
+          />
+          {/* <span className="vads-u-font-family--sans vads-u-color--gray-dark">
               {button}
-            </span>
-          </button>
+            </span> */}
         </h2>
       )}
       <div

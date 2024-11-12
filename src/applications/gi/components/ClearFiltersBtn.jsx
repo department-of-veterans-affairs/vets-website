@@ -49,13 +49,6 @@ function ClearFiltersBtn({
   };
   return (
     <>
-      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-      {/* <button
-        className="clear-filters-btn"
-        onClick={clearAllFilters}
-        data-testid={testId}
-        onKeyDown={onKeyDown}
-      > */}
       <VaButton
         text="Reset search"
         secondary

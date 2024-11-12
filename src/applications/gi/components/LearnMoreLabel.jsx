@@ -61,10 +61,6 @@ export default function LearnMoreLabel({
           id={buttonId}
           aria-label={ariaLabel}
           className={`learn-more-btn ${bold ? 'learn-more-bold-text' : ''}`}
-          // className={classNames(
-          //   buttonClassName,
-          //   'va-button-link learn-more-button vads-u-margin--0',
-          // )}
           onClick={onClick}
         />
       </span>
