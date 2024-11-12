@@ -136,9 +136,11 @@ const Autocomplete = ({
       />
       {results.length > 0 && (
         <ul
-          aria-hidden="true"
+          aria-activedescendant={`option-${activeIndex}`}
           className="cc-autocomplete__list"
           data-testid="autocomplete-list"
+          role="listbox"
+          tabIndex={-1}
         >
           {results.map((result, index) => (
             <li
@@ -146,6 +148,7 @@ const Autocomplete = ({
               className={`cc-autocomplete__option ${
                 activeIndex === index ? 'cc-autocomplete__option--active' : ''
               }`}
+              id={`option-${index}`}
               key={result}
               ref={el => {
                 resultsRef.current[index] = el;

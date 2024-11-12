@@ -55,22 +55,7 @@
         "incomeGenerationMethod": "INTELLECTUAL_PROPERTY"
       }
     ],
-    "view:isAddingAnnuities": true,
-    "annuities": [
-      {
-        "establishedDate": "2018-06-15",
-        "marketValueAtEstablishment": 50000.75,
-        "addedFundsAfterEstablishment": true,
-        "addedFundsDate": "2020-09-22",
-        "addedFunds": 10000.25,
-        "revocable": false,
-        "receivingIncomeFromAnnuity": true,
-        "annualReceivedIncome": 12000.0,
-        "canBeLiquidated": true,
-        "surrenderValue": 45000.5
-      }
-    ],
-
+    "view:isAddingAssetTransfers": true,
     "assetTransfers": [
       {
         "originalOwnerRelationship": "VETERAN",
@@ -86,6 +71,38 @@
         "fairMarketValue": 250000.0,
         "saleValue": 240000.0,
         "capitalGainValue": 10000.0
+      }
+    ],
+    "view:isAddingTrusts": true,
+    "trusts": [
+      {
+        "establishedDate": "2020-03-15",
+        "marketValueAtEstablishment": 100000.0,
+        "trustType": "REVOCABLE",
+        "addedFundsAfterEstablishment": true,
+        "addedFundsDate": "2021-05-10",
+        "addedFundsAmount": 5000.0,
+        "receivingIncomeFromTrust": true,
+        "annualReceivedIncome": 12000.0,
+        "trustUsedForMedicalExpenses": false,
+        "monthlyMedicalReimbursementAmount": 0.0,
+        "trustEstablishedForVeteransChild": false,
+        "haveAuthorityOrControlOfTrust": true
+      }
+    ],
+    "view:isAddingAnnuities": true,
+    "annuities": [
+      {
+        "establishedDate": "2018-06-15",
+        "marketValueAtEstablishment": 50000.75,
+        "addedFundsAfterEstablishment": true,
+        "addedFundsDate": "2020-09-22",
+        "addedFundsAmount": 10000.25,
+        "revocable": false,
+        "receivingIncomeFromAnnuity": true,
+        "annualReceivedIncome": 12000.0,
+        "canBeLiquidated": true,
+        "surrenderValue": 45000.5
       }
     ],
     "statementOfTruthSignature": "John Doe"
