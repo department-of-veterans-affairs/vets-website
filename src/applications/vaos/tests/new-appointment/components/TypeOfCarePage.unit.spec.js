@@ -59,13 +59,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
       ...initialState,
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
-    await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '323' }, // primary care
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
@@ -92,13 +87,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
       ...initialState,
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
-    await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '323' }, // primary care
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
@@ -116,18 +106,9 @@ describe('VAOS Page: TypeOfCarePage', () => {
       eligible: false,
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
-    await screen.findByText(/Continue/i);
 
-    // Then the primary header should have focus
-    const radioSelector = screen.container.querySelector('va-radio');
-    expect(radioSelector).to.exist;
-    expect(radioSelector).to.have.attribute(
-      'label',
-      'What type of care do you need?',
-    );
-
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
-    expect(radioOptions).to.have.lengthOf(12);
+    expect(await screen.findByText('What type of care do you need?')).to.exist;
+    expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
     // Verify alert is shown
     expect(
@@ -158,12 +139,11 @@ describe('VAOS Page: TypeOfCarePage', () => {
     ).to.not.exist;
 
     fireEvent.click(screen.getByText(/Continue/));
+
+    expect(await screen.findByText('What type of care do you need?')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '323' }, // primary care
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
@@ -181,13 +161,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
       eligible: false,
     });
     let screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
-    await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '323' }, // primary care
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
@@ -200,9 +175,9 @@ describe('VAOS Page: TypeOfCarePage', () => {
       store,
     });
 
-    await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', '323'); // primary care
-    });
+    expect(await screen.findByLabelText(/primary care/i)).to.have.attribute(
+      'checked',
+    );
   });
 
   it('should show type of care page without podiatry when CC flag is off', async () => {
@@ -217,10 +192,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
       <Route component={TypeOfCarePage} />,
       { store },
     );
-    await screen.findByText(/Continue/i);
 
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
-    expect(radioOptions).to.have.lengthOf(11);
+    expect((await screen.findAllByRole('radio')).length).to.equal(11);
   });
 
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
@@ -232,13 +205,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
       eligible: false,
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
-    await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'tbd-podiatry' }, // podiatry
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(await screen.findByLabelText(/podiatry/i));
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
       /not eligible to request a community care Podiatry appointment online at this time/i,
@@ -263,13 +231,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
       <Route component={TypeOfCarePage} />,
       { store },
     );
-    await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'EYE' }, // eye care
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(await screen.findByLabelText(/eye care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
@@ -284,13 +247,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
       <Route component={TypeOfCarePage} />,
       { store },
     );
-    await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'SLEEP' }, // sleep
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(await screen.findByLabelText(/sleep/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
@@ -391,7 +349,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     screen = renderWithStoreAndRouter(<Route component={TypeOfCarePage} />, {
       store,
     });
-    await screen.findByText(/Continue/i);
+    await screen.findAllByRole('radio');
 
     expect(
       screen.queryByText(
@@ -451,13 +409,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
       },
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
-    await screen.findByText(/Continue/i);
-
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'covid' }, // covid vaccine
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    expect((await screen.findAllByRole('radio')).length).to.equal(12);
+    fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(

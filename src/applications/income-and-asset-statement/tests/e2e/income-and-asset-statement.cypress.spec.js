@@ -23,6 +23,7 @@ let addedAssociatedIncomeItem = false;
 let addedOwnedAssetItem = false;
 let addedRoyaltiesItem = false;
 let addedAssetTransferItem = false;
+let addedTrustItem = false;
 let addedAnnuityItem = false;
 
 const testConfig = createTestConfig(
@@ -259,6 +260,40 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'trusts-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingTrusts = data['view:isAddingTrusts'];
+            if (addedTrustItem) {
+              isAddingTrusts = false;
+              addedTrustItem = false;
+            }
+
+            selectYesNoWebComponent('view:isAddingTrusts', isAddingTrusts);
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'trusts/0/added-funds': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { trusts } = data;
+            const { addedFundsDate, addedFundsAmount } = trusts[0];
+
+            fillDateWebComponentPattern('addedFundsDate', addedFundsDate);
+            fillStandardTextInput('addedFundsAmount', addedFundsAmount);
+
+            addedTrustItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
       'annuities-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -283,10 +318,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { annuities } = data;
-            const { addedFundsDate, addedFunds } = annuities[0];
+            const { addedFundsDate, addedFundsAmount } = annuities[0];
 
             fillDateWebComponentPattern('addedFundsDate', addedFundsDate);
-            fillStandardTextInput('addedFunds', addedFunds);
+            fillStandardTextInput('addedFundsAmount', addedFundsAmount);
 
             addedAnnuityItem = true;
 
