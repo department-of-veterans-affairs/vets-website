@@ -1,10 +1,9 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
-import { Data } from './utils/constants';
 
-describe('Medications List Page Active Filter Option', () => {
-  it('visits Medications List Page Filter Option Active', () => {
+describe('Medications List Page Filter Accordion Collapsed', () => {
+  it('visits Medications List Page Filter Accordion Collapsed after Reload', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
@@ -13,17 +12,12 @@ describe('Medications List Page Active Filter Option', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
+    listPage.verifyLabelTextWhenFilterAccordionExpanded();
     listPage.clickfilterAccordionDropdownOnListPage();
-    listPage.verifyFilterOptionsOnListPage(
-      'Active',
-      'Active prescriptions and non-VA medications',
-    );
+    listPage.verifyFilterHeaderTextHasFocusafterExpanded();
     listPage.verifyFilterButtonWhenAccordionExpanded();
-    listPage.clickFilterRadioButtonOptionOnListPage('Active');
-    listPage.clickFilterButtonOnAccordion();
-    listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      Data.PAGINATION_TEXT,
-    );
-    listPage.verifyNameOfFirstRxOnMedicationsList('active');
+    listPage.clickFilterRadioButtonOptionOnListPage('All medications');
+    cy.reload();
+    listPage.verifyFilterCollapsedOnListPage();
   });
 });
