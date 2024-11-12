@@ -213,10 +213,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
       <Route component={TypeOfCarePage} />,
       { store },
     );
-    await screen.findByText(/Continue/i);
 
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
-    expect(radioOptions).to.have.lengthOf(11);
+    expect((await screen.findAllByRole('radio')).length).to.equal(11);
   });
 
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
