@@ -338,6 +338,19 @@
 .mob-search-tab::part(button){
   color: rgb(61, 69, 81);
   font-size: 1rem;
-  margin-left: -100px;
+  width: fit-content;
+  padding: 0;
+}
+.accordions-btns::part(button){
+  background: transparent;
+  color: rgb(27, 27, 27);
+  font-size: 1.2rem;
+  outline: none;
+  border: 0;
+  width: fit-content;
+  padding: 0;
+  line-height: 1.5;
+ text-align: left;
+
 }
 

@@ -516,7 +516,10 @@ export function FilterYourResults({
               text="Update results"
             />
             {!environment.isProduction() && (
-              <ClearFiltersBtn smallScreen={smallScreen}>
+              <ClearFiltersBtn
+                className="reset-search-small-screen"
+                smallScreen={smallScreen}
+              >
                 Reset search
               </ClearFiltersBtn>
             )}

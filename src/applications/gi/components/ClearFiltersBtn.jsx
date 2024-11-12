@@ -45,7 +45,9 @@ function ClearFiltersBtn({
       specialMissionPBI: false,
       specialMissionTRIBAL: false,
     });
-    onClick();
+    if (onClick) {
+      onClick();
+    }
   };
   return (
     <>

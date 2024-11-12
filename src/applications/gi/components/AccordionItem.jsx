@@ -60,7 +60,6 @@ export default function AccordionItem({
             [headerClass]: headerClass,
           })}
         >
-          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
           <VaButton
             text={button}
             id={`${id}-button`}
@@ -69,9 +68,6 @@ export default function AccordionItem({
             aria-expanded={displayExpanded}
             aria-controls={id}
           />
-          {/* <span className="vads-u-font-family--sans vads-u-color--gray-dark">
-              {button}
-            </span> */}
         </h2>
       )}
       <div

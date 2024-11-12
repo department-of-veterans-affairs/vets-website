@@ -45,18 +45,18 @@ export default function SearchAccordion({
     return (
       <h2 className={headerClasses}>
         {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-        <button
+        <VaButton
+          text={button}
           id={`${id}-button`}
           onClick={toggle}
-          className="usa-accordion-button vads-u-font-size--md"
+          className="usa-accordion-button vads-u-font-size--md accordions-btns"
           aria-expanded={isExpanded}
           aria-controls={id}
           data-testid="update-tuition-housing"
-        >
-          <span className="vads-u-font-family--serif accordion-button-text">
+        />
+        {/* <span className="vads-u-font-family--serif accordion-button-text">
             {button}
-          </span>
-        </button>
+          </span> */}
       </h2>
     );
   };

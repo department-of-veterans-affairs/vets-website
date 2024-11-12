@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 // import environment from 'platform/utilities/environment';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../containers/FilterYourResults';
 // import FilterBeforeResults from '../containers/search/FilterBeforeResults'
@@ -49,16 +50,19 @@ export default function MobileFilterControls({ className }) {
       )}
     >
       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-      <button
-        className="usa-button-secondary"
+      <VaButton
+        text="Update tuition, housing, and monthly benefit estimates"
+        className="accordion-mob-btns"
+        secondary
         onClick={tuitionAndHousingEstimatesClick}
-      >
-        Update tuition, housing, and monthly benefit estimates
-      </button>
+      />
       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-      <button className="usa-button-secondary" onClick={filterClick}>
-        Filter your results
-      </button>
+      <VaButton
+        text="Filter your results"
+        className="update-results-small-screen"
+        secondary
+        onClick={filterClick}
+      />
       {tuitionAndHousingOpen && (
         <TuitionAndHousingEstimates
           smallScreen

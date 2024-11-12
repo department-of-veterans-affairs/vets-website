@@ -155,3 +155,25 @@ padding-bottom: 0.625rem;
   color: rgb(0, 94, 162);
   background-color: transparent;
 }
+.reset-search-small-screen{
+  width: 100%;
+}
+.reset-search-small-screen::part(button){
+  width: 100%;
+}
+.update-results-button{
+  @media screen and (max-width:768px){
+    width: 100%;
+    margin: 0 0 10px 0;
+    padding: 0;
+
+  }
+}
+.accordion-mob-btns::part(button){
+  line-height: 1.5;
+}
+.update-results-small-screen{
+  width: 100%;
+  margin-top: 1rem;
+}
+
