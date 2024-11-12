@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormLayout from '../new-appointment/components/FormLayout';
 import ReferralAppLink from './components/ReferralAppLink';
-import { getReferralById } from '../services/referral';
+import { getPatientReferralById } from '../services/referral';
 import { setFormCurrentPage } from './redux/actions';
 import { referral } from './temp-data/referral';
 
@@ -32,7 +32,7 @@ export default function ScheduleReferral() {
         try {
           // get the id from the url where url is /referral-review/:id
           const { id } = params;
-          details = await getReferralById(id);
+          details = await getPatientReferralById(id);
         } catch (networkError) {
           setError(true);
         }
