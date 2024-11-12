@@ -227,7 +227,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     expect(radioOptions).to.have.lengthOf(11);
   });
 
-  it('should show type of care page without podiatry when vaOnlineSchedulingRemovePodiatry feature flag is on', async () => {
+  it('should show type of care page without podiatry when vaOnlineSchedulingRemovePodiatry feature flag is on and CC flag is on', async () => {
     const store = createTestStore({
       ...initialState,
       featureToggles: {
