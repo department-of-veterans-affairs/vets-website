@@ -21,6 +21,7 @@ import {
   filterReturnPayments,
   reformatReturnPaymentDates,
   reformatPaymentDates,
+  alertMessage,
 } from './helpers';
 import Payments from './payments/Payments';
 
@@ -77,6 +78,7 @@ class ViewPaymentsLists extends Component {
           fields={paymentsReceivedFields}
           data={reformattedPayments}
           textContent={paymentsReceivedContent}
+          alertMessage={alertMessage}
         />
       );
     } else {
@@ -175,7 +177,7 @@ class ViewPaymentsLists extends Component {
               contacting us to report that you haven’t received a payment. We
               can’t trace payments before then.
             </p>
-            <p className="vads-u-margin-bottom--3">
+            <p className="vads-u-margin-bottom--9">
               {' '}
               To report a missing payment, contact us at{' '}
               <va-telephone contact={CONTACTS.VA_BENEFITS} />. Please have the
@@ -184,7 +186,7 @@ class ViewPaymentsLists extends Component {
               through direct deposit, you’ll need your bank account information
               too.
             </p>
-            <h2 className="vads-u-margin-top--0 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
+            <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
               Need help?
             </h2>
             <p>

@@ -19,6 +19,7 @@ const AdditionalInfoContent = () => {
       <p className="vads-u-margin-bottom--0">
         Or you can learn how to change your legal name on file with VA.{' '}
         <va-link
+          external
           text="Learn how to change your legal name (opens in new tab)"
           href="/resources/how-to-change-your-legal-name-on-file-with-va/"
         />
@@ -110,6 +111,7 @@ const UneditableData = () => {
             ET. We’ll give you instructions for how to change your information.
             Or you can learn how to change your legal name on file with VA.{' '}
             <va-link
+              external
               text="Learn how to change your legal name (opens in new tab)"
               href="/resources/how-to-change-your-legal-name-on-file-with-va/"
             />
@@ -163,6 +165,7 @@ const UneditableData = () => {
             ET. We’ll give you instructions for how to change your information.
             Or you can learn how to change your legal name on file with VA.{' '}
             <va-link
+              external
               text="Learn how to change your legal name (opens in new tab)"
               href="/resources/how-to-change-your-legal-name-on-file-with-va/"
             />
