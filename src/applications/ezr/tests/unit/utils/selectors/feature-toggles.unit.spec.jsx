@@ -8,6 +8,7 @@ describe('ezr FeatureToggles selector', () => {
       hca_browser_monitoring_enabled: true,
       ezr_upload_enabled: true,
       ezr_emergency_contacts_enabled: true,
+      ezr_next_of_kin_enabled: true,
       loading: false,
     },
   };
@@ -20,6 +21,7 @@ describe('ezr FeatureToggles selector', () => {
         isBrowserMonitoringEnabled: true,
         isUploadEnabled: true,
         isEmergencyContactsEnabled: true,
+        isNextOfKinEnabled: true,
       });
     });
   });
