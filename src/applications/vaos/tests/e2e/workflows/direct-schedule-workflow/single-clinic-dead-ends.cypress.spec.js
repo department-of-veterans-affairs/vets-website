@@ -81,7 +81,7 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectRadioButton(/I need a different clinic/i)
+          .selectClinic({ selection: /I need a different clinic/i })
           .assertWarningAlert({
             text: /You’ve reached the limit for appointment requests at this location/i,
           })

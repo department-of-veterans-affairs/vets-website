@@ -13,6 +13,8 @@ export default {
   uiSchema: {
     militaryServiceCurrentlyServing: yesNoUI({
       title: 'Are you currently serving in the military?',
+      hint:
+        'This includes active-duty service and service in the National Guard and Reserve.',
     }),
     expectedSeparation: {
       ...radioUI({

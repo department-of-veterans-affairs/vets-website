@@ -9,7 +9,6 @@ import {
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
@@ -66,7 +65,6 @@ class StatusPage extends React.Component {
               </a>
               .
             </div>
-            <EnrollmentHistory enrollmentData={enrollmentData} />
             <VaNeedHelp>
               <div slot="content">
                 <p>

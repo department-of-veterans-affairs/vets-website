@@ -78,8 +78,7 @@ function App({
       }
 
       if (
-        formData?.mobilePhone?.phone &&
-        formData?.email &&
+        (formData?.mobilePhone?.phone || formData?.email) &&
         !formData?.duplicateEmail &&
         !formData?.duplicatePhone
       ) {
