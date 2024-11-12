@@ -1,5 +1,15 @@
 import * as Sentry from '@sentry/browser';
 import { isArray } from 'lodash';
+import {
+  PAGE_PATH,
+  SEARCH_APP_USED,
+  SEARCH_LOCATION,
+  SEARCH_SELECTION,
+  SEARCH_TYPEAHEAD_ENABLED,
+  TYPEAHEAD_KEYWORD_SELECTED,
+  TYPEAHEAD_LIST,
+  addSearchGADataToStorage,
+} from 'platform/site-wide/search-analytics';
 import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
@@ -83,21 +93,14 @@ export const onSearch = componentState => {
   const validSuggestions =
     savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
 
-  // event logging, note suggestion will be undefined during a userInput search
-  recordEvent({
-    event: 'view_search_results',
-    'search-page-path': document.location.pathname,
-    'search-query': searchTerm,
-    'search-results-total-count': undefined,
-    'search-results-total-pages': undefined,
-    'search-selection': 'All VA.gov',
-    'search-typeahead-enabled': true,
-    'search-location': 'Mobile Header',
-    'sitewide-search-app-used': true,
-    'type-ahead-option-keyword-selected': undefined,
-    'type-ahead-option-position': undefined,
-    'type-ahead-options-list': validSuggestions,
-    'type-ahead-options-count': validSuggestions?.length,
+  addSearchGADataToStorage({
+    [PAGE_PATH]: document.location.pathname,
+    [SEARCH_LOCATION]: 'Desktop Header Search',
+    [SEARCH_APP_USED]: false,
+    [SEARCH_SELECTION]: 'All VA.gov',
+    [SEARCH_TYPEAHEAD_ENABLED]: true,
+    [TYPEAHEAD_KEYWORD_SELECTED]: undefined,
+    [TYPEAHEAD_LIST]: validSuggestions || undefined
   });
 
   const searchUrl = replaceWithStagingDomain(
@@ -113,26 +116,18 @@ export const onSearch = componentState => {
 export const onSuggestionSubmit = (index, componentState) => {
   const savedSuggestions = componentState?.savedSuggestions || [];
   const suggestions = componentState?.suggestions || [];
-  const searchTerm = componentState?.inputValue;
 
   const validSuggestions =
     savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
 
-  // event logging, note suggestion will be undefined during a userInput search
-  recordEvent({
-    event: 'view_search_results',
-    'search-page-path': document.location.pathname,
-    'search-query': searchTerm,
-    'search-results-total-count': undefined,
-    'search-results-total-pages': undefined,
-    'search-selection': 'All VA.gov',
-    'search-typeahead-enabled': true,
-    'search-location': 'Mobile Header',
-    'sitewide-search-app-used': true,
-    'type-ahead-option-keyword-selected': validSuggestions?.[index],
-    'type-ahead-option-position': index + 1,
-    'type-ahead-options-list': validSuggestions,
-    'type-ahead-options-count': validSuggestions?.length,
+  addSearchGADataToStorage({
+    [PAGE_PATH]: document.location.pathname,
+    [SEARCH_LOCATION]: 'Desktop Header Search',
+    [SEARCH_APP_USED]: false,
+    [SEARCH_SELECTION]: 'All VA.gov',
+    [SEARCH_TYPEAHEAD_ENABLED]: true,
+    [TYPEAHEAD_KEYWORD_SELECTED]: validSuggestions[index],
+    [TYPEAHEAD_LIST]: validSuggestions
   });
 
   const searchUrl = replaceWithStagingDomain(

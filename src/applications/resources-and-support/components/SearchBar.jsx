@@ -9,9 +9,11 @@ import { getAppUrl } from 'platform/utilities/registry-helpers';
 import {
   addSearchGADataToStorage,
   PAGE_PATH,
-  SEARCH_LOCATION,
   SEARCH_APP_USED,
-} from 'platform/site-wide/search-analytics-storage';
+  SEARCH_LOCATION,
+  SEARCH_SELECTION,
+  SEARCH_TYPEAHEAD_ENABLED,
+} from 'platform/site-wide/search-analytics';
 import URLSearchParams from 'url-search-params';
 import resourcesSettings from '../manifest.json';
 
@@ -60,8 +62,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
       : `${resourcesSettings.rootUrl}/`;
     const newUrl = `${URL}?${queryParams}`;
 
-    history.replaceState({}, '', newUrl);
-    window.location.href = newUrl;
+    window.location.assign(newUrl);
   };
 
   const handleSubmit = event => {
@@ -96,6 +97,10 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
         [PAGE_PATH]: '/resources',
         [SEARCH_LOCATION]: RESOURCES,
         [SEARCH_APP_USED]: false,
+        [SEARCH_SELECTION]: 'All VA.gov',
+        [SEARCH_TYPEAHEAD_ENABLED]: false,
+        [TYPEAHEAD_KEYWORD_SELECTED]: undefined,
+        [TYPEAHEAD_LIST]: undefined
       });
     }
 

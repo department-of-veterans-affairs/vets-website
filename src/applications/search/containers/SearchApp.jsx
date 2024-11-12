@@ -12,7 +12,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { getSearchGADataFromStorage, removeSearchGADataFromStorage } from 'platform/site-wide/search-analytics-storage';
+import { getSearchGADataFromStorage } from 'platform/site-wide/search-analytics';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -82,7 +82,7 @@ const SearchApp = ({
 
       if (keywordSelected && suggestionsList) {
         list = Array?.from(suggestionsList?.split(',')) || undefined;
-        keywordPosition = (suggestionsList?.indexOf(keywordSelected) + 1);
+        keywordPosition = (list?.indexOf(keywordSelected) + 1) || undefined;
       }
       
       return {
@@ -96,8 +96,11 @@ const SearchApp = ({
     return {
       path: document.location.pathname,
       searchLocation: 'Search Results Page',
+      searchSelection: 'All VA.gov',
       sitewideSearch: false,
-    }
+      searchTypeaheadEnabled: true,
+      suggestionsList: suggestions || undefined
+    };
   };
 
   // If there's data in userInput when this component loads,
@@ -106,10 +109,6 @@ const SearchApp = ({
     const initialUserInput = router?.location?.query?.query || '';
     const searchAnalyticsLocationData = getSearchAnalyticsLocationData();
 
-    // Once we land on the /search page and save the search location (searchAnalyticsLocationData)
-    // we don't need that data anymore so we can clean it up 
-    // removeSearchGADataFromStorage();
-    
     if (initialUserInput && isSearchTermValid(initialUserInput)) {
       setFormWasSubmitted(true);
 

@@ -3,13 +3,15 @@ import { VaSearchInput } from '@department-of-veterans-affairs/component-library
 import PropTypes from 'prop-types';
 import {
   PAGE_PATH,
-  SEARCH_LOCATION,
   SEARCH_APP_USED,
+  SEARCH_LOCATION,
+  SEARCH_SELECTION,
+  SEARCH_TYPEAHEAD_ENABLED,
   TYPEAHEAD_KEYWORD_SELECTED,
   TYPEAHEAD_LIST,
   addSearchGADataToStorage,
-  removeSearchGADataFromStorage,
-} from 'platform/site-wide/search-analytics-storage';
+  listenForTypeaheadClick,
+} from 'platform/site-wide/search-analytics';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
 
@@ -44,14 +46,11 @@ const HomepageSearch = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      const searchListBox = document.querySelector('va-search-input')
-        .shadowRoot?.querySelector('#va-search-listbox');
+      const searchListBoxItems = document.querySelector('va-search-input')
+        .shadowRoot?.querySelectorAll('.va-search-suggestion');
 
-      if (searchListBox) {
-        searchListBox.addEventListener('click', event => {
-          console.log('event: ', event.target, latestSuggestions[event.target.value]);
-          setTypeaheadKeywordSelected(event.target.value);
-        });
+      if (searchListBoxItems?.length) {
+        listenForTypeaheadClick(searchListBoxItems, setTypeaheadKeywordSelected);
       }
     }, 500);
   });
@@ -64,23 +63,27 @@ const HomepageSearch = () => {
       )}&t=${false}`,
     );
 
-    removeSearchGADataFromStorage();
-
+    console.log('latestSuggestions: ', latestSuggestions);
     const analyticsData = {
       [PAGE_PATH]: '/',
       [SEARCH_LOCATION]: 'Homepage Search',
       [SEARCH_APP_USED]: false,
+      [SEARCH_SELECTION]: 'All VA.gov - In page search',
+      [SEARCH_TYPEAHEAD_ENABLED]: true,
+      [TYPEAHEAD_KEYWORD_SELECTED]: undefined,
+      [TYPEAHEAD_LIST]: latestSuggestions
     };
 
     if (typeaheadKeywordSelected) {
       analyticsData[TYPEAHEAD_KEYWORD_SELECTED] = typeaheadKeywordSelected;
-      analyticsData[TYPEAHEAD_LIST] = latestSuggestions;
     }
+
+    console.log('analyticsData: ', analyticsData);
 
     addSearchGADataToStorage(analyticsData);
 
     // relocate to search results, preserving history
-    // window.location.assign(searchUrl);
+    window.location.assign(searchUrl);
   };
 
   return (
