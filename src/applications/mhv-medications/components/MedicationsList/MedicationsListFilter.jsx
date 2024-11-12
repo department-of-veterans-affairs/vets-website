@@ -4,12 +4,14 @@ import {
   VaRadio,
   VaRadioOption,
   VaButton,
+  VaAccordion,
+  VaAccordionItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   filterOptions,
   SESSION_SELECTED_FILTER_OPTION,
 } from '../../util/constants';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const MedicationsListFilter = props => {
   const { updateFilter, filterOption, setFilterOption } = props;
@@ -26,7 +28,7 @@ const MedicationsListFilter = props => {
   const handleAccordionItemToggle = ({ target }) => {
     if (target) {
       const isOpen = target.getAttribute('open');
-      if (!isOpen) {
+      if (isOpen === 'false') {
         setFilterOption(
           sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) || null,
         );
@@ -36,19 +38,21 @@ const MedicationsListFilter = props => {
 
   const filterOptionsArray = Object.keys(filterOptions);
   return (
-    <va-accordion
+    <VaAccordion
       bordered
       open-single
       data-testid="filter-accordion"
       class="filter-accordion"
       onAccordionItemToggled={handleAccordionItemToggle}
+      uswds
     >
-      <va-accordion-item
+      <VaAccordionItem
         header="Filter list"
         bordered="true"
         open={!!filterOption}
         id="filter"
         data-testid="rx-filter"
+        uswds
       >
         <span slot="icon">
           <va-icon aria-hidden="true" icon="filter_alt" />
@@ -76,8 +80,8 @@ const MedicationsListFilter = props => {
           text="Filter"
           data-testid="filter-button"
         />
-      </va-accordion-item>
-    </va-accordion>
+      </VaAccordionItem>
+    </VaAccordion>
   );
 };
 
