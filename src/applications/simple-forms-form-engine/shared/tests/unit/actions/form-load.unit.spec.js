@@ -80,9 +80,13 @@ describe('form-load actions', () => {
         .getActions()
         .find(action => action.type === FORM_LOADING_SUCCEEDED);
 
-      // Testing for urlPrefix as it is not included in the normalized data
-      // structure
+      // Testing for `urlPrefix` as it is not included in the normalized data
+      // structure.
       expect(successAction.formConfig.urlPrefix).to.eq('/');
+
+      // Testing for `formId` to ensure the returned formConfig is constructed
+      // from the passed-in normalized data.
+      expect(successAction.formConfig.formId).to.eq('2121212');
     });
   });
 
