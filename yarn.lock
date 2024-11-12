@@ -2867,10 +2867,10 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.14.0-rc1":
-  version "0.14.0-rc1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.14.0-rc1.tgz#c51262c969428ce3522f30f64d4d6603461e2fbb"
-  integrity sha512-p71YlSpqlvg/hMdF6srVg0AK8zECoqqmTbMAiRex6tQ+2HaWZwWmnf3KJhhXOHWjeOjqAm4K9DFluQHMP5lyBQ==
+"@department-of-veterans-affairs/css-library@^0.14.0-rc6":
+  version "0.14.0-rc6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.14.0-rc6.tgz#e4bea74753d77b504328b3e7f4597676d0e0f809"
+  integrity sha512-7hfCzGWXe4s1L4a0P1JFk8gorCiv1mFBueWfTu1kvosLGy1ewBUkvbb7W3AINL8sm54qJfT8Db2Pvvm/tE9Z6Q==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.9.0"
