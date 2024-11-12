@@ -5,14 +5,10 @@ import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { pdfTransform } from '../utilities/pdfTransform';
 import { generatePDF } from '../api/generatePDF';
 import NextStepsPage from '../containers/NextStepsPage';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
-import {
-  isAttorneyOrClaimsAgent,
-  preparerIsVeteran,
-} from '../utilities/helpers';
+import { preparerIsVeteran } from '../utilities/helpers';
 
 import {
   authorizeMedical,
@@ -67,9 +63,7 @@ const formConfig = {
     submitButtonText: 'Continue',
   },
   submit: async form => {
-    const is2122a = isAttorneyOrClaimsAgent(form.data);
-    const transformedFormData = pdfTransform(form.data);
-    await generatePDF(transformedFormData, is2122a);
+    await generatePDF(form.data);
 
     return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
   },
