@@ -625,6 +625,19 @@ export function hasServiceRecord(item) {
   return !(serviceRecords === undefined || serviceRecords.length === 0);
 }
 
+export function getServicePeriodsSummaryTitle(item) {
+  if (hasServiceRecord(item)) {
+    if (isVeteran(item)) {
+      if (isAuthorizedAgent(item)) {
+        return 'Applicant’s service period(s)';
+      }
+      return 'Your service period(s)';
+    }
+    return 'Sponsor’s service periods(s)';
+  }
+  return 'Review service period records';
+}
+
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
   return (
