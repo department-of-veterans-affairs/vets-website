@@ -227,6 +227,25 @@ describe('VAOS Page: TypeOfCarePage', () => {
     expect(radioOptions).to.have.lengthOf(11);
   });
 
+  it('should show type of care page without podiatry when vaOnlineSchedulingRemovePodiatry feature flag is on', async () => {
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCommunityCare: true,
+        vaOnlineSchedulingRemovePodiatry: true,
+      },
+    });
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfCarePage} />,
+      { store },
+    );
+    await screen.findByText(/Continue/i);
+
+    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    expect(radioOptions).to.have.lengthOf(11);
+  });
+
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
     mockV2CommunityCareEligibility({
