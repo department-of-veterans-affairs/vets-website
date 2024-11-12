@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-// eslint-disable-next-line @department-of-veterans-affairs/use-resolved-path
 import { useCallback, useEffect } from 'react';
 import { connectDrupalStaticDataFileVaHealthServices } from 'platform/site-wide/drupal-static-data/source-files/va-health-services/connect';
 
