@@ -28,6 +28,7 @@ import {
 } from '../../redux/selectors';
 import StatusAlert from '../StatusAlert';
 import FacilityPhone from '../FacilityPhone';
+import { TravelReimbursement } from '../TravelReimbursement';
 
 export function Section({ children, heading, level = 2 }) {
   const Heading = `h${level}`;
@@ -212,90 +213,6 @@ function CancelButton({ appointment }) {
   return null;
 }
 
-export function TravelReimbursement({
-  appointmentDate,
-  claimData,
-  daysRemainingToFileClaim,
-  isPastAppointment,
-}) {
-  if (!isPastAppointment) return null;
-  if (!claimData) return null;
-
-  let body = null;
-
-  if (
-    claimData.message === TRAVEL_CLAIM_MESSAGES.noClaim &&
-    daysRemainingToFileClaim > 0
-  ) {
-    body = (
-      <>
-        <p className="vads-u-margin-y--0p5">
-          Days left to file: {daysRemainingToFileClaim}
-        </p>
-        <p className="vads-u-margin-y--0p5">
-          <va-link
-            data-testid="file-claim-link"
-            className="vads-u-margin-y--0p5"
-            href={`/appointments/claims/?date=${appointmentDate}`}
-            text="File a travel reimbursement claim"
-          />
-        </p>
-      </>
-    );
-  }
-  if (
-    claimData.message === TRAVEL_CLAIM_MESSAGES.noClaim &&
-    daysRemainingToFileClaim < 1
-  ) {
-    body = (
-      <>
-        <p className="vads-u-margin-y--0p5">
-          Days left to file: {daysRemainingToFileClaim}
-        </p>
-        <p className="vads-u-margin-y--0p5">
-          You didn’t file a claim for this appointment. You can only file for
-          reimbursement within 30 days of the appointment.
-        </p>
-        <p className="vads-u-margin-y--0p5">
-          <va-link
-            data-testid="how-to-file-claim-link"
-            className="vads-u-margin-y--0p5"
-            href="https://www.va.gov/resources/how-to-file-a-va-travel-reimbursement-claim-online/"
-            text="Learn more about travel reimbursement"
-          />
-        </p>
-      </>
-    );
-  }
-  if (claimData.id) {
-    body = (
-      <>
-        <p className="vads-u-margin-y--0p5">
-          You've already filed a claim for this facility and date.
-        </p>
-        <p className="vads-u-margin-y--0p5">
-          <va-link
-            data-testid="view-claim-link"
-            href={`/appointments/claims/${claimData.id}`}
-            text="Check your claim status"
-          />
-        </p>
-      </>
-    );
-  }
-
-  if (!body) return null;
-
-  return <Section heading="Travel reimbursement">{body}</Section>;
-}
-
-TravelReimbursement.propTypes = {
-  appointmentDate: PropTypes.string,
-  claimData: PropTypes.object,
-  daysRemainingToFileClaim: PropTypes.number,
-  isPastAppointment: PropTypes.bool,
-};
-
 export function AppointmentTasks({
   appointmentDate,
   claimData,
@@ -315,7 +232,7 @@ export function AppointmentTasks({
         href={`/appointments/claims/?date=${appointmentDate}`}
         text="File a travel reimbursement claim"
       />
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1 action-link-below-text">
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-margin-left--4">
         Days left to file: {daysRemainingToFileClaim}
       </p>
     </Section>
@@ -375,12 +292,7 @@ export default function DetailPageLayout({
           )}
         {children}
         {travelPayViewClaimDetails && (
-          <TravelReimbursement
-            appointmentDate={appointment.start}
-            claimData={claimData}
-            daysRemainingToFileClaim={daysRemainingToFileClaim}
-            isPastAppointment={isPastAppointment}
-          />
+          <TravelReimbursement appointment={appointment} />
         )}
         <div
           className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"

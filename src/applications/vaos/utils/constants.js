@@ -484,5 +484,7 @@ export const OH_TRANSITION_SITES = {
 };
 
 export const TRAVEL_CLAIM_MESSAGES = {
-  noClaim: 'No claim for this appointment',
+  noClaim: 'No claims found.',
+  error: 'Travel Pay service unavailable.',
+  success: 'Data retrieved successfully.',
 };

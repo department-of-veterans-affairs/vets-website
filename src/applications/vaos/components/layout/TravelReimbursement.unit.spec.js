@@ -1,47 +1,49 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { TravelReimbursement } from '../layout/DetailPageLayout';
+import { subDays } from 'date-fns';
+import { TravelReimbursement } from '../TravelReimbursement';
 
 describe('VAOS Component: TravelReimbursement', () => {
   it('should display travel reimbursement section with file claim link', async () => {
     const appointment = {
-      start: '2021-09-01T10:00:00Z',
+      start: subDays(new Date(), 20).toISOString(),
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: '200',
+              message: 'No claims found.',
+              success: true,
+            },
+          },
+        },
+        isPastAppointment: true,
+      },
     };
-    const claimData = {
-      message: 'No claim for this appointment',
-    };
-    const daysRemainingToFileClaim = 10;
-    const isPastAppointment = true;
-    const screen = render(
-      <TravelReimbursement
-        appointmentDate={appointment.start}
-        claimData={claimData}
-        daysRemainingToFileClaim={daysRemainingToFileClaim}
-        isPastAppointment={isPastAppointment}
-      />,
-    );
+    const screen = render(<TravelReimbursement appointment={appointment} />);
 
-    expect(screen.getByText(/Days left to file: 10/i));
+    expect(screen.getByText(/Days left to file: 9/i));
     expect(screen.getByTestId('file-claim-link')).to.exist;
   });
   it('should display travel reimbursement section with how to file a claim link', async () => {
+    // appointment is past the 30 day window
     const appointment = {
       start: '2021-09-01T10:00:00Z',
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: '200',
+              message: 'No claims found.',
+              success: true,
+            },
+          },
+        },
+        isPastAppointment: true,
+      },
     };
-    const claimData = {
-      message: 'No claim for this appointment',
-    };
-    const daysRemainingToFileClaim = 0;
-    const isPastAppointment = true;
-    const screen = render(
-      <TravelReimbursement
-        appointmentDate={appointment.start}
-        claimData={claimData}
-        daysRemainingToFileClaim={daysRemainingToFileClaim}
-        isPastAppointment={isPastAppointment}
-      />,
-    );
+    const screen = render(<TravelReimbursement appointment={appointment} />);
 
     expect(screen.getByText(/Days left to file: 0/i));
     expect(screen.getByTestId('how-to-file-claim-link')).to.exist;
@@ -49,20 +51,29 @@ describe('VAOS Component: TravelReimbursement', () => {
   it('should display travel reimbursement section with link to view claim status', async () => {
     const appointment = {
       start: '2021-09-01T10:00:00Z',
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: '200',
+              message: 'Data retrieved successfully.',
+              success: true,
+            },
+            claim: {
+              id: '1234',
+              claimNumber: 'string',
+              claimStatus: 'InProgress',
+              appointmentDateTime: '2024-01-01T16:45:34.465Z',
+              facilityName: 'Cheyenne VA Medical Center',
+              createdOn: '2024-03-22T21:22:34.465Z',
+              modifiedOn: '2024-01-01T16:44:34.465Z',
+            },
+          },
+        },
+        isPastAppointment: true,
+      },
     };
-    const claimData = {
-      id: '1234',
-    };
-    const daysRemainingToFileClaim = 0;
-    const isPastAppointment = true;
-    const screen = render(
-      <TravelReimbursement
-        appointmentDate={appointment.start}
-        claimData={claimData}
-        daysRemainingToFileClaim={daysRemainingToFileClaim}
-        isPastAppointment={isPastAppointment}
-      />,
-    );
+    const screen = render(<TravelReimbursement appointment={appointment} />);
 
     expect(
       screen.getByText(
@@ -72,62 +83,45 @@ describe('VAOS Component: TravelReimbursement', () => {
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'href',
-      '/appointments/claims/1234',
+      '/my-health/travel-claim-status/1234',
     );
   });
   it('should not display travel reimbursement section if appointment is not past', async () => {
     const appointment = {
       start: '2021-09-01T10:00:00Z',
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: '200',
+              message: 'Data retrieved successfully.',
+              success: true,
+            },
+            claim: {
+              id: '1234',
+              claimNumber: 'string',
+              claimStatus: 'InProgress',
+              appointmentDateTime: '2024-01-01T16:45:34.465Z',
+              facilityName: 'Cheyenne VA Medical Center',
+              createdOn: '2024-03-22T21:22:34.465Z',
+              modifiedOn: '2024-01-01T16:44:34.465Z',
+            },
+          },
+        },
+        isPastAppointment: false,
+      },
     };
-    const claimData = {
-      message: 'No claim for this appointment',
-    };
-    const daysRemainingToFileClaim = 10;
-    const isPastAppointment = false;
-    const screen = render(
-      <TravelReimbursement
-        appointmentDate={appointment.start}
-        claimData={claimData}
-        daysRemainingToFileClaim={daysRemainingToFileClaim}
-        isPastAppointment={isPastAppointment}
-      />,
-    );
+    const screen = render(<TravelReimbursement appointment={appointment} />);
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
   it('should not display travel reimbursement section if claim data is not present', async () => {
     const appointment = {
       start: '2021-09-01T10:00:00Z',
+      vaos: {
+        apiData: {},
+      },
     };
-    const claimData = null;
-    const daysRemainingToFileClaim = 10;
-    const isPastAppointment = true;
-    const screen = render(
-      <TravelReimbursement
-        appointmentDate={appointment.start}
-        claimData={claimData}
-        daysRemainingToFileClaim={daysRemainingToFileClaim}
-        isPastAppointment={isPastAppointment}
-      />,
-    );
-    expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
-  });
-  it('should not display travel reimbursement section if claim data message is not expected', async () => {
-    const appointment = {
-      start: '2021-09-01T10:00:00Z',
-    };
-    const claimData = {
-      message: 'No claim',
-    };
-    const daysRemainingToFileClaim = 10;
-    const isPastAppointment = true;
-    const screen = render(
-      <TravelReimbursement
-        appointmentDate={appointment.start}
-        claimData={claimData}
-        daysRemainingToFileClaim={daysRemainingToFileClaim}
-        isPastAppointment={isPastAppointment}
-      />,
-    );
+    const screen = render(<TravelReimbursement appointment={appointment} />);
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
 });
