@@ -608,7 +608,7 @@ export function selectAtlasConfirmationCode(appointment) {
 }
 
 export function selectAppointmentTravelClaim(appointment) {
-  return appointment?.vaos?.apiData?.claim;
+  return appointment?.vaos?.apiData?.travelPayClaim;
 }
 
 export function selectConfirmedAppointmentData(state, appointment) {
