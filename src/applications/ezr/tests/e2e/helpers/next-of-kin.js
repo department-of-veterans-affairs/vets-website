@@ -5,7 +5,7 @@ import {
   selectDropdownWebComponent,
 } from '.';
 
-export const advanceToEmergencyContacts = () => {
+export const advanceToNextOfKin = () => {
   cy.get('[href="#start"]')
     .first()
     .click();
@@ -14,7 +14,11 @@ export const advanceToEmergencyContacts = () => {
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');
-  cy.tabToContinueForm();
+
+  goToNextPage('/veteran-information/emergency-contacts-summary');
+  selectYesNoWebComponent('view:isEmergencyContactsEnabled', false);
+
+  goToNextPage('/veteran-information/next-of-kin-summary');
 };
 
 export const fillContactPersonalInfo = contact => {
@@ -22,7 +26,7 @@ export const fillContactPersonalInfo = contact => {
   fillTextWebComponent('fullName_last', contact.fullName.last);
   fillTextWebComponent('primaryPhone', contact.primaryPhone);
   selectDropdownWebComponent('relationship', contact.relationship);
-  selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
+  selectYesNoWebComponent('view:hasNextOfKinAddress', true);
   cy.injectAxeThenAxeCheck();
   goToNextPage();
 };

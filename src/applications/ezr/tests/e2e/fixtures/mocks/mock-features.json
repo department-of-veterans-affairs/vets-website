@@ -9,6 +9,10 @@
       {
         "name": "ezrEmergencyContactsEnabled",
         "value": true
+      },
+      {
+        "name": "ezrNextOfKinEnabled",
+        "value": true
       }
     ]
   }
