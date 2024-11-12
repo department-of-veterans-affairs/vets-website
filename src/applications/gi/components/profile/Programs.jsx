@@ -2,11 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-export default function Programs({
-  programTypes,
-  facilityCode,
-  institutionName,
-}) {
+export default function Programs({ programTypes, facilityCode }) {
   return (
     <>
       <p>The following programs are approved by the VA at this institution.</p>
@@ -24,7 +20,6 @@ export default function Programs({
                 .trim()
                 .toLowerCase()
                 .replace(/\s+/g, '-')}`,
-              state: { institutionName },
             }}
             className="vads-u-display--flex vads-u-align-items--center"
           >
