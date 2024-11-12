@@ -1,0 +1,151 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'recompose';
+import Address from '../../../../components/Address';
+import AddToCalendarButton from '../../../../components/AddToCalendarButton';
+import FacilityDirectionsLink from '../../../../components/FacilityDirectionsLink';
+import NewTabAnchor from '../../../../components/NewTabAnchor';
+import { getRealFacilityId } from '../../../../utils/appointment';
+import { APPOINTMENT_STATUS } from '../../../../utils/constants';
+import {
+  AppointmentDate,
+  AppointmentTime,
+} from '../../../components/AppointmentDateTime';
+import { selectConfirmedAppointmentData } from '../../../redux/selectors';
+import DetailPageLayout, {
+  ClinicOrFacilityPhone,
+  Details,
+  Prepare,
+  What,
+  When,
+  Where,
+  Who,
+} from './DetailPageLayout';
+
+export default function InPersonLayout({ data: appointment }) {
+  const {
+    clinicName,
+    clinicPhysicalLocation,
+    clinicPhone,
+    clinicPhoneExtension,
+    facility,
+    facilityPhone,
+    locationId,
+    isPastAppointment,
+    practitionerName,
+    startDate,
+    status,
+    typeOfCareName,
+  } = useSelector(
+    state => selectConfirmedAppointmentData(state, appointment),
+    shallowEqual,
+  );
+
+  if (!appointment) return null;
+
+  const { reasonForAppointment, patientComments } = appointment || {};
+  const facilityId = locationId;
+
+  let heading = 'In-person appointment';
+  if (isPastAppointment) heading = 'Past in-person appointment';
+  else if (APPOINTMENT_STATUS.cancelled === status)
+    heading = 'Canceled in-person appointment';
+
+  return (
+    <DetailPageLayout heading={heading} data={appointment}>
+      <When>
+        <AppointmentDate date={startDate} />
+        <br />
+        <AppointmentTime appointment={appointment} />
+        <br />
+        {APPOINTMENT_STATUS.cancelled !== status &&
+          !isPastAppointment && (
+            <div className="vads-u-margin-top--2 vaos-hide-for-print">
+              <AddToCalendarButton
+                appointment={appointment}
+                facility={facility}
+              />
+            </div>
+          )}
+      </When>
+      <What>{typeOfCareName}</What>
+      <Who>{practitionerName}</Who>
+      <Where
+        heading={
+          APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
+        }
+      >
+        {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
+        {!facility &&
+          !facilityId && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor href="/find-locations">
+                Find facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
+        {/* When the services return a null value for the facility (but receive the facility ID) */}
+        {!facility &&
+          !!facilityId && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor
+                href={`/find-locations/facility/vha_${getRealFacilityId(
+                  facilityId,
+                )}`}
+              >
+                View facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
+        {!!facility && (
+          <>
+            {facility.name}
+            <br />
+            <Address address={facility?.address} />
+            <div className="vads-u-margin-top--1 vads-u-color--link-default">
+              <FacilityDirectionsLink location={facility} icon />
+            </div>
+            <br />
+            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
+            <br />
+          </>
+        )}
+        <ClinicOrFacilityPhone
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
+          facilityPhone={facilityPhone}
+        />
+      </Where>
+      <Details reason={reasonForAppointment} otherDetails={patientComments} />
+      {!isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Bring your insurance cards. And bring a list of your medications
+              and other information to share with your provider.
+            </p>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              <va-link
+                text="Find a full list of things to bring to your appointment"
+                href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+              />
+            </p>
+          </Prepare>
+        )}
+    </DetailPageLayout>
+  );
+}
+InPersonLayout.propTypes = {
+  data: PropTypes.object,
+};
