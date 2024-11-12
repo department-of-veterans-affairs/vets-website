@@ -65,6 +65,7 @@ describe('ConfirmationPageV2', () => {
       'Not selected',
       '',
     ]);
+    expect($('va-summary-box', container)).to.not.exist;
   });
 
   it('should render the confirmation page with evidence', () => {
