@@ -1,6 +1,6 @@
 import React from 'react';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
-import { fileUploadBlurb } from '../../../shared/components/fileUploads/attachments';
+import { fileUploadBlurbCustom } from '../../../shared/components/fileUploads/attachments';
 
 const marriagePapers = [
   'Marriage certificate',
@@ -147,7 +147,10 @@ export function uploadWithInfoComponent(fileList, category, resources) {
           </>
         ),
       },
-      ...fileUploadBlurb,
+      ...fileUploadBlurbCustom(
+        undefined,
+        'If you don’t want to upload your supporting files now, you’ll have the option to upload again at the end of the application.',
+      ),
     },
     schema: {
       'view:acceptableFilesList': blankSchema,

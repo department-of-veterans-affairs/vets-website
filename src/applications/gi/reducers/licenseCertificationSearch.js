@@ -8,13 +8,13 @@ import {
 } from '../actions';
 
 export const INITIAL_STATE = {
-  fetchingLc: false,
+  fetchingLc: true,
   lcResults: [],
-  error: null,
   hasFetchedOnce: false,
   fetchingLcResult: false,
   hasFetchedResult: false,
   lcResultInfo: {},
+  error: null,
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -32,8 +32,9 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...newState,
         fetchingLc: false,
-        lcResults: action.payload.results,
+        lcResults: action.payload,
         hasFetchedOnce: true,
+        error: false,
       };
     case FETCH_LC_RESULTS_FAILED:
       return {
@@ -50,7 +51,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...newState,
         fetchingLcResult: false,
-        lcResultInfo: action.payload.result,
+        lcResultInfo: action.payload,
         hasFetchedResult: true,
       };
     case FETCH_LC_RESULT_FAILED:

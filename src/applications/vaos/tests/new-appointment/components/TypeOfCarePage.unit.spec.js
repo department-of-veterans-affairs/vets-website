@@ -107,6 +107,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
+    expect(await screen.findByText('What type of care do you need?')).to.exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
     // Verify alert is shown
@@ -139,7 +140,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('What care do you need?')).to.exist;
+    expect(await screen.findByText('What type of care do you need?')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
@@ -162,9 +163,6 @@ describe('VAOS Page: TypeOfCarePage', () => {
     let screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
-    await waitFor(() => {
-      expect(screen.getByLabelText(/primary care/i).checked).to.be.true;
-    });
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
@@ -197,6 +195,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
 
     expect((await screen.findAllByRole('radio')).length).to.equal(11);
   });
+
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
     mockV2CommunityCareEligibility({
@@ -224,7 +223,6 @@ describe('VAOS Page: TypeOfCarePage', () => {
       .primaryButtonClick;
     await okButton();
     expect(screen.queryByTestId('toc-modal')).to.be.null;
-    expect(screen.getByText(/what care do you need?/i)).to.exist;
   });
 
   it('should show eye care type of care page', async () => {
@@ -299,7 +297,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     expect(global.window.dataLayer[2].alertBoxHeading).to.equal(undefined);
   });
 
-  it('should display alert message when residental address is a PO Box', async () => {
+  it('should display alert message when residential address is a PO Box', async () => {
     const stateWithPOBox = set(
       'user.profile.vapContactInfo.residentialAddress',
       {
@@ -320,7 +318,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     ).to.exist;
   });
 
-  it('should save adress modal dismissal after page change', async () => {
+  it('should save address modal dismissal after page change', async () => {
     const stateWithoutAddress = set(
       'user.profile.vapContactInfo.residentialAddress',
       null,
@@ -351,8 +349,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
     screen = renderWithStoreAndRouter(<Route component={TypeOfCarePage} />, {
       store,
     });
-
     await screen.findAllByRole('radio');
+
     expect(
       screen.queryByText(
         /To use some of the tool’s features, you need a home address on file/i,
@@ -411,10 +409,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
       },
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
-
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
     fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
-
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(

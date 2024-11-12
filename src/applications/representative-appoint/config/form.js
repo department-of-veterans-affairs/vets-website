@@ -16,7 +16,7 @@ import {
 
 import {
   authorizeMedical,
-  // authorizeMedicalSelect,
+  authorizeMedicalSelect,
   authorizeAddress,
   authorizeInsideVA,
   authorizeOutsideVA,
@@ -69,8 +69,7 @@ const formConfig = {
   submit: async form => {
     const is2122a = isAttorneyOrClaimsAgent(form.data);
     const transformedFormData = pdfTransform(form.data);
-    const pdfResponse = await generatePDF(transformedFormData, is2122a);
-    localStorage.setItem('formPdf', pdfResponse);
+    await generatePDF(transformedFormData, is2122a);
 
     return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
   },
@@ -335,18 +334,18 @@ const formConfig = {
           uiSchema: authorizeMedical.uiSchema,
           schema: authorizeMedical.schema,
         },
-        // authorizeMedicalSelect: {
-        //   path: 'authorize-medical/select',
-        //   depends: formData => {
-        //     return (
-        //       formData?.authorizationRadio ===
-        //       'Yes, but they can only access some of these types of records'
-        //     );
-        //   },
-        //   title: 'Authorization for Certain Medical Records - Select',
-        //   uiSchema: authorizeMedicalSelect.uiSchema,
-        //   schema: authorizeMedicalSelect.schema,
-        // },
+        authorizeMedicalSelect: {
+          path: 'authorize-medical/select',
+          depends: formData => {
+            return (
+              formData?.authorizationRadio ===
+              'Yes, but they can only access some of these types of records'
+            );
+          },
+          title: 'Authorization for Certain Medical Records - Select',
+          uiSchema: authorizeMedicalSelect.uiSchema,
+          schema: authorizeMedicalSelect.schema,
+        },
         authorizeAddress: {
           path: 'authorize-address',
           title: 'Authorization to change your address',

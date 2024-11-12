@@ -162,7 +162,7 @@ const formConfig = {
   footerContent: FormFooter,
   preSubmitInfo: {
     CustomComponent: CustomPreSubmitInfo,
-    required: false,
+    required: true,
     field: 'privacyAgreementAccepted',
   },
   chapters: {
@@ -191,20 +191,14 @@ const formConfig = {
                 ...fullNameUI.first,
                 'ui:validations': [
                   (errors, field) => {
-                    if (!isValidName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your first name');
-                      } else if (field.length > 20) {
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
-                      } else if (field[0] === ' ' || field[0] === "'") {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                        );
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -213,18 +207,14 @@ const formConfig = {
                 ...fullNameUI.middle,
                 'ui:validations': [
                   (errors, field) => {
-                    if (!isValidName(field)) {
-                      if (field[0] === ' ' || field[0] === "'") {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else if (field.length > 20) {
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                        );
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -233,24 +223,16 @@ const formConfig = {
                 ...fullNameUI.last,
                 'ui:validations': [
                   (errors, field) => {
-                    if (!isValidLastName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your last name');
-                      } else if (field.length > 20) {
-                        errors.addError('Must be 20 characters or less');
-                      } else if (
-                        field[0] === ' ' ||
-                        field[0] === "'" ||
-                        field[0] === '-'
-                      ) {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
-                        );
+                    if (isValidLastName(field)) {
+                      if (field.length < 2) {
+                        errors.addError('Must be 2 characters or more');
+                      } else if (field.length > 26) {
+                        errors.addError('Must be 26 characters or less');
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -385,7 +367,7 @@ const formConfig = {
                           className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
-                        Monthly stipened
+                        Monthly stipend
                       </li>
                     </ul>
 
@@ -520,7 +502,7 @@ const formConfig = {
             },
             highSchoolDiploma: {
               'ui:title':
-                'Did you earn a high school or equivalency certificate?',
+                'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
@@ -531,7 +513,7 @@ const formConfig = {
             },
             graduationDate: {
               ...currentOrPastDateUI(
-                'When did you earn your high school diploma or equivalency?',
+                'When did you earn your high school diploma or equivalency certificate?',
               ),
               'ui:required': formData => {
                 return formData?.highSchoolDiploma === 'yes';
@@ -1162,6 +1144,36 @@ const formConfig = {
                 </>
               ),
             },
+            notificationMethod: {
+              'ui:title': 'Choose how you want to get notifications?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  yes: 'Yes, send me text message notifications',
+                  no: 'No, just send me email notifications',
+                },
+              },
+              'ui:validations': [
+                (errors, field, formData) => {
+                  const isYes = field === 'yes';
+                  const phoneExist = !!formData?.mobilePhone.phone;
+                  const isInternational =
+                    formData?.mobilePhone?.isInternational;
+
+                  if (isYes) {
+                    if (!phoneExist) {
+                      errors.addError(
+                        "You can't select that response because we don't have a mobile phone number on file for you.",
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        "You can't select that response because you have an international mobile phone number",
+                      );
+                    }
+                  }
+                },
+              ],
+            },
             'view:noMobilePhoneAlert': {
               'ui:description': (
                 <va-alert
@@ -1194,35 +1206,73 @@ const formConfig = {
                 },
               },
             },
-            notificationMethod: {
-              'ui:title': 'Choose how you want to get notifications?',
-              'ui:widget': 'radio',
+            'view:emailOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get email notifications because your
+                    email is on file for another person with education benefits.
+                    You will not be able to take full advantage of VA’s
+                    electronic notifications and enrollment verifications
+                    available. If you cannot, certain electronic services will
+                    be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
               'ui:options': {
-                labels: {
-                  yes: 'Yes, send me text message notifications',
-                  no: 'No, just send me email notifications',
+                hideIf: formData => {
+                  const isNo = formData?.notificationMethod === 'no';
+
+                  const noDuplicates = formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  return !isNo || noDuplicates;
                 },
               },
-              'ui:validations': [
-                (errors, field, formData) => {
-                  const isYes = field === 'yes';
-                  const phoneExist = !!formData?.mobilePhone.phone;
-                  const isInternational =
-                    formData?.mobilePhone?.isInternational;
+            },
+            'view:mobilePhoneOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isYes = formData?.notificationMethod === 'yes';
+                  const mobilePhone = formData?.mobilePhone.phone;
+                  const noDuplicates = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  );
 
-                  if (isYes) {
-                    if (!phoneExist) {
-                      errors.addError(
-                        "You can't select that response because we don't have a mobile phone number on file for you.",
-                      );
-                    } else if (isInternational) {
-                      errors.addError(
-                        "You can't select that response because you have an international mobile phone number",
-                      );
-                    }
-                  }
+                  return !isYes || noDuplicates || !mobilePhone;
                 },
-              ],
+              },
             },
           },
           schema: {
@@ -1237,13 +1287,21 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              notificationMethod: {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
               'view:noMobilePhoneAlert': {
                 type: 'object',
                 properties: {},
               },
-              notificationMethod: {
-                type: 'string',
-                enum: ['yes', 'no'],
+              'view:emailOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:mobilePhoneOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
               },
             },
           },

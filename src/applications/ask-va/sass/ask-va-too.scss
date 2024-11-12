@@ -168,7 +168,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     padding: 24px 16px 0 12px;
     border: solid thin var(--vads-color-base-lightest);
     background: var(--vads-color-base-lightest);
-    max-width: 480px;
+    max-width: 100%;
 
     select:disabled {
       background: var(--vads-color-base-lightest);
@@ -177,7 +177,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     #facility-search-controls {
       display: flex;
       flex-direction: column;
-      max-width: 480px;
 
       input,
       textarea,
@@ -231,7 +230,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       .search-input {
         display: flex;
         flex-direction: row;
-        margin-top: 1.25rem;
+        margin-top: 1rem;
         margin-bottom: 2.5rem;
 
         #facility-search {
@@ -239,6 +238,19 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
           border-bottom-left-radius: 0px;
           width: 35%;
           height: auto;
+          margin: 0;
+
+          .button-text {
+            @media (max-width: $small-screen) {
+              display: none;
+            }
+          }
+
+          .button-icon {
+            @media (min-width: $small-screen) {
+              display: none;
+            }
+          }
         }
 
         input {
@@ -246,6 +258,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
           width: 100%;
           height: 3.28125rem;
         }
+      }
+
+      .location-loader {
+        max-height: 2rem;
+        overflow: hidden;
       }
 
       .use-my-location-link {
@@ -463,4 +480,8 @@ ul.react-tabs__tab-list {
 
 .search-hint-text {
   color: var(--vads-color-base-dark);
+}
+
+.ask-va-modal-content {
+  margin-bottom: 2rem;
 }

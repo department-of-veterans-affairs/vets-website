@@ -484,6 +484,7 @@ const ReplyDraftItem = props => {
           data-testid="draft-reply-to"
           style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
           data-dd-privacy="mask"
+          data-dd-action-name="Reply Draft Accordion Header"
         >
           <div className="vads-u-margin-right--0p5 vads-u-margin-top--0p25">
             <va-icon icon="undo" aria-hidden="true" />

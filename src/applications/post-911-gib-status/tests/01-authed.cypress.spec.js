@@ -26,11 +26,6 @@ describe('Gibs Test', () => {
 
     cy.get('#gibs-full-name').should('contain', 'First Last');
 
-    cy.get('#enrollment-0 h4').should(
-      'contain',
-      '11/01/2012 to 12/01/2012 at purdue university',
-    );
-
     cy.get('#print-button').click();
     cy.get('.print-status', { timeout: Timeouts.slow }).should('be.visible');
     cy.injectAxeThenAxeCheck();

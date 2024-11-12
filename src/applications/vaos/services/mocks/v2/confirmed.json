@@ -2902,7 +2902,7 @@
           "vistaStatus": [],
           "patientHasMobileGfe": true
         },
-        "localStartTime": "2024-12-12T13:55:00.000-06:00",
+        "localStartTime": "2024-12-12T11:00:00.000-06:00",
         "location": {
           "id": "983",
           "type": "appointments",
