@@ -31,7 +31,6 @@ const VerificationReviewWrapper = ({
   claimantId,
 }) => {
   useScrollToTop();
-  // console.log('enrollmentVerifications', enrollmentVerifications?.personalInfo?.recordResponse);
   const [isChecked, setIsChecked] = useState(false);
   const [showError, setShowError] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
