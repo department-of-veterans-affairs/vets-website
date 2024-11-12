@@ -1,11 +1,11 @@
-import React from 'react';
 import { expect } from 'chai';
+import React from 'react';
 import Sinon from 'sinon';
-import { AppointmentList } from './index';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
-import * as AppointmentsPage from './components/AppointmentsPage/index';
-import * as ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
-import * as RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
+import { AppointmentList } from './index';
+import * as ConfirmedAppointmentDetailsPage from './pages/AppointmentDetailsPage';
+import * as AppointmentsPage from './pages/AppointmentsPage/index';
+import * as RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage';
 
 describe('VAOS Page: Appointment list routes', () => {
   const sandbox = Sinon.createSandbox();

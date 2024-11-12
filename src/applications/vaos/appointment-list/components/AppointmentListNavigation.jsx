@@ -1,10 +1,10 @@
-import React from 'react';
-import { useLocation, NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { GA_PREFIX } from '../../utils/constants';
-import PrintButton from './ConfirmedAppointmentDetailsPage/PrintButton';
+import PrintButton from './PrintButton';
 
 export default function AppointmentListNavigation({ count, callback }) {
   const location = useLocation();

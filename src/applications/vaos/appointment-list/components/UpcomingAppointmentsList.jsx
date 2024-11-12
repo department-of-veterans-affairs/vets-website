@@ -1,22 +1,22 @@
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import classNames from 'classnames';
+import moment from 'moment';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import moment from 'moment';
-import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../components/InfoAlert';
-import { getUpcomingAppointmentListInfo } from '../redux/selectors';
-import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import { groupAppointmentByDay } from '../../services/appointment';
-import NoAppointments from './NoAppointments';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import UpcomingAppointmentLayout from '../pages/UpcomingAppointmentsPage/UpcomingAppointmentLayout';
 import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
 } from '../redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
-import UpcomingAppointmentLayout from './AppointmentsPage/UpcomingAppointmentLayout';
+import { getUpcomingAppointmentListInfo } from '../redux/selectors';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
+import NoAppointments from './NoAppointments';
 
 export default function UpcomingAppointmentsList() {
   const history = useHistory();

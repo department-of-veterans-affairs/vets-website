@@ -1,12 +1,12 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import AppointmentsPage from './components/AppointmentsPage/index';
-import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
-import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
+import AppointmentDetailsPage from './pages/AppointmentDetailsPage';
+import AppointmentsPage from './pages/AppointmentsPage';
+import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage';
 
 function AppointmentListSection() {
   useManualScrollRestoration();
@@ -21,11 +21,11 @@ function AppointmentListSection() {
         <Switch>
           <Route
             path="/:pastOrPending?/cc/:id"
-            component={ConfirmedAppointmentDetailsPage}
+            component={AppointmentDetailsPage}
           />
           <Route
             path="/:pastOrPending?/va/:id"
-            component={ConfirmedAppointmentDetailsPage}
+            component={AppointmentDetailsPage}
           />
           <Route
             path="/:pastOrPending?/requests/:id"
@@ -41,12 +41,12 @@ function AppointmentListSection() {
             component={RequestedAppointmentDetailsPage}
           />
           <Route path="/pending" component={AppointmentsPage} />
-          <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
+          <Route path="/past/:id" component={AppointmentDetailsPage} />
           <Route path="/past" component={AppointmentsPage} />
           <Route
             exact
             path={['/va/:id', '/:id']}
-            component={ConfirmedAppointmentDetailsPage}
+            component={AppointmentDetailsPage}
           />
           <Route
             exact
