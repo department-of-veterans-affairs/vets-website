@@ -43,6 +43,7 @@ async function mergeCoverageReports(files) {
 }
 
 const files = process.argv.slice(2);
+console.log({ files });
 mergeCoverageReports(files).then(merged => {
   console.log(JSON.stringify(merged, null, 2));
 
