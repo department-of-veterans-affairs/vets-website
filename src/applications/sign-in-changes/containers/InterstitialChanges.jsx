@@ -1,18 +1,41 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { selectProfile } from 'platform/user/selectors';
+import React, { useState, useEffect } from 'react';
+import {
+  VaLink,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/exports';
 import CreateAccount from '../components/CreateAccount';
 import AccountSwitch from '../components/AccountSwitch';
 
 export default function InterstitialChanges() {
-  const userHasLogingov =
-    useSelector(state => selectProfile(state)?.logingovUuid) !== null;
-  const userHasIdme =
-    useSelector(state => selectProfile(state)?.idmeUuid) !== null;
-  const showAccount = userHasLogingov || userHasIdme;
+  document.title =
+    'You’ll need to sign in with a different account after January 31, 2025';
+
+  const [userEmails, setUserEmails] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    apiRequest('/user/credential_emails', {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(data => {
+        setUserEmails(data);
+        setIsLoading(false);
+      })
+      .catch(() => {});
+  }, []);
+
+  const showAccount = userEmails?.logingov || userEmails?.idme;
   const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/';
+
+  if (isLoading) {
+    return <VaLoadingIndicator />;
+  }
+
   return (
     <div className="row vads-u-margin-y--6 vads-u-padding-x--2 login">
       <h1
@@ -21,19 +44,19 @@ export default function InterstitialChanges() {
       >
         You’ll need to sign in with a different account after January 31, 2025
       </h1>
-      <p className="vads-u-font-size--base section-content">
+      <p className="vads-u-font-size--base section-content vads-u-measure--5">
         After this date, we'll remove the <strong>My HealtheVet</strong> sign-in
         option. You’ll need to sign in using a <strong>Login.gov</strong> or{' '}
         <strong>ID.me</strong> account.
       </p>
       {showAccount ? (
-        <AccountSwitch hasLogingov={userHasLogingov} />
+        <AccountSwitch userEmails={userEmails} />
       ) : (
         <CreateAccount />
       )}
-      <h2 className="vads-u-margin-y--0">Or continue using your old account</h2>
+      <h2>Or continue using your old account</h2>
       <p className="vads-u-font-size--base">
-        You’ll can use you <strong>My HealtheVet</strong> account to sign in
+        You’ll can use your <strong>My HealtheVet</strong> account to sign in
         until <strong>January 31, 2025</strong>.
       </p>
       <VaLink
