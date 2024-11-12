@@ -38,6 +38,7 @@ export default function TypeOfCarePage() {
     pageChangeInProgress,
     showCommunityCare,
     showDirectScheduling,
+    removePodiatry,
     showPodiatryApptUnavailableModal,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
@@ -71,7 +72,9 @@ export default function TypeOfCarePage() {
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
       const sortedCare = TYPES_OF_CARE.filter(
-        typeOfCare => typeOfCare.id !== PODIATRY_ID || showCommunityCare,
+        typeOfCare =>
+          typeOfCare.id !== PODIATRY_ID ||
+          (showCommunityCare && !removePodiatry),
       ).sort(
         (careA, careB) =>
           careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
