@@ -36,6 +36,11 @@ const EditContactList = () => {
   const [checkboxError, setCheckboxError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
+  const [
+    showBlockedTriageGroupAlert,
+    setShowBlockedTriageGroupAlert,
+  ] = useState(false);
+
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
 
   const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
@@ -189,6 +194,17 @@ const EditContactList = () => {
       />
       <h1>Contact list</h1>
       <AlertBackgroundBox closeable focus />
+      <p
+        className={`${
+          allFacilities?.length > 1 || showBlockedTriageGroupAlert
+            ? 'vads-u-margin-bottom--4'
+            : 'vads-u-margin-bottom--0'
+        }`}
+      >
+        Select the teams you want to show in your contact list. You must select
+        at least one team
+        {allFacilities?.length > 1 ? ' from one of your facilities.' : '.'}{' '}
+      </p>
 
       {error && (
         <div>
@@ -225,6 +241,7 @@ const EditContactList = () => {
             <BlockedTriageGroupAlert
               alertStyle={BlockedTriageAlertStyles.ALERT}
               parentComponent={ParentComponent.CONTACT_LIST}
+              setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
             />
           </div>
 

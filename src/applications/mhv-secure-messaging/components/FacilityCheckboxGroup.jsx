@@ -30,24 +30,25 @@ const FacilityCheckboxGroup = props => {
 
   return (
     <div>
-      {multipleFacilities && (
-        <h2 className="vads-u-font-size--h3">{facilityName}</h2>
-      )}
       <va-checkbox-group
         data-testid={`${facilityName?.replace(/ /g, '-')}-facility-group`}
-        label="Select the teams you want to show in your contact list."
-        class={`contactListFacility vads-u-margin-bottom--4 ${multipleFacilities &&
-          'vads-u-margin-top--0'}`}
+        label={multipleFacilities ? facilityName : null}
+        label-header-level={multipleFacilities ? '2' : null}
+        class="contactListFacility vads-u-margin-bottom--4 vads-u-margin-top--0"
         error={errorMessage}
       >
         <VaCheckbox
           data-testid={`select-all-${facilityName?.replace(/ /g, '-')}-teams`}
-          label={`Select all ${triageTeams.length} ${facilityName} teams`}
+          label={`Select all ${triageTeams.length} teams`}
           checked={selectAll}
           onVaChange={handleSelectAllChange}
           class="vads-u-margin-bottom--2"
           message-aria-describedby={
-            errorMessage ? `Error. ${errorMessage}` : ''
+            errorMessage
+              ? `Error. ${errorMessage}`
+              : `You must select at least one team${
+                  multipleFacilities ? ' from one of your facilities.' : '.'
+                }`
           }
         />
         <div
