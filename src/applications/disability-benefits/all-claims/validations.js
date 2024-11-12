@@ -478,40 +478,6 @@ export const validateDisabilityName = (
 };
 
 /**
- * Validates a given condition name for length, if its an empty string, and for duplication. Only used on newConditions page.
- * @param {Object} err - Errors object from rjsf, which includes an addError method
- * @param {Object} fieldData - The data associated with the current schema. Disability name.
- * @param {Object} formData - Full formData for the form
- */
-export const validateConditionName = (err, fieldData = '', formData = {}) => {
-  if (fieldData.length > 255) {
-    err.addError('This needs to be less than 256 characters');
-  }
-
-  const missingCondition =
-    !fieldData?.trim() ||
-    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
-
-  if (missingCondition) {
-    err.addError(missingConditionMessage);
-  }
-
-  const currentList =
-    formData?.newConditions?.map(condition =>
-      condition.condition?.toLowerCase(),
-    ) || [];
-  const itemLowerCased = fieldData?.toLowerCase() || '';
-  const itemSippableId = sippableId(fieldData || '');
-  const itemCount = currentList.filter(
-    item => item === itemLowerCased || sippableId(item) === itemSippableId,
-  );
-
-  if (itemCount.length > 1) {
-    err.addError('You’ve already added this condition to your claim');
-  }
-};
-
-/**
  * Validates that a disability has been selected. Adds an error if appropriate disability
  * has not been chosen for the claim type.
  * @param {Object} err - Errors object from rjsf, which includes an addError method

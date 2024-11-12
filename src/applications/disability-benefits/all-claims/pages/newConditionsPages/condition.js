@@ -1,0 +1,79 @@
+import React from 'react';
+import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns';
+
+import Autocomplete from '../../components/Autocomplete';
+import { NULL_CONDITION_STRING } from '../../constants';
+import { conditionOptions } from '../../content/conditionOptions';
+import { AddConditionInstructions } from '../../content/newConditions';
+import { sippableId } from '../../utils';
+import { missingConditionMessage } from '../../validations';
+import { arrayBuilderOptions } from './utils';
+
+export const validateConditionName = (err, fieldData = '', formData = {}) => {
+  if (fieldData.length > 255) {
+    err.addError('This needs to be less than 256 characters');
+  }
+
+  const missingCondition =
+    !fieldData?.trim() ||
+    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
+
+  if (missingCondition) {
+    err.addError(missingConditionMessage);
+  }
+
+  const currentList =
+    formData?.newConditions?.map(condition =>
+      condition.condition?.toLowerCase(),
+    ) || [];
+  const itemLowerCased = fieldData?.toLowerCase() || '';
+  const itemSippableId = sippableId(fieldData || '');
+  const itemCount = currentList.filter(
+    item => item === itemLowerCased || sippableId(item) === itemSippableId,
+  );
+
+  if (itemCount.length > 1) {
+    err.addError('You’ve already added this condition to your claim');
+  }
+};
+
+/** @returns {PageSchema} */
+const addConditionPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Tell us the new condition you want to claim',
+      nounSingular: arrayBuilderOptions.nounSingular,
+      description: AddConditionInstructions,
+    }),
+    condition: {
+      'ui:title': 'Enter your condition',
+      'ui:field': data => (
+        <Autocomplete
+          availableResults={conditionOptions}
+          debounceDelay={200}
+          id={data.idSchema.$id}
+          formData={data.formData}
+          onChange={data.onChange}
+        />
+      ),
+      'ui:errorMessages': {
+        required: missingConditionMessage,
+      },
+      'ui:validations': [validateConditionName],
+      'ui:options': {
+        useAllFormData: true,
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      condition: {
+        type: 'string',
+      },
+    },
+    required: ['condition'],
+  },
+};
+
+export default addConditionPage;
