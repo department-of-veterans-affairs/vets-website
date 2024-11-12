@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { waitFor } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -31,15 +32,18 @@ const props = {
 
 describe('<FilesPage>', () => {
   let stub;
+  let setPageFocusSpy;
   beforeEach(() => {
     // Stubbing out AdditionalEvidencePage because we're not interested
     // in setting up all of the redux state needed to test it
     stub = sinon.stub(AdditionalEvidencePage, 'default');
     stub.returns(<div data-testid="additional-evidence-page" />);
+    setPageFocusSpy = sinon.spy(helpers, 'setPageFocus');
   });
 
   afterEach(() => {
     stub.restore();
+    setPageFocusSpy.restore();
   });
 
   it('should render loading state', () => {
@@ -76,36 +80,52 @@ describe('<FilesPage>', () => {
     getByText('Claim status is unavailable');
   });
 
-  it('should call setPageFocus when location.hash is empty', done => {
-    const setPageFocusSpy = sinon.spy(helpers, 'setPageFocus');
-    this.timeout(110);
-    renderWithRouter(
-      <Provider store={getStore()}>
-        <FilesPage {...props} location={{ hash: '' }} />
-      </Provider>,
-    );
+  describe('pageFocus', () => {
+    const claim = {
+      id: '1',
+      type: 'claim',
+      attributes: {
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-02-08',
+          latestPhaseType: 'INITIAL_REVIEW',
+          previousPhases: {
+            phase1CompleteDate: '2023-02-08',
+          },
+        },
+        closeDate: null,
+        documentsNeeded: false,
+        decisionLetterSent: false,
+        status: 'INITIAL_REVIEW',
+        supportingDocuments: [],
+        trackedItems: [],
+      },
+    };
 
-    setTimeout(() => {
-      expect(setPageFocusSpy.calledOnce).to.be.true;
-      setPageFocusSpy.restore();
-      done();
-    }, 110); // Allow a bit more time than the timeout in the component
-  });
+    it('should call setPageFocus when location.hash is empty', async () => {
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={claim} location={{ hash: '' }} />
+        </Provider>,
+      );
 
-  it('should not call setPageFocus when location.hash is not empty', done => {
-    const setPageFocusSpy = sinon.spy(helpers, 'setPageFocus');
-    this.timeout(110);
-    renderWithRouter(
-      <Provider store={getStore()}>
-        <FilesPage {...props} location={{ hash: '#add-files' }} />
-      </Provider>,
-    );
+      await waitFor(() => {
+        expect(setPageFocusSpy.calledOnce).to.be.true;
+      });
+    });
 
-    setTimeout(() => {
-      expect(setPageFocusSpy.calledOnce).to.be.false;
-      setPageFocusSpy.restore();
-      done();
-    }, 110); // Allow a bit more time than the timeout in the component
+    it('should not call setPageFocus when location.hash is not empty', async () => {
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} location={{ hash: '#add-files' }} />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        expect(setPageFocusSpy.calledOnce).to.be.false;
+      });
+    });
   });
 
   describe('document.title', () => {
