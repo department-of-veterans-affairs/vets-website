@@ -80,22 +80,7 @@ describe('<Default5103EvidenceNotice>', () => {
     );
     expect($('#default-5103-notice-page', container)).to.not.exist;
   });
-
-  // it('navigates to the correct route when clicked', () => {
-  //   const navigate = sinon.spy();
-  //   const { getByText } = renderWithRouter(
-  //     <Default5103EvidenceNotice
-  //       item={standard5103}
-  //       params={{ id: claimId }}
-  //       navigate={navigate}
-  //     />,
-  //   );
-
-  //   const additionalEvidenceLink = getByText(/Upload additional evidence/i);
-  //   fireEvent.click(additionalEvidenceLink);
-  //   expect(navigate.calledWith('../files#add-files')).to.be.true;
-  // });
-  it('link has the correct href to upload additional eveidence', () => {
+  it('link has the correct href to upload additional evidence', () => {
     const { getByText } = renderWithRouter(
       <Default5103EvidenceNotice
         item={standard5103}
