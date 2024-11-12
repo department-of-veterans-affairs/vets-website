@@ -5,7 +5,11 @@ import {
   VaRadioOption,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { filterOptions } from '../../util/constants';
+import {
+  filterOptions,
+  SESSION_SELECTED_FILTER_OPTION,
+} from '../../util/constants';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const MedicationsListFilter = props => {
   const { updateFilter, filterOption, setFilterOption } = props;
@@ -16,6 +20,18 @@ const MedicationsListFilter = props => {
 
   const handleFilterSubmit = () => {
     updateFilter(filterOption);
+    focusElement(document.getElementById('showingRx'));
+  };
+
+  const handleAccordionItemToggle = ({ target }) => {
+    if (target) {
+      const isOpen = target.getAttribute('open');
+      if (!isOpen) {
+        setFilterOption(
+          sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) || null,
+        );
+      }
+    }
   };
 
   const filterOptionsArray = Object.keys(filterOptions);
@@ -25,6 +41,7 @@ const MedicationsListFilter = props => {
       open-single
       data-testid="filter-accordion"
       class="filter-accordion"
+      onAccordionItemToggled={handleAccordionItemToggle}
     >
       <va-accordion-item
         header="Filter list"
@@ -40,6 +57,7 @@ const MedicationsListFilter = props => {
           label="Select a filter"
           data-testid="filter-option"
           onVaValueChange={handleFilterOptionChange}
+          className="vads-u-margin-top--0"
         >
           {filterOptionsArray.map(option => (
             <VaRadioOption
@@ -53,7 +71,7 @@ const MedicationsListFilter = props => {
           ))}
         </VaRadio>
         <VaButton
-          className="vads-u-width--full filter-submit-btn"
+          className="vads-u-width--full tablet:vads-u-width--auto filter-submit-btn vads-u-margin-top--3"
           onClick={handleFilterSubmit}
           text="Filter"
           data-testid="filter-button"
