@@ -26,11 +26,11 @@ const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 
 class FilesPage extends React.Component {
   componentDidMount() {
-    const { claim } = this.props;
+    const { claim, location } = this.props;
     // Only set the document title at mount-time if the claim is already available.
     if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
 
-    if (!this.props.location?.hash) {
+    if (location?.hash === '') {
       setTimeout(() => {
         const { lastPage, loading } = this.props;
         setPageFocus(lastPage, loading);

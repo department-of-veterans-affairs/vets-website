@@ -10,7 +10,7 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
 import { renderWithRouter, rerenderWithRouter } from '../utils';
-import * as page from '../../utils/page';
+import * as helpers from '../../utils/helpers';
 
 const getStore = (cst5103UpdateEnabled = false) =>
   createStore(() => ({
@@ -23,7 +23,7 @@ const getStore = (cst5103UpdateEnabled = false) =>
 const props = {
   claim: {},
   clearNotification: () => {},
-  lastPage: '',
+  lastPage: '/overview',
   loading: false,
   location: { hash: '' },
   message: {},
@@ -31,16 +31,14 @@ const props = {
 
 describe('<FilesPage>', () => {
   let stub;
-  let setPageFocusSpy;
-  before(() => {
+  beforeEach(() => {
     // Stubbing out AdditionalEvidencePage because we're not interested
     // in setting up all of the redux state needed to test it
     stub = sinon.stub(AdditionalEvidencePage, 'default');
     stub.returns(<div data-testid="additional-evidence-page" />);
-    setPageFocusSpy = sinon.spy(page, 'setUpPage');
   });
 
-  after(() => {
+  afterEach(() => {
     stub.restore();
   });
 
@@ -79,27 +77,33 @@ describe('<FilesPage>', () => {
   });
 
   it('should call setPageFocus when location.hash is empty', done => {
+    const setPageFocusSpy = sinon.spy(helpers, 'setPageFocus');
+    this.timeout(110);
     renderWithRouter(
       <Provider store={getStore()}>
-        <FilesPage {...props} />
+        <FilesPage {...props} location={{ hash: '' }} />
       </Provider>,
     );
 
     setTimeout(() => {
       expect(setPageFocusSpy.calledOnce).to.be.true;
+      setPageFocusSpy.restore();
       done();
     }, 110); // Allow a bit more time than the timeout in the component
   });
 
   it('should not call setPageFocus when location.hash is not empty', done => {
+    const setPageFocusSpy = sinon.spy(helpers, 'setPageFocus');
+    this.timeout(110);
     renderWithRouter(
       <Provider store={getStore()}>
-        <FilesPage {...props} location="#add-files" />
+        <FilesPage {...props} location={{ hash: '#add-files' }} />
       </Provider>,
     );
 
     setTimeout(() => {
       expect(setPageFocusSpy.calledOnce).to.be.false;
+      setPageFocusSpy.restore();
       done();
     }, 110); // Allow a bit more time than the timeout in the component
   });
@@ -217,6 +221,7 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
+        {...props}
         clearNotification={clearNotification}
         message={message}
         claim={claim}
@@ -265,6 +270,7 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
+        {...props}
         clearNotification={clearNotification}
         message={message}
         claim={claim}
@@ -302,6 +308,7 @@ describe('<FilesPage>', () => {
       const { container, getByTestId } = renderWithRouter(
         <Provider store={getStore()}>
           <FilesPage
+            {...props}
             claim={claim}
             message={{ title: 'Test', body: 'Body' }}
             clearNotification={() => {}}
@@ -351,6 +358,7 @@ describe('<FilesPage>', () => {
       const { container, getByTestId } = renderWithRouter(
         <Provider store={getStore()}>
           <FilesPage
+            {...props}
             claim={claim}
             message={{ title: 'Test', body: 'Body' }}
             clearNotification={() => {}}
@@ -393,6 +401,7 @@ describe('<FilesPage>', () => {
         const { getByText } = renderWithRouter(
           <Provider store={getStore()}>
             <FilesPage
+              {...props}
               claim={claim}
               message={{ title: 'Test', body: 'Body' }}
               clearNotification={() => {}}
@@ -431,6 +440,7 @@ describe('<FilesPage>', () => {
         const { queryByText } = renderWithRouter(
           <Provider store={getStore(true)}>
             <FilesPage
+              {...props}
               claim={claim}
               message={{ title: 'Test', body: 'Body' }}
               clearNotification={() => {}}
@@ -470,6 +480,7 @@ describe('<FilesPage>', () => {
       const { container, getByTestId } = renderWithRouter(
         <Provider store={getStore()}>
           <FilesPage
+            {...props}
             claim={claim}
             message={{ title: 'Test', body: 'Body' }}
             clearNotification={() => {}}
