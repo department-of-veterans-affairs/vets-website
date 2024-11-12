@@ -185,6 +185,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page2: {
+          // initialData: mockData.data,
           path: 'signer-info',
           title: 'Certification',
           uiSchema: {
