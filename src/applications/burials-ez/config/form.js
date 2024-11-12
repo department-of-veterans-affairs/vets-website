@@ -75,7 +75,7 @@ const formConfig = {
       saved: 'Your burial benefits application has been saved.',
     },
   },
-  version: 1,
+  version: 2,
   migrations,
   prefillEnabled: true,
   dev: {
