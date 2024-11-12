@@ -470,9 +470,9 @@ export const MY_VA_SIP_FORMS = [
   {
     id: VA_FORM_IDS.FORM_21_4140,
     benefit: 'benefits',
-    title: 'Employment History Questionnaire',
+    title: 'Employment Questionnaire',
     description: 'benefits',
-    trackingPrefix: '21-4140-ehq-',
+    trackingPrefix: '21-4140-eq-',
   },
 ];
 
