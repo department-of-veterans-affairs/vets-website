@@ -33,8 +33,10 @@ const {
 export class Main extends React.Component {
   componentDidMount() {
     const { shouldUseLighthouse, shouldUseLettersDiscrepancies } = this.props;
+
     // eslint-disable-next-line -- LH_MIGRATION
     const LH_MIGRATION__options = LH_MIGRATION__getOptions(shouldUseLighthouse);
+
     if (!this.props.emptyAddress) {
       // eslint-disable-next-line -- LH_MIGRATION
       return this.props.getLetterListAndBSLOptions(
