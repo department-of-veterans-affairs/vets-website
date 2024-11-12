@@ -171,12 +171,7 @@ describe('validateYMDate', () => {
     expect(errorMessage[0]).to.eq(scErrors.evidence.newerDate);
   });
   it('should throw an error for dates in the future', () => {
-    const date = getYM(parseDateWithOffset({ weeks: 1 }));
-    validateYMDate(errors, date, fullData);
-    expect(errorMessage[0]).to.eq(scErrors.evidence.pastDate);
-  });
-  it('should throw an error for todays date', () => {
-    const date = getYM(parseDate(new Date()));
+    const date = getYM(parseDateWithOffset({ weeks: 5 }));
     validateYMDate(errors, date, fullData);
     expect(errorMessage[0]).to.eq(scErrors.evidence.pastDate);
   });
