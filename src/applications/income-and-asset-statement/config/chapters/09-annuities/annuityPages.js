@@ -15,7 +15,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import { formatDateShort } from 'platform/utilities/date';
 import {
   formatCurrency,
-  annualReceivedIncomeRequired,
+  annualReceivedIncomeFromAnnuityRequired,
   surrenderValueRequired,
 } from '../../../helpers';
 
@@ -171,7 +171,7 @@ const incomePage = {
           expandUnder: 'receivingIncomeFromAnnuity',
           expandUnderCondition: true,
         },
-        'ui:required': annualReceivedIncomeRequired,
+        'ui:required': annualReceivedIncomeFromAnnuityRequired,
       },
     ),
   },
@@ -231,7 +231,7 @@ const addedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
     addedFundsDate: currentOrPastDateUI('When did you add funds?'),
-    addedFunds: merge({}, currencyUI('How much did you add?'), {
+    addedFundsAmount: merge({}, currencyUI('How much did you add?'), {
       'ui:options': {
         classNames: 'schemaform-currency-input-v3',
       },
@@ -241,9 +241,9 @@ const addedFundsPage = {
     type: 'object',
     properties: {
       addedFundsDate: currentOrPastDateSchema,
-      addedFunds: { type: 'number' },
+      addedFundsAmount: { type: 'number' },
     },
-    required: ['addedFundsDate', 'addedFunds'],
+    required: ['addedFundsDate', 'addedFundsAmount'],
   },
 };
 

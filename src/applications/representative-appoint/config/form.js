@@ -16,7 +16,7 @@ import {
 
 import {
   authorizeMedical,
-  // authorizeMedicalSelect,
+  authorizeMedicalSelect,
   authorizeAddress,
   authorizeInsideVA,
   authorizeOutsideVA,
@@ -334,18 +334,18 @@ const formConfig = {
           uiSchema: authorizeMedical.uiSchema,
           schema: authorizeMedical.schema,
         },
-        // authorizeMedicalSelect: {
-        //   path: 'authorize-medical/select',
-        //   depends: formData => {
-        //     return (
-        //       formData?.authorizationRadio ===
-        //       'Yes, but they can only access some of these types of records'
-        //     );
-        //   },
-        //   title: 'Authorization for Certain Medical Records - Select',
-        //   uiSchema: authorizeMedicalSelect.uiSchema,
-        //   schema: authorizeMedicalSelect.schema,
-        // },
+        authorizeMedicalSelect: {
+          path: 'authorize-medical/select',
+          depends: formData => {
+            return (
+              formData?.authorizationRadio ===
+              'Yes, but they can only access some of these types of records'
+            );
+          },
+          title: 'Authorization for Certain Medical Records - Select',
+          uiSchema: authorizeMedicalSelect.uiSchema,
+          schema: authorizeMedicalSelect.schema,
+        },
         authorizeAddress: {
           path: 'authorize-address',
           title: 'Authorization to change your address',
