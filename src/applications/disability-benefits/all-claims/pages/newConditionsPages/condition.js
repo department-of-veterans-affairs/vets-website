@@ -9,19 +9,23 @@ import { sippableId } from '../../utils';
 import { missingConditionMessage } from '../../validations';
 import { arrayBuilderOptions } from './utils';
 
-export const validateConditionName = (err, fieldData = '', formData = {}) => {
+const validateLength = (err, fieldData) => {
   if (fieldData.length > 255) {
     err.addError('This needs to be less than 256 characters');
   }
+};
 
-  const missingCondition =
+const validateNotMissing = (err, fieldData) => {
+  const isMissingCondition =
     !fieldData?.trim() ||
     fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
 
-  if (missingCondition) {
+  if (isMissingCondition) {
     err.addError(missingConditionMessage);
   }
+};
 
+const validateNotDuplicate = (err, fieldData, formData) => {
   const currentList =
     formData?.newConditions?.map(condition =>
       condition.condition?.toLowerCase(),
@@ -35,6 +39,12 @@ export const validateConditionName = (err, fieldData = '', formData = {}) => {
   if (itemCount.length > 1) {
     err.addError('You’ve already added this condition to your claim');
   }
+};
+
+export const validateCondition = (err, fieldData = '', formData = {}) => {
+  validateLength(err, fieldData);
+  validateNotMissing(err, fieldData);
+  validateNotDuplicate(err, fieldData, formData);
 };
 
 /** @returns {PageSchema} */
@@ -59,7 +69,7 @@ const addConditionPage = {
       'ui:errorMessages': {
         required: missingConditionMessage,
       },
-      'ui:validations': [validateConditionName],
+      'ui:validations': [validateCondition],
       'ui:options': {
         useAllFormData: true,
       },
