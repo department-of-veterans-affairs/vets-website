@@ -8,6 +8,7 @@ const applicantDetailsErrors = [
 const veteranDetailsErrors = [
   'veteran_currentName_first',
   'veteran_currentName_last',
+  'veteran_ssn',
 ];
 const veteranDemographicsErrors = [
   'veteran_gender',
