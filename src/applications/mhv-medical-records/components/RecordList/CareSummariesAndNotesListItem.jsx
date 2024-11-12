@@ -51,7 +51,7 @@ const CareSummariesAndNotesListItem = props => {
         <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
           {record.name}
           <span className="sr-only" data-testid="sr-note-date">
-            on {isDischargeSummary ? dsDisplayDate(record) : record.date}
+            {`on ${isDischargeSummary ? dsDisplayDate(record) : record.date}`}
           </span>
         </div>
       </Link>

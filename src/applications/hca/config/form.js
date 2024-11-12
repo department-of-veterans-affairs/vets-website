@@ -7,7 +7,8 @@ import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/cons
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 
 // internal imports
-import { prefillTransformer, transform } from '../utils/helpers';
+import { prefillTransformer } from './prefill-transformer';
+import { transform } from '../utils/helpers';
 import {
   isLoggedOut,
   isSigiEnabled,
