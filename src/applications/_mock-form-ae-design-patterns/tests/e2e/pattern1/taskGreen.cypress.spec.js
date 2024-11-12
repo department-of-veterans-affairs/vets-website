@@ -114,9 +114,9 @@ describe('Prefill pattern - Green Task', () => {
 
     cy.findByText('Mitchell G Jenkins').should('exist');
 
-    cy.findByText('●●●–●●–8321').should('exist');
+    cy.findByText('●●●–●●–6789').should('exist');
 
-    cy.findByText('March 04, 1949').should('exist');
+    cy.findByText('July 10, 1956').should('exist');
 
     cy.findByText('Male').should('exist');
 
