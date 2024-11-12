@@ -1,58 +1,5 @@
 import { expect } from 'chai';
-import {
-  sanitizeAddress,
-  prefillTransformer,
-} from '../../../config/prefill-transformer';
-
-describe('hca `sanitizeAddress` helper', () => {
-  it('should return `null` with no props', () => {
-    expect(sanitizeAddress()).to.be.null;
-  });
-
-  it('should return all required fields when provided', () => {
-    const addressToSanitize = {
-      addressLine1: '123 Apple Lane',
-      city: 'Plymouth',
-      zipCode: '46563',
-      stateCode: 'IN',
-      countryCodeIso3: 'USA',
-    };
-    const desiredOutput = {
-      street: '123 Apple Lane',
-      street2: undefined,
-      street3: undefined,
-      city: 'Plymouth',
-      postalCode: '46563',
-      state: 'IN',
-      country: 'USA',
-    };
-    const output = sanitizeAddress(addressToSanitize);
-    expect(output).to.deep.equal(desiredOutput);
-  });
-
-  it('should return all fields when provided', () => {
-    const addressToSanitize = {
-      addressLine1: '123 Apple Lane',
-      addressLine2: 'Apt 1',
-      addressLine3: 'c/o homeowner',
-      city: 'Plymouth',
-      zipCode: '46563',
-      stateCode: 'IN',
-      countryCodeIso3: 'USA',
-    };
-    const desiredOutput = {
-      street: '123 Apple Lane',
-      street2: 'Apt 1',
-      street3: 'c/o homeowner',
-      city: 'Plymouth',
-      postalCode: '46563',
-      state: 'IN',
-      country: 'USA',
-    };
-    const output = sanitizeAddress(addressToSanitize);
-    expect(output).to.deep.equal(desiredOutput);
-  });
-});
+import { prefillTransformer } from '../../../config/prefill-transformer';
 
 describe('hca `prefillTransformer` utility', () => {
   const getData = ({
@@ -117,7 +64,7 @@ describe('hca `prefillTransformer` utility', () => {
   const mailingAddress = {
     addressLine1: '1493 Martin Luther King Rd',
     addressLine2: 'Apt 1',
-    addressLine3: null,
+    addressLine3: 'c/o homeowner',
     addressPou: 'CORRESPONDENCE',
     addressType: 'DOMESTIC',
     city: 'Fulton',

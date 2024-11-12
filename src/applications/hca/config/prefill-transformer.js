@@ -7,7 +7,7 @@ import set from 'platform/utilities/data/set';
  * @param {Array} address - an object with street address data
  * @returns {Object} - an object of properly-formatted address data
  */
-export const sanitizeAddress = address => {
+const sanitizeAddress = address => {
   if (!address) return null;
 
   const {
