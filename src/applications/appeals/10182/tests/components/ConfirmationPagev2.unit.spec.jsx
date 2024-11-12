@@ -122,7 +122,7 @@ describe('ConfirmationPageV2', () => {
       'tinnitusDecision date: June 1, 2021Disagree with the service connection, the effective date of award, your evaluation of my condition, and this is tinnitus entry',
       'left kneeDecision date: June 2, 2021Disagree with the effective date of award',
       'right shoulderDecision date: June 6, 2021Disagree with your evaluation of my condition and this is right shoulder entry',
-      'Submit more evidence',
+      'Evidence submission',
       'file-1.pdf',
       'file-2.pdf',
     ]);
@@ -143,7 +143,7 @@ describe('ConfirmationPageV2', () => {
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
     expect(items.length).to.eq(15);
     expect(items.map(el => el.textContent).slice(-2)).to.deep.equal([
-      'Request a hearing',
+      'Hearing',
       'An in-person hearing at the Board in Washington, D.C.',
     ]);
   });
@@ -161,7 +161,7 @@ describe('ConfirmationPageV2', () => {
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
     expect(items.length).to.eq(14);
     expect(items.map(el => el.textContent).slice(-1)).to.deep.equal([
-      'Request a direct review',
+      'Direct review',
     ]);
   });
 });
