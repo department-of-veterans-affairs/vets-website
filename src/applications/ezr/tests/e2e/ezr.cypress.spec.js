@@ -14,8 +14,8 @@ import {
   goToNextPage,
 } from './helpers';
 import {
-  fillEmergencyContactPersonalInfo,
-  fillEmergencyContactAddress,
+  fillContactPersonalInfo,
+  fillContactAddress,
 } from './helpers/emergency-contacts';
 
 const testConfig = createTestConfig(
@@ -77,7 +77,7 @@ const testConfig = createTestConfig(
       'veteran-information/emergency-contacts/0/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactPersonalInfo(data.emergencyContacts[0]);
+            fillContactPersonalInfo(data.emergencyContacts[0]);
           });
         });
       },
@@ -86,7 +86,7 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactAddress(data.emergencyContacts[0]);
+            fillContactAddress(data.emergencyContacts[0]);
           });
         });
       },
