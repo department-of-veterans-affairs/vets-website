@@ -49,11 +49,6 @@ const scrollToError = () => {
 const filesPath = `../files`;
 
 class AdditionalEvidencePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.sectionRef = React.createRef();
-  }
-
   componentDidMount() {
     this.props.resetUploads();
     this.scrollToSection();
@@ -86,10 +81,7 @@ class AdditionalEvidencePage extends React.Component {
 
   scrollToSection = () => {
     if (this.props.location.hash === '#add-files') {
-      this.sectionRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+      setPageFocus('h3#add-files');
     }
   };
 
@@ -127,11 +119,7 @@ class AdditionalEvidencePage extends React.Component {
       );
 
       content = (
-        <div
-          className="additional-evidence-container"
-          id="add-files"
-          ref={this.sectionRef}
-        >
+        <div className="additional-evidence-container">
           {message && (
             <>
               <Element name="uploadError" />
@@ -142,7 +130,9 @@ class AdditionalEvidencePage extends React.Component {
               />
             </>
           )}
-          <h3 className="vads-u-margin-bottom--3">Additional evidence</h3>
+          <h3 id="add-files" className="vads-u-margin-bottom--3">
+            Additional evidence
+          </h3>
           {isOpen ? (
             <>
               {filesNeeded.map(item => (
