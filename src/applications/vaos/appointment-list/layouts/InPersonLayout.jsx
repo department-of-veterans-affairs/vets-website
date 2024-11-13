@@ -2,12 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
-import { getRealFacilityId } from '../../utils/appointment';
-import {
-  AppointmentDate,
-  AppointmentTime,
-} from '../../appointment-list/components/AppointmentDateTime';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, {
   Details,
   When,
@@ -17,11 +11,17 @@ import DetailPageLayout, {
   ClinicOrFacilityPhone,
   Prepare,
 } from './DetailPageLayout';
+import { selectConfirmedAppointmentData } from '../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import Address from '../Address';
-import AddToCalendarButton from '../AddToCalendarButton';
-import NewTabAnchor from '../NewTabAnchor';
+import {
+  AppointmentDate,
+  AppointmentTime,
+} from '../components/AppointmentDateTime';
+import AddToCalendarButton from '../../components/AddToCalendarButton';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import { getRealFacilityId } from '../../utils/appointment';
+import Address from '../../components/Address';
+import FacilityDirectionsLink from '../../components/FacilityDirectionsLink';
 
 export default function InPersonLayout({ data: appointment }) {
   const {

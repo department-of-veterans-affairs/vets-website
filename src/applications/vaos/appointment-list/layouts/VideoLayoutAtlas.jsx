@@ -11,18 +11,18 @@ import DetailPageLayout, {
   ClinicOrFacilityPhone,
   Prepare,
 } from './DetailPageLayout';
+import { selectConfirmedAppointmentData } from '../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
-} from '../../appointment-list/components/AppointmentDateTime';
-import AddToCalendarButton from '../AddToCalendarButton';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import NewTabAnchor from '../NewTabAnchor';
-import Address from '../Address';
-import VideoInstructions from '../VideoInstructions';
-import State from '../State';
+} from '../components/AppointmentDateTime';
+import AddToCalendarButton from '../../components/AddToCalendarButton';
+import Address from '../../components/Address';
+import FacilityDirectionsLink from '../../components/FacilityDirectionsLink';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import VideoInstructions from '../../components/VideoInstructions';
+import State from '../../components/State';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
   const {

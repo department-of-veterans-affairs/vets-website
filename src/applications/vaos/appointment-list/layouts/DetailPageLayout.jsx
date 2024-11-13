@@ -7,17 +7,14 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { useParams } from 'react-router-dom';
-import BackLink from '../BackLink';
-import AppointmentCard from '../AppointmentCard';
+import FacilityPhone from '../../components/FacilityPhone';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
-import { startAppointmentCancel } from '../../appointment-list/redux/actions';
-import AfterVisitSummary from '../AfterVisitSummary';
-import {
-  selectFacility,
-  selectIsPast,
-} from '../../appointment-list/redux/selectors';
-import StatusAlert from '../StatusAlert';
-import FacilityPhone from '../FacilityPhone';
+import { startAppointmentCancel } from '../redux/actions';
+import { selectFacility, selectIsPast } from '../redux/selectors';
+import BackLink from '../../components/BackLink';
+import AppointmentCard from '../../components/AppointmentCard';
+import StatusAlert from '../../components/StatusAlert';
+import AfterVisitSummary from '../../components/AfterVisitSummary';
 
 export function Section({ children, heading, level = 2 }) {
   const Heading = `h${level}`;

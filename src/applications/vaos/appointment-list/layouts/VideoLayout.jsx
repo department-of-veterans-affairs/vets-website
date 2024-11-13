@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { shallowEqual } from 'recompose';
 import VideoLayoutAtlas from './VideoLayoutAtlas';
-import {
-  selectConfirmedAppointmentData,
-  selectIsAtlasVideo,
-} from '../../appointment-list/redux/selectors';
 import VideoLayoutVA from './VideoLayoutVA';
-import { isClinicVideoAppointment } from '../../services/appointment';
 import DetailPageLayout, {
   Section,
   What,
@@ -17,15 +12,20 @@ import DetailPageLayout, {
   ClinicOrFacilityPhone,
   Prepare,
 } from './DetailPageLayout';
-import VideoLink from '../VideoLink';
+import {
+  selectConfirmedAppointmentData,
+  selectIsAtlasVideo,
+} from '../redux/selectors';
+import { isClinicVideoAppointment } from '../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
+import VideoLink from '../../components/VideoLink';
 import {
   AppointmentDate,
   AppointmentTime,
-} from '../../appointment-list/components/AppointmentDateTime';
-import AddToCalendarButton from '../AddToCalendarButton';
-import VideoInstructions from '../VideoInstructions';
-import State from '../State';
+} from '../components/AppointmentDateTime';
+import AddToCalendarButton from '../../components/AddToCalendarButton';
+import State from '../../components/State';
+import VideoInstructions from '../../components/VideoInstructions';
 
 export default function VideoLayout({ data: appointment }) {
   const {

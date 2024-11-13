@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
+import PhoneLayout from './PhoneLayout';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import PhoneLayout from './PhoneLayout';
 
 describe('VAOS Component: PhoneLayout', () => {
   const initialState = {

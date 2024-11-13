@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, {
   Details,
   Section,
@@ -12,14 +11,15 @@ import DetailPageLayout, {
   ClinicOrFacilityPhone,
   Prepare,
 } from './DetailPageLayout';
+import { selectConfirmedAppointmentData } from '../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   AppointmentDate,
   AppointmentTime,
-} from '../../appointment-list/components/AppointmentDateTime';
-import AddToCalendarButton from '../AddToCalendarButton';
-import Address from '../Address';
-import NewTabAnchor from '../NewTabAnchor';
+} from '../components/AppointmentDateTime';
+import AddToCalendarButton from '../../components/AddToCalendarButton';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import Address from '../../components/Address';
 
 export default function PhoneLayout({ data: appointment }) {
   const {

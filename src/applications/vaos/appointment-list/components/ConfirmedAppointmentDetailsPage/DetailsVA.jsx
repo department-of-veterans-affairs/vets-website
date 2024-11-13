@@ -9,13 +9,13 @@ import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
-import InPersonLayout from '../../../components/layout/InPersonLayout';
 import FacilityAddress from '../../../components/FacilityAddress';
-import ClaimExamLayout from '../../../components/layout/ClaimExamLayout';
-import PhoneLayout from '../../../components/layout/PhoneLayout';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import CancelWarningPage from '../../pages/CancelAppointmentPage/CancelWarningPage';
 import CancelConfirmationPage from '../../pages/CancelAppointmentPage/CancelConfirmationPage';
+import ClaimExamLayout from '../../layouts/ClaimExamLayout';
+import PhoneLayout from '../../layouts/PhoneLayout';
+import InPersonLayout from '../../layouts/InPersonLayout';
 
 export default function DetailsVA({ appointment, facilityData }) {
   const { id } = useParams();

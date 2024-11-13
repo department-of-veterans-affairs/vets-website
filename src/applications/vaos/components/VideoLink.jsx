@@ -4,8 +4,8 @@ import moment from 'moment-timezone';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import NewTabAnchor from './NewTabAnchor';
-import { ClinicOrFacilityPhone } from './layout/DetailPageLayout';
 import { selectConfirmedAppointmentData } from '../appointment-list/redux/selectors';
+import { ClinicOrFacilityPhone } from '../appointment-list/layouts/DetailPageLayout';
 
 export default function VideoLink({ appointment }) {
   const { url } = appointment.videoData;

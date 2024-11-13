@@ -13,7 +13,7 @@ import {
 } from '../../../redux/selectors';
 import WarningNotification from '../../../components/WarningNotification';
 import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
-import PageLayout from '../../components/PageLayout';
+import PageLayout from '../../layouts/PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
 import {
   APPOINTMENT_STATUS,

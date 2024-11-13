@@ -8,19 +8,19 @@ import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { selectRequestedAppointmentDetails } from '../../redux/selectors';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import ErrorMessage from '../../../components/ErrorMessage';
-import PageLayout from '../../components/PageLayout';
+import PageLayout from '../../layouts/PageLayout';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import { FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
 import FacilityPhone from '../../../components/FacilityPhone';
-import VARequestLayout from '../../../components/layout/VARequestLayout';
-import CCRequestLayout from '../../../components/layout/CCRequestLayout';
 import {
   closeCancelAppointment,
   fetchRequestDetails,
 } from '../../redux/actions';
 import CancelWarningPage from '../CancelAppointmentPage/CancelWarningPage';
 import CancelConfirmationPage from '../CancelAppointmentPage/CancelConfirmationPage';
+import CCRequestLayout from '../../layouts/CCRequestLayout';
+import VARequestLayout from '../../layouts/VARequestLayout';
 
 export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();

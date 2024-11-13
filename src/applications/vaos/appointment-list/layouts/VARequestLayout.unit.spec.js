@@ -1,10 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
+import VARequestLayout from './VARequestLayout';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import VARequestLayout from './VARequestLayout';
 
 describe('VAOS Component: VARequestLayout', () => {
   const initialState = {

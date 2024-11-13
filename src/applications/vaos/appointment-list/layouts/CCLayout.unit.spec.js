@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
+import CCLayout from './CCLayout';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import CCLayout from './CCLayout';
 
 describe('VAOS Component: CCLayout', () => {
   const initialState = {};

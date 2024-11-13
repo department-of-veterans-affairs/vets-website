@@ -1,10 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
+import CCRequestLayout from './CCRequestLayout';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import CCRequestLayout from './CCRequestLayout';
 
 describe('VAOS Component: VARequestLayout', () => {
   const initialState = {

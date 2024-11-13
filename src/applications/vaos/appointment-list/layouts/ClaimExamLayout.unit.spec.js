@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
+import ClaimExamLayout from './ClaimExamLayout';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import ClaimExamLayout from './ClaimExamLayout';
 
 describe('VAOS Component: ClaimExamLayout', () => {
   const initialState = {

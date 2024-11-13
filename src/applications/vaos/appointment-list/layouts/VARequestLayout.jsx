@@ -4,15 +4,15 @@ import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { getRealFacilityId } from '../../utils/appointment';
-import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import DetailPageLayout, { Details, Section } from './DetailPageLayout';
-import PageLayout from '../../appointment-list/components/PageLayout';
-import Address from '../Address';
+import { selectRequestedAppointmentData } from '../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import FacilityPhone from '../FacilityPhone';
-import NewTabAnchor from '../NewTabAnchor';
+import PageLayout from './PageLayout';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import { getRealFacilityId } from '../../utils/appointment';
+import Address from '../../components/Address';
+import FacilityDirectionsLink from '../../components/FacilityDirectionsLink';
+import FacilityPhone from '../../components/FacilityPhone';
 
 export default function VARequestLayout({ data: appointment }) {
   const { search } = useLocation();

@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
+import InPersonLayout from './InPersonLayout';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import InPersonLayout from './InPersonLayout';
 
 describe('VAOS Component: InPersonLayout', () => {
   const initialState = {

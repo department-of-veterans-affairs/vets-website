@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
-import { getRealFacilityId } from '../../utils/appointment';
 import DetailPageLayout, {
   Section,
   What,
@@ -11,16 +10,17 @@ import DetailPageLayout, {
   ClinicOrFacilityPhone,
   Prepare,
 } from './DetailPageLayout';
+import { selectConfirmedAppointmentData } from '../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
-} from '../../appointment-list/components/AppointmentDateTime';
-import AddToCalendarButton from '../AddToCalendarButton';
-import NewTabAnchor from '../NewTabAnchor';
-import Address from '../Address';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
+} from '../components/AppointmentDateTime';
+import AddToCalendarButton from '../../components/AddToCalendarButton';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import { getRealFacilityId } from '../../utils/appointment';
+import Address from '../../components/Address';
+import FacilityDirectionsLink from '../../components/FacilityDirectionsLink';
 
 export default function VideoLayoutVA({ data: appointment }) {
   const {

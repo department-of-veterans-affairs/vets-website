@@ -6,11 +6,7 @@ import { shallowEqual } from 'recompose';
 import Address from '../../../components/Address';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { selectRequestedAppointmentDetails } from '../../redux/selectors';
-import {
-  CCDetails,
-  Details,
-  Section,
-} from '../../../components/layout/DetailPageLayout';
+import { CCDetails, Details, Section } from '../../layouts/DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';

@@ -4,10 +4,10 @@ import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
+import { selectRequestedAppointmentData } from '../../redux/selectors';
 import DetailPageLayout, { CCDetails, Section } from './DetailPageLayout';
-import ListBestTimeToCall from '../../appointment-list/components/ListBestTimeToCall';
-import PageLayout from '../../appointment-list/components/PageLayout';
+import ListBestTimeToCall from '../components/ListBestTimeToCall';
+import PageLayout from './PageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 
 export default function CCRequestLayout({ data: appointment }) {

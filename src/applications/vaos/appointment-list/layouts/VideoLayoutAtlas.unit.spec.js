@@ -1,10 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
+import VideoLayoutAtlas from './VideoLayoutAtlas';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import VideoLayoutAtlas from './VideoLayoutAtlas';
 import { VIDEO_TYPES } from '../../utils/constants';
 
 describe('VAOS Component: VideoLayoutAtlas', () => {

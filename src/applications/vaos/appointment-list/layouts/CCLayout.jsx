@@ -9,16 +9,16 @@ import DetailPageLayout, {
   When,
   Prepare,
 } from './DetailPageLayout';
+import { selectConfirmedAppointmentData } from '../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
-} from '../../appointment-list/components/AppointmentDateTime';
-import AddToCalendarButton from '../AddToCalendarButton';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import FacilityPhone from '../FacilityPhone';
-import Address from '../Address';
+} from '../components/AppointmentDateTime';
+import AddToCalendarButton from '../../components/AddToCalendarButton';
+import Address from '../../components/Address';
+import FacilityDirectionsLink from '../../components/FacilityDirectionsLink';
+import FacilityPhone from '../../components/FacilityPhone';
 
 export default function CCLayout({ data: appointment }) {
   const {
