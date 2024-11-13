@@ -650,8 +650,7 @@ const Prescriptions = () => {
                       sortRxList={sortRxList}
                     />
                     <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
-                    {isLoading ||
-                    (showFilterContent && filteredList.length > 0) ? (
+                    {isLoading ? (
                       <div className="vads-u-height--viewport vads-u-padding-top--3">
                         <va-loading-indicator
                           message={loadingMessage}
