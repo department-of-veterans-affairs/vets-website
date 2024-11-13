@@ -18,7 +18,7 @@ const VaccinesListItem = props => {
         className="no-print"
       >
         <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
-          {record.name} <span className="sr-only">on {record.date}</span>
+          {record.name} <span className="sr-only">{`on ${record.date}`}</span>
         </div>
       </Link>
 

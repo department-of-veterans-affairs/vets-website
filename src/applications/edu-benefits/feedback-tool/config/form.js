@@ -1,6 +1,5 @@
 import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
@@ -11,6 +10,11 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import dataUtils from 'platform/utilities/data/index';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import {
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
+} from '~/platform/forms-system/src/js/web-component-patterns';
 
 const { get, omit, set } = dataUtils;
 
@@ -58,7 +62,6 @@ const {
   phone,
   serviceAffiliation,
   serviceBranch,
-  serviceDateRange,
 } = fullSchema.properties;
 
 const { school, programs, assistance } = educationDetails.properties;
@@ -251,7 +254,7 @@ const formConfig = {
             serviceBranch: {
               'ui:title': 'Branch of service',
             },
-            serviceDateRange: dateRangeUI(
+            serviceDateRange: currentOrPastDateRangeUI(
               'Service start date',
               'Service end date',
               'End of service must be after start of service',
@@ -261,8 +264,9 @@ const formConfig = {
             type: 'object',
             properties: {
               serviceBranch,
-              serviceDateRange,
+              serviceDateRange: currentOrPastDateRangeSchema,
             },
+            required: ['serviceDateRange'],
           },
         },
         contactInformation: {
