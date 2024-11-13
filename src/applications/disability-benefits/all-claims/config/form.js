@@ -72,6 +72,7 @@ import {
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
+  mentalHealthConditions,
   militaryHistory,
   newDisabilityFollowUp,
   newPTSDFollowUp,
@@ -109,10 +110,10 @@ import {
   workBehaviorChanges,
 } from '../pages';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
-import { mentalHealthPages } from '../pages/mentalHealth/mentalHealthPages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
+import { showMentalHealthPages } from '../content/mentalHealth';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
 
@@ -544,7 +545,13 @@ const formConfig = {
             serviceInformation: state.form?.data?.serviceInformation,
           }),
         },
-        ...mentalHealthPages,
+        mentalHealthConditions: {
+          title: 'Mental health conditions',
+          path: `disabilities/781-screener`,
+          depends: formData => showMentalHealthPages(formData),
+          uiSchema: mentalHealthConditions.uiSchema,
+          schema: mentalHealthConditions.schema,
+        },
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {
           title: 'Additional disability benefits',

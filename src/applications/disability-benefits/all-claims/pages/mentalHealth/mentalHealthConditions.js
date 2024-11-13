@@ -1,7 +1,4 @@
-import {
-  checkboxGroupUI,
-  checkboxGroupSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   traumaticEventsInfo,
   conditionsPageTitle,
@@ -11,16 +8,14 @@ import {
   makeMHConditionsUISchema,
   validateMHConditions,
 } from '../../content/mentalHealth';
-import { formTitle } from '../../utils';
+import { formTitle, makeConditionsUI } from '../../utils';
 
 export const uiSchema = {
   'ui:title': formTitle(conditionsPageTitle),
   mentalHealth: {
-    conditions: checkboxGroupUI({
+    conditions: makeConditionsUI({
       title: conditionsQuestion,
       hint: examplesDescription,
-      labels: {},
-      required: false,
       replaceSchema: makeMHConditionsSchema,
       updateUiSchema: makeMHConditionsUISchema,
     }),

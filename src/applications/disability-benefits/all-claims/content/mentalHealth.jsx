@@ -1,6 +1,10 @@
 import React from 'react';
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import { isClaimingNew, sippableId } from '../utils';
+import {
+  isClaimingNew,
+  makeConditionsSchema,
+  sippableId,
+  validateConditions,
+} from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
 
 /* ---------- content ----------*/
@@ -124,13 +128,7 @@ export function showMentalHealthPages(formData) {
  * @returns {object} Object with ids for each condition
  */
 export function makeMHConditionsSchema(formData) {
-  const options = (formData?.newDisabilities || []).map(disability =>
-    sippableId(disability.condition),
-  );
-
-  options.push('none');
-
-  return checkboxGroupSchema(options);
+  return makeConditionsSchema(formData);
 }
 
 /**
@@ -177,19 +175,12 @@ export function makeMHConditionsUISchema(formData) {
 }
 
 /**
- * Validates selected Mental Health conditions. If the 'none' checkbox is selected along with a new condition
- * adds an error.
- *
+ * Validates the 'none' checkbox is not selected along with a new condition
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
 export function validateMHConditions(errors, formData) {
   const { conditions = {} } = formData?.mentalHealth;
 
-  if (
-    conditions?.none === true &&
-    Object.values(conditions).filter(value => value === true).length > 1
-  ) {
-    errors.mentalHealth.conditions.addError(noneAndConditionError);
-  }
+  validateConditions(conditions, errors, 'mentalHealth', noneAndConditionError);
 }

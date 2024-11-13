@@ -10,6 +10,10 @@ import { apiRequest } from 'platform/utilities/api';
 import _ from 'platform/utilities/data';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
+import {
+  checkboxGroupUI,
+  checkboxGroupSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -771,3 +775,53 @@ export const formatMonthYearDate = (rawDate = '') => {
 
   return date === 'Invalid Date' ? '' : date;
 };
+
+/**
+ * Creates a consistent checkbox group UI configuration for conditions
+ */
+export function makeConditionsUI({
+  title,
+  description,
+  replaceSchema,
+  updateUiSchema,
+}) {
+  return checkboxGroupUI({
+    title,
+    description,
+    labels: {},
+    required: false,
+    replaceSchema,
+    updateUiSchema,
+  });
+}
+
+/**
+ * Adds an error if the 'none' checkbox is selected along with a new condition
+ * @param {object} conditions - Conditions object containing the state of various checkboxes
+ * @param {object} errors - Errors object from rjsf
+ * @param {string} errorKey - Identifies the section to which the error belongs
+ * @param {string} errorMessage - Specific message for 'none' checkbox conflict
+ */
+export function validateConditions(conditions, errors, errorKey, errorMessage) {
+  if (
+    conditions?.none === true &&
+    Object.values(conditions).filter(value => value === true).length > 1
+  ) {
+    errors[errorKey].conditions.addError(errorMessage);
+  }
+}
+
+/**
+ * Builds the Schema based on user entered condition names
+ * @param {object} formData - Full formData for the form
+ * @returns {object} - Object with ids for each condition
+ */
+export function makeConditionsSchema(formData) {
+  const options = (formData?.newDisabilities || []).map(disability =>
+    sippableId(disability.condition),
+  );
+
+  options.push('none');
+
+  return checkboxGroupSchema(options);
+}
