@@ -6,7 +6,6 @@ import { waitFor } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../tests/mocks/setup';
 import { AppointmentList } from '..';
-import PastAppointmentsList from './PastAppointmentsList';
 import { mockVAOSAppointmentsFetch } from '../../tests/mocks/helpers';
 import { createMockAppointment } from '../../tests/mocks/data';
 import {
@@ -14,6 +13,7 @@ import {
   getVAOSRequestMock,
 } from '../../tests/mocks/mock';
 import RequestedAppointmentsPage from '../pages/RequestedAppointmentsPage';
+import PastAppointmentsPage from '../pages/PastAppointmentsList';
 
 describe('VAOS Backend Service Alert', () => {
   const initialState = {
@@ -215,7 +215,7 @@ describe('VAOS Backend Service Alert', () => {
       fetchClaimStatus: true,
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsPage />, {
       initialState,
     });
 
@@ -276,7 +276,7 @@ describe('VAOS Backend Service Alert', () => {
       fetchClaimStatus: true,
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsPage />, {
       initialState,
     });
 

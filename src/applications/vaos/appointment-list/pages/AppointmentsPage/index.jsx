@@ -11,7 +11,6 @@ import {
   selectFeatureCCDirectScheduling,
   // selectFeatureBookingExclusion,
 } from '../../../redux/selectors';
-import PastAppointmentsList from '../../components/PastAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
 import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
 import PageLayout from '../../components/PageLayout';
@@ -29,6 +28,7 @@ import ReferralAppLink from '../../../referral-appointments/components/ReferralA
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage';
 import RequestedAppointmentsPage from '../RequestedAppointmentsPage';
+import PastAppointmentsPage from '../PastAppointmentsList';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -197,7 +197,7 @@ export default function AppointmentsPage() {
           <RequestedAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/past">
-          <PastAppointmentsList hasTypeChanged={hasTypeChanged} />
+          <PastAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
       </Switch>
     </PageLayout>

@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import { getPastAppointmentListInfo } from '../../redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import { groupAppointmentByDay } from '../../../services/appointment';
-import NoAppointments from '../NoAppointments';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import InfoAlert from '../../../components/InfoAlert';
@@ -17,8 +16,9 @@ import {
   startNewAppointmentFlow,
 } from '../../redux/actions';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
-import UpcomingAppointmentLayout from '../../pages/AppointmentsPage/UpcomingAppointmentLayout';
-import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
+import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
+import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
+import NoAppointments from '../../components/NoAppointments';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
@@ -91,7 +91,7 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   return options;
 }
 
-export default function PastAppointmentsListNew() {
+export default function PastAppointmentsPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isInitialMount, setInitialMount] = useState(true);
