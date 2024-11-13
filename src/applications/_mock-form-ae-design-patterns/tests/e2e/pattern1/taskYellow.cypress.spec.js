@@ -108,7 +108,7 @@ describe('Prefill pattern - Yellow Task', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    cy.findByText('Mitchell G Jenkins').should('exist');
+    cy.findByText('Mitchell George Jenkins').should('exist');
 
     cy.findByText('●●●–●●–6789').should('exist');
 
@@ -120,7 +120,7 @@ describe('Prefill pattern - Yellow Task', () => {
 
     cy.url().should('contain', '/confirm-mailing-address');
 
-    cy.findByText('123 Mailing Address St.').should('exist');
+    cy.findByText('125 Main St.').should('exist');
 
     cy.findByText('Fulton, NY 97063').should('exist');
 
