@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { errorMessages } from '../../constants';
+import { errorMessages, SC_NEW_FORM_DATA } from '../../constants';
 
 import {
   validateVaLocation,
@@ -20,6 +20,7 @@ import {
   validatePrivateIssues,
   validatePrivateFromDate,
   validatePrivateToDate,
+  validateVaDate,
   buildPrivateString,
   isEmptyPrivateEntry,
   validatePrivateUnique,
@@ -42,7 +43,7 @@ describe('VA evidence', () => {
     });
     it('should show an error for a missing location name', () => {
       const errors = { addError: sinon.spy() };
-      validateVaLocation(errors, { locationAndName: '' });
+      validateVaLocation(errors);
       expect(errors.addError.calledWith(errorMessages.evidence.locationMissing))
         .to.be.true;
     });
@@ -94,6 +95,17 @@ describe('VA evidence', () => {
       expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to
         .true;
     });
+
+    it('should return false if feature toggle is enabled', () => {
+      const errors = { addError: sinon.spy() };
+      const result = validateVaFromDate(
+        errors,
+        { evidenceDates: { from: '', to: '' } },
+        { [SC_NEW_FORM_DATA]: true },
+      );
+      expect(errors.addError.notCalled).to.be.true;
+      expect(result).to.be.false;
+    });
   });
 
   describe('validateVaToDate', () => {
@@ -132,6 +144,53 @@ describe('VA evidence', () => {
         },
       });
       expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
+    });
+
+    it('should return false if feature toggle is enabled', () => {
+      const errors = { addError: sinon.spy() };
+      const result = validateVaToDate(
+        errors,
+        { evidenceDates: { from: '', to: '' } },
+        { [SC_NEW_FORM_DATA]: true },
+      );
+      expect(errors.addError.notCalled).to.be.true;
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('validateVaDate', () => {
+    const fullData = { [SC_NEW_FORM_DATA]: true };
+    it('should not show an error for a valid treatment date', () => {
+      const errors = { addError: sinon.spy() };
+      validateVaDate(errors, { treatmentDate: '2022-01' }, fullData);
+      expect(errors.addError.called).to.be.false;
+    });
+    it('should show an error for an invalid treatment date', () => {
+      const errors = { addError: sinon.spy() };
+      validateVaDate(errors, { treatmentDate: '2000' }, fullData);
+      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to
+        .true;
+    });
+    it('should show an error for a missing treatment date', () => {
+      const errors = { addError: sinon.spy() };
+      validateVaDate(errors, { treatmentDate: '' }, fullData);
+      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to
+        .true;
+    });
+    it('should show an error for a to date in the future', () => {
+      const errors = { addError: sinon.spy() };
+      const treatmentDate = parseDateWithOffset({
+        years: MAX_YEARS_PAST + 1,
+      }).substring(0, 7); // only keep YYYYY-MM
+      validateVaDate(errors, { treatmentDate }, fullData);
+      expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
+    });
+
+    it('should return undefined if feature toggle is disabled', () => {
+      const errors = { addError: sinon.spy() };
+      const result = validateVaDate(errors, { treatmentDate: '' });
+      expect(errors.addError.notCalled).to.be.true;
+      expect(result).to.be.undefined;
     });
   });
 

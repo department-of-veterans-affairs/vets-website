@@ -890,6 +890,83 @@ describe('actionCreators', () => {
         });
     });
   });
+  describe('fetchInstitutionPrograms action creator', () => {
+    it('dispatches FETCH_INSTITUTION_PROGRAMS_SUCCEEDED on successful fetch', () => {
+      const mockFetch = sinon.stub(global, 'fetch');
+      const mockDispatch = sinon.spy();
+      const mockResponse = {
+        ok: true,
+        json: sinon.stub().returns(
+          Promise.resolve({
+            data: {
+              id: 1,
+              detail: 'Sample Program Result',
+            },
+          }),
+        ),
+      };
+
+      mockFetch.resolves(mockResponse);
+
+      return actions
+        .fetchInstitutionPrograms('1234', 'someProgramType')(mockDispatch)
+        .then(() => {
+          expect(
+            mockDispatch.calledWith({
+              type: 'FETCH_INSTITUTION_PROGRAMS_SUCCEEDED',
+              payload: {
+                id: 1,
+                detail: 'Sample Program Result',
+              },
+            }),
+          ).to.be.true;
+          mockFetch.restore();
+        });
+    });
+
+    it('dispatches FETCH_INSTITUTION_PROGRAMS_FAILED on fetch error', () => {
+      const mockFetch = sinon.stub(global, 'fetch');
+      const mockDispatch = sinon.spy();
+      const error = new Error('Fetch failed');
+
+      mockFetch.rejects(error);
+
+      return actions
+        .fetchInstitutionPrograms('1234', 'someProgramType')(mockDispatch)
+        .catch(() => {
+          expect(
+            mockDispatch.calledWith({
+              type: 'FETCH_INSTITUTION_PROGRAMS_FAILED',
+              payload: 'Fetch failed',
+            }),
+          ).to.be.true;
+          mockFetch.restore();
+        });
+    });
+    it('dispatches FETCH_INSTITUTION_PROGRAMS_FAILED when response is not ok', () => {
+      const mockFetch = sinon.stub(global, 'fetch');
+      const mockDispatch = sinon.spy();
+      const errorMessage = 'Internal Server Error';
+      const mockResponse = new Response(null, {
+        status: 500,
+        statusText: errorMessage,
+      });
+
+      mockFetch.resolves(mockResponse);
+
+      return actions
+        .fetchInstitutionPrograms('1234', 'someProgramType')(mockDispatch)
+        .then(() => {
+          expect(
+            mockDispatch.calledWith({
+              type: 'FETCH_INSTITUTION_PROGRAMS_FAILED',
+              payload: errorMessage,
+            }),
+          ).to.be.true;
+          mockFetch.restore();
+        });
+    });
+  });
 
   it('creates FETCH_PROFILE_FAILED when fetching profile has failed', () => {
     const fetchStub = sinon.stub(global, 'fetch');

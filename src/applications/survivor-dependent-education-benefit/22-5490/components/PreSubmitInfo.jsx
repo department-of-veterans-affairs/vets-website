@@ -1,23 +1,37 @@
 import React from 'react';
+import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { connect } from 'react-redux';
+import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
-const CustomPreSubmitInfo = () => {
-  // Note text to be displayed with the privacy policy link
-  const noteText = (
-    <>
-      <strong>Note:</strong> According to federal law, there are criminal
-      penalties, including a fine and/or imprisonment for up to 5 years, for
-      withholding information or for providing incorrect information (See 18
-      U.S.C. 1001).{' '}
-      <a
-        href="https://www.va.gov/privacy-policy/"
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Privacy policy, will open in new tab"
-      >
-        Learn more about our privacy policy
-      </a>
-    </>
+function PreSubmitNotice({ formData, showError, setPreSubmit }) {
+  const privacyAgreementAccepted = formData.privacyAgreementAccepted || false;
+
+  const privacyAgreement = (
+    <div>
+      <div>
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information. (See 18
+        U.S.C. 1001)
+      </div>
+      <VaPrivacyAgreement
+        name="privacyAgreementAccepted"
+        onVaChange={event =>
+          setPreSubmit('privacyAgreementAccepted', event.detail.checked)
+        }
+        showError={showError && !privacyAgreementAccepted}
+      />
+    </div>
   );
-  return <div className="vads-u-margin-bottom--1p5">{noteText}</div>;
+
+  return <>{privacyAgreement}</>;
+}
+
+const mapDispatchToProps = {
+  setPreSubmit: setPreSubmitAction,
 };
-export default CustomPreSubmitInfo;
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(PreSubmitNotice);
