@@ -23,7 +23,7 @@ import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
 const HomepageSearch = () => {
   const [userInput, setUserInput] = useState('');
   const [latestSuggestions, setLatestSuggestions] = useState([]);
-  const [typeaheadKeywordSelected, setTypeaheadKeywordSelected] = useState(null);
+  const [typeaheadKeywordSelected, setTypeaheadKeywordSelected] = useState(undefined);
 
   // clear all suggestions and saved suggestions
   const clearSuggestions = () => {
@@ -63,7 +63,6 @@ const HomepageSearch = () => {
       )}&t=${false}`,
     );
 
-    console.log('latestSuggestions: ', latestSuggestions);
     const analyticsData = {
       [PAGE_PATH]: '/',
       [SEARCH_LOCATION]: 'Homepage Search',
@@ -77,8 +76,6 @@ const HomepageSearch = () => {
     if (typeaheadKeywordSelected) {
       analyticsData[TYPEAHEAD_KEYWORD_SELECTED] = typeaheadKeywordSelected;
     }
-
-    console.log('analyticsData: ', analyticsData);
 
     addSearchGADataToStorage(analyticsData);
 

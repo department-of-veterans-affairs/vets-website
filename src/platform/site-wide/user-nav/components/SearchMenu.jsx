@@ -103,8 +103,8 @@ export class SearchMenu extends React.Component {
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
       [SEARCH_TYPEAHEAD_ENABLED]: true,
-      [TYPEAHEAD_KEYWORD_SELECTED]: undefined,
-      [TYPEAHEAD_LIST]: validSuggestions || undefined
+      [TYPEAHEAD_KEYWORD_SELECTED]: validSuggestions[index],
+      [TYPEAHEAD_LIST]: validSuggestions
     };
 
     if (this.state.typeaheadKeywordSelected) {

@@ -12,7 +12,11 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { getSearchGADataFromStorage } from 'platform/site-wide/search-analytics';
+import {
+  clearGAData,
+  getSearchGADataFromStorage,
+  listenForTypeaheadClick,
+} from 'platform/site-wide/search-analytics';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -53,8 +57,22 @@ const SearchApp = ({
   const [page, setPage] = useState(pageFromURL);
   const [typeAheadWasUsed, setTypeAheadWasUsed] = useState(typeaheadUsed);
   const [formWasSubmitted, setFormWasSubmitted] = useState(false);
+  const [typeaheadKeywordSelected, setTypeaheadKeywordSelected] = useState(undefined);
 
   const instance = useRef({ typeaheadTimer: null });
+
+  useEffect(() => {
+    setTimeout(() => {
+      const searchListBoxItems = document.querySelector('va-search-input')
+        .shadowRoot?.querySelectorAll('.va-search-suggestion');
+        console.log('🚀 ~ searchListBoxItems:', searchListBoxItems);
+
+
+      if (searchListBoxItems?.length) {
+        listenForTypeaheadClick(searchListBoxItems, setTypeaheadKeywordSelected);
+      }
+    }, 1000);
+  });
 
   const {
     currentPage,
@@ -77,19 +95,20 @@ const SearchApp = ({
     // other than the search functionality on /search
     if (searchAnalyticsData?.path) {
       const { keywordSelected, suggestionsList } = searchAnalyticsData;
-      let list = undefined;
+      const typeaheadList = suggestionsList?.length ?
+        Array?.from(suggestionsList?.split(',')) :
+        undefined;
       let keywordPosition = undefined;
 
-      if (keywordSelected && suggestionsList) {
-        list = Array?.from(suggestionsList?.split(',')) || undefined;
-        keywordPosition = (list?.indexOf(keywordSelected) + 1) || undefined;
+      if (keywordSelected && typeaheadList) {
+        keywordPosition = (typeaheadList?.indexOf(keywordSelected) + 1) || undefined;
       }
       
       return {
         ...searchAnalyticsData,
         keywordPosition,
         keywordSelected,
-        suggestionsList: list
+        suggestionsList: typeaheadList
       };
     }
 
@@ -196,6 +215,7 @@ const SearchApp = ({
         userInput,
         searchLocation: 'Search Results Page',
         sitewideSearch: false,
+        keywordSelected: typeaheadKeywordSelected
       });
 
       // Update query is necessary
@@ -212,6 +232,7 @@ const SearchApp = ({
   const onInputSubmit = event => {
     event.preventDefault();
     setFormWasSubmitted(true);
+    clearGAData();
 
     if (!userInput) {
       return;

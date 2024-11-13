@@ -15,6 +15,10 @@ import { replaceWithStagingDomain } from '../../../../utilities/environment/stag
 const Search = () => {
   const onInputSubmit = componentState => {
     const inputValue = componentState?.inputValue;
+    const savedSuggestions = componentState?.savedSuggestions || [];
+    const suggestions = componentState?.suggestions || [];
+    const validSuggestions =
+      savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
 
     addSearchGADataToStorage({
       [PAGE_PATH]: document.location.pathname,
@@ -23,7 +27,7 @@ const Search = () => {
       [SEARCH_SELECTION]: 'All VA.gov',
       [SEARCH_TYPEAHEAD_ENABLED]: true,
       [TYPEAHEAD_KEYWORD_SELECTED]: undefined,
-      [TYPEAHEAD_LIST]: undefined
+      [TYPEAHEAD_LIST]: validSuggestions || undefined
     });
 
     const searchUrl = replaceWithStagingDomain(

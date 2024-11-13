@@ -10,7 +10,6 @@ import {
   TYPEAHEAD_LIST,
   addSearchGADataToStorage,
 } from 'platform/site-wide/search-analytics';
-import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
