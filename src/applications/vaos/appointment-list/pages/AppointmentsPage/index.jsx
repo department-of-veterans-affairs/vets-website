@@ -11,24 +11,24 @@ import {
   selectFeatureCCDirectScheduling,
   // selectFeatureBookingExclusion,
 } from '../../../redux/selectors';
-import PastAppointmentsList from '../PastAppointmentsList';
+import PastAppointmentsList from '../../components/PastAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
-import ScheduleNewAppointment from '../ScheduleNewAppointment';
-import PageLayout from '../PageLayout';
+import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
+import PageLayout from '../../components/PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
 import {
   APPOINTMENT_STATUS,
   // OH_TRANSITION_SITES,
 } from '../../../utils/constants';
-import AppointmentListNavigation from '../AppointmentListNavigation';
+import AppointmentListNavigation from '../../components/AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
-import UpcomingAppointmentsPage from '../../pages/UpcomingAppointmentsPage';
-import RequestedAppointmentsPage from '../../pages/RequestedAppointmentsPage';
+import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage';
+import RequestedAppointmentsPage from '../RequestedAppointmentsPage';
 
 function renderWarningNotification() {
   return (props, childContent) => {

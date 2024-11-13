@@ -15,7 +15,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import InfoAlert from '../../../components/InfoAlert';
 import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
 import { groupAppointmentByDay } from '../../../services/appointment';
-import UpcomingAppointmentLayout from '../../components/AppointmentsPage/UpcomingAppointmentLayout';
+import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
 import NoAppointments from '../../components/NoAppointments';
 
 export default function UpcomingAppointmentsPage() {

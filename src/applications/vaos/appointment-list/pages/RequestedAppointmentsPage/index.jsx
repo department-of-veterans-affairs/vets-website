@@ -5,10 +5,6 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
 import {
-  getRequestedAppointmentListInfo,
-  selectFeatureCCDirectScheduling,
-} from '../../redux/selectors';
-import {
   APPOINTMENT_STATUS,
   FETCH_STATUS,
   GA_PREFIX,
@@ -22,7 +18,9 @@ import InfoAlert from '../../../components/InfoAlert';
 import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
 import NoAppointments from '../../components/NoAppointments';
 import PendingReferralCard from '../../../referral-appointments/components/PendingReferralCard';
-import RequestAppointmentLayout from '../../components/AppointmentsPage/RequestAppointmentLayout';
+import RequestAppointmentLayout from '../AppointmentsPage/RequestAppointmentLayout';
+import { getRequestedAppointmentListInfo } from '../../redux/selectors';
+import { selectFeatureCCDirectScheduling } from '../../../redux/selectors';
 
 export default function RequestedAppointmentsPage({ hasTypeChanged }) {
   const {

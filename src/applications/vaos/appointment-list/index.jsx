@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import AppointmentsPage from './components/AppointmentsPage/index';
+import AppointmentsPage from './pages/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
