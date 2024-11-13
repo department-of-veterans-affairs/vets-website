@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
-import { shallowEqual } from 'recompose';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { shallowEqual } from 'recompose';
 import NewTabAnchor from '../../../components/NewTabAnchor';
-import { ClinicOrFacilityPhone } from './layouts/DetailPageLayout';
 import { selectConfirmedAppointmentData } from '../../redux/selectors';
+import { ClinicOrFacilityPhone } from './layouts/DetailPageLayout';
 
 export default function VideoLink({ appointment }) {
   const { url } = appointment.videoData;
