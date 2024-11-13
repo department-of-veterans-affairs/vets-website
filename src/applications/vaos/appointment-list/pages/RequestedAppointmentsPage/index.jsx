@@ -5,24 +5,26 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
 import {
-  fetchPendingAppointments,
-  startNewAppointmentFlow,
-} from '../redux/actions';
-import { getRequestedAppointmentListInfo } from '../redux/selectors';
+  getRequestedAppointmentListInfo,
+  selectFeatureCCDirectScheduling,
+} from '../../redux/selectors';
 import {
   APPOINTMENT_STATUS,
   FETCH_STATUS,
   GA_PREFIX,
-} from '../../utils/constants';
-import NoAppointments from './NoAppointments';
-import InfoAlert from '../../components/InfoAlert';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
-import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
-import PendingReferralCard from '../../referral-appointments/components/PendingReferralCard';
-import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
+} from '../../../utils/constants';
+import {
+  fetchPendingAppointments,
+  startNewAppointmentFlow,
+} from '../../redux/actions';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import InfoAlert from '../../../components/InfoAlert';
+import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
+import NoAppointments from '../../components/NoAppointments';
+import PendingReferralCard from '../../../referral-appointments/components/PendingReferralCard';
+import RequestAppointmentLayout from '../../components/AppointmentsPage/RequestAppointmentLayout';
 
-export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
+export default function RequestedAppointmentsPage({ hasTypeChanged }) {
   const {
     pendingAppointments,
     pendingStatus,
@@ -180,6 +182,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   );
 }
 
-RequestedAppointmentsListGroup.propTypes = {
+RequestedAppointmentsPage.propTypes = {
   hasTypeChanged: PropTypes.bool,
 };

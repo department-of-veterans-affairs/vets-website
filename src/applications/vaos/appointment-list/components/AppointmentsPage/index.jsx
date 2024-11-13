@@ -11,7 +11,6 @@ import {
   selectFeatureCCDirectScheduling,
   // selectFeatureBookingExclusion,
 } from '../../../redux/selectors';
-import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
@@ -23,12 +22,13 @@ import {
 } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
+import UpcomingAppointmentsPage from '../../pages/UpcomingAppointmentsPage';
+import RequestedAppointmentsPage from '../../pages/RequestedAppointmentsPage';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -191,10 +191,10 @@ export default function AppointmentsPage() {
       />
       <Switch>
         <Route exact path="/">
-          <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
+          <UpcomingAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/pending">
-          <RequestedAppointmentsListGroup hasTypeChanged={hasTypeChanged} />
+          <RequestedAppointmentsPage hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/past">
           <PastAppointmentsList hasTypeChanged={hasTypeChanged} />

@@ -4,13 +4,16 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducers from '../../redux/reducer';
-import { getTestDate, renderWithStoreAndRouter } from '../../tests/mocks/setup';
-import UpcomingAppointmentsList from './UpcomingAppointmentsList';
+import UpcomingAppointmentsPage from '.';
 import {
-  mockVAOSAppointmentsFetch,
+  getTestDate,
+  renderWithStoreAndRouter,
+} from '../../../tests/mocks/setup';
+import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
+import {
   mockAppointmentsApi,
-} from '../../tests/mocks/helpers';
-import { getVAOSAppointmentMock } from '../../tests/mocks/mock';
+  mockVAOSAppointmentsFetch,
+} from '../../../tests/mocks/helpers';
 
 const initialState = {
   featureToggles: {
@@ -85,7 +88,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
       initialState: myInitialState,
       reducers,
     });
@@ -136,7 +139,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
       initialState: myInitialState,
       reducers,
     });
@@ -188,7 +191,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
       initialState: myInitialState,
       reducers,
     });
@@ -238,7 +241,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
       initialState: myInitialState,
       reducers,
     });
@@ -291,7 +294,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
       initialState: myInitialState,
       reducers,
     });

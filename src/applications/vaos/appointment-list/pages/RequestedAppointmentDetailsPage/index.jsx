@@ -2,22 +2,25 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import BackLink from '../../components/BackLink';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import VAFacilityLocation from '../../components/VAFacilityLocation';
-import { selectRequestedAppointmentDetails } from '../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
-import ErrorMessage from '../../components/ErrorMessage';
-import PageLayout from './PageLayout';
-import FullWidthLayout from '../../components/FullWidthLayout';
-import { closeCancelAppointment, fetchRequestDetails } from '../redux/actions';
-import CancelWarningPage from './cancel/CancelWarningPage';
-import CancelConfirmationPage from './cancel/CancelConfirmationPage';
-import { FETCH_STATUS } from '../../utils/constants';
-import FacilityAddress from '../../components/FacilityAddress';
-import FacilityPhone from '../../components/FacilityPhone';
-import VARequestLayout from '../../components/layout/VARequestLayout';
-import CCRequestLayout from '../../components/layout/CCRequestLayout';
+import BackLink from '../../../components/BackLink';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import VAFacilityLocation from '../../../components/VAFacilityLocation';
+import { selectRequestedAppointmentDetails } from '../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import ErrorMessage from '../../../components/ErrorMessage';
+import PageLayout from '../../components/PageLayout';
+import FullWidthLayout from '../../../components/FullWidthLayout';
+import CancelWarningPage from '../../components/cancel/CancelWarningPage';
+import CancelConfirmationPage from '../../components/cancel/CancelConfirmationPage';
+import { FETCH_STATUS } from '../../../utils/constants';
+import FacilityAddress from '../../../components/FacilityAddress';
+import FacilityPhone from '../../../components/FacilityPhone';
+import VARequestLayout from '../../../components/layout/VARequestLayout';
+import CCRequestLayout from '../../../components/layout/CCRequestLayout';
+import {
+  closeCancelAppointment,
+  fetchRequestDetails,
+} from '../../redux/actions';
 
 export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();
