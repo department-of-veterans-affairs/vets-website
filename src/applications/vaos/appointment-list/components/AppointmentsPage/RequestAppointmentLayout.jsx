@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import AppointmentFlexGrid from './AppointmentFlexGrid';
-import ListItem from './ListItem';
-import AppointmentRow from './AppointmentRow';
-import AppointmentColumn from './AppointmentColumn';
+import AppointmentFlexGrid from '../../../components/AppointmentFlexGrid';
+import ListItem from '../../../components/ListItem';
 import {
   selectAppointmentLocality,
   selectIsCanceled,
@@ -18,6 +16,8 @@ import {
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureCCDirectScheduling,
 } from '../../../redux/selectors';
+import AppointmentRow from '../../../components/AppointmentRow';
+import AppointmentColumn from '../../../components/AppointmentColumn';
 
 export default function RequestAppointmentLayout({ appointment }) {
   const appointmentLocality = useSelector(() =>

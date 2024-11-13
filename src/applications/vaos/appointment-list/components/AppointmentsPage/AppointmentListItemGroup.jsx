@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { APPOINTMENT_TYPES, SPACE_BAR } from '../../../utils/constants';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
-import AppointmentFlexGrid from './AppointmentFlexGrid';
+import AppointmentFlexGrid from '../../../components/AppointmentFlexGrid';
 import {
   getAppointmentDate,
   getAppointmentTimezone,
@@ -21,8 +21,8 @@ import {
 } from '../../../services/appointment';
 import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
 import { getTypeOfCareById } from '../../../utils/appointment';
-import ListItem from './ListItem';
-import AppointmentRow from './AppointmentRow';
+import ListItem from '../../../components/ListItem';
+import AppointmentRow from '../../../components/AppointmentRow';
 
 function handleClick({ history, link, idClickable }) {
   return () => {

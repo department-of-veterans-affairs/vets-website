@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import AppointmentFlexGrid from '../../appointment-list/components/AppointmentsPage/AppointmentFlexGrid';
-import ListItem from '../../appointment-list/components/AppointmentsPage/ListItem';
-import AppointmentRow from '../../appointment-list/components/AppointmentsPage/AppointmentRow';
-import AppointmentColumn from '../../appointment-list/components/AppointmentsPage/AppointmentColumn';
+import PropTypes from 'prop-types';
+import React from 'react';
+import AppointmentColumn from '../../components/AppointmentColumn';
+import AppointmentFlexGrid from '../../components/AppointmentFlexGrid';
+import AppointmentRow from '../../components/AppointmentRow';
+import ListItem from '../../components/ListItem';
 
 export default function PendingReferralCard({ referral }) {
   const first = true;

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import AppointmentColumn from './AppointmentColumn';
-import AppointmentRow from './AppointmentRow';
 import {
   selectAppointmentLocality,
   selectIsCanceled,
@@ -18,6 +16,8 @@ import {
   selectModalityAriaText,
   selectIsCommunityCare,
 } from '../../redux/selectors';
+import AppointmentColumn from '../../../components/AppointmentColumn';
+import AppointmentRow from '../../../components/AppointmentRow';
 
 export default function AppointmentColumnLayout({
   data,
