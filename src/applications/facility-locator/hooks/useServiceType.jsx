@@ -2,9 +2,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect } from 'react';
 import { connectDrupalStaticDataFileVaHealthServices } from 'platform/site-wide/drupal-static-data/source-files/va-health-services/connect';
 
+/**
+ * function termMatcher
+ * @param { string } term
+ * @param {[string, string, string[], string, string, boolean, boolean, boolean, boolean, number, string, string]} hsdatum
+ * @param { number } index
+ * @param { boolean? } includes
+ * @returns { number }
+ */
 const termMatcher = (term, hsdatum, index, includes = false) => {
   if (includes) {
-    return !!hsdatum[index]?.toLowerCase().includes(term) || false;
+    return hsdatum[index]?.toLowerCase().includes(term) ? 1 : -1;
   }
   const returnMatch = hsdatum[index]?.toLowerCase().search(term);
   if (returnMatch === undefined) {
@@ -13,6 +21,11 @@ const termMatcher = (term, hsdatum, index, includes = false) => {
   return returnMatch;
 };
 
+/** function matchHelper
+ * @param { string } term
+ * @param {[string, string, string[], string, string, boolean, boolean, boolean, boolean, number, string, string]} hsdatum
+ * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, apiIdMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }}
+ */
 const matchHelper = (term, hsdatum) => {
   const regexTerm = new RegExp(term, 'i');
   const returnMatcher = {
@@ -36,8 +49,8 @@ const matchHelper = (term, hsdatum) => {
     returnMatcher.priorityMatch = 1;
     returnMatcher.secondaryMatch = 0;
   } else if (
-    returnMatcher.descriptionMatch ||
-    returnMatcher.tricareDescriptionMatch
+    returnMatcher.descriptionMatch >= 0 ||
+    returnMatcher.tricareDescriptionMatch >= 0
   ) {
     returnMatcher.secondaryMatch = 1;
     returnMatcher.priorityMatch = 0;
@@ -68,9 +81,10 @@ export default function useServiceType() {
   );
 
   /**
+   * function serviceTypeFilter
    * @param { string } term
    * @param { string? } facilityType
-   * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, apiIdMatch: number, descriptionMatch: boolean, tricareDescriptionMatch: boolean, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }[]}
+   * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, apiIdMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }[]}
    */
   const serviceTypeFilter = useCallback(
     (term, facilityType = '') => {
