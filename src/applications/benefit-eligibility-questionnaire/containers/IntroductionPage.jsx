@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import formConfig from '../config/form';
-import { Heading } from '../components/Heading';
 
 const IntroductionPage = ({ router }) => {
   const startForm = event => {
@@ -12,7 +11,16 @@ const IntroductionPage = ({ router }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={formConfig.title} subtitle="" />
-      <Heading />
+      <div role="heading" aria-level="2">
+        <p>
+          If you’re a Veteran or transitioning service member, answer a few
+          questions
+          <br />
+          about your goals and experiences. We’ll help you find benefits
+          <br />
+          you may want to apply for.
+        </p>
+      </div>
 
       <va-link-action
         href="#"
@@ -34,7 +42,7 @@ const IntroductionPage = ({ router }) => {
           <va-link
             href="https://www.va.gov/family-and-caregiver-benefits/"
             external
-            text="visit this page"
+            text="visit this page (opens in a new tab)"
             type="secondary"
             label="visit this page"
           />
