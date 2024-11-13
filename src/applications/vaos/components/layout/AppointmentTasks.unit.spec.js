@@ -1,15 +1,22 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { subDays } from 'date-fns';
+import MockDate from 'mockdate';
 import AppointmentTasks from '../AppointmentTasks';
 import { VIDEO_TYPES } from '../../utils/constants';
 
 describe('VAOS Component: AppointmentTasks', () => {
+  beforeEach(() => {
+    MockDate.set('2021-09-30T10:00:00Z');
+  });
+  afterEach(() => {
+    MockDate.reset();
+  });
+
+  const startTime = '2021-09-01T10:00:00Z';
   const inPersonVideoKinds = [VIDEO_TYPES.clinic, VIDEO_TYPES.storeForward];
   inPersonVideoKinds.forEach(kind => {
     it(`should display Appointment tasks section with file claim link for ${kind} video appointment`, async () => {
-      const startTime = subDays(new Date(), 20).toISOString();
       const appointment = {
         start: startTime,
         vaos: {
@@ -38,11 +45,10 @@ describe('VAOS Component: AppointmentTasks', () => {
         'href',
         `/appointments/claims/?date=${startTime}`,
       );
-      expect(screen.getByText(/Days left to file: 9/i)).to.exist;
+      expect(screen.getByText(/Days left to file: 1/i)).to.exist;
     });
   });
   it('should display Appointment tasks section with file claim link', async () => {
-    const startTime = subDays(new Date(), 20).toISOString();
     const appointment = {
       start: startTime,
       vaos: {
@@ -68,7 +74,7 @@ describe('VAOS Component: AppointmentTasks', () => {
       'href',
       `/appointments/claims/?date=${startTime}`,
     );
-    expect(screen.getByText(/Days left to file: 9/i)).to.exist;
+    expect(screen.getByText(/Days left to file: 1/i)).to.exist;
   });
   it('should not display Appointment tasks section if not a past appointment', async () => {
     const appointment = {
@@ -179,7 +185,7 @@ describe('VAOS Component: AppointmentTasks', () => {
   });
   it('should not display file claim link if days remaining are less than 1', async () => {
     const appointment = {
-      start: '2021-09-01T10:00:00Z',
+      start: '2021-08-31T10:00:00Z',
       vaos: {
         apiData: {
           travelPayClaim: {
