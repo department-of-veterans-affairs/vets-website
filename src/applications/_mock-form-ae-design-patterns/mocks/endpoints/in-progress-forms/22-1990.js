@@ -12,13 +12,13 @@ const responses = {
         veteranSocialSecurityNumber: '123456789',
         homePhone: '5558081234',
         mobilePhone: '5554044567',
-        email: 'test@test.com',
+        email: 'Mitchell.Jenkins.Test@gmail.com',
         veteranAddress: {
-          street: '123 Mailing Address St.',
-          city: 'Futlon',
+          street: '125 Main St.',
+          city: 'Fulton',
           state: 'NY',
           country: 'USA',
-          postalCode: '97064',
+          postalCode: '97063',
           isMilitary: false,
         },
         toursOfDuty: [

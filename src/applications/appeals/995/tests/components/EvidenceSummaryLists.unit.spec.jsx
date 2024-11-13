@@ -14,6 +14,7 @@ import {
 } from '../../constants';
 
 import { content } from '../../content/evidenceSummary';
+import { content as vaContent } from '../../content/evidenceVaRecords';
 import {
   VaContent,
   PrivateContent,
@@ -33,12 +34,14 @@ const records = ({ emptyIssue = false } = {}) => ({
     {
       locationAndName: 'VAMC Location 1',
       issues: emptyIssue ? [] : ['Test 1'],
-      evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
+      treatmentDate: '2011-01',
+      noDate: false,
     },
     {
       locationAndName: 'VAMC Location 2',
       issues: ['Test 1', 'Test 2'],
-      evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
+      treatmentDate: '',
+      noDate: true,
     },
   ],
   providerFacility: [
@@ -77,7 +80,9 @@ describe('evidenceSummaryList', () => {
   describe('buildVaContent', () => {
     it('should render editable VA content', () => {
       const vaEvidence = records().locations;
-      const { container } = render(<VaContent list={vaEvidence} testing />);
+      const { container } = render(
+        <VaContent list={vaEvidence} showScNewForm testing />,
+      );
 
       expect($('h4', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
@@ -88,7 +93,7 @@ describe('evidenceSummaryList', () => {
       // check Datadog classes
       expect(
         $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
-      ).to.eq(6); // 3 x 2 entries
+      ).to.eq(5); // 3 x 2 entries (-1 for "I don't have a date")
     });
 
     it('should render nothing when no data is passed in', () => {
@@ -104,7 +109,7 @@ describe('evidenceSummaryList', () => {
     it('should render review-only VA content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <VaContent list={vaEvidence} reviewMode testing />,
+        <VaContent list={vaEvidence} showScNewForm reviewMode testing />,
       );
 
       expect($('h5', container).textContent).to.contain(content.vaTitle);
@@ -117,7 +122,9 @@ describe('evidenceSummaryList', () => {
 
     it('should show missing issues message', () => {
       const vaEvidence = records({ emptyIssue: true }).locations;
-      const { container } = render(<VaContent list={vaEvidence} testing />);
+      const { container } = render(
+        <VaContent list={vaEvidence} showScNewForm testing />,
+      );
 
       const li = $$('li', container);
       expect(li[0].textContent).to.contain('Missing condition');
@@ -128,43 +135,54 @@ describe('evidenceSummaryList', () => {
         {
           locationAndName: '',
           issues: [],
-          evidenceDates: { from: '--', to: '' },
+          treatmentDate: '',
+          noDate: false,
         },
       ];
-      const { container } = render(<VaContent list={vaEvidence} testing />);
+      const { container } = render(
+        <VaContent list={vaEvidence} showScNewForm testing />,
+      );
 
       const li = $('li', container);
       expect(li.textContent).to.contain('Missing location name');
-      expect(li.textContent).to.contain('Missing treatment dates');
+      expect(li.textContent).to.contain('Missing treatment date');
     });
     it('should show missing location message with partial list', () => {
       const { container } = render(
         <div>
-          <VaContent list={['']} testing />
+          <VaContent list={['']} showScNewForm testing />
         </div>,
       );
 
       const li = $('li', container);
       expect(li.textContent).to.contain('Missing location name');
     });
-    it('should show missing start treatment date', () => {
-      const vaEvidence = [{ evidenceDates: { from: '2000-1-1', to: '' } }];
-      const { container } = render(<VaContent list={vaEvidence} testing />);
+    it('should show missing treatment date', () => {
+      const vaEvidence = [{ treatmentDate: '' }];
+      const { container } = render(
+        <VaContent list={vaEvidence} showScNewForm testing />,
+      );
 
       const li = $('li', container);
-      expect(li.textContent).to.contain('Missing end date');
+      expect(li.textContent).to.contain('Missing treatment date');
     });
-    it('should show missing end treatment date', () => {
-      const vaEvidence = [{ evidenceDates: { from: '--', to: '2000-1-1' } }];
-      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+    it('should not show missing treatment date when no date checkbox is selected', () => {
+      const vaEvidence = [{ treatmentDate: '', noDate: true }];
+      const { container } = render(
+        <VaContent list={vaEvidence} showScNewForm testing />,
+      );
 
       const li = $('li', container);
-      expect(li.textContent).to.contain('Missing start date');
+      expect(li.textContent).to.not.contain('Missing treatment date');
+      expect(li.textContent).to.contain(vaContent.noDate);
     });
 
     it('should have edit links pointing to the appropriate VA indexed page', () => {
       const vaEvidence = records().locations;
-      const { container } = render(<VaContent list={vaEvidence} testing />);
+      const { container } = render(
+        <VaContent list={vaEvidence} showScNewForm testing />,
+      );
 
       const links = $$('.edit-item', container);
       expect(links[0].getAttribute('data-link')).to.contain(
@@ -179,7 +197,12 @@ describe('evidenceSummaryList', () => {
       const vaEvidence = records().locations;
       const handlers = { showModal: removeSpy };
       const { container } = render(
-        <VaContent list={vaEvidence} handlers={handlers} testing />,
+        <VaContent
+          list={vaEvidence}
+          handlers={handlers}
+          showScNewForm
+          testing
+        />,
       );
 
       const buttons = $$('.remove-item', container);

@@ -33,8 +33,11 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
 
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
     // site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
-    listPage.selectSortDropDownOption('Alphabetically by name');
-    listPage.clickSortAlphabeticallyByName();
+    listPage.selectSortDropDownOption(
+      'Alphabetically by name',
+      'prescription_name&sort[]=dispensed_date',
+    );
+    listPage.loadRxAfterSortAlphabeticallyByName();
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByName(
       1,
       20,

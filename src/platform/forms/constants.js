@@ -136,7 +136,6 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/`,
     [VA_FORM_IDS.FORM_21P_527EZ]: `${tryGetAppUrl('pensions')}/`,
     [VA_FORM_IDS.FORM_21P_530V2]: `${tryGetAppUrl('burials-ez')}/`,
-    [VA_FORM_IDS.FORM_22_0993]: `${tryGetAppUrl('0993-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_0994]: `${tryGetAppUrl('0994-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_10203]: `${tryGetAppUrl('10203-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1990]: `${tryGetAppUrl('1990-edu-benefits')}/`,
