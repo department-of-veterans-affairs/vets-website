@@ -1,21 +1,12 @@
 import { useEffect } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
-
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
-
-const getCookie = name => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2)
-    return parts
-      .pop()
-      .split(';')
-      .shift();
-  return null;
-};
+import cookie from 'cookie';
 
 const checkDdSCookie = () => {
-  const ddSCookie = getCookie('_dd_s');
+  const cookies = cookie.parse(document.cookie || '');
+  const ddSCookie = cookies._dd_s;
+
   if (!ddSCookie) {
     return;
   }
