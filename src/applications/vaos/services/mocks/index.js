@@ -57,12 +57,8 @@ const specialtyGroups = require('./epsApi/specialtyGroups.json');
 const providerOrgs = require('./epsApi/providerOrganizations.json');
 const providerServices = require('./epsApi/providerServices.json');
 const providerSlots = require('./epsApi/providerServicesSlots.json');
-<<<<<<< HEAD
 const referralUtils = require('../../referral-appointments/utils/referrals');
-=======
-const referrals = require('./epsApi/referrals.json');
 const providerUtils = require('../../referral-appointments/utils/provider');
->>>>>>> 543cd95040 (added new mock for provider using generator.)
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -672,18 +668,8 @@ const responses = {
       data: getSlot.find(slot => slot?.id === req.params.slotId),
     });
   },
-  'GET /vaos/v2/epsApi/providerDetails': (req, res) => {
+  'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
     return res.json({ data: providerUtils.createProviderDetails(5) });
-  },
-  'GET /vaos/v2/epsApi/referrals': (req, res) => {
-    return res.json({ data: referrals });
-  },
-  'GET /vaos/v2/epsApi/referrals/:referralId': (req, res) => {
-    return res.json({
-      data: referrals.referrals.find(
-        referral => referral?.id === req.params.referralId,
-      ),
-    });
   },
   'GET /v0/user': {
     data: {

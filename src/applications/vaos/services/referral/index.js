@@ -28,3 +28,17 @@ export async function getPatientReferralById(referralId) {
     return null;
   }
 }
+
+export async function getProviderById(providerId) {
+  try {
+    const response = await apiRequestWithUrl(
+      `/vaos/v2/epsApi/providerDetails/${providerId}`,
+      {
+        method: 'GET',
+      },
+    );
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+}
