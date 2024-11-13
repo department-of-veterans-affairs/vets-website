@@ -40,8 +40,7 @@ const ProgramsList = ({ match }) => {
         // OJT
         // FLGT
         // CORR
-        // const programType = 'NCD';
-        dispatch(fetchInstitutionPrograms('3V000242', programType));
+        dispatch(fetchInstitutionPrograms('3V000242', 'NCD'));
       }
     },
     [dispatch, facilityCode],

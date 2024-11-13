@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-export default function Programs({ programTypes, facilityCode }) {
+const Programs = ({ programTypes, facilityCode }) => {
   return (
     <>
       <p>The following programs are approved by the VA at this institution.</p>
@@ -29,8 +29,11 @@ export default function Programs({ programTypes, facilityCode }) {
       ))}
     </>
   );
-}
+};
 
 Programs.propTypes = {
   programTypes: PropTypes.array.isRequired,
+  facilityCode: PropTypes.string.isRequired,
 };
+
+export default Programs;
