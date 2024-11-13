@@ -8,6 +8,7 @@ import MedicationsListCard from './MedicationsListCard';
 import { rxListSortingOptions } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
+import { selectFilterFlag } from '../../util/selectors';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
@@ -23,6 +24,7 @@ const MedicationsList = props => {
   const sortOptionLowercase = rxListSortingOptions[
     selectedSortOption
   ]?.LABEL.toLowerCase();
+  const showFilterContent = useSelector(selectFilterFlag);
   const totalMedications = pagination.totalEntries;
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
@@ -33,7 +35,8 @@ const MedicationsList = props => {
 
   const onPageChange = page => {
     document.querySelector('.va-breadcrumbs-li')?.scrollIntoView();
-    updateLoadingStatus(true, 'Loading your medications...');
+    // replace terniary with true once loading spinner is added for the filter list fetch
+    updateLoadingStatus(!showFilterContent, 'Loading your medications...');
     history.push(`/?page=${page}`);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
