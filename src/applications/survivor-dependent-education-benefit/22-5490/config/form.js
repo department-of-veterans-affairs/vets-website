@@ -967,6 +967,16 @@ const formConfig = {
                     },
                   ],
                 },
+                street2: {
+                  'ui:title': 'Street address line 2',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length > 40) {
+                        errors.addError('maximum of 40 characters');
+                      }
+                    },
+                  ],
+                },
                 city: {
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
@@ -975,6 +985,10 @@ const formConfig = {
                     (errors, field) => {
                       if (isOnlyWhitespace(field)) {
                         errors.addError('Please enter a valid city');
+                      } else if (field?.length < 2) {
+                        errors.addError('minimum of 2 characters');
+                      } else if (field?.length > 20) {
+                        errors.addError('maximum of 20 characters');
                       }
                     },
                   ],
@@ -996,24 +1010,44 @@ const formConfig = {
                   },
                 },
                 state: {
-                  'ui:title': 'State/County/Province',
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData?.mailingAddressInput?.livesOnMilitaryBase ||
+                        formData?.mailingAddressInput?.address?.country ===
+                          'USA'
+                      ) {
+                        return {
+                          title: 'State',
+                          type: 'string',
+                        };
+                      }
+                      return {
+                        title: 'State/County/Province',
+                        type: 'string',
+                      };
+                    },
+                  },
                   'ui:required': formData =>
                     formData?.mailingAddressInput?.livesOnMilitaryBase ||
                     formData?.mailingAddressInput?.address?.country === 'USA',
                 },
                 postalCode: {
                   'ui:errorMessages': {
-                    required: 'Zip code must be 5 digits',
+                    required: 'This field is required.',
                   },
                   'ui:options': {
                     replaceSchema: formData => {
                       if (
+                        formData?.mailingAddressInput?.livesOnMilitaryBase ||
                         formData?.mailingAddressInput?.address?.country !==
-                        'USA'
+                          'USA'
                       ) {
                         return {
                           title: 'Postal Code',
                           type: 'string',
+                          maxLength: 10,
+                          minLength: 3,
                         };
                       }
 
