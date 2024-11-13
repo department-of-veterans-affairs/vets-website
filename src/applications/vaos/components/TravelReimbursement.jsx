@@ -4,14 +4,22 @@ import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
   selectIsPast,
+  selectIsClinicVideo,
+  selectIsInPerson,
 } from '../appointment-list/redux/selectors';
 import { TRAVEL_CLAIM_MESSAGES } from '../utils/constants';
+import Section from './Section';
 
-export function TravelReimbursement({ appointment }) {
+export default function TravelReimbursement({ appointment }) {
   const isPastAppointment = selectIsPast(appointment);
   if (!isPastAppointment) {
     return null;
   }
+
+  const isInPerson = selectIsInPerson(appointment);
+  const isClinicVideo = selectIsClinicVideo(appointment);
+  // If it's not an in-person appointment or a clinic video appointment, don't show the link to file a claim
+  if (!isInPerson && !isClinicVideo) return null;
 
   const claimData = selectAppointmentTravelClaim(appointment);
   if (!claimData) {
@@ -21,20 +29,15 @@ export function TravelReimbursement({ appointment }) {
   const daysRemainingToFileClaim = getDaysRemainingToFileClaim(
     appointment.start,
   );
-  const heading = (
-    <h2 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
-      Travel reimbursement
-    </h2>
-  );
+  const heading = 'Travel reimbursement';
 
   if (claimData.metadata.status !== '200') {
     return (
-      <>
-        {heading}
+      <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
           We’re sorry. Something went wrong on our end. Please try again later.
         </p>
-      </>
+      </Section>
     );
   }
 
@@ -46,8 +49,7 @@ export function TravelReimbursement({ appointment }) {
   ) {
     // TODO: change the link for submitting a travel claim once it's available
     return (
-      <>
-        {heading}
+      <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
           Days left to file: {daysRemainingToFileClaim}
         </p>
@@ -59,7 +61,7 @@ export function TravelReimbursement({ appointment }) {
             text="File a travel reimbursement claim"
           />
         </p>
-      </>
+      </Section>
     );
   }
   if (
@@ -69,8 +71,7 @@ export function TravelReimbursement({ appointment }) {
     daysRemainingToFileClaim < 1
   ) {
     return (
-      <>
-        {heading}
+      <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
           Days left to file: {daysRemainingToFileClaim}
         </p>
@@ -86,13 +87,12 @@ export function TravelReimbursement({ appointment }) {
             text="Learn more about travel reimbursement"
           />
         </p>
-      </>
+      </Section>
     );
   }
   if (claimData.metadata.status === '200' && claimData.claim?.id) {
     return (
-      <>
-        {heading}
+      <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
           You've already filed a claim for this facility and date.
         </p>
@@ -103,7 +103,7 @@ export function TravelReimbursement({ appointment }) {
             text="Check your claim status"
           />
         </p>
-      </>
+      </Section>
     );
   }
 

@@ -9,11 +9,7 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import { useParams } from 'react-router-dom';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
-import {
-  APPOINTMENT_STATUS,
-  GA_PREFIX,
-  TRAVEL_CLAIM_MESSAGES,
-} from '../../utils/constants';
+import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
 import { getDaysRemainingToFileClaim } from '../../utils/appointment';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
 import AfterVisitSummary from '../AfterVisitSummary';
@@ -28,25 +24,9 @@ import {
 } from '../../redux/selectors';
 import StatusAlert from '../StatusAlert';
 import FacilityPhone from '../FacilityPhone';
-import { TravelReimbursement } from '../TravelReimbursement';
-
-export function Section({ children, heading, level = 2 }) {
-  const Heading = `h${level}`;
-
-  return (
-    <>
-      <Heading className="vads-u-font-size--h5 vads-u-margin-bottom--0">
-        {heading}
-      </Heading>
-      {children}
-    </>
-  );
-}
-Section.propTypes = {
-  children: PropTypes.node,
-  heading: PropTypes.string,
-  level: PropTypes.number,
-};
+import TravelReimbursement from '../TravelReimbursement';
+import AppointmentTasks from '../AppointmentTasks';
+import Section from '../Section';
 
 export function When({ children, level = 2 }) {
   return (
@@ -212,39 +192,6 @@ function CancelButton({ appointment }) {
 
   return null;
 }
-
-export function AppointmentTasks({
-  appointmentDate,
-  claimData,
-  daysRemainingToFileClaim,
-  isPastAppointment,
-}) {
-  if (!isPastAppointment) return null;
-  if (!appointmentDate) return null;
-  if (!claimData) return null;
-  if (claimData.message !== TRAVEL_CLAIM_MESSAGES.noClaim) return null;
-  if (daysRemainingToFileClaim < 1) return null;
-  return (
-    <Section heading="Appointment tasks">
-      <va-link-action
-        data-testid="file-claim-link"
-        className="vads-u-margin-top--1"
-        href={`/appointments/claims/?date=${appointmentDate}`}
-        text="File a travel reimbursement claim"
-      />
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-margin-left--4">
-        Days left to file: {daysRemainingToFileClaim}
-      </p>
-    </Section>
-  );
-}
-
-AppointmentTasks.propTypes = {
-  appointmentDate: PropTypes.string,
-  claimData: PropTypes.object,
-  daysRemainingToFileClaim: PropTypes.number,
-  isPastAppointment: PropTypes.bool,
-};
 
 export default function DetailPageLayout({
   children,
