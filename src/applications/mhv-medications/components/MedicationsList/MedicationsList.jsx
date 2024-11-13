@@ -29,6 +29,7 @@ const MedicationsList = props => {
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
+  const showFilterContent = useSelector(selectFilterFlag);
 
   const displaynumberOfPrescriptionsSelector =
     ".no-print [data-testid='page-total-info']";
@@ -50,7 +51,10 @@ const MedicationsList = props => {
 
   return (
     <>
-      <h2 className="sr-only no-print">List of Medications</h2>
+      {/* clean after filter flag is removed */}
+      {!showFilterContent && (
+        <h2 className="sr-only no-print">List of Medications</h2>
+      )}
       <p
         className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"
