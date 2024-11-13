@@ -24,7 +24,6 @@ const MedicationsList = props => {
   const sortOptionLowercase = rxListSortingOptions[
     selectedSortOption
   ]?.LABEL.toLowerCase();
-  const showFilterContent = useSelector(selectFilterFlag);
   const totalMedications = pagination.totalEntries;
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
