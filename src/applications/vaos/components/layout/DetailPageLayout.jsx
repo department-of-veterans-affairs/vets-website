@@ -10,13 +10,11 @@ import { useParams } from 'react-router-dom';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
-import { getDaysRemainingToFileClaim } from '../../utils/appointment';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
 import AfterVisitSummary from '../AfterVisitSummary';
 import {
   selectFacility,
   selectIsPast,
-  selectAppointmentTravelClaim,
 } from '../../appointment-list/redux/selectors';
 import {
   selectFeatureTravelPayViewClaimDetails,
@@ -211,11 +209,6 @@ export default function DetailPageLayout({
 
   const isPastAppointment = selectIsPast(appointment);
 
-  const claimData = selectAppointmentTravelClaim(appointment);
-  const daysRemainingToFileClaim = getDaysRemainingToFileClaim(
-    appointment.start,
-  );
-
   return (
     <>
       <BackLink appointment={appointment} />
@@ -224,12 +217,7 @@ export default function DetailPageLayout({
         <StatusAlert appointment={appointment} facility={facility} />
         {travelPaySubmitMileageExpense &&
           travelPayViewClaimDetails && (
-            <AppointmentTasks
-              appointmentDate={appointment.start}
-              claimData={claimData}
-              daysRemainingToFileClaim={daysRemainingToFileClaim}
-              isPastAppointment={isPastAppointment}
-            />
+            <AppointmentTasks appointment={appointment} />
           )}
         {isPastAppointment &&
           APPOINTMENT_STATUS.booked === appointment.status && (

@@ -2,8 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
-import TravelReimbursement from '../TravelReimbursement';
-import { VIDEO_TYPES } from '../../utils/constants';
+import TravelReimbursement from './TravelReimbursement';
+import { VIDEO_TYPES } from '../utils/constants';
 
 describe('VAOS Component: TravelReimbursement', () => {
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('VAOS Component: TravelReimbursement', () => {
           apiData: {
             travelPayClaim: {
               metadata: {
-                status: '200',
+                status: 200,
                 message: 'No claims found.',
                 success: true,
               },
@@ -51,7 +51,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'No claims found.',
               success: true,
             },
@@ -73,7 +73,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'No claims found.',
               success: true,
             },
@@ -94,7 +94,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'Data retrieved successfully.',
               success: true,
             },
@@ -132,7 +132,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'Data retrieved successfully.',
               success: true,
             },
@@ -151,7 +151,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'Data retrieved successfully.',
               success: true,
             },
@@ -171,7 +171,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'Data retrieved successfully.',
               success: true,
             },
@@ -191,7 +191,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'Data retrieved successfully.',
               success: true,
             },

@@ -31,7 +31,7 @@ export default function TravelReimbursement({ appointment }) {
   );
   const heading = 'Travel reimbursement';
 
-  if (claimData.metadata.status !== '200') {
+  if (claimData.metadata.status !== 200) {
     return (
       <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
@@ -90,7 +90,7 @@ export default function TravelReimbursement({ appointment }) {
       </Section>
     );
   }
-  if (claimData.metadata.status === '200' && claimData.claim?.id) {
+  if (claimData.metadata.status === 200 && claimData.claim?.id) {
     return (
       <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">

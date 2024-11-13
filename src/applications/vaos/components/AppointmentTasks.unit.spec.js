@@ -2,8 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
-import AppointmentTasks from '../AppointmentTasks';
-import { VIDEO_TYPES } from '../../utils/constants';
+import AppointmentTasks from './AppointmentTasks';
+import { VIDEO_TYPES } from '../utils/constants';
 
 describe('VAOS Component: AppointmentTasks', () => {
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('VAOS Component: AppointmentTasks', () => {
           apiData: {
             travelPayClaim: {
               metadata: {
-                status: '200',
+                status: 200,
                 message: 'No claims found.',
                 success: true,
               },
@@ -55,7 +55,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'No claims found.',
               success: true,
             },
@@ -83,7 +83,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'No claims found.',
               success: true,
             },
@@ -106,7 +106,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'No claims found.',
               success: true,
             },
@@ -129,7 +129,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'No claims found.',
               success: true,
             },
@@ -152,7 +152,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'No claims found.',
               success: true,
             },
@@ -190,7 +190,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         apiData: {
           travelPayClaim: {
             metadata: {
-              status: '200',
+              status: 200,
               message: 'No claims found.',
               success: true,
             },
