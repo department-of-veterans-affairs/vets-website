@@ -77,7 +77,7 @@ export const fetchClaimantId = () => {
 
     try {
       const response = await Promise.race([
-        apiRequest(`http://localhost:8080/dgib_verifications/claimant_lookup`, {
+        apiRequest(`${API_URL}/dgib_verifications/claimant_lookup`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export const fetchPersonalInfo = () => {
           //   },
           //   body: JSON.stringify({ claimantId }),
           // }),
-          apiRequest(`/dgib_verifications/verification_record`, {
+          apiRequest(`${API_URL}/dgib_verifications/verification_record`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
