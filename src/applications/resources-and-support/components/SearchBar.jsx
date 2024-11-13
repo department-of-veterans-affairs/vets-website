@@ -94,13 +94,11 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
 
     if (isGlobalSearch) {
       addSearchGADataToStorage({
-        [PAGE_PATH]: '/resources',
+        [PAGE_PATH]: document.location.pathname,
         [SEARCH_LOCATION]: RESOURCES,
         [SEARCH_APP_USED]: false,
         [SEARCH_SELECTION]: 'All VA.gov',
         [SEARCH_TYPEAHEAD_ENABLED]: false,
-        [TYPEAHEAD_KEYWORD_SELECTED]: undefined,
-        [TYPEAHEAD_LIST]: undefined
       });
     }
 

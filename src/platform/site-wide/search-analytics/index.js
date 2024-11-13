@@ -6,7 +6,7 @@ export const SEARCH_APP_USED = 'sitewideSearch';
 export const SEARCH_LOCATION = 'searchLocation';
 export const SEARCH_SELECTION = 'searchSelection';
 export const SEARCH_TYPEAHEAD_ENABLED = 'searchTypeaheadEnabled';
-export const TYPEAHEAD_KEYWORD_SELECTED = 'typeaheadKeywordSelected';
+export const TYPEAHEAD_CLICKED = 'typeaheadClicked';
 export const TYPEAHEAD_LIST = 'typeaheadList';
 
 export const clearGAData = () => {
@@ -15,7 +15,7 @@ export const clearGAData = () => {
   localStorage.removeItem(SEARCH_LOCATION);
   localStorage.removeItem(SEARCH_SELECTION);
   localStorage.removeItem(SEARCH_TYPEAHEAD_ENABLED);
-  localStorage.removeItem(TYPEAHEAD_KEYWORD_SELECTED);
+  localStorage.removeItem(TYPEAHEAD_CLICKED);
   localStorage.removeItem(TYPEAHEAD_LIST);
 };
 
@@ -26,30 +26,33 @@ export const addSearchGADataToStorage = data => {
   localStorage.setItem(SEARCH_APP_USED, data?.[SEARCH_APP_USED]);
   localStorage.setItem(SEARCH_SELECTION, data?.[SEARCH_SELECTION]);
   localStorage.setItem(SEARCH_LOCATION, data?.[SEARCH_LOCATION]);
-  localStorage.setItem(SEARCH_TYPEAHEAD_ENABLED, data?.[SEARCH_TYPEAHEAD_ENABLED]);
+  localStorage.setItem(
+    SEARCH_TYPEAHEAD_ENABLED,
+    data?.[SEARCH_TYPEAHEAD_ENABLED],
+  );
 
-  if (data?.[TYPEAHEAD_KEYWORD_SELECTED]) {
-    localStorage.setItem(
-      TYPEAHEAD_KEYWORD_SELECTED,
-      data[TYPEAHEAD_KEYWORD_SELECTED],
-    );
+  if (data?.[TYPEAHEAD_CLICKED]) {
+    localStorage.setItem(TYPEAHEAD_CLICKED, data[TYPEAHEAD_CLICKED]);
   }
 
   if (data?.[TYPEAHEAD_LIST]) {
-    localStorage.setItem(
-      TYPEAHEAD_LIST,
-      data[TYPEAHEAD_LIST],
-    );
+    localStorage.setItem(TYPEAHEAD_LIST, data[TYPEAHEAD_LIST]);
   }
 };
 
 export const getSearchGADataFromStorage = () => {
-  const keyword = localStorage?.getItem(TYPEAHEAD_KEYWORD_SELECTED) !== 'undefined' ?
-    localStorage?.getItem(TYPEAHEAD_KEYWORD_SELECTED)
-    : undefined;
-  
-  const sitewideSearchUsed = localStorage.getItem(SEARCH_APP_USED) === 'true' ? true : false;
-  const typeaheadEnabled = localStorage.getItem(SEARCH_TYPEAHEAD_ENABLED) === 'true' ? true : false;
+  let typeaheadClicked =
+    localStorage?.getItem(TYPEAHEAD_CLICKED) !== 'undefined'
+      ? localStorage?.getItem(TYPEAHEAD_CLICKED)
+      : undefined;
+
+  if (typeaheadClicked) {
+    typeaheadClicked = typeaheadClicked === 'true';
+  }
+
+  const sitewideSearchUsed = localStorage.getItem(SEARCH_APP_USED) === 'true';
+  const typeaheadEnabled =
+    localStorage.getItem(SEARCH_TYPEAHEAD_ENABLED) === 'true';
 
   return {
     path: localStorage.getItem(PAGE_PATH),
@@ -57,30 +60,18 @@ export const getSearchGADataFromStorage = () => {
     sitewideSearch: sitewideSearchUsed,
     searchSelection: localStorage.getItem(SEARCH_SELECTION),
     searchTypeaheadEnabled: typeaheadEnabled,
-    keywordSelected: keyword,
-    suggestionsList: localStorage.getItem(TYPEAHEAD_LIST)
+    typeaheadClicked,
+    typeaheadList: localStorage.getItem(TYPEAHEAD_LIST),
   };
 };
 
 export const listenForTypeaheadClick = (
   searchListBoxItems,
-  setTypeaheadKeywordSelected
+  setTypeaheadClicked,
 ) => {
   searchListBoxItems?.forEach(item => {
-    item?.addEventListener('click', event => {
-      console.log('event: ', event);
-      const nodeName = event?.target?.nodeName;
-      let targetElement = event?.target;
-
-      if (nodeName === 'STRONG') {
-        targetElement = event?.target?.parentNode;
-      }
-
-      const typeaheadClicked = targetElement.outerText;
-
-      if (typeaheadClicked) {
-        setTypeaheadKeywordSelected(typeaheadClicked);
-      }
+    item?.addEventListener('click', () => {
+      setTypeaheadClicked(true);
     });
   });
 };

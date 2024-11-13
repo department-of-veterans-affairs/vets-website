@@ -7,7 +7,7 @@ import {
   SEARCH_LOCATION,
   SEARCH_SELECTION,
   SEARCH_TYPEAHEAD_ENABLED,
-  TYPEAHEAD_KEYWORD_SELECTED,
+  TYPEAHEAD_CLICKED,
   TYPEAHEAD_LIST,
   addSearchGADataToStorage,
   listenForTypeaheadClick,
@@ -23,7 +23,7 @@ import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
 const HomepageSearch = () => {
   const [userInput, setUserInput] = useState('');
   const [latestSuggestions, setLatestSuggestions] = useState([]);
-  const [typeaheadKeywordSelected, setTypeaheadKeywordSelected] = useState(undefined);
+  const [typeaheadClicked, setTypeaheadClicked] = useState(false);
 
   // clear all suggestions and saved suggestions
   const clearSuggestions = () => {
@@ -46,11 +46,12 @@ const HomepageSearch = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      const searchListBoxItems = document.querySelector('va-search-input')
+      const searchListBoxItems = document
+        .querySelector('va-search-input')
         .shadowRoot?.querySelectorAll('.va-search-suggestion');
 
       if (searchListBoxItems?.length) {
-        listenForTypeaheadClick(searchListBoxItems, setTypeaheadKeywordSelected);
+        listenForTypeaheadClick(searchListBoxItems, setTypeaheadClicked);
       }
     }, 500);
   });
@@ -64,18 +65,14 @@ const HomepageSearch = () => {
     );
 
     const analyticsData = {
-      [PAGE_PATH]: '/',
+      [PAGE_PATH]: document.location,
       [SEARCH_LOCATION]: 'Homepage Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov - In page search',
       [SEARCH_TYPEAHEAD_ENABLED]: true,
-      [TYPEAHEAD_KEYWORD_SELECTED]: undefined,
-      [TYPEAHEAD_LIST]: latestSuggestions
+      [TYPEAHEAD_CLICKED]: typeaheadClicked,
+      [TYPEAHEAD_LIST]: latestSuggestions,
     };
-
-    if (typeaheadKeywordSelected) {
-      analyticsData[TYPEAHEAD_KEYWORD_SELECTED] = typeaheadKeywordSelected;
-    }
 
     addSearchGADataToStorage(analyticsData);
 

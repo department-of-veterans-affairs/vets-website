@@ -6,10 +6,9 @@ import {
   SEARCH_APP_USED,
   SEARCH_SELECTION,
   SEARCH_TYPEAHEAD_ENABLED,
-  TYPEAHEAD_KEYWORD_SELECTED,
+  TYPEAHEAD_CLICKED,
   TYPEAHEAD_LIST,
   addSearchGADataToStorage,
-  listenForTypeaheadClick,
 } from 'platform/site-wide/search-analytics';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
@@ -19,14 +18,6 @@ import DropDownPanel from './DropDownPanel/DropDownPanel';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 export class SearchMenu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userInput: '',
-      typeaheadKeywordSelected: null
-    };
-  }
-
   componentDidUpdate(prevProps) {
     const { isOpen } = this.props;
 
@@ -44,23 +35,6 @@ export class SearchMenu extends React.Component {
     if (isOpen && !prevProps.isOpen && dropdownInputField) {
       dropdownInputField.focus();
     }
-
-    setTimeout(() => {
-      const searchListBoxItems = document.querySelector('va-search-input')
-        .shadowRoot?.querySelectorAll('.va-search-suggestion');
-
-      if (searchListBoxItems?.length) {
-        listenForTypeaheadClick(searchListBoxItems, setTypeaheadKeywordSelected);
-      }
-    }, 500);
-  }
-
-  handleInputChange = event => {
-    this.setState({ userInput: event.target.value });
-  };
-
-  setTypeaheadKeywordSelected = keyword => {
-    this.setState({ typeaheadKeywordSelected: keyword });
   }
 
   onInputSubmit = componentState => {
@@ -76,8 +50,7 @@ export class SearchMenu extends React.Component {
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
       [SEARCH_TYPEAHEAD_ENABLED]: true,
-      [TYPEAHEAD_KEYWORD_SELECTED]: undefined,
-      [TYPEAHEAD_LIST]: validSuggestions || undefined
+      [TYPEAHEAD_LIST]: validSuggestions,
     });
 
     // create a search url
@@ -103,13 +76,9 @@ export class SearchMenu extends React.Component {
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
       [SEARCH_TYPEAHEAD_ENABLED]: true,
-      [TYPEAHEAD_KEYWORD_SELECTED]: validSuggestions[index],
-      [TYPEAHEAD_LIST]: validSuggestions
+      [TYPEAHEAD_CLICKED]: true,
+      [TYPEAHEAD_LIST]: validSuggestions,
     };
-
-    if (this.state.typeaheadKeywordSelected) {
-      analyticsData[TYPEAHEAD_KEYWORD_SELECTED] = this.state.typeaheadKeywordSelected;
-    }
 
     addSearchGADataToStorage(analyticsData);
 

@@ -13,6 +13,8 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
+  TYPEAHEAD_CLICKED,
+  TYPEAHEAD_LIST,
   clearGAData,
   getSearchGADataFromStorage,
   listenForTypeaheadClick,
@@ -57,21 +59,31 @@ const SearchApp = ({
   const [page, setPage] = useState(pageFromURL);
   const [typeAheadWasUsed, setTypeAheadWasUsed] = useState(typeaheadUsed);
   const [formWasSubmitted, setFormWasSubmitted] = useState(false);
-  const [typeaheadKeywordSelected, setTypeaheadKeywordSelected] = useState(undefined);
+
+  // This is used for tracking whether the typeahead was clicked in the search bar
+  // on the /search page. If typeahead was used on another app/context that lead to searching
+  // on this page, that value comes from localStorage instead
+  //
+  // Note: typeAheadWasUsed comes from the `t={value}` in the URL which is not consistently
+  // set across apps currently and may be tech debt that we can clean up another time
+  const [typeaheadClicked, setTypeaheadClicked] = useState(typeAheadWasUsed);
 
   const instance = useRef({ typeaheadTimer: null });
 
-  useEffect(() => {
+  const listenForTypeaheadClicks = () => {
     setTimeout(() => {
-      const searchListBoxItems = document.querySelector('va-search-input')
+      const searchListBoxItems = document
+        .querySelector('va-search-input')
         .shadowRoot?.querySelectorAll('.va-search-suggestion');
-        console.log('🚀 ~ searchListBoxItems:', searchListBoxItems);
-
 
       if (searchListBoxItems?.length) {
-        listenForTypeaheadClick(searchListBoxItems, setTypeaheadKeywordSelected);
+        listenForTypeaheadClick(searchListBoxItems, setTypeaheadClicked);
       }
     }, 1000);
+  };
+
+  useEffect(() => {
+    listenForTypeaheadClicks();
   });
 
   const {
@@ -88,37 +100,62 @@ const SearchApp = ({
 
   const hasErrors = !!(errors && errors.length > 0);
 
-  const getSearchAnalyticsLocationData = () => {
-    const searchAnalyticsData = getSearchGADataFromStorage();
+  // When using search bars that are not on /search, or when using the header search
+  // we set analytics data into localStorage to contextualize the search
+  // This function uses that data to compile GA analytics rather than the data
+  // the /search page itself uses
+  const compileAnalyticsDataFromStorage = (
+    searchAnalyticsLocationData,
+    query,
+  ) => {
+    const typeaheadSuggestionClicked =
+      searchAnalyticsLocationData?.[TYPEAHEAD_CLICKED];
+    const typeaheadList = searchAnalyticsLocationData?.[TYPEAHEAD_LIST];
+    const suggestionsList = typeaheadList
+      ? Array?.from(typeaheadList?.split(','))
+      : undefined;
 
-    // If this value is set, we used another app or context to do a site-wide search
-    // other than the search functionality on /search
-    if (searchAnalyticsData?.path) {
-      const { keywordSelected, suggestionsList } = searchAnalyticsData;
-      const typeaheadList = suggestionsList?.length ?
-        Array?.from(suggestionsList?.split(',')) :
-        undefined;
-      let keywordPosition = undefined;
+    let keywordPosition;
+    let keywordSelected;
 
-      if (keywordSelected && typeaheadList) {
-        keywordPosition = (typeaheadList?.indexOf(keywordSelected) + 1) || undefined;
-      }
-      
-      return {
-        ...searchAnalyticsData,
-        keywordPosition,
-        keywordSelected,
-        suggestionsList: typeaheadList
-      };
+    if (typeaheadSuggestionClicked && suggestionsList?.length) {
+      keywordPosition = suggestionsList?.indexOf(query) + 1 || undefined;
+      keywordSelected = query;
     }
 
     return {
+      ...searchAnalyticsLocationData,
+      keywordPosition,
+      keywordSelected,
+      suggestionsList,
+      userInput: query,
+    };
+  };
+
+  // This function compiles GA analytics based on a search that happens in the
+  // search bar on the /search page (above the results area)
+  const compileAnalyticsDataFromInPageSearch = query => {
+    const validSuggestions =
+      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
+
+    let keywordPosition;
+    let keywordSelected;
+
+    if (typeaheadClicked && validSuggestions?.length) {
+      keywordPosition = validSuggestions?.indexOf(query) + 1 || undefined;
+      keywordSelected = query;
+    }
+
+    return {
+      keywordPosition,
+      keywordSelected,
       path: document.location.pathname,
       searchLocation: 'Search Results Page',
       searchSelection: 'All VA.gov',
-      sitewideSearch: false,
       searchTypeaheadEnabled: true,
-      suggestionsList: suggestions || undefined
+      sitewideSearch: true,
+      suggestionsList: validSuggestions?.length ? validSuggestions : undefined,
+      userInput: query,
     };
   };
 
@@ -126,7 +163,21 @@ const SearchApp = ({
   // it came from the address bar, so we immediately hit the API
   useEffect(() => {
     const initialUserInput = router?.location?.query?.query || '';
-    const searchAnalyticsLocationData = getSearchAnalyticsLocationData();
+    const searchAnalyticsLocationData = getSearchGADataFromStorage();
+    let compiledAnalyticsData = null;
+
+    // If this value is set, we used another app or context to do a site-wide search
+    // other than the search functionality on /search
+    if (searchAnalyticsLocationData?.path) {
+      compiledAnalyticsData = compileAnalyticsDataFromStorage(
+        searchAnalyticsLocationData,
+        initialUserInput,
+      );
+    } else {
+      compiledAnalyticsData = compileAnalyticsDataFromInPageSearch(
+        initialUserInput,
+      );
+    }
 
     if (initialUserInput && isSearchTermValid(initialUserInput)) {
       setFormWasSubmitted(true);
@@ -134,8 +185,7 @@ const SearchApp = ({
       fetchSearchResults(initialUserInput, page, {
         trackEvent: true,
         eventName: 'onload_view_search_results',
-        userInput: initialUserInput,
-        ...searchAnalyticsLocationData
+        ...compiledAnalyticsData,
       });
     }
   }, []);
@@ -207,15 +257,15 @@ const SearchApp = ({
 
       updateURL({ query: userInput, page: nextPage });
 
+      const compiledAnalyticsData = compileAnalyticsDataFromInPageSearch(
+        userInput,
+      );
+
       // Fetch new results
       fetchSearchResults(userInput, nextPage, {
         trackEvent: queryChanged || isRepeatSearch,
         eventName: 'view_search_results',
-        path: document.location.pathname,
-        userInput,
-        searchLocation: 'Search Results Page',
-        sitewideSearch: false,
-        keywordSelected: typeaheadKeywordSelected
+        ...compiledAnalyticsData,
       });
 
       // Update query is necessary
@@ -232,24 +282,22 @@ const SearchApp = ({
   const onInputSubmit = event => {
     event.preventDefault();
     setFormWasSubmitted(true);
+    listenForTypeaheadClicks();
     clearGAData();
 
     if (!userInput) {
       return;
     }
 
-    const validSuggestions =
-      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
+    const compiledAnalyticsData = compileAnalyticsDataFromInPageSearch(
+      userInput,
+    );
 
     if (isSearchTermValid(userInput)) {
       fetchSearchResults(userInput, 1, {
         trackEvent: true,
         eventName: 'view_search_results',
-        path: document.location.pathname,
-        userInput,
-        searchLocation: 'Search Results Page',
-        suggestionsList: validSuggestions,
-        sitewideSearch: false,
+        ...compiledAnalyticsData,
       });
 
       updateQueryInfo({

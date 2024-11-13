@@ -26,7 +26,7 @@ export function fetchSearchResults(query, page, options) {
     return apiRequest(queryString)
       .then(response => {
         if (options?.trackEvent) {
-          console.log('event: ', {
+          recordEvent({
             event: options?.eventName,
             'search-page-path': options?.path,
             'search-query': options?.userInput,
@@ -43,23 +43,6 @@ export function fetchSearchResults(query, page, options) {
             'type-ahead-options-list': options?.suggestionsList,
             'type-ahead-options-count': options?.suggestionsList?.length,
           });
-          // recordEvent({
-            // event: options?.eventName,
-            // 'search-page-path': options?.path,
-            // 'search-query': options?.userInput,
-            // 'search-results-total-count':
-            //   response?.meta?.pagination?.totalEntries,
-            // 'search-results-total-pages':
-            //   response?.meta?.pagination?.totalPages,
-            // 'search-selection': options?.searchSelection,
-            // 'search-location': options?.searchLocation,
-            // 'search-typeahead-enabled': options?.searchTypeaheadEnabled,
-            // 'sitewide-search-app-used': options?.sitewideSearch,
-            // 'type-ahead-option-keyword-selected': options?.keywordSelected,
-            // 'type-ahead-option-position': options?.keywordPosition,
-            // 'type-ahead-options-list': options?.suggestionsList,
-            // 'type-ahead-options-count': options?.suggestionsList?.length,
-          // });
         }
         dispatch({
           type: FETCH_SEARCH_RESULTS_SUCCESS,

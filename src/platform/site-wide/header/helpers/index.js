@@ -1,17 +1,4 @@
-import * as Sentry from '@sentry/browser';
 import { isArray } from 'lodash';
-import {
-  PAGE_PATH,
-  SEARCH_APP_USED,
-  SEARCH_LOCATION,
-  SEARCH_SELECTION,
-  SEARCH_TYPEAHEAD_ENABLED,
-  TYPEAHEAD_KEYWORD_SELECTED,
-  TYPEAHEAD_LIST,
-  addSearchGADataToStorage,
-} from 'platform/site-wide/search-analytics';
-import { apiRequest } from '~/platform/utilities/api';
-import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
 export const hideDesktopHeader = () => {
   const desktopHeader = document.getElementById('legacy-header');
@@ -53,90 +40,6 @@ export const toggleMinimalHeader = show => {
 
   minimalHeader.classList.toggle('vads-u-display--none', !show);
   defaultHeader.classList.toggle('vads-u-display--none', show);
-};
-
-export const fetchSearchSuggestions = async searchTerm => {
-  try {
-    // Attempt to fetch suggestions.
-    const suggestions = await apiRequest(
-      `/search_typeahead?query=${encodeURIComponent(searchTerm)}`,
-    );
-
-    // Return empty array if no suggestions are returned.
-    if (!suggestions.length) {
-      return [];
-    }
-
-    // Sort and return suggestions.
-    return suggestions.sort((a, b) => a.length - b.length);
-  } catch (error) {
-    // Custom log rate limit error.
-    if (error?.error?.code === 'OVER_RATE_LIMIT') {
-      Sentry.captureException(
-        new Error(`"OVER_RATE_LIMIT" - Search Typeahead in header v2`),
-      );
-    }
-
-    // Capture all other errors.
-    Sentry.captureException(error);
-
-    // Return empty array if we hit an error.
-    return [];
-  }
-};
-
-export const onSearch = componentState => {
-  const savedSuggestions = componentState?.savedSuggestions || [];
-  const suggestions = componentState?.suggestions || [];
-  const searchTerm = componentState?.inputValue;
-  const validSuggestions =
-    savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
-
-  addSearchGADataToStorage({
-    [PAGE_PATH]: document.location.pathname,
-    [SEARCH_LOCATION]: 'Desktop Header Search',
-    [SEARCH_APP_USED]: false,
-    [SEARCH_SELECTION]: 'All VA.gov',
-    [SEARCH_TYPEAHEAD_ENABLED]: true,
-    [TYPEAHEAD_KEYWORD_SELECTED]: undefined,
-    [TYPEAHEAD_LIST]: validSuggestions || undefined
-  });
-
-  const searchUrl = replaceWithStagingDomain(
-    `https://www.va.gov/search/?query=${encodeURIComponent(
-      searchTerm,
-    )}&t=${false}`,
-  );
-
-  // relocate to search results, preserving history
-  window.location.assign(searchUrl);
-};
-
-export const onSuggestionSubmit = (index, componentState) => {
-  const savedSuggestions = componentState?.savedSuggestions || [];
-  const suggestions = componentState?.suggestions || [];
-
-  const validSuggestions =
-    savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
-
-  addSearchGADataToStorage({
-    [PAGE_PATH]: document.location.pathname,
-    [SEARCH_LOCATION]: 'Desktop Header Search',
-    [SEARCH_APP_USED]: false,
-    [SEARCH_SELECTION]: 'All VA.gov',
-    [SEARCH_TYPEAHEAD_ENABLED]: true,
-    [TYPEAHEAD_KEYWORD_SELECTED]: validSuggestions[index],
-    [TYPEAHEAD_LIST]: validSuggestions
-  });
-
-  const searchUrl = replaceWithStagingDomain(
-    `https://www.va.gov/search/?query=${encodeURIComponent(
-      validSuggestions?.[index],
-    )}&t=${true}`,
-  );
-
-  // relocate to search results, preserving history
-  window.location.assign(searchUrl);
 };
 
 export const formatMenuItems = menuItems => {

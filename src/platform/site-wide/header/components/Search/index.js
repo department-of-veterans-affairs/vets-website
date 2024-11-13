@@ -5,7 +5,7 @@ import {
   SEARCH_APP_USED,
   SEARCH_SELECTION,
   SEARCH_TYPEAHEAD_ENABLED,
-  TYPEAHEAD_KEYWORD_SELECTED,
+  TYPEAHEAD_CLICKED,
   TYPEAHEAD_LIST,
   addSearchGADataToStorage,
 } from 'platform/site-wide/search-analytics';
@@ -26,8 +26,7 @@ const Search = () => {
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
       [SEARCH_TYPEAHEAD_ENABLED]: true,
-      [TYPEAHEAD_KEYWORD_SELECTED]: undefined,
-      [TYPEAHEAD_LIST]: validSuggestions || undefined
+      [TYPEAHEAD_LIST]: validSuggestions,
     });
 
     const searchUrl = replaceWithStagingDomain(
@@ -53,8 +52,8 @@ const Search = () => {
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
       [SEARCH_TYPEAHEAD_ENABLED]: true,
-      [TYPEAHEAD_KEYWORD_SELECTED]: validSuggestions[index],
-      [TYPEAHEAD_LIST]: validSuggestions
+      [TYPEAHEAD_CLICKED]: true,
+      [TYPEAHEAD_LIST]: validSuggestions,
     });
 
     const searchUrl = replaceWithStagingDomain(
