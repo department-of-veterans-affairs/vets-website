@@ -212,7 +212,7 @@ const formConfig = {
           ...emergencyContactPages.emergencyContactsPage,
           depends: formData => formData['view:isEmergencyContactsEnabled'],
         },
-        emergencyContactsAdessPage: {
+        emergencyContactsAddressPage: {
           ...emergencyContactPages.emergencyContactsAddressPage,
         },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
