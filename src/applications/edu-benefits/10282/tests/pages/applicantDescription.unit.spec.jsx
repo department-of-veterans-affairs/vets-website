@@ -8,7 +8,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 const definitions = formConfig.defaultDefinitions;
@@ -26,7 +26,7 @@ describe('Edu 10282 applicantDescription', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('va-radio-option').length).to.equal(8);
     form.unmount();
   });
 
@@ -44,7 +44,7 @@ describe('Edu 10282 applicantDescription', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
     expect(
-      Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
+      Array.from(formDOM.querySelectorAll('.usa-error-message')).length,
     ).to.equal(1);
 
     expect(onSubmit.called).to.be.false;

@@ -1,26 +1,26 @@
 import React from 'react';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  VaRadioField,
+  VaSelectField,
+} from 'platform/forms-system/src/js/web-component-fields';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
-  applicantInformationCountry,
   veteranDesc,
   applicantContactInfo,
-  applicantState,
   genderRaceQuestion,
   applicantRaceAndEthnicity,
   applicantGender,
   highestLevelOfEducation,
-  currentAnnualSalary,
-  techIndustryFocusArea,
 } from '../pages';
 import StatementOfTruth from '../components/StatementOfTruth';
 // import submitForm from './submitForm';
@@ -28,7 +28,8 @@ import { transform } from './submit-transformer';
 import FormHelp from '../components/FormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 
-const { fullName, email, usaPhone } = commonDefinitions;
+const { country, state } = fullSchema10282.definitions;
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -42,6 +43,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_10282,
+  defaultDefinitions: { country, state },
   saveInProgress: {
     messages: {
       inProgress:
@@ -68,11 +70,6 @@ const formConfig = {
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
   footerContent: FormFooter,
   getHelp: () => <FormHelp tag={React.Fragment} />,
-  defaultDefinitions: {
-    fullName,
-    usaPhone,
-    email,
-  },
   transformForSubmit: transform,
   chapters: {
     personalInformation: {
@@ -107,14 +104,43 @@ const formConfig = {
         applicantCountry: {
           title: 'Your country of residence',
           path: 'applicant-information-3',
-          uiSchema: applicantInformationCountry.uiSchema,
-          schema: applicantInformationCountry.schema,
+          uiSchema: {
+            ...titleUI('Country'),
+            country: {
+              'ui:title': 'What country do you live in?',
+              'ui:webComponentField': VaSelectField,
+              'ui:errorMessages': {
+                required: 'You must select a country',
+              },
+            },
+          },
+          schema: {
+            ...fullSchema10282.properties.country,
+          },
         },
         applicantState: {
           title: 'Your state of residence',
           path: 'applicant-information-4',
-          uiSchema: applicantState.uiSchema,
-          schema: applicantState.schema,
+          uiSchema: {
+            ...titleUI('State'),
+            state: {
+              'ui:title': 'What state do you live in?',
+              'ui:webComponentField': VaSelectField,
+              'ui:errorMessages': {
+                required: 'You must select a state',
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['state'],
+            properties: {
+              state: {
+                ...fullSchema10282.properties.state,
+                enum: constants.states.USA.map(st => st.label),
+              },
+            },
+          },
           depends: formData => {
             return formData.country === 'United States';
           },
@@ -158,7 +184,7 @@ const formConfig = {
             ...titleUI('Employment'),
             currentlyEmployed: {
               'ui:title': 'Are you currently employed?',
-              'ui:widget': 'radio',
+              'ui:webComponentField': VaRadioField,
             },
           },
           schema: {
@@ -173,8 +199,21 @@ const formConfig = {
         currentAnnualSalary: {
           title: 'Your current annual salary',
           path: 'education-employment-history-3',
-          uiSchema: currentAnnualSalary.uiSchema,
-          schema: currentAnnualSalary.schema,
+          uiSchema: {
+            ...titleUI('Your current annual salary'),
+            currentAnnualSalary: {
+              'ui:title': 'What’s your current annual salary?',
+              'ui:widget': 'radio',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              currentAnnualSalary: {
+                ...fullSchema10282.properties.currentAnnualSalary,
+              },
+            },
+          },
         },
         isWorkingInTechIndustry: {
           title: 'Your technology industry involvement',
@@ -198,8 +237,22 @@ const formConfig = {
         techIndustryFocusArea: {
           title: 'Your main area of focus',
           path: 'education-employment-history-5',
-          uiSchema: techIndustryFocusArea.uiSchema,
-          schema: techIndustryFocusArea.schema,
+          uiSchema: {
+            ...titleUI('Your main area of focus'),
+            techIndustryFocusArea: {
+              'ui:title':
+                'What’s your main area of focus in the technology industry?',
+              'ui:widget': 'radio',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              techIndustryFocusArea: {
+                ...fullSchema10282.properties.techIndustryFocusArea,
+              },
+            },
+          },
         },
       },
     },
