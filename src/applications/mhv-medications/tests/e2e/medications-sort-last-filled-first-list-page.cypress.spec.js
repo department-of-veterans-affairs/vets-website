@@ -36,8 +36,11 @@ describe('Medications List Page Sort By Last Filled First', () => {
     // site.loadVAPaginationPrescriptions(1, mockRxPageOne);
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
     // site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
-    listPage.selectSortDropDownOption('Last filled first');
-    listPage.clickSortLastFilledFirst();
+    listPage.selectSortDropDownOption(
+      'Last filled first',
+      '-dispensed_date&sort[]=prescription_name',
+    );
+    listPage.loadRxAfterSortLastFilledFirst();
     listPage.verifyPaginationDisplayedforSortLastFilledFirst(1, 20, listLength);
   });
 });

@@ -1,9 +1,13 @@
 const prefill = {
   formData: {
-    veteranFullName: { first: 'Julio', middle: 'E', last: 'Hunter' },
+    veteranFullName: {
+      first: 'Mitchell',
+      middle: 'George',
+      last: 'Jenkins',
+    },
     gender: 'M',
     veteranDateOfBirth: '1950-11-18',
-    veteranSocialSecurityNumber: '796378321',
+    veteranSocialSecurityNumber: '123456789',
     homePhone: '6575107441',
     email: 'vets.gov.user+71@gmail.com',
     'view:maritalStatus': { maritalStatus: 'MARRIED' },
