@@ -251,7 +251,7 @@ const Prescriptions = () => {
           getPaginatedFilteredList(1, filterOptions.ALL_MEDICATIONS.url),
         );
       } else {
-        dispatch(getPaginatedFilteredList(page, filterOption));
+        dispatch(getPaginatedFilteredList(page > 0 ? page : 1, filterOption));
       }
     },
     // disabled warning: filteredList must be left of out dependency array to avoid infinite loop, and filterOption to avoid on change api fetch
