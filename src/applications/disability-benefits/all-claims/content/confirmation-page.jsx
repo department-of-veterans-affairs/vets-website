@@ -301,6 +301,31 @@ export const howLongForDecision = (
   </>
 );
 
+/**
+ * Create markup needed to display an external pdf link
+ * @param {string} docName - name of the pdf
+ * @param {string} href - link to the pdf
+ * @param {number} pages - number of pages
+ * @returns {element} va-link for downloading a pdf
+ */
+const createExternalPDFLink = (docName, href, pages) => {
+  return (
+    <>
+      <va-link
+        download
+        filetype="PDF"
+        href={href}
+        onClick={e => {
+          e.preventDefault();
+          window.open(href, '_blank');
+        }}
+        pages={pages}
+        text={`Download ${docName} (opens in new tab)`}
+      />
+    </>
+  );
+};
+
 export const dependentsAdditionalBenefits = (
   <>
     <h2>If I have dependents, how can I receive additional benefits?</h2>
@@ -318,12 +343,11 @@ export const dependentsAdditionalBenefits = (
       Dependents (VA Form 21-686c)
     </p>
     <p>
-      <va-link
-        download
-        filetype="PDF"
-        href="https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf"
-        text="Download VA Form 21-686c (2.7MB)"
-      />
+      {createExternalPDFLink(
+        'VA Form 21-686c',
+        'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
+        15,
+      )}
     </p>
     <p>
       <strong>Note:</strong> If you’re claiming your child who became
@@ -340,12 +364,11 @@ export const dependentsAdditionalBenefits = (
       Attendance (VA Form 21-674) so we can verify their attendance.
     </p>
     <p>
-      <va-link
-        download
-        filetype="PDF"
-        href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-        text="Download VA Form 21-674 (1.3MB)"
-      />
+      {createExternalPDFLink(
+        'VA Form 21-674',
+        'https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf',
+        3,
+      )}
     </p>
     <p>
       <strong>If you have dependent parents</strong>, you may be entitled to
@@ -353,12 +376,11 @@ export const dependentsAdditionalBenefits = (
       Parent(s) (VA Form 21P-509).
     </p>
     <p>
-      <va-link
-        download
-        filetype="PDF"
-        href="https://www.vba.va.gov/pubs/forms/VBA-21P-509-ARE.pdf"
-        text="Download VA Form 21P-509 (1MB)"
-      />
+      {createExternalPDFLink(
+        'VA Form 21P-509',
+        'https://www.vba.va.gov/pubs/forms/VBA-21P-509-ARE.pdf',
+        4,
+      )}
     </p>
   </>
 );

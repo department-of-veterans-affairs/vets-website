@@ -251,7 +251,19 @@ describe('ConfirmationPage', () => {
       getByText('How long will it take VA to make a decision on my claim?');
       getByText('If I have dependents, how can I receive additional benefits?');
       getByText('Need help?');
+
+      // links
       expect(container.querySelectorAll('va-link')).to.have.lengthOf(5);
+      const link = container.querySelectorAll('va-link')[1];
+      expect(link.getAttribute('download')).to.exist;
+      expect(link.getAttribute('filetype')).to.equal('PDF');
+      expect(link.getAttribute('href')).to.equal(
+        'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
+      );
+      expect(link.getAttribute('pages')).to.equal('15');
+      expect(link.getAttribute('text')).to.equal(
+        'Download VA Form 21-686c (opens in new tab)',
+      );
     });
   });
 });
