@@ -4,7 +4,9 @@ import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 const uiSchema = {
   currentAnnualSalary: {
     'ui:title': (
-      <h3 className="vads-u-margin--0">What’s your current annual salary?</h3>
+      <h3 className="vads-u-margin--0" data-testid="annual-salary">
+        What’s your current annual salary?
+      </h3>
     ),
     'ui:widget': 'radio',
   },

@@ -7,19 +7,14 @@ import {
   serviceNumberUI,
   ssnSchema,
   ssnUI,
+  yesNoSchema,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+import { branchesOfService, CHAPTER_3, yesNoOptions } from '../../constants';
 
 const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
-
-const branchesOfService = [
-  'Army',
-  'Navy',
-  'Coast Guard',
-  'Air Force',
-  'Marine Corps',
-];
 
 const ssnServiceInfo = (
   <>
@@ -35,14 +30,19 @@ const ssnServiceInfo = (
   </>
 );
 
-const validateGroup = (errors, values) => {
-  if (!Object.keys(values).some(key => values[key])) {
-    errors.addError(`Please provide an answer`);
-  }
-};
-
-const validateSSandSNGroup = (errors, values) => {
-  if (!Object.keys(values).some(key => values[key])) {
+const validateSSandSNGroup = (errors, values, formData) => {
+  if (
+    !(
+      (formData.whoIsYourQuestionAbout === 'Someone else' &&
+        formData.relationshipToVeteran ===
+          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)") ||
+      (formData.whoIsYourQuestionAbout === 'Someone else' &&
+        formData.relationshipToVeteran ===
+          "I'm a family member of a Veteran") ||
+      formData.whoIsYourQuestionAbout === "It's a general question"
+    ) &&
+    !Object.keys(values).some(key => values[key])
+  ) {
     errors.addError(
       `Please enter your Social Security number or Service number`,
     );
@@ -64,6 +64,7 @@ export const personalInformationFormSchemas = {
   },
   last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
   suffix: selectSchema(suffixes),
+  isVeteranDeceased: yesNoSchema,
   socialOrServiceNum: {
     type: 'object',
     properties: {
@@ -142,6 +143,14 @@ export const personalInformationUiSchemas = {
       hideEmptyValueInReview: true,
     },
   },
+  isVeteranDeceased: yesNoUI({
+    title: CHAPTER_3.VET_DECEASED.TITLE,
+    labels: yesNoOptions,
+    required: () => true,
+    errorMessages: {
+      required: 'Please let us know if the Veteran is deceased',
+    },
+  }),
   socialOrServiceNum: {
     'ui:title': ssnServiceInfo,
     'ui:validations': [validateSSandSNGroup],
@@ -200,9 +209,8 @@ export const personalInformationAboutYourselfUiSchemas = {
   },
   socialOrServiceNum: {
     'ui:title': ssnServiceInfo,
-    'ui:validations': [validateGroup],
+    'ui:validations': [validateSSandSNGroup],
     'ui:options': {
-      uswds: true,
       showFieldLabel: true,
       hideIf: formData =>
         (formData.whoIsYourQuestionAbout === 'Someone else' &&
@@ -211,27 +219,10 @@ export const personalInformationAboutYourselfUiSchemas = {
         (formData.whoIsYourQuestionAbout === 'Someone else' &&
           formData.relationshipToVeteran ===
             "I'm a family member of a Veteran") ||
-        (formData.whoIsYourQuestionAbout === 'Myself' &&
-          formData.relationshipToVeteran ===
-            "I'm a family member of a Veteran") ||
         formData.whoIsYourQuestionAbout === "It's a general question",
     },
     ssn: ssnUI(),
     serviceNumber: serviceNumberUI('Service number'),
-  },
-  socialNum: {
-    ...ssnUI(),
-    'ui:required': formData =>
-      formData.whoIsYourQuestionAbout === 'Myself' &&
-      formData.relationshipToVeteran === "I'm a family member of a Veteran",
-    'ui:options': {
-      uswds: true,
-      hideIf: formData =>
-        !(
-          formData.whoIsYourQuestionAbout === 'Myself' &&
-          formData.relationshipToVeteran === "I'm a family member of a Veteran"
-        ),
-    },
   },
   dateOfBirth: {
     ...dateOfBirthUI(),

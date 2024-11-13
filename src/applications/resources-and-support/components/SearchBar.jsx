@@ -168,7 +168,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
               onVaValueChange={onValueChange}
               uswds
             >
-              <div className="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block vads-u-margin-right--2 small-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
+              <div className="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block vads-u-margin-right--2 mobile-lg:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
                 <va-radio-option
                   onChange={event => {
                     setGlobalSearch(!event.target.checked);
@@ -196,7 +196,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
               </div>
             </VaRadio>
           </div>
-          <p className="small-screen:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom--0p5">
+          <p className="mobile-lg:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom--0p5">
             Enter a keyword, phrase, or question
             {inputError && (
               <span
@@ -219,6 +219,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
           )}
           <VaSearchInput
             buttonText="Search"
+            disableAnalytics
             label="Enter a keyword, phrase, or question"
             onInput={handleInputChange}
             onSubmit={e => handleSubmit(e)}

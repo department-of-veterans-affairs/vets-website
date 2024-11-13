@@ -121,31 +121,19 @@ export const normalizedForm = {
   },
   chapters: [
     {
-      id: 158253,
-      chapterTitle: 'First Step',
-      type: 'digital_form_name_and_date_of_bi',
-      pageTitle: 'Name and Date of Birth',
-      additionalFields: {
-        includeDateOfBirth: true,
-      },
-    },
-    {
-      id: 158254,
-      chapterTitle: 'Second Step',
-      type: 'digital_form_name_and_date_of_bi',
-      pageTitle: 'Name and Date of Birth',
-      additionalFields: {
-        includeDateOfBirth: false,
-      },
-    },
-    {
-      id: 160592,
-      chapterTitle: 'Generated Identification Information',
-      type: 'digital_form_identification_info',
-      pageTitle: 'Identification Information',
-      additionalFields: {
-        includeServiceNumber: false,
-      },
+      id: 162008,
+      type: 'digital_form_your_personal_info',
+      chapterTitle: 'Your personal information',
+      pages: [
+        {
+          pageTitle: 'Name',
+          includeDateOfBirth: false,
+        },
+        {
+          pageTitle: 'Identification information',
+          includeServiceNumber: false,
+        },
+      ],
     },
     {
       id: 161344,
@@ -154,6 +142,15 @@ export const normalizedForm = {
       pageTitle: 'Address',
       additionalFields: {
         militaryAddressCheckbox: false,
+      },
+    },
+    {
+      id: 161351,
+      chapterTitle: 'Generated Phone',
+      type: 'digital_form_phone_and_email',
+      pageTitle: 'Phone and email address',
+      additionalFields: {
+        includeEmail: false,
       },
     },
   ],
@@ -175,22 +172,19 @@ export const employmentQuestionnaire = {
   },
   chapters: [
     {
-      id: 20001,
-      chapterTitle: "Veteran's personal information",
-      type: 'digital_form_name_and_date_of_bi',
-      pageTitle: 'Name and Date of Birth',
-      additionalFields: {
-        includeDateOfBirth: true,
-      },
-    },
-    {
-      id: 20002,
-      chapterTitle: 'Identification information',
-      type: 'digital_form_identification_info',
-      pageTitle: 'Identification Information',
-      additionalFields: {
-        includeServiceNumber: true,
-      },
+      id: 162013,
+      type: 'digital_form_your_personal_info',
+      chapterTitle: 'Your personal information',
+      pages: [
+        {
+          pageTitle: 'Name and date of birth',
+          includeDateOfBirth: true,
+        },
+        {
+          pageTitle: 'Identification information',
+          includeServiceNumber: true,
+        },
+      ],
     },
     {
       id: 20003,
@@ -199,6 +193,15 @@ export const employmentQuestionnaire = {
       pageTitle: 'Address',
       additionalFields: {
         militaryAddressCheckbox: true,
+      },
+    },
+    {
+      id: 20004,
+      chapterTitle: "Veteran's contact information",
+      type: 'digital_form_phone_and_email',
+      pageTitle: 'Phone and email address',
+      additionalFields: {
+        includeEmail: true,
       },
     },
   ],

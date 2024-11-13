@@ -5,23 +5,21 @@ import { getEntityAddressAsObject } from '../../utilities/helpers';
 describe('getEntityAddressAsObject', () => {
   it('should return correct address object based on formData', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
-        addressLine1: '400 South 18th Street',
-        addressLine2: 'Room 119',
-        addressLine3: '',
-        city: 'Newark',
-        stateCode: 'NJ',
-        zipCode: '07102',
-      },
+      addressLine1: '400 South 18th Street',
+      addressLine2: 'Room 119',
+      addressLine3: '',
+      city: 'Newark',
+      stateCode: 'NJ',
+      zipCode: '07102',
     };
 
     const expectedAddressObject = {
-      address1: '400 South 18th Street',
-      address2: 'Room 119',
-      address3: '',
+      addressLine1: '400 South 18th Street',
+      addressLine2: 'Room 119',
+      addressLine3: '',
       city: 'Newark',
-      state: 'NJ',
-      zip: '07102',
+      stateCode: 'NJ',
+      zipCode: '07102',
     };
 
     const result = getEntityAddressAsObject(mockFormData);
@@ -30,23 +28,21 @@ describe('getEntityAddressAsObject', () => {
 
   it('should return empty strings for missing address fields', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
-        addressLine1: '',
-        addressLine2: '',
-        addressLine3: '',
-        city: '',
-        stateCode: '',
-        zipCode: '',
-      },
+      addressLine1: '',
+      addressLine2: '',
+      addressLine3: '',
+      city: '',
+      stateCode: '',
+      zipCode: '',
     };
 
     const expectedAddressObject = {
-      address1: '',
-      address2: '',
-      address3: '',
+      addressLine1: '',
+      addressLine2: '',
+      addressLine3: '',
       city: '',
-      state: '',
-      zip: '',
+      stateCode: '',
+      zipCode: '',
     };
 
     const result = getEntityAddressAsObject(mockFormData);

@@ -2,7 +2,6 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 const moment = require('moment');
-
 // var
 const confirmedVA = require('./var/confirmed_va.json');
 const confirmedCC = require('./var/confirmed_cc.json');
@@ -49,7 +48,6 @@ const requestsV2 = require('./v2/requests.json');
 
 // CC Direct Scheduling mocks
 const epsAppointments = require('./epsApi/appointments.json');
-const basicReferralDetails = require('./epsApi/basicReferralDetails.json');
 const epsCancelReasons = require('./epsApi/cancelReasons.json');
 const driveTimes = require('./epsApi/driveTime.json');
 const patients = require('./epsApi/patients.json');
@@ -59,12 +57,11 @@ const specialtyGroups = require('./epsApi/specialtyGroups.json');
 const providerOrgs = require('./epsApi/providerOrganizations.json');
 const providerServices = require('./epsApi/providerServices.json');
 const providerSlots = require('./epsApi/providerServicesSlots.json');
-const referrals = require('./epsApi/referrals.json');
+const referralUtils = require('../../referral-appointments/utils/referrals');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
-
 const features = require('../../utils/featureFlags');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
@@ -90,6 +87,13 @@ const providerMock = {
   1770999294: 'TUCKER JONES, MICHELLE A',
   1255962510: 'OYEKAN, ADETOLA O',
   1770904021: 'Jones, Tillie',
+};
+
+const purposeText = {
+  ROUTINEVISIT: 'Routine/Follow-up',
+  MEDICALISSUE: 'New medical issue',
+  QUESTIONMEDS: 'Medication concern',
+  OTHER_REASON: 'My reason isn’t listed',
 };
 
 const responses = {
@@ -256,11 +260,20 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
-    const tokens = req.body.reasonCode?.text?.split('comments:');
+    let reasonForAppointment;
     let patientComments;
-    if (tokens) {
-      if (tokens.length > 1) [, patientComments] = tokens;
-      else [patientComments] = tokens;
+    if (req.body.kind === 'cc') {
+      patientComments = req.body.reasonCode?.text;
+    } else {
+      const tokens = req.body.reasonCode?.text?.split('|');
+      for (const token of tokens) {
+        if (token.startsWith('reason code:')) {
+          reasonForAppointment =
+            purposeText[token.substring('reason code:'.length)];
+        } else if (token.startsWith('comments:')) {
+          patientComments = token.substring('comments:'.length);
+        }
+      }
     }
 
     const submittedAppt = {
@@ -283,6 +296,7 @@ const responses = {
         },
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
+        reasonForAppointment,
         patientComments,
       },
     };
@@ -485,13 +499,17 @@ const responses = {
   // EPS api
   'GET /vaos/v2/epsApi/referralDetails': (req, res) => {
     return res.json({
-      data: basicReferralDetails.data,
+      data: referralUtils.createReferrals(3, new Date().toISOString()),
     });
   },
   'GET /vaos/v2/epsApi/referralDetails/:referralId': (req, res) => {
+    const referrals = referralUtils.createReferrals(
+      3,
+      new Date().toISOString(),
+    );
     return res.json({
-      data: basicReferralDetails.data.referrals.find(
-        referral => referral?.id === req.params.referralId,
+      data: referrals.find(
+        referral => referral?.uuid === req.params.referralId,
       ),
     });
   },
@@ -647,16 +665,6 @@ const responses = {
     ];
     return res.json({
       data: getSlot.find(slot => slot?.id === req.params.slotId),
-    });
-  },
-  'GET /vaos/v2/epsApi/referrals': (req, res) => {
-    return res.json({ data: referrals });
-  },
-  'GET /vaos/v2/epsApi/referrals/:referralId': (req, res) => {
-    return res.json({
-      data: referrals.referrals.find(
-        referral => referral?.id === req.params.referralId,
-      ),
     });
   },
   'GET /v0/user': {

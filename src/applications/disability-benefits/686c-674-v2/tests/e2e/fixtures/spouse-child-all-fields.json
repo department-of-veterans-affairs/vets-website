@@ -54,6 +54,7 @@
       }
     ],
     "veteranWasMarriedBefore": false,
+    "view:completedVeteranFormerMarriage": false,
     "veteranMarriageHistory": [
       {
         "startDate": "2006-09-03",
@@ -76,6 +77,7 @@
       }
     ],
     "spouseWasMarriedBefore": false,
+    "view:completedSpouseFormerMarriage": false,
     "spouseMarriageHistory": [
       {
         "startDate": "2005-08-09",
@@ -179,6 +181,7 @@
         "outsideUsa": false
       }
     },
+    "view:completedMarriedChild": false,
     "childMarriage": [
       {}
     ],

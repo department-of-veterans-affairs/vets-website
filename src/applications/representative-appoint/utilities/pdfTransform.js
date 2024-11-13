@@ -1,4 +1,4 @@
-import { isAttorneyOrClaimsAgent } from './helpers';
+import { getRepType } from './helpers';
 
 function consentLimitsTransform(formData) {
   const authorizeRecords = formData['view:authorizeRecordsCheckbox'] || {};
@@ -81,22 +81,24 @@ export function pdfTransform(formData) {
           email: applicantEmail || '',
         };
 
-  // transform representative data
-  const repAttributes = selectedRep?.attributes || {};
+  const repType = getRepType(selectedRep);
 
-  const representative = isAttorneyOrClaimsAgent(formData)
-    ? {
-        name: {
-          first: repAttributes.firstName || '',
-          middle: repAttributes.middleName || '',
-          last: repAttributes.lastName || '',
-        },
-        type: repAttributes.individualType || '',
-        address: createAddress(repAttributes),
-        phone: repAttributes.phone || '',
-        email: repAttributes.email || '',
-      }
-    : { organizationName: formData.selectedAccreditedOrganizationId || '' };
+  const representative = {};
+
+  if (repType !== 'Organization') {
+    representative.id = selectedRep?.id;
+  }
+
+  if (repType === 'Organization') {
+    representative.organizationId = selectedRep?.id;
+  } else if (repType === 'VSO Representative') {
+    if (formData?.selectedAccreditedOrganizationId) {
+      representative.organizationId = formData.selectedAccreditedOrganizationId;
+    } else {
+      representative.organizationId =
+        selectedRep?.attributes?.accreditedOrganizations?.data[0]?.id;
+    }
+  }
 
   return {
     veteran,

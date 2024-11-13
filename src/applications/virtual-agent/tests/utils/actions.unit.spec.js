@@ -11,6 +11,7 @@ import {
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import * as EventsModule from '../../utils/events';
 import * as SubmitFormModule from '../../utils/submitForm';
+import * as ProcessCSATModule from '../../utils/processCSAT';
 
 describe('actions', () => {
   let sandbox;
@@ -358,7 +359,7 @@ describe('actions', () => {
 
       expect(setIsRxSkillStub.notCalled).to.be.true;
     });
-    it('should set event skill value and call recordEvent for Skill_Entry action', () => {
+    it('should set event skill value and call recordEvent for Skill_Entry action when root bot toggle is on', () => {
       const action = {
         payload: {
           activity: {
@@ -368,7 +369,9 @@ describe('actions', () => {
               role: 'user',
             },
             name: 'Skill_Entry',
-            value: 'some_skill_value',
+            value: {
+              value: 'some_skill_value',
+            },
           },
         },
       };
@@ -380,7 +383,11 @@ describe('actions', () => {
       );
       const recordEventStub = sandbox.stub(RecordEventModule, 'default');
 
-      processIncomingActivity({ action, dispatch })();
+      processIncomingActivity({
+        action,
+        dispatch,
+        isRootBotToggleOn: true,
+      })();
       expect(setEventSkillValueStub.calledOnce).to.be.true;
       expect(setEventSkillValueStub.calledWithExactly('some_skill_value')).to.be
         .true;
@@ -420,32 +427,6 @@ describe('actions', () => {
       expect(setEventSkillValueStub.notCalled).to.be.true;
       expect(recordEventStub.notCalled).to.be.true;
     });
-    it('should set event skill value to null and not call recordEvent if Skill_Exit event is received', () => {
-      const action = {
-        payload: {
-          activity: {
-            type: 'event',
-            from: {
-              role: 'bot',
-            },
-            name: 'Skill_Exit',
-            value: 'some_skill_value',
-          },
-        },
-      };
-
-      const dispatch = sandbox.stub();
-      const setEventSkillValueStub = sandbox.stub(
-        SessionStorageModule,
-        'setEventSkillValue',
-      );
-      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
-
-      processIncomingActivity({ action, dispatch })();
-      expect(setEventSkillValueStub.calledOnce).to.be.true;
-      expect(setEventSkillValueStub.calledWithExactly(undefined)).to.be.true;
-      expect(recordEventStub.notCalled).to.be.true;
-    });
     it('should not set event skill value to null if not a Skill_Exit event', () => {
       const action = {
         payload: {
@@ -470,52 +451,6 @@ describe('actions', () => {
       processIncomingActivity({ action, dispatch })();
       expect(setEventSkillValueStub.notCalled).to.be.true;
       expect(recordEventStub.notCalled).to.be.true;
-    });
-    it('should set event skill value to null if the bot is returning to the main chatbot', () => {
-      const action = {
-        payload: {
-          activity: {
-            type: 'message',
-            text: 'Returning to the main chatbot...',
-            from: {
-              role: 'bot',
-            },
-          },
-        },
-      };
-
-      const dispatch = sandbox.stub();
-      const setEventSkillValueStub = sandbox.stub(
-        SessionStorageModule,
-        'setEventSkillValue',
-      );
-
-      processIncomingActivity({ action, dispatch })();
-      expect(setEventSkillValueStub.calledOnce).to.be.true;
-      expect(setEventSkillValueStub.calledWithExactly(undefined)).to.be.true;
-    });
-    it('should set event skill value to null if the bot is asking if the user is satisfied', () => {
-      const action = {
-        payload: {
-          activity: {
-            type: 'message',
-            text: 'Did that answer your question?',
-            from: {
-              role: 'bot',
-            },
-          },
-        },
-      };
-
-      const dispatch = sandbox.stub();
-      const setEventSkillValueStub = sandbox.stub(
-        SessionStorageModule,
-        'setEventSkillValue',
-      );
-
-      processIncomingActivity({ action, dispatch })();
-      expect(setEventSkillValueStub.calledOnce).to.be.true;
-      expect(setEventSkillValueStub.calledWithExactly(undefined)).to.be.true;
     });
     it('should set is rx skill to false and trigger rxSkill event if exiting rx', () => {
       const action = {
@@ -610,7 +545,7 @@ describe('actions', () => {
       expect(submitFormStub.calledWithExactly(url, body)).to.be.true;
     });
 
-    it('should call submitForm when activity is FormPostButton and component toggle is off', () => {
+    it('should not call submitForm when activity is FormPostButton and component toggle is off', () => {
       const action = {
         payload: {
           activity: {
@@ -651,6 +586,65 @@ describe('actions', () => {
       })();
 
       expect(submitFormStub.notCalled).to.be.true;
+    });
+
+    it('should call processCSAT when activity is CSATSurveyResponse and root bot toggle is on', () => {
+      const action = {
+        payload: {
+          activity: {
+            valueType: 'CSATSurveyResponse',
+          },
+        },
+      };
+
+      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+        isRootBotToggleOn: true,
+      })();
+
+      expect(processCSATStub.calledOnce).to.be.true;
+    });
+
+    it('should not call processCSAT when root bot toggle is off', () => {
+      const action = {
+        payload: {
+          activity: {
+            valueType: 'CSATSurveyResponse',
+          },
+        },
+      };
+
+      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+        isRootBotToggleOn: false,
+      })();
+
+      expect(processCSATStub.notCalled).to.be.true;
+    });
+
+    it('should not call processCSAT when activity is not CSATSurveyResponse', () => {
+      const action = {
+        payload: {
+          activity: {
+            valueType: 'other',
+          },
+        },
+      };
+
+      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+      })();
+
+      expect(processCSATStub.notCalled).to.be.true;
     });
   });
 
@@ -755,7 +749,33 @@ describe('actions', () => {
   });
 
   describe('addActivityData', () => {
-    it('should add values to the activity', () => {
+    it('should add values to the activity when value is a string', () => {
+      const action = {
+        payload: {
+          activity: {
+            value: 'fake-value',
+          },
+        },
+      };
+      const updatedAction = addActivityData(action, {
+        apiSession: 'apiSession',
+        csrfToken: 'csrfToken',
+        apiURL: 'apiURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isMobile: 'isMobile',
+      });
+      expect(updatedAction.payload.activity.value).to.deep.equal({
+        value: 'fake-value',
+        apiSession: 'apiSession',
+        csrfToken: 'csrfToken',
+        apiURL: 'apiURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isMobile: 'isMobile',
+      });
+    });
+    it('should add values to the activity when value is an object', () => {
       const action = {
         payload: {
           activity: {
@@ -769,6 +789,7 @@ describe('actions', () => {
         apiURL: 'apiURL',
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
+        isMobile: 'isMobile',
       });
       expect(updatedAction.payload.activity.value).to.deep.equal({
         language: 'en-US',
@@ -777,6 +798,7 @@ describe('actions', () => {
         apiURL: 'apiURL',
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
+        isMobile: 'isMobile',
       });
     });
   });

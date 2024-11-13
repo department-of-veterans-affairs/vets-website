@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
 import environment from 'platform/utilities/environment';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { ConfirmationPageView as OldConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-import { ConfirmationPageView as NewConfirmationPageView } from '../../shared/components/ConfirmationPageView.v2';
-import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
 let mockData;
 if (!environment.isProduction() && !environment.isStaging()) {
@@ -15,58 +11,23 @@ if (!environment.isProduction() && !environment.isStaging()) {
   mockData = mockData?.data;
 }
 
-const getPreparerFullName = formData => {
-  const { claimOwnership, claimantType } = formData;
-  let fullName = formData.veteranFullName; // Flow 1: self claim, vet claimant
-
-  if (claimOwnership && claimOwnership === CLAIM_OWNERSHIPS.SELF) {
-    if (claimantType && claimantType === CLAIMANT_TYPES.NON_VETERAN) {
-      // Flow 3: self claim, non-vet claimant
-      fullName = formData.claimantFullName;
-    }
-  } else {
-    // Flows 2 & 4: third-party claim
-    fullName = formData.witnessFullName;
-  }
-
-  return fullName;
-};
-
-const content = {
-  headlineText: 'You’ve successfully submitted your Lay or Witness Statement',
-  nextStepsText:
-    'Once we’ve reviewed your submission, a coordinator will contact you to discuss next steps.',
-};
-
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
-  const showNewConfirmationPage = useSelector(
-    state =>
-      toggleValues(state)[FEATURE_FLAG_NAMES.confirmationPageNew] || false,
-  );
   const { formConfig } = props.route;
   const { submission } = form;
-  const preparerFullName = getPreparerFullName(form.data);
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
-  return showNewConfirmationPage ? (
-    <NewConfirmationPageView
+  return (
+    <ConfirmationView
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       formConfig={formConfig}
       pdfUrl={submission.response?.pdfUrl}
       devOnly={{
-        simulatedFormData: mockData,
+        showButtons: true,
+        mockData,
       }}
-    />
-  ) : (
-    <OldConfirmationPageView
-      submitterName={preparerFullName}
-      submitDate={submitDate}
-      confirmationNumber={confirmationNumber}
-      content={content}
-      formConfig={formConfig}
     />
   );
 };

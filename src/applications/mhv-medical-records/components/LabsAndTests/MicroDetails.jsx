@@ -6,7 +6,6 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
-  formatName,
   updatePageTitle,
   crisisLineHeader,
   reportGeneratedBy,
@@ -18,6 +17,7 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -74,7 +74,7 @@ const MicroDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Date: ${record.date}\n
@@ -104,6 +104,7 @@ ${record.results}`;
         className="vads-u-margin-bottom--0"
         aria-describedby="microbio-date"
         data-testid="microbio-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -126,40 +127,53 @@ ${record.results}`;
         <h2>Details about this test</h2>
         {record.labType && (
           <>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h3 className="vads-u-font-size--md vads-u-font-family--sans">
               Lab type
             </h3>
-            <p data-testid="microbio-sample-tested">{record.labType}</p>
+            <p data-testid="microbio-sample-tested" data-dd-privacy="mask">
+              {record.labType}
+            </p>
           </>
         )}
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Site or sample tested
         </h3>
-        <p data-testid="microbio-sample-tested">{record.sampleTested}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="microbio-sample-tested" data-dd-privacy="mask">
+          {record.sampleTested}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Collection sample
         </h3>
-        <p data-testid="microbio-sample-from">{record.sampleFrom}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="microbio-sample-from" data-dd-privacy="mask">
+          {record.sampleFrom}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p data-testid="microbio-ordered-by">{record.orderedBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <p data-testid="microbio-ordered-by" data-dd-privacy="mask">
+          {record.orderedBy}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="microbio-collecting-location">
+        <p data-testid="microbio-collecting-location" data-dd-privacy="mask">
           {record.collectingLocation}
         </p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="microbio-date-completed">{record.dateCompleted}</p>
+        <p data-testid="microbio-date-completed" data-dd-privacy="mask">
+          {record.dateCompleted}
+        </p>
       </div>
 
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p className="vads-u-font-size--base monospace vads-u-line-height--3">
+        <p
+          className="vads-u-font-size--base monospace vads-u-line-height--3"
+          data-dd-privacy="mask"
+        >
           {record.results}
         </p>{' '}
       </div>

@@ -99,22 +99,22 @@ const testConfig = createTestConfig(
         });
       },
 
-      'add-child/0/additional-information': ({ afterHook }) => {
+      '686-stepchild-no-longer-part-of-household/0/child-address': ({
+        afterHook,
+      }) => {
         afterHook(() => {
-          cy.get('#root_doesChildLiveWithYouYes').click();
+          cy.fillPage();
+          cy.get('select#options[name="root_address_state"]', { timeout: 1000 })
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.get('select#options[name="root_address_state"]').select('AL');
           cy.get('.usa-button-primary').click();
         });
       },
 
-      '686-report-dependent-death/0/additional-information': ({
-        afterHook,
-      }) => {
+      'add-child/0/additional-information': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_dateMonth').select('January');
-          cy.get('#root_dateDay').select('1');
-          cy.get('#root_dateYear').type('1991');
-          cy.get('#root_location_state').select('Alabama');
-          cy.get('#root_location_city').type('city');
+          cy.get('#root_doesChildLiveWithYouYes').click();
           cy.get('.usa-button-primary').click();
         });
       },

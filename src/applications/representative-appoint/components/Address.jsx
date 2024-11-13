@@ -1,29 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Address({ address }) {
+export default function Address({ addressData }) {
   return (
     <>
-      {address.addressLine1}
+      {addressData.addressLine1}
       <br />
-      {address.addressLine2 && (
+      {addressData.addressLine2 && (
         <>
-          {address.addressLine2}
+          {addressData.addressLine2}
           <br />
-          {address.addressLine3 && (
+          {addressData.addressLine3 && (
             <>
-              {address.addressLine3}
+              {addressData.addressLine3}
               <br />
             </>
           )}
         </>
       )}
-      {address.city}, {address.stateCode} {address.zipCode}
+      {addressData.city}, {addressData.stateCode} {addressData.zipCode}
       <br />
     </>
   );
 }
 
 Address.propTypes = {
-  address: PropTypes.object,
+  addressData: PropTypes.object,
 };

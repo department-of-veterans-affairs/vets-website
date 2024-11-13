@@ -102,6 +102,7 @@ const responses = {
             profileShowMhvNotificationSettingsNewSecureMessaging: true,
             profileShowMhvNotificationSettingsMedicalImages: true,
             profileShowQuickSubmitNotificationSetting: false,
+            profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
             veteranOnboardingContactInfoFlow: true,
@@ -153,7 +154,6 @@ const responses = {
     //     maintenanceWindows.SERVICES.VAPRO_NOTIFICATION_SETTINGS,
     //     maintenanceWindows.SERVICES.VAPRO_HEALTH_CARE_CONTACTS,
     //     maintenanceWindows.SERVICES.VAPRO_PERSONAL_INFO,
-    //     maintenanceWindows.SERVICES.UNKNOWN,
     //   ]),
     // );
   },

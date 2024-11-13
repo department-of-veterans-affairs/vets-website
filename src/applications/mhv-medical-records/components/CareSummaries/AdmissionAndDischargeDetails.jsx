@@ -11,12 +11,12 @@ import {
   txtLine,
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import {
+  formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -71,7 +71,7 @@ const AdmissionAndDischargeDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).\n
@@ -118,6 +118,7 @@ ${record.summary}`;
         className="vads-u-margin-bottom--0"
         aria-describedby="admission-discharge-date"
         data-testid="admission-discharge-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -139,31 +140,39 @@ ${record.summary}`;
 
       <div className="test-details-container max-80">
         <h2>Details</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="note-record-location"> {record.location}</p>
+        <p data-testid="note-record-location" data-dd-privacy="mask">
+          {record.location}
+        </p>
         {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
           record.sortByField !== null && (
             <>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              <h3 className="vads-u-font-size--md vads-u-font-family--sans">
                 Date admitted
               </h3>
-              <p data-testid="note-admission-date">{record.admissionDate}</p>
+              <p data-testid="note-admission-date" data-dd-privacy="mask">
+                {record.admissionDate}
+              </p>
             </>
           )}
         {record.sortByField !== dischargeSummarySortFields.DISCHARGE_DATE && (
           <>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h3 className="vads-u-font-size--md vads-u-font-family--sans">
               Date discharged
             </h3>
-            <p data-testid="note-discharge-date">{record.dischargeDate}</p>
+            <p data-testid="note-discharge-date" data-dd-privacy="mask">
+              {record.dischargeDate}
+            </p>
           </>
         )}
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
           Discharged by
         </h3>
-        <p data-testid="note-discharged-by">{record.dischargedBy}</p>
+        <p data-testid="note-discharged-by" data-dd-privacy="mask">
+          {record.dischargedBy}
+        </p>
       </div>
 
       <div className="test-results-container">
@@ -171,6 +180,7 @@ ${record.summary}`;
         <p
           data-testid="note-summary"
           className="monospace vads-u-line-height--6"
+          data-dd-privacy="mask"
         >
           {record.summary}
         </p>

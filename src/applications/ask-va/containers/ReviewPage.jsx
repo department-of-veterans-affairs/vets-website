@@ -3,16 +3,6 @@ import {
   VaAccordionItem,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import Scroll from 'react-scroll';
-
-import {
-  getActiveExpandedPages,
-  getPageKeys,
-} from '@department-of-veterans-affairs/platform-forms-system/helpers';
-
 import {
   setData,
   setEditMode,
@@ -20,12 +10,24 @@ import {
   uploadFile,
 } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import {
+  getActiveExpandedPages,
+  getPageKeys,
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import React, { useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import Scroll from 'react-scroll';
+import {
   closeReviewChapter,
   openReviewChapter,
   setUpdatedInReview,
 } from '../actions';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
+import submitTransformer from '../config/submit-transformer';
+import { URL, envUrl } from '../constants';
 import {
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
@@ -36,6 +38,7 @@ const { scroller } = Scroll;
 
 const ReviewPage = props => {
   const [showAlert, setShowAlert] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
   const dispatch = useDispatch();
 
   const scrollToChapter = chapterKey => {
@@ -75,8 +78,46 @@ const ReviewPage = props => {
     }
   };
 
+  const postFormData = (url, data) => {
+    setIsDisabled(true);
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    return apiRequest(url, options)
+      .then(() => {
+        setIsDisabled(false);
+        // clear localStorage after post
+        localStorage.removeItem('askVAFiles');
+        props.goForward('/confirmation');
+      })
+      .catch(() => {
+        setIsDisabled(false);
+        localStorage.removeItem('askVAFiles');
+        // need an error page or message/alert
+        props.goForward('/confirmation');
+      });
+  };
+
   const handleSubmit = () => {
-    props.goForward('/confirmation');
+    const files = localStorage.getItem('askVAFiles');
+    const transformedData = submitTransformer(
+      props.formData,
+      JSON.parse(files),
+      props.askVA,
+    );
+
+    if (props.loggedIn) {
+      // auth call
+      postFormData(`${envUrl}${URL.AUTH_INQUIRIES}`, transformedData);
+    } else {
+      // no auth call
+      postFormData(`${envUrl}${URL.INQUIRIES}`, transformedData);
+    }
   };
 
   return (
@@ -279,7 +320,11 @@ const ReviewPage = props => {
 
       <div className="vads-u-margin-top--4 vads-u-display--flex">
         <va-button back onClick={() => props.goBack()} />
-        <va-button text="Submit question" onClick={handleSubmit} />
+        <va-button
+          text="Submit question"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        />
       </div>
     </article>
   );
@@ -287,7 +332,7 @@ const ReviewPage = props => {
 
 function mapStateToProps(state, ownProps) {
   const { formContext } = ownProps;
-
+  const loggedIn = isLoggedIn(state);
   const { form, askVA } = state;
   const formData = form.data;
   const { openChapters } = askVA.reviewPageView;
@@ -428,7 +473,9 @@ function mapStateToProps(state, ownProps) {
     formData,
     formContext,
     viewedPages,
+    loggedIn,
     openChapterList: state.askVA.reviewPageView.openChapters,
+    askVA: state.askVA,
   };
 }
 

@@ -1,9 +1,8 @@
 import mapValues from 'lodash/mapValues';
 import { endOfDay, isAfter, isValid, isWithinInterval } from 'date-fns';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
-
-import set from '~/platform/utilities/data/set';
-import recordEvent from '~/platform/monitoring/record-event';
+import set from 'platform/utilities/data/set';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   stringifyFormReplacer,
   filterViewFields,
@@ -11,91 +10,9 @@ import {
   getActivePages,
   expandArrayPages,
   createFormPageList,
-} from '~/platform/forms-system/src/js/helpers';
-import { getInactivePages } from '~/platform/forms/helpers';
-import { isInMPI } from '~/platform/user/selectors';
-
+} from 'platform/forms-system/src/js/helpers';
+import { getInactivePages } from 'platform/forms/helpers';
 import { HIGH_DISABILITY_MINIMUM } from '../constants';
-
-// clean address so we only get address related properties then return the object
-const cleanAddressObject = address => {
-  if (!address) return null;
-  // take the address data we want from profile
-  const {
-    addressLine1,
-    addressLine2,
-    addressLine3,
-    city,
-    zipCode,
-    stateCode,
-    countryCodeIso3,
-  } = address;
-
-  /* make the address data match the schema
-   fields expect undefined NOT null */
-  return {
-    street: addressLine1,
-    street2: addressLine2 || undefined,
-    street3: addressLine3 || undefined,
-    city,
-    postalCode: zipCode,
-    country: countryCodeIso3,
-    state: stateCode,
-  };
-};
-
-// map necessary data from prefill into our form data
-export function prefillTransformer(pages, formData, metadata, state) {
-  const {
-    residentialAddress,
-    mailingAddress,
-  } = state.user.profile?.vapContactInfo;
-
-  /* mailingAddress === veteranAddress
-     residentialAddress === veteranHomeAddress */
-  const cleanedResidentialAddress = cleanAddressObject(residentialAddress);
-  const cleanedMailingAddress = cleanAddressObject(mailingAddress);
-  const doesAddressMatch =
-    JSON.stringify(cleanedResidentialAddress) ===
-    JSON.stringify(cleanedMailingAddress);
-
-  let newData = formData;
-
-  if (isInMPI(state)) {
-    newData = { ...newData, 'view:isUserInMvi': true };
-  }
-
-  if (mailingAddress) {
-    // spread in permanentAddress (mailingAddress) from profile if it exist
-    newData = { ...newData, veteranAddress: cleanedMailingAddress };
-  }
-
-  /* auto-fill doesPermanentAddressMatchMailing yes/no field
-   does not get sent to api due to being a view do not need to guard */
-  newData = {
-    ...newData,
-    'view:doesMailingMatchHomeAddress': doesAddressMatch,
-  };
-
-  // if either of the addresses are not present we should not fill the yes/no comparison since it will always be false
-  if (!cleanedMailingAddress || !cleanedResidentialAddress) {
-    newData = {
-      ...newData,
-      'view:doesMailingMatchHomeAddress': undefined,
-    };
-  }
-
-  // if residentialAddress && addresses are not the same auto fill mailing address
-  if (residentialAddress && !doesAddressMatch) {
-    newData = { ...newData, veteranHomeAddress: cleanedResidentialAddress };
-  }
-
-  return {
-    metadata,
-    formData: newData,
-    pages,
-  };
-}
 
 // map necessary attachment data for submission
 export function transformAttachments(data) {

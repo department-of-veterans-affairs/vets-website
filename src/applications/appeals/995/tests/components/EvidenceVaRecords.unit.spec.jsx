@@ -8,6 +8,8 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
+import * as focusUtils from '~/platform/utilities/ui/focus';
+
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import {
   errorMessages,
@@ -33,6 +35,14 @@ import sharedErrorMessage from '../../../shared/content/errorMessages';
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
 describe('<EvidenceVaRecords>', () => {
+  let focusElementSpy;
+  beforeEach(() => {
+    focusElementSpy = sinon.stub(focusUtils, 'focusElement');
+  });
+  afterEach(() => {
+    focusElementSpy.restore();
+  });
+
   const validDate = parseDateWithOffset({ months: -2 });
   const mockData = {
     contestedIssues: [
@@ -58,6 +68,18 @@ describe('<EvidenceVaRecords>', () => {
     locationAndName: 'Location 2',
     issues: ['test 2'],
     evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
+  };
+
+  const mockLocationNew = {
+    locationAndName: 'Location 3',
+    issues: ['test 1'],
+    treatmentDate: '2005-05',
+  };
+  const mockLocationNew2 = {
+    locationAndName: 'Location 4',
+    issues: ['test 2'],
+    treatmentDate: '',
+    noDate: true,
   };
 
   const setup = ({
@@ -117,6 +139,8 @@ describe('<EvidenceVaRecords>', () => {
       locationAndName: input.value,
       issues: [],
       evidenceDates: { from: '', to: '' },
+      noDate: undefined,
+      treatmentDate: '',
     });
   });
 
@@ -137,6 +161,8 @@ describe('<EvidenceVaRecords>', () => {
     expect(setDataSpy.args[0][0].locations[0]).to.deep.equal({
       ...mockLocation,
       issues: ['test 1', 'test 2'],
+      noDate: undefined,
+      treatmentDate: undefined,
     });
   });
 
@@ -157,6 +183,8 @@ describe('<EvidenceVaRecords>', () => {
     expect(setDataSpy.args[0][0].locations[0]).to.deep.equal({
       ...mockLocation,
       issues: [],
+      noDate: undefined,
+      treatmentDate: undefined,
     });
   });
 
@@ -244,12 +272,118 @@ describe('<EvidenceVaRecords>', () => {
           .be.true;
       });
     });
+
+    /* New SC form content */
+    const showScNewForm = true;
+    it('should navigate forward to VA private request page with YYYY-MM date & valid data', async () => {
+      const goSpy = sinon.spy();
+      const data = { ...mockData, showScNewForm, locations: [mockLocationNew] };
+      const page = setup({
+        index: 0,
+        goForward: goSpy,
+        data,
+      });
+      const { container } = render(page);
+
+      // continue
+      clickContinue(container);
+      await waitFor(() => {
+        expect($('va-modal[visible="false"]', container)).to.exist;
+        expect(goSpy.calledWith(data)).to.be.true;
+      });
+    });
+    it('should navigate forward to VA private request page with no date checked & valid data', async () => {
+      const goSpy = sinon.spy();
+      const data = {
+        ...mockData,
+        showScNewForm,
+        locations: [mockLocationNew2],
+      };
+      const page = setup({
+        index: 0,
+        goForward: goSpy,
+        data,
+      });
+      const { container } = render(page);
+
+      // continue
+      clickContinue(container);
+      await waitFor(() => {
+        expect($('va-modal[visible="false"]', container)).to.exist;
+        expect(goSpy.calledWith(data)).to.be.true;
+      });
+    });
+    it('should navigate back to VA records request page with YYYY-MM date & valid data', async () => {
+      const goSpy = sinon.spy();
+      const data = { ...mockData, showScNewForm, locations: [mockLocationNew] };
+      const index = 0;
+      const page = setup({
+        index,
+        goBack: goSpy,
+        data,
+      });
+      const { container } = render(page);
+
+      // back
+      clickBack(container);
+
+      await waitFor(() => {
+        expect($('va-modal[visible="false"]', container)).to.exist;
+        // passing a negative index is okay, we're leaving the indexed pages
+        expect(goSpy.calledWith(index - 1)).to.be.true;
+      });
+    });
+    it('should navigate from zero index to a new empty location page, of index 1, with YYYY-MM date & valid data', async () => {
+      const goSpy = sinon.spy();
+      const data = {
+        ...mockData,
+        showScNewForm,
+        locations: [mockLocationNew, {}, mockLocationNew2],
+      };
+      const index = 0;
+      const page = setup({
+        index,
+        goToPath: goSpy,
+        data,
+      });
+      const { container } = render(page);
+
+      // add
+      clickAddAnother(container);
+
+      await waitFor(() => {
+        expect($('va-modal[visible="false"]', container)).to.exist;
+        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
+          .be.true;
+      });
+    });
+
+    it('should navigate from zero index, with YYYY-MM date & valid data, to next index when inserting another entry', async () => {
+      const goSpy = sinon.spy();
+      const locations = [mockLocationNew, mockLocationNew2, {}];
+      const data = { ...mockData, showScNewForm, locations };
+      const index = 0;
+      const page = setup({
+        index,
+        goToPath: goSpy,
+        data,
+      });
+      const { container } = render(page);
+
+      // add
+      clickAddAnother(container);
+
+      await waitFor(() => {
+        expect($('va-modal[visible="false"]', container)).to.exist;
+        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
+          .be.true;
+      });
+    });
   });
 
   // *** EMPTY PAGE ***
   describe('empty page navigation', () => {
     const getAndTestAllErrors = container => {
-      expect(document.activeElement).to.eq($('[error]', container));
       const errors = errorMessages.evidence;
       const errorEls = getErrorElements(container);
       expect(errorEls[0].error).to.eq(errors.locationMissing);
@@ -421,7 +555,7 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         expect(goSpy.called).to.be.false;
         expect(getErrorElements(container).length).to.eq(3);
-        expect(document.activeElement).to.eq($('[error]', container));
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
       });
     });
 
@@ -516,7 +650,7 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         expect(goSpy.called).to.be.false;
         expect(getErrorElements(container).length).to.eq(3);
-        expect(document.activeElement).to.eq($('[error]', container));
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
       });
     });
   });

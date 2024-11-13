@@ -5,35 +5,35 @@
  * @param {boolean} state - New COVID appointment state
  * @returns {object} Referral appointment workflow object
  */
-export default function getPageFlow() {
+export default function getPageFlow(referralId) {
   return {
     appointments: {
       url: '/appointments',
       label: 'Appointments',
-      next: 'referralReview',
+      next: 'scheduleReferral',
       previous: '',
     },
     activeReferrals: {
       url: '/appointments/pending',
       label: 'Active referrals',
-      next: 'referralReview',
+      next: 'scheduleReferral',
       previous: 'appointments',
     },
-    referralReview: {
-      url: '/review-approved',
-      label: 'Review your referral',
+    scheduleReferral: {
+      url: `/schedule-referral/${referralId}`,
+      label: 'Referral for',
       next: 'scheduleAppointment',
       previous: 'activeReferrals',
     },
     scheduleAppointment: {
-      url: '/provider-choose-date-and-time',
-      label: 'Schedule and appointment with your provider',
+      url: '/schedule-referral/date-time',
+      label: 'Schedule an appointment with your provider',
       next: 'confirmAppointment',
-      previous: 'referralReview',
+      previous: 'scheduleReferral',
     },
     confirmAppointment: {
-      url: '/confirm-approved',
-      label: 'Confirm your appointment',
+      url: '/schedule-referral/review',
+      label: 'Review your appointment details',
       next: 'appointments',
       previous: 'scheduleAppointment',
     },
@@ -46,8 +46,8 @@ export default function getPageFlow() {
   };
 }
 
-export function routeToPageInFlow(history, current, action) {
-  const pageFlow = getPageFlow();
+export function routeToPageInFlow(history, current, action, referralId) {
+  const pageFlow = getPageFlow(referralId);
   const nextPageString = pageFlow[current][action];
   const nextPage = pageFlow[nextPageString];
 
@@ -60,12 +60,16 @@ export function routeToPageInFlow(history, current, action) {
   }
 }
 
-export function routeToPreviousReferralPage(history, current) {
-  return routeToPageInFlow(history, current, 'previous');
+export function routeToPreviousReferralPage(
+  history,
+  current,
+  referralId = null,
+) {
+  return routeToPageInFlow(history, current, 'previous', referralId);
 }
 
-export function routeToNextReferralPage(history, current) {
-  return routeToPageInFlow(history, current, 'next');
+export function routeToNextReferralPage(history, current, referralId = null) {
+  return routeToPageInFlow(history, current, 'next', referralId);
 }
 
 /* Function to get label from the flow

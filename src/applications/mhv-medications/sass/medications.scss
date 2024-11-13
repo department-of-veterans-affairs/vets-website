@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "./prescription-details";
 @import "./print-download";
 
@@ -60,6 +60,15 @@
   }
   .right-angle {
     text-decoration: none;
+  }
+}
+.usa-button {
+  width: 100%;
+}
+
+.filter-accordion {
+  .filter-submit-btn::part(button) {
+    width: 100%;
   }
 }
 .va-button {

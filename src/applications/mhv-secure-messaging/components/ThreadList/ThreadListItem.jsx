@@ -70,6 +70,13 @@ const ThreadListItem = props => {
   };
 
   const categoryLabel = Categories[category];
+  const addressText =
+    location.pathname === Paths.DRAFTS ? recipientName : senderName;
+
+  const ddTitle =
+    location.pathname === Paths.DRAFTS || location.pathname === Paths.SENT
+      ? 'Triage Group Name'
+      : 'Clinician Name';
 
   return (
     <div
@@ -112,9 +119,16 @@ const ThreadListItem = props => {
         </Link>
         <div className={getClassNames()} data-dd-privacy="mask">
           {location.pathname !== Paths.SENT ? (
-            <span>{getHighlightedText(senderName)}</span>
+            <span data-dd-privacy="mask" data-dd-action-name={ddTitle}>
+              {getHighlightedText(addressText)}
+            </span>
           ) : (
-            <span>To: {recipientName}</span>
+            <span
+              data-dd-privacy="mask"
+              data-dd-action-name="Triage Group Name"
+            >
+              To: {recipientName}
+            </span>
           )}
         </div>
         <div
