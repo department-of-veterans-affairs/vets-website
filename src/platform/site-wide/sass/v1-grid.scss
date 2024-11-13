@@ -65,8 +65,6 @@ $breakpoints: (
   small-desktop-screen: $small-desktop-screen,
   large-screen:         $large-screen
 );
-@import "~foundation-sites/scss/foundation/components/grid";
-@import "~foundation-sites/scss/foundation/components/block-grid";
 @import "~uswds/src/stylesheets/lib/settings/grid";
 @import "~uswds/src/stylesheets/lib/functions/private";
 @import "~uswds/src/stylesheets/lib/grid/private";
@@ -80,6 +78,8 @@ $breakpoints: (
 @import "~uswds/src/stylesheets/core/utilities";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~uswds/src/stylesheets/core/grid";
+@import "~foundation-sites/scss/foundation/components/grid";
+@import "~foundation-sites/scss/foundation/components/block-grid";
 //~~~~~~~
 
 // Grid container
