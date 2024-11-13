@@ -244,9 +244,11 @@ export function fetchDuplicateContactInfo(email, phoneNumber) {
 }
 export function fetchExclusionPeriods(selectedChapter) {
   return async dispatch => {
-    dispatch({ type: `${FETCH_EXCLUSION_PERIODS}?=type=${selectedChapter}` });
+    dispatch({ type: FETCH_EXCLUSION_PERIODS });
     try {
-      const response = await apiRequest(EXCLUSION_PERIODS_ENDPOINT);
+      const response = await apiRequest(
+        `${EXCLUSION_PERIODS_ENDPOINT}?=type=${selectedChapter}`,
+      );
       dispatch({
         type: FETCH_EXCLUSION_PERIODS_SUCCESS,
         response,
