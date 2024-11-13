@@ -63,14 +63,14 @@ const UneditableData = () => {
             <InfoSection.InfoBlock label="Gender" value={gender} />
           </dl>
         </InfoSection>
-      </div>
 
-      <va-additional-info
-        trigger="How to change this information"
-        class="vads-u-padding-bottom--9"
-      >
-        <AdditionalInfoContent />
-      </va-additional-info>
+        <va-additional-info
+          trigger="How to change this information"
+          class="vads-u-padding-bottom--9"
+        >
+          <AdditionalInfoContent />
+        </va-additional-info>
+      </div>
 
       {/* 2nd Option */}
       <div className="vads-u-margin-top--9 vads-u-border-top--2px">
