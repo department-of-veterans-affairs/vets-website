@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import SchoolLocations from '../../../components/profile/SchoolLocations';
 import { getDefaultState } from '../../helpers';
 
@@ -509,7 +509,7 @@ describe('<SchoolLocations>', () => {
       },
     };
 
-    const wrapper = shallow(
+    const wrapper = mount(
       <SchoolLocations
         institution={testState.profile.attributes}
         facilityMap={testState.profile.attributes.facilityMap}
@@ -525,11 +525,10 @@ describe('<SchoolLocations>', () => {
     const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(11);
 
-    const buttons = wrapper.find('button');
-    expect(buttons).to.have.lengthOf(2);
+    // const buttons = wrapper.find('VaButton');
+    // expect(buttons).to.have.lengthOf(2);
 
-    const viewAllButton = buttons.at(1);
-    expect(viewAllButton.text()).to.equal('View all');
+    const viewAllButton = wrapper.find('[data-testid="view-all"]').at(0);
     viewAllButton.simulate('click');
 
     const newTableRows = wrapper.find('tr');

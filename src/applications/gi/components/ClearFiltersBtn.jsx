@@ -52,6 +52,7 @@ function ClearFiltersBtn({
   return (
     <>
       <VaButton
+        role="button"
         text="Reset search"
         secondary
         className={className}

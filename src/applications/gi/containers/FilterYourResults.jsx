@@ -514,6 +514,7 @@ export function FilterYourResults({
               className="update-results-button"
               onClick={closeAndUpdate}
               text="Update results"
+              data-testid="Update-results"
             />
             {!environment.isProduction() && (
               <ClearFiltersBtn

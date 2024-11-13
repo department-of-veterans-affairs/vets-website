@@ -61,9 +61,9 @@ export default function MobileFilterControls({ className }) {
       <VaButton
         text="Filter your results"
         className="update-results-small-screen"
-        data-testid="filter-your-results"
         secondary
         onClick={filterClick}
+        data-testid="update-results-small-screen"
       />
       {tuitionAndHousingOpen && (
         <TuitionAndHousingEstimates

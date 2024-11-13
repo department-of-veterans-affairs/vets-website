@@ -67,6 +67,7 @@ export default function AccordionItem({
             className="mob-search-tab usa-accordion-button"
             aria-expanded={displayExpanded}
             aria-controls={id}
+            data-testid="search-tab"
           />
         </h2>
       )}

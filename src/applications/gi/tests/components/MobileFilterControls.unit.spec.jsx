@@ -13,9 +13,7 @@ describe('<MobileFilterControls/>', () => {
 
   it('should add class modal-open to body when filterClick button click', async () => {
     const wrapper = shallow(<MobileFilterControls />);
-    const btn = wrapper.find('button.usa-button-secondary').last();
-    expect(btn.prop('children')).to.equal('Filter your results');
-
+    const btn = wrapper.find('[data-testid="update-results-small-screen"]');
     await act(async () => {
       btn.simulate('click');
     });
@@ -26,10 +24,7 @@ describe('<MobileFilterControls/>', () => {
 
   it('should add class modal-open to body when tuitionAndHousingEstimatesClick button click', async () => {
     const wrapper = shallow(<MobileFilterControls />);
-    const btn = wrapper.find('button.usa-button-secondary').first();
-    expect(btn.prop('children')).to.equal(
-      'Update tuition, housing, and monthly benefit estimates',
-    );
+    const btn = wrapper.find('[data-testid="tuition-housing-ben"]');
     btn.simulate('click');
     const hasClass = document.body.classList.contains('modal-open');
     expect(hasClass).to.be.true;

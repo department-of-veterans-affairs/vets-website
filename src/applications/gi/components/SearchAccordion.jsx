@@ -46,6 +46,7 @@ export default function SearchAccordion({
       <h2 className={headerClasses}>
         {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
         <VaButton
+          role="button"
           text={button}
           id={`${id}-button`}
           onClick={toggle}
@@ -86,6 +87,7 @@ export default function SearchAccordion({
             onClick={buttonOnClick}
             aria-describedby={ariaDescribedBy}
             text={buttonLabel}
+            data-testid="update-estimates"
           />
           {isProductionOrTestProdEnv() && (
             <ClearFiltersBtn

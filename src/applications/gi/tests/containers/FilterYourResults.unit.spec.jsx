@@ -47,7 +47,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByTestId('filter-your-results');
+    const filterButton = screen.getByTestId('update-tuition-housing');
     fireEvent.click(filterButton);
 
     const publicSchoolCheckBox = screen.getByRole('checkbox', {
@@ -66,7 +66,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByTestId('filter-your-results');
+    const filterButton = screen.getByTestId('update-tuition-housing');
     fireEvent.click(filterButton);
 
     const publicSchoolCheckBox = screen.getByRole('checkbox', {
@@ -88,7 +88,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByTestId('filter-your-results');
+    const filterButton = screen.getByTestId('update-tuition-housing');
     fireEvent.click(filterButton);
 
     const VETTECCheckBox = screen.getByRole('checkbox', {
@@ -128,12 +128,12 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByTestId('filter-your-results');
+    const filterButton = screen.getByTestId('update-tuition-housing');
     fireEvent.click(filterButton);
 
-    const updateFilterResultsButton = screen.getByRole('button', {
-      name: 'Update results',
-    });
+    const updateFilterResultsButton = screen.getByTestId(
+      'update-tuition-housing',
+    );
     fireEvent.click(updateFilterResultsButton);
 
     await waitFor(() => {
@@ -150,9 +150,7 @@ describe('<FilterYourResults>', () => {
         },
       },
     );
-    const updateFilterResultsButton = screen.getByRole('button', {
-      name: 'Update results',
-    });
+    const updateFilterResultsButton = screen.getByTestId('Update-results');
     fireEvent.click(updateFilterResultsButton);
 
     await waitFor(() => {

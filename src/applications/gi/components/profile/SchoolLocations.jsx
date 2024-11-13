@@ -305,6 +305,7 @@ export default function SchoolLocations({
             <span className="vads-u-padding--2">|</span>
             <VaButton
               text="View all"
+              data-testid="view-all"
               className="learn-more-btn"
               onClick={handleViewAllClicked}
             />

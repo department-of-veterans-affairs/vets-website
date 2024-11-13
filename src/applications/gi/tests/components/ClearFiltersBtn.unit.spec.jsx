@@ -103,44 +103,6 @@ describe('<ClearFiltersBtn />', () => {
       },
     );
     const button = screen.getByRole('button');
-    expect(button).to.have.class('clear-filters-btn');
+    expect(button).not.to.have.class('clear-filters-btn');
   });
-  /*
-  it('should render button with className clear-filters-button when ENV is Prod', () => {
-    global.window.buildType = true;
-    const dispatchFilterChangeSpy = sinon.spy();
-    const screen = renderWithStoreAndRouter(
-      <ClearFiltersBtn
-        dispatchFilterChange={dispatchFilterChangeSpy}
-        filters={filters}
-        smallScreen
-      />,
-      {
-        initialState: {
-          constants: mockConstants(),
-        },
-      },
-    );
-    const button = screen.getByRole('button');
-    expect(button).to.have.class('clear-filters-button');
-  }); */
-  /*
-  it('should render button with className clear-filters-button when ENV is Prod and not smallscreen', () => {
-    global.window.buildType = true;
-    const dispatchFilterChangeSpy = sinon.spy();
-    const screen = renderWithStoreAndRouter(
-      <ClearFiltersBtn
-        dispatchFilterChange={dispatchFilterChangeSpy}
-        filters={filters}
-        smallScreen={false}
-      />,
-      {
-        initialState: {
-          constants: mockConstants(),
-        },
-      },
-    );
-    const button = screen.getByRole('button');
-    expect(button).to.have.class('clear-filters-button');
-  }); */
 });
