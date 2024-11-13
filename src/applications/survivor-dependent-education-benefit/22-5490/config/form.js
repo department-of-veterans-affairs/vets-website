@@ -1012,8 +1012,9 @@ const formConfig = {
                   'ui:options': {
                     replaceSchema: formData => {
                       if (
+                        !formData?.mailingAddressInput?.livesOnMilitaryBase &&
                         formData?.mailingAddressInput?.address?.country !==
-                        'USA'
+                          'USA'
                       ) {
                         return {
                           title: 'Postal Code',
