@@ -13,7 +13,7 @@ import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('va-breadcrumbs');
   }
 
   navigateToPrint = () => {
