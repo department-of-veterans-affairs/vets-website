@@ -2,7 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import manifest from '../../../manifest.json';
+import manifest from '../manifest.json';
 import transformForSubmit from './submit-transformer';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';

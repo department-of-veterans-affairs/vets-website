@@ -6,7 +6,7 @@ import user from './fixtures/mocks/user.json';
 import inProgressForm from './fixtures/mocks/in-progress-form.json';
 
 import formConfig from '../../config/form';
-import manifest from '../../../../manifest.json';
+import manifest from '../../manifest.json';
 import {
   selectCheckboxGroupWebComponent,
   selectDropdownWebComponent,

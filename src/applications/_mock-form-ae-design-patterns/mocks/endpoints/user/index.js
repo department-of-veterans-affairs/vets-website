@@ -42,7 +42,7 @@ const baseUserResponses = {
         profile: {
           email: 'vets.gov.user+75@gmail.com',
           firstName: 'Mitchell',
-          middleName: 'G',
+          middleName: 'George',
           lastName: 'Jenkins',
           birthDate: '1956-07-10',
           gender: 'M',
@@ -141,7 +141,7 @@ const baseUserResponses = {
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',
-            emailAddress: 'test@test.com',
+            emailAddress: 'Mitchell.Jenkins.Test@gmail.com',
             effectiveEndDate: null,
             effectiveStartDate: '2019-03-07T22:32:40.000Z',
             id: 20648,
@@ -186,7 +186,7 @@ const baseUserResponses = {
             badAddress: null,
           },
           mailingAddress: {
-            addressLine1: '123 Mailing Address St.',
+            addressLine1: '125 Main St.',
             addressLine2: null,
             addressLine3: null,
             addressPou: 'CORRESPONDENCE',
