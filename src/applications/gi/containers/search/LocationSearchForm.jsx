@@ -93,7 +93,7 @@ export function LocationSearchForm({
   };
   const doSearch = event => {
     if (event) {
-      event.preventDefault();
+      event?.preventDefault();
       if (
         validateSearchTermSubmit(
           location,

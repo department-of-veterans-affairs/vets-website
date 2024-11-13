@@ -122,7 +122,7 @@ export function NameSearchForm({
   };
 
   const handleSubmit = event => {
-    event.preventDefault();
+    event?.preventDefault();
     if (validateSearchTermSubmit(name, dispatchError, error, filters, 'name')) {
       recordEvent({
         event: 'gibct-form-change',

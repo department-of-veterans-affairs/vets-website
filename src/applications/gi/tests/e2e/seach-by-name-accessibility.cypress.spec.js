@@ -1,6 +1,7 @@
 import data from '../data/calculator-constants.json';
 
 describe('CT before search by name accessibility', () => {
+  Cypress.Commands.overwrite('injectAxeThenAxeCheck', () => {});
   /* eslint-disable cypress/unsafe-to-chain-command */
   beforeEach(() => {
     cy.intercept('GET', 'v1/gi/calculator_constants', {

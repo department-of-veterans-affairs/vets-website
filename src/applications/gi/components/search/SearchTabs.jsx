@@ -52,7 +52,6 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
         className={`${tabClasses} search-tabs ${activeTab && 'tab-active'}`}
         aria-selected={activeTab}
         data-testid={testId}
-        role="tab"
         onClick={() => {
           onChange(tabName);
           dispatchError(null);

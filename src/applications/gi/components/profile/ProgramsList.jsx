@@ -63,7 +63,7 @@ export default function ProgramsList({ match }) {
     setKey(prevKey => prevKey + 1); // Changing the key forces a re-render
   };
   const handleSearchSubmit = e => {
-    e.preventDefault();
+    e?.preventDefault();
   };
   const handleReset = () => {
     setSearchQuery('');
