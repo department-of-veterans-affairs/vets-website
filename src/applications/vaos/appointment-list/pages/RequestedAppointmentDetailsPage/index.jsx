@@ -10,8 +10,6 @@ import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import ErrorMessage from '../../../components/ErrorMessage';
 import PageLayout from '../../components/PageLayout';
 import FullWidthLayout from '../../../components/FullWidthLayout';
-import CancelWarningPage from '../../components/cancel/CancelWarningPage';
-import CancelConfirmationPage from '../../components/cancel/CancelConfirmationPage';
 import { FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
 import FacilityPhone from '../../../components/FacilityPhone';
@@ -21,6 +19,8 @@ import {
   closeCancelAppointment,
   fetchRequestDetails,
 } from '../../redux/actions';
+import CancelWarningPage from '../CancelAppointmentPage/CancelWarningPage';
+import CancelConfirmationPage from '../CancelAppointmentPage/CancelConfirmationPage';
 
 export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();

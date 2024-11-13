@@ -6,7 +6,6 @@ import { shallowEqual } from 'recompose';
 import Address from '../../../components/Address';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { selectRequestedAppointmentDetails } from '../../redux/selectors';
-import ListBestTimeToCall from '../ListBestTimeToCall';
 import {
   CCDetails,
   Details,
@@ -15,6 +14,7 @@ import {
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import ListBestTimeToCall from '../../components/ListBestTimeToCall';
 
 export default function CancelPageLayoutRequest() {
   const { id } = useParams();

@@ -17,11 +17,14 @@ import {
   Where,
   Who,
 } from '../../../components/layout/DetailPageLayout';
-import { AppointmentDate, AppointmentTime } from '../AppointmentDateTime';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import { getRealFacilityId } from '../../../utils/appointment';
 import FacilityDirectionsLink from '../../../components/FacilityDirectionsLink';
 import Address from '../../../components/Address';
+import {
+  AppointmentDate,
+  AppointmentTime,
+} from '../../components/AppointmentDateTime';
 
 function getHeading(appointment) {
   const isCanceled = selectIsCanceled(appointment);
