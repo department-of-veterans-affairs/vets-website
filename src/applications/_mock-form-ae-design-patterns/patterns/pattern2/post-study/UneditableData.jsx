@@ -1,4 +1,5 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { InfoSection } from '../../../shared/components/InfoSection';
 import { maskSSN } from '../../../utils/helpers/general';
 
@@ -8,15 +9,21 @@ const AdditionalInfoContent = () => {
       <p className="vads-u-margin-top--0">
         To protect your personal information, we don’t allow online changes to
         your name, date of birth, or Social Security number. If you need to
-        change this information, call Veterans Benefits Assistance at{' '}
-        <va-telephone contact="8008271000" />. We’re here Monday through Friday,
-        between 8:00 a.m. and 9:00 p.m. ET.
+        change this information, call us at{' '}
+        <va-telephone contact="8008271000" /> (
+        <va-telephone contact={CONTACTS[711]} tty />
+        ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m. ET.
+        We’ll give you instructions for how to change your information.
       </p>
 
-      <va-link
-        text="Find instructions for how to change your legal name"
-        href="/resources/how-to-change-your-legal-name-on-file-with-va/"
-      />
+      <p className="vads-u-margin-bottom--0">
+        Or you can learn how to change your legal name on file with VA.{' '}
+        <va-link
+          external
+          text="Learn how to change your legal name (opens in new tab)"
+          href="/resources/how-to-change-your-legal-name-on-file-with-va/"
+        />
+      </p>
     </div>
   );
 };
@@ -29,12 +36,12 @@ const UneditableData = () => {
   const maskedSsn = maskSSN(veteranSsn);
 
   return (
-    <div id="uneditable-data" className="vads-u-margin-top--4">
-      <h2>Uneditable data</h2>
+    <div id="uneditable-data">
+      <h2 className="vads-u-margin-top--9">Uneditable data</h2>
 
       {/* 1st Option */}
       <div className="vads-u-margin-bottom--3">
-        <p className="vads-u-font-size--md">
+        <p className="vads-u-font-size--md vads-u-margin-top--4">
           Confirm your information before you continue.
         </p>
         <InfoSection title="Applicant information" titleLevel={3}>
@@ -55,13 +62,13 @@ const UneditableData = () => {
 
       <va-additional-info
         trigger="How to change this information"
-        class="vads-u-margin-bottom--5"
+        class="vads-u-padding-bottom--9"
       >
         <AdditionalInfoContent />
       </va-additional-info>
 
       {/* 2nd Option */}
-      <div className="vads-u-margin-top--8 vads-u-border-top--2px">
+      <div className="vads-u-margin-top--9 vads-u-border-top--2px">
         <p className="vads-u-font-size--md">
           Confirm your information before you continue.
         </p>
@@ -94,15 +101,18 @@ const UneditableData = () => {
         </va-card>
 
         <div>
-          <p className="vads-u-margin-top--5">
+          <p className="vads-u-margin-top--5 vads-u-padding-bottom--9">
             <strong>Note:</strong> To protect your personal information, we
             don’t allow online changes to your name, date of birth, or Social
-            Security number. If you need to change this information, call us at
-            Veterans Benefits Assistance at{' '}
-            <va-telephone contact="8008271000" />. We’re here Monday through
-            Friday, between 8:00 a.m. and 9:00 p.m. ET.{' '}
+            Security number. If you need to change this information, call us at{' '}
+            <va-telephone contact="8008271000" /> (
+            <va-telephone contact={CONTACTS[711]} tty />
+            ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m.
+            ET. We’ll give you instructions for how to change your information.
+            Or you can learn how to change your legal name on file with VA.{' '}
             <va-link
-              text="Find instructions for how to change your legal name"
+              external
+              text="Learn how to change your legal name (opens in new tab)"
               href="/resources/how-to-change-your-legal-name-on-file-with-va/"
             />
           </p>
@@ -110,7 +120,7 @@ const UneditableData = () => {
       </div>
 
       {/* 3rd Option */}
-      <div className="vads-u-margin-top--8 vads-u-border-top--2px">
+      <div className="vads-u-margin-top--9 vads-u-border-top--2px">
         <h3 className="vads-u-margin-y--4">
           Confirm the personal information we have on file for you.
         </h3>
@@ -148,12 +158,15 @@ const UneditableData = () => {
           <p className="vads-u-margin-top--4">
             <strong>Note:</strong> To protect your personal information, we
             don’t allow online changes to your name, date of birth, or Social
-            Security number. If you need to change this information, call us at
-            Veterans Benefits Assistance at{' '}
-            <va-telephone contact="8008271000" />. We’re here Monday through
-            Friday, between 8:00 a.m. and 9:00 p.m. ET.{' '}
+            Security number. If you need to change this information, call us at{' '}
+            <va-telephone contact="8008271000" /> (
+            <va-telephone contact={CONTACTS[711]} tty />
+            ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m.
+            ET. We’ll give you instructions for how to change your information.
+            Or you can learn how to change your legal name on file with VA.{' '}
             <va-link
-              text="Find instructions for how to change your legal name"
+              external
+              text="Learn how to change your legal name (opens in new tab)"
               href="/resources/how-to-change-your-legal-name-on-file-with-va/"
             />
           </p>

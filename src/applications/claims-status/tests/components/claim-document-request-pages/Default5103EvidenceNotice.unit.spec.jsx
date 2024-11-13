@@ -49,6 +49,7 @@ describe('<Default5103EvidenceNotice>', () => {
     expect(getByTestId('upload-evidence-link').textContent).to.equal(
       'Upload additional evidence',
     );
+    getByText(/Upload additional evidence/i);
     getByText('Submit an evidence waiver');
     expect($('va-checkbox', container)).to.exist;
     expect($('va-button', container)).to.exist;
@@ -71,9 +72,26 @@ describe('<Default5103EvidenceNotice>', () => {
     };
 
     const { container } = renderWithRouter(
-      <Default5103EvidenceNotice item={item} params={{ id: claimId }} />,
+      <Default5103EvidenceNotice
+        item={item}
+        params={{ id: claimId }}
+        navigate={() => {}}
+      />,
     );
     expect($('#default-5103-notice-page', container)).to.not.exist;
+  });
+  it('link has the correct href to upload additional evidence', () => {
+    const { getByText } = renderWithRouter(
+      <Default5103EvidenceNotice
+        item={standard5103}
+        params={{ id: claimId }}
+      />,
+    );
+
+    const additionalEvidenceLink = getByText(/Upload additional evidence/i);
+    expect(additionalEvidenceLink.getAttribute('href')).to.equal(
+      '/files#add-files',
+    );
   });
 
   context('when useLighthouse5103 false', () => {
@@ -159,7 +177,7 @@ describe('<Default5103EvidenceNotice>', () => {
         );
         expect(submitRequest.called).to.be.false;
         expect(submit5103.called).to.be.false;
-        expect(navigate.called).to.be.false;
+        expect(navigate.calledWith('../files')).to.be.false;
         expect($('va-checkbox', container).getAttribute('error')).to.equal(
           'You must confirm you’re done adding evidence before submitting the evidence waiver',
         );
@@ -246,7 +264,7 @@ describe('<Default5103EvidenceNotice>', () => {
         );
         expect(submitRequest.called).to.be.false;
         expect(submit5103.called).to.be.false;
-        expect(navigate.called).to.be.false;
+        expect(navigate.calledWith('../files')).to.be.false;
         expect($('va-checkbox', container).getAttribute('error')).to.equal(
           'You must confirm you’re done adding evidence before submitting the evidence waiver',
         );

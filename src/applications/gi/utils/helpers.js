@@ -528,6 +528,32 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
+export const updateLcFilterDropdowns = (dropdowns, target) => {
+  const updatedFieldIndex = dropdowns.findIndex(dropdown => {
+    return dropdown.label === target.id;
+  });
+
+  const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
+    option => option.optionValue === target.value,
+  );
+
+  return dropdowns.map(
+    (dropdown, index) =>
+      index === updatedFieldIndex
+        ? {
+            ...dropdown,
+            current: dropdown.options[selectedOptionIndex],
+          }
+        : dropdown,
+  );
+};
+
+export const handleLcResultsSearch = (history, name, type) => {
+  return name
+    ? history.push(`/lc-search/results?type=${type}&name=${name}`)
+    : history.push(`/lc-search/results?type=${type}`);
+};
+
 export const formatProgramType = programType => {
   if (!programType) return '';
 

@@ -162,7 +162,7 @@ const formConfig = {
   footerContent: FormFooter,
   preSubmitInfo: {
     CustomComponent: CustomPreSubmitInfo,
-    required: false,
+    required: true,
     field: 'privacyAgreementAccepted',
   },
   chapters: {
@@ -192,14 +192,8 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your first name');
-                      } else if (field.length > 20) {
+                      if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
-                      } else if (field[0] === ' ' || field[0] === "'") {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
                       }
                     } else if (!isValidName(field)) {
                       errors.addError(
@@ -214,11 +208,7 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
-                      if (field[0] === ' ' || field[0] === "'") {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else if (field.length > 20) {
+                      if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
                       }
                     } else if (!isValidName(field)) {
@@ -234,20 +224,10 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your last name');
-                      } else if (field.length < 2) {
+                      if (field.length < 2) {
                         errors.addError('Must be 2 characters or more');
                       } else if (field.length > 26) {
                         errors.addError('Must be 26 characters or less');
-                      } else if (
-                        field[0] === ' ' ||
-                        field[0] === "'" ||
-                        field[0] === '-'
-                      ) {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
                       }
                     } else if (!isValidName(field)) {
                       errors.addError(
@@ -387,7 +367,7 @@ const formConfig = {
                           className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
-                        Monthly stipened
+                        Monthly stipend
                       </li>
                     </ul>
 
@@ -522,7 +502,7 @@ const formConfig = {
             },
             highSchoolDiploma: {
               'ui:title':
-                'Did you earn a high school or equivalency certificate?',
+                'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
@@ -533,7 +513,7 @@ const formConfig = {
             },
             graduationDate: {
               ...currentOrPastDateUI(
-                'When did you earn your high school diploma or equivalency?',
+                'When did you earn your high school diploma or equivalency certificate?',
               ),
               'ui:required': formData => {
                 return formData?.highSchoolDiploma === 'yes';
@@ -1164,44 +1144,6 @@ const formConfig = {
                 </>
               ),
             },
-            'view:noMobilePhoneAlert': {
-              'ui:description': (
-                <va-alert
-                  background-only
-                  close-btn-aria-label="Close notification"
-                  show-icon
-                  status="warning"
-                  visible
-                >
-                  <div>
-                    <p className="vads-u-margin-y--0">
-                      We can’t send you text message notifications because we
-                      don’t have a mobile phone number on file for you
-                    </p>
-
-                    <Link
-                      aria-label="Go back and add a mobile phone number"
-                      to={{
-                        pathname: 'phone-email',
-                        search: '?redirect',
-                      }}
-                    >
-                      <va-button
-                        uswds
-                        onClick={() => {}}
-                        secondary
-                        text="Go back and add a mobile phone number"
-                      />
-                    </Link>
-                  </div>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData => {
-                  return !!formData?.mobilePhone?.phone;
-                },
-              },
-            },
             notificationMethod: {
               'ui:title': 'Choose how you want to get notifications?',
               'ui:widget': 'radio',
@@ -1232,6 +1174,111 @@ const formConfig = {
                 },
               ],
             },
+            'view:noMobilePhoneAlert': {
+              'ui:description': (
+                <va-alert
+                  background-only
+                  close-btn-aria-label="Close notification"
+                  show-icon
+                  status="warning"
+                  visible
+                >
+                  <div>
+                    <p className="vads-u-margin-y--0">
+                      We can’t send you text message notifications because we
+                      don’t have a mobile phone number on file for you
+                    </p>
+
+                    <Link
+                      aria-label="Go back and add a mobile phone number"
+                      to={{
+                        pathname: '/contact-information',
+                      }}
+                    >
+                      <va-button
+                        uswds
+                        onClick={() => {}}
+                        secondary
+                        text="Go back and add a mobile phone number"
+                      />
+                    </Link>
+                  </div>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  return !!formData?.mobilePhone?.phone;
+                },
+              },
+            },
+            'view:emailOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get email notifications because your
+                    email is on file for another person with education benefits.
+                    You will not be able to take full advantage of VA’s
+                    electronic notifications and enrollment verifications
+                    available. If you cannot, certain electronic services will
+                    be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isNo = formData?.notificationMethod === 'no';
+
+                  const noDuplicates = formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  return !isNo || noDuplicates;
+                },
+              },
+            },
+            'view:mobilePhoneOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isYes = formData?.notificationMethod === 'yes';
+                  const mobilePhone = formData?.mobilePhone.phone;
+                  const noDuplicates = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  return !isYes || noDuplicates || !mobilePhone;
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -1245,13 +1292,21 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              notificationMethod: {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
               'view:noMobilePhoneAlert': {
                 type: 'object',
                 properties: {},
               },
-              notificationMethod: {
-                type: 'string',
-                enum: ['yes', 'no'],
+              'view:emailOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:mobilePhoneOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
               },
             },
           },

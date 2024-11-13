@@ -318,6 +318,7 @@ export default function SchoolLocations({
             text="...View less"
             className="learn-more-btn"
             onClick={handleViewLessClicked}
+            data-testid="view-less"
           />
         </div>
       );
