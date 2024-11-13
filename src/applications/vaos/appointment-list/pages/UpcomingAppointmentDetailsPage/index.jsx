@@ -28,7 +28,7 @@ import CCLayout from '../../layouts/CCLayout';
 import VideoLayout from '../../layouts/VideoLayout';
 import DetailsVA from './DetailsVA';
 
-export default function ConfirmedAppointmentDetailsPage() {
+export default function UpcomingAppointmentDetailsPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const {
