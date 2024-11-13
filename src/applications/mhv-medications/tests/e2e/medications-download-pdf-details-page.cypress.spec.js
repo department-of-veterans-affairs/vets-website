@@ -21,6 +21,7 @@ describe('Medications Details Page Download', () => {
     detailsPage.clickDownloadMedicationDetailsAsPdfOnDetailsPage();
     detailsPage.verifyLoadingSpinnerForDownloadOnDetailsPage();
     listPage.verifyDownloadCompleteSuccessMessageBanner();
+    detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
     site.verifyDownloadedPdfFile(
       'VA-medications-list-Safari-Mhvtp',
       moment(),

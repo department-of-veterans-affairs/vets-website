@@ -30,7 +30,7 @@ describe('hca `useDefaultFormData` hook', () => {
           hca_sigi_enabled: false,
           hca_reg_only_enabled: false,
           hca_insurance_v2_enabled: false,
-          hca_use_facilities_API: true,
+          hca_tera_branching_enabled: true,
           loading: false,
         },
       }),
@@ -54,7 +54,7 @@ describe('hca `useDefaultFormData` hook', () => {
       'view:isSigiEnabled': false,
       'view:isRegOnlyEnabled': false,
       'view:isInsuranceV2Enabled': false,
-      'view:isFacilitiesApiEnabled': true,
+      'view:isTeraBranchingEnabled': true,
       'view:totalDisabilityRating': 0,
     };
 
@@ -72,9 +72,11 @@ describe('hca `useDefaultFormData` hook', () => {
       'view:isSigiEnabled': false,
       'view:isRegOnlyEnabled': false,
       'view:isInsuranceV2Enabled': false,
-      'view:isFacilitiesApiEnabled': true,
+      'view:isTeraBranchingEnabled': true,
       'view:totalDisabilityRating': 0,
-      'view:userDob': '12/14/1986',
+      'view:veteranInformation': {
+        veteranDateOfBirth: '12/14/1986',
+      },
     };
 
     subject({ mockStore });

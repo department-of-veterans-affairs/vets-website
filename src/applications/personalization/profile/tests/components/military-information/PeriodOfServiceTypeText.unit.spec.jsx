@@ -47,6 +47,10 @@ function createBasicInitialState(toggles = {}) {
               characterOfDischargeCode: 'A',
             },
           ],
+          vetStatusEligibility: {
+            confirmed: true,
+            message: [],
+          },
         },
       },
     },

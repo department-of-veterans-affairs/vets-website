@@ -3,7 +3,7 @@ import React from 'react';
 function Table() {
   return (
     <div className="custom-table">
-      <table className="usa-table">
+      <table className="usa-table" role="presentation">
         <tbody>
           <tr>
             <th scope="row">Recruiting/Marketing Practices</th>

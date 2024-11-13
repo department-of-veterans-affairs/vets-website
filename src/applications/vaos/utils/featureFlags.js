@@ -28,7 +28,9 @@ module.exports = [
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: false },
   { name: 'vaOnlineSchedulingOhDirectSchedule', value: false },
   { name: 'vaOnlineSchedulingOhRequest', value: false },
+  { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
   { name: 'selectFeaturePocTypeOfCare', value: true },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },
+  { name: 'travelPayViewClaimDetails', value: false },
 ];

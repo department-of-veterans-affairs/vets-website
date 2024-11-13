@@ -28,8 +28,26 @@ const neutralServiceHistoryItem = {
   personnelCategoryTypeCode: 'V',
   characterOfDischargeCode: 'DVN',
 };
+const confirmedEligibility = {
+  confirmed: true,
+  message: [],
+};
+const problematicEligibility = {
+  confirmed: false,
+  message: [
+    'We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now.',
+    'To fix the problem with your records, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
+  ],
+};
+const nonEligibility = {
+  confirmed: false,
+  message: [
+    'Our records show that you’re not eligible for a Veteran status card. To get a Veteran status card, you must have received an honorable discharge for at least one period of service.',
+    'If you think your discharge status is incorrect, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
+  ],
+};
 
-function createBasicInitialState(serviceHistory) {
+function createBasicInitialState(serviceHistory, eligibility) {
   return {
     user: {
       profile: {
@@ -54,6 +72,7 @@ function createBasicInitialState(serviceHistory) {
       militaryInformation: {
         serviceHistory: {
           serviceHistory,
+          vetStatusEligibility: eligibility,
         },
       },
     },
@@ -62,7 +81,10 @@ function createBasicInitialState(serviceHistory) {
 
 describe('ProofOfVeteranStatus', () => {
   describe('when it exists', () => {
-    const initialState = createBasicInitialState([eligibleServiceHistoryItem]);
+    const initialState = createBasicInitialState(
+      [eligibleServiceHistoryItem],
+      confirmedEligibility,
+    );
 
     it('should render heading', () => {
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
@@ -93,11 +115,14 @@ describe('ProofOfVeteranStatus', () => {
   });
 
   describe('when eligible', () => {
-    const initialState = createBasicInitialState([
-      eligibleServiceHistoryItem,
-      ineligibleServiceHistoryItem,
-      neutralServiceHistoryItem,
-    ]);
+    const initialState = createBasicInitialState(
+      [
+        eligibleServiceHistoryItem,
+        ineligibleServiceHistoryItem,
+        neutralServiceHistoryItem,
+      ],
+      confirmedEligibility,
+    );
 
     it('should render card if service history contains an eligible discharge despite any other discharges', () => {
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
@@ -136,7 +161,10 @@ describe('ProofOfVeteranStatus', () => {
 
   describe('discharge status problem message', () => {
     it('should render if service history contains neither eligible nor ineligible discharges', () => {
-      const initialState = createBasicInitialState([neutralServiceHistoryItem]);
+      const initialState = createBasicInitialState(
+        [neutralServiceHistoryItem],
+        problematicEligibility,
+      );
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -151,10 +179,10 @@ describe('ProofOfVeteranStatus', () => {
 
   describe('ineligibility message', () => {
     it('should render if service history does not contain an eligible discharge, but does contain an inelible discharge', () => {
-      const initialState = createBasicInitialState([
-        ineligibleServiceHistoryItem,
-        neutralServiceHistoryItem,
-      ]);
+      const initialState = createBasicInitialState(
+        [ineligibleServiceHistoryItem, neutralServiceHistoryItem],
+        nonEligibility,
+      );
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });

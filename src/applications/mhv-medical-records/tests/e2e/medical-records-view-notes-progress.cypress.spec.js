@@ -26,11 +26,15 @@ describe('Medical Records Care Summary Page ', () => {
     );
     // Verify Progress Note Details Written by
     NotesDetailsPage.verifyProgressNoteWrittenBy(
-      notes.entry[0].resource.contained[0].name[0].text,
+      // notes.entry[0].resource.contained[0].name[0].text,
+      `${notes.entry[0].resource.contained[0].name[0].given[0]} ${
+        notes.entry[0].resource.contained[0].name[0].family
+      }`,
     );
     // Verify Progress Note Details Signed by
     NotesDetailsPage.verifyProgressNoteSignedBy(
-      notes.entry[0].resource.contained[2].name[0].text,
+      // notes.entry[0].resource.contained[2].name[0].text, // "text": "AHMED,MARUF"
+      'AHMED MARUF',
     );
     // Verify Progress Note Details Signed Date
     NotesDetailsPage.verifyProgressNoteSignedDate(

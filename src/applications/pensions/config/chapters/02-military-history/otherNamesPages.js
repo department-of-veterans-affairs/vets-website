@@ -68,6 +68,7 @@ const otherNamePage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Previous name',
       nounSingular: options.nounSingular,
+      hasMultipleItemPages: false,
     }),
     previousFullName: fullNameUI(title => `Previous ${title}`),
   },

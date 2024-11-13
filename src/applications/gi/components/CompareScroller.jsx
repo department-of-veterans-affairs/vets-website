@@ -1,7 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export default function({ currentScroll, divisions, divisionWidth, onClick }) {
+export default function CompareScroller({
+  currentScroll,
+  divisions,
+  divisionWidth,
+  onClick,
+}) {
   const currentPosition = Math.floor((currentScroll + 20) / divisionWidth);
   const circles = [];
 
@@ -51,3 +57,9 @@ export default function({ currentScroll, divisions, divisionWidth, onClick }) {
     </div>
   );
 }
+CompareScroller.propTypes = {
+  currentScroll: PropTypes.number.isRequired,
+  divisionWidth: PropTypes.number.isRequired,
+  divisions: PropTypes.number.isRequired,
+  onClick: PropTypes.func,
+};

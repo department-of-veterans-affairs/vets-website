@@ -34,6 +34,7 @@ const EditContactList = () => {
   const [allTriageTeams, setAllTriageTeams] = useState(null);
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
   const [checkboxError, setCheckboxError] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const [
     showBlockedTriageGroupAlert,
@@ -44,14 +45,12 @@ const EditContactList = () => {
 
   const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
 
+  const activeDraftId = useSelector(
+    state => state.sm.threadDetails?.drafts?.[0]?.messageId,
+  );
+
   const recipients = useSelector(state => state.sm.recipients);
-  const {
-    allFacilities,
-    blockedFacilities,
-    blockedRecipients,
-    allRecipients,
-    error,
-  } = recipients;
+  const { allFacilities, blockedFacilities, allRecipients, error } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -81,7 +80,9 @@ const EditContactList = () => {
 
   const navigateBack = useCallback(
     () => {
-      if (previousUrl) {
+      if (previousUrl === Paths.COMPOSE && activeDraftId) {
+        history.push(`${Paths.MESSAGE_THREAD}${activeDraftId}/`);
+      } else if (previousUrl) {
         history.push(previousUrl);
       } else {
         history.push(Paths.INBOX);
@@ -92,11 +93,16 @@ const EditContactList = () => {
 
   const handleSave = async e => {
     e.preventDefault();
+    if (isSaving) return;
+    setIsSaving(true);
     if (!isMinimumSelected) {
       await setCheckboxError(ErrorMessages.ContactList.MINIMUM_SELECTION);
       focusOnErrorField();
+      setIsSaving(false);
     } else {
-      dispatch(updateTriageTeamRecipients(allTriageTeams));
+      dispatch(updateTriageTeamRecipients(allTriageTeams)).finally(() => {
+        setIsSaving(false);
+      });
     }
   };
 
@@ -121,15 +127,6 @@ const EditContactList = () => {
       setAllTriageTeams(allRecipients);
     },
     [allRecipients],
-  );
-
-  useEffect(
-    () => {
-      if (blockedRecipients?.length > 0) {
-        setShowBlockedTriageGroupAlert(true);
-      }
-    },
-    [blockedRecipients],
   );
 
   useEffect(() => {
@@ -235,18 +232,16 @@ const EditContactList = () => {
       )}
       {allTriageTeams?.length > 0 && (
         <>
-          {showBlockedTriageGroupAlert && (
-            <div
-              className={`${allFacilities?.length > 1 &&
-                'vads-u-margin-bottom--4'}`}
-            >
-              <BlockedTriageGroupAlert
-                blockedTriageGroupList={blockedRecipients}
-                alertStyle={BlockedTriageAlertStyles.ALERT}
-                parentComponent={ParentComponent.CONTACT_LIST}
-              />
-            </div>
-          )}
+          <div
+            className={`${allFacilities?.length > 1 &&
+              'vads-u-margin-bottom--4'}`}
+          >
+            <BlockedTriageGroupAlert
+              alertStyle={BlockedTriageAlertStyles.ALERT}
+              parentComponent={ParentComponent.CONTACT_LIST}
+              setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+            />
+          </div>
 
           <form className="contactListForm">
             {allFacilities.map(stationNumber => {
@@ -285,17 +280,17 @@ const EditContactList = () => {
                   mobile-lg:vads-u-align-content--flex-start
                 "
             >
+              <GoBackButton />
               <va-button
                 text="Save contact list"
                 class="
-                    vads-u-margin-bottom--1
-                    mobile-lg:vads-u-margin-bottom--0
+                    vads-u-margin-y--1
+                    mobile-lg:vads-u-margin-y--0
                   "
                 onClick={e => handleSave(e)}
                 data-testid="contact-list-save"
                 data-dd-action-name="Contact List Save Button"
               />
-              <GoBackButton />
             </div>
             <GetFormHelp />
           </form>

@@ -40,9 +40,10 @@ const NewRecordsIndicator = ({
         extractType,
       );
       if (
-        !phase ||
-        phase === refreshPhases.IN_PROGRESS ||
-        phase === refreshPhases.STALE
+        (!phase ||
+          phase === refreshPhases.IN_PROGRESS ||
+          phase === refreshPhases.STALE) &&
+        !refreshState.isTimedOut
       ) {
         setRefreshedOnThisPage(true);
       }
@@ -161,9 +162,33 @@ const NewRecordsIndicator = ({
   };
 
   return (
-    <div className="vads-u-margin-y--2  no-print" id="new-records-indicator">
-      {content()}
-    </div>
+    <>
+      <div className="vads-u-margin-y--2 no-print" id="new-records-indicator">
+        {content()}
+      </div>
+      <div className="print-only">
+        {!lastSuccessfulUpdate && (
+          <>
+            <p>
+              <b>Your records may not be up to date.</b>
+            </p>
+            <p>
+              There’s a problem with our system, and we can’t access the date
+              your records were last updated. We’re sorry. Please check back
+              later for updates. If it still doesn’t work, call us at
+              877-327-0022 (TTY:711). We’re here Monday through Friday, 8:00 a.m
+              to 8:00 p. ET.
+            </p>
+          </>
+        )}
+        {lastSuccessfulUpdate && (
+          <p>
+            Last updated at {lastSuccessfulUpdate.time} on{' '}
+            {lastSuccessfulUpdate.date}
+          </p>
+        )}
+      </div>
+    </>
   );
 };
 

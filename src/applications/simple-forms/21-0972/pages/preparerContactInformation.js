@@ -1,6 +1,6 @@
 import {
   emailSchema,
-  emailUI,
+  emailToSendNotificationsUI,
   phoneUI,
   phoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -9,7 +9,7 @@ import {
 export default {
   uiSchema: {
     preparerPhone: phoneUI('Phone number'),
-    preparerEmail: emailUI('Email address'),
+    preparerEmail: emailToSendNotificationsUI,
   },
   schema: {
     type: 'object',
@@ -17,6 +17,6 @@ export default {
       preparerPhone: phoneSchema,
       preparerEmail: emailSchema,
     },
-    required: ['preparerPhone'],
+    required: ['preparerPhone', 'preparerEmail'],
   },
 };

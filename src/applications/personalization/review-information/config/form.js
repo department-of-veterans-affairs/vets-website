@@ -1,11 +1,31 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
+import { TITLE } from '../constants';
 import manifest from '../manifest.json';
-import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+const allContactInformationKeys = ['address', 'email', 'phone'];
+
+const content = getContent('form');
+content.title = '';
+content.description = null;
+
+const profileContactInfoPage = profileContactInfo({
+  contactPath: 'contact-information',
+  included: allContactInformationKeys,
+  contactInfoRequiredKeys: allContactInformationKeys,
+  addressKey: 'address',
+  mobilePhoneKey: 'phone',
+  contactInfoUiSchema: {},
+  disableMockContactInfo: true,
+  content,
+});
+
+profileContactInfoPage.confirmContactInfo.onNavForward = ({ goPath }) => {
+  goPath('confirmation');
+};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -15,7 +35,7 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'welcome-va-setup-review-information-',
-  introduction: IntroductionPage,
+  introduction: null,
   confirmation: ConfirmationPage,
   dev: {
     showNavLinks: true,
@@ -38,20 +58,20 @@ const formConfig = {
       'Please sign in again to continue your application for welcome va setup review information form.',
   },
   title: TITLE,
-  subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    infoPage: {
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
+        ...profileContactInfoPage,
       },
     },
+  },
+  customText: {
+    finishAppLaterMessage: ' ',
+    submitButtonText: 'Finish',
+  },
+  formOptions: {
+    noTopNav: true,
   },
   // getHelp,
   footerContent,

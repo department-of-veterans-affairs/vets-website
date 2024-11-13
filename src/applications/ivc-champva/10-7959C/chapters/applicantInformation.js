@@ -85,7 +85,7 @@ export const applicantAddressInfoSchema = {
             )} mailing address changed since their last CHAMPVA form submission?`,
             'ui:options': {
               labels,
-              hint: `If yes, we will update our records with the new mailing address`,
+              hint: `If yes, we will update our records with the new mailing address.`,
             },
           };
         },

@@ -1,20 +1,27 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
 import App from './containers/App';
-import NextStepsPage from './containers/NextStepsPage';
 
 const route = {
   path: '/',
   component: App,
-  indexRoute: { onEnter: (_nextState, replace) => replace('/introduction') },
+  indexRoute: {
+    onEnter: (nextState, replace) => {
+      const { location } = nextState;
 
-  childRoutes: [
-    {
-      path: 'next-steps',
-      component: NextStepsPage,
+      if (
+        location.pathname === '/introduction' &&
+        location.query.next === 'loginModal' &&
+        location.query.postLogin === 'true'
+      ) {
+        replace('/');
+      } else {
+        replace('/introduction');
+      }
     },
-    ...createRoutesWithSaveInProgress(formConfig),
-  ],
+  },
+
+  childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 
 export default route;

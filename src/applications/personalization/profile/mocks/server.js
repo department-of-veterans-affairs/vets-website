@@ -102,6 +102,7 @@ const responses = {
             profileShowMhvNotificationSettingsNewSecureMessaging: true,
             profileShowMhvNotificationSettingsMedicalImages: true,
             profileShowQuickSubmitNotificationSetting: false,
+            profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
             veteranOnboardingContactInfoFlow: true,
@@ -146,7 +147,13 @@ const responses = {
     // downtime for VA Profile aka Vet360 (according to service name in response)
     // return res.json(
     //   maintenanceWindows.createDowntimeActiveNotification([
-    //     maintenanceWindows.SERVICES.VA_PROFILE,
+    //     maintenanceWindows.SERVICES.VAPRO_PROFILE_PAGE,
+    //     maintenanceWindows.SERVICES.VAPRO_CONTACT_INFO,
+    //     maintenanceWindows.SERVICES.LIGHTHOUSE_DIRECT_DEPOSIT,
+    //     maintenanceWindows.SERVICES.VAPRO_MILITARY_INFO,
+    //     maintenanceWindows.SERVICES.VAPRO_NOTIFICATION_SETTINGS,
+    //     maintenanceWindows.SERVICES.VAPRO_HEALTH_CARE_CONTACTS,
+    //     maintenanceWindows.SERVICES.VAPRO_PERSONAL_INFO,
     //   ]),
     // );
   },

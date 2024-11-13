@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
@@ -354,3 +355,12 @@ export default function SchoolLocations({
     </div>
   );
 }
+SchoolLocations.propTypes = {
+  calculator: PropTypes.object.isRequired,
+  constants: PropTypes.object.isRequired,
+  eligibility: PropTypes.object.isRequired,
+  facilityMap: PropTypes.object.isRequired,
+  institution: PropTypes.object.isRequired,
+  version: PropTypes.string,
+  onViewLess: PropTypes.func,
+};

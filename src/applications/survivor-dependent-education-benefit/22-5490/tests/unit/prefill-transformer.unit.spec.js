@@ -51,7 +51,8 @@ describe('prefillTransformer', () => {
           ...mockInternationalClaimantInfo,
         });
         expect(
-          transformedClaimantInfo?.formData?.mailingAddressInput?.country,
+          transformedClaimantInfo?.formData?.mailingAddressInput?.address
+            ?.country,
         ).to.eql('ESP');
       });
     });
@@ -62,7 +63,8 @@ describe('prefillTransformer', () => {
           ...mockInternationalClaimantInfo,
         });
         expect(
-          transformedClaimantInfo?.formData?.mailingAddressInput?.state,
+          transformedClaimantInfo?.formData?.mailingAddressInput?.address
+            ?.state,
         ).to.eql('Comunidad De Madrid');
       });
     });
@@ -74,7 +76,8 @@ describe('prefillTransformer', () => {
         });
 
         expect(
-          transformedClaimantInfo?.formData?.mailingAddressInput?.postalCode,
+          transformedClaimantInfo?.formData?.mailingAddressInput?.address
+            ?.postalCode,
         ).to.eql('28014');
       });
     });
@@ -95,7 +98,8 @@ describe('prefillTransformer', () => {
         });
 
         expect(
-          transformedClaimantInfo?.formData?.mailingAddressInput?.country,
+          transformedClaimantInfo?.formData?.mailingAddressInput?.address
+            ?.country,
         ).to.eql('USA');
       });
     });
@@ -106,7 +110,8 @@ describe('prefillTransformer', () => {
           ...mockDomesticClaimantInfo,
         });
         expect(
-          transformedClaimantInfo?.formData?.mailingAddressInput?.state,
+          transformedClaimantInfo?.formData?.mailingAddressInput?.address
+            ?.state,
         ).to.eql('WI');
       });
     });
@@ -117,7 +122,8 @@ describe('prefillTransformer', () => {
           ...mockDomesticClaimantInfo,
         });
         expect(
-          transformedClaimantInfo?.formData?.mailingAddressInput?.postalCode,
+          transformedClaimantInfo?.formData?.mailingAddressInput?.address
+            ?.postalCode,
         ).to.eql('53005');
       });
     });

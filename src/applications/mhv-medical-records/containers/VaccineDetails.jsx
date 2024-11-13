@@ -8,13 +8,17 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  formatNameFirstLast,
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+} from '../util/helpers';
 import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -96,7 +100,7 @@ const VaccineDetails = props => {
     const content = `
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
@@ -146,7 +150,7 @@ Location: ${record.location}\n`;
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
           <div>
-            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--base vads-u-font-family--sans">
+            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-family--sans">
               Location
             </h2>
             <p
@@ -156,7 +160,7 @@ Location: ${record.location}\n`;
             >
               {record.location}
             </p>
-            {/* <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            {/* <h2 className="vads-u-font-size--md vads-u-font-family--sans vads-u-margin-bottom--0">
               Reactions recorded by provider
             </h2>
             <ItemList list={record.reactions} /> */}

@@ -120,3 +120,11 @@ article[data-location="review-and-submit"] {
     text-align: left;
   }
 }
+
+@media print {
+  body[data-location="confirmation"] {
+    h1 {
+      display: none;
+    }
+  }
+}

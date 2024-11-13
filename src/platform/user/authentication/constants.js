@@ -5,6 +5,7 @@ import environment from '../../utilities/environment';
 import {
   eauthEnvironmentPrefixes,
   cernerEnvPrefixes,
+  oracleHealthEnvPrefixes,
 } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
@@ -91,15 +92,6 @@ export const EXTERNAL_APPS = {
   ARP: 'arp',
 };
 
-export const SIGNOUT_TYPES = {
-  SLO: 'slo',
-};
-
-export const AUTH_BROKER = {
-  IAM: 'iam',
-  SIS: 'sis',
-};
-
 export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
 
 export const eAuthURL = `https://${
@@ -115,6 +107,12 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
+};
+
+export const EXTERNAL_REDIRECTS_ALT = {
+  [EXTERNAL_APPS.MY_VA_HEALTH]: `https://${
+    oracleHealthEnvPrefixes[environment.BUILDTYPE]
+  }patientportal.myhealth.va.gov`,
 };
 
 export const GA = {
@@ -161,6 +159,7 @@ export const AUTH_PARAMS = {
   to: 'to',
   redirectUri: 'redirect_uri',
   scope: 'scope',
+  verification: 'verification',
 };
 
 export const OCC_MOBILE = {

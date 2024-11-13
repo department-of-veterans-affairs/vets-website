@@ -21,10 +21,13 @@ import {
   focusOnChange,
   getFocusableElements,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import { Element } from 'platform/utilities/scroll';
+
 import { removeDuplicatesByChapterAndPageKey } from '../utils/reviewPageHelper';
 import ArrayField from './ArrayField';
 
-const { Element, scroller } = Scroll;
+const { scroller } = Scroll;
 const scrollOffset = -40;
 
 /*

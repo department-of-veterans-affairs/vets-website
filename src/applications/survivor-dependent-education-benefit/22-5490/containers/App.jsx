@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-// import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getAppData } from '../selectors';
-
+import { prefillTransformer } from '../helpers';
 import formConfig from '../config/form';
 
 import {
@@ -78,8 +78,7 @@ function App({
       }
 
       if (
-        formData?.mobilePhone &&
-        formData?.email &&
+        (formData?.mobilePhone?.phone || formData?.email) &&
         !formData?.duplicateEmail &&
         !formData?.duplicatePhone
       ) {
@@ -87,7 +86,7 @@ function App({
           [{ value: formData?.email?.email, dupe: '' }],
           [
             {
-              value: formData?.mobilePhone,
+              value: formData?.mobilePhone?.phone,
               dupe: '',
             },
           ],
@@ -98,9 +97,33 @@ function App({
   );
 
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <>
+      <div className="row">
+        <div className="vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            label="Breadcrumbs"
+            wrapping
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education',
+                label: 'Education and training',
+              },
+              {
+                href: '/education/survivor-dependent-education-benefit-22-5490',
+                label: 'Apply for survivor dependent benefits',
+              },
+            ]}
+          />
+        </div>
+      </div>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </>
   );
 }
 
@@ -108,7 +131,7 @@ const mapStateToProps = state => {
   return {
     ...getAppData(state),
     formData: state.form?.data || {},
-    claimant: state.data?.formData?.data?.attributes?.claimant,
+    claimant: prefillTransformer(null, null, null, state)?.formData,
     // fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     user: state.user,
   };

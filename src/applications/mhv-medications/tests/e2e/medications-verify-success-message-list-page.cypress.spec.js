@@ -27,5 +27,6 @@ describe('Medications Refill Submit Success Message Refill Page', () => {
     refillPage.verifyNetworkResponseForSuccessfulRefillRequest(
       prescription.data.attributes.prescriptionId,
     );
+    refillPage.verifyRefillSuccessDescriptionText();
   });
 });

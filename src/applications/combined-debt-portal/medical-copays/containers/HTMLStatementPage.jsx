@@ -1,20 +1,15 @@
 import React, { useEffect } from 'react';
-import { uniqBy } from 'lodash';
 
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  setPageFocus,
-  sortStatementsByDate,
-} from '../../combined/utils/helpers';
+import { setPageFocus } from '../../combined/utils/helpers';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
 import StatementCharges from '../components/StatementCharges';
 import DownloadStatement from '../components/DownloadStatement';
-import { OnThisPageStatements } from '../components/OnThisPageStatements';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import BalanceQuestions from '../components/BalanceQuestions';
@@ -25,8 +20,6 @@ const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
-  const sortedStatements = sortStatementsByDate(statements ?? []);
-  const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
 
@@ -41,6 +34,9 @@ const HTMLStatementPage = ({ match }) => {
   const fullName = userFullName.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
+  const acctNum = selectedCopay?.pHAccountNumber
+    ? selectedCopay?.pHAccountNumber.toString()
+    : selectedCopay?.pHCernerAccountNumber.toString();
 
   useHeaderPageTitle(title);
 
@@ -81,14 +77,14 @@ const HTMLStatementPage = ({ match }) => {
         <p className="va-introtext" data-testid="facility-name">
           {`${selectedCopay?.station.facilityName}`}
         </p>
-        <OnThisPageStatements />
+        <va-on-this-page />
         <AccountSummary
           currentBalance={selectedCopay.pHNewBalance}
           newCharges={selectedCopay.pHTotCharges}
           paymentsReceived={selectedCopay.pHTotCredits}
           previousBalance={selectedCopay.pHPrevBal}
           statementDate={statementDate}
-          acctNum={statementsByUniqueFacility[0].pHAccountNumber}
+          acctNum={selectedCopay.pHAccountNumber}
         />
         <StatementCharges
           data-testid="statement-charges"
@@ -106,10 +102,7 @@ const HTMLStatementPage = ({ match }) => {
           data-testid="statement-addresses"
           copay={selectedCopay}
         />
-        <HowToPay
-          acctNum={statementsByUniqueFacility[0].pHAccountNumber}
-          facility={statementsByUniqueFacility[0].station}
-        />
+        <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
         <FinancialHelp />
         <DisputeCharges />
         <BalanceQuestions />

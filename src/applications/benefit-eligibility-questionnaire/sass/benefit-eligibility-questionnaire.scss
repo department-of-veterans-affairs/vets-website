@@ -1,66 +1,62 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-#results-container {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-    @media (max-width: $small-screen) {
-        flex-direction: column;
-    }
+.benefit-eligibility-questionnaire .confirmation-page p,
+.benefit-eligibility-questionnaire article p,
+.benefit-eligibility-questionnaire form > div:first-of-type * {
+  width: 75ch !important;
+}
+
+.benefit-eligibility-questionnaire .schemaform-subtitle {
+  @media (min-width: $medium-screen) {
+    width: 100%;
+    white-space: pre-line;
+  }
+}
+
+.benefit-eligibility-questionnaire .row {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 #filters-section-desktop {
-    flex: 1 1 600px;
-    margin-right: 20px;
+  @media (min-width: $medium-screen) {
     border-right: 2px solid var(--vads-color-gray-medium);
     padding-right: 20px;
-    min-height: 200px;
-    text-align: left;
-    @media (max-width: $small-screen) {
-        display: none;
-    }
-}
-
-#filters-section-desktop p {
-  margin: 10px 0 5px 0;
+  }
 }
 
 #filters-section-desktop select {
-  margin-bottom: 35px
+  margin-bottom: 35px;
 }
 
-#filters-section-mobile {
-    flex: 1 1 auto;
-    margin-bottom: 20px;
-    @media (min-width: $small-screen) {
-        display: none;
-    }
+#filters-section-mobile-toggle {
+  margin-bottom: 20px;
+  @media (min-width: $small-screen) {
+    display: none;
+  }
 }
 
 #save-your-results {
-    @media (max-width: $small-screen) {
-        width: 100%;
-    }
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
 }
 
-#url-input, #copy-button {
-    display: inline-block;
+#url-input,
+#copy-button {
+  display: inline-block;
 }
 
 #url-input {
   margin-right: 10px;
   margin-bottom: 10px;
   width: 80%;
-}
-
-#results-section {
-    flex: 1 1 auto;
 }
 
 #root_characterOfDischarge-label .schemaform-required-span {
@@ -84,8 +80,6 @@
 
 @media (max-width: 40.063em) {
   .vads-l-grid-container {
-    padding-left: 0;
-    padding-right: 0;
 
     .progress-box {
       padding-left: 0;
@@ -99,5 +93,19 @@
     .columns {
       width: 100%;
     }
+  }
+  .show-filters-section-mobile {
+    padding-right: 20px;
+    text-align: left;
+  }
+  .show-filters-section-mobile b {
+    display: none;
+  }
+  .hide-filters-section-mobile {
+    display: none;
+  }
+
+  .benefit-list {
+    padding-left: 0;
   }
 }

@@ -4,6 +4,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import { Toggler } from 'platform/utilities/feature-toggles';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import recordEvent from 'platform/monitoring/record-event';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { showNewHlrContent } from '../utils/helpers';
 import { validateConferenceChoice } from '../validations';
@@ -69,6 +70,9 @@ export const InformalConference = ({
     );
     const errorMsg = error?.[0] || null;
     setHasError(errorMsg);
+    if (errorMsg) {
+      scrollToFirstError({ focusOnAlertRole: true });
+    }
     return errorMsg;
   };
 
@@ -93,6 +97,11 @@ export const InformalConference = ({
         goForward(data);
       }
     },
+    onUpdatePage: event => {
+      if (!checkErrors(data) && conference !== '') {
+        updatePage(event);
+      }
+    },
     onSelectionOriginal: event => {
       const { value } = event?.detail || {};
       if (value) {
@@ -106,9 +115,11 @@ export const InformalConference = ({
     onSelectionNew: event => {
       const { value } = event?.detail || {};
       if (value) {
+        const conf = data.informalConference;
         const formData = {
           ...data,
           informalConferenceChoice: value,
+          informalConference: value !== 'no' && conf === 'no' ? '' : conf,
         };
         update(formData, value, newInformalConferenceLabels[value]);
       }
@@ -118,7 +129,7 @@ export const InformalConference = ({
   const navButtons = onReviewPage ? (
     <va-button
       text={updateButtonText}
-      onClick={updatePage}
+      onClick={handlers.onUpdatePage}
       class="vads-u-margin-bottom--4"
     />
   ) : (

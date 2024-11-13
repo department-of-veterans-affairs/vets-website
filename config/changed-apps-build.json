@@ -21,10 +21,6 @@
       "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
     },
     {
-      "rootFolder": "coronavirus-research",
-      "slackGroup": "@cto-health-products"
-    },
-    {
       "rootFolder": "coronavirus-screener",
       "slackGroup": "@cto-health-products"
     },

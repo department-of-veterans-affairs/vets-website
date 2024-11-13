@@ -48,6 +48,7 @@ export const ConfirmationPageV2 = () => {
           alt="VA logo"
           width="300"
         />
+        <h2 className="vads-u-margin-top--0">Request a Board Appeal</h2>
       </div>
 
       <va-alert status="success" ref={alertRef} uswds>

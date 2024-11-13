@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useLayoutEffect,
 } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -322,6 +323,18 @@ const mapDispatchToProps = {
   setPageTitle,
   dispatchShowModal: showModal,
   dispatchHideModal: hideModal,
+};
+
+ComparePage.propTypes = {
+  allLoaded: PropTypes.bool.isRequired,
+  calculated: PropTypes.object.isRequired,
+  compare: PropTypes.object.isRequired,
+  dispatchFetchCompareDetails: PropTypes.func.isRequired,
+  dispatchRemoveCompareInstitution: PropTypes.func.isRequired,
+  estimated: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
+  preview: PropTypes.object.isRequired,
+  gibctSchoolRatings: PropTypes.bool,
 };
 
 export default connect(

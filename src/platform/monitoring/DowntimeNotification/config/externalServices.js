@@ -17,6 +17,8 @@ export default {
   evss: 'evss',
   '1010ez': '1010ez',
   '1010ezr': '1010ezr',
+  // IVC CHAMPVA form controls
+  form107959f1: 'form107959f1',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)
@@ -25,6 +27,10 @@ export default {
   idme: 'idme',
   // COE, Certificate of Eligibility form and LGY Eligibility Manager API
   coe: 'coe',
+  // Lighthouse Benefits Claims API
+  lighthouseBenefitsClaims: 'lighthouse_benefits_claims',
+  // Lighthouse Benefits Intake API
+  lighthouseBenefitsIntake: 'lighthouse_benefits_intake',
   // Login.gov, identity provider
   logingov: 'logingov',
   // Master Veteran Index (source of veteran profile info)
@@ -41,6 +47,8 @@ export default {
   mhvMeds: 'mhv_meds',
   // PEGA form ingestion for IVC CHAMPVA forms (10-10d, 10-7959x)
   pega: 'pega',
+  // SAHSHA API for form 26-4555
+  sahsha: 'sahsha',
   // Search.gov API
   search: 'search',
   // The Image Management System (education forms)
@@ -67,4 +75,13 @@ export default {
   pcie: 'pcie',
   // Travel claim
   tc: 'tc',
+
+  // Sources for VA Profile services:
+  VAPRO_PROFILE_PAGE: 'vapro_profile_page',
+  VAPRO_CONTACT_INFO: 'vapro_contact_info',
+  LIGHTHOUSE_DIRECT_DEPOSIT: 'lighthouse_direct_deposit',
+  VAPRO_MILITARY_INFO: 'vapro_military_info',
+  VAPRO_NOTIFICATION_SETTINGS: 'vapro_notification_settings',
+  VAPRO_HEALTH_CARE_CONTACTS: 'vapro_health_care_contacts',
+  VAPRO_PERSONAL_INFO: 'vapro_personal_info',
 };

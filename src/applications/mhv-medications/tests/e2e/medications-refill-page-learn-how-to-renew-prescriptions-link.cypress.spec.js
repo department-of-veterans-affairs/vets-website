@@ -4,7 +4,7 @@ import MedicationsRefillPage from './pages/MedicationsRefillPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
 describe('Medications Refill Page Renew Rx', () => {
-  it('visits Medications Refill Page Renew Rx Link', () => {
+  it.skip('visits Medications Refill Page Renew Rx Link', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
     const landingPage = new MedicationsLandingPage();

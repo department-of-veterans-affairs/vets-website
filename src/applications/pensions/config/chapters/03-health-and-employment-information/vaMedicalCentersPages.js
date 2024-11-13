@@ -19,6 +19,8 @@ const options = {
   text: {
     getItemName: item => item?.medicalCenter,
     summaryTitleWithoutItems: 'Treatment from VA medical facilities',
+    cancelEditTitle: 'Cancel editing this VA medical facility',
+    deleteTitle: 'Delete VA medical facility',
   },
 };
 
@@ -50,6 +52,8 @@ const vaMedicalCenterPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'VA medical center',
       nounSingular: options.nounSingular,
+      lowerCase: false,
+      hasMultipleItemPages: false,
     }),
     medicalCenter: textUI('VA medical center'),
   },

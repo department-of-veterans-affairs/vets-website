@@ -66,7 +66,7 @@ const internationalPhoneUI = options => {
     typeof options === 'object' ? options : { title: options };
 
   return {
-    'ui:title': title ?? 'International Phone number',
+    'ui:title': title ?? 'International phone number',
     'ui:webComponentField': VaTextInputField,
     'ui:reviewWidget': PhoneNumberReviewWidget,
     'ui:autocomplete': 'tel',
@@ -77,7 +77,7 @@ const internationalPhoneUI = options => {
     'ui:errorMessages': {
       required: 'Enter up to a 15-digit phone number (with or without dashes)',
       pattern:
-        'Enter a valid international phone number up to 15-digits (with our without dashes)',
+        'Enter a valid international phone number up to 15-digits (with or without dashes)',
     },
   };
 };

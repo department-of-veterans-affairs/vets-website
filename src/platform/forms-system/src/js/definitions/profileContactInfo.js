@@ -14,8 +14,10 @@ import {
   standardEmailSchema,
   profileAddressSchema,
   blankSchema,
+  getReturnState,
   clearReturnState,
 } from '../utilities/data/profile';
+import { scrollTo, focusElement } from '../../../../utilities/ui';
 
 /**
  * Profile settings
@@ -87,6 +89,7 @@ const profileContactInfo = ({
   // depends callback for contact info page
   depends = null,
   contactInfoUiSchema = {},
+  disableMockContactInfo = false,
 } = {}) => {
   const config = {};
   const wrapperProperties = {};
@@ -162,6 +165,7 @@ const profileContactInfo = ({
           keys,
           requiredKeys: contactInfoRequiredKeys,
           contactInfoPageKey,
+          disableMockContactInfo,
         }),
       CustomPageReview: props =>
         ContactInfoReview({
@@ -187,6 +191,13 @@ const profileContactInfo = ({
       onFormExit: formData => {
         clearReturnState();
         return formData;
+      },
+      // overide scroll & focus header
+      scrollAndFocusTarget: () => {
+        if (!getReturnState()) {
+          scrollTo('topContentElement');
+          focusElement('h3');
+        }
       },
     },
     // edit pages; only accessible via ContactInfo component links

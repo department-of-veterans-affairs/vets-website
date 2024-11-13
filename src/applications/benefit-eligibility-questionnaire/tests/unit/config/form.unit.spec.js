@@ -39,22 +39,9 @@ describe('Questionnaire Form', () => {
 
 describe('Questionnaire Form - Title Function', () => {
   describe('title function', () => {
-    it('should return "Your benefits and resources" when on the confirmation page', () => {
-      const currentLocation = { pathname: '/confirmation' };
-      const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Your benefits and resources');
-    });
-
-    it('should return "Review your entries" when on the review page', () => {
-      const currentLocation = { pathname: '/review-and-submit' };
-      const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Review your entries');
-    });
-
-    it('should return "Benefit and resource recommendation tool" by default', () => {
-      const currentLocation = { pathname: '/some-other-page' };
-      const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Benefit and resource recommendation tool');
+    it('should return "Discover your benefits" by default', () => {
+      const { title } = formConfig;
+      expect(title).to.equal('Discover your benefits');
     });
   });
 });
@@ -77,7 +64,8 @@ describe('Questionnaire Form - SubTitle Function', () => {
       const currentLocation = { pathname: '/some-other-page' };
       const title = formConfig.subTitle({ currentLocation });
       expect(title).to.equal(
-        'Please answer the questions to help us recommend helpful resources and benefits.',
+        `Please answer the questions to help us recommend
+helpful resources and benefits.`,
       );
     });
   });
@@ -111,14 +99,14 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
   describe('depends function for militaryServiceCompleted', () => {
     it('should return true if militaryServiceCurrentlyServing is "Yes"', () => {
       const formData = {
-        militaryServiceCurrentlyServing: 'Yes',
+        militaryServiceCurrentlyServing: true,
       };
       expect(militaryServiceCompletedPage.depends(formData)).to.be.true;
     });
 
     it('should return false if militaryServiceCurrentlyServing is not "Yes"', () => {
       const formData = {
-        militaryServiceCurrentlyServing: 'No',
+        militaryServiceCurrentlyServing: false,
       };
       expect(militaryServiceCompletedPage.depends(formData)).to.be.false;
     });
@@ -127,7 +115,7 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
   describe('onNavForward function for militaryServiceCompleted', () => {
     it('should navigate to separation page if militaryServiceCurrentlyServing is "Yes"', () => {
       const formData = {
-        militaryServiceCurrentlyServing: 'Yes',
+        militaryServiceCurrentlyServing: true,
       };
       const goPathMock = path => {
         expect(path).to.equal(
@@ -166,8 +154,8 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
 
   it('should call goPath if militaryServiceCurrentlyServing is "Yes"', () => {
     const formData = {
-      militaryServiceCurrentlyServing: 'Yes',
-      militaryServiceCompleted: 'No',
+      militaryServiceCurrentlyServing: true,
+      militaryServiceCompleted: false,
     };
     let goPathCalled = false;
     let calledWith = '';

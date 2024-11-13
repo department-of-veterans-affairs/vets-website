@@ -190,7 +190,7 @@ describe('extractPractitioner', () => {
         },
       ],
     };
-    expect(extractPractitioner(record, svcReq)).to.equal('DOE, JANE A');
+    expect(extractPractitioner(record, svcReq)).to.equal('JANE A DOE');
   });
 
   it('should return null if the practitioner is not found', () => {
@@ -386,7 +386,7 @@ describe('buildRadiologyResults', () => {
   });
 });
 
-describe.skip('labsAndTestsReducer', () => {
+describe('labsAndTestsReducer', () => {
   it('creates a list', () => {
     const labsAndTestsResponse = {
       entry: [

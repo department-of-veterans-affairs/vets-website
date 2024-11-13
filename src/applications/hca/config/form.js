@@ -7,7 +7,8 @@ import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/cons
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 
 // internal imports
-import { prefillTransformer, transform } from '../utils/helpers';
+import { prefillTransformer } from './prefill-transformer';
+import { transform } from '../utils/helpers';
 import {
   isLoggedOut,
   isSigiEnabled,
@@ -24,7 +25,12 @@ import {
   showRegOnlyGuestConfirmation,
   dischargePapersRequired,
   includeTeraInformation,
+  includeRadiationCleanUpEfforts,
+  includeGulfWarService,
   includeGulfWarServiceDates,
+  includePostSept11Service,
+  includePostSept11ServiceDates,
+  includeAgentOrangeExposure,
   includeOtherExposureDates,
   includeOtherExposureDetails,
   showFinancialConfirmation,
@@ -34,8 +40,6 @@ import {
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   collectMedicareInformation,
-  useJsonFacilityList,
-  useLighthouseFacilityList,
 } from '../utils/helpers/form-config';
 import { SHARED_PATHS } from '../utils/constants';
 import migrations from './migrations';
@@ -80,6 +84,8 @@ import toxicExposure from './chapters/militaryService/toxicExposure';
 import radiationCleanup from './chapters/militaryService/radiationCleanup';
 import gulfWarService from './chapters/militaryService/gulfWarService';
 import gulfWarServiceDates from './chapters/militaryService/gulfWarServiceDates';
+import postSept11Service from './chapters/militaryService/postSept11Service';
+import postSept11ServiceDates from './chapters/militaryService/postSept11ServiceDates';
 import combatOperationService from './chapters/militaryService/combatOperationService';
 import agentOrangeExposure from './chapters/militaryService/agentOrangeExposure';
 import otherToxicExposure from './chapters/militaryService/otherToxicExposure';
@@ -111,7 +117,6 @@ import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import general from './chapters/insuranceInformation/general';
 import insurancePolicyPages from './chapters/insuranceInformation/insurancePolicies';
-import vaFacilityJsonPage from './chapters/insuranceInformation/vaFacility_json';
 import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
 import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
 
@@ -352,23 +357,37 @@ const formConfig = {
         radiationCleanup: {
           path: 'military-service/radiation-cleanup-efforts',
           title: 'Radiation cleanup or response efforts',
-          depends: includeTeraInformation,
+          depends: includeRadiationCleanUpEfforts,
           uiSchema: radiationCleanup.uiSchema,
           schema: radiationCleanup.schema,
         },
         gulfWarService: {
           path: 'military-service/gulf-war-service',
-          title: 'Gulf War service locations',
-          depends: includeTeraInformation,
+          title: 'Service after August 2, 1990',
+          depends: includeGulfWarService,
           uiSchema: gulfWarService.uiSchema,
           schema: gulfWarService.schema,
         },
         gulfWarServiceDates: {
           path: 'military-service/gulf-war-service-dates',
-          title: 'Gulf War service dates',
+          title: 'Service dates after August 2, 1990',
           depends: includeGulfWarServiceDates,
           uiSchema: gulfWarServiceDates.uiSchema,
           schema: gulfWarServiceDates.schema,
+        },
+        postSept11Service: {
+          path: 'military-service/post-sept-11-service',
+          title: 'Service post-9/11',
+          depends: includePostSept11Service,
+          uiSchema: postSept11Service.uiSchema,
+          schema: postSept11Service.schema,
+        },
+        postSept11ServiceDates: {
+          path: 'military-service/post-sept-11-service-dates',
+          title: 'Post-9/11 service dates',
+          depends: includePostSept11ServiceDates,
+          uiSchema: postSept11ServiceDates.uiSchema,
+          schema: postSept11ServiceDates.schema,
         },
         combatOperationService: {
           path: 'military-service/operation-support',
@@ -380,7 +399,7 @@ const formConfig = {
         agentOrangeExposure: {
           path: 'military-service/agent-orange-exposure',
           title: 'Agent Orange exposure',
-          depends: includeTeraInformation,
+          depends: includeAgentOrangeExposure,
           uiSchema: agentOrangeExposure.uiSchema,
           schema: agentOrangeExposure.schema,
         },
@@ -584,23 +603,12 @@ const formConfig = {
           ...insurancePolicyPages.healthInsurancePolicyInformation,
           depends: formData => formData['view:isInsuranceV2Enabled'],
         },
-        vaFacilityJson: {
-          path: 'insurance-information/va-facility-json',
-          title: 'VA Facility',
-          initialData: {
-            isEssentialAcaCoverage: false,
-          },
-          depends: useJsonFacilityList,
-          uiSchema: vaFacilityJsonPage.uiSchema,
-          schema: vaFacilityJsonPage.schema,
-        },
         vaFacilityLighthouse: {
           path: 'insurance-information/va-facility-api',
           title: 'VA Facility',
           initialData: {
             isEssentialAcaCoverage: false,
           },
-          depends: useLighthouseFacilityList,
           uiSchema: vaFacilityApiPage.uiSchema,
           schema: vaFacilityApiPage.schema,
         },

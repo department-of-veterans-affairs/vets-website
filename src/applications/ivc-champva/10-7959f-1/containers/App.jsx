@@ -23,17 +23,23 @@ export default function App({ location, children }) {
   ];
   const bcString = JSON.stringify(breadcrumbList);
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <va-breadcrumbs breadcrumb-list={bcString} />
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        <DowntimeNotification
-          appTitle={`CHAMPVA Form ${formConfig.formId}`}
-          dependencies={[externalServices.pega]}
-        >
-          {children}
-        </DowntimeNotification>
-      </RoutedSavableApp>
-    </div>
+    <>
+      <meta content="noindex" />
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
+        <va-breadcrumbs breadcrumb-list={bcString} />
+        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+          <DowntimeNotification
+            appTitle={`CHAMPVA Form ${formConfig.formId}`}
+            dependencies={[
+              externalServices.pega,
+              externalServices.form107959f1,
+            ]}
+          >
+            {children}
+          </DowntimeNotification>
+        </RoutedSavableApp>
+      </div>
+    </>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
@@ -130,6 +131,7 @@ export function CompareDrawer({
                 {institutions[facilityCode].name}
               </div>
               <div className="vads-u-padding-top--1p5">
+                {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
                 <button
                   type="button"
                   className="va-button-link learn-more-button"
@@ -292,6 +294,7 @@ export function CompareDrawer({
                     You can compare 2 to 3 institutions
                   </div>
                   <div className="vads-u-margin-right--2">
+                    {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
                     <button
                       type="button"
                       tabIndex={0}
@@ -331,6 +334,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchRemoveCompareInstitution: removeCompareInstitution,
   dispatchCompareDrawerOpened: compareDrawerOpened,
+};
+
+CompareDrawer.propTypes = {
+  compare: PropTypes.object.isRequired,
+  dispatchCompareDrawerOpened: PropTypes.func.isRequired,
+  dispatchRemoveCompareInstitution: PropTypes.func.isRequired,
+  displayed: PropTypes.bool.isRequired,
+  preview: PropTypes.object.isRequired,
+  alwaysDisplay: PropTypes.bool,
 };
 
 export default connect(

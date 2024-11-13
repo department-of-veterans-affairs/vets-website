@@ -1,8 +1,8 @@
-import App from './containers/App';
+import InterstitialChanges from './containers/InterstitialChanges';
 
 const routes = {
   path: '/',
-  component: App,
+  component: InterstitialChanges,
 };
 
 export default routes;

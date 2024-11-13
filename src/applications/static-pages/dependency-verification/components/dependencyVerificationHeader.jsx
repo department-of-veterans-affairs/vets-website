@@ -3,7 +3,7 @@ import React from 'react';
 const DependencyVerificationHeader = () => {
   return (
     <>
-      <h1 className="vads-u-padding-top--3 small-screen:vads-u-padding-top--0">
+      <h1 className="vads-u-padding-top--3 mobile-lg:vads-u-padding-top--0">
         Please make sure your dependents are correct
       </h1>
       <p>

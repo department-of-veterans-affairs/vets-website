@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   VaButton,
@@ -16,9 +16,10 @@ import {
   getRefillablePrescriptionsList,
   getAllergiesList,
   fillPrescriptions,
+  clearFillNotification,
 } from '../actions/prescriptions';
 import { dateFormat } from '../util/helpers';
-import { selectRefillContentFlag } from '../util/selectors';
+import { selectRefillContentFlag, selectFilterFlag } from '../util/selectors';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
 import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
@@ -54,7 +55,11 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
   );
+  const refillNotificationData = useSelector(
+    state => state.rx.prescriptions?.refillNotification,
+  );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const showFilterContent = useSelector(selectFilterFlag);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
   const userName = useSelector(state => state.user.profile.userFullName);
@@ -116,6 +121,9 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   };
 
   useEffect(() => {
+    if (refillNotificationData) {
+      dispatch(clearFillNotification());
+    }
     sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
   }, []);
 
@@ -296,9 +304,32 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
                 <CernerFacilityAlert className="vads-u-margin-top--2" />
               </>
             )}
-            <RenewablePrescriptions
-              renewablePrescriptionsList={fullRenewList}
-            />
+            {showFilterContent ? (
+              <p
+                className="vads-u-margin-top--3"
+                data-testid="note-refill-page"
+              >
+                <strong>Note:</strong> If you can’t find the prescription you’re
+                looking for, you may need to renew it. Go to your medications
+                list and filter by “renewal needed before refill.”
+                <div className="vads-u-margin-top--2">
+                  <Link
+                    data-testid="medications-page-link"
+                    to="/"
+                    data-dd-action-name={
+                      dataDogActionNames.refillPage
+                        .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW
+                    }
+                  >
+                    Go to your medications list
+                  </Link>
+                </div>
+              </p>
+            ) : (
+              <RenewablePrescriptions
+                renewablePrescriptionsList={fullRenewList}
+              />
+            )}
           </>
         )}
       </div>

@@ -7,7 +7,6 @@ import mockRecipients from '../fixtures/recipients-response.json';
 import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.json';
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
-import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Assertions, Paths } from '../utils/constants';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
@@ -237,7 +236,7 @@ class PatientInboxPage {
     return newMessage;
   };
 
-  loadPageForNoProvider = (doAxeCheck = false) => {
+  loadPageForNoProvider = (mockRecipientsResponse, doAxeCheck = false) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
     mockMessages.data.at(
@@ -291,7 +290,7 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`,
-      mockNoRecipients,
+      mockRecipientsResponse,
     ).as('recipients');
 
     cy.visit(Paths.UI_MAIN + Paths.INBOX);
@@ -736,6 +735,23 @@ class PatientInboxPage {
           expect(el.toUpperCase()).to.be.oneOf(data);
         });
     });
+  };
+
+  maintenanceWindowResponse = (startDate, endDate) => {
+    return {
+      data: [
+        {
+          id: '139',
+          type: 'maintenance_windows',
+          attributes: {
+            externalService: 'mhv_sm',
+            description: 'Description for mhv_sm',
+            startTime: startDate,
+            endTime: endDate,
+          },
+        },
+      ],
+    };
   };
 }
 
