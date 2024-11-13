@@ -1,0 +1,7 @@
+{
+  "appName": "Benefit Eligibility Questionnaire - All Benefits",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "benefit-eligibility-questionnaire-all-benefits",
+  "rootUrl": "/benefit-eligibility-questionnaire-2/all-benefits",
+  "productId": "3b0a6e4f-5866-456c-9355-6be1956f6178"
+}
