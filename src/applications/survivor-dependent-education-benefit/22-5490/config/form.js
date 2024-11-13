@@ -1226,15 +1226,10 @@ const formConfig = {
                     <Link
                       aria-label="Go back and add a mobile phone number"
                       to={{
-                        pathname: '/contact-information',
+                        pathname: 'contact-information',
                       }}
                     >
-                      <va-button
-                        uswds
-                        onClick={() => {}}
-                        secondary
-                        text="Go back and add a mobile phone number"
-                      />
+                      Go back and add a mobile phone number
                     </Link>
                   </div>
                 </va-alert>
