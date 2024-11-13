@@ -1,4 +1,5 @@
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 const labels = {
   veteran: "I'm a Veteran",
@@ -13,11 +14,9 @@ const labels = {
 };
 
 export const uiSchema = {
+  ...titleUI('Describe yourself'),
   veteranDesc: {
     'ui:title': 'Which of these best describes you?',
-    'ui:options': {
-      labelHeaderLevel: '3',
-    },
     'ui:webComponentField': VaRadioField,
     'ui:errorMessages': {
       required: 'You must select one of the options',

@@ -1,18 +1,12 @@
 import React from 'react';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 
 const { ethnicity } = fullSchema10282.properties;
 
 const uiSchema = {
-  'ui:title': (
-    <h3
-      className="vads-u-margin--0 vads-u-color--base"
-      data-testid="ethnicity-and-race"
-    >
-      Your ethnicity and race
-    </h3>
-  ),
+  ...titleUI('Your ethnicity and race'),
   ethnicity: {
     'ui:title': 'What is your ethnicity?',
     'ui:widget': 'radio',

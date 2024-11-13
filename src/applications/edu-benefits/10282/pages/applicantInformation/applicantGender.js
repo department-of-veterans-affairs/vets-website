@@ -46,10 +46,14 @@ export const genderInfoHelpText = (
 
 const uiSchema = {
   gender: {
-    'ui:title': 'How would you describe your gender?',
-    'ui:options': {
-      labelHeaderLevel: '3',
-    },
+    'ui:title': (
+      <h3
+        className="vads-u-margin-bottom-2 vads-u-color--gray-dark"
+        data-testid="gender"
+      >
+        How would you describe your gender?
+      </h3>
+    ),
     'ui:description': genderInfoHelpText,
     'ui:widget': 'radio',
   },

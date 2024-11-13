@@ -1,25 +1,19 @@
 import React from 'react';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 
 const { highestLevelOfEducation } = fullSchema10282.properties;
 
 const uiSchema = {
+  ...titleUI('Education'),
   highestLevelOfEducation: {
-    'ui:title': (
-      <h3
-        className="vads-u-margin--0 vads-u-color--base"
-        data-testid="optional-education"
-      >
-        What’s the highest level of education you have completed?
-      </h3>
-    ),
     'ui:widget': 'radio',
     'ui:options': {
       labels: highestLevelOfEducation.properties.level.enum,
     },
     level: {
       'ui:widget': 'radio',
-      'ui:title': ' ',
+      'ui:title': 'What’s the highest level of education you have completed?',
     },
     otherEducation: {
       'ui:title': (
@@ -32,7 +26,7 @@ const uiSchema = {
         hideIf: formData =>
           formData.highestLevelOfEducation.level !== 'Something else',
         classNames:
-          'schemaform-field-template vads-u-margin-left--4 vads-u-margin-top--neg3 form-expanding-group-open',
+          'schemaform-field-template vads-u-margin-left--4 vads-u-margin-top--neg2 form-expanding-group-open',
       },
     },
   },
