@@ -43,6 +43,7 @@ import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
 
 import transformForSubmit from './transformForSubmit';
+import prefillTransformer from './prefill-transformer';
 
 import Footer from '../components/Footer';
 
@@ -155,6 +156,7 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  prefillTransformer,
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   preSubmitInfo,

@@ -9,7 +9,7 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const dropdownSchema = [
+export const dropdownSchema = [
   {
     label: 'category',
     options: [
@@ -80,11 +80,7 @@ export default function LicenseCertificationSearchForm({ handleSearch }) {
       <div>
         {/* <VaSearchInput */}
         <va-text-input
-          label={
-            dropdowns[0].current.optionValue !== 'Prep Course'
-              ? 'License/Certification Name'
-              : 'Course Name'
-          }
+          label="License/Certification Name"
           ref={nameSearchRef}
           // suggestions={mockSuggestions}
           className="lc-dropdown-filter"

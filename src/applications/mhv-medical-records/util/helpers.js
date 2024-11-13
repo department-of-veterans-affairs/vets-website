@@ -518,8 +518,8 @@ export const formatNameFirstToLast = name => {
       }
 
       const parts = name?.text.split(',');
-      if (parts.length !== 2) {
-        return name;
+      if (parts?.length !== 2) {
+        return name.text;
       }
       const [lastname, firstname] = parts;
       return `${firstname} ${lastname}`;
