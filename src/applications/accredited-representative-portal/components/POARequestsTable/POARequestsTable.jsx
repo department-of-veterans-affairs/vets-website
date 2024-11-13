@@ -1,7 +1,7 @@
-import upperFirst from 'lodash/upperFirst';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
+import './POARequestsTable.scss';
 
 export const createRelationshipCell = attributes => {
   if ('veteran' in attributes) {
@@ -20,19 +20,7 @@ export const createLimitationsCell = (
   if (!isTreatmentDisclosureAuthorized) limitations.push('Health');
   if (!isAddressChangingAuthorized) limitations.push('Address');
 
-  return limitations.length > 0 ? (
-    <div className="limitations-row">
-      <va-icon
-        class="limitations-row__warning-icon"
-        icon="warning"
-        size={3}
-        srtext="warning"
-      />
-      {limitations.join(', ')}
-    </div>
-  ) : (
-    'None'
-  );
+  return limitations.length > 0 ? limitations.join(', ') : 'None';
 };
 
 export const formatDate = date => {
@@ -48,64 +36,97 @@ export const formatDate = date => {
 
 const POARequestsTable = ({ poaRequests }) => {
   return (
-    <va-table data-testid="poa-requests-table" sort-column={1}>
-      <va-table-row slot="headers">
-        <span data-testid="poa-requests-table-headers-status">Status</span>
-        <span data-testid="poa-requests-table-headers-name">
-          Veteran/Claimant
-        </span>
-        <span data-testid="poa-requests-table-headers-limitations">
-          Limitations of consent
-        </span>
-        <span data-testid="poa-requests-table-headers-city">City</span>
-        <span data-testid="poa-requests-table-headers-state">State</span>
-        <span data-testid="poa-requests-table-headers-zip">Zip</span>
-        <span data-testid="poa-requests-table-headers-received">
-          Date received
-        </span>
-      </va-table-row>
+    <ul
+      data-testid="poa-requests-table"
+      className="poa-requests__list"
+      sort-column={1}
+    >
       {poaRequests.map(({ id, attributes }) => (
-        <va-table-row key={id}>
-          <span data-testid={`poa-requests-table-${id}-status`}>
-            {upperFirst(attributes.status)}
-          </span>
-          <span>
+        <li key={id}>
+          <va-card class="poa-requests__card">
             <Link
               data-testid={`poa-requests-table-${id}-name`}
               to={`/poa-requests/${id}`}
             >
-              {`${attributes.claimant.lastName}, ${
-                attributes.claimant.firstName
-              }`}
+              <h3 className="poa-requests__card-name vads-u-font-size--h4">
+                {`${attributes.claimant.lastName},
+                ${attributes.claimant.firstName}`}
+              </h3>
             </Link>
-            <div
-              data-testid={`poa-requests-table-${id}-relationship`}
-              className="relationship-row"
-            >
+            <p className="poa-requests__card-group">
               {createRelationshipCell(attributes)}
+            </p>
+
+            <div className="poa-requests__row">
+              <div className="poa-requests__col">
+                <p className="poa-requests__card-label">City</p>
+                <p className="poa-requests__card-data">
+                  {attributes.claimantAddress.city}
+                </p>
+              </div>
+
+              <div className="poa-requests__col">
+                <p className="poa-requests__card-label">State</p>
+                <p className="poa-requests__card-data">
+                  {attributes.claimantAddress.state}
+                </p>
+              </div>
+
+              <div className="poa-requests__col">
+                <p className="poa-requests__card-label">Zip</p>
+                <p className="poa-requests__card-data">
+                  {attributes.claimantAddress.zip}
+                </p>
+              </div>
+
+              <div className="poa-requests__col">
+                <p className="poa-requests__card-label">POA Received Date</p>
+                <p className="poa-requests__card-data">
+                  {formatDate(attributes.submittedAt)}
+                </p>
+              </div>
+
+              <div className="poa-requests__col">
+                <p className="poa-requests__card-label">
+                  {attributes.status === 'Declined' && (
+                    <va-icon
+                      icon="close"
+                      class="poa-requests__card-icon--red poa-requests__card-icon"
+                    />
+                  )}
+                  {attributes.status === 'Accepted' && (
+                    <va-icon
+                      icon="check_circle"
+                      class="poa-requests__card-icon--green poa-requests__card-icon"
+                    />
+                  )}
+                  POA Status
+                </p>
+                <p className="poa-requests__card-data">{attributes.status}</p>
+              </div>
+
+              <div className="poa-requests__col">
+                <p className="poa-requests__card-label">
+                  <va-icon
+                    class="poa-requests__card-icon limitations-row__warning-icon"
+                    icon="warning"
+                    size={2}
+                    srtext="warning"
+                  />
+                  Consent Limitations
+                </p>
+                <p className="poa-requests__card-data">
+                  {createLimitationsCell(
+                    attributes.isTreatmentDisclosureAuthorized,
+                    attributes.isAddressChangingAuthorized,
+                  )}
+                </p>
+              </div>
             </div>
-          </span>
-          <span data-testid={`poa-requests-table-${id}-limitations`}>
-            {createLimitationsCell(
-              attributes.isTreatmentDisclosureAuthorized,
-              attributes.isAddressChangingAuthorized,
-            )}
-          </span>
-          <span data-testid={`poa-requests-table-${id}-city`}>
-            {attributes.claimantAddress.city}
-          </span>
-          <span data-testid={`poa-requests-table-${id}-state`}>
-            {attributes.claimantAddress.state}
-          </span>
-          <span data-testid={`poa-requests-table-${id}-zip`}>
-            {attributes.claimantAddress.zip}
-          </span>
-          <span data-testid={`poa-requests-table-${id}-received`}>
-            {formatDate(attributes.submittedAt)}
-          </span>
-        </va-table-row>
+          </va-card>
+        </li>
       ))}
-    </va-table>
+    </ul>
   );
 };
 
