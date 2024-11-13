@@ -76,7 +76,7 @@ describe('SearchItem Component', () => {
 
     expect(
       wrapper
-        .find('p')
+        .find('h3')
         .first()
         .text(),
     ).to.contain('Showing 1-2 of 2 results');
