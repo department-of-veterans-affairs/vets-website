@@ -20,10 +20,6 @@ import { advanceToHouseholdSection } from './helpers/household';
 function setUserData(user, prefillData) {
   cy.login(user);
   cy.intercept('GET', '/v0/feature_toggles*', {
-    /*
-    Remove this data object and replace it with 'mockfeatures' after removing the
-    'ezr_tera_branching_enabled' feature toggle
-    */
     data: {
       type: 'feature_toggles',
       features: [
