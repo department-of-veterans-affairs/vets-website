@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const AddConditionInstructions = (
+export const conditionInstructions = (
   <>
     <p>Add a condition below. You can add more conditions later.</p>
     <h4>If your condition isn’t listed</h4>

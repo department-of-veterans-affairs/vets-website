@@ -1,13 +1,16 @@
 import React from 'react';
-import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  titleUI,
+  withAlertOrDescription,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import Autocomplete from '../../components/Autocomplete';
 import { NULL_CONDITION_STRING } from '../../constants';
 import { conditionOptions } from '../../content/conditionOptions';
-import { AddConditionInstructions } from '../../content/newConditions';
+import { conditionInstructions } from '../../content/newConditions';
 import { sippableId } from '../../utils';
 import { missingConditionMessage } from '../../validations';
-import { arrayBuilderOptions } from './utils';
+import { arrayBuilderOptions, createTitle } from './utils';
 
 const validateLength = (err, fieldData) => {
   if (fieldData.length > 255) {
@@ -48,13 +51,20 @@ export const validateCondition = (err, fieldData = '', formData = {}) => {
 };
 
 /** @returns {PageSchema} */
-const addConditionPage = {
+const conditionPage = {
   uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Tell us the new condition you want to claim',
-      nounSingular: arrayBuilderOptions.nounSingular,
-      description: AddConditionInstructions,
-    }),
+    ...titleUI(
+      () =>
+        createTitle(
+          'Tell us the new condition you want to claim',
+          `Edit condition`,
+        ),
+      withAlertOrDescription({
+        nounSingular: arrayBuilderOptions.nounSingular,
+        description: conditionInstructions,
+        hasMultipleItemPages: true,
+      }),
+    ),
     condition: {
       'ui:title': 'Enter your condition',
       'ui:field': data => (
@@ -86,4 +96,4 @@ const addConditionPage = {
   },
 };
 
-export default addConditionPage;
+export default conditionPage;

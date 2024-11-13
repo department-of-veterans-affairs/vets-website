@@ -4,7 +4,7 @@ import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns
 
 import causePage from './cause';
 import causeFollowUpPage from './causeFollowUp';
-import addConditionPage from './condition';
+import conditionPage from './condition';
 import datePage from './date';
 import introPage from './intro';
 import sideOfBodyPage from './sideOfBody';
@@ -28,12 +28,12 @@ const newConditionsPages = arrayBuilderPages(
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    newConditionsAddCondition: pageBuilder.itemPage({
+    newConditionsCondition: pageBuilder.itemPage({
       title: 'Claim a new condition',
       path: 'new-conditions/:index/condition',
       depends: formData => formData['view:showAddDisabilitiesEnhancement'],
-      uiSchema: addConditionPage.uiSchema,
-      schema: addConditionPage.schema,
+      uiSchema: conditionPage.uiSchema,
+      schema: conditionPage.schema,
       onNavForward: props => {
         const { formData, pathname, urlParams, goPath } = props;
         const index = getArrayIndexFromPathName(pathname);

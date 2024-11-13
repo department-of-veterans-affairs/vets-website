@@ -153,7 +153,7 @@ export const Form526Entry = ({
     [inProgressFormId, location, profile, showSubforms, wizardStatus],
   );
 
-  // Set the feature flag in the formData so when turned on it shows the addConditions multi-page list and loop
+  // Set the feature flag in the formData so when turned on it shows the newConditions multi-page list and loop
   useEffect(
     () => {
       if (showAddDisabilitiesEnhancement) {

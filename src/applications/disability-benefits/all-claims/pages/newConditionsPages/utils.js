@@ -1,4 +1,16 @@
+import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+
 import { conditionObjects } from '../../content/conditionOptions';
+
+export const createTitle = (defaultTitle, editTitle) => {
+  const search = getArrayUrlSearchParams();
+  const isEdit = search.get('edit');
+
+  if (isEdit) {
+    return editTitle;
+  }
+  return defaultTitle;
+};
 
 const createCauseDescriptions = item => {
   return {
