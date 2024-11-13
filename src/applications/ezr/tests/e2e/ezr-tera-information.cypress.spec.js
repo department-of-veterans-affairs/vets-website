@@ -7,6 +7,7 @@ import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import mockPrefillAgentOrangeDob from './fixtures/mocks/tera/mock-prefill-agent-orange-dob.json';
 import mockPrefillCombatOperationsDob from './fixtures/mocks/tera/mock-prefill-combat-operations-dob.json';
 import mockPrefillOtherExposureDob from './fixtures/mocks/tera/mock-prefill-other-exposure-dob.json';
+import featureToggles from './fixtures/mocks/mock-features.json';
 import {
   goToNextPage,
   goToPreviousPage,
@@ -19,21 +20,9 @@ import { advanceToHouseholdSection } from './helpers/household';
 
 function setUserData(user, prefillData) {
   cy.login(user);
-  cy.intercept('GET', '/v0/feature_toggles*', {
-    data: {
-      type: 'feature_toggles',
-      features: [
-        {
-          name: 'ezrProdEnabled',
-          value: true,
-        },
-        {
-          name: 'hcaSigiEnabled',
-          value: false,
-        },
-      ],
-    },
-  });
+  cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
+    'mockFeatures',
+  );
   cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
     statusCode: 200,
     body: MOCK_ENROLLMENT_RESPONSE,
