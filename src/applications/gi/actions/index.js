@@ -2,7 +2,7 @@ import appendQuery from 'append-query';
 
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import { api } from '../config';
+import { api, apiV0 } from '../config';
 
 import { rubyifyKeys, searchCriteriaFromCoords } from '../utils/helpers';
 import { TypeList } from '../constants';
@@ -70,6 +70,38 @@ export const FETCH_LC_RESULTS_SUCCEEDED = 'FETCH_LC_RESULTS_SUCCEEDED';
 export const FETCH_LC_RESULT_FAILED = 'FETCH_LC_RESULT_FAILED';
 export const FETCH_LC_RESULT_STARTED = 'FETCH_LC_RESULT_STARTED';
 export const FETCH_LC_RESULT_SUCCEEDED = 'FETCH_LC_RESULT_SUCCEEDED';
+
+export const FETCH_INSTITUTION_PROGRAMS_FAILED =
+  'FETCH_INSTITUTION_PROGRAMS_FAILED';
+export const FETCH_INSTITUTION_PROGRAMS_STARTED =
+  'FETCH_INSTITUTION_PROGRAMS_STARTED';
+export const FETCH_INSTITUTION_PROGRAMS_SUCCEEDED =
+  'FETCH_INSTITUTION_PROGRAMS_SUCCEEDED';
+
+export const fetchInstitutionPrograms = (facilityCode, programType) => {
+  const url = `https://dev-api.va.gov/v0/gi/institution_programs/search?type=${programType}&facility_code=${facilityCode}&disable_pagination=true`;
+
+  return async dispatch => {
+    dispatch({ type: FETCH_INSTITUTION_PROGRAMS_STARTED });
+
+    try {
+      const res = await fetch(url, apiV0.settings);
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const { data } = await res.json();
+      dispatch({
+        type: FETCH_INSTITUTION_PROGRAMS_SUCCEEDED,
+        payload: data,
+      });
+    } catch (err) {
+      dispatch({
+        type: FETCH_INSTITUTION_PROGRAMS_FAILED,
+        payload: err.message,
+      });
+    }
+  };
+};
 
 export function fetchLicenseCertificationResults(name, type) {
   return dispatch => {
