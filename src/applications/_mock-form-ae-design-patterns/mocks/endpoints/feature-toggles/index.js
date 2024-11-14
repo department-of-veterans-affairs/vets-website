@@ -73,6 +73,3 @@ const generateFeatureTogglesState = (
 };
 
 module.exports = { generateFeatureToggles, generateFeatureTogglesState };
-
-// File updated via API
-// File updated via API

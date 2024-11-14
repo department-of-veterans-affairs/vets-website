@@ -1,20 +1,20 @@
 const response = {
   formData: {
     fullName: {
-      first: 'Mark',
-      last: 'Webb',
-      suffix: 'Jr.',
+      first: 'Mitchell',
+      middle: 'George',
+      last: 'Jenkins',
     },
-    dateOfBirth: '1950-10-04',
+    dateOfBirth: '1956-07-10',
     applicantAddress: {
-      street: '123 Faker Street',
-      city: 'Bogusville',
-      state: 'GA',
+      street: '125 Main St.',
+      city: 'Fulton',
+      state: 'NY',
       country: 'USA',
-      postalCode: '30058',
+      postalCode: '97063',
     },
     contactPhone: '4445551212',
-    contactEmail: 'test2@test1.net',
+    contactEmail: 'Mitchell.Jenkins.Test@gmail.com',
     periodsOfService: [
       {
         serviceBranch: 'Air Force',

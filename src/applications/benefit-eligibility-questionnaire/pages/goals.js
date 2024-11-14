@@ -8,6 +8,7 @@ import { goalTypes, goalTypeLabels } from '../constants/benefits';
 export default {
   uiSchema: {
     goals: checkboxGroupUI({
+      enableAnalytics: true,
       title: 'What goals do you want to accomplish?',
       hint: 'Check all that apply.',
       required: false,

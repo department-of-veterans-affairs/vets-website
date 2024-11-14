@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -62,6 +62,13 @@ export const VeteranProfileInformation = ({
   const veteranDOB = dob && format(parseISO(dob), 'MMMM dd, yyyy');
   const veteranDOBMobile = dob && format(parseISO(dob), 'MMM dd, yyyy');
 
+  useEffect(() => {
+    const progressBar = document.getElementById('nav-form-header');
+    if (progressBar) {
+      progressBar.setAttribute('total', '3');
+    }
+  }, []);
+
   return (
     <>
       <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
@@ -100,17 +107,18 @@ export const VeteranProfileInformation = ({
         </va-card>
         <p className="vads-u-margin-y--4">
           <strong>Note:</strong> To protect your personal information, we don’t
-          allow online changes to your name, date of birth, or Social Security
-          number. If you need to change this information, call us at{' '}
+          allow online changes to your name, Social Security number, date of
+          birth, or gender. If you need to change this information, call us at{' '}
           <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-          <va-telephone contact="711" tty />) . We’re here Monday through
-          Friday, 8:00 a.m. to 9:00 p.m.{' '}
+          <va-telephone contact="711" tty />
+          ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
           <dfn>
             <abbr title="Eastern Time">ET</abbr>
           </dfn>
           . We’ll give you instructions for how to change your information. Or
           you can learn how to change your legal name on file with VA.{' '}
           <va-link
+            external
             href={APP_URLS.facilities}
             text="Learn how to change your legal name (opens in new tab)"
           />

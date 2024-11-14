@@ -42,9 +42,9 @@ const baseUserResponses = {
         profile: {
           email: 'vets.gov.user+75@gmail.com',
           firstName: 'Mitchell',
-          middleName: 'G',
+          middleName: 'George',
           lastName: 'Jenkins',
-          birthDate: '1949-03-04',
+          birthDate: '1956-07-10',
           gender: 'M',
           zip: '97063',
           lastSignedIn: '2022-03-24T18:15:06.566Z',
@@ -75,7 +75,7 @@ const baseUserResponses = {
         },
         vaProfile: {
           status: 'OK',
-          birthDate: '19490304',
+          birthDate: '19560710',
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
@@ -141,7 +141,7 @@ const baseUserResponses = {
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',
-            emailAddress: 'myemail72585885@unattended.com',
+            emailAddress: 'Mitchell.Jenkins.Test@gmail.com',
             effectiveEndDate: null,
             effectiveStartDate: '2019-03-07T22:32:40.000Z',
             id: 20648,
@@ -186,7 +186,7 @@ const baseUserResponses = {
             badAddress: null,
           },
           mailingAddress: {
-            addressLine1: '123 Mailing Address St.',
+            addressLine1: '125 Main St.',
             addressLine2: null,
             addressLine3: null,
             addressPou: 'CORRESPONDENCE',
@@ -220,7 +220,7 @@ const baseUserResponses = {
             badAddress: null,
           },
           mobilePhone: {
-            areaCode: '619',
+            areaCode: '555',
             countryCode: '1',
             createdAt: '2022-01-12T16:22:03.000Z',
             extension: null,
@@ -232,7 +232,7 @@ const baseUserResponses = {
             isTextPermitted: null,
             isTty: null,
             isVoicemailable: null,
-            phoneNumber: '5551234',
+            phoneNumber: '4044567',
             phoneType: 'MOBILE',
             sourceDate: '2022-02-17T20:15:44.000Z',
             sourceSystemUser: null,
@@ -241,7 +241,7 @@ const baseUserResponses = {
             vet360Id: '1273766',
           },
           homePhone: {
-            areaCode: '989',
+            areaCode: '555',
             countryCode: '1',
             createdAt: '2018-04-20T17:22:56.000Z',
             extension: null,
@@ -253,7 +253,7 @@ const baseUserResponses = {
             isTextPermitted: null,
             isTty: null,
             isVoicemailable: null,
-            phoneNumber: '8981233',
+            phoneNumber: '8081234',
             phoneType: 'HOME',
             sourceDate: '2022-03-11T16:31:55.000Z',
             sourceSystemUser: null,
@@ -302,11 +302,11 @@ const mockErrorResponses = {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
         },
         profile: {
-          email: 'vets.gov.user+75@gmail.com',
+          email: 'test@test.com',
           firstName: 'MITCHELL',
           middleName: 'G',
           lastName: 'JENKINS',
-          birthDate: '1949-03-04',
+          birthDate: '1956-07-10',
           gender: 'M',
           zip: '97063',
           lastSignedIn: '2022-03-24T18:15:06.566Z',

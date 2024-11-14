@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import goalsConfig from '../../../pages/goals';
+import { goalTypeLabels } from '../../../constants/benefits';
 
 describe('Goals Form', () => {
   let wrapper;
@@ -39,12 +40,7 @@ describe('Goals Form', () => {
   });
 
   it('should render the correct checkbox options for goals', () => {
-    const options = [
-      'Earn a degree or certificate',
-      'Find a civilian job',
-      'Plan for my transition',
-      'Set a career path',
-    ];
+    const options = Object.values(goalTypeLabels);
 
     options.forEach(option => {
       const checkboxOption = document.querySelector(
@@ -55,11 +51,13 @@ describe('Goals Form', () => {
   });
 
   it('should allow multiple selections in the goals checkbox group', () => {
+    const options = Object.values(goalTypeLabels);
+
     const firstOption = document.querySelector(
-      'va-checkbox[label="Earn a degree or certificate"]',
+      `va-checkbox[label="${options[0]}"]`,
     );
     const secondOption = document.querySelector(
-      'va-checkbox[label="Find a civilian job"]',
+      `va-checkbox[label="${options[1]}"]`,
     );
 
     fireEvent(firstOption, new CustomEvent('click'));
@@ -73,9 +71,9 @@ describe('Goals Form', () => {
   });
 
   it('should allow checkboxes to be unselected', () => {
-    const option = document.querySelector(
-      'va-checkbox[label="Plan for my transition"]',
-    );
+    const options = Object.values(goalTypeLabels);
+
+    const option = document.querySelector(`va-checkbox[label="${options[0]}"]`);
 
     option.checked = true;
 

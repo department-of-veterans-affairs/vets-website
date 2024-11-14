@@ -175,7 +175,10 @@ const SpouseEmploymentWorkDates = props => {
           value={`${fromYear}-${fromMonth}`}
           label="Date your spouse started work at this job?"
           name="from"
-          onDateChange={e => handlers.handleDateChange('from', e.target.value)}
+          onDateChange={e => {
+            setFromDateError(null);
+            handlers.handleDateChange('from', e.target.value);
+          }}
           onBlur={() =>
             setFromDateError(
               isValidStartDate(employmentRecord.from) ? null : fromError,
@@ -190,7 +193,10 @@ const SpouseEmploymentWorkDates = props => {
             value={`${toYear}-${toMonth}`}
             label="Date your spouse stopped work at this job?"
             name="to"
-            onDateChange={e => handlers.handleDateChange('to', e.target.value)}
+            onDateChange={e => {
+              setToDateError(null);
+              handlers.handleDateChange('to', e.target.value);
+            }}
             onBlur={() =>
               setToDateError(
                 isValidEndDate(employmentRecord.from, employmentRecord.to)
