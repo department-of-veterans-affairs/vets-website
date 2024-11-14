@@ -5,9 +5,23 @@ import App from './containers/App';
 const route = {
   path: '/',
   component: App,
-  indexRoute: { onEnter: (_nextState, replace) => replace('/introduction') },
+  indexRoute: {
+    onEnter: (nextState, replace) => {
+      const { location } = nextState;
 
-  childRoutes: [...createRoutesWithSaveInProgress(formConfig)],
+      if (
+        location.pathname === '/introduction' &&
+        location.query.next === 'loginModal' &&
+        location.query.postLogin === 'true'
+      ) {
+        replace('/');
+      } else {
+        replace('/introduction');
+      }
+    },
+  },
+
+  childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 
 export default route;

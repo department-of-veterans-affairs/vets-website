@@ -11,6 +11,7 @@ import {
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import * as EventsModule from '../../utils/events';
 import * as SubmitFormModule from '../../utils/submitForm';
+import * as ProcessCSATModule from '../../utils/processCSAT';
 
 describe('actions', () => {
   let sandbox;
@@ -544,7 +545,7 @@ describe('actions', () => {
       expect(submitFormStub.calledWithExactly(url, body)).to.be.true;
     });
 
-    it('should call submitForm when activity is FormPostButton and component toggle is off', () => {
+    it('should not call submitForm when activity is FormPostButton and component toggle is off', () => {
       const action = {
         payload: {
           activity: {
@@ -585,6 +586,65 @@ describe('actions', () => {
       })();
 
       expect(submitFormStub.notCalled).to.be.true;
+    });
+
+    it('should call processCSAT when activity is CSATSurveyResponse and root bot toggle is on', () => {
+      const action = {
+        payload: {
+          activity: {
+            valueType: 'CSATSurveyResponse',
+          },
+        },
+      };
+
+      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+        isRootBotToggleOn: true,
+      })();
+
+      expect(processCSATStub.calledOnce).to.be.true;
+    });
+
+    it('should not call processCSAT when root bot toggle is off', () => {
+      const action = {
+        payload: {
+          activity: {
+            valueType: 'CSATSurveyResponse',
+          },
+        },
+      };
+
+      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+        isRootBotToggleOn: false,
+      })();
+
+      expect(processCSATStub.notCalled).to.be.true;
+    });
+
+    it('should not call processCSAT when activity is not CSATSurveyResponse', () => {
+      const action = {
+        payload: {
+          activity: {
+            valueType: 'other',
+          },
+        },
+      };
+
+      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+      })();
+
+      expect(processCSATStub.notCalled).to.be.true;
     });
   });
 

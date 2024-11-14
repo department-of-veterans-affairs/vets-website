@@ -3,7 +3,6 @@ const delay = require('mocker-api/lib/delay');
 const user = require('./endpoints/user');
 const address = require('./endpoints/address');
 const emailAddress = require('./endpoints/email-addresses');
-const phoneNumber = require('./endpoints/phone-number');
 const telephone = require('./endpoints/telephones');
 
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
@@ -91,36 +90,11 @@ const responses = {
       return res.status(500).json(genericErrors.error500);
     }
 
-    // example user data cases
     return res.json(updateMemDb(req, user.loa3User72)); // default user LOA3 w/id.me (success)
-    // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
-    // return res.json(user.mvhUser); // user with mhv signIn.serviceName
-    // return res.json(user.loa1User); // LOA1 user w/id.me
-    // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
-    // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
-    // return res.json(user.badAddress); // user with bad address
-    // return res.json(user.nonVeteranUser); // non-veteran user
-    // return res.json(user.externalServiceError); // external service error
-    // return res.json(user.loa3UserWithoutLighthouseServiceAvailable); // user without lighthouse service available / no icn or participant id
-    // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
-    // return res.json(user.loa3UserWithNoEmail); // user with no email address
-    // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
-    // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
-    // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
-    // data claim users
-    // return res.json(user.loa3UserWithNoRatingInfoClaim);
-    // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
   },
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
     return res.json(maintenanceWindows.noDowntime);
-
-    // downtime for VA Profile aka Vet360 (according to service name in response)
-    // return res.json(
-    //   maintenanceWindows.createDowntimeActiveNotification([
-    //     maintenanceWindows.SERVICES.VA_PROFILE,
-    //   ]),
-    // );
   },
   'POST /v0/profile/address_validation': address.addressValidationMatch,
   'GET /v0/profile/service_history': (_req, res) => {
@@ -133,16 +107,11 @@ const responses = {
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'PUT /v0/profile/telephones': (req, res) => {
-    if (req?.body?.phoneNumber === '1111111') {
-      return res.json(phoneNumber.transactions.receivedNoChangesDetected);
-    }
     return res.json(
       updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),
     );
-    // return res.status(200).json(phoneNumber.transactions.received);
   },
   'POST /v0/profile/telephones': (req, res) => {
-    // return res.status(200).json(phoneNumber.transactions.received);
     return res.json(
       updateMemDb(
         req,
@@ -164,36 +133,6 @@ const responses = {
   'PUT /v0/profile/addresses': (req, res) => {
     // uncomment to test 401 error
     // return res.status(401).json(require('../tests/fixtures/401.json'));
-
-    // trigger NO_CHANGES_DETECTED response
-    // based on the text 'same' being put into address line 1 of ui
-    if (req?.body?.addressLine1 === 'same') {
-      return res.json(address.mailingAddressUpdateNoChangeDetected);
-    }
-
-    // simulate a initial request returning a transactionId that is
-    // subsequently used for triggering error from GET v0/profile/status
-    // uncomment to test, and then uses the transactionId 'erroredId' in the status endpoint
-    // the status endpoint will return a COMPLETED_FAILURE status based on the string 'error' being in the transactionId
-    // return res.json(
-    //   _.set(
-    //     address.mailingAddressUpdateReceived,
-    //     'data.attributes.transactionId',
-    //     'erroredId',
-    //   ),
-    // );
-
-    // to test the update that comes from the 'yes' action on the address change modal prompt,
-    // we can create a success response with a transactionId that is unique using date timestamp
-    // if (req.body.addressPou === 'CORRESPONDENCE') {
-    //   return res.json(
-    //     set(
-    //       { ...address.mailingAddressUpdateReceived },
-    //       'data.attributes.transactionId',
-    //       `mailingUpdateId-${new Date().getTime()}`,
-    //     ),
-    //   );
-    // }
 
     // default response
     return res.json(

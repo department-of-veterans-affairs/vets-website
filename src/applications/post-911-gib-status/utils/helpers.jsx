@@ -2,10 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-import {
-  VaAlert,
-  VaSummaryBox,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { formatDateParsedZoneLong } from '@department-of-veterans-affairs/platform-utilities/date';
 
@@ -42,43 +39,6 @@ export function formatMonthDayFields(field) {
 
   return `${monthString}, ${dayString}`;
 }
-
-export const enrollmentHistoryExplanation = {
-  standard: (
-    <VaSummaryBox className="feature-box">
-      <h4 slot="headline">
-        Does something look wrong in your enrollment history?
-      </h4>
-      <p>Certain enrollments may not be displayed in this history if:</p>
-      <ul>
-        <li>
-          Your school made a request to us that’s still in process,{' '}
-          <strong>or</strong>
-        </li>
-        <li>
-          You made a request to us that’s still in process, <strong>or</strong>
-        </li>
-        <li>
-          You used or are using your benefit for flight, on-the-job,
-          apprenticeship, or correspondence training
-        </li>
-      </ul>
-    </VaSummaryBox>
-  ),
-  noEnrollmentHistory: (
-    <VaSummaryBox className="feature-box">
-      <h4 slot="headline">You don’t have any enrollment history</h4>
-      <p>Your enrollment history may not be available if:</p>
-      <ul>
-        <li>
-          You or your school did not yet make a request to us,{' '}
-          <strong>or</strong>
-        </li>
-        <li>You or your school made a request that’s still in process</li>
-      </ul>
-    </VaSummaryBox>
-  ),
-};
 
 export function benefitEndDateExplanation(condition, delimitingDate) {
   switch (condition) {

@@ -13,18 +13,12 @@ import BenefitCard from '../components/BenefitCard';
 import GetFormHelp from '../components/GetFormHelp';
 import SaveResultsModal from '../components/SaveResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
-import { Heading } from '../components/Heading';
 
 export class ConfirmationPage extends React.Component {
   sortBenefitObj(benefitObj, sortKey) {
     return [...benefitObj].sort((a, b) => {
-      let aValue = a[sortKey] || '';
-      let bValue = b[sortKey] || '';
-
-      if (sortKey === 'goal') {
-        aValue = a.mappings?.goals?.[0] || '';
-        bValue = b.mappings?.goals?.[0] || '';
-      }
+      const aValue = a[sortKey] || '';
+      const bValue = b[sortKey] || '';
 
       if (typeof aValue === 'string' && typeof bValue === 'string') {
         return aValue.localeCompare(bValue);
@@ -125,7 +119,6 @@ export class ConfirmationPage extends React.Component {
     const key = e.target.value;
     const sortStrings = {
       alphabetical: 'alphabetical',
-      goal: 'goal',
       category: 'type',
     };
     this.setState({ sortValue: sortStrings[key] });
@@ -237,7 +230,14 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <article>
-          <Heading />
+          <div role="heading" aria-level="2">
+            <p>
+              Based on your answers, we’ve suggested some benefits for you to
+              explore.
+              <br />
+              Remember to check your eligibility before you apply.
+            </p>
+          </div>
         </article>
 
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
@@ -273,6 +273,7 @@ export class ConfirmationPage extends React.Component {
                 <b>Filters</b>
               </span>
               <VaSelect
+                enableAnalytics
                 aria-label="Filter Benefits"
                 label="Filter by benefit type"
                 name="filter-benefits"
@@ -319,6 +320,7 @@ export class ConfirmationPage extends React.Component {
                 <b>Sort</b>
               </span>
               <VaSelect
+                enableAnalytics
                 aria-label="Sort Benefits"
                 label="Sort results by"
                 name="sort-benefits"
@@ -327,9 +329,6 @@ export class ConfirmationPage extends React.Component {
               >
                 <option key="alphabetical" value="alphabetical">
                   Alphabetical
-                </option>
-                <option key="goal" value="goal">
-                  Goal
                 </option>
                 <option key="type" value="category">
                   Type
