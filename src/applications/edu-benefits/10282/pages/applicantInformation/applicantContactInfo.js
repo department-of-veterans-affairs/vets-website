@@ -1,12 +1,10 @@
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import {
   emailUI,
+  emailSchema,
   phoneUI,
+  phoneSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-const { usaPhone, email } = fullSchema10282.definitions;
 
 export const uiSchema = {
   contactInfo: {
@@ -19,14 +17,8 @@ export const uiSchema = {
           'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
       },
     }),
-    mobilePhone: {
-      ...phoneUI('Mobile phone number'),
-      'ui:webComponentField': VaTextInputField,
-    },
-    homePhone: {
-      ...phoneUI('Home phone number'),
-      'ui:webComponentField': VaTextInputField,
-    },
+    mobilePhone: phoneUI('Mobile phone number'),
+    homePhone: phoneUI('Home phone number'),
   },
 };
 export const schema = {
@@ -36,9 +28,9 @@ export const schema = {
       type: 'object',
       required: ['email'],
       properties: {
-        email,
-        mobilePhone: usaPhone,
-        homePhone: usaPhone,
+        email: emailSchema,
+        mobilePhone: phoneSchema,
+        homePhone: phoneSchema,
       },
     },
   },

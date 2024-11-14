@@ -23,7 +23,7 @@ export const transformedMinimalData = JSON.stringify({
 const transformedMaximalDataActual = {
   techIndustryFocusArea: 'CS',
   isWorkingInTechIndustry: true,
-  currentAnnualSalary: 'Between $35,001 and $50,000',
+  currentAnnualSalary: 'thirtyFiveToFifty',
   currentlyEmployed: true,
   highestLevelOfEducation: {
     level: 'BD',

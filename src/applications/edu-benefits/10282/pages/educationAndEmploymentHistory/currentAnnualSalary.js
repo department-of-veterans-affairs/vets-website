@@ -1,19 +1,29 @@
-import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import {
+  titleUI,
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
+const labels = {
+  lessThanTwenty: 'Less than $20,000',
+  twentyToThirtyFive: '$20,000-$35,000',
+  thirtyFiveToFifty: '$35,001-$50,000',
+  fiftyToSeventyFive: '$50,001-$75,000',
+  moreThanSeventyFive: 'More than $75,000',
+};
 
 const uiSchema = {
   ...titleUI('Your current annual salary'),
-  currentAnnualSalary: {
-    'ui:title': 'What’s your current annual salary?',
-    'ui:webComponentField': VaRadioField,
-  },
+  currentAnnualSalary: radioUI({
+    title: "What's your current annual salary?",
+    labels,
+  }),
 };
 
 const schema = {
   type: 'object',
   properties: {
-    currentAnnualSalary: { ...fullSchema10282.properties.currentAnnualSalary },
+    currentAnnualSalary: radioSchema(Object.keys(labels)),
   },
 };
 

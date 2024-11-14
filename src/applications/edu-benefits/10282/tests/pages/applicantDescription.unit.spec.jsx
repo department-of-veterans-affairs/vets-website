@@ -1,14 +1,9 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import ReactTestUtils from 'react-dom/test-utils';
 
-import {
-  DefinitionTester,
-  submitForm,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 const definitions = formConfig.defaultDefinitions;
@@ -32,7 +27,7 @@ describe('Edu 10282 applicantDescription', () => {
 
   it('should show errors when required field is empty', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         onSubmit={onSubmit}
@@ -41,12 +36,9 @@ describe('Edu 10282 applicantDescription', () => {
         definitions={definitions}
       />,
     );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-    expect(
-      Array.from(formDOM.querySelectorAll('.usa-error-message')).length,
-    ).to.equal(1);
-
+    form.find('form').simulate('submit');
+    expect(form.find('va-radio[error]').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });
