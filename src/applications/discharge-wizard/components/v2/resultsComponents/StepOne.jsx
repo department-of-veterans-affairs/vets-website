@@ -77,7 +77,7 @@ const StepOne = ({ formResponses }) => {
     RESPONSES.AIR_FORCE && (
     <ul>
       <li>
-        Pay special attention to item 6, which asks for the reason for your
+        Pay special attention to item 14, which asks for the reason for your
         change. Here you should explain why you need a new DD214, including any
         problems you face when you have to show both the DD214 and the DD215.
         You may want to consider attaching additional pages to fully answer this
@@ -90,7 +90,7 @@ const StepOne = ({ formResponses }) => {
     <ul>
       {formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] !== RESPONSES.AIR_FORCE && (
         <li>
-          Pay special attention to item 6, which asks for the reason for your
+          Pay special attention to item 14, which asks for the reason for your
           change. Most Veterans attach additional pages to answer this question.{' '}
           {strongCaseTips()}
         </li>
@@ -126,7 +126,7 @@ const StepOne = ({ formResponses }) => {
         formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] !==
           RESPONSES.AIR_FORCE && (
           <li>
-            Item 8 asks for the date when you discovered the error or injustice
+            Item 16 asks for the date when you discovered the error or injustice
             you’re asking the Board to address. If it’s been more than 3 years
             since you found this error or injustice, you’ll need to include a
             reason why the Board should consider your application. Examples of
