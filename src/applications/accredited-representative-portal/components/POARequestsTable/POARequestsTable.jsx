@@ -34,60 +34,62 @@ export const formatDate = date => {
   return `${month}-${day}-${year}`;
 };
 
-const POARequestsTable = ({ poaRequests }) => {
+const POARequestsTable = ({ poaRequest }) => {
   return (
     <ul
       data-testid="poa-requests-table"
       className="poa-requests__list"
       sort-column={1}
     >
-      {poaRequests.map(({ id, attributes }) => (
+      {poaRequest.map(({ id, attributes }) => (
         <li key={id}>
           <va-card class="poa-requests__card">
             <Link
               data-testid={`poa-requests-table-${id}-name`}
               to={`/poa-requests/${id}`}
             >
-              <h3 className="poa-requests__card-name vads-u-font-size--h4">
+              <h3 className="poa-requests__card-title vads-u-font-size--h4">
                 {`${attributes.claimant.lastName},
                 ${attributes.claimant.firstName}`}
               </h3>
             </Link>
-            <p className="poa-requests__card-group">
+            <p className="poa-requests__card-subtitle">
               {createRelationshipCell(attributes)}
             </p>
 
-            <div className="poa-requests__row">
-              <div className="poa-requests__col">
-                <p className="poa-requests__card-label">City</p>
-                <p className="poa-requests__card-data">
+            <div className="poa-requests__card-content">
+              <div className="poa-requests__card-field">
+                <p className="poa-requests__card-field-label">City</p>
+                <p className="poa-requests__card-field-value">
                   {attributes.claimantAddress.city}
                 </p>
               </div>
 
-              <div className="poa-requests__col">
-                <p className="poa-requests__card-label">State</p>
-                <p className="poa-requests__card-data">
+              <div className="poa-requests__card-field">
+                <p className="poa-requests__card-field-label">State</p>
+                <p className="poa-requests__card-field-value">
                   {attributes.claimantAddress.state}
                 </p>
               </div>
 
-              <div className="poa-requests__col">
-                <p className="poa-requests__card-label">Zip</p>
-                <p className="poa-requests__card-data">
+              <div className="poa-requests__card-field">
+                <p className="poa-requests__card-field-label">Zip</p>
+                <p className="poa-requests__card-field-value">
                   {attributes.claimantAddress.zip}
                 </p>
               </div>
 
-              <div className="poa-requests__col">
-                <p className="poa-requests__card-label">POA Received Date</p>
-                <p className="poa-requests__card-data">
+              <div className="poa-requests__card-field">
+                <p className="poa-requests__card-field-label">
+                  POA Received Date
+                </p>
+                <p className="poa-requests__card-field-value">
                   {formatDate(attributes.submittedAt)}
                 </p>
               </div>
 
-              <div className="poa-requests__col">
-                <p className="poa-requests__card-label">
+              <div className="poa-requests__card-field">
+                <p className="poa-requests__card-field-label">
                   {attributes.status === 'Declined' && (
                     <va-icon
                       icon="close"
@@ -102,11 +104,13 @@ const POARequestsTable = ({ poaRequests }) => {
                   )}
                   POA Status
                 </p>
-                <p className="poa-requests__card-data">{attributes.status}</p>
+                <p className="poa-requests__card-field-value">
+                  {attributes.status}
+                </p>
               </div>
 
-              <div className="poa-requests__col">
-                <p className="poa-requests__card-label">
+              <div className="poa-requests__card-field">
+                <p className="poa-requests__card-field-label">
                   <va-icon
                     class="poa-requests__card-icon limitations-row__warning-icon"
                     icon="warning"
@@ -115,7 +119,7 @@ const POARequestsTable = ({ poaRequests }) => {
                   />
                   Consent Limitations
                 </p>
-                <p className="poa-requests__card-data">
+                <p className="poa-requests__card-field-value">
                   {createLimitationsCell(
                     attributes.isTreatmentDisclosureAuthorized,
                     attributes.isAddressChangingAuthorized,
@@ -131,7 +135,7 @@ const POARequestsTable = ({ poaRequests }) => {
 };
 
 POARequestsTable.propTypes = {
-  poaRequests: PropTypes.array.isRequired,
+  poaRequest: PropTypes.array.isRequired,
 };
 
 export default POARequestsTable;

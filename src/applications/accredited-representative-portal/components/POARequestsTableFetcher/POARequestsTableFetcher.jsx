@@ -22,7 +22,7 @@ const POARequestsTableFetcher = ({ usePOARequests }) => {
       </p>
     );
 
-  return <POARequestsTable poaRequests={poaRequests} />;
+  return <POARequestsTable poaRequest={poaRequests} />;
 };
 
 POARequestsTableFetcher.propTypes = {

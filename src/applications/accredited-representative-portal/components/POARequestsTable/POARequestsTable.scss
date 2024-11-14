@@ -1,55 +1,58 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .poa-requests {
-    &__list {
-        list-style-type: none;
-        padding: 0;
-        display: block;
+  &__list {
+    list-style-type: none;
+    padding: 0;
+    display: block;
+  }
+
+  &__card {
+    margin-bottom: 20px;
+
+    @media (min-width: $small-desktop-screen) {
+      max-width: 600px;
     }
-    &__card {
-        margin-bottom: 20px;
 
-        @media (min-width: $small-desktop-screen) {
-            max-width: 600px;
-        }
-
-        &-name,
-        &-group {
-            margin: 0;
-        }
-
-        &-label {
-            font-weight: 700;
-            margin-bottom: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        &-data {
-            margin-top: 0;
-        }
-
-        &-icon {
-            margin-right: 4px;
-
-            &--green {
-                color: var(--vads-color-success);
-            }
-
-            &--red {
-                color: var(--vads-color-error);
-            }
-        }
+    &-title,
+    &-subtitle {
+      margin: 0;
     }
-    &__row {
-        @media (min-width: $small-desktop-screen) {
-            display: flex;
-            flex-wrap: wrap;
-        }
+
+    &-field-label {
+      font-weight: 700;
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
     }
-    &__col {
-        @media (min-width: $small-desktop-screen) {
-            flex: 33%;
-        }
+
+    &-field-value {
+      margin-top: 0;
     }
+
+    &-icon {
+      margin-right: 4px;
+
+      &--green {
+        color: var(--vads-color-success);
+      }
+
+      &--red {
+        color: var(--vads-color-error);
+      }
+    }
+  }
+
+  &__card-content {
+    @media (min-width: $small-desktop-screen) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  &__card-field {
+    @media (min-width: $small-desktop-screen) {
+      flex: 33%;
+    }
+  }
 }
