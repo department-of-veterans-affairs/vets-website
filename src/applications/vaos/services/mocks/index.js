@@ -669,6 +669,10 @@ const responses = {
     });
   },
   'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
+    // Provider 3 throws error
+    if (req.params.providerId === '3') {
+      return res.status(500).json({ error: true });
+    }
     return res.json({ data: providerUtils.createProviderDetails(5) });
   },
   'GET /v0/user': {
