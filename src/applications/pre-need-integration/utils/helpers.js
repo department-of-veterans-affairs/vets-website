@@ -625,18 +625,21 @@ export function hasServiceRecord(item) {
   return !(serviceRecords === undefined || serviceRecords.length === 0);
 }
 
-export function getServicePeriodsSummaryTitle(item) {
-  if (hasServiceRecord(item)) {
-    if (isVeteran(item)) {
-      if (isAuthorizedAgent(item)) {
-        return 'Applicant’s service period(s)';
-      }
-      return 'Your service period(s)';
-    }
-    return 'Sponsor’s service periods(s)';
-  }
-  return 'Review service period records';
-}
+// export function getServicePeriodsSummaryTitle(item) {
+//   if (hasServiceRecord(item)) {
+//     if (isVeteran(item)) {
+//       if (isAuthorizedAgent(item)) {
+//         return 'Applicant’s service period(s)';
+//       } else {
+//         return 'Your service period(s)';
+//       }
+//     } else {
+//       return 'Sponsor’s service periods(s)';
+//     }
+//   } else {
+//     return 'Review service period records';
+//   }
+// }
 
 export function formatName(name) {
   const { first, middle, last, suffix } = name;

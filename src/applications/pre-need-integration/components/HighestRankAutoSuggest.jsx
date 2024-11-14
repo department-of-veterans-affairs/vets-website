@@ -10,10 +10,18 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
   const [branchOfService, setBranchOfService] = useState('');
   const [rankOptions, setRankOptions] = useState([]);
   const [rank, setRank] = useState('');
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(null);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
+  /*
+  useEffect(() => {
+    console.log("Index in highest rank auto suggest: ", index);
+    console.log("Branch of service: ", branchOfService);    
+    console.log("Rank Options lenght: ", rankOptions.length);
+    console.log("Rank: ", rank);    
+  }, []);
+*/
   const extractIndex = id => {
     // const match = id.match(/serviceRecords_(\d+)_highestRank/);
     const match = id.match(/(\d+)\/service-period/);
@@ -24,12 +32,21 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
   const handleSelectionChange = selection => {
     const highestRankTemp =
       typeof selection === 'string' ? selection : selection.key;
-    if (selection.key)
+
+    if (selection.key) {
+      // console.log("Handle Selection Change");
       setRank(`${selection.key.toUpperCase()} - ${selection.value}`);
-    else setRank(highestRankTemp);
+    } else {
+      // console.log("Handle Selection Change ELSE ", highestRankTemp);
+      setRank(highestRankTemp);
+    }
 
     // if (formData.application.veteran.serviceRecords) {
-    if (formData.serviceRecords) {
+    // console.log("form data: ", formData);
+
+    if (formData.serviceRecords && selection.key) {
+      // console.log("We in here");
+
       const updatedFormData = {
         ...formData,
         // application: {
@@ -50,6 +67,7 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
         //   },
         // },
       };
+      // console.log("Dispatch data");
 
       dispatch(setData(updatedFormData));
     }

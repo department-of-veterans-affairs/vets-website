@@ -20,7 +20,8 @@ import { serviceLabels } from '../../utils/labels';
 import {
   isVeteran,
   isAuthorizedAgent,
-  getServicePeriodsSummaryTitle,
+  hasServiceRecord,
+  // getServicePeriodsSummaryTitle,
 } from '../../utils/helpers';
 // const { veteran } = fullSchemaPreNeed.properties.application.properties;
 import HighestRankAutoSuggest from '../../components/HighestRankAutoSuggest';
@@ -91,7 +92,12 @@ const options = {
       'If you cancel, you’ll lose any changes you made on this screen and you will be returned to the service periods review page.',
     cancelEditYes: () => 'Yes, cancel',
     cancelEditNo: () => 'No, keep this',
-    summaryTitle: formData => getServicePeriodsSummaryTitle(formData),
+    // summaryTitle: formData => (isVeteran(formData) ? isAuthorizedAgent(formData) ? 'Applicant’s service period(s)' : 'Your service period(s)' : 'Sponsor’s service periods(s)'),
+    summaryTitle: formData =>
+      hasServiceRecord(formData)
+        ? 'Veteran’s service period(s)'
+        : 'Review service period records',
+    // summaryTitle: formData => getServicePeriodsSummaryTitle(formData),
   },
 };
 
