@@ -17,8 +17,11 @@ import {
   retryableErrorContent,
   successfulSubmitContent,
   submitErrorContent,
+  howLongForDecision,
+  dependentsAdditionalBenefits,
 } from '../content/confirmation-page';
 import { alertBody } from '../content/confirmation-poll';
+import { ClaimConfirmationInfo } from '../components/ClaimConfirmationInfo';
 
 export default class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -57,6 +60,25 @@ export default class ConfirmationPage extends React.Component {
             actions={<></>}
             content={alertBody}
           />
+          <ClaimConfirmationInfo
+            claimId={props.claimId}
+            conditions={props.disabilities}
+            dateSubmitted={props.submittedAt}
+            fullName={props.fullName}
+          />
+          <ConfirmationView.PrintThisPage />
+          <ConfirmationView.WhatsNextProcessList
+            item1Header="We’ll send you an email to confirm your submission"
+            item1Content={<></>}
+            item1Actions={<></>}
+            item2Header="Next we’ll send you a letter to let you know we have your claim"
+            item2Content="You should get this letter in about 1 week, plus mailing time, after we receive your claim."
+          />
+          <ConfirmationView.HowToContact />
+          {howLongForDecision}
+          {dependentsAdditionalBenefits}
+          <ConfirmationView.GoBackLink />
+          <ConfirmationView.NeedHelp />
         </ConfirmationView>
       </Toggler.Enabled>
       <Toggler.Disabled>{this.LegacyConfirmationPage(props)}</Toggler.Disabled>
@@ -81,7 +103,7 @@ ConfirmationPage.propTypes = {
     suffix: PropTypes.string,
   }).isRequired,
   submittedAt: PropTypes.object.isRequired,
-  claimId: PropTypes.string,
+  claimId: PropTypes.number,
   isSubmittingBDD: PropTypes.bool,
   jobId: PropTypes.string,
   route: PropTypes.shape({
