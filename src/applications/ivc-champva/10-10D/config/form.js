@@ -510,7 +510,7 @@ const formConfig = {
                   Enter the information for any applicants you want to enroll in
                   CHAMPVA benefits.
                 </p>
-                <>{CustomPrefillMessage(formData, 'applicant')}</>
+                {CustomPrefillMessage(formData, 'applicant')}
               </>
             )),
             applicants: {
@@ -633,7 +633,7 @@ const formConfig = {
                     return formContext.pagePerItemIndex === '0' ? (
                       <>
                         <p>{txt}</p>
-                        <>{CustomPrefillMessage(formData, 'applicant')}</>
+                        {CustomPrefillMessage(formData, 'applicant')}
                       </>
                     ) : (
                       <p>{txt}</p>
@@ -679,7 +679,7 @@ const formConfig = {
                     return formContext.pagePerItemIndex === '0' ? (
                       <>
                         <p>{txt}</p>
-                        <>{CustomPrefillMessage(formData, 'applicant')}</>
+                        {CustomPrefillMessage(formData, 'applicant')}
                       </>
                     ) : (
                       <p>{txt}</p>

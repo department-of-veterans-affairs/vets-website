@@ -19,13 +19,11 @@ export default function CustomPrefillMessage(formData, role, msg) {
     formData.certifierRole ?? formData['view:certifierRole'];
   if (certifierRole && certifierRole === role)
     return (
-      <>
-        <va-alert status="info">
-          <p className="vads-u-margin-y--0">
-            <strong>Note:</strong> {text}
-          </p>
-        </va-alert>
-      </>
+      <va-alert status="info">
+        <p className="vads-u-margin-y--0">
+          <strong>Note:</strong> {text}
+        </p>
+      </va-alert>
     );
   return <></>;
 }
