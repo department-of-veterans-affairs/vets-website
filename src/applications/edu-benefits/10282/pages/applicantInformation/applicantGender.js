@@ -57,11 +57,11 @@ const genders = {
 };
 
 const uiSchema = {
-  ...titleUI('Your gender'),
+  ...titleUI('Your gender identity'),
+  'ui:description': genderInfoHelpText,
   gender: {
     ...radioUI({
       title: 'How would you describe your gender?',
-      description: genderInfoHelpText,
       labels: genders,
     }),
   },

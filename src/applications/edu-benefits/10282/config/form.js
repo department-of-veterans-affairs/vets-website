@@ -127,9 +127,8 @@ const formConfig = {
           schema: genderRaceQuestion.schema,
         },
         applicantRaceAndEthnicity: {
-          title: 'Your personal information',
+          title: 'Your ethnicity and race',
           path: 'applicant-information-6',
-          reviewTitle: 'Your ethnicity and race',
           uiSchema: applicantRaceAndEthnicity.uiSchema,
           schema: applicantRaceAndEthnicity.schema,
           depends: formData => formData.raceAndGender === true,
