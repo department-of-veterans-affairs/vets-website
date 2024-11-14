@@ -124,6 +124,7 @@ const Autocomplete = ({
         selectResult(results[activeIndex]);
       } else if (e.key === 'Escape') {
         closeList();
+        focusOnInput();
       } else {
         focusOnInput();
       }
