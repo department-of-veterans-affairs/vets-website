@@ -1,18 +1,18 @@
 {
     "data": {
-        "techIndustryFocusArea": "Computer software",
-        "isWorkingInTechIndustry": "Yes",
+        "techIndustryFocusArea": "CS",
+        "isWorkingInTechIndustry": true,
         "currentAnnualSalary": "Between $35,001 and $50,000",
-        "currentlyEmployed": "Yes",
+        "currentlyEmployed": true,
         "highestLevelOfEducation": {
-            "level": "A bachelor's degree"
+            "level": "BD"
         },
-        "raceAndGender": "Yes",
-        "ethnicity": "Prefer not to answer",
+        "raceAndGender": true,
+        "ethnicity": "NA",
         "orginRace": {
             "noAnswer": true
         },
-        "gender": "Prefer not to answer",
+        "gender": "NA",
         "state": "Texas",
         "country": "United States",
         "contactInfo": {

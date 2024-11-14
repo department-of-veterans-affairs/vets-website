@@ -36,12 +36,12 @@ describe('Edu 10282 form config', () => {
     it('should return applicant race and ethnicity if race and gender is true', () => {
       const raceAndEthnicity =
         formConfig.chapters.personalInformation.pages.applicantRaceAndEthnicity;
-      expect(raceAndEthnicity.depends({ raceAndGender: 'Yes' })).to.be.true;
+      expect(raceAndEthnicity.depends({ raceAndGender: true })).to.be.true;
     });
     it('should return applicant gender if race and gender is true', () => {
       const gender =
         formConfig.chapters.personalInformation.pages.applicantGender;
-      expect(gender.depends({ raceAndGender: 'Yes' })).to.be.true;
+      expect(gender.depends({ raceAndGender: true })).to.be.true;
     });
   });
 });

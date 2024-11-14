@@ -1,16 +1,16 @@
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import {
   emailUI,
   phoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const { usaPhone, email } = commonDefinitions;
+const { usaPhone, email } = fullSchema10282.definitions;
 
 export const uiSchema = {
   contactInfo: {
-    ...titleUI('Phone and email address'),
+    ...titleUI('Your contact information'),
     email: emailUI({
       errorMessages: {
         format:

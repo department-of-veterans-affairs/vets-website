@@ -1,26 +1,27 @@
 import React from 'react';
-import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import constants from 'vets-json-schema/dist/constants.json';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   titleUI,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  VaRadioField,
-  VaSelectField,
-} from 'platform/forms-system/src/js/web-component-fields';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
+  applicantInformationCountry,
   veteranDesc,
   applicantContactInfo,
+  applicantState,
   genderRaceQuestion,
   applicantRaceAndEthnicity,
   applicantGender,
   highestLevelOfEducation,
+  currentAnnualSalary,
+  techIndustryFocusArea,
 } from '../pages';
 import StatementOfTruth from '../components/StatementOfTruth';
 // import submitForm from './submitForm';
@@ -28,8 +29,7 @@ import { transform } from './submit-transformer';
 import FormHelp from '../components/FormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 
-const { country, state } = fullSchema10282.definitions;
-
+const { fullName, email, usaPhone } = commonDefinitions;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -43,7 +43,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_10282,
-  defaultDefinitions: { country, state },
   saveInProgress: {
     messages: {
       inProgress:
@@ -70,6 +69,11 @@ const formConfig = {
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
   footerContent: FormFooter,
   getHelp: () => <FormHelp tag={React.Fragment} />,
+  defaultDefinitions: {
+    fullName,
+    usaPhone,
+    email,
+  },
   transformForSubmit: transform,
   chapters: {
     personalInformation: {
@@ -104,43 +108,14 @@ const formConfig = {
         applicantCountry: {
           title: 'Your country of residence',
           path: 'applicant-information-3',
-          uiSchema: {
-            ...titleUI('Country'),
-            country: {
-              'ui:title': 'What country do you live in?',
-              'ui:webComponentField': VaSelectField,
-              'ui:errorMessages': {
-                required: 'You must select a country',
-              },
-            },
-          },
-          schema: {
-            ...fullSchema10282.properties.country,
-          },
+          uiSchema: applicantInformationCountry.uiSchema,
+          schema: applicantInformationCountry.schema,
         },
         applicantState: {
           title: 'Your state of residence',
           path: 'applicant-information-4',
-          uiSchema: {
-            ...titleUI('State'),
-            state: {
-              'ui:title': 'What state do you live in?',
-              'ui:webComponentField': VaSelectField,
-              'ui:errorMessages': {
-                required: 'You must select a state',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['state'],
-            properties: {
-              state: {
-                ...fullSchema10282.properties.state,
-                enum: constants.states.USA.map(st => st.label),
-              },
-            },
-          },
+          uiSchema: applicantState.uiSchema,
+          schema: applicantState.schema,
           depends: formData => {
             return formData.country === 'United States';
           },
@@ -157,14 +132,14 @@ const formConfig = {
           reviewTitle: 'Your ethnicity and race',
           uiSchema: applicantRaceAndEthnicity.uiSchema,
           schema: applicantRaceAndEthnicity.schema,
-          depends: formData => formData.raceAndGender === 'Yes',
+          depends: formData => formData.raceAndGender === true,
         },
         applicantGender: {
           title: 'Your gender identity',
           path: 'applicant-information-7',
           uiSchema: applicantGender.uiSchema,
           schema: applicantGender.schema,
-          depends: formData => formData.raceAndGender === 'Yes',
+          depends: formData => formData.raceAndGender === true,
         },
       },
     },
@@ -178,81 +153,46 @@ const formConfig = {
           schema: highestLevelOfEducation.schema,
         },
         currentlyEmployed: {
-          title: 'Your education and employment history',
+          title: 'Your employment',
           path: 'education-employment-history-2',
           uiSchema: {
-            ...titleUI('Employment'),
-            currentlyEmployed: {
-              'ui:title': 'Are you currently employed?',
-              'ui:webComponentField': VaRadioField,
-            },
+            ...titleUI('Your education and employment history'),
+            currentlyEmployed: yesNoUI('Are you currently employed?'),
           },
           schema: {
             type: 'object',
             properties: {
-              currentlyEmployed: {
-                ...fullSchema10282.properties.currentlyEmployed,
-              },
+              currentlyEmployed: yesNoSchema,
             },
           },
         },
         currentAnnualSalary: {
           title: 'Your current annual salary',
           path: 'education-employment-history-3',
-          uiSchema: {
-            ...titleUI('Your current annual salary'),
-            currentAnnualSalary: {
-              'ui:title': 'What’s your current annual salary?',
-              'ui:widget': 'radio',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              currentAnnualSalary: {
-                ...fullSchema10282.properties.currentAnnualSalary,
-              },
-            },
-          },
+          uiSchema: currentAnnualSalary.uiSchema,
+          schema: currentAnnualSalary.schema,
         },
         isWorkingInTechIndustry: {
           title: 'Your technology industry involvement',
           path: 'education-employment-history-4',
           uiSchema: {
             ...titleUI('Your technology industry involvement'),
-            isWorkingInTechIndustry: {
-              'ui:title': 'Do you currently work in the technology industry?',
-              'ui:widget': 'radio',
-            },
+            isWorkingInTechIndustry: yesNoUI(
+              'Do you currently work in the technology industry?',
+            ),
           },
           schema: {
             type: 'object',
             properties: {
-              isWorkingInTechIndustry: {
-                ...fullSchema10282.properties.isWorkingInTechIndustry,
-              },
+              isWorkingInTechIndustry: yesNoSchema,
             },
           },
         },
         techIndustryFocusArea: {
           title: 'Your main area of focus',
           path: 'education-employment-history-5',
-          uiSchema: {
-            ...titleUI('Your main area of focus'),
-            techIndustryFocusArea: {
-              'ui:title':
-                'What’s your main area of focus in the technology industry?',
-              'ui:widget': 'radio',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              techIndustryFocusArea: {
-                ...fullSchema10282.properties.techIndustryFocusArea,
-              },
-            },
-          },
+          uiSchema: techIndustryFocusArea.uiSchema,
+          schema: techIndustryFocusArea.schema,
         },
       },
     },

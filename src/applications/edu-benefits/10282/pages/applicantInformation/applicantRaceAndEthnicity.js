@@ -1,72 +1,47 @@
-import React from 'react';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
-import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import {
+  checkboxGroupSchema,
+  checkboxGroupUI,
+  titleUI,
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
-const { ethnicity } = fullSchema10282.properties;
+const ethnicityLabels = {
+  HL: 'Hispanic or Latino',
+  NHL: 'Not Hispanic or Latino',
+  NA: 'Prefer not to answer',
+};
+const raceLabels = {
+  isAmericanIndianOrAlaskanNative: 'American Indian or Alaskan Native',
+  isAsian: 'Asian',
+  isBlackOrAfricanAmerican: 'Black or African American',
+  isNativeHawaiianOrOtherPacificIslander:
+    'Native Hawaiian or Other Pacific Islander',
+  isWhite: 'White',
+  noAnswer: 'Prefer not to answer',
+};
 
 const uiSchema = {
   ...titleUI('Your ethnicity and race'),
   ethnicity: {
-    'ui:title': 'What is your ethnicity?',
-    'ui:widget': 'radio',
+    ...radioUI({
+      title: 'What is your ethnicity?',
+      labels: ethnicityLabels,
+    }),
   },
-  originRace: {
-    'ui:title': 'What is your race?',
-    'ui:description': (
-      <p className="vads-u-margin-top--0  vads-u-color--gray-medium">
-        Select all that you identify with
-      </p>
-    ),
-    'ui:webComponentField': VaCheckboxGroupField,
-    isAmericanIndianOrAlaskanNative: {
-      'ui:title': 'American Indian or Alaskan Native',
-    },
-    isAsian: {
-      'ui:title': 'Asian',
-    },
-    isBlackOrAfricanAmerican: {
-      'ui:title': 'Black or African American',
-    },
-    isNativeHawaiianOrOtherPacificIslander: {
-      'ui:title': 'Native Hawaiian or Other Pacific Islander',
-    },
-    isWhite: {
-      'ui:title': 'White',
-    },
-    noAnswer: {
-      'ui:title': 'Prefer not to answer',
-    },
-  },
+  originRace: checkboxGroupUI({
+    title: 'What is your race?',
+    description: 'Select all that you identify with',
+    required: false,
+    labels: raceLabels,
+  }),
 };
 
 const schema = {
   type: 'object',
   properties: {
-    ethnicity,
-    originRace: {
-      type: 'object',
-      properties: {
-        isAmericanIndianOrAlaskanNative: {
-          type: 'boolean',
-        },
-        isAsian: {
-          type: 'boolean',
-        },
-        isBlackOrAfricanAmerican: {
-          type: 'boolean',
-        },
-        isNativeHawaiianOrOtherPacificIslander: {
-          type: 'boolean',
-        },
-        isWhite: {
-          type: 'boolean',
-        },
-        noAnswer: {
-          type: 'boolean',
-        },
-      },
-    },
+    ethnicity: radioSchema(Object.keys(ethnicityLabels)),
+    originRace: checkboxGroupSchema(Object.keys(raceLabels)),
   },
 };
 
