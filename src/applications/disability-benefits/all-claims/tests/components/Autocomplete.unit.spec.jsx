@@ -226,7 +226,7 @@ describe('Autocomplete Component', () => {
         expect(list).to.have.length(21);
       });
 
-      fireEvent.blur(input);
+      fireEvent.mouseDown(document);
 
       await waitFor(() => {
         list = queryByTestId('autocomplete-list');
