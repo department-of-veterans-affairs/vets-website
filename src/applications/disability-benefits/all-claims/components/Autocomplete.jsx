@@ -143,6 +143,12 @@ const Autocomplete = ({
     };
   }, []);
 
+  const handleFocus = () => {
+    if (value && results.length === 0) {
+      debouncedSearch(value);
+    }
+  };
+
   return (
     <div className="cc-autocomplete" ref={containerRef}>
       <VaTextInput
@@ -153,6 +159,7 @@ const Autocomplete = ({
         ref={inputRef}
         required
         value={value}
+        onFocus={handleFocus}
         onInput={e => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
       />
