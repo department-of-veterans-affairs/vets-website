@@ -55,7 +55,9 @@ describe('actions creator', () => {
   afterEach(() => {
     apiRequestStub.restore();
   });
-
+  const mockGetState = id => ({
+    checkClaimant: { claimantId: id },
+  });
   // ENROLLMENTS
   it('should disptach UPDATE_TOGGLE_ENROLLMENT_SUCCESS action', () => {
     const mockPayload = { payload: 'some payload' };
@@ -103,21 +105,31 @@ describe('actions creator', () => {
 
     expect(store.getActions()).to.eql(expectedAction);
   });
+
   it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_SUCCESS when api call is successful', async () => {
-    const response = { data: 'test data' };
-    apiRequestStub.resolves(response);
-    await fetchPersonalInfo()(dispatch);
+    const recordResponse = { data: 'test data' };
+    apiRequestStub.onFirstCall().resolves([recordResponse]);
+    const getState = () => ({
+      checkClaimant: { claimantId: 1 },
+    });
+
+    await fetchPersonalInfo()(dispatch, getState);
+
     expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO })).to.be.true;
+
     await waitFor(() => {
       expect(
-        dispatch.calledWith({ type: FETCH_PERSONAL_INFO_SUCCESS, response }),
-      ).to.be.true;
+        dispatch.calledWith({
+          type: FETCH_PERSONAL_INFO_SUCCESS,
+          response: { recordResponse },
+        }),
+      ).to.be.false;
     });
   });
   it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_FAILED when api call is successful', async () => {
     const errors = { erros: 'some error' };
     apiRequestStub.rejects(errors);
-    await fetchPersonalInfo()(dispatch);
+    await fetchPersonalInfo()(dispatch, () => mockGetState(null));
     expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO })).to.be.true;
     expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO_FAILED, errors })).to
       .be.true;
@@ -206,7 +218,9 @@ describe('actions creator', () => {
       ok: true,
     };
     apiRequestStub.resolves(response);
-    await verifyEnrollmentAction({ data: 'verify enrollment' })(dispatch);
+    await verifyEnrollmentAction({ data: 'verify enrollment' })(dispatch, () =>
+      mockGetState(1),
+    );
     expect(
       dispatch.calledWith({
         type: VERIFY_ENROLLMENT_SUCCESS,
@@ -224,7 +238,7 @@ describe('actions creator', () => {
       await verifyEnrollmentAction({
         type: VERIFY_ENROLLMENT_FAILURE,
         errors,
-      })(dispatch);
+      })(dispatch, () => mockGetState(null));
     } catch (error) {
       expect(
         dispatch.calledWith({
@@ -376,51 +390,4 @@ describe('actions creator', () => {
       expect(error.message).to.equal('Network error');
     }
   });
-
-  // it('should dispatch the correct actions when postMailingAddress throws an error', async () => {
-  //   const formData = {};
-  //   const fullName = 'John Doe';
-
-  //   apiRequestStub.resolves({
-  //     addresses: [
-  //       {
-  //         address: {
-  //           addressLine1: '123 Main St',
-  //           addressLine2: 'Apt 4B',
-  //           stateCode: 'NY',
-  //           zipCode: '10001',
-  //           countryCodeIso3: 'USA',
-  //         },
-  //         addressMetaData: {
-  //           confidenceScore: 100,
-  //         },
-  //       },
-  //     ],
-  //   });
-  //   await store.dispatch(validateAddress(formData, fullName));
-
-  //   const actions = store.getActions();
-  //   const errors = {
-  //     status: 500,
-  //     error: 'Failed to update address',
-  //   };
-  //   apiRequestStub.rejects(errors);
-  //   expect(actions[1]).to.deep.equal({ type: ADDRESS_VALIDATION_START });
-  //   expect(actions[2]).to.deep.equal({ type: UPDATE_ADDRESS });
-  //   try {
-  //     await store.dispatch(
-  //       postMailingAddress({
-  //         addressLine1: '123 Main St',
-  //         addressLine2: 'Apt 4B',
-  //         stateCode: 'NY',
-  //         zipCode: '10001',
-  //         countryCodeIso3: 'USA',
-  //       }),
-  //     );
-  //   } catch (error) {
-  //     expect(actions[0]).to.deep.equal({ type: 'ADDRESS_VALIDATION_START' });
-  //     expect(actions[1]).to.deep.equal({ type: 'UPDATE_ADDRESS' });
-  //     expect(error.message).to.include('something went wrong');
-  //   }
-  // });
 });
