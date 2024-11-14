@@ -243,7 +243,7 @@
  *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
- *   'ui:required'?: (formData: any, index: boolean) => boolean,
+ *   'ui:required'?: (formData: any, index: number) => boolean,
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
@@ -391,7 +391,7 @@
 
 /**
  * @typedef {{
- *   getItemName: (itemData: any, index: boolean) => string,
+ *   getItemName: (itemData: any, index: number) => string,
  *   itemData: any,
  *   nounPlural: string,
  *   nounSingular: string,
@@ -419,7 +419,7 @@
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
- *   getItemName?: (itemData: any, index: boolean) => string,
+ *   getItemName?: (itemData: any, index: number) => string,
  *   deleteDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNo?: (props: ArrayBuilderTextProps) => string,
