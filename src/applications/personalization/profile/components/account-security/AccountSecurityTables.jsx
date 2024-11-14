@@ -5,6 +5,7 @@ import { mfa } from '~/platform/user/authentication/utilities';
 import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 
 import SignInServiceUpdateLink from '../contact-information/email-addresses/SignInServiceUpdateLink';
+import AccountActivityLink from '../account-activity/AccountActivityLink';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import { useSignInServiceProvider } from '../../hooks';
 
@@ -90,7 +91,18 @@ export const AccountSecurityTables = ({
         className="vads-u-margin-bottom--2"
       />
 
-      <ProfileInfoCard level={2} title="Account setup" data={data} />
+      <ProfileInfoCard
+        level={2}
+        title="Account setup"
+        data={data}
+        className="vads-u-margin-bottom--2"
+      />
+
+      <ProfileInfoCard
+        level={2}
+        title="Account activity"
+        data={<AccountActivityLink />}
+      />
     </>
   );
 };

@@ -46,6 +46,7 @@ export const PROFILE_PATHS = Object.freeze({
   NOTIFICATION_SETTINGS: '/profile/notifications',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
   ACCOUNT_SECURITY: '/profile/account-security',
+  ACCOUNT_ACTIVITY: '/profile/account-activity',
   CONTACTS: '/profile/contacts',
   EDIT: '/profile/edit',
 });
@@ -59,6 +60,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   NOTIFICATION_SETTINGS: 'Notification settings',
   CONNECTED_APPLICATIONS: 'Connected apps',
   ACCOUNT_SECURITY: 'Account security',
+  ACCOUNT_ACTIVITY: 'Account activity',
   CONTACTS: 'Personal health care contacts',
   EDIT: 'Edit your information',
 });

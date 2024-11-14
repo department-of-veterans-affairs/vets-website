@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const DivWithBackIcon = styled.div`
+export const DivWithBackIcon = styled.div`
   &:before {
     content: ' ‹ ';
     display: inline-block;

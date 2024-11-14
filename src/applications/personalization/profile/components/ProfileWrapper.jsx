@@ -27,7 +27,11 @@ const LAYOUTS = {
 const getLayout = ({ currentPathname }) => {
   const path = normalizePath(currentPathname);
 
-  const fullWidthPaths = [PROFILE_PATHS.EDIT, PROFILE_PATHS.PROFILE_ROOT];
+  const fullWidthPaths = [
+    PROFILE_PATHS.EDIT,
+    PROFILE_PATHS.ACCOUNT_ACTIVITY,
+    PROFILE_PATHS.PROFILE_ROOT,
+  ];
 
   // if the current path is in the list of full width paths, use that layout
   if (fullWidthPaths.includes(path)) {
