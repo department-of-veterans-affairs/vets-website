@@ -58,6 +58,13 @@ const chapters = {
   },
 };
 
+const formOptions = {
+  // noTitle: true,
+  // noTopNav: true,
+  // noBottomNav: true,
+  fullWidth: true,
+};
+
 /** @type {FormConfig} */
 const formConfig = {
   dev,
@@ -81,7 +88,7 @@ const formConfig = {
   savedFormMessages,
   saveInProgress,
   customText,
-  fullWidth: true,
+  formOptions,
 };
 
 export default formConfig;
