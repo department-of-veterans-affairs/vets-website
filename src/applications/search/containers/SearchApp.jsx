@@ -119,7 +119,7 @@ const SearchApp = ({
     return {
       // The typeahead suggestion box doesn't always exist in the DOM. This means we'll always
       // run into race conditions trying to track whether a typeahead suggestion was clicked before
-      // the form is submitted
+      // the form is submitted. keywordPosition and keywordSelected will always be undefined
       keywordPosition: undefined,
       keywordSelected: undefined,
       path: document.location.pathname,
