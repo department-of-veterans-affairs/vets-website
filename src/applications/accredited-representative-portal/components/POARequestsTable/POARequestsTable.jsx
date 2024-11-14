@@ -34,14 +34,14 @@ export const formatDate = date => {
   return `${month}-${day}-${year}`;
 };
 
-const POARequestsTable = ({ poaRequest }) => {
+const POARequestsTable = ({ poaRequests }) => {
   return (
     <ul
       data-testid="poa-requests-table"
       className="poa-requests__list"
       sort-column={1}
     >
-      {poaRequest.map(({ id, attributes }) => (
+      {poaRequests.map(({ id, attributes: poaRequest }) => (
         <li key={id}>
           <va-card class="poa-requests__card">
             <Link
@@ -49,33 +49,33 @@ const POARequestsTable = ({ poaRequest }) => {
               to={`/poa-requests/${id}`}
             >
               <h3 className="poa-requests__card-title vads-u-font-size--h4">
-                {`${attributes.claimant.lastName},
-                ${attributes.claimant.firstName}`}
+                {`${poaRequest.claimant.lastName},
+                ${poaRequest.claimant.firstName}`}
               </h3>
             </Link>
             <p className="poa-requests__card-subtitle">
-              {createRelationshipCell(attributes)}
+              {createRelationshipCell(poaRequest)}
             </p>
 
             <div className="poa-requests__card-content">
               <div className="poa-requests__card-field">
                 <p className="poa-requests__card-field-label">City</p>
                 <p className="poa-requests__card-field-value">
-                  {attributes.claimantAddress.city}
+                  {poaRequest.claimantAddress.city}
                 </p>
               </div>
 
               <div className="poa-requests__card-field">
                 <p className="poa-requests__card-field-label">State</p>
                 <p className="poa-requests__card-field-value">
-                  {attributes.claimantAddress.state}
+                  {poaRequest.claimantAddress.state}
                 </p>
               </div>
 
               <div className="poa-requests__card-field">
                 <p className="poa-requests__card-field-label">Zip</p>
                 <p className="poa-requests__card-field-value">
-                  {attributes.claimantAddress.zip}
+                  {poaRequest.claimantAddress.zip}
                 </p>
               </div>
 
@@ -84,19 +84,19 @@ const POARequestsTable = ({ poaRequest }) => {
                   POA Received Date
                 </p>
                 <p className="poa-requests__card-field-value">
-                  {formatDate(attributes.submittedAt)}
+                  {formatDate(poaRequest.submittedAt)}
                 </p>
               </div>
 
               <div className="poa-requests__card-field">
                 <p className="poa-requests__card-field-label">
-                  {attributes.status === 'Declined' && (
+                  {poaRequest.status === 'Declined' && (
                     <va-icon
                       icon="close"
                       class="poa-requests__card-icon--red poa-requests__card-icon"
                     />
                   )}
-                  {attributes.status === 'Accepted' && (
+                  {poaRequest.status === 'Accepted' && (
                     <va-icon
                       icon="check_circle"
                       class="poa-requests__card-icon--green poa-requests__card-icon"
@@ -105,7 +105,7 @@ const POARequestsTable = ({ poaRequest }) => {
                   POA Status
                 </p>
                 <p className="poa-requests__card-field-value">
-                  {attributes.status}
+                  {poaRequest.status}
                 </p>
               </div>
 
@@ -121,8 +121,8 @@ const POARequestsTable = ({ poaRequest }) => {
                 </p>
                 <p className="poa-requests__card-field-value">
                   {createLimitationsCell(
-                    attributes.isTreatmentDisclosureAuthorized,
-                    attributes.isAddressChangingAuthorized,
+                    poaRequest.isTreatmentDisclosureAuthorized,
+                    poaRequest.isAddressChangingAuthorized,
                   )}
                 </p>
               </div>
@@ -135,7 +135,7 @@ const POARequestsTable = ({ poaRequest }) => {
 };
 
 POARequestsTable.propTypes = {
-  poaRequest: PropTypes.array.isRequired,
+  poaRequests: PropTypes.array.isRequired,
 };
 
 export default POARequestsTable;
