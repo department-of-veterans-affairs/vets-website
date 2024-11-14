@@ -42,14 +42,14 @@ const PreviousEnrollmentVerifications = ({
   const verifiedEnrollments =
     groupVerificationsByMonth(enrollmentVerifications)?.filter(
       enrollment =>
-        enrollment.verificationMethod &&
+        verificationMethod.includes(enrollment.verificationMethod) &&
         isVerificationEndDateValid(enrollment.verificationEndDate),
     ).length || 0;
   const pendingVerificationsDGIB =
     groupVerificationsByMonth(enrollmentVerifications)?.filter(
       enrollment =>
         isVerificationEndDateValid(enrollment.verificationEndDate) &&
-        !!verificationMethod.includes(enrollment.verificationMethod),
+        !verificationMethod.includes(enrollment.verificationMethod),
     ).length || 0;
 
   const totalEnrollmentVerificationsCount = Object.keys(
