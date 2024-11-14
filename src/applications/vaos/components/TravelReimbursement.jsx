@@ -94,7 +94,7 @@ export default function TravelReimbursement({ appointment }) {
     return (
       <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
-          You've already filed a claim for this facility and date.
+          You've already filed a claim for this appointment.
         </p>
         <p className="vads-u-margin-y--0p5">
           <va-link

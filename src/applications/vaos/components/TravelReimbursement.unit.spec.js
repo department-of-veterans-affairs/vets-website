@@ -115,9 +115,7 @@ describe('VAOS Component: TravelReimbursement', () => {
     const screen = render(<TravelReimbursement appointment={appointment} />);
 
     expect(
-      screen.getByText(
-        /You've already filed a claim for this facility and date./i,
-      ),
+      screen.getByText(/You've already filed a claim for this appointment./i),
     );
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
