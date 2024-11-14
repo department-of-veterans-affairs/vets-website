@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
@@ -31,7 +32,11 @@ const uiSchema = {
   },
   originRace: checkboxGroupUI({
     title: 'What is your race?',
-    description: 'Select all that you identify with',
+    description: (
+      <p className="vads-u-margin-top--0  vads-u-color--gray-medium">
+        Select all that you identify with
+      </p>
+    ),
     required: false,
     labels: raceLabels,
   }),
