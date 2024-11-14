@@ -117,11 +117,11 @@ const pattern2Routes = [
   },
   {
     path: '/2/post-study',
-    component: props => <ReviewPage {...props} />,
-    // indexRoute: {
-    //   onEnter: (nextState, replace) =>
-    //     replace('/2/task-blue/introduction?loggedIn=true'),
-    // },
+    component: props => (
+      <PatternConfigProvider {...props}>
+        <ReviewPage {...props} />,
+      </PatternConfigProvider>
+    ),
   },
 ];
 
