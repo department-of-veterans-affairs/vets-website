@@ -17,7 +17,6 @@ import {
   TYPEAHEAD_LIST,
   clearGAData,
   getSearchGADataFromStorage,
-  listenForTypeaheadClick,
 } from 'platform/site-wide/search-analytics';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from 'platform/utilities/ui';
@@ -60,31 +59,7 @@ const SearchApp = ({
   const [typeAheadWasUsed, setTypeAheadWasUsed] = useState(typeaheadUsed);
   const [formWasSubmitted, setFormWasSubmitted] = useState(false);
 
-  // This is used for tracking whether the typeahead was clicked in the search bar
-  // on the /search page. If typeahead was used on another app/context that lead to searching
-  // on this page, that value comes from localStorage instead
-  //
-  // Note: typeAheadWasUsed comes from the `t={value}` in the URL which is not consistently
-  // set across apps currently and may be tech debt that we can clean up another time
-  const [typeaheadClicked, setTypeaheadClicked] = useState(typeAheadWasUsed);
-
   const instance = useRef({ typeaheadTimer: null });
-
-  const listenForTypeaheadClicks = () => {
-    setTimeout(() => {
-      const searchListBoxItems = document
-        .querySelector('va-search-input')
-        .shadowRoot?.querySelectorAll('.va-search-suggestion');
-
-      if (searchListBoxItems?.length) {
-        listenForTypeaheadClick(searchListBoxItems, setTypeaheadClicked);
-      }
-    }, 1000);
-  };
-
-  useEffect(() => {
-    listenForTypeaheadClicks();
-  });
 
   const {
     currentPage,
@@ -118,9 +93,12 @@ const SearchApp = ({
     let keywordPosition;
     let keywordSelected;
 
-    if (typeaheadSuggestionClicked && suggestionsList?.length) {
-      keywordPosition = suggestionsList?.indexOf(query) + 1 || undefined;
+    if (typeaheadSuggestionClicked) {
       keywordSelected = query;
+    }
+
+    if (keywordSelected && suggestionsList?.length) {
+      keywordPosition = suggestionsList?.indexOf(query) + 1 || undefined;
     }
 
     return {
@@ -138,17 +116,12 @@ const SearchApp = ({
     const validSuggestions =
       savedSuggestions.length > 0 ? savedSuggestions : suggestions;
 
-    let keywordPosition;
-    let keywordSelected;
-
-    if (typeaheadClicked && validSuggestions?.length) {
-      keywordPosition = validSuggestions?.indexOf(query) + 1 || undefined;
-      keywordSelected = query;
-    }
-
     return {
-      keywordPosition,
-      keywordSelected,
+      // The typeahead suggestion box doesn't always exist in the DOM. This means we'll always
+      // run into race conditions trying to track whether a typeahead suggestion was clicked before
+      // the form is submitted
+      keywordPosition: undefined,
+      keywordSelected: undefined,
       path: document.location.pathname,
       searchLocation: 'Search Results Page',
       searchSelection: 'All VA.gov',
@@ -282,7 +255,6 @@ const SearchApp = ({
   const onInputSubmit = event => {
     event.preventDefault();
     setFormWasSubmitted(true);
-    listenForTypeaheadClicks();
     clearGAData();
 
     if (!userInput) {

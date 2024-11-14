@@ -64,14 +64,3 @@ export const getSearchGADataFromStorage = () => {
     typeaheadList: localStorage.getItem(TYPEAHEAD_LIST),
   };
 };
-
-export const listenForTypeaheadClick = (
-  searchListBoxItems,
-  setTypeaheadClicked,
-) => {
-  searchListBoxItems?.forEach(item => {
-    item?.addEventListener('click', () => {
-      setTypeaheadClicked(true);
-    });
-  });
-};

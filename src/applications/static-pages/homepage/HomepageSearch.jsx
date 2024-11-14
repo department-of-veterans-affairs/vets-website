@@ -10,7 +10,6 @@ import {
   TYPEAHEAD_CLICKED,
   TYPEAHEAD_LIST,
   addSearchGADataToStorage,
-  listenForTypeaheadClick,
 } from 'platform/site-wide/search-analytics';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
@@ -45,15 +44,21 @@ const HomepageSearch = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      const searchListBoxItems = document
-        .querySelector('va-search-input')
-        .shadowRoot?.querySelectorAll('.va-search-suggestion');
+    if (document) {
+      setTimeout(() => {
+        const searchListBoxItems = document
+          .querySelector('va-search-input')
+          .shadowRoot?.querySelectorAll('.va-search-suggestion');
 
-      if (searchListBoxItems?.length) {
-        listenForTypeaheadClick(searchListBoxItems, setTypeaheadClicked);
-      }
-    }, 500);
+        if (searchListBoxItems?.length) {
+          searchListBoxItems?.forEach(item => {
+            item?.addEventListener('click', () => {
+              setTypeaheadClicked(true);
+            });
+          });
+        }
+      }, 500);
+    }
   });
 
   const handleSubmit = e => {
@@ -65,7 +70,7 @@ const HomepageSearch = () => {
     );
 
     const analyticsData = {
-      [PAGE_PATH]: document.location,
+      [PAGE_PATH]: document.location.pathname,
       [SEARCH_LOCATION]: 'Homepage Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov - In page search',

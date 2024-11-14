@@ -7,12 +7,12 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 import {
-  addSearchGADataToStorage,
   PAGE_PATH,
   SEARCH_APP_USED,
   SEARCH_LOCATION,
   SEARCH_SELECTION,
   SEARCH_TYPEAHEAD_ENABLED,
+  addSearchGADataToStorage,
 } from 'platform/site-wide/search-analytics';
 import URLSearchParams from 'url-search-params';
 import resourcesSettings from '../manifest.json';
