@@ -2,6 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { format } from 'date-fns';
 import ReferralTaskCard from './ReferralTaskCard';
 import { createReferral } from '../utils/referrals';
 
@@ -26,6 +27,11 @@ describe('VAOS Component: ReferralTaskCard', () => {
 
   const uuid = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
   const referralData = createReferral('2024-09-06T00:00:00Z', uuid);
+  referralData.ReferralExpirationDate = '2025-03-04';
+  const expectedDateFormated = format(
+    new Date(referralData.ReferralExpirationDate),
+    'PP',
+  );
 
   it('should not display referral task card with defaults', () => {
     const screen = render(<ReferralTaskCard />);
@@ -42,7 +48,7 @@ describe('VAOS Component: ReferralTaskCard', () => {
     ).to.exist;
     expect(
       screen.getByText(
-        'We’ve approved your referral for 1 appointment with a community care provider. You must schedule all appointments for this referral by Mar 4, 2025.',
+        `We’ve approved your referral for 1 appointment with a community care provider. You must schedule all appointments for this referral by ${expectedDateFormated}.`,
       ),
     ).to.exist;
     expect(screen.queryByTestId(`referral-task-card-schedule-referral-${uuid}`))
@@ -62,7 +68,7 @@ describe('VAOS Component: ReferralTaskCard', () => {
     ).to.exist;
     expect(
       screen.getByText(
-        'We’ve approved your referral for 3 appointments with a community care provider. You must schedule all appointments for this referral by Mar 4, 2025.',
+        `We’ve approved your referral for 3 appointments with a community care provider. You must schedule all appointments for this referral by ${expectedDateFormated}.`,
       ),
     ).to.exist;
     expect(screen.queryByTestId(`referral-task-card-schedule-referral-${uuid}`))
