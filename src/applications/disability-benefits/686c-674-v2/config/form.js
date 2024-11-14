@@ -1016,7 +1016,8 @@ export const formConfig = {
           schema: spouseAdditionalEvidence.schema,
         },
         childAdditionalEvidence: {
-          // depends: formData => isChapterFieldRequired(formData, TASK_KEYS.addChild),
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
           title: 'Additional evidence needed to add spouse',
           path: 'add-spouse-evidence',
           uiSchema: finalChildAdditionalEvidence.uiSchema,
