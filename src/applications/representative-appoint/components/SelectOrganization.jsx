@@ -61,6 +61,8 @@ const SelectOrganization = props => {
     const selectedOrgId = e.detail.value;
     const selectedOrg = organizations?.find(org => org.id === selectedOrgId);
 
+    setError(null);
+
     setFormData({
       ...formData,
       selectedAccreditedOrganizationId: selectedOrgId,
