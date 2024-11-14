@@ -30,15 +30,11 @@ export async function getPatientReferralById(referralId) {
 }
 
 export async function getProviderById(providerId) {
-  try {
-    const response = await apiRequestWithUrl(
-      `/vaos/v2/epsApi/providerDetails/${providerId}`,
-      {
-        method: 'GET',
-      },
-    );
-    return response.data;
-  } catch (error) {
-    return error;
-  }
+  const response = await apiRequestWithUrl(
+    `/vaos/v2/epsApi/providerDetails/${providerId}`,
+    {
+      method: 'GET',
+    },
+  );
+  return response.data;
 }
