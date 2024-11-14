@@ -29,8 +29,9 @@ class StatusPage extends React.Component {
       introText = (
         <div className="va-introtext">
           <p>
-            You can print your statement and use it instead of your Certificate
-            of Eligibility (COE) to show that you qualify for benefits.
+            You can print your statement and use it as a replacement for a
+            Certificate of Eligibility (COE) to show that you qualify for
+            benefits.
           </p>
         </div>
       );
