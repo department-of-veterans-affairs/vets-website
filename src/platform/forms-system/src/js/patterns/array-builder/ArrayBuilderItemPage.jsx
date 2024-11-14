@@ -92,6 +92,7 @@ export default function ArrayBuilderItemPage({
                 required={required}
               />
               {/* save-in-progress link, etc */}
+              {props.pageContentBeforeButtons}
               {props.contentBeforeButtons}
               <FormNavButtons
                 goBack={props.goBack}
@@ -140,7 +141,6 @@ export default function ArrayBuilderItemPage({
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,
     contentBeforeButtons: PropTypes.node,
-    PageContentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
     getFormData: PropTypes.func,
@@ -150,6 +150,7 @@ export default function ArrayBuilderItemPage({
     onContinue: PropTypes.func,
     onReviewPage: PropTypes.bool,
     onSubmit: PropTypes.func,
+    pageContentBeforeButtons: PropTypes.node,
     pagePerItemIndex: PropTypes.string,
     required: PropTypes.bool,
     setFormData: PropTypes.func,

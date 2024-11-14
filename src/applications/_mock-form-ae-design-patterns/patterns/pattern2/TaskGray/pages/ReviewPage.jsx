@@ -10,11 +10,9 @@ const ReviewPage = props => {
   const [privacyCheckbox, setPrivacyCheckbox] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const {
-    // chapterTitles,
-    getChapterPagesFromChapterIndex,
-    reviewTitles,
-  } = setupPages(formConfig);
+  const { getChapterPagesFromChapterIndex, reviewTitles } = setupPages(
+    formConfig,
+  );
 
   const { router } = props;
 
@@ -34,7 +32,6 @@ const ReviewPage = props => {
       setSubmitted(true);
       if (privacyCheckbox) {
         router.push('/2');
-        // props.goToPath('/2');
       }
     },
   };

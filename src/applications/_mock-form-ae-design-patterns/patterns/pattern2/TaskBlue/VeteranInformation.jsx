@@ -86,8 +86,8 @@ const VeteranInformation = ({ formData }) => {
 
       <p className="vads-u-margin-bottom--4">
         <strong>Note:</strong> To protect your personal information, we don’t
-        allow online changes to your name, date of birth, or Social Security
-        number. If you need to change this information, call us at{' '}
+        allow online changes to your name, Social Security number, date of
+        birth, or gender. If you need to change this information, call us at{' '}
         <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
         <va-telephone contact="711" tty />
         ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m. ET.
