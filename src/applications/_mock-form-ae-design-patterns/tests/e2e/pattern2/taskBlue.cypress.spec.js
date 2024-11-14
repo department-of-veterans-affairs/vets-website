@@ -138,10 +138,10 @@ describe('Prefill pattern - Blue Task', () => {
     cy.get('va-telephone[contact="5554044567"]').should('exist');
 
     cy.findByText('Email address').should('exist');
-    cy.findByText('test@test.com').should('exist');
+    cy.findByText('Mitchell.Jenkins.Test@gmail.com').should('exist');
 
     cy.findByText('Mailing address').should('exist');
-    cy.findByText('123 Mailing Address St.').should('exist');
+    cy.findByText('125 Main St.').should('exist');
     cy.findByText('Fulton, NY 97063').should('exist');
 
     cy.injectAxeThenAxeCheck();

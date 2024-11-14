@@ -12,6 +12,7 @@ function PreSubmitInfo({ formData, showError, setPreSubmit }) {
 
   return (
     <VaPrivacyAgreement
+      enableAnalytics
       class="vads-u-margin-y--4"
       name="privacyAgreementAccepted"
       onVaChange={event =>

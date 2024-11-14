@@ -16,6 +16,7 @@ const SearchControls = props => {
     geoCodeError,
     searchTitle,
     searchHint,
+    hasSearchInput,
   } = props;
 
   const [queryState, setQueryState] = useState(searchQuery);
@@ -90,7 +91,7 @@ const SearchControls = props => {
             </button>
           )}
         </div>
-        {geoCodeError && (
+        {(geoCodeError || hasSearchInput) && (
           <span className="usa-input-error-message" role="alert">
             <span className="sr-only">Error</span>
             Please fill in a city or postal code.
@@ -109,7 +110,7 @@ const SearchControls = props => {
           />
           {queryState?.length > 0 && (
             <button
-              aria-label="Clear your city, state or postal code"
+              aria-label="Clear city or postal code"
               type="button"
               id="clear-input"
               className="clear-button"
@@ -123,13 +124,12 @@ const SearchControls = props => {
               />
             </button>
           )}
-          <input
-            id="facility-search"
-            className="usa-button"
-            onClick={handleSubmit}
-            type="submit"
-            value="Search"
-          />
+          <button type="button" id="facility-search" onClick={handleSubmit}>
+            <span className="button-text">Search</span>
+            <span className="button-icon">
+              <va-icon icon="search" size={3} />
+            </span>
+          </button>
         </div>
       </div>
     );
