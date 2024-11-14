@@ -120,7 +120,8 @@ export const ContactInformation = ({
               value={address?.street2 || 'Not provided'}
             />
             <InfoSection.InfoBlock label="City" value={address?.city} />
-            <InfoSection.InfoBlock label="State" value={address?.state} />
+            <InfoSection.InfoBlock label="State" value="New York" />
+            {/* <InfoSection.InfoBlock label="State" value={address?.state} /> */}
             <InfoSection.InfoBlock
               label="Postal code"
               value={address?.postalCode}
