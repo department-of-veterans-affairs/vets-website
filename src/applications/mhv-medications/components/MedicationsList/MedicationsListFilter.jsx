@@ -49,7 +49,6 @@ const MedicationsListFilter = props => {
       <VaAccordionItem
         header="Filter list"
         bordered="true"
-        open={!!filterOption}
         id="filter"
         data-testid="rx-filter"
         uswds
