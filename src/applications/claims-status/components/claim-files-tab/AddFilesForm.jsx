@@ -199,6 +199,7 @@ class AddFilesForm extends React.Component {
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
+            uswds="false"
           />
         </div>
         {this.props.files.map(
