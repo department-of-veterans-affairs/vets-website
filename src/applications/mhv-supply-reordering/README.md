@@ -9,22 +9,6 @@ Slack Channel: [#va-cto-supply-reordering](https://dsva.slack.com/archives/C05DF
 
 Before you get started check [this page](https://depo-platform-documentation.scrollhelp.site/developer-docs/setting-up-your-local-frontend-environment) first to make sure you are setup to use the correct version of Node and Yarn.
 
-
-- Add the following lines to your `content-build/src/applications/registry.json` file
-
-```json
-{
-  "appName": "Order health care supplies",
-  "entryName": "mhv-supply-reordering",
-  "rootUrl": "/my-health/order-supplies",
-  "productId": "",
-  "template": {
-    "vagovprod": true,
-    "layout": "page-react.html"
-  }
-},
-```
-
 - clone vets-website repo `git clone git@github.com:department-of-veterans-affairs/vets-website.git`
 - run `yarn install`
 - turn on local mocks `yarn mock-api --responses src/applications/mhv-supply-reordering/mocks/index.js`
