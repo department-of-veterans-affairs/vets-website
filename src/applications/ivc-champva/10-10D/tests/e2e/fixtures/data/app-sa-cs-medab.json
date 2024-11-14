@@ -85,13 +85,7 @@
       "suffix": "Sr."
     },
     "sponsorDob": "1999-01-01",
-    "certifierRelationship": {
-      "relationshipToVeteran": {
-        "applicant": true,
-        "spouse": false,
-        "thirdParty": true
-      }
-    },
+    "certifierRole": "applicant",
     "certifierPhone": "1231231234",
     "certifierEmail": "certifier@email.gov",
     "certifierAddress": {
