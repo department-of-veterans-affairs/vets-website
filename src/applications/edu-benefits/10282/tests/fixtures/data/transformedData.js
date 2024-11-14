@@ -4,7 +4,7 @@ const transformedMinimalDataActual = {
   contactInfo: {
     email: 'janedoe@gmail.com',
   },
-  veteranDesc: "I'm a Veteran",
+  veteranDesc: 'veteran',
   veteranFullName: {
     first: 'Jane',
     last: 'Doe',
@@ -21,15 +21,16 @@ export const transformedMinimalData = JSON.stringify({
 });
 
 const transformedMaximalDataActual = {
-  techIndustryFocusArea: 'Computer software',
-  isWorkingInTechIndustry: 'Yes',
+  techIndustryFocusArea: 'CS',
+  isWorkingInTechIndustry: true,
   currentAnnualSalary: 'Between $35,001 and $50,000',
-  currentlyEmployed: 'Yes',
+  currentlyEmployed: true,
   highestLevelOfEducation: {
-    level: "A bachelor's degree",
+    level: 'BD',
   },
-  raceAndGender: 'Yes',
-  ethnicity: 'Prefer not to answer',
+  raceAndGender: true,
+  ethnicity: 'NA',
+  gender: 'NA',
   orginRace: { noAnswer: true },
   state: 'Texas',
   country: 'United States',

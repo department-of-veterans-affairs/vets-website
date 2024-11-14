@@ -1,21 +1,29 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
+import {
+  titleUI,
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
+const focusAreas = {
+  CP: 'Computer programming',
+  CS: 'Computer software',
+  DP: 'Data processing',
+  IS: 'Information sciences',
+  MA: 'Media application',
+  NA: 'Something else not listed here',
+};
 const uiSchema = {
   ...titleUI('Your main area of focus'),
-  techIndustryFocusArea: {
-    'ui:title': 'What’s your main area of focus in the technology industry?',
-    'ui:widget': 'radio',
-  },
+  techIndustryFocusArea: radioUI({
+    title: 'What’s your main area of focus in the technology industry?',
+    labels: focusAreas,
+  }),
 };
 
 const schema = {
   type: 'object',
   properties: {
-    techIndustryFocusArea: {
-      ...fullSchema10282.properties.techIndustryFocusArea,
-      enum: fullSchema10282.properties.techIndustryFocusArea.enum.sort(),
-    },
+    techIndustryFocusArea: radioSchema(Object.keys(focusAreas)),
   },
 };
 

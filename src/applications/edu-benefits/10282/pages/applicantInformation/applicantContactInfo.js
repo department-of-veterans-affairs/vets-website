@@ -10,7 +10,7 @@ const { usaPhone, email } = fullSchema10282.definitions;
 
 export const uiSchema = {
   contactInfo: {
-    ...titleUI('Phone and email address'),
+    ...titleUI('Your contact information'),
     email: emailUI({
       errorMessages: {
         format:

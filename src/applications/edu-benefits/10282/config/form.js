@@ -1,5 +1,4 @@
 import React from 'react';
-import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -7,6 +6,8 @@ import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   titleUI,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -131,14 +132,14 @@ const formConfig = {
           reviewTitle: 'Your ethnicity and race',
           uiSchema: applicantRaceAndEthnicity.uiSchema,
           schema: applicantRaceAndEthnicity.schema,
-          depends: formData => formData.raceAndGender === 'Yes',
+          depends: formData => formData.raceAndGender === true,
         },
         applicantGender: {
           title: 'Your gender identity',
           path: 'applicant-information-7',
           uiSchema: applicantGender.uiSchema,
           schema: applicantGender.schema,
-          depends: formData => formData.raceAndGender === 'Yes',
+          depends: formData => formData.raceAndGender === true,
         },
       },
     },
@@ -152,21 +153,16 @@ const formConfig = {
           schema: highestLevelOfEducation.schema,
         },
         currentlyEmployed: {
-          title: 'Your education and employment history',
+          title: 'Your employment',
           path: 'education-employment-history-2',
           uiSchema: {
-            ...titleUI('Employment'),
-            currentlyEmployed: {
-              'ui:title': 'Are you currently employed?',
-              'ui:widget': 'radio',
-            },
+            ...titleUI('Your education and employment history'),
+            currentlyEmployed: yesNoUI('Are you currently employed?'),
           },
           schema: {
             type: 'object',
             properties: {
-              currentlyEmployed: {
-                ...fullSchema10282.properties.currentlyEmployed,
-              },
+              currentlyEmployed: yesNoSchema,
             },
           },
         },
@@ -181,17 +177,14 @@ const formConfig = {
           path: 'education-employment-history-4',
           uiSchema: {
             ...titleUI('Your technology industry involvement'),
-            isWorkingInTechIndustry: {
-              'ui:title': 'Do you currently work in the technology industry?',
-              'ui:widget': 'radio',
-            },
+            isWorkingInTechIndustry: yesNoUI(
+              'Do you currently work in the technology industry?',
+            ),
           },
           schema: {
             type: 'object',
             properties: {
-              isWorkingInTechIndustry: {
-                ...fullSchema10282.properties.isWorkingInTechIndustry,
-              },
+              isWorkingInTechIndustry: yesNoSchema,
             },
           },
         },

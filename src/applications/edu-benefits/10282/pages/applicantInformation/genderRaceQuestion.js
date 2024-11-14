@@ -1,8 +1,9 @@
 import React from 'react';
-import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-
-const { raceAndGender } = fullSchema10282.definitions;
+import {
+  titleUI,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const uiDescription = (
   <>
@@ -20,18 +21,13 @@ const uiDescription = (
 const uiSchema = {
   ...titleUI('Optional demographic information'),
   'ui:description': uiDescription,
-  raceAndGender: {
-    'ui:title': 'Do you want to answer these optional questions?',
-    'ui:widget': 'radio',
-  },
+  raceAndGender: yesNoUI('Do you want to answer these optional questions?'),
 };
 
 const schema = {
   type: 'object',
   properties: {
-    raceAndGender: {
-      ...raceAndGender,
-    },
+    raceAndGender: yesNoSchema,
   },
 };
 

@@ -8,7 +8,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 const definitions = formConfig.defaultDefinitions;
@@ -26,7 +26,7 @@ describe('Edu 10282 applicantName', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('va-text-input').length).to.equal(3);
     form.unmount();
   });
 

@@ -1,7 +1,9 @@
 import React from 'react';
-import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
-
-const { gender } = fullSchema10282.properties;
+import {
+  titleUI,
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const gaGenderInfoHelpText = () => {
   window.dataLayer.push({
@@ -12,7 +14,7 @@ const gaGenderInfoHelpText = () => {
 };
 
 export const genderInfoHelpText = (
-  <>
+  <div className="vads-u-margin-top--1">
     <p className="vads-u-color--gray-medium vads-u-margin-top--0 vads-u-margin-bottom--0">
       You can change your selection at any time. If you decide you no longer
       want to share your gender identity, select{' '}
@@ -41,28 +43,34 @@ export const genderInfoHelpText = (
         </li>
       </ul>
     </va-additional-info>
-  </>
+  </div>
 );
 
+const genders = {
+  M: 'Man',
+  NB: 'Non-binary',
+  TM: 'Transgender man',
+  TF: 'Transgender woman',
+  F: 'Woman',
+  NA: 'Prefer not to answer',
+  0: 'A gender not listed here',
+};
+
 const uiSchema = {
+  ...titleUI('Your gender'),
   gender: {
-    'ui:title': (
-      <h3
-        className="vads-u-margin-bottom-2 vads-u-color--gray-dark"
-        data-testid="gender"
-      >
-        How would you describe your gender?
-      </h3>
-    ),
-    'ui:description': genderInfoHelpText,
-    'ui:widget': 'radio',
+    ...radioUI({
+      title: 'How would you describe your gender?',
+      description: genderInfoHelpText,
+      labels: genders,
+    }),
   },
 };
 
 const schema = {
   type: 'object',
   properties: {
-    gender,
+    gender: radioSchema(Object.keys(genders)),
   },
 };
 
