@@ -364,6 +364,9 @@ describe('form:', () => {
             formConfig = options ? formConfig(options) : formConfig(); // eslint-disable-line no-param-reassign
           }
 
+          // eslint-disable-next-line no-console
+          console.log('configFilePath: ', configFilePath);
+
           validStringProperty(formConfig, 'ariaDescribedBySubmit', false);
           validObjectProperty(formConfig, 'dev', false);
           validFormConfigKeys(formConfig);
