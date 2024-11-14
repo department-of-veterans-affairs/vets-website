@@ -55,7 +55,7 @@ const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
         </p>
         <p>
           <a href={learnHowToVerifyIdentityUrl}>
-            Learn how to verify your identity
+            Learn more about verifying your identity
           </a>
         </p>
       </div>
