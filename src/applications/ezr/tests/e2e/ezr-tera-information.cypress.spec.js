@@ -35,8 +35,7 @@ function setUserData(user, prefillData) {
 
 function goToToxicExposurePageAndCheckYes() {
   cy.visit(manifest.rootUrl);
-  // Add '@mockfeatures' back to this list after removing the 'ezr_tera_branching_enabled' feature toggle
-  cy.wait(['@mockUser', '@mockEnrollmentStatus']);
+  cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
   advanceToHouseholdSection();
 
