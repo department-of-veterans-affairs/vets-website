@@ -50,7 +50,7 @@ class IntroductionPage extends React.Component {
     };
 
     const sipProps = {
-      hideUnauthedStartLink: environment.isProduction(),
+      hideUnauthedStartLink: environment.isProduction(), // Temporarily changed from true to simplify user testing of newConditionsPages in staging
       headingLevel: 2,
       prefillEnabled: formConfig.prefillEnabled,
       formId,
