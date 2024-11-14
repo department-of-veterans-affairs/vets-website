@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { scrollToFirstError } from 'platform/utilities/ui';
 import { useReviewPage } from '../hooks/useReviewPage';
 
 const SelectOrganization = props => {
   const { formData, setFormData, goBack, goForward, goToPath } = props;
+  const [error, setError] = useState(null);
   const organizations =
     formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
       ?.data;
@@ -26,7 +28,10 @@ const SelectOrganization = props => {
   };
 
   const handleGoForward = () => {
-    if (isReviewPage) {
+    if (!formData?.selectedAccreditedOrganizationId) {
+      setError('You must select an accredited organization');
+      scrollToFirstError({ focusOnAlertRole: true });
+    } else if (isReviewPage) {
       if (isReplacingRep) {
         goToPath('/representative-replace?review=true');
       } else {
@@ -65,7 +70,7 @@ const SelectOrganization = props => {
 
   const organizationList = (
     <VaRadio
-      error={null}
+      error={error}
       label="Which VSO do you want to appoint?"
       required
       onVaValueChange={handleRadioSelect}
@@ -76,6 +81,7 @@ const SelectOrganization = props => {
           name="organization"
           value={org.id}
           key={`${org.id}-${index}`}
+          checked={formData.selectedAccreditedOrganizationId === org.id}
         />
       ))}
     </VaRadio>
