@@ -91,22 +91,16 @@ describe('MHV Secure Messaging helpers', () => {
   });
 
   it('setUnsavedNavigationError should set the correct unable to save draft error', () => {
-    const setNavigationError = sinon.spy();
+    const setNavigationErrorSpy = sinon.spy();
     const navigationError = {
-      title: ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title,
-      confirmButtonText:
-        ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-          .confirmButtonText,
-      cancelButtonText:
-        ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-          .cancelButtonText,
+      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
     };
     setUnsavedNavigationError(
       ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
-      setNavigationError,
+      setNavigationErrorSpy,
       ErrorMessages,
     );
-    sinon.assert.calledWith(setNavigationError, navigationError);
+    sinon.assert.calledWith(setNavigationErrorSpy, navigationError);
   });
 
   it('setUnsavedNavigationError should set the correct unable to save error', () => {
