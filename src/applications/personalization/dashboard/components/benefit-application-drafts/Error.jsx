@@ -3,7 +3,7 @@ import React from 'react';
 const Error = () => {
   const content = (
     <>
-      <h3 slot="headline" className="vads-u-margin-top--0 vads-u-font-size--h2">
+      <h3 slot="headline" className="vads-u-margin-top--0">
         We can’t access your benefit applications and forms right now
       </h3>
       <p className="vads-u-margin-bottom--0">
