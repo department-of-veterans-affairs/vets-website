@@ -39,6 +39,10 @@ const newConditionsPages = arrayBuilderPages(
         const index = getArrayIndexFromPathName(pathname);
         const urlParamsString = stringifyUrlParams(urlParams) || '';
 
+        // TODO: This fixed bug where side of body was not being cleared when condition was edited which could result in 'Asthma, right'
+        // However, with this fix, when user doesn't change condition, side of body is cleared which could confuse users
+        formData.sideOfBody = undefined;
+
         return hasSideOfBody(formData, index)
           ? helpers.navForwardKeepUrlParams(props)
           : goPath(`new-conditions/${index}/date${urlParamsString}`);

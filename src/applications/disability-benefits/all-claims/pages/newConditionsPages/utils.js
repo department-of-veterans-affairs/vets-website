@@ -12,6 +12,18 @@ export const createTitle = (defaultTitle, editTitle) => {
   return defaultTitle;
 };
 
+export const hasSideOfBody = (formData, index) => {
+  const condition = formData?.newConditions
+    ? formData.newConditions[index]?.condition
+    : formData.condition;
+
+  const conditionObject = conditionObjects.find(
+    conditionObj => conditionObj.option === condition,
+  );
+
+  return conditionObject ? conditionObject.sideOfBody : false;
+};
+
 const createCauseDescriptions = item => {
   return {
     NEW: 'Caused by an injury or exposure during my service.',
@@ -29,18 +41,6 @@ const causeFollowUpChecks = {
     !item?.causedByCondition || !item?.causedByConditionDescription,
   WORSENED: item => !item?.worsenedDescription || !item?.worsenedEffects,
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
-};
-
-export const hasSideOfBody = (formData, index) => {
-  const condition = formData?.newConditions
-    ? formData.newConditions[index]?.condition
-    : formData.condition;
-
-  const conditionObject = conditionObjects.find(
-    conditionObj => conditionObj.option === condition,
-  );
-
-  return conditionObject ? conditionObject.sideOfBody : false;
 };
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
@@ -68,7 +68,6 @@ export const arrayBuilderOptions = {
   required: true,
   isItemIncomplete: item =>
     !item?.condition ||
-    (hasSideOfBody(item) && !item?.sideOfBody) ||
     !item?.date ||
     !item?.cause ||
     (causeFollowUpChecks[item.cause] && causeFollowUpChecks[item.cause](item)),
