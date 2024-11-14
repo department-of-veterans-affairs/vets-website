@@ -125,6 +125,8 @@ const Autocomplete = ({
       } else if (e.key === 'Escape') {
         closeList();
         focusOnInput();
+      } else if (e.key === 'Tab') {
+        closeList();
       } else {
         focusOnInput();
       }
