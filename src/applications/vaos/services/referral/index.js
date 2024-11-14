@@ -39,6 +39,6 @@ export async function getProviderById(providerId) {
     );
     return response.data;
   } catch (error) {
-    return null;
+    return error;
   }
 }
