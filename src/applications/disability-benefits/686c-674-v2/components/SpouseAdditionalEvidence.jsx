@@ -13,7 +13,6 @@ export const SpouseAdditionalEvidence = () => {
 
   return (
     <div>
-      <h3>Submit supporting evidence to add your spouse</h3>
       <p>
         Based on your answers, you’ll need to submit supporting evidence to add
         your spouse as your dependent.
