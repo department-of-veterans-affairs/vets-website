@@ -259,7 +259,7 @@ class PatientComposePage {
   };
 
   closeESAlertModal = () => {
-    cy.get(Locators.ALERTS.ES_ALERT)
+    cy.get(Locators.ALERTS.ALERT_MODAL)
       .shadow()
       .find(`button`)
       .click({ force: true });
@@ -451,7 +451,7 @@ class PatientComposePage {
   };
 
   getAlertEditDraftBtn = () => {
-    return cy.get(Locators.ALERTS.ES_ALERT).find('va-button');
+    return cy.get(Locators.ALERTS.ALERT_MODAL).find('va-button');
   };
 
   verifyHeader = text => {
