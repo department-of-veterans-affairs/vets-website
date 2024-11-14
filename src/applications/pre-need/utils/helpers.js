@@ -591,7 +591,7 @@ export const ssnDashesUI = environment.isProduction()
 export const veteranUI = {
   militaryServiceNumber: {
     'ui:title':
-      'Military Service number (if it’s different than your Social Security number)',
+      'Military Service number (if it’s different than your Social Security)',
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
