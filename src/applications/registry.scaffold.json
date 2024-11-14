@@ -136,5 +136,13 @@
     "appName": "Verify Your Enrollment Widget",
     "rootUrl": "/education/verify-school-enrollment",
     "widgetType": "vye-enrollment-login-widget"
+  },
+  {
+    "appName": "21a Apply to become a VA-accredited attorney or claims agent",
+    "entryName": "representative-21a",
+    "rootUrl": "/representative/accreditation/attorney-claims-agent-form-21a",
+    "template": {
+      "layout": "accredited-representative-portal.html"
+    }
   }
 ]

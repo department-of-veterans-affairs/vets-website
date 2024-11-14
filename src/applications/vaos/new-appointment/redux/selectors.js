@@ -20,6 +20,7 @@ import {
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureRemovePodiatry,
 } from '../../redux/selectors';
 import { removeDuplicateId } from '../../utils/data';
 
@@ -373,6 +374,7 @@ export function selectTypeOfCarePage(state) {
     pageChangeInProgress: selectPageChangeInProgress(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
+    removePodiatry: selectFeatureRemovePodiatry(state),
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
     useV2: featureVAOSServiceVAAppointments,
