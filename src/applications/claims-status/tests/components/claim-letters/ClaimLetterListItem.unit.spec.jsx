@@ -14,7 +14,7 @@ const mockLetter = {
   documentId: '{27832B64-2D88-4DEE-9F6F-DF80E4CAAA87}',
   receivedAt: '2022-09-22',
   docType: '184',
-  typeDescription: 'Notification Letter',
+  typeDescription: 'Notification letter',
 };
 
 const mockLetterWithouttypeDescription = { ...mockLetter };
