@@ -11,7 +11,7 @@ import { NULL_CONDITION_STRING } from '../constants';
 export const conditionsPageTitle = 'Mental health conditions';
 export const conditionsQuestion =
   'Are any of your new conditions a mental health condition related to a traumatic event during your military service? Check any that are related.';
-export const examplesDescription =
+export const examplesHint =
   'Examples of mental health disorders include, but are not limited to, post-traumatic stress disorder (PTSD), depression, anxiety, and bipolar disorder.';
 
 export const traumaticEventsInfo = (

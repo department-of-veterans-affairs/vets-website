@@ -3,7 +3,7 @@ import {
   traumaticEventsInfo,
   conditionsPageTitle,
   conditionsQuestion,
-  examplesDescription,
+  examplesHint,
   makeMHConditionsSchema,
   makeMHConditionsUISchema,
   validateMHConditions,
@@ -15,7 +15,7 @@ export const uiSchema = {
   mentalHealth: {
     conditions: makeConditionsUI({
       title: conditionsQuestion,
-      hint: examplesDescription,
+      hint: examplesHint,
       replaceSchema: makeMHConditionsSchema,
       updateUiSchema: makeMHConditionsUISchema,
     }),

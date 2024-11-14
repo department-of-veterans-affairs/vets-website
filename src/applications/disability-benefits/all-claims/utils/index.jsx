@@ -782,12 +782,14 @@ export const formatMonthYearDate = (rawDate = '') => {
 export function makeConditionsUI({
   title,
   description,
+  hint,
   replaceSchema,
   updateUiSchema,
 }) {
   return checkboxGroupUI({
     title,
     description,
+    hint,
     labels: {},
     required: false,
     replaceSchema,
