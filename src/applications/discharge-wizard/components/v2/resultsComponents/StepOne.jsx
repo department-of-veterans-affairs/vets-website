@@ -101,7 +101,7 @@ const StepOne = ({ formResponses }) => {
       ].includes(formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE]) && (
         <li>
           Because you’re applying for reconsideration of a previous application,
-          you’ll need to enter the previous application number in Item 6b.{' '}
+          you’ll need to enter the previous application number in Item 11b.{' '}
           <strong>Note:</strong> You’re generally only eligible for
           reconsideration if you have new evidence to present that wasn’t
           available when you applied last time. Make sure you’re clear about
