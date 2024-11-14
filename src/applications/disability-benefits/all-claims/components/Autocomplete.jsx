@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import debounce from 'lodash/debounce';
@@ -52,12 +52,15 @@ const Autocomplete = ({
     }, debounceDelay),
   ).current;
 
-  const closeList = () => {
-    debouncedSearch.cancel();
-    debouncedSetAriaLiveText.cancel();
-    setResults([]);
-    setActiveIndex(null);
-  };
+  const closeList = useCallback(
+    () => {
+      debouncedSearch.cancel();
+      debouncedSetAriaLiveText.cancel();
+      setResults([]);
+      setActiveIndex(null);
+    },
+    [debouncedSearch, debouncedSetAriaLiveText],
+  );
 
   const handleInputChange = inputValue => {
     setValue(inputValue);
@@ -127,21 +130,24 @@ const Autocomplete = ({
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target)
-      ) {
-        closeList();
-      }
-    };
+  useEffect(
+    () => {
+      const handleClickOutside = event => {
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target)
+        ) {
+          closeList();
+        }
+      };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    },
+    [closeList],
+  );
 
   const handleFocus = () => {
     if (value && results.length === 0) {
