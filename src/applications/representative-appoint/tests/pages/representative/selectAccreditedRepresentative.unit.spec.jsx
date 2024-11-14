@@ -8,9 +8,9 @@ import {
   getByTestId,
 } from '@testing-library/react';
 import sinon from 'sinon';
-import { SelectAccreditedRepresentative } from '../../components/SelectAccreditedRepresentative';
-import * as api from '../../api/fetchRepStatus';
-import repResults from '../fixtures/data/representative-results.json';
+import { SelectAccreditedRepresentative } from '../../../components/SelectAccreditedRepresentative';
+import * as api from '../../../api/fetchRepStatus';
+import repResults from '../../fixtures/data/representative-results.json';
 
 describe('<SelectAccreditedRepresentative>', () => {
   const getProps = ({ submitted = false, setFormData = () => {} } = {}) => {
