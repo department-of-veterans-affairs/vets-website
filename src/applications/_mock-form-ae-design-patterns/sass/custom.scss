@@ -90,11 +90,13 @@ div.progress-box.progress-box-schemaform > div.form-panel > div > va-card {
 
 // post study page
 #locked-card {
-  width: 21rem;
+  @include media($medium-screen) {
+    width: 21rem;
+  }
 }
 
 #gray-locked-card {
+  @include media($medium-screen) {
   width: 23rem;
+  }
 }
-
-
