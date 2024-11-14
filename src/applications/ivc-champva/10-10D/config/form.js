@@ -20,6 +20,7 @@ import {
   yesNoSchema,
   yesNoUI,
   radioSchema,
+  radioUI,
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -27,6 +28,7 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
+import CustomPrefillMessage from '../components/CustomPrefillAlert';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -42,7 +44,6 @@ import {
   onReviewPage,
   applicantListSchema,
   sponsorWording,
-  populateFirstApplicant,
   page15aDepends,
 } from '../helpers/utilities';
 import { MAX_APPLICANTS, ADDITIONAL_FILES_HINT } from './constants';
@@ -107,15 +108,16 @@ import {
   depends18f3,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
+import {
+  signerContactInfoPage,
+  SignerContactInfoPage,
+} from '../pages/SignerContactInfoPage';
 
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
-
-// Used by populateFirstApplicant fn:
-const SIGNER_REL_PATH = 'signer-relationship';
 
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any required files have not been uploaded
@@ -184,6 +186,33 @@ const formConfig = {
     certifierInformation: {
       title: 'Signer information',
       pages: {
+        page1: {
+          // initialData: mockData.data,
+          path: 'signer-type',
+          title: 'Which of these best describes you?',
+          uiSchema: {
+            ...titleUI('Your information'),
+            certifierRole: radioUI({
+              title: 'Which of these best describes you?',
+              required: () => true,
+              labels: {
+                applicant: 'I’m applying for benefits for myself',
+                sponsor:
+                  'I’m a Veteran applying for benefits for my spouse or dependents',
+                other:
+                  'I’m a representative applying for benefits on behalf of someone else',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['certifierRole'],
+            properties: {
+              titleSchema,
+              certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
+            },
+          },
+        },
         page2: {
           // initialData: mockData.data,
           path: 'signer-info',
@@ -223,27 +252,14 @@ const formConfig = {
         page4: {
           path: 'signer-contact-info',
           title: 'Certification',
-          uiSchema: {
-            ...titleUI(
-              'Your contact information',
-              'We use this information to contact you and verify other details.',
-            ),
-            certifierPhone: phoneUI(),
-            certifierEmail: emailUI(),
-          },
-          schema: {
-            type: 'object',
-            required: ['certifierPhone', 'certifierEmail'],
-            properties: {
-              titleSchema,
-              certifierPhone: phoneSchema,
-              certifierEmail: emailSchema,
-            },
-          },
+          CustomPage: SignerContactInfoPage,
+          CustomPageReview: null,
+          ...signerContactInfoPage,
         },
         page5: {
-          path: SIGNER_REL_PATH,
+          path: 'signer-relationship',
           title: 'Certification',
+          depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI(
               'Your relationship to the applicant',
@@ -280,22 +296,6 @@ const formConfig = {
               'ui:options': {
                 updateSchema: (formData, formSchema) => {
                   const fs = formSchema;
-                  if (
-                    get(
-                      'certifierRelationship.relationshipToVeteran.applicant',
-                      formData,
-                    )
-                  ) {
-                    // If the certifier is also an applicant, pre-populate first app slot with certifier info:
-                    populateFirstApplicant(
-                      formData,
-                      SIGNER_REL_PATH, // Used to verify we only ever apply this fn in one location
-                      formData.certifierName,
-                      formData.certifierEmail,
-                      formData.certifierPhone,
-                      formData.certifierAddress,
-                    );
-                  }
                   // If 'other', open the text field to specify:
                   if (
                     get(
@@ -384,6 +384,7 @@ const formConfig = {
         page8: {
           path: 'sponsor-status',
           title: 'Sponsor status',
+          depends: formData => get('certifierRole', formData) !== 'sponsor',
           uiSchema: {
             sponsorInfoTitle: titleUI(
               'Sponsor status',
@@ -409,7 +410,9 @@ const formConfig = {
         page9: {
           path: 'sponsor-status-date',
           title: 'Sponsor status details',
-          depends: formData => get('sponsorIsDeceased', formData),
+          depends: formData =>
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: titleUI('Sponsor status details'),
             sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
@@ -500,15 +503,14 @@ const formConfig = {
           title: 'Applicant information',
           path: 'applicant-info',
           uiSchema: {
-            ...titleUI('Applicant name and date of birth', () => (
+            ...titleUI('Applicant name and date of birth', ({ formData }) => (
+              // Prefill message conditionally displays based on `certifierRole`
               <>
-                Enter the information for any applicants you want to enroll in
-                CHAMPVA benefits.
-                <br />
-                <br />
-                {`You can add up to ${MAX_APPLICANTS} applicants in a single application. If you 
-              need to add more than ${MAX_APPLICANTS} applicants, you'll need to submit a 
-              separate application for them.`}
+                <p>
+                  Enter the information for any applicants you want to enroll in
+                  CHAMPVA benefits.
+                </p>
+                <>{CustomPrefillMessage(formData, 'applicant')}</>
               </>
             )),
             applicants: {
@@ -624,11 +626,20 @@ const formConfig = {
                 ...titleUI(
                   ({ formData }) =>
                     `${applicantWording(formData)} mailing address`,
+                  ({ formData, formContext }) => {
+                    const txt =
+                      'We’ll send any important information about your application to this address';
+                    // Prefill message conditionally displays based on `certifierRole`
+                    return formContext.pagePerItemIndex === '0' ? (
+                      <>
+                        <p>{txt}</p>
+                        <>{CustomPrefillMessage(formData, 'applicant')}</>
+                      </>
+                    ) : (
+                      <p>{txt}</p>
+                    );
+                  },
                 ),
-                'view:description': {
-                  'ui:description':
-                    'We’ll send any important information about your application to this address.',
-                },
                 applicantAddress: {
                   ...addressUI({
                     labels: {
@@ -642,7 +653,6 @@ const formConfig = {
           },
           schema: applicantListSchema([], {
             titleSchema,
-            'view:description': blankSchema,
             applicantAddress: addressSchema(),
           }),
         },
@@ -657,8 +667,24 @@ const formConfig = {
               items: {
                 ...titleUI(
                   ({ formData }) =>
-                    `${applicantWording(formData)} contact information`,
-                  'This information helps us contact you faster if we need to follow up with you about your application',
+                    `${applicantWording(formData)} mailing address`,
+                  ({ formData, formContext }) => {
+                    const txt = `We'll use this information to contact ${applicantWording(
+                      formData,
+                      false,
+                      false,
+                      true,
+                    )} if we need to follow up about this application.`;
+                    // Prefill message conditionally displays based on `certifierRole`
+                    return formContext.pagePerItemIndex === '0' ? (
+                      <>
+                        <p>{txt}</p>
+                        <>{CustomPrefillMessage(formData, 'applicant')}</>
+                      </>
+                    ) : (
+                      <p>{txt}</p>
+                    );
+                  },
                 ),
                 applicantPhone: phoneUI(),
                 applicantEmailAddress: emailUI(),
