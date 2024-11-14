@@ -20,6 +20,9 @@ export const schema = {
   type: 'object',
   required: ['country'],
   properties: {
-    country,
+    country: {
+      ...country,
+      default: 'United States',
+    },
   },
 };

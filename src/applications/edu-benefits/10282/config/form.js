@@ -1,6 +1,5 @@
 import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import {
   fullNameNoSuffixUI,
@@ -29,7 +28,6 @@ import { transform } from './submit-transformer';
 import FormHelp from '../components/FormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 
-const { fullName, email, usaPhone } = commonDefinitions;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -69,11 +67,7 @@ const formConfig = {
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
   footerContent: FormFooter,
   getHelp: () => <FormHelp tag={React.Fragment} />,
-  defaultDefinitions: {
-    fullName,
-    usaPhone,
-    email,
-  },
+  defaultDefinitions: {},
   transformForSubmit: transform,
   chapters: {
     personalInformation: {
@@ -155,7 +149,7 @@ const formConfig = {
           title: 'Your employment',
           path: 'education-employment-history-2',
           uiSchema: {
-            ...titleUI('Your education and employment history'),
+            ...titleUI('Your current employment'),
             currentlyEmployed: yesNoUI('Are you currently employed?'),
           },
           schema: {
