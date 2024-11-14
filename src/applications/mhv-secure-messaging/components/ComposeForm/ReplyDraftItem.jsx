@@ -189,7 +189,7 @@ const ReplyDraftItem = props => {
       if (type === 'manual') {
         if (messageValid) {
           setSavedDraft(true);
-          setLastFocusableElement(e.target);
+          setLastFocusableElement(e?.target);
         }
         if (attachments.length) {
           setSaveError(

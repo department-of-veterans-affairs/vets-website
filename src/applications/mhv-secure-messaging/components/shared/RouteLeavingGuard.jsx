@@ -30,9 +30,9 @@ export const RouteLeavingGuard = ({
     updateLastLocation(location);
   };
 
-  const closeModal = cb => {
+  const closeModal = () => {
     updateModalVisible(false);
-    cb();
+    setSetErrorModal(false);
   };
 
   const handleBlockedNavigation = nextLocation => {
@@ -44,18 +44,11 @@ export const RouteLeavingGuard = ({
     return true;
   };
   const handleConfirmNavigationClick = () => {
-    if (
-      confirmButtonText ===
-      ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-        .confirmButtonText
-    ) {
-      saveDraftHandler('manual');
+    saveDraftHandler('manual');
+    closeModal();
+    if (lastLocation) {
+      updateConfirmedNavigation(true);
     }
-    closeModal(() => {
-      if (lastLocation) {
-        updateConfirmedNavigation(true);
-      }
-    });
   };
 
   const handleCancelNavigationClick = e => {
@@ -142,7 +135,7 @@ RouteLeavingGuard.propTypes = {
   p2: PropTypes.any,
   saveDraftHandler: PropTypes.func,
   saveError: PropTypes.object,
-  savedDraft: PropTypes.func,
+  savedDraft: PropTypes.bool,
   setIsModalVisible: PropTypes.func,
   setSetErrorModal: PropTypes.func,
   shouldBlockNavigation: PropTypes.func,
