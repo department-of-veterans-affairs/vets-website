@@ -13,7 +13,7 @@ describe('Interstitial Changes Page', () => {
 
     it('displays a loading indicator', () => {
       cy.get('va-loading-indicator').should('be.visible');
-      cy.injectAxeThenAxeCheck();
+      cy.axeCheck();
     });
   });
 
@@ -29,7 +29,7 @@ describe('Interstitial Changes Page', () => {
     it('displays an unauthorized error message', () => {
       cy.get('va-alert').should('have.attr', 'status', 'error');
       cy.contains('401: Not authorized').should('be.visible');
-      cy.injectAxeThenAxeCheck();
+      cy.axeCheck();
     });
   });
 
@@ -50,7 +50,7 @@ describe('Interstitial Changes Page', () => {
       cy.get('#interstitialH2').should('be.visible');
       cy.get('#interstitalMhvP').should('be.visible');
       cy.get('#interstitalVaLink').should('be.visible');
-      cy.injectAxeThenAxeCheck();
+      cy.axeCheck();
     });
   });
 
@@ -71,7 +71,7 @@ describe('Interstitial Changes Page', () => {
       cy.get('#interstitialH2').should('be.visible');
       cy.get('#interstitalMhvP').should('be.visible');
       cy.get('#interstitalVaLink').should('be.visible');
-      cy.injectAxeThenAxeCheck();
+      cy.axeCheck();
     });
   });
 
@@ -93,7 +93,7 @@ describe('Interstitial Changes Page', () => {
       cy.get('#interstitialH2').should('be.visible');
       cy.get('#interstitalMhvP').should('be.visible');
       cy.get('#interstitalVaLink').should('be.visible');
-      cy.injectAxeThenAxeCheck();
+      cy.axeCheck();
     });
   });
 
@@ -116,7 +116,7 @@ describe('Interstitial Changes Page', () => {
       cy.get('#interstitialH2').should('be.visible');
       cy.get('#interstitalMhvP').should('be.visible');
       cy.get('#interstitalVaLink').should('be.visible');
-      cy.injectAxeThenAxeCheck();
+      cy.axeCheck();
     });
   });
 
@@ -135,7 +135,7 @@ describe('Interstitial Changes Page', () => {
         .should('be.visible')
         .click();
       cy.url().should('include', '/return-path');
-      cy.injectAxeThenAxeCheck();
+      cy.axeCheck();
     });
   });
 });
