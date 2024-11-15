@@ -326,7 +326,7 @@ export function LocationSearchForm({
                 text="Search"
                 onClick={e => doSearch(e)}
                 data-testid="location-search-button"
-                className="loc-search-btn"
+                className="loc-search-btn vads-u-margin-top--1"
               />
             </div>
           </div>
