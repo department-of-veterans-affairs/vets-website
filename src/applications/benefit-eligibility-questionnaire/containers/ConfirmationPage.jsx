@@ -384,13 +384,12 @@ export class ConfirmationPage extends React.Component {
 
                 {!this.props.results.isLoading &&
                   this.state &&
-                  this.state.benefits.length ===
-                    0(
-                      <NoResultsBanner
-                        data={this.props.results.data}
-                        handleClick={this.handleClick}
-                      />,
-                    )}
+                  this.state.benefits.length === 0 && (
+                    <NoResultsBanner
+                      data={this.props.results.data}
+                      handleClick={this.handleClick}
+                    />
+                  )}
               </div>
               {this.state.benefitsList.length > 0 ? (
                 <va-accordion>
