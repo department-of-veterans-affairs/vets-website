@@ -1,13 +1,11 @@
 const delay = require('mocker-api/lib/delay');
 
-const user = require('./endpoints/user');
+const { loa3User } = require('./endpoints/user');
 const address = require('./endpoints/address');
 const emailAddress = require('./endpoints/email-addresses');
 const telephone = require('./endpoints/telephones');
 
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
-
-const serviceHistory = require('./endpoints/service-history');
 
 const maintenanceWindows = require('./endpoints/maintenance-windows');
 
@@ -39,7 +37,7 @@ const genericErrors = {
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
 // utils
-const { delaySingleResponse, logRequest, boot } = require('./script/utils');
+const { delaySingleResponse, boot } = require('./script/utils');
 const { updateMemDb } = require('./script/mem-db');
 
 const responses = {
@@ -89,23 +87,13 @@ const responses = {
     if (shouldError) {
       return res.status(500).json(genericErrors.error500);
     }
-
-    return res.json(updateMemDb(req, user.loa3User72)); // default user LOA3 w/id.me (success)
+    return res.json(updateMemDb(req, loa3User)); // default user LOA3 w/id.me (success)
   },
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
     return res.json(maintenanceWindows.noDowntime);
   },
   'POST /v0/profile/address_validation': address.addressValidationMatch,
-  'GET /v0/profile/service_history': (_req, res) => {
-    // user doesnt have any service history or is not authorized
-    // return res.status(403).json(genericErrors.error403);
-
-    return res.status(200).json(serviceHistory.airForce);
-    // return res
-    //   .status(200)
-    //   .json(serviceHistory.generateServiceHistoryError('403'));
-  },
   'PUT /v0/profile/telephones': (req, res) => {
     return res.json(
       updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),
@@ -166,16 +154,6 @@ const generateMockResponses = () => {
   // set DELAY=1000 when running mock server script
   // to add 1 sec delay to all responses
   const responseDelay = process?.env?.DELAY || 0;
-
-  Object.entries(responses).forEach(([key, value]) => {
-    if (typeof value === 'function') {
-      // add logging to all responses that are functions
-      responses[key] = (req, res) => {
-        logRequest(req);
-        return value(req, res);
-      };
-    }
-  });
 
   return responseDelay > 0 ? delay(responses, responseDelay) : responses;
 };
