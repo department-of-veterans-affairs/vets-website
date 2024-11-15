@@ -131,6 +131,7 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
+  // check and delete if this method not required
   sendMultiDraftMessage = (mockResponse, messageId) => {
     cy.intercept('POST', `${Paths.SM_API_BASE}/messages/${messageId}/reply`, {
       data: mockResponse,

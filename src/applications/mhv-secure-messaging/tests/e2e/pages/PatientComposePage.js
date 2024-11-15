@@ -325,7 +325,7 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
-      .select(recipient)
+      .select(recipient, { force: true })
       .should('contain', mockRecipients.data[0].attributes.name);
   };
 
