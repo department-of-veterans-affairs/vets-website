@@ -9,10 +9,15 @@ import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
 import { medicationsUrls } from '../../../util/constants';
+import { Paths } from '../utils/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
-    // cy.intercept('GET', '/my-health/medications', prescriptions);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20null',
+      prescriptions,
+    ).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -20,7 +25,7 @@ class MedicationsListPage {
     ).as('allergies');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      '/my_health/v1/prescriptions?page=1&per_page=20null',
       prescriptions,
     ).as('medicationsList');
     cy.intercept(
@@ -70,11 +75,7 @@ class MedicationsListPage {
       '/my_health/v1/medical_records/allergies',
       allergiesList,
     ).as('allergiesList');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      prescriptions,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
