@@ -75,7 +75,7 @@ describe('<ConfirmationPage>', () => {
 
     const ulQualified = container.querySelectorAll('ul.benefit-list');
     expect(container.querySelector('#results-container')).to.exist;
-    expect(ulQualified[1].querySelectorAll('li')).to.have.lengthOf(1);
+    expect(ulQualified[1].querySelectorAll('li')).to.have.lengthOf(19);
   });
 
   it('should render results page when query string is provided', () => {
@@ -270,7 +270,7 @@ describe('<ConfirmationPage> with <va-banner />', () => {
     expect(banner).to.have.attribute('type', 'warning');
   });
 
-  it('should handle "Go back" link inside <va-banner />', async () => {
+  it('should handle "Go back" link', async () => {
     const { mockStore, props } = getData([]);
     const { container } = subject({ mockStore, props });
 

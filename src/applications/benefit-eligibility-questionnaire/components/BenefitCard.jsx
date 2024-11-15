@@ -2,10 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const BenefitCard = ({ benefit }) => {
-  const { name, category, description, learnMoreURL, applyNowURL } = benefit;
+  const {
+    name,
+    category,
+    description,
+    isTimeSensitive,
+    learnMoreURL,
+    applyNowURL,
+  } = benefit;
   return (
     <div className="vads-u-margin-bottom--2">
       <va-card tabIndex="0">
+        <>
+          {isTimeSensitive && (
+            <div className="blue-heading">
+              <span>
+                <b>Time-sensitive benefit</b>
+              </span>
+            </div>
+          )}
+        </>
         <h3>
           <span className="usa-label">{category}</span>
           <br />

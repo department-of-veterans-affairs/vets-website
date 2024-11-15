@@ -358,69 +358,20 @@ export class ConfirmationPage extends React.Component {
                 />
               </p>
 
-              <div className="vads-u-margin-y--2">
-                {this.state && this.state.benefits.length > 0 ? (
-                  <va-alert-expandable
-                    status="info"
-                    trigger="Time-sensitive benefits"
-                  >
-                    <ul className="benefit-list">
-                      {this.state &&
-                        this.state.benefits
-                          .filter(benefit => benefit.isTimeSensitive)
-                          .map(b => (
-                            <li key={b.id}>
-                              <strong>{b.name}</strong>
-                              <p>{b.description}</p>
-                              {b.learnMoreURL ? (
-                                <div>
-                                  <a
-                                    href={b.learnMoreURL}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    aria-label={`Learn more about ${b.name}`}
-                                  >
-                                    Learn more
-                                  </a>
-                                </div>
-                              ) : null}
-
-                              {b.applyNowURL ? (
-                                <div>
-                                  <a
-                                    href={b.applyNowURL}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    aria-label={`Apply now for ${b.name}`}
-                                  >
-                                    Apply now
-                                  </a>
-                                </div>
-                              ) : null}
-                            </li>
-                          ))}
-                    </ul>
-                  </va-alert-expandable>
-                ) : (
-                  <NoResultsBanner
-                    data={this.props.results.data}
-                    handleClick={this.handleClick}
-                  />
-                )}
-              </div>
-
               <div>
-                {this.props.results.isLoading ? (
+                {this.props.results.isLoading && (
                   <va-loading-indicator
                     label="Loading"
                     message="Loading results..."
                   />
-                ) : (
-                  <ul className="benefit-list">
-                    {this.state &&
-                      this.state.benefits
-                        .filter(benefit => !benefit.isTimeSensitive)
-                        .map(benefit => (
+                )}
+
+                {!this.props.results.isLoading &&
+                  this.state &&
+                  this.state.benefits.length > 0 && (
+                    <ul className="benefit-list">
+                      {this.state &&
+                        this.state.benefits.map(benefit => (
                           <li key={benefit.id}>
                             <BenefitCard
                               benefit={benefit}
@@ -428,8 +379,18 @@ export class ConfirmationPage extends React.Component {
                             />
                           </li>
                         ))}
-                  </ul>
-                )}
+                    </ul>
+                  )}
+
+                {!this.props.results.isLoading &&
+                  this.state &&
+                  this.state.benefits.length ===
+                    0(
+                      <NoResultsBanner
+                        data={this.props.results.data}
+                        handleClick={this.handleClick}
+                      />,
+                    )}
               </div>
               {this.state.benefitsList.length > 0 ? (
                 <va-accordion>
