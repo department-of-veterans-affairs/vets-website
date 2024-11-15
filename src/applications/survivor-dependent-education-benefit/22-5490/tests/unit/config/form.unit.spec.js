@@ -563,30 +563,62 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
   });
 
   it('should fill out the contact method fields', () => {
+    const initialState = {
+      featureToggles: {
+        showMeb5490MaintenanceAlert: true,
+      },
+      user: {
+        profile: {
+          userFullName: {
+            first: 'john',
+            middle: 't',
+            last: 'test',
+          },
+          dob: '1990-01-01',
+          loa: {
+            current: 3,
+          },
+        },
+      },
+    };
+    const mockStore = configureStore();
+    const store = mockStore(initialState);
     const {
       schema,
       uiSchema,
     } = formConfig.chapters.contactInformationChapter.pages.chooseContactMethod;
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={{ title: 'test form', mobilePhone: { phone: '4138675309' } }}
-        formData={{ title: 'test form', mobilePhone: { phone: '4138675309' } }}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{ title: 'test form', mobilePhone: { phone: '4138675309' } }}
+          formData={{
+            title: 'test form',
+            mobilePhone: { phone: '4138675309' },
+          }}
+        />
+      </Provider>,
     );
 
     selectRadio(form, 'root_contactMethod', 'Email');
-    selectRadio(form, 'root_notificationMethod', 'no');
+    selectRadio(
+      form,
+      'root_notificationMethod',
+      'No, just send me email notifications',
+    );
 
     expect(
       form.find('input[name="root_contactMethod"][value="Email"]').props()
         .checked,
     ).to.be.true;
     expect(
-      form.find('input[name="root_notificationMethod"][value="no"]').props()
-        .checked,
+      form
+        .find(
+          'input[name="root_notificationMethod"][value="No, just send me email notifications"]',
+        )
+        .props().checked,
     ).to.be.true;
     form.unmount();
   });
