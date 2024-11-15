@@ -13,7 +13,7 @@ import { blockURLsRegEx } from '../constants';
 const initializeAddressLine1 = formData => {
   return formData?.addressLine1 !== undefined
     ? formData?.addressLine1
-    : formData?.street.trim();
+    : formData?.street?.trim();
 };
 
 const cleanZipCode = zipcode => {

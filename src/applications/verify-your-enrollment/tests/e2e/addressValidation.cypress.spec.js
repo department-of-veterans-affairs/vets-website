@@ -11,6 +11,7 @@ describe('Address Validations', () => {
         {
           address: {
             addressLine1: '3833 Howlett Hill Rd',
+            street: '3833 Howlett Hill Rd',
             addressType: 'DOMESTIC',
             city: 'Syracuse',
             countryName: 'United States',
