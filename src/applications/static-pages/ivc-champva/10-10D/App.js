@@ -18,7 +18,7 @@ const App = ({ formEnabled }) => {
           required supporting documents with your application.
         </p>
         <va-link
-          href="/health-care/family-caregiver-benefits/champva/#supporting-documents-for-your-application"
+          href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your-"
           text="Find out what supporting documents you need"
         />
         <h3>
