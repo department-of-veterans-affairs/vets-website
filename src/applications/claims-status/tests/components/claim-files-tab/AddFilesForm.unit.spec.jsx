@@ -43,6 +43,37 @@ describe('<AddFilesForm>', () => {
       onDirtyFields: () => {},
     };
 
+    const file = {
+      file: new File(['hello'], 'hello.jpg', {
+        name: 'hello.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      }),
+      docType: { value: 'L029', dirty: true },
+      password: { value: '', dirty: false },
+      isEncrypted: false,
+    };
+    const file2 = {
+      file: new File(['hello2'], 'hello2.jpg', {
+        name: 'hello2.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      }),
+      docType: { value: 'L029', dirty: true },
+      password: { value: '', dirty: false },
+      isEncrypted: false,
+    };
+    const fileWithPassword = {
+      file: new File(['hello'], 'hello.jpg', {
+        name: 'hello.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      }),
+      docType: { value: 'L029', dirty: true },
+      password: { value: '1234', dirty: true },
+      isEncrypted: true,
+    };
+
     it('should render component', () => {
       const { container, getByRole, getAllByRole, getByText } = render(
         <AddFilesForm {...fileFormProps} />,
@@ -154,17 +185,6 @@ describe('<AddFilesForm>', () => {
       });
 
       // Rerender component with new props and submit the file upload
-      const file = {
-        file: new File(['hello'], 'hello.jpg', {
-          name: 'hello.jpg',
-          type: fileTypeSignatures.jpg.mime,
-          size: 9999,
-        }),
-        docType: { value: 'L029', dirty: true },
-        password: { value: '', dirty: false },
-        isEncrypted: false,
-      };
-
       rerender(
         <AddFilesForm
           {...fileFormProps}
@@ -203,21 +223,11 @@ describe('<AddFilesForm>', () => {
       });
 
       // Rerender component with new props and submit the file upload
-      const file = {
-        file: new File(['hello'], 'hello.jpg', {
-          name: 'hello.jpg',
-          type: fileTypeSignatures.jpg.mime,
-          size: 9999,
-        }),
-        docType: { value: 'L029', dirty: true },
-        password: { value: '1234', dirty: true },
-        isEncrypted: true,
-      };
 
       rerender(
         <AddFilesForm
           {...fileFormProps}
-          files={[file]}
+          files={[fileWithPassword]}
           onSubmit={onSubmit}
           onDirtyFields={onDirtyFields}
           uploading
@@ -242,17 +252,8 @@ describe('<AddFilesForm>', () => {
     });
 
     it('should mask filenames from Datadog (no PII)', () => {
-      const files = [
-        {
-          file: {
-            size: 20,
-            name: 'something.jpeg',
-          },
-          docType: 'L501',
-        },
-      ];
       const { container } = render(
-        <AddFilesForm {...fileFormProps} files={files} />,
+        <AddFilesForm {...fileFormProps} files={[file]} />,
       );
       expect(
         $('.document-title', container).getAttribute('data-dd-privacy'),
@@ -260,17 +261,6 @@ describe('<AddFilesForm>', () => {
     });
 
     it('should add a valid file', async () => {
-      const file = {
-        file: new File(['hello'], 'hello.jpg', {
-          name: 'hello.jpg',
-          type: fileTypeSignatures.jpg.mime,
-          size: 9999,
-        }),
-        docType: { value: 'L029', dirty: true },
-        password: { value: '', dirty: false },
-        isEncrypted: false,
-      };
-
       const { container, rerender, getByText } = render(
         <AddFilesForm {...fileFormProps} />,
       );
@@ -284,27 +274,6 @@ describe('<AddFilesForm>', () => {
     });
 
     it('should add a valid file and change it', async () => {
-      const file = {
-        file: new File(['hello'], 'hello.jpg', {
-          name: 'hello.jpg',
-          type: fileTypeSignatures.jpg.mime,
-          size: 9999,
-        }),
-        docType: { value: 'L029', dirty: true },
-        password: { value: '', dirty: false },
-        isEncrypted: false,
-      };
-      const file2 = {
-        file: new File(['hello2'], 'hello2.jpg', {
-          name: 'hello2.jpg',
-          type: fileTypeSignatures.jpg.mime,
-          size: 9999,
-        }),
-        docType: { value: 'L029', dirty: true },
-        password: { value: '', dirty: false },
-        isEncrypted: false,
-      };
-
       const { container, rerender, getByText } = render(
         <AddFilesForm {...fileFormProps} />,
       );
@@ -313,13 +282,32 @@ describe('<AddFilesForm>', () => {
       fireEvent.change(inputElement, { detail: { files: [file] } });
       // // Change the file
       rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
-
       getByText('hello.jpg');
-
       fireEvent.change(inputElement, { detail: { files: [file2] } });
 
       rerender(<AddFilesForm {...fileFormProps} files={[file2]} uploading />);
+      getByText('hello2.jpg');
+    });
 
+    it('should add multiple valid files', async () => {
+      const { container, rerender, getByText } = render(
+        <AddFilesForm {...fileFormProps} />,
+      );
+      const inputElement = $('#file-upload', container);
+
+      // Add a file to the va-file-input component
+      fireEvent.change(inputElement, { detail: { files: [file] } });
+
+      rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
+      getByText('hello.jpg');
+
+      // Add another file to the va-file-input component
+      fireEvent.change(inputElement, { detail: { files: [file2] } });
+
+      rerender(
+        <AddFilesForm {...fileFormProps} files={[file, file2]} uploading />,
+      );
+      getByText('hello.jpg');
       getByText('hello2.jpg');
     });
   });
