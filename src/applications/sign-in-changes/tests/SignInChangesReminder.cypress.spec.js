@@ -1,123 +1,141 @@
+import { cy } from 'date-fns/locale';
+
 describe('Interstitial Changes Page', () => {
-  const baseUrl = '/sign-in-changes-reminder';
-
-  const interceptCredentialEmails = (statusCode, body) => {
-    cy.intercept('GET', 'v0/user/credential_emails', {
-      statusCode,
-      body,
-    });
-  };
-
-  const visitPage = () => {
-    cy.visit(baseUrl);
-  };
-
   context('when user data is loading', () => {
     beforeEach(() => {
-      interceptCredentialEmails(200, { logingov: 'user@logingov.com' });
-      cy.visit(baseUrl);
+      cy.intercept('GET', '/user/credential_emails', {
+        delay: 1000, // to mock loading
+        statusCode: 200,
+        body: { logingov: 'user@logingov.com' },
+      });
+      cy.visit('/sign-in-changes-reminder');
     });
 
     it('displays a loading indicator', () => {
       cy.get('va-loading-indicator').should('be.visible');
+      cy.injectAxeThenAxeCheck();
     });
   });
 
   context('when user is unauthorized', () => {
     beforeEach(() => {
-      interceptCredentialEmails(401, {});
-      visitPage();
+      cy.intercept('GET', '/user/credential_emails', {
+        statusCode: 401,
+        body: {},
+      });
+      cy.visit('/sign-in-changes-reminder');
     });
 
     it('displays an unauthorized error message', () => {
       cy.get('va-alert').should('have.attr', 'status', 'error');
       cy.contains('401: Not authorized').should('be.visible');
+      cy.injectAxeThenAxeCheck();
     });
   });
 
   context('when user has only a Login.gov account', () => {
     beforeEach(() => {
-      interceptCredentialEmails(200, { logingov: 'user@logingov.com' });
-      visitPage();
+      cy.intercept('GET', '/user/credential_emails', {
+        statusCode: 200,
+        body: { logingov: 'user@logingov.com' },
+      });
+      cy.visit('/sign-in-changes-reminder');
     });
 
     it('displays the Login.gov account switch option', () => {
-      cy.get('#signin-changes-title').should('be.visible');
-      cy.contains(
-        'You’ll need to sign in with a different account after January 31, 2025',
-      ).should('be.visible');
-      cy.contains('Start using your Login.gov account now').should(
-        'be.visible',
-      );
-      cy.get('[data-testid="logingov"]').should('be.visible');
+      cy.get('#interstitialH1').should('be.visible');
+      cy.get('#interstitalP').should('be.visible');
+      cy.get('#accountSwtichH2').should('be.visible');
+      cy.get('#logingovButton').should('be.visible');
+      cy.get('#interstitialH2').should('be.visible');
+      cy.get('#interstitalMhvP').should('be.visible');
+      cy.get('#interstitalVaLink').should('be.visible');
+      cy.injectAxeThenAxeCheck();
     });
   });
 
   context('when user has only an ID.me account', () => {
     beforeEach(() => {
-      interceptCredentialEmails(200, { idme: 'user@idme.com' });
-      visitPage();
+      cy.intercept('GET', 'user/credential/emails', {
+        statusCode: 200,
+        body: { idme: 'user@idme.com' },
+      });
+      cy.visit('/sign-in-changes-reminder');
     });
 
     it('displays the ID.me account switch option', () => {
-      cy.get('#signin-changes-title').should('be.visible');
-      cy.contains(
-        'You’ll need to sign in with a different account after January 31, 2025',
-      ).should('be.visible');
-      cy.contains('Start using your ID.me account now').should('be.visible');
-      cy.get('[data-testid="idme"]').should('be.visible');
+      cy.get('#interstitialH1').should('be.visible');
+      cy.get('#interstitalP').should('be.visible');
+      cy.get('#accountSwtichH2').should('be.visible');
+      cy.get('#idmeButton').should('be.visible');
+      cy.get('#interstitialH2').should('be.visible');
+      cy.get('#interstitalMhvP').should('be.visible');
+      cy.get('#interstitalVaLink').should('be.visible');
+      cy.injectAxeThenAxeCheck();
     });
   });
 
   context('when user has both Login.gov and ID.me accounts', () => {
     beforeEach(() => {
-      interceptCredentialEmails(200, {
-        logingov: 'user@logingov.com',
-        idme: 'user@idme.com',
+      cy.intercept('GET', 'user/credential/emails', {
+        statusCode: 200,
+        body: { logingov: 'user@logingov.com', idme: 'user@idme.com' },
       });
-      visitPage();
+      cy.visit('/sign-in-changes-reminder');
     });
 
     it('displays options to use either Login.gov or ID.me account', () => {
-      cy.contains('Start using your Login.gov or ID.me account now').should(
-        'be.visible',
-      );
-      cy.get('[data-testid="logingov"]').should('be.visible');
-      cy.get('[data-testid="idme"]').should('be.visible');
+      cy.get('#interstitialH1').should('be.visible');
+      cy.get('#interstitalP').should('be.visible');
+      cy.get('#accountSwtichH2').should('be.visible');
+      cy.get('#logingovButton').should('be.visible');
+      cy.get('#idmeButton').should('be.visible');
+      cy.get('#interstitialH2').should('be.visible');
+      cy.get('#interstitalMhvP').should('be.visible');
+      cy.get('#interstitalVaLink').should('be.visible');
+      cy.injectAxeThenAxeCheck();
     });
   });
 
   context('when user has no Login.gov or ID.me account', () => {
     beforeEach(() => {
-      interceptCredentialEmails(200, {});
-      visitPage();
+      cy.intercept('GET', '/user/credential_emails', {
+        statusCode: 200,
+        body: {},
+      });
+      cy.visit('/sign-in-changes-reminder');
     });
 
     it('displays the create account option', () => {
-      cy.get('#signin-changes-title').should('be.visible');
-      cy.contains('Create a different account now').should('be.visible');
-      cy.contains('Learn about why we are making changes to sign in').should(
-        'be.visible',
-      );
-      cy.get('#button-div').within(() => {
-        cy.get('[data-testid="logingov"]').should('be.visible');
-        cy.get('[data-testid="idme"]').should('be.visible');
-      });
+      cy.get('#interstitialH1').should('be.visible');
+      cy.get('#interstitalP').should('be.visible');
+      cy.get('#createAccountH2').should('be.visible');
+      cy.get('#createAccountP').should('be.visible');
+      cy.get('#logingovButton').should('be.visible');
+      cy.get('#idmeButton').should('be.visible');
+      cy.get('#interstitialH2').should('be.visible');
+      cy.get('#interstitalMhvP').should('be.visible');
+      cy.get('#interstitalVaLink').should('be.visible');
+      cy.injectAxeThenAxeCheck();
     });
   });
 
   context('when user clicks on continue with My HealtheVet link', () => {
     beforeEach(() => {
       sessionStorage.setItem('RETURN_URL', '/return-path');
-      interceptCredentialEmails(200, {});
-      visitPage();
+      cy.intercept('GET', '/user/credential_emails', {
+        statusCode: 200,
+        body: {},
+      });
+      cy.visit('/sign-in-changes-reminder');
     });
 
     it('navigates to the return URL', () => {
-      cy.get('va-link')
-        .contains('Continue with your My HealtheVet account for now')
+      cy.get('#interstialVaLink')
+        .should('be.visible')
         .click();
       cy.url().should('include', '/return-path');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
