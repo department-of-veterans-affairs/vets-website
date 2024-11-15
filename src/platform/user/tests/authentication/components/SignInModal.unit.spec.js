@@ -51,18 +51,12 @@ describe('SignInModal', () => {
     expect(onClose.called).to.be.true;
   });
 
-  it('should record event when modal is opened', () => {
-    const screen = renderInReduxProvider(
-      <SignInModal visible={false} useSiS />,
-      {
-        initialState: generateStore(),
-      },
-    );
-
+  it('should record event when modal is opened', async () => {
+    const screen = renderInReduxProvider(<SignInModal useSiS />, {
+      initialState: generateStore(),
+    });
     global.window.dataLayer = [];
     screen.rerender(<SignInModal visible useSiS />);
-    // eslint-disable-next-line no-console
-    console.log('~~~~~DATALAYER, modal open test', global.window.dataLayer);
     expect(global.window.dataLayer).to.deep.include({
       event: 'login-modal-opened-oauth',
     });
@@ -75,8 +69,6 @@ describe('SignInModal', () => {
 
     global.window.dataLayer = [];
     screen.rerender(<SignInModal visible={false} useSiS />);
-    // eslint-disable-next-line no-console
-    console.log('~~~~~DATALAYER, modal close test', global.window.dataLayer);
     expect(global.window.dataLayer).to.deep.include({
       event: 'login-modal-closed-oauth',
     });
