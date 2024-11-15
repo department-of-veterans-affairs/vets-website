@@ -12,6 +12,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { populateFirstApplicant } from '../helpers/utilities';
+import {
+  certifierPhoneValidation,
+  certifierEmailValidation,
+} from '../helpers/validations';
 
 export const signerContactInfoPage = {
   uiSchema: {
@@ -21,6 +25,7 @@ export const signerContactInfoPage = {
     ),
     certifierPhone: phoneUI(),
     certifierEmail: emailUI(),
+    'ui:validations': [certifierPhoneValidation, certifierEmailValidation],
   },
   schema: {
     type: 'object',
@@ -35,6 +40,13 @@ export const signerContactInfoPage = {
 
 /** @type {CustomPageType} */
 export function SignerContactInfoPage(props) {
+  const updateButton = (
+    // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
+    <button type="submit" onClick={props.updatePage}>
+      Update page
+    </button>
+  );
+
   function onGoForward() {
     const formData = props.data; // changes made here will reflect in global formData;
     if (props.data.certifierRole === 'applicant') {
@@ -70,17 +82,21 @@ export function SignerContactInfoPage(props) {
       pagePerItemIndex={props.pagePerItemIndex}
       formContext={props.formContext}
       trackingPrefix={props.trackingPrefix}
-      onChange={props.onChange}
+      onChange={props.onReviewPage ? props.setFormData : props.onChange}
       onSubmit={props.onSubmit}
     >
       <>
         {/* contentBeforeButtons = save-in-progress links */}
         {props.contentBeforeButtons}
-        <FormNavButtons
-          goBack={props.goBack}
-          goForward={onGoForward}
-          submitToContinue
-        />
+        {props.onReviewPage ? (
+          updateButton
+        ) : (
+          <FormNavButtons
+            goBack={props.goBack}
+            goForward={onGoForward}
+            submitToContinue
+          />
+        )}
         {props.contentAfterButtons}
       </>
     </SchemaForm>
@@ -102,6 +118,8 @@ SignerContactInfoPage.propTypes = {
   onReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
   pagePerItemIndex: PropTypes.number,
+  setFormData: PropTypes.func,
   title: PropTypes.string,
   trackingPrefix: PropTypes.string,
+  updatePage: PropTypes.func,
 };

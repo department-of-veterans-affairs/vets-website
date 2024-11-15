@@ -46,6 +46,10 @@ import {
   sponsorWording,
   page15aDepends,
 } from '../helpers/utilities';
+import {
+  certifierNameValidation,
+  certifierAddressValidation,
+} from '../helpers/validations';
 import { MAX_APPLICANTS, ADDITIONAL_FILES_HINT } from './constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
@@ -136,7 +140,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
-  showReviewErrors: !environment.isProduction(),
+  showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
   // submit: () =>
@@ -202,6 +206,9 @@ const formConfig = {
                 other:
                   'I’m a representative applying for benefits on behalf of someone else',
               },
+              // Changing this data on review messes up the ad hoc prefill
+              // mapping of certifier -> applicant|sponsor:
+              hideOnReview: true,
             }),
           },
           schema: {
@@ -220,6 +227,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI('Your name'),
             certifierName: fullNameUI(),
+            'ui:validations': [certifierNameValidation],
           },
           schema: {
             type: 'object',
@@ -239,6 +247,7 @@ const formConfig = {
               'We’ll send any important information about this application to your address',
             ),
             certifierAddress: addressUI(),
+            'ui:validations': [certifierAddressValidation],
           },
           schema: {
             type: 'object',
@@ -271,7 +280,6 @@ const formConfig = {
                 hint: 'Select all that apply',
                 required: () => true,
                 labels: {
-                  applicant: 'I’m applying for benefits for myself',
                   spouse: 'I’m an applicant’s spouse',
                   child: 'I’m an applicant’s child',
                   parent: 'I’m an applicant’s parent',
@@ -334,7 +342,6 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   relationshipToVeteran: checkboxGroupSchema([
-                    'applicant',
                     'spouse',
                     'child',
                     'parent',
@@ -443,7 +450,16 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               ({ formData }) => `${sponsorWording(formData)} mailing address`,
-              'We’ll send any important information about this application to this address.',
+              ({ formData }) => (
+                // Prefill message conditionally displays based on `certifierRole`
+                <>
+                  <p>
+                    We’ll send any important information about this application
+                    to this address.
+                  </p>
+                  {CustomPrefillMessage(formData, 'sponsor')}
+                </>
+              ),
             ),
             sponsorAddress: {
               ...addressUI({

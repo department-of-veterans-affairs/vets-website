@@ -98,3 +98,13 @@ export function page15aDepends(formData, index) {
     (index && index > 0) || (certAddress && !(certifierIsApp && index === 0))
   );
 }
+
+// Compare two objects (with the same keys) and identify differences
+export function objDiff(obj1, obj2, ignoreViewOnlyProps = true) {
+  return Object.keys(obj1).filter(
+    k =>
+      (obj1[k] && obj2[k]) !== undefined &&
+      obj1[k] !== obj2[k] &&
+      !(ignoreViewOnlyProps && k.includes('view:')),
+  );
+}
