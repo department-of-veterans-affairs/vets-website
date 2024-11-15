@@ -10,6 +10,24 @@ import {
 } from 'platform/forms-system/src/js/web-component-fields';
 import { blockURLsRegEx } from '../constants';
 
+const initializeAddressLine1 = formData => {
+  return formData?.addressLine1 !== undefined
+    ? formData?.addressLine1
+    : formData?.street.trim();
+};
+
+const cleanZipCode = zipcode => {
+  let output = zipcode;
+  if (zipcode && zipcode.toString().length >= 5) {
+    const length = 5;
+    output = '';
+    for (let i = 0; i < length; i++) {
+      output += zipcode[i];
+    }
+  }
+  return output;
+};
+
 const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
 
 const ADDRESS_FORM_VALUES = {
@@ -48,7 +66,7 @@ export const getFormSchema = (formData = {}) => {
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
-        default: formData?.addressLine1,
+        default: initializeAddressLine1(formData),
       },
       addressLine2: {
         type: 'string',
@@ -85,7 +103,7 @@ export const getFormSchema = (formData = {}) => {
       zipCode: {
         type: 'string',
         pattern: '^\\d{5}$',
-        default: formData?.zipCode,
+        default: cleanZipCode(formData?.zipCode),
       },
     },
     required: ['addressLine1', 'city'],
