@@ -74,11 +74,13 @@ describe('SearchResult', () => {
     expect(document.querySelector('[id="/node/8434"]').textContent).to.equal(
       'Article type: Step-by-step',
     );
+
     expect(
       document.querySelector(
         '[text="How to change direct deposit information for VA disability or pension"]',
       ),
     ).to.exist;
+
     expect(document.querySelector('p').textContent).to.equal(
       'Follow our step-by-step instructions for making&#xA0;changes to your VA direct deposit information for VA disability or pension benefit payments. We&apos;ll show you how to sign in and ma...',
     );
@@ -98,11 +100,13 @@ describe('SearchResult', () => {
     expect(document.querySelector('[id="/node/8520"]').textContent).to.equal(
       'Article type: Step-by-step',
     );
+
     expect(
       document.querySelector(
         '[text="How to check your VA claim or appeal status online"]',
       ),
     ).to.exist;
+
     expect(document.querySelector('p').textContent).to.equal(
       'Follow our step-by-step instructions for&#xA0;checking the status of your&#xA0;VA claim or appeal online.\n',
     );
