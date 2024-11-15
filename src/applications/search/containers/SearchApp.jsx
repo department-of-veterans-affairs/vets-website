@@ -155,11 +155,16 @@ const SearchApp = ({
     if (initialUserInput && isSearchTermValid(initialUserInput)) {
       setFormWasSubmitted(true);
 
-      fetchSearchResults(initialUserInput, page, {
-        trackEvent: true,
-        eventName: 'onload_view_search_results',
-        ...compiledAnalyticsData,
-      });
+      fetchSearchResults(
+        initialUserInput,
+        page,
+        {
+          trackEvent: true,
+          eventName: 'onload_view_search_results',
+          ...compiledAnalyticsData,
+        },
+        clearGAData,
+      );
     }
   }, []);
 
@@ -235,11 +240,16 @@ const SearchApp = ({
       );
 
       // Fetch new results
-      fetchSearchResults(userInput, nextPage, {
-        trackEvent: queryChanged || isRepeatSearch,
-        eventName: 'view_search_results',
-        ...compiledAnalyticsData,
-      });
+      fetchSearchResults(
+        userInput,
+        nextPage,
+        {
+          trackEvent: queryChanged || isRepeatSearch,
+          eventName: 'view_search_results',
+          ...compiledAnalyticsData,
+        },
+        clearGAData,
+      );
 
       // Update query is necessary
       if (queryChanged) {
@@ -266,11 +276,16 @@ const SearchApp = ({
     );
 
     if (isSearchTermValid(userInput)) {
-      fetchSearchResults(userInput, 1, {
-        trackEvent: true,
-        eventName: 'view_search_results',
-        ...compiledAnalyticsData,
-      });
+      fetchSearchResults(
+        userInput,
+        1,
+        {
+          trackEvent: true,
+          eventName: 'view_search_results',
+          ...compiledAnalyticsData,
+        },
+        clearGAData,
+      );
 
       updateQueryInfo({
         query: userInput,

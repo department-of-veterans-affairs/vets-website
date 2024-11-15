@@ -7,7 +7,7 @@ import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import * as Sentry from '@sentry/browser';
 
-export function fetchSearchResults(query, page, options) {
+export function fetchSearchResults(query, page, options, clearGAData) {
   return dispatch => {
     dispatch({ type: FETCH_SEARCH_RESULTS, query });
 
@@ -43,6 +43,8 @@ export function fetchSearchResults(query, page, options) {
             'type-ahead-options-list': options?.suggestionsList,
             'type-ahead-options-count': options?.suggestionsList?.length,
           });
+
+          clearGAData();
         }
         dispatch({
           type: FETCH_SEARCH_RESULTS_SUCCESS,
