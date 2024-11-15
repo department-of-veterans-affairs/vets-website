@@ -32,7 +32,7 @@ const ReviewPage = props => {
     onSubmit: () => {
       setSubmitted(true);
       if (privacyCheckbox) {
-        props.goToPath('/confirmation');
+        props.goToPath('/2/task-orange/complete');
       }
     },
     onBack: () => {
@@ -95,7 +95,6 @@ const ReviewPage = props => {
         continue
         onPrimaryClick={handlers.onSubmit}
         onSecondaryClick={handlers.onBack}
-        uswds
       />
       {/* {props.contentAfterButtons} */}
     </article>

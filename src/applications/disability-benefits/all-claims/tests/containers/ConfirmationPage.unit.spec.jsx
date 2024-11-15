@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-
+import { Toggler } from 'platform/utilities/feature-toggles';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
@@ -13,6 +13,7 @@ import {
   SAVED_SEPARATION_DATE,
 } from '../../constants';
 import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
+import formConfig from '../../config/form';
 
 const retryableErrorTitle =
   "It's taking us longer than expected to submit your claim.";
@@ -29,24 +30,30 @@ const getData = ({
         : {},
     },
   },
+  form: {
+    data: {},
+  },
   featureToggles: {
     loading: false,
-    disability526NewConfirmationPage,
-    // eslint-disable-next-line camelcase
-    disability_526_new_confirmation_page: disability526NewConfirmationPage,
+    [Toggler.TOGGLE_NAMES
+      .disability526NewConfirmationPage]: disability526NewConfirmationPage,
   },
 });
 
 describe('ConfirmationPage', () => {
   const defaultProps = {
     fullName: {
-      first: 'First',
-      middle: 'M',
-      last: 'Last',
+      first: 'Hector',
+      middle: 'Lee',
+      last: 'Brooks',
       suffix: 'Sr.',
     },
     disabilities: ['something something', undefined],
-    submittedAt: '2019-02-20',
+    submittedAt: new Date('November, 7, 2024'),
+    route: {
+      formConfig,
+      pageList: [],
+    },
   };
 
   const middleware = [thunk];
@@ -200,41 +207,63 @@ describe('ConfirmationPage', () => {
     tree.unmount();
   });
 
-  // new confirmation page toggle on
-  it('should render new confirmation page', () => {
-    const store = mockStore(
-      getData({
-        disability526NewConfirmationPage: true,
-      }),
-    );
-    const props = {
-      ...defaultProps,
-      submissionStatus: submissionStatuses.apiFailure,
-    };
+  describe('new confirmation page (toggle enabled)', () => {
+    // new confirmation page toggle on
+    it('should render new confirmation page when submission succeeded with claim id', () => {
+      const store = mockStore(
+        getData({
+          disability526NewConfirmationPage: true,
+        }),
+      );
+      const props = {
+        ...defaultProps,
+        claimId: '123456789',
+        submissionStatus: submissionStatuses.succeeded,
+      };
 
-    const tree = render(
-      <Provider store={store}>
-        <ConfirmationPage {...props} />
-      </Provider>,
-    );
+      const { container, getByText } = render(
+        <Provider store={store}>
+          <ConfirmationPage {...props} />
+        </Provider>,
+      );
 
-    expect(tree.queryByTestId('new-confirmation-page')).to.exist;
-  });
+      // success alert
+      getByText('Form submission started on', { exact: false });
+      getByText('Your submission is in progress.', {
+        exact: false,
+      });
 
-  // new confirmation page toggle off
-  it('should not render new confirmation page', () => {
-    const store = mockStore(getData());
-    const props = {
-      ...defaultProps,
-      submissionStatus: submissionStatuses.failed,
-    };
+      // summary box with claim info
+      getByText('Disability Compensation Claim');
+      getByText('For Hector Lee Brooks Sr.');
+      getByText('Date submitted');
+      getByText('November 7, 2024');
+      getByText('Conditions claimed');
+      getByText('Something Something');
+      getByText('Unknown Condition');
+      getByText('Claim ID number');
+      getByText(props.claimId);
 
-    const tree = render(
-      <Provider store={store}>
-        <ConfirmationPage {...props} />
-      </Provider>,
-    );
+      // rest of sections are present
+      getByText('Print this confirmation page');
+      getByText('What to expect');
+      getByText('How to contact us if you have questions');
+      getByText('How long will it take VA to make a decision on my claim?');
+      getByText('If I have dependents, how can I receive additional benefits?');
+      getByText('Need help?');
 
-    expect(tree.queryByTestId('new-confirmation-page')).to.be.null;
+      // links
+      expect(container.querySelectorAll('va-link')).to.have.lengthOf(5);
+      const link = container.querySelectorAll('va-link')[1];
+      expect(link.getAttribute('download')).to.exist;
+      expect(link.getAttribute('filetype')).to.equal('PDF');
+      expect(link.getAttribute('href')).to.equal(
+        'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
+      );
+      expect(link.getAttribute('pages')).to.equal('15');
+      expect(link.getAttribute('text')).to.equal(
+        'Download VA Form 21-686c (opens in new tab)',
+      );
+    });
   });
 });

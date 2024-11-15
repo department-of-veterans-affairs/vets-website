@@ -1,22 +1,26 @@
+import React from 'react';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import { scrollAndFocusTarget } from 'applications/_mock-form-ae-design-patterns/utils/focus';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { GetFormHelp } from '../components/GetFormHelp';
 import manifest from '../manifest.json';
 import { definitions } from './schemaImports';
 import profileContactInfo from './profileContactInfo';
+import { ContactInformationInfoSection } from '../components/ContactInfo';
 import VeteranProfileInformation from '../components/VeteranProfileInformation';
-
+import ReviewPage from '../../pages/ReviewPage';
 // chapter schema imports
 // import { applicantInformation } from './chapters/applicant';
 import { VIEW_FIELD_SCHEMA } from '../../../../../utils/constants';
+// import { taskCompletePage } from '../../../../../shared/config/taskCompletePage';
 
-import { taskCompletePage } from '../../../../../shared/config/taskCompletePage';
+import { taskCompletePagePattern2 } from '../../../../../shared/config/taskCompletePage';
 
-import { serviceHistory } from './chapters/service';
+// import { serviceHistory } from './chapters/service';
 
 // import { loanScreener, loanHistory } from './chapters/loans';
 
@@ -34,9 +38,9 @@ const formConfig = {
   customText: {
     appAction: 'your COE request',
     appSavedSuccessfullyMessage: 'Your request has been saved.',
-    appType: 'request',
+    appType: 'form',
     continueAppButtonText: 'Continue your request',
-    finishAppLaterMessage: 'Finish this request later',
+    finishAppLaterMessage: 'Finish this application later',
     startNewAppButtonText: 'Start a new request',
     reviewPageTitle: 'Review your request',
   },
@@ -76,54 +80,44 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        // applicantInformationSummary: {
-        //   path: 'applicant-information',
-        //   title: 'Your personal information on file',
-        //   uiSchema: applicantInformation.uiSchema,
-        //   schema: applicantInformation.schema,
-        // },
       },
     },
     contactInformationChapter: {
       title: 'Your contact information',
+      reviewTitle: 'Contact information',
       pages: {
         ...profileContactInfo({
           contactInfoPageKey: 'confirmContactInfo3',
           contactPath: 'veteran-information',
           contactInfoRequiredKeys: ['mailingAddress'],
           included: ['mailingAddress'],
+          review: props => ({
+            'Contact Information': (() => {
+              return <ContactInformationInfoSection {...props} />;
+            })(),
+          }),
         }),
-        // mailingAddress: {
-        //   path: 'mailing-address',
-        //   title: mailingAddress.title,
-        //   uiSchema: mailingAddress.uiSchema,
-        //   schema: mailingAddress.schema,
-        //   updateFormData: mailingAddress.updateFormData,
-        // },
-        // additionalInformation: {
-        //   path: 'additional-contact-information',
-        //   title: additionalInformation.title,
-        //   uiSchema: additionalInformation.uiSchema,
-        //   schema: additionalInformation.schema,
-        // },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Your service history',
+    reviewApp: {
+      title: 'Review Application',
+      reviewTitle: 'Review Application',
       pages: {
-        // serviceStatus: {
-        //   path: 'service-status',
-        //   title: 'Service status',
-        //   uiSchema: serviceStatus.uiSchema,
-        //   schema: serviceStatus.schema,
-        // },
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service history',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+        reviewAndSubmit: {
+          hideNavButtons: true,
+          title: 'Review and submit',
+          path: 'review-then-submit',
+          CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            definitions: {},
+            type: 'object',
+            properties: {},
+          },
+          scrollAndFocusTarget,
         },
-        taskCompletePage,
+        taskCompletePagePattern2,
       },
     },
   },

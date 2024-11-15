@@ -11,7 +11,14 @@ import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
 
 const SelectAccreditedRepresentative = props => {
-  const { setFormData, formData, goBack, goForward, goToPath } = props;
+  const {
+    loggedIn,
+    setFormData,
+    formData,
+    goBack,
+    goForward,
+    goToPath,
+  } = props;
   const [loadingReps, setLoadingReps] = useState(false);
   const [loadingPOA, setLoadingPOA] = useState(false);
   const [error, setError] = useState(null);
@@ -25,20 +32,23 @@ const SelectAccreditedRepresentative = props => {
   const isReviewPage = useReviewPage();
 
   const getRepStatus = async () => {
-    setLoadingPOA(true);
-    try {
-      const res = await fetchRepStatus();
-      setLoadingPOA(false);
-      return res.data;
-    } catch {
-      setLoadingPOA(false);
-      return null;
+    if (loggedIn) {
+      setLoadingPOA(true);
+      try {
+        const res = await fetchRepStatus();
+        setLoadingPOA(false);
+        return res.data;
+      } catch {
+        setLoadingPOA(false);
+      }
     }
+
+    return null;
   };
 
   const handleGoBack = () => {
-    if (isReviewPage()) {
-      goToPath('/review-and-submit');
+    if (isReviewPage) {
+      goToPath('/claimant-type');
     } else {
       goBack(formData);
     }
@@ -167,7 +177,7 @@ const SelectAccreditedRepresentative = props => {
       </p>
       <va-link
         href="/get-help-from-accredited-representative/find-rep"
-        text="Find an accredited representative or VSO"
+        text="Find a VA accredited representative or VSO (opens in new tab)"
       />
       <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
     </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import moment from 'moment';
@@ -11,18 +10,6 @@ export const representativeTypeMap = {
   Attorney: 'attorney',
   'Claims Agent': 'claims agent',
   'Veterans Service Organization (VSO)': 'Veterans Service Organization (VSO)',
-};
-
-export const checkboxGroupSchemaWithReviewLabels = keys => {
-  const schema = checkboxGroupSchema(keys);
-  keys.forEach(key => {
-    schema.properties[key] = {
-      ...schema.properties[key],
-      enum: [true, false],
-      enumNames: ['Selected', 'Not selected'],
-    };
-  });
-  return schema;
 };
 
 export const deviewifyFields = formData => {
@@ -106,9 +93,11 @@ export const getFormSubtitle = formData => {
   if (entityType === 'organization') {
     return 'VA Form 21-22';
   }
-  if (entityType === 'individual') {
+  if (['representative', 'individual'].includes(entityType)) {
     const { individualType } = entity.attributes;
-    if (individualType === 'representative') {
+    if (
+      ['representative', 'veteran_service_officer'].includes(individualType)
+    ) {
       return 'VA Form 21-22';
     }
     return 'VA Form 21-22a';
@@ -126,9 +115,11 @@ export const getFormSubmitUrlSuffix = formData => {
   if (entityType === 'organization') {
     return '2122';
   }
-  if (entityType === 'individual') {
+  if (['representative', 'individual'].includes(entityType)) {
     const { individualType } = entity.attributes;
-    if (individualType === 'representative') {
+    if (
+      ['representative', 'veteran_service_officer'].includes(individualType)
+    ) {
       return '2122';
     }
     return '2122a';
@@ -168,7 +159,7 @@ export const getRepType = entity => {
     return 'Attorney';
   }
 
-  if (repType === 'claimsAgent' || repType === 'claims_agent') {
+  if (['claimsAgent', 'claims_agent', 'claim_agents'].includes(repType)) {
     return 'Claims Agent';
   }
 
@@ -181,8 +172,10 @@ export const getFormNumber = formData => {
 
   if (
     entityType === 'organization' ||
-    (entityType === 'individual' &&
-      entity.attributes.individualType === 'representative')
+    (['representative', 'individual'].includes(entityType) &&
+      ['representative', 'veteran_service_officer'].includes(
+        entity.attributes.individualType,
+      ))
   ) {
     return '21-22';
   }
@@ -211,10 +204,8 @@ export const isAttorneyOrClaimsAgent = formData => {
   const repType =
     formData['view:selectedRepresentative']?.attributes?.individualType;
 
-  return (
-    repType === 'attorney' ||
-    repType === 'claimsAgent' ||
-    repType === 'claims_agent'
+  return ['attorney', 'claimsAgent', 'claims_agent', 'claim_agents'].includes(
+    repType,
   );
 };
 
@@ -277,6 +268,10 @@ export const convertRepType = input => {
     attorney: 'Attorney',
     /* eslint-disable-next-line camelcase */
     claims_agent: 'Claims Agent',
+    /* eslint-disable-next-line camelcase */
+    claim_agents: 'Claims Agent',
+    /* eslint-disable-next-line camelcase */
+    veteran_service_officer: 'VSO',
   };
 
   return mapping[input] || input;

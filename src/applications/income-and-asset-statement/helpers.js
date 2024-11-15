@@ -1,9 +1,15 @@
 import get from 'platform/utilities/data/get';
 
-export const annualReceivedIncomeRequired = (form, index) =>
+export const annualReceivedIncomeFromAnnuityRequired = (form, index) =>
   get(['annuities', index, 'receivingIncomeFromAnnuity'], form);
 
+export const annualReceivedIncomeFromTrustRequired = (form, index) =>
+  get(['trusts', index, 'receivingIncomeFromTrust'], form);
+
 export const formatCurrency = num => `$${num.toLocaleString()}`;
+
+export const monthlyMedicalReimbursementAmountRequired = (form, index) =>
+  get(['trusts', index, 'monthlyMedicalReimbursementAmount'], form);
 
 export const otherRecipientRelationshipExplanationRequired = (
   form,
@@ -19,6 +25,12 @@ export const otherGeneratedIncomeTypeExplanationRequired = (form, index) =>
     ['royaltiesAndOtherProperties', index, 'incomeGenerationMethod'],
     form,
   ) === 'OTHER';
+
+export const otherNewOwnerRelationshipExplanationRequired = (form, index) =>
+  get(['assetTransfers', index, 'originalOwnerRelationship'], form) === 'OTHER';
+
+export const otherTransferMethodExplanationRequired = (form, index) =>
+  get(['assetTransfers', index, 'transferMethod'], form) === 'OTHER';
 
 export const recipientNameRequired = (form, index, arrayKey) =>
   get([arrayKey, index, 'recipientRelationship'], form) === 'CHILD' ||

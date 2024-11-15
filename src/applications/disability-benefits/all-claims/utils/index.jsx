@@ -675,9 +675,6 @@ export const show526Wizard = state => toggleValues(state).show526Wizard;
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
 
-export const show526MaxRating = state =>
-  toggleValues(state).disability526MaximumRating;
-
 export const wrapWithBreadcrumb = (title, component) => (
   <>
     <div className="row vads-u-padding-x--1p5">
@@ -773,4 +770,28 @@ export const formatMonthYearDate = (rawDate = '') => {
   );
 
   return date === 'Invalid Date' ? '' : date;
+};
+
+/**
+ * Formats the parts of a fullName object into a single string, e.g. "Hector Lee Brooks Jr."
+ *
+ * @param {object} fullName - Object holding name parts
+ * @returns {string} Name formatted into a single string. Empty string if all parts are missing.
+ */
+export const formatFullName = (fullName = {}) => {
+  let res = '';
+  if (fullName?.first) {
+    res += fullName.first;
+  }
+  if (fullName?.middle) {
+    res += ` ${fullName.middle}`;
+  }
+  if (fullName?.last) {
+    res += ` ${fullName.last}`;
+  }
+  if (fullName?.suffix) {
+    res += ` ${fullName.suffix}`;
+  }
+
+  return res.trim();
 };

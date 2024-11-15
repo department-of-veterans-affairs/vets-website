@@ -77,7 +77,7 @@ const Search = () => {
     <>
       <label
         className="vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-left--1p5"
-        htmlFor="header-search"
+        htmlFor="search-header-dropdown-input-field"
       >
         Search
       </label>

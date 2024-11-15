@@ -243,12 +243,12 @@ Provider notes: ${vital.notes}\n\n`,
       <>
         <PrintHeader />
         <h1
-          className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print"
+          className="vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4 no-print"
           data-dd-privacy="mask"
         >
           {vitalDisplayName}
         </h1>
-        <h2 className="sr-only">List of {vitalDisplayName} results</h2>
+        <h2 className="sr-only">{`List of ${vitalDisplayName} results`}</h2>
 
         <NewRecordsIndicator
           refreshState={refresh}
@@ -275,7 +275,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h2
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
             vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
-            vads-u-margin-top--3 small-screen:vads-u-margin-top--4"
+            vads-u-margin-top--3 mobile-lg:vads-u-margin-top--4"
           id="showingRecords"
         >
           {`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
@@ -292,7 +292,7 @@ Provider notes: ${vital.notes}\n\n`,
               >
                 <h3
                   data-testid="vital-date"
-                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--3"
+                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
                 >
                   {vital.date}

@@ -1,6 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
+import { Data } from './utils/constants';
 
 describe('Medications List Page Renewal Filter Option', () => {
   it('visits Medications List Page Filter Option Renewal', () => {
@@ -22,6 +23,9 @@ describe('Medications List Page Renewal Filter Option', () => {
       'Renewal needed before refill',
     );
     listPage.clickFilterButtonOnAccordion();
+    listPage.verifyFocusOnPaginationTextInformationOnListPage(
+      Data.PAGINATION_TEXT,
+    );
     listPage.verifyNameOfFirstRxOnMedicationsList('renewal');
   });
 });

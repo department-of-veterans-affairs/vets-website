@@ -6,7 +6,7 @@ import {
   focusElement,
   scrollToTop,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import {
   submissionStatuses,
   WIZARD_STATUS,
@@ -17,7 +17,11 @@ import {
   retryableErrorContent,
   successfulSubmitContent,
   submitErrorContent,
+  howLongForDecision,
+  dependentsAdditionalBenefits,
 } from '../content/confirmation-page';
+import { alertBody } from '../content/confirmation-poll';
+import { ClaimConfirmationInfo } from '../components/ClaimConfirmationInfo';
 
 export default class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -46,23 +50,39 @@ export default class ConfirmationPage extends React.Component {
 
   // the new 526 submission confirmation that has one state
   ConfirmationPageContent = props => (
-    // TODO: #95241 implement new confirmation page
-    <>
-      <Toggler
-        toggleName={Toggler.TOGGLE_NAMES.disability526NewConfirmationPage}
-      >
-        <Toggler.Enabled>
-          <div
-            hidden
-            aria-hidden
-            id="new-confirmation-page"
-            data-testid="new-confirmation-page"
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.disability526NewConfirmationPage}>
+      <Toggler.Enabled>
+        <ConfirmationView
+          submitDate={props.submittedAt}
+          formConfig={props.route?.formConfig}
+        >
+          <ConfirmationView.SubmissionAlert
+            actions={<></>}
+            content={alertBody}
           />
-        </Toggler.Enabled>
-      </Toggler>
-
-      {this.LegacyConfirmationPage(props)}
-    </>
+          <ClaimConfirmationInfo
+            claimId={props.claimId}
+            conditions={props.disabilities}
+            dateSubmitted={props.submittedAt}
+            fullName={props.fullName}
+          />
+          <ConfirmationView.PrintThisPage />
+          <ConfirmationView.WhatsNextProcessList
+            item1Header="We’ll send you an email to confirm your submission"
+            item1Content={<></>}
+            item1Actions={<></>}
+            item2Header="Next we’ll send you a letter to let you know we have your claim"
+            item2Content="You should get this letter in about 1 week, plus mailing time, after we receive your claim."
+          />
+          <ConfirmationView.HowToContact />
+          {howLongForDecision}
+          {dependentsAdditionalBenefits}
+          <ConfirmationView.GoBackLink />
+          <ConfirmationView.NeedHelp />
+        </ConfirmationView>
+      </Toggler.Enabled>
+      <Toggler.Disabled>{this.LegacyConfirmationPage(props)}</Toggler.Disabled>
+    </Toggler>
   );
 
   render() {
@@ -82,10 +102,13 @@ ConfirmationPage.propTypes = {
     middle: PropTypes.string,
     suffix: PropTypes.string,
   }).isRequired,
-  submittedAt: PropTypes.string.isRequired,
-  claimId: PropTypes.string,
+  submittedAt: PropTypes.object.isRequired,
+  claimId: PropTypes.number,
   isSubmittingBDD: PropTypes.bool,
   jobId: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
   submissionId: PropTypes.string,
   submissionStatus: PropTypes.oneOf(Object.values(submissionStatuses)),
 };

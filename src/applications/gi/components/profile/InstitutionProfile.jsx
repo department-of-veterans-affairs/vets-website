@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
@@ -25,6 +24,7 @@ import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
 import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
 import YellowRibbonTable from './YellowRibbonTable';
+import Programs from './Programs';
 
 export default function InstitutionProfile({
   institution,
@@ -40,17 +40,29 @@ export default function InstitutionProfile({
 }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.showYellowRibbonTable);
+  const toggleGiProgramsFlag = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
+  );
+
+  const programTypes = [
+    'Non College Degree',
+    'Institution of Higher Learning',
+    'On The Job Training',
+  ];
 
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-  const { type } = institution;
+  const { type, facilityCode } = institution;
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
   // environment variable to keep ratings out of production until ready
-  const isProduction = !environment.isProduction();
+  const isShowRatingsToggle = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolShowRatings,
+  );
+
   let stars = false;
   let ratingCount = 0;
   let institutionRatingIsNotNull = false;
@@ -83,10 +95,7 @@ export default function InstitutionProfile({
   }
   /** ************************************************************************ */
   const displayStars =
-    isProduction &&
-    stars &&
-    isProduction &&
-    ratingCount >= MINIMUM_RATING_COUNT;
+    isShowRatingsToggle && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -98,7 +107,10 @@ export default function InstitutionProfile({
         className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4"
       >
         <div className="usa-width-three-fourths">
-          <ProfilePageHeader institution={institution} />
+          <ProfilePageHeader
+            institution={institution}
+            isShowRatingsToggle={isShowRatingsToggle}
+          />
           {type === 'FLIGHT' && (
             <p>
               For information about VA flight benefits, visit{' '}
@@ -131,7 +143,7 @@ export default function InstitutionProfile({
             jumpToId="getting-started-with-benefits"
           />
           {displayStars &&
-            isProduction && (
+            isShowRatingsToggle && (
               <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
             )}
           <JumpLink
@@ -254,7 +266,7 @@ export default function InstitutionProfile({
         <GettingStartedWithBenefits />
       </ProfileSection>
       {displayStars &&
-        isProduction && (
+        isShowRatingsToggle && (
           <ProfileSection label="Veteran ratings" id="veteran-ratings">
             <div>
               <SchoolRatings
@@ -289,6 +301,11 @@ export default function InstitutionProfile({
             version={version}
             onViewLess={scrollToLocations}
           />
+        </ProfileSection>
+      )}
+      {toggleGiProgramsFlag && (
+        <ProfileSection label="Programs" id="programs">
+          <Programs programTypes={programTypes} facilityCode={facilityCode} />
         </ProfileSection>
       )}
       {!isOJT && (
