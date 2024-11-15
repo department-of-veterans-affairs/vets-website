@@ -48,9 +48,7 @@ const transformUnassociatedDocs = docs =>
 const transformAssociatedTrackedItems = items =>
   items.map(item => ({
     ...item,
-    status: item.status,
     date: getTrackedItemDate(item),
-    displayName: item.displayName,
   }));
 
 export const serializeClaim = claim => {
