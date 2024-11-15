@@ -155,6 +155,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
       'welcome-va-setup-review-information',
     )}/`,
+    [VA_FORM_IDS.FORM_21_526EZ]: `${tryGetAppUrl('21-526EZ')}/`,
   };
 };
 
@@ -464,6 +465,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'Welcome VA Setup Review Information Form',
     description: 'welcome va setup review information form',
     trackingPrefix: 'welcome-va-setup-review-information-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_526EZ,
+    benefit: 'disability compensation',
+    title: 'File for disability compensation',
+    description: 'disability compensation',
+    trackingPrefix: 'new-conditions',
   },
 ];
 
