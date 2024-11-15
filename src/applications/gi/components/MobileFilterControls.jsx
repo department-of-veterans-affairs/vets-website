@@ -55,7 +55,7 @@ export default function MobileFilterControls({ className }) {
         onClick={tuitionAndHousingEstimatesClick}
       />
       <VaButton
-        text="Filter your resultsss"
+        text="Filter your results"
         className="vads-u-margin-top--2 vads-u-width--full"
         secondary
         onClick={filterClick}
