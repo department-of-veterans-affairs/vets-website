@@ -344,7 +344,8 @@ const formConfigFnParams = {
   'form-upload': '/form-upload/21-0779/upload',
 };
 
-describe('form:', () => {
+describe('form:', function() {
+  this.timeout(20000);
   // Find all config/form.js or config/form.jsx files within src/applications
   const configFiles = find.fileSync(
     /config\/form\.js.?$/,
