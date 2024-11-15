@@ -44,20 +44,24 @@ describe('<AddFilesForm>', () => {
     };
 
     it('should render component', () => {
-      const { container } = render(<AddFilesForm {...fileFormProps} />);
+      const { container, getByRole, getAllByRole, getByText } = render(
+        <AddFilesForm {...fileFormProps} />,
+      );
 
       expect($('.add-files-form', container)).to.exist;
-      const checkbox = $('va-checkbox', container);
-      expect(checkbox).to.exist;
-      expect(checkbox.label).to.equal(
-        'The files I uploaded support this claim only.',
+      getByRole('checkbox', {
+        required: true,
+        checked: false,
+        label: 'The files I uploaded support this claim only.',
+      });
+      getAllByRole('link', {
+        text: 'How to File a Claim page (opens in a new tab)',
+      });
+      getByText(
+        /Please only submit evidence that supports this claim. To submit supporting documents for a new disability claim/,
+        / please visit our/i,
       );
-      expect(checkbox.required).to.be.true;
-      const link = $('#how-to-file-claim', container);
-      expect(link.text).to.equal(
-        'How to File a Claim page (opens in a new tab)',
-      );
-      expect($('.files-form-information', container)).to.exist;
+      expect($('#file-upload', container)).to.exist;
     });
 
     it('uploading modal should not be visible', () => {
@@ -73,9 +77,20 @@ describe('<AddFilesForm>', () => {
     });
 
     it('should include mail info additional info', () => {
-      const { container } = render(<AddFilesForm {...fileFormProps} />);
-
-      expect($('va-additional-info', container)).to.exist;
+      const { getByText, getAllByRole } = render(
+        <AddFilesForm {...fileFormProps} />,
+      );
+      getByText(
+        /Please upload your documents online here to help us process your claim quickly./i,
+      );
+      getByText(/If you can’t upload documents:/i);
+      getAllByRole('listitem', { text: 'Make copies of the documents.' });
+      getAllByRole('listitem', {
+        text: 'Make sure you write your name and claim number on every page.',
+      });
+      getAllByRole('listitem', {
+        text: 'Mail them to the VA Claims Intake Center (opens in a new tab).',
+      });
     });
 
     it('should not submit if files empty', () => {
@@ -224,6 +239,88 @@ describe('<AddFilesForm>', () => {
       fireEvent.click($('#submit', container));
       expect(onSubmit.called).to.be.true;
       expect($('#upload-status', container).visible).to.be.true;
+    });
+
+    it('should mask filenames from Datadog (no PII)', () => {
+      const files = [
+        {
+          file: {
+            size: 20,
+            name: 'something.jpeg',
+          },
+          docType: 'L501',
+        },
+      ];
+      const { container } = render(
+        <AddFilesForm {...fileFormProps} files={files} />,
+      );
+      expect(
+        $('.document-title', container).getAttribute('data-dd-privacy'),
+      ).to.equal('mask');
+    });
+
+    it('should add a valid file', async () => {
+      const file = {
+        file: new File(['hello'], 'hello.jpg', {
+          name: 'hello.jpg',
+          type: fileTypeSignatures.jpg.mime,
+          size: 9999,
+        }),
+        docType: { value: 'L029', dirty: true },
+        password: { value: '', dirty: false },
+        isEncrypted: false,
+      };
+
+      const { container, rerender, getByText } = render(
+        <AddFilesForm {...fileFormProps} />,
+      );
+
+      const inputElement = $('#file-upload', container);
+      fireEvent.change(inputElement, { detail: { files: [file] } });
+      // // Change the file
+      rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
+
+      getByText('hello.jpg');
+    });
+
+    it('should add a valid file and change it', async () => {
+      const file = {
+        file: new File(['hello'], 'hello.jpg', {
+          name: 'hello.jpg',
+          type: fileTypeSignatures.jpg.mime,
+          size: 9999,
+        }),
+        docType: { value: 'L029', dirty: true },
+        password: { value: '', dirty: false },
+        isEncrypted: false,
+      };
+      const file2 = {
+        file: new File(['hello2'], 'hello2.jpg', {
+          name: 'hello2.jpg',
+          type: fileTypeSignatures.jpg.mime,
+          size: 9999,
+        }),
+        docType: { value: 'L029', dirty: true },
+        password: { value: '', dirty: false },
+        isEncrypted: false,
+      };
+
+      const { container, rerender, getByText } = render(
+        <AddFilesForm {...fileFormProps} />,
+      );
+
+      const inputElement = $('#file-upload', container);
+      fireEvent.change(inputElement, { detail: { files: [file] } });
+      // // Change the file
+      rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
+
+      getByText('hello.jpg');
+
+      fireEvent.change(inputElement, { detail: { files: [file2] } });
+
+      rerender(<AddFilesForm {...fileFormProps} files={[file2]} uploading />);
+
+      getByText('hello2.jpg');
     });
   });
 
@@ -594,42 +691,5 @@ describe('<AddFilesForm>', () => {
 
     // VaTextInput has a name prop set to 'password'
     expect(tree.everySubTree('*', byName('password'))[0]).to.exist;
-  });
-
-  it('should mask filenames from Datadog (no PII)', () => {
-    const fileFormProps = {
-      field: { value: '', dirty: false },
-      files: [
-        {
-          file: {
-            size: 20,
-            name: 'something.jpeg',
-          },
-          docType: 'L501',
-        },
-      ],
-      onSubmit: () => {},
-      onAddFile: () => {},
-      onRemoveFile: () => {},
-      onFieldChange: () => {},
-      onCancel: () => {},
-      removeFile: () => {},
-      onDirtyFields: () => {},
-    };
-    const files = [
-      {
-        file: {
-          size: 20,
-          name: 'something.jpeg',
-        },
-        docType: 'L501',
-      },
-    ];
-    const { container } = render(
-      <AddFilesForm {...fileFormProps} files={files} />,
-    );
-    expect(
-      $('.document-title', container).getAttribute('data-dd-privacy'),
-    ).to.equal('mask');
   });
 });

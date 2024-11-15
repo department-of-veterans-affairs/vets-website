@@ -84,7 +84,35 @@ class AddFilesForm extends React.Component {
   };
 
   add = async files => {
+    const propFiles = this.props.files;
+    // console.log('files', files);
+    // console.log('fileCount', files.length);
+    // console.log('propFiles', propFiles);
+    // console.log('fileCount', files.length);
+    // console.log('propFileCount', propFiles.length);
+
     const file = files[0];
+    // console.log('file', file);
+
+    // Determine if a file has been changed
+    // const fileChanged = this.props.files.includes(file);
+    const oldFile = propFiles.filter(f => f.file.name !== file.name);
+    // console.log('oldFile', oldFile);
+
+    if (oldFile.length) {
+      const oldFileName = oldFile[0].file.name;
+      // console.log('oldFileName', oldFileName);
+
+      // Find index
+      const oldFileIndex = propFiles.findIndex(
+        f => f.file.name === oldFileName,
+      );
+      // console.log('oldFileIndex', oldFileIndex);
+
+      // Remove file
+      this.removeFileConfirmation(oldFileIndex, oldFileName, false);
+    }
+
     const { onAddFile, mockReadAndCheckFile } = this.props;
     const extraData = {};
     const hasPdfSizeLimit = isPdf(file);
@@ -161,9 +189,9 @@ class AddFilesForm extends React.Component {
     this.props.onDirtyFields();
   };
 
-  removeFileConfirmation = (fileIndex, fileName) => {
+  removeFileConfirmation = (fileIndex, fileName, showRemoveFileModal) => {
     this.setState({
-      showRemoveFileModal: true,
+      showRemoveFileModal,
       removeFileIndex: fileIndex,
       removeFileName: fileName,
     });
@@ -199,6 +227,7 @@ class AddFilesForm extends React.Component {
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
+            uswds="false"
           />
         </div>
         {this.props.files.map(
@@ -224,7 +253,7 @@ class AddFilesForm extends React.Component {
                       secondary
                       text="Remove"
                       onClick={() => {
-                        this.removeFileConfirmation(index, file.name);
+                        this.removeFileConfirmation(index, file.name, true);
                       }}
                     />
                   </div>
@@ -277,6 +306,7 @@ class AddFilesForm extends React.Component {
         )}
         <VaCheckbox
           label="The files I uploaded support this claim only."
+          role="checkbox"
           className="vads-u-margin-y--3"
           required
           checked={this.state.checked}
