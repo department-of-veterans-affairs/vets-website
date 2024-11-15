@@ -150,9 +150,10 @@ const StepTwo = ({ formResponses }) => {
           Buddy statements (also called a Statement in Support of Claim or VA
           Form 21-4138)
         </strong>
-        <br />
-        These are statements from friends or colleagues who knew you during your
-        service, or individuals with direct knowledge of your service.
+        <p>
+          These are statements from friends or colleagues who knew you during
+          your service, or individuals with direct knowledge of your service.
+        </p>
         <p>
           The person will need to fill out a Statement in Support of Claim (VA
           Form 21-4138). They may include this information about you in their
