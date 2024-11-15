@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   VaButton,
   VaPagination,
-  VaSearchInput,
+  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { formatProgramType } from '../../utils/helpers';
 import { fetchInstitutionPrograms } from '../../actions';
@@ -16,18 +17,21 @@ const ProgramsList = ({ match }) => {
   const { programType } = match.params;
   const { facilityCode } = match.params;
 
-  const formatedProgramType = formatProgramType(programType);
+  const formattedProgramType = formatProgramType(programType);
   const institutionName = institutionPrograms[0]?.attributes?.institutionName;
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
   const [searchQuery, setSearchQuery] = useState('');
+  const [submittedQuery, setSubmittedQuery] = useState('');
   const [key, setKey] = useState(0);
+
+  const [searchError, setSearchError] = useState(null);
 
   const filteredPrograms = institutionPrograms.filter(program =>
     program.attributes.description
       .toLowerCase()
-      .includes(searchQuery.toLowerCase()),
+      .includes(submittedQuery.toLowerCase()),
   );
 
   useEffect(
@@ -48,19 +52,29 @@ const ProgramsList = ({ match }) => {
 
   const handleSearchInput = e => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1);
+    setSearchError(null);
   };
 
   const triggerRerender = () => {
     setKey(prevKey => prevKey + 1); // Changing the key forces a re-render
   };
+
   const handleSearchSubmit = e => {
     e.preventDefault();
+    if (!searchQuery.trim()) {
+      setSearchError('Please fill in a program name and then select search.');
+      return;
+    }
+    setSubmittedQuery(searchQuery);
+    setCurrentPage(1);
   };
+
   const handleReset = () => {
     setSearchQuery('');
+    setSubmittedQuery('');
     setCurrentPage(1);
     triggerRerender();
+    setSearchError(null);
   };
 
   // Calculate total pages and slice programs for pagination
@@ -70,59 +84,109 @@ const ProgramsList = ({ match }) => {
     currentPage * itemsPerPage,
   );
 
+  // Calculate start and end indices for the displayed programs
+  const startIndex = (currentPage - 1) * itemsPerPage + 1;
+  const endIndex = Math.min(
+    currentPage * itemsPerPage,
+    filteredPrograms.length,
+  );
+
   const handlePageChange = page => {
     setCurrentPage(page);
+    window.scrollTo(0, 0);
   };
+
+  if (loading) {
+    return (
+      <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
+        <va-loading-indicator
+          label="Loading"
+          message="Loading your programs..."
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-      {loading && (
-        <div>
-          <va-loading-indicator
-            label="Loading"
-            message="Loading your programs..."
+      <h1 className="vads-u-margin-bottom--4">{institutionName}</h1>
+      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+        {formattedProgramType}
+      </h2>
+      <div
+        key={key}
+        className="search-container va-flex vads-u-align-items--flex-end"
+      >
+        <VaTextInput
+          error={searchError}
+          hint={null}
+          label="Search for a program name:"
+          message-aria-describedby="Search for a program name"
+          name="search-input"
+          onInput={handleSearchInput}
+          onKeyDown={e => e.key === 'Enter' && handleSearchSubmit(e)}
+          show-input-error
+        />
+        <VaButton onClick={handleSearchSubmit} text="Search" />
+        {submittedQuery && (
+          <VaButton
+            onClick={handleReset}
+            secondary
+            text="Back to program list"
           />
-        </div>
+        )}
+      </div>
+      {filteredPrograms.length > 0 ? (
+        <p id="results-summary">
+          {submittedQuery ? (
+            <>
+              {`Showing ${startIndex}-${endIndex} of ${
+                filteredPrograms.length
+              } results for `}
+              "<strong>{submittedQuery}</strong>"
+            </>
+          ) : (
+            <>
+              {`Showing ${startIndex}-${endIndex} of ${
+                filteredPrograms.length
+              } programs`}
+            </>
+          )}
+        </p>
+      ) : (
+        <p id="no-results-message">
+          {`We didn’t find any results for `}"
+          <strong>{`${submittedQuery}`}</strong>" . Please enter a valid program
+          name.
+        </p>
       )}
-      {!loading && (
-        <>
-          <h1 className="vads-u-margin-bottom--4">{institutionName}</h1>
-          <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-            {formatedProgramType}
-          </h2>
-          <p className="vads-u-margin-bottom--1">Search for a program name:</p>
-          <div key={key} className="va-flex">
-            <VaSearchInput
-              className="usa-width-three-fourths"
-              buttonText="Search"
-              label="Search Programs"
-              onInput={handleSearchInput}
-              onSubmit={handleSearchSubmit}
-              value={searchQuery}
-              type="text"
-            />
-            <VaButton onClick={handleReset} secondary text="Reset" />
-          </div>
-          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-          <ul className="remove-bullets" role="list">
-            {currentPrograms.map(program => (
-              <li className="vads-u-margin-bottom--2" key={program.id}>
-                {program.attributes.description}
-              </li>
-            ))}
-          </ul>
-          <VaPagination
-            page={currentPage}
-            pages={totalPages}
-            maxPageListLength={7}
-            showLastPage
-            onPageSelect={e => handlePageChange(e.detail.page)}
-            className="vads-u-border-top--0 vads-u-padding-top--0 vads-u-padding-bottom--5"
-          />
-        </>
-      )}
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="remove-bullets" role="list">
+        {currentPrograms.map(program => (
+          <li className="vads-u-margin-bottom--2" key={program.id}>
+            {program.attributes.description}
+          </li>
+        ))}
+      </ul>
+      <VaPagination
+        page={currentPage}
+        pages={totalPages}
+        maxPageListLength={7}
+        showLastPage
+        onPageSelect={e => handlePageChange(e.detail.page)}
+        className="vads-u-border-top--0 vads-u-padding-top--0 vads-u-padding-bottom--5"
+      />
     </div>
   );
+};
+
+ProgramsList.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      programType: PropTypes.string.isRequired,
+      facilityCode: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default ProgramsList;

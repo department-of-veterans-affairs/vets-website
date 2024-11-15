@@ -65,7 +65,7 @@ describe('ProgramsList component', () => {
     expect(wrapper.find('h2').exists()).to.be.true;
 
     // Check that relevant components like search input, button, and pagination exist
-    expect(wrapper.find('VaSearchInput')).to.have.lengthOf(1);
+    expect(wrapper.find('VaTextInput')).to.have.lengthOf(1);
     expect(wrapper.find('VaButton')).to.have.lengthOf(1);
     expect(wrapper.find('VaPagination')).to.have.lengthOf(1);
 
@@ -148,35 +148,40 @@ describe('ProgramsList component', () => {
 
   it('handles search input correctly', () => {
     const wrapper = mountComponent();
-    const searchQuery = 'Program 2';
+    const searchQuery = 'Program 21';
 
     // Simulate user input in the search field
     wrapper
-      .find('VaSearchInput')
+      .find('VaTextInput')
       .simulate('input', { target: { value: searchQuery } });
+    wrapper.update();
+
+    // Simulate form submission
+    wrapper
+      .find('VaButton')
+      .at(0)
+      .simulate('click');
     wrapper.update();
 
     // Check if the correct programs are displayed after search
     const displayedPrograms = wrapper.find('li').map(node => node.text());
-    const expectedPrograms = [
-      'Program 2',
-      'Program 20',
-      'Program 21',
-      'Program 22',
-      'Program 23',
-      'Program 24',
-      'Program 25',
-      'Program 26',
-      'Program 27',
-      'Program 28',
-      'Program 29',
-    ];
+    const expectedPrograms = ['Program 21'];
 
     // Assert that the displayed programs match the expected filtered list
     expect(displayedPrograms).to.deep.equal(expectedPrograms);
     wrapper.unmount();
   });
 
+  it('displays an error when the search input is empty and submitted', () => {
+    const wrapper = mountComponent();
+    wrapper.find('VaButton').simulate('click');
+    wrapper.update();
+    const errorMessage = wrapper.find('VaTextInput').prop('error');
+    expect(errorMessage).to.equal(
+      'Please fill in a program name and then select search.',
+    );
+    wrapper.unmount();
+  });
   it('displays the loading indicator when loading is true', () => {
     // Mount the component with loading state set to true
     const wrapper = mountComponent(true);
@@ -188,6 +193,24 @@ describe('ProgramsList component', () => {
     expect(loadingIndicator.prop('message')).to.equal(
       'Loading your programs...',
     );
+    wrapper.unmount();
+  });
+  it('displays a message when no programs are found', () => {
+    store = mockStore({
+      institutionPrograms: {
+        institutionPrograms: [],
+        loading: false,
+        error: null,
+      },
+    });
+    const wrapper = mount(
+      <Provider store={store}>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
+      </Provider>,
+    );
+    expect(wrapper.text()).to.include('We didn’t find any results for');
     wrapper.unmount();
   });
 });
