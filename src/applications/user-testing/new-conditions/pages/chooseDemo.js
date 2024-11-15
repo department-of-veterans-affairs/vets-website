@@ -10,11 +10,11 @@ const demoOptions = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Choose path',
+  title: 'Choose a demo',
   path: 'choose-demo',
   uiSchema: {
     demo: radioUI({
-      title: 'Which demo would you like to go through first?',
+      title: 'Choose a demo',
       labels: demoOptions,
     }),
   },
