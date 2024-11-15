@@ -120,6 +120,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
             'vads-u-align-items--center vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-dark vads-u-background-color--gray-lightest medium-screen:vads-u-display--none',
             { 'va-border-bottom-radius--0': expanded },
           )}
+          data-testid="rs-mobile-expand-collapse"
           onClick={() => setExpanded(!expanded)}
           type="button"
         >
@@ -239,3 +240,60 @@ SearchBar.propTypes = {
 };
 
 export default SearchBar;
+
+{/* <div class="vads-u-border-bottom--0 medium-screen:vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-top--3 vads-u-padding-bottom--0 medium-screen:vads-u-padding-bottom--3">
+<div>
+<button class="vads-u-align-items--center vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-dark vads-u-background-color--gray-lightest medium-screen:vads-u-display--none" type="button">
+  Search resources and support
+  <va-icon class="vads-u-font-size--base vads-u-color--primary-dark vads-u-visibility--visible" icon="add" size="3">
+  </va-icon>
+<va-icon class="vads-u-font-size--base vads-u-color--primary-dark vads-u-display--none" icon="remove" size="3">
+  </va-icon>
+</button>
+<div class="vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--3 vads-u-border-top--1px vads-u-border-top-color--gray-light medium-screen:vads-u-border-top--0 medium-screen:vads-u-display--flex vads-u-display--none" data-testid="resources-support-search" id="resources-support-search" data-e2e-id="resources-support-error-body">
+  <div class="rs-form-radio-buttons vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--block">
+  <va-radio class="vads-u-display--inline-block vads-u-margin-right--3 vads-u-margin-top--0" label="Search resources and support articles or all of VA.gov" label-header-level="2" uswds="true">
+  <div class="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block vads-u-margin-right--2 mobile-lg:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
+  <va-radio-option checked="true" label="Resources and Support" name="group" value="Resources and Support" class="vads-u-color--gray-dark medium-screen:vads-u-margin-top--0" data-e2e-id="resources-support-resource-radio" uswds="true">
+  </va-radio-option>
+</div>
+<div class="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block">
+  <va-radio-option checked="false" label="All VA.gov" name="group" value="All VA.gov" class="vads-u-color--gray-dark medium-screen:vads-u-margin-top--0" data-e2e-id="resources-support-resource-all-va-radio" uswds="true">
+  </va-radio-option>
+</div>
+</va-radio>
+</div>
+<p class="mobile-lg:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom--0p5">Enter a keyword, phrase, or question</p>
+<va-search-input button-text="Search" disable-analytics="true" label="Enter a keyword, phrase, or question" uswds="true" value="new test">
+  </va-search-input>
+</div>
+</div>
+</div> */}
+
+// Mobile
+{/* <div class="vads-u-border-bottom--0 medium-screen:vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-top--3 vads-u-padding-bottom--0 medium-screen:vads-u-padding-bottom--3">
+  <div>
+  <button class="vads-u-align-items--center vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-dark vads-u-background-color--gray-lightest medium-screen:vads-u-display--none" type="button">Search resources and support<va-icon class="vads-u-font-size--base vads-u-color--primary-dark vads-u-visibility--visible" icon="add" size="3">
+  </va-icon>
+<va-icon class="vads-u-font-size--base vads-u-color--primary-dark vads-u-display--none" icon="remove" size="3">
+  </va-icon>
+</button>
+<div class="vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--3 vads-u-border-top--1px vads-u-border-top-color--gray-light medium-screen:vads-u-border-top--0 medium-screen:vads-u-display--flex vads-u-display--none" data-testid="resources-support-search" id="resources-support-search" data-e2e-id="resources-support-error-body">
+  <div class="rs-form-radio-buttons vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--block">
+  <va-radio class="vads-u-display--inline-block vads-u-margin-right--3 vads-u-margin-top--0" label="Search resources and support articles or all of VA.gov" label-header-level="2" uswds="true">
+  <div class="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block vads-u-margin-right--2 mobile-lg:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
+  <va-radio-option checked="true" label="Resources and Support" name="group" value="Resources and Support" class="vads-u-color--gray-dark medium-screen:vads-u-margin-top--0" data-e2e-id="resources-support-resource-radio" uswds="true">
+  </va-radio-option>
+</div>
+<div class="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block">
+  <va-radio-option checked="false" label="All VA.gov" name="group" value="All VA.gov" class="vads-u-color--gray-dark medium-screen:vads-u-margin-top--0" data-e2e-id="resources-support-resource-all-va-radio" uswds="true">
+  </va-radio-option>
+</div>
+</va-radio>
+</div>
+<p class="mobile-lg:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom--0p5">Enter a keyword, phrase, or question</p>
+<va-search-input button-text="Search" disable-analytics="true" label="Enter a keyword, phrase, or question" uswds="true" value="new test">
+  </va-search-input>
+</div>
+</div>
+</div> */}
