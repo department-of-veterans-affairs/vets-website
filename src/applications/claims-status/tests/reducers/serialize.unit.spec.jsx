@@ -153,30 +153,6 @@ describe('Claim Serializer', () => {
     expect(trackedItem3.documents.map(d => d.id).sort()).to.eql([3, 4]);
   });
 
-  // <tempfix>
-  // See notes on PMR Pending in serialize.js
-  it('should manually override the status of PMR Pending requests', () => {
-    const claim = {
-      id: 1,
-      type: 'claim',
-      attributes: {
-        trackedItems: [
-          {
-            id: 1,
-            displayName: 'PMR Pending',
-            status: 'NEEDED_FROM_YOU',
-          },
-        ],
-      },
-    };
-    const serializedClaim = serializeClaim(claim);
-    const trackedItem1 = serializedClaim.attributes.trackedItems.find(
-      d => d.id === 1,
-    );
-    expect(trackedItem1.status).to.eql('NEEDED_FROM_OTHERS');
-  });
-  // </tempfix>
-
   it('should replace the display name of some types of tracked items', () => {
     const claim = {
       id: 1,
