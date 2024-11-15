@@ -12,22 +12,27 @@ export const RouteLeavingGuard = ({
   title,
   p1,
   p2,
+  setIsModalVisible,
   confirmButtonText,
   cancelButtonText,
   saveDraftHandler,
+  savedDraft,
+  saveError,
+  setSetErrorModal,
 }) => {
   const [lastLocation, updateLastLocation] = useState();
   const [confirmedNavigation, updateConfirmedNavigation] = useState(false);
   const [modalVisible, updateModalVisible] = useState(false);
 
   const showModal = location => {
+    setIsModalVisible(true);
     updateModalVisible(true);
     updateLastLocation(location);
   };
 
-  const closeModal = cb => {
+  const closeModal = () => {
     updateModalVisible(false);
-    cb();
+    setSetErrorModal(false);
   };
 
   const handleBlockedNavigation = nextLocation => {
@@ -39,22 +44,27 @@ export const RouteLeavingGuard = ({
     return true;
   };
   const handleConfirmNavigationClick = () => {
-    if (
-      cancelButtonText ===
-      ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft
-    ) {
-      saveDraftHandler('manual');
+    saveDraftHandler('manual');
+    closeModal();
+    if (lastLocation) {
+      updateConfirmedNavigation(true);
     }
-    closeModal(() => {
-      if (lastLocation) {
-        updateConfirmedNavigation(true);
-      }
-    });
   };
 
   const handleCancelNavigationClick = e => {
+    setIsModalVisible(false);
     updateModalVisible(false);
-    saveDraftHandler('manual', e);
+    setSetErrorModal(false);
+
+    const isCancelButtonTextMatching =
+      cancelButtonText ===
+        ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.cancelButtonText ||
+      cancelButtonText ===
+        ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.cancelButtonText;
+
+    if (isCancelButtonTextMatching) {
+      saveDraftHandler('manual', e);
+    }
   };
 
   useEffect(
@@ -65,6 +75,15 @@ export const RouteLeavingGuard = ({
       }
     },
     [confirmedNavigation],
+  );
+
+  useEffect(
+    () => {
+      if (savedDraft && !!saveError) {
+        updateModalVisible(true);
+      }
+    },
+    [saveError, savedDraft],
   );
 
   return (
@@ -79,11 +98,12 @@ export const RouteLeavingGuard = ({
         status="warning"
         visible={modalVisible}
         data-dd-action-name="Navigation Warning Modal"
+        data-testid="navigation-warning-modal"
       >
         <p>
           {cancelButtonText !==
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-              .saveDraft && p1}
+              .confirmButtonText && p1}
         </p>
         {p2 && <p>{p2}</p>}
         <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
@@ -114,6 +134,10 @@ RouteLeavingGuard.propTypes = {
   p1: PropTypes.string,
   p2: PropTypes.any,
   saveDraftHandler: PropTypes.func,
+  saveError: PropTypes.object,
+  savedDraft: PropTypes.bool,
+  setIsModalVisible: PropTypes.func,
+  setSetErrorModal: PropTypes.func,
   shouldBlockNavigation: PropTypes.func,
   title: PropTypes.string,
   updateModalVisible: PropTypes.func,

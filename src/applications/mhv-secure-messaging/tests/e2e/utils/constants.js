@@ -203,6 +203,7 @@ export const Locators = {
     CANCEL: '[text="Cancel"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
     ES_ALERT: '[data-testid="quit-compose-double-dare"]',
+    ALERT_MODAL: `[data-testid="navigation-warning-modal"]`,
     SAVE_ALERT: `[data-test-id="save-alert-message"]`,
     CL_SAVE: `[data-testid="sm-route-navigation-guard-confirm-button"]`,
     CL_DELETE_AND_EXIT: `[data-testid="sm-route-navigation-guard-cancel-button"]`,
@@ -210,6 +211,7 @@ export const Locators = {
     ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
     VA_ALERT: `va-alert`,
     FIELD_ERROR: `#input-error-message`,
+    REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',

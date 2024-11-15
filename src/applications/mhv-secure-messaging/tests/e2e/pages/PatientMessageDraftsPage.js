@@ -528,7 +528,7 @@ class PatientMessageDraftsPage {
   };
 
   verifySaveWithAttachmentAlert = () => {
-    cy.get('[data-testid="quit-compose-double-dare"]')
+    cy.get(Locators.ALERTS.ALERT_MODAL)
       .shadow()
       .find('h2')
       .should('contain', `can't save attachment`);

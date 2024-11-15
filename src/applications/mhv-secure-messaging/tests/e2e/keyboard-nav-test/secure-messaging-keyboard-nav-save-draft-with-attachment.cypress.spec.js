@@ -22,7 +22,7 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
 
     PatientMessageDraftsPage.verifySaveWithAttachmentAlert();
 
-    cy.get(`[data-testid="quit-compose-double-dare"]`)
+    cy.get(Locators.ALERTS.ALERT_MODAL)
       .shadow()
       .find(`button`)
       .click();

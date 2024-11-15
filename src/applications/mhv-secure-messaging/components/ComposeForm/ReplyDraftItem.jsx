@@ -69,7 +69,6 @@ const ReplyDraftItem = props => {
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const [navigationError, setNavigationError] = useState(null);
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
-  const [modalVisible, setModalVisible] = useState(false);
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -78,6 +77,7 @@ const ReplyDraftItem = props => {
   const [saveError, setSaveError] = useState(null);
   const [focusToTextarea, setFocusToTextarea] = useState(false);
   const [draftId, setDraftId] = useState(null);
+  const [savedDraft, setSavedDraft] = useState(false);
 
   const alertsList = useSelector(state => state.sm.alerts.alertList);
   const attachmentScanError = useMemo(
@@ -188,7 +188,8 @@ const ReplyDraftItem = props => {
 
       if (type === 'manual') {
         if (messageValid) {
-          setLastFocusableElement(e.target);
+          setSavedDraft(true);
+          setLastFocusableElement(e?.target);
         }
         if (attachments.length) {
           setSaveError(
@@ -234,6 +235,7 @@ const ReplyDraftItem = props => {
             saveReplyDraft(replyMessage.messageId, formData, type, draftId),
           );
         }
+        setSavedDraft(true);
       }
       if (!attachments.length) setNavigationError(null);
     },
@@ -322,7 +324,7 @@ const ReplyDraftItem = props => {
         debouncedMessageBody &&
         isAutosave &&
         !cannotReply &&
-        !modalVisible
+        !isModalVisible
       ) {
         saveDraftHandler('auto');
       }
@@ -331,7 +333,7 @@ const ReplyDraftItem = props => {
       cannotReply,
       debouncedMessageBody,
       isAutosave,
-      modalVisible,
+      isModalVisible,
       saveDraftHandler,
     ],
   );
@@ -457,8 +459,9 @@ const ReplyDraftItem = props => {
       )}
       <RouteLeavingGuard
         when={!!navigationError}
-        modalVisible={modalVisible}
-        updateModalVisible={setModalVisible}
+        modalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        setSetErrorModal={setSavedDraft}
         navigate={path => {
           history.push(path);
         }}
@@ -470,6 +473,8 @@ const ReplyDraftItem = props => {
         p2={navigationError?.p2}
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
+        saveDraftHandler={saveDraftHandler}
+        savedDraft={savedDraft}
       />
 
       <h3 className="vads-u-margin-bottom--0p5" slot="headline">
