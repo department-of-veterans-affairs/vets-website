@@ -161,7 +161,7 @@ describe('Claim Serializer', () => {
         trackedItems: [
           {
             id: 1,
-            displayName: 'PMR Pending',
+            displayName: 'Private Medical Record',
           },
         ],
       },
