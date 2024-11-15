@@ -196,6 +196,12 @@ const SelectAccreditedRepresentative = props => {
 
 SelectAccreditedRepresentative.propTypes = {
   fetchRepresentatives: PropTypes.func,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
+  loggedIn: PropTypes.bool,
+  setFormData: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
