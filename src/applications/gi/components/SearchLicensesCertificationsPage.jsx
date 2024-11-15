@@ -9,18 +9,12 @@ export default function SearchLicensesCertificationsPage() {
     <div className="lc-search-page">
       <div className="content-wrapper">
         <Switch>
-          <Route
-            exact
-            path="/lc-search/results"
-            render={({ match }) => (
-              <LicenseCertificationSearchResults match={match} />
-            )}
-          />
-          <Route
-            exact
-            path="/lc-search"
-            render={({ match }) => <LicenseCertificationSearch match={match} />}
-          />
+          <Route exact path="/lc-search/results">
+            <LicenseCertificationSearchResults />
+          </Route>
+          <Route exact path="/lc-search">
+            <LicenseCertificationSearch />
+          </Route>
         </Switch>
       </div>
     </div>
