@@ -1,6 +1,5 @@
 const delay = require('mocker-api/lib/delay');
 
-const { loa3User } = require('./endpoints/user');
 const address = require('./endpoints/address');
 const emailAddress = require('./endpoints/email-addresses');
 const telephone = require('./endpoints/telephones');
@@ -16,7 +15,7 @@ const {
 const mockFormAeDesignPatterns = require('./endpoints/in-progress-forms/mock-form-ae-design-patterns');
 
 const prefill261880 = require('./endpoints/in-progress-forms/26-1880');
-const { FORM_22_1990 } = require('./endpoints/in-progress-forms/22-1990');
+const prefill221990 = require('./endpoints/in-progress-forms/22-1990');
 
 // transaction status that is used for address, email, phone number update flows
 const {
@@ -65,12 +64,12 @@ const responses = {
 
   'GET /v0/in_progress_forms/26-1880': (_req, res) => {
     const secondsOfDelay = 1;
-    delaySingleResponse(() => res.json(prefill261880.response), secondsOfDelay);
+    delaySingleResponse(() => res.json(prefill261880), secondsOfDelay);
   },
 
   'GET /v0/in_progress_forms/22-1990': (_req, res) => {
     const secondsOfDelay = 1;
-    delaySingleResponse(() => res.json(FORM_22_1990.minimal), secondsOfDelay);
+    delaySingleResponse(() => res.json(prefill221990), secondsOfDelay);
   },
 
   'PUT /v0/in_progress_forms/:id': (req, res) => {
@@ -87,7 +86,7 @@ const responses = {
     if (shouldError) {
       return res.status(500).json(genericErrors.error500);
     }
-    return res.json(updateMemDb(req, loa3User)); // default user LOA3 w/id.me (success)
+    return res.json(updateMemDb(req));
   },
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {

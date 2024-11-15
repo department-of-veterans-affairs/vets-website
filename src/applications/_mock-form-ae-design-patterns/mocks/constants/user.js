@@ -45,4 +45,17 @@ const USER = {
   },
 };
 
-module.exports = { USER };
+const HOME_PHONE_FULL = `${USER.HOME_PHONE.AREA_CODE}${
+  USER.HOME_PHONE.PHONE_NUMBER
+}`;
+const MOBILE_PHONE_FULL = `${USER.MOBILE_PHONE.AREA_CODE}${
+  USER.MOBILE_PHONE.PHONE_NUMBER
+}`;
+
+const FULL_NAME = {
+  first: USER.FIRST_NAME,
+  middle: USER.MIDDLE_NAME,
+  last: USER.LAST_NAME,
+};
+
+module.exports = { USER, FULL_NAME, HOME_PHONE_FULL, MOBILE_PHONE_FULL };
