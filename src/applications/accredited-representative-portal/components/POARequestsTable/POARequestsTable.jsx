@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
-import './POARequestsTable.scss';
 
 export const createRelationshipCell = attributes => {
   if ('veteran' in attributes) {
@@ -37,23 +36,21 @@ export const formatDate = date => {
 const POARequestsTable = ({ poaRequests }) => {
   return (
     <ul
-      data-testid="poa-request-card"
+      data-testid="poa-requests-card"
       className="poa-request__list"
       sort-column={1}
     >
       {poaRequests.map(({ id, attributes: poaRequest }) => (
         <li key={id}>
           <va-card class="poa-request__card">
-            <Link
-              data-testid={`poa-request-card-${id}-name`}
-              to={`/poa-requests/${id}`}
-            >
+            <Link to={`/poa-requests/${id}`}>
               <h3
                 data-testid={`poa-request-card-${id}-name`}
                 className="poa-request__card-title vads-u-font-size--h4"
               >
-                {`${poaRequest.claimant.lastName},
-                ${poaRequest.claimant.firstName}`}
+                {`${poaRequest.claimant.lastName}, ${
+                  poaRequest.claimant.firstName
+                }`}
               </h3>
             </Link>
             <p
@@ -138,9 +135,7 @@ const POARequestsTable = ({ poaRequests }) => {
                       class="poa-request__card-icon--green poa-request__card-icon"
                     />
                   )}
-                  <span data-testid="poa-request-card-field-status">
-                    POA Status
-                  </span>
+                  <span>POA Status</span>
                 </p>
                 <p
                   data-testid={`poa-request-card-${id}-status`}

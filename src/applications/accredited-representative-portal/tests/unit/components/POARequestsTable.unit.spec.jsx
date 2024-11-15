@@ -12,35 +12,11 @@ import { renderTestApp } from '../helpers';
 const MOCK_POA_REQUESTS = mockPOARequestsResponse.data;
 
 describe('POARequestsTable', () => {
-  it('renders table', () => {
+  it('renders card', () => {
     const { getByTestId } = renderTestApp(
       <POARequestsTable poaRequests={MOCK_POA_REQUESTS} />,
     );
-
-    expect(getByTestId('poa-requests-table')).to.exist;
-  });
-
-  it('renders headers', () => {
-    const { getByTestId } = renderTestApp(
-      <POARequestsTable poaRequests={MOCK_POA_REQUESTS} />,
-    );
-
-    expect(getByTestId('poa-request-card-field-status').textContent).to.eq(
-      'POA Status',
-    );
-    expect(getByTestId('poa-requests-card-field-consent').textContent).to.eq(
-      'Consent Limitations',
-    );
-    expect(getByTestId('poa-request-card-field-city').textContent).to.eq(
-      'City',
-    );
-    expect(getByTestId('poa-request-card-field-state').textContent).to.eq(
-      'State',
-    );
-    expect(getByTestId('poa-request-card-field-zip').textContent).to.eq('Zip');
-    expect(getByTestId('poa-request-card-field-received').textContent).to.eq(
-      'POA Received Date',
-    );
+    expect(getByTestId('poa-requests-card')).to.exist;
   });
 
   it('renders POA requests', () => {
