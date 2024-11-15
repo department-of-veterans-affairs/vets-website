@@ -2,7 +2,7 @@ describe('Interstitial Changes Page', () => {
   const baseUrl = '/sign-in-changes-reminder';
 
   const interceptCredentialEmails = (statusCode, body) => {
-    cy.intercept('GET', '/user/credential_emails', {
+    cy.intercept('GET', 'v0/user/credential_emails', {
       statusCode,
       body,
     });
