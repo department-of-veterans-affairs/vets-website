@@ -122,7 +122,7 @@ const StepOne = ({ formResponses }) => {
       )}
       {boardToSubmit.abbr !== DRB && (
         <li>
-          Item 8 asks for the date when you discovered the error or injustice
+          Item 16 asks for the date when you discovered the error or injustice
           you’re asking the Board to address. If it’s been more than 3 years
           since you found this error or injustice, you’ll need to include a
           reason why the Board should consider your application. Examples of
