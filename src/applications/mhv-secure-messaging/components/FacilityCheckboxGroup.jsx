@@ -32,9 +32,9 @@ const FacilityCheckboxGroup = props => {
     <div>
       <va-checkbox-group
         data-testid={`${facilityName?.replace(/ /g, '-')}-facility-group`}
-        label={multipleFacilities ? facilityName : null}
-        label-header-level={multipleFacilities ? '2' : null}
-        class="contactListFacility vads-u-margin-bottom--4 vads-u-margin-top--0"
+        label={facilityName}
+        label-header-level="2"
+        class="contactListFacility vads-u-margin-bottom--4 tablet:vads-u-margin-bottom--5"
         error={errorMessage}
       >
         <VaCheckbox
@@ -42,7 +42,7 @@ const FacilityCheckboxGroup = props => {
           label={`Select all ${triageTeams.length} teams`}
           checked={selectAll}
           onVaChange={handleSelectAllChange}
-          class="vads-u-margin-bottom--2"
+          class="vads-u-margin-bottom--3 tablet:vads-u-margin-bottom--2"
           message-aria-describedby={
             errorMessage
               ? `Error. ${errorMessage}`
@@ -52,13 +52,18 @@ const FacilityCheckboxGroup = props => {
           }
         />
         <div
-          className="vads-u-margin-left--2 mobile-lg:vads-u-margin-left--3"
+          className="vads-u-margin-left--2 tablet:vads-u-margin-left--3"
           data-testid={`${facilityName?.replace(/ /g, '-')}-teams`}
         >
-          {triageTeams.map(team => {
+          {triageTeams.map((team, index) => {
             return (
               <VaCheckbox
                 data-testid={`contact-list-select-team-${team.triageTeamId}`}
+                class={`${
+                  index === triageTeams.length - 1
+                    ? ' vads-u-margin-bottom--0'
+                    : 'vads-u-margin-bottom--3 tablet:vads-u-margin-bottom--2'
+                }`}
                 key={team.triageTeamId}
                 label={team.name}
                 checked={team.preferredTeam}
