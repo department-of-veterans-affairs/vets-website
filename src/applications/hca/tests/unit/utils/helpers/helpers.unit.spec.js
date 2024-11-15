@@ -1,8 +1,6 @@
 import { expect } from 'chai';
-
 import {
   transformAttachments,
-  getInsuranceAriaLabel,
   normalizeFullName,
   parseVeteranDob,
   getDataToSet,
@@ -59,41 +57,6 @@ describe('hca helpers', () => {
         };
         const transformedData = transformAttachments(inputData);
         expect(transformedData).to.deep.equal(expectedOutputData);
-      });
-    });
-  });
-
-  describe('when `getInsuranceAriaLabel` executes', () => {
-    describe('when the provider name is not provided', () => {
-      it('should return a generic label', () => {
-        const formData = {};
-        expect(getInsuranceAriaLabel(formData)).to.equal('insurance policy');
-      });
-    });
-
-    describe('when the provider name is provided', () => {
-      describe('when the policy number when provided', () => {
-        it('should return the provider name & policy number', () => {
-          const formData = {
-            insuranceName: 'Aetna',
-            insurancePolicyNumber: '005588',
-          };
-          expect(getInsuranceAriaLabel(formData)).to.equal(
-            'Aetna, Policy number 005588',
-          );
-        });
-      });
-
-      describe('when the group code when provided', () => {
-        it('should return the provider name & group code', () => {
-          const formData = {
-            insuranceName: 'Aetna',
-            insuranceGroupCode: '005588',
-          };
-          expect(getInsuranceAriaLabel(formData)).to.equal(
-            'Aetna, Group code 005588',
-          );
-        });
       });
     });
   });
