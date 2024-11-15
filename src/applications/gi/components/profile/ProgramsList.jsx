@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   VaButton,
@@ -11,14 +12,17 @@ import { fetchInstitutionPrograms } from '../../actions';
 
 const ProgramsList = ({ match }) => {
   const dispatch = useDispatch();
-  const { institutionPrograms, loading } = useSelector(
+  const { institutionPrograms, loading, error } = useSelector(
     state => state.institutionPrograms,
   );
+  const location = useLocation();
+  const { institutionName } = location.state;
+
   const { programType } = match.params;
   const { facilityCode } = match.params;
 
   const formattedProgramType = formatProgramType(programType);
-  const institutionName = institutionPrograms[0]?.attributes?.institutionName;
+  // const institutionName = institutionPrograms[0]?.attributes?.institutionName;
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
@@ -96,6 +100,22 @@ const ProgramsList = ({ match }) => {
     window.scrollTo(0, 0);
   };
 
+  if (error) {
+    return (
+      <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
+        <h1 className="vads-u-margin-bottom--4">{institutionName}</h1>
+        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+          {formattedProgramType}
+        </h2>
+        <va-alert status="error" data-e2e-id="alert-box">
+          <h2 slot="headline">We can’t load the program list right now</h2>
+          <p>
+            We’re sorry. There’s a problem with our system. Try again later.
+          </p>
+        </va-alert>
+      </div>
+    );
+  }
   if (loading) {
     return (
       <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">

@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import { MemoryRouter as Router } from 'react-router-dom';
 import ProgramsList from '../../../components/profile/ProgramsList';
 
 const mockStore = configureStore([thunk]);
@@ -50,9 +51,13 @@ describe('ProgramsList component', () => {
 
     return mount(
       <Provider store={store}>
-        <ProgramsList
-          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
-        />
+        <Router
+          initialEntries={[{ state: { institutionName: 'Institution 1' } }]}
+        >
+          <ProgramsList
+            match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+          />
+        </Router>
       </Provider>,
     );
   };
@@ -205,12 +210,60 @@ describe('ProgramsList component', () => {
     });
     const wrapper = mount(
       <Provider store={store}>
-        <ProgramsList
-          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
-        />
+        <Router
+          initialEntries={[{ state: { institutionName: 'Institution 1' } }]}
+        >
+          <ProgramsList
+            match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+          />
+        </Router>
       </Provider>,
     );
     expect(wrapper.text()).to.include('We didn’t find any results for');
+    wrapper.unmount();
+  });
+  it('displays an error message when there is an error in the state', () => {
+    store = mockStore({
+      institutionPrograms: {
+        institutionPrograms: [],
+        loading: false,
+        error: 'Server error occurred', // Simulate an error state
+      },
+    });
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router
+          initialEntries={[{ state: { institutionName: 'Institution 1' } }]}
+        >
+          <ProgramsList
+            match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+          />
+        </Router>
+      </Provider>,
+    );
+
+    // Check that the error alert is displayed
+    const alert = wrapper.find('va-alert');
+    expect(alert.exists()).to.be.true;
+    expect(alert.prop('status')).to.equal('error');
+    expect(alert.find('h2[slot="headline"]').text()).to.equal(
+      'We can’t load the program list right now',
+    );
+    expect(alert.find('p').text()).to.include(
+      'We’re sorry. There’s a problem with our system. Try again later.',
+    );
+
+    // Check institution name and program type are displayed
+    expect(wrapper.find('h1').text()).to.equal('Institution 1');
+    expect(
+      wrapper
+        .find('h2')
+        .at(0)
+        .text()
+        .toUpperCase(),
+    ).to.include('NCD'); // Convert text to uppercase for comparison
+
     wrapper.unmount();
   });
 });
