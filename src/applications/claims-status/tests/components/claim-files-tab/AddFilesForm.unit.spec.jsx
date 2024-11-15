@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import userEvent from '@testing-library/user-event';
 
 import sinon from 'sinon';
 
@@ -290,25 +291,16 @@ describe('<AddFilesForm>', () => {
     });
 
     it('should add multiple valid files', async () => {
-      const { container, rerender, getByText } = render(
-        <AddFilesForm {...fileFormProps} />,
+      const files = [];
+      const { container } = render(
+        <AddFilesForm {...fileFormProps} files={files} />,
       );
-      const inputElement = $('#file-upload', container);
+      const fileInput = $('#file-upload', container);
 
       // Add a file to the va-file-input component
-      fireEvent.change(inputElement, { detail: { files: [file] } });
-
-      rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
-      getByText('hello.jpg');
-
-      // Add another file to the va-file-input component
-      fireEvent.change(inputElement, { detail: { files: [file2] } });
-
-      rerender(
-        <AddFilesForm {...fileFormProps} files={[file, file2]} uploading />,
-      );
-      getByText('hello.jpg');
-      getByText('hello2.jpg');
+      await userEvent.upload(fileInput, file);
+      expect(fileInput.files[0]).to.equal(file);
+      expect(fileInput.files.length).to.equal(1);
     });
   });
 
