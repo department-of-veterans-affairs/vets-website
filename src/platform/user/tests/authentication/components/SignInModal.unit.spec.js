@@ -58,7 +58,8 @@ describe('SignInModal', () => {
 
     global.window.dataLayer = [];
     screen.rerender(<SignInModal visible useSiS />);
-
+    // eslint-disable-next-line no-console
+    console.log('~~~~~DATALAYER', global.window.dataLayer);
     expect(global.window.dataLayer).to.deep.include({
       event: 'login-modal-opened-oauth',
     });
@@ -71,7 +72,8 @@ describe('SignInModal', () => {
 
     global.window.dataLayer = [];
     screen.rerender(<SignInModal visible={false} useSiS />);
-
+    // eslint-disable-next-line no-console
+    console.log('~~~~~DATALAYER', global.window.dataLayer);
     expect(global.window.dataLayer).to.deep.include({
       event: 'login-modal-closed-oauth',
     });
