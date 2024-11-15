@@ -52,9 +52,12 @@ describe('SignInModal', () => {
   });
 
   it('should record event when modal is opened', () => {
-    const screen = renderInReduxProvider(<SignInModal useSiS />, {
-      initialState: generateStore(),
-    });
+    const screen = renderInReduxProvider(
+      <SignInModal visible={false} useSiS />,
+      {
+        initialState: generateStore(),
+      },
+    );
 
     global.window.dataLayer = [];
     screen.rerender(<SignInModal visible useSiS />);
