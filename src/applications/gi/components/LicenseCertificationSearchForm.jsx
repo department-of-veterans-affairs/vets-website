@@ -3,7 +3,7 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
 import { updateLcFilterDropdowns } from '../utils/helpers';
-// import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import LcKeywordSearch from './LcKeywordSearch';
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -40,22 +40,14 @@ export const dropdownSchema = [
   },
 ];
 
-// const mockSuggestions = [
-//   'foreign study',
-//   'forever gi bill',
-//   'form',
-//   'form finder',
-//   'form search',
-//   'forms',
-// ];
-
 export default function LicenseCertificationSearchForm({ handleSearch }) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
-  const nameSearchRef = useRef(null);
+  // const nameSearchRef = useRef(null);
+  const inputRef = useRef();
 
   const handleReset = () => {
     setDropdowns(dropdownSchema);
-    nameSearchRef.current.value = '';
+    // nameSearchRef.current.value = '';
   };
 
   const handleChange = e => {
@@ -78,14 +70,7 @@ export default function LicenseCertificationSearchForm({ handleSearch }) {
         required={dropdowns[0].label === 'category'}
       />
       <div>
-        {/* <VaSearchInput */}
-        <va-text-input
-          label="License/Certification Name"
-          ref={nameSearchRef}
-          // suggestions={mockSuggestions}
-          className="lc-dropdown-filter"
-          style={{ border: 'red' }}
-        />
+        <LcKeywordSearch inputRef={inputRef} />
       </div>
 
       {dropdowns[0].current.optionLabel !== 'Prep Course' && (
@@ -107,7 +92,7 @@ export default function LicenseCertificationSearchForm({ handleSearch }) {
           text="Submit"
           onClick={() =>
             handleSearch(
-              nameSearchRef.current.value,
+              // nameSearchRef.current.value,
               dropdowns[0].current.optionValue,
             )
           }
