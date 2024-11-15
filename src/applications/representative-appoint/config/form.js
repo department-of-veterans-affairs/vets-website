@@ -1,6 +1,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+// import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -8,7 +8,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { generatePDF } from '../api/generatePDF';
 import NextStepsPage from '../containers/NextStepsPage';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
-import { preparerIsVeteran } from '../utilities/helpers';
+import {
+  preparerIsVeteran,
+  isAttorneyOrClaimsAgent,
+} from '../utilities/helpers';
 
 import {
   authorizeMedical,
@@ -24,7 +27,7 @@ import {
   claimantContactMailing,
   veteranPersonalInformation,
   veteranContactPhoneEmail,
-  veteranContactPhoneEmailForNonVeteran,
+  // veteranContactPhoneEmailForNonVeteran,
   veteranContactMailing,
   veteranContactMailingClaimant,
   veteranIdentification,
@@ -204,29 +207,6 @@ const formConfig = {
         //   uiSchema: confirmClaimantPersonalInformation.uiSchema,
         //   schema: confirmClaimantPersonalInformation.schema,
         // },
-        claimantContactPhoneEmail: {
-          path: 'claimant-contact-phone-email',
-          depends: formData => !preparerIsVeteran({ formData }),
-          title: 'Your phone number and email address',
-          uiSchema: claimantContactPhoneEmail.uiSchema,
-          schema: claimantContactPhoneEmail.schema,
-        },
-        ...profileContactInfo({
-          contactInfoPageKey: 'confirmContactInfo',
-          contactPath: 'claimant-contact',
-          contactInfoRequiredKeys: [
-            'mailingAddress',
-            'email',
-            'homePhone',
-            'mobilePhone',
-          ],
-          included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
-          depends: formData => {
-            const isLoggedIn = formData?.['view:isLoggedIn'] ?? false;
-            const isNotVeteran = !preparerIsVeteran({ formData });
-            return isLoggedIn && isNotVeteran;
-          },
-        }),
         claimantContactMailing: {
           path: 'claimant-contact-mailing',
           depends: formData => !preparerIsVeteran({ formData }),
@@ -234,6 +214,30 @@ const formConfig = {
           uiSchema: claimantContactMailing.uiSchema,
           schema: claimantContactMailing.schema,
         },
+        claimantContactPhoneEmail: {
+          path: 'claimant-contact-phone-email',
+          depends: formData => !preparerIsVeteran({ formData }),
+          title: 'Your phone number and email address',
+          uiSchema: claimantContactPhoneEmail.uiSchema,
+          schema: claimantContactPhoneEmail.schema,
+        },
+        // ...profileContactInfo({
+        //   contactInfoPageKey: 'confirmContactInfo',
+        //   contactPath: 'claimant-contact',
+        //   contactInfoRequiredKeys: [
+        //     'mailingAddress',
+        //     'email',
+        //     'homePhone',
+        //     'mobilePhone',
+        //   ],
+        //   included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
+        //   depends: formData => {
+        //     const isLoggedIn = formData?.['view:isLoggedIn'] ?? false;
+        //     const isNotVeteran = !preparerIsVeteran({ formData });
+        //     return isLoggedIn && isNotVeteran;
+        //   },
+        // }),
+
         veteranPersonalInformation: {
           title: `Your name and date of birth`,
           path: 'veteran-personal-information',
@@ -255,13 +259,13 @@ const formConfig = {
           uiSchema: veteranContactPhoneEmail.uiSchema,
           schema: veteranContactPhoneEmail.schema,
         },
-        veteranContactPhoneEmailForNonVeteran: {
-          path: 'veteran-contact-phone-email-for-non-veteran',
-          title: `Veteran’s phone number and email address`,
-          depends: formData => !preparerIsVeteran({ formData }),
-          uiSchema: veteranContactPhoneEmailForNonVeteran.uiSchema,
-          schema: veteranContactPhoneEmailForNonVeteran.schema,
-        },
+        // veteranContactPhoneEmailForNonVeteran: {
+        //   path: 'veteran-contact-phone-email-for-non-veteran',
+        //   title: `Veteran’s phone number and email address`,
+        //   depends: formData => !preparerIsVeteran({ formData }),
+        //   uiSchema: veteranContactPhoneEmailForNonVeteran.uiSchema,
+        //   schema: veteranContactPhoneEmailForNonVeteran.schema,
+        // },
         veteranIdentification: {
           path: 'veteran-identification',
           title: `Your identification information`,
@@ -272,7 +276,12 @@ const formConfig = {
         veteranServiceInformation: {
           path: 'veteran-service-information',
           title: `Your service information`,
-          depends: formData => preparerIsVeteran({ formData }),
+          depends: formData => {
+            return (
+              isAttorneyOrClaimsAgent(formData) &&
+              preparerIsVeteran({ formData })
+            );
+          },
           uiSchema: veteranServiceInformation.uiSchema,
           schema: veteranServiceInformation.schema,
         },
@@ -313,7 +322,12 @@ const formConfig = {
         veteranServiceInformation: {
           path: 'veteran-service-information',
           title: `Veteran's service information`,
-          depends: formData => !preparerIsVeteran({ formData }),
+          depends: formData => {
+            return (
+              isAttorneyOrClaimsAgent(formData) &&
+              !preparerIsVeteran({ formData })
+            );
+          },
           uiSchema: veteranServiceInformation.uiSchema,
           schema: veteranServiceInformation.schema,
         },
@@ -349,7 +363,7 @@ const formConfig = {
         authorizeInsideVA: {
           path: 'authorize-inside-va',
           depends: formData => {
-            return formData?.repTypeRadio === ('Attorney' || 'Claims Agent');
+            return isAttorneyOrClaimsAgent(formData);
           },
           title: 'Authorization for Access Inside VA Systems',
           uiSchema: authorizeInsideVA.uiSchema,
@@ -358,7 +372,7 @@ const formConfig = {
         authorizeOutsideVA: {
           path: 'authorize-outside-va',
           depends: formData => {
-            return formData?.repTypeRadio === ('Attorney' || 'Claims Agent');
+            return isAttorneyOrClaimsAgent(formData);
           },
           title: 'Authorization for Access Outside VA Systems',
           uiSchema: authorizeOutsideVA.uiSchema,
@@ -367,7 +381,7 @@ const formConfig = {
         authorizeOutsideVANames: {
           path: 'authorize-outside-va/names',
           depends: formData => {
-            return formData?.repTypeRadio === ('Attorney' || 'Claims Agent');
+            return isAttorneyOrClaimsAgent(formData);
           },
           title: 'Authorization for Access Outside of VA Systems',
           uiSchema: authorizeOutsideVANames.uiSchema,
