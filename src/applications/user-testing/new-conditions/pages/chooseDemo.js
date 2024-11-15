@@ -2,10 +2,13 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import capitalize from 'lodash/capitalize';
+
+import { CONDITION_BY_CONDITION, CONDITIONS_FIRST } from '../constants';
 
 const demoOptions = {
-  newConditions: 'Owl',
-  newConditionsJustConditions: 'Fox',
+  CONDITION_BY_CONDITION: capitalize(CONDITION_BY_CONDITION),
+  CONDITIONS_FIRST: capitalize(CONDITIONS_FIRST),
 };
 
 /** @type {PageSchema} */

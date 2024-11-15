@@ -2,36 +2,35 @@ import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-for
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
-import causePage from './cause';
-import causeFollowUpPage from './causeFollowUp';
 import conditionPage from './condition';
 import datePage from './date';
 import introPage from './intro';
 import sideOfBodyPage from './sideOfBody';
 import summaryPage from './summary';
 import { arrayBuilderOptions, hasSideOfBody } from './utils';
+import { CONDITIONS_FIRST } from '../../constants';
 
-const newConditionsPages = arrayBuilderPages(
+const conditionsFirstPages = arrayBuilderPages(
   arrayBuilderOptions,
   (pageBuilder, helpers) => ({
-    newConditionsIntro: pageBuilder.introPage({
+    conditionsFirstIntro: pageBuilder.introPage({
       title: 'New conditions intro',
-      path: 'new-conditions-intro',
-      depends: formData => formData.demo === 'newConditions',
+      path: `new-conditions-${CONDITIONS_FIRST}-intro`,
+      depends: formData => formData.demo === 'CONDITIONS_FIRST',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
-    newConditionsSummary: pageBuilder.summaryPage({
+    conditionsFirstSummary: pageBuilder.summaryPage({
       title: 'Review your new conditions',
-      path: 'new-conditions-summary',
-      depends: formData => formData.demo === 'newConditions',
+      path: `new-conditions-${CONDITIONS_FIRST}-summary`,
+      depends: formData => formData.demo === 'CONDITIONS_FIRST',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    newConditionsCondition: pageBuilder.itemPage({
+    conditionsFirstCondition: pageBuilder.itemPage({
       title: 'Claim a new condition',
-      path: 'new-conditions/:index/condition',
-      depends: formData => formData.demo === 'newConditions',
+      path: `new-conditions-${CONDITIONS_FIRST}/:index/condition`,
+      depends: formData => formData.demo === 'CONDITIONS_FIRST',
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
       onNavForward: props => {
@@ -45,20 +44,22 @@ const newConditionsPages = arrayBuilderPages(
 
         return hasSideOfBody(formData, index)
           ? helpers.navForwardKeepUrlParams(props)
-          : goPath(`new-conditions/${index}/date${urlParamsString}`);
+          : goPath(
+              `new-conditions-${CONDITIONS_FIRST}/${index}/date${urlParamsString}`,
+            );
       },
     }),
-    newConditionsSideOfBody: pageBuilder.itemPage({
+    conditionsFirstSideOfBody: pageBuilder.itemPage({
       title: 'Side of body of new condition',
-      path: 'new-conditions/:index/side-of-body',
-      depends: formData => formData.demo === 'newConditions',
+      path: `new-conditions-${CONDITIONS_FIRST}/:index/side-of-body`,
+      depends: formData => formData.demo === 'CONDITIONS_FIRST',
       uiSchema: sideOfBodyPage.uiSchema,
       schema: sideOfBodyPage.schema,
     }),
-    newConditionsDate: pageBuilder.itemPage({
+    newConditionsJustConditionsDate: pageBuilder.itemPage({
       title: 'Date of new condition',
-      path: 'new-conditions/:index/date',
-      depends: formData => formData.demo === 'newConditions',
+      path: `new-conditions-${CONDITIONS_FIRST}/:index/date`,
+      depends: formData => formData.demo === 'CONDITIONS_FIRST',
       uiSchema: datePage.uiSchema,
       schema: datePage.schema,
       onNavBack: props => {
@@ -68,24 +69,12 @@ const newConditionsPages = arrayBuilderPages(
 
         return hasSideOfBody(formData, index)
           ? helpers.navBackKeepUrlParams(props)
-          : goPath(`new-conditions/${index}/condition${urlParamsString}`);
+          : goPath(
+              `new-conditions-${CONDITIONS_FIRST}/${index}/condition${urlParamsString}`,
+            );
       },
-    }),
-    newConditionsCause: pageBuilder.itemPage({
-      title: 'Cause of new condition',
-      path: 'new-conditions/:index/cause',
-      depends: formData => formData.demo === 'newConditions',
-      uiSchema: causePage.uiSchema,
-      schema: causePage.schema,
-    }),
-    newConditionsCauseFollowUp: pageBuilder.itemPage({
-      title: 'Cause follow up for new condition',
-      path: 'new-conditions/:index/cause-follow-up',
-      depends: formData => formData.demo === 'newConditions',
-      uiSchema: causeFollowUpPage.uiSchema,
-      schema: causeFollowUpPage.schema,
     }),
   }),
 );
 
-export default newConditionsPages;
+export default conditionsFirstPages;

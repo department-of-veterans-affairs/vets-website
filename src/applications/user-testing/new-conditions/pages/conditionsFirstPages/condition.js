@@ -36,7 +36,7 @@ const validateNotMissing = (err, fieldData) => {
 
 const validateNotDuplicate = (err, fieldData, formData) => {
   const currentList =
-    formData?.newConditions?.map(condition =>
+    formData?.conditionsFirst?.map(condition =>
       condition.condition?.toLowerCase(),
     ) || [];
   const itemLowerCased = fieldData?.toLowerCase() || '';

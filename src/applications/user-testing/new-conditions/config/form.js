@@ -7,8 +7,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
 
 import chooseDemo from '../pages/chooseDemo';
-import newConditionsJustConditionsPages from '../pages/newConditionsJustConditionsPages';
-import newConditionsPages from '../pages/newConditionsPages';
+import conditionByConditionPages from '../pages/conditionByConditionPages';
+import conditionsFirstPages from '../pages/conditionsFirstPages';
 
 const FormFooter = () => (
   <div className="row vads-u-margin-bottom--2">
@@ -68,8 +68,8 @@ const formConfig = {
       title: 'Conditions',
       pages: {
         chooseDemo,
-        ...newConditionsPages,
-        ...newConditionsJustConditionsPages,
+        ...conditionByConditionPages,
+        ...conditionsFirstPages,
       },
     },
   },

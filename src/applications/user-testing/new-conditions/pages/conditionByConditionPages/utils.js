@@ -13,8 +13,8 @@ export const createTitle = (defaultTitle, editTitle) => {
 };
 
 export const hasSideOfBody = (formData, index) => {
-  const condition = formData?.newConditions
-    ? formData.newConditions[index]?.condition
+  const condition = formData?.conditionByCondition
+    ? formData.conditionByCondition[index]?.condition
     : formData.condition;
 
   const conditionObject = conditionObjects.find(
@@ -62,7 +62,7 @@ export const createItemName = (item, capFirstLetter = false) => {
 
 /** @type {ArrayBuilderOptions} */
 export const arrayBuilderOptions = {
-  arrayPath: 'newConditions',
+  arrayPath: 'conditionByCondition',
   nounSingular: 'condition',
   nounPlural: 'conditions',
   required: true,

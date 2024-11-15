@@ -31,22 +31,22 @@ const createCauseFollowUpTitles = formData => {
 // TODO: Fix formData so that shape is consistent
 // formData changes shape between add and edit which results in the need for the conditional below
 const createCauseFollowUpConditional = (formData, index, causeType) => {
-  const cause = formData?.newConditions
-    ? formData.newConditions[index]?.cause
+  const cause = formData?.conditionByCondition
+    ? formData.conditionByCondition[index]?.cause
     : formData.cause;
   return cause !== causeType;
 };
 
 // TODO: Fix causedByCondition functionality on edit
-// formData on add { "newConditions": [{ "condition": "migraines (headaches)"... }] }
-// formData on edit { "condition": "migraines (headaches)"... } - does not include ratedDisabilities or other newConditions
+// formData on add { "conditionByCondition": [{ "condition": "migraines (headaches)"... }] }
+// formData on edit { "condition": "migraines (headaches)"... } - does not include ratedDisabilities or other new conditions
 // TODO: If causedByCondition is 'asthma' asthma is updated to 'emphysema' ensure 'asthma' is cleared as potential cause
 const getOtherConditions = (formData, currentIndex) => {
   const ratedDisabilities =
     formData?.ratedDisabilities?.map(disability => disability.name) || [];
 
   const otherNewConditions =
-    formData?.newConditions
+    formData?.conditionByCondition
       ?.filter((_, index) => index !== currentIndex)
       ?.map(condition => createItemName(condition)) || [];
 
