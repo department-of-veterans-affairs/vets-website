@@ -274,12 +274,12 @@ describe('<AddFilesForm>', () => {
       const { container, rerender, getByText } = render(
         <AddFilesForm {...fileFormProps} />,
       );
-
       const inputElement = $('#file-upload', container);
-      fireEvent.change(inputElement, { detail: { files: [file] } });
-      // // Change the file
-      rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
 
+      // Add a file to the va-file-input component
+      fireEvent.change(inputElement, { detail: { files: [file] } });
+
+      rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
       getByText('hello.jpg');
     });
 
