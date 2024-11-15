@@ -146,10 +146,10 @@ const StepTwo = ({ formResponses }) => {
   const renderBuddyStatements = () => {
     return (
       <li>
-        <strong>
+        <h4>
           Buddy statements (also called a Statement in Support of Claim or VA
           Form 21-4138)
-        </strong>
+        </h4>
         <p>
           These are statements from friends or colleagues who knew you during
           your service, or individuals with direct knowledge of your service.
@@ -171,21 +171,20 @@ const StepTwo = ({ formResponses }) => {
         </p>
         {/* Intentionally not using <va-link> per Platform Analytics team */}
         <a
-          download
           href="https://www.va.gov/find-forms/about-form-21-4138/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Get VA Form 21-4138 (opens in a new tab)
+          Get VA Form 21-4138 to download (opens in a new tab)
         </a>
       </li>
     );
   };
 
-  const renderTestatments = () => {
+  const renderTestaments = () => {
     return (
       <li>
-        <strong>Testaments of achievements since your service</strong>
+        <h4>Testaments of achievements since your service</h4>
         <p>
           You may want to include this type of evidence with your application,
           especially if your discharge involved issues related to drugs,
@@ -232,23 +231,7 @@ const StepTwo = ({ formResponses }) => {
         </li>
         {renderMedicalRecordInfo(formResponses)}
         {renderBuddyStatements()}
-        {renderTestatments()}
-        {/* <li>
-          <strong>Buddy statements (also called a Statement in Support of Claim or VA Form 21-4138)</strong> <br/>
-          These are statements from friends or colleagues who knew you during your service, 
-          or individuals with direct knowledge of your service.
-        </li> */}
-        {/* <li>
-          <strong>Testaments of Achievements Since Service</strong>: You may
-          decide to add information about what you have achieved in your life
-          since your discharge, particularly if your discharge involved any
-          issues related to drugs, alcohol, or bad behavior. This can be in the
-          form of a letter from an employer or community leader, evidence of
-          successful drug treatment, or copies of certificates and degrees. The
-          DoD will soon release more specific information about achievements
-          since service, but, for now, add any achievements you would like to
-          call out.
-        </li> */}
+        {renderTestaments()}
       </ul>
     </va-process-list-item>
   );
