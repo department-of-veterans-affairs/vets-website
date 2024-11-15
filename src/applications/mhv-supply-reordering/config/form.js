@@ -1,12 +1,31 @@
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE as title, SUBTITLE as subTitle } from '../constants';
 import manifest from '../manifest.json';
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import introduction from '../containers/IntroductionPage';
+import confirmation from '../containers/ConfirmationPage';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import getHelp from '../components/Help';
+
+const blankSchema = { type: 'object', properties: {} };
+
+const savedFormMessages = {
+  notFound: 'Please start over to reorder health care supplies.',
+  noAuth:
+    'Please sign in again to continue your application for health care supply reordering.',
+};
+
+const saveInProgress = {
+  messages: {
+    inProgress:
+      'Your health care supply reordering application (2346) is in progress.',
+    expired:
+      'Your saved health care supply reordering application (2346) has expired. If you want to reorder supplies, please start a new application.',
+    saved: 'Your health care supply reordering application has been saved.',
+  },
+};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -16,28 +35,19 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'mhv-supply-reordering-',
-  introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  introduction,
+  confirmation,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_VA_2346A,
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your benefits application (MDOT) is in progress.',
-    //   expired: 'Your saved benefits application (MDOT) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
-    // },
-  },
+  savedFormMessages,
+  saveInProgress,
   version: 0,
   prefillEnabled: true,
-  savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
-  },
-  title: TITLE,
-  subTitle: SUBTITLE,
+  title,
+  subTitle,
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter: {
@@ -52,7 +62,7 @@ const formConfig = {
       },
     },
   },
-  // getHelp,
+  getHelp,
   footerContent,
 };
 
