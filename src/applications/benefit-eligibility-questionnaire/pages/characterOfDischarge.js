@@ -8,6 +8,7 @@ import {
 export default {
   uiSchema: {
     characterOfDischarge: selectUI({
+      enableAnalytics: true,
       title:
         'What is the highest character of discharge you have received or expect to receive?',
       hint: `If you served multiple times with different characters of discharge,

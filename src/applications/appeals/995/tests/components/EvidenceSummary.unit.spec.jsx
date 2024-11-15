@@ -30,12 +30,13 @@ const records = () => ({
     {
       locationAndName: 'VAMC Location 1',
       issues: ['Test'],
-      evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
+      treatmentDate: '2011-01',
     },
     {
       locationAndName: 'VAMC Location 2',
       issues: ['Test 2'],
-      evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
+      treatmentDate: '',
+      noDate: true,
     },
   ],
   providerFacility: [
@@ -92,6 +93,7 @@ const setupSummary = ({
 
           ...list,
           limitedConsent: limit,
+          showScNewForm: true,
         }}
         goBack={goBack}
         goForward={goForward}

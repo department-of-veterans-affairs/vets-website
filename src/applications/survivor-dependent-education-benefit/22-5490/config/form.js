@@ -162,7 +162,7 @@ const formConfig = {
   footerContent: FormFooter,
   preSubmitInfo: {
     CustomComponent: CustomPreSubmitInfo,
-    required: false,
+    required: true,
     field: 'privacyAgreementAccepted',
   },
   chapters: {
@@ -192,9 +192,7 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your first name');
-                      } else if (field.length > 20) {
+                      if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
                       }
                     } else if (!isValidName(field)) {
@@ -226,9 +224,7 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your last name');
-                      } else if (field.length < 2) {
+                      if (field.length < 2) {
                         errors.addError('Must be 2 characters or more');
                       } else if (field.length > 26) {
                         errors.addError('Must be 26 characters or less');
@@ -971,6 +967,16 @@ const formConfig = {
                     },
                   ],
                 },
+                street2: {
+                  'ui:title': 'Street address line 2',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length > 40) {
+                        errors.addError('maximum of 40 characters');
+                      }
+                    },
+                  ],
+                },
                 city: {
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
@@ -979,6 +985,10 @@ const formConfig = {
                     (errors, field) => {
                       if (isOnlyWhitespace(field)) {
                         errors.addError('Please enter a valid city');
+                      } else if (field?.length < 2) {
+                        errors.addError('minimum of 2 characters');
+                      } else if (field?.length > 20) {
+                        errors.addError('maximum of 20 characters');
                       }
                     },
                   ],
@@ -1000,24 +1010,44 @@ const formConfig = {
                   },
                 },
                 state: {
-                  'ui:title': 'State/County/Province',
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData?.mailingAddressInput?.livesOnMilitaryBase ||
+                        formData?.mailingAddressInput?.address?.country ===
+                          'USA'
+                      ) {
+                        return {
+                          title: 'State',
+                          type: 'string',
+                        };
+                      }
+                      return {
+                        title: 'State/County/Province',
+                        type: 'string',
+                      };
+                    },
+                  },
                   'ui:required': formData =>
                     formData?.mailingAddressInput?.livesOnMilitaryBase ||
                     formData?.mailingAddressInput?.address?.country === 'USA',
                 },
                 postalCode: {
                   'ui:errorMessages': {
-                    required: 'Zip code must be 5 digits',
+                    required: 'This field is required.',
                   },
                   'ui:options': {
                     replaceSchema: formData => {
                       if (
+                        !formData?.mailingAddressInput?.livesOnMilitaryBase &&
                         formData?.mailingAddressInput?.address?.country !==
-                        'USA'
+                          'USA'
                       ) {
                         return {
                           title: 'Postal Code',
                           type: 'string',
+                          maxLength: 10,
+                          minLength: 3,
                         };
                       }
 
@@ -1196,15 +1226,10 @@ const formConfig = {
                     <Link
                       aria-label="Go back and add a mobile phone number"
                       to={{
-                        pathname: '/contact-information',
+                        pathname: 'contact-information',
                       }}
                     >
-                      <va-button
-                        uswds
-                        onClick={() => {}}
-                        secondary
-                        text="Go back and add a mobile phone number"
-                      />
+                      Go back and add a mobile phone number
                     </Link>
                   </div>
                 </va-alert>
