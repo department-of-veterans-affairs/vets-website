@@ -42,7 +42,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for mock form ae design patterns benefits.',
   },
-  title: 'Mock Form AE Design Patterns',
+  title: 'Authenticated Experience Design Patterns',
   defaultDefinitions: {},
   chapters: {
     veteranInformation: {

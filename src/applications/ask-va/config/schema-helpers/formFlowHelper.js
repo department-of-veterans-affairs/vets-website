@@ -11,6 +11,7 @@ import {
   whoIsYourQuestionAboutLabels,
   yourRoleOptions,
 } from '../../constants';
+import { isLocationOfResidenceRequired } from '../helpers';
 
 // Personal Information
 import CustomPageReviewField from '../../components/CustomPageReviewField';
@@ -114,6 +115,7 @@ const ch3Pages = {
     title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: veteransLocationOfResidencePage.uiSchema,
     schema: veteransLocationOfResidencePage.schema,
+    depends: form => isLocationOfResidenceRequired(form),
   },
   familyMembersPostalCode: {
     title: CHAPTER_3.FAMILY_MEMBERS_POSTAL_CODE.TITLE,
@@ -271,15 +273,14 @@ const ch3Pages = {
     title: CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: familyMembersLocationOfResidencePage.uiSchema,
     schema: familyMembersLocationOfResidencePage.schema,
+    depends: form => isLocationOfResidenceRequired(form),
   },
   yourLocationOfResidence: {
     editModeOnReviewPage: false,
     title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: yourLocationOfResidencePage.uiSchema,
     schema: yourLocationOfResidencePage.schema,
-    depends: form =>
-      form.contactPreference !== 'U.S. mail' &&
-      !healthcareCategoryLabels.includes(form.selectCategory),
+    depends: form => isLocationOfResidenceRequired(form),
   },
   relationshipToVeteran: {
     editModeOnReviewPage: false,
