@@ -53,7 +53,7 @@ export default function InterstitialChanges() {
   return (
     <div className="row vads-u-margin-y--6 vads-u-padding-x--2 login">
       <h1
-        id="interstitalH1"
+        id="interstitialH1"
         className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
       >
         You’ll need to sign in with a different account after January 31, 2025
