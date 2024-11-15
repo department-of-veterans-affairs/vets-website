@@ -7,14 +7,14 @@ const response = {
     },
     dateOfBirth: '1956-07-10',
     applicantAddress: {
-      street: '123 Mailing Address St.',
+      street: '125 Main St.',
       city: 'Fulton',
       state: 'NY',
       country: 'USA',
-      postalCode: '97064',
+      postalCode: '97063',
     },
     contactPhone: '4445551212',
-    contactEmail: 'test@test.com',
+    contactEmail: 'Mitchell.Jenkins.Test@gmail.com',
     periodsOfService: [
       {
         serviceBranch: 'Air Force',

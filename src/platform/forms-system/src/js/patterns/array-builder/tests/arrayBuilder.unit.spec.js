@@ -208,6 +208,73 @@ describe('arrayBuilderPages required parameters and props tests', () => {
     }
   });
 
+  it('should not throw an error if uiSchema is not defined as long as we have a link or button', () => {
+    const options = {
+      ...validOptions,
+      useLinkInsteadOfYesNo: true,
+    };
+    try {
+      arrayBuilderPages(options, pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
+          title: 'Employment history',
+          path: 'employers-summary',
+        }),
+        itemPage: pageBuilder.itemPage({
+          title: 'Name of employer',
+          path: 'employers/name/:index',
+          uiSchema: {},
+          schema: {},
+        }),
+      }));
+      expect(true).to.be.true;
+    } catch (e) {
+      expect(
+        'Error should not be thrown for missing uiSchema when using link',
+      ).to.eq(e.message);
+    }
+  });
+
+  it("it should throw an error if a user tries to use uiSchema properties but we aren't using it", () => {
+    const options = {
+      ...validOptions,
+      useLinkInsteadOfYesNo: true,
+    };
+    try {
+      arrayBuilderPages(options, pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
+          title: 'Employment history',
+          path: 'employers-summary',
+          uiSchema: {
+            test: {
+              'ui:title': 'Hello',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              test: {
+                type: 'string',
+              },
+            },
+          },
+        }),
+        itemPage: pageBuilder.itemPage({
+          title: 'Name of employer',
+          path: 'employers/name/:index',
+          uiSchema: {},
+          schema: {},
+        }),
+      }));
+      expect(
+        'Expected error to be thrown when using useLinkInsteadOfYesNo with uiSchema',
+      ).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include(
+        'does not currently support using `uiSchema` or `schema` properties when using option `useLinkInsteadOfYesNo`',
+      );
+    }
+  });
+
   it('should throw an error if specific options are not provided', () => {
     try {
       arrayBuilderPages({}, pageBuilder => ({
