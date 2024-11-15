@@ -13,13 +13,9 @@ import StepOne from './resultsComponents/StepOne';
 import AdditionalInstructions from './resultsComponents/AdditionalInstructions';
 import StepTwo from './resultsComponents/StepTwo';
 import StepThree from './resultsComponents/StepThree';
-import AirForcePortalLink from './resultsComponents/AirForcePortalLink';
-
-import { determineIsAirForceAFRBAPortal } from '../../helpers';
 
 const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = 'Your Steps for Upgrading Your Discharge';
-  const airForceAFRBAPortal = determineIsAirForceAFRBAPortal(formResponses);
 
   useEffect(
     () => {
@@ -41,25 +37,19 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
     <article className="dw-guidance" data-testid="duw-results">
       <h1>{H1}</h1>
       <ResultsSummary formResponses={formResponses} />
-      {airForceAFRBAPortal ? (
-        <AirForcePortalLink />
-      ) : (
-        <>
-          <CarefulConsiderationStatement
-            formResponses={formResponses}
-            router={router}
-          />
-          <Warnings formResponses={formResponses} />
-          <OptionalStep formResponses={formResponses} />
-          <section>
-            <va-process-list>
-              <StepOne formResponses={formResponses} />
-              <StepTwo formResponses={formResponses} />
-              <StepThree formResponses={formResponses} />
-            </va-process-list>
-          </section>
-        </>
-      )}
+      <CarefulConsiderationStatement
+        formResponses={formResponses}
+        router={router}
+      />
+      <Warnings formResponses={formResponses} />
+      <OptionalStep formResponses={formResponses} />
+      <section>
+        <va-process-list>
+          <StepOne formResponses={formResponses} />
+          <StepTwo formResponses={formResponses} />
+          <StepThree formResponses={formResponses} />
+        </va-process-list>
+      </section>
       <va-button
         back
         class="vads-u-margin-top--3"
