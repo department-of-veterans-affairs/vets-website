@@ -38,6 +38,31 @@ export const signerContactInfoPage = {
   },
 };
 
+export function signerContactOnGoForward(props) {
+  const formData = props.data; // changes made here will reflect in global formData;
+  if (props?.data?.certifierRole === 'applicant') {
+    populateFirstApplicant(
+      formData,
+      formData.certifierName,
+      formData.certifierEmail,
+      formData.certifierPhone,
+      formData.certifierAddress,
+    );
+  } else if (props?.data?.certifierRole === 'sponsor') {
+    // Populate some sponsor fields with certifier info:
+    formData.sponsorIsDeceased = false;
+    formData.veteransFullName = formData.certifierName;
+    formData.sponsorAddress = formData.certifierAddress;
+    formData.sponsorPhone = formData.certifierPhone;
+  }
+
+  if (formData?.applicants?.[0]) {
+    // This is so we have an accurate `certifierRole` prop inside the
+    // list loop where that context is normally unavailable:
+    formData.applicants[0]['view:certifierRole'] = formData?.certifierRole;
+  }
+}
+
 /** @type {CustomPageType} */
 export function SignerContactInfoPage(props) {
   const updateButton = (
@@ -47,30 +72,6 @@ export function SignerContactInfoPage(props) {
     </button>
   );
 
-  function onGoForward() {
-    const formData = props.data; // changes made here will reflect in global formData;
-    if (props.data.certifierRole === 'applicant') {
-      populateFirstApplicant(
-        formData,
-        formData.certifierName,
-        formData.certifierEmail,
-        formData.certifierPhone,
-        formData.certifierAddress,
-      );
-    } else if (props.data.certifierRole === 'sponsor') {
-      // Populate some sponsor fields with certifier info:
-      formData.sponsorIsDeceased = false;
-      formData.veteransFullName = formData.certifierName;
-      formData.sponsorAddress = formData.certifierAddress;
-      formData.sponsorPhone = formData.certifierPhone;
-    }
-
-    if (formData?.applicants?.[0]) {
-      // This is so we have an accurate `certifierRole` prop inside the
-      // list loop where that context is normally unavailable:
-      formData.applicants[0]['view:certifierRole'] = formData.certifierRole;
-    }
-  }
   return (
     <SchemaForm
       name={props.name}
@@ -93,7 +94,7 @@ export function SignerContactInfoPage(props) {
         ) : (
           <FormNavButtons
             goBack={props.goBack}
-            goForward={onGoForward}
+            goForward={() => signerContactOnGoForward(props)}
             submitToContinue
           />
         )}
