@@ -127,7 +127,7 @@ export function CompareDrawer({
             className="compare-item vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3"
             key={index}
           >
-            <div className="institution">
+            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--start vads-u-justify-content--flex-start vads-u-padding-y--0 vads-u-padding-x--1px">
               <div className="compare-name">
                 {institutions[facilityCode].name}
               </div>
@@ -299,7 +299,7 @@ export function CompareDrawer({
                       disabled={loaded.length < 2}
                       text="Compare"
                       onClick={openCompare}
-                      className="compare-btn"
+                      className="compare-btn vads-u-width--full"
                     />
                   </div>
                 </div>

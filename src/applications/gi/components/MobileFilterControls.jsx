@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-// import environment from 'platform/utilities/environment';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../containers/FilterYourResults';
-// import FilterBeforeResults from '../containers/search/FilterBeforeResults'
 
 export default function MobileFilterControls({ className }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -49,7 +47,6 @@ export default function MobileFilterControls({ className }) {
         className,
       )}
     >
-      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
       <VaButton
         text="Update tuition, housing, and monthly benefit estimates"
         className="accordion-mob-btns"
@@ -57,10 +54,9 @@ export default function MobileFilterControls({ className }) {
         secondary
         onClick={tuitionAndHousingEstimatesClick}
       />
-      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
       <VaButton
-        text="Filter your results"
-        className="update-results-small-screen"
+        text="Filter your resultsss"
+        className="vads-u-margin-top--2 vads-u-width--full"
         secondary
         onClick={filterClick}
         data-testid="update-results-small-screen"

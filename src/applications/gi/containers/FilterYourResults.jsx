@@ -9,6 +9,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from 'platform/utilities/environment';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -31,8 +32,6 @@ import {
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
 import ClearFiltersBtn from '../components/ClearFiltersBtn';
-// import { useFilterBtn } from '../hooks/useFilterbtn';
-// import Loader from '../components/Loader';
 
 const vetTecCheckbox = (
   vettec,
@@ -475,7 +474,14 @@ export function FilterYourResults({
   );
 
   const title = 'Filter your results';
-
+  const updateResultButton = classNames(
+    'vads-u-width--full',
+    'vads-u-margin-top--0',
+    'vads-u-margin-top--0',
+    'vads-u-margin-bottom--2',
+    'vads-u-margin-right--1p5',
+    'vads-u-padding--0',
+  );
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
       {!smallScreen && (
@@ -511,7 +517,7 @@ export function FilterYourResults({
           <div className="modal-button-wrapper">
             <VaButton
               id={`update-${createId(title)}-button`}
-              className="update-results-button"
+              className={`${updateResultButton}`}
               onClick={closeAndUpdate}
               text="Update results"
               data-testid="Update-results"

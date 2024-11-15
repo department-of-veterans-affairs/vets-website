@@ -811,7 +811,7 @@ export function FilterBeforeResults({
             />
             <ClearFiltersBtn
               testId="clear-button"
-              className="clear-filters-button"
+              className="vads-u-margin-left--2"
               onClick={onApplyFilterClick}
             >
               Reset search
