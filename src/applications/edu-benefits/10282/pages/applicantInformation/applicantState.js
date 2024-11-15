@@ -8,7 +8,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 const { state } = fullSchema10282.definitions;
 
 export const uiSchema = {
-  ...titleUI('State'),
+  ...titleUI('Your state of residence'),
   state: selectUI({
     title: 'What state do you live in?',
     errorMessages: {

@@ -149,7 +149,7 @@ const formConfig = {
           title: 'Your employment',
           path: 'education-employment-history-2',
           uiSchema: {
-            ...titleUI('Your current employment'),
+            ...titleUI('Your employment'),
             currentlyEmployed: yesNoUI('Are you currently employed?'),
           },
           schema: {
