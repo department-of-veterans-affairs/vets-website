@@ -20236,7 +20236,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mocha@npm:^10.7.3":
+"mocha@npm:^10.8.2":
   version: 10.8.2
   resolution: "mocha@npm:10.8.2"
   dependencies:
@@ -29014,7 +29014,7 @@ __metadata:
     markdown-it-link-attributes: "npm:^4.0.0"
     mini-css-extract-plugin: "npm:^2.4.4"
     minimist: "npm:^1.2.6"
-    mocha: "npm:^10.7.3"
+    mocha: "npm:^10.8.2"
     mocha-junit-reporter: "npm:^2.2.1"
     mocha-multi-reporters: "npm:^1.5.1"
     mocha-snapshots: "npm:^4.2.0"
