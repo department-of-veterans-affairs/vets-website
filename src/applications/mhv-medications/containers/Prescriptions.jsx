@@ -130,7 +130,7 @@ const Prescriptions = () => {
   const updateFilter = option => {
     dispatch(getPaginatedFilteredList(1, option));
     updateLoadingStatus(false, '');
-
+    history.replace('/?page=1');
     sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, option);
   };
 
@@ -244,17 +244,29 @@ const Prescriptions = () => {
     [isLoading, paginatedPrescriptionsList, isAlertVisible],
   );
 
+  useEffect(() => {
+    if (!filterOption) {
+      sessionStorage.setItem(
+        SESSION_SELECTED_FILTER_OPTION,
+        filterOptions.ALL_MEDICATIONS.url,
+      );
+    }
+  }, []);
+
   useEffect(
     () => {
-      if (showFilterContent && !filteredList) {
-        dispatch(
-          getPaginatedFilteredList(1, filterOptions.ALL_MEDICATIONS.url),
+      if (showFilterContent && page) {
+        const storedPageNumber = sessionStorage.getItem(
+          SESSION_SELECTED_PAGE_NUMBER,
         );
-      } else {
-        dispatch(getPaginatedFilteredList(page > 0 ? page : 1, filterOption));
+        const storedFilterOption = sessionStorage.getItem(
+          SESSION_SELECTED_FILTER_OPTION,
+        );
+        dispatch(
+          getPaginatedFilteredList(storedPageNumber, storedFilterOption),
+        );
       }
     },
-    // disabled warning: filteredList must be left of out dependency array to avoid infinite loop, and filterOption to avoid on change api fetch
     [dispatch, page, showFilterContent],
   );
 
