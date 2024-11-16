@@ -63,6 +63,6 @@ describe('POARequestsTableFetcher', () => {
       <POARequestsTableFetcher usePOARequests={usePOARequestsMock} />,
     );
 
-    expect(getByTestId('poa-requests-table')).to.exist;
+    expect(getByTestId('poa-requests-card')).to.exist;
   });
 });
