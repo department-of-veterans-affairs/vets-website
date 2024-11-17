@@ -47,13 +47,13 @@ export const genderInfoHelpText = (
 );
 
 const genders = {
+  W: 'Woman',
   M: 'Man',
-  NB: 'Non-binary',
+  TW: 'Transgender woman',
   TM: 'Transgender man',
-  TF: 'Transgender woman',
-  F: 'Woman',
-  NA: 'Prefer not to answer',
+  NB: 'Non-binary',
   0: 'A gender not listed here',
+  NA: 'Prefer not to answer',
 };
 
 const uiSchema = {
@@ -70,7 +70,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    gender: radioSchema(Object.keys(genders)),
+    gender: radioSchema(['W', 'M', 'TW', 'TM', 'NB', '0', 'NA']),
   },
 };
 

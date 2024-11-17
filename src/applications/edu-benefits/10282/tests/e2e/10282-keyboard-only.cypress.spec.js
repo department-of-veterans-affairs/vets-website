@@ -17,11 +17,11 @@ describe('22-10282 Edu form', () => {
       formConfig.chapters.personalInformation.pages.applicantName.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.tabToElement('#root_veteranFullName_first');
+    cy.realPress('Tab');
     cy.typeInFocused(maximalData.data.veteranFullName.first);
-    cy.tabToElement('#root_veteranFullName_middle');
+    cy.realPress('Tab');
     cy.typeInFocused(maximalData.data.veteranFullName.middle);
-    cy.tabToElement('#root_veteranFullName_last');
+    cy.realPress('Tab');
     cy.typeInFocused(maximalData.data.veteranFullName.last);
     cy.tabToContinueForm();
 
@@ -34,14 +34,14 @@ describe('22-10282 Edu form', () => {
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_veteranDesc_0',
-        'input#root_veteranDesc_1',
-        'input#root_veteranDesc_2',
-        'input#root_veteranDesc_3',
-        'input#root_veteranDesc_4',
-        'input#root_veteranDesc_5',
-        'input#root_veteranDesc_6',
-        'input#root_veteranDesc_7',
+        'input#root_veteranDescveteraninput',
+        'input#root_veteranDescveteransSpouseinput',
+        'input#root_veteranDescveteransChildinput',
+        'input#root_veteranDescveteransCaregiverinput',
+        'input#root_veteranDescactivedutyinput',
+        'input#root_veteranDescnationalGuardinput',
+        'input#root_veteranDescreservistinput',
+        'input#root_veteranDescindividualReadyReserveinput',
       ],
       'ArrowDown',
     );
@@ -90,10 +90,10 @@ describe('22-10282 Edu form', () => {
     cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
-      ['input#root_raceAndGender_0', 'input#root_raceAndGender_1'],
+      ['input#root_raceAndGenderYesinput', 'input#root_raceAndGenderNoinput'],
       'ArrowDown',
     );
-    cy.chooseRadio('No');
+    cy.chooseRadio('N');
     cy.realPress('Space');
     cy.tabToContinueForm();
 
@@ -109,7 +109,7 @@ describe('22-10282 Edu form', () => {
     cy.realPress('Space');
     // Choose 'yes' this time
     cy.realPress('Tab');
-    cy.chooseRadio('Yes');
+    cy.chooseRadio('Y');
     cy.tabToContinueForm();
 
     // Check path - should skip to education & employment history questions
@@ -122,9 +122,9 @@ describe('22-10282 Edu form', () => {
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_ethnicity_0',
-        'input#root_ethnicity_1',
-        'input#root_ethnicity_2',
+        'input#root_ethnicityHLinput',
+        'input#root_ethnicityNHLinput',
+        'input#root_ethnicityNAinput',
       ],
       'ArrowDown',
     );
@@ -134,7 +134,7 @@ describe('22-10282 Edu form', () => {
     cy.setCheckboxFromData('[name="root_originRace_noAnswer"]', true);
     cy.tabToContinueForm();
 
-    // Select gender page
+    // // Select gender page
     cy.url().should(
       'include',
       formConfig.chapters.personalInformation.pages.applicantGender.path,
@@ -143,13 +143,13 @@ describe('22-10282 Edu form', () => {
     cy.repeatKey('Tab', 2);
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_gender_0',
-        'input#root_gender_1',
-        'input#root_gender_2',
-        'input#root_gender_3',
-        'input#root_gender_4',
-        'input#root_gender_5',
-        'input#root_gender_6',
+        'input#root_genderWinput',
+        'input#root_genderMinput',
+        'input#root_genderTWinput',
+        'input#root_genderTMinput',
+        'input#root_genderNBinput',
+        'input#root_gender0input',
+        'input#root_genderNAinput',
       ],
       'ArrowDown',
     );
@@ -166,12 +166,12 @@ describe('22-10282 Edu form', () => {
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_highestLevelOfEducation_level_0',
-        'input#root_highestLevelOfEducation_level_1',
-        'input#root_highestLevelOfEducation_level_2',
-        'input#root_highestLevelOfEducation_level_3',
-        'input#root_highestLevelOfEducation_level_4',
-        'input#root_highestLevelOfEducation_level_5',
+        'input#root_highestLevelOfEducation_levelHSinput',
+        'input#root_highestLevelOfEducation_levelADinput',
+        'input#root_highestLevelOfEducation_levelBDinput',
+        'input#root_highestLevelOfEducation_levelMDinput',
+        'input#root_highestLevelOfEducation_levelDDinput',
+        'input#root_highestLevelOfEducation_levelNAinput',
       ],
       'ArrowDown',
     );
@@ -187,13 +187,16 @@ describe('22-10282 Edu form', () => {
     cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
-      ['input#root_currentlyEmployed_0', 'input#root_currentlyEmployed_1'],
+      [
+        'input#root_currentlyEmployedYesinput',
+        'input#root_currentlyEmployedNoinput',
+      ],
       'ArrowDown',
     );
-    cy.chooseRadio(maximalData.data.currentlyEmployed);
+    cy.chooseRadio('Y');
     cy.tabToContinueForm();
 
-    // Current salary page
+    // // Current salary page
     cy.url().should(
       'include',
       formConfig.chapters.educationAndEmploymentHistory.pages
@@ -203,18 +206,18 @@ describe('22-10282 Edu form', () => {
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_currentAnnualSalary_0',
-        'input#root_currentAnnualSalary_1',
-        'input#root_currentAnnualSalary_2',
-        'input#root_currentAnnualSalary_3',
-        'input#root_currentAnnualSalary_4',
+        'input#root_currentAnnualSalarylessThanTwentyinput',
+        'input#root_currentAnnualSalarytwentyToThirtyFiveinput',
+        'input#root_currentAnnualSalarythirtyFiveToFiftyinput',
+        'input#root_currentAnnualSalaryfiftyToSeventyFiveinput',
+        'input#root_currentAnnualSalarymoreThanSeventyFiveinput',
       ],
       'ArrowDown',
     );
     cy.chooseRadio(maximalData.data.currentAnnualSalary);
     cy.tabToContinueForm();
 
-    // Work in technology industry page
+    // // Work in technology industry page
     cy.url().should(
       'include',
       formConfig.chapters.educationAndEmploymentHistory.pages
@@ -224,15 +227,15 @@ describe('22-10282 Edu form', () => {
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_isWorkingInTechIndustry_0',
-        'input#root_isWorkingInTechIndustry_1',
+        'input#root_isWorkingInTechIndustryYesinput',
+        'input#root_isWorkingInTechIndustryNoinput',
       ],
       'ArrowDown',
     );
-    cy.chooseRadio(maximalData.data.isWorkingInTechIndustry);
+    cy.chooseRadio('Y');
     cy.tabToContinueForm();
 
-    // Area of focus in tech page
+    // // Area of focus in tech page
     cy.url().should(
       'include',
       formConfig.chapters.educationAndEmploymentHistory.pages
@@ -242,19 +245,19 @@ describe('22-10282 Edu form', () => {
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_techIndustryFocusArea_0',
-        'input#root_techIndustryFocusArea_1',
-        'input#root_techIndustryFocusArea_2',
-        'input#root_techIndustryFocusArea_3',
-        'input#root_techIndustryFocusArea_4',
-        'input#root_techIndustryFocusArea_5',
+        'input#root_techIndustryFocusAreaCPinput',
+        'input#root_techIndustryFocusAreaCSinput',
+        'input#root_techIndustryFocusAreaDPinput',
+        'input#root_techIndustryFocusAreaISinput',
+        'input#root_techIndustryFocusAreaMAinput',
+        'input#root_techIndustryFocusAreaNAinput',
       ],
       'ArrowDown',
     );
     cy.chooseRadio(maximalData.data.techIndustryFocusArea);
     cy.tabToContinueForm();
 
-    // Review page - submit form
+    // // Review page - submit form
     cy.repeatKey('Tab', 5);
     cy.typeInFocused(
       `${maximalData.data.veteranFullName.first} ${
