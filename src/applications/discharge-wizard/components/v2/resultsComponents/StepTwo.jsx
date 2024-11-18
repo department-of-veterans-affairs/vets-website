@@ -146,10 +146,10 @@ const StepTwo = ({ formResponses }) => {
   const renderBuddyStatements = () => {
     return (
       <li>
-        <h4>
+        <h3>
           Buddy statements (also called a Statement in Support of Claim or VA
           Form 21-4138)
-        </h4>
+        </h3>
         <p>
           These are statements from friends or colleagues who knew you during
           your service, or individuals with direct knowledge of your service.
@@ -184,7 +184,7 @@ const StepTwo = ({ formResponses }) => {
   const renderTestaments = () => {
     return (
       <li>
-        <h4>Testaments of achievements since your service</h4>
+        <h3>Testaments of achievements since your service</h3>
         <p>
           You may want to include this type of evidence with your application,
           especially if your discharge involved issues related to drugs,
