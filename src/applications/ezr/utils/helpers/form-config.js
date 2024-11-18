@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { isWithinInterval, subYears } from 'date-fns';
 import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
 
 /**
@@ -49,39 +49,37 @@ export function includeTeraInformation(formData) {
 }
 
 export function veteranBornBetween(formData, date1, date2) {
-  return moment(formData?.veteranDateOfBirth).isBetween(
-    date1,
-    date2,
-    null,
-    '[]',
-  );
+  return isWithinInterval(new Date(formData?.veteranDateOfBirth), {
+    start: new Date(date1),
+    end: new Date(date2),
+  });
 }
 
 export function canVeteranProvideAgentOrangeResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', '1965-12-31')
+    veteranBornBetween(formData, new Date(1900, 1, 1), new Date(1965, 12, 31))
   );
 }
 
 export function canVeteranProvideRadiationCleanupResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', '1965-12-31')
+    veteranBornBetween(formData, new Date(1900, 1, 1), new Date(1965, 12, 31))
   );
 }
 
 export function canVeteranProvideGulfWarResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', moment().subtract(15, 'years'))
+    veteranBornBetween(formData, new Date(1900, 1, 1), subYears(new Date(), 15))
   );
 }
 
 export function canVeteranProvideCombatOperationsResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', moment().subtract(15, 'years'))
+    veteranBornBetween(formData, new Date(1900, 1, 1), subYears(new Date(), 15))
   );
 }
 

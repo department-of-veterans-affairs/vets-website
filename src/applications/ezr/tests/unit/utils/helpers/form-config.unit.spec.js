@@ -300,6 +300,16 @@ describe('ezr form config helpers', () => {
         it('returns `true`', () => {
           expect(includeGulfWarServiceDates(formData)).to.be.true;
         });
+
+        const formDataWithLatestPossibleDate = {
+          gulfWarService: true,
+          hasTeraResponse: true,
+          veteranDateOfBirth: new Date().getFullYear() - 15,
+        };
+        it('returns `true`', () => {
+          expect(includeGulfWarServiceDates(formDataWithLatestPossibleDate)).to
+            .be.true;
+        });
       },
     );
 
@@ -453,6 +463,16 @@ describe('ezr form config helpers', () => {
         it('returns `true`', () => {
           expect(canVeteranProvideGulfWarResponse(formData)).to.be.true;
         });
+
+        const formDataWithLatestPossibleDate = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: new Date().getFullYear() - 15,
+        };
+        it('returns `true`', () => {
+          expect(
+            canVeteranProvideGulfWarResponse(formDataWithLatestPossibleDate),
+          ).to.be.true;
+        });
       },
     );
 
@@ -483,6 +503,18 @@ describe('ezr form config helpers', () => {
         it('returns `true`', () => {
           expect(canVeteranProvideCombatOperationsResponse(formData)).to.be
             .true;
+        });
+
+        const formDataWithLatestPossibleDate = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: new Date().getFullYear() - 15,
+        };
+        it('returns `true`', () => {
+          expect(
+            canVeteranProvideCombatOperationsResponse(
+              formDataWithLatestPossibleDate,
+            ),
+          ).to.be.true;
         });
       },
     );
