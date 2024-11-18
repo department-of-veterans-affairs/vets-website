@@ -1,14 +1,16 @@
+import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
-import React from 'react';
+
 import { SUBTITLE, TITLE } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
-
 import chooseDemo from '../pages/chooseDemo';
 import conditionByConditionPages from '../pages/conditionByConditionPages';
 import conditionsFirstPages from '../pages/conditionsFirstPages';
+import followUp from '../pages/followUp';
+import followUpIntro from '../pages/followUpIntro';
 
 const FormFooter = () => (
   <div className="row vads-u-margin-bottom--2">
@@ -70,6 +72,8 @@ const formConfig = {
         chooseDemo,
         ...conditionByConditionPages,
         ...conditionsFirstPages,
+        followUpIntro,
+        followUp,
       },
     },
   },

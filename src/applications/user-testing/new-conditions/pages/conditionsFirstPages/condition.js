@@ -5,14 +5,13 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import Autocomplete from '../../components/Autocomplete';
+import { NULL_CONDITION_STRING } from '../../constants';
 import { conditionOptions } from '../../content/conditionOptions';
 import { conditionInstructions } from '../../content/newConditions';
 import { arrayBuilderOptions, createTitle } from './utils';
 
 const missingConditionMessage =
   'Enter a condition, diagnosis, or short description of your symptoms';
-
-const NULL_CONDITION_STRING = 'Unknown Condition';
 
 const regexNonWord = /[^\w]/g;
 const sippableId = str =>
