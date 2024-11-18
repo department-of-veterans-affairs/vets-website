@@ -73,8 +73,7 @@ const StepOne = ({ formResponses }) => {
     return null;
   };
 
-  const dd214Tips = formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] !==
-    RESPONSES.AIR_FORCE && (
+  const dd214Tips = (
     <ul>
       <li>
         Pay special attention to item 14, which asks for the reason for your
@@ -89,7 +88,7 @@ const StepOne = ({ formResponses }) => {
   const nonDd2014Tips = (
     <ul>
       <li>
-        Pay special attention to item 6, which asks for the reason for your
+        Pay special attention to item 14, which asks for the reason for your
         change. Most Veterans attach additional pages to answer this question.{' '}
         {strongCaseTips()}
       </li>
