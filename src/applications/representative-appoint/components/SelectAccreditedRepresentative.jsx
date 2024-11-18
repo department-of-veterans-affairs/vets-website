@@ -11,7 +11,14 @@ import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
 
 const SelectAccreditedRepresentative = props => {
-  const { setFormData, formData, goBack, goForward, goToPath } = props;
+  const {
+    loggedIn,
+    setFormData,
+    formData,
+    goBack,
+    goForward,
+    goToPath,
+  } = props;
   const [loadingReps, setLoadingReps] = useState(false);
   const [loadingPOA, setLoadingPOA] = useState(false);
   const [error, setError] = useState(null);
@@ -25,15 +32,18 @@ const SelectAccreditedRepresentative = props => {
   const isReviewPage = useReviewPage();
 
   const getRepStatus = async () => {
-    setLoadingPOA(true);
-    try {
-      const res = await fetchRepStatus();
-      setLoadingPOA(false);
-      return res.data;
-    } catch {
-      setLoadingPOA(false);
-      return null;
+    if (loggedIn) {
+      setLoadingPOA(true);
+      try {
+        const res = await fetchRepStatus();
+        setLoadingPOA(false);
+        return res.data;
+      } catch {
+        setLoadingPOA(false);
+      }
     }
+
+    return null;
   };
 
   const handleGoBack = () => {

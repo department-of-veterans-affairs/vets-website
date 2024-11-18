@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import debounce from 'lodash/debounce';
@@ -22,6 +22,7 @@ const Autocomplete = ({
   const [activeIndex, setActiveIndex] = useState(null);
   const [ariaLiveText, setAriaLiveText] = useState('');
 
+  const containerRef = useRef(null);
   const inputRef = useRef(null);
   const resultsRef = useRef([]);
 
@@ -51,12 +52,15 @@ const Autocomplete = ({
     }, debounceDelay),
   ).current;
 
-  const closeList = () => {
-    debouncedSearch.cancel();
-    debouncedSetAriaLiveText.cancel();
-    setResults([]);
-    setActiveIndex(null);
-  };
+  const closeList = useCallback(
+    () => {
+      debouncedSearch.cancel();
+      debouncedSetAriaLiveText.cancel();
+      setResults([]);
+      setActiveIndex(null);
+    },
+    [debouncedSearch, debouncedSetAriaLiveText],
+  );
 
   const handleInputChange = inputValue => {
     setValue(inputValue);
@@ -71,26 +75,33 @@ const Autocomplete = ({
     debouncedSearch(inputValue);
   };
 
-  const scrollIntoView = index => {
+  const activateScrollToAndFocus = index => {
+    setActiveIndex(index);
+
     const activeResult = resultsRef.current[index];
     activeResult?.scrollIntoView({
       block: 'nearest',
     });
+    activeResult?.focus();
   };
+
+  const focusOnInput = () =>
+    inputRef.current.shadowRoot.querySelector('input').focus();
 
   const navigateList = (e, adjustment) => {
     e.preventDefault();
     const newIndex = activeIndex + adjustment;
-
-    if (newIndex < 0 || newIndex > results.length - 1) {
+    if (newIndex > results.length - 1) {
       return;
     }
 
-    setActiveIndex(newIndex);
-    setAriaLiveText(
-      `${results[newIndex]}, (${newIndex + 1} of ${results.length})`,
-    );
-    scrollIntoView(newIndex);
+    if (newIndex < 1) {
+      activateScrollToAndFocus(0);
+
+      focusOnInput();
+    } else {
+      activateScrollToAndFocus(newIndex);
+    }
   };
 
   const selectResult = result => {
@@ -100,7 +111,7 @@ const Autocomplete = ({
     setAriaLiveText(`${newValue} is selected`);
     closeList();
 
-    inputRef.current.shadowRoot.querySelector('input').focus();
+    focusOnInput();
   };
 
   const handleKeyDown = e => {
@@ -113,14 +124,42 @@ const Autocomplete = ({
         selectResult(results[activeIndex]);
       } else if (e.key === 'Escape') {
         closeList();
+        focusOnInput();
+      } else if (e.key === 'Tab') {
+        closeList();
+      } else {
+        focusOnInput();
       }
     }
   };
 
-  const handleBlur = () => setTimeout(closeList, 200); // Enables clicking option from list
+  useEffect(
+    () => {
+      const handleClickOutside = event => {
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target)
+        ) {
+          closeList();
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    },
+    [closeList],
+  );
+
+  const handleFocus = () => {
+    if (value && results.length === 0) {
+      debouncedSearch(value);
+    }
+  };
 
   return (
-    <div className="cc-autocomplete">
+    <div className="cc-autocomplete" ref={containerRef}>
       <VaTextInput
         data-testid="autocomplete-input"
         id={id}
@@ -129,8 +168,7 @@ const Autocomplete = ({
         ref={inputRef}
         required
         value={value}
-        onBlur={handleBlur}
-        onFocus={() => value && debouncedSearch(value)}
+        onFocus={handleFocus}
         onInput={e => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
       />
@@ -154,9 +192,10 @@ const Autocomplete = ({
                 resultsRef.current[index] = el;
               }}
               role="option"
+              tabIndex={-1}
               onClick={() => selectResult(result)}
               onKeyDown={handleKeyDown} // Keydown is handled on the input; this is never fired and prevents eslint error
-              onMouseEnter={() => setActiveIndex(index)}
+              onMouseEnter={() => activateScrollToAndFocus(index)}
             >
               {result}
             </li>
