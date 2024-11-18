@@ -214,9 +214,9 @@ export function validateMinItems(minItems) {
 
 export function assignGetItemName(options) {
   const safeGetItemName = getItemFn => {
-    return item => {
+    return (item, index) => {
       try {
-        return getItemFn(item);
+        return getItemFn(item, index);
       } catch (e) {
         return null;
       }
