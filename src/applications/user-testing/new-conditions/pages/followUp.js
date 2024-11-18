@@ -54,7 +54,7 @@ export default {
         }),
         primaryDescription: textareaUI({
           title:
-            'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
+            'Briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
           required: (formData, index) =>
             formData.conditionsFirst[index]?.cause === 'NEW',
           charcount: true,
@@ -64,7 +64,7 @@ export default {
         'view:secondaryFollowUp': {
           causedByCondition: selectUI({
             title:
-              'Please choose the disability that caused the new disability you’re claiming here.',
+              'Choose the service-connected disability that caused the new condition that you’re claiming here.',
             required: (formData, index) =>
               formData.conditionsFirst[index]?.cause === 'SECONDARY' &&
               getOtherConditions(formData, index).length > 0,
@@ -74,7 +74,7 @@ export default {
           }),
           causedByConditionDescription: textareaUI({
             title:
-              'Please briefly describe how the disability you selected caused your new disability.',
+              'Briefly describe how this disability caused your new condition.',
             required: (formData, index) =>
               formData.conditionsFirst[index]?.cause === 'SECONDARY',
             charcount: true,
@@ -87,14 +87,14 @@ export default {
         'view:worsenedFollowUp': {
           worsenedDescription: textareaUI({
             title:
-              'Please briefly describe the injury or exposure during your military service that caused your existing disability to get worse.',
+              'Briefly describe the injury or exposure during your military service that caused your existing disability to get worse.',
             required: (formData, index) =>
               formData.conditionsFirst[index]?.cause === 'WORSENED',
             charcount: true,
           }),
           worsenedEffects: textareaUI({
             title:
-              'Please tell us how the disability affected you before your service, and how it affects you now after your service.',
+              'Tell us how the disability affected you before your service, and how it affects you now after your service.',
             required: (formData, index) =>
               formData.conditionsFirst[index]?.cause === 'WORSENED',
             charcount: true,
@@ -107,13 +107,13 @@ export default {
         'view:vaFollowUp': {
           vaMistreatmentDescription: textareaUI({
             title:
-              'Please briefly describe the injury or event while you were under VA care that caused your disability.',
+              'Briefly describe the injury or event while you were under VA care that caused your disability.',
             required: (formData, index) =>
               formData.conditionsFirst[index]?.cause === 'VA',
             charcount: true,
           }),
           vaMistreatmentLocation: textareaUI({
-            title: 'Please tell us where this happened.',
+            title: 'Tell us where this happened.',
             required: (formData, index) =>
               formData.conditionsFirst[index]?.cause === 'VA',
             charcount: true,
