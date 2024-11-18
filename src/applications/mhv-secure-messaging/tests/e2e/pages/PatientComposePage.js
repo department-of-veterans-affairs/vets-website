@@ -218,24 +218,6 @@ class PatientComposePage {
       });
   };
 
-  saveExistingDraft = (category, subject) => {
-    cy.intercept(
-      'PUT',
-      `/my_health/v1/messaging/message_drafts/${
-        mockDraftResponse.data.attributes.messageId
-      }`,
-      {},
-    ).as('draft_message');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
-
-    cy.get('@draft_message')
-      .its('request.body')
-      .then(message => {
-        expect(message.category).to.eq(category);
-        expect(message.subject).to.eq(subject);
-      });
-  };
-
   verifyAttachmentErrorMessage = errormessage => {
     cy.get(Locators.ALERTS.ERROR_MESSAGE)
       .should('have.text', errormessage)
@@ -343,7 +325,7 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
-      .select(recipient)
+      .select(recipient, { force: true })
       .should('contain', mockRecipients.data[0].attributes.name);
   };
 
