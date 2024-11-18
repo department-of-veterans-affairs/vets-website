@@ -14,9 +14,9 @@ const generateStore = (enabled = false) => ({
 });
 
 describe('SignInModal', () => {
-  const oldDataLayer = global.window.dataLayer;
+  const oldDataLayer = global?.window?.dataLayer;
 
-  afterEach(() => {
+  after(() => {
     global.window.dataLayer = oldDataLayer;
   });
 
@@ -55,8 +55,9 @@ describe('SignInModal', () => {
     const screen = renderInReduxProvider(<SignInModal useSiS />, {
       initialState: generateStore(),
     });
-    global.window.dataLayer = [];
+
     screen.rerender(<SignInModal visible useSiS />);
+
     expect(global.window.dataLayer).to.deep.include({
       event: 'login-modal-opened-oauth',
     });
@@ -67,8 +68,8 @@ describe('SignInModal', () => {
       initialState: generateStore(),
     });
 
-    global.window.dataLayer = [];
     screen.rerender(<SignInModal visible={false} useSiS />);
+
     expect(global.window.dataLayer).to.deep.include({
       event: 'login-modal-closed-oauth',
     });
