@@ -840,12 +840,12 @@ export function hasAddressFormChanged(currentState) {
 }
 
 export function splitAddressLine(addressLine, maxLength) {
-  if (addressLine.length <= maxLength) {
+  if (addressLine?.length <= maxLength) {
     return { line1: addressLine, line2: '' };
   }
 
   // Find the last space within the maxLength
-  let lastSpaceIndex = addressLine.lastIndexOf(' ', maxLength);
+  let lastSpaceIndex = addressLine?.lastIndexOf(' ', maxLength);
 
   // If there's no space, we can't split without breaking a word, so just split at maxLength
   if (lastSpaceIndex === -1) {
@@ -853,8 +853,8 @@ export function splitAddressLine(addressLine, maxLength) {
   }
 
   return {
-    line1: addressLine.substring(0, lastSpaceIndex),
-    line2: addressLine.substring(lastSpaceIndex).trim(),
+    line1: addressLine?.substring(0, lastSpaceIndex),
+    line2: addressLine?.substring(lastSpaceIndex).trim(),
   };
 }
 

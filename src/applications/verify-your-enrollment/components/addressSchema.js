@@ -9,15 +9,25 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import { blockURLsRegEx } from '../constants';
+import { splitAddressLine } from '../helpers';
 
 const initializeAddressLine1 = formData => {
   return formData?.addressLine1 !== undefined
-    ? formData?.addressLine1
-    : formData?.street?.trim();
+    ? splitAddressLine(formData?.addressLine1, 20).line1
+    : splitAddressLine(formData?.street?.trim(), 20).line1;
 };
 
 const initializeAddressLine2 = formData => {
-  return formData?.street2 ?? '';
+  const address1 =
+    formData?.street?.length > 20
+      ? splitAddressLine(formData?.addressLine1, 20).line2
+      : splitAddressLine(formData?.addressLine2, 20).line1;
+  const address2 =
+    formData?.street?.length > 20
+      ? splitAddressLine(formData?.street?.trim(), 20).line2
+      : splitAddressLine(formData?.street2?.trim(), 20).line1;
+
+  return formData?.addressLine2 !== undefined ? address1 : address2;
 };
 
 const cleanZipCode = zipcode => {
