@@ -24,6 +24,7 @@ export const downloadsReducer = (state = initialState, action) => {
     case Actions.Downloads.DOWNLOAD_CCD: {
       return {
         ...state,
+        generatingCCD: false,
         timestampCCD: action.response,
       };
     }

@@ -219,6 +219,6 @@ export const generateCCD = () => {
 export const downloadCCD = timestamp => {
   window.open(
     `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
-    'Download',
+    'continuity-of-care',
   );
 };

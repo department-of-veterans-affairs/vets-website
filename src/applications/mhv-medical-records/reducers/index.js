@@ -11,11 +11,13 @@ import { sharingReducer } from './sharing';
 import { alertsReducer } from './alerts';
 import { refreshReducer } from './refresh';
 import { pageTrackerReducer } from './pageTracker';
+import { downloadsReducer } from './downloads';
 
 const rootReducer = {
   mr: combineReducers({
     allergies: allergyReducer,
     breadcrumbs: breadcrumbsReducer,
+    downloads: downloadsReducer,
     labsAndTests: labsAndTestsReducer,
     careSummariesAndNotes: careSummariesAndNotesReducer,
     vaccines: vaccineReducer,

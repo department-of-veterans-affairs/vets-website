@@ -1,10 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import { genAndDownloadCCD } from '../actions/downloads';
 
 const DownloadReportPage = () => {
   const dispatch = useDispatch();
+
+  const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
 
   return (
     <div>
@@ -45,12 +47,21 @@ const DownloadReportPage = () => {
             You can download this report in .xml format, a standard file format
             that works with other providers’ medical records systems.
           </p>
-          <button
-            className="link-button"
-            onClick={() => dispatch(genAndDownloadCCD())}
-          >
-            <va-icon icon="file_download" size={3} /> Download .xml file
-          </button>
+          {generatingCCD ? (
+            <div id="generating-ccd-indicator">
+              <va-loading-indicator
+                label="Loading"
+                message="Preparing your download..."
+              />
+            </div>
+          ) : (
+            <button
+              className="link-button"
+              onClick={() => dispatch(genAndDownloadCCD())}
+            >
+              <va-icon icon="file_download" size={3} /> Download .xml file
+            </button>
+          )}
         </va-accordion-item>
         <va-accordion-item
           bordered="true"

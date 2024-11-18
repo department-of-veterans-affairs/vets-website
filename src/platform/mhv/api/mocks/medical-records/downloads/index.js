@@ -1,5 +1,5 @@
 const generateCCD = (req, res) => {
-  const randomSeed = Math.floor(Math.random() * 2);
+  const randomSeed = Math.floor(Math.random() * 1);
 
   return res.json([
     {
