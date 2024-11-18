@@ -1,10 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { isValidEmail } from 'platform/forms/validations';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const EmailSignup = () => {
   const [inputError, setInputError] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [email, setEmail] = useState('');
+  const [headerHasFocused, setHeaderHasFocused] = useState(false);
+  const textInput = document?.querySelector('va-text-input');
+  const shadowRoot = textInput?.shadowRoot;
+
+  useEffect(
+    () => {
+      if (shadowRoot) {
+        const charCountStyle = document.createElement('style');
+
+        charCountStyle.textContent = `
+          #charcount-message {
+            color: #565c65;
+          }
+        `;
+
+        shadowRoot.appendChild(charCountStyle);
+      }
+    },
+    [shadowRoot],
+  );
+
+  useEffect(
+    () => {
+      if (shadowRoot && !headerHasFocused) {
+        const inputHeader = shadowRoot?.querySelector('h2');
+
+        if (inputHeader) {
+          inputHeader.addEventListener('focus', () => {
+            inputHeader.style.outline = 'none';
+          });
+        }
+
+        if (inputHeader && inputError) {
+          inputHeader.setAttribute('tabindex', '-1');
+          inputHeader.focus();
+          setHeaderHasFocused(true);
+        }
+      }
+    },
+    [inputError, shadowRoot],
+  );
 
   const setInputErrorState = () => {
     if (!email || !email?.length || !isValidEmail(email)) {
@@ -62,7 +104,7 @@ const EmailSignup = () => {
           id="homepage-hidden-email"
           value={email}
         />
-        <va-text-input
+        <VaTextInput
           autocomplete="email"
           charcount
           class="homepage-email-input"
@@ -82,6 +124,7 @@ const EmailSignup = () => {
           required
           type="email"
           use-forms-pattern="single"
+          value={email}
         />
         <va-button
           class="vads-u-width--auto vads-u-margin-bottom--2 vads-u-margin-top--1p5"
