@@ -54,8 +54,8 @@ const VACheckboxGroupGi = ({
             onVaChange={target => {
               onChange(target, name);
             }}
-            // enable-analytics
-            // uswds
+            enable-analytics
+            uswds
           />
           <label
             className={`gi-checkbox-label ${checkBoxLabelMargin}`}
