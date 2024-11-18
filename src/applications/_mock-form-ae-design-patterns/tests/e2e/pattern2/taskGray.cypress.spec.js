@@ -139,7 +139,7 @@ describe('Prefill pattern - Gray Task', () => {
     // check prefilled contact info page
     cy.url().should('contain', '/veteran-information');
     cy.findByText('Mailing address').should('exist');
-    cy.findByText('123 Mailing Address St.').should('exist');
+    cy.findByText('125 Main St.').should('exist');
     cy.findByText('Fulton, NY 97063').should('exist');
 
     cy.injectAxeThenAxeCheck();

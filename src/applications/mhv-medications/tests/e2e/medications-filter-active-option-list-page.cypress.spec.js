@@ -1,6 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
+import { Data } from './utils/constants';
 
 describe('Medications List Page Active Filter Option', () => {
   it('visits Medications List Page Filter Option Active', () => {
@@ -20,6 +21,9 @@ describe('Medications List Page Active Filter Option', () => {
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Active');
     listPage.clickFilterButtonOnAccordion();
+    listPage.verifyFocusOnPaginationTextInformationOnListPage(
+      Data.PAGINATION_TEXT,
+    );
     listPage.verifyNameOfFirstRxOnMedicationsList('active');
   });
 });
