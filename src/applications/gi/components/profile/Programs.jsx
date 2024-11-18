@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const Programs = ({ programTypes, facilityCode }) => {
+const Programs = ({ programTypes, facilityCode, institutionName }) => {
   return (
     <>
       <p>The following programs are approved by the VA at this institution.</p>
@@ -20,6 +20,7 @@ const Programs = ({ programTypes, facilityCode }) => {
                 .trim()
                 .toLowerCase()
                 .replace(/\s+/g, '-')}`,
+              state: { institutionName },
             }}
             className="vads-u-display--flex vads-u-align-items--center"
           >
@@ -34,6 +35,7 @@ const Programs = ({ programTypes, facilityCode }) => {
 Programs.propTypes = {
   programTypes: PropTypes.array.isRequired,
   facilityCode: PropTypes.string.isRequired,
+  institutionName: PropTypes.string.isRequired,
 };
 
 export default Programs;

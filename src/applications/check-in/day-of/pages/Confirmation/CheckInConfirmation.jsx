@@ -140,10 +140,10 @@ const CheckInConfirmation = props => {
         testID="multiple-appointments-confirm"
       >
         <div data-testid="confirmation-message">
-          <p>{staffMessage()}</p>
           <p data-testid="tell-staff-member">
             {t('tell-a-staff-member-if-you-wait')}
           </p>
+          <p>{staffMessage()}</p>
         </div>
         <h2>{t('your-appointments', { count: 1 })}</h2>
         <div
