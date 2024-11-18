@@ -27,7 +27,13 @@
  * @param {boolean} [props.isSignatureRequired] - Indicates if a signature is required for the selected recipient.
  * @returns {JSX.Element} The rendered RecipientsSelect component.
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import {
   VaAlert,
@@ -146,97 +152,81 @@ const RecipientsSelect = ({
     },
     [recipientsList, isSignatureRequired, setSelectedRecipient],
   );
-  const VaSelectGrouped = ({ recipients }) => {
-    VaSelectGrouped.propTypes = {
-      recipients: PropTypes.array,
-    };
 
-    let currentVamcSystemName = null;
-    const options = [];
-    let groupedOptions = [];
+  const optionsValues = useMemo(
+    () => {
+      if (!optGroupEnabled) {
+        return sortRecipients(recipientsList)?.map(item => (
+          <option key={item.id} value={item.id}>
+            {item.name}
+          </option>
+        ));
+      }
 
-    recipients.forEach(item => {
-      if (item.vamcSystemName === undefined) {
-        options.push(
+      let currentVamcSystemName = null;
+      const options = [];
+      let groupedOptions = [];
+
+      recipientsListSorted.forEach(item => {
+        if (item.vamcSystemName === undefined) {
+          options.push(
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>,
+          );
+        } else if (item.vamcSystemName !== currentVamcSystemName) {
+          if (currentVamcSystemName !== null) {
+            options.push(
+              <optgroup
+                key={currentVamcSystemName}
+                label={currentVamcSystemName}
+              >
+                {groupedOptions}
+              </optgroup>,
+            );
+          }
+          currentVamcSystemName = item.vamcSystemName;
+          groupedOptions = [];
+        }
+        groupedOptions.push(
           <option key={item.id} value={item.id}>
             {item.name}
           </option>,
         );
-      } else if (item.vamcSystemName !== currentVamcSystemName) {
-        if (currentVamcSystemName !== null) {
-          options.push(
-            <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
-              {groupedOptions}
-            </optgroup>,
-          );
-        }
-        currentVamcSystemName = item.vamcSystemName;
-        groupedOptions = [];
+      });
+
+      // Push the last group
+      if (currentVamcSystemName !== null) {
+        options.push(
+          <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
+            {groupedOptions}
+          </optgroup>,
+        );
       }
-      groupedOptions.push(
-        <option key={item.id} value={item.id}>
-          {item.name}
-        </option>,
-      );
-    });
 
-    // Push the last group
-    if (currentVamcSystemName !== null) {
-      options.push(
-        <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
-          {groupedOptions}
-        </optgroup>,
-      );
-    }
-
-    return (
-      <>
-        <VaSelect
-          enable-analytics
-          id="recipient-dropdown"
-          label="To"
-          name="to"
-          value={defaultValue !== undefined ? defaultValue : ''}
-          onVaSelect={handleRecipientSelect}
-          class="composeSelect"
-          data-testid="compose-recipient-select"
-          error={error}
-          data-dd-privacy="mask"
-          data-dd-action-name="Compose Recipient Dropdown List"
-        >
-          <CantFindYourTeam />
-          {options}
-        </VaSelect>
-      </>
-    );
-  };
+      return options;
+    },
+    [recipientsListSorted, optGroupEnabled, recipientsList],
+  );
 
   return (
     <>
-      {optGroupEnabled ? (
-        <VaSelectGrouped recipients={recipientsListSorted} />
-      ) : (
-        <VaSelect
-          enable-analytics
-          id="recipient-dropdown"
-          label="To"
-          name="to"
-          value={defaultValue}
-          onVaSelect={handleRecipientSelect}
-          class="composeSelect"
-          data-testid="compose-recipient-select"
-          error={error}
-          data-dd-privacy="mask"
-          data-dd-action-name="Compose Recipient Dropdown List"
-        >
-          <CantFindYourTeam />
-          {sortRecipients(recipientsList)?.map(item => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </VaSelect>
-      )}
+      <VaSelect
+        enable-analytics
+        id="recipient-dropdown"
+        label="To"
+        name="to"
+        value={defaultValue !== undefined ? defaultValue : ''}
+        onVaSelect={handleRecipientSelect}
+        class="composeSelect"
+        data-testid="compose-recipient-select"
+        error={error}
+        data-dd-privacy="mask"
+        data-dd-action-name="Compose Recipient Dropdown List"
+      >
+        <CantFindYourTeam />
+        {optionsValues}
+      </VaSelect>
 
       {alertDisplayed && (
         <VaAlert
