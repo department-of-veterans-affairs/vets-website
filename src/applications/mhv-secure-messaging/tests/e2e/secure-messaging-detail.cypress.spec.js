@@ -7,8 +7,8 @@ import singleThreadResponse from './fixtures/thread-response-new-api.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Message Details AXE Check', () => {
-  it('Axe Check Message Details Page', () => {
+describe('SM SINGLE MESSAGE DETAILS', () => {
+  it('verify single message details', () => {
     const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
       singleThreadResponse,
     );
