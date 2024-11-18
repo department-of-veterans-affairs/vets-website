@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
 import BenefitCard from '../../benefit-eligibility-questionnaire/components/BenefitCard';
 import GetFormHelp from '../../benefit-eligibility-questionnaire/components/GetFormHelp';
-import { BENEFITS_LIST } from '../../benefit-eligibility-questionnaire/constants/benefits';
+import { BENEFITS_LIST } from '../constants/benefits';
 
 export class ConfirmationPage extends React.Component {
   sortBenefitObj(benefitObj, sortKey) {
@@ -43,7 +43,6 @@ export class ConfirmationPage extends React.Component {
     this.sortBenefits = this.sortBenefits.bind(this);
     this.filterBenefits = this.filterBenefits.bind(this);
     this.createFilterText = this.createFilterText.bind(this);
-    // this.handleResultsData = this.handleResultsData.bind(this);
     this.toggleMobileFiltersClass = this.toggleMobileFiltersClass.bind(this);
     this.filterAndSort = this.filterAndSort.bind(this);
   }
