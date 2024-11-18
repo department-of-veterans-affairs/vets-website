@@ -36,8 +36,11 @@ describe('Medications List Page Sort Alphabetically By Status', () => {
     // site.loadVAPaginationPrescriptions(1, mockRxPageOne);
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
     // site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
-    listPage.selectSortDropDownOption('Alphabetically by status');
-    listPage.clickSortAlphabeticallyByStatus();
+    listPage.selectSortDropDownOption(
+      'Alphabetically by status',
+      'disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    );
+    listPage.loadRxDefaultSortAlphabeticallyByStatus();
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByStatus(
       1,
       20,
