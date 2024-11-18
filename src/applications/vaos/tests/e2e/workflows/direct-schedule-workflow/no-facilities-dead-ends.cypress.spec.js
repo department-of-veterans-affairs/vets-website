@@ -59,7 +59,7 @@ describe('VAOS direct schedule flow - No facility dead ends', () => {
           .assertWarningAlert({
             text: /You can.t schedule this appointment online/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ label: /Continue/i, exist: false });
 
         // Assert
         cy.axeCheckBestPractice();
