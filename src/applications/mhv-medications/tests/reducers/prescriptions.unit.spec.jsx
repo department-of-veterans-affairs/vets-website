@@ -47,7 +47,8 @@ describe('Prescriptions reducer', () => {
           return { ...rx.attributes };
         },
       ),
-      prescriptionsPagination: paginatedFilteredListApiResponse.meta.pagination,
+      prescriptionsFilteredPagination:
+        paginatedFilteredListApiResponse.meta.pagination,
       apiError: false,
     };
     const state = reduce({
@@ -202,7 +203,8 @@ describe('Prescriptions reducer', () => {
       prescriptionsFilteredList: paginatedSortedListApiResponse.data.map(rx => {
         return { ...rx.attributes };
       }),
-      prescriptionsPagination: paginatedSortedListApiResponse.meta.pagination,
+      prescriptionsFilteredPagination:
+        paginatedSortedListApiResponse.meta.pagination,
       apiError: false,
     };
 
