@@ -1,10 +1,7 @@
 import { expect } from 'chai';
-
 import {
   transformAttachments,
-  getInsuranceAriaLabel,
   normalizeFullName,
-  parseVeteranDob,
 } from '../../../../utils/helpers';
 
 describe('hca helpers', () => {
@@ -59,41 +56,6 @@ describe('hca helpers', () => {
     });
   });
 
-  describe('when `getInsuranceAriaLabel` executes', () => {
-    describe('when the provider name is not provided', () => {
-      it('should return a generic label', () => {
-        const formData = {};
-        expect(getInsuranceAriaLabel(formData)).to.equal('insurance policy');
-      });
-    });
-
-    describe('when the provider name is provided', () => {
-      describe('when the policy number when provided', () => {
-        it('should return the provider name & policy number', () => {
-          const formData = {
-            insuranceName: 'Aetna',
-            insurancePolicyNumber: '005588',
-          };
-          expect(getInsuranceAriaLabel(formData)).to.equal(
-            'Aetna, Policy number 005588',
-          );
-        });
-      });
-
-      describe('when the group code when provided', () => {
-        it('should return the provider name & group code', () => {
-          const formData = {
-            insuranceName: 'Aetna',
-            insuranceGroupCode: '005588',
-          };
-          expect(getInsuranceAriaLabel(formData)).to.equal(
-            'Aetna, Group code 005588',
-          );
-        });
-      });
-    });
-  });
-
   describe('when `normalizeFullName` executes', () => {
     const fullName = {
       first: 'John',
@@ -138,39 +100,6 @@ describe('hca helpers', () => {
             );
           });
         });
-      });
-    });
-  });
-
-  context('when `parseVeteranDob` executes', () => {
-    context('when a value is omitted from the function', () => {
-      it('should return `null`', () => {
-        expect(parseVeteranDob()).to.eq(null);
-      });
-    });
-
-    context('when an empty value is passed to the function', () => {
-      it('should return `null`', () => {
-        expect(parseVeteranDob('')).to.eq(null);
-      });
-    });
-
-    context('when an invalid value is passed to the function', () => {
-      it('should return `null`', () => {
-        expect(parseVeteranDob('1990-01-00')).to.eq(null);
-      });
-    });
-
-    context('when the value is passed to the function is pre-1900', () => {
-      it('should return `null`', () => {
-        expect(parseVeteranDob('1890-01-01')).to.eq(null);
-      });
-    });
-
-    context('when the value is between 1900-01-01 and today', () => {
-      it('should return the value', () => {
-        const validDate = '1990-01-01';
-        expect(parseVeteranDob(validDate)).to.eq(validDate);
       });
     });
   });
