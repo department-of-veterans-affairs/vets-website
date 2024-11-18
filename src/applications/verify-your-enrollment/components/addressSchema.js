@@ -27,19 +27,14 @@ const initializeAddressLine2 = formData => {
       ? splitAddressLine(formData?.street?.trim(), 20).line2
       : splitAddressLine(formData?.street2?.trim(), 20).line1;
 
+  if (formData?.addressLine2 === undefined && address2 === '') {
+    return undefined;
+  }
   return formData?.addressLine2 !== undefined ? address1 : address2;
 };
 
 const cleanZipCode = zipcode => {
-  let output = zipcode;
-  if (zipcode && zipcode.toString().length >= 5) {
-    const length = 5;
-    output = '';
-    for (let i = 0; i < length; i++) {
-      output += zipcode[i];
-    }
-  }
-  return output;
+  return zipcode?.substring(0, 5);
 };
 
 const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
