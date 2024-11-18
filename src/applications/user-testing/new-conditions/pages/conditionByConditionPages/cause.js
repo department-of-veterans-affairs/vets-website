@@ -7,7 +7,7 @@ import {
 import { ServiceConnectedDisabilityDescription } from '../../content/newConditions';
 import { createItemName } from './utils';
 
-const causeOptions = {
+export const causeOptions = {
   NEW:
     'My condition was caused by an injury or exposure during my military service.',
   SECONDARY:

@@ -1,14 +1,16 @@
+import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
-import React from 'react';
+
 import { SUBTITLE, TITLE } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
-
 import chooseDemo from '../pages/chooseDemo';
 import conditionByConditionPages from '../pages/conditionByConditionPages';
 import conditionsFirstPages from '../pages/conditionsFirstPages';
+import followUp from '../pages/followUp';
+import followUpIntro from '../pages/followUpIntro';
 
 const FormFooter = () => (
   <div className="row vads-u-margin-bottom--2">
@@ -18,7 +20,7 @@ const FormFooter = () => (
           <div>
             <p className="help-talk">
               For help filling out this form, or if the form isn’t working
-              right, please <CallVBACenter />
+              right, <CallVBACenter />
             </p>
           </div>
         </div>
@@ -48,16 +50,16 @@ const formConfig = {
       inProgress:
         'Your disability compensation application (21-526EZ) is in progress.',
       expired:
-        'Your saved disability compensation application (21-526EZ) has expired. If you want to apply for disability compensation, please start a new application.',
+        'Your saved disability compensation application (21-526EZ) has expired. If you want to apply for disability compensation, start a new application.',
       saved: 'Your disability compensation application has been saved.',
     },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for disability compensation.',
+    notFound: 'Start over to apply for disability compensation.',
     noAuth:
-      'Please sign in again to continue your application for disability compensation.',
+      'Sign in again to continue your application for disability compensation.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
@@ -70,6 +72,8 @@ const formConfig = {
         chooseDemo,
         ...conditionByConditionPages,
         ...conditionsFirstPages,
+        followUpIntro,
+        followUp,
       },
     },
   },

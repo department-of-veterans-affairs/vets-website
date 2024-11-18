@@ -37,7 +37,7 @@ export const ConfirmationPage = () => {
       </va-alert>
 
       <p>We may contact you for more information or documents.</p>
-      <p className="screen-only">Please print this page for your records.</p>
+      <p className="screen-only">Print this page for your records.</p>
       <div className="inset">
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
           File for disability compensation Claim{' '}
