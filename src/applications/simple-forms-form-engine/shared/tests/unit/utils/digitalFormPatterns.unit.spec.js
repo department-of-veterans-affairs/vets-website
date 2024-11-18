@@ -7,7 +7,7 @@ import {
   digitalFormIdentificationInfo,
   digitalFormNameAndDoB,
   digitalFormPhoneAndEmail,
-} from 'applications/form-renderer/utils/digitalFormPatterns';
+} from '../../../utils/digitalFormPatterns';
 import { normalizedForm } from '../../../_config/formConfig';
 
 const findChapterByType = type =>

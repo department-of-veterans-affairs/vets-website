@@ -2,26 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { Router, useRouterHistory } from 'react-router';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { createHistory } from 'history';
-import manifest from '../manifest.json';
+import PropTypes from 'prop-types';
 import Error from './Error';
 import { getRoutesFromFormConfig } from '../routes';
-import { formLoadingFailed, fetchFormConfig } from '../actions/form-load';
-import { getFormIdFromUrl } from '../utils/url';
+import {
+  formLoadingFailed,
+  fetchAndBuildFormConfig,
+} from '../actions/form-load';
 import { getReducerFromFormConfig } from '../reducers/form-render';
 
-// eslint-disable-next-line react-hooks/rules-of-hooks
-const history = useRouterHistory(createHistory)({
-  basename: manifest.rootUrl,
-});
-
-export default () => {
+const FormRenderer = ({ formId, rootUrl, trackingPrefix }) => {
   const dispatch = useDispatch();
   const store = useStore();
   const [routes, setRoutes] = useState(null);
-  const formId = useSelector(state => state.formLoad?.formId);
   const formConfig = useSelector(state => state.formLoad?.formConfig);
   const formLoadingError = useSelector(state => state.formLoad?.error);
   const isFormLoading = useSelector(state => state.formLoad?.isLoading);
+  const history = useRouterHistory(createHistory)({
+    basename: rootUrl,
+  });
 
   useEffect(
     () => {
@@ -34,20 +33,18 @@ export default () => {
         // The routes cannot be set until after the reducer has been injected
         const route = getRoutesFromFormConfig(formConfig);
         setRoutes(route);
-      } else {
-        // On initial load, parse url for formId and attempt to fetch formConfig
-        const formIdFromUrl = getFormIdFromUrl(
-          window.location.pathname,
-          manifest.rootUrl,
+      } else if (formId) {
+        dispatch(
+          fetchAndBuildFormConfig(formId, {
+            rootUrl,
+            trackingPrefix,
+          }),
         );
-        if (formIdFromUrl) {
-          dispatch(fetchFormConfig(formIdFromUrl));
-        } else {
-          dispatch(formLoadingFailed('Bad URL - No form id'));
-        }
+      } else {
+        dispatch(formLoadingFailed('No form id'));
       }
     },
-    [formConfig, dispatch, store],
+    [formConfig, dispatch, store, formId, rootUrl, trackingPrefix],
   );
 
   if (formLoadingError) {
@@ -73,3 +70,11 @@ export default () => {
 
   return null;
 };
+
+FormRenderer.propTypes = {
+  formId: PropTypes.string,
+  rootUrl: PropTypes.string,
+  trackingPrefix: PropTypes.string,
+};
+
+export default FormRenderer;

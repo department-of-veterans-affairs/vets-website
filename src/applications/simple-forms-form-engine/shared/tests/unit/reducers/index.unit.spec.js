@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import reducers from 'applications/form-renderer/reducers';
-import { initialState as formLoadInitialState } from 'applications/form-renderer/reducers/form-load';
+import reducers from '../../../reducers';
+import { initialState as formLoadInitialState } from '../../../reducers/form-load';
 
 describe('form-renderer reducers', () => {
   it('should include the form load reducer', () => {

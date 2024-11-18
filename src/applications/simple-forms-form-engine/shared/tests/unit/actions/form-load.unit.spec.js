@@ -2,13 +2,13 @@ import { expect } from 'chai';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { DATA_FILES_PATH } from 'platform/site-wide/drupal-static-data/constants';
-import { formConfig1, normalizedForm } from '../../../_config/formConfig';
+import { normalizedForm } from '../../../_config/formConfig';
 import {
   DIGITAL_FORMS_FILENAME,
   FORM_LOADING_SUCCEEDED,
   INTEGRATION_DEPLOYMENT,
   fetchDrupalDigitalForms,
-  fetchFormConfig,
+  fetchAndBuildFormConfig,
   findFormByFormId,
 } from '../../../actions/form-load';
 
@@ -42,29 +42,51 @@ describe('form-load actions', () => {
     });
   });
 
-  describe('fetchFormConfig', () => {
+  describe('fetchAndBuildFormConfig', () => {
     let store;
     let stub;
 
     beforeEach(() => {
       store = mockStore(initialState);
-      stub = sinon.stub().resolves([formConfig1, normalizedForm]);
+      stub = sinon.stub().resolves([normalizedForm]);
     });
 
     it('calls the given fetchMethod', async () => {
-      await store.dispatch(fetchFormConfig('123-abc', stub));
+      await store.dispatch(
+        fetchAndBuildFormConfig(
+          '2121212',
+          {
+            rootUrl: '/some-root-url',
+            trackingPrefix: 'some-tracking-prefix-',
+          },
+          stub,
+        ),
+      );
       expect(stub.calledOnce).to.be.true;
     });
 
     it('puts a formConfig into state', async () => {
-      await store.dispatch(fetchFormConfig('2121212', stub));
+      await store.dispatch(
+        fetchAndBuildFormConfig(
+          '2121212',
+          {
+            rootUrl: '/some-root-url',
+            trackingPrefix: 'some-tracking-prefix-',
+          },
+          stub,
+        ),
+      );
       const successAction = store
         .getActions()
         .find(action => action.type === FORM_LOADING_SUCCEEDED);
 
-      // Testing for urlPrefix as it is not included in the normalized data
-      // structure
-      expect(successAction.formConfig.urlPrefix).to.eq('/2121212/');
+      // Testing for `urlPrefix` as it is not included in the normalized data
+      // structure.
+      expect(successAction.formConfig.urlPrefix).to.eq('/');
+
+      // Testing for `formId` to ensure the returned formConfig is constructed
+      // from the passed-in normalized data.
+      expect(successAction.formConfig.formId).to.eq('2121212');
     });
   });
 
