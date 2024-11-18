@@ -336,30 +336,48 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   };
 
   // Verify and setup any initial page options
-  const testConfig = pageBuilderCallback(pageBuilderVerifyAndSetup);
+  pageBuilderCallback(pageBuilderVerifyAndSetup);
   validatePages(orderedPageTypes);
   validateRequired(userRequired);
   validateReviewPath(reviewPath);
   validateMinItems(options.minItems);
   const required =
     typeof userRequired === 'function' ? userRequired : () => userRequired;
-  const pageKeys = Object.keys(testConfig);
-  const firstItemPagePath = itemPages?.[0]?.path;
-  const lastItemPagePath = itemPages?.[itemPages.length - 1]?.path;
-  const itemLastPageKey = pageKeys?.[pageKeys.length - 1];
+
+  const getActiveItemPages = (formData, index) => {
+    return itemPages.filter(page => {
+      if (typeof page.depends === 'function') {
+        try {
+          return page.depends(formData, index);
+        } catch (e) {
+          return false;
+        }
+      }
+      return true;
+    });
+  };
+
+  const getFirstItemPagePath = (formData, index) => {
+    return getActiveItemPages(formData, index)?.[0]?.path;
+  };
+
+  const getLastItemPagePath = (formData, index) => {
+    const activeItemPages = getActiveItemPages(formData, index);
+    return activeItemPages?.[activeItemPages.length - 1]?.path;
+  };
 
   // Didn't throw error so success: Validated and setup success
   const pageBuilder = pageBuilderVerifyAndSetup;
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardFinishedItem = ({ goPath, urlParams, pathname }) => {
+  const navForwardFinishedItem = ({ goPath, urlParams, pathname, index }) => {
     let path = summaryPath;
     if (urlParams?.edit || (urlParams?.add && urlParams?.review)) {
-      const index = getArrayIndexFromPathName(pathname);
+      const foundIndex = getArrayIndexFromPathName(pathname);
       const basePath = urlParams?.review ? reviewPath : summaryPath;
       path = createArrayBuilderUpdatedPath({
         basePath,
-        index,
+        index: foundIndex == null ? index : foundIndex,
         nounSingular,
       });
     }
@@ -371,6 +389,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     arrayPath,
     introRoute: introPath,
     summaryRoute: summaryPath,
+    reviewRoute: reviewPath,
   });
 
   /** @type {FormConfigPage['onNavForward']} */
@@ -379,7 +398,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
     if (formData?.[hasItemsKey]) {
       const path = createArrayBuilderItemAddPath({
-        path: firstItemPagePath,
+        path: getFirstItemPagePath(formData, index),
         index,
       });
       goPath(path);
@@ -387,7 +406,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       const nextPagePath = getNextPagePath(
         pageList,
         formData,
-        `/${lastItemPagePath.replace(
+        `/${getLastItemPagePath(formData, index).replace(
           ':index',
           index === 0 ? index : index - 1,
         )}`,
@@ -406,7 +425,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     // summary -> items -> summary
     if (required(formData) && !formData[arrayPath]?.length) {
       path = createArrayBuilderItemAddPath({
-        path: firstItemPagePath,
+        path: getFirstItemPagePath(formData, 0),
         index: 0,
         isReview: urlParams?.review,
       });
@@ -421,12 +440,16 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   };
 
   function getNavItem(path) {
-    const onNavBack =
-      firstItemPagePath === path ? navBackFirstItem : onNavBackKeepUrlParams;
-    const onNavForward =
-      lastItemPagePath === path
-        ? navForwardFinishedItem
-        : onNavForwardKeepUrlParams;
+    const onNavBack = props => {
+      return getFirstItemPagePath(props.formData, props.index) === path
+        ? navBackFirstItem(props)
+        : onNavBackKeepUrlParams(props);
+    };
+    const onNavForward = props => {
+      return getLastItemPagePath(props.formData, props.index) === path
+        ? navForwardFinishedItem(props)
+        : onNavForwardKeepUrlParams(props);
+    };
     return { onNavBack, onNavForward };
   }
 
@@ -450,7 +473,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     const summaryPageProps = {
       arrayPath,
       hasItemsKey,
-      firstItemPagePath,
+      getFirstItemPagePath,
       getText,
       introPath,
       isItemIncomplete,

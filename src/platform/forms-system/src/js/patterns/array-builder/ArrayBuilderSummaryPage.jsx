@@ -65,7 +65,7 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
 /**
  * @param {{
  *   arrayPath: string,
- *   firstItemPagePath: string,
+ *   getFirstItemPagePath: (props) => string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText
  *   hasItemsKey: string,
  *   introPath: string,
@@ -84,7 +84,7 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
 export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
   const {
     arrayPath,
-    firstItemPagePath,
+    getFirstItemPagePath,
     getText,
     hasItemsKey,
     introPath,
@@ -241,7 +241,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     function addAnotherItemButtonClick() {
       const index = arrayData ? arrayData.length : 0;
       const path = createArrayBuilderItemAddPath({
-        path: firstItemPagePath,
+        path: getFirstItemPagePath(props.data, index),
         index,
         isReview: isReviewPage,
         removedAllWarn: !arrayData?.length && required(props.data),
@@ -294,7 +294,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     function onRemoveAllItems() {
       if (required(props.data)) {
         const path = createArrayBuilderItemAddPath({
-          path: firstItemPagePath,
+          path: getFirstItemPagePath(props.data, 0),
           index: 0,
           isReview: isReviewPage,
           removedAllWarn: true,
@@ -386,7 +386,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           nounSingular={nounSingular}
           nounPlural={nounPlural}
           isIncomplete={isItemIncomplete}
-          editItemPathUrl={firstItemPagePath}
+          getEditItemPathUrl={getFirstItemPagePath}
           getText={getText}
           required={required}
           onRemoveAll={onRemoveAllItems}
