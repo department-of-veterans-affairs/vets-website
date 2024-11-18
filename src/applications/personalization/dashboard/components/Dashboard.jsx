@@ -67,7 +67,7 @@ const DashboardHeader = ({ showNotifications, user }) => {
   return (
     <div>
       {displayOnboardingInformation && (
-        <VaAlert status="info" visible>
+        <VaAlert status="info" visible className="vads-u-margin-top--4">
           <h2> Welcome to VA, {user.profile.userFullName.first}</h2>
           <p>
             We understand that transitioning out of the military can be a
@@ -125,12 +125,23 @@ const LOA1Content = ({
   isVAPatient,
   welcomeModalVisible,
   dismissWelcomeModal,
+  user,
 }) => {
   const signInService = useSelector(signInServiceName);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showWelcomeToMyVaMessage = useToggleValue(
     TOGGLE_NAMES.veteranOnboardingShowWelcomeMessageToNewUsers,
   );
+
+  const userCreationTime = new Date(user.profile.createdAt);
+  const oneDayLater = new Date(
+    userCreationTime.getTime() + 24 * 60 * 60 * 1000,
+  );
+  const currentDate = new Date();
+  const userIsNew =
+    currentDate.getTime() > userCreationTime.getTime() &&
+    currentDate.getTime() < oneDayLater.getTime();
+
   return (
     <>
       <div className="vads-l-row">
@@ -148,24 +159,25 @@ const LOA1Content = ({
       <EducationAndTraining isLOA1={isLOA1} />
       <BenefitApplications />
 
-      {showWelcomeToMyVaMessage && (
-        <VaModal
-          large
-          modalTitle="Welcome to My VA"
-          onCloseEvent={dismissWelcomeModal}
-          onPrimaryButtonClick={dismissWelcomeModal}
-          primaryButtonText="Continue"
-          visible={welcomeModalVisible}
-          data-testid="welcome-modal"
-        >
-          <p>
-            We’ll help you get started managing your benefits and information
-            online, as well as help you find resources and support. Once you
-            have applications or claims in process, you’ll be able to check
-            status here at My VA.
-          </p>
-        </VaModal>
-      )}
+      {showWelcomeToMyVaMessage &&
+        userIsNew && (
+          <VaModal
+            large
+            modalTitle="Welcome to My VA"
+            onCloseEvent={dismissWelcomeModal}
+            onPrimaryButtonClick={dismissWelcomeModal}
+            primaryButtonText="Continue"
+            visible={welcomeModalVisible}
+            data-testid="welcome-modal"
+          >
+            <p>
+              We’ll help you get started managing your benefits and information
+              online, as well as help you find resources and support. Once you
+              have applications or claims in process, you’ll be able to check
+              status here at My VA.
+            </p>
+          </VaModal>
+        )}
     </>
   );
 };
@@ -180,6 +192,7 @@ LOA1Content.propTypes = {
   isLOA1: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   welcomeModalVisible: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 const Dashboard = ({
@@ -199,6 +212,7 @@ const Dashboard = ({
   showNotInMPIError,
   showNotifications,
   isVAPatient,
+  user,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -270,7 +284,7 @@ const Dashboard = ({
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
-      user={props.user}
+      user={user}
       showProfileErrorMessage
     >
       <DowntimeNotification
@@ -324,6 +338,7 @@ const Dashboard = ({
                   isVAPatient={isVAPatient}
                   welcomeModalVisible={welcomeModalVisible}
                   dismissWelcomeModal={dismissWelcomeModal}
+                  user={user}
                 />
               )}
 
