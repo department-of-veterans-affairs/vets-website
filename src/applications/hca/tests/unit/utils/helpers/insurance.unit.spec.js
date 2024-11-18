@@ -7,7 +7,7 @@ describe('hca `getInsuranceAriaLabel` method', () => {
     expect(getInsuranceAriaLabel(formData)).to.equal('insurance policy');
   });
 
-  it('should return the provider name & policy number when the policy number when provided', () => {
+  it('should return the provider name & policy number when the policy number is provided', () => {
     const formData = {
       insuranceName: 'Aetna',
       insurancePolicyNumber: '005588',
@@ -17,7 +17,7 @@ describe('hca `getInsuranceAriaLabel` method', () => {
     );
   });
 
-  it('should return the provider name & group code when the group code when provided', () => {
+  it('should return the provider name & group code when the group code is provided', () => {
     const formData = {
       insuranceName: 'Aetna',
       insuranceGroupCode: '005588',
