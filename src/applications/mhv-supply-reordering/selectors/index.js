@@ -4,6 +4,16 @@ import { isLOA3, isLoggedIn, isVAPatient } from '~/platform/user/selectors';
 
 import { MDOT_ERROR_CODES } from '../constants';
 
+const selectSupplies = state =>
+  state?.mdotInProgressForm?.formData?.supplies?.filter(
+    s => !!s?.availableForReorder,
+  ) || [];
+
+const selectUnavailableSupplies = state =>
+  state?.mdotInProgressForm?.formData?.supplies?.filter(
+    s => !s?.availableForReorder,
+  ) || [];
+
 const canReorderOn = state =>
   state?.mdotInProgressForm?.formData?.supplies
     ?.map(s => s?.nextAvailabilityDate)
@@ -33,6 +43,8 @@ export {
   isLOA3,
   isLoggedIn,
   isVAPatient,
+  selectSupplies,
+  selectUnavailableSupplies,
   signInServiceEnabled,
   showAlertDeceased,
   showAlertNoRecordForUser,

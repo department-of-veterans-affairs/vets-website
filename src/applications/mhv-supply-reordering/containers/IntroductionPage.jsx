@@ -9,11 +9,11 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { getMdotInProgressForm } from '../actions';
 import { TITLE, SUBTITLE } from '../constants';
 
+import VerifiedPrefillAlert from '../components/VerifiedPrefillAlert';
 import Alerts from './Alerts';
-
-const OMB_RES_BURDEN = 30;
-const OMB_NUMBER = '2346A';
-const OMB_EXP_DATE = '12/31/2025';
+import SuppliesAvailable from '../components/SuppliesAvailable';
+import SuppliesUnavailable from '../components/SuppliesUnavailable';
+import { selectSupplies, selectUnavailableSupplies } from '../selectors';
 
 const Loading = () => (
   <div className="vads-u-margin--5">
@@ -29,41 +29,33 @@ export const IntroductionPage = ({ route }) => {
     state?.user?.profile?.loading ||
     false;
 
+  const supplies = useSelector(selectSupplies);
+  const unavailableSupplies = useSelector(selectUnavailableSupplies);
+
   useEffect(() => focusElement('h1'), [loading]);
 
   useEffect(() => dispatch(getMdotInProgressForm()), [dispatch]);
-
-  const alerts = <Alerts />;
 
   if (loading) {
     return <Loading />;
   }
 
   return (
-    <article className="schemaform-intro">
+    <>
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for benefits.
-      </h2>
-      {alerts || (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={route.formConfig.prefillEnabled}
-          messages={route.formConfig.savedFormMessages}
-          pageList={route.pageList}
-          startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
-      <p />
-      <va-omb-info
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
+      <Alerts />
+      <SuppliesAvailable supplies={supplies} />
+      <SaveInProgressIntro
+        headingLevel={3}
+        prefillEnabled={route.formConfig.prefillEnabled}
+        messages={route.formConfig.savedFormMessages}
+        pageList={route.pageList}
+        startText="Start a new order"
+        formConfig={route.formConfig}
+        verifiedPrefillAlert={VerifiedPrefillAlert}
       />
-    </article>
+      <SuppliesUnavailable supplies={unavailableSupplies} />
+    </>
   );
 };
 

@@ -3,15 +3,20 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE as title, SUBTITLE as subTitle } from '../constants';
 import manifest from '../manifest.json';
+
+import contactInformation from '../pages/contactInformation';
+import selectSupplies from '../pages/selectSupplies';
+
+import EditAddress from '../components/EditAddress';
+import EditEmail from '../components/EditEmail';
+import getHelp from '../components/Help';
+
 import introduction from '../containers/IntroductionPage';
 import confirmation from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import getHelp from '../components/Help';
-
 import prefillTransformer from './prefillTransformer';
 
-const blankSchema = { type: 'object', properties: {} }; // eslint-disable-line no-unused-vars
+const blankSchema = { type: 'object', properties: {} };
 
 const savedFormMessages = {
   notFound: 'Please start over to reorder health care supplies.',
@@ -38,12 +43,50 @@ const customText = {
   // submitButtonText: '',
 };
 
-// const formOptions = {
-//   noTitle: true,
-//   noTopNav: true,
-//   noBottomNav: true,
-//   fullWidth: true,
-// };
+const chapters = {
+  contactInformationChapter: {
+    title: 'Contact information',
+    pages: {
+      contactInformation: {
+        path: 'contact-information',
+        title: 'Contact information',
+        uiSchema: contactInformation.uiSchema,
+        schema: contactInformation.schema,
+      },
+      editEmailAddress: {
+        title: 'Edit email address',
+        taskListHide: true,
+        path: 'edit-email-address',
+        CustomPage: EditEmail,
+        CustomPageReview: EditEmail,
+        depends: () => false,
+        uiSchema: {},
+        schema: blankSchema,
+      },
+      editMailingAddress: {
+        title: 'Edit mailing address',
+        taskListHide: true,
+        path: 'edit-mailing-address',
+        CustomPage: EditAddress,
+        CustomPageReview: EditAddress,
+        depends: () => false,
+        uiSchema: {},
+        schema: blankSchema,
+      },
+    },
+  },
+  selectSuppliesChapter: {
+    title: 'Select supplies',
+    pages: {
+      selectSupplies: {
+        path: 'select-supplies',
+        title: 'Select supplies',
+        uiSchema: selectSupplies.uiSchema,
+        schema: selectSupplies.schema,
+      },
+    },
+  },
+};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -55,12 +98,7 @@ const formConfig = {
   trackingPrefix: 'mhv-supply-reordering-',
   introduction,
   confirmation,
-  dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
-  },
   formId: VA_FORM_IDS.FORM_VA_2346A,
-  // formOptions,
   savedFormMessages,
   saveInProgress,
   version: 0,
@@ -70,19 +108,7 @@ const formConfig = {
   subTitle,
   customText,
   defaultDefinitions: {},
-  chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
-      pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-      },
-    },
-  },
+  chapters,
   getHelp,
   footerContent,
 };

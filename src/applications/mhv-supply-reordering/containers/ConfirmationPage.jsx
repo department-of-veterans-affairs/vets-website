@@ -70,11 +70,6 @@ export const ConfirmationPage = () => {
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov
       </a>
-
-      {/* <div className="help-footer-box">
-        <h2 className="help-heading">Need help?</h2>
-        <GetFormHelp />
-      </div> */}
     </div>
   );
 };
