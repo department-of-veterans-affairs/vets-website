@@ -211,3 +211,14 @@ export const getDataForBlueButton = () => {
     }, 1000);
   });
 };
+
+export const generateCCD = () => {
+  return apiRequest(`${apiBasePath}/medical_records/ccd/generate`, { headers });
+};
+
+export const downloadCCD = timestamp => {
+  window.open(
+    `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
+    'Download',
+  );
+};

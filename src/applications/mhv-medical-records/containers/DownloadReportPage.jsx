@@ -1,7 +1,11 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
+import { genAndDownloadCCD } from '../actions/downloads';
 
 const DownloadReportPage = () => {
+  const dispatch = useDispatch();
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -41,7 +45,10 @@ const DownloadReportPage = () => {
             You can download this report in .xml format, a standard file format
             that works with other providers’ medical records systems.
           </p>
-          <button className="link-button">
+          <button
+            className="link-button"
+            onClick={() => dispatch(genAndDownloadCCD())}
+          >
             <va-icon icon="file_download" size={3} /> Download .xml file
           </button>
         </va-accordion-item>
