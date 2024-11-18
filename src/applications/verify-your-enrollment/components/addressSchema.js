@@ -17,9 +17,7 @@ const initializeAddressLine1 = formData => {
 };
 
 const initializeAddressLine2 = formData => {
-  return formData?.addressLine2 !== undefined
-    ? formData?.addressLine2
-    : formData?.street2?.trim();
+  return formData?.street2 ?? '';
 };
 
 const cleanZipCode = zipcode => {
