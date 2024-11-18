@@ -141,6 +141,8 @@ class PatientMessageDetailsPage {
     singleThreadResponse = threadResponse,
     multiThreadsResponse = inboxMessages,
   ) => {
+    const singleMessageResponse = { data: {} };
+    singleMessageResponse.data = singleThreadResponse.data[0];
     cy.intercept(
       `GET`,
       `${Paths.SM_API_EXTENDED}/${
@@ -154,7 +156,7 @@ class PatientMessageDetailsPage {
       `${Paths.SM_API_EXTENDED}/${
         singleThreadResponse.data[0].attributes.messageId
       }`,
-      singleThreadResponse.data[0],
+      singleMessageResponse,
     ).as(`threadFirstMessageResponse`);
 
     cy.get(
@@ -300,22 +302,22 @@ class PatientMessageDetailsPage {
       .click({ waitforanimations: true });
   };
 
-  verifyMessageDetails = (messageDetails = mockMessage) => {
+  verifyMessageDetails = messageDetails => {
     cy.get(Locators.MSG_ID).should(
       'contain',
-      messageDetails.data.attributes.messageId,
+      messageDetails.data[0].attributes.messageId,
     );
     cy.get(Locators.FROM).should(
       'contain',
-      messageDetails.data.attributes.triageGroupName,
+      messageDetails.data[0].attributes.triageGroupName,
     );
     cy.get(Locators.FROM).should(
       'contain',
-      messageDetails.data.attributes.senderName,
+      messageDetails.data[0].attributes.senderName,
     );
     cy.get(Locators.TO).should(
       'contain',
-      messageDetails.data.attributes.recipientName,
+      messageDetails.data[0].attributes.recipientName,
     );
   };
 
