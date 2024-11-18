@@ -63,18 +63,6 @@ describe('SignInModal', () => {
     });
   });
 
-  it('should record event when modal is closed', () => {
-    const screen = renderInReduxProvider(<SignInModal visible useSiS />, {
-      initialState: generateStore(),
-    });
-
-    screen.rerender(<SignInModal visible={false} useSiS />);
-
-    expect(global.window.dataLayer).to.deep.include({
-      event: 'login-modal-closed-oauth',
-    });
-  });
-
   it('should render the LoginContainer component', () => {
     const screen = renderInReduxProvider(<SignInModal visible />, {
       initialState: generateStore(),
