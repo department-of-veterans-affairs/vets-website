@@ -8,12 +8,18 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { selectProfile } from '~/platform/user/selectors';
 
-import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
-// import ConfirmationPdfMessages from '../../shared/components/ConfirmationPdfMessages';
-import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
-
-import { boardReviewLabels } from '../content/boardReview';
+import { boardReviewConfirmationLabels } from '../content/boardReview';
 import { hearingTypeLabels } from '../content/hearingType';
+
+import {
+  ConfirmationTitle,
+  ConfirmationAlert,
+  ConfirmationReturnLink,
+} from '../../shared/components/ConfirmationCommon';
+import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
+import ConfirmationPdfMessages from '../../shared/components/ConfirmationPdfMessages';
+import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
+import { showValueOrNotSelected } from '../../shared/utils/confirmation';
 
 import { getReadableDate } from '../../shared/utils/dates';
 // import { NOD_PDF_DOWNLOAD_URL } from '../../shared/constants';
@@ -39,48 +45,43 @@ export const ConfirmationPageV2 = () => {
   const submitDate = getReadableDate(
     submission?.timestamp || new Date().toISOString(),
   );
+  // Fix this after Lighthouse sets up the download URL
+  const downloadUrl = ''; // NOD_PDF_DOWNLOAD_URL;
+
+  const alertTitle = 'Your Board Appeal request submission is in progress';
+  const alertContent = (
+    <p>
+      You submitted the request on {submitDate}. It can take a few days for the
+      Board to receive your request. We’ll send you a confirmation letter, once
+      we’ve processed your request.
+    </p>
+  );
 
   return (
-    <div>
-      <div className="print-only">
-        <img
-          src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-          alt="VA logo"
-          width="300"
-        />
-        <h2 className="vads-u-margin-top--0">Request a Board Appeal</h2>
-      </div>
-
-      <va-alert status="success" ref={alertRef} uswds>
-        <h2 slot="headline">
-          Your Board Appeal request submission is in progress
-          {/* You submitted your Board Appeal request on {submitDate} */}
-        </h2>
-        <p>
-          You submitted the request on {submitDate}. It can take a few days for
-          the Board to receive your request. We’ll send you a confirmation
-          letter, once we’ve processed your request.
-        </p>
-      </va-alert>
+    <>
+      <ConfirmationTitle pageTitle="Request a Board Appeal" />
+      <ConfirmationAlert alertTitle={alertTitle} alertContent={alertContent} />
 
       <div className="screen-only">
-        {/* <va-summary-box uswds class="vads-u-margin-top--2">
-          <h3 slot="headline" className="vads-u-margin-top--0">
-            Save a PDF copy of your Board Appeal request
-          </h3>
-          <p>
-            If you’d like to save a PDF copy of your completed Board Appeal
-            request for your records, you can download it now.
-          </p>
-          <p>
-            <ConfirmationPdfMessages pdfApi={NOD_PDF_DOWNLOAD_URL} />
-          </p>
-          <p>
-            <strong>Note:</strong> This PDF is for your records only. You’ve
-            already submitted your completed Board Appeal request. We ask that
-            you don’t send us another copy.
-          </p>
-        </va-summary-box> */}
+        {downloadUrl && (
+          <va-summary-box uswds class="vads-u-margin-top--2">
+            <h3 slot="headline" className="vads-u-margin-top--0">
+              Save a PDF copy of your Board Appeal request
+            </h3>
+            <p>
+              If you’d like to save a PDF copy of your completed Board Appeal
+              request for your records, you can download it now.
+            </p>
+            <p>
+              <ConfirmationPdfMessages pdfApi={downloadUrl} />
+            </p>
+            <p>
+              <strong>Note:</strong> This PDF is for your records only. You’ve
+              already submitted your completed Board Appeal request. We ask that
+              you don’t send us another copy.
+            </p>
+          </va-summary-box>
+        )}
 
         <h3>Print this confirmation page</h3>
         <p>
@@ -191,7 +192,45 @@ export const ConfirmationPageV2 = () => {
         veteran={data.veteran}
       />
 
-      <ConfirmationIssues data={data} />
+      <ConfirmationIssues data={data}>
+        <>
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              Are you requesting an extension?
+            </div>
+            <div
+              className="vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-dd-action-name="requesting an extension"
+            >
+              {showValueOrNotSelected(data.requestingExtension)}
+            </div>
+          </li>
+          {data.requestingExtension && (
+            <li>
+              <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+                Reason for extension
+              </div>
+              <div
+                className="vads-u-margin-bottom--2 dd-privacy-hidden"
+                data-dd-action-name="reason for extension"
+              >
+                {data.extensionReason}
+              </div>
+            </li>
+          )}
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              Are you appealing denial of VA health care benefits?
+            </div>
+            <div
+              className="vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-dd-action-name="is appealing VHA benefits"
+            >
+              {showValueOrNotSelected(data.appealingVHADenial)}
+            </div>
+          </li>
+        </>
+      </ConfirmationIssues>
 
       <h3 className="vads-u-margin-top--2">Board review options</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
@@ -199,26 +238,26 @@ export const ConfirmationPageV2 = () => {
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
         <li>
-          <div className="page-title vads-u-color--gray">
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
             Select a Board review option:
           </div>
           <div
-            className="page-value dd-privacy-hidden"
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
             data-dd-action-name="board review option"
           >
-            {boardReviewLabels[data.boardReviewOption] || ''}
+            {boardReviewConfirmationLabels[data.boardReviewOption] || ''}
           </div>
         </li>
         {data.boardReviewOption === 'evidence_submission' &&
           data.evidence.length && (
             <li>
-              <div className="page-title vads-u-color--gray">
+              <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
                 Uploaded evidence
               </div>
               {data.evidence?.map((file, index) => (
                 <div
                   key={index}
-                  className="page-value dd-privacy-hidden"
+                  className="vads-u-margin-bottom--2 dd-privacy-hidden"
                   data-dd-action-name="evidence file name"
                 >
                   {file.name}
@@ -229,9 +268,11 @@ export const ConfirmationPageV2 = () => {
         {data.boardReviewOption === 'hearing' && (
           <>
             <li>
-              <div className="page-title vads-u-color--gray">Hearing Type</div>
+              <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+                Hearing Type
+              </div>
               <div
-                className="page-value dd-privacy-hidden"
+                className="vads-u-margin-bottom--2 dd-privacy-hidden"
                 data-dd-action-name="hearing type"
               >
                 {hearingTypeLabels[data.hearingTypePreference]}
@@ -240,19 +281,14 @@ export const ConfirmationPageV2 = () => {
           </>
         )}
       </ul>
-      <div className="screen-only vads-u-margin-top--4">
-        <a className="vads-c-action-link--green" href="/">
-          Go back to VA.gov
-        </a>
-      </div>
-    </div>
+
+      <ConfirmationReturnLink />
+    </>
   );
 };
 
 ConfirmationPageV2.propTypes = {
-  alertDescription: PropTypes.element,
-  alertTitle: PropTypes.string,
-  children: PropTypes.array,
+  children: PropTypes.element,
   form: PropTypes.shape({
     data: PropTypes.shape({}),
     formId: PropTypes.string,
@@ -260,13 +296,6 @@ ConfirmationPageV2.propTypes = {
       timestamp: PropTypes.instanceOf(Date),
     }),
   }),
-  name: PropTypes.shape({
-    first: PropTypes.string,
-    middle: PropTypes.string,
-    last: PropTypes.string,
-    suffix: PropTypes.string,
-  }),
-  pageTitle: PropTypes.string,
 };
 
 export default ConfirmationPageV2;
