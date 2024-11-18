@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-const delay = require('mocker-api/lib/delay');
+const delay = require('mocker-api/lib/delay'); // eslint-disable-line no-unused-vars
 
 const featureToggles = require('./feature-toggles');
 const inProgressFormsMdot = require('./in-progress-forms/mdot');

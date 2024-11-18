@@ -9,7 +9,9 @@ import confirmation from '../containers/ConfirmationPage';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import getHelp from '../components/Help';
 
-const blankSchema = { type: 'object', properties: {} };
+import prefillTransformer from './prefillTransformer';
+
+const blankSchema = { type: 'object', properties: {} }; // eslint-disable-line no-unused-vars
 
 const savedFormMessages = {
   notFound: 'Please start over to reorder health care supplies.',
@@ -27,6 +29,22 @@ const saveInProgress = {
   },
 };
 
+const customText = {
+  // appSavedSuccessfullyMessage: '',
+  appType: 'order',
+  // continueAppButtonText: '',
+  // reviewPageTitle: '',
+  // startNewAppButtonText: '',
+  // submitButtonText: '',
+};
+
+// const formOptions = {
+//   noTitle: true,
+//   noTopNav: true,
+//   noBottomNav: true,
+//   fullWidth: true,
+// };
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -42,12 +60,15 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_VA_2346A,
+  // formOptions,
   savedFormMessages,
   saveInProgress,
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   title,
   subTitle,
+  customText,
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter: {

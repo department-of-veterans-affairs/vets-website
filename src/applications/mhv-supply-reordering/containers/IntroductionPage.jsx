@@ -1,68 +1,43 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+
+import { getMdotInProgressForm } from '../actions';
 import { TITLE, SUBTITLE } from '../constants';
+
+import Alerts from './Alerts';
 
 const OMB_RES_BURDEN = 30;
 const OMB_NUMBER = '2346A';
 const OMB_EXP_DATE = '12/31/2025';
 
-const ProcessList = () => {
-  return (
-    <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
-        <ul>
-          <li>Social Security number (required)</li>
-        </ul>
-        <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
-        <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="VA Review">
-        <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
-        </p>
-      </va-process-list-item>
-    </va-process-list>
-  );
-};
+const Loading = () => (
+  <div className="vads-u-margin--5">
+    <va-loading-indicator message="Please wait while we load your information..." />
+  </div>
+);
 
-export const IntroductionPage = props => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
-  const { route } = props;
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
+export const IntroductionPage = ({ route }) => {
+  const dispatch = useDispatch();
+  const state = useSelector(s => s);
+  const loading =
+    state?.mdotInProgressForm?.loading ||
+    state?.user?.profile?.loading ||
+    false;
 
-  useEffect(() => {
-    scrollToTop();
-    focusElement('h1');
-  }, []);
+  useEffect(() => focusElement('h1'), [loading]);
+
+  useEffect(() => dispatch(getMdotInProgressForm()), [dispatch]);
+
+  const alerts = <Alerts />;
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <article className="schemaform-intro">
@@ -70,15 +45,12 @@ export const IntroductionPage = props => {
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for benefits.
       </h2>
-      <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
+      {alerts || (
         <SaveInProgressIntro
           headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
+          prefillEnabled={route.formConfig.prefillEnabled}
+          messages={route.formConfig.savedFormMessages}
+          pageList={route.pageList}
           startText="Start the application"
           devOnly={{
             forceShowFormControls: true,
