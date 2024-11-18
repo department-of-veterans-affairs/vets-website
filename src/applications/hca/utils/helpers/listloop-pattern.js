@@ -7,13 +7,14 @@
  */
 export function getDataToSet(props) {
   const { slices, dataKey, localData, listRef, viewFields } = props;
-  return localData === null
-    ? { [dataKey]: listRef, [viewFields.report]: null, [viewFields.skip]: true }
-    : {
-        [dataKey]: [...slices.beforeIndex, localData, ...slices.afterIndex],
-        [viewFields.report]: null,
-        [viewFields.skip]: true,
-      };
+  const dataToSet = localData
+    ? [...slices.beforeIndex, localData, ...slices.afterIndex]
+    : listRef;
+  return {
+    [dataKey]: dataToSet,
+    [viewFields.report]: null,
+    [viewFields.skip]: true,
+  };
 }
 
 /**
