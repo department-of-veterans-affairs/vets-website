@@ -1,3 +1,4 @@
+const { cloneDeep, set } = require('lodash');
 const { USER } = require('../../constants/user');
 
 const loa3User = {
@@ -261,4 +262,26 @@ const loa3User = {
   },
 };
 
-module.exports = { loa3User };
+const loa3UserWithUpdatedHomePhone = set(
+  cloneDeep(loa3User),
+  'data.attributes.vet360ContactInformation.homePhone.phoneNumber',
+  '8985555',
+);
+
+const loa3UserWithUpdatedHomePhoneTimeStamp = set(
+  cloneDeep(loa3UserWithUpdatedHomePhone),
+  'data.attributes.vet360ContactInformation.homePhone.updatedAt',
+  '2023-03-11T16:31:56.000Z',
+);
+
+const loa3UserWithUpdatedMailingAddress = set(
+  cloneDeep(loa3User),
+  'data.attributes.vet360ContactInformation.mailingAddress.addressLine1',
+  '345 Mailing Address St.',
+);
+
+module.exports = {
+  loa3User,
+  loa3UserWithUpdatedHomePhoneTimeStamp,
+  loa3UserWithUpdatedMailingAddress,
+};
