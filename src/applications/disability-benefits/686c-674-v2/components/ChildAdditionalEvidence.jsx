@@ -1,12 +1,15 @@
 import React from 'react';
+// import {useSelector} from "react-redux";
 
-export const ChildAdditionalEvidence = _args => {
-  // console.log(args);
+export const ChildAdditionalEvidence = () => {
+  // const formData = useSelector(state => {
+  //   return state?.form?.data || {};
+  // });
   return (
     <div>
       <p>
         Based on your answers, you’ll need to submit supporting evidence to add
-        [child’s name] as your dependent.
+        this child as your dependent.
       </p>
       <p>
         You can upload your files online now, or send us your documents later.
@@ -33,9 +36,15 @@ export const ChildAdditionalEvidence = _args => {
             <li>
               A copy of one of these documents:
               <ul>
-                <li>The final decree of adoption, or</li>
-                <li>The adoptive placement agreement, or</li>
-                <li>The interlocutory decree of adoptions, or</li>
+                <li>
+                  The final decree of adoption, <strong>or</strong>
+                </li>
+                <li>
+                  The adoptive placement agreement, <strong>or</strong>
+                </li>
+                <li>
+                  The interlocutory decree of adoptions, <strong>or</strong>
+                </li>
                 <li>The revised birth certificate</li>
               </ul>
             </li>
