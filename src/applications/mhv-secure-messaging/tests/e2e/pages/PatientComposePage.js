@@ -306,7 +306,7 @@ class PatientComposePage {
     cy.get(Locators.BUTTONS.CONTINUE_EDITING)
       .parent()
       .find('va-button[text="Delete draft"]')
-      .click();
+      .click({ force: true });
   };
 
   clickOnContinueEditingButton = () => {
@@ -342,7 +342,7 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
-      .select(recipient)
+      .select(recipient, { force: true })
       .should('contain', mockRecipients.data[0].attributes.name);
   };
 

@@ -13,7 +13,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Inbox', () => {
     PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
     PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory();
     PatientComposePage.enterDataToMessageSubject();
