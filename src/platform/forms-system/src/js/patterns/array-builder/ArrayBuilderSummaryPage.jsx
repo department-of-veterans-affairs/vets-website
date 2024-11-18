@@ -152,7 +152,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         // We shouldn't persist the 'yes' answer after an item is entered/cancelled
         // We should ask the yes/no question again after an item is entered/cancelled
         // Since it is required, it shouldn't be left null/undefined
-        if (props.data?.[hasItemsKey]) {
+        if (!isReviewPage && props.data?.[hasItemsKey]) {
           props.setData({ ...props.data, [hasItemsKey]: undefined });
         }
       };
@@ -283,8 +283,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       // so we can go ahead and remove it if there is a new
       // alert
       setShowUpdatedAlert(false);
-
-      setRemovedItemText(getText('alertItemDeleted', item, props.data));
+      setRemovedItemText(getText('alertItemDeleted', item, props.data, index));
       setRemovedItemIndex(index);
       setShowRemovedAlert(true);
       requestAnimationFrame(() => {
@@ -324,7 +323,12 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
               onDismiss={onDismissUpdatedAlert}
               nounSingular={nounSingular}
               index={updateItemIndex}
-              text={getText('alertItemUpdated', updatedItemData, props.data)}
+              text={getText(
+                'alertItemUpdated',
+                updatedItemData,
+                props.data,
+                updateItemIndex,
+              )}
             />
           ) : null}
         </div>
@@ -376,6 +380,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
             'cardDescription',
             updatedItemData,
             props.data,
+            updateItemIndex,
           )}
           arrayPath={arrayPath}
           nounSingular={nounSingular}
@@ -423,7 +428,12 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           )}
           {isMaxItemsReached && (
             <MaxItemsAlert>
-              {getText('alertMaxItems', updatedItemData, props.data)}
+              {getText(
+                'alertMaxItems',
+                updatedItemData,
+                props.data,
+                updateItemIndex,
+              )}
             </MaxItemsAlert>
           )}
         </>

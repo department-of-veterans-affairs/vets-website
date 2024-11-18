@@ -66,6 +66,8 @@ export const branchesOfService = [
 export const CategoryEducation = 'Education benefits and work study';
 export const CategoryVeteranReadinessAndEmployment =
   'Veteran Readiness and Employment';
+export const CategoryGuardianshipCustodianshipFiduciaryIssues =
+  'Guardianship, custodianship, or fiduciary issues';
 export const TopicVeteranReadinessAndEmploymentChapter31 =
   'Veteran Readiness and Employment (Chapter 31)';
 
@@ -597,3 +599,6 @@ export const breadcrumbsDictionary = {
 
 // Health care label is currently different on local/dev and staging (pulling from CRM updated list)
 export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];
+
+// Define the states requiring postal code
+export const statesRequiringPostalCode = ['CA', 'NY', 'PA', 'TX'];
