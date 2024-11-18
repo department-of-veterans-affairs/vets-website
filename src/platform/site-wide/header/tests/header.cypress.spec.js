@@ -74,7 +74,7 @@ describe('global header', () => {
           h.clickButton(menuSelector);
           menuAndCloseButton().contains('Close');
 
-          h.verifyText('[for="header-search"]', 'Search');
+          h.verifyText('[for="search-header-dropdown-input-field"]', 'Search');
           verifyElement('#search-header-dropdown-component');
 
           const searchContainer = () =>

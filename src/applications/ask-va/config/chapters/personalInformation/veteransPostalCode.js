@@ -7,7 +7,7 @@ const veteransPostalCodePage = {
   uiSchema: {
     ...titleUI(CHAPTER_3.VETERANS_POSTAL_CODE.TITLE),
     'ui:objectViewField': PageFieldSummary,
-    veteranPostalCode: {
+    veteransPostalCode: {
       'ui:title': CHAPTER_3.VETERANS_POSTAL_CODE.QUESTION_4,
       'ui:required': () => true,
       'ui:description': PostalCodeHint,
@@ -22,7 +22,7 @@ const veteransPostalCodePage = {
     type: 'object',
     required: [],
     properties: {
-      veteranPostalCode: {
+      veteransPostalCode: {
         type: 'string',
         maxLength: 10,
         pattern: '^[0-9]{5}(?:-[0-9]{4})?$',
