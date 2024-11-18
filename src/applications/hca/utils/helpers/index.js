@@ -1,5 +1,5 @@
 import mapValues from 'lodash/mapValues';
-import { endOfDay, isAfter, isValid, isWithinInterval } from 'date-fns';
+import { endOfDay, isAfter } from 'date-fns';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 import set from 'platform/utilities/data/set';
 import recordEvent from 'platform/monitoring/record-event';
@@ -199,25 +199,6 @@ export function normalizeFullName(name = {}, outputMiddle = false) {
     ? `${first} ${middle !== null ? middle : ''} ${last} ${suffix}`
     : `${first} ${last} ${suffix}`;
   return nameToReturn.replace(/ +(?= )/g, '').trim();
-}
-
-/**
- * Helper that builds a full name string based on provided input values
- * @param {String} birthdate - the value of the user's date of birth from the profile data
- * @returns {String/NULL} - NULL if the passed-in value is not valid else the
- * formatted string value of the date (YYYY-MM-DD)
- */
-export function parseVeteranDob(birthdate) {
-  if (!birthdate) return null;
-  if (!isValid(new Date(birthdate))) return null;
-  if (
-    !isWithinInterval(new Date(birthdate), {
-      start: new Date('1900-01-01'),
-      end: endOfDay(new Date()),
-    })
-  )
-    return null;
-  return birthdate;
 }
 
 /**
