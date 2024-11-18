@@ -11,9 +11,17 @@ import {
 import { blockURLsRegEx } from '../constants';
 
 const initializeAddressLine1 = formData => {
-  return formData?.addressLine1 !== undefined
-    ? formData?.addressLine1
-    : formData?.street?.trim();
+  if (formData && formData.street) {
+    return formData.street.trim();
+  }
+  return '';
+};
+
+const initializeAddressLine2 = formData => {
+  if (formData && formData.street2) {
+    return formData.street2.trim();
+  }
+  return '';
 };
 
 const cleanZipCode = zipcode => {
@@ -73,7 +81,7 @@ export const getFormSchema = (formData = {}) => {
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
-        default: formData?.addressLine2,
+        default: initializeAddressLine2(formData),
       },
       addressLine3: {
         type: 'string',
