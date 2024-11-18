@@ -320,3 +320,20 @@
 .inst-remove-btn::part(button) {
   background-color: transparent;
 }
+.search-container {
+  va-text-input::part(input) {
+    width: 100%;
+    min-width: 576px;
+  }
+
+  @media (max-width: 1024px) {
+    va-text-input::part(input) {
+      min-width: 420px;
+    }
+  }
+  @media (max-width: 480px) {
+    va-text-input::part(input) {
+      min-width: 100%;
+    }
+  }
+}

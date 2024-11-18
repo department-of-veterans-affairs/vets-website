@@ -852,6 +852,7 @@ export const formPages = {
     mailingAddress: 'mailingAddress',
     mailingAddressMilitaryBaseUpdates: 'mailingAddressMilitaryBaseUpdates',
     preferredContactMethod: 'preferredContactMethod',
+    newPreferredContactMethod: 'newPreferredContactMethod',
   },
   serviceHistory: 'serviceHistory',
   benefitSelectionLegacy: 'benefitSelectionLegacy',
@@ -891,7 +892,7 @@ export const formPages = {
       additionalInfo: {
         trigger: 'What is Senior ROTC?',
         info:
-          'Were you commissioned as the result of a Senior ROTC (Reserve Officers Training Corps) scholarship? If "Yes," please check "Yes". If you received your commission through a non-scholarship program, please check "No."',
+          'The Senior Reserve Officer Training CORPS (SROTC) - more commonly referred to as the Reserve Officer Training Corps (ROTC) - is an officer training and scholarship program for post-secondary students authorized under Chapter 103 of Title 10 of the United States Code. If you were commissioned through this, please check "Yes". If you received your commission through a non-scholarship program, please check "No".',
       },
     },
     loanPayment: {

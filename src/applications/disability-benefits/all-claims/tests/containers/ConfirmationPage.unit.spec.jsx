@@ -43,13 +43,13 @@ const getData = ({
 describe('ConfirmationPage', () => {
   const defaultProps = {
     fullName: {
-      first: 'First',
-      middle: 'M',
-      last: 'Last',
+      first: 'Hector',
+      middle: 'Lee',
+      last: 'Brooks',
       suffix: 'Sr.',
     },
     disabilities: ['something something', undefined],
-    submittedAt: Date.now(),
+    submittedAt: new Date('November, 7, 2024'),
     route: {
       formConfig,
       pageList: [],
@@ -207,25 +207,156 @@ describe('ConfirmationPage', () => {
     tree.unmount();
   });
 
-  // new confirmation page toggle on
-  it('should render new confirmation page when submission succeeded with claim id', () => {
-    const store = mockStore(
-      getData({
-        disability526NewConfirmationPage: true,
-      }),
-    );
-    const props = {
-      ...defaultProps,
-      claimId: '123456789',
-      submissionStatus: submissionStatuses.succeeded,
-    };
+  describe('new confirmation page (toggle enabled)', () => {
+    // new confirmation page toggle on
+    it('should render new confirmation page when submission succeeded with claim id', () => {
+      const store = mockStore(
+        getData({
+          disability526NewConfirmationPage: true,
+        }),
+      );
+      const props = {
+        ...defaultProps,
+        claimId: '123456789',
+        submissionStatus: submissionStatuses.succeeded,
+      };
 
-    const tree = render(
-      <Provider store={store}>
-        <ConfirmationPage {...props} />
-      </Provider>,
-    );
+      const { container, getByText, queryByText } = render(
+        <Provider store={store}>
+          <ConfirmationPage {...props} />
+        </Provider>,
+      );
 
-    tree.getByText('Form submission started on', { exact: false });
+      expect(queryByText(bddConfirmationHeadline)).to.not.exist;
+
+      // success alert
+      getByText('Form submission started on', { exact: false });
+      getByText('Your submission is in progress.', {
+        exact: false,
+      });
+
+      // summary box with claim info
+      getByText('Disability Compensation Claim');
+      getByText('For Hector Lee Brooks Sr.');
+      getByText('Date submitted');
+      getByText('November 7, 2024');
+      getByText('Conditions claimed');
+      getByText('Something Something');
+      getByText('Unknown Condition');
+      getByText('Claim ID number');
+      getByText(props.claimId);
+
+      // rest of sections are present
+      getByText('Print this confirmation page');
+      getByText('What to expect');
+      getByText('How to contact us if you have questions');
+      getByText('How long will it take VA to make a decision on my claim?');
+      getByText('If I have dependents, how can I receive additional benefits?');
+      getByText('Need help?');
+
+      // links
+      expect(container.querySelectorAll('va-link')).to.have.lengthOf(5);
+      const link = container.querySelectorAll('va-link')[1];
+      expect(link.getAttribute('download')).to.exist;
+      expect(link.getAttribute('filetype')).to.equal('PDF');
+      expect(link.getAttribute('href')).to.equal(
+        'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
+      );
+      expect(link.getAttribute('pages')).to.equal('15');
+      expect(link.getAttribute('text')).to.equal(
+        'Download VA Form 21-686c (opens in new tab)',
+      );
+    });
+
+    it('should render new confirmation page when submission succeeded with no claim id', () => {
+      const store = mockStore(
+        getData({
+          disability526NewConfirmationPage: true,
+        }),
+      );
+      const props = {
+        ...defaultProps,
+        submissionStatus: submissionStatuses.succeeded,
+      };
+
+      const { container, getByText, queryByText } = render(
+        <Provider store={store}>
+          <ConfirmationPage {...props} />
+        </Provider>,
+      );
+
+      // success alert
+      getByText('Form submission started on', { exact: false });
+      getByText('Your submission is in progress.', {
+        exact: false,
+      });
+
+      // summary box with claim info
+      getByText('Disability Compensation Claim');
+      getByText('For Hector Lee Brooks Sr.');
+      getByText('Date submitted');
+      getByText('November 7, 2024');
+      getByText('Conditions claimed');
+      getByText('Something Something');
+      getByText('Unknown Condition');
+      expect(queryByText('Claim ID number')).to.not.exist;
+
+      // rest of sections are present
+      getByText('Print this confirmation page');
+      getByText('What to expect');
+      getByText('How to contact us if you have questions');
+      getByText('How long will it take VA to make a decision on my claim?');
+      getByText('If I have dependents, how can I receive additional benefits?');
+      getByText('Need help?');
+      expect(container.querySelectorAll('va-link')).to.have.lengthOf(5);
+    });
+
+    it('should render success with BDD SHA alert when submission succeeded with claim id for BDD', () => {
+      const store = mockStore(
+        getData({
+          disability526NewConfirmationPage: true,
+        }),
+      );
+      const props = {
+        ...defaultProps,
+        claimId: '123456789',
+        submissionStatus: submissionStatuses.succeeded,
+      };
+
+      const { container, getByText } = render(
+        <Provider store={store}>
+          <ConfirmationPage {...props} isSubmittingBDD />
+        </Provider>,
+      );
+
+      // success alert
+      getByText('Form submission started on', { exact: false });
+      getByText('Your submission is in progress.', {
+        exact: false,
+      });
+      getByText(bddConfirmationHeadline);
+
+      // summary box with claim info
+      getByText('Disability Compensation Claim');
+      getByText('For Hector Lee Brooks Sr.');
+      getByText('Date submitted');
+      getByText('November 7, 2024');
+      getByText('Conditions claimed');
+      getByText('Something Something');
+      getByText('Unknown Condition');
+      getByText('Claim ID number');
+      getByText(props.claimId);
+
+      // rest of sections are present
+      getByText('Print this confirmation page');
+      getByText('What to expect');
+      getByText('How to contact us if you have questions');
+      getByText('How long will it take VA to make a decision on my claim?');
+      getByText('If I have dependents, how can I receive additional benefits?');
+      getByText('Need help?');
+
+      // links
+      expect(container.querySelectorAll('va-link')).to.have.lengthOf(5);
+    });
   });
 });
