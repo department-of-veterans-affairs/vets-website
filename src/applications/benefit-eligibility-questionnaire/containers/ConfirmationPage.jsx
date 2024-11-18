@@ -34,6 +34,8 @@ export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
 
+    const queryString = window.location.search;
+
     this.state = {
       hasResults: false,
       resultsCount: 0,
@@ -44,6 +46,7 @@ export class ConfirmationPage extends React.Component {
       benefits: [],
       benefitsList: BENEFITS_LIST,
       showMobileFilters: false,
+      currentQueryString: queryString,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -369,7 +372,9 @@ export class ConfirmationPage extends React.Component {
                 onClick={this.filterAndSort}
               />
               <va-link-action
-                href="/benefit-eligibility-questionnaire/all-benefits/"
+                href={`/benefit-eligibility-questionnaire/all-benefits${
+                  this.state.currentQueryString
+                }`}
                 message-aria-describedby="Show every benefit in this tool"
                 text="Show every benefit&#10;in this tool"
                 data-testid="show-all-benefits"

@@ -27,6 +27,8 @@ export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
 
+    const queryString = window.location.search;
+
     this.state = {
       hasResults: false,
       resultsCount: 0,
@@ -37,6 +39,7 @@ export class ConfirmationPage extends React.Component {
       benefits: [],
       benefitsList: BENEFITS_LIST,
       showMobileFilters: false,
+      currentQueryString: queryString,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -197,6 +200,15 @@ export class ConfirmationPage extends React.Component {
             </p>
           </div>
         </article>
+        <va-link
+          href={`/benefit-eligibility-questionnaire/confirmation${
+            this.state.currentQueryString
+          }`}
+          message-aria-describedby="Show every benefit in this tool"
+          text="Get my recommended benefits"
+          data-testid="get-my-benefits"
+          external
+        />
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
         <div id="results-container" className="vads-l-grid-container">
