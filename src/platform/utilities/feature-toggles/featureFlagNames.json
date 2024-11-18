@@ -294,5 +294,6 @@
   "showYellowRibbonTable": "show_yellow_ribbon_table",
   "showLcInComparisonTool": "show_lc_in_comparison_tool",
   "giComparisonToolShowRatings": "gi_comparison_tool_show_ratings",
-  "fsrWizard": "fsr_wizard"
+  "fsrWizard": "fsr_wizard",
+  "isDGIBEndpoint": "is_DGIB_endpoint"
 }
