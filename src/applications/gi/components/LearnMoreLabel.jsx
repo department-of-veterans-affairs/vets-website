@@ -59,7 +59,7 @@ export default function LearnMoreLabel({
         <VaButton
           text="(Learn more)"
           id={buttonId}
-          aria-label={ariaLabel}
+          label={ariaLabel}
           className={`learn-more-btn ${bold ? 'learn-more-bold-text' : ''}`}
           onClick={onClick}
         />

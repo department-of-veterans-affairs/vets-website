@@ -320,35 +320,3 @@
 .inst-remove-btn::part(button) {
   background-color: transparent;
 }
-.search-tabs {
-  padding-top: 10px;
-  margin-top: 0;
-}
-.search-tabs::part(button),
-.mob-search-tab::part(button) {
-  background: transparent;
-  color: rgb(117, 117, 117);
-  font-size: 25px;
-  outline: none;
-  border: 0;
-}
-.tab-active::part(button) {
-  color: rgb(61, 69, 81);
-}
-.mob-search-tab::part(button) {
-  color: rgb(61, 69, 81);
-  font-size: 1rem;
-  width: fit-content;
-  padding: 0;
-}
-.accordions-btns::part(button) {
-  background: transparent;
-  color: rgb(27, 27, 27);
-  font-size: 1.2rem;
-  outline: none;
-  border: 0;
-  width: fit-content;
-  padding: 0;
-  line-height: 1.5;
-  text-align: left;
-}

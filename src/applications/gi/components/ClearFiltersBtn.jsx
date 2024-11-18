@@ -7,7 +7,6 @@ import { filterChange } from '../actions';
 function ClearFiltersBtn({
   filters,
   dispatchFilterChange,
-  testId,
   onKeyDown,
   onClick,
   className,
@@ -52,13 +51,12 @@ function ClearFiltersBtn({
   return (
     <>
       <VaButton
-        role="button"
-        text="Reset search"
         secondary
+        text="Reset search"
         className={className}
         onClick={clearAllFilters}
         onKeyDown={onKeyDown}
-        data-testid={testId}
+        data-testid="clear-button"
       />
     </>
   );
@@ -77,7 +75,6 @@ ClearFiltersBtn.propTypes = {
   dispatchFilterChange: PropTypes.func,
   filters: PropTypes.object,
   smallScreen: PropTypes.bool,
-  testId: PropTypes.string,
   title: PropTypes.string,
   onClick: PropTypes.func,
   onKeyDown: PropTypes.func,

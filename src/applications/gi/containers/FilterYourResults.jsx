@@ -526,9 +526,7 @@ export function FilterYourResults({
               <ClearFiltersBtn
                 className="reset-search-small-screen"
                 smallScreen={smallScreen}
-              >
-                Reset search
-              </ClearFiltersBtn>
+              />
             )}
           </div>
         </div>

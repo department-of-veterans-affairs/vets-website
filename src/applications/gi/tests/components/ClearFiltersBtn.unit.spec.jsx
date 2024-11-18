@@ -43,7 +43,7 @@ describe('<ClearFiltersBtn />', () => {
         },
       },
     );
-    const button = screen.getByRole('button');
+    const button = screen.getByTestId('clear-button');
     fireEvent.click(button);
     expect(dispatchFilterChangeSpy.calledOnce).to.be.false;
     expect(
@@ -66,7 +66,7 @@ describe('<ClearFiltersBtn />', () => {
         },
       },
     );
-    const button = screen.queryByRole('button');
+    const button = screen.getByTestId('clear-button');
     expect(button).to.not.have.class('clear-filters-button');
   });
   /*
@@ -102,7 +102,7 @@ describe('<ClearFiltersBtn />', () => {
         },
       },
     );
-    const button = screen.getByRole('button');
+    const button = screen.getByTestId('clear-button');
     expect(button).not.to.have.class('clear-filters-btn');
   });
 });

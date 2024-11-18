@@ -44,16 +44,19 @@ export default function SearchAccordion({
 
     return (
       <h2 className={headerClasses}>
-        <VaButton
-          role="button"
-          text={button}
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+        <button
           id={`${id}-button`}
           onClick={toggle}
-          className="usa-accordion-button vads-u-font-size--md accordions-btns"
+          className="usa-accordion-button vads-u-font-size--md"
           aria-expanded={isExpanded}
           aria-controls={id}
           data-testid="update-tuition-housing"
-        />
+        >
+          <span className="vads-u-font-family--serif accordion-button-text">
+            {button}
+          </span>
+        </button>
       </h2>
     );
   };
@@ -115,11 +118,8 @@ export default function SearchAccordion({
           {isProductionOrTestProdEnv() && (
             <ClearFiltersBtn
               onClick={dispatchFocusSearch}
-              testId="clear-button"
               className={`clear-filters-button-after ${clearFiltersButton}`}
-            >
-              Reset search
-            </ClearFiltersBtn>
+            />
           )}
         </div>
       )}

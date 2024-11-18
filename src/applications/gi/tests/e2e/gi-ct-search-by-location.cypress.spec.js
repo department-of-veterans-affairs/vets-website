@@ -1,7 +1,6 @@
 import data from '../data/calculator-constants.json';
 
 describe('go bill CT before search by location', () => {
-  Cypress.Commands.overwrite('injectAxeThenAxeCheck', () => {});
   beforeEach(() => {
     cy.intercept('GET', 'v1/gi/calculator_constants', {
       statusCode: 200,
@@ -9,7 +8,7 @@ describe('go bill CT before search by location', () => {
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.visit('education/gi-bill-comparison-tool/');
-    cy.get('va-button[data-testid="Search-by-location"]').click();
+    cy.get('button[data-testid="Search-by-location"]').click();
   });
   it('should go to search by location when location Tab is clicked', () => {
     cy.injectAxeThenAxeCheck();

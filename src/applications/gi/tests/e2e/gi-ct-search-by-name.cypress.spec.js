@@ -1,7 +1,6 @@
 import data from '../data/calculator-constants.json';
 
 describe('go bill CT before search by name', () => {
-  Cypress.Commands.overwrite('injectAxeThenAxeCheck', () => {});
   beforeEach(() => {
     cy.intercept('GET', 'v1/gi/calculator_constants', {
       statusCode: 200,

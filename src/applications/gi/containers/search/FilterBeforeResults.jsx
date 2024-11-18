@@ -810,12 +810,9 @@ export function FilterBeforeResults({
               text="Apply filters"
             />
             <ClearFiltersBtn
-              testId="clear-button"
               className="vads-u-margin-left--2"
               onClick={onApplyFilterClick}
-            >
-              Reset search
-            </ClearFiltersBtn>
+            />
           </div>
           <div
             id="learn-more-about-specialized-missions-accordion-button"
