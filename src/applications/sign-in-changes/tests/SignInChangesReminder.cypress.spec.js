@@ -21,7 +21,7 @@ describe('Interstitial Changes Page', () => {
 
     it('displays a loading indicator', () => {
       cy.get('va-loading-indicator').should('be.visible');
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 
@@ -34,7 +34,7 @@ describe('Interstitial Changes Page', () => {
     it('displays an unauthorized error message', () => {
       cy.get('va-alert').should('have.attr', 'status', 'error');
       cy.contains('401: Not authorized').should('be.visible');
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 
@@ -120,7 +120,7 @@ describe('Interstitial Changes Page', () => {
     });
 
     it('navigates to the return URL', () => {
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
       cy.get('#interstitialVaLink')
         .should('be.visible')
         .click();
