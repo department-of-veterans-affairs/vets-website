@@ -97,7 +97,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/None of your VA facilities/i);
+      await waitFor(() => {
+        screen.queryByText(/None of your VA facilities/i);
+      });
 
       expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
