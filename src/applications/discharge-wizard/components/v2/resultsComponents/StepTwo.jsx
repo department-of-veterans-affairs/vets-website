@@ -171,7 +171,7 @@ const StepTwo = ({ formResponses }) => {
         </p>
         {/* Intentionally not using <va-link> per Platform Analytics team */}
         <a
-          href="https://www.va.gov/find-forms/about-form-21-4138/"
+          href="http://www.vba.va.gov/pubs/forms/VBA-21-4138-ARE.pdf"
           target="_blank"
           rel="noopener noreferrer"
         >
