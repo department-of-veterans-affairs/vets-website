@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { subYears } from 'date-fns';
 import {
   includeSpousalInformation,
   includeHouseholdInformation,
@@ -304,7 +305,7 @@ describe('ezr form config helpers', () => {
         const formDataWithLatestPossibleDate = {
           gulfWarService: true,
           hasTeraResponse: true,
-          veteranDateOfBirth: new Date().getFullYear() - 15,
+          veteranDateOfBirth: subYears(new Date(), 15),
         };
         it('returns `true`', () => {
           expect(includeGulfWarServiceDates(formDataWithLatestPossibleDate)).to
@@ -466,7 +467,7 @@ describe('ezr form config helpers', () => {
 
         const formDataWithLatestPossibleDate = {
           hasTeraResponse: true,
-          veteranDateOfBirth: new Date().getFullYear() - 15,
+          veteranDateOfBirth: subYears(new Date(), 15),
         };
         it('returns `true`', () => {
           expect(
@@ -507,7 +508,7 @@ describe('ezr form config helpers', () => {
 
         const formDataWithLatestPossibleDate = {
           hasTeraResponse: true,
-          veteranDateOfBirth: new Date().getFullYear() - 15,
+          veteranDateOfBirth: subYears(new Date(), 15),
         };
         it('returns `true`', () => {
           expect(
