@@ -12,20 +12,21 @@ const mockStore = configureStore([thunk]);
 
 describe('ProgramsList component', () => {
   let store;
+  const initialState = {
+    institutionPrograms: {
+      institutionPrograms: Array.from({ length: 30 }, (_, index) => ({
+        id: index + 1,
+        attributes: {
+          description: `Program ${index + 1}`,
+          institutionName: `Institution ${index + 1}`,
+        },
+      })),
+      loading: false,
+      error: null,
+    },
+  };
   beforeEach(() => {
-    store = mockStore({
-      institutionPrograms: {
-        institutionPrograms: Array.from({ length: 30 }, (_, index) => ({
-          id: index + 1,
-          attributes: {
-            description: `Program ${index + 1}`,
-            institutionName: `Institution ${index + 1}`,
-          },
-        })),
-        loading: false,
-        error: null,
-      },
-    });
+    store = mockStore(initialState);
   });
 
   // Clean up after each test to unmount components
@@ -37,13 +38,7 @@ describe('ProgramsList component', () => {
   const mountComponent = (loading = false) => {
     store = mockStore({
       institutionPrograms: {
-        institutionPrograms: Array.from({ length: 30 }, (_, index) => ({
-          id: index + 1,
-          attributes: {
-            description: `Program ${index + 1}`,
-            institutionName: `Institution ${index + 1}`,
-          },
-        })),
+        ...initialState.institutionPrograms,
         loading,
         error: null,
       },

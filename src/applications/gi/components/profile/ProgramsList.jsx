@@ -19,10 +19,9 @@ const ProgramsList = ({ match }) => {
   const { institutionName } = location.state;
 
   const { programType } = match.params;
-  const { facilityCode } = match.params;
+  // const { facilityCode } = match.params;
 
   const formattedProgramType = formatProgramType(programType);
-  // const institutionName = institutionPrograms[0]?.attributes?.institutionName;
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
@@ -41,17 +40,10 @@ const ProgramsList = ({ match }) => {
   useEffect(
     () => {
       window.scrollTo(0, 0);
-      if (facilityCode) {
-        // TODO- NEED TO PASS PROGRAM TYPE, Add helper function to convert program type
-        // IHL
-        // NCD
-        // OJT
-        // FLGT
-        // CORR
-        dispatch(fetchInstitutionPrograms('3V000242', 'NCD'));
-      }
+      dispatch(fetchInstitutionPrograms('3V000242', 'NCD'));
+      // dispatch(fetchInstitutionPrograms(facilityCode, programType));
     },
-    [dispatch, facilityCode],
+    [dispatch],
   );
 
   const handleSearchInput = e => {
