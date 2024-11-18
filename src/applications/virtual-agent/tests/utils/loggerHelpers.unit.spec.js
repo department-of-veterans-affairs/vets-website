@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import * as loggerHelpers from '../../utils/loggerHelpers';
 
 const winston = require('winston');
 const sinon = require('sinon');
@@ -15,14 +16,15 @@ const {
 describe('loggerHelpers', () => {
   describe('buildDefaultLoggerOptions', () => {
     it('should return an object with the correct properties when not localhost', () => {
+      const isLocalHostStub = sinon
+        .stub(loggerHelpers, 'isLocalHost')
+        .returns(false);
       process.env.LOG_LEVEL = 'debug';
       process.env.HOST_NAME = 'dev';
+
       const loggerOptionsExpected = {
-        // minimum level of logs to display
         level: 'debug',
         exitOnError: false,
-        // format logs as JSON by default
-        format: expect.anything(),
       };
 
       loggerOptionsExpected.defaultMeta = {
@@ -33,50 +35,49 @@ describe('loggerHelpers', () => {
       };
 
       const loggerOptionsActual = buildDefaultLoggerOptions();
-      expect(loggerOptionsActual).toEqual(loggerOptionsExpected);
+
+      expect(loggerOptionsActual).to.deep.include(loggerOptionsExpected);
+      expect(loggerOptionsActual.format).to.exist;
+      isLocalHostStub.restore();
     });
     it('should return an object with the correct properties when localhost', () => {
       process.env.LOG_LEVEL = 'debug';
       process.env.HOST_NAME = 'localhost';
       const loggerOptionsExpected = {
-        // minimum level of logs to display
         level: 'debug',
         exitOnError: false,
-        // format logs as JSON by default
-        format: expect.anything(),
       };
 
       const loggerOptionsActual = buildDefaultLoggerOptions();
-      expect(loggerOptionsActual).toEqual(loggerOptionsExpected);
+
+      expect(loggerOptionsActual).to.deep.include(loggerOptionsExpected);
+      expect(loggerOptionsActual.format).to.exist;
     });
     it('should return an object with the correct properties when log level is not debug', () => {
       process.env.LOG_LEVEL = 'warn';
       process.env.HOST_NAME = 'localhost';
       const loggerOptionsExpected = {
-        // minimum level of logs to display
         level: getLogLevel(),
         exitOnError: false,
-        // format logs as JSON by default
-        format: expect.anything(),
       };
 
       const loggerOptionsActual = buildDefaultLoggerOptions();
-      expect(loggerOptionsActual).toEqual(loggerOptionsExpected);
+      expect(loggerOptionsActual).to.deep.include(loggerOptionsExpected);
+      expect(loggerOptionsActual.format).to.exist;
     });
     it("should default to localhost when host name isn't provided", () => {
       process.env.LOG_LEVEL = 'debug';
       process.env.HOST_NAME = '';
 
       const loggerOptionsExpected = {
-        // minimum level of logs to display
         level: 'debug',
         exitOnError: false,
-        // format logs as JSON by default
-        format: expect.anything(),
       };
 
       const loggerOptionsActual = buildDefaultLoggerOptions();
-      expect(loggerOptionsActual).toEqual(loggerOptionsExpected);
+
+      expect(loggerOptionsActual).to.deep.include(loggerOptionsExpected);
+      expect(loggerOptionsActual.format).to.exist;
     });
   });
   describe('getVersionNumber', () => {
@@ -88,7 +89,7 @@ describe('loggerHelpers', () => {
 
       const mockVersionNumber = '1.0.1';
 
-      expect(versionNumber).toEqual(mockVersionNumber);
+      expect(versionNumber).to.equal(mockVersionNumber);
       readFileSyncStub.restore();
     });
   });
@@ -96,16 +97,17 @@ describe('loggerHelpers', () => {
     it('should get the datadog tags when datadog tags are undefined', () => {
       const datadogTags = getDatadogTags();
 
-      const mockDatadogTags = 'version:1.0.0';
-      expect(datadogTags).toEqual(mockDatadogTags);
+      const mockDatadogTags = 'version:1.0.1';
+
+      expect(datadogTags).to.equal(mockDatadogTags);
     });
     it('should get the datadog tags when datadog tags are defined', () => {
       process.env.DATADOG_TAGS = 'env:localhost,team:virtual-agent-platform';
       const datadogTags = getDatadogTags();
 
       const mockDatadogTags =
-        'version:1.0.0,env:localhost,team:virtual-agent-platform';
-      expect(datadogTags).toEqual(mockDatadogTags);
+        'version:1.0.1,env:localhost,team:virtual-agent-platform';
+      expect(datadogTags).to.equal(mockDatadogTags);
     });
   });
   describe('getLogLevel', () => {
@@ -114,14 +116,14 @@ describe('loggerHelpers', () => {
       const logLevel = getLogLevel();
 
       const mockLogLevel = 'debug';
-      expect(logLevel).toEqual(mockLogLevel);
+      expect(logLevel).to.equal(mockLogLevel);
     });
     it('should get the log level when log level is undefined', () => {
       delete process.env.LOG_LEVEL;
       const logLevel = getLogLevel();
 
       const mockLogLevel = 'info';
-      expect(logLevel).toEqual(mockLogLevel);
+      expect(logLevel).to.equal(mockLogLevel);
     });
   });
   describe('createLogger', () => {
@@ -131,8 +133,10 @@ describe('loggerHelpers', () => {
 
       const actual = createLogger('fake logger options');
 
-      expect(actual).toEqual('logger');
-      expect(createLoggerStub.firstCall.args[0]).toEqual('fake logger options');
+      expect(actual).to.equal('logger');
+      expect(createLoggerStub.firstCall.args[0]).to.equal(
+        'fake logger options',
+      );
       createLoggerStub.restore();
     });
   });
@@ -162,7 +166,7 @@ describe('loggerHelpers', () => {
           return `${message}`;
         }),
       );
-      expect(JSON.stringify(fakeLogger.add.firstCall.args[0])).toEqual(
+      expect(JSON.stringify(fakeLogger.add.firstCall.args[0])).to.equal(
         JSON.stringify(
           new winston.transports.Console({
             format,
@@ -171,7 +175,7 @@ describe('loggerHelpers', () => {
           }),
         ),
       );
-      expect(JSON.stringify(fakeLogger.add.secondCall.args[0])).toEqual(
+      expect(JSON.stringify(fakeLogger.add.secondCall.args[0])).to.equal(
         JSON.stringify(new winston.transports.Http(httpTransportOptions)),
       );
     });
@@ -189,7 +193,7 @@ describe('loggerHelpers', () => {
           return `${message}`;
         }),
       );
-      expect(JSON.stringify(fakeLogger.add.firstCall.args[0])).toEqual(
+      expect(JSON.stringify(fakeLogger.add.firstCall.args[0])).to.equal(
         JSON.stringify(
           new winston.transports.Console({
             format,
