@@ -5,6 +5,7 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import set from 'platform/utilities/data/set';
 import recordEvent from 'platform/monitoring/record-event';
+import { hasLowDisabilityRating } from '../utils/helpers/form-config';
 
 /**
  * Map file attachment data to determine if any of the files are the
@@ -52,7 +53,7 @@ export const submitTransformer = (formConfig, form) => {
   }
 
   // map compensation type for short form-eligible data
-  if (!dataToMap.vaCompensationType) {
+  if (!hasLowDisabilityRating(form.data) && !dataToMap.vaCompensationType) {
     dataToMap = set('vaCompensationType', 'highDisability', dataToMap);
   }
 
@@ -63,7 +64,7 @@ export const submitTransformer = (formConfig, form) => {
     dataToMap = set('attachments', sanitizedAttachments, dataToMap);
   }
 
-  // map dependents data based on form data
+  // map dependents
   const { dependents } = form.data;
   if (dependents?.length) {
     const sanitizedDependents = sanitizeDependents(dependents);
