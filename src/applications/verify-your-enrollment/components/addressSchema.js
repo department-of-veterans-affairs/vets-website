@@ -11,17 +11,15 @@ import {
 import { blockURLsRegEx } from '../constants';
 
 const initializeAddressLine1 = formData => {
-  if (formData && formData.street) {
-    return formData.street.trim();
-  }
-  return '';
+  return formData?.addressLine1 !== undefined
+    ? formData?.addressLine1
+    : formData?.street?.trim();
 };
 
 const initializeAddressLine2 = formData => {
-  if (formData && formData.street2) {
-    return formData.street2.trim();
-  }
-  return '';
+  return formData?.addressLine2 !== undefined
+    ? formData?.addressLine2
+    : formData?.street2?.trim();
 };
 
 const cleanZipCode = zipcode => {
