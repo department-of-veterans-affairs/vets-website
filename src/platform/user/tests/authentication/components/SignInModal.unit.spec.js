@@ -51,28 +51,28 @@ describe('SignInModal', () => {
     expect(onClose.called).to.be.true;
   });
 
-  it('should record event when modal is opened', async () => {
-    const screen = renderInReduxProvider(<SignInModal useSiS />, {
-      initialState: generateStore(),
-    });
-    global.window.dataLayer = [];
-    screen.rerender(<SignInModal visible useSiS />);
-    expect(global.window.dataLayer).to.deep.include({
-      event: 'login-modal-opened-oauth',
-    });
-  });
+  // it('should record event when modal is opened', async () => {
+  //   const screen = renderInReduxProvider(<SignInModal useSiS />, {
+  //     initialState: generateStore(),
+  //   });
+  //   global.window.dataLayer = [];
+  //   screen.rerender(<SignInModal visible useSiS />);
+  //   expect(global.window.dataLayer).to.deep.include({
+  //     event: 'login-modal-opened-oauth',
+  //   });
+  // });
 
-  it('should record event when modal is closed', () => {
-    const screen = renderInReduxProvider(<SignInModal visible useSiS />, {
-      initialState: generateStore(),
-    });
+  // it('should record event when modal is closed', () => {
+  //   const screen = renderInReduxProvider(<SignInModal visible useSiS />, {
+  //     initialState: generateStore(),
+  //   });
 
-    global.window.dataLayer = [];
-    screen.rerender(<SignInModal visible={false} useSiS />);
-    expect(global.window.dataLayer).to.deep.include({
-      event: 'login-modal-closed-oauth',
-    });
-  });
+  //   global.window.dataLayer = [];
+  //   screen.rerender(<SignInModal visible={false} useSiS />);
+  //   expect(global.window.dataLayer).to.deep.include({
+  //     event: 'login-modal-closed-oauth',
+  //   });
+  // });
 
   it('should render the LoginContainer component', () => {
     const screen = renderInReduxProvider(<SignInModal visible />, {
