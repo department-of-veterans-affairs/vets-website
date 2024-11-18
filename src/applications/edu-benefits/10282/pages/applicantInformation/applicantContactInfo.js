@@ -1,9 +1,12 @@
 import React from 'react';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
+import {
+  phoneUI,
+  phoneSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
-const { usaPhone, email } = fullSchema10282.definitions;
+const { email } = fullSchema10282.definitions;
 
 const uiTitle = (
   <h3 className="vads-u-margin--0 vads-u-color--base">
@@ -46,8 +49,8 @@ export const schema = {
       required: ['email'],
       properties: {
         email,
-        mobilePhone: usaPhone,
-        homePhone: usaPhone,
+        mobilePhone: phoneSchema,
+        homePhone: phoneSchema,
       },
     },
   },
