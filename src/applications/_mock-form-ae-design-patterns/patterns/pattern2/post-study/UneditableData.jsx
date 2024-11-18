@@ -1,7 +1,10 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { parse, format } from 'date-fns';
+import { genderLabels } from 'platform/static-data/labels';
 import { InfoSection } from '../../../shared/components/InfoSection';
 import { maskSSN } from '../../../utils/helpers/general';
+import { USER } from '../../../mocks/constants/user';
 
 const AdditionalInfoContent = () => {
   return (
@@ -29,10 +32,11 @@ const AdditionalInfoContent = () => {
 };
 
 const UneditableData = () => {
-  const name = 'Mitchell George Jenkins';
-  const dob = 'July 10, 1956';
-  const gender = 'Male';
-  const veteranSsn = '123906789';
+  const name = `${USER.FIRST_NAME} ${USER.MIDDLE_NAME} ${USER.LAST_NAME}`;
+  const parsedDob = parse(USER.BIRTH_DATE, 'yyyyMMdd', new Date());
+  const dob = format(parsedDob, 'MMMM d, yyyy');
+  const gender = genderLabels[USER.GENDER];
+  const veteranSsn = USER.SSN_LAST_FOUR;
   const maskedSsn = maskSSN(veteranSsn);
 
   return (
@@ -51,9 +55,12 @@ const UneditableData = () => {
         </p>
         <InfoSection title="Applicant information" titleLevel={3}>
           <dl>
-            <InfoSection.InfoBlock label="First name" value="Mitchell" />
-            <InfoSection.InfoBlock label="Middle name" value="George" />
-            <InfoSection.InfoBlock label="Last name" value="Jenkins" />
+            <InfoSection.InfoBlock label="First name" value={USER.FIRST_NAME} />
+            <InfoSection.InfoBlock
+              label="Middle name"
+              value={USER.MIDDLE_NAME}
+            />
+            <InfoSection.InfoBlock label="Last name" value={USER.LAST_NAME} />
             <InfoSection.InfoBlock label="Suffix" value="Not provided" />
             <InfoSection.InfoBlock
               label="Social Security number"
