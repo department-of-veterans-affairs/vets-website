@@ -104,7 +104,9 @@ export const App = ({
           meb160630Automation &&
           formData?.chosenBenefit) ||
         (!fetchedContactInfo &&
-          (meb160630Automation && formData?.chosenBenefit))
+          (meb160630Automation && formData?.chosenBenefit)) ||
+        (meb160630Automation &&
+          formData?.chosenBenefit !== previousChosenBenefit.current)
       ) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
@@ -131,6 +133,7 @@ export const App = ({
       isLoggedIn,
       setFormData,
       meb160630Automation,
+      formData?.chosenBenefit,
     ],
   );
 

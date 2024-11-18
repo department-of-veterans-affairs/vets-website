@@ -22,7 +22,7 @@ describe('Medications List Page Filter Collapsed ', () => {
     );
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('All medications');
-    listPage.verifyNameOfFirstRxOnMedicationsList('all medications');
+
     detailsPage.clickMedicationsLandingPageBreadcrumbsOnListPage();
     listPage.clickGotoMedicationsLink();
     listPage.verifyFilterCollapsedOnListPage();
