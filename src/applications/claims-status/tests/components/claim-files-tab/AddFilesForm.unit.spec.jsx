@@ -261,46 +261,51 @@ describe('<AddFilesForm>', () => {
       ).to.equal('mask');
     });
 
-    it('should add a valid file', async () => {
+    it('should add a valid file', () => {
       const { container, rerender, getByText } = render(
         <AddFilesForm {...fileFormProps} />,
       );
       const inputElement = $('#file-upload', container);
 
       // Add a file to the va-file-input component
-      fireEvent.change(inputElement, { detail: { files: [file] } });
-
+      userEvent.upload(inputElement, { detail: { files: [file] } });
       rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
       getByText('hello.jpg');
     });
 
-    it('should add a valid file and change it', async () => {
+    it('should add a valid file and change it', () => {
       const { container, rerender, getByText } = render(
         <AddFilesForm {...fileFormProps} />,
       );
 
-      const inputElement = $('#file-upload', container);
-      fireEvent.change(inputElement, { detail: { files: [file] } });
-      // // Change the file
+      const fileInput = $('#file-upload', container);
+
+      // Add a file to the va-file-input component
+      userEvent.upload(fileInput, file);
+      expect(fileInput.files[0]).to.equal(file);
+      expect(fileInput.files.length).to.equal(1);
       rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
       getByText('hello.jpg');
-      fireEvent.change(inputElement, { detail: { files: [file2] } });
-
+      // Change the file
+      userEvent.upload(fileInput, file2);
+      expect(fileInput.files[0]).to.equal(file2);
+      expect(fileInput.files.length).to.equal(1);
       rerender(<AddFilesForm {...fileFormProps} files={[file2]} uploading />);
       getByText('hello2.jpg');
     });
 
-    it('should add multiple valid files', async () => {
+    it('should add multiple valid files', () => {
       const files = [];
       const { container } = render(
         <AddFilesForm {...fileFormProps} files={files} />,
       );
       const fileInput = $('#file-upload', container);
 
-      // Add a file to the va-file-input component
-      await userEvent.upload(fileInput, file);
-      expect(fileInput.files[0]).to.equal(file);
-      expect(fileInput.files.length).to.equal(1);
+      // Add multiple files to the va-file-input component
+      userEvent.upload(fileInput, [file, file2]);
+      expect(fileInput.files[0].length).to.equal(2);
+      expect(fileInput.files[0][0]).to.equal(file);
+      expect(fileInput.files[0][1]).to.equal(file2);
     });
   });
 

@@ -278,6 +278,7 @@ class AddFilesForm extends React.Component {
         <VaCheckbox
           label="The files I uploaded support this claim only."
           className="vads-u-margin-y--3"
+          role="checkbox"
           required
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
