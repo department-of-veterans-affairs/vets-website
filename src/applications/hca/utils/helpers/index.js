@@ -1,5 +1,5 @@
 import mapValues from 'lodash/mapValues';
-import { endOfDay, isAfter, isValid, isWithinInterval } from 'date-fns';
+import { endOfDay, isAfter } from 'date-fns';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 import set from 'platform/utilities/data/set';
 import recordEvent from 'platform/monitoring/record-event';
@@ -167,26 +167,6 @@ export function createLiteralMap(arrayToMap) {
 }
 
 /**
- * Helper that returns a descriptive aria label for the edit buttons on the
- * health insurance information page
- * @param {Object} formData - the current data object passed from the form
- * @returns {String} - the name of the provider and either the policy number
- * or group code.
- */
-export function getInsuranceAriaLabel(formData) {
-  const { insuranceName, insurancePolicyNumber, insuranceGroupCode } = formData;
-  const labels = {
-    policy: insurancePolicyNumber
-      ? `Policy number ${insurancePolicyNumber}`
-      : null,
-    group: insuranceGroupCode ? `Group code ${insuranceGroupCode}` : null,
-  };
-  return insuranceName
-    ? `${insuranceName}, ${labels.policy ?? labels.group}`
-    : 'insurance policy';
-}
-
-/**
  * Helper that builds a full name string based on provided input values
  * @param {Object} name - the object that stores all the available input values
  * @param {Boolean} outputMiddle - optional param to declare whether to output
@@ -199,25 +179,6 @@ export function normalizeFullName(name = {}, outputMiddle = false) {
     ? `${first} ${middle !== null ? middle : ''} ${last} ${suffix}`
     : `${first} ${last} ${suffix}`;
   return nameToReturn.replace(/ +(?= )/g, '').trim();
-}
-
-/**
- * Helper that builds a full name string based on provided input values
- * @param {String} birthdate - the value of the user's date of birth from the profile data
- * @returns {String/NULL} - NULL if the passed-in value is not valid else the
- * formatted string value of the date (YYYY-MM-DD)
- */
-export function parseVeteranDob(birthdate) {
-  if (!birthdate) return null;
-  if (!isValid(new Date(birthdate))) return null;
-  if (
-    !isWithinInterval(new Date(birthdate), {
-      start: new Date('1900-01-01'),
-      end: endOfDay(new Date()),
-    })
-  )
-    return null;
-  return birthdate;
 }
 
 /**
