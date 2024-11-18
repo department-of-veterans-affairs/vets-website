@@ -79,6 +79,6 @@ export default function NoValidVAFacilities({
 NoValidVAFacilities.propTypes = {
   address: PropTypes.object,
   facilities: PropTypes.array,
-  sortMethod: PropTypes.func,
+  sortMethod: PropTypes.string,
   typeOfCare: PropTypes.object,
 };
