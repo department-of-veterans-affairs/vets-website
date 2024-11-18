@@ -45,15 +45,7 @@ describe('ConfirmationIssues', () => {
       otherEntry: 'this is right shoulder entry',
     },
   ];
-  const getData = ({
-    requestingExtension = true,
-    extensionReason = 'Lorem ipsum',
-    appealingVHADenial = true,
-    areaOfDisagreement = mockAreaOfDisagreement,
-  } = {}) => ({
-    requestingExtension,
-    extensionReason,
-    appealingVHADenial,
+  const getData = ({ areaOfDisagreement = mockAreaOfDisagreement } = {}) => ({
     areaOfDisagreement,
   });
 
@@ -64,29 +56,39 @@ describe('ConfirmationIssues', () => {
     expect($$('ul[role="list"]', container).length).to.eq(2);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(6);
+    expect(items.length).to.eq(3);
     expect(items.map(item => item.textContent)).to.deep.equal([
-      'Yes',
-      'Lorem ipsum',
-      'Yes',
       'tinnitusDecision date: June 1, 2021Disagree with the service connection, the effective date of award, your evaluation of my condition, and this is tinnitus entry',
       'left kneeDecision date: June 2, 2021Disagree with the effective date of award',
       'right shoulderDecision date: June 6, 2021Disagree with your evaluation of my condition and this is right shoulder entry',
     ]);
   });
-  it('should render not render extension reason', () => {
+  it('should render list children', () => {
     const data = getData({
-      requestingExtension: false,
-      appealingVHADenial: false,
       areaOfDisagreement: [mockAreaOfDisagreement[0]],
     });
-    const { container } = render(<ConfirmationIssues data={data} />);
+    const { container } = render(
+      <ConfirmationIssues data={data}>
+        <>
+          <li>
+            <div className="dd-privacy-hidden" data-dd-action-name="item 1">
+              Item 1
+            </div>
+          </li>
+          <li>
+            <div className="dd-privacy-hidden" data-dd-action-name="item 2">
+              Item 2
+            </div>
+          </li>
+        </>
+      </ConfirmationIssues>,
+    );
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
     expect(items.length).to.eq(3);
     expect(items.map(item => item.textContent)).to.deep.equal([
-      'No',
-      'No',
+      'Item 1',
+      'Item 2',
       'tinnitusDecision date: June 1, 2021Disagree with the service connection, the effective date of award, your evaluation of my condition, and this is tinnitus entry',
     ]);
   });

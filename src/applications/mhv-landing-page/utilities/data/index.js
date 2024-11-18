@@ -105,16 +105,22 @@ const resolveLandingPageLinks = (
 
   const spotlightLinks = [
     {
-      text: 'Make the Most of Your VA Appointment',
-      href: mhvUrl(authdWithSSOe, 'ss20240415-make-most-your-va-appointment'),
+      text: 'Toxic Exposure Screening: Myths and Facts',
+      href: mhvUrl(
+        authdWithSSOe,
+        'ss20240426-toxic-exposure-screening-myths-and-facts',
+      ),
     },
     {
-      text: 'VA Health Care Expands to Millions of Veterans',
-      href: mhvUrl(authdWithSSOe, 'ss20240315-va-health-care-expands-millions'),
+      text: '“What Did My Doctor Say?”',
+      href: mhvUrl(
+        authdWithSSOe,
+        'ss20241010-what-my-doctor-say-tips-better-understanding-your-care',
+      ),
     },
     {
-      text: 'Hearing Aids Connect with Telehealth',
-      href: mhvUrl(authdWithSSOe, 'ss20211015-fix-your-hearing-aid-over-video'),
+      text: 'Get Your No-Cost Flu and COVID Shots',
+      href: mhvUrl(authdWithSSOe, 'ss20220819-protect-yourself-from-flu'),
     },
   ];
 
