@@ -13,21 +13,13 @@ import { Paths } from '../utils/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20null',
-      prescriptions,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20null',
-      prescriptions,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
@@ -734,8 +726,9 @@ class MedicationsListPage {
       .and('contain', description);
   };
 
-  clickFilterRadioButtonOptionOnListPage = option => {
+  clickFilterRadioButtonOptionOnListPage = (option, status) => {
     cy.get(`[label="${option}"]`).click();
+    cy.intercept('GET', `${status}`, prescription);
   };
 
   verifyFilterHeaderTextHasFocusafterExpanded = () => {
