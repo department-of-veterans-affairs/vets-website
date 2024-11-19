@@ -510,7 +510,7 @@ const responses = {
     );
     return res.json({
       data: referrals.find(
-        referral => referral?.uuid === req.params.referralId,
+        referral => referral?.UUID === req.params.referralId,
       ),
     });
   },
