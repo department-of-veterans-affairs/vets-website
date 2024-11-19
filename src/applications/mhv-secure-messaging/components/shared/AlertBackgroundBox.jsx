@@ -67,11 +67,11 @@ const AlertBackgroundBox = props => {
           });
 
         if (lastPathName === 'Folders') {
-          setAlertAriaLabel('You are in My Folders');
+          setAlertAriaLabel('You are in My Folders.');
         } else if (foldersViewPage) {
-          setAlertAriaLabel(`You are in the ${folder?.name} folder page view`);
+          setAlertAriaLabel(`You are in the ${folder?.name} folder page view.`);
         } else {
-          setAlertAriaLabel(`You are in ${lastPathName}`);
+          setAlertAriaLabel(`You are in ${lastPathName}.`);
         }
 
         // The activeAlert is the most recent alert marked as active.
@@ -156,7 +156,7 @@ const AlertBackgroundBox = props => {
             background-only
             closeable={props.closeable}
             className="vads-u-margin-bottom--1 va-alert"
-            close-btn-aria-label={`${alertContent}. ${alertAriaLabel} Close notification.`}
+            close-btn-aria-label="Close notification"
             disable-analytics="false"
             full-width="false"
             show-icon={handleShowIcon()}
