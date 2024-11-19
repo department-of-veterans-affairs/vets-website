@@ -17,7 +17,7 @@ const MedicationsListFilter = props => {
   const { updateFilter, filterOption, setFilterOption } = props;
 
   const handleFilterOptionChange = ({ detail }) => {
-    setFilterOption(detail?.value);
+    setFilterOption(detail.value);
   };
 
   const handleFilterSubmit = () => {
@@ -49,7 +49,6 @@ const MedicationsListFilter = props => {
       <VaAccordionItem
         header="Filter list"
         bordered="true"
-        open={!!filterOption}
         id="filter"
         data-testid="rx-filter"
         uswds
@@ -68,9 +67,9 @@ const MedicationsListFilter = props => {
               key={`filter option ${filterOptions[option].label}`}
               label={filterOptions[option].label}
               name={filterOptions[option].name}
-              value={filterOptions[option].label}
+              value={filterOptions[option].url}
               description={filterOptions[option].description}
-              checked={filterOption === filterOptions[option].label}
+              checked={filterOption === filterOptions[option].url}
             />
           ))}
         </VaRadio>
