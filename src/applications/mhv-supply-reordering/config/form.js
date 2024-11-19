@@ -1,7 +1,7 @@
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE as title, SUBTITLE as subTitle } from '../constants';
+import { TITLE as title } from '../constants';
 import manifest from '../manifest.json';
 
 import contactInformation from '../pages/contactInformation';
@@ -112,7 +112,7 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   title,
-  subTitle,
+  // subTitle,
   customText,
   defaultDefinitions: {},
   chapters,

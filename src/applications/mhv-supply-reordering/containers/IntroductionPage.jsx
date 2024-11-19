@@ -44,7 +44,8 @@ export const IntroductionPage = ({ route }) => {
   return (
     <>
       <Breadcrumbs />
-      <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <FormTitle title={TITLE} />
+      <p>{SUBTITLE}</p>
       <Alerts />
       <SuppliesAvailable supplies={supplies} />
       <SaveInProgressIntro
