@@ -136,7 +136,7 @@ class FormPage extends React.Component {
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,
-        index: this.props.params.index,
+        index: this.props.params?.index,
       });
       return;
     }
@@ -222,7 +222,7 @@ class FormPage extends React.Component {
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,
-        index: this.props.params.index,
+        index: this.props.params?.index,
       });
       return;
     }
