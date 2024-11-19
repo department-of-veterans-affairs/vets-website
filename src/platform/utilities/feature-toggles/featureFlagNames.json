@@ -80,7 +80,6 @@
   "form1010d": "form1010d",
   "form107959c": "form107959c",
   "form107959a": "form107959a",
-  "form107959F1": "form107959f1",
   "form107959f2": "form107959f2",
   "form2010206": "form2010206",
   "form2010207": "form2010207",
@@ -110,6 +109,7 @@
   "hcaTeraBranchingEnabled": "hca_tera_branching_enabled",
   "hcaUseFacilitiesApi": "hca_use_facilities_API",
   "hlrBrowserMonitoringEnabled": "hlr_browser_monitoring_enabled",
+  "hlrConfirmationUpdate": "hlr_confirmation_update",
   "hlrUpdatedContent": "hlr_updateed_contnet",
   "incomeAndAssetsFormEnabled": "income_and_assets_form_enabled",
   "intentToFileLighthouseEnabled": "intent_to_file_lighthouse_enabled",
@@ -190,8 +190,8 @@
   "ratedDisabilitiesUseLighthouse": "rated_disabilities_use_lighthouse",
   "representativeStatusEnabled": "representative_status_enabled",
   "scBrowserMonitoringEnabled": "sc_browser_monitoring_enabled",
+  "scConfirmationUpdate": "sc_confirmation_update",
   "scNewForm": "sc_new_form",
-  "searchDropdownComponentEnabled": "search_dropdown_component_enabled",
   "searchGovMaintenance": "search_gov_maintenance",
   "searchRepresentative": "search_representative",
   "show526Wizard": "show526_wizard",
@@ -295,5 +295,6 @@
   "showYellowRibbonTable": "show_yellow_ribbon_table",
   "showLcInComparisonTool": "show_lc_in_comparison_tool",
   "giComparisonToolShowRatings": "gi_comparison_tool_show_ratings",
-  "fsrWizard": "fsr_wizard"
+  "fsrWizard": "fsr_wizard",
+  "isDGIBEndpoint": "is_DGIB_endpoint"
 }

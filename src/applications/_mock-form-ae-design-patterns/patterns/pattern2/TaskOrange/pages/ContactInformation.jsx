@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToElement } from 'platform/forms-system/exportsFile';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
-
+import {
+  waitForRenderThenFocus,
+  focusElement,
+  scrollTo,
+} from 'platform/utilities/ui';
 import { PatternConfigContext } from 'applications/_mock-form-ae-design-patterns/shared/context/PatternConfigContext';
 import { SaveSuccessAlert } from 'applications/_mock-form-ae-design-patterns/shared/components/alerts/SaveSuccessAlert';
 import { formatPhoneNumber } from '../../../../utils/helpers/general';
@@ -42,12 +45,25 @@ export const ContactInformation = ({
 
   useEffect(
     () => {
+      const progressBar = document.getElementById('nav-form-header');
       if (updatedSection) {
-        setTimeout(() => {
+        const sectionTimeout = setTimeout(() => {
           waitForRenderThenFocus(`#${updatedSection}`);
           scrollToElement(updatedSection);
         }, 100);
+
+        return () => clearTimeout(sectionTimeout);
       }
+
+      const progressBarTimeout = setTimeout(() => {
+        scrollTo('topScrollElement');
+        if (progressBar) {
+          progressBar.style.display = 'block';
+          focusElement(progressBar);
+        }
+      }, 250);
+
+      return () => clearTimeout(progressBarTimeout);
     },
     [updatedSection],
   );
@@ -64,9 +80,9 @@ export const ContactInformation = ({
     <>
       {!onReviewPage && (
         <va-alert status="info">
-          <strong>Note:</strong> We’ve prefilled some of your information from
-          your account. If you need to correct anything, you can select edit
-          below. All updates will be made only to this form.
+          <strong>Note:</strong> We’ve prefilled some of your information. If
+          you need to make changes, you can select edit on this screen. Your
+          changes won’t affect your VA.gov profile.
         </va-alert>
       )}
       <div className="vads-u-margin-top--4">
@@ -92,7 +108,7 @@ export const ContactInformation = ({
           />
           {success &&
             updatedSection === 'veteranAddress' && (
-              <SaveSuccessAlert updatedText="Address information" />
+              <SaveSuccessAlert updatedText="Address" />
             )}
           <dl>
             <InfoSection.InfoBlock
@@ -104,7 +120,8 @@ export const ContactInformation = ({
               value={address?.street2 || 'Not provided'}
             />
             <InfoSection.InfoBlock label="City" value={address?.city} />
-            <InfoSection.InfoBlock label="State" value={address?.state} />
+            <InfoSection.InfoBlock label="State" value="New York" />
+            {/* <InfoSection.InfoBlock label="State" value={address?.state} /> */}
             <InfoSection.InfoBlock
               label="Postal code"
               value={address?.postalCode}
