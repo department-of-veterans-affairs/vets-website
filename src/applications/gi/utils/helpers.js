@@ -564,7 +564,7 @@ export const formatProgramType = programType => {
     .join(' ');
 };
 
-export const generateMockPrograms = (numPrograms = 20) => {
+export const generateMockPrograms = numPrograms => {
   const programNames = [
     'CERTIFIED ETHICAL HACKER',
     'CISCO SYSTEMS - CCDA',
