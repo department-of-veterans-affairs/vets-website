@@ -45,7 +45,7 @@ export default {
         keepInPageOnReview: true,
         classNames: 'schemaform-file-upload',
       },
-      'ui:validations': [validateFileField],
+      'ui:validations': !environment.isProduction() ? [validateFileField] : [],
     },
   },
   schema: {
