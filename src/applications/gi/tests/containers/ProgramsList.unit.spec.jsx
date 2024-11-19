@@ -6,8 +6,8 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
-import ProgramsList from '../../../components/profile/ProgramsList';
-import { generateMockPrograms } from '../../../utils/helpers';
+import ProgramsList from '../../containers/ProgramsList';
+import { generateMockPrograms } from '../../utils/helpers';
 
 const mockStore = configureStore([thunk]);
 
