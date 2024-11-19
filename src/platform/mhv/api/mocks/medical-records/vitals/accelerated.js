@@ -10802,7 +10802,8 @@ const all = (from, _to) => {
   const bucket = singleInJanuary;
 
   const matches = [];
-  const fromDate = new Date(from);
+  const [year, month] = from.split('-');
+  const fromDate = new Date(year, month - 1, 1);
   const toDate = new Date(
     fromDate.getFullYear(),
     fromDate.getMonth() + 1,
@@ -10816,10 +10817,16 @@ const all = (from, _to) => {
   for (const entry of bucket) {
     // include entry if effectiveDateTime is between from and to
     const entryDate = new Date(entry.resource.effectiveDateTime);
-
+    // console.log({
+    //   fromDate:fromDate.getTime(),
+    //   entryDate:entryDate.getTime(),
+    //   toDate:toDate.getTime(),
+    //   afterFrom:entryDate.getTime() >= fromDate.getTime(),
+    //   beforeTo:entryDate.getTime() <= toDate.getTime()
+    // })
     if (
-      new Date(entry.resource.effectiveDateTime) >= fromDate &&
-      new Date(entry.resource.effectiveDateTime) <= toDate
+      entryDate.getTime() >= fromDate.getTime() &&
+      entryDate.getTime() <= toDate.getTime()
     ) {
       // console.log('got match');
       matches.push(entry);
