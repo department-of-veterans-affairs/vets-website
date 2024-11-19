@@ -11,7 +11,7 @@ import {
   notQualifiedWarning,
 } from '../utils/helpers.jsx';
 
-function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
+const UserInfoSection = ({ enrollmentData = {}, showCurrentAsOfAlert }) => {
   // Get today’s date to show information current as of
   const todayFormatted = formatDateShort(new Date());
   const percentageBenefit =
@@ -74,7 +74,7 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
             <br />
             <a href="/education/gi-bill-comparison-tool/" target="_blank">
               Find out how much money you can expect to get based on your
-              eligibility percentage
+              eligibility percentage.
             </a>
           </p>
         </div>
@@ -104,7 +104,7 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
       {entitlementInfo}
     </div>
   );
-}
+};
 
 UserInfoSection.propTypes = {
   enrollmentData: PropTypes.object,
