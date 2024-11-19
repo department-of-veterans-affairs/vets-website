@@ -103,7 +103,6 @@ describe('populateFirstApplicant', () => {
     const formData = { applicants: [{ applicantName: { first: 'Test' } }] };
     const result = populateFirstApplicant(
       formData,
-      '',
       newAppInfo.name,
       newAppInfo.email,
       newAppInfo.phone,
@@ -118,7 +117,6 @@ describe('populateFirstApplicant', () => {
     const formData = {};
     const result = populateFirstApplicant(
       formData,
-      '',
       newAppInfo.name,
       newAppInfo.email,
       newAppInfo.phone,
@@ -130,7 +128,7 @@ describe('populateFirstApplicant', () => {
 
 describe('page15a depends function', () => {
   const isApp = {
-    certifierRelationship: { relationshipToVeteran: { applicant: true } },
+    certifierRole: 'applicant',
     certifierAddress: { street: '123' },
   };
   const notApp = {
