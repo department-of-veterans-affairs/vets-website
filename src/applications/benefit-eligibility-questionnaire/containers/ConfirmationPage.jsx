@@ -288,7 +288,7 @@ export class ConfirmationPage extends React.Component {
                   Burials and memorials
                 </option>
                 <option key="Careers" value="Careers">
-                  Careers & Employment
+                  Careers and Employment
                 </option>
                 <option key="Disability" value="Disability">
                   Disability

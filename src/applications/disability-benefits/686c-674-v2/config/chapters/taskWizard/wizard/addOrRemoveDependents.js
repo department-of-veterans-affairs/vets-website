@@ -16,6 +16,7 @@ export const uiSchema = {
     errorMessages: {
       required: 'Select at least one option',
     },
+    hideOnReview: true,
   }),
 };
 

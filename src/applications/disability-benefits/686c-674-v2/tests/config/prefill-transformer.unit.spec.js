@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import prefillTransformer from '../../config/prefill-transformer';
 
-// This is the nesting of the prefill data; transformation flattens it
 const buildData = ({ ssnLastFour = '', vaFileLastFour = '' }) => ({
   prefill: {
     data: {},
@@ -24,7 +23,6 @@ describe('NOD prefill transformer', () => {
     formData: {
       testData: 'This is not getting transformed',
       data: {},
-      // nonPrefill: {}, // test fallback
     },
     pages: { testPage: 'Page 1' },
   };
@@ -32,7 +30,7 @@ describe('NOD prefill transformer', () => {
   it('should return built out template from prefill data', () => {
     const { pages, formData, metadata } = noTransformData;
     const noTransformActual = prefillTransformer(pages, formData, metadata);
-    // ensure transformed data is not the same object as input data
+
     expect(noTransformActual).to.not.equal(noTransformData);
     expect(noTransformActual).to.deep.equal({
       metadata: noTransformData.metadata,

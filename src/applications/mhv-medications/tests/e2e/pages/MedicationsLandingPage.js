@@ -1,6 +1,8 @@
 import { medicationsUrls } from '../../../util/constants';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import prescriptions from '../fixtures/prescriptions.json';
+import { Paths } from '../utils/constants';
+import rxList from '../fixtures/listOfPrescriptions.json';
 
 class MedicationsLandingPage {
   clickExpandAllAccordionButton = () => {
@@ -25,6 +27,7 @@ class MedicationsLandingPage {
 
   visitLandingPageURL = () => {
     cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
+    cy.intercept('GET', Paths.LANDING_LIST, rxList);
   };
 
   verifyPrescriptionRefillRequestInformationAccordionDropDown = () => {
