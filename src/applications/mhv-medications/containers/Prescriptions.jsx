@@ -129,7 +129,7 @@ const Prescriptions = () => {
 
   const updateFilterAndSort = (newFilterOption, newSortOption) => {
     const sortOption =
-      newSortOption ?? selectedSortOption ?? defaultSelectedSortOption;
+      newSortOption || selectedSortOption || defaultSelectedSortOption;
     const sortBy = rxListSortingOptions[sortOption].API_ENDPOINT;
     const filterBy = newFilterOption ?? filterOption;
     dispatch(getPaginatedFilteredList(1, filterBy, sortBy));
@@ -152,7 +152,7 @@ const Prescriptions = () => {
       ...pdfTxtGenerateStatus,
       status: PDF_TXT_GENERATE_STATUS.NotStarted,
     });
-    if (sortOption !== selectedSortOption) {
+    if (sortOption !== selectedSortOption && sortOption !== '') {
       updateSortOption(sortOption);
       if (!showFilterContent) {
         updateLoadingStatus(true, 'Sorting your medications...');
@@ -160,8 +160,8 @@ const Prescriptions = () => {
       } else {
         updateFilterAndSort(null, sortOption);
       }
+      sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
     }
-    sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
   };
 
   const printRxList = () =>
