@@ -201,7 +201,7 @@ const Vitals = () => {
           // Limit to current month and year
           name="vitals-date-picker"
           monthYearOnly
-          value={new Date().toISOString().split('T')[0]}
+          value={acceleratedVitalsDate}
           onDateChange={updateDate}
           data-testid="date-picker"
         />
