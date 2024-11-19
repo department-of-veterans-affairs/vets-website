@@ -4,8 +4,6 @@ import { getRefreshStatus } from '../api/MrApi';
 export const fetchRefreshStatus = () => async dispatch => {
   try {
     const response = await getRefreshStatus();
-    // eslint-disable-next-line no-console
-    console.log('This the response: ', response);
     const statusList = response?.facilityExtractStatusList || [];
     const mostRecentLastRequested =
       statusList.length > 0
@@ -15,8 +13,6 @@ export const fetchRefreshStatus = () => async dispatch => {
     window.localStorage.setItem('lastPhrRefreshDate', mostRecentLastRequested);
     dispatch({ type: Actions.Refresh.GET_STATUS, payload: response });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log('Error: ', error);
     dispatch({ type: Actions.Refresh.STATUS_CALL_FAILED });
     throw error;
   }

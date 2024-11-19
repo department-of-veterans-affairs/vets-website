@@ -19,13 +19,21 @@ const NewRecordsIndicator = ({
 
   const refreshPhase = useMemo(
     () => {
+      if (refreshState.phase === refreshPhases.CALL_FAILED) {
+        return refreshPhases.CALL_FAILED;
+      }
       return getStatusExtractPhase(
         refreshState.statusDate,
         refreshState.status,
         extractType,
       );
     },
-    [extractType, refreshState.status, refreshState.statusDate],
+    [
+      extractType,
+      refreshState.status,
+      refreshState.statusDate,
+      refreshState.phase,
+    ],
   );
 
   useEffect(
@@ -98,22 +106,16 @@ const NewRecordsIndicator = ({
   };
 
   const content = () => {
-    // eslint-disable-next-line no-console
-    console.log(
-      'This is refreshedOnthisPage + refreshPhases.CALL_FAILED + refreshPhase',
-      refreshedOnThisPage,
-      refreshPhases.CALL_FAILED,
-      refreshPhase,
-    );
     if (refreshedOnThisPage) {
       if (refreshPhase === refreshPhases.CALL_FAILED) {
         return (
           <va-alert
+            status="warning"
             visible
             aria-live="polite"
             data-testid="new-records-refreshed-stale"
           >
-            <p>Your records may not be up to date.</p>
+            <h2>Your records may not be up to date.</h2>
             <p>
               There’s a problem with our system, and we can’t access the date
               your records were last updated. We’re sorry. Please check back
