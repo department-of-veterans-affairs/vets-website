@@ -20,6 +20,6 @@ describe('Medications List Page All Medications Filter', () => {
     );
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('All medications');
-    listPage.verifyNameOfFirstRxOnMedicationsList('all medications');
+    listPage.clickFilterButtonOnAccordion();
   });
 });

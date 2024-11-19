@@ -827,3 +827,27 @@ export function makeConditionsSchema(formData) {
 
   return checkboxGroupSchema(options);
 }
+
+/**
+ * Formats the parts of a fullName object into a single string, e.g. "Hector Lee Brooks Jr."
+ *
+ * @param {object} fullName - Object holding name parts
+ * @returns {string} Name formatted into a single string. Empty string if all parts are missing.
+ */
+export const formatFullName = (fullName = {}) => {
+  let res = '';
+  if (fullName?.first) {
+    res += fullName.first;
+  }
+  if (fullName?.middle) {
+    res += ` ${fullName.middle}`;
+  }
+  if (fullName?.last) {
+    res += ` ${fullName.last}`;
+  }
+  if (fullName?.suffix) {
+    res += ` ${fullName.suffix}`;
+  }
+
+  return res.trim();
+};

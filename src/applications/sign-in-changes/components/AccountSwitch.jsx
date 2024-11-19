@@ -1,32 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { LoginButton } from '~/platform/user/exportsFile';
-import { useSelector } from 'react-redux';
-import { selectProfile } from 'platform/user/selectors';
 import { maskEmail } from '../helpers';
 
-export default function AccountSwitch({ hasLogingov }) {
-  const userEmail = useSelector(state => selectProfile(state)?.email);
-  const maskedEmail = maskEmail(userEmail);
+const CspDisplay = ({ csp, email, name }) => {
+  return (
+    <>
+      <p>
+        We found an existing <strong>{name}</strong> account for your email
+        address: <strong>{maskEmail(email)}</strong>
+      </p>
+      <LoginButton csp={csp} data-testid={csp} />
+    </>
+  );
+};
+export default function AccountSwitch({ userEmails }) {
+  const userHasIdme = userEmails.idme;
+  const userHasLogingov = userEmails.logingov;
+  const userHasBoth = userHasIdme && userHasLogingov;
+  const headingText = userHasLogingov ? 'Login.gov' : 'ID.me';
   return (
     <div>
-      <h2 className="vads-u-margin-y--0">
-        Start using your <strong>{hasLogingov ? 'Login.gov' : 'ID.me'}</strong>{' '}
+      <h2 className="vads-u-margin-y--0" id="accountSwitchH2">
+        Start using your{' '}
+        <strong>{userHasBoth ? 'Login.gov or ID.me' : headingText}</strong>{' '}
         account now
       </h2>
-      <p>
-        We found an existing{' '}
-        <strong>{hasLogingov ? 'Login.gov' : 'ID.me'}</strong> account for you
-        associated with this email:
-      </p>
-      <p>
-        <strong>{maskedEmail}</strong>
-      </p>
-      <LoginButton csp={hasLogingov ? 'logingov' : 'idme'} />
+      {userHasLogingov && (
+        <CspDisplay
+          csp="logingov"
+          email={userEmails.logingov}
+          name="Login.gov"
+          id="logingovButton"
+        />
+      )}
+      {userHasIdme && (
+        <CspDisplay
+          csp="idme"
+          email={userEmails.idme}
+          name="ID.me"
+          id="idmeButton"
+        />
+      )}
     </div>
   );
 }
 
 AccountSwitch.propTypes = {
-  hasLogingov: PropTypes.bool,
+  userEmails: PropTypes.object,
+};
+
+CspDisplay.propTypes = {
+  csp: PropTypes.string,
+  email: PropTypes.string,
+  name: PropTypes.string,
 };

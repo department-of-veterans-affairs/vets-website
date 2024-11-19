@@ -16,19 +16,6 @@ function App({ loggedIn, location, children, formData, setFormData }) {
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
 
-  const isPostLogin = document.location.search?.includes('postLogin=true');
-
-  useEffect(
-    () => {
-      if (isPostLogin) {
-        window.location.replace(
-          '/get-help-from-accredited-representative/appoint-rep',
-        );
-      }
-    },
-    [isPostLogin],
-  );
-
   useEffect(
     () => {
       configService.setFormConfig({ subTitle });

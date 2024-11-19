@@ -49,6 +49,7 @@ import {
   formatMonthYearDate,
   makeConditionsSchema,
   validateConditions,
+  formatFullName,
 } from '../../utils';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -1454,5 +1455,94 @@ describe('validateConditions', () => {
     const conditions = { conditionA: true, conditionB: true };
     validateConditions(conditions, errors, errorKey, errorMessage);
     expect(errors.mentalHealth.conditions.errorMessage).to.be.undefined;
+  });
+});
+
+describe('formatFullName', () => {
+  it('formats name with all parts', () => {
+    const fullName = {
+      first: 'Hector',
+      middle: 'Lee',
+      last: 'Brooks',
+      suffix: 'Jr.',
+    };
+
+    expect(formatFullName(fullName)).to.equal('Hector Lee Brooks Jr.');
+  });
+
+  it('formats name when missing first name', () => {
+    const fullName = {
+      first: '',
+      middle: 'Lee',
+      last: 'Brooks',
+      suffix: 'Jr.',
+    };
+
+    expect(formatFullName(fullName)).to.equal('Lee Brooks Jr.');
+  });
+
+  it('formats name when missing middle name', () => {
+    const fullName = {
+      first: 'Hector',
+      middle: '',
+      last: 'Brooks',
+      suffix: 'Jr.',
+    };
+
+    expect(formatFullName(fullName)).to.equal('Hector Brooks Jr.');
+  });
+
+  it('formats name when missing last name', () => {
+    const fullName = {
+      first: 'Hector',
+      middle: 'Lee',
+      last: '',
+      suffix: 'Jr.',
+    };
+
+    expect(formatFullName(fullName)).to.equal('Hector Lee Jr.');
+  });
+
+  it('formats name when missing suffix', () => {
+    const fullName = {
+      first: 'Hector',
+      middle: 'Lee',
+      last: 'Brooks',
+      suffix: undefined,
+    };
+
+    expect(formatFullName(fullName)).to.equal('Hector Lee Brooks');
+  });
+
+  it('formats name when missing most things', () => {
+    const fullName = {
+      first: '',
+      middle: '',
+      last: '',
+      suffix: 'Jr.',
+    };
+
+    expect(formatFullName(fullName)).to.equal('Jr.');
+  });
+
+  it('formats name when all empty or missing parts', () => {
+    expect(formatFullName(undefined)).to.equal('');
+    expect(formatFullName({})).to.equal('');
+    expect(
+      formatFullName({
+        first: null,
+        middle: null,
+        last: null,
+        suffix: null,
+      }),
+    ).to.equal('');
+    expect(
+      formatFullName({
+        first: '',
+        middle: '',
+        last: '',
+        suffix: '',
+      }),
+    ).to.equal('');
   });
 });

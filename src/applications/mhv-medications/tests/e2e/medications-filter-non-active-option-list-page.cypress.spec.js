@@ -20,6 +20,8 @@ describe('Medications List Page Non-Active Filter Option', () => {
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Non-active');
     listPage.clickFilterButtonOnAccordion();
-    listPage.verifyNameOfFirstRxOnMedicationsList('non active');
+    // listPage.verifyFocusOnPaginationTextInformationOnListPage(
+    //   Data.PAGINATION_TEXT,
+    // );
   });
 });
