@@ -120,6 +120,29 @@
     background-image: none !important;
     font-weight: inherit !important;
   }
+  .learn-more-btn::part(button) {
+    background-color: transparent;
+    color: var(--vads-color-primary);
+    border: none;
+    outline: none;
+    font-weight: normal;
+    text-decoration: underline;
+    padding: 0;
+    margin-right: 0;
+  }
+  .learn-more-bold-text::part(button) {
+    font-weight: bold;
+  }
+
+  .remove-btn::part(button) {
+    background-color: transparent;
+    color: var(--vads-color-primary);
+    border: none;
+    outline: none;
+    font-weight: normal;
+    text-decoration: underline;
+    padding: 0;
+  }
 
   .gids-radio-buttons {
     position: relative;
@@ -294,7 +317,9 @@
   list-style: none;
   padding-left: 0;
 }
-
+.inst-remove-btn::part(button) {
+  background-color: transparent;
+}
 .search-container {
   va-text-input::part(input) {
     width: 100%;
