@@ -201,33 +201,6 @@ describe('ProgramsList component', () => {
     );
     wrapper.unmount();
   });
-  // it('displays a message when no programs are found', () => {
-  //   store = mockStore({
-  //     institutionPrograms: {
-  //       institutionPrograms: [], // Empty array, simulating no programs found
-  //       loading: false,
-  //       error: null,
-  //     },
-  //   });
-
-  //   const wrapper = mount(
-  //     <Provider store={store}>
-  //       <Router
-  //         initialEntries={[{ state: { institutionName: 'Institution 1' } }]}
-  //       >
-  //         <ProgramsList
-  //           match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
-  //         />
-  //       </Router>
-  //     </Provider>,
-  //   );
-
-  //   // Check if the correct "no results" message is displayed
-  //   expect(wrapper.text()).to.include('We didn’t find any results for');
-  //   expect(wrapper.find('li')).to.have.lengthOf(0); // Ensure no program list items are rendered
-
-  //   wrapper.unmount();
-  // });
   it('displays an error message when there is an error in the state', () => {
     store = mockStore({
       institutionPrograms: {
