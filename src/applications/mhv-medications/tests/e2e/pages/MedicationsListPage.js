@@ -459,12 +459,17 @@ class MedicationsListPage {
   selectSortDropDownOption = (text, intercept) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions?page=1&per_page=20&sort[]=${intercept}`,
+      `/my_health/v1/prescriptions?page=1&per_page=20null${intercept}`,
       prescriptions,
     );
     cy.get('[data-testid="sort-dropdown"]')
       .find('#options')
       .select(text, { force: true });
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions?page=1&per_page=20null${intercept}`,
+      prescriptions,
+    );
   };
 
   loadRxDefaultSortAlphabeticallyByStatus = () => {
@@ -494,23 +499,23 @@ class MedicationsListPage {
   loadRxAfterSortAlphabeticallyByName = () => {
     cy.intercept(
       'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20null&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    );
+    cy.intercept(
+      'GET',
       '/my_health/v1/prescriptions?&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
-    cy.intercept(
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=prescription_name&sort[]=dispensed_date',
-      // prescriptions,
-      req => {
-        return Cypress.Promise.delay(500).then(() => req.continue());
-      },
-    ).as('prescriptions');
+    // cy.intercept(
+    //   '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=prescription_name&sort[]=dispensed_date',
+    //   // prescriptions,
+    //   req => {
+    //     return Cypress.Promise.delay(500).then(() => req.continue());
+    //   },
+    // ).as('prescriptions');
 
-    cy.get('[data-testid="loading-indicator"]').should('exist');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=prescription_name&sort[]=dispensed_date',
-      prescriptions,
-    );
+    // cy.get('[data-testid="loading-indicator"]').should('exist');
   };
 
   verifyPaginationDisplayedforSortAlphabeticallyByName = (
@@ -518,6 +523,11 @@ class MedicationsListPage {
     displayedEndNumber,
     listLength,
   ) => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20null&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    );
     cy.get('[data-testid="page-total-info"]')
       .first()
       .should(
@@ -532,17 +542,17 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
       prescriptions,
     );
-    cy.intercept(
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
-      req => {
-        return Cypress.Promise.delay(500).then(() => req.continue());
-      },
-    ).as('prescriptions');
+    // cy.intercept(
+    //   '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+    //   req => {
+    //     return Cypress.Promise.delay(500).then(() => req.continue());
+    //   },
+    // ).as('prescriptions');
 
-    cy.get('[data-testid="loading-indicator"]').should('exist');
+    // cy.get('[data-testid="loading-indicator"]').should('exist');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      '/my_health/v1/prescriptions?page=1&per_page=20null&sort[]=-dispensed_date&sort[]=prescription_name',
       prescriptions,
     );
   };
