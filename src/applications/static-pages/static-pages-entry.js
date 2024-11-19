@@ -53,6 +53,7 @@ import createFindVaForms, {
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
 import createHCAPerformanceWarning from './hca-performance-warning';
+import createHomepageEmailSignup from './homepage-email-signup';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
@@ -178,6 +179,7 @@ createFindVaFormsPDFDownloadHelper(
   store,
   widgetTypes.FIND_VA_FORMS_DOWNLOAD_MODAL,
 );
+createHomepageEmailSignup(store, widgetTypes.HOMEPAGE_EMAIL_SIGNUP);
 createPost911GiBillStatusWidget(
   store,
   widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,

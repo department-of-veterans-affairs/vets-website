@@ -7,7 +7,10 @@ import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library';
-import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from './constants';
+import {
+  FORMAT_READABLE_DATE_FNS,
+  FORMAT_YMD_DATE_FNS_CONCAT,
+} from './constants';
 
 import { parseDateToDateObj } from '../../../utils/dates';
 
@@ -21,7 +24,10 @@ const VeteranInformation = ({ formData }) => {
   const { dob, gender, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
 
-  const dobDateObj = parseDateToDateObj(dob || null, FORMAT_YMD_DATE_FNS);
+  const dobDateObj = parseDateToDateObj(
+    dob || null,
+    FORMAT_YMD_DATE_FNS_CONCAT,
+  );
 
   return (
     <>
