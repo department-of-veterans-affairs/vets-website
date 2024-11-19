@@ -60,11 +60,12 @@ const BenefitCard = ({ benefit }) => {
 
 BenefitCard.propTypes = {
   benefit: PropTypes.shape({
-    name: PropTypes.string,
+    applyNowURL: PropTypes.string,
     category: PropTypes.string,
     description: PropTypes.string,
+    isTimeSensitive: PropTypes.bool,
     learnMoreURL: PropTypes.string,
-    applyNowURL: PropTypes.string,
+    name: PropTypes.string,
   }),
 };
 

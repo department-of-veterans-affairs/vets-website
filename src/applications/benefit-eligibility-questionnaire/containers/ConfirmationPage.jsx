@@ -10,27 +10,12 @@ import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import BenefitCard from '../components/BenefitCard';
+import NoResultsBanner from '../components/NoResultsBanner';
 import GetFormHelp from '../components/GetFormHelp';
 import SaveResultsModal from '../components/SaveResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
 
 export class ConfirmationPage extends React.Component {
-  sortBenefitObj(benefitObj, sortKey) {
-    return [...benefitObj].sort((a, b) => {
-      const aValue = a[sortKey] || '';
-      const bValue = b[sortKey] || '';
-
-      if (typeof aValue === 'string' && typeof bValue === 'string') {
-        return aValue.localeCompare(bValue);
-      }
-
-      if (aValue < bValue) return -1;
-      if (aValue > bValue) return 1;
-
-      return 0;
-    });
-  }
-
   constructor(props) {
     super(props);
 
@@ -123,6 +108,22 @@ export class ConfirmationPage extends React.Component {
     };
     this.setState({ sortValue: sortStrings[key] });
   };
+
+  sortBenefitObj(benefitObj, sortKey) {
+    return [...benefitObj].sort((a, b) => {
+      const aValue = a[sortKey] || '';
+      const bValue = b[sortKey] || '';
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return aValue.localeCompare(bValue);
+      }
+
+      if (aValue < bValue) return -1;
+      if (aValue > bValue) return 1;
+
+      return 0;
+    });
+  }
 
   sortBenefits = () => {
     const key = this.state.sortValue;
@@ -446,33 +447,6 @@ export class ConfirmationPage extends React.Component {
     );
   }
 }
-
-const NoResultsBanner = ({ data, handleClick }) => (
-  <va-banner
-    className="response-no-results"
-    headline="No Results Found"
-    type="warning"
-    visible
-  >
-    <p>
-      <>
-        {data && data.length > 0
-          ? "We're unable to recomend benefits based on your responses. You can "
-          : "We're unable to recomend benefits that match your filters. You can adjust your filters or "}
-      </>
-      <va-link
-        data-testid="back-link-banner"
-        href="#"
-        onClick={handleClick}
-        text="Go back review and update your entries"
-      />
-    </p>
-    <p>
-      We’re adding more benefits, so we encourage you to try again in the
-      future.
-    </p>
-  </va-banner>
-);
 
 const mapDispatchToProps = {
   setSubmission: setSubmissionAction,
