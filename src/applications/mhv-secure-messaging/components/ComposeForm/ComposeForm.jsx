@@ -71,7 +71,6 @@ const ComposeForm = props => {
             r => +r.id === +selectedRecipientId && r.signatureRequired,
           ) || false,
         );
-        // setIsSignatureRequired(true);
       }
     },
     [selectedRecipientId, allowedRecipients],

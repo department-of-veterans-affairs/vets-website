@@ -43,8 +43,13 @@ export const RouteLeavingGuard = ({
     }
     return true;
   };
+
   const handleConfirmNavigationClick = () => {
-    saveDraftHandler('manual');
+    const isConfirmButtonTextMatching = confirmButtonText.includes('Save');
+
+    if (isConfirmButtonTextMatching) {
+      saveDraftHandler('manual');
+    }
     closeModal();
     if (lastLocation) {
       updateConfirmedNavigation(true);
@@ -106,7 +111,7 @@ export const RouteLeavingGuard = ({
               .confirmButtonText && p1}
         </p>
         {p2 && <p>{p2}</p>}
-        <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
+        <div className="mobile-lg:vads-u-flex-direction--row">
           <va-button
             class="vads-u-margin-top--1 vads-u-flex--auto"
             text={cancelButtonText}

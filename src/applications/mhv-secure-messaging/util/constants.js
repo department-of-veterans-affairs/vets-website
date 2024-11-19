@@ -133,7 +133,6 @@ export const ErrorMessages = {
       'unable to save draft with attachment and signature',
     CONT_SAVING_DRAFT_ERROR: 'your draft is not saved',
     CONT_SAVING_DRAFT_CHANGES_ERROR: 'your draft changes are not saved',
-    // CONT_SAVING_DRAFT_ATTACHMENT_CHANGES_ERROR:
   },
   ContactList: {
     SAVE_AND_EXIT: {
