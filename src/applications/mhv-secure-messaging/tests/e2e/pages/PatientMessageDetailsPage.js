@@ -562,6 +562,8 @@ class PatientMessageDetailsPage {
       cy.wrap(el)
         .find(Locators.MESSAGE_THREAD_META)
         .should('be.visible');
+      // line below was added because focus jump out to header from fist message after pressing the Enter btn
+      cy.tabToElement(el);
       cy.realPress(`Enter`);
       cy.wrap(el)
         .find(Locators.MESSAGE_THREAD_META)
