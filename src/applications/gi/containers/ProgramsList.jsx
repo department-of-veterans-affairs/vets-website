@@ -7,7 +7,7 @@ import {
   VaPagination,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatProgramType, generateMockPrograms } from '../../utils/helpers';
+import { formatProgramType, generateMockPrograms } from '../utils/helpers';
 // import { fetchInstitutionPrograms } from '../../actions';
 
 const ProgramsList = ({ match }) => {
@@ -56,7 +56,7 @@ const ProgramsList = ({ match }) => {
   };
 
   const handleSearchSubmit = e => {
-    e.preventDefault();
+    e?.preventDefault();
     if (!searchQuery.trim()) {
       setSearchError('Please fill in a program name and then select search.');
       return;
@@ -168,8 +168,8 @@ const ProgramsList = ({ match }) => {
       ) : (
         <p id="no-results-message">
           {`We didn’t find any results for `}"
-          <strong>{`${submittedQuery}`}</strong>" . Please enter a valid program
-          name.
+          <strong>{`${submittedQuery}`}</strong>
+          ." Please enter a valid program name.
         </p>
       )}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
