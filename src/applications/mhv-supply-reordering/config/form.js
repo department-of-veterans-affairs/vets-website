@@ -38,6 +38,7 @@ const customText = {
   // appSavedSuccessfullyMessage: '',
   appType: 'order',
   // continueAppButtonText: '',
+  finishAppLaterMessage: 'Finish this order later',
   // reviewPageTitle: '',
   // startNewAppButtonText: '',
   // submitButtonText: '',
