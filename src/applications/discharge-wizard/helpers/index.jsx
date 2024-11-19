@@ -740,7 +740,7 @@ export const renderMedicalRecordInfo = formResponses => {
           <strong>
             If you’ve seen a non-VA health care provider for diagnosis or
             treatment of PTSD or another mental health condition,
-          </strong>
+          </strong>{' '}
           you should also submit private medical treatment records that can
           provide information about your condition. You’ll need to contact your
           provider to request copies of your records.
@@ -753,7 +753,7 @@ export const renderMedicalRecordInfo = formResponses => {
           <strong>
             If you’ve seen a non-VA health care provider for diagnosis or
             treatment of TBI,
-          </strong>
+          </strong>{' '}
           you should also submit private medical treatment records that can
           provide information about your condition. You’ll need to contact your
           provider to request copies of your records.
@@ -766,7 +766,7 @@ export const renderMedicalRecordInfo = formResponses => {
           <strong>
             If you’ve seen a non-VA health care provider for for treatment after
             your assault or harassment,
-          </strong>
+          </strong>{' '}
           you should also submit records from a non-VA health care provider.
           You’ll need to contact your provider to request copies of your
           records.
