@@ -45,6 +45,17 @@ const customText = {
 };
 
 const chapters = {
+  selectSuppliesChapter: {
+    title: 'Select supplies',
+    pages: {
+      selectSupplies: {
+        path: 'select-supplies',
+        title: 'Select supplies',
+        uiSchema: selectSupplies.uiSchema,
+        schema: selectSupplies.schema,
+      },
+    },
+  },
   contactInformationChapter: {
     title: 'Contact information',
     pages: {
@@ -73,17 +84,6 @@ const chapters = {
         depends: () => false,
         uiSchema: {},
         schema: blankSchema,
-      },
-    },
-  },
-  selectSuppliesChapter: {
-    title: 'Select supplies',
-    pages: {
-      selectSupplies: {
-        path: 'select-supplies',
-        title: 'Select supplies',
-        uiSchema: selectSupplies.uiSchema,
-        schema: selectSupplies.schema,
       },
     },
   },
