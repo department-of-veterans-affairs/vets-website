@@ -13,6 +13,12 @@ function fmtDate(date) {
     : date;
 }
 
+// Returns list of object keys where obj[key] === true. Used
+// to get the list of relationships a certifier has w/ the applicants:
+function trueKeysOnly(obj) {
+  return Object.keys(obj ?? {}).filter(k => obj[k] === true);
+}
+
 // Simplify a relationship object from (potentially) multiple nested objects to a single string
 function transformRelationship(obj) {
   if (typeof obj === 'string') return obj;
@@ -107,8 +113,7 @@ export default function transformForSubmit(formConfig, form) {
     // If certifier is also applicant, we don't need to fill out the
     // bottom "Certification" section of the PDF:
     certification:
-      transformedData?.certifierRelationship?.relationshipToVeteran
-        ?.applicant === true
+      transformedData?.certifierRole === 'applicant'
         ? { date: currentDate }
         : {
             date: currentDate,
@@ -116,9 +121,10 @@ export default function transformForSubmit(formConfig, form) {
             middleInitial: transformedData?.certifierName?.middle || '',
             firstName: transformedData?.certifierName?.first || '',
             phoneNumber: transformedData?.certifierPhone || '',
-            relationship: transformRelationship(
-              transformedData?.certifierRelationship,
-            ),
+            // will produce string list of checkboxgroup keys (e.g., "spouse; child")
+            relationship: trueKeysOnly(
+              transformedData?.certifierRelationship?.relationshipToVeteran,
+            ).join('; '),
             streetAddress:
               transformedData?.certifierAddress?.streetCombined || '',
             city: transformedData?.certifierAddress?.city || '',
@@ -156,12 +162,7 @@ export default function transformForSubmit(formConfig, form) {
   dataPostTransform.supportingDocs = dataPostTransform.supportingDocs
     .flat()
     .concat(supDocs);
-  // TODO - remove usage of `certifierRole` in vets-api
-  dataPostTransform.certifierRole =
-    dataPostTransform?.certifierRelationship?.relationshipToVeteran
-      ?.applicant === true
-      ? 'applicant'
-      : 'other';
+  dataPostTransform.certifierRole = transformedData.certifierRole;
   dataPostTransform.statementOfTruthSignature =
     transformedData.statementOfTruthSignature;
   // `primaryContactInfo` is who BE callback API emails if there's a notification event
