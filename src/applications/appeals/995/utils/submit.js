@@ -1,11 +1,4 @@
-import {
-  CLAIMANT_TYPES,
-  EVIDENCE_OTHER,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_VA,
-  PRIMARY_PHONE,
-  SC_NEW_FORM_DATA,
-} from '../constants';
+import { CLAIMANT_TYPES, PRIMARY_PHONE } from '../constants';
 import {
   hasHomeAndMobilePhone,
   hasHomePhone,
@@ -16,7 +9,7 @@ import {
   buildVaLocationString,
 } from '../validations/evidence';
 
-import { showScNewForm } from '../utils/toggle';
+import { showScNewForm } from './toggle';
 import {
   getVAEvidence,
   getOtherEvidence,
