@@ -721,8 +721,7 @@ export function prefillTransformerV4(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]:
-      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
+    [formFields.claimantId]: claimant?.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
         first: firstName || undefined,
