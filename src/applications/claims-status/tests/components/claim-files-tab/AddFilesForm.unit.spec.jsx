@@ -265,10 +265,12 @@ describe('<AddFilesForm>', () => {
       const { container, rerender, getByText } = render(
         <AddFilesForm {...fileFormProps} />,
       );
-      const inputElement = $('#file-upload', container);
+      const fileInput = $('#file-upload', container);
 
       // Add a file to the va-file-input component
-      userEvent.upload(inputElement, { detail: { files: [file] } });
+      userEvent.upload(fileInput, file);
+      expect(fileInput.files[0]).to.equal(file);
+      expect(fileInput.files.length).to.equal(1);
       rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
       getByText('hello.jpg');
     });
@@ -296,7 +298,7 @@ describe('<AddFilesForm>', () => {
 
     it('should add multiple valid files', () => {
       const files = [];
-      const { container } = render(
+      const { container, getByText, rerender } = render(
         <AddFilesForm {...fileFormProps} files={files} />,
       );
       const fileInput = $('#file-upload', container);
@@ -306,6 +308,11 @@ describe('<AddFilesForm>', () => {
       expect(fileInput.files[0].length).to.equal(2);
       expect(fileInput.files[0][0]).to.equal(file);
       expect(fileInput.files[0][1]).to.equal(file2);
+      rerender(
+        <AddFilesForm {...fileFormProps} files={[file, file2]} uploading />,
+      );
+      getByText('hello.jpg');
+      getByText('hello2.jpg');
     });
   });
 
