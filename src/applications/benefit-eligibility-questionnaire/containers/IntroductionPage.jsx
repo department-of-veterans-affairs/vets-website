@@ -11,12 +11,14 @@ const IntroductionPage = ({ router }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={formConfig.title} subtitle="" />
-
       <div role="heading" aria-level="2">
         <p>
           If you’re a Veteran or transitioning service member, answer a few
-          questions about your goals and experiences. We’ll help you find
-          benefits you may want to apply for.
+          questions
+          <br />
+          about your goals and experiences. We’ll help you find benefits
+          <br />
+          you may want to apply for.
         </p>
       </div>
 
@@ -40,7 +42,7 @@ const IntroductionPage = ({ router }) => {
           <va-link
             href="https://www.va.gov/family-and-caregiver-benefits/"
             external
-            text="visit this page"
+            text="visit this page (opens in a new tab)"
             type="secondary"
             label="visit this page"
           />

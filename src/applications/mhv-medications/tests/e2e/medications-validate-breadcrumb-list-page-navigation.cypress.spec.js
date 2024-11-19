@@ -6,7 +6,7 @@ import prescriptionDetails from './fixtures/prescription-details-page2.json';
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
-describe.skip('Medications Breadcrumb Navigation To List Page', () => {
+describe('Medications Breadcrumb Navigation To List Page', () => {
   it('visits Medications Breadcrumb Link to List Page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
@@ -26,7 +26,7 @@ describe.skip('Medications Breadcrumb Navigation To List Page', () => {
 
     cy.injectAxe();
     cy.axeCheck('main');
-    listPage.clickGotoMedicationsLink(true);
+    listPage.clickGotoMedicationsLink();
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     site.verifyPaginationPrescriptionsDisplayed(21, 29, listLength);

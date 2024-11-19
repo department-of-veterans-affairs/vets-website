@@ -10,6 +10,7 @@ import {
 export default {
   uiSchema: {
     militaryServiceTotalTimeServed: radioUI({
+      enableAnalytics: true,
       title: 'In total, how long have you served in the military?',
       hint:
         'If you have served multiple periods, please choose the answer that reflects your total amount of service.',

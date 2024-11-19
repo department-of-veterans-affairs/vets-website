@@ -1,5 +1,12 @@
-import { ssnUI } from 'platform/forms-system/src/js/web-component-patterns';
-import React from 'react';
+import {
+  dateOfBirthSchema,
+  dateOfBirthUI,
+  fullNameSchema,
+  fullNameUI,
+  ssnSchema,
+  ssnUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
 import {
   personalInformationFormSchemas,
@@ -20,23 +27,37 @@ delete aboutVetUiSchema.genderIdentity;
 delete aboutVetUiSchema.socialOrServiceNum;
 delete aboutVetUiSchema.isVeteranDeceased;
 
-const aboutVetFormSchema = { ...personalInformationFormSchemas };
+const aboutVetFormSchema = { ...personalInformationFormSchemas, ssnSchema };
 delete aboutVetFormSchema.genderIdentity;
 delete aboutVetFormSchema.socialOrServiceNum;
 delete aboutVetFormSchema.isVeteranDeceased;
 
 const aboutTheFamilyMemberPage = {
   uiSchema: {
-    'ui:title': <h3>{CHAPTER_3.ABOUT_YOUR_FAM_MEM.TITLE}</h3>,
-    aboutTheFamilyMember: aboutVetUiSchema,
+    ...titleUI(CHAPTER_3.ABOUT_YOUR_FAM_MEM.TITLE),
+    aboutTheFamilyMember: {
+      fullName: fullNameUI(),
+      socialOrServiceNum: { ssn: ssnUI() },
+      dateOfBirth: dateOfBirthUI(),
+    },
   },
   schema: {
     type: 'object',
-    required: [],
     properties: {
       aboutTheFamilyMember: {
         type: 'object',
-        properties: aboutVetFormSchema,
+        required: ['dateOfBirth'],
+        properties: {
+          fullName: fullNameSchema,
+          socialOrServiceNum: {
+            type: 'object',
+            required: ['ssn'],
+            properties: {
+              ssn: ssnSchema,
+            },
+          },
+          dateOfBirth: dateOfBirthSchema,
+        },
       },
     },
   },

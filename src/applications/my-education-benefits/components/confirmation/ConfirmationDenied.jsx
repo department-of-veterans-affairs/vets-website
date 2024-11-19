@@ -64,6 +64,7 @@ const ConfirmationDenied = ({
 
       <div className="feature">
         <h3>Application for VA education benefits (Form 22-1990)</h3>
+        <h3>Post-9/11 GI Bill, Chapter 33</h3>
         {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
         <dl>
           <dt>Date received</dt>

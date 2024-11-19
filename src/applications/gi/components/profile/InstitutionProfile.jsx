@@ -107,7 +107,10 @@ export default function InstitutionProfile({
         className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4"
       >
         <div className="usa-width-three-fourths">
-          <ProfilePageHeader institution={institution} />
+          <ProfilePageHeader
+            institution={institution}
+            isShowRatingsToggle={isShowRatingsToggle}
+          />
           {type === 'FLIGHT' && (
             <p>
               For information about VA flight benefits, visit{' '}

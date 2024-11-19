@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -7,32 +8,33 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import CustomPrefillMessage from '../../components/CustomPrefillAlert';
 import { sponsorWording } from '../../helpers/utilities';
 
 function descriptionText(formData) {
-  // Base: if sponsor
-  let wording =
-    'Please provide your information. We use this information to identify eligibility.';
-
   // Adjust text if is applicant or third party
-  if (formData.certifierRole !== 'sponsor') {
-    const isApp = formData.certifierRole === 'applicant';
-    wording = `Enter the personal information for ${
-      isApp ? 'your' : 'the'
-    } sponsor (the Veteran or service member that ${
-      isApp ? 'you’re' : 'the applicant is'
-    } connected to). We’ll use the sponsor’s information to confirm ${
-      isApp ? 'your' : 'their'
-    } eligibility for CHAMPVA benefits.`;
-  }
-  return wording;
+  const isApp =
+    formData?.certifierRelationship?.relationshipToVeteran?.applicant;
+  return `Enter the personal information for ${
+    isApp ? 'your' : 'the'
+  } sponsor (the Veteran or service member that ${
+    isApp ? 'you’re' : 'the applicant is'
+  } connected to). We’ll use the sponsor’s information to confirm ${
+    isApp ? 'your' : 'their'
+  } eligibility for CHAMPVA benefits.`;
 }
 
 export const sponsorNameDobConfig = {
   uiSchema: {
     ...titleUI(
       ({ formData }) => `${sponsorWording(formData)} name and date of birth`,
-      ({ formData }) => descriptionText(formData),
+      ({ formData }) => (
+        // Prefill message conditionally displays based on `certifierRole`
+        <>
+          <p>{descriptionText(formData)}</p>
+          {CustomPrefillMessage(formData, 'sponsor')}
+        </>
+      ),
     ),
     veteransFullName: fullNameUI(),
     sponsorDob: dateOfBirthUI(),

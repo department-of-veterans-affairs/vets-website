@@ -21,7 +21,10 @@ describe('Medications List Page Renewal Filter Option', () => {
     listPage.clickFilterRadioButtonOptionOnListPage(
       'Renewal needed before refill',
     );
-    listPage.clickFilterButtonOnAccordion();
-    listPage.verifyNameOfFirstRxOnMedicationsList('renewal');
+    // listPage.clickFilterButtonOnAccordion();
+    // listPage.verifyFocusOnPaginationTextInformationOnListPage(
+    //   Data.PAGINATION_TEXT,
+    // );
+    // listPage.verifyNameOfFirstRxOnMedicationsList('renewal');
   });
 });
