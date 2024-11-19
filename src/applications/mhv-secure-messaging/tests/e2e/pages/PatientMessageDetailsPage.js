@@ -141,8 +141,7 @@ class PatientMessageDetailsPage {
     singleThreadResponse = threadResponse,
     multiThreadsResponse = inboxMessages,
   ) => {
-    const singleMessageResponse = { data: {} };
-    singleMessageResponse.data = singleThreadResponse.data[0];
+    const singleMessageResponse = { data: singleThreadResponse.data[0] };
     cy.intercept(
       `GET`,
       `${Paths.SM_API_EXTENDED}/${
@@ -160,7 +159,7 @@ class PatientMessageDetailsPage {
     ).as(`threadFirstMessageResponse`);
 
     cy.get(
-      `#message-link-${inboxMessages.data[0].attributes.messageId}`,
+      `#message-link-${multiThreadsResponse.data[0].attributes.messageId}`,
     ).click();
     cy.wait(`@threadResponse`);
     cy.wait(`@threadFirstMessageResponse`);
