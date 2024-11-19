@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import findIndex from 'lodash/findIndex';
 import { Outlet, useLocation } from 'react-router-dom-v5-compat';
 
-// import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
-
 import { chapters } from '../utils/chapters';
 
 export function DownloadLetters() {

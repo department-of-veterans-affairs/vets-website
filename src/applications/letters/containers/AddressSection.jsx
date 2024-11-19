@@ -47,6 +47,8 @@ export function AddressSection({ address }) {
     );
   }
 
+  // Only set focus on the H1 when AddressSection is loaded.
+  // LettersList component has its own logic.
   useEffect(() => {
     focusElement('#letters-title-id');
   }, []);
