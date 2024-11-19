@@ -69,10 +69,10 @@ export function canVeteranProvideRadiationCleanupResponse(formData) {
   );
 }
 
-export function canVeteranProvideGulfWarResponse(formData) {
+export function canVeteranProvideGulfWarServiceResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, new Date(1900, 1, 1), subYears(new Date(), 15))
+    veteranBornBetween(formData, new Date(1900, 1, 1), new Date(1976, 12, 31))
   );
 }
 
@@ -80,6 +80,13 @@ export function canVeteranProvideCombatOperationsResponse(formData) {
   return (
     includeTeraInformation(formData) &&
     veteranBornBetween(formData, new Date(1900, 1, 1), subYears(new Date(), 15))
+  );
+}
+
+export function canVeteranProvidePostSept11ServiceResponse(formData) {
+  return (
+    includeTeraInformation(formData) &&
+    veteranBornBetween(formData, new Date(1976, 1, 1), subYears(new Date(), 15))
   );
 }
 
@@ -107,7 +114,23 @@ export function includeGulfWarServiceDates(formData) {
   return (
     gulfWarService &&
     includeTeraInformation(formData) &&
-    canVeteranProvideGulfWarResponse(formData)
+    canVeteranProvideGulfWarServiceResponse(formData)
+  );
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user served in specific post-911 gulf war locations
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they served in the specified
+ * Post-9/11 Gulf War locations
+ */
+export function includePostSept11ServiceDates(formData) {
+  const { gulfWarService } = formData;
+  return (
+    gulfWarService &&
+    includeTeraInformation(formData) &&
+    canVeteranProvidePostSept11ServiceResponse(formData)
   );
 }
 

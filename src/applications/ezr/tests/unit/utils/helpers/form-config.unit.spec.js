@@ -15,7 +15,7 @@ import {
   collectMedicareInformation,
   canVeteranProvideRadiationCleanupResponse,
   veteranBornBetween,
-  canVeteranProvideGulfWarResponse,
+  canVeteranProvideGulfWarServiceResponse,
   canVeteranProvideCombatOperationsResponse,
   canVeteranProvideAgentOrangeResponse,
   includeGulfWarServiceDates,
@@ -462,7 +462,7 @@ describe('ezr form config helpers', () => {
           veteranDateOfBirth: '2004-04-23',
         };
         it('returns `true`', () => {
-          expect(canVeteranProvideGulfWarResponse(formData)).to.be.true;
+          expect(canVeteranProvideGulfWarServiceResponse(formData)).to.be.true;
         });
 
         const formDataWithLatestPossibleDate = {
@@ -471,7 +471,9 @@ describe('ezr form config helpers', () => {
         };
         it('returns `true`', () => {
           expect(
-            canVeteranProvideGulfWarResponse(formDataWithLatestPossibleDate),
+            canVeteranProvideGulfWarServiceResponse(
+              formDataWithLatestPossibleDate,
+            ),
           ).to.be.true;
         });
       },
@@ -486,7 +488,7 @@ describe('ezr form config helpers', () => {
           veteranDateOfBirth: '2023-10-18',
         };
         it('returns `false`', () => {
-          expect(canVeteranProvideGulfWarResponse(formData)).to.be.false;
+          expect(canVeteranProvideGulfWarServiceResponse(formData)).to.be.false;
         });
       },
     );
