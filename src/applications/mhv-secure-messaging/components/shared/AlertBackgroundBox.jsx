@@ -35,6 +35,7 @@ const AlertBackgroundBox = props => {
   const [alertContent, setAlertContent] = useState('');
   const alertRef = useRef();
   const [activeAlert, setActiveAlert] = useState(null);
+  const [alertAriaLabel, setAlertAriaLabel] = useState('');
 
   const {
     Message: { SERVER_ERROR_503 },
@@ -47,8 +48,16 @@ const AlertBackgroundBox = props => {
   const location = useLocation();
   const SrOnlyTag = alertContent === SERVER_ERROR_503 ? 'h1' : 'span';
 
+  const lastPathName = formatPathName(location.pathname, 'Messages');
+
+  // these props check if the current page is the folder view page or thread view page
+  const foldersViewPage = /folders\/\d+/.test(location.pathname);
+  const threadViewPage = /thread\/\d+/.test(location.pathname);
+  const contactListPage = /contact-list/.test(location.pathname);
+
   useEffect(
     () => {
+      if (foldersViewPage && !folder?.name) return;
       if (alertList?.length) {
         const filteredSortedAlerts = alertList
           .filter(alert => alert?.isActive)
@@ -56,11 +65,20 @@ const AlertBackgroundBox = props => {
             // Sort chronologically descending.
             return b.datestamp - a.datestamp;
           });
+
+        if (lastPathName === 'Folders') {
+          setAlertAriaLabel('You are in My Folders');
+        } else if (foldersViewPage) {
+          setAlertAriaLabel(`You are in the ${folder?.name} folder page view`);
+        } else {
+          setAlertAriaLabel(`You are in ${lastPathName}`);
+        }
+
         // The activeAlert is the most recent alert marked as active.
         setActiveAlert(filteredSortedAlerts[0] || null);
       }
     },
-    [alertList],
+    [alertList, folder, foldersViewPage],
   );
 
   const handleShowIcon = () => {
@@ -73,13 +91,6 @@ const AlertBackgroundBox = props => {
     dispatch(closeAlert());
     dispatch(focusOutAlert());
   };
-
-  const lastPathName = formatPathName(location.pathname, 'Messages');
-
-  // these props check if the current page is the folder view page or thread view page
-  const foldersViewPage = /folders\/\d+/.test(location.pathname);
-  const threadViewPage = /thread\/\d+/.test(location.pathname);
-  const contactListPage = /contact-list/.test(location.pathname);
 
   // sets custom server error messages for the landing page and folder view pages
   useEffect(
@@ -103,6 +114,7 @@ const AlertBackgroundBox = props => {
       SERVER_ERROR_503,
       SERVICE_OUTAGE,
       activeAlert,
+      contactListPage,
       foldersViewPage,
       lastPathName,
       location.pathname,
@@ -133,11 +145,6 @@ const AlertBackgroundBox = props => {
     },
     [props.focus],
   );
-
-  const alertAriaLabel = `You are in ${(lastPathName === 'Folders' &&
-    'My Folders') ||
-    (foldersViewPage && 'a custom folder view page') ||
-    lastPathName}.`;
 
   return (
     <>
