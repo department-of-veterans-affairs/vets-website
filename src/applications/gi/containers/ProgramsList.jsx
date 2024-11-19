@@ -7,7 +7,7 @@ import {
   VaPagination,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatProgramType, generateMockPrograms } from '../../utils/helpers';
+import { formatProgramType, generateMockPrograms } from '../utils/helpers';
 // import { fetchInstitutionPrograms } from '../../actions';
 
 const ProgramsList = ({ match }) => {
@@ -56,7 +56,7 @@ const ProgramsList = ({ match }) => {
   };
 
   const handleSearchSubmit = e => {
-    e.preventDefault();
+    e?.preventDefault();
     if (!searchQuery.trim()) {
       setSearchError('Please fill in a program name and then select search.');
       return;
