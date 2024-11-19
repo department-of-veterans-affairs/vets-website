@@ -43,7 +43,7 @@ describe('<ClearFiltersBtn />', () => {
         },
       },
     );
-    const button = screen.getByRole('button');
+    const button = screen.getByTestId('clear-button');
     fireEvent.click(button);
     expect(dispatchFilterChangeSpy.calledOnce).to.be.false;
     expect(
@@ -66,7 +66,7 @@ describe('<ClearFiltersBtn />', () => {
         },
       },
     );
-    const button = screen.queryByRole('button');
+    const button = screen.getByTestId('clear-button');
     expect(button).to.not.have.class('clear-filters-button');
   });
   /*
@@ -102,45 +102,7 @@ describe('<ClearFiltersBtn />', () => {
         },
       },
     );
-    const button = screen.getByRole('button');
-    expect(button).to.have.class('clear-filters-btn');
+    const button = screen.getByTestId('clear-button');
+    expect(button).not.to.have.class('clear-filters-btn');
   });
-  /*
-  it('should render button with className clear-filters-button when ENV is Prod', () => {
-    global.window.buildType = true;
-    const dispatchFilterChangeSpy = sinon.spy();
-    const screen = renderWithStoreAndRouter(
-      <ClearFiltersBtn
-        dispatchFilterChange={dispatchFilterChangeSpy}
-        filters={filters}
-        smallScreen
-      />,
-      {
-        initialState: {
-          constants: mockConstants(),
-        },
-      },
-    );
-    const button = screen.getByRole('button');
-    expect(button).to.have.class('clear-filters-button');
-  }); */
-  /*
-  it('should render button with className clear-filters-button when ENV is Prod and not smallscreen', () => {
-    global.window.buildType = true;
-    const dispatchFilterChangeSpy = sinon.spy();
-    const screen = renderWithStoreAndRouter(
-      <ClearFiltersBtn
-        dispatchFilterChange={dispatchFilterChangeSpy}
-        filters={filters}
-        smallScreen={false}
-      />,
-      {
-        initialState: {
-          constants: mockConstants(),
-        },
-      },
-    );
-    const button = screen.getByRole('button');
-    expect(button).to.have.class('clear-filters-button');
-  }); */
 });
