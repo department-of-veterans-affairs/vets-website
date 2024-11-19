@@ -10,7 +10,7 @@ const Description = ({ formData }) => {
   return (
     <>
       <va-alert status="info">
-        <p>
+        <p className="vads-u-margin--0">
           We’ve prefilled some of your information from VA Denver Logistics
           Center’s record. If you need to correct anything, you can edit the
           contact information.
