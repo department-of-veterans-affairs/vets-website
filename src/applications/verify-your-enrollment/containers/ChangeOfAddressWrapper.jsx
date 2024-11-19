@@ -311,7 +311,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}
               formSubmit={saveAddressInfo}
-              formData={editFormData}
+              formData={goBackToEdit ? editFormData : newAddress}
             >
               <div className="button-container">
                 <LoadingButton

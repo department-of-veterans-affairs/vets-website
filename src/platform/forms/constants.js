@@ -34,7 +34,6 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_527EZ: '21P-527EZ',
   FORM_21P_530: '21P-530',
   FORM_21P_530V2: '21P-530V2',
-  FORM_22_0993: '22-0993',
   FORM_22_0994: '22-0994',
   FORM_22_10203: '22-10203',
   FORM_22_10215: '22-10215',
@@ -278,13 +277,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'burial benefits (21P-530EZ)',
     description: 'burial benefits application (21P-530EZ)',
     trackingPrefix: 'burials-530-',
-  },
-  {
-    id: VA_FORM_IDS.FORM_22_0993,
-    benefit: 'opt out',
-    title: 'opt out (22-0993)',
-    description: 'opt out application (22-0993)',
-    trackingPrefix: 'edu-0993-',
   },
   {
     id: VA_FORM_IDS.FORM_22_0994,

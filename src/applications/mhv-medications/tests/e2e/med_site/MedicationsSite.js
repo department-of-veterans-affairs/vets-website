@@ -93,7 +93,7 @@ class MedicationsSite {
   loadVAPaginationNextPrescriptions = (interceptedPage = 2, mockRx) => {
     cy.intercept(
       'GET',
-      `my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date`,
+      `my_health/v1/prescriptions?page=${interceptedPage}&per_page=20`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
     cy.intercept(

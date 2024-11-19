@@ -8,10 +8,11 @@ export function ClaimConfirmationInfo({
   dateSubmitted,
   conditions,
   claimId,
+  isSubmittingBDD,
 }) {
   const name = formatFullName(fullName);
   return (
-    <va-summary-box>
+    <va-summary-box class={isSubmittingBDD && 'vads-u-margin-top--4'}>
       <h2 className="vads-u-font-size--h3" slot="headline">
         Disability Compensation Claim{' '}
         <span className="vads-u-font-weight--normal">(Form 21-526EZ)</span>
@@ -35,10 +36,12 @@ export function ClaimConfirmationInfo({
               ))}
             </ul>
           </li>
-          <li>
-            <strong>Claim ID number</strong>
-            <div>{claimId}</div>
-          </li>
+          {claimId && (
+            <li>
+              <strong>Claim ID number</strong>
+              <div>{claimId}</div>
+            </li>
+          )}
         </ul>
       </div>
     </va-summary-box>
@@ -50,4 +53,5 @@ ClaimConfirmationInfo.propTypes = {
   conditions: PropTypes.array,
   dateSubmitted: PropTypes.object,
   fullName: PropTypes.object,
+  isSubmittingBDD: PropTypes.bool,
 };
