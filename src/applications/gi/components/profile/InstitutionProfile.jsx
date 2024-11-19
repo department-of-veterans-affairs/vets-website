@@ -54,7 +54,7 @@ export default function InstitutionProfile({
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-  const { type, facilityCode } = institution;
+  const { type, facilityCode, name } = institution;
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
@@ -305,7 +305,11 @@ export default function InstitutionProfile({
       )}
       {toggleGiProgramsFlag && (
         <ProfileSection label="Programs" id="programs">
-          <Programs programTypes={programTypes} facilityCode={facilityCode} />
+          <Programs
+            programTypes={programTypes}
+            facilityCode={facilityCode}
+            institutionName={name}
+          />
         </ProfileSection>
       )}
       {!isOJT && (

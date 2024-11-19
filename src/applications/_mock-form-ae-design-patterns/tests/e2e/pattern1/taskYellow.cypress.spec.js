@@ -4,7 +4,7 @@ import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-a
 
 describe('Prefill pattern - Yellow Task', () => {
   beforeEach(() => {
-    cy.login(mockUsers.loa3User72);
+    cy.login(mockUsers.loa3User);
     cy.intercept('GET', '/v0/feature_toggles*', { loading: false }).as(
       'mockFeatureToggles',
     );
@@ -108,7 +108,7 @@ describe('Prefill pattern - Yellow Task', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    cy.findByText('Mitchell George Jenkins').should('exist');
+    cy.findByText('Mitchell G Jenkins').should('exist');
 
     cy.findByText('●●●–●●–6789').should('exist');
 

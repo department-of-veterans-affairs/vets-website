@@ -561,11 +561,6 @@ export const stepHeaderLevel = formResponses => {
   return 2;
 };
 
-export const determineIsAirForceAFRBAPortal = formResponses =>
-  formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
-  determineBoardObj(formResponses).abbr === BCMR &&
-  determineFormData(formResponses).num === 149;
-
 const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
   if (
     ![
