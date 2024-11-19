@@ -29,9 +29,12 @@ export const getPrescriptionsPaginatedSortedList = (
   }
 };
 
-export const getPaginatedFilteredList = filterOption => async dispatch => {
+export const getPaginatedFilteredList = (
+  pageNumber,
+  filterOption,
+) => async dispatch => {
   try {
-    const response = await getFilteredList(filterOption);
+    const response = await getFilteredList(pageNumber, filterOption);
     dispatch({
       type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
       response,
