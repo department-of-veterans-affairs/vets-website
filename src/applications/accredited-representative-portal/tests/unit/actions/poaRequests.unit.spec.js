@@ -7,7 +7,7 @@ import {
   acceptPOARequest,
   declinePOARequest,
   getPOARequestsByCodes,
-} from '../../../actions/poaRequests';
+} from '../../../api/poaRequests';
 import mockPOARequestsResponse from '../../../mocks/mockPOARequestsResponse.json';
 
 const API_PREFIX = `${environment.API_URL}/accredited_representative_portal/v0`;

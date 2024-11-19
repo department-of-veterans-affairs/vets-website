@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import POARequestsPage from '../../../containers/POARequestsPage';
+import POARequestsPage from '../../../pages/POARequestsPage';
 
 describe('POARequestsPage', () => {
   const getPOARequestsPage = () => render(<POARequestsPage />);

@@ -1,20 +1,36 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom-v5-compat';
-
+import { createBrowserRouter } from 'react-router-dom';
 import App from './containers/App';
-import LandingPage from './containers/LandingPage';
-import POARequestsPage from './containers/POARequestsPage';
+import LandingPage from './pages/LandingPage';
+import POARequestsPage from './pages/POARequestsPage';
 import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
+import { poaRequestsLoader } from './loaders/poaRequestsLoader';
 
-const routes = (
-  <Routes>
-    <Route element={<App />}>
-      <Route index element={<LandingPage />} />
-      <Route element={<SignedInLayoutWrapper />}>
-        <Route path="poa-requests" element={<POARequestsPage />} />
-      </Route>
-    </Route>
-  </Routes>
-);
+const routes = [
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        index: true,
+        element: <LandingPage />,
+      },
+      {
+        element: <SignedInLayoutWrapper />,
+        children: [
+          {
+            path: 'poa-requests',
+            element: <POARequestsPage />,
+            loader: poaRequestsLoader,
+          },
+        ],
+      },
+    ],
+  },
+];
 
-export default routes;
+const router = createBrowserRouter(routes, {
+  basename: '/representative',
+});
+
+export default router;
