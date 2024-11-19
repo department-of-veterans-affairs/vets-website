@@ -21,10 +21,18 @@ import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/a
 import AuthorizedRoutes from './AuthorizedRoutes';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
-import manifest from '../manifest.json';
+// import manifest from '../manifest.json';
 import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams } from '../util/constants';
 import useTrackPreviousUrl from '../hooks/use-previous-url';
+import 'platform/polyfills';
+import '../sass/compose.scss';
+import '../sass/message-details.scss';
+import '../sass/message-list.scss';
+import '../sass/search.scss';
+import '../sass/secure-messaging.scss';
+import '../sass/message-thread.scss';
+import '../sass/dashboard.scss';
 
 const App = ({ isPilot }) => {
   useTrackPreviousUrl();
@@ -137,7 +145,7 @@ const App = ({ isPilot }) => {
   // If the user lands on /my-health/secure-messages-pilot and is not whitelisted,
   // redirect to the SM main experience landing page
   if (isPilot && !cernerPilotSmFeatureFlag) {
-    window.location.replace(manifest.rootUrl);
+    window.location.replace('/my-health/my-secure-messages');
     return <></>;
   }
 

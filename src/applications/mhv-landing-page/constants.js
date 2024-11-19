@@ -24,27 +24,27 @@ const HEALTH_TOOL_LINKS = freeze({
   ]),
   MESSAGES: freeze([
     {
-      href: '/my-health/secure-messages/inbox/',
+      href: '/my-health/my-secure-messages/inbox/',
       text: 'Go to inbox',
     },
     {
-      href: '/my-health/secure-messages/new-message/',
+      href: '/my-health/my-secure-messages/new-message/',
       text: 'Start a new message',
     },
   ]),
   MEDICATIONS: freeze([
     {
-      href: '/my-health/medications/refill',
+      href: '/my-health/my-medications/refill',
       text: 'Refill VA prescriptions',
     },
     {
-      href: '/my-health/medications',
+      href: '/my-health/my-medications',
       text: 'Review medications',
     },
   ]),
   MEDICAL_RECORDS: freeze([
     {
-      href: '/my-health/medical-records/',
+      href: '/my-health/my-medical-records/',
       text: 'Get medical records',
     },
   ]),

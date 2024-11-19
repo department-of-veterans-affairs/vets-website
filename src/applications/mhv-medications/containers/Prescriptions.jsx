@@ -191,7 +191,9 @@ const Prescriptions = () => {
       }
       if (Number.isNaN(page) || page < 1) {
         history.replace(
-          `/?page=${sessionStorage.getItem(SESSION_SELECTED_PAGE_NUMBER) || 1}`,
+          `/my-medications/?page=${sessionStorage.getItem(
+            SESSION_SELECTED_PAGE_NUMBER,
+          ) || 1}`,
         );
         return;
       }
