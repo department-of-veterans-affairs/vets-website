@@ -98,7 +98,32 @@ const NewRecordsIndicator = ({
   };
 
   const content = () => {
+    // eslint-disable-next-line no-console
+    console.log(
+      'This is refreshedOnthisPage + refreshPhases.CALL_FAILED + refreshPhase',
+      refreshedOnThisPage,
+      refreshPhases.CALL_FAILED,
+      refreshPhase,
+    );
     if (refreshedOnThisPage) {
+      if (refreshPhase === refreshPhases.CALL_FAILED) {
+        return (
+          <va-alert
+            visible
+            aria-live="polite"
+            data-testid="new-records-refreshed-stale"
+          >
+            <p>Your records may not be up to date.</p>
+            <p>
+              There’s a problem with our system, and we can’t access the date
+              your records were last updated. We’re sorry. Please check back
+              later for updates. If it still doesn’t work, call us at
+              877-327-0022 (TTY:711). We’re here Monday through Friday, 8:00 a.m
+              to 8:00 p. ET.
+            </p>
+          </va-alert>
+        );
+      }
       if (refreshPhase === refreshPhases.FAILED) {
         return failedMsg();
       }

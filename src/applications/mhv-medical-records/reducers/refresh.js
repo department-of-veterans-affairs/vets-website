@@ -42,11 +42,13 @@ export const safeNewDate = dateStr => {
  * @returns {string|null} the current refresh phase, or null if parameters are invalid.
  */
 export const getPhase = (extractStatus, retrieved) => {
+  if (!extractStatus || !retrieved) {
+    return refreshPhases.CALL_FAILED; // Return CALL_FAILED if data is missing
+  }
   if (
-    !extractStatus?.lastRequested ||
-    !extractStatus?.lastCompleted ||
-    !extractStatus?.lastSuccessfulCompleted ||
-    !retrieved
+    !extractStatus.lastRequested ||
+    !extractStatus.lastCompleted ||
+    !extractStatus.lastSuccessfulCompleted
   ) {
     return null;
   }
@@ -84,6 +86,7 @@ export const getOverallPhase = (refreshStatus, retrieved) => {
     refreshPhases.STALE,
     refreshPhases.CURRENT,
     refreshPhases.FAILED,
+    refreshPhases.CALL_FAILED,
   ];
 
   for (const phase of phasePriority) {
@@ -153,6 +156,12 @@ export const refreshReducer = (state = initialState, action) => {
       return {
         ...state,
         statusPollBeginDate: action.payload,
+      };
+    }
+    case Actions.Refresh.STATUS_CALL_FAILED: {
+      return {
+        ...state,
+        phase: refreshPhases.CALL_FAILED,
       };
     }
     default:
