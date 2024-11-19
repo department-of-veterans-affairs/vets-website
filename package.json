@@ -106,7 +106,7 @@
   },
   "devDependencies": {
     "@actions/core": "^1.9.1",
-    "@axe-core/react": "^4.10.1",
+    "@axe-core/react": "^4.10.0",
     "@babel/core": "^7.26.0",
     "@babel/eslint-parser": "^7.25.9",
     "@babel/parser": "^7.26.2",
@@ -143,7 +143,7 @@
     "@webpack-cli/serve": "^1.6.0",
     "append-query": "^2.1.1",
     "autoprefixer": "^10.3.5",
-    "axe-core": "^4.10.2",
+    "axe-core": "^4.4.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-dynamic-import-node": "^2.3.3",
