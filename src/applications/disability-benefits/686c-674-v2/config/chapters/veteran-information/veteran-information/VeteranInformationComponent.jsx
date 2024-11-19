@@ -28,7 +28,7 @@ const mask = value => {
 };
 
 export const VeteranInformation = ({ formData }) => {
-  const { ssnLastFour, vaFileLastFour } = formData?.veteran || {};
+  const { ssnLastFour, vaFileLastFour } = formData?.veteranInformation || {};
   const { dob, gender, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
 
@@ -108,7 +108,7 @@ export const VeteranInformation = ({ formData }) => {
 
 VeteranInformation.propTypes = {
   formData: PropTypes.shape({
-    veteran: PropTypes.shape({
+    veteranInformation: PropTypes.shape({
       ssnLastFour: PropTypes.string,
       vaFileLastFour: PropTypes.string,
     }),
