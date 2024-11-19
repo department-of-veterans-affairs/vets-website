@@ -44,10 +44,8 @@ describe('Mental health conditions', () => {
     getByText(conditionsPageTitle);
 
     const addlInfo = container.querySelector('va-accordion-item');
-    expect(addlInfo).to.have.attribute(
-      'header',
-      'Examples of traumatic events',
-    );
+    const headline = addlInfo.querySelector('h3[slot="headline"]');
+    expect(headline).to.have.text('Examples of traumatic events');
 
     await waitFor(() => {
       expect($$('va-checkbox-group', container).length).to.equal(1);
