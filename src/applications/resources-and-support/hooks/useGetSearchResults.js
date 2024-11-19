@@ -139,6 +139,24 @@ export const getOrderedResults = filteredArticles => {
   );
 };
 
+export const createOrderedResults = (articles, query) => {
+  const keywords = createKeywordsArray(query);
+  let filteredArticles = filterArticles(articles, keywords);
+
+  filteredArticles = filteredArticles?.map(article => {
+    const keywordCounts = getKeywordCounts(keywords, article);
+    const wholePhraseMatches = getWholePhraseMatches(query, article);
+
+    return {
+      ...article,
+      ...keywordCounts,
+      ...wholePhraseMatches,
+    };
+  });
+
+  return getOrderedResults(filteredArticles);
+};
+
 export default function useGetSearchResults(articles, query, page) {
   const [results, setResults] = useState([]);
 
@@ -149,21 +167,7 @@ export default function useGetSearchResults(articles, query, page) {
         return;
       }
 
-      const keywords = createKeywordsArray(query);
-      let filteredArticles = filterArticles(articles, keywords);
-
-      filteredArticles = filteredArticles?.map(article => {
-        const keywordCounts = getKeywordCounts(keywords, article);
-        const wholePhraseMatches = getWholePhraseMatches(query, article);
-
-        return {
-          ...article,
-          ...keywordCounts,
-          ...wholePhraseMatches,
-        };
-      });
-
-      const orderedResults = getOrderedResults(filteredArticles);
+      const orderedResults = createOrderedResults(articles, query);
 
       recordEvent({
         event: 'view_search_results',

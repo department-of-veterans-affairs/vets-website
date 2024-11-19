@@ -3,6 +3,7 @@ import {
   countKeywordsFound,
   countWholePhraseMatchesFound,
   createKeywordsArray,
+  createOrderedResults,
   filterArticles,
   getKeywordCounts,
   getOrderedResults,
@@ -27,6 +28,16 @@ describe('Resources and Support hooks', () => {
     it('should return the correct number of keywords found', () => {
       expect(countKeywordsFound('', 'protect')).to.equal(0);
     });
+
+    it('should return the correct number of keywords found with no search string', () => {
+      expect(countKeywordsFound('', '')).to.equal(1);
+    });
+
+    it('should return the correct number of keywords found with no search string', () => {
+      expect(
+        countKeywordsFound('Protect your identity with the VA', ''),
+      ).to.equal(0);
+    });
   });
 
   describe('countWholePhraseMatchesFound', () => {
@@ -39,13 +50,29 @@ describe('Resources and Support hooks', () => {
       ).to.equal(1);
     });
 
-    it('should return 0 if the whole search phrase matches a result', () => {
+    it('should return 0 if the whole search phrase does not match a result', () => {
       expect(
         countWholePhraseMatchesFound(
           'Protect your identity with the V',
           'Protect your identity with the VA',
         ),
       ).to.equal(0);
+    });
+
+    it('should return 0 if the whole search phrase matches a result', () => {
+      expect(
+        countWholePhraseMatchesFound('', 'Protect your identity with the VA'),
+      ).to.equal(0);
+    });
+
+    it('should return a number matching the string length if the keyword is an empty string', () => {
+      expect(
+        countWholePhraseMatchesFound('Protect your identity with the VA', ''),
+      ).to.equal(32);
+    });
+
+    it('should return -1 if both values given are empty', () => {
+      expect(countWholePhraseMatchesFound('', '')).to.equal(-1);
     });
   });
 
@@ -223,6 +250,177 @@ describe('Resources and Support hooks', () => {
         filteredArticles[1],
         filteredArticles[2],
         filteredArticles[0],
+      ]);
+    });
+  });
+
+  describe('createOrderedResults', () => {
+    it('should return ordered results as expected', () => {
+      expect(createOrderedResults(articles, 'gi bill')).to.deep.equal([
+        {
+          ...articles[3],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 2,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
+        {
+          ...articles[6],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 2,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
+      ]);
+    });
+
+    it('should return ordered results as expected', () => {
+      expect(createOrderedResults(articles, 'disability')).to.deep.equal([
+        {
+          ...articles[8],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 1,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
+        {
+          ...articles[13],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 1,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
+      ]);
+    });
+
+    it('should return ordered results as expected', () => {
+      expect(createOrderedResults(articles, 'benefits')).to.deep.equal([
+        {
+          ...articles[0],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 1,
+          wholePhraseMatchCountsContent: 1,
+          wholePhraseMatchCountsIntroText: 1,
+          wholePhraseMatchCountsTitle: 0,
+          wholePhraseMatchCountsTotal: 2,
+        },
+        {
+          ...articles[7],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 0,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
+        {
+          ...articles[4],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 0,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
+        {
+          ...articles[8],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 0,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
+        {
+          ...articles[9],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 0,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
+        {
+          ...articles[5],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 0,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
+        {
+          ...articles[6],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 0,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
+        {
+          ...articles[2],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 1,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 0,
+          wholePhraseMatchCountsTotal: 0,
+        },
+        {
+          ...articles[3],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 1,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 0,
+          wholePhraseMatchCountsTotal: 0,
+        },
+        {
+          ...articles[1],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 1,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 0,
+          wholePhraseMatchCountsTotal: 0,
+        },
       ]);
     });
   });
