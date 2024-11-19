@@ -16,12 +16,8 @@ export const examplesHint =
 
 export const traumaticEventsInfo = (
   <va-accordion open-single>
-    <va-accordion-item
-      header="Examples of traumatic events"
-      class="vads-u-margin-y--3"
-      id="first"
-      bordered
-    >
+    <va-accordion-item class="vads-u-margin-y--3" id="first" bordered>
+      <h3 slot="headline">Examples of traumatic events</h3>
       <h4 className="vads-u-margin-top--0">
         Traumatic events related to combat
       </h4>
@@ -85,7 +81,7 @@ export const traumaticEventsInfo = (
 );
 
 export const noneAndConditionError =
-  "If you're not claiming any mental health conditions related to a traumatic event, unselect the other options you selected";
+  'If you’re not claiming any mental health conditions related to a traumatic event, unselect the other options you selected';
 
 /* ---------- utils ---------- */
 /**
