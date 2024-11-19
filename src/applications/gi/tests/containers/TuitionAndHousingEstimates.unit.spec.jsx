@@ -36,11 +36,7 @@ describe('<TuitionAndHousingEstimates>', () => {
         },
       },
     );
-    fireEvent.click(
-      screen.getByText(
-        'Update tuition, housing, and monthly benefit estimates',
-      ),
-    );
+    fireEvent.click(screen.getByTestId('update-tuition-housing'));
     const actionsCalled = screen?.store?.getActions();
     expect(
       actionsCalled?.some(
@@ -64,14 +60,8 @@ describe('<TuitionAndHousingEstimates>', () => {
         },
       },
     );
-    fireEvent.click(
-      screen.getByText(
-        'Update tuition, housing, and monthly benefit estimates',
-      ),
-    );
-    const UpdateEstimatesButton = screen.getByRole('button', {
-      name: 'Update estimates',
-    });
+    fireEvent.click(screen.getByTestId('update-tuition-housing'));
+    const UpdateEstimatesButton = screen.getByTestId('update-tuition-housing');
     fireEvent.click(UpdateEstimatesButton);
     await waitFor(() => {
       expect(screen).to.not.be.null;

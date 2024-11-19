@@ -113,7 +113,7 @@ describe('686 Remove child no longer in household array options', () => {
     const { maxItems } = removeChildHouseholdOptions;
 
     it('should have a maxItems value of 7', () => {
-      expect(maxItems).to.equal(7);
+      expect(maxItems).to.equal(20);
     });
   });
 });

@@ -112,7 +112,7 @@ const mockBenefits = [
   },
   {
     id: '2',
-    name: 'Careers & Employment',
+    name: 'Careers and Employment',
     category: 'Careers',
     isTimeSensitive: false,
   },
@@ -187,7 +187,7 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
       .getAllByRole('listitem')
       .map(li => li.textContent);
     expect(benefitNames).to.have.lengthOf(6);
-    expect(benefitNames[0]).to.contain('Careers & Employment');
+    expect(benefitNames[0]).to.contain('Careers and Employment');
   });
 
   it('should show all benefits when "All" filter is selected', () => {

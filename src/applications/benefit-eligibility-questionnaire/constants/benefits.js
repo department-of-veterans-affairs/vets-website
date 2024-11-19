@@ -1,7 +1,7 @@
 const categories = {
   BURIALS: 'Burials and memorials',
   EDUCATION: 'Education',
-  EMPLOYMENT: 'Careers & Employment',
+  EMPLOYMENT: 'Careers and Employment',
   MORE_SUPPORT: 'More Support',
   HEALTH_CARE: 'Health Care',
   HOUSING: 'Housing Assistance',
