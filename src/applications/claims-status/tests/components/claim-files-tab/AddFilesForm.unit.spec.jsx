@@ -76,16 +76,17 @@ describe('<AddFilesForm>', () => {
     };
 
     it('should render component', () => {
-      const { container, getByRole, getAllByRole, getByText } = render(
+      const { container, getAllByRole, getByText } = render(
         <AddFilesForm {...fileFormProps} />,
       );
 
       expect($('.add-files-form', container)).to.exist;
-      getByRole('checkbox', {
-        required: true,
-        checked: false,
-        label: 'The files I uploaded support this claim only.',
-      });
+      const checkbox = $('va-checkbox', container);
+      expect(checkbox).to.exist;
+      expect(checkbox.label).to.equal(
+        'The files I uploaded support this claim only.',
+      );
+      expect(checkbox.required).to.be.true;
       getAllByRole('link', {
         text: 'How to File a Claim page (opens in a new tab)',
       });
