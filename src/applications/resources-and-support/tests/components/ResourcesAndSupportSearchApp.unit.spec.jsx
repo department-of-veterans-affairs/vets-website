@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import ResourcesAndSupportSearchApp from '../../components/ResourcesAndSupportSearchApp';
 import * as useArticleDataModule from '../../hooks/useArticleData';
-import mockData from './articles.json';
+import mockData from '../articles.json';
 
 describe('ResourcesAndSupportSearchApp', () => {
   let useArticleDataStub;

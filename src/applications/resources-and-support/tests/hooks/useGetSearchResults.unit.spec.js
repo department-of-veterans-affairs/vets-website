@@ -9,7 +9,7 @@ import {
   getOrderedResults,
   getWholePhraseMatches,
 } from '../../hooks/useGetSearchResults';
-import articles from '../components/articles.json';
+import articles from '../articles.json';
 
 describe('Resources and Support hooks', () => {
   describe('countKeywordsFound', () => {
@@ -115,17 +115,29 @@ describe('Resources and Support hooks', () => {
     });
   });
 
-  describe('filterArticles', () => {
+  describe.only('filterArticles', () => {
     it('should correctly filter the articles down to the ones that match the keywords', () => {
       expect(
         filterArticles(articles, ['benefit', 'famil', 'deceased']),
-      ).to.deep.equal(articles.slice(0, 10));
+      ).to.deep.equal([
+        articles[4],
+        articles[14],
+        articles[31],
+        articles[38],
+        articles[49],
+        articles[50],
+      ]);
     });
 
     it('should correctly filter the articles down to the ones that match the keywords', () => {
       expect(filterArticles(articles, ['gi', 'bill'])).to.deep.equal([
-        articles[3],
-        articles[6],
+        articles[31],
+      ]);
+    });
+
+    it('should correctly filter the articles down to the ones that match the keywords', () => {
+      expect(filterArticles(articles, ['active', 'duty'])).to.deep.equal([
+        articles[5],
       ]);
     });
 
@@ -139,10 +151,10 @@ describe('Resources and Support hooks', () => {
   describe('getKeywordCounts', () => {
     it('should return the correct counts for a given article and keywords', () => {
       expect(getKeywordCounts(['gi', 'bill'], articles[3])).to.deep.equal({
-        keywordsCountsContent: 0,
-        keywordsCountsIntroText: 0,
-        keywordsCountsIntroTextAndContent: 0,
-        keywordsCountsTitle: 2,
+        keywordsCountsContent: 2,
+        keywordsCountsIntroText: 2,
+        keywordsCountsIntroTextAndContent: 4,
+        keywordsCountsTitle: 0,
       });
     });
 
@@ -150,10 +162,21 @@ describe('Resources and Support hooks', () => {
       expect(
         getKeywordCounts(['protect', 'your', 'identity'], articles[5]),
       ).to.deep.equal({
-        keywordsCountsContent: 0,
-        keywordsCountsIntroText: 0,
-        keywordsCountsIntroTextAndContent: 0,
-        keywordsCountsTitle: 4,
+        keywordsCountsContent: 1,
+        keywordsCountsIntroText: 1,
+        keywordsCountsIntroTextAndContent: 2,
+        keywordsCountsTitle: 0,
+      });
+    });
+
+    it('should return the correct counts for a given article and keywords', () => {
+      expect(
+        getKeywordCounts(['education', 'benefit'], articles[4]),
+      ).to.deep.equal({
+        keywordsCountsContent: 2,
+        keywordsCountsIntroText: 1,
+        keywordsCountsIntroTextAndContent: 3,
+        keywordsCountsTitle: 1,
       });
     });
 
@@ -179,21 +202,32 @@ describe('Resources and Support hooks', () => {
   describe('getWholePhraseMatches', () => {
     it('should return the correct counts for a given article and keywords', () => {
       expect(getWholePhraseMatches('gi bill', articles[3])).to.deep.equal({
-        wholePhraseMatchCountsContent: 0,
-        wholePhraseMatchCountsIntroText: 0,
-        wholePhraseMatchCountsTitle: 1,
-        wholePhraseMatchCountsTotal: 1,
+        wholePhraseMatchCountsContent: 1,
+        wholePhraseMatchCountsIntroText: 1,
+        wholePhraseMatchCountsTitle: 0,
+        wholePhraseMatchCountsTotal: 2,
       });
     });
 
     it('should return the correct counts for a given article and keywords', () => {
       expect(
-        getWholePhraseMatches('education benefit', articles[0]),
+        getWholePhraseMatches('education benefit', articles[49]),
       ).to.deep.equal({
-        wholePhraseMatchCountsContent: 1,
+        wholePhraseMatchCountsContent: 2,
         wholePhraseMatchCountsIntroText: 1,
         wholePhraseMatchCountsTitle: 1,
-        wholePhraseMatchCountsTotal: 3,
+        wholePhraseMatchCountsTotal: 4,
+      });
+    });
+
+    it('should return the correct counts for a given article and keywords', () => {
+      expect(
+        getWholePhraseMatches('covid', articles[44]),
+      ).to.deep.equal({
+        wholePhraseMatchCountsContent: 3,
+        wholePhraseMatchCountsIntroText: 2,
+        wholePhraseMatchCountsTitle: 1,
+        wholePhraseMatchCountsTotal: 6,
       });
     });
 

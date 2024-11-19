@@ -3,7 +3,7 @@ import React from 'react';
 import { truncate } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import { Article } from '../prop-types';
-import { ENTITY_BUNDLES } from '../content-modeling';
+import { ENTITY_BUNDLES } from '../constants';
 
 const articleTypes = {
   [ENTITY_BUNDLES.Q_A]: 'Question and answer',
