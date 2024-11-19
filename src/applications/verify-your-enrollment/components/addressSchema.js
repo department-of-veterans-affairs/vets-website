@@ -9,6 +9,33 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import { blockURLsRegEx } from '../constants';
+import { splitAddressLine } from '../helpers';
+
+const initializeAddressLine1 = formData => {
+  return formData?.addressLine1 !== undefined
+    ? splitAddressLine(formData?.addressLine1, 20).line1
+    : splitAddressLine(formData?.street?.trim(), 20).line1;
+};
+
+const initializeAddressLine2 = formData => {
+  const address1 =
+    formData?.street?.length > 20
+      ? splitAddressLine(formData?.addressLine1, 20).line2
+      : splitAddressLine(formData?.addressLine2, 20).line1;
+  const address2 =
+    formData?.street?.length > 20
+      ? splitAddressLine(formData?.street?.trim(), 20).line2
+      : splitAddressLine(formData?.street2?.trim(), 20).line1;
+
+  if (formData?.addressLine2 === undefined && address2 === '') {
+    return undefined;
+  }
+  return formData?.addressLine2 !== undefined ? address1 : address2;
+};
+
+const cleanZipCode = zipcode => {
+  return zipcode?.substring(0, 5);
+};
 
 const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
 
@@ -48,14 +75,14 @@ export const getFormSchema = (formData = {}) => {
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
-        default: formData?.addressLine1,
+        default: initializeAddressLine1(formData),
       },
       addressLine2: {
         type: 'string',
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
-        default: formData?.addressLine2,
+        default: initializeAddressLine2(formData),
       },
       addressLine3: {
         type: 'string',
@@ -85,7 +112,7 @@ export const getFormSchema = (formData = {}) => {
       zipCode: {
         type: 'string',
         pattern: '^\\d{5}$',
-        default: formData?.zipCode,
+        default: cleanZipCode(formData?.zipCode),
       },
     },
     required: ['addressLine1', 'city'],

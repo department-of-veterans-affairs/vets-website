@@ -73,11 +73,10 @@ const StepOne = ({ formResponses }) => {
     return null;
   };
 
-  const dd214Tips = formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] !==
-    RESPONSES.AIR_FORCE && (
+  const dd214Tips = (
     <ul>
       <li>
-        Pay special attention to item 6, which asks for the reason for your
+        Pay special attention to item 14, which asks for the reason for your
         change. Here you should explain why you need a new DD214, including any
         problems you face when you have to show both the DD214 and the DD215.
         You may want to consider attaching additional pages to fully answer this
@@ -89,18 +88,17 @@ const StepOne = ({ formResponses }) => {
   const nonDd2014Tips = (
     <ul>
       <li>
-        Pay special attention to item 6, which asks for the reason for your
+        Pay special attention to item 14, which asks for the reason for your
         change. Most Veterans attach additional pages to answer this question.{' '}
         {strongCaseTips()}
       </li>
-
       {[
         RESPONSES.PREV_APPLICATION_BCMR,
         RESPONSES.PREV_APPLICATION_BCNR,
       ].includes(formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE]) && (
         <li>
           Because you’re applying for reconsideration of a previous application,
-          you’ll need to enter the previous application number in Item 6b.{' '}
+          you’ll need to enter the previous application number in Item 11b.{' '}
           <strong>Note:</strong> You’re generally only eligible for
           reconsideration if you have new evidence to present that wasn’t
           available when you applied last time. Make sure you’re clear about
@@ -123,7 +121,7 @@ const StepOne = ({ formResponses }) => {
       )}
       {boardToSubmit.abbr !== DRB && (
         <li>
-          Item 8 asks for the date when you discovered the error or injustice
+          Item 16 asks for the date when you discovered the error or injustice
           you’re asking the Board to address. If it’s been more than 3 years
           since you found this error or injustice, you’ll need to include a
           reason why the Board should consider your application. Examples of
