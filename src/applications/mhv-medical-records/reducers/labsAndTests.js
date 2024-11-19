@@ -12,6 +12,10 @@ import {
   formatNameFirstToLast,
 } from '../util/helpers';
 import {
+  areDatesEqualToMinute,
+  parseRadiologyReport,
+} from '../util/radiologyUtil';
+import {
   loincCodes,
   fhirResourceTypes,
   labTypes,
@@ -316,8 +320,10 @@ const convertEkgRecord = record => {
 export const buildRadiologyResults = record => {
   const reportText = record?.reportText || '\n';
   const impressionText = record?.impressionText || '\n';
-  return `Report:${reportText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}  
-Impression:${impressionText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}`;
+  return `Report:\n${reportText
+    .replace(/\r\n|\r/g, '\n')
+    .replace(/^/gm, '  ')}  
+Impression:\n${impressionText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '  ')}`;
 };
 
 export const convertMhvRadiologyRecord = record => {
@@ -339,6 +345,72 @@ export const convertMhvRadiologyRecord = record => {
     results: buildRadiologyResults(record),
     images: [],
   };
+};
+
+export const convertCvixRadiologyRecord = record => {
+  const parsedReport = parseRadiologyReport(record.reportText);
+  return {
+    id: `r${record.id}-${record.hash}`,
+    name: record.procedureName,
+    type: labTypes.CVIX_RADIOLOGY,
+    reason: parsedReport['Reason for Study'] || EMPTY_FIELD,
+    orderedBy: parsedReport['Req Phys'] || EMPTY_FIELD,
+    clinicalHistory: parsedReport['Clinical History'] || EMPTY_FIELD,
+    imagingLocation: record.facilityInfo?.name || EMPTY_FIELD,
+    date: record.performedDatePrecise
+      ? dateFormatWithoutTimezone(record.performedDatePrecise)
+      : EMPTY_FIELD,
+    sortDate: record.performedDatePrecise || EMPTY_FIELD,
+    imagingProvider: EMPTY_FIELD,
+    results: buildRadiologyResults({
+      reportText: parsedReport.Report,
+      impressionText: parsedReport.Impression,
+    }),
+    studyId: record.studyIdUrn,
+    images: [],
+  };
+};
+
+const mergeRadiologyRecords = (phrRecord, cvixRecord) => {
+  if (phrRecord && cvixRecord) {
+    return { ...phrRecord, studyId: cvixRecord.studyId };
+  }
+  return phrRecord || cvixRecord || null;
+};
+
+/**
+ * Create a union of the radiology reports from PHR and CVIX. This function will merge
+ * duplicates between the two lists.
+ *
+ * @param {Array} phrRadiologyTestsList - List of PHR radiology records.
+ * @param {Array} cvixRadiologyTestsList - List of CVIX radiology records.
+ * @returns {Array} - The merged list of radiology records.
+ */
+export const mergeRadiologyLists = (
+  phrRadiologyTestsList,
+  cvixRadiologyTestsList,
+) => {
+  const mergedArray = [];
+  const matchedCvixIds = new Set();
+
+  for (const phrRecord of phrRadiologyTestsList) {
+    let matchingCvix = null;
+    for (const cvixRecord of cvixRadiologyTestsList) {
+      if (areDatesEqualToMinute(phrRecord.sortDate, cvixRecord.sortDate)) {
+        matchingCvix = cvixRecord;
+        matchedCvixIds.add(matchingCvix.id);
+        break;
+      }
+    }
+    if (matchingCvix) {
+      mergedArray.push(mergeRadiologyRecords(phrRecord, matchingCvix));
+    } else {
+      mergedArray.push(phrRecord);
+    }
+  }
+  return mergedArray.concat(
+    cvixRadiologyTestsList.filter(record => !matchedCvixIds.has(record.id)),
+  );
 };
 
 /**
@@ -374,6 +446,10 @@ const getRecordType = record => {
   if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
     return labTypes.RADIOLOGY;
   }
+  if (Object.prototype.hasOwnProperty.call(record, 'studyJob')) {
+    return labTypes.CVIX_RADIOLOGY;
+  }
+
   return labTypes.OTHER;
 };
 
@@ -386,6 +462,7 @@ const labsAndTestsConverterMap = {
   [labTypes.PATHOLOGY]: convertPathologyRecord,
   [labTypes.EKG]: convertEkgRecord,
   [labTypes.RADIOLOGY]: convertMhvRadiologyRecord,
+  [labTypes.CVIX_RADIOLOGY]: convertCvixRadiologyRecord,
 };
 
 /**
@@ -413,6 +490,23 @@ function sortByDate(array) {
 export const labsAndTestsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.LabsAndTests.GET: {
+      if ('phrDetails' in action.response) {
+        // Special case to handle radiology.
+        const { phrDetails, cvixDetails } = action.response;
+        const convertedPhr = phrDetails
+          ? convertMhvRadiologyRecord(phrDetails)
+          : null;
+        const convertedCvix = cvixDetails
+          ? convertCvixRadiologyRecord(cvixDetails)
+          : null;
+        return {
+          ...state,
+          labsAndTestsDetails: mergeRadiologyRecords(
+            convertedPhr,
+            convertedCvix,
+          ),
+        };
+      }
       return {
         ...state,
         labsAndTestsDetails: convertLabsAndTestsRecord(action.response),
@@ -434,7 +528,15 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         action.radiologyResponse.map(record =>
           convertLabsAndTestsRecord(record),
         ) || [];
-      const newList = sortByDate([...labsAndTestsList, ...radiologyTestsList]);
+      const cvixRadiologyTestsList =
+        action.cvixRadiologyResponse.map(record =>
+          convertLabsAndTestsRecord(record),
+        ) || [];
+      const mergedRadiologyList = mergeRadiologyLists(
+        radiologyTestsList,
+        cvixRadiologyTestsList,
+      );
+      const newList = sortByDate([...labsAndTestsList, ...mergedRadiologyList]);
 
       return {
         ...state,
