@@ -7,28 +7,29 @@ const EmailSignup = () => {
   const [inputError, setInputError] = useState(null);
   const [email, setEmail] = useState('');
   const [headerHasFocused, setHeaderHasFocused] = useState(false);
-  const textInput = document?.querySelector('va-text-input');
-  const shadowRoot = textInput?.shadowRoot;
 
-  useEffect(
-    () => {
-      if (shadowRoot) {
-        const charCountStyle = document.createElement('style');
+  useEffect(() => {
+    const textInput = document?.querySelector('va-text-input');
+    const shadowRoot = textInput?.shadowRoot;
 
-        charCountStyle.textContent = `
+    if (shadowRoot) {
+      const charCountStyle = document.createElement('style');
+
+      charCountStyle.textContent = `
           #charcount-message {
             color: #565c65;
           }
         `;
 
-        shadowRoot.appendChild(charCountStyle);
-      }
-    },
-    [shadowRoot],
-  );
+      shadowRoot.appendChild(charCountStyle);
+    }
+  });
 
   useEffect(
     () => {
+      const textInput = document?.querySelector('va-text-input');
+      const shadowRoot = textInput?.shadowRoot;
+
       if (shadowRoot && !headerHasFocused) {
         const inputHeader = shadowRoot?.querySelector('h2');
 
@@ -45,7 +46,7 @@ const EmailSignup = () => {
         }
       }
     },
-    [inputError, shadowRoot],
+    [inputError],
   );
 
   const setInputErrorState = () => {
