@@ -325,6 +325,41 @@ describe('TermsOfUse', () => {
     });
   });
 
+  it('should pass along `skip_mhv_account_creation` to API', async () => {
+    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=logingov`;
+    const skipMhvAccountCreation = true;
+    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}&skip_mhv_account_creation=${skipMhvAccountCreation}`;
+
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+        (_, res, ctx) => res(ctx.status(200)),
+      ),
+      rest.post(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
+        (req, res, ctx) => {
+          expect(req.url.searchParams.get('skip_mhv_account_creation')).to.eql(
+            skipMhvAccountCreation,
+          );
+          return res(ctx.status(200), ctx.json(touResponse200));
+        },
+      ),
+    );
+    const { queryAllByTestId } = render(
+      <Provider store={mockStore}>
+        <TermsOfUse />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const acceptButton = queryAllByTestId('accept')[0];
+      expect(acceptButton).to.exist;
+      fireEvent.click(acceptButton);
+      expect(global.window.location).to.not.eql(redirectUrl);
+    });
+  });
+
   it('should show an error state if there is a network error | non-modal', async () => {
     const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
     global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}`;

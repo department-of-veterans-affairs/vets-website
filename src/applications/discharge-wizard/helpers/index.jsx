@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import { differenceInYears } from 'date-fns';
 import * as options from 'platform/static-data/options-for-select';
 import {
   questionLabels,
@@ -278,7 +277,7 @@ export const determineBranchOfService = key =>
 
 // Determines if a previous discharge occurred more than 15 years ago.
 export const determineOldDischarge = (dischargeYear, dischargeMonth) =>
-  differenceInYears(new Date(), new Date(dischargeMonth, dischargeYear)) >= 15;
+  new Date() >= new Date(Number(dischargeYear) + 15, dischargeMonth);
 
 // Determines the label used on the review page to provide a full readable answer based on answers in the form.
 export const answerReviewLabel = (key, formValues) => {
@@ -358,9 +357,9 @@ export const determineBoardObj = (formResponses, noDRB) => {
   const intention =
     formResponses[SHORT_NAME_MAP.INTENTION] === RESPONSES.INTENTION_YES;
   const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
-  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 0;
+  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] - 1 || 0;
 
-  const oldDischarge = determineOldDischarge(dischargeMonth, dischargeYear);
+  const oldDischarge = determineOldDischarge(dischargeYear, dischargeMonth);
 
   const failureToExhaust = [
     RESPONSES.FAILURE_TO_EXHAUST_BCMR_YES,
@@ -562,11 +561,6 @@ export const stepHeaderLevel = formResponses => {
   return 2;
 };
 
-export const determineIsAirForceAFRBAPortal = formResponses =>
-  formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
-  determineBoardObj(formResponses).abbr === BCMR &&
-  determineFormData(formResponses).num === 149;
-
 const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
   if (
     ![
@@ -645,16 +639,14 @@ export const getBoardExplanation = formResponses => {
   const prevAppType = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE];
   const prevAppYear = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_YEAR];
   const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
-  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 1;
-  const oldDischarge =
-    new Date().getFullYear() -
-      new Date(dischargeYear, dischargeMonth).getFullYear() >
-    15;
+  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] - 1 || 0;
+  const oldDischarge = determineOldDischarge(dischargeYear, dischargeMonth);
 
   const boardToSubmit = determineBoardObj(formResponses);
   const serviceBranch = determineBranchOfService(
     formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
   );
+
   const { abbr, name } = boardToSubmit;
 
   if (reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214) {

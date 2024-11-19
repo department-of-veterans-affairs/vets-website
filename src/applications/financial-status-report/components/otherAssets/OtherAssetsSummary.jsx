@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import {
@@ -12,7 +12,6 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
 import ButtonGroup from '../shared/ButtonGroup';
 
 export const keyFieldsForOtherAssets = ['name', 'amount'];
@@ -27,7 +26,6 @@ const OtherAssetsSummary = ({
 }) => {
   const {
     assets,
-    gmtData,
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
@@ -38,26 +36,6 @@ const OtherAssetsSummary = ({
     reviewNavigation && showReviewNavigation
       ? 'Continue to review page'
       : 'Continue';
-
-  useEffect(
-    () => {
-      if (!gmtData?.isEligibleForStreamlined) return;
-      // liquid assets are caluclated in cash in bank with this ff
-      if (data['view:streamlinedWaiverAssetUpdate']) return;
-
-      const calculatedAssets = calculateLiquidAssets(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-        },
-      });
-    },
-    // avoiding use of data since it changes so often
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [otherAssets, gmtData?.isEligibleForStreamlined, gmtData?.assetThreshold],
-  );
 
   const onDelete = deleteIndex => {
     setFormData({
@@ -200,13 +178,7 @@ OtherAssetsSummary.propTypes = {
     assets: PropTypes.shape({
       otherAssets: PropTypes.array,
     }),
-    gmtData: PropTypes.shape({
-      assetThreshold: PropTypes.number,
-      assetsBelowGmt: PropTypes.bool,
-      isEligibleForStreamlined: PropTypes.bool,
-    }),
     reviewNavigation: PropTypes.bool,
-    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
     'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goForward: PropTypes.func,

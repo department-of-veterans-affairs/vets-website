@@ -37,18 +37,20 @@ export function initGetText({
    * @param {ArrayBuilderTextKey} key
    * @param {any} itemData
    * @param {any} [formData]
+   * @param {number} [index]
    * @returns {string}
    */
-  return (key, itemData, formData) => {
+  return (key, itemData, formData, index) => {
     const keyVal = getTextValues?.[key];
     if (key === 'getItemName' || key === 'cardDescription') {
-      return typeof keyVal === 'function' ? keyVal(itemData) : keyVal;
+      return typeof keyVal === 'function' ? keyVal(itemData, index) : keyVal;
     }
     return typeof keyVal === 'function'
       ? getTextValues?.[key]({
           ...getTextProps,
           itemData,
           formData,
+          index,
         })
       : keyVal;
   };
