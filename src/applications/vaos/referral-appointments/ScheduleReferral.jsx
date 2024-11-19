@@ -45,7 +45,7 @@ export default function ScheduleReferral(props) {
           id={currentReferral.UUID}
         />
         <h2>Details about your referral</h2>
-        <p>
+        <p data-testid="referral-details">
           <strong>Expiration date: </strong>
           {`All appointments for this referral must be scheduled by
           ${format(
@@ -86,7 +86,7 @@ export default function ScheduleReferral(props) {
           Contact your referring VA facility if you have questions about your
           referral or how to schedule your appointment.
         </p>
-        <p>
+        <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
           {currentReferral.ReferringFacilityInfo.FacilityName}
           <br />
