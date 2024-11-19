@@ -18,6 +18,8 @@ import ReviewPage from '../../pages/ReviewPage';
 import { VIEW_FIELD_SCHEMA } from '../../../../../utils/constants';
 // import { taskCompletePage } from '../../../../../shared/config/taskCompletePage';
 
+import { taskCompletePagePattern2 } from '../../../../../shared/config/taskCompletePage';
+
 // import { serviceHistory } from './chapters/service';
 
 // import { loanScreener, loanHistory } from './chapters/loans';
@@ -78,12 +80,6 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        // applicantInformationSummary: {
-        //   path: 'applicant-information',
-        //   title: 'Your personal information on file',
-        //   uiSchema: applicantInformation.uiSchema,
-        //   schema: applicantInformation.schema,
-        // },
       },
     },
     contactInformationChapter: {
@@ -101,19 +97,6 @@ const formConfig = {
             })(),
           }),
         }),
-        // mailingAddress: {
-        //   path: 'mailing-address',
-        //   title: mailingAddress.title,
-        //   uiSchema: mailingAddress.uiSchema,
-        //   schema: mailingAddress.schema,
-        //   updateFormData: mailingAddress.updateFormData,
-        // },
-        // additionalInformation: {
-        //   path: 'additional-contact-information',
-        //   title: additionalInformation.title,
-        //   uiSchema: additionalInformation.uiSchema,
-        //   schema: additionalInformation.schema,
-        // },
       },
     },
     reviewApp: {
@@ -134,6 +117,7 @@ const formConfig = {
           },
           scrollAndFocusTarget,
         },
+        taskCompletePagePattern2,
       },
     },
   },

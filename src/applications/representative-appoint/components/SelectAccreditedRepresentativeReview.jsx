@@ -108,4 +108,6 @@ const SelectedAccreditedRepresentativeReview = props => {
   );
 };
 
+export { SelectedAccreditedRepresentativeReview }; // named export for testing
+
 export default SelectedAccreditedRepresentativeReview;

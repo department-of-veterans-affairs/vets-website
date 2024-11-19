@@ -1,11 +1,11 @@
-export const hasPrimaryCaregiver = formData => {
-  return formData['view:hasPrimaryCaregiver'] === true;
-};
+export const hasPrimaryCaregiver = formData =>
+  formData['view:hasPrimaryCaregiver'] === true;
 
 export const hasSecondaryCaregiverOne = formData =>
   formData['view:hasSecondaryCaregiverOne'] === true;
 
 export const hasSecondaryCaregiverTwo = formData =>
+  hasSecondaryCaregiverOne(formData) &&
   formData['view:hasSecondaryCaregiverTwo'] === true;
 
 export const hideCaregiverRequiredAlert = formData => {

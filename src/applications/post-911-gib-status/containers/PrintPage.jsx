@@ -12,19 +12,13 @@ export class PrintPage extends React.Component {
     focusElement('.print-screen');
     document.querySelector('header').classList.add('no-print-no-sr');
     document.querySelector('footer').classList.add('no-print-no-sr');
-    // Null check necessary until dev-template.ejs updated to reflect changes to breadcrumbs.html
-    // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3417
-    document.querySelector('va-breadcrumbs')?.classList?.add('no-print-no-sr');
+    document.querySelector('va-breadcrumbs').classList.add('no-print-no-sr');
   }
 
   componentWillUnmount() {
     document.querySelector('header').classList.remove('no-print-no-sr');
     document.querySelector('footer').classList.remove('no-print-no-sr');
-    // Null check necessary until dev-template.ejs updated to reflect changes to breadcrumbs.html
-    // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3417
-    document
-      .querySelector('va-breadcrumbs')
-      ?.classList?.remove('no-print-no-sr');
+    document.querySelector('va-breadcrumbs').classList.remove('no-print-no-sr');
   }
 
   backToStatement = () => this.props.router.push('/');

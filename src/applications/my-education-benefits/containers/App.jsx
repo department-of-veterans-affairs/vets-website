@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -57,6 +57,7 @@ export const App = ({
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedExclusionPeriods, setFetchedExclusionPeriods] = useState(false);
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
+  const previousChosenBenefit = useRef();
 
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
@@ -97,6 +98,7 @@ export const App = ({
           ...claimantInfo,
         });
       }
+
       if (
         (!fetchedPersonalInfo &&
           meb160630Automation &&
@@ -109,7 +111,7 @@ export const App = ({
         getPersonalInfo(formData?.chosenBenefit);
       } else if (
         !formData[formFields.claimantId] &&
-        claimantInfo?.firstName &&
+        claimantInfo?.claimantId &&
         meb160630Automation
       ) {
         setFormData({
@@ -196,11 +198,28 @@ export const App = ({
       }
       // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
       // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
-      if (mebExclusionPeriodEnabled && firstName && !fetchedExclusionPeriods) {
+      if (firstName && !fetchedExclusionPeriods && !meb160630Automation) {
         const chosenBenefit = meb160630Automation
           ? formData?.chosenBenefit
           : 'Chapter33';
 
+        setFetchedExclusionPeriods(true);
+        getExclusionPeriods(chosenBenefit);
+      }
+
+      if (
+        (firstName &&
+          !fetchedExclusionPeriods &&
+          formData?.chosenBenefit &&
+          meb160630Automation) ||
+        (formData?.chosenBenefit !== previousChosenBenefit.current &&
+          meb160630Automation)
+      ) {
+        const chosenBenefit = meb160630Automation
+          ? formData?.chosenBenefit
+          : 'Chapter33';
+
+        previousChosenBenefit.current = formData?.chosenBenefit;
         setFetchedExclusionPeriods(true);
         getExclusionPeriods(chosenBenefit);
       }

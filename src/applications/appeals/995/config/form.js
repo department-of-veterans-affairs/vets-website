@@ -36,6 +36,8 @@ import pointOfContact from '../pages/pointOfContact';
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
+import optionForMst from '../pages/optionForMst';
+import optionIndicator from '../pages/optionIndicator';
 
 import notice5103 from '../pages/notice5103';
 import facilityTypes from '../pages/facilityTypes';
@@ -53,6 +55,7 @@ import {
   hasPrivateEvidence,
   hasOtherEvidence,
 } from '../utils/evidence';
+import { hasMstOption } from '../utils/mstOption';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
@@ -66,6 +69,7 @@ import {
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
   SUBMIT_URL,
+  SC_NEW_FORM_DATA,
 } from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 import { title995, getSubTitle } from '../content/title';
@@ -254,6 +258,21 @@ const formConfig = {
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
         },
+        optionForMst: {
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
+          uiSchema: optionForMst.uiSchema,
+          schema: optionForMst.schema,
+          depends: showScNewForm,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        optionIndicator: {
+          title: 'Option to add an indicator',
+          path: 'option-indicator',
+          uiSchema: optionIndicator.uiSchema,
+          schema: optionIndicator.schema,
+          depends: hasMstOption,
+        },
       },
     },
 
@@ -291,6 +310,9 @@ const formConfig = {
           title: 'VA medical records',
           path: EVIDENCE_VA_PATH,
           depends: hasVAEvidence,
+          appStateSelector: state => ({
+            [SC_NEW_FORM_DATA]: state.form?.data?.[SC_NEW_FORM_DATA] || false,
+          }),
           CustomPage: EvidenceVaRecords,
           CustomPageReview: null,
           uiSchema: evidenceVaRecords.uiSchema,

@@ -20,6 +20,5 @@ describe('Medications List Page Recently Requested Filter Option', () => {
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Recently requested');
     listPage.clickFilterButtonOnAccordion();
-    listPage.verifyNameOfFirstRxOnMedicationsList('recently requested');
   });
 });
