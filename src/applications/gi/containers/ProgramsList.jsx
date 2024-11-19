@@ -7,14 +7,12 @@ import {
   VaPagination,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatProgramType } from '../../utils/helpers';
-import { fetchInstitutionPrograms } from '../../actions';
+import { formatProgramType, generateMockPrograms } from '../utils/helpers';
+// import { fetchInstitutionPrograms } from '../../actions';
 
 const ProgramsList = ({ match }) => {
   const dispatch = useDispatch();
-  const { institutionPrograms, loading, error } = useSelector(
-    state => state.institutionPrograms,
-  );
+  const { loading, error } = useSelector(state => state.institutionPrograms);
   const location = useLocation();
   const { institutionName } = location.state;
 
@@ -31,7 +29,9 @@ const ProgramsList = ({ match }) => {
 
   const [searchError, setSearchError] = useState(null);
 
-  const filteredPrograms = institutionPrograms.filter(program =>
+  const mockPrograms = generateMockPrograms(30);
+
+  const filteredPrograms = mockPrograms.filter(program =>
     program.attributes.description
       .toLowerCase()
       .includes(submittedQuery.toLowerCase()),
@@ -40,7 +40,7 @@ const ProgramsList = ({ match }) => {
   useEffect(
     () => {
       window.scrollTo(0, 0);
-      dispatch(fetchInstitutionPrograms('3V000242', 'NCD'));
+      // dispatch(fetchInstitutionPrograms('3V000242', 'NCD'));
       // dispatch(fetchInstitutionPrograms(facilityCode, programType));
     },
     [dispatch],
