@@ -1,57 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormLayout from '../new-appointment/components/FormLayout';
 import ReferralAppLink from './components/ReferralAppLink';
-import { getPatientReferralById } from '../services/referral';
 import { setFormCurrentPage } from './redux/actions';
-import { referral } from './temp-data/referral';
+import { FETCH_STATUS } from '../utils/constants';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
+import { useGetReferralFromId } from './hooks/useGetReferralFromId';
 
 export default function ScheduleReferral() {
-  const [patientData, setPatientData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
   const params = useParams();
-
+  const { id } = params;
+  const { currentReferral, referralFetchStatus } = useGetReferralFromId(id);
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));
     },
     [location, dispatch],
   );
-
   useEffect(
     () => {
-      const fetchDetails = async () => {
-        let details = {};
-        setError(false);
-        try {
-          // get the id from the url where url is /referral-review/:id
-          const { id } = params;
-          details = await getPatientReferralById(id);
-        } catch (networkError) {
-          setError(true);
-        }
-        setPatientData(details);
-        setLoading(false);
-      };
-
-      // @TODO: This will eventually check for data in selected from redux
-      if (!referral) {
-        fetchDetails();
-      } else {
-        setPatientData(referral);
-        setLoading(false);
+      if (referralFetchStatus === FETCH_STATUS.succeeded) {
+        scrollAndFocus('h1');
+      } else if (referralFetchStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('h2');
       }
     },
-    [params],
+    [referralFetchStatus],
   );
 
-  if (loading) {
+  if (!currentReferral || referralFetchStatus === FETCH_STATUS.loading) {
     return (
       <FormLayout pageTitle="Review Approved Referral">
         <va-loading-indicator set-focus message="Loading your data..." />
@@ -59,7 +41,7 @@ export default function ScheduleReferral() {
     );
   }
 
-  if (error) {
+  if (referralFetchStatus === FETCH_STATUS.failed) {
     return (
       <VaAlert status="error" visible>
         <h2 slot="headline">
@@ -69,16 +51,14 @@ export default function ScheduleReferral() {
       </VaAlert>
     );
   }
-
   const appointmentCountString =
-    patientData?.appointmentCount === 1
+    currentReferral?.numberOfAppointments === 1
       ? '1 appointment'
-      : `${patientData?.appointmentCount} appointments`;
-
+      : `${currentReferral?.numberOfAppointments} appointments`;
   return (
     <FormLayout pageTitle="Review Approved Referral">
       <div>
-        <h1>Referral for {patientData?.typeOfCare}</h1>
+        <h1>Referral for {currentReferral?.CategoryOfCare}</h1>
         <p data-testid="subtitle">
           {`Your referring VA facility approved you for ${appointmentCountString} with a community care provider. You can now schedule your appointment with a community care provider.`}
         </p>
@@ -98,22 +78,25 @@ export default function ScheduleReferral() {
         <p>
           <strong>Expiration date: </strong>
           {`All appointments for this referral must be scheduled by
-          ${format(patientData?.expirationDate, 'MMMM d, yyyy')}`}
+          ${format(
+            new Date(currentReferral?.ReferralExpirationDate),
+            'MMMM d, yyyy',
+          )}`}
           <br />
           <strong>Type of care: </strong>
-          {patientData?.typeOfCare}
+          {currentReferral?.CategoryOfCare}
           <br />
           <strong>Provider: </strong>
-          {patientData?.providerName}
+          {currentReferral?.providerName}
           <br />
           <strong>Location: </strong>
-          {patientData?.location}
+          {currentReferral?.providerLocation}
           <br />
           <strong>Number of appointments: </strong>
-          {patientData?.appointmentCount}
+          {currentReferral?.numberOfAppointments}
           <br />
           <strong>Referral number: </strong>
-          {patientData?.referralNumber}
+          {currentReferral?.ReferralNumber}
         </p>
         <va-additional-info
           data-testid="help-text"
@@ -135,10 +118,10 @@ export default function ScheduleReferral() {
         </p>
         <p>
           <strong>Referring VA facility: </strong>
-          {patientData?.referringFacility.name}
+          {currentReferral?.ReferringFacilityInfo.FacilityName}
           <br />
           <strong>Phone: </strong>
-          {patientData?.referringFacility.phone}
+          {currentReferral?.ReferringFacilityInfo.Phone}
         </p>
       </div>
     </FormLayout>
