@@ -40,7 +40,7 @@ describe('removeChildStoppedAttendingSchoolOptions', () => {
     );
     expect(removeChildStoppedAttendingSchoolOptions).to.have.property(
       'maxItems',
-      7,
+      20,
     );
   });
 

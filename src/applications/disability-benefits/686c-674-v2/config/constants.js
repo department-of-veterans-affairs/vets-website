@@ -26,7 +26,7 @@ export const MARRIAGE_TYPES = {
   other: 'OTHER',
 };
 
-export const NETWORTH_VALUE = '155,356';
+export const NETWORTH_VALUE = '159,240';
 
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
