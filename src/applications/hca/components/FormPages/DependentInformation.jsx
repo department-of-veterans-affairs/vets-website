@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '~/platform/utilities/ui';
-import { getActivePages } from '~/platform/forms-system/src/js/helpers';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { focusElement } from 'platform/utilities/ui';
+import { getActivePages } from 'platform/forms-system/src/js/helpers';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
@@ -13,7 +13,7 @@ import {
   getSearchAction,
   getSearchIndex,
   getDefaultState,
-} from '../../utils/helpers';
+} from '../../utils/helpers/listloop-pattern';
 import {
   DEPENDENT_VIEW_FIELDS,
   DEPENDENT_SUBPAGES,

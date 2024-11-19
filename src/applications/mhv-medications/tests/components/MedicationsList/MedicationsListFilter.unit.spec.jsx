@@ -32,7 +32,7 @@ describe('Medicaitons List Filter component', () => {
     const { container } = render(
       <MedicationsListFilter
         updateFilter={() => {}}
-        filterOption={filterOptions.ACTIVE.label}
+        filterOption={filterOptions.ACTIVE.url}
         setFilterOption={() => {}}
       />,
     );
