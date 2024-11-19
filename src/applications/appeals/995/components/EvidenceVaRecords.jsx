@@ -3,7 +3,7 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 
 import { EVIDENCE_VA_PATH } from '../constants';
 import { content, contentOld } from '../content/evidenceVaRecords';
-import { getIndex, hasErrors } from '../utils/evidence';
+import { getIndex, getVAEvidence, hasErrors } from '../utils/evidence';
 import { showScNewForm as newFormToggle } from '../utils/toggle';
 import {
   validateVaLocation,
@@ -55,7 +55,7 @@ const EvidenceVaRecords = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { locations = [] } = data || {};
+  const locations = getVAEvidence(data || {});
 
   // *** state ***
   // currentIndex is zero-based
