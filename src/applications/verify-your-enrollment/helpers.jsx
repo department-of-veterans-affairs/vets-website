@@ -1019,7 +1019,6 @@ export const prepareAddressData = formData => {
     countryCodeIso3: formData.countryCodeIso3 || 'USA',
     city: formData.city,
   };
-  // if (formData.countryCodeIso3 === 'USA') {
   const baseUSAData = {
     stateCode: formData.stateCode,
     zipCode: formData.zipCode,
@@ -1029,14 +1028,7 @@ export const prepareAddressData = formData => {
     baseUSAData.addressType = 'OVERSEAS MILITARY';
   }
   addressData = { ...addressData, ...baseUSAData };
-  // } else {
-  //   const internationalData = {
-  //     province: formData.province,
-  //     internationalPostalCode: formData.internationalPostalCode,
-  //     addressType: 'INTERNATIONAL',
-  //   };
   addressData = { ...addressData };
-  // }
   return addressData;
 };
 export const formatAddress = address => {
