@@ -1,5 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {
+  PAGE_PATH,
+  SEARCH_LOCATION,
+  SEARCH_APP_USED,
+  SEARCH_SELECTION,
+  SEARCH_TYPEAHEAD_ENABLED,
+  TYPEAHEAD_CLICKED,
+  TYPEAHEAD_LIST,
+  addSearchGADataToStorage,
+} from 'platform/site-wide/search-analytics';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -8,15 +18,6 @@ import DropDownPanel from './DropDownPanel/DropDownPanel';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 export class SearchMenu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userInput: '',
-    };
-  }
-
-  componentDidMount() {}
-
   componentDidUpdate(prevProps) {
     const { isOpen } = this.props;
 
@@ -30,46 +31,11 @@ export class SearchMenu extends React.Component {
     const dropdownInputField = document.getElementById(
       'search-header-dropdown-input-field',
     );
+
     if (isOpen && !prevProps.isOpen && dropdownInputField) {
       dropdownInputField.focus();
     }
   }
-
-  handleInputChange = event => {
-    this.setState({ userInput: event.target.value });
-  };
-
-  // handle event logging and fire off a search query
-  handleSearchEvent = () => {
-    const { userInput } = this.state;
-
-    // event logging
-    recordEvent({
-      event: 'view_search_results',
-      'search-page-path': document.location.pathname,
-      'search-query': userInput,
-      'search-results-total-count': undefined,
-      'search-results-total-pages': undefined,
-      'search-selection': 'All VA.gov',
-      'search-typeahead-enabled': false,
-      'search-location': 'Search Header',
-      'sitewide-search-app-used': true,
-      'type-ahead-option-keyword-selected': undefined,
-      'type-ahead-option-position': undefined,
-      'type-ahead-options-list': undefined,
-      'type-ahead-options-count': undefined,
-    });
-
-    // create a search url
-    const searchUrl = replaceWithStagingDomain(
-      `https://www.va.gov/search/?query=${encodeURIComponent(
-        userInput,
-      )}&t=false`,
-    );
-
-    // relocate to search results, preserving history
-    window.location.assign(searchUrl);
-  };
 
   onInputSubmit = componentState => {
     const savedSuggestions = componentState?.savedSuggestions || [];
@@ -78,21 +44,13 @@ export class SearchMenu extends React.Component {
     const validSuggestions =
       savedSuggestions.length > 0 ? savedSuggestions : suggestions;
 
-    // event logging, note suggestion will be undefined during a userInput search
-    recordEvent({
-      event: 'view_search_results',
-      'search-page-path': document.location.pathname,
-      'search-query': inputValue,
-      'search-results-total-count': undefined,
-      'search-results-total-pages': undefined,
-      'search-selection': 'All VA.gov',
-      'search-typeahead-enabled': true,
-      'search-location': 'Search Header',
-      'sitewide-search-app-used': true,
-      'type-ahead-option-keyword-selected': undefined,
-      'type-ahead-option-position': undefined,
-      'type-ahead-options-list': validSuggestions,
-      'type-ahead-options-count': validSuggestions.length,
+    addSearchGADataToStorage({
+      [PAGE_PATH]: document.location.pathname,
+      [SEARCH_LOCATION]: 'Desktop Header Search',
+      [SEARCH_APP_USED]: false,
+      [SEARCH_SELECTION]: 'All VA.gov',
+      [SEARCH_TYPEAHEAD_ENABLED]: true,
+      [TYPEAHEAD_LIST]: validSuggestions,
     });
 
     // create a search url
@@ -109,27 +67,20 @@ export class SearchMenu extends React.Component {
   onSuggestionSubmit = (index, componentState) => {
     const savedSuggestions = componentState?.savedSuggestions || [];
     const suggestions = componentState?.suggestions || [];
-    const inputValue = componentState?.inputValue;
-
     const validSuggestions =
       savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
 
-    // event logging, note suggestion will be undefined during a userInput search
-    recordEvent({
-      event: 'view_search_results',
-      'search-page-path': document.location.pathname,
-      'search-query': inputValue,
-      'search-results-total-count': undefined,
-      'search-results-total-pages': undefined,
-      'search-selection': 'All VA.gov',
-      'search-typeahead-enabled': true,
-      'search-location': 'Search Header',
-      'sitewide-search-app-used': true,
-      'type-ahead-option-keyword-selected': validSuggestions[index],
-      'type-ahead-option-position': index + 1,
-      'type-ahead-options-list': validSuggestions,
-      'type-ahead-options-count': validSuggestions.length,
-    });
+    const analyticsData = {
+      [PAGE_PATH]: document.location.pathname,
+      [SEARCH_LOCATION]: 'Desktop Header Search',
+      [SEARCH_APP_USED]: false,
+      [SEARCH_SELECTION]: 'All VA.gov',
+      [SEARCH_TYPEAHEAD_ENABLED]: true,
+      [TYPEAHEAD_CLICKED]: true,
+      [TYPEAHEAD_LIST]: validSuggestions,
+    };
+
+    addSearchGADataToStorage(analyticsData);
 
     // create a search url
     const searchUrl = replaceWithStagingDomain(
