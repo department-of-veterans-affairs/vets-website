@@ -34,7 +34,6 @@ export default function ArrayBuilderItemPage({
     const searchParams = getArrayUrlSearchParams();
     const isEdit = !!searchParams.get('edit');
     const isAdd = !!searchParams.get('add');
-    const isReview = !!searchParams.get('review');
 
     const { data, schema, uiSchema, onChange, onSubmit } = useEditOrAddForm({
       isEdit,

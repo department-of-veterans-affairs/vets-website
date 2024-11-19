@@ -31,7 +31,6 @@ import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
 
 import {
   employersDatesPage,
-  // employersOtherPage,
   employersIntroPage,
   employersOptions,
   employersPageNameAndAddressPage,
@@ -352,40 +351,15 @@ const formConfig = {
             path: 'array-multiple-page-builder/:index/name-and-address',
             uiSchema: employersPageNameAndAddressPage.uiSchema,
             schema: employersPageNameAndAddressPage.schema,
-            // depends: (formData, index) => {
-            //   return (
-            //     includeChapter('arrayMultiPageBuilder')(formData) &&
-            //     // !formData?.wcOldCheckRequiredCheckbox
-            //     formData?.wcv3SsnNew?.ssn === '454544544'
-            //   );
-            // },
+            depends: includeChapter('arrayMultiPageBuilder'),
           }),
           multiPageBuilderStepTwo: pageBuilder.itemPage({
             title: 'Employer dates',
             path: 'array-multiple-page-builder/:index/dates',
             uiSchema: employersDatesPage.uiSchema,
             schema: employersDatesPage.schema,
-            // depends: (formData, index) => {
-            //   return (
-            //     includeChapter('arrayMultiPageBuilder')(formData) &&
-            //     // !formData?.wcOldCheckRequiredCheckbox
-            //     formData?.employers?.[index]?.address?.state
-            //   );
-            // },
+            depends: includeChapter('arrayMultiPageBuilder'),
           }),
-          // three: pageBuilder.itemPage({
-          //   title: 'something',
-          //   path: 'array-multiple-page-builder/:index/other',
-          //   uiSchema: employersOtherPage.uiSchema,
-          //   schema: employersOtherPage.schema,
-          //   depends: (formData, index) => {
-          //     return (
-          //       includeChapter('arrayMultiPageBuilder')(formData) &&
-          //       // !formData?.wcOldCheckRequiredCheckbox
-          //       formData?.employers?.[index]?.address?.state
-          //     );
-          //   },
-          // }),
         })),
       },
     },
