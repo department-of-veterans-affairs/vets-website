@@ -143,6 +143,62 @@ const StepTwo = ({ formResponses }) => {
     default:
   }
 
+  const renderBuddyStatements = () => {
+    return (
+      <li>
+        <h3>
+          Buddy statements (also called a Statement in Support of Claim or VA
+          Form 21-4138)
+        </h3>
+        <p>
+          These are statements from friends or colleagues who knew you during
+          your service, or individuals with direct knowledge of your service.
+        </p>
+        <p>
+          The person will need to fill out a Statement in Support of Claim (VA
+          Form 21-4138). They may include this information about you in their
+          statement:
+        </p>
+        <ul>
+          <li>Your achievements in the military</li>
+          <li>Positive relationships you formed in the military</li>
+          <li>Why your discharge is unjust or incorrect</li>
+          <li>Your positive contributions during your service</li>
+        </ul>
+        <p>
+          The writer should also say in their statement how they know this
+          information.{' '}
+        </p>
+        {/* Intentionally not using <va-link> per Platform Analytics team */}
+        <a
+          href="http://www.vba.va.gov/pubs/forms/VBA-21-4138-ARE.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Get VA Form 21-4138 to download (opens in a new tab)
+        </a>
+      </li>
+    );
+  };
+
+  const renderTestaments = () => {
+    return (
+      <li>
+        <h3>Testaments of achievements since your service</h3>
+        <p>
+          You may want to include this type of evidence with your application,
+          especially if your discharge involved issues related to drugs,
+          alcohol, or bad behavior. Examples include these types of documents:
+        </p>
+        <ul>
+          <li>A letter from an employer or community leader</li>
+          <li>Evidence of successful drug or alcohol treatment</li>
+          <li>Copies of degrees or certificates</li>
+        </ul>
+      </li>
+    );
+  };
+
   const level = stepHeaderLevel(formResponses);
 
   return (
@@ -174,30 +230,8 @@ const StepTwo = ({ formResponses }) => {
           )}
         </li>
         {renderMedicalRecordInfo(formResponses)}
-        <li>
-          <strong>“Buddy Statements” or Other References From Service</strong>:
-          On top of military records, you can attach statements from friends or
-          colleagues you knew while in the service, or other individuals with
-          direct knowledge of your time in the military. The content of the
-          letter is more important than who it comes from, as long as the
-          writer’s opinion is credible and they know you well. The writer should
-          state how they learned about the facts or opinions they’re writing
-          about. The letters may include statements about your achievements in
-          the military, positive relationships you formed in the military, why
-          your discharge may be unjust or incorrect, and your good deeds during
-          that time.
-        </li>
-        <li>
-          <strong>Testaments of Achievements Since Service</strong>: You may
-          decide to add information about what you have achieved in your life
-          since your discharge, particularly if your discharge involved any
-          issues related to drugs, alcohol, or bad behavior. This can be in the
-          form of a letter from an employer or community leader, evidence of
-          successful drug treatment, or copies of certificates and degrees. The
-          DoD will soon release more specific information about achievements
-          since service, but, for now, add any achievements you would like to
-          call out.
-        </li>
+        {renderBuddyStatements()}
+        {renderTestaments()}
       </ul>
     </va-process-list-item>
   );
