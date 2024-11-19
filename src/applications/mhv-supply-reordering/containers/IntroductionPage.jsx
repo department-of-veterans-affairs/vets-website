@@ -9,6 +9,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { getMdotInProgressForm } from '../actions';
 import { TITLE, SUBTITLE } from '../constants';
 
+import Breadcrumbs from '../components/Breadcrumbs';
 import VerifiedPrefillAlert from '../components/VerifiedPrefillAlert';
 import Alerts from './Alerts';
 import SuppliesAvailable from '../components/SuppliesAvailable';
@@ -42,6 +43,7 @@ export const IntroductionPage = ({ route }) => {
 
   return (
     <>
+      <Breadcrumbs />
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <Alerts />
       <SuppliesAvailable supplies={supplies} />
