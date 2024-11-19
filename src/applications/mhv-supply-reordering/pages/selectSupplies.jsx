@@ -1,14 +1,18 @@
 import React from 'react';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import SupplyField from '../components/SupplyField';
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 import { validateAtLeastOneSelected } from '../utils/validators';
 
-const Description = () => {
+const Description = ({ formData }) => {
+  const count = formData?.supplies?.length || 0;
+
   return (
     <>
       <h3>Available for reorder</h3>
-      <p>You have 3 supplies that are available for reorder.</p>
+      <p>
+        You have {count} {count > 1 ? 'supplies' : 'supply'} that are available
+        for reorder.
+      </p>
       <p>
         <strong>Note:</strong> For CPAP supplies, each order is a 12-month
         supply. You can only order each item once every 12 months.
@@ -23,9 +27,9 @@ const Description = () => {
 
 export default {
   uiSchema: {
-    ...titleUI('Select supplies'),
     'ui:description': Description,
     supplies: {
+      'ui:title': 'Select available supplies for reorder',
       'ui:field': 'StringField',
       'ui:widget': SelectArrayItemsWidget,
       'ui:options': {

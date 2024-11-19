@@ -96,9 +96,7 @@ class SelectArrayItemsWidget extends React.Component {
       ) : (
         <p>
           <strong>
-            {`No rated disabilities ${
-              supplies?.length > 0 ? 'selected' : 'found'
-            }`}
+            {`No supplies ${supplies?.length > 0 ? 'selected' : 'found'}`}
           </strong>
         </p>
       );
