@@ -74,14 +74,14 @@
         "placeOfBirth": {
           "isOutsideUs": false,
           "state": "CA",
-          "city": "asdfdsa"
+          "city": "Fakesville"
         },
         "childStatus": { "biological": true },
         "view:childStatusInformation": {},
         "notSelfSufficient": "N",
         "previouslyMarried": "No",
         "childIncome": true,
-        "fullName": { "first": "Jonathan", "last": "Yuen" },
+        "fullName": { "first": "Jonah", "last": "Doe" },
         "ssn": "123211234",
         "birthDate": "1991-08-08"
       }
@@ -91,12 +91,13 @@
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
         "country": "USA",
-        "street": "1600 Pennslyvania Av",
+        "street": "1600 Fakesville Ave",
         "city": "Washington",
         "state": "DC",
         "postalCode": "20500"
       },
-      "phoneNumber": "1231231234"
+      "phoneNumber": "1231231234",
+      "emailAddress": "nope@nope.org"
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {

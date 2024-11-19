@@ -13,7 +13,7 @@
             "view:livesOnMilitaryBase": true,
             "view:livesOnMilitaryBaseInfo": {},
             "countryName": "USA",
-            "addressLine1": "123 athome dr",
+            "addressLine1": "123 Athome Dr",
             "city": "APO",
             "stateCode": "AA",
             "zipCode": "34012"
@@ -142,12 +142,13 @@
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
         "country": "USA",
-        "street": "1600 Pennslyvania Av",
+        "street": "1600 Fakesville Ave",
         "city": "Washington",
         "state": "DC",
         "postalCode": "20500"
       },
-      "phoneNumber": "1231231234"
+      "phoneNumber": "1231231234",
+      "emailAddress": "nope@nope.org"
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
