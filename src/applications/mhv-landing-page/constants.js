@@ -14,7 +14,7 @@ const HEALTH_TOOL_NAMES = freeze(values(HEALTH_TOOL_HEADINGS));
 const HEALTH_TOOL_LINKS = freeze({
   APPOINTMENTS: freeze([
     {
-      href: '/my-health/appointments/schedule/type-of-care',
+      href: '/appointments/schedule/type-of-care',
       text: 'Schedule a new appointment',
     },
     {
@@ -24,27 +24,27 @@ const HEALTH_TOOL_LINKS = freeze({
   ]),
   MESSAGES: freeze([
     {
-      href: '/my-health/my-secure-messages/inbox/',
+      href: '/my-secure-messages/inbox/',
       text: 'Go to inbox',
     },
     {
-      href: '/my-health/my-secure-messages/new-message/',
+      href: '/my-secure-messages/new-message/',
       text: 'Start a new message',
     },
   ]),
   MEDICATIONS: freeze([
     {
-      href: '/my-health/my-medications/refill',
+      href: '/my-medications/refill',
       text: 'Refill VA prescriptions',
     },
     {
-      href: '/my-health/my-medications',
+      href: '/my-medications',
       text: 'Review medications',
     },
   ]),
   MEDICAL_RECORDS: freeze([
     {
-      href: '/my-health/my-medical-records/',
+      href: '/my-medical-records/',
       text: 'Get medical records',
     },
   ]),

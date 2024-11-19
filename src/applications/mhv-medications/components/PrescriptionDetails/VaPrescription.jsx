@@ -55,7 +55,7 @@ const VaPrescription = prescription => {
             {showRefillContent && prescription?.isRefillable ? (
               <Link
                 className="vads-u-display--block vads-c-action-link--green vads-u-margin-top--3 vads-u-margin-bottom--3"
-                to="/refill"
+                to="/my-medications/refill"
                 data-testid="refill-nav-link"
               >
                 {hasBeenDispensed ? 'Refill' : 'Fill'} this prescription
@@ -145,7 +145,7 @@ const VaPrescription = prescription => {
               // Any of the Rx's NDC's will work here. They should all show the same information
               refillHistory.some(p => p.cmopNdcNumber) && (
                 <Link
-                  to={`/prescription/${
+                  to={`/my-medications/prescription/${
                     prescription.prescriptionId
                   }/documentation?ndc=${
                     refillHistory?.find(p => !!p?.cmopNdcNumber)?.cmopNdcNumber

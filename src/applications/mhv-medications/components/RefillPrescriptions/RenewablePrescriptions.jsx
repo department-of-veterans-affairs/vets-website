@@ -72,7 +72,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
       <div className="vads-u-margin-y--0">
         <Link
           data-testid="medications-page-link"
-          to="/"
+          to="/my-medications/"
           data-dd-action-name={
             dataDogActionNames.refillPage
               .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW
@@ -124,7 +124,9 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
             >
               <Link
                 data-testid={`medication-details-page-link-${idx}`}
-                to={`/prescription/${prescription.prescriptionId}`}
+                to={`/my-medications/prescription/${
+                  prescription.prescriptionId
+                }`}
                 onClick={() => onRxLinkClick(prescription)}
                 className="vads-u-font-weight--bold"
               >
