@@ -48,7 +48,7 @@
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
     "modules-folder:del": "./script/delete-modules-folder.sh",
     "new:app": "yo @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix",
-    "postinstall": "husky install && npm rebuild node-sass && node ./script/check-node-version.js",
+    "postinstall": "husky install && npm rebuild sass && node ./script/check-node-version.js",
     "postmigrate-component": "yarn lint:js:changed:fix",
     "pr-check": "node script/pr-check.js",
     "prebuild": "node script/prebuild.js",
@@ -145,7 +145,7 @@
     "autoprefixer": "^10.3.5",
     "axe-core": "^4.4.3",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^9.1.3",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-lodash": "^3.2.8",
@@ -197,7 +197,7 @@
     "find": "^0.3.0",
     "find-imports": "^1.1.0",
     "fs-extra": "^7.0.0",
-    "glob": "^7.2.0",
+    "glob": "^10.4.5",
     "html-webpack-plugin": "^5.5.0",
     "http-server": "^13.0.2",
     "husky": ">=6",
@@ -205,7 +205,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jsdoc": "4.0.2",
     "just-diff": "^3.1.1",
-    "libxmljs2": "^0.28.0",
+    "libxmljs": "^1.0.11",
     "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.4.4",
     "minimist": "^1.2.6",
@@ -221,13 +221,13 @@
     "mocker-api": "^2.9.0",
     "msw": "^0.35.0",
     "node-fetch": "^2.6.12",
-    "node-sass": "^4.14.1",
     "null-loader": "^4.0.1",
     "nyc": "^15.1.0",
     "path-browserify": "^1.0.1",
     "postcss": "^8.4.4",
     "postcss-loader": "^6.2.1",
     "prettier": "^1.14.3",
+    "sass": "^1.78.0",
     "sass-lint": "^1.13.1",
     "sass-loader": "^8.0.2",
     "semver": "^7.3.5",
@@ -253,8 +253,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">=14.15.0 <16",
-    "yarn": "1.19.1"
+    "node": ">=18"
   },
   "private": true,
   "dependencies": {
@@ -270,7 +269,7 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^2.2.5",
-    "blob-polyfill": "^5.0.20210201",
+    "blob-polyfill": "^9.0.20240710",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
     "classnames": "^2.3.1",
@@ -303,6 +302,7 @@
     "moment": "~2.29.4",
     "moment-timezone": "^0.5.35",
     "node-lcs": "^1.0.4",
+    "node-polyfill-webpack-plugin": "^4.0.0",
     "octokit": "^2.1.0",
     "octokit-plugin-create-pull-request": "^3.11.0",
     "prop-types": "^15.6.1",
@@ -378,7 +378,8 @@
     "**/minimist": "^1.2.6",
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
-    "**/fbjs": "^3.0.4"
+    "**/fbjs": "^3.0.4",
+    "**/jsdom/tough-cookie": "4.1.4"
   },
   "workspaces": {
     "packages": [

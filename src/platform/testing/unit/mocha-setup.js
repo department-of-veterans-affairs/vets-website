@@ -8,7 +8,7 @@ import os from 'os';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
-import { JSDOM } from 'jsdom';
+import { JSDOM, ResourceLoader } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
@@ -73,15 +73,21 @@ function setupJSDom() {
       }
     };
     console.warn = () => {};
-  } else if (process.env.LOG_LEVEL === 'log') {
+  } else if (process.env.LOG_LEVEL === 'log') { 
     console.error = () => {};
     console.warn = () => {};
   }
   /* eslint-enable no-console */
+  
+  // set up resource loader
+  const loader = new ResourceLoader({
+    userAgent: 'Node.js'
+  });
 
   // setup the simplest document possible
   const dom = new JSDOM('<!doctype html><html><body></body></html>', {
     url: 'http://localhost',
+    resources: loader
   });
 
   const { window } = dom;
@@ -90,7 +96,7 @@ function setupJSDom() {
   global.dom = dom;
   global.window = window;
   global.document = window.document;
-  global.navigator = { userAgent: 'node.js' };
+  // global.navigator = { userAgent: 'node.js' };
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
@@ -137,12 +143,12 @@ function setupJSDom() {
 
   copyProps(window, global);
 
-  Object.defineProperty(window, 'location', {
-    value: window.location,
-    configurable: true,
-    enumerable: true,
-    writable: true,
-  });
+  // Object.defineProperty(window, 'location', {
+  //   value: window.location,
+  //   configurable: true,
+  //   enumerable: true,
+  //   writable: true,
+  // });
 }
 /* eslint-disable no-console */
 
