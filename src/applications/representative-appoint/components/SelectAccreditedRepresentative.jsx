@@ -4,6 +4,7 @@ import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { scrollToFirstError } from 'platform/utilities/ui';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import { fetchRepStatus } from '../api/fetchRepStatus';
 import SearchResult from './SearchResult';
@@ -28,6 +29,9 @@ const SelectAccreditedRepresentative = props => {
   const currentSelectedRep = useRef(
     formData?.['view:representativeSearchResults'],
   );
+
+  const noSearchError =
+    'Enter the name of the accredited representative or VSO you’d like to appoint';
 
   const isReviewPage = useReviewPage();
 
@@ -54,12 +58,14 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  const handleGoForward = () => {
-    if (!formData['view:selectedRepresentative']) {
-      // set unselected rep error
-    }
-    if (isReviewPage) {
-      if (formData['view:selectedRepresentative'] === currentSelectedRep) {
+  const handleGoForward = ({ selectionMade = false }) => {
+    const selection = formData['view:selectedRepresentative'];
+
+    if (!selection && !selectionMade) {
+      setError('You must select an accredited representative');
+      scrollToFirstError({ focusOnAlertRole: true });
+    } else if (isReviewPage) {
+      if (selection === currentSelectedRep) {
         goToPath('/review-and-submit');
       } else {
         goToPath('/representative-contact?review=true');
@@ -72,10 +78,9 @@ const SelectAccreditedRepresentative = props => {
   const handleSearch = async () => {
     const query = formData['view:representativeQuery'];
 
-    if (!query.trim()) {
-      setError(
-        'Enter the name of the accredited representative or VSO you’d like to appoint',
-      );
+    if (query === undefined || !query.trim()) {
+      setError(noSearchError);
+      scrollToFirstError({ focusOnAlertRole: true });
       return;
     }
 
@@ -117,7 +122,12 @@ const SelectAccreditedRepresentative = props => {
         ...tempData,
       });
 
-      handleGoForward();
+      // similar to the tempData trick above with async state variables,
+      //  we need to trick our routing logic to know that a selection has
+      //  been made before that selection is reflected in formData.
+      //  Otherwise, one would have to double click the select
+      //  representative button to register that a selection was made.
+      handleGoForward({ selectionMade: true });
     }
   };
 
@@ -186,6 +196,12 @@ const SelectAccreditedRepresentative = props => {
 
 SelectAccreditedRepresentative.propTypes = {
   fetchRepresentatives: PropTypes.func,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
+  loggedIn: PropTypes.bool,
+  setFormData: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -195,6 +211,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setFormData: setData,
 };
+
+export { SelectAccreditedRepresentative }; // Named export for testing
 
 export default withRouter(
   connect(
