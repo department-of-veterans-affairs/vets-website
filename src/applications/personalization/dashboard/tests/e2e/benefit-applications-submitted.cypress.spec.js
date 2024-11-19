@@ -38,6 +38,7 @@ describe('The My VA Dashboard', () => {
       disabilityRating,
     );
     cy.intercept('/v0/profile/payment_history', paymentHistory);
+    cy.intercept('GET', '/v0/feature_toggles*', { data: { features: [] } });
     cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(
       'noCopaysB',
     );
