@@ -28,6 +28,7 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
+import CustomPrefillMessage from '../components/CustomPrefillAlert';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -42,16 +43,16 @@ import {
   isInRange,
   onReviewPage,
   applicantListSchema,
-  getNameKeyForSignature,
   sponsorWording,
+  page15aDepends,
 } from '../helpers/utilities';
+import {
+  certifierNameValidation,
+  certifierAddressValidation,
+} from '../helpers/validations';
 import { MAX_APPLICANTS, ADDITIONAL_FILES_HINT } from './constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
-import {
-  thirdPartyInfoUiSchema,
-  thirdPartyInfoSchema,
-} from '../../shared/components/ThirdPartyInfo';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
 import {
   applicantBirthCertConfig,
@@ -111,6 +112,10 @@ import {
   depends18f3,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
+import {
+  signerContactInfoPage,
+  SignerContactInfoPage,
+} from '../pages/SignerContactInfoPage';
 
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
@@ -135,7 +140,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
-  showReviewErrors: !environment.isProduction(),
+  showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
   // submit: () =>
@@ -150,7 +155,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData => getNameKeyForSignature(formData),
+      fullNamePath: _formData => 'certifierName',
     },
   },
   submissionError: SubmissionError,
@@ -201,8 +206,10 @@ const formConfig = {
                 other:
                   'I’m a representative applying for benefits on behalf of someone else',
               },
+              // Changing this data on review messes up the ad hoc prefill
+              // mapping of certifier -> applicant|sponsor:
+              hideOnReview: true,
             }),
-            ...thirdPartyInfoUiSchema,
           },
           schema: {
             type: 'object',
@@ -210,17 +217,17 @@ const formConfig = {
             properties: {
               titleSchema,
               certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
-              ...thirdPartyInfoSchema,
             },
           },
         },
         page2: {
+          // initialData: mockData.data,
           path: 'signer-info',
           title: 'Certification',
-          depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI('Your name'),
             certifierName: fullNameUI(),
+            'ui:validations': [certifierNameValidation],
           },
           schema: {
             type: 'object',
@@ -234,13 +241,13 @@ const formConfig = {
         page3: {
           path: 'signer-mailing-address',
           title: 'Certification',
-          depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI(
               'Your mailing address',
               'We’ll send any important information about this application to your address',
             ),
             certifierAddress: addressUI(),
+            'ui:validations': [certifierAddressValidation],
           },
           schema: {
             type: 'object',
@@ -254,22 +261,9 @@ const formConfig = {
         page4: {
           path: 'signer-contact-info',
           title: 'Certification',
-          depends: formData => get('certifierRole', formData) === 'other',
-          uiSchema: {
-            ...titleUI(
-              'Your contact information',
-              'We use this information to contact you if we have more questions.',
-            ),
-            certifierPhone: phoneUI(),
-          },
-          schema: {
-            type: 'object',
-            required: ['certifierPhone'],
-            properties: {
-              titleSchema,
-              certifierPhone: phoneSchema,
-            },
-          },
+          CustomPage: SignerContactInfoPage,
+          CustomPageReview: null,
+          ...signerContactInfoPage,
         },
         page5: {
           path: 'signer-relationship',
@@ -310,6 +304,7 @@ const formConfig = {
               'ui:options': {
                 updateSchema: (formData, formSchema) => {
                   const fs = formSchema;
+                  // If 'other', open the text field to specify:
                   if (
                     get(
                       'certifierRelationship.relationshipToVeteran.other',
@@ -455,7 +450,16 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               ({ formData }) => `${sponsorWording(formData)} mailing address`,
-              'We’ll send any important information about this application to this address.',
+              ({ formData }) => (
+                // Prefill message conditionally displays based on `certifierRole`
+                <>
+                  <p>
+                    We’ll send any important information about this application
+                    to this address.
+                  </p>
+                  {CustomPrefillMessage(formData, 'sponsor')}
+                </>
+              ),
             ),
             sponsorAddress: {
               ...addressUI({
@@ -515,15 +519,14 @@ const formConfig = {
           title: 'Applicant information',
           path: 'applicant-info',
           uiSchema: {
-            ...titleUI('Applicant name and date of birth', () => (
+            ...titleUI('Applicant name and date of birth', ({ formData }) => (
+              // Prefill message conditionally displays based on `certifierRole`
               <>
-                Enter the information for any applicants you want to enroll in
-                CHAMPVA benefits.
-                <br />
-                <br />
-                {`You can add up to ${MAX_APPLICANTS} applicants in a single application. If you 
-              need to add more than ${MAX_APPLICANTS} applicants, you'll need to submit a 
-              separate application for them.`}
+                <p>
+                  Enter the information for any applicants you want to enroll in
+                  CHAMPVA benefits.
+                </p>
+                {CustomPrefillMessage(formData, 'applicant')}
               </>
             )),
             applicants: {
@@ -614,11 +617,7 @@ const formConfig = {
           showPagePerItem: true,
           keepInPageOnReview: false,
           title: item => `${applicantWording(item)} address selection`,
-          // Only show if we have addresses to pull from:
-          depends: (formData, index) =>
-            (index && index > 0) || // We will have app0's address
-            (get('street', formData?.certifierAddress) ||
-              get('street', formData?.sponsorAddress)),
+          depends: (formData, index) => page15aDepends(formData, index),
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {
@@ -643,11 +642,20 @@ const formConfig = {
                 ...titleUI(
                   ({ formData }) =>
                     `${applicantWording(formData)} mailing address`,
+                  ({ formData, formContext }) => {
+                    const txt =
+                      'We’ll send any important information about your application to this address';
+                    // Prefill message conditionally displays based on `certifierRole`
+                    return formContext.pagePerItemIndex === '0' ? (
+                      <>
+                        <p>{txt}</p>
+                        {CustomPrefillMessage(formData, 'applicant')}
+                      </>
+                    ) : (
+                      <p>{txt}</p>
+                    );
+                  },
                 ),
-                'view:description': {
-                  'ui:description':
-                    'We’ll send any important information about your application to this address.',
-                },
                 applicantAddress: {
                   ...addressUI({
                     labels: {
@@ -661,7 +669,6 @@ const formConfig = {
           },
           schema: applicantListSchema([], {
             titleSchema,
-            'view:description': blankSchema,
             applicantAddress: addressSchema(),
           }),
         },
@@ -676,8 +683,24 @@ const formConfig = {
               items: {
                 ...titleUI(
                   ({ formData }) =>
-                    `${applicantWording(formData)} contact information`,
-                  'This information helps us contact you faster if we need to follow up with you about your application',
+                    `${applicantWording(formData)} mailing address`,
+                  ({ formData, formContext }) => {
+                    const txt = `We'll use this information to contact ${applicantWording(
+                      formData,
+                      false,
+                      false,
+                      true,
+                    )} if we need to follow up about this application.`;
+                    // Prefill message conditionally displays based on `certifierRole`
+                    return formContext.pagePerItemIndex === '0' ? (
+                      <>
+                        <p>{txt}</p>
+                        {CustomPrefillMessage(formData, 'applicant')}
+                      </>
+                    ) : (
+                      <p>{txt}</p>
+                    );
+                  },
                 ),
                 applicantPhone: phoneUI(),
                 applicantEmailAddress: emailUI(),

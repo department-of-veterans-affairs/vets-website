@@ -1,5 +1,5 @@
 {
-  "appName": "Benefit Eligibility Questionnaire",
+  "appName": "Discover Your Benefits",
   "entryFile": "./app-entry.jsx",
   "entryName": "benefit-eligibility-questionnaire",
   "rootUrl": "/benefit-eligibility-questionnaire",

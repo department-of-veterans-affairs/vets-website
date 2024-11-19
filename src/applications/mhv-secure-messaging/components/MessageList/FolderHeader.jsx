@@ -93,10 +93,20 @@ const FolderHeader = props => {
     [folder, location.pathname],
   );
 
+  const { folderName, ddTitle, ddPrivacy } = handleHeader(
+    folder.folderId,
+    folder,
+  );
+
   return (
     <>
-      <h1 className="vads-u-margin-bottom--1" data-testid="folder-header">
-        {handleHeader(folder.folderId, folder)}
+      <h1
+        className="vads-u-margin-bottom--1"
+        data-testid="folder-header"
+        data-dd-action-name={ddTitle}
+        data-dd-privacy={ddPrivacy}
+      >
+        {folderName}
       </h1>
 
       {folder.folderId === Folders.INBOX.id && (
@@ -125,7 +135,6 @@ const FolderHeader = props => {
                   ? BlockedTriageAlertStyles.INFO
                   : BlockedTriageAlertStyles.WARNING
               }
-              blockedTriageGroupList={[]}
               parentComponent={ParentComponent.FOLDER_HEADER}
             />
           )}

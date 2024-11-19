@@ -177,7 +177,15 @@ class FormPage extends React.Component {
     }
   };
 
-  formData = () => {
+  /**
+   * @param {Object} [options]
+   * @param {boolean} [options.all] If true, return the entire form data regardless of context
+   */
+  formData = ({ all } = {}) => {
+    if (all) {
+      return this.props.form.data;
+    }
+
     const { pageConfig } = this.props.route;
     // If it's a CustomPage, return the entire form data
     if (pageConfig.CustomPage && !pageConfig.customPageUsesPagePerItemData) {
@@ -340,6 +348,7 @@ class FormPage extends React.Component {
             uploadFile={this.props.uploadFile}
             schema={schema}
             uiSchema={uiSchema}
+            getFormData={this.formData}
             goBack={this.goBack}
             goForward={this.onSubmit}
             goToPath={this.goToPath}
@@ -347,6 +356,7 @@ class FormPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             setFormData={this.props.setData}
+            pageContentBeforeButtons={pageContentBeforeButtons}
             contentBeforeButtons={contentBeforeNavButtons}
             contentAfterButtons={contentAfterNavButtons}
             appStateData={appStateData}
@@ -374,6 +384,7 @@ class FormPage extends React.Component {
           uiSchema={uiSchema}
           pagePerItemIndex={params ? params.index : undefined}
           formContext={formContext}
+          getFormData={this.formData}
           trackingPrefix={this.props.form.trackingPrefix}
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}

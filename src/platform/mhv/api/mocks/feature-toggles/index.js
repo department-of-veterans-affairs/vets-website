@@ -21,6 +21,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingEditContactList = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
+    mhvAcceleratedDeliveryAllergiesEnabled = false,
   } = toggles;
 
   return {
@@ -30,6 +31,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv-mock-session',
           value: true,
+        },
+        {
+          name: 'mhv_accelerated_delivery_allergies_enabled',
+          value: mhvAcceleratedDeliveryAllergiesEnabled,
         },
         {
           name: 'mhv_landing_page_personalization',

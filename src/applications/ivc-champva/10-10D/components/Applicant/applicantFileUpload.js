@@ -104,46 +104,41 @@ export const applicantSchoolCertUploadUiSchema = {
         ({ formData }) => {
           const posessive = applicantWording(formData, true, false);
           const nonPosessive = applicantWording(formData, false, false);
+          const beingVerb =
+            nonPosessive === 'you'
+              ? `${nonPosessive}’re`
+              : `${nonPosessive} is`;
           return (
             <>
-              You’ll need to submit a copy of a document showing proof of{' '}
-              <b>{posessive}</b> school enrollment. If <b>{posessive}</b>{' '}
-              planning to enroll, <b>{nonPosessive} will</b> need to upload a
-              document showing information about <b>{posessive}</b> plan to
-              enroll.
-              <br />
-              <br />
-              {mailOrFaxLaterMsg}
-              <br />
-              <br />
-              Fill out a School Enrollment Certification Form.
-              <br />
-              <a
-                target="_blank"
-                rel="noreferrer noopener"
-                href="https://www.va.gov/COMMUNITYCARE/pubs/FormDetails_CHAMPVA_School_Cert.asp"
-              >
-                Get school enrollment certification form to download (opens in
-                new tab)
-              </a>
-              <br />
-              <br />
-              Or you can submit an enrollment letter on the school’s letterhead.
-              <br />
-              Here’s what the letter should include:
+              <p>
+                <b>If {beingVerb} already enrolled in school</b>
+              </p>
+              <p>You’ll need to submit a letter on the school’s letterhead.</p>
+              <p>
+                Ask the school to write us a letter on school letterhead that
+                includes all of these pieces of information:
+              </p>
               <ul>
-                <li>{posessive} first and last name</li>
-                <li>The last 4 digits of {posessive} Social Security number</li>
+                <li>
+                  <b>{posessive}</b> first and last name
+                </li>
+                <li>
+                  The last 4 digits of <b>{posessive}</b> Social Security number
+                </li>
                 <li>
                   The start and end dates for each semester or enrollment term
                 </li>
+                <li>Enrollment status (full-time or part-time)</li>
+                <li>Expected graduation date</li>
                 <li>
                   Signature and title of a school official (like a director or
                   principal)
                 </li>
               </ul>
-              If {nonPosessive} is not enrolled, upload a copy of {posessive}{' '}
-              acceptance letter from the school.
+              <p>
+                <b>If {beingVerb} planning to enroll</b>
+              </p>
+              Submit a copy of {posessive} acceptance letter from the school.
             </>
           );
         },

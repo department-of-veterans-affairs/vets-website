@@ -5,7 +5,8 @@ import {
   mockFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
-import { submit } from '../utils/helpers.jsx';
+import { fullNameUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { benefitsIntakeFullNameUI, submit } from '../utils/helpers.jsx';
 
 describe('Burials helpers', () => {
   describe('submit', () => {
@@ -112,6 +113,17 @@ describe('Burials helpers', () => {
     });
     afterEach(() => {
       delete window.URL;
+    });
+  });
+  describe('benefitIntakeFullName', () => {
+    it('should extend name validation', () => {
+      const benefitsUiSchema = benefitsIntakeFullNameUI();
+      const defaultUiSchema = fullNameUI();
+      expect(Object.keys(benefitsUiSchema)).to.have.same.members(
+        Object.keys(defaultUiSchema),
+      );
+      expect(benefitsUiSchema.first['ui:validations']).to.have.lengthOf(2);
+      expect(benefitsUiSchema.last['ui:validations']).to.have.lengthOf(2);
     });
   });
 });

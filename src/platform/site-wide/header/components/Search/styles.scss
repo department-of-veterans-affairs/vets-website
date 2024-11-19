@@ -1,10 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-
-.header-search {
-  input {
-    max-width: unset;
-  }
-}
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .search-input-container {
   max-width: unset !important;
