@@ -17,7 +17,7 @@ import {
 
 import { parseDateToDateObj } from '../../../utilities';
 
-// separate each number so the screenreader reads "number ending with 1 2 3 4"
+// separate each number so the screen reader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
 const mask = value => {
   const number = (value || '').toString().slice(-4);
@@ -36,9 +36,6 @@ export const VeteranInformation = ({ formData }) => {
 
   return (
     <>
-      <h3 className="vads-u-margin-top--5 vads-u-margin-bottom--2">
-        Confirm the personal information we have on file for you.
-      </h3>
       <div className="blue-bar-block">
         <strong
           className="name dd-privacy-hidden"
