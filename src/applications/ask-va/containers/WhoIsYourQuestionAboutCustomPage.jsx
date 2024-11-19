@@ -116,6 +116,11 @@ WhoIsYourQuestionAboutCustomPage.propTypes = {
   loggedIn: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
+  formData: PropTypes.shape({
+    whoIsYourQuestionAbout: PropTypes.string,
+  }),
 };
 
 function mapStateToProps(state) {
