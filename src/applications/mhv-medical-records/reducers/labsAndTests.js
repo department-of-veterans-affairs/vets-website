@@ -524,14 +524,12 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         action.labsAndTestsResponse.entry
           ?.map(record => convertLabsAndTestsRecord(record.resource))
           .filter(record => record.type !== labTypes.OTHER) || [];
-      const radiologyTestsList =
-        action.radiologyResponse.map(record =>
-          convertLabsAndTestsRecord(record),
-        ) || [];
-      const cvixRadiologyTestsList =
-        action.cvixRadiologyResponse.map(record =>
-          convertLabsAndTestsRecord(record),
-        ) || [];
+      const radiologyTestsList = (action.radiologyResponse || []).map(
+        convertLabsAndTestsRecord,
+      );
+      const cvixRadiologyTestsList = (action.cvixRadiologyResponse || []).map(
+        convertLabsAndTestsRecord,
+      );
       const mergedRadiologyList = mergeRadiologyLists(
         radiologyTestsList,
         cvixRadiologyTestsList,

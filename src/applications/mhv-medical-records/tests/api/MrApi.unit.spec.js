@@ -97,7 +97,7 @@ describe('Get radiology detais from MHV api call', () => {
     mockApiRequest(mockData);
 
     return getMhvRadiologyDetails('r5621491-aaa').then(res => {
-      expect(res.eventDate).to.equal('2001-02-16T18:16:00Z');
+      expect(res.phrDetails.eventDate).to.equal('2001-02-16T18:16:00Z');
     });
   });
 
@@ -106,7 +106,7 @@ describe('Get radiology detais from MHV api call', () => {
     mockApiRequest(mockData);
 
     return getMhvRadiologyDetails('r12345-f8f80533').then(res => {
-      expect(res.eventDate).to.equal('2001-02-16T18:16:00Z');
+      expect(res.phrDetails.eventDate).to.equal('2001-02-16T18:16:00Z');
     });
   });
 });
