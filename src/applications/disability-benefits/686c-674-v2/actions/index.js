@@ -1,4 +1,4 @@
-import { getData } from '../utils';
+import { getData } from '../config/utilities';
 
 export const VERIFY_VA_FILE_NUMBER_STARTED = 'VERIFY_VA_FILE_NUMBER_STARTED';
 export const VERIFY_VA_FILE_NUMBER_SUCCEEDED =
