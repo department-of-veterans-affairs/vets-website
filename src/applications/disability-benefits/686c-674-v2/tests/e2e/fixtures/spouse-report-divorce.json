@@ -78,7 +78,7 @@
       "view:marriageTypeInformation": {}
     },
     "spouseInformation": {
-      "spouseLegalName": {
+      "fullName": {
         "first": "jane",
         "last": "doe"
       },
@@ -98,9 +98,7 @@
         "state": "DC",
         "postalCode": "20500"
       },
-      "veteranContactInformation": {
-        "phoneNumber": "1231231234"
-      }
+      "phoneNumber": "1231231234"
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
@@ -127,7 +125,7 @@
       },
       "reasonMarriageEnded": "Other",
       "explanationOfOther": "Other reason",
-      "formerSpouseIncome": false
+      "spouseIncome": false
     },
     "veteranInformation": {
       "fullName": {

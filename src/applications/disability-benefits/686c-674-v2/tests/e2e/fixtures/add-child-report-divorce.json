@@ -63,9 +63,7 @@
         "state": "DC",
         "postalCode": "20500"
       },
-      "veteranContactInformation": {
-        "phoneNumber": "1231231234"
-      }
+      "phoneNumber": "1231231234"
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
@@ -91,7 +89,7 @@
       },
       "reasonMarriageEnded": "Divorce",
       "birthDate": "1991-05-04",
-      "formerSpouseIncome": false
+      "spouseIncome": false
     },
     "veteranInformation": {
       "fullName": {

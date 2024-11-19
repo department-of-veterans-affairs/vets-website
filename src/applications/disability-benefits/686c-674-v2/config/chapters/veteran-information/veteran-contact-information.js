@@ -44,29 +44,27 @@ export const internationalPhoneSchema = {
 
 export const uiSchema = {
   veteranContactInformation: {
-    veteranContactInformation: {
-      ...titleUI('Phone and email address'),
-      phoneNumber: {
-        ...phoneUI(),
-        'ui:required': () => true,
+    ...titleUI('Phone and email address'),
+    phoneNumber: {
+      ...phoneUI(),
+      'ui:required': () => true,
+    },
+    internationalPhoneNumber: {
+      ...internationalPhoneUI('International phone number'),
+    },
+    emailAddress: {
+      ...emailUI('Email address'),
+      'ui:options': {
+        classNames: 'vads-u-margin-bottom--3',
       },
-      internationalPhoneNumber: {
-        ...internationalPhoneUI('International phone number'),
-      },
-      emailAddress: {
-        ...emailUI('Email address'),
-        'ui:options': {
-          classNames: 'vads-u-margin-bottom--3',
-        },
-      },
-      'view:electronicCorrespondence': {
-        'ui:title':
-          'I agree to receive electronic correspondence from the VA about my claim.',
-        'ui:webComponentField': VaCheckboxField,
-        'ui:options': {
-          messageAriaDescribedby: `I agree to receive electronic correspondence from the VA about my claim`,
-          classNames: 'custom-width',
-        },
+    },
+    electronicCorrespondence: {
+      'ui:title':
+        'I agree to receive electronic correspondence from the VA about my claim.',
+      'ui:webComponentField': VaCheckboxField,
+      'ui:options': {
+        messageAriaDescribedby: `I agree to receive electronic correspondence from the VA about my claim`,
+        classNames: 'custom-width',
       },
     },
   },
@@ -78,15 +76,10 @@ export const schema = {
     veteranContactInformation: {
       type: 'object',
       properties: {
-        veteranContactInformation: {
-          type: 'object',
-          properties: {
-            phoneNumber: phoneSchema,
-            internationalPhoneNumber: internationalPhoneSchema,
-            emailAddress: emailSchema,
-            'view:electronicCorrespondence': { type: 'boolean' },
-          },
-        },
+        phoneNumber: phoneSchema,
+        internationalPhoneNumber: internationalPhoneSchema,
+        emailAddress: emailSchema,
+        electronicCorrespondence: { type: 'boolean' },
       },
     },
   },

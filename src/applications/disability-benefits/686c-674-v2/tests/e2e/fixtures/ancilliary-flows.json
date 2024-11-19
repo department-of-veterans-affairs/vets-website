@@ -84,9 +84,7 @@
         "state": "DC",
         "postalCode": "20500"
       },
-      "veteranContactInformation": {
-        "phoneNumber": "1231231234"
-      }
+      "phoneNumber": "1231231234"
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
@@ -113,7 +111,7 @@
     "schoolInformation": { "address": {} },
     "currentTermDates": {},
     "programInformation": {},
-    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}}, "formerSpouseIncome": false},
+    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}}, "spouseIncome": false},
     "veteranInformation": {
       "fullName": { "first": "Greg", "middle": "A", "last": "Anderson" },
       "ssn": "796121200",
