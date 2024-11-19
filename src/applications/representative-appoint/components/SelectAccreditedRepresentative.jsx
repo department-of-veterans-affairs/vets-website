@@ -212,6 +212,8 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
+export { SelectAccreditedRepresentative }; // Named export for testing
+
 export default withRouter(
   connect(
     mapStateToProps,

@@ -611,4 +611,9 @@ export const breadcrumbsDictionary = {
 export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];
 
 // Define the states requiring postal code
-export const statesRequiringPostalCode = ['CA', 'NY', 'PA', 'TX'];
+export const statesRequiringPostalCode = [
+  'California',
+  'New York',
+  'Pennsylvania',
+  'Texas',
+];

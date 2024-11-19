@@ -8,6 +8,7 @@ import {
   contactOptions,
   isQuestionAboutVeteranOrSomeoneElseLabels,
   relationshipOptionsSomeoneElse,
+  statesRequiringPostalCode,
   TopicAppraisalsSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
@@ -263,7 +264,7 @@ export const isLocationOfResidenceRequired = data => {
 
   // Check if location is required based on contact preference
   if (contactPreference === contactOptions.US_MAIL) {
-    return true;
+    return false;
   }
 
   // Guardianship and VR&E rules
@@ -334,6 +335,113 @@ export const isLocationOfResidenceRequired = data => {
       relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
       isQuestionAboutVeteranOrSomeoneElse ===
         isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN)
+  ) {
+    return true;
+  }
+
+  // Check general question
+  // eslint-disable-next-line sonarjs/prefer-single-boolean-return
+  if (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL) {
+    return true;
+  }
+
+  // Default to false if none of the conditions are met
+  return false;
+};
+
+// Reference Rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Location%20and%20postal%20code.md#guardianship-and-vre
+export const isPostalCodeRequired = data => {
+  const {
+    contactPreference,
+    relationshipToVeteran,
+    selectCategory,
+    selectTopic,
+    whoIsYourQuestionAbout,
+    isQuestionAboutVeteranOrSomeoneElse,
+    yourLocationOfResidence,
+    familyMembersLocationOfResidence,
+    veteransLocationOfResidence,
+  } = data;
+
+  // Check if location is required based on contact preference
+  if (contactPreference === contactOptions.US_MAIL) {
+    return false;
+  }
+
+  // Guardianship and VR&E rules
+  const GuardianshipAndVRE =
+    (selectCategory === CategoryGuardianshipCustodianshipFiduciaryIssues ||
+      selectCategory === CategoryVeteranReadinessAndEmployment) &&
+    selectTopic !== 'Other';
+
+  const EducationAndVRE =
+    selectCategory === CategoryEducation &&
+    selectTopic === TopicVeteranReadinessAndEmploymentChapter31;
+
+  // About myself
+  // Flow 1.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
+    statesRequiringPostalCode.includes(yourLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 1.2
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER) &&
+    statesRequiringPostalCode.includes(yourLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // About someone else
+  // Flow 2.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
+    statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 2.2.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 2.2.2
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE) &&
+    statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 2.3
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
   ) {
     return true;
   }
