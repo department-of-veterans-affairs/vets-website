@@ -56,7 +56,7 @@ const ProgramsList = ({ match }) => {
   };
 
   const handleSearchSubmit = e => {
-    e.preventDefault();
+    e?.preventDefault();
     if (!searchQuery.trim()) {
       setSearchError('Please fill in a program name and then select search.');
       return;

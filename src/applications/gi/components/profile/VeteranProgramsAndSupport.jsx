@@ -85,6 +85,7 @@ export default function VeteranProgramsAndSupport({
         &nbsp;
         <strong>
           <LearnMoreLabel
+            bold
             text={program.text}
             onClick={() => {
               showModal(program.modal);
