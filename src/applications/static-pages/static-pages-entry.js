@@ -53,6 +53,7 @@ import createFindVaForms, {
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
 import createHCAPerformanceWarning from './hca-performance-warning';
+import createHomepageEmailSignup from './homepage-email-signup';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
@@ -98,7 +99,6 @@ import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEn
 import create1010DAccess from './ivc-champva/10-10D/entry';
 import create107959CAccess from './ivc-champva/10-7959c/entry';
 import create107959AAccess from './ivc-champva/10-7959a/entry';
-import create107959F1Access from './ivc-champva/10-7959f-1/entry';
 import create107959F2Access from './ivc-champva/10-7959f-2/entry';
 
 import './mhv-signin-cta/sass/mhv-signin-cta.scss';
@@ -179,6 +179,7 @@ createFindVaFormsPDFDownloadHelper(
   store,
   widgetTypes.FIND_VA_FORMS_DOWNLOAD_MODAL,
 );
+createHomepageEmailSignup(store, widgetTypes.HOMEPAGE_EMAIL_SIGNUP);
 createPost911GiBillStatusWidget(
   store,
   widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
@@ -240,7 +241,6 @@ createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 create1010DAccess(store, widgetTypes.FORM_1010D);
 create107959CAccess(store, widgetTypes.FORM_107959C);
 create107959AAccess(store, widgetTypes.FORM_107959A);
-create107959F1Access(store, widgetTypes.FORM_107959F1);
 create107959F2Access(store, widgetTypes.FORM_107959F2);
 createMhvSigninCallToAction(store, widgetTypes.MHV_SIGNIN_CTA);
 

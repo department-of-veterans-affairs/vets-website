@@ -15,6 +15,22 @@ import SaveResultsModal from '../components/SaveResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
 
 export class ConfirmationPage extends React.Component {
+  sortBenefitObj(benefitObj, sortKey) {
+    return [...benefitObj].sort((a, b) => {
+      const aValue = a[sortKey] || '';
+      const bValue = b[sortKey] || '';
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return aValue.localeCompare(bValue);
+      }
+
+      if (aValue < bValue) return -1;
+      if (aValue > bValue) return 1;
+
+      return 0;
+    });
+  }
+
   constructor(props) {
     super(props);
 
@@ -81,8 +97,8 @@ export class ConfirmationPage extends React.Component {
         Showing {this.state.resultsCount} {resultsText}, filtered to show{' '}
         <b>{this.state.filterValue} results</b>, sorted{' '}
         {this.state.sortValue === 'alphabetical'
-          ? 'alphabetically'
-          : `by ${this.state.sortValue}`}
+          ? 'alphabetically by benefit name'
+          : `alphabetically by benefit ${this.state.sortValue}`}
       </>
     );
   }
@@ -103,7 +119,6 @@ export class ConfirmationPage extends React.Component {
     const key = e.target.value;
     const sortStrings = {
       alphabetical: 'alphabetical',
-      goal: 'goal',
       category: 'type',
     };
     this.setState({ sortValue: sortStrings[key] });
@@ -135,14 +150,8 @@ export class ConfirmationPage extends React.Component {
 
   handleFilterSelect = e => {
     const key = e.target.value;
-    const filterStrings = {
-      All: 'All',
-      Education: 'Education',
-      Careers: 'Careers & Employment',
-      Support: 'More Support',
-    };
 
-    this.setState(() => ({ filterValue: filterStrings[key] }));
+    this.setState(() => ({ filterValue: key }));
   };
 
   filterBenefits = sortingCallback => {
@@ -179,27 +188,6 @@ export class ConfirmationPage extends React.Component {
 
     this.props.router.goBack();
   };
-
-  sortBenefitObj(benefitObj, sortKey) {
-    return [...benefitObj].sort((a, b) => {
-      let aValue = a[sortKey] || '';
-      let bValue = b[sortKey] || '';
-
-      if (sortKey === 'goal') {
-        aValue = a.mappings?.goals?.[0] || '';
-        bValue = b.mappings?.goals?.[0] || '';
-      }
-
-      if (typeof aValue === 'string' && typeof bValue === 'string') {
-        return aValue.localeCompare(bValue);
-      }
-
-      if (aValue < bValue) return -1;
-      if (aValue > bValue) return 1;
-
-      return 0;
-    });
-  }
 
   applyInitialSort() {
     const hasResults = !!this.props.results.data;
@@ -242,24 +230,12 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <article>
-          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
-          <div role="heading" aria-level="2" tabIndex={0}>
+          <div role="heading" aria-level="2">
             <p>
-              <b>
-                Note: This tool is not an application for VA benefits and it
-                doesn't determine your eligibility for benefits.
-              </b>{' '}
-              After you use this tool, you can learn more about eligibility and
-              how to apply.
-            </p>
-            <p>
-              To find VA benefits that may be relevant for you, answer a few
-              questions about your goals and experiences.
-            </p>
-            <p>
-              This is our first version. Right now, this tool focuses on
-              education and career benefits. We'll add more types of benefits
-              soon.
+              Based on your answers, we’ve suggested some benefits for you to
+              explore.
+              <br />
+              Remember to check your eligibility before you apply.
             </p>
           </div>
         </article>
@@ -297,6 +273,7 @@ export class ConfirmationPage extends React.Component {
                 <b>Filters</b>
               </span>
               <VaSelect
+                enableAnalytics
                 aria-label="Filter Benefits"
                 label="Filter by benefit type"
                 name="filter-benefits"
@@ -311,7 +288,7 @@ export class ConfirmationPage extends React.Component {
                   Burials and memorials
                 </option>
                 <option key="Careers" value="Careers">
-                  Careers & Employment
+                  Careers and Employment
                 </option>
                 <option key="Disability" value="Disability">
                   Disability
@@ -343,6 +320,7 @@ export class ConfirmationPage extends React.Component {
                 <b>Sort</b>
               </span>
               <VaSelect
+                enableAnalytics
                 aria-label="Sort Benefits"
                 label="Sort results by"
                 name="sort-benefits"
@@ -351,9 +329,6 @@ export class ConfirmationPage extends React.Component {
               >
                 <option key="alphabetical" value="alphabetical">
                   Alphabetical
-                </option>
-                <option key="goal" value="goal">
-                  Goal
                 </option>
                 <option key="type" value="category">
                   Type
@@ -384,47 +359,54 @@ export class ConfirmationPage extends React.Component {
               </p>
 
               <div className="vads-u-margin-y--2">
-                <va-alert-expandable
-                  status="info"
-                  trigger="Time-sensitive benefits"
-                >
-                  <ul className="benefit-list">
-                    {this.state &&
-                      this.state.benefits
-                        .filter(benefit => benefit.isTimeSensitive)
-                        .map(b => (
-                          <li key={b.id}>
-                            <strong>{b.name}</strong>
-                            <p>{b.description}</p>
-                            {b.learnMoreURL ? (
-                              <div>
-                                <a
-                                  href={b.learnMoreURL}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  aria-label={`Learn more about ${b.name}`}
-                                >
-                                  Learn more
-                                </a>
-                              </div>
-                            ) : null}
+                {this.state && this.state.benefits.length > 0 ? (
+                  <va-alert-expandable
+                    status="info"
+                    trigger="Time-sensitive benefits"
+                  >
+                    <ul className="benefit-list">
+                      {this.state &&
+                        this.state.benefits
+                          .filter(benefit => benefit.isTimeSensitive)
+                          .map(b => (
+                            <li key={b.id}>
+                              <strong>{b.name}</strong>
+                              <p>{b.description}</p>
+                              {b.learnMoreURL ? (
+                                <div>
+                                  <a
+                                    href={b.learnMoreURL}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label={`Learn more about ${b.name}`}
+                                  >
+                                    Learn more
+                                  </a>
+                                </div>
+                              ) : null}
 
-                            {b.applyNowURL ? (
-                              <div>
-                                <a
-                                  href={b.applyNowURL}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  aria-label={`Apply now for ${b.name}`}
-                                >
-                                  Apply now
-                                </a>
-                              </div>
-                            ) : null}
-                          </li>
-                        ))}
-                  </ul>
-                </va-alert-expandable>
+                              {b.applyNowURL ? (
+                                <div>
+                                  <a
+                                    href={b.applyNowURL}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label={`Apply now for ${b.name}`}
+                                  >
+                                    Apply now
+                                  </a>
+                                </div>
+                              ) : null}
+                            </li>
+                          ))}
+                    </ul>
+                  </va-alert-expandable>
+                ) : (
+                  <NoResultsBanner
+                    data={this.props.results.data}
+                    handleClick={this.handleClick}
+                  />
+                )}
               </div>
 
               <div>
@@ -449,27 +431,45 @@ export class ConfirmationPage extends React.Component {
                   </ul>
                 )}
               </div>
-
-              <va-accordion>
-                <va-accordion-item
-                  header="Benefits that I may not qualify for"
-                  id="show"
-                >
-                  <ul className="benefit-list">
-                    {this.state.benefitsList.map(
-                      benefit =>
-                        !this.state.benefitIds[benefit.id] && (
-                          <li key={benefit.id}>
-                            <BenefitCard
-                              benefit={benefit}
-                              className="vads-u-margin-bottom--2"
-                            />
-                          </li>
-                        ),
-                    )}
-                  </ul>
-                </va-accordion-item>
-              </va-accordion>
+              {this.state.benefitsList.length > 0 ? (
+                <va-accordion>
+                  <va-accordion-item
+                    header="Benefits that I may not qualify for"
+                    id="show"
+                  >
+                    <ul className="benefit-list">
+                      {this.state.benefitsList.map(
+                        benefit =>
+                          !this.state.benefitIds[benefit.id] && (
+                            <li key={benefit.id}>
+                              <BenefitCard
+                                benefit={benefit}
+                                className="vads-u-margin-bottom--2"
+                              />
+                            </li>
+                          ),
+                      )}
+                    </ul>
+                  </va-accordion-item>
+                </va-accordion>
+              ) : (
+                <va-banner headline="No Results Found" type="warning" visible>
+                  <p>
+                    We're unable to recomend benefits based on your responses.
+                    You can adjust your filters or{' '}
+                    <va-link
+                      data-testid="back-link-banner"
+                      href="#"
+                      onClick={this.handleClick}
+                      text="Go back and review your entries"
+                    />
+                  </p>
+                  <p>
+                    We're adding more benefits, so we encourage you to try again
+                    in the future.
+                  </p>
+                </va-banner>
+              )}
             </div>
           </div>
         </div>
@@ -486,6 +486,33 @@ export class ConfirmationPage extends React.Component {
     );
   }
 }
+
+const NoResultsBanner = ({ data, handleClick }) => (
+  <va-banner
+    className="response-no-results"
+    headline="No Results Found"
+    type="warning"
+    visible
+  >
+    <p>
+      <>
+        {data && data.length > 0
+          ? "We're unable to recomend benefits based on your responses. You can "
+          : "We're unable to recomend benefits that match your filters. You can adjust your filters or "}
+      </>
+      <va-link
+        data-testid="back-link-banner"
+        href="#"
+        onClick={handleClick}
+        text="Go back review and update your entries"
+      />
+    </p>
+    <p>
+      We’re adding more benefits, so we encourage you to try again in the
+      future.
+    </p>
+  </va-banner>
+);
 
 const mapDispatchToProps = {
   setSubmission: setSubmissionAction,

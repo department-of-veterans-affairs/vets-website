@@ -81,7 +81,7 @@ const searchMessages = (req, res) => {
               : true) &&
             (fromDate && toDate
               ? fromDate.localeCompare(msg.attributes?.sentDate) <= 0 &&
-                toDate.localeCompare(msg.attributes?.sentDate >= 0)
+                toDate.localeCompare(msg.attributes?.sentDate) >= 0
               : true),
         ),
       ],

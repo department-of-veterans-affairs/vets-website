@@ -499,27 +499,98 @@ describe('getLastUpdatedText', () => {
 });
 
 describe('formatNameFirstToLast', () => {
-  it('returns a name formatted with the first name before to the last name and no comma.', () => {
-    const lastFirstName = 'Schmo,Joe';
-    const firstLastName = 'Joe Schmo';
-    const updatedName = formatNameFirstToLast(lastFirstName);
+  it('formats a name string from "Last,First" to "First Last"', () => {
+    const input = 'Schmo,Joe';
+    const expectedOutput = 'Joe Schmo';
+    const result = formatNameFirstToLast(input);
 
-    expect(updatedName).to.eq(firstLastName);
+    expect(result).to.eq(expectedOutput);
   });
 
-  it('returns a name formatted with the first name and middle initial before to the last name.', () => {
-    const lastFirstName = 'Schmo,Joe R';
-    const firstLastName = 'Joe R Schmo';
-    const updatedName = formatNameFirstToLast(lastFirstName);
+  it('formats a name with middle initial from "Last,First Middle" to "First Middle Last"', () => {
+    const input = 'Schmo,Joe R';
+    const expectedOutput = 'Joe R Schmo';
+    const result = formatNameFirstToLast(input);
 
-    expect(updatedName).to.eq(firstLastName);
+    expect(result).to.eq(expectedOutput);
   });
 
-  it('returns original name if not formatted correctly.', () => {
-    const lastFirstName = 'Schmo Joe';
-    const updatedName = formatNameFirstToLast(lastFirstName);
+  it('returns original name if not in "Last,First" format', () => {
+    const input = 'Schmo Joe';
+    const result = formatNameFirstToLast(input);
 
-    expect(updatedName).to.eq(lastFirstName);
+    expect(result).to.eq(input);
+  });
+
+  it('handles object input with given and family names correctly', () => {
+    const input = { given: ['Joe', 'R'], family: 'Schmo' };
+    const expectedOutput = 'Joe R Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('handles object input with text property in "Last,First" format', () => {
+    const input = { text: 'Schmo,Joe' };
+    const expectedOutput = 'Joe Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('returns text property if not in "Last,First" format', () => {
+    const input = { text: 'Schmo Joe' };
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(input.text);
+  });
+
+  it('returns null on unexpected object without necessary properties', () => {
+    const input = { other: 'value' };
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null if input is null', () => {
+    const result = formatNameFirstToLast(null);
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null if input is undefined', () => {
+    const result = formatNameFirstToLast(undefined);
+
+    expect(result).to.be.null;
+  });
+
+  it('handles a name string without a comma as original input', () => {
+    const input = 'SingleName';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(input);
+  });
+
+  it('handles object input with empty given array and family name', () => {
+    const input = { given: [], family: 'Schmo' };
+    const expectedOutput = ' Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('handles empty string input as empty string', () => {
+    const input = '';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq('');
+  });
+
+  it('handles improperly formatted text field in object as original input', () => {
+    const input = { text: 'SchmoJoe' };
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(input.text);
   });
 });
 
