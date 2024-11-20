@@ -20,6 +20,7 @@ const initialState = {
     last: null,
     suffix: null,
   },
+  createdAt: null,
   email: null,
   dob: null,
   gender: null,

@@ -11,6 +11,11 @@ import {
   whoIsYourQuestionAboutLabels,
   yourRoleOptions,
 } from '../../constants';
+import {
+  isLocationOfResidenceRequired,
+  isPostalCodeRequired,
+  isStateOfPropertyRequired,
+} from '../helpers';
 
 // Personal Information
 import CustomPageReviewField from '../../components/CustomPageReviewField';
@@ -31,6 +36,7 @@ import relationshipToVeteranPage from '../chapters/personalInformation/relations
 import schoolInYourProfilePage from '../chapters/personalInformation/schoolInYourProfile';
 import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
 import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
+import stateOfPropertyPage from '../chapters/personalInformation/stateOfProperty';
 import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
 import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
@@ -108,23 +114,26 @@ const ch3Pages = {
     title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
     uiSchema: veteransPostalCodePage.uiSchema,
     schema: veteransPostalCodePage.schema,
+    depends: form => isPostalCodeRequired(form),
   },
   veteransLocationOfResidence: {
     editModeOnReviewPage: false,
     title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: veteransLocationOfResidencePage.uiSchema,
     schema: veteransLocationOfResidencePage.schema,
+    depends: form => isLocationOfResidenceRequired(form),
   },
   familyMembersPostalCode: {
     title: CHAPTER_3.FAMILY_MEMBERS_POSTAL_CODE.TITLE,
     uiSchema: familyMembersPostalCodePage.uiSchema,
     schema: familyMembersPostalCodePage.schema,
+    depends: form => isPostalCodeRequired(form),
   },
   yourPostalCode: {
     title: CHAPTER_3.YOUR_POSTAL_CODE.TITLE,
     uiSchema: yourPostalCodePage.uiSchema,
     schema: yourPostalCodePage.schema,
-    depends: form => form.contactPreference !== 'U.S. mail',
+    depends: form => isPostalCodeRequired(form),
   },
   isQuestionAboutVeteranOrSomeoneElse: {
     editModeOnReviewPage: false,
@@ -271,15 +280,14 @@ const ch3Pages = {
     title: CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: familyMembersLocationOfResidencePage.uiSchema,
     schema: familyMembersLocationOfResidencePage.schema,
+    depends: form => isLocationOfResidenceRequired(form),
   },
   yourLocationOfResidence: {
     editModeOnReviewPage: false,
     title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: yourLocationOfResidencePage.uiSchema,
     schema: yourLocationOfResidencePage.schema,
-    depends: form =>
-      form.contactPreference !== 'U.S. mail' &&
-      !healthcareCategoryLabels.includes(form.selectCategory),
+    depends: form => isLocationOfResidenceRequired(form),
   },
   relationshipToVeteran: {
     editModeOnReviewPage: false,
@@ -343,6 +351,12 @@ const ch3Pages = {
         form.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
       );
     },
+  },
+  stateOfProperty: {
+    title: CHAPTER_3.STATE_OF_PROPERTY.TITLE,
+    uiSchema: stateOfPropertyPage.uiSchema,
+    schema: stateOfPropertyPage.schema,
+    depends: form => isStateOfPropertyRequired(form),
   },
 };
 
@@ -484,6 +498,7 @@ const aboutMyselfRelationshipVeteran = [
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
+  'stateOfProperty',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -504,6 +519,7 @@ const aboutMyselfRelationshipFamilyMember = [
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
+  'stateOfProperty',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -524,6 +540,7 @@ const aboutSomeoneElseRelationshipVeteran = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutYourself',
   'yourBranchOfService',
   'yourContactInformation',
@@ -555,6 +572,7 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutYourselfRelationshipFamilyMember',
   'yourContactInformation',
   'yourMailingAddress',
@@ -574,6 +592,7 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutTheVeteran',
   'dateOfDeath',
   'aboutYourselfGeneral',
@@ -607,6 +626,7 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutYourself',
   'yourContactInformation',
   'yourMailingAddress',
@@ -638,6 +658,7 @@ const generalQuestion = [
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
+  'stateOfProperty',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
