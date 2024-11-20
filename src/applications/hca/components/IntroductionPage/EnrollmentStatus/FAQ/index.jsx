@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
 import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
-import { createLiteralMap } from '../../../../utils/helpers';
+import { createLiteralMap } from '../../../../utils/helpers/general';
 import GeneralFAQs from '../ContentBlocks/GeneralFAQs';
 import ReapplyFAQs from '../ContentBlocks/ReapplyFAQs';
 
