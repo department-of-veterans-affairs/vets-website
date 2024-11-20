@@ -346,14 +346,16 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
   const getActiveItemPages = (formData, index) => {
     return itemPages.filter(page => {
-      if (typeof page.depends === 'function') {
-        try {
-          return page.depends(formData, index);
-        } catch (e) {
-          return false;
+      try {
+        if (page.depends) {
+          return typeof page.depends === 'function'
+            ? page.depends(formData, index)
+            : page.depends;
         }
+        return true;
+      } catch (e) {
+        return false;
       }
-      return true;
     });
   };
 
@@ -463,6 +465,19 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     };
   };
 
+  function safeDepends(depends) {
+    if (typeof depends !== 'function') {
+      return depends;
+    }
+    return (formData, index) => {
+      try {
+        return depends(formData, index);
+      } catch (e) {
+        return false;
+      }
+    };
+  }
+
   pageBuilder.summaryPage = pageConfig => {
     let requiredOpts = ['title', 'path'];
     if (usesYesNo) {
@@ -536,6 +551,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       onNavBack,
       onNavForward,
       ...pageConfig,
+      ...(pageConfig.depends
+        ? { depends: safeDepends(pageConfig.depends) }
+        : {}),
       uiSchema: {
         [arrayPath]: {
           items: pageConfig.uiSchema,
