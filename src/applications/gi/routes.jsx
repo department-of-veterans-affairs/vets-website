@@ -5,7 +5,8 @@ import SearchPage from './containers/SearchPage';
 import ComparePage from './containers/ComparePage';
 import ProfilePage from './containers/ProfilePage';
 import ProgramsList from './components/profile/ProgramsList';
-import SearchLicensesCertificationsPage from './components/SearchLicensesCertificationsPage';
+import LicenseCertificationSearchResults from './containers/LicenseCertificationSearchResults';
+import LicenseCertificationSearch from './components/LicenseCertificationSearch';
 
 export const buildRoutes = () => {
   return (
@@ -25,8 +26,12 @@ export const buildRoutes = () => {
         />
         <Route
           path="/lc-search"
+          render={({ match }) => <LicenseCertificationSearch match={match} />}
+        />
+        <Route
+          path="/lc-search/results"
           render={({ match }) => (
-            <SearchLicensesCertificationsPage match={match} />
+            <LicenseCertificationSearchResults match={match} />
           )}
         />
         <Route
