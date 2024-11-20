@@ -15,7 +15,7 @@ export const information = {
       title: 'Add a child',
       nounSingular: deceasedDependentOptions.nounSingular,
     }),
-    fullName: fullNameNoSuffixUI(),
+    fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
     birthDate: currentOrPastDateUI({
       title: 'Child’s date of birth',
       required: () => true,
