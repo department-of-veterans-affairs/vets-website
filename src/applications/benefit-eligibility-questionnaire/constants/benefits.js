@@ -38,7 +38,7 @@ export const goalTypeLabels = Object.freeze({
   FINANCIAL: 'Get financial support for a service-connected condition',
   SCHOOL: 'Go back to school',
   RETIREMENT: 'Plan for my transition or retirement',
-  FUTURE: "Plan for your and your family's future",
+  FUTURE: "Plan for my and my family's future",
   CAREER: 'Start a new career',
   HEALTH: 'Take care of my health and well-being',
   UNDERSTAND: 'Understand my benefits',
