@@ -47,7 +47,7 @@ src/applications/terms-of-use @department-of-veterans-affairs/octo-identity @dep
 src/applications/verify @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
-src/platform/site-wide/user-nav/tests/containers/AutoSSO.unit.spec.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests 
+src/platform/site-wide/user-nav/tests/containers/AutoSSO.unit.spec.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
 src/platform/user/authentication @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/user/tests/authentication @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
 src/platform/user/authorization/components/IdentityNotVerified.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
@@ -117,7 +117,7 @@ src/applications/combined-debt-portal @department-of-veterans-affairs/vsa-debt-f
 src/applications/static-pages/burial-how-do-i-apply-widget @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Form Engine
-src/applications/form-renderer @department-of-veterans-affairs/form-engine @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms-form-engine @department-of-veterans-affairs/form-engine @department-of-veterans-affairs/va-platform-cop-frontend
 
 
 # VFS --
@@ -259,6 +259,7 @@ src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-h
 src/applications/pre-need @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need-integration @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/widget-creators @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/user-testing/new-conditions @department-of-veterans-affairs/vfs-benefits-conditions-team @department-of-veterans-affairs/va-platform-cop-frontend
 
 
 # Need more specific owners
