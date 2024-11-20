@@ -211,12 +211,12 @@ class MedicationsListPage {
     displayedEndNumber,
     listLength,
   ) => {
-    cy.get('[data-testid="page-total-info"]')
-      .first()
-      .should(
-        'contain',
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+    cy.get('[data-testid="page-total-info"]').should($el => {
+      const text = $el.text().trim();
+      expect(text).to.include(
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
       );
+    });
   };
 
   clickDownloadListAsPDFButtonOnListPage = () => {
