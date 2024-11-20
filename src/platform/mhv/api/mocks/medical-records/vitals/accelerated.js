@@ -10837,8 +10837,8 @@ const oneInEveryMonth = [
         reference:
           'https://sandbox-api.va.gov/services/fhir/v0/r4/Encounter/4-1abONcOSZ9W4SB',
       },
-      effectiveDateTime: '2024-01-26T06:10:16Z',
-      issued: '2013-01-26T06:10:16Z',
+      effectiveDateTime: '2024-01-06T06:10:16Z',
+      issued: '2013-01-06T06:10:16Z',
       performer: [
         {
           reference:
