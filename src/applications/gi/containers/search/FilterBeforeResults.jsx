@@ -803,7 +803,6 @@ export function FilterBeforeResults({
           {smallScreen && renderLocation()}
           <div className="modal-button-wrapper">
             <VaButton
-              type="button"
               id={`update-${createId(title)}-button`}
               className="apply-filter-button vads-u-margin-top--3"
               onClick={closeAndUpdate}
@@ -811,13 +810,9 @@ export function FilterBeforeResults({
               text="Apply filters"
             />
             <ClearFiltersBtn
-              testId="clear-button"
-              // isCleared={isCleared}
-              // setIsCleared={setIsCleared}
+              className="vads-u-margin-left--2"
               onClick={onApplyFilterClick}
-            >
-              Reset search
-            </ClearFiltersBtn>
+            />
           </div>
           <div
             id="learn-more-about-specialized-missions-accordion-button"

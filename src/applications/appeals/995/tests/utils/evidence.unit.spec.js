@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
 import {
+  getVAEvidence,
+  getPrivateEvidence,
+  getOtherEvidence,
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
@@ -31,6 +34,63 @@ describe('getIndex', () => {
   });
   it('should return zero when missing an index & testIndex', () => {
     expect(getIndex(testData, null, '?test=a')).to.eq(0);
+  });
+});
+
+describe('getVAEvidence', () => {
+  it('should return expected value', () => {
+    expect(
+      getVAEvidence({ [EVIDENCE_VA]: undefined, locations: [{}] }),
+    ).to.deep.equal([]);
+    expect(
+      getVAEvidence({ [EVIDENCE_VA]: true, locations: [{}] }),
+    ).to.deep.equal([{}]);
+    expect(getVAEvidence({ [EVIDENCE_VA]: true, locations: [] })).to.deep.equal(
+      [],
+    );
+    expect(
+      getVAEvidence({ [EVIDENCE_VA]: false, locations: [{}] }),
+    ).to.deep.equal([]);
+  });
+});
+
+describe('getPrivateEvidence', () => {
+  it('should return expected value', () => {
+    expect(
+      getPrivateEvidence({
+        [EVIDENCE_PRIVATE]: undefined,
+        providerFacility: [{}],
+      }),
+    ).to.deep.equal([]);
+    expect(
+      getPrivateEvidence({ [EVIDENCE_PRIVATE]: true, providerFacility: [{}] }),
+    ).to.deep.equal([{}]);
+    expect(
+      getPrivateEvidence({ [EVIDENCE_PRIVATE]: true, providerFacility: [] }),
+    ).to.deep.equal([]);
+    expect(
+      getPrivateEvidence({ [EVIDENCE_PRIVATE]: false, providerFacility: [{}] }),
+    ).to.deep.equal([]);
+  });
+});
+
+describe('getOtherEvidence', () => {
+  it('should return expected value', () => {
+    expect(
+      getOtherEvidence({
+        [EVIDENCE_OTHER]: undefined,
+        additionalDocuments: [{}],
+      }),
+    ).to.deep.equal([]);
+    expect(
+      getOtherEvidence({ [EVIDENCE_OTHER]: true, additionalDocuments: [{}] }),
+    ).to.deep.equal([{}]);
+    expect(
+      getOtherEvidence({ [EVIDENCE_OTHER]: true, additionalDocuments: [] }),
+    ).to.deep.equal([]);
+    expect(
+      getOtherEvidence({ [EVIDENCE_OTHER]: false, additionalDocuments: [{}] }),
+    ).to.deep.equal([]);
   });
 });
 
@@ -119,6 +179,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
       { issue: 'test 2', [SELECTED]: true },
       { issue: 'test 4', [SELECTED]: false },
     ],
+    [EVIDENCE_VA]: true,
     locations: [
       {
         foo: true,
@@ -131,6 +192,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
         issues: ['test 1', 'test 2', addLocation].filter(Boolean),
       },
     ],
+    [EVIDENCE_PRIVATE]: true,
     providerFacility: [
       {
         foo: false,

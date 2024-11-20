@@ -84,6 +84,7 @@ const EmailSignup = () => {
           use-forms-pattern="single"
         />
         <va-button
+          disable-analytics
           class="vads-u-width--auto vads-u-margin-bottom--2 vads-u-margin-top--1p5"
           onClick={event => {
             event.preventDefault();
