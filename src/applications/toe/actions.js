@@ -9,7 +9,7 @@ export const CLAIMANT_INFO_ENDPOINT = `${
 
 export const CLAIM_STATUS_ENDPOINT = `${
   environment.API_URL
-}/meb_api/v0/forms_claim_status?type=ToeSubmission`;
+}/meb_api/v0/forms_claim_status`;
 export const CLAIM_STATUS_RESPONSE_IN_PROGRESS = 'INPROGRESS';
 export const FETCH_CLAIM_STATUS = 'FETCH_CLAIM_STATUS';
 export const FETCH_CLAIM_STATUS_SUCCESS = 'FETCH_CLAIM_STATUS_SUCCESS';
