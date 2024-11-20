@@ -16,29 +16,29 @@ const LoginContainer = props => {
   useDatadogRum();
 
   return (
-    <section
-      className={`login ${isUnifiedSignIn ? 'login-page' : 'login-modal'}`}
-    >
-      {!isUnifiedSignIn && (
-        <div className="row">
-          <div className="columns">
-            <div className="logo">
-              <img
-                alt="VA logo and Seal, U.S. Department of Veterans Affairs"
-                className="va-header-logo"
-                src={logoSrc}
-              />
+    <section className="login">
+      <div className="container">
+        {!isUnifiedSignIn && (
+          <div className="row">
+            <div className="columns">
+              <div className="logo">
+                <img
+                  alt="VA logo and Seal, U.S. Department of Veterans Affairs"
+                  className="va-header-logo"
+                  src={logoSrc}
+                />
+              </div>
             </div>
           </div>
+        )}
+        <div className="container">
+          <LoginHeader loggedOut={loggedOut} />
+          <LoginActions
+            externalApplication={externalApplication}
+            isUnifiedSignIn={isUnifiedSignIn}
+          />
+          <LoginInfo />
         </div>
-      )}
-      <div className="container">
-        <LoginHeader loggedOut={loggedOut} />
-        <LoginActions
-          externalApplication={externalApplication}
-          isUnifiedSignIn={isUnifiedSignIn}
-        />
-        <LoginInfo />
       </div>
     </section>
   );

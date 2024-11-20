@@ -11,7 +11,7 @@ describe('Unauthed User Flow Test', () => {
       cy.visit(path);
       cy.get('body').should('be.visible');
       cy.get('.login').should('be.visible');
-      cy.get('#signin-signup-modal-title').should('contain', 'Sign in');
+      cy.get('h1').should('contain', 'Sign in');
     });
   });
 });
