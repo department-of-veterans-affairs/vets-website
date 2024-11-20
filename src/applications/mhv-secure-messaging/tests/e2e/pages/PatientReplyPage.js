@@ -14,7 +14,7 @@ class PatientReplyPage {
       }/thread*`,
       mockResponse,
     ).as(`getMessageRequest`);
-    cy.get(Locators.BUTTONS.REPLY_BTN).click();
+    cy.get(Locators.BUTTONS.REPLY).click();
     PatientInterstitialPage.getContinueButton().click();
   };
 

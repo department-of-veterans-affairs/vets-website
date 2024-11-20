@@ -162,7 +162,6 @@ class PatientMessageDetailsPage {
       `#message-link-${multiThreadsResponse.data[0].attributes.messageId}`,
     ).click();
     cy.wait(`@threadResponse`);
-    cy.wait(`@threadFirstMessageResponse`);
   };
 
   loadReplyMessageThread = (singleThreadResponse = threadResponse) => {
