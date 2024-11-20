@@ -180,7 +180,6 @@ export const radiologyRecordHash = async record => {
 };
 
 /**
- *
  * @param {*} id the ID (PHR if available, otherwise CVIX) of the desired study, with hash (e.g. (r12345-abcde")
  * @param {*} phrResponse a list of PHR radiology responses from the API
  * @param {*} cvixResponse a list of CVIX radiology responses from the API
@@ -196,6 +195,7 @@ export const findMatchingPhrAndCvixStudies = async (
 
   // Helper function to find a record first by numeric ID, then by hash
   const findRecordByIdOrHash = async (records, findNumericId, findHashId) => {
+    if (!records) return null;
     const foundRecord = records.find(r => +r.id === findNumericId);
     if (foundRecord) return foundRecord;
 
@@ -206,14 +206,14 @@ export const findMatchingPhrAndCvixStudies = async (
         hash: await radiologyRecordHash(r),
       })),
     );
-    return recordsWithHash.find(r => r.hash === findHashId);
+    return recordsWithHash.find(r => r.hash === findHashId) || null;
   };
 
   const phrDetails = await findRecordByIdOrHash(phrResponse, numericId, hashId);
 
   let cvixDetails;
   if (phrDetails) {
-    cvixDetails = findMatchingCvixReport(phrResponse, cvixResponse);
+    cvixDetails = findMatchingCvixReport(phrDetails, cvixResponse);
   } else {
     cvixDetails = await findRecordByIdOrHash(cvixResponse, numericId, hashId);
   }

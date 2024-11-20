@@ -199,7 +199,119 @@ describe('findMatchingCvixReport', () => {
 });
 
 describe('findMatchingPhrAndCvixStudies', () => {
-  it('', () => {
-    //
+  beforeEach(() => {
+    // Mock the global crypto.subtle.digest function to always return all zeroes.
+    global.crypto = {
+      subtle: {
+        digest: () => {
+          // Return a static hash value (e.g., 16-byte ArrayBuffer)
+          const staticHash = new Uint8Array(16).fill(0).buffer;
+          return Promise.resolve(staticHash);
+        },
+      },
+    };
+  });
+
+  it('should return the PHR response by ID', async () => {
+    const phrResponse = [{ id: '12345', eventDate: '2022-01-01' }];
+    const cvixResponse = [{ id: 'YYYYY', performedDatePrecise: 1700000000000 }];
+
+    const record = await findMatchingPhrAndCvixStudies(
+      'r12345-aaaaaaaa',
+      phrResponse,
+      cvixResponse,
+    );
+    expect(record.phrDetails.id).to.equal('12345');
+    expect(record.cvixDetails).to.be.null;
+  });
+
+  it('should return the PHR response by hash', async () => {
+    const phrResponse = [{ id: '12345', eventDate: '2022-01-01' }];
+    const cvixResponse = [{ id: 'YYYYY', performedDatePrecise: 1700000000000 }];
+
+    const record = await findMatchingPhrAndCvixStudies(
+      'rXXXXX-00000000',
+      phrResponse,
+      cvixResponse,
+    );
+    expect(record.phrDetails.id).to.equal('12345');
+    expect(record.cvixDetails).to.be.null;
+  });
+
+  it('should return nothing if neither ID nor hash matches', async () => {
+    const phrResponse = [{ id: '12345', eventDate: '2022-01-01' }];
+
+    const record = await findMatchingPhrAndCvixStudies(
+      'rXXXXX-aaaaaaaa',
+      phrResponse,
+    );
+    expect(record.phrDetails).to.be.null;
+    expect(record.cvixDetails).to.be.null;
+  });
+
+  it('should return the CVIX response by ID', async () => {
+    const cvixResponse = [{ id: '12345', performedDatePrecise: 1712264604902 }];
+
+    const record = await findMatchingPhrAndCvixStudies(
+      'r12345-aaaaaaaa',
+      null,
+      cvixResponse,
+    );
+    expect(record.phrDetails).to.be.null;
+    expect(record.cvixDetails.id).to.equal('12345');
+  });
+
+  it('should return the CVIX response by hash', async () => {
+    const cvixResponse = [{ id: '12345', performedDatePrecise: 1712264604902 }];
+
+    const record = await findMatchingPhrAndCvixStudies(
+      'rXXXXX-00000000',
+      null,
+      cvixResponse,
+    );
+    expect(record.phrDetails).to.be.null;
+    expect(record.cvixDetails.id).to.equal('12345');
+  });
+
+  it('should return the PHR details with matching CVIX details', async () => {
+    const date = new Date();
+    const isoDate = date.toISOString();
+    const datetime = date.getTime();
+    const phrResponse = [
+      { id: '12345', eventDate: isoDate },
+      { id: 'XXXXX', eventDate: isoDate },
+    ];
+    const cvixResponse = [
+      { id: '67890', performedDatePrecise: datetime },
+      { id: 'YYYYY', performedDatePrecise: 1700000000000 },
+    ];
+
+    const record = await findMatchingPhrAndCvixStudies(
+      'r12345-aaaaaaaa',
+      phrResponse,
+      cvixResponse,
+    );
+    expect(record.phrDetails.id).to.equal('12345');
+    expect(record.cvixDetails.id).to.equal('67890');
+  });
+
+  it('should return null values if both lists are null', async () => {
+    const record = await findMatchingPhrAndCvixStudies(
+      'r12345-aaaaaaaa',
+      null,
+      null,
+    );
+    expect(record.phrDetails).to.be.null;
+    expect(record.cvixDetails).to.be.null;
+  });
+
+  it('should return null values if both lists are empty', async () => {
+    const record = await findMatchingPhrAndCvixStudies(
+      'r12345-aaaaaaaa',
+      [],
+      [],
+    );
+    expect(record.phrDetails).to.be.null;
+    expect(record.cvixDetails).to.be.null;
   });
 });
