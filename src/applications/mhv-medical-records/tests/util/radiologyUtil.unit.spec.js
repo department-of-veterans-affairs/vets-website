@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   areDatesEqualToMinute,
   findMatchingCvixReport,
+  findMatchingPhrAndCvixStudies,
   parseRadiologyReport,
   radiologyReportsMatch,
 } from '../../util/radiologyUtil';
@@ -194,5 +195,11 @@ describe('findMatchingCvixReport', () => {
     const result = findMatchingCvixReport(phrResponse, cvixResponseList);
 
     expect(result).to.be.null;
+  });
+});
+
+describe('findMatchingPhrAndCvixStudies', () => {
+  it('', () => {
+    //
   });
 });

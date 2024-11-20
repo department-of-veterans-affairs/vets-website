@@ -159,7 +159,7 @@ export const extractOrderedTests = record => {
  * @param {Object} record - A FHIR DiagnosticReport chem/hem object
  * @returns the appropriate frontend object for display
  */
-const convertChemHemRecord = record => {
+export const convertChemHemRecord = record => {
   const basedOnRef =
     isArrayAndHasItems(record.basedOn) && record.basedOn[0]?.reference;
   const serviceRequest = extractContainedResource(record, basedOnRef);
@@ -208,7 +208,7 @@ export const extractOrderedBy = record => {
  * @param {Object} record - A FHIR DiagnosticReport microbiology object
  * @returns the appropriate frontend object for display
  */
-const convertMicrobiologyRecord = record => {
+export const convertMicrobiologyRecord = record => {
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   const title = record?.code?.text;
@@ -360,7 +360,9 @@ export const convertCvixRadiologyRecord = record => {
     date: record.performedDatePrecise
       ? dateFormatWithoutTimezone(record.performedDatePrecise)
       : EMPTY_FIELD,
-    sortDate: record.performedDatePrecise || EMPTY_FIELD,
+    sortDate: record.performedDatePrecise
+      ? `${new Date(record.performedDatePrecise).toISOString().split('.')[0]}Z`
+      : EMPTY_FIELD,
     imagingProvider: EMPTY_FIELD,
     results: buildRadiologyResults({
       reportText: parsedReport.Report,

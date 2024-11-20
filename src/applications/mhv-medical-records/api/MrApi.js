@@ -71,6 +71,7 @@ export const getMhvRadiologyTests = () => {
 /**
  * Get radiology details from the backend. There are no APIs to get a single record by ID, so we
  * need to pull all records and retrieve the right one by ID or hash.
+ *
  * @param {*} id
  * @returns an object containing both the PHR and CVIX reports, if they exist
  */

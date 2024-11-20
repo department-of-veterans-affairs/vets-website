@@ -7,7 +7,7 @@
  */
 export const parseRadiologyReport = radiologyReportText => {
   const radiologyReportMap = {};
-  const lines = radiologyReportText.split(/\r?\n/);
+  const lines = radiologyReportText ? radiologyReportText.split(/\r?\n/) : [];
   let i = 0;
   let clinicalHistory = '';
   let reportText = '';
@@ -177,4 +177,46 @@ export const radiologyRecordHash = async record => {
   const date = record.eventDate || record.performedDatePrecise;
   const dataString = `${procedureName}|${radiologist}|${stationNumber}|${date}`;
   return (await generateHash(dataString)).substring(0, 8);
+};
+
+/**
+ *
+ * @param {*} id the ID (PHR if available, otherwise CVIX) of the desired study, with hash (e.g. (r12345-abcde")
+ * @param {*} phrResponse a list of PHR radiology responses from the API
+ * @param {*} cvixResponse a list of CVIX radiology responses from the API
+ * @returns an object containing the PHR study and CVIX study that match the provided ID
+ */
+export const findMatchingPhrAndCvixStudies = async (
+  id,
+  phrResponse,
+  cvixResponse,
+) => {
+  const [numericIdStr, hashId] = id.substring(1).split('-');
+  const numericId = +numericIdStr;
+
+  // Helper function to find a record first by numeric ID, then by hash
+  const findRecordByIdOrHash = async (records, findNumericId, findHashId) => {
+    const foundRecord = records.find(r => +r.id === findNumericId);
+    if (foundRecord) return foundRecord;
+
+    // If not found by ID, compute hashes and find by hash
+    const recordsWithHash = await Promise.all(
+      records.map(async r => ({
+        ...r,
+        hash: await radiologyRecordHash(r),
+      })),
+    );
+    return recordsWithHash.find(r => r.hash === findHashId);
+  };
+
+  const phrDetails = await findRecordByIdOrHash(phrResponse, numericId, hashId);
+
+  let cvixDetails;
+  if (phrDetails) {
+    cvixDetails = findMatchingCvixReport(phrResponse, cvixResponse);
+  } else {
+    cvixDetails = await findRecordByIdOrHash(cvixResponse, numericId, hashId);
+  }
+
+  return { phrDetails, cvixDetails };
 };
