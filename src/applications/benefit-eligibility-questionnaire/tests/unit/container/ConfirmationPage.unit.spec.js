@@ -281,4 +281,24 @@ describe('<ConfirmationPage> with <va-banner />', () => {
       expect(props.router.goBack.called).to.be.true;
     });
   });
+
+  it('should handle "Filter and sort" action link', async () => {
+    const { mockStore, props } = getData([]);
+    const { container } = subject({ mockStore, props });
+
+    window.innerWidth = 430;
+    window.innerHeight = 932;
+
+    const actionLink = container.querySelector(
+      'va-link-action[text="Filter and sort"]',
+    );
+    fireEvent.click(actionLink);
+
+    await waitFor(() => {
+      const filterSelect = container.querySelector('[name="filter-benefits"]');
+      const sortSelect = container.querySelector('[name="sort-benefits"]');
+      expect(filterSelect).to.exist;
+      expect(sortSelect).to.exist;
+    });
+  });
 });
