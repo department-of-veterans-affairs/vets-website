@@ -58,35 +58,35 @@ export function veteranBornBetween(formData, date1, date2) {
 export function canVeteranProvideAgentOrangeResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, new Date(1900, 1, 1), new Date(1965, 12, 31))
+    veteranBornBetween(formData, '1900-01-01', '1965-12-31')
   );
 }
 
 export function canVeteranProvideRadiationCleanupResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, new Date(1900, 1, 1), new Date(1965, 12, 31))
+    veteranBornBetween(formData, '1900-01-01', '1965-12-31')
   );
 }
 
 export function canVeteranProvideGulfWarServiceResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, new Date(1900, 1, 1), new Date(1976, 12, 31))
+    veteranBornBetween(formData, '1900-01-01', '1975-12-31')
   );
 }
 
 export function canVeteranProvideCombatOperationsResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, new Date(1900, 1, 1), subYears(new Date(), 15))
+    veteranBornBetween(formData, '1900-01-01', subYears(new Date(), 15))
   );
 }
 
 export function canVeteranProvidePostSept11ServiceResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, new Date(1976, 1, 1), subYears(new Date(), 15))
+    veteranBornBetween(formData, '1976-01-01', subYears(new Date(), 15))
   );
 }
 

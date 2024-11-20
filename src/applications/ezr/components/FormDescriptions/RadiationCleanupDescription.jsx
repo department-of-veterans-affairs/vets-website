@@ -6,14 +6,14 @@ const RadiationCleanupDescription = (
       <strong>
         The cleanup of an Air Force B-52 bomber carrying nuclear weapons off the
         off the coast of Palomares, Spain
-      </strong>
+      </strong>{' '}
       between January 17, 1966 and March 31, 1967
     </li>
     <li>
       <strong>
         The response to the fire onboard an Air Force B-52 bomber carrying
         nuclear weapons near Thule Air Force Base in Greenland
-      </strong>
+      </strong>{' '}
       between January 21, 1968 and September 25, 1968
     </li>
     <li>

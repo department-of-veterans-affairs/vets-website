@@ -22,10 +22,10 @@ export const OtherExposureDescription = (
     </p>
     {ExposureCategoriesLink}
     <p>
-      Note: If you’re not sure, you can still select any of the toxins or
-      hazards listed here. This may help us find information about your service
-      history and confirm whether you may have been exposed to any toxins or
-      other hazards.
+      <strong>Note:</strong> If you’re not sure, you can still select any of the
+      toxins or hazards listed here. This may help us find information about
+      your service history and confirm whether you may have been exposed to any
+      toxins or other hazards.
     </p>
     <p>
       Do you think you may have been exposed to any of these toxins or hazards
