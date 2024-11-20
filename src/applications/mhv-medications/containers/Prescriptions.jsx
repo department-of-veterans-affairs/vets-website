@@ -107,7 +107,8 @@ const Prescriptions = () => {
   const [loadingMessage, setLoadingMessage] = useState('');
   const [sortingInProgress, setSortingInProgress] = useState(false);
   const [filterOption, setFilterOption] = useState(
-    sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) || null,
+    sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
+      filterOptions.ALL_MEDICATIONS.url,
   );
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
