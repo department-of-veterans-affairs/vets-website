@@ -221,9 +221,7 @@ describe('Resources and Support hooks', () => {
     });
 
     it('should return the correct counts for a given article and keywords', () => {
-      expect(
-        getWholePhraseMatches('covid', articles[44]),
-      ).to.deep.equal({
+      expect(getWholePhraseMatches('covid', articles[44])).to.deep.equal({
         wholePhraseMatchCountsContent: 3,
         wholePhraseMatchCountsIntroText: 2,
         wholePhraseMatchCountsTitle: 1,
@@ -301,7 +299,7 @@ describe('Resources and Support hooks', () => {
           wholePhraseMatchCountsIntroText: 2,
           wholePhraseMatchCountsTitle: 1,
           wholePhraseMatchCountsTotal: 6,
-        }
+        },
       ]);
     });
 
@@ -332,74 +330,74 @@ describe('Resources and Support hooks', () => {
       ]);
     });
 
-    it.only('should return ordered results as expected', () => {
+    it('should return ordered results as expected', () => {
       expect(createOrderedResults(articles, 'benefits')).to.deep.equal([
-        // {
-        //   ...articles[38],
-        //   keywordsCountsContent: 0,
-        //   keywordsCountsIntroText: 0,
-        //   keywordsCountsIntroTextAndContent: 0,
-        //   keywordsCountsTitle: 0,
-        //   wholePhraseMatchCountsContent: 3,
-        //   wholePhraseMatchCountsIntroText: 2,
-        //   wholePhraseMatchCountsTitle: 1,
-        //   wholePhraseMatchCountsTotal: 6,
-        // },
-        // {
-        //   ...articles[31],
-        //   keywordsCountsContent: 0,
-        //   keywordsCountsIntroText: 0,
-        //   keywordsCountsIntroTextAndContent: 0,
-        //   keywordsCountsTitle: 0,
-        //   wholePhraseMatchCountsContent: 0,
-        //   wholePhraseMatchCountsIntroText: 0,
-        //   wholePhraseMatchCountsTitle: 1,
-        //   wholePhraseMatchCountsTotal: 1,
-        // },
-        // {
-        //   ...articles[4],
-        //   keywordsCountsContent: 0,
-        //   keywordsCountsIntroText: 0,
-        //   keywordsCountsIntroTextAndContent: 0,
-        //   keywordsCountsTitle: 0,
-        //   wholePhraseMatchCountsContent: 0,
-        //   wholePhraseMatchCountsIntroText: 0,
-        //   wholePhraseMatchCountsTitle: 1,
-        //   wholePhraseMatchCountsTotal: 1,
-        // },
-        // {
-        //   ...articles[8],
-        //   keywordsCountsContent: 0,
-        //   keywordsCountsIntroText: 0,
-        //   keywordsCountsIntroTextAndContent: 0,
-        //   keywordsCountsTitle: 0,
-        //   wholePhraseMatchCountsContent: 0,
-        //   wholePhraseMatchCountsIntroText: 0,
-        //   wholePhraseMatchCountsTitle: 1,
-        //   wholePhraseMatchCountsTotal: 1,
-        // },
-        // {
-        //   ...articles[9],
-        //   keywordsCountsContent: 0,
-        //   keywordsCountsIntroText: 0,
-        //   keywordsCountsIntroTextAndContent: 0,
-        //   keywordsCountsTitle: 0,
-        //   wholePhraseMatchCountsContent: 0,
-        //   wholePhraseMatchCountsIntroText: 0,
-        //   wholePhraseMatchCountsTitle: 1,
-        //   wholePhraseMatchCountsTotal: 1,
-        // },
-        // {
-        //   ...articles[5],
-        //   keywordsCountsContent: 0,
-        //   keywordsCountsIntroText: 0,
-        //   keywordsCountsIntroTextAndContent: 0,
-        //   keywordsCountsTitle: 0,
-        //   wholePhraseMatchCountsContent: 0,
-        //   wholePhraseMatchCountsIntroText: 0,
-        //   wholePhraseMatchCountsTitle: 1,
-        //   wholePhraseMatchCountsTotal: 1,
-        // },
+        {
+          ...articles[38],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 0,
+          wholePhraseMatchCountsContent: 3,
+          wholePhraseMatchCountsIntroText: 2,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 6,
+        },
+        {
+          ...articles[31],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 0,
+          wholePhraseMatchCountsContent: 3,
+          wholePhraseMatchCountsIntroText: 2,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 6,
+        },
+        {
+          ...articles[4],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 0,
+          keywordsCountsTitle: 0,
+          wholePhraseMatchCountsContent: 2,
+          wholePhraseMatchCountsIntroText: 1,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 4,
+        },
+        {
+          ...articles[49],
+          keywordsCountsContent: 1,
+          keywordsCountsIntroText: 1,
+          keywordsCountsIntroTextAndContent: 2,
+          keywordsCountsTitle: 1,
+          wholePhraseMatchCountsContent: 1,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 0,
+          wholePhraseMatchCountsTotal: 1,
+        },
+        {
+          ...articles[50],
+          keywordsCountsContent: 1,
+          keywordsCountsIntroText: 0,
+          keywordsCountsIntroTextAndContent: 1,
+          keywordsCountsTitle: 1,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 1,
+          wholePhraseMatchCountsTitle: 0,
+          wholePhraseMatchCountsTotal: 1,
+        },
+        {
+          ...articles[14],
+          keywordsCountsContent: 0,
+          keywordsCountsIntroText: 1,
+          keywordsCountsIntroTextAndContent: 1,
+          keywordsCountsTitle: 0,
+          wholePhraseMatchCountsContent: 0,
+          wholePhraseMatchCountsIntroText: 0,
+          wholePhraseMatchCountsTitle: 1,
+          wholePhraseMatchCountsTotal: 1,
+        },
       ]);
     });
   });

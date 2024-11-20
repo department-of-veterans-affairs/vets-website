@@ -28,6 +28,8 @@ describe('Resources & Support', () => {
       .eq(index)
       .should('be.visible');
 
+  const verifyUrl = linkUrl => cy.url().should('contain', linkUrl);
+
   const verifyResult = (selector, category, linkText, summary, index = 0) => {
     cy.get(container)
       .find('ul li')
@@ -43,6 +45,15 @@ describe('Resources & Support', () => {
         cy.get('p')
           .should('be.visible')
           .should('have.text', summary);
+
+        cy.get('va-link').click();
+
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
+
+        verifyUrl(selector);
+
+        cy.go('back');
       });
   };
 
@@ -134,6 +145,15 @@ describe('Resources & Support', () => {
     verifyText('va-radio-option', 'All VA.gov', 1);
     verifyElement('va-search-input');
 
+    // Close search menu and check search area
+    closeSearchMenu();
+
+    verifyElementNotVisible('va-radio');
+    verifyElementNotVisible('va-radio-option');
+    verifyElementNotVisible('va-search-input');
+
+    expandSearchMenu();
+
     // Check search results summary
     verifyText(
       '#pagination-summary',
@@ -171,12 +191,5 @@ describe('Resources & Support', () => {
       truncate(sixthResult?.introText, { length: 190 }),
       5,
     );
-
-    // Close search menu and check search area
-    closeSearchMenu();
-
-    verifyElementNotVisible('va-radio');
-    verifyElementNotVisible('va-radio-option');
-    verifyElementNotVisible('va-search-input');
   });
 });
