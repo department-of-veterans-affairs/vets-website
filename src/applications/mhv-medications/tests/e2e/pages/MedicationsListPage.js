@@ -33,7 +33,7 @@ class MedicationsListPage {
 
   clickGotoMedicationsLinkForListPageAPICallFail = () => {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+
     cy.intercept('GET', Paths.MED_LIST, { forceNetworkError: true }).as(
       'medicationsList',
     );
