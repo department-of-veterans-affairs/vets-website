@@ -3,8 +3,16 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import pluralize from 'pluralize';
 import { format, isAfter } from 'date-fns';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
+import { selectCurrentPage } from '../redux/selectors';
+import { routeToNextReferralPage } from '../flow';
 
 export default function ReferralTaskCard({ data }) {
+  const currentPage = useSelector(selectCurrentPage);
+  const history = useHistory();
+
   if (!data) {
     return null;
   }
@@ -38,8 +46,10 @@ export default function ReferralTaskCard({ data }) {
       <va-link-action
         text="Go to your referral details to start scheduling"
         type="secondary"
-        href={`/my-health/appointments/schedule-referral/${UUID}`}
         data-testid={`referral-task-card-schedule-referral-${UUID}`}
+        onClick={() => {
+          routeToNextReferralPage(history, currentPage, UUID);
+        }}
       />
     </va-card>
   );

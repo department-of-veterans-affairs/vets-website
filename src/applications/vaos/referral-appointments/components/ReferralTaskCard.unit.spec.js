@@ -1,10 +1,13 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
 import { format } from 'date-fns';
 import ReferralTaskCard from './ReferralTaskCard';
 import { createReferral } from '../utils/referrals';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../tests/mocks/setup';
 
 describe('VAOS Component: ReferralTaskCard', () => {
   let sandbox;
@@ -34,12 +37,18 @@ describe('VAOS Component: ReferralTaskCard', () => {
   );
 
   it('should not display referral task card with defaults', () => {
-    const screen = render(<ReferralTaskCard />);
+    const store = createTestStore();
+    const screen = renderWithStoreAndRouter(<ReferralTaskCard />, { store });
     expect(screen.queryByRole('heading')).not.to.exist;
   });
 
   it('should display referral task card', () => {
-    const screen = render(<ReferralTaskCard data={referralData} />);
+    const store = createTestStore();
+
+    const screen = renderWithStoreAndRouter(
+      <ReferralTaskCard data={referralData} />,
+      { store },
+    );
     expect(
       screen.getByRole('heading', {
         level: 4,
@@ -56,11 +65,15 @@ describe('VAOS Component: ReferralTaskCard', () => {
   });
 
   it('should display referral task card when there are multiple appointments', () => {
+    const store = createTestStore();
     const referral = {
       ...referralData,
       numberOfAppointments: 3,
     };
-    const screen = render(<ReferralTaskCard data={referral} />);
+    const screen = renderWithStoreAndRouter(
+      <ReferralTaskCard data={referral} />,
+      { store },
+    );
     expect(
       screen.getByRole('heading', {
         name: 'Schedule your physical therapy appointment',
@@ -76,11 +89,15 @@ describe('VAOS Component: ReferralTaskCard', () => {
   });
 
   it('should not display a referral task card when the referral has expired', () => {
+    const store = createTestStore();
     const referral = {
       ...referralData,
       ReferralExpirationDate: '2024-09-08',
     };
-    const screen = render(<ReferralTaskCard data={referral} />);
+    const screen = renderWithStoreAndRouter(
+      <ReferralTaskCard data={referral} />,
+      { store },
+    );
     expect(screen.queryByRole('heading')).not.to.exist;
   });
 });
