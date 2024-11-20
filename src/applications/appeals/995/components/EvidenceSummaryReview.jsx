@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
-  hasVAEvidence,
-  hasPrivateEvidence,
-  hasOtherEvidence,
+  getVAEvidence,
+  getPrivateEvidence,
+  getOtherEvidence,
 } from '../utils/evidence';
 
 import { content } from '../content/evidenceSummary';
@@ -39,13 +39,9 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   );
 
   // on review & submit in review mode (not editing)
-  const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];
-  const privateEvidence = hasPrivateEvidence(data)
-    ? data?.providerFacility || []
-    : [];
-  const otherEvidence = hasOtherEvidence(data)
-    ? data?.additionalDocuments || []
-    : [];
+  const vaEvidence = getVAEvidence(data);
+  const privateEvidence = getPrivateEvidence(data);
+  const otherEvidence = getOtherEvidence(data);
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
