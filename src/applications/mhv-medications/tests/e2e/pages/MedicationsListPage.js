@@ -33,7 +33,10 @@ class MedicationsListPage {
 
   clickGotoMedicationsLinkForListPageAPICallFail = () => {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-
+    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+    cy.intercept('GET', Paths.MED_LIST, { forceNetworkError: true }).as(
+      'medicationsList',
+    );
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
@@ -214,7 +217,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
       );
     });
   };
@@ -222,7 +225,7 @@ class MedicationsListPage {
   clickDownloadListAsPDFButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
@@ -236,7 +239,7 @@ class MedicationsListPage {
   verifyLoadingSpinnerForDownloadOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
@@ -245,7 +248,7 @@ class MedicationsListPage {
   clickDownloadListAsTxtButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-txt-button"]').should(
