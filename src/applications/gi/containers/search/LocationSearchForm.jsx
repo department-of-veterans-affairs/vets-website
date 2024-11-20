@@ -4,10 +4,12 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, createRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-// import environment from 'platform/utilities/environment';
 import Dropdown from '../../components/Dropdown';
 import FilterBeforeResults from './FilterBeforeResults';
 import {
@@ -50,7 +52,6 @@ export function LocationSearchForm({
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
   const inputRef = createRef();
-  // const [error, setError] = useState(null);
   const { error } = errorReducer;
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
@@ -89,7 +90,7 @@ export function LocationSearchForm({
   };
   const doSearch = event => {
     if (event) {
-      event.preventDefault();
+      event?.preventDefault();
       if (
         validateSearchTermSubmit(
           location,
@@ -204,7 +205,6 @@ export function LocationSearchForm({
     },
     [search.query.distance],
   );
-
   return (
     <div className="location-search-form">
       <VaModal
@@ -242,6 +242,7 @@ export function LocationSearchForm({
                       </span>
                     </div>
                   ) : (
+                    /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
                     <button
                       type="button"
                       name="use-my-location"
@@ -279,10 +280,10 @@ export function LocationSearchForm({
           </div>
 
           <div className="location-search-inputs vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--5 medium-screen:vads-l-col--5 input-row">
-            <div className="bottom-positioner">
+            <div className="bottom-positioner vads-u-margin-bottom--0">
               <Dropdown
                 ariaLabel="Distance"
-                className="vads-u-font-style--italic vads-u-display--inline-block "
+                className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-top--0"
                 selectClassName="vads-u-font-style--italic vads-u-color--gray"
                 name="distance"
                 options={distanceDropdownOptions}
@@ -298,19 +299,12 @@ export function LocationSearchForm({
                   setDistance(e.target.value);
                 }}
               />
-              <button
-                type="submit"
+              <VaButton
+                text="Search"
+                onClick={e => doSearch(e)}
                 data-testid="location-search-button"
-                className="usa-button location-search-button vads-u-display--flex vads-u-align-items--center vads-u-font-weight--bold"
-              >
-                Search
-                <va-icon
-                  size={2}
-                  icon="search"
-                  aria-hidden="true"
-                  class="vads-u-margin-left--1"
-                />
-              </button>
+                className="loc-search-btn vads-u-margin-top--1"
+              />
             </div>
           </div>
         </div>
