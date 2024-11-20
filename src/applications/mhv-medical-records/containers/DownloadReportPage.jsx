@@ -7,6 +7,7 @@ const DownloadReportPage = () => {
   const dispatch = useDispatch();
 
   const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
+  const userName = useSelector(state => state.user.profile.userFullName);
 
   return (
     <div>
@@ -57,7 +58,9 @@ const DownloadReportPage = () => {
           ) : (
             <button
               className="link-button"
-              onClick={() => dispatch(genAndDownloadCCD())}
+              onClick={() =>
+                dispatch(genAndDownloadCCD(userName.first, userName.last))
+              }
             >
               <va-icon icon="file_download" size={3} /> Download .xml file
             </button>
