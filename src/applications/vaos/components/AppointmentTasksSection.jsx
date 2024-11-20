@@ -3,25 +3,17 @@ import PropTypes from 'prop-types';
 import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
-  selectIsPast,
-  selectIsInPerson,
-  selectIsClinicVideo,
+  selectIsEligibleForTravelClaim,
 } from '../appointment-list/redux/selectors';
 import Section from './Section';
 
 export default function AppointmentTasksSection({ appointment }) {
-  const isPastAppointment = selectIsPast(appointment);
-  if (!isPastAppointment) return null;
-
-  const isInPerson = selectIsInPerson(appointment);
-  const isClinicVideo = selectIsClinicVideo(appointment);
-  // If it's not an in-person appointment or a clinic video appointment, don't show the link to file a claim
-  if (!isInPerson && !isClinicVideo) return null;
+  const isEligibleForTravelClaim = selectIsEligibleForTravelClaim(appointment);
+  if (!isEligibleForTravelClaim) return null;
 
   const claimData = selectAppointmentTravelClaim(appointment);
-  // if there is no claim data or the claim data is not successful or the claim has already been filed, don't show the link to file a claim
+  // if the claim data is not successful or the claim has already been filed, don't show the link to file a claim
   if (
-    !claimData ||
     !claimData.metadata.success ||
     (claimData.metadata.success && claimData.claim)
   )
