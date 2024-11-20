@@ -35,7 +35,6 @@ export class ConfirmationPage extends React.Component {
     this.createFilterText = this.createFilterText.bind(this);
     this.sortBenefits = this.sortBenefits.bind(this);
     this.filterBenefits = this.filterBenefits.bind(this);
-    this.createFilterText = this.createFilterText.bind(this);
     this.handleResultsData = this.handleResultsData.bind(this);
     this.toggleMobileFiltersClass = this.toggleMobileFiltersClass.bind(this);
     this.filterAndSort = this.filterAndSort.bind(this);
@@ -75,6 +74,12 @@ export class ConfirmationPage extends React.Component {
     }
   }
 
+  handleClick = e => {
+    e.preventDefault();
+
+    this.props.router.goBack();
+  };
+
   createFilterText() {
     const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
     return (
@@ -109,7 +114,7 @@ export class ConfirmationPage extends React.Component {
     this.setState({ sortValue: sortStrings[key] });
   };
 
-  sortBenefitObj(benefitObj, sortKey) {
+  sortBenefitObj = (benefitObj, sortKey) => {
     return [...benefitObj].sort((a, b) => {
       const aValue = a[sortKey] || '';
       const bValue = b[sortKey] || '';
@@ -123,7 +128,7 @@ export class ConfirmationPage extends React.Component {
 
       return 0;
     });
-  }
+  };
 
   sortBenefits = () => {
     const key = this.state.sortValue;
@@ -182,12 +187,6 @@ export class ConfirmationPage extends React.Component {
         resultsCount: filteredBenefits.length,
       };
     }, sortingCallback);
-  };
-
-  handleClick = e => {
-    e.preventDefault();
-
-    this.props.router.goBack();
   };
 
   applyInitialSort() {
