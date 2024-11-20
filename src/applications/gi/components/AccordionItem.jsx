@@ -66,6 +66,7 @@ export default function AccordionItem({
             className="usa-accordion-button"
             aria-expanded={displayExpanded}
             aria-controls={id}
+            data-testid="search-tab"
           >
             <span className="vads-u-font-family--sans vads-u-color--gray-dark">
               {button}
