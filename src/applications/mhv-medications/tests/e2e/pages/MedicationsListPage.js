@@ -44,11 +44,7 @@ class MedicationsListPage {
   clickGoToMedicationsLinkWhenNoAllergiesAPICallFails = (
     waitForMeds = false,
   ) => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      prescriptions,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
@@ -226,7 +222,7 @@ class MedicationsListPage {
   clickDownloadListAsPDFButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name',
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
@@ -238,6 +234,11 @@ class MedicationsListPage {
   };
 
   verifyLoadingSpinnerForDownloadOnListPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name',
+      prescriptions,
+    ).as('medicationsList');
     cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
   };
 
@@ -257,6 +258,7 @@ class MedicationsListPage {
   };
 
   verifyDownloadCompleteSuccessMessageBanner = () => {
+    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.get('[data-testid="download-success-banner"]').should(
       'contain',
       'Download started',
@@ -480,7 +482,7 @@ class MedicationsListPage {
     );
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      '/my_health/v1/prescriptions?page=1&per_page=20null&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     );
   };
@@ -562,12 +564,10 @@ class MedicationsListPage {
     displayedEndNumber,
     listLength,
   ) => {
-    cy.get('[data-testid="page-total-info"]')
-      .first()
-      .should(
-        'contain',
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
-      );
+    cy.get('[data-testid="page-total-info"]').should(
+      'contain',
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+    );
   };
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {

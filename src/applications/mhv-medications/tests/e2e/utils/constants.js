@@ -2,9 +2,10 @@ export const Data = {
   PAGINATION_TEXT: 'Showing 1 - 20 of 29 medications',
 };
 export const Paths = {
-  LANDING_LIST: '/my_health/v1/prescriptions?page=1&per_page=20',
+  LANDING_LIST:
+    'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
   MED_LIST:
-    '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
   SORT_BY_NAME: '&sort[]=prescription_name&sort[]=dispensed_date',
   SORT_BY_LAST_FILLED: '&sort[]=-dispensed_date&sort[]=prescription_name',
   INTERCEPT: {
