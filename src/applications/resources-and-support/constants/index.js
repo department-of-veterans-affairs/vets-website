@@ -68,4 +68,3 @@ export const ENTITY_BUNDLES = {
   VA_FORM: 'va_form',
   VAMC_OPERATING_STATUS_AND_ALERTS: 'vamc_operating_status_and_alerts',
 };
-
