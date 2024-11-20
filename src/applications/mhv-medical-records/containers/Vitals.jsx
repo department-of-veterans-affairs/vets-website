@@ -170,6 +170,7 @@ const Vitals = () => {
         </>
       );
     }
+
     return (
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
@@ -184,30 +185,41 @@ const Vitals = () => {
   const updateDate = event => {
     const [year, month] = event.target.value.split('-');
     // Ignore transient date changes.
-    if (year.length === 4 && month.length === 2) {
+    if (year?.length === 4 && month?.length === 2) {
       setAcceleratedVitalsDate(`${year}-${month}`);
-      dispatch({
-        type: Actions.Vitals.UPDATE_LIST_STATE,
-        payload: Constants.loadStates.PRE_FETCH,
-      });
     }
+  };
+
+  const triggerApiUpdate = e => {
+    e.preventDefault();
+    dispatch({
+      type: Actions.Vitals.UPDATE_LIST_STATE,
+      payload: Constants.loadStates.PRE_FETCH,
+    });
   };
 
   const datePicker = () => {
     return (
-      <div>
-        <VaDate
-          label="Select a month and year"
-          // Limit to current month and year
-          name="vitals-date-picker"
-          monthYearOnly
-          value={acceleratedVitalsDate}
-          onDateChange={updateDate}
-          data-testid="date-picker"
-        />
+      <div className="vads-u-display--flex vads-u-flex-direction--column">
+        <div style={{ flex: 'inherit' }}>
+          <VaDate
+            label="Choose a month and year"
+            name="vitals-date-picker"
+            monthYearOnly
+            onDateChange={updateDate}
+            value={acceleratedVitalsDate}
+            data-testid="date-picker"
+          />
+        </div>
+        <div className="vads-u-margin-top--2">
+          <va-button text="Update timeframe" onClick={triggerApiUpdate} />
+        </div>
       </div>
     );
   };
+
+  const isLoadingAcceleratedData =
+    isAcceleratingVitals && listState === Constants.loadStates.FETCHING;
 
   return (
     <div id="vitals">
@@ -220,7 +232,18 @@ const Vitals = () => {
         appointments. ${vitals?.length === 0 ? 'Vitals include:' : ''}`}
       </p>
       {isAcceleratingVitals && datePicker()}
-      {content()}
+      {isLoadingAcceleratedData && (
+        <>
+          <div className="vads-u-margin-y--8">
+            <va-loading-indicator
+              message="We’re loading your records."
+              setFocus
+              data-testid="loading-indicator"
+            />
+          </div>
+        </>
+      )}
+      {!isLoadingAcceleratedData && content()}
     </div>
   );
 };
