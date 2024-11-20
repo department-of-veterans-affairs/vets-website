@@ -6,6 +6,13 @@ export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
 
+export const getVAEvidence = formData =>
+  (hasVAEvidence(formData) && formData?.locations) || [];
+export const getPrivateEvidence = formData =>
+  (hasPrivateEvidence(formData) && formData?.providerFacility) || [];
+export const getOtherEvidence = formData =>
+  (hasOtherEvidence(formData) && formData?.additionalDocuments) || [];
+
 export const hasErrors = errors =>
   Object.values(errors).filter(err => (Array.isArray(err) ? err.length : err))
     .length;
@@ -29,13 +36,13 @@ export const evidenceNeedsUpdating = formData => {
   const iterator = ({ issues }) =>
     (issues || []).every(issue => selectedIssues.includes(issue));
 
-  if (hasVAEvidence(formData)) {
-    const locations = formData.locations || [];
-    needsUpdate = locations.length > 0 && !locations.every(iterator);
+  const locations = getVAEvidence(formData);
+  const facility = getPrivateEvidence(formData);
+  if (locations.length > 0) {
+    needsUpdate = !locations.every(iterator);
   }
-  if (!needsUpdate && hasPrivateEvidence(formData)) {
-    const facility = formData.providerFacility || [];
-    needsUpdate = facility.length > 0 && !facility?.every(iterator);
+  if (!needsUpdate && facility.length > 0) {
+    needsUpdate = !facility.every(iterator);
   }
   return needsUpdate;
 };
@@ -56,7 +63,7 @@ export const removeNonSelectedIssuesFromEvidence = data => {
   });
   return {
     ...formData,
-    locations: formData.locations?.map(mapper) || [],
-    providerFacility: formData.providerFacility?.map(mapper) || [],
+    locations: getVAEvidence(formData).map(mapper),
+    providerFacility: getPrivateEvidence(formData).map(mapper),
   };
 };
