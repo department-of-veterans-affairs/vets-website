@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
 import {
@@ -76,6 +77,12 @@ const StatusPage = ({ router }) => {
       </div>
     </div>
   );
+};
+
+StatusPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default StatusPage;
