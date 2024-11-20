@@ -1,11 +1,9 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
-// import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-// import mockMessages from './fixtures/messages-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 import singleThreadResponse from './fixtures/thread-response-new-api.json';
 
