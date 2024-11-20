@@ -13,7 +13,7 @@ import {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
- * }} [options] accepts a single string for title, or an object of options
+ * }} [options]
  * @returns {UISchemaOptions}
  */
 export const internationalPhoneUI = options => {

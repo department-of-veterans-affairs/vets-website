@@ -108,9 +108,9 @@ class PatientReplyPage {
 
   getMessageBodyField = () => {
     return cy
-      .get(Locators.MESSAGES_BODY)
+      .get(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
-      .find('[name="reply-message-body"]');
+      .find(`#input-type-textarea`);
   };
 
   verifySendMessageConfirmationMessageText = () => {

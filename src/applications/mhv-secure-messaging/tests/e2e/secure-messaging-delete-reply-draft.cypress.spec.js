@@ -1,9 +1,9 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientReplyPage from './pages/PatientReplyPage';
-import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
+import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import { AXE_CONTEXT } from './utils/constants';
 import singleThreadResponse from './fixtures/thread-response-new-api.json';
 
@@ -33,6 +33,7 @@ describe('SM DELETE REPLY DRAFT', () => {
     PatientMessageDraftsPage.confirmDeleteDraft(singleMessage);
     PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
     PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
