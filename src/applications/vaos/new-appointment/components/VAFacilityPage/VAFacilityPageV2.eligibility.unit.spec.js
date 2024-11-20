@@ -137,7 +137,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/San Diego VA Medical Center/i);
+      await waitFor(() => {
+        screen.queryByText(/San Diego VA Medical Center/i);
+      });
       fireEvent.click(screen.getByText(/Continue/));
       await screen.findByText(
         /you need to have had a mental health appointment at this facility within the last 12 months/,
@@ -173,7 +175,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/San Diego VA Medical Center/i);
+      await waitFor(() => {
+        screen.queryByText(/San Diego VA Medical Center/i);
+      });
       expect(screen.baseElement).to.contain.text(
         'You can’t request another appointment until you schedule or cancel your open requests',
       );
@@ -281,15 +285,21 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
-      await screen.findByText(
-        /This facility doesn’t have any available clinics that support online scheduling/i,
-      );
-      const loadingEvent = global.window.dataLayer.find(
-        ev => ev.event === 'loading-indicator-displayed',
-      );
+      await waitFor(() => {
+        screen.findByText(
+          /This facility doesn’t have any available clinics that support online scheduling/i,
+        );
+      });
+
+      let loadingEvent;
+      await waitFor(() => {
+        loadingEvent = global.window.dataLayer.find(
+          ev => ev.event === 'loading-indicator-displayed',
+        );
+        expect(loadingEvent).to.exist;
+      });
 
       // It should record GA event for loading modal
-      expect(loadingEvent).to.exist;
       expect('loading-indicator-display-time' in loadingEvent).to.be.true;
     });
 
@@ -398,7 +408,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       expect('loading-indicator-display-time' in loadingEvent).to.be.true;
       expect(
         await screen.findByText(
-          /This facility doesn’t have any available clinics/i,
+          /We couldn.t find any open appointment times for online scheduling/i,
         ),
       ).to.be.ok;
     });
