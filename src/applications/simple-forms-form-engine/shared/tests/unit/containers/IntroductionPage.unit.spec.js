@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import IntroductionPage from '../../../containers/IntroductionPage';
-import { formConfig1 } from '../../../_config/formConfig';
 
 const mockStore = {
   getState: () => ({
@@ -42,7 +41,7 @@ describe('<IntroductionPage /> component', () => {
       const screen = renderWithProvider(
         <IntroductionPage
           route={{
-            formConfig: formConfig1,
+            formConfig: {},
             pageList: [],
           }}
         />,
@@ -68,7 +67,7 @@ describe('<IntroductionPage /> component', () => {
           <IntroductionPage
             ombInfo={ombInfo}
             route={{
-              formConfig: formConfig1,
+              formConfig: {},
               pageList: [],
             }}
           />,
@@ -90,7 +89,7 @@ describe('<IntroductionPage /> component', () => {
         const screen = renderWithProvider(
           <IntroductionPage
             route={{
-              formConfig: formConfig1,
+              formConfig: {},
               pageList: [],
             }}
           />,
