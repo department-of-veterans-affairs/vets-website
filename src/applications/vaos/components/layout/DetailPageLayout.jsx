@@ -18,7 +18,7 @@ import {
 } from '../../appointment-list/redux/selectors';
 import {
   selectFeatureTravelPayViewClaimDetails,
-  selectFeaturetravelPaySubmitMileageExpense,
+  selectFeatureTravelPaySubmitMileageExpense,
 } from '../../redux/selectors';
 import StatusAlert from '../StatusAlert';
 import FacilityPhone from '../FacilityPhone';
@@ -198,10 +198,10 @@ export default function DetailPageLayout({
 }) {
   const { id } = useParams();
   const { facility } = useSelector(state => selectFacility(state, id));
-  const travelPayViewClaimDetails = useSelector(state =>
+  const featureTravelPayViewClaimDetails = useSelector(state =>
     selectFeatureTravelPayViewClaimDetails(state),
   );
-  const travelPaySubmitMileageExpense = useSelector(state =>
+  const featureTravelPaySubmitMileageExpense = useSelector(state =>
     selectFeatureTravelPaySubmitMileageExpense(state),
   );
 
@@ -215,8 +215,8 @@ export default function DetailPageLayout({
       <AppointmentCard appointment={appointment}>
         <h1 className="vads-u-font-size--h2">{heading}</h1>
         <StatusAlert appointment={appointment} facility={facility} />
-        {travelPaySubmitMileageExpense &&
-          travelPayViewClaimDetails && (
+        {featureTravelPaySubmitMileageExpense &&
+          featureTravelPayViewClaimDetails && (
             <AppointmentTasksSection appointment={appointment} />
           )}
         {isPastAppointment &&
@@ -226,7 +226,7 @@ export default function DetailPageLayout({
             </Section>
           )}
         {children}
-        {travelPayViewClaimDetails && (
+        {featureTravelPayViewClaimDetails && (
           <TravelReimbursementSection appointment={appointment} />
         )}
         <div
