@@ -1,35 +1,43 @@
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import {
-  conditionsDescription,
+  traumaticEventsInfo,
   conditionsPageTitle,
   conditionsQuestion,
-  makeTEConditionsSchema,
-  makeTEConditionsUISchema,
-  validateTEConditions,
-} from '../../content/toxicExposure';
+  examplesHint,
+  makeMHConditionsSchema,
+  makeMHConditionsUISchema,
+  validateMHConditions,
+} from '../../content/mentalHealth';
 import { formTitle, makeConditionsUI } from '../../utils';
 
 export const uiSchema = {
   'ui:title': formTitle(conditionsPageTitle),
-  toxicExposure: {
+  mentalHealth: {
     conditions: makeConditionsUI({
       title: conditionsQuestion,
-      description: conditionsDescription,
-      replaceSchema: makeTEConditionsSchema,
-      updateUiSchema: makeTEConditionsUISchema,
+      hint: examplesHint,
+      replaceSchema: makeMHConditionsSchema,
+      updateUiSchema: makeMHConditionsUISchema,
     }),
   },
-  'ui:validations': [validateTEConditions],
+  'view:traumaticEventsInfo': {
+    'ui:description': traumaticEventsInfo,
+  },
+  'ui:validations': [validateMHConditions],
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    toxicExposure: {
+    mentalHealth: {
       type: 'object',
       properties: {
         conditions: checkboxGroupSchema([]),
       },
+    },
+    'view:traumaticEventsInfo': {
+      type: 'object',
+      properties: {},
     },
   },
 };
