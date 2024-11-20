@@ -135,7 +135,7 @@ const Prescriptions = () => {
     dispatch(getPaginatedFilteredList(1, filterBy, sortBy));
     updateLoadingStatus(false, '');
     history.replace('/?page=1');
-    if (newFilterOption) {
+    if (newFilterOption !== null) {
       sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, newFilterOption);
     }
   };
