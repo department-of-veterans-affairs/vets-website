@@ -22,7 +22,7 @@ const BenefitCard = ({ benefit }) => {
             </div>
           )}
         </>
-        <h3>
+        <h3 className="vads-u-margin-top--0">
           <span className="usa-label">{category}</span>
           <br />
           <br />
