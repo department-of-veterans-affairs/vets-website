@@ -130,7 +130,7 @@ const Prescriptions = () => {
   const updateFilter = option => {
     dispatch(getPaginatedFilteredList(1, option));
     updateLoadingStatus(false, '');
-    history.replace('/?page=1');
+    history.replace('/my-medications/?page=1');
     sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, option);
   };
 
