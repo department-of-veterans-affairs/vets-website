@@ -8,6 +8,7 @@ import MedicationsListCard from './MedicationsListCard';
 import { rxListSortingOptions } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
+import { selectFilterFlag } from '../../util/selectors';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
@@ -27,13 +28,15 @@ const MedicationsList = props => {
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
+  const showFilterContent = useSelector(selectFilterFlag);
 
   const displaynumberOfPrescriptionsSelector =
     ".no-print [data-testid='page-total-info']";
 
   const onPageChange = page => {
     document.querySelector('.va-breadcrumbs-li')?.scrollIntoView();
-    updateLoadingStatus(true, 'Loading your medications...');
+    // replace terniary with true once loading spinner is added for the filter list fetch
+    updateLoadingStatus(!showFilterContent, 'Loading your medications...');
     history.push(`/?page=${page}`);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
@@ -47,7 +50,10 @@ const MedicationsList = props => {
 
   return (
     <>
-      <h2 className="sr-only no-print">List of Medications</h2>
+      {/* clean after filter flag is removed */}
+      {!showFilterContent && (
+        <h2 className="sr-only no-print">List of Medications</h2>
+      )}
       <p
         className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"

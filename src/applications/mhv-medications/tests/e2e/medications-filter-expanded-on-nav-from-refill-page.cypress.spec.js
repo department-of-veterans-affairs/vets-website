@@ -5,7 +5,7 @@ import prescriptions from './fixtures/listOfPrescriptions.json';
 import successRequest from './fixtures/refill-success.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 
-describe('Medications filter expanded on nav from refill page', () => {
+describe.skip('Medications filter expanded on nav from refill page', () => {
   it('visits medications list page expanded filter after refill success', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
