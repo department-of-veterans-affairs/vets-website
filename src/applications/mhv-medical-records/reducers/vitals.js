@@ -61,13 +61,20 @@ const getMeasurement = (record, type) => {
 };
 
 export const extractLocation = vital => {
-  if (
-    isArrayAndHasItems(vital.performer) &&
-    isArrayAndHasItems(vital.performer[0].extension)
-  ) {
-    const refId = vital.performer[0].extension[0].valueReference?.reference;
-    const location = extractContainedResource(vital, refId);
-    return location?.name || EMPTY_FIELD;
+  if (isArrayAndHasItems(vital.performer)) {
+    if (isArrayAndHasItems(vital.performer[0].extension)) {
+      const refId = vital.performer[0].extension[0].valueReference?.reference;
+      const location = extractContainedResource(vital, refId);
+      return location?.name || EMPTY_FIELD;
+    }
+
+    // Look for Organization references (to handle Lighthouse data)
+    const organizations = vital.performer.filter(performer =>
+      performer.reference?.includes('/Organization/'),
+    );
+    if (organizations.length) {
+      return organizations.map(organization => organization.display).join(', ');
+    }
   }
   return EMPTY_FIELD;
 };
