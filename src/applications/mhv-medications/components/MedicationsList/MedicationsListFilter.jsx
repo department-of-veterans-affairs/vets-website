@@ -8,6 +8,7 @@ import {
   VaAccordionItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useSelector } from 'react-redux';
 import {
   filterOptions,
   SESSION_RX_FILTER_OPEN_BY_DEFAULT,
@@ -17,6 +18,29 @@ import {
 const MedicationsListFilter = props => {
   const { updateFilter, filterOption, setFilterOption } = props;
   const ref = useRef(null);
+  const filterCount = useSelector(state => state.rx.prescriptions?.filterCount);
+
+  const mapFilterCountToFilterLabels = label => {
+    switch (label) {
+      case filterOptions.ALL_MEDICATIONS.label: {
+        return filterCount.allMedications;
+      }
+      case filterOptions.ACTIVE.label: {
+        return filterCount.active;
+      }
+      case filterOptions.RECENTLY_REQUESTED.label: {
+        return filterCount.recentlyRequested;
+      }
+      case filterOptions.RENEWAL.label: {
+        return filterCount.renewal;
+      }
+      case filterOptions.NON_ACTIVE.label: {
+        return filterCount.nonActive;
+      }
+      default:
+        return null;
+    }
+  };
 
   useEffect(() => {
     if (sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {
@@ -76,7 +100,13 @@ const MedicationsListFilter = props => {
           {filterOptionsArray.map(option => (
             <VaRadioOption
               key={`filter option ${filterOptions[option].label}`}
-              label={filterOptions[option].label}
+              label={`${filterOptions[option].label} ${
+                filterCount
+                  ? `(${mapFilterCountToFilterLabels(
+                      filterOptions[option].label,
+                    )})`
+                  : ''
+              }`}
               name={filterOptions[option].name}
               value={filterOptions[option].url}
               description={filterOptions[option].description}
