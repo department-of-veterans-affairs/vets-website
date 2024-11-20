@@ -1,10 +1,4 @@
-import {
-  CLAIMANT_TYPES,
-  EVIDENCE_OTHER,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_VA,
-  PRIMARY_PHONE,
-} from '../constants';
+import { CLAIMANT_TYPES, PRIMARY_PHONE } from '../constants';
 import {
   hasHomeAndMobilePhone,
   hasHomePhone,
@@ -22,6 +16,11 @@ import {
   replaceSubmittedData,
 } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
+import {
+  getVAEvidence,
+  getOtherEvidence,
+  getPrivateEvidence,
+} from './evidence';
 
 /**
  * @typedef ClaimantData
@@ -222,35 +221,33 @@ export const getEvidence = formData => {
     evidenceType: [],
   };
   // Add VA evidence data
-  if (formData[EVIDENCE_VA] && formData.locations?.length) {
+  const locations = getVAEvidence(formData);
+  if (locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
-    evidenceSubmission.retrieveFrom = formData.locations.reduce(
-      (list, location) => {
-        if (!hasDuplicateLocation(list, location)) {
-          list.push({
-            type: 'retrievalEvidence',
-            attributes: {
-              // we're not including the issues here - it's only in the form to make
-              // the UX consistent with the private records location pages
-              locationAndName: location.locationAndName,
-              // Lighthouse wants between 1 and 4 evidenceDates, but we're only
-              // providing one
-              evidenceDates: [
-                {
-                  startDate: fixDateFormat(location.evidenceDates.from),
-                  endDate: fixDateFormat(location.evidenceDates.to),
-                },
-              ],
-            },
-          });
-        }
-        return list;
-      },
-      [],
-    );
+    evidenceSubmission.retrieveFrom = locations.reduce((list, location) => {
+      if (!hasDuplicateLocation(list, location)) {
+        list.push({
+          type: 'retrievalEvidence',
+          attributes: {
+            // we're not including the issues here - it's only in the form to make
+            // the UX consistent with the private records location pages
+            locationAndName: location.locationAndName,
+            // Lighthouse wants between 1 and 4 evidenceDates, but we're only
+            // providing one
+            evidenceDates: [
+              {
+                startDate: fixDateFormat(location.evidenceDates.from),
+                endDate: fixDateFormat(location.evidenceDates.to),
+              },
+            ],
+          },
+        });
+      }
+      return list;
+    }, []);
   }
   // additionalDocuments added in submit-transformer
-  if (formData[EVIDENCE_OTHER] && formData.additionalDocuments.length) {
+  if (getOtherEvidence(formData).length) {
     evidenceSubmission.evidenceType.push('upload');
   }
   // Lighthouse wants us pass an evidence type of "none" if we're not submitting
@@ -282,30 +279,31 @@ export const hasDuplicateFacility = (list, currentFacility) => {
  * 4142/4142a (July 2021)
  */
 export const getForm4142 = formData => {
+  const facilities = getPrivateEvidence(formData);
+  if (facilities.length === 0) {
+    return null;
+  }
+
   const { privacyAgreementAccepted = true, limitedConsent = '' } = formData;
-  const providerFacility = (formData?.providerFacility || []).reduce(
-    (list, facility) => {
-      if (!hasDuplicateFacility(list, facility)) {
-        list.push({
-          ...facility,
-          // 4142 is expecting an array
-          treatmentDateRange: [
-            {
-              from: fixDateFormat(facility.treatmentDateRange?.from),
-              to: fixDateFormat(facility.treatmentDateRange?.to),
-            },
-          ],
-        });
-      }
-      return list;
-    },
-    [],
-  );
-  return formData[EVIDENCE_PRIVATE]
-    ? {
-        privacyAgreementAccepted,
-        limitedConsent,
-        providerFacility,
-      }
-    : null;
+  const providerFacility = facilities.reduce((list, facility) => {
+    if (!hasDuplicateFacility(list, facility)) {
+      list.push({
+        ...facility,
+        // 4142 is expecting an array
+        treatmentDateRange: [
+          {
+            from: fixDateFormat(facility.treatmentDateRange?.from),
+            to: fixDateFormat(facility.treatmentDateRange?.to),
+          },
+        ],
+      });
+    }
+    return list;
+  }, []);
+
+  return {
+    privacyAgreementAccepted,
+    limitedConsent,
+    providerFacility,
+  };
 };
