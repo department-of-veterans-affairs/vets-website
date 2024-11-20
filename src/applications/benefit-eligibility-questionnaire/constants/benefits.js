@@ -580,7 +580,7 @@ export const BENEFITS_LIST = [
     category: categories.LIFE_INSURANCE,
     id: 'VAL',
     description:
-      "Veterans Affairs life insurance (VALife) provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
+      "Veterans Affairs Life (VALife) insurance provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
