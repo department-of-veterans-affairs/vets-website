@@ -202,7 +202,7 @@ export default function DetailPageLayout({
     selectFeatureTravelPayViewClaimDetails(state),
   );
   const travelPaySubmitMileageExpense = useSelector(state =>
-    selectFeaturetravelPaySubmitMileageExpense(state),
+    selectFeatureTravelPaySubmitMileageExpense(state),
   );
 
   if (!appointment) return null;
