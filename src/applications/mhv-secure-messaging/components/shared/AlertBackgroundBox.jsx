@@ -67,9 +67,9 @@ const AlertBackgroundBox = props => {
           });
 
         if (lastPathName === 'Folders') {
-          setAlertAriaLabel('You are in My Folders.');
+          setAlertAriaLabel('You are in the my folders page.');
         } else if (foldersViewPage) {
-          setAlertAriaLabel(`You are in the ${folder?.name} folder page view.`);
+          setAlertAriaLabel(`You are in ${folder?.name}.`);
         } else {
           setAlertAriaLabel(`You are in ${lastPathName}.`);
         }
