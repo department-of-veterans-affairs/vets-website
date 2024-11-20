@@ -162,13 +162,71 @@ span.sidelines {
 }
 
 #login-root {
-
   .sitewide-search-drop-down-panel-button,
   .sign-in-drop-down-panel-button {
     border-top: none;
     margin-right: 0;
     padding: 8px 30px 8px 8px;
     width: auto;
+  }
+}
+
+button.idme-verify-button {
+  padding: 0;
+  background: var(--vads-color-success-dark);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  max-height: 42px;
+
+  span {
+    width: 50px;
+    border-right: 1px solid var(--vads-color-white);
+    display: block;
+    padding: 0.75rem;
+
+    & svg {
+      height: auto;
+    }
+  }
+
+  div {
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-self: center;
+
+    & svg {
+      height: 18px;
+      width: auto;
+      margin-left: 5px;
+    }
+  }
+
+  &:hover {
+    background: var(--vads-button-color-background-primary-alt-active-on-light);
+  }
+}
+
+button.logingov-verify-button {
+  background: var(--vads-color-secondary);
+  max-width: 300px;
+  padding: 0.75rem 1.25rem;
+  max-height: 42px;
+
+  div {
+    display: flex;
+    align-self: center;
+  }
+
+  svg {
+    height: 18px;
+    width: auto;
+    margin-left: 5px;
+  }
+
+  &:hover {
+    background: var(--vads-color-secondary-darkest);
   }
 }
 
