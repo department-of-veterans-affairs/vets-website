@@ -1,18 +1,9 @@
 import React, { createContext, useReducer, useContext } from 'react';
 
-const initialState = {
-  user: null,
-};
+const initialState = {};
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'SET_USER':
-      return { ...state, user: action.payload };
-    case 'RESET_USER':
-      return { ...state, user: null };
-    default:
-      return state;
-  }
+const reducer = (state, _action) => {
+  return state;
 };
 
 const AppContext = createContext();

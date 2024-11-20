@@ -1,59 +1,39 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom-v5-compat';
-
+import React, { useContext } from 'react';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-
-import Footer from '../components/common/Footer/Footer';
+import { Outlet } from 'react-router-dom-v5-compat';
+import { UserProvider, UserContext } from '../context/UserContext';
+import { AppProvider } from '../context/AppContext';
 import Header from '../components/common/Header/Header';
-import { fetchUser } from '../actions/user';
-import { selectIsUserLoading } from '../selectors/user';
+import Footer from '../components/common/Footer/Footer';
 
-const App = () => {
-  const {
-    TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
-    useToggleLoadingValue,
-    useToggleValue,
-  } = useFeatureToggle();
+const AppContent = () => {
+  const { isUserLoading, error } = useContext(UserContext);
 
-  const isAppEnabled = useToggleValue(appToggleKey);
-  const isProduction = window.Cypress || environment.isProduction();
-  const shouldExitApp = isProduction && !isAppEnabled;
-
-  const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
-  const isUserLoading = useSelector(selectIsUserLoading);
-
-  const dispatch = useDispatch();
-  useEffect(() => dispatch(fetchUser()), [dispatch]);
-
-  if (isAppToggleLoading) {
+  if (isUserLoading) {
     return (
       <div className="vads-u-margin-y--5">
-        <VaLoadingIndicator message="Loading the Accredited Representative Portal..." />
+        <VaLoadingIndicator message="Loading user information..." />
       </div>
     );
   }
 
-  if (shouldExitApp) {
-    window.location.replace('/');
-    return null;
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
-  const content = isUserLoading ? (
-    <VaLoadingIndicator message="Loading user information..." />
-  ) : (
-    <Outlet />
-  );
-
-  return (
-    <div className="container">
-      <Header />
-      {content}
-      <Footer />
-    </div>
-  );
+  return <Outlet />;
 };
+
+const App = () => (
+  <AppProvider>
+    <UserProvider>
+      <div className="container">
+        <Header />
+        <AppContent />
+        <Footer />
+      </div>
+    </UserProvider>
+  </AppProvider>
+);
 
 export default App;
