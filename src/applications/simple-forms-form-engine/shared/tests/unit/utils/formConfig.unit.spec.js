@@ -4,12 +4,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as IntroductionPage from 'applications/form-renderer/containers/IntroductionPage';
 import { render } from '@testing-library/react';
-import * as digitalFormPatterns from 'applications/form-renderer/utils/digitalFormPatterns';
+import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
+import * as IntroductionPage from '../../../containers/IntroductionPage';
 import { normalizedForm } from '../../../_config/formConfig';
 import { createFormConfig, selectSchemas } from '../../../utils/formConfig';
-import manifest from '../../../manifest.json';
 
 const [yourPersonalInfo, address, phoneAndEmail] = normalizedForm.chapters;
 
@@ -43,7 +42,10 @@ describe('createFormConfig', () => {
     );
     nameSpy = sinon.spy(digitalFormPatterns, 'digitalFormNameAndDoB');
 
-    formConfig = createFormConfig(normalizedForm);
+    formConfig = createFormConfig(normalizedForm, {
+      rootUrl: '/root-url',
+      trackingPrefix: 'tracking-prefix-',
+    });
   });
 
   afterEach(() => {
@@ -53,9 +55,9 @@ describe('createFormConfig', () => {
   });
 
   it('returns a properly formatted Form Config object', () => {
-    expect(formConfig.rootUrl).to.eq(`${manifest.rootUrl}/2121212`);
-    expect(formConfig.urlPrefix).to.eq(`/2121212/`);
-    expect(formConfig.trackingPrefix).to.eq('2121212-');
+    expect(formConfig.rootUrl).to.eq('/root-url');
+    expect(formConfig.urlPrefix).to.eq('/');
+    expect(formConfig.trackingPrefix).to.eq('tracking-prefix-');
     expect(formConfig.title).to.eq('Form with Two Steps');
     expect(formConfig.formId).to.eq('2121212');
     expect(formConfig.subTitle).to.eq('VA Form 2121212');

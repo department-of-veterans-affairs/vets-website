@@ -1,5 +1,4 @@
 import React from 'react';
-import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
@@ -73,19 +72,15 @@ const formatChapters = chapters =>
     {},
   );
 
-export const createFormConfig = form => {
-  if (form.rootUrl) {
-    // It's probably already a Form Config object
-    return form;
-  }
-
+export const createFormConfig = (form, options) => {
   const { chapters, formId, ombInfo, title } = form;
+  const { rootUrl, trackingPrefix } = options;
   const subTitle = `VA Form ${formId}`;
 
   return {
-    rootUrl: `${manifest.rootUrl}/${formId}`,
-    urlPrefix: `/${formId}/`,
-    trackingPrefix: `${formId}-`,
+    rootUrl,
+    urlPrefix: '/',
+    trackingPrefix,
     // eslint-disable-next-line no-console
     submit: () => console.log(`Submitted ${subTitle}`),
     introduction: props => <IntroductionPage {...props} ombInfo={ombInfo} />,
