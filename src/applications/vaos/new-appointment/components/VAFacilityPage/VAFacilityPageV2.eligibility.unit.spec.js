@@ -97,9 +97,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/None of the facilities/i);
+      await waitFor(() => {
+        screen.queryByText(/None of your VA facilities/i);
+      });
 
-      expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
+      expect(await screen.queryByText(/Continue/)).not.to.exist;
     });
 
     it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {

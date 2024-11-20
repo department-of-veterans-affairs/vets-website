@@ -14,6 +14,7 @@ import {
 import {
   isLocationOfResidenceRequired,
   isPostalCodeRequired,
+  isStateOfPropertyRequired,
 } from '../helpers';
 
 // Personal Information
@@ -35,6 +36,7 @@ import relationshipToVeteranPage from '../chapters/personalInformation/relations
 import schoolInYourProfilePage from '../chapters/personalInformation/schoolInYourProfile';
 import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
 import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
+import stateOfPropertyPage from '../chapters/personalInformation/stateOfProperty';
 import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
 import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
@@ -350,6 +352,12 @@ const ch3Pages = {
       );
     },
   },
+  stateOfProperty: {
+    title: CHAPTER_3.STATE_OF_PROPERTY.TITLE,
+    uiSchema: stateOfPropertyPage.uiSchema,
+    schema: stateOfPropertyPage.schema,
+    depends: form => isStateOfPropertyRequired(form),
+  },
 };
 
 const aboutMyselfRelationshipVeteranCondition = formData => {
@@ -490,6 +498,7 @@ const aboutMyselfRelationshipVeteran = [
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
+  'stateOfProperty',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -510,6 +519,7 @@ const aboutMyselfRelationshipFamilyMember = [
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
+  'stateOfProperty',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -530,6 +540,7 @@ const aboutSomeoneElseRelationshipVeteran = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutYourself',
   'yourBranchOfService',
   'yourContactInformation',
@@ -561,6 +572,7 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutYourselfRelationshipFamilyMember',
   'yourContactInformation',
   'yourMailingAddress',
@@ -580,6 +592,7 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutTheVeteran',
   'dateOfDeath',
   'aboutYourselfGeneral',
@@ -613,6 +626,7 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutYourself',
   'yourContactInformation',
   'yourMailingAddress',
@@ -644,6 +658,7 @@ const generalQuestion = [
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
+  'stateOfProperty',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',

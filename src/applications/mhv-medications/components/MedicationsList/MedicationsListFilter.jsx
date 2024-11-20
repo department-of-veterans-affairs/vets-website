@@ -107,7 +107,7 @@ const MedicationsListFilter = props => {
                     )})`
                   : ''
               }`}
-              name={filterOptions[option].name}
+              name="filter-options-group"
               value={filterOptions[option].url}
               description={filterOptions[option].description}
               checked={filterOption === filterOptions[option].url}
