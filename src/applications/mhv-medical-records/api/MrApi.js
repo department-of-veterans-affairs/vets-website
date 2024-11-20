@@ -217,8 +217,12 @@ export const generateCCD = () => {
 };
 
 export const downloadCCD = (timestamp, fileName) => {
-  window.open(
-    `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
-    fileName,
-  );
+  const link = document.createElement('a');
+  link.href = `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`;
+  link.setAttribute('download', fileName);
+  link.click();
+  // window.open(
+  //   `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
+  //   fileName,
+  // );
 };
