@@ -4,7 +4,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 // import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
-// import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 // import mockMessages from './fixtures/messages-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 import singleThreadResponse from './fixtures/thread-response-new-api.json';
@@ -21,25 +21,20 @@ describe('SM DELETE REPLY DRAFT', () => {
 
     PatientReplyPage.loadReplyMessage(updatedSingleThreadResponse);
 
-    PatientReplyPage.getMessageBodyField().click();
+    PatientReplyPage.getMessageBodyField().click({ force: true });
 
     PatientReplyPage.getMessageBodyField()
-      .clear()
+      .clear({ force: true })
       .type(`Test Body`, {
         force: true,
       });
 
     PatientReplyPage.clickSaveReplyDraftButton(singleMessage, `Test Body`);
 
-    // cy.get(Locators.ALERTS.SAVE_ALERT).should(
-    //   'contain',
-    //   `message was saved on ${currentDate}`,
-    // );
-    //
-    // PatientMessageDraftsPage.clickMultipleDeleteButton();
-    // PatientMessageDraftsPage.confirmDeleteDraft(messageDetails);
-    // PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
-    // PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
+    PatientMessageDraftsPage.clickMultipleDeleteButton();
+    PatientMessageDraftsPage.confirmDeleteDraft(singleMessage);
+    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
+    PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
