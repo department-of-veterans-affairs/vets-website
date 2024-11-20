@@ -9,6 +9,16 @@ const MORTGAGE_PAYMENT = 'Mortgage payment';
 const FOOD = 'Food';
 
 /**
+ * Filters a list of expenses to include only those with specified names.
+ * @param {Array} expenses - The array of expense objects to filter.
+ * @param {Array} names - The array of strings representing expense names to include.
+ * @returns {Array} A new array containing only the expenses with matching names.
+ */
+
+const filterExpensesByName = (expenses, names) =>
+  expenses.filter(expense => names.includes(expense.name));
+
+/**
  * Filters a list of expenses to exclude those with specified names.
  * @param {Array} expenses - The array of expense objects to filter.
  * @param {Array} names - The array of strings representing expense names to exclude.
@@ -48,7 +58,7 @@ export const getMonthlyExpenses = ({
   installmentContracts,
   'view:showUpdatedExpensePages': expensePageActive = false,
 }) => {
-  const utilityField = 'monthlyUtilityAmount';
+  const utilityField = 'amount';
   const utilities = sumValues(utilityRecords, utilityField);
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
@@ -86,8 +96,6 @@ export const getAllExpenses = formData => {
     expenses: {
       creditCardBills = [],
       expenseRecords = [],
-      food = 0,
-      rentOrMortgage = 0,
       monthlyHousingExpenses = 0,
     } = {},
     otherExpenses = [],
@@ -96,28 +104,37 @@ export const getAllExpenses = formData => {
     'view:showUpdatedExpensePages': expensePageActive = false,
   } = formData;
 
+  const rentOrMortgageExpenses = filterExpensesByName(expenseRecords, [
+    RENT,
+    MORTGAGE_PAYMENT,
+  ]);
+
+  const foodExpenses = otherExpenses.find(expense =>
+    expense.name?.includes(FOOD),
+  ) || { amount: 0 };
+
   const filteredExpenses = [
     ...excludeExpensesByName(otherExpenses, [FOOD]),
     ...excludeExpensesByName(expenseRecords, [RENT, MORTGAGE_PAYMENT]),
   ];
 
-  const utilityField = 'monthlyUtilityAmount';
+  const utilityField = 'amount';
 
   // This is messy, but will be cleaned up once we remove the enhanced feature flag.
-  const enhancedMortgage = safeNumber(rentOrMortgage);
+  const enhancedMortgage = sumValues(rentOrMortgageExpenses, 'amount');
   const currentRentOrMortgage = expensePageActive
     ? safeNumber(monthlyHousingExpenses)
     : enhancedMortgage;
 
   return {
     rentOrMortgage: currentRentOrMortgage,
-    food: safeNumber(food), // use safeNumber
+    food: safeNumber(foodExpenses.amount), // use safeNumber
     utilities: sumValues(utilityRecords, utilityField),
     otherLivingExpenses: {
-      name: excludeExpensesByName(otherExpenses, [])
+      name: excludeExpensesByName(filteredExpenses, [FOOD])
         .map(expense => expense.name)
         .join(', '),
-      amount: sumValues(otherExpenses, 'amount'),
+      amount: sumValues(filteredExpenses, 'amount'),
     },
     expensesInstallmentContractsAndOtherDebts: sumValues(
       [...installmentContracts, ...creditCardBills],

@@ -17,7 +17,7 @@ import {
 import { getMonthlyIncome } from '../../utils/calculateIncome';
 import { getMonthlyExpenses } from '../../utils/calculateExpenses';
 
-describe.skip('efsr-fsr transform helper functions', () => {
+describe('efsr-fsr transform helper functions', () => {
   describe('efsr-monthYearFormatter helper', () => {
     it('should return formatted date MM/YYYY', () => {
       expect(monthYearFormatter('2004-10-XX')).to.equal('10/2004');
@@ -124,7 +124,7 @@ describe.skip('efsr-fsr transform helper functions', () => {
   });
 
   // Depends on sumValues, filterReduceByName, otherDeductionsAmt - getMonthlyIncome
-  describe('efsr getMonthlyIncome helper', () => {
+  describe.skip('efsr getMonthlyIncome helper', () => {
     it('should return monthy income based on veterans net and other income, and spouses net and other income', () => {
       const result = getMonthlyIncome(inputObject.data);
 

@@ -155,7 +155,7 @@ const getMonthlyIncome = formData => {
     currEmployment,
     spCurrEmployment,
     income,
-    enhancedFSRActive,
+    'view:enhancedFinancialStatusReport': enhancedFSRActive,
   } = formData;
 
   const vetIncome =

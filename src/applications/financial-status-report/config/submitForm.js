@@ -39,7 +39,7 @@ export const buildEventData = ({
   isStreamlinedLong,
 }) => {
   return {
-    'enhanced-submission': false,
+    'enhanced-submission': true,
     streamlined: getStreamlinedValue(isStreamlinedShort, isStreamlinedLong), // Get the streamlined value
     'submission-type': getSubmissionType(selectedDebtsAndCopays), // Get the submission type
   };
