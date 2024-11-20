@@ -148,18 +148,20 @@ const Vitals = () => {
     if (cards?.length) {
       return (
         <>
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.VPR}
-            newRecordsFound={
-              Array.isArray(vitals) &&
-              Array.isArray(updatedRecordList) &&
-              vitals.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
+          {!isAcceleratingVitals && (
+            <NewRecordsIndicator
+              refreshState={refresh}
+              extractType={refreshExtractTypes.VPR}
+              newRecordsFound={
+                Array.isArray(vitals) &&
+                Array.isArray(updatedRecordList) &&
+                vitals.length !== updatedRecordList.length
+              }
+              reloadFunction={() => {
+                dispatch(reloadRecords());
+              }}
+            />
+          )}
 
           <RecordList
             records={cards}
