@@ -169,8 +169,10 @@ describe('RecipientsSelect', () => {
 
     await screen.findByTestId('compose-recipient-select');
 
+    await waitFor(() => {
+      expect(screen.container.querySelectorAll('optgroup')).to.have.lengthOf(2);
+    });
     const optgroups = await screen.container.querySelectorAll('optgroup');
-    expect(optgroups).to.have.lengthOf(2);
     expect(optgroups[0].label).to.equal('VA Facility 402');
     expect(optgroups[1].label).to.equal('VA Facility 552');
 
