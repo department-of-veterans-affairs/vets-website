@@ -12,24 +12,14 @@ export class PrintPage extends React.Component {
     focusElement('.print-screen');
     document.querySelector('header').classList.add('no-print-no-sr');
     document.querySelector('footer').classList.add('no-print-no-sr');
-    document
-      // TO-DO: Update after correct breadcrumbs classname successfully tested
-      .querySelector(this.getBreadcrumbsSelector())
-      .classList.add('no-print-no-sr');
+    document.querySelector('va-breadcrumbs').classList.add('no-print-no-sr');
   }
 
   componentWillUnmount() {
     document.querySelector('header').classList.remove('no-print-no-sr');
     document.querySelector('footer').classList.remove('no-print-no-sr');
-    document
-      // TO-DO: Update after correct breadcrumbs classname successfully tested
-      .querySelector(this.getBreadcrumbsSelector())
-      .classList.remove('no-print-no-sr');
+    document.querySelector('va-breadcrumbs').classList.remove('no-print-no-sr');
   }
-
-  // TO-DO: Remove after correct breadcrumbs classname successfully tested
-  getBreadcrumbsSelector = () =>
-    this.props.breadcrumbsUpdated ? 'va-breadcrumbs' : '.va-nav-breadcrumbs';
 
   backToStatement = () => this.props.router.push('/');
 

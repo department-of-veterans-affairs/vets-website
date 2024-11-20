@@ -245,7 +245,7 @@ class PatientMessageDetailsPage {
     cy.get(Locators.ALERTS.THREAD_EXPAND)
       .shadow()
       .find('button')
-      .click();
+      .click({ force: true });
   };
 
   expandThreadMessageDetails = (mockThread, index = 1) => {

@@ -52,7 +52,7 @@ const theirRelationshipToVeteranPage = {
     required: ['theirRelationshipToVeteran'],
     properties: {
       theirRelationshipToVeteran: radioSchema(
-        Object.keys(aboutTheirRelationshipToVet),
+        Object.values(aboutTheirRelationshipToVet),
       ),
       theyHaveRelationshipNotListed: { type: 'string' },
     },
