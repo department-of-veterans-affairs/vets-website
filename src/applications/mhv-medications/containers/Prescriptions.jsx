@@ -70,14 +70,14 @@ const Prescriptions = () => {
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
+  const filteredList = useSelector(
+    state => state.rx.prescriptions?.prescriptionsFilteredList,
+  );
   const allergies = useSelector(state => state.rx.allergies.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
-  const pagination = useSelector(
-    state => state.rx.prescriptions?.prescriptionsPagination,
-  );
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
   );
@@ -88,10 +88,11 @@ const Prescriptions = () => {
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   // **Remove sort funtions and logic once filter feature is developed and live.**
   const showFilterContent = useSelector(selectFilterFlag);
-  const filteredList = useSelector(
-    state => state.rx.prescriptions?.prescriptionsFilteredList,
+  const pagination = useSelector(
+    showFilterContent
+      ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
+      : state => state.rx.prescriptions?.prescriptionsPagination,
   );
-
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
@@ -106,7 +107,8 @@ const Prescriptions = () => {
   const [loadingMessage, setLoadingMessage] = useState('');
   const [sortingInProgress, setSortingInProgress] = useState(false);
   const [filterOption, setFilterOption] = useState(
-    sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) || null,
+    sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
+      filterOptions.ALL_MEDICATIONS.url,
   );
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -127,7 +129,9 @@ const Prescriptions = () => {
   };
 
   const updateFilter = option => {
-    dispatch(getPaginatedFilteredList(option));
+    dispatch(getPaginatedFilteredList(1, option));
+    updateLoadingStatus(false, '');
+    history.replace('/?page=1');
     sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, option);
   };
 
@@ -183,7 +187,7 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (!paginatedPrescriptionsList) {
+      if (!paginatedPrescriptionsList && !showFilterContent) {
         updateLoadingStatus(true, 'Loading your medications...');
       }
       if (Number.isNaN(page) || page < 1) {
@@ -192,15 +196,18 @@ const Prescriptions = () => {
         );
         return;
       }
-      const sortOption = selectedSortOption ?? defaultSelectedSortOption;
-      dispatch(
-        getPrescriptionsPaginatedSortedList(
-          page ?? 1,
-          rxListSortingOptions[sortOption].API_ENDPOINT,
-        ),
-      ).then(() => updateLoadingStatus(false, ''));
+      if (!showFilterContent) {
+        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
+        dispatch(
+          getPrescriptionsPaginatedSortedList(
+            page ?? 1,
+            rxListSortingOptions[sortOption].API_ENDPOINT,
+          ),
+        ).then(() => updateLoadingStatus(false, ''));
+        if (!selectedSortOption) updateSortOption(sortOption);
+      }
+
       if (!allergies) dispatch(getAllergiesList());
-      if (!selectedSortOption) updateSortOption(sortOption);
       updatePageTitle('Medications | Veterans Affairs');
       sessionStorage.setItem(SESSION_SELECTED_PAGE_NUMBER, page);
     },
@@ -223,29 +230,45 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (
-        !isLoading &&
-        (!paginatedPrescriptionsList || paginatedPrescriptionsList?.length <= 0)
-      ) {
-        setAlertVisible(true);
-      } else if (isAlertVisible) {
-        setAlertVisible(false);
+      if (!showFilterContent) {
+        if (
+          !isLoading &&
+          (!paginatedPrescriptionsList ||
+            paginatedPrescriptionsList?.length <= 0)
+        ) {
+          setAlertVisible(true);
+        } else if (isAlertVisible) {
+          setAlertVisible(false);
+        }
       }
     },
     [isLoading, paginatedPrescriptionsList, isAlertVisible],
   );
 
+  useEffect(() => {
+    if (!filterOption) {
+      sessionStorage.setItem(
+        SESSION_SELECTED_FILTER_OPTION,
+        filterOptions.ALL_MEDICATIONS.url,
+      );
+    }
+  }, []);
+
   useEffect(
     () => {
-      if (!filteredList) {
+      if (showFilterContent && page) {
+        const storedPageNumber = sessionStorage.getItem(
+          SESSION_SELECTED_PAGE_NUMBER,
+        );
+        const storedFilterOption = sessionStorage.getItem(
+          SESSION_SELECTED_FILTER_OPTION,
+        );
         dispatch(
-          getPaginatedFilteredList(
-            filterOption || filterOptions.ALL_MEDICATIONS.label,
-          ),
+          getPaginatedFilteredList(storedPageNumber, storedFilterOption),
         );
       }
     },
-    [filteredList, dispatch, filterOption],
+    [dispatch, page, showFilterContent],
   );
 
   const pdfData = useCallback(
@@ -594,7 +617,7 @@ const Prescriptions = () => {
                     </ApiErrorNotification>
                   </div>
                 )}
-                {paginatedPrescriptionsList?.length ? (
+                {paginatedPrescriptionsList?.length || filteredList?.length ? (
                   <div
                     className={`landing-page-content vads-u-margin-top--${
                       isShowingErrorNotification ? '5' : '3'
@@ -650,16 +673,7 @@ const Prescriptions = () => {
                       </div>
                     ) : (
                       <MedicationsList
-                        pagination={
-                          showFilterContent
-                            ? {
-                                currentPage: 1,
-                                perPage: 20,
-                                totalEntries: 20,
-                                totalPages: 1,
-                              }
-                            : pagination
-                        }
+                        pagination={pagination}
                         rxList={
                           showFilterContent
                             ? filteredList
