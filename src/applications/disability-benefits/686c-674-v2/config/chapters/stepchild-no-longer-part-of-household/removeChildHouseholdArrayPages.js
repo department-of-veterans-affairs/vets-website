@@ -38,7 +38,7 @@ export const removeChildHouseholdOptions = {
     !item?.address?.city ||
     !item?.address?.state ||
     !item?.address?.postalCode,
-  maxItems: 7,
+  maxItems: 20,
   text: {
     summaryTitle: 'Review your stepchildren who have left your household',
     getItemName: item =>
