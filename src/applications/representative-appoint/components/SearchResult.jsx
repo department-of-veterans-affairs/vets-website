@@ -11,7 +11,7 @@ const SearchResult = ({
   handleSelectRepresentative,
   loadingPOA,
 }) => {
-  const { representativeId } = representative.data;
+  const { id } = representative.data;
   const {
     name,
     fullName,
@@ -51,7 +51,7 @@ const SearchResult = ({
             <>
               <h3
                 className="vads-u-font-family--serif vads-u-margin-top--0p5"
-                aria-describedby={`representative-${representativeId}`}
+                aria-describedby={`representative-${id}`}
               >
                 {representativeName}
               </h3>
@@ -144,7 +144,7 @@ const SearchResult = ({
             />
           ) : (
             <VaButton
-              data-testid="representative-search-btn"
+              data-testid={`rep-select-${id}`}
               text="Select this representative"
               secondary
               onClick={() => handleSelectRepresentative(representative.data)}

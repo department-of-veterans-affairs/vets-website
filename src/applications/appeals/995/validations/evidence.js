@@ -99,6 +99,9 @@ export const buildVaLocationString = (
   [
     data.locationAndName || '',
     ...sortIssues(includeIssues ? data.issues || [] : []),
+    // new form
+    fixDateFormat(data.treatmentDate ? `${data.treatmentDate}-01` : ''),
+    // previous form
     fixDateFormat(data.evidenceDates?.from || '').replace(REGEX_EMPTY_DATE, ''),
     fixDateFormat(data.evidenceDates?.to || '').replace(REGEX_EMPTY_DATE, ''),
   ].join(joiner);

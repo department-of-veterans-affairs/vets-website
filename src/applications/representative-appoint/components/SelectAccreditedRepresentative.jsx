@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/ui';
+import { isLoggedIn } from 'platform/user/selectors';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import { fetchRepStatus } from '../api/fetchRepStatus';
 import SearchResult from './SearchResult';
@@ -38,6 +39,7 @@ const SelectAccreditedRepresentative = props => {
   const getRepStatus = async () => {
     if (loggedIn) {
       setLoadingPOA(true);
+
       try {
         const res = await fetchRepStatus();
         setLoadingPOA(false);
@@ -206,11 +208,14 @@ SelectAccreditedRepresentative.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
+  loggedIn: isLoggedIn(state),
 });
 
 const mapDispatchToProps = {
   setFormData: setData,
 };
+
+export { SelectAccreditedRepresentative }; // Named export for testing
 
 export default withRouter(
   connect(
