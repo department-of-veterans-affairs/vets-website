@@ -107,6 +107,8 @@ export const Locators = {
     ADDITIONAL_FILTER: `.va-accordion__header`,
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
+    // check if below are duplicates
+    REPLY_BTN: '#reply-button',
     REPLY: '[data-testid="reply-button-body"]',
     CONTINUE: '[data-testid="continue-button"]',
     TEST2: '[data-testid=radiobutton-TEST2]',

@@ -384,7 +384,14 @@ class PatientComposePage {
     });
   };
 
-  clickConfirmDeleteButton = () => {
+  clickConfirmDeleteButton = mockResponse => {
+    cy.intercept(
+      'PATCH',
+      `${Paths.INTERCEPT.MESSAGE_THREADS}${
+        mockResponse.data.attributes.threadId
+      }/move?folder_id=-3`,
+      {},
+    ).as('deleteMessageWithAttachment');
     cy.get(Locators.ALERTS.DELETE_MESSAGE)
       .shadow()
       .find('button')

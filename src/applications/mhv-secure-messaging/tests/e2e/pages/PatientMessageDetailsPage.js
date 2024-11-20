@@ -541,6 +541,16 @@ class PatientMessageDetailsPage {
     );
   };
 
+  verifySingleButton = text => {
+    cy.tabToElement(`#${text}-button`);
+    cy.get(`#${text}-button`).then(el => {
+      cy.wrap(el)
+        .invoke('text')
+        .should('match', new RegExp(text, 'i'));
+      cy.wrap(el).should('be.focused');
+    });
+  };
+
   verifyButtonsKeyboardNavigation = () => {
     cy.get('.message-detail-block')
       .find('button')

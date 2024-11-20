@@ -2,8 +2,22 @@ import { expect } from 'chai';
 import { dateFormat } from '../../../util/helpers';
 import mockMessage from '../fixtures/message-response.json';
 import { Locators, Paths, Data } from '../utils/constants';
+import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PatientReplyPage {
+  // TODO verify method below with stage and modify accordingly
+  loadReplyMessage = mockResponse => {
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockResponse.data[0].attributes.messageId
+      }/thread*`,
+      mockResponse,
+    ).as(`getMessageRequest`);
+    cy.get(Locators.BUTTONS.REPLY_BTN).click();
+    PatientInterstitialPage.getContinueButton().click();
+  };
+
   clickSendReplyMessageButton = messageId => {
     cy.intercept(
       'POST',
@@ -25,23 +39,17 @@ class PatientReplyPage {
     cy.get(Locators.BUTTONS.SEND).click();
   };
 
-  clickSaveReplyDraftButton = (repliedToMessage, replyMessageBody) => {
-    cy.log(
-      `messageSubjectParameter = ${repliedToMessage.data.attributes.subject}`,
-    );
-    cy.log(`messageBodyMockMessage = ${repliedToMessage.data.attributes.body}`);
-    const replyMessage = repliedToMessage;
-    replyMessage.data.attributes.body = replyMessageBody;
+  clickSaveReplyDraftButton = (mockSingleMessage, updatedBodyText) => {
+    const replyMessage = mockSingleMessage;
+    replyMessage.data.attributes.body = updatedBodyText;
     cy.intercept(
       'POST',
       `/my_health/v1/messaging/message_drafts/${
-        repliedToMessage.data.attributes.messageId
+        mockSingleMessage.data.attributes.messageId
       }/replydraft`,
       replyMessage,
     ).as('replyDraftMessage');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({
-      waitForAnimations: true,
-    });
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
     cy.wait('@replyDraftMessage').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
@@ -55,7 +63,7 @@ class PatientReplyPage {
         );
         expect(message.category).to.eq(replyMessage.data.attributes.category);
         expect(message.subject).to.eq(replyMessage.data.attributes.subject);
-        expect(message.body).to.contain(replyMessageBody);
+        expect(message.body).to.contain(updatedBodyText);
       });
   };
 
