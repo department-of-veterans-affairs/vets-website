@@ -84,9 +84,13 @@ export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
   );
 };
 
-export const getFilteredList = (pageNumber = 1, filterOption = '') => {
+export const getFilteredList = (
+  pageNumber = 1,
+  filterOption = '',
+  sortEndpoint = '',
+) => {
   return apiRequest(
-    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${filterOption}`,
+    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${filterOption}${sortEndpoint}`,
     { headers },
   );
 };

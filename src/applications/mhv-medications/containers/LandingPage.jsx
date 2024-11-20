@@ -43,6 +43,9 @@ const LandingPage = () => {
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
   );
+  const selectedSortOption = useSelector(
+    state => state.rx.prescriptions?.selectedSortOption,
+  );
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -111,8 +114,14 @@ const LandingPage = () => {
   useEffect(
     () => {
       if (showFilterContent && !filteredList) {
+        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
+        const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
         dispatch(
-          getPaginatedFilteredList(1, filterOptions.ALL_MEDICATIONS.url),
+          getPaginatedFilteredList(
+            1,
+            filterOptions.ALL_MEDICATIONS.url,
+            sortEndpoint,
+          ),
         );
       }
     },
