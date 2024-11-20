@@ -80,12 +80,6 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        // applicantInformationSummary: {
-        //   path: 'applicant-information',
-        //   title: 'Your personal information on file',
-        //   uiSchema: applicantInformation.uiSchema,
-        //   schema: applicantInformation.schema,
-        // },
       },
     },
     contactInformationChapter: {
@@ -103,19 +97,6 @@ const formConfig = {
             })(),
           }),
         }),
-        // mailingAddress: {
-        //   path: 'mailing-address',
-        //   title: mailingAddress.title,
-        //   uiSchema: mailingAddress.uiSchema,
-        //   schema: mailingAddress.schema,
-        //   updateFormData: mailingAddress.updateFormData,
-        // },
-        // additionalInformation: {
-        //   path: 'additional-contact-information',
-        //   title: additionalInformation.title,
-        //   uiSchema: additionalInformation.uiSchema,
-        //   schema: additionalInformation.schema,
-        // },
       },
     },
     reviewApp: {

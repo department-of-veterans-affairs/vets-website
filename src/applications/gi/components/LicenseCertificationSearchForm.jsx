@@ -9,28 +9,28 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const dropdownSchema = [
+export const dropdownSchema = [
   {
     label: 'category',
     options: [
-      { optionValue: '', optionLabel: '-Select-' },
-      { optionValue: 'licenses', optionLabel: 'License' },
+      { optionValue: 'all', optionLabel: 'All' },
+      { optionValue: 'license', optionLabel: 'License' },
       {
-        optionValue: 'certifications',
+        optionValue: 'certification',
         optionLabel: 'Certification',
       },
       {
-        optionValue: 'preps',
+        optionValue: 'prep',
         optionLabel: 'Prep Course',
       },
     ],
     alt: 'category type',
-    current: { optionValue: 'all', optionLabel: '-Select-' },
+    current: { optionValue: 'all', optionLabel: 'All' },
   },
   {
     label: 'state',
     options: [
-      { optionValue: 'All', optionLabel: 'All' },
+      { optionValue: 'all', optionLabel: 'All' },
       ...Object.entries(ADDRESS_DATA.states).map(state => {
         return { optionValue: state[0], optionLabel: state[1] };
       }),
@@ -80,11 +80,7 @@ export default function LicenseCertificationSearchForm({ handleSearch }) {
       <div>
         {/* <VaSearchInput */}
         <va-text-input
-          label={
-            dropdowns[0].current.optionValue !== 'Prep Course'
-              ? 'License/Certification Name'
-              : 'Course Name'
-          }
+          label="License/Certification Name"
           ref={nameSearchRef}
           // suggestions={mockSuggestions}
           className="lc-dropdown-filter"
@@ -109,7 +105,12 @@ export default function LicenseCertificationSearchForm({ handleSearch }) {
       <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
         <va-button
           text="Submit"
-          onClick={() => handleSearch(nameSearchRef.current.value)}
+          onClick={() =>
+            handleSearch(
+              nameSearchRef.current.value,
+              dropdowns[0].current.optionValue,
+            )
+          }
         />
         <va-button
           text="Reset Search"

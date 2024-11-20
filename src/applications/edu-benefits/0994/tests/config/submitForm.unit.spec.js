@@ -4,7 +4,7 @@ import * as actions from 'platform/forms-system/src/js/actions';
 import * as helpers from 'platform/forms-system/src/js/helpers';
 import { get } from 'lodash';
 import submitForm from '../../config/submitForm';
-import { transform } from '../../../0993/helpers';
+import { transform } from '../../helpers';
 
 describe('submitForm', () => {
   let form;

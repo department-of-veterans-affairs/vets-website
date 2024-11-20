@@ -256,7 +256,7 @@ Provider notes: ${vital.notes}\n\n`,
         >
           {vitalDisplayName}
         </h1>
-        <h2 className="sr-only">List of {vitalDisplayName} results</h2>
+        <h2 className="sr-only">{`List of ${vitalDisplayName} results`}</h2>
 
         <NewRecordsIndicator
           refreshState={refresh}
