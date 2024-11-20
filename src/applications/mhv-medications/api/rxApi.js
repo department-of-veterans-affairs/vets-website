@@ -76,9 +76,17 @@ export const getDocumentation = (id, ndcNumber) => {
   );
 };
 
+// **Remove once filter feature is developed and live.**
 export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
   return apiRequest(
     `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${sortEndpoint}`,
+    { headers },
+  );
+};
+
+export const getFilteredList = (pageNumber = 1, filterOption = '') => {
+  return apiRequest(
+    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${filterOption}`,
     { headers },
   );
 };

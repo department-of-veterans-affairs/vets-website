@@ -6,6 +6,7 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 
 import { content } from '../content/evidenceSummary';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
+import { content as vaContent } from '../content/evidenceVaRecords';
 import { parseDate } from '../../shared/utils/dates';
 
 import {
@@ -20,6 +21,7 @@ import {
 import {
   FORMAT_COMPACT_DATE_FNS,
   FORMAT_YMD_DATE_FNS,
+  FORMAT_READABLE_MMYY_DATE_FNS,
 } from '../../shared/constants';
 
 const listClassNames = [
@@ -44,10 +46,10 @@ const removeButtonClass = [
   'vads-u-margin-top--0',
 ].join(' ');
 
-const formatDate = (date = '') =>
+const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
   // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
-  parseDate(date, FORMAT_COMPACT_DATE_FNS, FORMAT_YMD_DATE_FNS) || '';
+  parseDate(date, format, FORMAT_YMD_DATE_FNS) || '';
 
 /**
  * Changing header levels :(
@@ -83,6 +85,7 @@ export const VaContent = ({
   onReviewPage,
   handlers = {},
   testing,
+  showScNewForm,
 }) => {
   const Header6 = getHeaderLevelH6toH5({ onReviewPage, reviewMode });
   const Header5 = getHeaderLevelH5toH4({ onReviewPage, reviewMode });
@@ -91,17 +94,33 @@ export const VaContent = ({
       <Header5>{content.vaTitle}</Header5>
       <ul className="evidence-summary remove-bullets">
         {list.map((location, index) => {
-          const { locationAndName, issues = [], evidenceDates = {} } =
-            location || {};
+          const {
+            locationAndName,
+            issues = [],
+            evidenceDates = {},
+            treatmentDate = '',
+            noDate,
+          } = location || {};
           const path = `/${EVIDENCE_VA_PATH}?index=${index}`;
           const fromDate = formatDate(evidenceDates.from);
           const toDate = formatDate(evidenceDates.to);
+          // treatment date only includes YYYY-MM; include '-01' to fit parser
+          const formattedTreatmentDate =
+            !noDate &&
+            formatDate(`${treatmentDate}-01`, FORMAT_READABLE_MMYY_DATE_FNS);
           const errors = {
             name: locationAndName ? '' : content.missing.location,
             issues: issues.length ? '' : content.missing.condition,
-            from: fromDate ? '' : content.missing.from,
-            to: toDate ? '' : content.missing.to,
-            dates: !fromDate && !toDate ? content.missing.dates : '',
+            from: showScNewForm || fromDate ? '' : content.missing.from,
+            to: showScNewForm || toDate ? '' : content.missing.to,
+            dates:
+              !showScNewForm && !fromDate && !toDate
+                ? content.missing.dates
+                : '',
+            treatmentDate:
+              (showScNewForm &&
+                (noDate || treatmentDate ? '' : content.missing.date)) ||
+              '',
           };
           const hasErrors = Object.values(errors).join('');
 
@@ -122,14 +141,26 @@ export const VaContent = ({
                 >
                   {errors.issues || readableList(issues)}
                 </div>
-                {errors.dates || (
-                  <div
-                    className="dd-privacy-hidden"
-                    data-dd-action-name="VA location date range"
-                  >
-                    {errors.from || fromDate} – {errors.to || toDate}
-                  </div>
-                )}
+                {!showScNewForm &&
+                  (errors.dates || (
+                    <div
+                      className="dd-privacy-hidden"
+                      data-dd-action-name="VA location date range"
+                    >
+                      {errors.from || fromDate} – {errors.to || toDate}
+                    </div>
+                  ))}
+                {showScNewForm && noDate && vaContent.noDate}
+                {showScNewForm &&
+                  !noDate &&
+                  (errors.treatmentDate || (
+                    <div
+                      className="dd-privacy-hidden"
+                      data-dd-action-name="VA location treatment date"
+                    >
+                      {formattedTreatmentDate}
+                    </div>
+                  ))}
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
                     <Link
@@ -167,6 +198,7 @@ VaContent.propTypes = {
   handlers: PropTypes.shape({}),
   list: PropTypes.array,
   reviewMode: PropTypes.bool,
+  showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
   onReviewPage: PropTypes.bool,
 };

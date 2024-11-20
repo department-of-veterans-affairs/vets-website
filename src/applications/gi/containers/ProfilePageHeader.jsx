@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+
 import {
   convertRatingToStars,
   createId,
@@ -30,6 +30,7 @@ const ProfilePageHeader = ({
   dispatchAddCompareInstitution,
   dispatchRemoveCompareInstitution,
   institution,
+  isShowRatingsToggle,
   dispatchShowModal,
 }) => {
   const [expanded, toggleExpansion] = useState(false);
@@ -55,8 +56,6 @@ const ProfilePageHeader = ({
     ownershipName,
   } = institution;
 
-  // environment variable to keep ratings out of production until ready
-  const isProduction = !environment.isProduction();
   const lowerType = type && type.toLowerCase();
   const formattedAddress = locationInfo(
     physicalCity,
@@ -337,7 +336,7 @@ const ProfilePageHeader = ({
           )}
         </div>
         {displayStars &&
-          isProduction && (
+          isShowRatingsToggle && (
             <div className={starClasses}>
               <span className="vads-u-font-size--sm">
                 <RatingsStars rating={ratingAvg} />
@@ -360,7 +359,7 @@ const ProfilePageHeader = ({
           )}
         {!displayStars &&
           type.toUpperCase() !== 'OJT' &&
-          isProduction && <span>Not yet rated by Veterans</span>}
+          isShowRatingsToggle && <span>Not yet rated by Veterans</span>}
         {studentCount > 0 && (
           <p>
             <LearnMoreLabel

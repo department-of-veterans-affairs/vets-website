@@ -75,7 +75,11 @@ class PatientMessageCustomFolderPage {
     cy.wait('@singleFolderThread');
   };
 
-  loadMessages = (folderName = this.folderName, folderId = this.folderId) => {
+  loadMessages = (
+    threadResponse = mockSingleThreadResponse,
+    folderName = this.folderName,
+    folderId = this.folderId,
+  ) => {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/${this.folderId}*`,
@@ -87,7 +91,7 @@ class PatientMessageCustomFolderPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads*`,
-      mockSingleThreadResponse,
+      threadResponse,
     ).as('customFolderThread');
 
     cy.get(`[data-testid=${folderName}]`).click();
@@ -282,6 +286,22 @@ class PatientMessageCustomFolderPage {
     cy.get(Locators.FOLDERS.FOLDER_REMOVE)
       .shadow()
       .find('[type="button"]')
+      .click();
+  };
+
+  deleteParticularCustomFolder = (folderId, updatedFoldersResponse) => {
+    cy.intercept('DELETE', `${Paths.SM_API_BASE}/folders/${folderId}`, {
+      statusCode: 204,
+    }).as('deletedFolderResponse');
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE}/folders*`,
+      updatedFoldersResponse,
+    ).as('updatedFoldersList');
+
+    cy.get(Locators.ALERTS.REMOVE_THIS_FOLDER)
+      .find(`va-button[text*='remove']`)
       .click();
   };
 

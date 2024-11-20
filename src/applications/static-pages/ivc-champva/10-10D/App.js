@@ -45,13 +45,13 @@ const App = ({ formEnabled }) => {
           address:
         </p>
         <p className="va-address-block">
-          VHA Office of Community Care
+          VHA Office of Integrated Veteran Care
           <br />
           CHAMPVA Eligibility
           <br />
-          PO Box 469028
+          PO Box 137
           <br />
-          Denver, CO 80246-9028
+          Spring City. PA 19475
           <br />
         </p>
         <h3>Option 3: By fax</h3>
@@ -99,13 +99,13 @@ const App = ({ formEnabled }) => {
         address:
       </p>
       <p className="va-address-block">
-        VHA Office of Community Care
+        VHA Office of Integrated Veteran Care
         <br />
         CHAMPVA Eligibility
         <br />
-        PO Box 469028
+        PO Box 137
         <br />
-        Denver, CO 80246-9028
+        Spring City. PA 19475
         <br />
       </p>
       <h3>Option 2: By fax</h3>

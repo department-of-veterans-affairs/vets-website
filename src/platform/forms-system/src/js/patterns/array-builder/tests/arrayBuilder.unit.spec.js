@@ -158,12 +158,30 @@ describe('arrayBuilderPages required parameters and props tests', () => {
     }
   });
 
+  it('should throw an error if incorrect path', () => {
+    try {
+      arrayBuilderPages(validOptions, pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
+          ...validSummaryPage,
+          path: '/summary',
+        }),
+        firstPage: pageBuilder.itemPage(validFirstPage),
+        lastPage: pageBuilder.itemPage(validLastPage),
+      }));
+      expect('Expected path to fail validation and be caught').to.be.false;
+    } catch (e) {
+      expect(e.message).to.include('path');
+      expect(e.message).to.include('should not start with a `/`');
+    }
+  });
+
   it('should throw an error if incorrect review path', () => {
     try {
       arrayBuilderPages({ ...validOptions, reviewPath: '/review' }, validPages);
-      expect(true).to.be.false;
+      expect('Expected path to fail validation and be caught').to.be.false;
     } catch (e) {
-      expect(e.message).to.include('reviewPath should not start with a `/`');
+      expect(e.message).to.include('reviewPath');
+      expect(e.message).to.include('should not start with a `/`');
     }
   });
 
@@ -187,6 +205,73 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       expect(true).to.be.false;
     } catch (e) {
       expect(e.message).to.include('arrayBuilderYesNoUI');
+    }
+  });
+
+  it('should not throw an error if uiSchema is not defined as long as we have a link or button', () => {
+    const options = {
+      ...validOptions,
+      useLinkInsteadOfYesNo: true,
+    };
+    try {
+      arrayBuilderPages(options, pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
+          title: 'Employment history',
+          path: 'employers-summary',
+        }),
+        itemPage: pageBuilder.itemPage({
+          title: 'Name of employer',
+          path: 'employers/name/:index',
+          uiSchema: {},
+          schema: {},
+        }),
+      }));
+      expect(true).to.be.true;
+    } catch (e) {
+      expect(
+        'Error should not be thrown for missing uiSchema when using link',
+      ).to.eq(e.message);
+    }
+  });
+
+  it("it should throw an error if a user tries to use uiSchema properties but we aren't using it", () => {
+    const options = {
+      ...validOptions,
+      useLinkInsteadOfYesNo: true,
+    };
+    try {
+      arrayBuilderPages(options, pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
+          title: 'Employment history',
+          path: 'employers-summary',
+          uiSchema: {
+            test: {
+              'ui:title': 'Hello',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              test: {
+                type: 'string',
+              },
+            },
+          },
+        }),
+        itemPage: pageBuilder.itemPage({
+          title: 'Name of employer',
+          path: 'employers/name/:index',
+          uiSchema: {},
+          schema: {},
+        }),
+      }));
+      expect(
+        'Expected error to be thrown when using useLinkInsteadOfYesNo with uiSchema',
+      ).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include(
+        'does not currently support using `uiSchema` or `schema` properties when using option `useLinkInsteadOfYesNo`',
+      );
     }
   });
 

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router';
+import SaveInProgressIntro from './SaveInProgressIntro';
 import { selectAuthStatus } from '../../../../utils/selectors/auth-status';
-import VerifiedPrefillAlert from '../../../../shared/components/alerts/VerifiedPrefillAlert';
+// import VerifiedPrefillAlert from '../../../../shared/components/alerts/VerifiedPrefillAlert';
 import content from '../../../../shared/locales/en/content.json';
 import { getTaskFromUrl } from '../../../../utils/helpers/task';
 import { TASKS } from '../../../../utils/constants';
@@ -32,7 +32,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
     messages: savedFormMessages,
     formConfig: { customText },
     headingLevel: 3,
-    verifiedPrefillAlert: VerifiedPrefillAlert,
+    // verifiedPrefillAlert: VerifiedPrefillAlert,
     buttonOnly,
     hideUnauthedStartLink: true,
     prefillEnabled,
@@ -64,9 +64,9 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
         data-testid="ezr-login-alert"
         uswds
       >
-        <h3 slot="headline">
+        <h2 className="vads-u-font-size--h3" slot="headline">
           Sign in now to save time and save your work in progress
-        </h3>
+        </h2>
         <p>Here&rsquo;s how signing in now helps you:</p>
         <ul>
           <li>

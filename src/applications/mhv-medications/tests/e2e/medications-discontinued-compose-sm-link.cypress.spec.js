@@ -11,7 +11,7 @@ describe('Medications List Page DropDown -- discontinued SM Compose Link', () =>
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
-    listPage.clickGotoMedicationsLink(true);
+    listPage.clickGotoMedicationsLink();
 
     cy.get('[data-testid="discontinued-compose-message-link"]')
       .shadow()

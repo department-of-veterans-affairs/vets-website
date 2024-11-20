@@ -30,7 +30,7 @@ export function mapRawUserDataToState(json) {
   const {
     data: {
       attributes: {
-        account: { accountUuid } = {},
+        account: { accountUuid, createdAt } = {},
         inProgressForms: savedForms,
         prefillsAvailable,
         profile: {
@@ -39,6 +39,7 @@ export function mapRawUserDataToState(json) {
           email,
           firstName: first,
           gender,
+          icn,
           lastName: last,
           loa,
           middleName: middle,
@@ -60,9 +61,11 @@ export function mapRawUserDataToState(json) {
   const userState = {
     accountType: loa.current,
     accountUuid,
+    createdAt,
     dob,
     email,
     gender,
+    icn,
     isCernerPatient: vaProfile?.isCernerPatient,
     loa,
     multifactor,

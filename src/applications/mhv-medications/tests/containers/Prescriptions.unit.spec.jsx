@@ -46,6 +46,11 @@ describe('Medications Prescriptions container', () => {
           totalPages: 7,
           totalEntries: 122,
         },
+        prescriptionsFilteredPagination: {
+          currentPage: 1,
+          totalPages: 7,
+          totalEntries: 122,
+        },
         prescriptionDetails: {
           prescriptionId: 1234567890,
         },

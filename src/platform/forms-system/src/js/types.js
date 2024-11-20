@@ -243,7 +243,7 @@
  *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
- *   'ui:required'?: (formData: any, index: boolean) => boolean,
+ *   'ui:required'?: (formData: any, index: number) => boolean,
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
@@ -335,6 +335,7 @@
  * @property {boolean} [useVaCards] For arrays on a single page. If true, will use the `VaCard` component to wrap each item in the array. Has a white background with border instead of gray background.
  * @property {boolean} [reflectInputError] Whether or not to add usa-input--error as class if error message is outside of component.
  * @property {string} [reviewItemHeaderLevel] Optional level for the item-header on Review page - for arrays. Defaults to '5' for a <h5> header-tag.
+ * @property {boolean} [useAllFormData] `formData` will return all form data instead of just the current item in an array. Applicable to `ui:validations`. TODO other fields.
  * @property {boolean} [useDlWrap] On the review page, moves \<dl\> tag to immediately surrounding the \<dt\> field instead of using a \<div\>. \<dt\> fields should be wrapped in \<dl\> fields, so this fixes that a11y issue. Formats fields horizontally.
  * @property {'single' | 'multiple'} [useFormsPattern] Used if you want to define the formHeading and formDescription for the web component field, which can include JSX, so it can be read out by screen readers. Accepts 'single' for a single field on the page where the error will show on the entire block, or 'multiple' for multiple fields on the page where the error will show only on the field.
  * @property {boolean} [useHeaderStyling] Enables developer to implement and use alternate style classes for auto generated html elements such as in ObjectField or ArrayField
@@ -390,10 +391,11 @@
 
 /**
  * @typedef {{
- *   getItemName: (itemData: any) => string,
+ *   getItemName: (itemData: any, index: number) => string,
  *   itemData: any,
  *   nounPlural: string,
  *   nounSingular: string,
+ *   index?: number,
  * }} ArrayBuilderTextProps
  */
 
@@ -417,7 +419,7 @@
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
- *   getItemName?: (itemData: any) => string,
+ *   getItemName?: (itemData: any, index: number) => string,
  *   deleteDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNo?: (props: ArrayBuilderTextProps) => string,
@@ -428,6 +430,8 @@
  *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
  *   summaryDescription?: (props: ArrayBuilderTextProps) => string,
  *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryAddLinkText?: (props: ArrayBuilderTextProps) => string,
+ *   summaryAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
  * }} ArrayBuilderText
  */
@@ -452,4 +456,6 @@
  * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
+ * @property {boolean} [useLinkInsteadOfYesNo]
+ * @property {boolean} [useButtonInsteadOfYesNo]
  */
