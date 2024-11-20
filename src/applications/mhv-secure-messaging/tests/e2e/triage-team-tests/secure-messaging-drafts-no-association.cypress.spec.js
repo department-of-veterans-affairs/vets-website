@@ -5,6 +5,7 @@ import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
+// import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 
 describe('Verify drafts - No association with particular Triage Group', () => {
@@ -183,7 +184,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       ],
     };
 
-    PatientMessageDraftsPage.loadSingleDraft(mockDraftNew);
+    PatientMessageDraftsPage.loadSingleDraft(mockMessages, mockDraftNew);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
