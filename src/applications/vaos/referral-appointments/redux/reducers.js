@@ -4,13 +4,18 @@ import {
   SET_SORT_PROVIDER_BY,
   SET_SELECTED_PROVIDER,
   SET_FORM_CURRENT_PAGE,
+  FETCH_PROVIDER_DETAILS,
+  FETCH_PROVIDER_DETAILS_FAILED,
+  FETCH_PROVIDER_DETAILS_SUCCEEDED,
 } from './actions';
+import { FETCH_STATUS } from '../../utils/constants';
 
 const initialState = {
   facility: null,
   sortProviderBy: '',
   selectedProvider: '',
   currentPage: null,
+  providerFetchStatus: FETCH_STATUS.notStarted,
 };
 
 function ccAppointmentReducer(state = initialState, action) {
@@ -40,6 +45,22 @@ function ccAppointmentReducer(state = initialState, action) {
       return {
         ...state,
         currentPage: action.payload,
+      };
+    case FETCH_PROVIDER_DETAILS:
+      return {
+        ...state,
+        providerFetchStatus: FETCH_STATUS.loading,
+      };
+    case FETCH_PROVIDER_DETAILS_SUCCEEDED:
+      return {
+        ...state,
+        providerFetchStatus: FETCH_STATUS.succeeded,
+        selectedProvider: action.data,
+      };
+    case FETCH_PROVIDER_DETAILS_FAILED:
+      return {
+        ...state,
+        providerFetchStatus: FETCH_STATUS.failed,
       };
     default:
       return state;

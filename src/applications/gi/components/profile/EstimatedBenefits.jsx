@@ -163,6 +163,7 @@ export default function EstimatedBenefits({
   };
   const bookStipendLabel = (
     <LearnMoreLabel
+      bold
       text="Book stipend"
       onClick={() => dispatchShowModal('bookStipendInfo')}
       ariaLabel="Learn more about the book stipend"

@@ -4,7 +4,7 @@ import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-a
 
 describe('Prefill pattern - Yellow Task', () => {
   beforeEach(() => {
-    cy.login(mockUsers.loa3User72);
+    cy.login(mockUsers.loa3User);
     cy.intercept('GET', '/v0/feature_toggles*', { loading: false }).as(
       'mockFeatureToggles',
     );
@@ -120,7 +120,7 @@ describe('Prefill pattern - Yellow Task', () => {
 
     cy.url().should('contain', '/confirm-mailing-address');
 
-    cy.findByText('123 Mailing Address St.').should('exist');
+    cy.findByText('125 Main St.').should('exist');
 
     cy.findByText('Fulton, NY 97063').should('exist');
 

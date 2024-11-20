@@ -25,7 +25,7 @@ describe('actions', () => {
   });
 
   describe('processActionConnectFulfilled', () => {
-    it('should call dispatch twice', () => {
+    it('should call dispatch once when root bot toggle is on', () => {
       const dispatchSpy = sandbox.spy();
       const options = {
         dispatch: dispatchSpy,
@@ -36,6 +36,25 @@ describe('actions', () => {
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
         isMobile: true,
+        isRootBotToggleOn: true,
+      };
+
+      processActionConnectFulfilled(options)();
+
+      expect(dispatchSpy.calledOnce).to.be.true;
+    });
+    it('should call dispatch once when root bot toggle is off', () => {
+      const dispatchSpy = sandbox.spy();
+      const options = {
+        dispatch: dispatchSpy,
+        csrfToken: 'csrfToken',
+        apiSession: 'apiSession',
+        apiURL: 'apiUrl',
+        baseURL: 'baseUrl',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isMobile: true,
+        isRootBotToggleOn: false,
       };
 
       processActionConnectFulfilled(options)();
