@@ -94,6 +94,6 @@ export default function LcKeywordSearch({
 LcKeywordSearch.propTypes = {
   inputValue: PropTypes.string,
   suggestions: PropTypes.array,
-  onSelection: PropTypes.func.isRequired,
-  onUpdateAutocompleteSearchTerm: PropTypes.func.isRequired,
+  onSelection: PropTypes.func,
+  onUpdateAutocompleteSearchTerm: PropTypes.func,
 };

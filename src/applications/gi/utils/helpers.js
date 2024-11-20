@@ -550,7 +550,7 @@ export const updateLcFilterDropdowns = (dropdowns, target) => {
 
 export const handleLcResultsSearch = (
   history,
-  type,
+  type = 'all',
   name = null,
   state = 'all',
 ) => {

@@ -71,11 +71,17 @@ export const FETCH_LC_RESULT_FAILED = 'FETCH_LC_RESULT_FAILED';
 export const FETCH_LC_RESULT_STARTED = 'FETCH_LC_RESULT_STARTED';
 export const FETCH_LC_RESULT_SUCCEEDED = 'FETCH_LC_RESULT_SUCCEEDED';
 
-export function fetchLicenseCertificationResults(name, filterOptions) {
+export function fetchLicenseCertificationResults(
+  name = null,
+  filterOptions = { type: 'all', state: 'all' },
+) {
   const { type, state } = filterOptions;
 
+  const url = name
+    ? `${api.url}/lce?type=${type}&state=${state}&name=${name}`
+    : `${api.url}/lce?type=${type}&state=${state}`;
+
   return dispatch => {
-    const url = `${api.url}/lce?type=${type}&state=${state}&name=${name}`;
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
     return fetch(url, api.settings)

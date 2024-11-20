@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Dropdown from './Dropdown';
 import { updateLcFilterDropdowns } from '../utils/helpers';
 import LcKeywordSearch from './LcKeywordSearch';
-import { fetchLicenseCertificationResults } from '../actions';
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -42,13 +40,33 @@ export const dropdownSchema = [
   },
 ];
 
-function LicenseCertificationSearchForm({
-  handleSearch,
-  dispatchFetchLicenseCertificationResults,
+const filterSuggestions = (suggestions, value) => {
+  // add filter options as arg
+  if (!value) {
+    return suggestions;
+  }
+
+  return suggestions.filter(suggestion =>
+    // TODO add logic to account for filterOptions
+    suggestion.name.toLowerCase().includes(value.toLowerCase()),
+  );
+};
+
+export default function LicenseCertificationSearchForm({
   suggestions,
+  handleSearch,
 }) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
-  const [name, setName] = useState();
+  const [name, setName] = useState('');
+  const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
+
+  useEffect(
+    () => {
+      const newSuggestions = filterSuggestions(suggestions, name);
+      setFilteredSuggestions(newSuggestions);
+    },
+    [name],
+  );
 
   const handleReset = () => {
     setDropdowns(dropdownSchema);
@@ -59,20 +77,6 @@ function LicenseCertificationSearchForm({
     const newDropdowns = updateLcFilterDropdowns(dropdowns, e.target);
     setDropdowns(newDropdowns);
   };
-
-  const doAutocompleteSuggestionsSearch = entry => {
-    dispatchFetchLicenseCertificationResults(entry, {
-      type: dropdowns[0].current.optionValue,
-      state: dropdowns[1].current.optionValue,
-    });
-  };
-
-  useEffect(
-    () => {
-      doAutocompleteSuggestionsSearch(name);
-    },
-    [name],
-  );
 
   const onUpdateAutocompleteSearchTerm = value => {
     setName(value);
@@ -95,8 +99,8 @@ function LicenseCertificationSearchForm({
       <div>
         <LcKeywordSearch
           inputRef={name}
+          suggestions={filteredSuggestions}
           onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
-          suggestions={suggestions}
         />
       </div>
 
@@ -129,21 +133,7 @@ function LicenseCertificationSearchForm({
   );
 }
 
-const mapStateToProps = state => ({
-  suggestions: state.licenseCertificationSearch.lcResults,
-});
-
-const mapDispatchToProps = {
-  dispatchFetchLicenseCertificationResults: fetchLicenseCertificationResults,
-};
-
 LicenseCertificationSearchForm.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
-  dispatchFetchLicenseCertificationResults: PropTypes.func,
   suggestions: PropTypes.array,
+  handleSearch: PropTypes.func.isRequired,
 };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LicenseCertificationSearchForm);
