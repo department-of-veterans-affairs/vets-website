@@ -38,6 +38,7 @@ const Vitals = () => {
   const [acceleratedVitalsDate, setAcceleratedVitalsDate] = useState(
     format(new Date(), 'yyyy-MM'),
   );
+  const [displayDate, setDisplayDate] = useState('');
   const activeAlert = useAlerts(dispatch);
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
@@ -111,6 +112,13 @@ const Vitals = () => {
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
+  const getMonthFromSelectedDate = date => {
+    const [year, month] = date.split('-');
+    const fromDate = new Date(year, month - 1, 1);
+    const thing = format(fromDate, 'MMMM yyyy');
+    return `${thing}`;
+  };
+
   const content = () => {
     if (accessAlert) {
       return (
@@ -135,6 +143,7 @@ const Vitals = () => {
     if (vitals?.length === 0) {
       return (
         <>
+          <p>Vitals include:</p>
           <ul>
             <li>Blood pressure and blood oxygen level</li>
             <li>Breathing rate and heart rate</li>
@@ -161,6 +170,17 @@ const Vitals = () => {
                 dispatch(reloadRecords());
               }}
             />
+          )}
+          {isAcceleratingVitals && (
+            <div className="vads-u-margin-top--2">
+              <va-card
+                background
+                aria-live="polite"
+                data-testid="new-records-last-updated"
+              >
+                Viewing records for {getMonthFromSelectedDate(displayDate)}.
+              </va-card>
+            </div>
           )}
 
           <RecordList
@@ -194,6 +214,7 @@ const Vitals = () => {
 
   const triggerApiUpdate = e => {
     e.preventDefault();
+    setDisplayDate(acceleratedVitalsDate);
     dispatch({
       type: Actions.Vitals.UPDATE_LIST_STATE,
       payload: Constants.loadStates.PRE_FETCH,
@@ -231,7 +252,7 @@ const Vitals = () => {
       </h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
         {`Vitals are basic health numbers your providers check at your
-        appointments. ${vitals?.length === 0 ? 'Vitals include:' : ''}`}
+        appointments.`}
       </p>
       {isAcceleratingVitals && datePicker()}
       {isLoadingAcceleratedData && (
