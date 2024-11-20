@@ -9,7 +9,7 @@ export const CLAIMANT_INFO_ENDPOINT = `${
 
 export const CLAIM_STATUS_ENDPOINT = `${
   environment.API_URL
-}/meb_api/v0/forms_claim_status`;
+}/meb_api/v0/forms_claim_status?type=ToeSubmission`;
 export const CLAIM_STATUS_RESPONSE_IN_PROGRESS = 'INPROGRESS';
 export const FETCH_CLAIM_STATUS = 'FETCH_CLAIM_STATUS';
 export const FETCH_CLAIM_STATUS_SUCCESS = 'FETCH_CLAIM_STATUS_SUCCESS';
@@ -160,7 +160,7 @@ function getNowDate() {
 
 export function fetchClaimStatus(selectedChapter) {
   return async dispatch => {
-    dispatch({ type: `${CLAIM_STATUS_ENDPOINT}?type=${selectedChapter}` });
+    dispatch({ type: CLAIM_STATUS_ENDPOINT });
     const timeoutResponse = {
       attributes: {
         claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
@@ -169,7 +169,7 @@ export function fetchClaimStatus(selectedChapter) {
     };
 
     poll({
-      endpoint: CLAIM_STATUS_ENDPOINT,
+      endpoint: `${CLAIM_STATUS_ENDPOINT}?type=${selectedChapter}`,
       validate: response => {
         return (
           response?.data?.attributes?.claimStatus &&
