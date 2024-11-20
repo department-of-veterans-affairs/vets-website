@@ -146,10 +146,10 @@ const StepTwo = ({ formResponses }) => {
       </p>
       <ul>
         <li>
-          <h3>Military Record</h3>: In most cases, your records will be
-          important to the Board’s decision. The Board may not have easy access
-          to your military records, especially if you served many years ago, so
-          we strongly recommend you submit any relevant documents yourself.{' '}
+          <h3>Military Record</h3> In most cases, your records will be important
+          to the Board’s decision. The Board may not have easy access to your
+          military records, especially if you served many years ago, so we
+          strongly recommend you submit any relevant documents yourself.{' '}
           {boardToSubmit.abbr !== DRB ? (
             <span>
               Note that the {boardToSubmit.abbr} is required to help you collect
