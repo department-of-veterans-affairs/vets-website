@@ -9,6 +9,7 @@ import {
   setConversationIdKey,
   setTokenKey,
 } from '../utils/sessionStorage';
+import logger from '../utils/logger';
 
 export function callVirtualAgentTokenApi(
   virtualAgentEnableMsftPvaTesting,
@@ -48,6 +49,7 @@ async function getToken(props, setToken, setApiSession, setLoadingStatus) {
     Sentry.captureException(
       new Error('Could not retrieve virtual agent token'),
     );
+    logger.error('Could not retrieve virtual agent token', ex);
     setLoadingStatus(ERROR);
   }
 }

@@ -11,6 +11,7 @@ import useVirtualAgentToken, {
 } from '../../hooks/useVirtualAgentToken';
 import { ERROR, COMPLETE } from '../../utils/loadingStatus';
 import * as UseWaitForCsrfTokenModule from '../../hooks/useWaitForCsrfToken';
+import logger from '../../utils/logger';
 
 describe('useVirtualAgentToken', () => {
   let sandbox;
@@ -117,7 +118,7 @@ describe('useVirtualAgentToken', () => {
       sandbox
         .stub(ApiModule, ApiModule.apiRequest.name)
         .throws(new Error('test'));
-
+      const loggerErrorSpy = sandbox.spy(logger, 'error');
       const SentryCaptureExceptionSpy = sandbox.spy();
       sandbox
         .stub(Sentry, 'captureException')
@@ -132,6 +133,10 @@ describe('useVirtualAgentToken', () => {
       expect(SentryCaptureExceptionSpy.calledOnce).to.be.true;
       expect(SentryCaptureExceptionSpy.args[0][0]).to.be.an.instanceOf(Error);
       expect(SentryCaptureExceptionSpy.args[0][0].message).to.equal(
+        'Could not retrieve virtual agent token',
+      );
+      expect(loggerErrorSpy.calledOnce).to.be.true;
+      expect(loggerErrorSpy.args[0][0]).to.equal(
         'Could not retrieve virtual agent token',
       );
     });

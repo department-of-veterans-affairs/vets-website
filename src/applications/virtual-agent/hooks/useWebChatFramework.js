@@ -3,6 +3,8 @@ import * as Sentry from '@sentry/browser';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
 import useLoadWebChat from './useLoadWebChat';
 
+const logger = require('../utils/logger');
+
 const TIMEOUT_DURATION_MS = 250;
 
 function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
@@ -15,6 +17,7 @@ function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
     } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
       Sentry.captureException(new Error('Failed to load webchat framework'));
       setLoadingStatus(ERROR);
+      logger.error('Failed to load webchat framework');
       clearInterval(intervalId);
     }
   }, timeout);

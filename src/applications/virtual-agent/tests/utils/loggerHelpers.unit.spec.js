@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as loggerHelpers from '../../utils/loggerHelpers';
+import * as loggerHelpers from '../../utils/logger/loggerHelpers';
 
 const winston = require('winston');
 const sinon = require('sinon');
@@ -11,7 +11,7 @@ const {
   setLoggerOutput,
   getDatadogTags,
   getLogLevel,
-} = require('../../utils/loggerHelpers');
+} = require('../../utils/logger/loggerHelpers');
 
 describe('loggerHelpers', () => {
   describe('buildDefaultLoggerOptions', () => {

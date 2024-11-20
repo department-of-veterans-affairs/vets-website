@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
 import selectLoadingFeatureToggle from '../selectors/selectFeatureTogglesLoading';
+import logger from '../utils/logger';
 
 export function useWaitForCsrfToken(props) {
   // Once the feature toggles have loaded, the csrf token updates
@@ -15,6 +16,7 @@ export function useWaitForCsrfToken(props) {
         Sentry.captureException(
           new Error('Could not load feature toggles within timeout'),
         );
+        logger.error('Could not load feature toggles within timeout');
       }
     }, props.timeout);
     return function cleanup() {

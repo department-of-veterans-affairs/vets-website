@@ -4,6 +4,7 @@ import * as ReactRedux from 'react-redux';
 import { renderHook } from '@testing-library/react-hooks';
 import * as Sentry from '@sentry/browser';
 import { useWaitForCsrfToken } from '../../hooks/useWaitForCsrfToken';
+import logger from '../../utils/logger';
 
 describe('useWaitForCsrfToken', () => {
   let sandbox;
@@ -23,7 +24,7 @@ describe('useWaitForCsrfToken', () => {
 
   it('should set error and call sentry when csrf token loading times out', async () => {
     sandbox.stub(ReactRedux, ReactRedux.useSelector.name).returns(true);
-
+    const loggerErrorSpy = sandbox.spy(logger, 'error');
     const SentryCaptureExceptionSpy = sandbox.spy();
     sandbox
       .stub(Sentry, 'captureException')
@@ -37,6 +38,10 @@ describe('useWaitForCsrfToken', () => {
     expect(SentryCaptureExceptionSpy.calledOnce).to.be.true;
     expect(SentryCaptureExceptionSpy.args[0][0]).to.be.an.instanceOf(Error);
     expect(SentryCaptureExceptionSpy.args[0][0].message).to.equal(
+      'Could not load feature toggles within timeout',
+    );
+    expect(loggerErrorSpy.calledOnce).to.be.true;
+    expect(loggerErrorSpy.args[0][0]).to.equal(
       'Could not load feature toggles within timeout',
     );
   });
