@@ -339,10 +339,11 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
-      expect(await screen.findByText(/We couldn’t find a VA facility/i)).to
-        .exist;
+      expect(
+        await screen.findByText(/You can’t schedule this appointment online/i),
+      ).to.exist;
       expect(screen.baseElement).to.contain.text(
-        'None of the facilities where you receive care accepts online appointments for primary care.',
+        'None of your VA facilities have online scheduling for primary care.',
       );
       expect(screen.getByText(/Facility 983/i)).to.exist;
       expect(screen.baseElement).to.contain.text('Facility 983');
@@ -412,10 +413,11 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
-      expect(await screen.findByText(/We couldn’t find a VA facility/i)).to
-        .exist;
+      expect(
+        await screen.findByText(/You can’t schedule this appointment online/i),
+      ).to.exist;
       expect(screen.baseElement).to.contain.text(
-        'None of the facilities where you receive care accepts online appointments for primary care.',
+        'None of your VA facilities have online scheduling for primary care.',
       );
       expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
       expect(screen.baseElement).to.contain.text('Bozeman VA medical center');
