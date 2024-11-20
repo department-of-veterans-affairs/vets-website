@@ -1,8 +1,7 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { useSelector } from 'react-redux';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
@@ -10,12 +9,9 @@ import Main from './Main';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
-function AppContent({ children, isDataAvailable }) {
-  const unregistered = isDataAvailable === false;
-  let view;
-
-  if (unregistered) {
-    view = (
+const AppContent = ({ children, isDataAvailable }) => {
+  if (isDataAvailable === false) {
+    return (
       <div className="row">
         <div className="small-12 columns">
           <h4>
@@ -27,19 +23,17 @@ function AppContent({ children, isDataAvailable }) {
         </div>
       </div>
     );
-  } else {
-    view = children;
   }
 
-  return <div className="row">{view}</div>;
-}
-
+  return <div className="row">{children}</div>;
+};
 AppContent.propTypes = {
   children: PropTypes.node,
   isDataAvailable: PropTypes.bool,
 };
 
-function Post911GIBStatusApp({ user, children }) {
+const Post911GIBStatusApp = ({ children }) => {
+  const user = useSelector(state => state.user);
   return (
     <RequiredLoginView
       verify
@@ -51,15 +45,11 @@ function Post911GIBStatusApp({ user, children }) {
       </AppContent>
     </RequiredLoginView>
   );
-}
+};
 
 Post911GIBStatusApp.propTypes = {
   children: PropTypes.node,
   user: PropTypes.object,
 };
 
-function mapStateToProps(state) {
-  return { user: state.user };
-}
-
-export default connect(mapStateToProps)(Post911GIBStatusApp);
+export default Post911GIBStatusApp;
