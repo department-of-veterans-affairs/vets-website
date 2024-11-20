@@ -1,84 +1,98 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import createCommonStore from 'platform/startup/store';
+import configureStore from 'redux-mock-store';
 import StatusPage from '../../containers/StatusPage';
 
-import reducer from '../../reducers/index.js';
-
-const store = createCommonStore(reducer);
-const defaultProps = store.getState();
-defaultProps.post911GIBStatus = {
-  enrollmentData: {
-    veteranIsEligible: true,
-    dateOfBirth: '1995-11-12T06:00:00.000+0000',
-    remainingEntitlement: {},
-    originalEntitlement: {},
-    usedEntitlement: {},
+const mockStore = configureStore([]);
+const initialState = {
+  post911GIBStatus: {
+    enrollmentData: {
+      veteranIsEligible: true,
+      dateOfBirth: '1995-11-12T06:00:00.000+0000',
+      remainingEntitlement: {},
+      originalEntitlement: {},
+      usedEntitlement: {},
+    },
   },
 };
 
 describe('<StatusPage>', () => {
-  it('should render', () => {
-    const tree = mount(
-      <Provider store={store}>
-        <StatusPage {...defaultProps} />
-      </Provider>,
-    );
-    const vdom = tree.html();
-    expect(vdom).to.exist;
-    tree.unmount();
+  let store;
+
+  beforeEach(() => {
+    store = mockStore(initialState);
   });
 
-  it('should show title and print button', () => {
-    window.dataLayer = [];
-    const tree = mount(
+  it('should render the StatusPage component', () => {
+    const wrapper = mount(
       <Provider store={store}>
-        <StatusPage {...defaultProps} />
+        <StatusPage />
       </Provider>,
     );
-    expect(tree.find('h1').text()).to.equal(
+    expect(wrapper.find(StatusPage).exists()).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should display the title and the print button when eligible', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <StatusPage />
+      </Provider>,
+    );
+
+    expect(wrapper.find('h1').text()).to.equal(
       'Your Post-9/11 GI Bill Statement of Benefits',
     );
+    expect(wrapper.find('#print-button').exists()).to.be.true;
 
-    expect(tree.find({ text: 'Get printable statement of benefits' }).exists());
-
-    tree.unmount();
+    wrapper.unmount();
   });
 
-  it('should not show intro and print button if veteran is not eligible', () => {
-    const props = {
-      enrollmentData: {
-        veteranIsEligible: false,
-        dateOfBirth: '1995-11-12T06:00:00.000+0000',
-        originalEntitlement: {},
-        usedEntitlement: {},
-        remainingEntitlement: {},
+  it('should not show the intro text or print button if veteran is not eligible', () => {
+    const state = {
+      post911GIBStatus: {
+        enrollmentData: {
+          veteranIsEligible: false,
+          dateOfBirth: '1995-11-12T06:00:00.000+0000',
+          remainingEntitlement: {},
+          originalEntitlement: {},
+          usedEntitlement: {},
+        },
       },
     };
 
-    const tree = shallow(<StatusPage store={store} {...props} />);
-    expect(tree.find('.va-introtext').exists()).to.be.false;
-    expect(tree.find('.usa-button-primary').exists()).to.be.false;
-    tree.unmount();
-  });
-  it('should navigate to print page when print button is clicked', () => {
-    const mockRouter = { push: sinon.spy() };
-    const props = { ...defaultProps, router: mockRouter };
+    store = mockStore(state);
 
-    const tree = mount(
+    const wrapper = mount(
       <Provider store={store}>
-        <StatusPage {...props} />
+        <StatusPage />
       </Provider>,
     );
 
-    const printButton = tree.find('#print-button').at(0);
+    expect(wrapper.find('.va-introtext').exists()).to.be.false;
+    expect(wrapper.find('#print-button').exists()).to.be.false;
+
+    wrapper.unmount();
+  });
+
+  it('should navigate to the print page when the print button is clicked', () => {
+    const mockRouter = { push: sinon.spy() };
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <StatusPage router={mockRouter} />
+      </Provider>,
+    );
+
+    const printButton = wrapper.find('#print-button').at(0);
     printButton.simulate('click');
+
     expect(mockRouter.push.calledOnce).to.be.true;
     expect(mockRouter.push.calledWithExactly('/print')).to.be.true;
 
-    tree.unmount();
+    wrapper.unmount();
   });
 });
