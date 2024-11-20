@@ -6,8 +6,10 @@ import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import allergies from '../tests/fixtures/allergies.json';
-import { radiologyRecordHash } from '../util/helpers';
-import { findMatchingCvixReport } from '../util/radiologyUtil';
+import {
+  findMatchingCvixReport,
+  radiologyRecordHash,
+} from '../util/radiologyUtil';
 import radiology from '../tests/fixtures/radiologyRecordsMhv.json';
 import cvix from '../tests/fixtures/radiologyCvix.json';
 

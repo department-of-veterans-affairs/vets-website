@@ -1,5 +1,10 @@
 import { expect } from 'chai';
-import { parseRadiologyReport } from '../../util/radiologyUtil';
+import {
+  areDatesEqualToMinute,
+  findMatchingCvixReport,
+  parseRadiologyReport,
+  radiologyReportsMatch,
+} from '../../util/radiologyUtil';
 
 describe('parseRadiologyReport', () => {
   it('parses a radiology report', () => {
@@ -13,5 +18,181 @@ describe('parseRadiologyReport', () => {
     expect(parsedReport['Clinical History']).to.eq('');
     expect(parsedReport.Report.length).to.eq(391);
     expect(parsedReport.Impression.length).to.eq(266);
+  });
+});
+
+describe('areDatesEqualToMinute', () => {
+  it('returns true for identical dates in the same format', () => {
+    const date1 = '2023-10-01T12:30:00Z';
+    const date2 = '2023-10-01T12:30:00Z';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.true;
+  });
+
+  it('returns true for identical dates in different formats', () => {
+    const date1 = '1712264604902'; // Timestamp in milliseconds
+    const date2 = '2024-04-04T21:03:24Z';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.true;
+  });
+
+  it('returns true when seconds differ but minutes are the same', () => {
+    const date1 = '2023-10-01T12:30:00Z';
+    const date2 = '2023-10-01T12:30:59Z';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.true;
+  });
+
+  it('returns false when minutes differ', () => {
+    const date1 = '2023-10-01T12:30:00Z';
+    const date2 = '2023-10-01T12:31:00Z';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.false;
+  });
+
+  it('returns false when hours differ', () => {
+    const date1 = '2023-10-01T11:30:00Z';
+    const date2 = '2023-10-01T12:30:00Z';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.false;
+  });
+
+  it('returns false when days differ', () => {
+    const date1 = '2023-10-01T12:30:00Z';
+    const date2 = '2023-10-02T12:30:00Z';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.false;
+  });
+
+  it('returns false when months differ', () => {
+    const date1 = '2023-09-01T12:30:00Z';
+    const date2 = '2023-10-01T12:30:00Z';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.false;
+  });
+
+  it('returns false when years differ', () => {
+    const date1 = '2022-10-01T12:30:00Z';
+    const date2 = '2023-10-01T12:30:00Z';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.false;
+  });
+
+  it('returns false for invalid first date', () => {
+    const date1 = 'invalid-date';
+    const date2 = '2023-10-01T12:30:00Z';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.false;
+  });
+
+  it('returns false for invalid second date', () => {
+    const date1 = '2023-10-01T12:30:00Z';
+    const date2 = 'invalid-date';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.false;
+  });
+
+  it('returns false for both dates invalid', () => {
+    const date1 = 'invalid-date';
+    const date2 = 'also-invalid';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.false;
+  });
+
+  it('returns true for dates with different time zones but same UTC time', () => {
+    const date1 = '2023-10-01T07:30:00-05:00'; // UTC-5
+    const date2 = '2023-10-01T12:30:00Z'; // UTC
+    expect(areDatesEqualToMinute(date1, date2)).to.be.true;
+  });
+
+  it('returns false when comparing date to timestamp in seconds (not milliseconds)', () => {
+    const date1 = '1609459200'; // Should be invalid because it's seconds since epoch
+    const date2 = '2021-01-01T00:00:00Z';
+    expect(areDatesEqualToMinute(date1, date2)).to.be.false;
+  });
+});
+
+describe('radiologyReportsMatch', () => {
+  it('should return true when eventDate and performedDatePrecise match to the minute', () => {
+    const phrResponse = { eventDate: '2023-10-01T12:30:00Z' };
+    const cvixResponse = { performedDatePrecise: '2023-10-01T12:30:59Z' };
+    expect(radiologyReportsMatch(phrResponse, cvixResponse)).to.be.true;
+  });
+
+  it('should return false when eventDate and performedDatePrecise do not match', () => {
+    const phrResponse = { eventDate: '2023-10-01T12:30:00Z' };
+    const cvixResponse = { performedDatePrecise: '2001-10-01T12:30:59Z' };
+    expect(radiologyReportsMatch(phrResponse, cvixResponse)).to.be.false;
+  });
+
+  it('should return false when eventDate is missing', () => {
+    const phrResponse = {};
+    const cvixResponse = { performedDatePrecise: '2001-10-01T12:30:59Z' };
+    expect(radiologyReportsMatch(phrResponse, cvixResponse)).to.be.false;
+  });
+
+  it('should return false when performedDatePrecise is missing', () => {
+    const phrResponse = { eventDate: '2023-10-01T12:30:00Z' };
+    const cvixResponse = {};
+    expect(radiologyReportsMatch(phrResponse, cvixResponse)).to.be.false;
+  });
+
+  it('should return false when phrResponse is null', () => {
+    const phrResponse = null;
+    const cvixResponse = { performedDatePrecise: '2001-10-01T12:30:59Z' };
+    expect(radiologyReportsMatch(phrResponse, cvixResponse)).to.be.false;
+  });
+
+  it('should return false when cvixResponse is null', () => {
+    const phrResponse = { eventDate: '2023-10-01T12:30:00Z' };
+    const cvixResponse = null;
+    expect(radiologyReportsMatch(phrResponse, cvixResponse)).to.be.false;
+  });
+});
+
+describe('findMatchingCvixReport', () => {
+  it('should return the matching CVIX report when a match is found', () => {
+    const phrResponse = { eventDate: '2023-10-01T12:30:00Z' };
+
+    const cvixResponseList = [
+      { performedDatePrecise: '2023-10-01T12:29:00Z', id: 1 },
+      { performedDatePrecise: '2023-10-01T12:30:59Z', id: 2 }, // Matching report
+      { performedDatePrecise: '2023-10-01T12:31:00Z', id: 3 },
+    ];
+
+    const result = findMatchingCvixReport(phrResponse, cvixResponseList);
+
+    expect(result?.id).to.eq(2);
+  });
+
+  it('should return null when no matching CVIX report is found', () => {
+    const phrResponse = { eventDate: '2023-10-01T12:30:00Z' };
+
+    const cvixResponseList = [
+      { performedDatePrecise: '2023-10-01T12:29:00Z', id: 1 },
+      { performedDatePrecise: '2023-10-01T12:31:00Z', id: 2 },
+    ];
+
+    const result = findMatchingCvixReport(phrResponse, cvixResponseList);
+
+    expect(result).to.be.null;
+  });
+
+  it('should return null when cvixResponseList is empty', () => {
+    const phrResponse = { eventDate: '2023-10-01T12:30:00Z' };
+    const cvixResponseList = [];
+
+    const result = findMatchingCvixReport(phrResponse, cvixResponseList);
+
+    expect(result).to.be.null;
+  });
+
+  it('should return null when cvixResponseList is null', () => {
+    const phrResponse = { eventDate: '2023-10-01T12:30:00Z' };
+    const cvixResponseList = null;
+
+    const result = findMatchingCvixReport(phrResponse, cvixResponseList);
+
+    expect(result).to.be.null;
+  });
+
+  it('should return null when phrResponse is null', () => {
+    const phrResponse = null;
+    const cvixResponseList = [
+      { performedDatePrecise: '2023-10-01T12:30:00Z', id: 1 },
+    ];
+
+    const result = findMatchingCvixReport(phrResponse, cvixResponseList);
+
+    expect(result).to.be.null;
   });
 });

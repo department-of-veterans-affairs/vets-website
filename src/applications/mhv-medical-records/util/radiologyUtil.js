@@ -107,10 +107,22 @@ export const parseRadiologyReport = radiologyReportText => {
  * @returns true if the dates are equal to the minute, otherwise false
  */
 export const areDatesEqualToMinute = (var1, var2) => {
-  const date1 = new Date(var1);
-  const date2 = new Date(var2);
+  const parseDate = input => {
+    let date;
+    if (/^\d+$/.test(input)) {
+      // Input is a numeric string, parse it as a number (timestamp)
+      date = new Date(Number(input));
+    } else {
+      // Input is likely an ISO date string
+      date = new Date(input);
+    }
+    return date;
+  };
 
-  if (Number.isNaN(date1) || Number.isNaN(date2)) {
+  const date1 = parseDate(var1);
+  const date2 = parseDate(var2);
+
+  if (Number.isNaN(date1.getTime()) || Number.isNaN(date2.getTime())) {
     return false;
   }
 
@@ -143,10 +155,26 @@ export const radiologyReportsMatch = (phrResponse, cvixResponse) => {
  * @returns the matching CVIX record from the response if one exists, otherwise null
  */
 export const findMatchingCvixReport = (phrResponse, cvixResponseList) => {
-  for (const cvixResponse of cvixResponseList) {
-    if (radiologyReportsMatch(phrResponse, cvixResponse)) {
-      return cvixResponse;
+  if (phrResponse && Array.isArray(cvixResponseList)) {
+    for (const cvixResponse of cvixResponseList) {
+      if (radiologyReportsMatch(phrResponse, cvixResponse)) {
+        return cvixResponse;
+      }
     }
   }
   return null;
+};
+
+const generateHash = async data => {
+  const dataBuffer = new TextEncoder().encode(data);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+};
+
+export const radiologyRecordHash = async record => {
+  const { procedureName, radiologist, stationNumber } = record;
+  const date = record.eventDate || record.performedDatePrecise;
+  const dataString = `${procedureName}|${radiologist}|${stationNumber}|${date}`;
+  return (await generateHash(dataString)).substring(0, 8);
 };

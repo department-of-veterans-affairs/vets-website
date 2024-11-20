@@ -9,7 +9,8 @@ import {
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { getListWithRetry } from './common';
-import { dispatchDetails, radiologyRecordHash } from '../util/helpers';
+import { dispatchDetails } from '../util/helpers';
+import { radiologyRecordHash } from '../util/radiologyUtil';
 
 export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
   dispatch({
