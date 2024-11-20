@@ -247,7 +247,7 @@ export const Prompts = {
 };
 
 export const Breadcrumbs = {
-  MYHEALTH: { href: Paths.MYHEALTH, label: 'My HealtheVet' },
+  MYHEALTH: { href: 'Paths.MYHEALTH', label: 'My HealtheVet' },
   MESSAGES: { href: Paths.MESSAGES, label: 'Messages', isRouterLink: true },
   COMPOSE: {
     href: Paths.COMPOSE,

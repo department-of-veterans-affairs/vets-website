@@ -43,27 +43,31 @@ export const filterOptions = {
     label: 'Active',
     name: 'filter option',
     description: 'Active prescriptions and non-VA medications',
-    url: '/my-medications',
+    url:
+      '/my-medications&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On hold,Active: Parked,Active: Refill in process,Active: Submitted',
   },
   RECENTLY_REQUESTED: {
     label: 'Recently requested',
     name: 'filter option',
     description: 'Refill requests in process or shipped in the last 15 days',
-    url: '/my-medications',
+    url:
+      '/my-medications&filter[[disp_status][eq]]=Active: Refill in process,Active: Submitted',
   },
   RENEWAL: {
     label: 'Renewal needed before refill',
     name: 'filter option',
     description:
       'Prescriptions that just ran out of refills or became too old to refill (expired)',
-    url: '/my-medications',
+    url:
+      '/my-medications&filter[[disp_status][eq]]=Active: Refill in process,Expired&filter[[is_refillable][eq]]=false',
   },
   NON_ACTIVE: {
     label: 'Non-active',
     name: 'filter option',
     description:
       'Prescriptions that are discontinued, expired, or have an unkown status',
-    url: '/my-medications',
+    url:
+      '/my-medications&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
   },
 };
 
