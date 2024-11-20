@@ -257,14 +257,14 @@ export class ConfirmationPage extends React.Component {
             <va-link
               href="https://www.va.gov/service-member-benefits/"
               external
-              text="Visit this page (opens in a new tab)"
+              text="Visit this page"
               type="secondary"
               label="visit this page"
             />
             to fimd out which benefits
           </span>
           <br />
-          <span>you may qualify for &mdash; and when to apply.</span>
+          <span>you may qualify for&mdash;and when to apply.</span>
         </va-alert>
 
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
