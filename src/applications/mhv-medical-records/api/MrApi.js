@@ -8,6 +8,7 @@ import vaccines from '../tests/fixtures/vaccines.json';
 import allergies from '../tests/fixtures/allergies.json';
 import {
   findMatchingCvixReport,
+  findMatchingPhrAndCvixStudies,
   radiologyRecordHash,
 } from '../util/radiologyUtil';
 import radiology from '../tests/fixtures/radiologyRecordsMhv.json';
@@ -76,39 +77,11 @@ export const getMhvRadiologyTests = () => {
  * @returns an object containing both the PHR and CVIX reports, if they exist
  */
 export const getMhvRadiologyDetails = async id => {
-  const [numericIdStr, hashId] = id.substring(1).split('-');
-  const numericId = +numericIdStr;
-
   const [phrResponse, cvixResponse] = await Promise.all([
     getMhvRadiologyTests(),
     getImagingStudies(),
   ]);
-
-  // Helper function to find a record first by numeric ID, then by hash
-  const findRecordByIdOrHash = async (records, findNumericId, findHashId) => {
-    const foundRecord = records.find(r => +r.id === findNumericId);
-    if (foundRecord) return foundRecord;
-
-    // If not found by ID, compute hashes and find by hash
-    const recordsWithHash = await Promise.all(
-      records.map(async r => ({
-        ...r,
-        hash: await radiologyRecordHash(r),
-      })),
-    );
-    return recordsWithHash.find(r => r.hash === findHashId);
-  };
-
-  const phrDetails = await findRecordByIdOrHash(phrResponse, numericId, hashId);
-
-  let cvixDetails;
-  if (phrDetails) {
-    cvixDetails = findMatchingCvixReport(phrResponse, cvixResponse);
-  } else {
-    cvixDetails = await findRecordByIdOrHash(cvixResponse, numericId, hashId);
-  }
-
-  return { phrDetails, cvixDetails };
+  return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
 export const getNotes = () => {
