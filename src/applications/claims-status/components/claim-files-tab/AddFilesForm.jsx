@@ -108,6 +108,8 @@ class AddFilesForm extends React.Component {
       }
 
       this.setState({ errorMessage: null });
+      // Note that the api changes the file type to a pdf and the name is then updated as well
+      // EX: test.jpg ->> test.pdf
       onAddFile([file], extraData);
       setTimeout(() => {
         scrollToFile(this.props.files.length - 1);
