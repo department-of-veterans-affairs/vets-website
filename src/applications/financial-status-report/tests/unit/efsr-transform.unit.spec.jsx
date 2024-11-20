@@ -124,7 +124,7 @@ describe('efsr-fsr transform helper functions', () => {
   });
 
   // Depends on sumValues, filterReduceByName, otherDeductionsAmt - getMonthlyIncome
-  describe.skip('efsr getMonthlyIncome helper', () => {
+  describe('efsr getMonthlyIncome helper', () => {
     it('should return monthy income based on veterans net and other income, and spouses net and other income', () => {
       const result = getMonthlyIncome(inputObject.data);
 
@@ -418,7 +418,7 @@ describe('efsr-fsr transform helper functions', () => {
   });
 });
 
-describe.skip('efsr-fsr transform information', () => {
+describe('efsr-fsr transform information', () => {
   describe('efsr-personalIdentification', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
