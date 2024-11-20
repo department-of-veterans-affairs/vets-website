@@ -23,7 +23,7 @@ import BackendAppointmentServiceAlert from '../appointment-list/components/Backe
 import PendingReferralCard from './components/PendingReferralCard';
 import { selectFeatureCCDirectScheduling } from '../redux/selectors';
 import { setFormCurrentPage } from './redux/actions';
-import FormLayout from '../new-appointment/components/FormLayout';
+import ReferralLayout from './components/ReferralLayout';
 
 export default function ReferralsAndRequests({ hasTypeChanged }) {
   const {
@@ -120,10 +120,9 @@ export default function ReferralsAndRequests({ hasTypeChanged }) {
     : 'Appointments that you request will show here until staff review and schedule them.';
 
   return (
-    <FormLayout pageTitle="Review Approved Referral">
-      <div aria-live="polite" className="sr-only">
-        {hasTypeChanged && 'Showing requested appointments'}
-      </div>
+    <ReferralLayout>
+      <h1>Referrals and requests</h1>
+      <p>Find your requested appointments and community care referrals.</p>
       <>
         <BackendAppointmentServiceAlert />
 
@@ -188,7 +187,7 @@ export default function ReferralsAndRequests({ hasTypeChanged }) {
           );
         })}
       </>
-    </FormLayout>
+    </ReferralLayout>
   );
 }
 
