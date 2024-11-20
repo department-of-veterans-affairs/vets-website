@@ -10,7 +10,7 @@ import {
 import { TRAVEL_CLAIM_MESSAGES } from '../utils/constants';
 import Section from './Section';
 
-export default function TravelReimbursement({ appointment }) {
+export default function TravelReimbursementSection({ appointment }) {
   const isPastAppointment = selectIsPast(appointment);
   if (!isPastAppointment) {
     return null;
@@ -110,6 +110,6 @@ export default function TravelReimbursement({ appointment }) {
   return null;
 }
 
-TravelReimbursement.propTypes = {
+TravelReimbursementSection.propTypes = {
   appointment: PropTypes.object,
 };

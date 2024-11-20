@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
-import TravelReimbursement from './TravelReimbursement';
+import TravelReimbursementSection from './TravelReimbursementSection';
 import { VIDEO_TYPES } from '../utils/constants';
 
 describe('VAOS Component: TravelReimbursement', () => {
@@ -38,7 +38,9 @@ describe('VAOS Component: TravelReimbursement', () => {
           kind,
         },
       };
-      const screen = render(<TravelReimbursement appointment={appointment} />);
+      const screen = render(
+        <TravelReimbursementSection appointment={appointment} />,
+      );
 
       expect(screen.getByText(/Days left to file: 1/i));
       expect(screen.getByTestId('file-claim-link')).to.exist;
@@ -60,7 +62,9 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPastAppointment: true,
       },
     };
-    const screen = render(<TravelReimbursement appointment={appointment} />);
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
 
     expect(screen.getByText(/Days left to file: 1/i));
     expect(screen.getByTestId('file-claim-link')).to.exist;
@@ -82,7 +86,9 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPastAppointment: true,
       },
     };
-    const screen = render(<TravelReimbursement appointment={appointment} />);
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
 
     expect(screen.getByText(/Days left to file: 0/i));
     expect(screen.getByTestId('how-to-file-claim-link')).to.exist;
@@ -112,7 +118,9 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPastAppointment: true,
       },
     };
-    const screen = render(<TravelReimbursement appointment={appointment} />);
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
 
     expect(
       screen.getByText(/You've already filed a claim for this appointment./i),
@@ -139,7 +147,9 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPastAppointment: false,
       },
     };
-    const screen = render(<TravelReimbursement appointment={appointment} />);
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
   it('should not display travel reimbursement section if appointment is video', async () => {
@@ -159,7 +169,9 @@ describe('VAOS Component: TravelReimbursement', () => {
         isVideo: true,
       },
     };
-    const screen = render(<TravelReimbursement appointment={appointment} />);
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
   it('should not display travel reimbursement section if appointment is cc', async () => {
@@ -179,7 +191,9 @@ describe('VAOS Component: TravelReimbursement', () => {
         isCommunityCare: true,
       },
     };
-    const screen = render(<TravelReimbursement appointment={appointment} />);
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
   it('should not display travel reimbursement section if appointment is phone', async () => {
@@ -199,7 +213,9 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPhoneAppointment: true,
       },
     };
-    const screen = render(<TravelReimbursement appointment={appointment} />);
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
   it('should not display travel reimbursement section if claim data is not present', async () => {
@@ -209,7 +225,9 @@ describe('VAOS Component: TravelReimbursement', () => {
         apiData: {},
       },
     };
-    const screen = render(<TravelReimbursement appointment={appointment} />);
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
 });

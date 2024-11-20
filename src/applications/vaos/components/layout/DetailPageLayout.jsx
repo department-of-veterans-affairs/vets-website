@@ -22,8 +22,8 @@ import {
 } from '../../redux/selectors';
 import StatusAlert from '../StatusAlert';
 import FacilityPhone from '../FacilityPhone';
-import TravelReimbursement from '../TravelReimbursement';
-import AppointmentTasks from '../AppointmentTasks';
+import TravelReimbursementSection from '../TravelReimbursementSection';
+import AppointmentTasksSection from '../AppointmentTasksSection';
 import Section from '../Section';
 
 export function When({ children, level = 2 }) {
@@ -217,7 +217,7 @@ export default function DetailPageLayout({
         <StatusAlert appointment={appointment} facility={facility} />
         {travelPaySubmitMileageExpense &&
           travelPayViewClaimDetails && (
-            <AppointmentTasks appointment={appointment} />
+            <AppointmentTasksSection appointment={appointment} />
           )}
         {isPastAppointment &&
           APPOINTMENT_STATUS.booked === appointment.status && (
@@ -227,7 +227,7 @@ export default function DetailPageLayout({
           )}
         {children}
         {travelPayViewClaimDetails && (
-          <TravelReimbursement appointment={appointment} />
+          <TravelReimbursementSection appointment={appointment} />
         )}
         <div
           className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"

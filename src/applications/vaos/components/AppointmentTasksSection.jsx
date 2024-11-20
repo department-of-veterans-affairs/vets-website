@@ -9,7 +9,7 @@ import {
 } from '../appointment-list/redux/selectors';
 import Section from './Section';
 
-export default function AppointmentTasks({ appointment }) {
+export default function AppointmentTasksSection({ appointment }) {
   const isPastAppointment = selectIsPast(appointment);
   if (!isPastAppointment) return null;
 
@@ -47,6 +47,6 @@ export default function AppointmentTasks({ appointment }) {
   );
 }
 
-AppointmentTasks.propTypes = {
+AppointmentTasksSection.propTypes = {
   appointment: PropTypes.object,
 };
