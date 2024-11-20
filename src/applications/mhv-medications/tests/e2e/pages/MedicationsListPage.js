@@ -463,7 +463,7 @@ class MedicationsListPage {
       'GET',
       `/my_health/v1/prescriptions?page=1&per_page=20null${intercept}`,
       prescriptions,
-    );
+    ).as('medicationList');
     cy.get('[data-testid="sort-dropdown"]')
       .find('#options')
       .select(text, { force: true });
@@ -482,7 +482,7 @@ class MedicationsListPage {
     );
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20null&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     );
   };
@@ -498,6 +498,11 @@ class MedicationsListPage {
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
       );
     });
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    ).as('medicationList');
   };
 
   loadRxAfterSortAlphabeticallyByName = () => {
