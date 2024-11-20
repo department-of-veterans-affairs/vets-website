@@ -245,7 +245,7 @@ class MedicationsListPage {
   clickDownloadListAsTxtButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name',
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-txt-button"]').should(
@@ -492,10 +492,12 @@ class MedicationsListPage {
     displayedEndNumber,
     listLength,
   ) => {
-    cy.get('[data-testid="page-total-info"]').should(
-      'contain',
-      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
-    );
+    cy.get('[data-testid="page-total-info"]').should($el => {
+      const text = $el.text().trim();
+      expect(text).to.include(
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+      );
+    });
   };
 
   loadRxAfterSortAlphabeticallyByName = () => {
@@ -530,12 +532,12 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?page=1&per_page=20null&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     );
-    cy.get('[data-testid="page-total-info"]')
-      .first()
-      .should(
-        'contain',
+    cy.get('[data-testid="page-total-info"]').should($el => {
+      const text = $el.text().trim();
+      expect(text).to.include(
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
       );
+    });
   };
 
   loadRxAfterSortLastFilledFirst = () => {
@@ -564,10 +566,12 @@ class MedicationsListPage {
     displayedEndNumber,
     listLength,
   ) => {
-    cy.get('[data-testid="page-total-info"]').should(
-      'contain',
-      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
-    );
+    cy.get('[data-testid="page-total-info"]').should($el => {
+      const text = $el.text().trim();
+      expect(text).to.include(
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+      );
+    });
   };
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
