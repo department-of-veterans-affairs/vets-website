@@ -111,6 +111,7 @@ const ReviewPage = props => {
       props.askVA,
     );
 
+    // NOTE - we need to submit cypress to unauth for mock users
     if (props.loggedIn) {
       // auth call
       postFormData(`${envUrl}${URL.AUTH_INQUIRIES}`, transformedData);
