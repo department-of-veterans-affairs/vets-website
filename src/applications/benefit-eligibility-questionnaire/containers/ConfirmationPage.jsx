@@ -273,6 +273,7 @@ export class ConfirmationPage extends React.Component {
                 <b>Filters</b>
               </span>
               <VaSelect
+                enableAnalytics
                 aria-label="Filter Benefits"
                 label="Filter by benefit type"
                 name="filter-benefits"
@@ -287,7 +288,7 @@ export class ConfirmationPage extends React.Component {
                   Burials and memorials
                 </option>
                 <option key="Careers" value="Careers">
-                  Careers & Employment
+                  Careers and Employment
                 </option>
                 <option key="Disability" value="Disability">
                   Disability
@@ -319,6 +320,7 @@ export class ConfirmationPage extends React.Component {
                 <b>Sort</b>
               </span>
               <VaSelect
+                enableAnalytics
                 aria-label="Sort Benefits"
                 label="Sort results by"
                 name="sort-benefits"

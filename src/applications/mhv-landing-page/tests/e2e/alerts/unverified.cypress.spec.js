@@ -5,8 +5,7 @@ import LandingPage from '../pages/LandingPage';
 const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 
 // ID.me is LandingPage.visitPage default for serviceProvider
-const verifyIdentityHeading =
-  'Verify and register your account to access My HealtheVet';
+const verifyIdentityHeading = 'Verify your identity';
 
 describe(appName, () => {
   describe('Display content based on identity verification', () => {

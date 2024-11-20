@@ -1,10 +1,10 @@
 const _ = require('lodash');
 
-const user = require('../endpoints/user');
+const { loa3User } = require('../endpoints/user');
 
 // in memory db
 const memDb = {
-  user: user.loa3User72,
+  user: loa3User,
 };
 
 // sanitize user input
@@ -100,7 +100,7 @@ const generateResponse = (transactionId, type) => ({
   },
 });
 
-const updateMemDb = (req, res) => {
+const updateMemDb = (req, res = null) => {
   const key = `${req.method} ${req.url}`;
   const body = req.body || {};
 
@@ -134,6 +134,12 @@ const updateMemDb = (req, res) => {
 
   if (key.includes('GET /v0/user')) {
     return memDb.user;
+  }
+
+  if (!res) {
+    throw new Error(
+      `updateMemDB: Response object is required. or key ${key} not found`,
+    );
   }
 
   return res;

@@ -19,6 +19,7 @@ const UnderReviewChapter1606 = ({
 
       <div className="feature">
         <h3>Application for VA education benefits (VA Form 22-1990)</h3>
+        <h3>MGIB-SR, Chapter 1606</h3>
         {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
         <dl>
           <dt>Date received</dt>

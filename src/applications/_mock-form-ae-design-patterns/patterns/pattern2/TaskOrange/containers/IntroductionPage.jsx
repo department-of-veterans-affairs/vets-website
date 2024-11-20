@@ -24,15 +24,17 @@ export class IntroductionPage extends React.Component {
         <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
         <div className="subway-map">
           <SaveInProgressInfo {...sipProps} route={route} />
-          <h3>Follow the steps below to apply for education benefits.</h3>
+          <h2 className="vads-u-font-size--h3">
+            Follow the steps below to apply for education benefits.
+          </h2>
           <div className="process schemaform-process">
             <ol>
               <li className="process-step list-one">
                 <div>
-                  <h4>Prepare</h4>
+                  <h3>Prepare</h3>
                 </div>
                 <div>
-                  <h5>To fill out this application, you’ll need your:</h5>
+                  <h4>To fill out this application, you’ll need your:</h4>
                 </div>
                 <ul>
                   <li>Social Security number (required)</li>
@@ -55,7 +57,7 @@ export class IntroductionPage extends React.Component {
                   </a>
                   .
                 </p>
-                <h5>Learn about educational programs</h5>
+                <h4>Learn about educational programs</h4>
                 <p>
                   See what benefits you’ll get at the school you want to attend.{' '}
                   <a href="/education/gi-bill-comparison-tool/">
@@ -76,7 +78,7 @@ export class IntroductionPage extends React.Component {
               </li>
               <li className="process-step list-three">
                 <div>
-                  <h4>VA review</h4>
+                  <h3>VA review</h3>
                 </div>
                 <p>
                   We usually process claims within 30 days. We’ll let you know
@@ -92,7 +94,7 @@ export class IntroductionPage extends React.Component {
               </li>
               <li className="process-step list-four">
                 <div>
-                  <h4>Decision</h4>
+                  <h3>Decision</h3>
                 </div>
                 <p>
                   You’ll get a Certificate of Eligibility (COE), or award

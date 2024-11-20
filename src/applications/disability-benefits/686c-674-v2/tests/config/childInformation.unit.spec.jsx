@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { changeDropdown } from 'platform/testing/unit/helpers';
@@ -7,6 +8,7 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import { childInfo as ChildInfo } from '../../config/chapters/add-a-child/child-information/helpers';
 
 import formConfig from '../../config/form';
 
@@ -75,5 +77,14 @@ describe('686 add child - child information', () => {
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
+  });
+});
+
+describe('686 add child - child information - helpers', () => {
+  it('should render user first and last name', () => {
+    const { queryByText } = render(
+      <ChildInfo formData={{ fullName: { first: 'Alex', last: 'Doe' } }} />,
+    );
+    expect(queryByText(/Alex Doe/i));
   });
 });

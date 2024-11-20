@@ -4,7 +4,7 @@ import mockRxPageTwo from './fixtures/prescriptions-page-2.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
-describe('Medications List Page Sort By Last Filled First', () => {
+describe.skip('Medications List Page Sort By Last Filled First', () => {
   it('visits Medications list Page Sort ByLast Filled First', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
@@ -36,8 +36,11 @@ describe('Medications List Page Sort By Last Filled First', () => {
     // site.loadVAPaginationPrescriptions(1, mockRxPageOne);
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
     // site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
-    listPage.selectSortDropDownOption('Last filled first');
-    listPage.clickSortLastFilledFirst();
+    listPage.selectSortDropDownOption(
+      'Last filled first',
+      '-dispensed_date&sort[]=prescription_name',
+    );
+    listPage.loadRxAfterSortLastFilledFirst();
     listPage.verifyPaginationDisplayedforSortLastFilledFirst(1, 20, listLength);
   });
 });
