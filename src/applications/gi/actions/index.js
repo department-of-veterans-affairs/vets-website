@@ -71,9 +71,11 @@ export const FETCH_LC_RESULT_FAILED = 'FETCH_LC_RESULT_FAILED';
 export const FETCH_LC_RESULT_STARTED = 'FETCH_LC_RESULT_STARTED';
 export const FETCH_LC_RESULT_SUCCEEDED = 'FETCH_LC_RESULT_SUCCEEDED';
 
-export function fetchLicenseCertificationResults(name, type) {
+export function fetchLicenseCertificationResults(name, filterOptions) {
+  const { type, state } = filterOptions;
+
   return dispatch => {
-    const url = `${api.url}/lce?type=${type}`;
+    const url = `${api.url}/lce?type=${type}&state=${state}&name=${name}`;
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
     return fetch(url, api.settings)
@@ -99,6 +101,7 @@ export function fetchLicenseCertificationResults(name, type) {
       });
   };
 }
+
 export function fetchLcResult(link) {
   return dispatch => {
     const url = `${api.url}/${link}`;

@@ -1,9 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Dropdown from './Dropdown';
 import { updateLcFilterDropdowns } from '../utils/helpers';
 import LcKeywordSearch from './LcKeywordSearch';
+import { fetchLicenseCertificationResults } from '../actions';
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -40,19 +42,40 @@ export const dropdownSchema = [
   },
 ];
 
-export default function LicenseCertificationSearchForm({ handleSearch }) {
+function LicenseCertificationSearchForm({
+  handleSearch,
+  dispatchFetchLicenseCertificationResults,
+  suggestions,
+}) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
-  // const nameSearchRef = useRef(null);
-  const inputRef = useRef();
+  const [name, setName] = useState();
 
   const handleReset = () => {
     setDropdowns(dropdownSchema);
-    // nameSearchRef.current.value = '';
+    setName('');
   };
 
   const handleChange = e => {
     const newDropdowns = updateLcFilterDropdowns(dropdowns, e.target);
     setDropdowns(newDropdowns);
+  };
+
+  const doAutocompleteSuggestionsSearch = entry => {
+    dispatchFetchLicenseCertificationResults(entry, {
+      type: dropdowns[0].current.optionValue,
+      state: dropdowns[1].current.optionValue,
+    });
+  };
+
+  useEffect(
+    () => {
+      doAutocompleteSuggestionsSearch(name);
+    },
+    [name],
+  );
+
+  const onUpdateAutocompleteSearchTerm = value => {
+    setName(value);
   };
 
   return (
@@ -70,7 +93,11 @@ export default function LicenseCertificationSearchForm({ handleSearch }) {
         required={dropdowns[0].label === 'category'}
       />
       <div>
-        <LcKeywordSearch inputRef={inputRef} />
+        <LcKeywordSearch
+          inputRef={name}
+          onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
+          suggestions={suggestions}
+        />
       </div>
 
       {dropdowns[0].current.optionLabel !== 'Prep Course' && (
@@ -90,12 +117,7 @@ export default function LicenseCertificationSearchForm({ handleSearch }) {
       <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
         <va-button
           text="Submit"
-          onClick={() =>
-            handleSearch(
-              // nameSearchRef.current.value,
-              dropdowns[0].current.optionValue,
-            )
-          }
+          onClick={() => handleSearch(name, dropdowns[0].current.optionValue)}
         />
         <va-button
           text="Reset Search"
@@ -107,6 +129,21 @@ export default function LicenseCertificationSearchForm({ handleSearch }) {
   );
 }
 
+const mapStateToProps = state => ({
+  suggestions: state.licenseCertificationSearch.lcResults,
+});
+
+const mapDispatchToProps = {
+  dispatchFetchLicenseCertificationResults: fetchLicenseCertificationResults,
+};
+
 LicenseCertificationSearchForm.propTypes = {
   handleSearch: PropTypes.func.isRequired,
+  dispatchFetchLicenseCertificationResults: PropTypes.func,
+  suggestions: PropTypes.array,
 };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LicenseCertificationSearchForm);

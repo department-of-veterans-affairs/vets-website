@@ -1,18 +1,38 @@
 import React from 'react';
 import Downshift from 'downshift';
-import classNames from 'classnames';
 
-export default function LcKeywordSearch({ inputValue, suggestions }) {
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+
+export default function LcKeywordSearch({
+  inputValue,
+  suggestions,
+  onSelection,
+  onUpdateAutocompleteSearchTerm,
+}) {
+  const handleChange = e => {
+    const { value } = e.target;
+    onUpdateAutocompleteSearchTerm(value);
+  };
+
+  const handleSuggestionSelected = selected => {
+    onUpdateAutocompleteSearchTerm(selected.label);
+
+    if (onSelection) {
+      onSelection(selected);
+    }
+  };
+
   return (
     <div id="keyword-search">
       <Downshift
         inputValue={inputValue}
-        // onSelect={item => handleSuggestionSelected(item)}
+        onSelect={item => handleSuggestionSelected(item)}
         itemToString={item => {
           if (typeof item === 'string' || !item) {
             return item;
           }
-          return item.label;
+          return item.name;
         }}
       >
         {({
@@ -36,12 +56,9 @@ export default function LcKeywordSearch({ inputValue, suggestions }) {
                 className="lc-name-search-input"
                 {...getInputProps({
                   type: 'text',
-                  // onChange: handleChange,
-                  // onKeyUp: handleEnterPress,
-                  // onFocus: handleFocus,
+                  onChange: handleChange,
                   'aria-labelledby': 'lc-search-label',
                 })}
-                // ref={inputRef}
               />
             </div>
             {isOpen && (
@@ -62,7 +79,7 @@ export default function LcKeywordSearch({ inputValue, suggestions }) {
                     })}
                     {...getItemProps({ item })}
                   >
-                    {item.label}
+                    {item.name}
                   </div>
                 ))}
               </div>
@@ -73,3 +90,10 @@ export default function LcKeywordSearch({ inputValue, suggestions }) {
     </div>
   );
 }
+
+LcKeywordSearch.propTypes = {
+  inputValue: PropTypes.string,
+  suggestions: PropTypes.array,
+  onSelection: PropTypes.func.isRequired,
+  onUpdateAutocompleteSearchTerm: PropTypes.func.isRequired,
+};

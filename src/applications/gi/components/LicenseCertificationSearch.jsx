@@ -19,8 +19,8 @@ export default function LicenseCertificationSearch() {
         </div>
         <div className="form-wrapper row">
           <LicenseCertificationSearchForm
-            handleSearch={(name, type) =>
-              handleLcResultsSearch(history, name, type)
+            handleSearch={(type, name) =>
+              handleLcResultsSearch(history, type, name)
             }
           />
         </div>
