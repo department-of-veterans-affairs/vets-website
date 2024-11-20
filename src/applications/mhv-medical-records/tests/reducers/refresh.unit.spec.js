@@ -27,18 +27,19 @@ describe('safeNewDate', () => {
 });
 
 describe('getPhase', () => {
-  it('should return null when extractStatus is invalid', () => {
-    const result = getPhase(null, Date.now());
+  it('should return null if any required field in extractStatus is missing', () => {
+    const extractStatus = {}; // Missing all required fields
+    const result = getPhase(extractStatus, Date.now());
     expect(result).to.be.null;
   });
 
-  it('should return null when retrieved timestamp is invalid', () => {
+  it('should return null if extractStatus is missing required fields', () => {
     const extractStatus = {
       lastRequested: Date.now(),
-      lastCompleted: Date.now(),
+      lastCompleted: null,
       lastSuccessfulCompleted: Date.now(),
     };
-    const result = getPhase(extractStatus, null);
+    const result = getPhase(extractStatus, Date.now());
     expect(result).to.be.null;
   });
 
