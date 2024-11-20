@@ -385,6 +385,11 @@ describe('VA evidence', () => {
 
 describe('Private evidence', () => {
   describe('validatePrivateName', () => {
+    it('should show an error when missing data', () => {
+      const errors = { addError: sinon.spy() };
+      validatePrivateName(errors);
+      expect(errors.addError.called).to.be.true;
+    });
     it('should not show an error for an added facility name', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateName(errors, { providerFacilityName: 'ok' });
@@ -895,6 +900,11 @@ describe('Private evidence', () => {
       validatePrivateUnique(errors, _, getFacilities('FACILITY 1'), _, _, 4);
       expect(errors.addError.calledWith(errorMessages.evidence.uniquePrivate))
         .to.be.true;
+    });
+    it('should NOT show a duplicate Facility error when data is missing', () => {
+      const errors = { addError: sinon.spy() };
+      validatePrivateUnique(errors);
+      expect(errors.addError.called).to.be.false;
     });
     it('should NOT show a duplicate Facility error on a different index', () => {
       const errors = { addError: sinon.spy() };

@@ -9,6 +9,25 @@ import {
   TIMS_DOCUMENTS,
 } from './constants';
 
+export function splitAddressLine(addressLine, maxLength) {
+  if (addressLine?.length <= maxLength) {
+    return { line1: addressLine, line2: '' };
+  }
+
+  // Find the last space within the maxLength
+  let lastSpaceIndex = addressLine?.lastIndexOf(' ', maxLength);
+
+  // If there's no space, we can't split without breaking a word, so just split at maxLength
+  if (lastSpaceIndex === -1) {
+    lastSpaceIndex = maxLength;
+  }
+
+  return {
+    line1: addressLine?.substring(0, lastSpaceIndex),
+    line2: addressLine?.substring(lastSpaceIndex).trim(),
+  };
+}
+
 export const sortedEnrollmentsDGIB = enrollmentVerifications =>
   enrollmentVerifications?.sort((a, b) => {
     return (
@@ -990,32 +1009,26 @@ export const noSuggestedAddress = deliveryPointValidation => {
 export const prepareAddressData = formData => {
   let addressData = {
     veteranName: formData.fullName,
-    addressLine1: formData.addressLine1,
-    addressLine2: formData.addressLine2,
+    addressLine1:
+      formData.addressLine1 || splitAddressLine(formData.street, 20).line1,
+    addressLine2:
+      formData.addressLine2 || splitAddressLine(formData.street, 20).line2,
     addressLine3: formData.addressLine3,
     addressLine4: formData.addressLine4,
     addressPou: 'CORRESPONDENCE',
-    countryCodeIso3: formData.countryCodeIso3,
+    countryCodeIso3: formData.countryCodeIso3 || 'USA',
     city: formData.city,
   };
-  if (formData.countryCodeIso3 === 'USA') {
-    const baseUSAData = {
-      stateCode: formData.stateCode,
-      zipCode: formData.zipCode,
-      addressType: 'DOMESTIC',
-    };
-    if (formData['view:livesOnMilitaryBase']) {
-      baseUSAData.addressType = 'OVERSEAS MILITARY';
-    }
-    addressData = { ...addressData, ...baseUSAData };
-  } else {
-    const internationalData = {
-      province: formData.province,
-      internationalPostalCode: formData.internationalPostalCode,
-      addressType: 'INTERNATIONAL',
-    };
-    addressData = { ...addressData, ...internationalData };
+  const baseUSAData = {
+    stateCode: formData.stateCode,
+    zipCode: formData.zipCode,
+    addressType: 'DOMESTIC',
+  };
+  if (formData['view:livesOnMilitaryBase']) {
+    baseUSAData.addressType = 'OVERSEAS MILITARY';
   }
+  addressData = { ...addressData, ...baseUSAData };
+  addressData = { ...addressData };
   return addressData;
 };
 export const formatAddress = address => {
@@ -1189,25 +1202,6 @@ export function hasAddressFormChanged(currentState) {
         : initialState.stateCode,
   };
   return !deepEqual(initialState, filledCurrentState);
-}
-
-export function splitAddressLine(addressLine, maxLength) {
-  if (addressLine?.length <= maxLength) {
-    return { line1: addressLine, line2: '' };
-  }
-
-  // Find the last space within the maxLength
-  let lastSpaceIndex = addressLine?.lastIndexOf(' ', maxLength);
-
-  // If there's no space, we can't split without breaking a word, so just split at maxLength
-  if (lastSpaceIndex === -1) {
-    lastSpaceIndex = maxLength;
-  }
-
-  return {
-    line1: addressLine?.substring(0, lastSpaceIndex),
-    line2: addressLine?.substring(lastSpaceIndex).trim(),
-  };
 }
 
 export function removeCommas(obj) {
