@@ -16,7 +16,6 @@ import {
   getReactions,
   getStatusExtractPhase,
   nameFormat,
-  parseRadiologyReport,
   processList,
 } from '../../util/helpers';
 

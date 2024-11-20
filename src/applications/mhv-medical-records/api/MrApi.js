@@ -6,13 +6,8 @@ import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import allergies from '../tests/fixtures/allergies.json';
-import {
-  findMatchingCvixReport,
-  findMatchingPhrAndCvixStudies,
-  radiologyRecordHash,
-} from '../util/radiologyUtil';
+import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
 import radiology from '../tests/fixtures/radiologyRecordsMhv.json';
-import cvix from '../tests/fixtures/radiologyCvix.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
