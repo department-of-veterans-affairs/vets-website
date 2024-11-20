@@ -108,7 +108,8 @@ class AddFilesForm extends React.Component {
       }
 
       this.setState({ errorMessage: null });
-      // Note that the api changes the file type to a pdf and the name is then updated as well
+      // Note that the lighthouse api changes the file type to a pdf and the name is then updated as well.
+      // After submitting a file you will see this change in the Documents Filed section.
       // EX: test.jpg ->> test.pdf
       onAddFile([file], extraData);
       setTimeout(() => {
