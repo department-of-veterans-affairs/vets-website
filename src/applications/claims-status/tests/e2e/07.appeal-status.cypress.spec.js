@@ -1,4 +1,5 @@
 import legacyAppeal from './fixtures/mocks/legacy-appeal.json';
+
 import backendStatuses from './fixtures/mocks/backend-statuses.json';
 
 beforeEach(() => {
