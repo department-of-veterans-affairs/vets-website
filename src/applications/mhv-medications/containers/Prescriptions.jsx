@@ -776,14 +776,17 @@ const Prescriptions = () => {
                   )}
                   {showFilterContent && (
                     <>
-                      {filteredList?.length === 0 && (
-                        <div>
-                          <h2 id="no-matches-msg">
-                            We didn’t find any matches for this filter
-                          </h2>
-                          <p>Try selecting a different filter.</p>
-                        </div>
-                      )}
+                      {filteredList?.length === 0 &&
+                        Object.values(filterCount).some(
+                          value => value !== 0,
+                        ) && (
+                          <div>
+                            <h2 id="no-matches-msg">
+                              We didn’t find any matches for this filter
+                            </h2>
+                            <p>Try selecting a different filter.</p>
+                          </div>
+                        )}
                       {isLoading && (
                         <div className="vads-u-height--viewport vads-u-padding-top--3">
                           <va-loading-indicator
