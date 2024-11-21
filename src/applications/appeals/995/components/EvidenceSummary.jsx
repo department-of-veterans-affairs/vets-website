@@ -7,9 +7,9 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 
 import {
-  hasVAEvidence,
-  hasPrivateEvidence,
-  hasOtherEvidence,
+  getVAEvidence,
+  getPrivateEvidence,
+  getOtherEvidence,
 } from '../utils/evidence';
 
 import { content } from '../content/evidenceSummary';
@@ -42,13 +42,9 @@ const EvidenceSummary = ({
 
   const { limitedConsent = '' } = data;
   const showScNewForm = data[SC_NEW_FORM_DATA];
-  const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];
-  const privateEvidence = hasPrivateEvidence(data)
-    ? data?.providerFacility || []
-    : [];
-  const otherEvidence = hasOtherEvidence(data)
-    ? data?.additionalDocuments || []
-    : [];
+  const vaEvidence = getVAEvidence(data);
+  const privateEvidence = getPrivateEvidence(data);
+  const otherEvidence = getOtherEvidence(data);
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
