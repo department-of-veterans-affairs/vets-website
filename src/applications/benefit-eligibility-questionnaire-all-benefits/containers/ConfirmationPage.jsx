@@ -3,8 +3,8 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
 import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
-import BenefitCard from '../../benefit-eligibility-questionnaire/components/BenefitCard';
-import GetFormHelp from '../../benefit-eligibility-questionnaire/components/GetFormHelp';
+import BenefitCard from '../components/BenefitCard';
+import GetFormHelp from '../components/GetFormHelp';
 import { BENEFITS_LIST } from '../constants/benefits';
 
 export class ConfirmationPage extends React.Component {
