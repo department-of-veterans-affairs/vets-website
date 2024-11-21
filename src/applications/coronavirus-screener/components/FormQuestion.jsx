@@ -47,7 +47,10 @@ export default function FormQuestion({
   ));
 
   return (
-    <va-summary-box id={`question-${question.id}`}>
+    <va-summary-box
+      class="vads-u-margin-bottom--3"
+      id={`question-${question.id}`}
+    >
       <Element name={scrollElementName} />
       <h2 slot="headline">{question.text[selectedLanguage]}</h2>
       {options}

@@ -25,7 +25,7 @@ describe('Coronavirus Screener', () => {
   it('Gets the correct result for each scenario', () => {
     cy.visit('/covid19screen');
     cy.get('body').should('be.visible');
-    cy.get('div[id=question-isStaff]').should('be.visible');
+    cy.get('va-summary-box[id=question-isStaff]').should('be.visible');
     cy.get('div[class*=covid-screener-results-incomplete]').should(
       'be.visible',
     );
