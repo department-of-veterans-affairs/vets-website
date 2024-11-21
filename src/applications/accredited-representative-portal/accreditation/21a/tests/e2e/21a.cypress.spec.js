@@ -221,4 +221,8 @@ const testConfig = createTestConfig(
   formConfig,
 );
 
-testForm(testConfig);
+/**
+ * TODO: Seems test is flaky, particularly:
+ *   https://github.com/department-of-veterans-affairs/vets-website/actions/runs/11914754010/job/33204259093
+ */
+testForm({ ...testConfig, skip: true });
