@@ -82,7 +82,7 @@ export const BuildPage = ({
   return (
     <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
       <InitializeVAPServiceID>
-        <Heading ref={headerRef} className="vads-u-font-size--h4">
+        <Heading ref={headerRef} className="vads-u-font-size--h3">
           {title}
         </Heading>
         <ProfileInformationFieldController
