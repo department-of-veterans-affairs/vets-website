@@ -4,13 +4,13 @@ import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import { getRealFacilityId } from '../../utils/appointment';
 import DetailPageLayout, {
-  Section,
   What,
   When,
   Who,
   ClinicOrFacilityPhone,
   Prepare,
 } from './DetailPageLayout';
+import Section from '../Section';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
