@@ -23,7 +23,7 @@ import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
-import { Alerts, Errors } from '../../util/constants';
+import { Alerts, Categories, Errors } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
@@ -36,6 +36,9 @@ const AlertBackgroundBox = props => {
   const alertRef = useRef();
   const [activeAlert, setActiveAlert] = useState(null);
   const [alertAriaLabel, setAlertAriaLabel] = useState('');
+  const threadMessages = useSelector(
+    state => state.sm?.threadDetails?.messages,
+  );
 
   const {
     Message: { SERVER_ERROR_503 },
@@ -53,12 +56,19 @@ const AlertBackgroundBox = props => {
   // these props check if the current page is the folder view page or thread view page
   const foldersViewPage = /folders\/\d+/.test(location.pathname);
   const threadViewPage = /thread\/\d+/.test(location.pathname);
+  const replyViewPage = /reply\/\d+/.test(location.pathname);
   const contactListPage = /contact-list/.test(location.pathname);
 
   useEffect(
     () => {
-      if (foldersViewPage && !folder?.name) return;
       if (alertList?.length) {
+        if (foldersViewPage && !folder?.name) return;
+        if (
+          (threadViewPage || replyViewPage) &&
+          (threadMessages === undefined || threadMessages?.length < 1)
+        )
+          return;
+
         const filteredSortedAlerts = alertList
           .filter(alert => alert?.isActive)
           .sort((a, b) => {
@@ -66,10 +76,31 @@ const AlertBackgroundBox = props => {
             return b.datestamp - a.datestamp;
           });
 
+        let categoryText = '';
+
+        if (threadViewPage || replyViewPage) {
+          categoryText =
+            threadMessages[0]?.category === 'OTHER'
+              ? Categories.OTHER
+              : threadMessages[0]?.category;
+        }
+
         if (lastPathName === 'Folders') {
           setAlertAriaLabel('You are in the my folders page.');
         } else if (foldersViewPage) {
           setAlertAriaLabel(`You are in ${folder?.name}.`);
+        } else if (threadViewPage) {
+          setAlertAriaLabel(
+            `You are in ${categoryText}: ${
+              threadMessages[0]?.subject
+            } message thread.`,
+          );
+        } else if (replyViewPage) {
+          setAlertAriaLabel(
+            `You are in ${categoryText}: ${
+              threadMessages[0]?.subject
+            } message reply.`,
+          );
         } else {
           setAlertAriaLabel(`You are in ${lastPathName}.`);
         }
@@ -78,7 +109,15 @@ const AlertBackgroundBox = props => {
         setActiveAlert(filteredSortedAlerts[0] || null);
       }
     },
-    [alertList, folder, foldersViewPage],
+    [
+      alertList,
+      folder,
+      foldersViewPage,
+      lastPathName,
+      replyViewPage,
+      threadMessages,
+      threadViewPage,
+    ],
   );
 
   const handleShowIcon = () => {

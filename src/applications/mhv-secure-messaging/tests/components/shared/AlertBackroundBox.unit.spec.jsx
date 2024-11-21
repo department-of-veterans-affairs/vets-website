@@ -33,7 +33,7 @@ describe('Alert Backround Box component', () => {
     expect(findByText(Alerts.Message.DELETE_MESSAGE_ERROR));
   });
 
-  it('SUCCESS alert should render without error and with correct folder', async () => {
+  it('should announce current folder if path is folders/:folderId', async () => {
     const activeAlertObj = {
       datestamp: '2022-10-07T19:25:32.832Z',
       isActive: true,
@@ -81,7 +81,7 @@ describe('Alert Backround Box component', () => {
     });
   });
 
-  it('SUCCESS alert should render without error on My Folders page', async () => {
+  it('should announce "my folders page" if path is folders/', async () => {
     const activeAlertObj = {
       datestamp: '2022-10-07T19:25:32.832Z',
       isActive: true,
@@ -117,6 +117,112 @@ describe('Alert Backround Box component', () => {
       );
       expect(screen.getByText(activeAlertObj.content)).to.exist;
       expect(screen.getByText('You are in the my folders page.')).to.exist;
+    });
+  });
+
+  it('should announce current message header if path is thread/:messageId', async () => {
+    const activeAlertObj = {
+      datestamp: '2022-10-07T19:25:32.832Z',
+      isActive: true,
+      alertType: 'success',
+      header: 'Success',
+      content: 'Message conversation was successfully moved.',
+    };
+    const customState = {
+      sm: {
+        alerts: {
+          alertVisible: true,
+          alertList: [activeAlertObj],
+        },
+        threadDetails: {
+          messages: [
+            {
+              messageId: 3648726,
+              category: 'Medication',
+              subject: 'Prescription Inquiry',
+            },
+          ],
+        },
+      },
+    };
+    const setup = initialState =>
+      renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+        initialState,
+        reducers: reducer,
+        path: `${Paths.MESSAGE_THREAD}${
+          customState.sm.threadDetails.messages[0].messageId
+        }/`,
+      });
+
+    const screen = setup(customState);
+
+    await waitFor(() => {
+      const alert = document.querySelector('va-alert');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('success');
+      expect(alert).to.have.attribute(
+        'close-btn-aria-label',
+        'Close notification',
+      );
+      expect(screen.getByText(activeAlertObj.content)).to.exist;
+      expect(
+        screen.getByText(
+          'You are in Medication: Prescription Inquiry message thread.',
+        ),
+      ).to.exist;
+    });
+  });
+
+  it('should announce current message header if path is reply/:messageId', async () => {
+    const activeAlertObj = {
+      datestamp: '2022-10-07T19:25:32.832Z',
+      isActive: true,
+      alertType: 'success',
+      header: 'Success',
+      content: 'Message conversation was successfully moved.',
+    };
+    const customState = {
+      sm: {
+        alerts: {
+          alertVisible: true,
+          alertList: [activeAlertObj],
+        },
+        threadDetails: {
+          messages: [
+            {
+              messageId: 3648726,
+              category: 'OTHER',
+              subject: 'Help Inquiry',
+            },
+          ],
+        },
+      },
+    };
+    const setup = initialState =>
+      renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+        initialState,
+        reducers: reducer,
+        path: `${Paths.REPLY}${
+          customState.sm.threadDetails.messages[0].messageId
+        }/`,
+      });
+
+    const screen = setup(customState);
+
+    await waitFor(() => {
+      const alert = document.querySelector('va-alert');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('success');
+      expect(alert).to.have.attribute(
+        'close-btn-aria-label',
+        'Close notification',
+      );
+      expect(screen.getByText(activeAlertObj.content)).to.exist;
+      expect(
+        screen.getByText('You are in General: Help Inquiry message reply.'),
+      ).to.exist;
     });
   });
 });
