@@ -16,10 +16,10 @@ import App from './App';
 import ReviewPage from './patterns/pattern2/post-study/ReviewPage';
 
 import { LandingPage } from './shared/components/pages/LandingPage';
-import DevPanel from './dev/client/DevPanel';
+import DevPanel from './vadx/client/DevPanel';
 import { PatternConfigProvider } from './shared/context/PatternConfigContext';
 
-import { VADXPanelLoader } from './dev/panel/VADXPanelLoader';
+import { VADXPanelLoader } from './vadx/panel/VADXPanelLoader';
 
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
 const routeHoc = Component => props => (
