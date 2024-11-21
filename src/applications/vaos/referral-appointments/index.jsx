@@ -50,7 +50,10 @@ export default function ReferralAppointments() {
     },
     [referralFetchStatus],
   );
-  if (!referral || referralFetchStatus === FETCH_STATUS.loading) {
+  if (
+    (!referral || referralFetchStatus === FETCH_STATUS.loading) &&
+    !referralNotFound
+  ) {
     return (
       <FormLayout pageTitle="Review Approved Referral">
         <va-loading-indicator set-focus message="Loading your data..." />
@@ -68,11 +71,11 @@ export default function ReferralAppointments() {
       </VaAlert>
     );
   }
+  if (referralNotFound || !featureCCDirectScheduling) {
+    return <Redirect from={basePath.url} to="/" />;
+  }
   return (
     <>
-      {(!featureCCDirectScheduling || referralNotFound) && (
-        <Redirect from={basePath.url} to="/" />
-      )}
       <Switch>
         <Route
           path={`${basePath.url}/review`}

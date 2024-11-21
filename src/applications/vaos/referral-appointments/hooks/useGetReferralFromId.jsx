@@ -14,7 +14,7 @@ const useGetReferralFromId = id => {
   );
   useEffect(
     () => {
-      if (referralFetchStatus === FETCH_STATUS.succeeded && !referrals) {
+      if (referralFetchStatus === FETCH_STATUS.succeeded && !referrals.length) {
         setReferralNotFound(true);
       }
     },

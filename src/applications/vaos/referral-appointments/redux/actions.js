@@ -110,10 +110,9 @@ export function fetchReferralById(id) {
         type: FETCH_REFERRAL,
       });
       const referrals = await getPatientReferralById(id);
-
       dispatch({
         type: FETCH_REFERRAL_SUCCEEDED,
-        data: [referrals],
+        data: Object.keys(referrals).length ? [referrals] : [],
       });
       return referrals;
     } catch (error) {
