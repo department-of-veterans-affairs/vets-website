@@ -20,15 +20,19 @@ export const verifyHandler = ({ policy, useOAuth }) => {
   }
 };
 
+/**
+ *
+ * @returns The updated design of the ID.me identity-verification button
+ */
 export const VerifyIdmeButton = () => {
-  const { altImage } = SERVICE_PROVIDERS.idme;
+  const { altImage, policy } = SERVICE_PROVIDERS.idme;
   const useOAuth = useSelector(isAuthenticatedWithOAuth);
 
   return (
     <button
       type="button"
       className="usa-button idme-verify-button"
-      onClick={() => verifyHandler({ policy: 'idme', useOAuth })}
+      onClick={() => verifyHandler({ policy, useOAuth })}
     >
       <span>
         <svg viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,15 +56,19 @@ export const VerifyIdmeButton = () => {
   );
 };
 
+/**
+ *
+ * @returns The updated design of the Login.gov identity-verification buttion
+ */
 export const VerifyLogingovButton = () => {
-  const { image } = SERVICE_PROVIDERS.logingov;
+  const { image, policy } = SERVICE_PROVIDERS.logingov;
   const useOAuth = useSelector(isAuthenticatedWithOAuth);
 
   return (
     <button
       type="button"
       className="usa-button logingov-verify-button"
-      onClick={() => verifyHandler({ policy: 'logingov', useOAuth })}
+      onClick={() => verifyHandler({ policy, useOAuth })}
     >
       <div>
         Verify with <span className="sr-only">Login.gov</span>
@@ -70,31 +78,29 @@ export const VerifyLogingovButton = () => {
   );
 };
 
-export const VerifyButton = ({
-  className,
-  label,
-  image,
-  policy,
-  useOAuth = false,
-  onClick = verifyHandler,
-}) => {
+/**
+ *
+ * @param {Object} config - The configuration
+ * @param {String} config.csp - The credential service provider to verify with: `logingov` or `idme`
+ * @param {String} config.onClick - Used for unit-testing: DO NOT OVERWRITE
+ * @returns A button with just the Login.gov or ID.me logo that is used to start the identity-verification process
+ */
+export const VerifyButton = ({ csp, onClick = verifyHandler }) => {
+  const { image, label } = SERVICE_PROVIDERS[csp];
+  const useOAuth = useSelector(isAuthenticatedWithOAuth);
+  const className = `usa-button ${csp}-verify-buttons`;
   return (
     <button
-      key={policy}
+      key={csp}
       type="button"
-      className={`usa-button ${className}`}
-      onClick={() => onClick({ policy, useOAuth })}
-      aria-label={`Verify with ${label}`}
+      className={className}
+      onClick={() => onClick({ policy: csp, useOAuth })}
     >
-      <strong>
-        Verify with <span className="sr-only">{label}</span>
-      </strong>
+      <span className="sr-only">Verify with {label}</span>
       {image}
     </button>
   );
 };
-
-export default VerifyButton;
 
 VerifyButton.propTypes = {
   className: PropTypes.string,

@@ -178,6 +178,8 @@ button.idme-verify-button {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
+  width: auto;
+  max-width: 300px;
   max-height: 42px;
 
   span {
@@ -187,7 +189,8 @@ button.idme-verify-button {
     padding: 0.75rem;
 
     & svg {
-      height: auto;
+      height: 20px;
+      padding: 0;
     }
   }
 
@@ -210,6 +213,7 @@ button.idme-verify-button {
 
 button.logingov-verify-button {
   background: var(--vads-color-secondary);
+  width: auto;
   max-width: 300px;
   padding: 0.75rem 1.25rem;
   max-height: 42px;
@@ -230,7 +234,6 @@ button.logingov-verify-button {
   }
 }
 
-.verify,
 .login,
 .transfer-account {
   button {
@@ -334,16 +337,41 @@ button.logingov-verify-button {
 }
 
 .verify {
-  button {
-    width: auto;
-
-    &.dslogon {
-      margin-bottom: 0.25em;
-    }
-  }
-
   h4 + p {
     margin-top: 0;
+  }
+}
+
+button.idme-verify-buttons,
+button.logingov-verify-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 330px;
+  padding: 0.75em;
+  font-size: 16px;
+  margin: 1em 0;
+  white-space: normal !important;
+
+  svg {
+    height: 1em;
+    padding: 0 0.25em;
+  }
+}
+
+button.idme-verify-buttons {
+  background: var(--vads-color-success-dark);
+
+  &:hover {
+    background: var(--vads-button-color-background-primary-alt-active-on-light);
+  }
+}
+button.logingov-verify-buttons {
+  background: var(--vads-color-secondary);
+
+  &:hover {
+    background: var(--vads-color-secondary-darkest);
   }
 }
 
