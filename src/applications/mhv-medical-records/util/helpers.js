@@ -534,3 +534,19 @@ export const formatNameFirstToLast = name => {
     return null;
   }
 };
+
+/**
+ * @param {Object} dateParams an object for the date
+ * @param {string} dateParams.date the date to format, in YYYY-MM format
+ * @param {string} dateParams.mask the format to return the date in, using date-fns masks, default is 'MMMM yyyy'
+ * @returns {String} formatted timestamp
+ */
+export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
+  if (!date) return null;
+  const format = /[0-9]{4}-[0-9]{2}/g;
+  if (!date.match(format)) return null;
+  const [year, month] = date.split('-');
+  const fromDate = new Date(year, month - 1, 1);
+  const formatted = dateFnsFormat(fromDate, mask);
+  return `${formatted}`;
+};

@@ -17,6 +17,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
 } from '../util/constants';
+import { getMonthFromSelectedDate } from '../util/helpers';
 import { Actions } from '../util/actionTypes';
 import * as Constants from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -45,6 +46,8 @@ const Vitals = () => {
   );
 
   const { isAcceleratingVitals } = useAcceleratedData();
+  const isLoadingAcceleratedData =
+    isAcceleratingVitals && listState === Constants.loadStates.FETCHING;
 
   const dispatchAction = useMemo(
     () => {
@@ -112,13 +115,6 @@ const Vitals = () => {
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
-  const getMonthFromSelectedDate = date => {
-    const [year, month] = date.split('-');
-    const fromDate = new Date(year, month - 1, 1);
-    const thing = format(fromDate, 'MMMM yyyy');
-    return `${thing}`;
-  };
-
   const content = () => {
     if (accessAlert) {
       return (
@@ -172,14 +168,16 @@ const Vitals = () => {
             />
           )}
           {isAcceleratingVitals && (
-            <div className="vads-u-margin-top--2">
-              <va-card
-                background
-                aria-live="polite"
-                data-testid="new-records-last-updated"
-              >
-                Viewing records for {getMonthFromSelectedDate(displayDate)}.
-              </va-card>
+            <div className="vads-u-margin-top--2 ">
+              <hr className="vads-u-margin-y--1 vads-u-padding-0" />
+              <p className="vads-u-margin--0">
+                Showing most recent vitals from{' '}
+                <span className="vads-u-font-weight--bold">
+                  {getMonthFromSelectedDate({ date: displayDate })}
+                </span>
+                .
+              </p>
+              <hr className="vads-u-margin-y--1 vads-u-padding-0" />
             </div>
           )}
 
@@ -188,6 +186,10 @@ const Vitals = () => {
             type={recordType.VITALS}
             perPage={7}
             hidePagination
+            domainOptions={{
+              isAccelerating: isAcceleratingVitals,
+              timeFrame: acceleratedVitalsDate,
+            }}
           />
         </>
       );
@@ -235,14 +237,15 @@ const Vitals = () => {
           />
         </div>
         <div className="vads-u-margin-top--2">
-          <va-button text="Update timeframe" onClick={triggerApiUpdate} />
+          <va-button
+            text="Update time frame"
+            onClick={triggerApiUpdate}
+            disabled={isLoadingAcceleratedData}
+          />
         </div>
       </div>
     );
   };
-
-  const isLoadingAcceleratedData =
-    isAcceleratingVitals && listState === Constants.loadStates.FETCHING;
 
   return (
     <div id="vitals">
