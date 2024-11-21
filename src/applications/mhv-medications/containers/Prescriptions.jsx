@@ -134,10 +134,18 @@ const Prescriptions = () => {
       newSortOption || selectedSortOption || defaultSelectedSortOption;
     const sortBy = rxListSortingOptions[sortOption].API_ENDPOINT;
     const filterBy = newFilterOption ?? filterOption;
-    dispatch(getPaginatedFilteredList(1, filterBy, sortBy));
-    updateLoadingStatus(false, '');
+    const isFiltering = newFilterOption !== null;
+    updateLoadingStatus(
+      true,
+      `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
+    );
+    dispatch(getPaginatedFilteredList(1, filterBy, sortBy)).then(() => {
+      updateLoadingStatus(false, '');
+      focusElement(document.getElementById('showingRx'));
+    });
+
     history.replace('/?page=1');
-    if (newFilterOption !== null) {
+    if (isFiltering) {
       sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, newFilterOption);
     }
   };
@@ -187,6 +195,15 @@ const Prescriptions = () => {
       }
     }
   }, []);
+
+  useEffect(
+    () => {
+      if (!filteredList?.length) {
+        focusElement(document.getElementById('no-matches-msg'));
+      }
+    },
+    [filteredList],
+  );
 
   useEffect(
     () => {
@@ -284,13 +301,14 @@ const Prescriptions = () => {
         );
         const sortOption = selectedSortOption ?? defaultSelectedSortOption;
         const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
+        updateLoadingStatus(true, 'Loading your medications...');
         dispatch(
           getPaginatedFilteredList(
             storedPageNumber,
             storedFilterOption,
             sortEndpoint,
           ),
-        );
+        ).then(() => updateLoadingStatus(false, ''));
       }
     },
     [dispatch, page, showFilterContent],
@@ -560,6 +578,12 @@ const Prescriptions = () => {
       hasFullListDownloadError,
   );
 
+  let contentMarginTop;
+  if (paginatedPrescriptionsList?.length || filteredList?.length) {
+    contentMarginTop = '0';
+  } else {
+    contentMarginTop = isShowingErrorNotification ? '5' : '3';
+  }
   const content = () => {
     return (
       <div className="landing-page no-print">
@@ -650,102 +674,124 @@ const Prescriptions = () => {
                     </ApiErrorNotification>
                   </div>
                 )}
-                {paginatedPrescriptionsList?.length || filteredList?.length ? (
-                  <div
-                    className={`landing-page-content vads-u-margin-top--${
-                      isShowingErrorNotification ? '5' : '3'
-                    }
-                    mobile-lg:vads-u-margin-top--${
-                      isShowingErrorNotification ? '5' : '3'
-                    }`}
-                  >
-                    {showFilterContent ? (
-                      <>
-                        <h2
-                          className="vads-u-margin-y--3"
-                          data-testid="med-list"
-                        >
-                          Medications list
-                        </h2>
-                        <MedicationsListFilter
-                          updateFilter={updateFilterAndSort}
-                          filterCount={filterCount}
-                          filterOption={filterOption}
-                          setFilterOption={setFilterOption}
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <PrintDownload
-                          onDownload={handleFullListDownload}
-                          isSuccess={
-                            pdfTxtGenerateStatus.status ===
-                            PDF_TXT_GENERATE_STATUS.Success
-                          }
-                          isLoading={
-                            !allergiesError &&
-                            pdfTxtGenerateStatus.status ===
-                              PDF_TXT_GENERATE_STATUS.InProgress
-                          }
-                          list
-                        />
-                        <BeforeYouDownloadDropdown page={pageType.LIST} />
-                      </>
-                    )}
-                    <MedicationsListSort
-                      value={selectedSortOption}
-                      sortRxList={sortRxList}
-                    />
-                    <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
-                    {isLoading ? (
-                      <div className="vads-u-height--viewport vads-u-padding-top--3">
-                        <va-loading-indicator
-                          message={loadingMessage}
-                          setFocus
-                          data-testid="loading-indicator"
-                        />
-                      </div>
-                    ) : (
-                      <MedicationsList
-                        pagination={pagination}
-                        rxList={
-                          showFilterContent
-                            ? filteredList
-                            : paginatedPrescriptionsList
-                        }
-                        scrollLocation={scrollLocation}
-                        selectedSortOption={selectedSortOption}
-                        updateLoadingStatus={updateLoadingStatus}
+                <div
+                  className={`landing-page-content vads-u-margin-top--${contentMarginTop}
+                    mobile-lg:vads-u-margin-top--${contentMarginTop}`}
+                >
+                  {showFilterContent && (
+                    <>
+                      <h2 className="vads-u-margin-y--3" data-testid="med-list">
+                        Medications list
+                      </h2>
+                      <MedicationsListFilter
+                        updateFilter={updateFilterAndSort}
+                        filterOption={filterOption}
+                        setFilterOption={setFilterOption}
+                        filterCount={filterCount}
                       />
-                    )}
-                    {showFilterContent && (
-                      <>
-                        <PrintDownload
-                          onDownload={handleFullListDownload}
-                          isSuccess={
-                            pdfTxtGenerateStatus.status ===
-                            PDF_TXT_GENERATE_STATUS.Success
+                    </>
+                  )}
+                  {paginatedPrescriptionsList?.length ||
+                  filteredList?.length ? (
+                    <>
+                      {!showFilterContent && (
+                        <>
+                          <PrintDownload
+                            onDownload={handleFullListDownload}
+                            isSuccess={
+                              pdfTxtGenerateStatus.status ===
+                              PDF_TXT_GENERATE_STATUS.Success
+                            }
+                            isLoading={
+                              !allergiesError &&
+                              pdfTxtGenerateStatus.status ===
+                                PDF_TXT_GENERATE_STATUS.InProgress
+                            }
+                            list
+                          />
+                          <BeforeYouDownloadDropdown page={pageType.LIST} />
+                        </>
+                      )}
+                      <MedicationsListSort
+                        value={selectedSortOption}
+                        sortRxList={sortRxList}
+                      />
+                      <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
+                      {isLoading ? (
+                        <div className="vads-u-height--viewport vads-u-padding-top--3">
+                          <va-loading-indicator
+                            message={loadingMessage}
+                            setFocus
+                            data-testid="loading-indicator"
+                          />
+                        </div>
+                      ) : (
+                        <MedicationsList
+                          pagination={pagination}
+                          rxList={
+                            showFilterContent
+                              ? filteredList
+                              : paginatedPrescriptionsList
                           }
-                          isLoading={
-                            !allergiesError &&
-                            pdfTxtGenerateStatus.status ===
-                              PDF_TXT_GENERATE_STATUS.InProgress
-                          }
-                          list
+                          scrollLocation={scrollLocation}
+                          selectedSortOption={selectedSortOption}
+                          updateLoadingStatus={updateLoadingStatus}
                         />
-                        <BeforeYouDownloadDropdown page={pageType.LIST} />
-                      </>
-                    )}
-                  </div>
-                ) : (
-                  <div className="vads-u-padding-y--3">
-                    <va-loading-indicator
-                      message={loadingMessage}
-                      setFocus
-                      data-testid="loading-indicator"
-                    />
-                  </div>
-                )}
+                      )}
+                      {showFilterContent && (
+                        <>
+                          <PrintDownload
+                            onDownload={handleFullListDownload}
+                            isSuccess={
+                              pdfTxtGenerateStatus.status ===
+                              PDF_TXT_GENERATE_STATUS.Success
+                            }
+                            isLoading={
+                              !allergiesError &&
+                              pdfTxtGenerateStatus.status ===
+                                PDF_TXT_GENERATE_STATUS.InProgress
+                            }
+                            list
+                          />
+                          <BeforeYouDownloadDropdown page={pageType.LIST} />
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {!showFilterContent && (
+                        <div className="vads-u-padding-y--3">
+                          <va-loading-indicator
+                            message={loadingMessage}
+                            setFocus
+                            data-testid="loading-indicator"
+                          />
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {showFilterContent && (
+                    <>
+                      {filteredList?.length === 0 && (
+                        <div>
+                          <h2 id="no-matches-msg">
+                            We didn’t find any matches for this filter
+                          </h2>
+                          <p>Try selecting a different filter.</p>
+                        </div>
+                      )}
+                      {isLoading && (
+                        <div className="vads-u-height--viewport vads-u-padding-top--3">
+                          <va-loading-indicator
+                            message={`${loadingMessage}`}
+                            setFocus
+                            data-testid="loading-indicator"
+                          />
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
               </>
             )}
           </>
