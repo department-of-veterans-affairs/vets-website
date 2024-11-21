@@ -1,7 +1,7 @@
-import MedicalRecordsSite from '../mr_site/MedicalRecordsSite';
+import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 // import VitalsListPage from './pages/VitalsListPage';
-import oracleHealthUser from '../fixtures/user/oracle-health.json';
-import vitals from '../fixtures/vitals/sample-lighthouse.json';
+import oracleHealthUser from '../../fixtures/user/oracle-health.json';
+import vitals from '../../fixtures/vitals/sample-lighthouse.json';
 
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
@@ -17,7 +17,7 @@ describe('Medical Records View Vitals', () => {
       // check the correct param was used
       expect(req.url).to.not.contain('use_oh_data_path=1');
       req.reply(vitals);
-    }).as('vitalsList');
+    }).as('vitals-list');
   });
 
   it('Visits View Vitals List', () => {

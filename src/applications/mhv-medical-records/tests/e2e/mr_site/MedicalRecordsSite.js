@@ -18,6 +18,7 @@ class MedicalRecordsSite {
   };
 
   mockFeatureToggles = ({
+    isAcceleratingEnabled = false,
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
   } = {}) => {
@@ -28,6 +29,10 @@ class MedicalRecordsSite {
           {
             name: 'mhv_integration_medical_records_to_phase_1',
             value: true,
+          },
+          {
+            name: 'mhv_accelerated_delivery_enabled',
+            value: isAcceleratingEnabled,
           },
           {
             name: 'mhv_accelerated_delivery_allergies_enabled',
