@@ -8,7 +8,6 @@ import {
   VaAccordionItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useSelector } from 'react-redux';
 import {
   filterOptions,
   SESSION_RX_FILTER_OPEN_BY_DEFAULT,
@@ -16,9 +15,8 @@ import {
 } from '../../util/constants';
 
 const MedicationsListFilter = props => {
-  const { updateFilter, filterOption, setFilterOption } = props;
+  const { updateFilter, filterOption, setFilterOption, filterCount } = props;
   const ref = useRef(null);
-  const filterCount = useSelector(state => state.rx.prescriptions?.filterCount);
 
   const mapFilterCountToFilterLabels = label => {
     switch (label) {
@@ -100,9 +98,9 @@ const MedicationsListFilter = props => {
           {filterOptionsArray.map(option => (
             <VaRadioOption
               key={`filter option ${filterOptions[option].label}`}
-              label={`${filterOptions[option].label} ${
+              label={`${filterOptions[option].label}${
                 filterCount
-                  ? `(${mapFilterCountToFilterLabels(
+                  ? ` (${mapFilterCountToFilterLabels(
                       filterOptions[option].label,
                     )})`
                   : ''
@@ -126,6 +124,7 @@ const MedicationsListFilter = props => {
 };
 
 MedicationsListFilter.propTypes = {
+  filterCount: PropTypes.object,
   filterOption: PropTypes.string,
   setFilterOption: PropTypes.func,
   updateFilter: PropTypes.func,
