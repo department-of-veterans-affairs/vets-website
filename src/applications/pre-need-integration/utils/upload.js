@@ -9,6 +9,7 @@ export const NOT_UPLOADED = 'We couldn’t upload your file';
 export const MISSING_PASSWORD_ERROR = 'Missing password';
 export const UNSUPPORTED_ENCRYPTED_FILE_ERROR =
   "We weren't able to upload your file. Make sure the file is not encrypted and an accepted format.";
+
 export function getFileError(file) {
   if (file.errorMessage) {
     return file.errorMessage;
@@ -29,55 +30,71 @@ export function getFileError(file) {
   return null;
 }
 
+function addError(errors, index, errorMessage) {
+  /*
+  if (!errors[index]) {
+    errors[index] = {
+      __errors: [],
+      addError(msg) {
+        this.__errors.push(msg);
+      },
+    };
+  }
+    */
+  errors[index].addError(errorMessage);
+}
+
 export async function validateFile(errors, fileList) {
-  // console.log('Hell yeah. \nErrors: ', errors, '\nFileList: ', fileList);
   await Promise.all(
     fileList.map(async (file, index) => {
       const error = getFileError(file);
 
-      if (error && !errors[index]) {
-        /* eslint-disable no-param-reassign */
+      if (error) {
+        addError(errors, index, error);
+        return; // Exit early to avoid unnecessary processing
+      }
+
+      // Ensure the errors object is initialized before the fetch call
+      /*
+      if (!errors[index]) {
         errors[index] = {
           __errors: [],
           addError(msg) {
             this.__errors.push(msg);
           },
         };
-        /* eslint-enable no-param-reassign */
       }
+        */
 
-      if (error) {
-        errors[index].addError(error);
-      } else {
-        // Perform server-side validation
-        try {
-          const API_KEY = '3rJVnS49VTHsntVg3m9L9IrGhhbmX7BN';
-          const response = await fetch(
-            'https://sandbox-api.va.gov/services/vba_documents/v1/uploads/validate_document',
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/pdf',
-                apikey: API_KEY,
-              },
-              body: file,
+      try {
+        const API_KEY = '3rJVnS49VTHsntVg3m9L9IrGhhbmX7BN';
+
+        const response = await fetch(
+          'https://sandbox-api.va.gov/services/vba_documents/v1/uploads/validate_document',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/pdf',
+              apikey: API_KEY,
             },
-          );
-          if (!response.ok) {
-            if (response.status === 422) {
-              const data = await response.json();
-              errors[index].addError(
-                `Server validation error: ${data.errors[0].detail}`,
-              );
-            } else {
-              errors[index].addError('File validation failed on the server.');
-            }
+            body: file,
+          },
+        );
+
+        if (!response.ok) {
+          if (response.status === 422) {
+            await response.json();
+            addError(errors, index, '422 Error');
+          } else {
+            addError(errors, index, 'File validation failed on the server.');
           }
-        } catch (err) {
-          errors[index].addError(
-            'An unexpected error occurred during file validation.',
-          );
         }
+      } catch (err) {
+        addError(
+          errors,
+          index,
+          'An unexpected error occurred during file validation.',
+        );
       }
     }),
   );
