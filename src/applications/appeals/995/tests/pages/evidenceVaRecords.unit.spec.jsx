@@ -16,7 +16,7 @@ describe('Supplemental Claims VA evidence page', () => {
     appStateSelector,
   } = formConfig.chapters.evidence.pages.evidenceVaRecords;
 
-  const uiOptions = uiSchema.locations.items['ui:options'];
+  const uiOptions = uiSchema['ui:options'];
 
   // Custom page is rendered, so this renders a submit button
   it('should render', () => {

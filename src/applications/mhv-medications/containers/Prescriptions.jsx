@@ -129,11 +129,17 @@ const Prescriptions = () => {
     setLoadingMessage(newLoadingMessage);
   };
 
-  const updateFilter = option => {
-    dispatch(getPaginatedFilteredList(1, filterOptions[option].url));
+  const updateFilterAndSort = (newFilterOption, newSortOption) => {
+    const sortOption =
+      newSortOption || selectedSortOption || defaultSelectedSortOption;
+    const sortBy = rxListSortingOptions[sortOption].API_ENDPOINT;
+    const filterBy = newFilterOption ?? filterOption;
+    dispatch(getPaginatedFilteredList(1, filterOptions[filterBy].url, sortBy));
     updateLoadingStatus(false, '');
     history.replace('/?page=1');
-    sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, option);
+    if (newFilterOption !== null) {
+      sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, newFilterOption);
+    }
   };
 
   const updateSortOption = sortOption => {
@@ -148,12 +154,16 @@ const Prescriptions = () => {
       ...pdfTxtGenerateStatus,
       status: PDF_TXT_GENERATE_STATUS.NotStarted,
     });
-    if (sortOption !== selectedSortOption) {
+    if (sortOption !== selectedSortOption && sortOption !== '') {
       updateSortOption(sortOption);
-      updateLoadingStatus(true, 'Sorting your medications...');
-      setSortingInProgress(true);
+      if (!showFilterContent) {
+        updateLoadingStatus(true, 'Sorting your medications...');
+        setSortingInProgress(true);
+      } else {
+        updateFilterAndSort(null, sortOption);
+      }
+      sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
     }
-    sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
   };
 
   const printRxList = () =>
@@ -264,10 +274,13 @@ const Prescriptions = () => {
         const storedFilterOption =
           sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
           ALL_MEDICATIONS_FILTER_KEY;
+        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
+        const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
         dispatch(
           getPaginatedFilteredList(
             storedPageNumber,
-            filterOptions[storedFilterOption].url,
+            storedFilterOption,
+            sortEndpoint,
           ),
         );
       }
@@ -651,7 +664,7 @@ const Prescriptions = () => {
                           Medications list
                         </h2>
                         <MedicationsListFilter
-                          updateFilter={updateFilter}
+                          updateFilter={updateFilterAndSort}
                           filterOption={filterOption}
                           setFilterOption={setFilterOption}
                         />
