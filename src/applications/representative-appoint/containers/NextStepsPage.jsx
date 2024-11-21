@@ -43,7 +43,11 @@ export default function NextStepsPage() {
         After your form is signed, you or the accredited {repType} can submit it
         online, by mail, or in person.
       </p>
-      <va-link href="" text="Learn how to submit your form" />
+      <va-link
+        href="/get-help-from-accredited-representative"
+        text="Learn how to submit your form"
+        external
+      />
       <h2 className="vads-u-margin-top--3">
         After you submit your printed form
       </h2>
