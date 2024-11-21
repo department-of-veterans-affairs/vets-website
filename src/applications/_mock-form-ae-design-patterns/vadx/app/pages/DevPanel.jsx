@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { format, parseISO } from 'date-fns';
-import { ApplicationSelector } from './ApplicationSelector';
+import { ApplicationSelector } from '../../client/ApplicationSelector';
 
 const API_BASE_URL = 'http://localhost:1337';
 

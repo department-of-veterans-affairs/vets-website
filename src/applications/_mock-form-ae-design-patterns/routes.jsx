@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
 import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
@@ -7,26 +7,36 @@ import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
 import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 
 import grayTaskConfig from './patterns/pattern2/TaskGray/form/config/form';
-import CoeApp from './patterns/pattern2/TaskGray/form/containers/App';
-import Form1990Entry from './patterns/pattern2/TaskOrange/Form1990App';
+
 import blueFormConfig from './patterns/pattern2/TaskBlue/config/form';
 import { formConfigForOrangeTask } from './patterns/pattern2/TaskOrange/config/form';
 
-import App from './App';
 import ReviewPage from './patterns/pattern2/post-study/ReviewPage';
 
 import { LandingPage } from './shared/components/pages/LandingPage';
-import DevPanel from './vadx/client/DevPanel';
+
 import { PatternConfigProvider } from './shared/context/PatternConfigContext';
+
+const App = lazy(() => import('./App'));
+const CoeApp = lazy(() =>
+  import('./patterns/pattern2/TaskGray/form/containers/App'),
+);
+const Form1990Entry = lazy(() =>
+  import('./patterns/pattern2/TaskOrange/Form1990App'),
+);
+
+const DevPanel = lazy(() => import('./vadx/app/pages/DevPanel'));
 
 import { VADXPanelLoader } from './vadx/panel/VADXPanelLoader';
 
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
 const routeHoc = Component => props => (
-  <PatternConfigProvider {...props}>
-    <Component {...props} />
-    <VADXPanelLoader />
-  </PatternConfigProvider>
+  <Suspense fallback={<div>Loading...</div>}>
+    <PatternConfigProvider {...props}>
+      <Component {...props} />
+      <VADXPanelLoader />
+    </PatternConfigProvider>
+  </Suspense>
 );
 
 const pattern1Routes = [
