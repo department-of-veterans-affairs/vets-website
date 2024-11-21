@@ -777,8 +777,8 @@ export const renderMedicalRecordInfo = formResponses => {
     return (
       <li>
         <h3>Medical records</h3>
-        <p>You’ll need to submit copies of your medical records.</p>
         <ul>
+          <li>You’ll need to submit copies of your medical records.</li>
           <li>
             <strong>
               If you need to request copies of your VA medical records,
@@ -788,20 +788,17 @@ export const renderMedicalRecordInfo = formResponses => {
             center.
           </li>
           <li>
+            {requestQuestion}
+            <br />
             <a
               href="https://www.va.gov/find-forms/about-form-10-5345/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <va-icon
-                icon="file_download"
-                size={3}
-                className="vads-u-margin-top--0p5 vads-u-padding-right--1"
-              />
               Get VA Form 10-5345 to download (opens in a new tab)
             </a>
           </li>
-          <li>{requestQuestion}</li>
+
           {providerStatement}
         </ul>
       </li>
