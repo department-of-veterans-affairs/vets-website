@@ -621,8 +621,12 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
-            {paginatedPrescriptionsList &&
-            paginatedPrescriptionsList.length === 0 ? (
+            {(!showFilterContent &&
+              paginatedPrescriptionsList &&
+              paginatedPrescriptionsList.length === 0) ||
+            (showFilterContent &&
+              filteredList &&
+              Object.values(filterCount).every(value => value === 0)) ? (
               <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
                 <h2 className="vads-u-margin--0">
                   You don’t have any VA prescriptions or medication records
