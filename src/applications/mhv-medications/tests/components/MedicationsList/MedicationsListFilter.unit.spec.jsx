@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 import Sinon from 'sinon';
 import MedicationsListFilter from '../../../components/MedicationsList/MedicationsListFilter';
-import { filterOptions } from '../../../util/constants';
+import { ACTIVE_FILTER_KEY, filterOptions } from '../../../util/constants';
 
 describe('Medicaitons List Filter component', () => {
   const filterCountObj = {
@@ -45,7 +45,7 @@ describe('Medicaitons List Filter component', () => {
     const { container } = render(
       <MedicationsListFilter
         updateFilter={() => {}}
-        filterOption={filterOptions.ACTIVE.url}
+        filterOption={ACTIVE_FILTER_KEY}
         setFilterOption={() => {}}
       />,
     );
