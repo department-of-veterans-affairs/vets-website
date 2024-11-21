@@ -926,24 +926,24 @@ export const formConfig = {
                 formData,
                 TASK_KEYS.reportStepchildNotInHousehold,
               ),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            // onNavForward: ({
+            //   formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   goNextPath,
+            // }) => {
+            //   const index = getArrayIndexFromPathName(pathname);
+            //   const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              if (formData?.supportingStepchild) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `686-stepchild-no-longer-part-of-household/${index}/child-address${urlParamsString}`,
-                );
-              }
-            },
+            //   if (formData?.supportingStepchild) {
+            //     goNextPath(urlParams);
+            //   } else {
+            //     goPath(
+            //       `686-stepchild-no-longer-part-of-household/${index}/child-address${urlParamsString}`,
+            //     );
+            //   }
+            // },
           }),
           // conditional page
           removeChildHouseholdPartThree: pageBuilder.itemPage({
@@ -971,20 +971,20 @@ export const formConfig = {
                 formData,
                 TASK_KEYS.reportStepchildNotInHousehold,
               ),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            // onNavBack: ({
+            //   _formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   _goNextPath,
+            // }) => {
+            //   const index = getArrayIndexFromPathName(pathname);
+            //   const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              return goPath(
-                `686-stepchild-no-longer-part-of-household/${index}/veteran-supports-child${urlParamsString}`,
-              );
-            },
+            //   return goPath(
+            //     `686-stepchild-no-longer-part-of-household/${index}/veteran-supports-child${urlParamsString}`,
+            //   );
+            // },
           }),
           removeChildHouseholdPartFive: pageBuilder.itemPage({
             title:
@@ -1038,23 +1038,23 @@ export const formConfig = {
             schema: deceasedDependentTypePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              if (formData.dependentType !== 'child') {
-                const index = getArrayIndexFromPathName(pathname);
-                const urlParamsString = stringifyUrlParams(urlParams) || '';
-                goPath(
-                  `/686-report-dependent-death/${index}/date-of-death${urlParamsString}`,
-                );
-              } else {
-                goNextPath(urlParams);
-              }
-            },
+            // onNavForward: ({
+            //   formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   goNextPath,
+            // }) => {
+            //   if (formData.dependentType !== 'child') {
+            //     const index = getArrayIndexFromPathName(pathname);
+            //     const urlParamsString = stringifyUrlParams(urlParams) || '';
+            //     goPath(
+            //       `/686-report-dependent-death/${index}/date-of-death${urlParamsString}`,
+            //     );
+            //   } else {
+            //     goNextPath(urlParams);
+            //   }
+            // },
           }),
           // conditional page
           dependentAdditionalInformationPartThree: pageBuilder.itemPage({
@@ -1072,20 +1072,20 @@ export const formConfig = {
             schema: deceasedDependentDateOfDeathPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            // onNavBack: ({
+            //   _formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   _goNextPath,
+            // }) => {
+            //   const index = getArrayIndexFromPathName(pathname);
+            //   const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              return goPath(
-                `686-report-dependent-death/${index}/dependent-type${urlParamsString}`,
-              );
-            },
+            //   return goPath(
+            //     `686-report-dependent-death/${index}/dependent-type${urlParamsString}`,
+            //   );
+            // },
           }),
           dependentAdditionalInformationPartFive: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
