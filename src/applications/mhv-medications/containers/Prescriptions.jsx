@@ -107,7 +107,8 @@ const Prescriptions = () => {
   const [loadingMessage, setLoadingMessage] = useState('');
   const [sortingInProgress, setSortingInProgress] = useState(false);
   const [filterOption, setFilterOption] = useState(
-    sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) || null,
+    sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
+      filterOptions.ALL_MEDICATIONS.url,
   );
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -127,11 +128,17 @@ const Prescriptions = () => {
     setLoadingMessage(newLoadingMessage);
   };
 
-  const updateFilter = option => {
-    dispatch(getPaginatedFilteredList(1, option));
+  const updateFilterAndSort = (newFilterOption, newSortOption) => {
+    const sortOption =
+      newSortOption || selectedSortOption || defaultSelectedSortOption;
+    const sortBy = rxListSortingOptions[sortOption].API_ENDPOINT;
+    const filterBy = newFilterOption ?? filterOption;
+    dispatch(getPaginatedFilteredList(1, filterBy, sortBy));
     updateLoadingStatus(false, '');
     history.replace('/?page=1');
-    sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, option);
+    if (newFilterOption !== null) {
+      sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, newFilterOption);
+    }
   };
 
   const updateSortOption = sortOption => {
@@ -146,12 +153,16 @@ const Prescriptions = () => {
       ...pdfTxtGenerateStatus,
       status: PDF_TXT_GENERATE_STATUS.NotStarted,
     });
-    if (sortOption !== selectedSortOption) {
+    if (sortOption !== selectedSortOption && sortOption !== '') {
       updateSortOption(sortOption);
-      updateLoadingStatus(true, 'Sorting your medications...');
-      setSortingInProgress(true);
+      if (!showFilterContent) {
+        updateLoadingStatus(true, 'Sorting your medications...');
+        setSortingInProgress(true);
+      } else {
+        updateFilterAndSort(null, sortOption);
+      }
+      sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
     }
-    sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
   };
 
   const printRxList = () =>
@@ -262,8 +273,14 @@ const Prescriptions = () => {
         const storedFilterOption = sessionStorage.getItem(
           SESSION_SELECTED_FILTER_OPTION,
         );
+        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
+        const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
         dispatch(
-          getPaginatedFilteredList(storedPageNumber, storedFilterOption),
+          getPaginatedFilteredList(
+            storedPageNumber,
+            storedFilterOption,
+            sortEndpoint,
+          ),
         );
       }
     },
@@ -634,7 +651,7 @@ const Prescriptions = () => {
                           Medications list
                         </h2>
                         <MedicationsListFilter
-                          updateFilter={updateFilter}
+                          updateFilter={updateFilterAndSort}
                           filterOption={filterOption}
                           setFilterOption={setFilterOption}
                         />

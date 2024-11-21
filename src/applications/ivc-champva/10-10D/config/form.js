@@ -50,7 +50,7 @@ import {
   certifierNameValidation,
   certifierAddressValidation,
 } from '../helpers/validations';
-import { MAX_APPLICANTS, ADDITIONAL_FILES_HINT } from './constants';
+import { ADDITIONAL_FILES_HINT } from './constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
@@ -270,14 +270,12 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            ...titleUI(
-              'Your relationship to the applicant',
-              `You can add up to ${MAX_APPLICANTS} applicants on a single application. If you need to add more than ${MAX_APPLICANTS}, you’ll need to fill out another form for them.`,
-            ),
+            ...titleUI('Your relationship to the applicant'),
             certifierRelationship: {
               relationshipToVeteran: checkboxGroupUI({
                 title: 'Which of these best describes you?',
-                hint: 'Select all that apply',
+                hint:
+                  'If you’re applying on behalf of multiple applicants, you can select all applicable options',
                 required: () => true,
                 labels: {
                   spouse: 'I’m an applicant’s spouse',
