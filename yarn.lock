@@ -29389,12 +29389,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#451e84357e94c21339839db890ec4fbd48cedd38":
-  version: 24.5.5
-  resolution: "vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#commit=451e84357e94c21339839db890ec4fbd48cedd38"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#86a7561dc89d1a402a3dfc4da37bc357cebb230e":
+  version: 24.5.7
+  resolution: "vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#commit=86a7561dc89d1a402a3dfc4da37bc357cebb230e"
   dependencies:
     minimist: "npm:^1.2.3"
-  checksum: 10c0/887768971f609dc70429e34ddb64cddeab11069a7dd002c78b04314096ab305f4b2c67b44a87bef9a04ad31dff79ffb8ecbe50d62c7ecca9eab8a9198e265a5e
+  checksum: 10c0/73d30d89a55ff60c7320d0c447abf4fd49d121344910467487686b84a133c72418ac2f96ac4f20c20a39f1cd9c509fbc248e61206d0a7077315e9e8ebc3d270b
   languageName: node
   linkType: hard
 
@@ -29617,7 +29617,7 @@ __metadata:
     url-search-params-polyfill: "npm:^8.1.1"
     uswds: "npm:1.6.10"
     vanilla-lazyload: "npm:^16.1.0"
-    vets-json-schema: "https://github.com/department-of-veterans-affairs/vets-json-schema.git#451e84357e94c21339839db890ec4fbd48cedd38"
+    vets-json-schema: "https://github.com/department-of-veterans-affairs/vets-json-schema.git#86a7561dc89d1a402a3dfc4da37bc357cebb230e"
     webpack: "npm:^5.91.0"
     webpack-bundle-analyzer: "npm:^4.5.0"
     webpack-cli: "npm:^4.9.2"
