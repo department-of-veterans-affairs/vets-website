@@ -169,7 +169,9 @@ const Prescriptions = () => {
   const printRxList = () =>
     setTimeout(() => {
       window.print();
-      setPrintedList(paginatedPrescriptionsList);
+      setPrintedList(
+        showFilterContent ? filteredList : paginatedPrescriptionsList,
+      );
     }, 1);
 
   const goToPrevious = () => {
@@ -229,11 +231,17 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (paginatedPrescriptionsList?.length) {
-        setPrintedList(paginatedPrescriptionsList);
+      if (
+        showFilterContent
+          ? filteredList?.length
+          : paginatedPrescriptionsList?.length
+      ) {
+        setPrintedList(
+          showFilterContent ? filteredList : paginatedPrescriptionsList,
+        );
       }
     },
-    [paginatedPrescriptionsList],
+    [paginatedPrescriptionsList, filteredList, showFilterContent],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
@@ -458,7 +466,9 @@ const Prescriptions = () => {
         ((prescriptionsFullList?.length &&
           pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
           (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
-            paginatedPrescriptionsList?.length)) &&
+            (showFilterContent
+              ? filteredList?.length
+              : paginatedPrescriptionsList?.length))) &&
         allergies &&
         !allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
@@ -478,11 +488,17 @@ const Prescriptions = () => {
           pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST
         ) {
           if (!isLoading && loadingMessage === '') {
-            setPrintedList(
-              pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST
-                ? paginatedPrescriptionsList
-                : prescriptionsFullList,
-            );
+            let listForPrint;
+            if (pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST) {
+              if (showFilterContent) {
+                listForPrint = filteredList;
+              } else {
+                listForPrint = paginatedPrescriptionsList;
+              }
+            } else {
+              listForPrint = prescriptionsFullList;
+            }
+            setPrintedList(listForPrint);
             setPdfTxtGenerateStatus({
               status: PDF_TXT_GENERATE_STATUS.NotStarted,
             });
