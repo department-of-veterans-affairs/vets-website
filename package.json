@@ -339,7 +339,7 @@
   "resolutions": {
     "@babel/runtime": "^7.15.4",
     "punycode": "1.4.1",
-    "mocha-snapshots/mocha": "4.1.0"
+    "mocha-snapshots/mocha": "^4.0.1"
   },
   "workspaces": {
     "packages": [
