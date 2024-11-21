@@ -57,7 +57,7 @@ const MedicationsList = props => {
     filterOptions[
       sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
         ALL_MEDICATIONS_FILTER_KEY
-    ].showingContentDisplayName;
+    ]?.showingContentDisplayName;
 
   const filterAndSortContent = () => {
     return (

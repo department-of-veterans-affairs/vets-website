@@ -321,7 +321,7 @@ const Prescriptions = () => {
     filterOptions[
       sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
         ALL_MEDICATIONS_FILTER_KEY
-    ].showingContentDisplayName;
+    ]?.showingContentDisplayName;
 
   const pdfData = useCallback(
     (rxList, allergiesList) => {
