@@ -209,7 +209,7 @@ const AttachmentsList = props => {
         (attachments.length > 1 ? (
           <VaAlert
             data-testid="attachment-virus-alert"
-            aria-label={Alerts.Message.MORE_THAN_ONE_ATTACHMENT_SCAN_FAIL}
+            aria-label={Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL}
             background-only
             className="file-attached-success vads-u-margin-top--2"
             disable-analytics
