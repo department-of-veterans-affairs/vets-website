@@ -46,10 +46,10 @@ const filterSuggestions = (suggestions, value) => {
     return suggestions;
   }
 
-  return suggestions.filter(suggestion =>
+  return suggestions.filter(suggestion => {
     // TODO add logic to account for filterOptions
-    suggestion.name.toLowerCase().includes(value.toLowerCase()),
-  );
+    return suggestion.name.toLowerCase().includes(value.toLowerCase());
+  });
 };
 
 export default function LicenseCertificationSearchForm({
@@ -63,6 +63,15 @@ export default function LicenseCertificationSearchForm({
   useEffect(
     () => {
       const newSuggestions = filterSuggestions(suggestions, name);
+
+      if (name.trim() !== '') {
+        newSuggestions.unshift({
+          name,
+          link: 'lce/', // verify link
+          type: 'all', // verify type
+        });
+      }
+
       setFilteredSuggestions(newSuggestions);
     },
     [name],

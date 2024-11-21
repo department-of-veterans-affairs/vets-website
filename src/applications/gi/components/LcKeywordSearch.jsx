@@ -66,6 +66,7 @@ export default function LcKeywordSearch({
                 className="suggestions-list"
                 role="listbox"
                 id="lcKeywordSearch"
+                style={{ maxWidth: '30rem' }}
               >
                 {suggestions.map((item, index) => (
                   <div

@@ -48,7 +48,7 @@ function LicenseCertificationSearch({
   }
 }
 
-LicenseCertificationSearchForm.propTypes = {
+LicenseCertificationSearch.propTypes = {
   dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
   fetchingLc: PropTypes.bool.isRequired,
   hasFetchedOnce: PropTypes.bool.isRequired,
