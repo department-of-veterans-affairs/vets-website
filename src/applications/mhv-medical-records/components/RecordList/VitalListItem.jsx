@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { vitalTypeDisplayNames } from '../../util/constants';
+import { dateFormatWithoutTimezone } from '../../util/helpers';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
@@ -63,7 +64,14 @@ const VitalListItem = props => {
             data-testid="vital-li-date"
           >
             <span className="vads-u-font-weight--bold">Date: </span>
-            <span>{record.date}</span>
+            <span>
+              {isAccelerating
+                ? dateFormatWithoutTimezone(
+                    record.effectiveDateTime,
+                    'MMMM d, yyyy',
+                  )
+                : record.date}
+            </span>
           </div>
 
           <Link

@@ -25,9 +25,13 @@ export const dateFormat = (timestamp, format = null) => {
 
 /**
  * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
-export const dateFormatWithoutTimezone = datetime => {
+export const dateFormatWithoutTimezone = (
+  datetime,
+  format = 'MMMM d, yyyy, h:mm a',
+) => {
   let withoutTimezone = datetime;
   if (typeof datetime === 'string' && datetime.includes('-')) {
     // Check if datetime has a timezone and strip it off if present
@@ -50,11 +54,7 @@ export const dateFormatWithoutTimezone = datetime => {
 
   const parsedDateTime = parseISO(withoutTimezone);
   if (isValid(parsedDateTime)) {
-    const formattedDate = dateFnsFormat(
-      parsedDateTime,
-      'MMMM d, yyyy, h:mm a',
-      { in: 'UTC' },
-    );
+    const formattedDate = dateFnsFormat(parsedDateTime, format, { in: 'UTC' });
     return formattedDate.replace(/AM|PM/, match =>
       match.toLowerCase().replace('m', '.m.'),
     );

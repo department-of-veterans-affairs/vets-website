@@ -85,6 +85,7 @@ export const convertVital = record => {
     date: record?.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
+    effectiveDateTime: record?.effectiveDateTime,
     location: extractLocation(record),
     notes:
       (isArrayAndHasItems(record.note) && record.note[0].text) || EMPTY_FIELD,
