@@ -12,7 +12,7 @@ const idList = numberOfIDs => {
 
 const FileUpload = props => {
   const {
-    acceptFileTypes = '.pdf,.jpeg,.png, .jpg',
+    acceptFileTypes = '.pdf,.jpeg,.png,.jpg',
     buttonText = 'Upload file',
     error,
     label = 'Select files to upload',
