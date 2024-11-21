@@ -4,7 +4,6 @@ import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import * as OAuthUtils from 'platform/utilities/oauth/utilities';
 import {
@@ -17,9 +16,7 @@ import {
 const { logingov, idme } = SERVICE_PROVIDERS;
 
 const sharedStore = ({ authBroker = 'iam' } = {}) => ({
-  getState: () => ({
-    user: { profile: { session: { authBroker } } },
-  }),
+  getState: () => ({ user: { profile: { session: { authBroker } } } }),
   dispatch: () => {},
   subscribe: () => {},
 });
