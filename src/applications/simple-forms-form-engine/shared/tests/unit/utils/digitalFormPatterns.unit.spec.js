@@ -202,12 +202,21 @@ describe('listLoopPages', () => {
     chapterTitle: "Veteran's employment history",
     pageTitle: 'List & Loop',
   };
+  const pageBuilder = {
+    introPage: pageConfig => pageConfig,
+    itemPage: pageConfig => pageConfig,
+    summaryPage: pageConfig => pageConfig,
+  };
   // const required = findChapterByType('digital_form_list_loop');
 
   let arrayBuilderStub;
 
   beforeEach(() => {
-    arrayBuilderStub = sinon.stub();
+    arrayBuilderStub = sinon
+      .stub()
+      .callsFake((options, pageBuilderCallback) =>
+        pageBuilderCallback(pageBuilder),
+      );
   });
 
   it('includes the right options', () => {
@@ -222,7 +231,16 @@ describe('listLoopPages', () => {
     expect(options.maxItems).to.eq(4);
   });
 
-  it('includes a summary page');
+  it('includes a summary page', () => {
+    const { employerSummary } = listLoopPages(optional, arrayBuilderStub);
+
+    expect(employerSummary.title).to.eq('Your employers');
+    expect(employerSummary.path).to.eq('employers');
+    expect(employerSummary.schema.properties['view:hasEmployers']).to.eq(
+      webComponentPatterns.arrayBuilderYesNoSchema,
+    );
+    expect(employerSummary.uiSchema['view:hasEmployers']).to.not.eq(undefined);
+  });
 
   context('when the variation is employment history', () => {
     it('includes a name page');

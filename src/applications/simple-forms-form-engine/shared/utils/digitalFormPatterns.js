@@ -110,5 +110,40 @@ export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
     },
   };
 
-  return arrayBuilder(options, () => {});
+  /** @returns {PageSchema} */
+  const summaryPage = {
+    path: 'employers',
+    schema: {
+      type: 'object',
+      properties: {
+        'view:hasEmployers': webComponentPatterns.arrayBuilderYesNoSchema,
+      },
+      required: ['view:hasEmployers'],
+    },
+    title: 'Your employers',
+    uiSchema: {
+      'view:hasEmployers': webComponentPatterns.arrayBuilderYesNoUI(
+        options,
+        {
+          title:
+            'Were you employed by the VA, others or self-employed at any time during the last 12 months?',
+          labels: {
+            Y: 'Yes, I have employment to report',
+            N: 'No, I don’t have any employment to report',
+          },
+        },
+        {
+          title: 'Do you have another employer to report?',
+          labels: {
+            Y: 'Yes, I have another employment to report',
+            N: 'No, I don’t have another employment to report',
+          },
+        },
+      ),
+    },
+  };
+
+  return arrayBuilder(options, pageBuilder => ({
+    employerSummary: pageBuilder.summaryPage(summaryPage),
+  }));
 };
