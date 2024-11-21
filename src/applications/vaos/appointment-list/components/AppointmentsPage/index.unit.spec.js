@@ -86,7 +86,7 @@ describe('VAOS Page: AppointmentsPage', () => {
 
     expect(screen.getByText(/Start scheduling/)).to.be.ok;
     userEvent.click(
-      await screen.findByRole('button', { name: /Start scheduling/i }),
+      await screen.findByRole('link', { name: /Start scheduling/i }),
     );
 
     await waitFor(() =>
@@ -128,10 +128,8 @@ describe('VAOS Page: AppointmentsPage', () => {
       within(navigation).queryByRole('link', { name: 'Past appointments' }),
     ).not.to.exist;
 
-    // and scheduling button should be displayed
-    expect(
-      screen.getByRole('button', { name: 'Start scheduling an appointment' }),
-    ).to.be.ok;
+    // and scheduling link should be displayed
+    expect(screen.getByRole('link', { name: 'Start scheduling' })).to.be.ok;
 
     // and appointment list navigation should be displayed
     expect(
@@ -359,10 +357,8 @@ describe('VAOS Page: AppointmentsPage', () => {
       expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
         .exist;
 
-      // and scheduling button should be displayed
-      expect(
-        screen.getByRole('button', { name: 'Start scheduling an appointment' }),
-      ).to.be.ok;
+      // and scheduling link should be displayed
+      expect(screen.getByRole('link', { name: 'Start scheduling' })).to.be.ok;
 
       // and appointment list navigation should be displayed
       expect(
