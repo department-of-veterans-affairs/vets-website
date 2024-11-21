@@ -90,8 +90,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     if (Object.keys(formData).length === 0) {
       Object.assign(formData, editFormData);
     }
-
-    const addressData = prepareAddressData(formData);
+    const data = formData?.addressLine1 ? formData : newAddress;
+    const addressData = prepareAddressData(data);
     const fields = {
       address: addressData,
     };
@@ -311,7 +311,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}
               formSubmit={saveAddressInfo}
-              formData={editFormData}
+              formData={goBackToEdit ? editFormData : newAddress}
             >
               <div className="button-container">
                 <LoadingButton

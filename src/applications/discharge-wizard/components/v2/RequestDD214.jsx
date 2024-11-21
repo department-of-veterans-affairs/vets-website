@@ -52,7 +52,7 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
           >
             <ul>
               <li>
-                Pay special attention to item 6, which asks for the reason for
+                Pay special attention to item 14, which asks for the reason for
                 your change. Be clear that you want a DD214 for your period of
                 honorable service, and include the dates of that period.
               </li>
