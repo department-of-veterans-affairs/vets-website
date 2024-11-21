@@ -13,7 +13,7 @@ import ConfirmApprovedPage from './ConfirmApprovedPage';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureCCDirectScheduling } from '../redux/selectors';
-import { useGetReferralFromId } from './hooks/useGetReferralFromId';
+import { useGetReferralById } from './hooks/useGetReferralById';
 import { FETCH_STATUS } from '../utils/constants';
 import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -32,7 +32,7 @@ export default function ReferralAppointments() {
     currentReferral,
     referralNotFound,
     referralFetchStatus,
-  } = useGetReferralFromId(id);
+  } = useGetReferralById(id);
   const [referral, setReferral] = useState(currentReferral);
   useEffect(
     () => {
@@ -78,11 +78,11 @@ export default function ReferralAppointments() {
     <>
       <Switch>
         <Route
-          path={`${basePath.url}/review`}
+          path={`${basePath.url}/review/`}
           component={ConfirmApprovedPage}
         />
         <Route
-          path={`${basePath.url}/date-time`}
+          path={`${basePath.url}/date-time/`}
           component={ChooseDateAndTime}
         />
         <Route path={`${basePath.url}`} search={id}>

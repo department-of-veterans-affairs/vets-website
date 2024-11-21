@@ -5,7 +5,7 @@ import { fetchReferralById } from '../redux/actions';
 import { FETCH_STATUS } from '../../utils/constants';
 import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
 
-const useGetReferralFromId = id => {
+const useGetReferralById = id => {
   const [referralNotFound, setReferralNotFound] = useState(false);
   const [currentReferral, setCurrentReferral] = useState(null);
   const dispatch = useDispatch();
@@ -59,4 +59,4 @@ const useGetReferralFromId = id => {
   };
 };
 
-export { useGetReferralFromId };
+export { useGetReferralById };
