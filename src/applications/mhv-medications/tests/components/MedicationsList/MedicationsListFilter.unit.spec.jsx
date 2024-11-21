@@ -7,9 +7,22 @@ import MedicationsListFilter from '../../../components/MedicationsList/Medicatio
 import { filterOptions } from '../../../util/constants';
 
 describe('Medicaitons List Filter component', () => {
-  const setup = (updateFilter, filterOption, setFilterOption) => {
+  const filterCountObj = {
+    allMedications: 466,
+    active: 58,
+    recentlyRequested: 43,
+    renewal: 29,
+    nonActive: 403,
+  };
+  const setup = (
+    updateFilter,
+    filterOption,
+    setFilterOption,
+    filterCount = filterCountObj,
+  ) => {
     return render(
       <MedicationsListFilter
+        filterCount={filterCount}
         updateFilter={updateFilter}
         filterOption={filterOption}
         setFilterOption={setFilterOption}

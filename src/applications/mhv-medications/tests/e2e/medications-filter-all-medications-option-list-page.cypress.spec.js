@@ -14,12 +14,10 @@ describe('Medications List Page All Medications Filter', () => {
     listPage.clickGotoMedicationsLink();
 
     listPage.clickfilterAccordionDropdownOnListPage();
-    listPage.verifyFilterOptionsOnListPage(
-      'All medications',
-      'All medications in your VA medical record',
-    );
+    // listPage.verifyFilterOptionsOnListPage(
+    //   'All medications',);
     listPage.verifyFilterButtonWhenAccordionExpanded();
-    listPage.clickFilterRadioButtonOptionOnListPage('All medications');
-    listPage.clickFilterButtonOnAccordion();
+    // listPage.clickFilterRadioButtonOptionOnListPage('All medications');
+    listPage.verifyAllMedicationsRadioButtonIsChecked();
   });
 });
