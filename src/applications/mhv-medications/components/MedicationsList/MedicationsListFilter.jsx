@@ -9,6 +9,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
+  ALL_MEDICATIONS_FILTER_KEY,
   filterOptions,
   SESSION_RX_FILTER_OPEN_BY_DEFAULT,
   SESSION_SELECTED_FILTER_OPTION,
@@ -40,7 +41,7 @@ const MedicationsListFilter = props => {
       if (isOpen === 'false') {
         setFilterOption(
           sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-            filterOptions.ALL_MEDICATIONS.url,
+            ALL_MEDICATIONS_FILTER_KEY,
         );
       }
     }
@@ -78,16 +79,16 @@ const MedicationsListFilter = props => {
               key={`filter option ${filterOptions[option].label}`}
               label={filterOptions[option].label}
               name="filter-options-group"
-              value={filterOptions[option].url}
+              value={option}
               description={filterOptions[option].description}
-              checked={filterOption === filterOptions[option].url}
+              checked={filterOption === option}
             />
           ))}
         </VaRadio>
         <VaButton
           className="vads-u-width--full tablet:vads-u-width--auto filter-submit-btn vads-u-margin-top--3"
           onClick={handleFilterSubmit}
-          text="Filter"
+          text="Apply filter"
           data-testid="filter-button"
         />
       </VaAccordionItem>

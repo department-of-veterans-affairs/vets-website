@@ -5,7 +5,12 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
 import MedicationsListCard from './MedicationsListCard';
-import { rxListSortingOptions } from '../../util/constants';
+import {
+  ALL_MEDICATIONS_FILTER_KEY,
+  SESSION_SELECTED_FILTER_OPTION,
+  filterOptions,
+  rxListSortingOptions,
+} from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
 import { selectFilterFlag } from '../../util/selectors';
@@ -48,6 +53,12 @@ const MedicationsList = props => {
     perPage,
   );
 
+  const selectedFilterOption =
+    filterOptions[
+      sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
+        ALL_MEDICATIONS_FILTER_KEY
+    ].showingContentDisplayName;
+
   return (
     <>
       {/* clean after filter flag is removed */}
@@ -62,10 +73,24 @@ const MedicationsList = props => {
         <span className="no-print">
           {`Showing ${displayNums[0]} - ${
             displayNums[1]
-          } of ${totalMedications} medications, ${sortOptionLowercase}`}
+          } of ${totalMedications}`}
+          {/* TODO: clean after the filter toggle is gone */}
+          {showFilterContent &&
+            selectedFilterOption?.length > 0 && (
+              <strong>{selectedFilterOption} medications</strong>
+            )}
+          {/* TODO: clean after the filter toggle is gone */}
+          {`${
+            showFilterContent && selectedFilterOption?.length > 0
+              ? ''
+              : ' medications'
+          }, ${sortOptionLowercase}`}
         </span>
         <span className="print-only">
-          {`Showing ${totalMedications} medications, ${sortOptionLowercase}`}
+          {/* TODO: clean after the filter toggle is gone */}
+          {`Showing ${totalMedications}${
+            showFilterContent ? selectedFilterOption : ''
+          } medications, ${sortOptionLowercase}`}
         </span>
       </p>
       <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
