@@ -9,5 +9,8 @@
 describe('Screenshots all check-in applications', () => {
   it('is true', () => {
     expect(true).to.equal(true);
+    cy.window()
+      .its('__coverage__')
+      .should('exist');
   });
 });

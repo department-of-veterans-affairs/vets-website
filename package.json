@@ -20,7 +20,7 @@
     "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.config.js",
     "cy:open": "cypress open --config-file config/cypress.config.js --e2e --browser chrome",
     "cy:open-codespaces": "/usr/local/share/desktop-init.sh && cypress install && cypress open --config-file config/cypress.config.js --e2e --browser chrome",
-    "cy:run": "cypress run --config-file config/cypress.config.js --browser chrome",
+    "cy:run": "CODE_COVERAGE=true cypress run --config-file config/cypress.config.js --browser chrome",
     "cy:run:localreports": "node script/run-local-cy-with-reports.js",
     "cy:test:docker": "node script/run-cypress-tests-docker.js",
     "cy:test:gha": "node script/run-cypress-tests-gha.js",
@@ -79,13 +79,16 @@
     "*.(js|jsx)": "eslint --fix -c ./.eslintrc.changed.js"
   },
   "nyc": {
-    "sourceMap": false,
+    "report-dir": "./coverage",
+    "temp-directory": "../.nyc_output",
+    "sourceMap": true,
     "instrument": false,
     "include": [
       "src/**"
     ],
     "exclude": [
       "src/platform/testing/**",
+      "**/*.cypress.spec.js",
       "**/*.spec.js",
       "**/*.spec.jsx"
     ]
@@ -125,7 +128,7 @@
     "@babel/register": "^7.25.9",
     "@babel/traverse": "^7.25.9",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
-    "@cypress/code-coverage": "^3.11.0",
+    "@cypress/code-coverage": "^3.13.6",
     "@department-of-veterans-affairs/eslint-plugin": "^1.18.2",
     "@department-of-veterans-affairs/generator-vets-website": "^3.12.0",
     "@octokit/rest": "^18.11.0",
@@ -147,7 +150,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-dynamic-import-node": "^2.3.3",
-    "babel-plugin-istanbul": "^6.0.0",
+    "babel-plugin-istanbul": "^7.0.0",
     "babel-plugin-lodash": "^3.2.8",
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-transform-class-properties": "^6.24.1",

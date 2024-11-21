@@ -1,4 +1,7 @@
 const { defineConfig } = require('cypress');
+const path = require('path');
+
+process.env.NYC_CONFIG = path.resolve(__dirname, '../package.json');
 
 const cypressConfig = {
   viewportWidth: 1920,

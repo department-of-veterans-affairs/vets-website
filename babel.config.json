@@ -25,7 +25,10 @@
   "ignore": ["./src/platform/polyfills/preESModulesPolyfills.js"],
   "plugins": [
     "lodash",
-
+    [
+      "babel-plugin-istanbul",
+      { "exclude": ["**/tests/**/*", "**/mocks/**/*"] }
+    ],
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-export-namespace-from",
     "@babel/plugin-proposal-numeric-separator",
@@ -316,7 +319,6 @@
     "test": {
       "presets": ["@babel/env", "@babel/preset-react"],
       "plugins": [
-        ["istanbul", { "exclude": ["**/tests/**/*", "**/mocks/**/*"] }],
         "transform-class-properties",
         "dynamic-import-node",
         "transform-react-remove-prop-types",
