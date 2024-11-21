@@ -25,7 +25,7 @@ describe('Medications List Page Active Filter Option', () => {
 
     listPage.clickFilterButtonOnAccordion(url);
     listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      Data.PAGINATION_TEXT,
+      Data.PAGINATION_ACTIVE_TEXT,
     );
   });
 });

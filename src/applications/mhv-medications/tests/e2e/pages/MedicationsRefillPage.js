@@ -434,11 +434,7 @@ class MedicationsRefillPage {
   };
 
   clickMedicationsListPageLinkOnRefillSuccessAlertOnRefillsPage = () => {
-    cy.intercept(
-      'GET',
-      'my_health/v1/prescriptions?page=1&per_page=20All%20medications&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      medicationsList,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
