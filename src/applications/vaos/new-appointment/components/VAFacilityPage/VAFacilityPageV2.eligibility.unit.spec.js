@@ -142,7 +142,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       await waitFor(() => {
         screen.queryByText(/San Diego VA Medical Center/i);
       });
-      fireEvent.click(screen.getByText(/Continue/));
       await screen.findByText(
         /you need to have had a mental health appointment at this facility within the last 12 months/,
       );
@@ -184,7 +183,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         'You can’t request another appointment until you schedule or cancel your open requests',
       );
 
-      expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
+      expect(await screen.queryByText(/Continue/)).not.to.exist;
     });
 
     it('should show error message when checks fail', async () => {
