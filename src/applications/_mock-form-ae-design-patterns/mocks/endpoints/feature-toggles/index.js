@@ -12,7 +12,6 @@ const profileToggles = {
   showEduBenefits1990nWizard: true,
   showEduBenefits5490Wizard: true,
   showEduBenefits1990eWizard: true,
-  updated: '2024-10-08T05:02:34.754Z',
 };
 
 const makeAllTogglesTrue = toggles => {

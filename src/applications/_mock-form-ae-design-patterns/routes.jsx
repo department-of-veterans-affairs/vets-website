@@ -19,15 +19,20 @@ import { LandingPage } from './shared/components/pages/LandingPage';
 import DevPanel from './dev/client/DevPanel';
 import { PatternConfigProvider } from './shared/context/PatternConfigContext';
 import { getPatterns, getTabs } from './utils/data/tabs';
+import { VADXPanelLoader } from './dev/panel/VADXPanelLoader';
+
+// Higher order component to wrap routes in the PatternConfigProvider and other common components
+const routeHoc = Component => props => (
+  <PatternConfigProvider {...props}>
+    <Component {...props} />
+    <VADXPanelLoader />
+  </PatternConfigProvider>
+);
 
 const pattern1Routes = [
   {
     path: '/1/task-green',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/1/task-green/introduction?loggedIn=false'),
@@ -36,11 +41,7 @@ const pattern1Routes = [
   },
   {
     path: '/1/task-yellow',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/1/task-yellow/introduction?loggedIn=true'),
@@ -49,11 +50,7 @@ const pattern1Routes = [
   },
   {
     path: '/1/task-purple',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/1/task-purple/introduction?loggedIn=true'),
@@ -62,11 +59,7 @@ const pattern1Routes = [
   },
   {
     path: '/1/ezr',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/1/ezr/introduction?loggedIn=true'),
@@ -78,11 +71,7 @@ const pattern1Routes = [
 const pattern2Routes = [
   {
     path: '/2/task-gray',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <CoeApp {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(CoeApp),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/2/task-gray/introduction?loggedIn=true'),
@@ -91,11 +80,7 @@ const pattern2Routes = [
   },
   {
     path: '/2/task-orange',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <Form1990Entry {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(Form1990Entry),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/2/task-orange/introduction?loggedIn=false'),
@@ -104,11 +89,7 @@ const pattern2Routes = [
   },
   {
     path: '/2/task-blue',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/2/task-blue/introduction?loggedIn=true'),
@@ -117,11 +98,7 @@ const pattern2Routes = [
   },
   {
     path: '/2/post-study',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <ReviewPage {...props} />,
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(ReviewPage),
   },
 ];
 

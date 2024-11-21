@@ -1,20 +1,30 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
-export const useLocalStorage = (storageKey, fallbackState) => {
-  const [value, setValue] = React.useState(
-    JSON.parse(localStorage.getItem(storageKey)) ?? fallbackState,
-  );
+export const useLocalStorage = (key, defaultValue) => {
+  const [value, setValue] = useState(() => {
+    let currentValue;
 
-  React.useEffect(
+    try {
+      currentValue = JSON.parse(
+        localStorage.getItem(key) || String(defaultValue),
+      );
+    } catch (error) {
+      currentValue = defaultValue;
+    }
+
+    return currentValue;
+  });
+
+  useEffect(
     () => {
-      if (value === '') {
-        localStorage.removeItem(storageKey);
-        return;
-      }
-      localStorage.setItem(storageKey, JSON.stringify(value));
+      localStorage.setItem(key, JSON.stringify(value));
     },
-    [value, storageKey],
+    [value, key],
   );
 
-  return [value, setValue];
+  const clearValue = () => {
+    localStorage.removeItem(key);
+  };
+
+  return [value, setValue, clearValue];
 };
