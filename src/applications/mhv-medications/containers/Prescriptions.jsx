@@ -96,6 +96,7 @@ const Prescriptions = () => {
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
+  const filterCount = useSelector(state => state.rx.prescriptions?.filterCount);
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
   const [printedList, setPrintedList] = useState([]);
   const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
@@ -670,6 +671,7 @@ const Prescriptions = () => {
                         updateFilter={updateFilterAndSort}
                         filterOption={filterOption}
                         setFilterOption={setFilterOption}
+                        filterCount={filterCount}
                       />
                     </>
                   )}
