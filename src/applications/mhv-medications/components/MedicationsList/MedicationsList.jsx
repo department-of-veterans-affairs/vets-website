@@ -59,6 +59,24 @@ const MedicationsList = props => {
         ALL_MEDICATIONS_FILTER_KEY
     ].showingContentDisplayName;
 
+  const filterAndSortContent = () => {
+    return (
+      <>
+        {/* TODO: clean after the filter toggle is gone */}
+        {showFilterContent &&
+          selectedFilterOption?.length > 0 && (
+            <strong>{selectedFilterOption} medications</strong>
+          )}
+        {/* TODO: clean after the filter toggle is gone */}
+        {`${
+          showFilterContent && selectedFilterOption?.length > 0
+            ? ''
+            : ' medications'
+        }, ${sortOptionLowercase}`}
+      </>
+    );
+  };
+
   return (
     <>
       {/* clean after filter flag is removed */}
@@ -74,23 +92,11 @@ const MedicationsList = props => {
           {`Showing ${displayNums[0]} - ${
             displayNums[1]
           } of ${totalMedications}`}
-          {/* TODO: clean after the filter toggle is gone */}
-          {showFilterContent &&
-            selectedFilterOption?.length > 0 && (
-              <strong>{selectedFilterOption} medications</strong>
-            )}
-          {/* TODO: clean after the filter toggle is gone */}
-          {`${
-            showFilterContent && selectedFilterOption?.length > 0
-              ? ''
-              : ' medications'
-          }, ${sortOptionLowercase}`}
+          {filterAndSortContent()}
         </span>
         <span className="print-only">
-          {/* TODO: clean after the filter toggle is gone */}
-          {`Showing ${totalMedications}${
-            showFilterContent ? selectedFilterOption : ''
-          } medications, ${sortOptionLowercase}`}
+          {`Showing ${totalMedications}`}
+          {filterAndSortContent()}
         </span>
       </p>
       <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
