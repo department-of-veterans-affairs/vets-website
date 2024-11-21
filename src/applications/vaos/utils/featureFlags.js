@@ -11,7 +11,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
-  { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
   { name: 'vaOnlineSchedulingStatusImprovement', value: true },
   { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
