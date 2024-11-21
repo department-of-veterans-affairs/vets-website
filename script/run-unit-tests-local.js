@@ -100,7 +100,7 @@ async function runTests() {
   for (const app of allUnitTestDirs) {
     const command = `LOG_LEVEL=${options[
       'log-level'
-    ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} "${`${app}/**/*.unit.spec.js?(x)`}"`;
+    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} "${`${app}/**/*.unit.spec.js?(x)`}"`;
 
     try {
       /* eslint-disable-next-line no-await-in-loop */
@@ -114,7 +114,7 @@ async function runTests() {
 if (options.path[0] !== defaultPath) {
   const command = `LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${`--recursive ${options.path
+  ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${`--recursive ${options.path
     .map(p => `'${p}'`)
     .join(' ')}`}`;
 
