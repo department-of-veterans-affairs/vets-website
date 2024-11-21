@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import DependentList from '../../../../components/FormFields/DependentList';
-import { normalizeFullName } from '../../../../utils/helpers';
+import { normalizeFullName } from '../../../../utils/helpers/general';
 
 describe('hca <DependentList>', () => {
   const getData = () => ({

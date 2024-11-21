@@ -210,70 +210,70 @@ describe('VA evidence', () => {
         'name122022-01-012022-02-02',
       );
       expect(buildVaLocationString(getLocation(), ',')).to.eq(
-        'name,1,2,2022-01-01,2022-02-02',
+        'name,1,2,,2022-01-01,2022-02-02',
       );
       expect(buildVaLocationString(getLocation(), ';')).to.eq(
-        'name;1;2;2022-01-01;2022-02-02',
+        'name;1;2;;2022-01-01;2022-02-02',
       );
     });
     it('should return expected strings', () => {
       expect(buildVaLocationString({})).to.eq('');
-      expect(buildVaLocationString({}, ',')).to.eq(',,');
+      expect(buildVaLocationString({}, ',')).to.eq(',,,');
       expect(
         buildVaLocationString(
           getLocation({ issues: [], from: '', to: '' }),
           ',',
         ),
-      ).to.eq('name,,');
+      ).to.eq('name,,,');
       expect(
         buildVaLocationString(getLocation({ from: '', to: '' }), ','),
-      ).to.eq('name,1,2,,');
+      ).to.eq('name,1,2,,,');
       expect(buildVaLocationString(getLocation({ to: '' }), ',')).to.eq(
-        'name,1,2,2022-01-01,',
+        'name,1,2,,2022-01-01,',
       );
       expect(buildVaLocationString(getLocation(), ',')).to.eq(
-        'name,1,2,2022-01-01,2022-02-02',
+        'name,1,2,,2022-01-01,2022-02-02',
       );
     });
     it('should remove empty dates', () => {
       expect(buildVaLocationString(getLocation({ from: '--' }), ',')).to.eq(
-        'name,1,2,,2022-02-02',
+        'name,1,2,,,2022-02-02',
       );
       expect(buildVaLocationString(getLocation({ from: '-00-00' }), ',')).to.eq(
-        'name,1,2,,2022-02-02',
+        'name,1,2,,,2022-02-02',
       );
       expect(buildVaLocationString(getLocation({ to: '--' }), ',')).to.eq(
-        'name,1,2,2022-01-01,',
+        'name,1,2,,2022-01-01,',
       );
       expect(buildVaLocationString(getLocation({ to: '-00-00' }), ',')).to.eq(
-        'name,1,2,2022-01-01,',
+        'name,1,2,,2022-01-01,',
       );
     });
     it('should add leading zeros to dates', () => {
       expect(
         buildVaLocationString(getLocation({ from: '2021-12-4' }), ','),
-      ).to.eq('name,1,2,2021-12-04,2022-02-02');
+      ).to.eq('name,1,2,,2021-12-04,2022-02-02');
       expect(
         buildVaLocationString(getLocation({ from: '2022-1-16' }), ','),
-      ).to.eq('name,1,2,2022-01-16,2022-02-02');
+      ).to.eq('name,1,2,,2022-01-16,2022-02-02');
       expect(
         buildVaLocationString(getLocation({ from: '2022-1-5' }), ','),
-      ).to.eq('name,1,2,2022-01-05,2022-02-02');
+      ).to.eq('name,1,2,,2022-01-05,2022-02-02');
 
       expect(
         buildVaLocationString(getLocation({ to: '2022-12-3' }), ','),
-      ).to.eq('name,1,2,2022-01-01,2022-12-03');
+      ).to.eq('name,1,2,,2022-01-01,2022-12-03');
       expect(
         buildVaLocationString(getLocation({ to: '2022-3-17' }), ','),
-      ).to.eq('name,1,2,2022-01-01,2022-03-17');
+      ).to.eq('name,1,2,,2022-01-01,2022-03-17');
       expect(buildVaLocationString(getLocation({ to: '2022-3-3' }), ',')).to.eq(
-        'name,1,2,2022-01-01,2022-03-03',
+        'name,1,2,,2022-01-01,2022-03-03',
       );
     });
     it('should not include issues', () => {
       expect(
         buildVaLocationString(getLocation(), ',', { includeIssues: false }),
-      ).to.eq('name,2022-01-01,2022-02-02');
+      ).to.eq('name,,2022-01-01,2022-02-02');
     });
   });
 
