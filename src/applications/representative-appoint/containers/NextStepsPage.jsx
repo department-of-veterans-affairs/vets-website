@@ -24,7 +24,7 @@ export default function NextStepsPage() {
   return (
     <div>
       <FormTitle
-        title="Request help from a VA accredited representative or VSO"
+        title="Fill out your form to request help"
         subTitle={getFormSubtitle(formData)}
       />
       <h2>Your next steps</h2>
