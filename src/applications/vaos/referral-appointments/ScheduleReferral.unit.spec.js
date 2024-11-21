@@ -6,13 +6,15 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { referral } from './temp-data/referral';
+import { createReferral } from './utils/referrals';
 
 describe('scheduleReferral component', () => {
   it('should display the subtitle correctly given different numbers of appointments', async () => {
     const store = createTestStore();
     const sandbox = sinon.createSandbox();
-    sandbox.stub(referral, 'appointmentCount').value(1);
+    sandbox
+      .stub(createReferral(new Date(), '111'), 'numberOfAppointments')
+      .value(1);
     const screen = renderWithStoreAndRouter(<ScheduleReferral />, {
       store,
     });
@@ -23,8 +25,9 @@ describe('scheduleReferral component', () => {
   it('should display the subtitle correctly given 2 appointments', async () => {
     const store = createTestStore();
     const sandbox = sinon.createSandbox();
-    sandbox.stub(referral, 'appointmentCount').value(2);
-    referral.appointmentCount = 2;
+    sandbox
+      .stub(createReferral(new Date(), '111'), 'numberOfAppointments')
+      .value(2);
     const screen = renderWithStoreAndRouter(<ScheduleReferral />, {
       store,
     });

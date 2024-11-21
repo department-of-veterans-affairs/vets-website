@@ -5,6 +5,7 @@ import { fetchReferralById } from '../redux/actions';
 import { FETCH_STATUS } from '../../utils/constants';
 
 const useGetReferralFromId = id => {
+  const [referralNotFound, setReferralNotFound] = useState(false);
   const [currentReferral, setCurrentReferral] = useState(null);
   const dispatch = useDispatch();
   const { referrals, referralFetchStatus } = useSelector(
@@ -13,9 +14,21 @@ const useGetReferralFromId = id => {
   );
   useEffect(
     () => {
-      if (referrals && id) {
+      if (referralFetchStatus === FETCH_STATUS.succeeded && !referrals) {
+        setReferralNotFound(true);
+      }
+    },
+    [referralFetchStatus, referrals],
+  );
+  useEffect(
+    () => {
+      if (referrals.length && id) {
         const referralFromParam = referrals.find(ref => ref.UUID === id);
-        setCurrentReferral(referralFromParam);
+        if (referralFromParam) {
+          setCurrentReferral(referralFromParam);
+        } else {
+          setReferralNotFound(true);
+        }
       }
     },
     [id, referrals, referralFetchStatus],
@@ -34,6 +47,7 @@ const useGetReferralFromId = id => {
   return {
     currentReferral,
     referralFetchStatus,
+    referralNotFound,
   };
 };
 
