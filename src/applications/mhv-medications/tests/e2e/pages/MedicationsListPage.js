@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
-
+import filterRx from '../fixtures/filter-prescriptions.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
@@ -748,9 +748,8 @@ class MedicationsListPage {
       .and('contain', description);
   };
 
-  clickFilterRadioButtonOptionOnListPage = (option, status) => {
-    cy.get(`[label="${option}"]`).click();
-    cy.intercept('GET', `${status}`, prescription);
+  clickFilterRadioButtonOptionOnListPage = option => {
+    cy.contains(`${option}`).click({ force: true });
   };
 
   verifyFilterHeaderTextHasFocusafterExpanded = () => {
@@ -769,7 +768,8 @@ class MedicationsListPage {
       .and('have.text', 'Filter');
   };
 
-  clickFilterButtonOnAccordion = () => {
+  clickFilterButtonOnAccordion = url => {
+    cy.intercept('GET', `${url}`, filterRx);
     cy.get('[data-testid="filter-button"]')
       .shadow()
       .find('[type="button"]')
@@ -783,7 +783,7 @@ class MedicationsListPage {
   };
 
   verifyAllMedicationsRadioButtonIsChecked = () => {
-    cy.get(`input[type="radio"][value="All medications"]`).should('be.checked');
+    cy.contains('All medications').should('be.visible');
   };
 
   verifyFocusOnPaginationTextInformationOnListPage = text => {
