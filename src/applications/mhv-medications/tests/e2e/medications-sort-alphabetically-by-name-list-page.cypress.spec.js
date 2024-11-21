@@ -3,6 +3,7 @@ import mockRxPageOne from './fixtures/prescriptions.json';
 import mockRxPageTwo from './fixtures/prescriptions-page-2.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
+import { Paths } from './utils/constants';
 
 describe('Medications List Page Sort Alphabetically By Name', () => {
   it('visits Medications list Page Sort Alphabetically By Name', () => {
@@ -11,7 +12,7 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
     const landingPage = new MedicationsLandingPage();
     site.login();
     landingPage.visitLandingPageURL();
-    const listLength = 20;
+    const listLength = 29;
     mockRxPageOne.data.forEach(item => {
       const currentItem = item;
       currentItem.attributes.threadPageSize = listLength;
@@ -35,7 +36,7 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
     // site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     listPage.selectSortDropDownOption(
       'Alphabetically by name',
-      'prescription_name&sort[]=dispensed_date',
+      Paths.SORT_BY_NAME,
     );
     listPage.loadRxAfterSortAlphabeticallyByName();
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByName(
