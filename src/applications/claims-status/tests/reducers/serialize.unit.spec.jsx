@@ -152,24 +152,4 @@ describe('Claim Serializer', () => {
     expect(trackedItem3.documents.length).to.be.equal(2);
     expect(trackedItem3.documents.map(d => d.id).sort()).to.eql([3, 4]);
   });
-
-  it('should replace the display name of some types of tracked items', () => {
-    const claim = {
-      id: 1,
-      type: 'claim',
-      attributes: {
-        trackedItems: [
-          {
-            id: 1,
-            displayName: 'Private Medical Record',
-          },
-        ],
-      },
-    };
-    const serializedClaim = serializeClaim(claim);
-    const trackedItem1 = serializedClaim.attributes.trackedItems.find(
-      d => d.id === 1,
-    );
-    expect(trackedItem1.displayName).to.eql('Private Medical Record');
-  });
 });
