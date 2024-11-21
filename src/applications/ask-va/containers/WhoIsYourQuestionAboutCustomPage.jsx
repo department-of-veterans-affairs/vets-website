@@ -20,12 +20,6 @@ const WhoIsYourQuestionAboutCustomPage = props => {
   const [validationError, setValidationError] = useState(null);
   const [showModal, setShowModal] = useState({ show: false, message: '' });
 
-  const caregiverSelected = {
-    category: 'Health care',
-    topic: 'Caregiver support program',
-    subtopic: 'Program of General Caregiver Support Services (PGCSS)',
-  };
-
   const radioOptions = () => {
     const labels = Object.values(whoIsYourQuestionAboutLabels);
     const values = Object.keys(whoIsYourQuestionAboutLabels);
@@ -57,9 +51,6 @@ const WhoIsYourQuestionAboutCustomPage = props => {
     const selectedValue = event.detail.value;
     onChange({ ...formData, whoIsYourQuestionAbout: selectedValue });
     if (
-      formData.selectCategory === caregiverSelected.category &&
-      formData.selectTopic === caregiverSelected.topic &&
-      formData.selectSubtopic === caregiverSelected.subtopic &&
       !loggedIn &&
       (selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
         selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE)
@@ -125,6 +116,11 @@ WhoIsYourQuestionAboutCustomPage.propTypes = {
   loggedIn: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
+  formData: PropTypes.shape({
+    whoIsYourQuestionAbout: PropTypes.string,
+  }),
 };
 
 function mapStateToProps(state) {

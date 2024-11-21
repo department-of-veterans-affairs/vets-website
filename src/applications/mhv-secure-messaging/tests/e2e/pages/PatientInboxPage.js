@@ -203,10 +203,10 @@ class PatientInboxPage {
     return mockMessages.data.at(this.newMessageIndex);
   };
 
-  getNewMessageDetails = () => {
+  getNewMessageDetails = (message = mockMessageDetails) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
-    const newMessage = mockMessageDetails;
+    const newMessage = message;
     newMessage.data.attributes.sentDate = date.toISOString();
     return newMessage;
   };
@@ -442,18 +442,16 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CATEGORY_RADIOBTN)
       .first()
       .click();
-    cy.get(Locators.MESSAGE_SUBJECT)
-      .shadow()
-      .find('#inputField')
+    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+      .find(`#inputField`)
       .type('testSubject', { force: true });
-    cy.get('#compose-message-body')
-      .shadow()
-      .find('textarea')
-      .type('testMessage', { force: true });
+    cy.get(Locators.FIELDS.MESSAGE_BODY)
+      .find(`#input-type-textarea`)
+      .type('\ntestMessage', { force: true });
   };
 
   verifySignature = () => {
-    cy.get(Locators.MESSAGES_BODY)
+    cy.get(Locators.FIELDS.MESSAGE_BODY)
       .should('have.attr', 'value')
       .and('not.be.empty');
   };

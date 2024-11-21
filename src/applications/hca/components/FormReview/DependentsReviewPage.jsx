@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { normalizeFullName } from '../../utils/helpers';
+import { normalizeFullName } from '../../utils/helpers/general';
 
 const DependentsReviewPage = ({ data, editPage }) => {
   const { dependents } = data;
