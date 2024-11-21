@@ -35,5 +35,9 @@ export default function transformForSubmit(formConfig, form) {
       'Alternate signer';
   }
 
+  if (transformedData.homePhone) {
+    transformedData.homePhone = transformedData.homePhone.replace(/-/g, '');
+  }
+
   return JSON.stringify(transformedData);
 }
