@@ -133,10 +133,18 @@ const Prescriptions = () => {
       newSortOption || selectedSortOption || defaultSelectedSortOption;
     const sortBy = rxListSortingOptions[sortOption].API_ENDPOINT;
     const filterBy = newFilterOption ?? filterOption;
-    dispatch(getPaginatedFilteredList(1, filterBy, sortBy));
-    updateLoadingStatus(false, '');
+    const isFiltering = newFilterOption !== null;
+    updateLoadingStatus(
+      true,
+      `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
+    );
+    dispatch(getPaginatedFilteredList(1, filterBy, sortBy)).then(() => {
+      updateLoadingStatus(false, '');
+      focusElement(document.getElementById('showingRx'));
+    });
+
     history.replace('/?page=1');
-    if (newFilterOption !== null) {
+    if (isFiltering) {
       sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, newFilterOption);
     }
   };
@@ -284,13 +292,14 @@ const Prescriptions = () => {
         );
         const sortOption = selectedSortOption ?? defaultSelectedSortOption;
         const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
+        updateLoadingStatus(true, 'Loading your medications...');
         dispatch(
           getPaginatedFilteredList(
             storedPageNumber,
             storedFilterOption,
             sortEndpoint,
           ),
-        );
+        ).then(() => updateLoadingStatus(false, ''));
       }
     },
     [dispatch, page, showFilterContent],
@@ -732,7 +741,7 @@ const Prescriptions = () => {
                     </>
                   ) : (
                     <>
-                      {(!showFilterContent || filteredList === undefined) && (
+                      {!showFilterContent && (
                         <div className="vads-u-padding-y--3">
                           <va-loading-indicator
                             message={loadingMessage}
@@ -743,15 +752,27 @@ const Prescriptions = () => {
                       )}
                     </>
                   )}
-                  {showFilterContent &&
-                    filteredList?.length === 0 && (
-                      <>
-                        <h2 id="no-matches-msg">
-                          We didn’t find any matches for this filter
-                        </h2>
-                        <p>Try selecting a different filter.</p>
-                      </>
-                    )}
+                  {showFilterContent && (
+                    <>
+                      {filteredList?.length === 0 && (
+                        <div>
+                          <h2 id="no-matches-msg">
+                            We didn’t find any matches for this filter
+                          </h2>
+                          <p>Try selecting a different filter.</p>
+                        </div>
+                      )}
+                      {isLoading && (
+                        <div className="vads-u-height--viewport vads-u-padding-top--3">
+                          <va-loading-indicator
+                            message={`${loadingMessage}`}
+                            setFocus
+                            data-testid="loading-indicator"
+                          />
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
               </>
             )}
