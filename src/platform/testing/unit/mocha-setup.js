@@ -15,6 +15,7 @@ import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
+import { after } from 'mocha';
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
@@ -192,5 +193,22 @@ export const mochaHooks = {
   afterEach() {
     cleanupStorage();
     flushPromises();
+  },
+  // afterAll() {
+  //   console.log('All tests in this suite have completed.');
+  //   process.exit(0);
+  // }
+  
+  afterAll(done) {
+    flushPromises()
+      .then(() => {
+        done();
+        setTimeout(() => {
+          process.exit(0);
+        })
+      })
+      .catch(error => {
+        done(error);
+      });
   },
 };
