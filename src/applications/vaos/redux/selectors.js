@@ -86,9 +86,6 @@ export const selectFeatureBreadcrumbUrlUpdate = state =>
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
 
-export const selectFeatureAfterVisitSummary = state =>
-  toggleValues(state).vaOnlineSchedulingAfterVisitSummary;
-
 export const selectFeatureStartSchedulingLink = state =>
   toggleValues(state).vaOnlineSchedulingStartSchedulingLink;
 
