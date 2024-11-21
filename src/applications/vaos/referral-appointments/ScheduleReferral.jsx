@@ -19,13 +19,13 @@ export default function ScheduleReferral(props) {
   );
 
   const appointmentCountString =
-    currentReferral?.numberOfAppointments === 1
+    currentReferral.numberOfAppointments === 1
       ? '1 appointment'
-      : `${currentReferral?.numberOfAppointments} appointments`;
+      : `${currentReferral.numberOfAppointments} appointments`;
   return (
     <FormLayout pageTitle="Review Approved Referral">
       <div>
-        <h1>Referral for {currentReferral?.CategoryOfCare}</h1>
+        <h1>Referral for {currentReferral.CategoryOfCare}</h1>
         <p data-testid="subtitle">
           {`Your referring VA facility approved you for ${appointmentCountString} with a community care provider. You can now schedule your appointment with a community care provider.`}
         </p>
@@ -49,24 +49,24 @@ export default function ScheduleReferral(props) {
           <strong>Expiration date: </strong>
           {`All appointments for this referral must be scheduled by
           ${format(
-            new Date(currentReferral?.ReferralExpirationDate),
+            new Date(currentReferral.ReferralExpirationDate),
             'MMMM d, yyyy',
           )}`}
           <br />
           <strong>Type of care: </strong>
-          {currentReferral?.CategoryOfCare}
+          {currentReferral.CategoryOfCare}
           <br />
           <strong>Provider: </strong>
-          {currentReferral?.providerName}
+          {currentReferral.providerName}
           <br />
           <strong>Location: </strong>
-          {currentReferral?.providerLocation}
+          {currentReferral.providerLocation}
           <br />
           <strong>Number of appointments: </strong>
-          {currentReferral?.numberOfAppointments}
+          {currentReferral.numberOfAppointments}
           <br />
           <strong>Referral number: </strong>
-          {currentReferral?.ReferralNumber}
+          {currentReferral.ReferralNumber}
         </p>
         <va-additional-info
           data-testid="help-text"
@@ -88,10 +88,10 @@ export default function ScheduleReferral(props) {
         </p>
         <p>
           <strong>Referring VA facility: </strong>
-          {currentReferral?.ReferringFacilityInfo.FacilityName}
+          {currentReferral.ReferringFacilityInfo.FacilityName}
           <br />
           <strong>Phone: </strong>
-          {currentReferral?.ReferringFacilityInfo.Phone}
+          {currentReferral.ReferringFacilityInfo.Phone}
         </p>
       </div>
     </FormLayout>
@@ -99,5 +99,5 @@ export default function ScheduleReferral(props) {
 }
 
 ScheduleReferral.propTypes = {
-  currentReferral: PropTypes.object,
+  currentReferral: PropTypes.object.isRequired,
 };
