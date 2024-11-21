@@ -4,14 +4,13 @@ import {
   selectSchema,
   selectUI,
   textareaUI,
+  titleUI,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { CONDITIONS_FIRST } from '../constants';
 import { conditionOptions } from '../content/conditionOptions';
-import {
-  disabilityNameTitle,
-  ServiceConnectedDisabilityDescription,
-} from '../content/newConditions';
+import { ServiceConnectedDisabilityDescription } from '../content/newConditions';
 import { causeOptions } from './conditionByConditionPages/cause';
 import { createItemName } from './conditionsFirstPages/utils';
 
@@ -37,10 +36,13 @@ export default {
     'ui:title': 'Conditions cause follow up',
     conditionsFirst: {
       items: {
-        'ui:title': disabilityNameTitle,
-        'ui:options': {
-          itemAriaLabel: data => `${data.condition} followup questions`,
-        },
+        ...titleUI(({ formData }) => createItemName(formData, true)),
+        date: textUI({
+          title:
+            'What is the approximate date this condition began? If you’re having trouble remembering the exact date you can provide a year.',
+          hint: 'For example: January 2004 or 2004',
+          charcount: true,
+        }),
         cause: radioUI({
           title: 'What caused your condition?',
           labels: causeOptions,
@@ -138,6 +140,10 @@ export default {
           type: 'object',
           required: ['cause'],
           properties: {
+            date: {
+              type: 'string',
+              maxLength: 25,
+            },
             cause: radioSchema(Object.keys(causeOptions)),
             primaryDescription: {
               type: 'string',
