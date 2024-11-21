@@ -6,8 +6,10 @@ export const Paths = {
     '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
   MED_LIST:
     '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-  SORT_BY_NAME: '&sort[]=prescription_name&sort[]=dispensed_date',
-  SORT_BY_LAST_FILLED: '&sort[]=-dispensed_date&sort[]=prescription_name',
+  SORT_BY_NAME:
+    'my_health/v1/prescriptions?page=1&per_page=20&sort[]=prescription_name&sort[]=dispensed_date',
+  SORT_BY_LAST_FILLED:
+    'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
   SORT_BY_STATUS:
     '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
   ACTIVE_FILTER:

@@ -462,19 +462,11 @@ class MedicationsListPage {
   };
 
   selectSortDropDownOption = (text, intercept) => {
-    cy.intercept(
-      'GET',
-      `/my_health/v1/prescriptions?page=1&per_page=20null${intercept}`,
-      prescriptions,
-    ).as('medicationList');
+    cy.intercept('GET', `${intercept}`, prescriptions).as('medicationList');
     cy.get('[data-testid="sort-dropdown"]')
       .find('#options')
       .select(text, { force: true });
-    cy.intercept(
-      'GET',
-      `/my_health/v1/prescriptions?page=1&per_page=20null${intercept}`,
-      prescriptions,
-    );
+    cy.intercept('GET', `${intercept}`, prescriptions);
   };
 
   loadRxDefaultSortAlphabeticallyByStatus = () => {
