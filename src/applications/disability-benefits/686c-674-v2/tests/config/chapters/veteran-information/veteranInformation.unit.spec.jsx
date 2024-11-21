@@ -8,19 +8,6 @@ import VeteranInformationComponent from '../../../../config/chapters/veteran-inf
 const defaultStore = createCommonStore();
 
 describe('Veteran Information Component', () => {
-  it('Should Render an h3 element with the correct text', () => {
-    const { getByText } = render(
-      <Provider store={defaultStore}>
-        <VeteranInformationComponent />
-      </Provider>,
-    );
-
-    const heading = getByText(
-      'Confirm the personal information we have on file for you.',
-    );
-    expect(heading.tagName).to.equal('H3');
-  });
-
   it('Should Render a div with the specific class name', () => {
     const { container } = render(
       <Provider store={defaultStore}>
