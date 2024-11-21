@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import ConfirmationScreenView from '../../../../components/ConfirmationPage/ConfirmationScreenView';
-import { normalizeFullName } from '../../../../utils/helpers';
+import { normalizeFullName } from '../../../../utils/helpers/general';
 
 describe('hca <ConfirmationScreenView>', () => {
   const getData = ({ timestamp = undefined }) => ({
