@@ -19,6 +19,7 @@ export default function VerifyApp() {
         window.location.replace('/');
       }
 
+      document.title = `Verify your identity`; // title should match h1 tag
       recordEvent({ event: 'verify-prompt-displayed' });
 
       if (!profile?.loading) {
@@ -38,7 +39,7 @@ export default function VerifyApp() {
   }
 
   const { idme, logingov } = SERVICE_PROVIDERS;
-  const signInMethod = profile?.signIn?.serviceName;
+  const signInMethod = profile?.signIn?.serviceName ?? 'mhv';
   const singleVerifyButton =
     signInMethod === 'logingov' ? (
       <VerifyLogingovButton />

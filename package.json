@@ -261,13 +261,12 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^48.0.1",
-    "@department-of-veterans-affairs/css-library": "^0.14.0",
-    "@department-of-veterans-affairs/formation": "11.0.26",
+    "@department-of-veterans-affairs/formation": "^12.0.0",
+    "@department-of-veterans-affairs/component-library": "^48.0.2",
+    "@department-of-veterans-affairs/css-library": "^0.15.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
-    "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^2.2.5",
     "blob-polyfill": "^5.0.20210201",
@@ -378,7 +377,8 @@
     "**/minimist": "^1.2.6",
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
-    "**/fbjs": "^3.0.4"
+    "**/fbjs": "^3.0.4",
+    "ws": "7.5.10"
   },
   "workspaces": {
     "packages": [

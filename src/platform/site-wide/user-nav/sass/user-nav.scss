@@ -69,98 +69,6 @@
   height: 42px;
 }
 
-#loginGovExperimentModal {
-  ul {
-    list-style: unset;
-    margin: unset;
-    margin-top: -1em;
-    padding: unset;
-    margin-inline-start: 2em;
-
-    li {
-      margin-bottom: 0;
-    }
-  }
-
-  .alert-actions {
-    margin: 10px 0 0;
-  }
-}
-
-span.sidelines {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  text-align: center;
-  width: 100%;
-  display: inline-block;
-
-  font-size: 1.15em;
-  font-weight: bold;
-
-  &:before,
-  &:after {
-    position: absolute;
-    top: 51%;
-    overflow: hidden;
-    width: 50%;
-    height: 2px;
-    content: "\a0";
-    background-color: var(--vads-color-gray-light-alt);
-  }
-
-  &:before {
-    margin-left: -52%;
-    text-align: right;
-  }
-
-  &:after {
-    margin-left: 2%;
-  }
-}
-
-#signin-signup-modal {
-  .va-modal-body {
-    // Overwrite white header color.
-    color: var(--vads-color-base-darker);
-    padding-top: 0;
-    margin-right: 0;
-  }
-
-  &.new-modal-design .va-modal-body {
-    @include media($medium-screen) {
-      padding: 0 9em;
-    }
-  }
-
-  .va-modal-inner {
-    max-width: 62.5rem;
-    width: 95vw;
-  }
-
-  .login {
-    .explanation-content {
-      @include media($medium-screen) {
-        margin-left: 2em;
-      }
-
-      ul {
-        list-style: square;
-        padding-left: 1.5em;
-      }
-
-      p {
-        margin: 1em 0;
-      }
-    }
-  }
-}
-
-#ios-bug ul {
-  list-style: square;
-  padding-left: 1.5em;
-}
-
 #login-root {
   .sitewide-search-drop-down-panel-button,
   .sign-in-drop-down-panel-button {
@@ -171,6 +79,186 @@ span.sidelines {
   }
 }
 
+/* OCTO Identity */
+.login,
+.verify {
+  background: var(--vads-color-white);
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 330px;
+    padding: 0.75em;
+    font-size: 16px;
+    margin: 1em 0;
+    white-space: normal !important;
+
+    &.dslogon-button {
+      background: var(--vads-color-primary-dark);
+
+      &:hover {
+        background: var(--vads-color-primary-darker);
+      }
+    }
+
+    &.dslogon {
+      background: var(--vads-color-primary-dark);
+
+      &:hover {
+        background: var(--vads-color-primary-darker);
+      }
+    }
+
+    &.idme-button {
+      background: var(--vads-color-success-dark);
+
+      &:hover {
+        background: var(
+          --vads-button-color-background-primary-alt-active-on-light
+        );
+      }
+    }
+
+    &.logingov-button {
+      background: var(--vads-color-secondary);
+
+      &:hover {
+        background: var(--vads-color-secondary-darkest);
+      }
+    }
+
+    &.mhv-button {
+      background: var(--vads-color-primary);
+
+      &:hover {
+        background: var(--vads-color-primary-dark);
+      }
+    }
+
+    img,
+    svg {
+      height: 1em;
+      padding: 0 0.25em;
+    }
+  }
+
+  hr {
+    border-color: var(--vads-color-base-lighter);
+  }
+
+  .fed-warning {
+    font-size: 0.9em;
+    margin-bottom: 2em;
+
+    p {
+      margin: 0.5em 0;
+    }
+
+    &--v2 {
+      font-size: unset;
+      margin-bottom: unset;
+      max-width: 81ch;
+    }
+  }
+
+  .sign-in-wrapper {
+    max-width: 570px;
+  }
+
+  .logo {
+    text-align: center;
+    border-bottom: solid 2px var(--vads-color-gray-light-alt);
+    padding: 0 0 1em;
+
+    a {
+      &:hover {
+        background-color: transparent;
+      }
+
+      display: inline-block;
+    }
+  }
+
+  #signin-signup-modal-title {
+    margin: 2rem 0 0;
+  }
+
+  .help-info {
+    margin: 2rem 0 0;
+  }
+}
+
+.verify {
+  h4 + p {
+    margin-top: 0;
+  }
+}
+
+.sign-in-nav {
+  color: var(--vads-color-white);
+  white-space: nowrap;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:visited {
+      color: inherit;
+    }
+  }
+
+  button {
+    &:disabled {
+      background-color: inherit;
+      opacity: 0.7;
+    }
+  }
+}
+
+.login.login-modal {
+  // temporary solution until DST can fix va-modal large property
+  margin-left: -1rem;
+  margin-right: 4rem;
+
+  @include media($medium-screen) {
+    margin-left: unset;
+    margin-right: unset;
+  }
+
+  .downtime-notification.row {
+    margin: 0 0 1em;
+  }
+
+  #mhvH3 {
+    margin-top: unset;
+  }
+}
+
+.login.login-page {
+  .downtime-notification.row {
+    margin: 0 auto 1em;
+    padding: 0 0.5rem;
+
+    @include media($medium-screen) {
+      padding: unset;
+    }
+  }
+}
+
+.fed-warning--v2 {
+  @include media($medium-screen) {
+    margin-left: 0.25rem;
+  }
+}
+
+#ios-bug ul {
+  list-style: square;
+  padding-left: 1.5em;
+}
+
+// Verify buttons
 button.idme-verify-button {
   padding: 0;
   background: var(--vads-color-success-dark);
@@ -234,114 +322,6 @@ button.logingov-verify-button {
   }
 }
 
-.login,
-.transfer-account {
-  button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 330px;
-    padding: 0.75em;
-    font-size: 16px;
-    margin: 1em 0;
-    white-space: normal !important;
-
-    &.dslogon-button {
-      background: var(--vads-color-primary-dark);
-
-      &:hover {
-        background: var(--vads-color-primary-darker);
-      }
-    }
-
-    &.dslogon {
-      background: var(--vads-color-primary-dark);
-
-      &:hover {
-        background: var(--vads-color-primary-darker);
-      }
-    }
-
-    &.idme-create {
-      box-shadow: inset 0 0 0 2px var(--vads-color-success-dark);
-      color: var(--vads-color-success-dark);
-      margin-bottom: 0;
-
-      &:hover {
-        box-shadow: inset 0 0 0 2px
-          var(--vads-button-color-background-primary-alt-active-on-light);
-        color: var(--vads-button-color-background-primary-alt-active-on-light);
-      }
-    }
-
-    &.idme-button {
-      background: var(--vads-color-success-dark);
-
-      &:hover {
-        background: var(
-          --vads-button-color-background-primary-alt-active-on-light
-        );
-      }
-    }
-
-    &.logingov-button {
-      background: var(--vads-color-secondary);
-
-      &:hover {
-        background: var(--vads-color-secondary-darkest);
-      }
-    }
-
-    &.mhv-button {
-      background: var(--vads-color-primary);
-
-      &:hover {
-        background: var(--vads-color-primary-dark);
-      }
-    }
-
-    img,
-    svg {
-      height: 1em;
-      padding: 0 0.25em;
-    }
-  }
-
-  .container {
-    color: var(--vads-color-base);
-    padding: 2em 0;
-  }
-
-  .logo {
-    text-align: center;
-    border-bottom: solid 2px var(--vads-color-gray-light-alt);
-    padding: 1em 0;
-
-    a {
-      &:hover {
-        background-color: transparent;
-      }
-
-      display: inline-block;
-    }
-  }
-
-  .help-info {
-    padding: 2em 0;
-
-    p:first-of-type {
-      margin-top: 0;
-    }
-  }
-}
-
-.verify {
-  h4 + p {
-    margin-top: 0;
-  }
-}
-
 button.idme-verify-buttons,
 button.logingov-verify-buttons {
   display: flex;
@@ -375,170 +355,14 @@ button.logingov-verify-buttons {
   }
 }
 
-.login,
-.verify {
-  background: var(--vads-color-white);
-
-  hr {
-    border-color: var(--vads-color-base-lighter);
-  }
-
-  .mobile-explanation {
-    padding: 1em 0;
-
-    p {
-      margin-top: 0;
-    }
-  }
-
-  .fed-warning {
-    font-size: 0.9em;
-    margin-bottom: 2em;
-
-    p {
-      margin: 0.5em 0;
-    }
-
-    &--v2 {
-      font-size: unset;
-      margin-bottom: unset;
-      max-width: 81ch;
-    }
-  }
-
-  .signin-actions-container {
-    text-align: center;
-
-    @include media-maxwidth($small-screen) {
-      margin-right: 0;
-    }
-
-    div:first-child {
-      background: var(--vads-color-gray-light-alt);
-    }
-
-    border: solid 2px var(--vads-color-gray-light-alt);
-
-    .top-banner {
-      text-align: center;
-      display: flex;
-      align-items: center;
-      padding: 0.25em 0;
-      font-style: italic;
-
-      div:first-child {
-        margin: 0 auto;
-      }
-
-      img {
-        height: inherit;
-        vertical-align: baseline;
-        padding: 0 0.25em;
-      }
-    }
-
-    .signin-actions {
-      padding: 2em 2em 1em;
-
-      h5 {
-        margin-top: 0;
-      }
-
-      @include media-maxwidth($small-screen) {
-        padding: 2em 1em 1em;
-      }
-
-      .alternate-signin {
-        padding-top: 1em;
-
-        p:first-of-type {
-          margin-top: 0.5em;
-          color: var(--vads-color-base-darker);
-        }
-      }
-    }
-  }
+// DO NOT REMOVE without OCTO Identity
+.merger:has(va-modal#signin-signup-modal.open) {
+  overflow-y: hidden;
 }
 
-.sign-in-nav {
-  color: var(--vads-color-white);
-  white-space: nowrap;
-
-  a {
-    color: inherit;
-    text-decoration: none;
-
-    &:visited {
-      color: inherit;
-    }
-  }
-
-  button {
-    &:disabled {
-      background-color: inherit;
-      opacity: 0.7;
-    }
-  }
+.merger:has(.login.login-page) .header #legacy-header,
+.merger:has(.login.login-page) #header-default #legacy-header {
+  height: 137.19px;
+  min-height: 137.19px;
 }
-
-.sign-in-links {
-  margin-left: 0.625rem;
-}
-
-.sign-in-link {
-  color: inherit !important;
-  text-decoration: none;
-
-  &:hover {
-    color: var(--vads-color-warning) !important;
-    text-decoration: underline;
-  }
-}
-
-.sign-in-spacer {
-  color: var(--vads-color-white);
-  margin: 0 0.6em;
-}
-
-#help-menu {
-  width: 13.125rem;
-}
-
-#create-account a {
-  border-top: 1px solid var(--vads-color-base-light);
-  border-bottom: 1px solid var(--vads-color-base-light);
-  line-height: 100%;
-
-  &:before {
-    top: unset !important;
-  }
-
-  &.logingov {
-    border-bottom: 0;
-  }
-}
-
-.sign-in-wrapper {
-  @include media($medium-screen) {
-    max-width: 600px !important;
-  }
-}
-
-.button-styled-as-link {
-  background-color: transparent;
-  color: var(--vads-color-base);
-  font-weight: normal;
-  padding: unset;
-  margin: unset;
-  display: inline-block;
-  text-align: left;
-  height: 24px;
-  border-radius: 0;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: var(--vads-color-base);
-    text-decoration: none;
-    border-bottom: 0;
-  }
-}
+// DO NOT REMOVE without OCTO Identity

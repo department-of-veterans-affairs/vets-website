@@ -54,6 +54,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  onFormLoaded,
 } from '../utils/evidence';
 import { hasMstOption } from '../utils/mstOption';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
@@ -145,6 +146,7 @@ const formConfig = {
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
+  onFormLoaded,
   formOptions: {
     focusOnAlertRole: true,
   },
