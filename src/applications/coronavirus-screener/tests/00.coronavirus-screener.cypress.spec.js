@@ -15,7 +15,9 @@ Cypress.Commands.add('testQuestionScenario', ({ scenario, routeOption }) => {
     cy.get(`va-summary-box[id=${question.id}]`, { timeout: slow }).should(
       'be.visible',
     );
-    cy.get(`div[id=${question.id}] > button[value=${question.value}]`).click();
+    cy.get(
+      `va-summary-box[id=${question.id}] > button[value=${question.value}]`,
+    ).click();
   });
   cy.get(`div[class*=${scenario.result.class}]`, { timeout: slow }).should(
     'be.visible',
