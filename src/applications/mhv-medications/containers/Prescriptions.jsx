@@ -42,6 +42,7 @@ import {
   SESSION_SELECTED_PAGE_NUMBER,
   sourcesToHide,
   filterOptions,
+  ALL_MEDICATIONS_FILTER_KEY,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -109,7 +110,7 @@ const Prescriptions = () => {
   const [sortingInProgress, setSortingInProgress] = useState(false);
   const [filterOption, setFilterOption] = useState(
     sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-      filterOptions.ALL_MEDICATIONS.url,
+      ALL_MEDICATIONS_FILTER_KEY,
   );
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -139,7 +140,9 @@ const Prescriptions = () => {
       true,
       `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
     );
-    dispatch(getPaginatedFilteredList(1, filterBy, sortBy)).then(() => {
+    dispatch(
+      getPaginatedFilteredList(1, filterOptions[filterBy].url, sortBy),
+    ).then(() => {
       updateLoadingStatus(false, '');
       focusElement(document.getElementById('showingRx'));
     });
@@ -285,7 +288,7 @@ const Prescriptions = () => {
     if (!filterOption) {
       sessionStorage.setItem(
         SESSION_SELECTED_FILTER_OPTION,
-        filterOptions.ALL_MEDICATIONS.url,
+        ALL_MEDICATIONS_FILTER_KEY,
       );
     }
   }, []);
@@ -296,9 +299,9 @@ const Prescriptions = () => {
         const storedPageNumber = sessionStorage.getItem(
           SESSION_SELECTED_PAGE_NUMBER,
         );
-        const storedFilterOption = sessionStorage.getItem(
-          SESSION_SELECTED_FILTER_OPTION,
-        );
+        const storedFilterOption =
+          sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
+          ALL_MEDICATIONS_FILTER_KEY;
         const sortOption = selectedSortOption ?? defaultSelectedSortOption;
         const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
         updateLoadingStatus(true, 'Loading your medications...');
@@ -313,6 +316,12 @@ const Prescriptions = () => {
     },
     [dispatch, page, showFilterContent],
   );
+
+  const selectedFilterOption =
+    filterOptions[
+      sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
+        ALL_MEDICATIONS_FILTER_KEY
+    ]?.showingContentDisplayName;
 
   const pdfData = useCallback(
     (rxList, allergiesList) => {
@@ -346,8 +355,8 @@ const Prescriptions = () => {
         results: [
           {
             header: 'Medications list',
-            preface: `Showing ${
-              rxList?.length
+            preface: `Showing ${rxList?.length}${
+              showFilterContent ? selectedFilterOption : ''
             } medications, ${rxListSortingOptions[
               selectedSortOption
             ].LABEL.toLowerCase()}`,
@@ -391,7 +400,7 @@ const Prescriptions = () => {
         ],
       };
     },
-    [userName, dob, selectedSortOption],
+    [userName, dob, selectedSortOption, selectedFilterOption],
   );
 
   const txtData = useCallback(
@@ -410,14 +419,20 @@ const Prescriptions = () => {
         )}\n\n` +
         `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\n\n\n` +
         `Medications list\n\n` +
-        `Showing ${
-          prescriptionsFullList?.length
+        `Showing ${prescriptionsFullList?.length}${
+          showFilterContent ? selectedFilterOption : ''
         } records, ${rxListSortingOptions[
           selectedSortOption
         ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
       );
     },
-    [userName, dob, selectedSortOption, prescriptionsFullList],
+    [
+      userName,
+      dob,
+      selectedSortOption,
+      selectedFilterOption,
+      prescriptionsFullList,
+    ],
   );
 
   const generatePDF = useCallback(

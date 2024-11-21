@@ -24,7 +24,7 @@ describe('Medications List Page Non-Active Filter Option', () => {
     listPage.clickFilterRadioButtonOptionOnListPage('Non-active');
     listPage.clickFilterButtonOnAccordion(url);
     listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      Data.PAGINATION_TEXT,
+      Data.PAGINATION_NON_ACTIVE,
     );
   });
 });
