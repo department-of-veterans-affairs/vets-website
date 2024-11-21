@@ -56,6 +56,7 @@ import {
   addDisabilities,
   additionalBehaviorChanges,
   additionalDocuments,
+  additionalFormsChapterWrapper,
   additionalRemarks781,
   aidAndAttendance,
   alternateNames,
@@ -110,6 +111,7 @@ import {
   workBehaviorChanges,
 } from '../pages';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
+import { form0781PagesConfig } from './form0781/index';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -616,6 +618,18 @@ const formConfig = {
           schema: summaryOfDisabilities.schema,
         },
       },
+    },
+    additionalForms: {
+      title: 'Additional Forms',
+      pages: {
+        additionalFormsChapterWrapper: {
+          title: 'Additional forms to support your claim 2',
+          path: 'additional-forms',
+          uiSchema: additionalFormsChapterWrapper.uiSchema,
+          schema: additionalFormsChapterWrapper.schema,
+        },
+        ...form0781PagesConfig,
+      }
     },
     supportingEvidence: {
       title: 'Supporting evidence',
