@@ -2,10 +2,12 @@ import * as webComponentPatterns from 'platform/forms-system/src/js/web-componen
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
 
+/** @type {SchemaOptions} */
 const defaultSchema = {
   type: 'object',
 };
 
+/** @returns {PageSchema} */
 export const digitalFormAddress = ({ additionalFields, pageTitle }) => {
   const schema = {
     ...defaultSchema,
@@ -26,6 +28,7 @@ export const digitalFormAddress = ({ additionalFields, pageTitle }) => {
   return { schema, uiSchema };
 };
 
+/** @returns {PageSchema} */
 export const digitalFormNameAndDoB = ({ includeDateOfBirth, pageTitle }) => {
   const schema = {
     ...defaultSchema,
@@ -46,6 +49,7 @@ export const digitalFormNameAndDoB = ({ includeDateOfBirth, pageTitle }) => {
   return { schema, uiSchema };
 };
 
+/** @returns {PageSchema} */
 export const digitalFormIdentificationInfo = ({
   includeServiceNumber,
   pageTitle,
@@ -69,6 +73,7 @@ export const digitalFormIdentificationInfo = ({
   return { schema, uiSchema };
 };
 
+/** @returns {PageSchema} */
 export const digitalFormPhoneAndEmail = ({ additionalFields, pageTitle }) => {
   const schema = {
     ...defaultSchema,
@@ -92,6 +97,7 @@ export const digitalFormPhoneAndEmail = ({ additionalFields, pageTitle }) => {
   return { schema, uiSchema };
 };
 
+/** @returns {Record<string, FormConfigPage>} */
 export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
   /** @type {ArrayBuilderOptions} */
   const options = {
@@ -111,6 +117,32 @@ export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
   };
 
   /** @returns {PageSchema} */
+  const namePage = {
+    title: 'Name and address of employer or unit',
+    path: 'employers/:index/name-and-address',
+    uiSchema: {
+      ...webComponentPatterns.arrayBuilderItemFirstPageTitleUI({
+        title: 'Name and address of employer or unit',
+        nounSingular: options.nounSingular,
+      }),
+      name: webComponentPatterns.textUI('Name of employer'),
+      address: webComponentPatterns.addressNoMilitaryUI({
+        omit: ['street2', 'street3'],
+      }),
+    },
+    schema: {
+      type: 'object',
+      properties: {
+        name: webComponentPatterns.textSchema,
+        address: webComponentPatterns.addressNoMilitarySchema({
+          omit: ['street2', 'street3'],
+        }),
+      },
+      required: ['name', 'address'],
+    },
+  };
+
+  /** @type {PageSchema} */
   const summaryPage = {
     path: 'employers',
     schema: {
@@ -145,5 +177,6 @@ export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
 
   return arrayBuilder(options, pageBuilder => ({
     employerSummary: pageBuilder.summaryPage(summaryPage),
+    employerNamePage: pageBuilder.itemPage(namePage),
   }));
 };

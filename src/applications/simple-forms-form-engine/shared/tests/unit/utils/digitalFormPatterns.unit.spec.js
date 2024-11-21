@@ -243,7 +243,21 @@ describe('listLoopPages', () => {
   });
 
   context('when the variation is employment history', () => {
-    it('includes a name page');
+    it('includes a name page', () => {
+      const { employerNamePage } = listLoopPages(optional, arrayBuilderStub);
+
+      expect(employerNamePage.title).to.eq(
+        'Name and address of employer or unit',
+      );
+      expect(employerNamePage.path).to.eq('employers/:index/name-and-address');
+      expect(employerNamePage.schema.properties.address).to.not.eq(undefined);
+      expect(employerNamePage.schema.properties.name).to.eq(
+        webComponentPatterns.textSchema,
+      );
+      expect(employerNamePage.uiSchema.address).to.not.eq(undefined);
+      expect(employerNamePage.uiSchema.name).to.not.eq(undefined);
+    });
+
     it('includes a date page');
     it('includes a third item page');
   });
