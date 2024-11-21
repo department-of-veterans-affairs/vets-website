@@ -6,6 +6,7 @@ import PatientReplyPage from './pages/PatientReplyPage';
 import { AXE_CONTEXT } from './utils/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import singleThreadResponse from './fixtures/thread-response-new-api.json';
+import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('SM SINGLE MESSAGE', () => {
   it('single message buttons check', () => {
@@ -36,5 +37,7 @@ describe('SM SINGLE MESSAGE', () => {
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+
+    FolderLoadPage.backToParentFolder();
   });
 });
