@@ -6,8 +6,8 @@ export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/contents?type=category`, // &user_mock_data=true
-  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`,
-  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`,
+  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`, // &user_mock_data=true
+  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`, // &user_mock_data=true
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
@@ -63,9 +63,20 @@ export const branchesOfService = [
   'Unknown',
 ];
 
-export const CategoryEducation =
-  'Education (Ch.30, 33, 35, 1606, etc. & Work Study)';
+// Categories
+export const CategoryEducation = 'Education benefits and work study';
+export const CategoryVeteranReadinessAndEmployment =
+  'Veteran Readiness and Employment';
+export const CategoryGuardianshipCustodianshipFiduciaryIssues =
+  'Guardianship, custodianship, or fiduciary issues';
+export const CategoryHousingAssistanceAndHomeLoans =
+  'Housing assistance and home loans';
 
+// Topics
+export const TopicVeteranReadinessAndEmploymentChapter31 =
+  'Veteran Readiness and Employment (Chapter 31)';
+export const TopicAppraisalsSpeciallyAdapatedHousing =
+  'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
 export const requireSignInCategories = [
   CategoryEducation,
   'Education benefits and work study',
@@ -78,13 +89,19 @@ export const requireSignInTopics = ['Compensation', CategoryEducation];
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
-  'GI Bill',
+  'Board Appeals',
   'Caregiver support program',
+  'Education benefits and work study',
+  'GI Bill',
   'Family health benefits',
+  'Memorial items',
   'Prosthetics',
+  'Signing in to VA.gov',
+  'Signing in to VA.gov and managing VA.gov profile',
+  'Technical issues on VA.gov',
+  'Transfer of benefits',
   'Veteran Health Identification Card (VHIC) for health appointments',
   'Veteran ID Card (VIC) for discounts',
-  'Transfer of benefits',
   'Work study',
 ];
 
@@ -479,6 +496,10 @@ export const CHAPTER_3 = {
     TITLE: 'Your school facility',
     QUESTION_1: 'Do you want this to be your saved school facility?',
   },
+  STATE_OF_PROPERTY: {
+    TITLE: 'State of property',
+    QUESTION_1: 'Select state',
+  },
   STATE_OF_SCHOOL: {
     TITLE: 'State of school',
     QUESTION_1: 'Select state',
@@ -588,3 +609,11 @@ export const breadcrumbsDictionary = {
 
 // Health care label is currently different on local/dev and staging (pulling from CRM updated list)
 export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];
+
+// Define the states requiring postal code
+export const statesRequiringPostalCode = [
+  'California',
+  'New York',
+  'Pennsylvania',
+  'Texas',
+];

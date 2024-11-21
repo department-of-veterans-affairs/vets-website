@@ -66,11 +66,15 @@ function apptRequestSort(a, b) {
  * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @param {Boolean} useV2VA Toggle fetching VA appointments via VAOS api services version 2
- * @param {Boolean} useV2CC Toggle fetching CC appointments via VAOS api services version 2
+ * @param {Boolean} fetchClaimStatus Boolean to fetch travel claim data
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
-export async function fetchAppointments({ startDate, endDate, avs = false }) {
+export async function fetchAppointments({
+  startDate,
+  endDate,
+  avs = false,
+  fetchClaimStatus = false,
+}) {
   try {
     const appointments = [];
     const allAppointments = await getAppointments(
@@ -78,6 +82,7 @@ export async function fetchAppointments({ startDate, endDate, avs = false }) {
       endDate,
       ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs,
+      fetchClaimStatus,
     );
 
     const filteredAppointments = allAppointments.data.filter(appt => {
@@ -173,12 +178,17 @@ export async function fetchRequestById({ id }) {
  * @export
  * @async
  * @param {string} id MAS or community care booked appointment id
- * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
+ * @param {avs} Boolean to fetch avs data
+ * @param {fetchClaimStatus} Boolean to fetch travel claim data
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id, avs = true }) {
+export async function fetchBookedAppointment({
+  id,
+  avs = true,
+  fetchClaimStatus = true,
+}) {
   try {
-    const appointment = await getAppointment(id, avs);
+    const appointment = await getAppointment(id, avs, fetchClaimStatus);
     return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {
@@ -210,8 +220,8 @@ export function isVAPhoneAppointment(appointment) {
  */
 export function isClinicVideoAppointment(appointment) {
   return (
-    appointment?.videoData.kind === VIDEO_TYPES.clinic ||
-    appointment?.videoData.kind === VIDEO_TYPES.storeForward
+    appointment?.videoData?.kind === VIDEO_TYPES.clinic ||
+    appointment?.videoData?.kind === VIDEO_TYPES.storeForward
   );
 }
 

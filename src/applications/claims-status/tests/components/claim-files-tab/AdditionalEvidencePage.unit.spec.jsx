@@ -24,6 +24,13 @@ const fileFormProps = {
   removeFile: () => {},
   uploadField: {},
   files: [],
+  filesNeeded: [],
+  filesOptional: [],
+  resetUploads: () => {},
+  clearAdditionalEvidenceNotification: () => {},
+  location: {
+    hash: '',
+  },
 };
 
 let stub;
@@ -94,12 +101,9 @@ describe('<AdditionalEvidencePage>', () => {
         const { container, rerender } = render(
           <Provider store={getStore()}>
             <AdditionalEvidencePage
+              {...fileFormProps}
               params={params}
               claim={claim}
-              filesNeeded={[]}
-              filesOptional={[]}
-              resetUploads={() => {}}
-              clearAdditionalEvidenceNotification={() => {}}
             />
             ,
           </Provider>,
@@ -115,13 +119,10 @@ describe('<AdditionalEvidencePage>', () => {
         rerender(
           <Provider store={getStore()}>
             <AdditionalEvidencePage
+              {...fileFormProps}
               params={params}
               claim={claim}
               message={message}
-              filesNeeded={[]}
-              filesOptional={[]}
-              resetUploads={() => {}}
-              clearAdditionalEvidenceNotification={() => {}}
             />
             ,
           </Provider>,
@@ -140,14 +141,13 @@ describe('<AdditionalEvidencePage>', () => {
 
         const tree = SkinDeep.shallowRender(
           <AdditionalEvidencePage
+            {...fileFormProps}
             params={params}
             claim={claim}
             clearAdditionalEvidenceNotification={
               clearAdditionalEvidenceNotification
             }
             message={message}
-            filesNeeded={[]}
-            filesOptional={[]}
           />,
         );
         expect(tree.subTree('Notification')).not.to.be.false;
@@ -165,6 +165,7 @@ describe('<AdditionalEvidencePage>', () => {
 
         const tree = SkinDeep.shallowRender(
           <AdditionalEvidencePage
+            {...fileFormProps}
             params={params}
             claim={claim}
             uploadComplete
@@ -172,13 +173,27 @@ describe('<AdditionalEvidencePage>', () => {
               clearAdditionalEvidenceNotification
             }
             message={message}
-            filesNeeded={[]}
-            filesOptional={[]}
           />,
         );
         expect(tree.subTree('Notification')).not.to.be.false;
         tree.getMountedInstance().componentWillUnmount();
         expect(clearAdditionalEvidenceNotification.called).to.be.false;
+      });
+
+      it('should focus on header when location has equals #add-files', () => {
+        const location = { hash: '#add-files' };
+
+        render(
+          <Provider store={getStore()}>
+            <AdditionalEvidencePage
+              {...fileFormProps}
+              params={params}
+              claim={claim}
+              location={location}
+            />
+          </Provider>,
+        );
+        expect(document.activeElement.id).to.equal('add-files');
       });
 
       it('should handle submit files', () => {
@@ -208,13 +223,11 @@ describe('<AdditionalEvidencePage>', () => {
         ReactTestUtils.renderIntoDocument(
           <Provider store={uploadStore}>
             <AdditionalEvidencePage
+              {...fileFormProps}
               params={params}
               claim={claim}
-              files={[]}
               uploadField={{ value: null, dirty: false }}
               resetUploads={resetUploads}
-              filesNeeded={[]}
-              filesOptional={[]}
             />
           </Provider>,
         );
@@ -282,7 +295,7 @@ describe('<AdditionalEvidencePage>', () => {
 
         const { container } = renderWithRouter(
           <Provider store={getStore()}>
-            <AdditionalEvidencePage {...props} {...fileFormProps} />,
+            <AdditionalEvidencePage {...fileFormProps} {...props} />,
           </Provider>,
         );
 
@@ -306,7 +319,7 @@ describe('<AdditionalEvidencePage>', () => {
 
         const { container } = render(
           <Provider store={getStore()}>
-            <AdditionalEvidencePage {...props} />
+            <AdditionalEvidencePage {...fileFormProps} {...props} />
           </Provider>,
         );
 
@@ -380,7 +393,7 @@ describe('<AdditionalEvidencePage>', () => {
           queryByTestId,
         } = renderWithRouter(
           <Provider store={getStore()}>
-            <AdditionalEvidencePage {...props} {...fileFormProps} />,
+            <AdditionalEvidencePage {...fileFormProps} {...props} />,
           </Provider>,
         );
 
@@ -427,7 +440,7 @@ describe('<AdditionalEvidencePage>', () => {
 
         const { queryByText, queryByTestId } = renderWithRouter(
           <Provider store={getStore()}>
-            <AdditionalEvidencePage {...props} {...fileFormProps} />,
+            <AdditionalEvidencePage {...fileFormProps} {...props} />,
           </Provider>,
         );
 
@@ -456,6 +469,7 @@ describe('<AdditionalEvidencePage>', () => {
       it('should render loading div', () => {
         const { container } = render(
           <AdditionalEvidencePage
+            {...fileFormProps}
             params={params}
             claim={claim}
             resetUploads={resetUploads}
@@ -475,9 +489,9 @@ describe('<AdditionalEvidencePage>', () => {
         const { container, getByText } = render(
           <Provider store={getStore()}>
             <AdditionalEvidencePage
+              {...fileFormProps}
               params={params}
               claim={claim}
-              filesNeeded={[]}
               resetUploads={resetUploads}
               uploadComplete
             />
@@ -563,7 +577,7 @@ describe('<AdditionalEvidencePage>', () => {
           queryByTestId,
         } = renderWithRouter(
           <Provider store={getStore(true)}>
-            <AdditionalEvidencePage {...props} {...fileFormProps} />,
+            <AdditionalEvidencePage {...fileFormProps} {...props} />,
           </Provider>,
         );
 

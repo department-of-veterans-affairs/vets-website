@@ -2,18 +2,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import {
-  focusElement,
-  scrollTo,
-  scrollToFirstError,
-} from 'platform/utilities/ui';
+import { focusElement, scrollTo } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 
 import {
-  hasVAEvidence,
-  hasPrivateEvidence,
-  hasOtherEvidence,
+  getVAEvidence,
+  getPrivateEvidence,
+  getOtherEvidence,
 } from '../utils/evidence';
 
 import { content } from '../content/evidenceSummary';
@@ -24,8 +20,9 @@ import {
   UploadContent,
 } from './EvidenceSummaryLists';
 
-import { LIMITATION_KEY } from '../constants';
+import { LIMITATION_KEY, SC_NEW_FORM_DATA } from '../constants';
 import { customPageProps995 } from '../../shared/props';
+import { focusFirstError } from '../../shared/utils/focus';
 
 const EvidenceSummary = ({
   data,
@@ -44,13 +41,10 @@ const EvidenceSummary = ({
   const containerRef = useRef(null);
 
   const { limitedConsent = '' } = data;
-  const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];
-  const privateEvidence = hasPrivateEvidence(data)
-    ? data?.providerFacility || []
-    : [];
-  const otherEvidence = hasOtherEvidence(data)
-    ? data?.additionalDocuments || []
-    : [];
+  const showScNewForm = data[SC_NEW_FORM_DATA];
+  const vaEvidence = getVAEvidence(data);
+  const privateEvidence = getPrivateEvidence(data);
+  const otherEvidence = getOtherEvidence(data);
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -134,14 +128,14 @@ const EvidenceSummary = ({
 
     onGoForward: () => {
       if (hasErrors) {
-        scrollToFirstError();
+        focusFirstError();
       } else {
         goForward(data);
       }
     },
     onUpdate: () => {
       if (hasErrors) {
-        scrollToFirstError();
+        focusFirstError();
       } else {
         updatePage();
       }
@@ -227,7 +221,7 @@ const EvidenceSummary = ({
             {removeData?.name ? <strong>{` ${removeData.name}`}</strong> : null}
           </p>
         </VaModal>
-        <VaContent list={vaEvidence} {...props} />
+        <VaContent list={vaEvidence} showScNewForm={showScNewForm} {...props} />
         <PrivateContent
           list={privateEvidence}
           limitedConsent={limitedConsent}

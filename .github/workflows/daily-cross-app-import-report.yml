@@ -3,7 +3,7 @@ name: Cross App Import Report
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 12 * * 1-5'
+    - cron: '0 13 * * 1-5'
 
 jobs: 
   generate-report:

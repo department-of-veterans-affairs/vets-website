@@ -36,11 +36,6 @@ const EditContactList = () => {
   const [checkboxError, setCheckboxError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
-  const [
-    showBlockedTriageGroupAlert,
-    setShowBlockedTriageGroupAlert,
-  ] = useState(false);
-
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
 
   const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
@@ -50,13 +45,7 @@ const EditContactList = () => {
   );
 
   const recipients = useSelector(state => state.sm.recipients);
-  const {
-    allFacilities,
-    blockedFacilities,
-    blockedRecipients,
-    allRecipients,
-    error,
-  } = recipients;
+  const { allFacilities, blockedFacilities, allRecipients, error } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -135,15 +124,6 @@ const EditContactList = () => {
     [allRecipients],
   );
 
-  useEffect(
-    () => {
-      if (blockedRecipients?.length > 0) {
-        setShowBlockedTriageGroupAlert(true);
-      }
-    },
-    [blockedRecipients],
-  );
-
   useEffect(() => {
     updatePageTitle(
       `${ParentComponent.CONTACT_LIST} ${PageTitles.PAGE_TITLE_TAG}`,
@@ -209,16 +189,22 @@ const EditContactList = () => {
       />
       <h1>Contact list</h1>
       <AlertBackgroundBox closeable focus />
-      <p
-        className={`${
-          allFacilities?.length > 1 || showBlockedTriageGroupAlert
-            ? 'vads-u-margin-bottom--4'
-            : 'vads-u-margin-bottom--0'
-        }`}
+
+      <div
+        className={`${allFacilities?.length > 1 && 'vads-u-margin-bottom--2'}`}
       >
-        Select the teams you want to show in your contact list when you start a
-        new message.{' '}
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.ALERT}
+          parentComponent={ParentComponent.CONTACT_LIST}
+        />
+      </div>
+
+      <p className="vads-u-margin-bottom--3">
+        Select the teams you want to show in your contact list. You must select
+        at least one team
+        {allFacilities?.length > 1 ? ' from one of your facilities.' : '.'}{' '}
       </p>
+
       {error && (
         <div>
           <VaAlert
@@ -247,19 +233,6 @@ const EditContactList = () => {
       )}
       {allTriageTeams?.length > 0 && (
         <>
-          {showBlockedTriageGroupAlert && (
-            <div
-              className={`${allFacilities?.length > 1 &&
-                'vads-u-margin-bottom--4'}`}
-            >
-              <BlockedTriageGroupAlert
-                blockedTriageGroupList={blockedRecipients}
-                alertStyle={BlockedTriageAlertStyles.ALERT}
-                parentComponent={ParentComponent.CONTACT_LIST}
-              />
-            </div>
-          )}
-
           <form className="contactListForm">
             {allFacilities.map(stationNumber => {
               if (!blockedFacilities.includes(stationNumber)) {

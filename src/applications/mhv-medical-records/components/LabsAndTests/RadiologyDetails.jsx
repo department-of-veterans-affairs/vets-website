@@ -93,6 +93,7 @@ ${record.results}`;
         className="vads-u-margin-bottom--0"
         aria-describedby="radiology-date"
         data-testid="radiology-record-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
@@ -112,17 +113,39 @@ ${record.results}`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        <h3 className=" vads-u-font-family--sans">Reason for test</h3>
-        <p data-testid="radiology-reason">{record.reason}</p>
-        <h3 className=" vads-u-font-family--sans">Clinical history</h3>
-        <p data-testid="radiology-clinical-history">{record.clinicalHistory}</p>
-        <h3 className=" vads-u-font-family--sans">Ordered by</h3>
-        <p data-testid="radiology-ordered-by">{record.orderedBy}</p>
-        <h3 className=" vads-u-font-family--sans">Location</h3>
-        <p data-testid="radiology-imaging-location">{record.imagingLocation}</p>
-        <h3 className=" vads-u-font-family--sans">Imaging provider</h3>
-        <p data-testid="radiology-imaging-provider">{record.imagingProvider}</p>
-        <h3 className=" vads-u-font-family--sans no-print">Images</h3>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Reason for test
+        </h3>
+        <p data-testid="radiology-reason" data-dd-privacy="mask">
+          {record.reason}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Clinical history
+        </h3>
+        <p data-testid="radiology-clinical-history" data-dd-privacy="mask">
+          {record.clinicalHistory}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Ordered by
+        </h3>
+        <p data-testid="radiology-ordered-by" data-dd-privacy="mask">
+          {record.orderedBy}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Location
+        </h3>
+        <p data-testid="radiology-imaging-location" data-dd-privacy="mask">
+          {record.imagingLocation}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+          Imaging provider
+        </h3>
+        <p data-testid="radiology-imaging-provider" data-dd-privacy="mask">
+          {record.imagingProvider}
+        </p>
+        <h3 className="vads-u-font-size--md vads-u-font-family--sans no-print">
+          Images
+        </h3>
         <p data-testid="radiology-image" className="no-print">
           Images are not yet available in this new medical records tool. To get
           images, you’ll need to request them in the previous version of medical
@@ -141,7 +164,11 @@ ${record.results}`;
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p data-testid="radiology-record-results" className="monospace">
+        <p
+          data-testid="radiology-record-results"
+          className="monospace"
+          data-dd-privacy="mask"
+        >
           {record.results}
         </p>
       </div>

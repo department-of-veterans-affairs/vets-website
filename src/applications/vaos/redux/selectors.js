@@ -114,3 +114,9 @@ export const selectFeatureOHRequest = state =>
 
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
+
+export const selectFeatureTravelPayViewClaimDetails = state =>
+  toggleValues(state).travelPayViewClaimDetails;
+
+export const selectFeatureTravelPaySubmitMileageExpense = state =>
+  toggleValues(state).travelPaySubmitMileageExpense;

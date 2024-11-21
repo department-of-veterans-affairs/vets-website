@@ -1,13 +1,14 @@
 const categories = {
   BURIALS: 'Burials and memorials',
   EDUCATION: 'Education',
-  EMPLOYMENT: 'Careers & Employment',
+  EMPLOYMENT: 'Careers and Employment',
   MORE_SUPPORT: 'More Support',
-  HEALTHCARE: 'Healthcare',
+  HEALTH_CARE: 'Health Care',
   HOUSING: 'Housing Assistance',
   DISABILITY: 'Disability',
   LIFE_INSURANCE: 'Life Insurance',
   LOAN: 'Loan Guaranty',
+  PENSION: 'Pension',
 };
 
 export const anyType = {
@@ -25,31 +26,21 @@ export const yesNoType = {
 
 export const goalTypes = Object.freeze({
   FINANCIAL: 'FINANCIAL',
-  HOUSING: 'HOUSING',
-  FAMILY: 'FAMILY',
-  MENTAL: 'MENTAL',
-  PHYSICAL: 'PHYSICAL',
-  DEGREE: 'DEGREE',
-  JOBS: 'JOBS',
-  PLAN: 'PLAN',
-  CAREER_PATH: 'CAREER_PATH',
-  BUSINESS: 'BUSINESS',
+  SCHOOL: 'SCHOOL',
+  RETIREMENT: 'RETIREMENT',
+  FUTURE: 'FUTURE',
+  CAREER: 'CAREER',
+  HEALTH: 'HEALTH',
   UNDERSTAND: 'UNDERSTAND',
 });
 
 export const goalTypeLabels = Object.freeze({
-  LEGACY: 'Carry out legacy planning',
-  COMMEMORATE: 'Commemorate service',
-  FINANCIAL: 'Get financial support ',
-  HOUSING: 'Find a place to live ',
-  FAMILY: 'Grow my family ',
-  MENTAL: 'Improve my mental well-being',
-  PHYSICAL: 'Improve my physical well-being',
-  DEGREE: 'Earn a degree or certificate',
-  JOBS: 'Find a civilian job',
-  PLAN: 'Plan for my transition',
-  CAREER_PATH: 'Set a career path',
-  BUSINESS: 'Start a business',
+  FINANCIAL: 'Get financial support for a service-connected condition',
+  SCHOOL: 'Go back to school',
+  RETIREMENT: 'Plan for my transition or retirement',
+  FUTURE: "Plan for my and my family's future",
+  CAREER: 'Start a new career',
+  HEALTH: 'Take care of my health and well-being',
   UNDERSTAND: 'Understand my benefits',
 });
 
@@ -106,29 +97,25 @@ export const separationTypeLabels = Object.freeze({
 
 export const disabilityTypes = Object.freeze({
   APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
-  SUBMITTED: 'SUBMITTED',
   STARTED: 'STARTED',
   NOT_APPLIED: 'NOT_APPLIED',
 });
 
 export const disabilityTypeLabels = Object.freeze({
   APPLIED_AND_RECEIVED: "I've applied and received a disability rating.",
-  SUBMITTED: "I've submitted but haven't received a rating yet.",
-  STARTED: "I've started the process but haven't submitted yet.",
+  STARTED: "I've started the process but haven't received a rating.",
   NOT_APPLIED: "I haven't applied for a disability rating.",
 });
 
 export const giBillTypes = Object.freeze({
   APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
-  SUBMITTED: 'SUBMITTED',
   STARTED: 'STARTED',
   NOT_APPLIED: 'NOT_APPLIED',
 });
 
 export const giBillTypeLabels = Object.freeze({
   APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits.",
-  SUBMITTED: "I've submitted but haven't received a decision yet.",
-  STARTED: "I've started the process but haven't submitted yet.",
+  STARTED: "I've started the process but haven't received GI Bill benefits.",
   NOT_APPLIED: "I haven't applied for GI Bill benefits.",
 });
 
@@ -168,14 +155,14 @@ export const mappingTypes = {
 
 export const BENEFITS_LIST = [
   {
-    name: 'GI Bill',
+    name: 'GI Bill benefits',
     category: categories.EDUCATION,
     id: 'GIB',
     description:
-      'GI Bill benefits help you pay for college, graduate school, and training programs. Since 1944, the GI Bill has helped qualifying Veterans and their family members get money to cover all or some of the costs for school or training.',
+      "If you're a Veteran and you meet certain requirements, GI Bill benefits can help you pay for school and cover expenses while you’re training for a job.",
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.DEGREE],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.SCHOOL],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -189,21 +176,17 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
+    applyNowURL: '',
   },
   {
-    name: 'Skillbridge Program',
+    name: 'DOD SkillBridge program',
     category: categories.EMPLOYMENT,
     id: 'SBP',
     description:
-      'The DOD SkillBridge program is an opportunity for service members to gain valuable civilian work experience through specific industry training, apprenticeships, or internships during the last 180 days of service. For service members, DOD SkillBridge provides an invaluable chance to work and learn in civilian career areas.',
+      "If you're a service member in your last 180 days of service, the DOD Skillbridge program can help you gain valuable civilian work experience through specific industry training, apprenticeships, or internships.",
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [
-        goalTypes.JOBS,
-        goalTypes.CAREER_PATH,
-        goalTypes.UNDERSTAND,
-      ],
+      [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -225,15 +208,14 @@ export const BENEFITS_LIST = [
     category: categories.EMPLOYMENT,
     id: 'ECC',
     description:
-      "Get support transitioning to a civilian career with free educational and career counseling. You can use this benefit if you're leaving active service soon, have been discharged within the past year, or are a Veteran or dependent who is eligible for VA education benefits.",
+      'If you’re leaving active service soon or have been discharged within the past year, you can apply for free educational and career guidance, planning, and resources.',
     isTimeSensitive: true,
     mappings: {
       [mappingTypes.GOALS]: [
-        goalTypes.JOBS,
-        goalTypes.PLAN,
-        goalTypes.CAREER_PATH,
+        goalTypes.SCHOOL,
+        goalTypes.CAREER,
+        goalTypes.RETIREMENT,
         goalTypes.UNDERSTAND,
-        goalTypes.DEGREE,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
@@ -270,14 +252,14 @@ export const BENEFITS_LIST = [
       'https://www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-25-8832/introduction',
   },
   {
-    name: 'Preference for veterans in federal hiring',
+    name: "Veterans' Preference in federal hiring",
     category: categories.EMPLOYMENT,
     id: 'FHV',
     description:
-      'The Federal government is committed to helping those who have served in the Armed Forces find rewarding Federal careers. Explore this page to learn more about the Federal hiring process and the career resources and opportunities available to veterans, transitioning service members, and military family members.',
+      "Veterans' Preference gives eligible Veterans preference over other applicants in federal hiring. If you're a Veteran or transitioning service member, learn about the federal hiring process and get resources to help you find a career in the federal government.",
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.JOBS, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -315,10 +297,10 @@ export const BENEFITS_LIST = [
     category: categories.EMPLOYMENT,
     id: 'SVC',
     description:
-      "Veteran-owned small businesses can use this application to be certified by SBA to compete for federal contracts. Certified veteran-owned small businesses will have the opportunity to pursue sole-source and set-aside contracts at the Department of Veterans Affairs under the VA's Vets First program.",
+      'If you have a Veteran-owned small business, you may qualify for advantages when bidding on government contracts—along with access to other resources and support—through the Veteran Small Business Certification program (VetCert).',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.BUSINESS, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -353,10 +335,10 @@ export const BENEFITS_LIST = [
     category: categories.MORE_SUPPORT,
     id: 'TAP',
     description:
-      'DoD TAP is an outcome-based statutory program (10 USC, Ch. 58) that bolsters opportunities, services, and training for transitioning Service members in their preparation to meet post-military goals.',
+      "If you're a transitioning service member, the TAP program provides information, services, and training to help you plan for your transition and meet your post-military goals.",
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.PLAN, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -374,16 +356,10 @@ export const BENEFITS_LIST = [
     category: categories.EDUCATION,
     id: 'VRE',
     description:
-      'If you have a service-connected disability that limits your ability to work or prevents you from working, find out how to apply for VR&E services. You can apply up to 12 years from when you receive your notice of separation or your first VA disability rating.',
+      'If you have a service-connected disability that limits your ability to work or prevents you from working, Veteran Readiness and Employment (VR&E) can help you explore employment options and address education or training needs.',
     isTimeSensitive: true,
     mappings: {
-      [mappingTypes.GOALS]: [
-        goalTypes.JOBS,
-        goalTypes.CAREER_PATH,
-        goalTypes.BUSINESS,
-        goalTypes.UNDERSTAND,
-        goalTypes.DEGREE,
-      ],
+      [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -398,7 +374,6 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.APPLIED_AND_RECEIVED,
-        disabilityTypes.SUBMITTED,
         disabilityTypes.STARTED,
       ],
       [mappingTypes.GI_BILL]: [anyType.ANY],
@@ -409,14 +384,18 @@ export const BENEFITS_LIST = [
       'https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start',
   },
   {
-    name: 'VetSuccess on Campus',
+    name: 'VetSuccess on Campus (VSOC)',
     category: categories.EMPLOYMENT,
     id: 'VSC',
     description:
-      'VetSuccess on Campus (VSOC) supports Veterans and service members who are transitioning from military to college life, and certain qualified dependents. We have vocational rehabilitation counselors, called VSOC counselors, at 104 college campuses across the country.',
+      "If you're a Veteran or service member transitioning from military to college life, VSOC counselors can help you with vocational testing, career counseling, or getting faster access to certain VA benefits while you’re attending college.",
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.CAREER_PATH, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [
+        goalTypes.SCHOOL,
+        goalTypes.CAREER,
+        goalTypes.UNDERSTAND,
+      ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -436,24 +415,197 @@ export const BENEFITS_LIST = [
     applyNowURL: '',
   },
   {
-    name: 'Servicemembers Group Life Insurance (SGLI)',
-    category: categories.LIFE_INSURANCE,
-    id: 'SGL',
+    name: 'Disability housing grant',
+    category: categories.HOUSING,
+    id: 'DHS',
     description:
-      "Find out how to convert your SGLI coverage to a Veterans' Group Life Insurance (VGLI) or commercial policy. Learn about other options for coverage if you have service-connected disabilities. In some cases, you must act within 120 days of separation to ensure no lapse in coverage.",
-    isTimeSensitive: true,
+      'We offer housing grants for Veterans and service members with certain service-connected disabilities so they can buy or change a home to meet their needs and live more independently. Changing a home might involve installing ramps or widening doorways. Find out if you’re eligible for a disability housing grant—and how to apply.',
+    isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.PLAN, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [
+        goalTypes.FINANCIAL,
+        goalTypes.RETIREMENT,
+        goalTypes.UNDERSTAND,
+      ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [anyType.ANY],
-      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [
+        disabilityTypes.APPLIED_AND_RECEIVED,
+        disabilityTypes.STARTED,
+      ],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL:
+      'https://www.va.gov/housing-assistance/disability-housing-grants/',
+    applyNowURL:
+      'https://www.va.gov/housing-assistance/disability-housing-grants/how-to-apply/',
+  },
+  {
+    name: 'Veterans Pension',
+    category: categories.PENSION,
+    id: 'VAP',
+    description:
+      'The Veterans Pension program provides monthly payments to wartime Veterans who meet certain age or disability requirements, and who have income and net worth within certain limits.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [
+        goalTypes.FINANCIAL,
+        goalTypes.RETIREMENT,
+        goalTypes.UNDERSTAND,
+      ],
+      [mappingTypes.LENGTH_OF_SERVICE]: [
+        militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        militaryServiceTimeServedTypes.UP_TO_1_YEAR,
+        militaryServiceTimeServedTypes.UP_TO_2_YEARS,
+        militaryServiceTimeServedTypes.UP_TO_3_YEARS,
+        militaryServiceTimeServedTypes.OVER_3_YEARS,
+      ],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/life-insurance/options-eligibility/sgli',
+    learnMoreURL: 'https://www.va.gov/pension/eligibility/',
+    applyNowURL: 'https://www.va.gov/pension/how-to-apply/',
+  },
+  {
+    name: 'VA mental health services',
+    category: categories.HEALTH_CARE,
+    id: 'MHC',
+    description:
+      'VA has a variety of mental health resources, information, treatment options and more — all accessible to Veterans, Veterans’ supporters and the general public. Select Learn More below to learn more about a specific mental health topic or to find information specifically tailored to your needs.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL:
+      'https://www.va.gov/health-care/health-needs-conditions/mental-health/',
+    applyNowURL: '',
+  },
+  {
+    name: 'Foreign Medical Program',
+    category: categories.HEALTH_CARE,
+    id: 'FMP',
+    description:
+      "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care. Click Learn More below to find out how the Foreign Medical Program works and how to register.",
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [
+        disabilityTypes.APPLIED_AND_RECEIVED,
+        disabilityTypes.STARTED,
+      ],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://www.va.gov/health-care/foreign-medical-program/',
+    applyNowURL:
+      'https://www.va.gov/health-care/foreign-medical-program/register-form-10-7959f-1/introduction',
+  },
+  {
+    name: 'Veterans Group Life Insurance (VGLI)',
+    category: categories.LIFE_INSURANCE,
+    id: 'VGL',
+    description:
+      "With Veterans’ Group Life Insurance (VGLI), you may be able to keep your life insurance coverage after you leave the military for as long as you continue to pay the premiums. You can start a new VGLI application or you can convert Servicemembers' Group Life Insurance (SGLI) to VGLI.",
+    isTimeSensitive: true,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [yesNoType.YES],
+      [mappingTypes.SEPARATION]: [
+        separationTypes.UP_TO_3_MONTHS,
+        separationTypes.UP_TO_6_MONTHS,
+        separationTypes.UP_TO_1_YEAR,
+        separationTypes.UP_TO_2_YEARS,
+      ],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://www.va.gov/life-insurance/options-eligibility/vgli',
+    applyNowURL: '',
+  },
+  {
+    name: 'VALife insurance',
+    category: categories.LIFE_INSURANCE,
+    id: 'VAL',
+    description:
+      "Veterans Affairs Life (VALife) insurance provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [
+        disabilityTypes.STARTED,
+        disabilityTypes.APPLIED_AND_RECEIVED,
+      ],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL:
+      'https://www.va.gov/life-insurance/options-eligibility/valife',
     applyNowURL: '',
   },
   {
@@ -466,9 +618,8 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.FINANCIAL,
-        goalTypes.MENTAL,
-        goalTypes.PHYSICAL,
-        goalTypes.PLAN,
+        goalTypes.RETIREMENT,
+        goalTypes.HEALTH,
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -495,18 +646,14 @@ export const BENEFITS_LIST = [
       'https://www.va.gov/disability/file-disability-claim-form-21-526ez/introduction',
   },
   {
-    name: 'VA-backed home loan Certificate of Eligibility',
+    name: 'VA-backed home loans',
     category: categories.HOUSING,
     id: 'COE',
     description:
       'VA housing assistance can help Veterans, service members, and their surviving spouses to buy a home or refinance a loan. We also offer benefits and services to help you build, improve, or keep your current home. Find out how to apply for and manage the Veterans housing assistance benefits you’ve earned.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [
-        goalTypes.HOUSING,
-        goalTypes.PLAN,
-        goalTypes.UNDERSTAND,
-      ],
+      [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [
         militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
         militaryServiceTimeServedTypes.UP_TO_1_YEAR,
@@ -530,23 +677,21 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
-      'https://www.va.gov/housing-assistance/home-loans/eligibility/',
+      'https://www.va.gov/housing-assistance/home-loans/loan-types/',
     applyNowURL:
       'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
   },
   {
     name: 'VA health care',
-    category: categories.HEALTHCARE,
+    category: categories.HEALTH_CARE,
     id: 'VAH',
     description:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions. Find out how to apply for and manage the health care benefits you’ve earned.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [
-        goalTypes.FAMILY,
-        goalTypes.MENTAL,
-        goalTypes.PHYSICAL,
-        goalTypes.PLAN,
+        goalTypes.RETIREMENT,
+        goalTypes.HEALTH,
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -576,11 +721,7 @@ export const BENEFITS_LIST = [
       'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [
-        goalTypes.LEGACY,
-        goalTypes.COMMEMORATE,
-        goalTypes.UNDERSTAND,
-      ],
+      [mappingTypes.GOALS]: [goalTypes.FUTURE, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -598,46 +739,56 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/burials-memorials/eligibility/',
-    applyNowURL: '',
+    applyNowURL: 'https://www.va.gov/burials-memorials/pre-need-eligibility/',
   },
   {
-    name: 'Native American Direct Loan',
-    category: categories.HOUSING,
-    id: 'NAD',
+    name: 'Transfer your GI Bill benefits',
+    category: categories.EDUCATION,
+    id: 'TGI',
     description:
-      'If you’re a Veteran, and either you or a spouse is Native American, our Native American Direct Loan (NADL) program may help you get a loan to buy, build, or improve a home on federal trust land. You may also get a loan to refinance an existing NADL and reduce your interest rate. Find out if you qualify for an NADL—and how to apply.',
+      'If you’re a spouse or dependent child of a Veteran or service member, you may be eligible to use transferred education benefits for your classes and training. Learn more about these benefits and how to apply.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [
-        goalTypes.FINANCIAL,
-        goalTypes.HOUSING,
-        goalTypes.PLAN,
-        goalTypes.UNDERSTAND,
-      ],
-      [mappingTypes.LENGTH_OF_SERVICE]: [
-        militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
-        militaryServiceTimeServedTypes.UP_TO_1_YEAR,
-        militaryServiceTimeServedTypes.UP_TO_2_YEARS,
-        militaryServiceTimeServedTypes.UP_TO_3_YEARS,
-        militaryServiceTimeServedTypes.OVER_3_YEARS,
-      ],
+      [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
-        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
-        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
-        characterOfDischargeTypes.UNCHARACTERIZED,
-        characterOfDischargeTypes.BAD_CONDUCT,
-        characterOfDischargeTypes.NOT_SURE,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
-      'https://www.va.gov/housing-assistance/home-loans/loan-types/native-american-direct-loan/',
+      'https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/',
+    applyNowURL: '',
+  },
+  {
+    name: 'Apply for a discharge upgrade',
+    category: categories.MORE_SUPPORT,
+    id: 'DCU',
+    description:
+      'Select the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [anyType.ANY],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.BAD_CONDUCT,
+        characterOfDischargeTypes.DISHONORABLE,
+        characterOfDischargeTypes.NOT_SURE,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://www.va.gov/discharge-upgrade-instructions/',
     applyNowURL: '',
   },
 ];

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const BenefitCard = ({ benefit }) => {
   const { name, category, description, learnMoreURL, applyNowURL } = benefit;
   return (
-    <div className="vads-u-margin-bottom--2">
+    <div className="benefit-card vads-u-margin-bottom--2">
       <va-card tabIndex="0">
         <h3>
           <span className="usa-label">{category}</span>
@@ -16,8 +16,9 @@ const BenefitCard = ({ benefit }) => {
         <div>
           <div className="vads-u-display--inline-block vads-u-margin-right--2">
             {learnMoreURL && (
-              <va-link-action
+              <va-link
                 href={learnMoreURL}
+                external
                 text="Learn more"
                 type="secondary"
                 label={`Learn more about ${name}`}
@@ -26,8 +27,9 @@ const BenefitCard = ({ benefit }) => {
           </div>
           <div className="vads-u-display--inline-block">
             {applyNowURL && (
-              <va-link-action
+              <va-link
                 href={applyNowURL}
+                external
                 text="Apply now"
                 type="secondary"
                 label={`Apply now for ${name}`}

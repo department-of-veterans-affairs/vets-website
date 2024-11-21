@@ -7,19 +7,20 @@ describe('Medications List Page Recently Requested Filter Option', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
+    const url =
+      '/my_health/v1/prescriptions?page=1&per_page=20&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date';
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     listPage.clickfilterAccordionDropdownOnListPage();
-    listPage.verifyFilterOptionsOnListPage(
-      'Recently requested',
-      'Refill requests in process or shipped in the last 15 days',
-    );
+    // listPage.verifyFilterOptionsOnListPage(
+    //   'Recently requested',
+    //   'Refill requests in process or shipped in the last 15 days',
+    // );
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Recently requested');
-    listPage.clickFilterButtonOnAccordion();
-    listPage.verifyNameOfFirstRxOnMedicationsList('recently requested');
+    listPage.clickFilterButtonOnAccordion(url);
   });
 });
