@@ -2,11 +2,9 @@ import { expect } from 'chai';
 import { dateFormat } from '../../../util/helpers';
 import mockMessage from '../fixtures/message-response.json';
 import { Locators, Paths, Data } from '../utils/constants';
-import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PatientReplyPage {
-  // TODO verify method below with stage and modify accordingly
-  loadReplyMessage = mockResponse => {
+  clickReplyButton = mockResponse => {
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGES}/${
@@ -15,17 +13,6 @@ class PatientReplyPage {
       mockResponse,
     ).as(`getMessageRequest`);
     cy.get(Locators.BUTTONS.REPLY).click();
-    PatientInterstitialPage.getContinueButton().click();
-  };
-
-  clickSendReplyMessageButton = messageId => {
-    cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGES}/${messageId}/reply`,
-      mockMessage,
-    ).as('replyMessage');
-    cy.get(Locators.BUTTONS.SEND).click();
-    cy.wait('@replyMessage');
   };
 
   clickSendReplyMessageDetailsButton = mockReplyMessage => {
