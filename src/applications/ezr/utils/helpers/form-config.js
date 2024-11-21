@@ -1,4 +1,4 @@
-import { isWithinInterval, subYears } from 'date-fns';
+import { isBefore, subYears, isWithinInterval } from 'date-fns';
 import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
 
 /**
@@ -48,45 +48,57 @@ export function includeTeraInformation(formData) {
   return formData.hasTeraResponse;
 }
 
-export function veteranBornBetween(formData, date1, date2) {
-  return isWithinInterval(new Date(formData?.veteranDateOfBirth), {
-    start: new Date(date1),
-    end: new Date(date2),
-  });
-}
-
 export function canVeteranProvideAgentOrangeResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', '1965-12-31')
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1966-01-01'))
   );
 }
 
 export function canVeteranProvideRadiationCleanupResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', '1965-12-31')
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1966-01-01'))
   );
 }
 
 export function canVeteranProvideGulfWarServiceResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', '1975-12-31')
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1976-01-01'))
   );
 }
 
 export function canVeteranProvideCombatOperationsResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', subYears(new Date(), 15))
+    isBefore(new Date(formData?.veteranDateOfBirth), subYears(new Date(), 15))
   );
 }
 
 export function canVeteranProvidePostSept11ServiceResponse(formData) {
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1976-01-01', subYears(new Date(), 15))
+    isWithinInterval(new Date(formData?.veteranDateOfBirth), {
+      start: new Date('1976-01-01'),
+      end: subYears(new Date(), 15),
+    })
   );
 }
 
