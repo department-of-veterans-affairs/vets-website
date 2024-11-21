@@ -18,7 +18,7 @@ import ReviewPage from './patterns/pattern2/post-study/ReviewPage';
 import { LandingPage } from './shared/components/pages/LandingPage';
 import DevPanel from './dev/client/DevPanel';
 import { PatternConfigProvider } from './shared/context/PatternConfigContext';
-import { getPatterns, getTabs } from './utils/data/tabs';
+
 import { VADXPanelLoader } from './dev/panel/VADXPanelLoader';
 
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
@@ -107,27 +107,11 @@ const routes = [
   ...pattern2Routes,
   {
     path: '/dev',
-    component: props => (
-      <div className="vads-l-grid-container--full">
-        <DevPanel {...props} />
-      </div>
-    ),
+    component: routeHoc(DevPanel),
   },
   {
     path: '*',
-    component: props => (
-      <div className="vads-l-grid-container">
-        <div className="vads-l-row">
-          <div className="usa-width-two-thirds medium-8 columns">
-            <LandingPage
-              {...props}
-              getTabs={getTabs}
-              getPatterns={getPatterns}
-            />
-          </div>
-        </div>
-      </div>
-    ),
+    component: routeHoc(LandingPage),
   },
 ];
 
