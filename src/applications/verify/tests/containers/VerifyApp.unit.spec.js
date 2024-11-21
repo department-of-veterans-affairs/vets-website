@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render, cleanup } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { VerifyApp } from '../../containers/VerifyApp';
+import VerifyApp from '../../containers/VerifyApp';
 
 const generateStore = ({
   csp = 'logingov',

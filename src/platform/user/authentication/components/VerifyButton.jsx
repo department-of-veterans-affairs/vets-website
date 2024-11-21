@@ -103,10 +103,6 @@ export const VerifyButton = ({ csp, onClick = verifyHandler }) => {
 };
 
 VerifyButton.propTypes = {
-  className: PropTypes.string,
-  image: PropTypes.node,
-  label: PropTypes.string,
-  policy: PropTypes.string,
-  useOAuth: PropTypes.bool,
+  csp: PropTypes.string.isRequired,
   onClick: PropTypes.func,
 };
