@@ -6,7 +6,7 @@ import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import { Paths } from './utils/constants';
 
 describe('Medications List Page Sort Alphabetically By Name', () => {
-  it.skip('visits Medications list Page Sort Alphabetically By Name', () => {
+  it('visits Medications list Page Sort Alphabetically By Name', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
