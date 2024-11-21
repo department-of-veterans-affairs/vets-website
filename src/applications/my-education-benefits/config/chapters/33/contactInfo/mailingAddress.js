@@ -177,6 +177,15 @@ const mailingAddress33 = {
         },
         state: {
           'ui:title': 'State/County/Province',
+          'ui:validations': [
+            (errors, field) => {
+              if (field?.length === 1) {
+                errors.addError('Must be more than 1 character');
+              } else if (field?.length > 30) {
+                errors.addError('Must be less than 30 characters');
+              }
+            },
+          ],
           'ui:required': formData => {
             return (
               formData['view:mailingAddress']?.livesOnMilitaryBase ||
