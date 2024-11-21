@@ -7,6 +7,7 @@ import {
   digitalFormIdentificationInfo,
   digitalFormNameAndDoB,
   digitalFormPhoneAndEmail,
+  listLoopPages,
 } from '../../../utils/digitalFormPatterns';
 import { normalizedForm } from '../../../_config/formConfig';
 
@@ -188,5 +189,52 @@ describe('digitalFormPhoneAndEmail', () => {
       expect(schemas.schema.properties.emailAddress).to.eq(undefined);
       expect(schemas.uiSchema.emailAddress).to.eq(undefined);
     });
+  });
+});
+
+describe('listLoopPages', () => {
+  const optional = {
+    id: 162032,
+    type: 'digital_form_list_loop',
+    additionalFields: {
+      optional: true,
+    },
+    chapterTitle: "Veteran's employment history",
+    pageTitle: 'List & Loop',
+  };
+  // const required = findChapterByType('digital_form_list_loop');
+
+  let arrayBuilderStub;
+
+  beforeEach(() => {
+    arrayBuilderStub = sinon.stub();
+  });
+
+  it('includes the right options', () => {
+    listLoopPages(optional, arrayBuilderStub);
+
+    const options = arrayBuilderStub.getCall(0).args[0];
+
+    expect(options.arrayPath).to.eq('employers');
+    expect(options.nounSingular).to.eq('employer');
+    expect(options.nounPlural).to.eq('employers');
+    expect(options.required).to.eq(false);
+    expect(options.maxItems).to.eq(4);
+  });
+
+  it('includes a summary page');
+
+  context('when the variation is employment history', () => {
+    it('includes a name page');
+    it('includes a date page');
+    it('includes a third item page');
+  });
+
+  context('when optional is false', () => {
+    it('includes an introPage');
+  });
+
+  context('when optional is true', () => {
+    it('does not include an introPage');
   });
 });

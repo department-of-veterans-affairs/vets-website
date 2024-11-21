@@ -1,4 +1,6 @@
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { formatReviewDate } from 'platform/forms-system/exportsFile';
 
 const defaultSchema = {
   type: 'object',
@@ -88,4 +90,25 @@ export const digitalFormPhoneAndEmail = ({ additionalFields, pageTitle }) => {
   }
 
   return { schema, uiSchema };
+};
+
+export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
+  /** @type {ArrayBuilderOptions} */
+  const options = {
+    arrayPath: 'employers',
+    nounSingular: 'employer',
+    nounPlural: 'employers',
+    required: false,
+    isItemIncomplete: item => !item?.name || !item.address || !item.dateRange,
+    maxItems: 4,
+    text: {
+      getItemName: item => item.name,
+      cardDescription: item =>
+        `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
+          item?.dateRange?.to,
+        )}`,
+    },
+  };
+
+  return arrayBuilder(options, () => {});
 };
