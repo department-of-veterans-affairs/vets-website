@@ -240,6 +240,33 @@ export class ConfirmationPage extends React.Component {
           </div>
         </article>
 
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="info"
+          visible
+        >
+          <h2>Resources for transitioning service members</h2>
+          <span>
+            You may be eligible for some VA benefits if you're currently serving
+            on
+          </span>
+          <br />
+          <span>active duty, in the National Guard, or in the Reserves.</span>
+          <br />
+          <span>
+            <va-link
+              href="https://www.va.gov/service-member-benefits/"
+              external
+              text="Visit this page"
+              type="secondary"
+              label="visit this page"
+            />
+            to fimd out which benefits
+          </span>
+          <br />
+          <span>you may qualify for&mdash;and when to apply.</span>
+        </va-alert>
+
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
         <div id="results-container" className="vads-l-grid-container">

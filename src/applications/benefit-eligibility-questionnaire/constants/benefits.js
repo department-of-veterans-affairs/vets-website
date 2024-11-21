@@ -38,7 +38,7 @@ export const goalTypeLabels = Object.freeze({
   FINANCIAL: 'Get financial support for a service-connected condition',
   SCHOOL: 'Go back to school',
   RETIREMENT: 'Plan for my transition or retirement',
-  FUTURE: "Plan for your and your family's future",
+  FUTURE: "Plan for my and my family's future",
   CAREER: 'Start a new career',
   HEALTH: 'Take care of my health and well-being',
   UNDERSTAND: 'Understand my benefits',
@@ -293,11 +293,11 @@ export const BENEFITS_LIST = [
     applyNowURL: '',
   },
   {
-    name: 'Support for your Veteran-Owned Small Business',
+    name: 'Support for your Veteran-owned small business',
     category: categories.EMPLOYMENT,
     id: 'SVC',
     description:
-      'If you have a Veteran-Owned Small Business, you may qualify for advantages when bidding on government contracts—along with access to other resources and support—through the Veteran Small Business Certification program (VetCert).',
+      'If you have a Veteran-owned small business, you may qualify for advantages when bidding on government contracts—along with access to other resources and support—through the Veteran Small Business Certification program (VetCert).',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
@@ -450,11 +450,11 @@ export const BENEFITS_LIST = [
     applyNowURL: '',
   },
   {
-    name: 'Veterans pensions',
+    name: 'Veterans Pension',
     category: categories.PENSION,
     id: 'VAP',
     description:
-      "VA pension benefits are available to some wartime Veterans and their surviors - Click the Learn More link below find out if you're eligible to apply.",
+      'The Veterans Pension program provides monthly payments to wartime Veterans who meet certain age or disability requirements, and who have income and net worth within certain limits.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [
@@ -576,11 +576,11 @@ export const BENEFITS_LIST = [
     applyNowURL: '',
   },
   {
-    name: 'VALife Insurance',
+    name: 'VALife insurance',
     category: categories.LIFE_INSURANCE,
     id: 'VAL',
     description:
-      "Veterans Affairs Life Insurance (VALife) provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
+      "Veterans Affairs Life (VALife) insurance provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
