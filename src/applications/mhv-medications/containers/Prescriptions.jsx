@@ -466,7 +466,9 @@ const Prescriptions = () => {
         ((prescriptionsFullList?.length &&
           pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
           (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
-            (showFilterContent ? filteredList : paginatedPrescriptionsList))) &&
+            (showFilterContent
+              ? filteredList?.length
+              : paginatedPrescriptionsList?.length))) &&
         allergies &&
         !allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
