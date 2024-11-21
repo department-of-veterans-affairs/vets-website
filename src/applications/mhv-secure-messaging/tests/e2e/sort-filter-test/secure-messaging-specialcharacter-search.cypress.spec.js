@@ -22,12 +22,13 @@ describe('Secure Messaging Basic Search Tests', () => {
   });
 
   it('Basic Search Highlight Drafts Check', () => {
-    PatientMessageDraftsPage.loadDraftMessages();
+    PatientMessageDraftsPage.loadDrafts();
+
     PatientBasicSearchPage.typeSearchInputFieldText(searchText);
     PatientBasicSearchPage.clickDraftSearchButton();
     PatientBasicSearchPage.verifyHighlightedText(searchText);
-    cy.injectAxe();
 
+    cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 });

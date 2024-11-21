@@ -44,22 +44,21 @@ export const filterOptions = {
     name: 'filter option',
     description: 'Active prescriptions and non-VA medications',
     url:
-      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On hold,Active: Parked,Active: Refill in process,Active: Submitted',
+      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On hold,Active: Parked,Active: Submitted',
   },
   RECENTLY_REQUESTED: {
     label: 'Recently requested',
     name: 'filter option',
     description: 'Refill requests in process or shipped in the last 15 days',
     url:
-      '&filter[[disp_status][eq]]=Active: Refill in process,Active: Submitted',
+      '&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
   },
   RENEWAL: {
     label: 'Renewal needed before refill',
     name: 'filter option',
     description:
       'Prescriptions that just ran out of refills or became too old to refill (expired)',
-    url:
-      '&filter[[disp_status][eq]]=Active: Refill in process,Expired&filter[[is_refillable][eq]]=false',
+    url: '&filter[[disp_status][eq]]=Active,Expired',
   },
   NON_ACTIVE: {
     label: 'Non-active',
@@ -205,6 +204,8 @@ export const dispStatusObj = {
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
 export const SESSION_SELECTED_FILTER_OPTION = 'SESSION_SELECTED_FILTER_OPTION';
+export const SESSION_RX_FILTER_OPEN_BY_DEFAULT =
+  'SESSION_RX_FILTER_OPEN_BY_DEFAULT';
 export const SESSION_SELECTED_PAGE_NUMBER = 'SESSION_SELECTED_PAGE_NUMBER';
 
 export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';

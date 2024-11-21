@@ -47,6 +47,7 @@ describe('Prescriptions reducer', () => {
           return { ...rx.attributes };
         },
       ),
+      filterCount: undefined,
       prescriptionsFilteredPagination:
         paginatedFilteredListApiResponse.meta.pagination,
       apiError: false,
@@ -203,6 +204,7 @@ describe('Prescriptions reducer', () => {
       prescriptionsFilteredList: paginatedSortedListApiResponse.data.map(rx => {
         return { ...rx.attributes };
       }),
+      filterCount: undefined,
       prescriptionsFilteredPagination:
         paginatedSortedListApiResponse.meta.pagination,
       apiError: false,
