@@ -2,7 +2,7 @@ import React from 'react';
 import StateSelect from '../../../components/FormFields/StateSelect';
 import { CHAPTER_3 } from '../../../constants';
 
-const title = <h3>{CHAPTER_3.STATE_OF_SCHOOL.TITLE}</h3>;
+const title = <h3>{CHAPTER_3.STATE_OF_FACILITY.TITLE}</h3>;
 
 const stateOfFacilityPage = {
   uiSchema: {
