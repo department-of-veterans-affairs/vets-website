@@ -124,8 +124,8 @@
     "@babel/preset-react": "^7.25.9",
     "@babel/register": "^7.25.9",
     "@babel/traverse": "^7.25.9",
-    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
-    "@cypress/code-coverage": "^3.11.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.3",
+    "@cypress/code-coverage": "^3.13.7",
     "@department-of-veterans-affairs/eslint-plugin": "^1.18.2",
     "@department-of-veterans-affairs/generator-vets-website": "^3.12.0",
     "@octokit/rest": "^18.11.0",
@@ -209,7 +209,7 @@
     "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.4.4",
     "minimist": "^1.2.6",
-    "mocha": "10.7.3",
+    "mocha": "10.8.2",
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi-reporters": "^1.5.1",
     "mocha-snapshots": "^4.2.0",
@@ -252,8 +252,7 @@
     "yo": "4.3.1"
   },
   "engines": {
-    "node": ">=18",
-    "yarn": "1.19.1"
+    "node": ">=18"
   },
   "private": true,
   "dependencies": {
@@ -280,6 +279,7 @@
     "dompurify": "^3.1.6",
     "dotenv": "^10.0.0",
     "downshift": "^1.22.5",
+    "enzyme-adapter-react-16": "^1.15.8",
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
     "fine-uploader": "^5.16.2",
@@ -333,11 +333,13 @@
     "url-search-params": "^1.1.0",
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
-    "vanilla-lazyload": "^16.1.0"
+    "vanilla-lazyload": "^16.1.0",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#451e84357e94c21339839db890ec4fbd48cedd38"
   },
   "resolutions": {
     "@babel/runtime": "^7.15.4",
-    "punycode": "1.4.1"
+    "punycode": "1.4.1",
+    "mocha-snapshots/mocha": "4.1.0"
   },
   "workspaces": {
     "packages": [
@@ -376,10 +378,17 @@
       "**/platform-polyfills/downloadjs",
       "**/platform-polyfills/whatwg-fetch",
       "**/platform-testing/cookie-parser",
+      "**/platform-testing/@babel/core",
+      "**/platform-testing/@babel/preset-env",
       "**/platform-testing/@bahmutov/cypress-esbuild-preprocessor",
       "**/platform-testing/@cypress/code-coverage",
       "**/platform-testing/@testing-library/cypress",
       "**/platform-testing/@wojtekmaj/enzyme-adapter-react-17",
+      "**/platform-testing/axe-core",
+      "**/platform-testing/babel-loader",
+      "**/platform-testing/cypress",
+      "**/platform-testing/enzyme",
+      "**/platform-testing/esbuild",
       "**/platform-testing/body-parser",
       "**/platform-testing/cors",
       "**/platform-testing/cy-mobile-commands",
@@ -393,9 +402,11 @@
       "**/platform-testing/node-resemble-js",
       "**/platform-testing/process",
       "**/platform-testing/puppeteer",
-      "**/platform-testing/request",
+      "**/platform-testing/react",
+      "**/platform-testing/react-dom",
       "**/platform-testing/sentry-testkit",
       "**/platform-testing/table",
+      "**/platform-testing/webpack",
       "**/platform-testing/winston"
     ]
   },
