@@ -47,6 +47,29 @@ Wrapper.defaultProps = {
   withPaymentHistory: true,
 };
 
+const MontgomeryGiBillDescription = () => (
+  <va-additional-info
+    trigger=" How to update your direct deposit information for Montgomery GI Bill"
+    class="vads-u-margin-top--4 gi-bill-info"
+    uswds
+  >
+    <div>
+      <p className="vads-u-margin-top--0 vads-u-color--black">
+        If you’re getting benefits through the Montgomery GI Bill Active Duty
+        (MGIB-AD) or Montgomery GI Bill Selected Reserve (MGIB-SR), you’ll need
+        to update your direct deposit information using our enrollment
+        verification tool.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <va-link
+          href="https://www.va.gov/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit"
+          text="Update direct deposit information for MGIB benefits"
+        />
+      </p>
+    </div>
+  </va-additional-info>
+);
+
 export const DirectDeposit = () => {
   const directDepositHookResult = useDirectDeposit();
 
@@ -165,7 +188,6 @@ export const DirectDeposit = () => {
             level={2}
           />
         </DowntimeNotification>
-
         <DirectDepositDevWidget
           debugData={{
             controlInformation,
@@ -182,7 +204,7 @@ export const DirectDeposit = () => {
             setFormData,
           }}
         />
-
+        <MontgomeryGiBillDescription />
         <FraudVictimSummary />
       </Wrapper>
     </div>

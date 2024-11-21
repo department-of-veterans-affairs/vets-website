@@ -121,7 +121,6 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
             serviceType: CSP_IDS.ID_ME,
             toggles: generateFeatureTogglesState({
               profileHideDirectDeposit: true,
-              profileShowDirectDepositSingleFormUAT: false,
             }).featureToggles,
           }),
           path: '/profile/direct-deposit',
@@ -235,6 +234,41 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
 
       // save button is shown when update view is rendered
       expect(getByRole('button', { name: /save/i })).to.exist;
+    });
+  });
+  describe('Montgomery GI Bill', () => {
+    it('Renders GI Bill additional information', () => {
+      const triggerText =
+        'How to update your direct deposit information for Montgomery GI Bill';
+      const additionalInfoText =
+        'If you’re getting benefits through the Montgomery GI Bill Active Duty (MGIB-AD) or Montgomery GI Bill Selected Reserve (MGIB-SR), you’ll need to update your direct deposit information using our enrollment verification tool.';
+      const linkText = 'Update direct deposit information for MGIB benefits';
+      const hrefLink =
+        'https://www.va.gov/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit';
+      const { container, getByText } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: createInitialState(),
+        },
+      );
+
+      const additionalInfoElement = container.querySelector(
+        'va-additional-info',
+      );
+      expect(additionalInfoElement).to.exist;
+      expect(additionalInfoElement.getAttribute('trigger').trim()).to.equal(
+        triggerText,
+      );
+      expect(getByText(additionalInfoText)).to.exist;
+
+      const updateDirectDepositLink = container.querySelector('va-link');
+      expect(updateDirectDepositLink).to.exist;
+      expect(updateDirectDepositLink.getAttribute('href').trim()).to.equal(
+        hrefLink,
+      );
+      expect(updateDirectDepositLink.getAttribute('text').trim()).to.equal(
+        linkText,
+      );
     });
   });
 });

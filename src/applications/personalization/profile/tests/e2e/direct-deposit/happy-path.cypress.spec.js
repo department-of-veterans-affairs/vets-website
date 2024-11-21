@@ -54,4 +54,38 @@ describe('Direct Deposit - Happy Path', () => {
       cy.injectAxeThenAxeCheck();
     });
   });
+
+  describe('Gi Bill information', () => {
+    const triggerText =
+      'How to update your direct deposit information for Montgomery GI Bill';
+    const additionalInfoText =
+      'If you’re getting benefits through the Montgomery GI Bill Active Duty (MGIB-AD) or Montgomery GI Bill Selected Reserve (MGIB-SR), you’ll need to update your direct deposit information using our enrollment verification tool.';
+    const linkText = 'Update direct deposit information for MGIB benefits';
+    const linkHref =
+      'https://www.va.gov/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit';
+
+    it('should reveal additional info and verify the link functionality', () => {
+      directDeposit.setup();
+
+      directDeposit.visitPage();
+      // the trigger text is visible and clickable
+      cy.get('.gi-bill-info')
+        .contains(triggerText)
+        .should('be.visible')
+        .click();
+
+      // the additional information text is visible
+      cy.contains(additionalInfoText).should('be.visible');
+
+      // the link text is visible, has the correct href, and opens the expected URL
+      cy.contains(linkText)
+        .should('be.visible')
+        .and('have.attr', 'href', linkHref)
+        .click();
+
+      cy.url().should('eq', linkHref);
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
 });
