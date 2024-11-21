@@ -51,7 +51,7 @@ const IncompleteLabel = () => (
 /**
  * @param {{
  *   arrayPath: string,
- *   getEditItemPathUrl: string,
+ *   getEditItemPathUrl: (formData: any, index: number) => string,
  *   formData: any,
  *   isIncomplete: (itemData: any) => boolean,
  *   nounSingular: string,

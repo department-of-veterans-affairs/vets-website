@@ -343,6 +343,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   validateMinItems(options.minItems);
   const required =
     typeof userRequired === 'function' ? userRequired : () => userRequired;
+  const lastItemPagePath = itemPages?.[itemPages.length - 1]?.path;
 
   const getActiveItemPages = (formData, index) => {
     return itemPages.filter(page => {
@@ -405,10 +406,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       });
       goPath(path);
     } else {
+      // next chapter
       const nextPagePath = getNextPagePath(
         pageList,
         formData,
-        `/${getLastItemPagePath(formData, index).replace(
+        `/${lastItemPagePath.replace(
           ':index',
           index === 0 ? index : index - 1,
         )}`,
