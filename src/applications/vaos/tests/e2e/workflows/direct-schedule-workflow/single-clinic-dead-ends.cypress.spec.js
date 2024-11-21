@@ -85,7 +85,7 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
           .assertWarningAlert({
             text: /You’ve reached the limit for appointment requests at this location/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertNextButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -129,7 +129,7 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
           .assertText({
             text: /To request an appointment online at this location, you need to have had a primary care appointment at this facility within the last 24 months/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -165,7 +165,7 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
           .assertText({
             text: /Something went wrong on our end. Please try again later./i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();

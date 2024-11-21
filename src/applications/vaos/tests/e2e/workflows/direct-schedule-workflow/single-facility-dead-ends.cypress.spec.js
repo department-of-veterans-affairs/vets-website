@@ -73,7 +73,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
           .assertWarningAlert({
             text: /You can.t schedule this appointment online/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -115,7 +115,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
           .assertWarningAlert({
             text: /You can.t schedule this appointment online/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -172,7 +172,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
           .assertWarningAlert({
             text: /You can.t schedule this appointment online/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -217,7 +217,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
           .assertWarningAlert({
             text: /You can.t schedule this appointment online/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();
