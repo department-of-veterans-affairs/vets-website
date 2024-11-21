@@ -74,6 +74,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION:
     'WELCOME_VA_SETUP_REVIEW_INFORMATION',
   FORM_21_4140: '21-4140',
+  FORM_DISPUTE_DEBT: 'DISPUTE-DEBT',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -155,6 +156,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
       'welcome-va-setup-review-information',
     )}/`,
+    [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('DISPUTE-DEBT')}/`,
   };
 };
 
@@ -457,6 +459,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'Welcome VA Setup Review Information Form',
     description: 'welcome va setup review information form',
     trackingPrefix: 'welcome-va-setup-review-information-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_DISPUTE_DEBT,
+    benefit: 'digital dispute for debts',
+    title: 'Dispute your VA debt',
+    description: 'digital dispute for debts',
+    trackingPrefix: 'dispute-debt',
   },
 ];
 
