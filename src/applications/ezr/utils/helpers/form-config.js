@@ -1,4 +1,4 @@
-import { isWithinInterval, subYears } from 'date-fns';
+import { isBefore, subYears } from 'date-fns';
 import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
 
 /**
@@ -48,38 +48,47 @@ export function includeTeraInformation(formData) {
   return formData.hasTeraResponse;
 }
 
-export function veteranBornBetween(formData, date1, date2) {
-  return isWithinInterval(new Date(formData?.veteranDateOfBirth), {
-    start: new Date(date1),
-    end: new Date(date2),
-  });
-}
-
 export function canVeteranProvideAgentOrangeResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are disallowed by the 'parseVeteranDob' method
+   * in src/applications/ezr/utils/helpers/general.js
+   */
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', '1965-12-31')
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1966-01-01'))
   );
 }
 
 export function canVeteranProvideRadiationCleanupResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are disallowed by the 'parseVeteranDob' method
+   * in src/applications/ezr/utils/helpers/general.js
+   */
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', '1965-12-31')
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1966-01-01'))
   );
 }
 
 export function canVeteranProvideGulfWarResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are disallowed by the 'parseVeteranDob' method
+   * in src/applications/ezr/utils/helpers/general.js
+   */
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', subYears(new Date(), 15))
+    isBefore(new Date(formData?.veteranDateOfBirth), subYears(new Date(), 15))
   );
 }
 
 export function canVeteranProvideCombatOperationsResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are disallowed by the 'parseVeteranDob' method
+   * in src/applications/ezr/utils/helpers/general.js
+   */
   return (
     includeTeraInformation(formData) &&
-    veteranBornBetween(formData, '1900-01-01', subYears(new Date(), 15))
+    isBefore(new Date(formData?.veteranDateOfBirth), subYears(new Date(), 15))
   );
 }
 

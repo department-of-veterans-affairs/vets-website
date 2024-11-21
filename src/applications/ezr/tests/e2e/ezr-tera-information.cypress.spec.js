@@ -87,7 +87,7 @@ describe('EZR TERA flow', () => {
 });
 
 describe("EZR branching logic based on the user's DOB", () => {
-  describe('when the user has a DOB between 1900 and 1965', () => {
+  describe('when the user has a DOB prior to 1966', () => {
     beforeEach(() => {
       setUserData(mockUserAgentOrangeDob, mockPrefillAgentOrangeDob);
       goToToxicExposurePageAndCheckYes();
