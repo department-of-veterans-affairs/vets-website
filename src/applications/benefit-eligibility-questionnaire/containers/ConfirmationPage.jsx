@@ -261,7 +261,7 @@ export class ConfirmationPage extends React.Component {
               type="secondary"
               label="visit this page"
             />
-            to fimd out which benefits
+            to find out which benefits
           </span>
           <br />
           <span>you may qualify for&mdash;and when to apply.</span>
