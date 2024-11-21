@@ -67,8 +67,7 @@ export const filterOptions = {
     name: 'filter option',
     description:
       'Prescriptions that just ran out of refills or became too old to refill (expired)',
-    url:
-      '&filter[[disp_status][eq]]=Active: Refill in Process,Expired&filter[[is_refillable][eq]]=false',
+    url: '&filter[[disp_status][eq]]=Active,Expired',
     showingContentDisplayName: ' renewal needed before refill',
   },
   [NON_ACTIVE_FILTER_KEY]: {
