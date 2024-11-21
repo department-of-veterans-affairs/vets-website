@@ -73,21 +73,21 @@ function setupJSDom() {
       }
     };
     console.warn = () => {};
-  } else if (process.env.LOG_LEVEL === 'log') { 
+  } else if (process.env.LOG_LEVEL === 'log') {
     console.error = () => {};
     console.warn = () => {};
   }
   /* eslint-enable no-console */
-  
+
   // set up resource loader
   const loader = new ResourceLoader({
-    userAgent: 'Node.js'
+    userAgent: 'Node.js',
   });
 
   // setup the simplest document possible
   const dom = new JSDOM('<!doctype html><html><body></body></html>', {
     url: 'http://localhost',
-    resources: loader
+    resources: loader,
   });
 
   const { window } = dom;
@@ -192,5 +192,18 @@ export const mochaHooks = {
   afterEach() {
     cleanupStorage();
     flushPromises();
+  },
+
+  afterAll(done) {
+    flushPromises()
+      .then(() => {
+        done();
+        setTimeout(() => {
+          process.exit(0);
+        });
+      })
+      .catch(error => {
+        done(error);
+      });
   },
 };
