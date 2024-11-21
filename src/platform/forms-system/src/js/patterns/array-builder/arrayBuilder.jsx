@@ -387,6 +387,31 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     goPath(path);
   };
 
+  const navForwardSummaryAddItem = ({ formData, goPath }) => {
+    const nextIndex = formData[arrayPath]?.length || 0;
+
+    const path = createArrayBuilderItemAddPath({
+      path: getFirstItemPagePath(formData, nextIndex),
+      index: nextIndex,
+    });
+    goPath(path);
+  };
+
+  const navForwardSummaryGoNextChapter = ({ formData, goPath, pageList }) => {
+    // if 0 items, 1 set of item pages still exist in the form
+    const lastIndex = formData[arrayPath]?.length
+      ? formData[arrayPath].length - 1
+      : 0;
+
+    const lastActivePath = `/${getLastItemPagePath(formData, lastIndex).replace(
+      ':index',
+      lastIndex,
+    )}`;
+
+    const nextPagePath = getNextPagePath(pageList, formData, lastActivePath);
+    goPath(nextPagePath);
+  };
+
   /** @type {FormConfigPage['onNavBack']} */
   const navBackFirstItem = onNavBackRemoveAddingItem({
     arrayPath,
@@ -397,25 +422,10 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
   /** @type {FormConfigPage['onNavForward']} */
   const navForwardSummary = ({ formData, goPath, pageList }) => {
-    const index = formData[arrayPath] ? formData[arrayPath].length : 0;
-
     if (formData?.[hasItemsKey]) {
-      const path = createArrayBuilderItemAddPath({
-        path: getFirstItemPagePath(formData, index),
-        index,
-      });
-      goPath(path);
+      navForwardSummaryAddItem({ formData, goPath });
     } else {
-      // next chapter
-      const nextPagePath = getNextPagePath(
-        pageList,
-        formData,
-        `/${lastItemPagePath.replace(
-          ':index',
-          index === 0 ? index : index - 1,
-        )}`,
-      );
-      goPath(nextPagePath);
+      navForwardSummaryGoNextChapter({ formData, goPath, pageList });
     }
   };
 
