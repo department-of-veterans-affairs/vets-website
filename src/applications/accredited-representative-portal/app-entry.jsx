@@ -7,6 +7,8 @@ import router from './routes';
 
 import manifest from './manifest.json';
 import store from './store';
+import './sass/accredited-representative-portal.scss';
+import './sass/POARequestsTable.scss';
 
 window.appName = manifest.entryName;
 
