@@ -1,6 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
+import { Data } from './utils/constants';
 
 describe('Medications List Page Recently Requested Filter Option', () => {
   it('visits Medications List Page Filter Option Recently Requested', () => {
@@ -22,5 +23,8 @@ describe('Medications List Page Recently Requested Filter Option', () => {
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Recently requested');
     listPage.clickFilterButtonOnAccordion(url);
+    listPage.verifyFocusOnPaginationTextInformationOnListPage(
+      Data.PAGINATION_RECENTLY_REQUESTED,
+    );
   });
 });
