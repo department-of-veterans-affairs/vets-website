@@ -50,7 +50,7 @@ export function includeTeraInformation(formData) {
 
 export function canVeteranProvideAgentOrangeResponse(formData) {
   /**
-   * Birthdays before the year 1900 are disallowed by the 'parseVeteranDob' method
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' method
    * in src/applications/ezr/utils/helpers/general.js
    */
   return (
@@ -61,7 +61,7 @@ export function canVeteranProvideAgentOrangeResponse(formData) {
 
 export function canVeteranProvideRadiationCleanupResponse(formData) {
   /**
-   * Birthdays before the year 1900 are disallowed by the 'parseVeteranDob' method
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' method
    * in src/applications/ezr/utils/helpers/general.js
    */
   return (
@@ -72,7 +72,7 @@ export function canVeteranProvideRadiationCleanupResponse(formData) {
 
 export function canVeteranProvideGulfWarResponse(formData) {
   /**
-   * Birthdays before the year 1900 are disallowed by the 'parseVeteranDob' method
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' method
    * in src/applications/ezr/utils/helpers/general.js
    */
   return (
@@ -83,7 +83,7 @@ export function canVeteranProvideGulfWarResponse(formData) {
 
 export function canVeteranProvideCombatOperationsResponse(formData) {
   /**
-   * Birthdays before the year 1900 are disallowed by the 'parseVeteranDob' method
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' method
    * in src/applications/ezr/utils/helpers/general.js
    */
   return (
