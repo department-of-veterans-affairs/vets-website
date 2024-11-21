@@ -502,6 +502,13 @@ class PatientComposePage {
       .should('be.visible')
       .and(`have.text`, secondBtnText);
   };
+
+  verifyAttchedFilesList = listLength => {
+    cy.get(`.attachments-section`)
+      .find(`.attachments-list`)
+      .children()
+      .should(`have.length`, listLength);
+  };
 }
 
 export default new PatientComposePage();

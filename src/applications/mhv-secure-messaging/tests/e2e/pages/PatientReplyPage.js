@@ -15,11 +15,11 @@ class PatientReplyPage {
     cy.get(Locators.BUTTONS.REPLY).click();
   };
 
-  clickSendReplyMessageDetailsButton = mockReplyMessage => {
+  clickSendReplyMessageButton = mockReplyMessage => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessage.data.attributes.messageId
+        mockReplyMessage.data.attributes.messageId
       }/reply`,
       mockReplyMessage,
     ).as('replyMessage');

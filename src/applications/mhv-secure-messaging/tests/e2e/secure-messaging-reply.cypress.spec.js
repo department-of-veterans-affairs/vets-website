@@ -22,7 +22,7 @@ describe('Secure Messaging Reply', () => {
     });
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientReplyPage.clickSendReplyMessageDetailsButton(testMessage);
+    PatientReplyPage.clickSendReplyMessageButton(testMessage);
     cy.get(Locators.SPINNER).should('be.visible');
     PatientReplyPage.verifySendMessageConfirmationMessageText();
     PatientReplyPage.verifySendMessageConfirmationHasFocus();
