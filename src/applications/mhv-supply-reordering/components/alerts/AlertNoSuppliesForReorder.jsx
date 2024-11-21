@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import DlcEmailLink from '../DlcEmailLink';
 import DlcTelephoneLink from '../DlcTelephoneLink';
+import { formatDate } from '../../utils/helpers';
 
 /**
  * Generates an alert for a veteran that is not eligible to order supplies.
@@ -10,7 +10,7 @@ import DlcTelephoneLink from '../DlcTelephoneLink';
  * @returns the alert
  */
 const AlertNoSuppliesForReorder = ({ reorderDate }) => {
-  const formattedDate = format(new Date(reorderDate), 'MMMM d, yyyy');
+  const date = formatDate(reorderDate);
   return (
     <va-alert
       status="warning"
@@ -20,7 +20,7 @@ const AlertNoSuppliesForReorder = ({ reorderDate }) => {
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         <span>
           Our records show that your items aren’t available for reorder until{' '}
-          {formattedDate}. You can only order items once every 5 months.
+          {date}. You can only order items once every 5 months.
         </span>
         <span className="vads-u-margin-top--1">
           If you need an item sooner, call the DLC Customer Service Section at{' '}

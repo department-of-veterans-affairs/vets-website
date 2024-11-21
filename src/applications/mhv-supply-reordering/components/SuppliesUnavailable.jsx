@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import classNames from 'classnames';
 import DlcTelephoneLink from './DlcTelephoneLink';
 import { HEALTH_FACILITIES_URL } from '../constants';
+import { formatDate } from '../utils/helpers';
 
 const SuppliesUnavailable = ({ supplies }) => {
   const cards = supplies
@@ -20,17 +20,16 @@ const SuppliesUnavailable = ({ supplies }) => {
           })}
         >
           <div>
-            <strong>{supply.productGroup}</strong> <br />
-            Device: {supply.productName} <br />
+            <strong>{supply.productName}</strong> <br />
+            Device: {supply.deviceName} <br />
             Quantity: {supply.quantity} <br />
-            Last ordered on{' '}
-            {format(new Date(supply.lastOrderDate), 'MMMM d, yyyy')}
+            Last ordered on {formatDate(supply.lastOrderDate)}
           </div>
           {supply.availableForReorder && (
             <p className="vads-u-margin-bottom--0">
               You can’t order this supply online until{' '}
-              {format(new Date(supply.nextAvailabilityDate), 'MMMM d, yyyy')}.
-              If you need this supply now call us at <DlcTelephoneLink />.
+              {formatDate(supply.nextAvailabilityDate)}. If you need this supply
+              now call us at <DlcTelephoneLink />.
             </p>
           )}
           {!supply.availableForReorder && (
