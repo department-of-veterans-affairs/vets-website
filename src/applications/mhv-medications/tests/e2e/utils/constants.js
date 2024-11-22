@@ -13,7 +13,7 @@ export const Paths = {
   LANDING_LIST:
     '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
   MED_LIST:
-    'my_health/v1/prescriptions?page=1&per_page=20ALL_MEDICATIONS&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
   SORT_BY_NAME:
     'my_health/v1/prescriptions?page=1&per_page=20&sort[]=prescription_name&sort[]=dispensed_date',
   SORT_BY_LAST_FILLED:
@@ -33,4 +33,7 @@ export const Paths = {
     NON_VA_FILTER_LIST:
       '/my_health/v1/prescriptions?page=1&per_page=20&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
   },
+};
+export const Alerts = {
+  EMPTY_MED_LIST: 'You don’t have any VA prescriptions or medication records',
 };

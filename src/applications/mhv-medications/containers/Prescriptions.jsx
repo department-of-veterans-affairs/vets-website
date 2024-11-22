@@ -644,7 +644,10 @@ const Prescriptions = () => {
               filterCount &&
               Object.values(filterCount).every(value => value === 0)) ? (
               <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                <h2 className="vads-u-margin--0">
+                <h2
+                  className="vads-u-margin--0"
+                  data-testid="empty-medList-alert"
+                >
                   You don’t have any VA prescriptions or medication records
                 </h2>
                 <p className="vads-u-margin-y--3">

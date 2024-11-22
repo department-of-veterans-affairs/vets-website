@@ -13,10 +13,7 @@ import { Paths } from '../utils/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-    ).as('medicationsList');
+    cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -792,6 +789,20 @@ class MedicationsListPage {
       .shadow()
       .find('[class="usa-legend"]', { force: true })
       .should('not.exist');
+  };
+
+  visitMedicationsListPageURL = medication => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/allergies',
+      allergies,
+    ).as('allergies');
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
+    cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('noMedications');
+  };
+
+  verifyEmptyMedicationsListAlertOnListPage = text => {
+    cy.get('[data-testid="empty-medList-alert"]').should('have.text', text);
   };
 }
 
