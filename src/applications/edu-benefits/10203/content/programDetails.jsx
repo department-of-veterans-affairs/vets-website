@@ -14,7 +14,10 @@ export const schoolStudentIdTitle = (
 
 export const stemApplicantSco = (
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-  <va-summary-box class="vads-u-margin-top--5" tabIndex="0">
+  <va-summary-box
+    class="vads-u-margin-top--5 vads-u-margin-bottom--3"
+    tabIndex="0"
+  >
     We’ll be reaching out to the School Certifying Official (SCO) at this school
     to confirm your eligibility for the scholarship.
   </va-summary-box>
