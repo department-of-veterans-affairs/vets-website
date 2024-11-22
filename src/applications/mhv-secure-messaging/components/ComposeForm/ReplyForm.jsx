@@ -131,7 +131,12 @@ const ReplyForm = props => {
   return (
     replyMessage && (
       <>
-        <h1 ref={header} className="page-title">
+        <h1
+          ref={header}
+          className="page-title"
+          data-dd-privacy="mask"
+          data-dd-action-name="Reply Form Header"
+        >
           {messageTitle}
         </h1>
 
@@ -151,7 +156,7 @@ const ReplyForm = props => {
         <MessageActionButtons
           threadId={threadId}
           hideDraft={hideDraft}
-          hideReplyButton
+          hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
           replyMsgId={replyMessage.messageId}
           showEditDraftButton={
             !cannotReply && !showBlockedTriageGroupAlert && !hideDraft
@@ -216,8 +221,8 @@ ReplyForm.propTypes = {
   replyMessage: PropTypes.object,
   setIsCreateNewModalVisible: PropTypes.func,
   setIsEditing: PropTypes.func,
-  threadId: PropTypes.number,
   setIsSending: PropTypes.func,
+  threadId: PropTypes.number,
 };
 
 export default ReplyForm;

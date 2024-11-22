@@ -184,18 +184,39 @@ export const getLastSentMessage = messages => {
 };
 
 export const handleHeader = (folderId, folder) => {
+  let folderName;
+
   switch (folderId) {
     case Folders.INBOX.id: // Inbox
-      return Folders.INBOX.header;
+      folderName = Folders.INBOX.header;
+      break;
     case Folders.SENT.id: // Sent
-      return Folders.SENT.header;
+      folderName = Folders.SENT.header;
+      break;
     case Folders.DRAFTS.id: // Drafts
-      return Folders.DRAFTS.header;
+      folderName = Folders.DRAFTS.header;
+      break;
     case Folders.DELETED.id: // Trash
-      return Folders.DELETED.header;
+      folderName = Folders.DELETED.header;
+      break;
     default:
-      return folder.name;
+      folderName = folder.name;
   }
+
+  const isCustomFolder =
+    folderName !== Folders.INBOX.header &&
+    folderName !== Folders.SENT.header &&
+    folderName !== Folders.DRAFTS.header &&
+    folderName !== Folders.DELETED.header;
+
+  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folderName}`} h1`;
+  const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+
+  return {
+    folderName,
+    ddTitle,
+    ddPrivacy,
+  };
 };
 
 export const updateMessageInThread = (thread, response) => {
@@ -246,17 +267,11 @@ export const setUnsavedNavigationError = (
     case ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR:
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-        confirmButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
-        cancelButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
       });
       break;
     case ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR:
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-        confirmButtonText: 'Continue editing',
-        cancelButtonText: 'Delete draft',
       });
       break;
     default:

@@ -49,7 +49,6 @@ const mapStateToProps = state => {
     duplicateEmail: state?.data?.duplicateEmail,
     mobilePhone:
       state?.form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-    showMebEnhancements08: state?.featureToggles?.showMebEnhancements08,
     formData: state?.form?.data,
   };
 };

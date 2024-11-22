@@ -27,6 +27,7 @@ import {
   formatProgramType,
   isReviewInstance,
   isSmallScreenLogic,
+  updateLcFilterDropdowns,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -537,6 +538,7 @@ describe('GIBCT helpers:', () => {
       expect(scrollByStub.called).to.be.false;
     });
   });
+
   describe('formatProgramType', () => {
     it('should return an empty string when programType is null or undefined', () => {
       expect(formatProgramType(null)).to.equal('');
@@ -562,6 +564,68 @@ describe('GIBCT helpers:', () => {
       expect(formatProgramType('DOCTORATE-PROGRAM')).to.equal(
         'Doctorate Program',
       );
+    });
+  });
+
+  describe('updateLcFilterDropdowns', () => {
+    it('should update the correct dropdown with the selected option based on the target id and value', () => {
+      const dropdowns = [
+        {
+          label: 'category',
+          options: [
+            { optionValue: '', optionLabel: '-Select-' },
+            { optionValue: 'licenses', optionLabel: 'License' },
+            { optionValue: 'certifications', optionLabel: 'Certification' },
+            { optionValue: 'preps', optionLabel: 'Prep Course' },
+          ],
+          alt: 'category type',
+          current: { optionValue: '', optionLabel: '-Select-' },
+        },
+        {
+          label: 'state',
+          options: [
+            { optionValue: 'All', optionLabel: 'All' },
+            { optionValue: 'CA', optionLabel: 'California' },
+            { optionValue: 'TX', optionLabel: 'Texas' },
+          ],
+          alt: 'state',
+          current: { optionValue: 'All', optionLabel: 'All' },
+        },
+      ];
+
+      // Sample target (representing an event.target object)
+      const target = {
+        id: 'category',
+        value: 'licenses',
+      };
+
+      const expectedResult = [
+        {
+          label: 'category',
+          options: [
+            { optionValue: '', optionLabel: '-Select-' },
+            { optionValue: 'licenses', optionLabel: 'License' },
+            { optionValue: 'certifications', optionLabel: 'Certification' },
+            { optionValue: 'preps', optionLabel: 'Prep Course' },
+          ],
+          alt: 'category type',
+          current: { optionValue: 'licenses', optionLabel: 'License' },
+        },
+        {
+          label: 'state',
+          options: [
+            { optionValue: 'All', optionLabel: 'All' },
+            { optionValue: 'CA', optionLabel: 'California' },
+            { optionValue: 'TX', optionLabel: 'Texas' },
+          ],
+          alt: 'state',
+          current: { optionValue: 'All', optionLabel: 'All' },
+        },
+      ];
+
+      const result = updateLcFilterDropdowns(dropdowns, target);
+
+      expect(result).to.deep.equal(expectedResult);
     });
   });
 });

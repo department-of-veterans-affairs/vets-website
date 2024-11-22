@@ -2,7 +2,7 @@ import appendQuery from 'append-query';
 
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import { api } from '../config';
+import { api, apiV0 } from '../config';
 
 import { rubyifyKeys, searchCriteriaFromCoords } from '../utils/helpers';
 import { TypeList } from '../constants';
@@ -70,83 +70,63 @@ export const FETCH_LC_RESULTS_SUCCEEDED = 'FETCH_LC_RESULTS_SUCCEEDED';
 export const FETCH_LC_RESULT_FAILED = 'FETCH_LC_RESULT_FAILED';
 export const FETCH_LC_RESULT_STARTED = 'FETCH_LC_RESULT_STARTED';
 export const FETCH_LC_RESULT_SUCCEEDED = 'FETCH_LC_RESULT_SUCCEEDED';
+export const FETCH_INSTITUTION_PROGRAMS_FAILED =
+  'FETCH_INSTITUTION_PROGRAMS_FAILED';
+export const FETCH_INSTITUTION_PROGRAMS_STARTED =
+  'FETCH_INSTITUTION_PROGRAMS_STARTED';
+export const FETCH_INSTITUTION_PROGRAMS_SUCCEEDED =
+  'FETCH_INSTITUTION_PROGRAMS_SUCCEEDED';
 
-export function fetchLicenseCertificationResults() {
+export const fetchInstitutionPrograms = (facilityCode, programType) => {
+  const url = `https://dev-api.va.gov/v0/gi/institution_programs/search?type=${programType}&facility_code=${facilityCode}&disable_pagination=true`;
+
+  return async dispatch => {
+    dispatch({ type: FETCH_INSTITUTION_PROGRAMS_STARTED });
+
+    try {
+      const res = await fetch(url, apiV0.settings);
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const { data } = await res.json();
+      dispatch({
+        type: FETCH_INSTITUTION_PROGRAMS_SUCCEEDED,
+        payload: data,
+      });
+    } catch (err) {
+      dispatch({
+        type: FETCH_INSTITUTION_PROGRAMS_FAILED,
+        payload: err.message,
+      });
+    }
+  };
+};
+
+export function fetchLicenseCertificationResults(
+  name = null,
+  filterOptions = { type: 'all', state: 'all' },
+) {
+  const { type, state } = filterOptions;
+
+  const url = name
+    ? `${api.url}/lce?type=${type}&state=${state}&name=${name}`
+    : `${api.url}/lce?type=${type}&state=${state}`;
   return dispatch => {
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
-    // swap in api url
-    return new Promise(res => {
-      setTimeout(() => {
-        res({
-          ok: true,
-          results: [
-            {
-              link: 'lce/licenses/1',
-              name: 'Adjuster-All Lines',
-              type: 'License',
-            },
-            {
-              link: 'lce/licenses/2',
-              name: 'Adjuster-Property and Casualty',
-              type: 'License',
-            },
-            {
-              link: 'lce/licenses/3',
-              name: 'Adjuster-Workers Compensation',
-              type: 'License',
-            },
-            {
-              link: 'lce/licenses/4',
-              name: 'ADULT NURSE PRACTITIONER CERTIFICATION',
-              type: 'License',
-            },
-            {
-              link: 'lce/licenses/5',
-              name: 'AMERICAN ASSOC OF FAMLY & CONSUMER FAM SCI (AAFCS)',
-              type: 'License',
-            },
-            {
-              link: 'lce/licenses/6',
-              name: 'Athletic Trainer Licensure Examination',
-              type: 'License',
-            },
-            {
-              link: 'lce/licenses/7',
-              name: 'Attorney and Counselor at Law',
-              type: 'License',
-            },
-            {
-              link: 'lce/licenses/8',
-              name: 'BARBER INSTRUCTOR',
-              type: 'License',
-            },
-            {
-              link: 'lce/licenses/9',
-              name: 'BARBER MANICURIST',
-              type: 'License',
-            },
-            {
-              link: 'lce/licenses/10',
-              name: 'Barber Technician License',
-              type: 'License',
-            },
-          ],
-        });
-      }, 1000);
-    })
+    return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
-          return res;
+          return res.json();
         }
         throw new Error(res.statusText);
       })
       .then(results => {
-        return dispatch({
+        const { data } = results;
+
+        dispatch({
           type: FETCH_LC_RESULTS_SUCCEEDED,
-          payload: {
-            ...results,
-          },
+          payload: data,
         });
       })
       .catch(err => {
@@ -157,78 +137,23 @@ export function fetchLicenseCertificationResults() {
       });
   };
 }
-export function fetchLcResult() {
+
+export function fetchLcResult(link) {
   return dispatch => {
+    const url = `${api.url}/${link}`;
     dispatch({ type: FETCH_LC_RESULT_STARTED });
 
-    // swap in api url
-    return new Promise(res => {
-      setTimeout(() => {
-        res({
-          ok: true,
-          result: {
-            desc: 'Adjuster-All Lines',
-            type: 'License',
-            tests: [
-              {
-                name: 'LIFE AGENT',
-                fee: 43,
-              },
-              {
-                name: 'PERSONAL LINES PROPERTY AND CASUALTY',
-                fee: 33,
-              },
-              {
-                name: 'PUBLIC INSURANCE ADJUSTER',
-                fee: 33,
-              },
-              {
-                name: 'All Lines Adjuster',
-                fee: 43,
-              },
-            ],
-            institution: {
-              name: 'TEXAS DEPARTMENT OF INSURANCE',
-              abbreviatedName: 'TDI',
-              physicalStreet: '333 GUADALUPE STREET',
-              physicalCity: 'AUSTIN',
-              physicalState: 'TX',
-              physicalZip: '78701',
-              physicalCountry: 'USA',
-              mailingStreet: 'PO Box 149104',
-              mailingCity: 'AUSTIN',
-              mailingState: 'TX',
-              mailingZip: '78714',
-              mailingCountry: 'USA',
-              phone: '(512)676-6797',
-              webAddress: 'https://txt.texas.gov/',
-            },
-            officials: [
-              {
-                name: 'MONA GAZAL',
-                title: 'Certifying Official for License and Certification',
-              },
-              {
-                name: 'PHHILIP REYNA',
-                title: 'Certifying Official for License and Certification',
-              },
-            ],
-          },
-        });
-      }, 1000);
-    })
+    return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
-          return res;
+          return res.json();
         }
         throw new Error(res.statusText);
       })
       .then(result => {
-        return dispatch({
+        dispatch({
           type: FETCH_LC_RESULT_SUCCEEDED,
-          payload: {
-            ...result,
-          },
+          payload: result.data,
         });
       })
       .catch(err => {

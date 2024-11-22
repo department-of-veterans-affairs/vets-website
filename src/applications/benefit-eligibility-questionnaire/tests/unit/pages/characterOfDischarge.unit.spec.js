@@ -58,13 +58,12 @@ describe('Character of Discharge Form', () => {
   });
 
   it('should render the correct link in the description for characterOfDischargeTWO', () => {
-    const link = $('a', container);
-    const linkText =
-      'Learn more about the discharge upgrade process (opens in a new tab)';
+    const link = $('va-link', container);
+    const linkText = 'Learn more about the discharge upgrade process';
     const href = 'https://www.va.gov/discharge-upgrade-instructions';
 
     expect(link).to.exist;
-    expect(link.textContent).to.equal(linkText);
+    expect(link.getAttribute('text')).to.equal(linkText);
     expect(link.getAttribute('href')).to.equal(href);
   });
 });

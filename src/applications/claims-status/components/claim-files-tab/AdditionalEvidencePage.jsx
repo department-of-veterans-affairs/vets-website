@@ -51,6 +51,7 @@ const filesPath = `../files`;
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
+    this.scrollToSection();
   }
 
   // eslint-disable-next-line camelcase
@@ -67,6 +68,9 @@ class AdditionalEvidencePage extends React.Component {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
+    if (this.props.location.hash !== prevProps.location.hash) {
+      this.scrollToSection();
+    }
   }
 
   componentWillUnmount() {
@@ -74,6 +78,12 @@ class AdditionalEvidencePage extends React.Component {
       this.props.clearAdditionalEvidenceNotification();
     }
   }
+
+  scrollToSection = () => {
+    if (this.props.location.hash === '#add-files') {
+      setPageFocus('h3#add-files');
+    }
+  };
 
   goToFilesPage() {
     this.props.getClaim(this.props.claim.id);
@@ -120,7 +130,9 @@ class AdditionalEvidencePage extends React.Component {
               />
             </>
           )}
-          <h3 className="vads-u-margin-bottom--3">Additional evidence</h3>
+          <h3 id="add-files" className="vads-u-margin-bottom--3">
+            Additional evidence
+          </h3>
           {isOpen ? (
             <>
               {filesNeeded.map(item => (
@@ -241,6 +253,7 @@ AdditionalEvidencePage.propTypes = {
   getClaim: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  location: PropTypes.object,
   message: PropTypes.object,
   navigate: PropTypes.func,
   params: PropTypes.object,
