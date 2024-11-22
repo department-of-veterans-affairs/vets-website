@@ -1247,7 +1247,6 @@ describe('VAOS Page: VAFacilityPage', () => {
         featureToggles: {
           vaOnlineSchedulingDirect: true,
           vaOnlineSchedulingUseDsot: true,
-          vaOnlineSchedulingFacilitiesServiceV2: true,
         },
         user: {
           profile: {
@@ -1384,7 +1383,6 @@ describe('VAOS Page: VAFacilityPage', () => {
       featureToggles: {
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingUseDsot: true,
-        vaOnlineSchedulingFacilitiesServiceV2: true,
         vaOnlineSchedulingOhDirectSchedule: true,
       },
       user: {
