@@ -116,3 +116,12 @@
     padding-left: 0;
   }
 }
+
+.blue-heading {
+  padding: 0.5rem 1rem;
+  color: var(--vads-color-white);
+  background: var(--vads-color-primary-darker);
+  height: 26px;
+  margin: -16px;
+  margin-bottom: 1rem;
+}

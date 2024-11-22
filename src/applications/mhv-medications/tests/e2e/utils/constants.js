@@ -24,7 +24,7 @@ export const Paths = {
     ' /my_health/v1/prescriptions?page=1&per_page=20&filter[[disp_status][eq]]=Active,Active:%20Refill%20in%20Process,Active:%20Non-VA,Active:%20On%20hold,Active:%20Parked,Active:%20Submitted&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
   INTERCEPT: {
     PAGINATION_NEXT:
-      'my_health/v1/prescriptions?page=2&per_page=20ALL_MEDICATIONS&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      '/my_health/v1/prescriptions?page=2&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
 
     RECENTLY_REQUESTED_FILTER_LIST:
       '/my_health/v1/prescriptions?page=1&per_page=20&filter[[disp_status][eq]]=Active:%20Refill%20in%20process,Active:%20Submitted',

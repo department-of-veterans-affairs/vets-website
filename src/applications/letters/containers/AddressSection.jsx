@@ -18,11 +18,6 @@ const navigateToLetterList = navigate => {
 export function AddressSection({ address }) {
   const location = useLocation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    focusElement('#content');
-  });
-
   const emptyAddress = isAddressEmpty(address);
 
   const addressContent = (
@@ -51,6 +46,12 @@ export function AddressSection({ address }) {
       </div>
     );
   }
+
+  // Only set focus on the H1 when AddressSection is loaded.
+  // LettersList component has its own logic.
+  useEffect(() => {
+    focusElement('#letters-title-id');
+  }, []);
 
   return (
     <>
