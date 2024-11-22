@@ -1,6 +1,4 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { isChapterFieldRequired } from '../../helpers';
 import { TASK_KEYS } from '../../constants';
 import { intro } from './intro';
@@ -59,18 +57,18 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       path: '686-report-add-child/:index/relationship',
       uiSchema: relationship.uiSchema,
       schema: relationship.schema,
-      onNavForward: ({ formData, pathname, urlParams, goPath, goNextPath }) => {
-        const index = getArrayIndexFromPathName(pathname);
-        const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-        if (formData?.relationshipToChild.stepchild) {
-          goNextPath(urlParams);
-          return;
-        }
-        goPath(
-          `/686-report-add-child/${index}/additional-information-part-one${urlParamsString}`,
-        );
-      },
+      // onNavForward: ({ formData, pathname, urlParams, goPath, goNextPath }) => {
+      //   const index = getArrayIndexFromPathName(pathname);
+      //   const urlParamsString = stringifyUrlParams(urlParams) || '';
+      //
+      //   if (formData?.relationshipToChild.stepchild) {
+      //     goNextPath(urlParams);
+      //     return;
+      //   }
+      //   goPath(
+      //     `/686-report-add-child/${index}/additional-information-part-one${urlParamsString}`,
+      //   );
+      // },
     }),
     // conditional page
     addChildStepchild: pages.itemPage({
@@ -86,14 +84,14 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       path: '686-report-add-child/:index/additional-information-part-one',
       uiSchema: additionalInformationPartOne.uiSchema,
       schema: additionalInformationPartOne.schema,
-      onNavBack: ({ _formData, pathname, urlParams, goPath, _goNextPath }) => {
-        const index = getArrayIndexFromPathName(pathname);
-        const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-        return goPath(
-          `/686-report-add-child/${index}/relationship${urlParamsString}`,
-        );
-      },
+      // onNavBack: ({ _formData, pathname, urlParams, goPath, _goNextPath }) => {
+      //   const index = getArrayIndexFromPathName(pathname);
+      //   const urlParamsString = stringifyUrlParams(urlParams) || '';
+      //
+      //   return goPath(
+      //     `/686-report-add-child/${index}/relationship${urlParamsString}`,
+      //   );
+      // },
     }),
     addChildAdditionalInformationPartTwo: pages.itemPage({
       depends: formData => isChapterFieldRequired(formData, TASK_KEYS.addChild),

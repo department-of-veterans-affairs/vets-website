@@ -8,11 +8,11 @@ export const arrayBuilderOptions = {
   },
   maxItems: 10,
   text: {
-    getItemName: _item => {
-      return 'Item name';
+    getItemName: () => {
+      return 'Child';
     },
-    cardDescription: _item => {
-      return 'Card Desc';
+    cardDescription: item => {
+      return `${item?.fullName?.first} ${item?.fullName?.last}`;
     },
   },
 };
