@@ -77,10 +77,12 @@ export default function ReferralAppointments() {
   return (
     <>
       <Switch>
+        {/* TODO convert component to get referral as a prop */}
         <Route
           path={`${basePath.url}/review/`}
           component={ConfirmApprovedPage}
         />
+        {/* TODO convert component to get referral as a prop */}
         <Route
           path={`${basePath.url}/date-time/`}
           component={ChooseDateAndTime}
