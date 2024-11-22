@@ -84,3 +84,23 @@ A web-component-pattern is a group of web-component-fields that can span one or 
 ```
 
 When requesting `GET /v0/in_progress_forms/MDOT`, the MDOT client in vets-api will make a request to the system of record for veteran details and supplies available to the veteran. See `V0::InProgressFormsController.camelized_prefill_for_user` and `FormProfiles::MDOT#prefill`. On the front-end, test against the possible responses for `MDOT::Client.new(user).get_supplies` which are mapped to `mdot.exceptions` values in `vets-api/config/locales/exceptions.en.yml` and then passed along in the response. Also, see `vets-api/spec/support/vcr_cassettes/mdot/get_supplies*.yml`.
+
+## Dynamic Forms
+
+[[using update and replace schema funcs](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-use-updateschema-and-repla)]
+
+see `src/applications/disability-benefits/all-claims/pages/toxicExposure/toxicExposureConditions.js` for an example.
+
+## Device Types
+
+How do we access other device types? (e.g. - assistive devices, nebulizers)... It sounds like these are included in the request for supplies.
+
+(I believe) The `productGroup` property of a supply can be one of the following values: `['accessories', 'batteries', 'apnea']`.
+
+## Thoughts & Improvements
+
+Should there be a `GET /v0/mdot/supplies` endpoint that returns available supplies? Current implementation of fetching supplies from `/v0/in_progres_forms/MDOT` feels strange.
+
+Need to understand the relationship between backend forms and frontend forms.
+
+Just build the frontend.

@@ -44,8 +44,9 @@ class SelectArrayItemsWidget extends React.Component {
     const itemsList =
       formData.supplies?.length > 0 &&
       formData.supplies.map((item, index) => {
-        const itemDescription = `Quantity: ${item.quantity}
-        Last ordered on: ${item.lastOrderDate}`;
+        let itemDescription = item?.deviceName ? `Device: ${item.deviceName}\n` : '';
+        itemDescription += `Quantity: ${item.quantity}\n`;
+        itemDescription += `Last ordered on ${item.lastOrderDate}\n`;
 
         const itemIsSelected = !!get(
           selectedPropName || this.defaultSelectedPropName,
@@ -81,6 +82,7 @@ class SelectArrayItemsWidget extends React.Component {
                   typeof itemIsSelected === 'undefined' ? false : itemIsSelected
                 }
                 onVaChange={event => this.onChange(index, event.target.checked)}
+                style={{ whiteSpace: 'pre-line' }}
               />
             )}
           </div>

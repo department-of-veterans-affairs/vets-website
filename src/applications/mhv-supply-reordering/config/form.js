@@ -4,6 +4,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE as title } from '../constants';
 import manifest from '../manifest.json';
 
+import chooseSupplies from '../pages/chooseSupplies';
 import contactInformation from '../pages/contactInformation';
 import selectSupplies from '../pages/selectSupplies';
 
@@ -45,6 +46,17 @@ const customText = {
 };
 
 const chapters = {
+  // chooseSuppliesChapter: {
+  //   title: 'Choose supplies',
+  //   pages: {
+  //     chooseSupplies: {
+  //       path: 'choose-supplies',
+  //       title: 'Choose supplies',
+  //       uiSchema: chooseSupplies.uiSchema,
+  //       schema: chooseSupplies.schema,
+  //     },
+  //   },
+  // },
   selectSuppliesChapter: {
     title: 'Select supplies',
     pages: {

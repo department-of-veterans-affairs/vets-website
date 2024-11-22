@@ -128,6 +128,7 @@ const putOk = {
 module.exports = {
   // `GET /v0/in_progress_forms/${VA_FORM_IDS.FORM_VA_2346A}`: getOk,
   'GET /v0/in_progress_forms/MDOT': getOk,
+  'OPTIONS /v0/in_progress_forms/MDOT': 'OK',
   // 'GET /v0/in_progress_forms/MDOT': (_, res) => res.status(404).json(notFound),
   // 'GET /v0/in_progress_forms/MDOT': (_, res) => res.status(500).json(internalServerError),
   'PUT /v0/in_progress_forms/MDOT': putOk,
