@@ -6,13 +6,20 @@ const SERVICES = {
   GLOBAL: 'global',
   VA_PROFILE: 'vet360',
   // Sources for VA Profile services:
-  VAPRO_PROFILE_PAGE: 'vapro_profile_page',
-  VAPRO_CONTACT_INFO: 'vapro_contact_info',
+  BGS_PAYMENT_HISTORY: 'bgs_payment_history',
+  DMC_DEBTS: 'dmc_debts',
+  LIGHTHOUSE_BENEFITS_CLAIMS: 'lighthouse_benefits_claims',
   LIGHTHOUSE_DIRECT_DEPOSIT: 'lighthouse_direct_deposit',
+  LIGHTHOUSE_SUBMISSION_STATUSES: 'lighthouse_submission_statuses',
+  VAPRO_CONTACT_INFO: 'vapro_contact_info',
+  VAPRO_HEALTH_CARE_CONTACTS: 'vapro_health_care_contacts',
   VAPRO_MILITARY_INFO: 'vapro_military_info',
   VAPRO_NOTIFICATION_SETTINGS: 'vapro_notification_settings',
-  VAPRO_HEALTH_CARE_CONTACTS: 'vapro_health_care_contacts',
   VAPRO_PERSONAL_INFO: 'vapro_personal_info',
+  VAPRO_PROFILE_PAGE: 'vapro_profile_page',
+  VBMS_APPEALS: 'vbms_appeals',
+  VBMS_APPOINTMENTS: 'vbms_appointments',
+  VBS_MEDICAL_COPAYS: 'vbs_medical_copays',
 };
 
 const beforeNow = moment()

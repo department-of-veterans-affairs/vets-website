@@ -144,7 +144,7 @@ const responses = {
   'GET /v0/maintenance_windows': (_req, res) => {
     return res.json(maintenanceWindows.noDowntime);
 
-    // downtime for VA Profile aka Vet360 (according to service name in response)
+    // Services for profile downtime
     // return res.json(
     //   maintenanceWindows.createDowntimeActiveNotification([
     //     maintenanceWindows.SERVICES.VAPRO_PROFILE_PAGE,

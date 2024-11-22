@@ -7,6 +7,10 @@ import {
   fetchDebts,
   fetchCopays,
 } from '~/applications/personalization/dashboard/actions/debts';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import DebtsCard from './DebtsCard';
@@ -113,9 +117,17 @@ const BenefitPaymentsAndDebt = ({
       <div className="vads-l-row">
         {(hasCopayError || hasDebtError) && (
           <>
-            <DashboardWidgetWrapper>
-              <OutstandingDebtsError />
-            </DashboardWidgetWrapper>
+            <DowntimeNotification
+              appTitle="benefit application drafts"
+              dependencies={[
+                externalServices.DMC_DEBTS,
+                externalServices.VBS_MEDICAL_COPAYS,
+              ]}
+            >
+              <DashboardWidgetWrapper>
+                <OutstandingDebtsError />
+              </DashboardWidgetWrapper>
+            </DowntimeNotification>
             <DashboardWidgetWrapper>
               {hasDebtError && copaysCount > 0 && <PopularActionsForDebts />}
             </DashboardWidgetWrapper>
@@ -123,21 +135,45 @@ const BenefitPaymentsAndDebt = ({
         )}
         {hasNoOutstandingDebts() && (
           <>
-            <DashboardWidgetWrapper>
-              <NoOutstandingDebtsText />
-            </DashboardWidgetWrapper>
+            <DowntimeNotification
+              appTitle="benefit application drafts"
+              dependencies={[
+                externalServices.DMC_DEBTS,
+                externalServices.VBS_MEDICAL_COPAYS,
+              ]}
+            >
+              <DashboardWidgetWrapper>
+                <NoOutstandingDebtsText />
+              </DashboardWidgetWrapper>
+            </DowntimeNotification>
           </>
         )}
         {debtsCount > 0 && (
-          <DashboardWidgetWrapper>
-            <DebtsCard debts={debts} />
-          </DashboardWidgetWrapper>
+          <DowntimeNotification
+            appTitle="benefit application drafts"
+            dependencies={[
+              externalServices.DMC_DEBTS,
+              externalServices.VBS_MEDICAL_COPAYS,
+            ]}
+          >
+            <DashboardWidgetWrapper>
+              <DebtsCard debts={debts} />
+            </DashboardWidgetWrapper>
+          </DowntimeNotification>
         )}
         {copaysCount > 0 && (
           <>
-            <DashboardWidgetWrapper>
-              <CopaysCard copays={copays} />
-            </DashboardWidgetWrapper>
+            <DowntimeNotification
+              appTitle="benefit application drafts"
+              dependencies={[
+                externalServices.DMC_DEBTS,
+                externalServices.VBS_MEDICAL_COPAYS,
+              ]}
+            >
+              <DashboardWidgetWrapper>
+                <CopaysCard copays={copays} />
+              </DashboardWidgetWrapper>
+            </DowntimeNotification>
             <DashboardWidgetWrapper>
               {!debtsCount && !hasDebtError && <PopularActionsForDebts />}
             </DashboardWidgetWrapper>

@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import { subDays } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PaymentsCard from './PaymentsCard';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
@@ -117,9 +121,14 @@ const BenefitPayments = ({
       <div className="vads-l-row">
         {lastPayment && (
           <>
-            <DashboardWidgetWrapper>
-              <PaymentsCard lastPayment={lastPayment} />
-            </DashboardWidgetWrapper>
+            <DowntimeNotification
+              appTitle="benefit application drafts"
+              dependencies={[externalServices.BGS_PAYMENT_HISTORY]}
+            >
+              <DashboardWidgetWrapper>
+                <PaymentsCard lastPayment={lastPayment} />
+              </DashboardWidgetWrapper>
+            </DowntimeNotification>
             <DashboardWidgetWrapper>
               <PopularActionsForPayments />
             </DashboardWidgetWrapper>
@@ -127,7 +136,12 @@ const BenefitPayments = ({
         )}
         {!lastPayment && (
           <DashboardWidgetWrapper>
-            {paymentsError ? <PaymentsError /> : <NoRecentPaymentText />}
+            <DowntimeNotification
+              appTitle="benefit application drafts"
+              dependencies={[externalServices.BGS_PAYMENT_HISTORY]}
+            >
+              {paymentsError ? <PaymentsError /> : <NoRecentPaymentText />}
+            </DowntimeNotification>
             <PopularActionsForPayments
               showPaymentHistoryLink={
                 (payments && !!payments.length) || paymentsError

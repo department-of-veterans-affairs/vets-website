@@ -29,11 +29,6 @@ import {
   RequiredLoginLoader,
 } from '~/platform/user/authorization/components/RequiredLoginView';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import {
-  DowntimeNotification,
-  externalServices,
-} from '~/platform/monitoring/DowntimeNotification';
-
 import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
@@ -42,7 +37,6 @@ import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
-import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
@@ -51,7 +45,6 @@ import Debts from './debts/Debts';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
-import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
 import BenefitApplications from './benefit-application-drafts/BenefitApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 
@@ -215,7 +208,6 @@ const Dashboard = ({
   user,
   ...props
 }) => {
-  const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
   const dispatch = useDispatch();
 
   const [welcomeModalVisible, setWelcomeModalVisible] = useState(
@@ -287,89 +279,68 @@ const Dashboard = ({
       user={user}
       showProfileErrorMessage
     >
-      <DowntimeNotification
-        appTitle="user dashboard"
-        loadingIndicator={<RequiredLoginLoader />}
-        dependencies={[
-          externalServices.mvi,
-          externalServices.mhv,
-          externalServices.appeals,
-        ]}
-        render={downtimeApproachingRenderMethod}
-      >
-        {showLoader && <RequiredLoginLoader />}
-        {!showLoader && (
-          <div className="dashboard">
-            {showNameTag && (
-              <div id="name-tag">
-                <NameTag
-                  totalDisabilityRating={props.totalDisabilityRating}
-                  totalDisabilityRatingServerError={
-                    props.totalDisabilityRatingServerError
-                  }
+      {showLoader && <RequiredLoginLoader />}
+      {!showLoader && (
+        <div className="dashboard">
+          {showNameTag && (
+            <div id="name-tag">
+              <NameTag
+                totalDisabilityRating={props.totalDisabilityRating}
+                totalDisabilityRatingServerError={
+                  props.totalDisabilityRatingServerError
+                }
+              />
+            </div>
+          )}
+          <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
+            <DashboardHeader
+              showNotifications={showNotifications}
+              user={props.user}
+            />
+
+            {showMPIConnectionError && (
+              <div className="vads-l-row">
+                <MPIConnectionError className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3" />
+              </div>
+            )}
+
+            {showNotInMPIError && (
+              <div className="vads-l-row">
+                <NotInMPIError
+                  className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3"
+                  level={2}
                 />
               </div>
             )}
-            <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
-              <DashboardHeader
-                showNotifications={showNotifications}
-                user={props.user}
+
+            {/* LOA1 user experience */}
+            {isLOA1 && (
+              <LOA1Content
+                isLOA1={isLOA1}
+                isVAPatient={isVAPatient}
+                welcomeModalVisible={welcomeModalVisible}
+                dismissWelcomeModal={dismissWelcomeModal}
+                user={user}
               />
+            )}
 
-              {showMPIConnectionError && (
-                <div className="vads-l-row">
-                  <MPIConnectionError className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3" />
-                </div>
-              )}
-
-              {showNotInMPIError && (
-                <div className="vads-l-row">
-                  <NotInMPIError
-                    className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3"
-                    level={2}
-                  />
-                </div>
-              )}
-
-              {/* LOA1 user experience */}
-              {isLOA1 && (
-                <LOA1Content
-                  isLOA1={isLOA1}
-                  isVAPatient={isVAPatient}
-                  welcomeModalVisible={welcomeModalVisible}
-                  dismissWelcomeModal={dismissWelcomeModal}
-                  user={user}
+            {/* LOA3 user experience */}
+            {props.showClaimsAndAppeals && <ClaimsAndAppeals />}
+            {isLOA3 && (
+              <>
+                <HealthCare isVAPatient={isVAPatient} />
+                <Debts />
+                <BenefitPayments
+                  payments={payments}
+                  showNotifications={showNotifications}
                 />
-              )}
-
-              {/* LOA3 user experience */}
-              {props.showClaimsAndAppeals && (
-                <DowntimeNotification
-                  dependencies={[
-                    externalServices.mhv,
-                    externalServices.appeals,
-                  ]}
-                  render={RenderClaimsWidgetDowntimeNotification}
-                >
-                  <ClaimsAndAppeals />
-                </DowntimeNotification>
-              )}
-              {isLOA3 && (
-                <>
-                  <HealthCare isVAPatient={isVAPatient} />
-                  <Debts />
-                  <BenefitPayments
-                    payments={payments}
-                    showNotifications={showNotifications}
-                  />
-                  <EducationAndTraining />
-                  <BenefitApplications />
-                </>
-              )}
-            </div>
+                <EducationAndTraining />
+                <BenefitApplications />
+              </>
+            )}
           </div>
-        )}
-      </DowntimeNotification>
+        </div>
+      )}
     </RequiredLoginView>
   );
 };
@@ -383,7 +354,6 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
 );
 
 const mapStateToProps = state => {
-  const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
   const isVAPatient = isVAPatientSelector(state);
@@ -416,8 +386,7 @@ const mapStateToProps = state => {
 
   const togglesAreLoaded = !toggleValues(state)?.loading;
 
-  const showLoader =
-    !hasLoadedScheduledDowntime || !hasLoadedAllData || !togglesAreLoaded;
+  const showLoader = !hasLoadedAllData || !togglesAreLoaded;
   const showValidateIdentityAlert = isLOA1;
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
   const showMPIConnectionError = hasMPIConnectionError(state);

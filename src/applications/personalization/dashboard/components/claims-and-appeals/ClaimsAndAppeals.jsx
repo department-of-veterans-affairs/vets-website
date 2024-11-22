@@ -8,6 +8,10 @@ import {
   createIsServiceAvailableSelector,
   selectProfile,
 } from '~/platform/user/selectors';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import IconCTALink from '../IconCTALink';
 import { getAppeals as getAppealsAction } from '../../actions/appeals';
 import { getClaims as getClaimsAction } from '../../actions/claims';
@@ -152,23 +156,31 @@ const ClaimsAndAppeals = ({
     <div data-testid="dashboard-section-claims-and-appeals">
       <h2>Claims and appeals</h2>
       <div className="vads-l-row">
-        <DashboardWidgetWrapper>
-          {hasAPIError && <ClaimsAndAppealsError />}
-          {!hasAPIError && (
-            <>
-              {highlightedClaimOrAppeal && !isLOA1 ? (
-                <HighlightedClaimAppeal
-                  claimOrAppeal={highlightedClaimOrAppeal}
-                />
-              ) : (
-                <>
-                  {!isLOA1 && <NoClaimsOrAppealsText />}
-                  <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
-                </>
-              )}
-            </>
-          )}
-        </DashboardWidgetWrapper>
+        <DowntimeNotification
+          appTitle="claims and appeals"
+          dependencies={[
+            externalServices.VBMS_APPEALS,
+            externalServices.LIGHTHOUSE_BENEFITS_CLAIMS,
+          ]}
+        >
+          <DashboardWidgetWrapper>
+            {hasAPIError && <ClaimsAndAppealsError />}
+            {!hasAPIError && (
+              <>
+                {highlightedClaimOrAppeal && !isLOA1 ? (
+                  <HighlightedClaimAppeal
+                    claimOrAppeal={highlightedClaimOrAppeal}
+                  />
+                ) : (
+                  <>
+                    {!isLOA1 && <NoClaimsOrAppealsText />}
+                    <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
+                  </>
+                )}
+              </>
+            )}
+          </DashboardWidgetWrapper>
+        </DowntimeNotification>
         {highlightedClaimOrAppeal &&
           !hasAPIError &&
           !isLOA1 && (

@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { selectAvailableServices } from '~/platform/user/selectors';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import HealthCareContent from './HealthCareContent';
 
 const HealthCare = ({
@@ -24,11 +28,16 @@ const HealthCare = ({
       <h2 data-testid="health-care-section-header" className={headerClassNames}>
         Health care
       </h2>
-      <HealthCareContent
-        dataLoadingDisabled={dataLoadingDisabled}
-        isVAPatient={isVAPatient}
-        isLOA1={isLOA1}
-      />
+      <DowntimeNotification
+        appTitle="health care"
+        dependencies={[externalServices.VBMS_APPOINTMENTS]}
+      >
+        <HealthCareContent
+          dataLoadingDisabled={dataLoadingDisabled}
+          isVAPatient={isVAPatient}
+          isLOA1={isLOA1}
+        />
+      </DowntimeNotification>
     </div>
   );
 };
