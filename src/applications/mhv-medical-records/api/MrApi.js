@@ -185,6 +185,12 @@ export const getImageList = studyId => {
   );
 };
 
+export const getImageRequestStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/imaging/status`, {
+    headers,
+  });
+};
+
 /**
  * Get all of a patient's medical records for generating a Blue Button report
  * @returns an object with

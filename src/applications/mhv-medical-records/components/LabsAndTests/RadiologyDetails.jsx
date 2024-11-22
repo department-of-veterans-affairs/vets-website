@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -18,7 +18,6 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
-
 import { pageTitles } from '../../util/constants';
 import {
   formatNameFirstLast,
@@ -27,6 +26,7 @@ import {
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { setImageRequestStatus } from '../../actions/images';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -37,7 +37,24 @@ const RadiologyDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+
+  // const imageStatus = useSelector(
+  //    state => state.mr.images.imageStatus,
+  // );
+
+  const dispatch = useDispatch();
+
   const [downloadStarted, setDownloadStarted] = useState(false);
+  const [count, setCount] = useState(0);
+  const [requestStatus, setRequestStatus] = useState('');
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(
+    () => {
+      dispatch(setImageRequestStatus());
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -84,6 +101,23 @@ ${record.results}`;
       content,
       `VA-labs-and-tests-details-${getNameDateAndTime(user)}`,
     );
+  };
+
+  const startCounting = () => {
+    setRequestStatus('DOWNLOADING');
+    if (isRunning) return; // Prevent multiple intervals
+    setIsRunning(true);
+    const interval = setInterval(() => {
+      setCount(prevCount => {
+        if (prevCount >= 100) {
+          setRequestStatus('COMPLETE');
+          clearInterval(interval); // Stop counting at 100
+          setIsRunning(false);
+          return 100;
+        }
+        return prevCount + 1;
+      });
+    }, 50); // Adjust speed by changing the interval time (100 ms in this case)
   };
 
   return (
@@ -171,6 +205,90 @@ ${record.results}`;
         >
           {record.results}
         </p>
+      </div>
+
+      <div className="test-results-container">
+        <h2>Images</h2>
+        {/* 
+          - Check opt-in status
+          - Keep content
+        */}
+        {true /* images attached? */ ? (
+          <>
+            {/* {imageRequest ? <p>Image Status is working</p> : <p>Image Status doesn't exist</p>} */}
+            {requestStatus === '' /* request your images button */ && (
+              <>
+                <p>
+                  To review and download your images, you’ll need to request
+                  them.
+                </p>
+                {/* Request Images button will go here */}
+                <button
+                  className="vads-u-margin-y--0p5"
+                  onClick={() => startCounting()}
+                  style={{ width: '100%' }}
+                  disabled={isRunning || count >= 100}
+                >
+                  <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
+                    <span className="vads-u-margin-left--0p5">
+                      Request Images
+                    </span>
+                  </div>
+                </button>
+                <p>
+                  <strong>Note: </strong> You havbe the option to receive an
+                  email when the images are ready to review. To change this
+                  notification, change your notification settings on the
+                  previous version of My HealtheVet.
+                </p>
+                {/* "Go back to previous version of My HealtheVet" */}
+                <va-link
+                  className="vads-u-margin-top--1"
+                  href="#"
+                  text="Go back to the previous version of myHealtheVet"
+                />
+              </>
+            )}
+            {requestStatus === 'DOWNLOADING' /* downloading progress bar */ && (
+              <>
+                <va-banner
+                  close-btn-aria-label="Close notification"
+                  status="info"
+                  visible
+                  iconless="true"
+                >
+                  <p>Image request {count}% complete... </p>
+                  <va-progress-bar percent={count} />
+                </va-banner>
+              </>
+            )}
+            {requestStatus === 'COMPLETE' /* download complete */ && (
+              <>
+                <va-alert
+                  close-btn-aria-label="Close notification"
+                  status="success"
+                  visible
+                >
+                  <h2 slot="headline">Images ready</h2>
+                  <p className="vads-u-margin-y--0">
+                    You have until 12/31/2023 at 4:30 p.m. [timezone] to view
+                    and download your images. After that, you’ll need to request
+                    them again.
+                  </p>
+                  <va-link
+                    className="vads-u-margin-top--1"
+                    href={`/my-health/medical-records/labs-and-tests/${
+                      record.id
+                    }/images`}
+                    text="View images"
+                  />
+                </va-alert>
+              </>
+            )}
+          </>
+        ) : (
+          <p>There ar no images attached to this report.</p>
+        )}
       </div>
     </div>
   );

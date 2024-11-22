@@ -534,3 +534,18 @@ export const formatNameFirstToLast = name => {
     return null;
   }
 };
+
+/**
+ * @param {Array} list array of objects being parsed for the imaging endpoint.
+ */
+export const extractImageAndSeriesIds = list => {
+  const newList = [];
+  let num = 1;
+  list.forEach(item => {
+    const numbers = item.match(/\d+/g);
+    const result = numbers.join('/');
+    newList.push({ index: num, seriesAndImage: result });
+    num += 1;
+  });
+  return newList;
+};

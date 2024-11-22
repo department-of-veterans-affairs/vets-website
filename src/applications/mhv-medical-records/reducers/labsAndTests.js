@@ -337,7 +337,6 @@ export const convertMhvRadiologyRecord = record => {
     sortDate: record.eventDate,
     imagingProvider: imagingProvider || EMPTY_FIELD,
     results: buildRadiologyResults(record),
-    images: [],
   };
 };
 
