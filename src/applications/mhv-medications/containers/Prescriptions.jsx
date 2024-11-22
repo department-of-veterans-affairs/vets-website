@@ -308,7 +308,7 @@ const Prescriptions = () => {
         dispatch(
           getPaginatedFilteredList(
             storedPageNumber,
-            storedFilterOption,
+            filterOptions[storedFilterOption],
             sortEndpoint,
           ),
         ).then(() => updateLoadingStatus(false, ''));
