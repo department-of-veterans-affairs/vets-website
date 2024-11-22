@@ -184,7 +184,7 @@ export const BENEFITS_LIST = [
     id: 'SBP',
     description:
       "If you're a service member in your last 180 days of service, the DOD Skillbridge program can help you gain valuable civilian work experience through specific industry training, apprenticeships, or internships.",
-    isTimeSensitive: false,
+    isTimeSensitive: true,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -336,7 +336,7 @@ export const BENEFITS_LIST = [
     id: 'TAP',
     description:
       "If you're a transitioning service member, the TAP program provides information, services, and training to help you plan for your transition and meet your post-military goals.",
-    isTimeSensitive: false,
+    isTimeSensitive: true,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
