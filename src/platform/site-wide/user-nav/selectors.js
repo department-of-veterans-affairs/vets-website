@@ -11,15 +11,16 @@ export const selectUserGreeting = createSelector(
   state => selectProfile(state).userFullName,
   state => selectProfile(state).email,
   () => localStorage.getItem('userFirstName'),
-  (name, email, sessionFirstName) => {
-    if (name.first || sessionFirstName) {
+  state => selectProfile(state).preferredName,
+  (name, email, sessionFirstName, preferredName) => {
+    if (preferredName || name.first || sessionFirstName) {
       return (
         <span
           className="user-dropdown-email"
           data-dd-privacy="mask"
           data-dd-action-name="First Name"
         >
-          {startCase(toLower(name.first || sessionFirstName))}
+          {preferredName || startCase(toLower(name.first || sessionFirstName))}
         </span>
       );
     }
