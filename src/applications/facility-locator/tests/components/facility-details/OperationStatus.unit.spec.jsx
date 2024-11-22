@@ -32,7 +32,7 @@ describe('facility-locator', () => {
       expect(getByText('Facility Closed')).to.be.ok;
       expect(
         container.querySelector('va-alert').getAttribute('status'),
-      ).to.equal('error');
+      ).to.equal('warning');
     });
     it('should render the operation status for NOTICE', () => {
       const operatingStatus = { code: 'NOTICE' };
@@ -44,7 +44,7 @@ describe('facility-locator', () => {
         container.querySelector('va-alert').getAttribute('status'),
       ).to.equal('info');
     });
-    it('should render warning alert for status of limited', () => {
+    it('should render info alert for status of limited', () => {
       const operatingStatus = { code: 'LIMITED' };
       const { getByText, container } = render(
         <OperationStatus operatingStatus={operatingStatus} />,
@@ -52,7 +52,7 @@ describe('facility-locator', () => {
       expect(getByText('Limited services and hours')).to.be.ok;
       expect(
         container.querySelector('va-alert').getAttribute('status'),
-      ).to.equal('warning');
+      ).to.equal('info');
     });
     it('should render additionalInfo if it exists on the operatingStatus', () => {
       const operatingStatus = {
