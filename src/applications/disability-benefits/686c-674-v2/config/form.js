@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import environment from 'platform/utilities/environment';
-import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+// import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+// import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -593,26 +593,26 @@ export const formConfig = {
             schema: studentEducationBenefitsPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            //   onNavForward: ({
+            //     formData,
+            //     pathname,
+            //     urlParams,
+            //     goPath,
+            //     goNextPath,
+            //   }) => {
+            //     const index = getArrayIndexFromPathName(pathname);
+            //     const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              if (
-                Object.values(formData?.typeOfProgramOrBenefit).includes(true)
-              ) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/student-program-information${urlParamsString}`,
-                );
-              }
-            },
+            //     if (
+            //       Object.values(formData?.typeOfProgramOrBenefit).includes(true)
+            //     ) {
+            //       goNextPath(urlParams);
+            //     } else {
+            //       goPath(
+            //         `/report-674/add-students/${index}/student-program-information${urlParamsString}`,
+            //       );
+            //     }
+            //   },
           }),
           // conditional page
           addStudentsPartSeven: pageBuilder.itemPage({
@@ -631,20 +631,20 @@ export const formConfig = {
             schema: studentProgramInfoPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            // onNavBack: ({
+            //   _formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   _goNextPath,
+            // }) => {
+            //   const index = getArrayIndexFromPathName(pathname);
+            //   const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              return goPath(
-                `/report-674/add-students/${index}/student-education-benefits${urlParamsString}`,
-              );
-            },
+            //   return goPath(
+            //     `/report-674/add-students/${index}/student-education-benefits${urlParamsString}`,
+            //   );
+            // },
           }),
           addStudentsPartNine: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -654,24 +654,24 @@ export const formConfig = {
             schema: studentAttendancePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            // onNavForward: ({
+            //   formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   goNextPath,
+            // }) => {
+            //   const index = getArrayIndexFromPathName(pathname);
+            //   const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              if (!formData?.schoolInformation?.studentIsEnrolledFullTime) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/school-or-program-accreditation${urlParamsString}`,
-                );
-              }
-            },
+            //   if (!formData?.schoolInformation?.studentIsEnrolledFullTime) {
+            //     goNextPath(urlParams);
+            //   } else {
+            //     goPath(
+            //       `/report-674/add-students/${index}/school-or-program-accreditation${urlParamsString}`,
+            //     );
+            //   }
+            // },
           }),
           // conditional page
           addStudentsPartTen: pageBuilder.itemPage({
@@ -691,20 +691,20 @@ export const formConfig = {
             schema: schoolAccreditationPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            // onNavBack: ({
+            //   _formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   _goNextPath,
+            // }) => {
+            //   const index = getArrayIndexFromPathName(pathname);
+            //   const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              return goPath(
-                `/report-674/add-students/${index}/student-attendance-information${urlParamsString}`,
-              );
-            },
+            //   return goPath(
+            //     `/report-674/add-students/${index}/student-attendance-information${urlParamsString}`,
+            //   );
+            // },
           }),
           addStudentsPartTwelve: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -721,24 +721,24 @@ export const formConfig = {
             schema: previousTermQuestionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            // onNavForward: ({
+            //   formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   goNextPath,
+            // }) => {
+            //   const index = getArrayIndexFromPathName(pathname);
+            //   const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              if (formData?.schoolInformation?.studentDidAttendSchoolLastTerm) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
-                );
-              }
-            },
+            //   if (formData?.schoolInformation?.studentDidAttendSchoolLastTerm) {
+            //     goNextPath(urlParams);
+            //   } else {
+            //     goPath(
+            //       `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
+            //     );
+            //   }
+            // },
           }),
           // conditional page
           addStudentsPartFourteen: pageBuilder.itemPage({
@@ -756,38 +756,38 @@ export const formConfig = {
             schema: claimsOrReceivesPensionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            // onNavForward: ({
+            //   formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   goNextPath,
+            // }) => {
+            //   const index = getArrayIndexFromPathName(pathname);
+            //   const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              if (formData?.claimsOrReceivesPension) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/additional-remarks${urlParamsString}`,
-                );
-              }
-            },
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            //   if (formData?.claimsOrReceivesPension) {
+            //     goNextPath(urlParams);
+            //   } else {
+            //     goPath(
+            //       `/report-674/add-students/${index}/additional-remarks${urlParamsString}`,
+            //     );
+            //   }
+            // },
+            // onNavBack: ({
+            //   _formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   _goNextPath,
+            // }) => {
+            //   const index = getArrayIndexFromPathName(pathname);
+            //   const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              return goPath(
-                `/report-674/add-students/${index}/student-previously-attended${urlParamsString}`,
-              );
-            },
+            //   return goPath(
+            //     `/report-674/add-students/${index}/student-previously-attended${urlParamsString}`,
+            //   );
+            // },
           }),
           // conditional page
           addStudentsPartSixteen: pageBuilder.itemPage({
@@ -823,20 +823,20 @@ export const formConfig = {
             schema: remarksPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
+            // onNavBack: ({
+            //   _formData,
+            //   pathname,
+            //   urlParams,
+            //   goPath,
+            //   _goNextPath,
+            // }) => {
+            //   const index = getArrayIndexFromPathName(pathname);
+            //   const urlParamsString = stringifyUrlParams(urlParams) || '';
 
-              return goPath(
-                `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
-              );
-            },
+            //   return goPath(
+            //     `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
+            //   );
+            // },
           }),
         })),
       },
