@@ -6,9 +6,9 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-.benefit-eligibility-questionnaire .confirmation-page p,
-.benefit-eligibility-questionnaire article p,
-.benefit-eligibility-questionnaire form > div:first-of-type * {
+.discover-your-benefits .confirmation-page p,
+.discover-your-benefits article p,
+.discover-your-benefits form > div:first-of-type * {
   @media (min-width: $medium-screen) {
     width: 75ch !important;
   }
@@ -19,14 +19,14 @@
   max-width: 65ch;
 }
 
-.benefit-eligibility-questionnaire .schemaform-subtitle {
+.discover-your-benefits .schemaform-subtitle {
   @media (min-width: $medium-screen) {
     width: 100%;
     white-space: pre-line;
   }
 }
 
-.benefit-eligibility-questionnaire .row {
+.discover-your-benefits .row {
   margin-left: 0;
   margin-right: 0;
 }
