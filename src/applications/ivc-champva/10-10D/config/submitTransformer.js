@@ -153,6 +153,10 @@ export default function transformForSubmit(formConfig, form) {
       });
     }
   });
+  // Sort all applicant attachments by attachmentId - should prevent misalignment
+  // on the backend when attachment IDs are paired with attachment objects during PDF generation:
+  // (see https://github.com/department-of-veterans-affairs/va.gov-team/issues/96358)
+  supDocs.sort((a, b) => a?.attachmentId?.localeCompare(b?.attachmentId));
 
   // Set a top-level boolean indicating if any applicants are over 65
   dataPostTransform.hasApplicantOver65 = dataPostTransform.applicants.some(
