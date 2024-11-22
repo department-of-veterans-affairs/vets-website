@@ -57,7 +57,7 @@ const serviceHistory33 = {
           <p>
             The displayed service history is reported to the VA by DOD and may
             include service which is not creditable for the benefit you are
-            applying for
+            applying for.
           </p>
           <p>
             VA will only consider active duty service (
