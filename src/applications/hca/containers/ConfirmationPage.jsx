@@ -5,7 +5,7 @@ import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import ConfirmationScreenView from '../components/ConfirmationPage/ConfirmationScreenView';
 import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPrintView';
 import ConfirmationFAQ from '../components/ConfirmationPage/ConfirmationFAQ';
-import { normalizeFullName } from '../utils/helpers';
+import { normalizeFullName } from '../utils/helpers/general';
 
 const ConfirmationPage = () => {
   const { submission, data } = useSelector(state => state.form);

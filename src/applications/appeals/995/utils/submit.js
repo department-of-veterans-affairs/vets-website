@@ -1,10 +1,4 @@
-import {
-  CLAIMANT_TYPES,
-  EVIDENCE_OTHER,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_VA,
-  PRIMARY_PHONE,
-} from '../constants';
+import { CLAIMANT_TYPES, PRIMARY_PHONE } from '../constants';
 import {
   hasHomeAndMobilePhone,
   hasHomePhone,
@@ -14,6 +8,13 @@ import {
   buildPrivateString,
   buildVaLocationString,
 } from '../validations/evidence';
+
+import { showScNewForm } from './toggle';
+import {
+  getVAEvidence,
+  getOtherEvidence,
+  getPrivateEvidence,
+} from './evidence';
 
 import { MAX_LENGTH } from '../../shared/constants';
 import '../../shared/definitions';
@@ -131,22 +132,43 @@ export const getPhone = formData => {
     : {};
 };
 
-export const hasDuplicateLocation = (list, currentLocation) =>
+export const hasDuplicateLocation = (list, currentLocation, newForm = false) =>
   !!list.find(location => {
-    const { locationAndName, evidenceDates } = location.attributes;
+    const {
+      locationAndName,
+      evidenceDates,
+      treatmentDate,
+    } = location.attributes;
+
     return (
       buildVaLocationString(
         {
           locationAndName,
-          evidenceDates: {
-            from: evidenceDates[0].startDate,
-            to: evidenceDates[0].endDate,
-          },
+          evidenceDates: newForm
+            ? {}
+            : {
+                from: evidenceDates?.[0]?.startDate,
+                to: evidenceDates?.[0]?.endDate,
+              },
+          treatmentDate: newForm ? treatmentDate : '',
         },
         ',',
         { includeIssues: false },
       ) ===
-      buildVaLocationString(currentLocation, ',', { includeIssues: false })
+      buildVaLocationString(
+        {
+          locationAndName: currentLocation.locationAndName,
+          evidenceDates: newForm
+            ? {}
+            : {
+                from: currentLocation.evidenceDates?.from,
+                to: currentLocation.evidenceDates?.to,
+              },
+          treatmentDate: newForm ? currentLocation.treatmentDate : '',
+        },
+        ',',
+        { includeIssues: false },
+      )
     );
   });
 
@@ -221,12 +243,22 @@ export const getEvidence = formData => {
   const evidenceSubmission = {
     evidenceType: [],
   };
+  const showNewFormContent = showScNewForm(formData);
   // Add VA evidence data
-  if (formData[EVIDENCE_VA] && formData.locations?.length) {
+  const locations = getVAEvidence(formData);
+  if (locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
     evidenceSubmission.retrieveFrom = formData.locations.reduce(
       (list, location) => {
-        if (!hasDuplicateLocation(list, location)) {
+        if (!hasDuplicateLocation(list, location, showNewFormContent)) {
+          // Temporary transformation of `treatmentDate` (YYYY-MM) to
+          // `evidenceDates` range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
+          const from = showNewFormContent
+            ? `${location.treatmentDate}-01`
+            : location.evidenceDates?.from;
+          const to = showNewFormContent
+            ? `${location.treatmentDate}-01`
+            : location.evidenceDates?.to;
           list.push({
             type: 'retrievalEvidence',
             attributes: {
@@ -237,8 +269,8 @@ export const getEvidence = formData => {
               // providing one
               evidenceDates: [
                 {
-                  startDate: fixDateFormat(location.evidenceDates.from),
-                  endDate: fixDateFormat(location.evidenceDates.to),
+                  startDate: fixDateFormat(from),
+                  endDate: fixDateFormat(to),
                 },
               ],
             },
@@ -250,7 +282,7 @@ export const getEvidence = formData => {
     );
   }
   // additionalDocuments added in submit-transformer
-  if (formData[EVIDENCE_OTHER] && formData.additionalDocuments.length) {
+  if (getOtherEvidence(formData).length) {
     evidenceSubmission.evidenceType.push('upload');
   }
   // Lighthouse wants us pass an evidence type of "none" if we're not submitting
@@ -282,30 +314,31 @@ export const hasDuplicateFacility = (list, currentFacility) => {
  * 4142/4142a (July 2021)
  */
 export const getForm4142 = formData => {
+  const facilities = getPrivateEvidence(formData);
+  if (facilities.length === 0) {
+    return null;
+  }
+
   const { privacyAgreementAccepted = true, limitedConsent = '' } = formData;
-  const providerFacility = (formData?.providerFacility || []).reduce(
-    (list, facility) => {
-      if (!hasDuplicateFacility(list, facility)) {
-        list.push({
-          ...facility,
-          // 4142 is expecting an array
-          treatmentDateRange: [
-            {
-              from: fixDateFormat(facility.treatmentDateRange?.from),
-              to: fixDateFormat(facility.treatmentDateRange?.to),
-            },
-          ],
-        });
-      }
-      return list;
-    },
-    [],
-  );
-  return formData[EVIDENCE_PRIVATE]
-    ? {
-        privacyAgreementAccepted,
-        limitedConsent,
-        providerFacility,
-      }
-    : null;
+  const providerFacility = facilities.reduce((list, facility) => {
+    if (!hasDuplicateFacility(list, facility)) {
+      list.push({
+        ...facility,
+        // 4142 is expecting an array
+        treatmentDateRange: [
+          {
+            from: fixDateFormat(facility.treatmentDateRange?.from),
+            to: fixDateFormat(facility.treatmentDateRange?.to),
+          },
+        ],
+      });
+    }
+    return list;
+  }, []);
+
+  return {
+    privacyAgreementAccepted,
+    limitedConsent,
+    providerFacility,
+  };
 };

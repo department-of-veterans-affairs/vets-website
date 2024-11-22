@@ -314,18 +314,11 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(testData => {
-            const monetaryAssetChecklistLength = testData[
-              'view:streamlinedWaiverAssetUpdate'
-            ]
-              ? 5
-              : 8;
-            cy.get('va-checkbox')
-              .shadow()
-              .find('input[type=checkbox]')
-              .as('checklist')
-              .should('have.length', monetaryAssetChecklistLength);
-          });
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type=checkbox]')
+            .as('checklist')
+            .should('have.length', 5);
 
           // Check specific checkboxes
           cy.get('va-checkbox')
@@ -350,33 +343,16 @@ const testConfig = createTestConfig(
           cy.get('va-text-input')
             .as('numberInputs')
             .should('have.length', 2);
-
-          // check testData to see if assets feature flag is true to udpate the length the checkbox should be
-          cy.get('@testData').then(testData => {
-            if (testData['view:streamlinedWaiverAssetUpdate']) {
-              cy.get('[id="U.S. Savings Bonds0"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1000');
-              cy.get('[id="Retirement accounts (401k, IRAs, 403b, TSP)1"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1500');
-            } else {
-              cy.get('#Cash0')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1000');
-              cy.get('[id="Checking accounts1"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1500');
-            }
-          });
+          cy.get('[id="U.S. Savings Bonds0"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('[id="Retirement accounts (401k, IRAs, 403b, TSP)1"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
           cy.get('.usa-button-primary').click();
         });
       },

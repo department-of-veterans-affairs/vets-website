@@ -5,8 +5,15 @@ import {
   VaRadio,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import {
+  PAGE_PATH,
+  SEARCH_APP_USED,
+  SEARCH_LOCATION,
+  SEARCH_SELECTION,
+  SEARCH_TYPEAHEAD_ENABLED,
+  addSearchGADataToStorage,
+} from 'platform/site-wide/search-analytics';
 import URLSearchParams from 'url-search-params';
 import resourcesSettings from '../manifest.json';
 
@@ -55,8 +62,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
       : `${resourcesSettings.rootUrl}/`;
     const newUrl = `${URL}?${queryParams}`;
 
-    history.replaceState({}, '', newUrl);
-    window.location.href = newUrl;
+    window.location.assign(newUrl);
   };
 
   const handleSubmit = event => {
@@ -87,20 +93,12 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
     }
 
     if (isGlobalSearch) {
-      recordEvent({
-        event: 'view_search_results',
-        'search-page-path': document.location.pathname,
-        'search-query': userInput,
-        'search-results-total-count': undefined,
-        'search-results-total-pages': undefined,
-        'search-selection': GLOBAL,
-        'search-typeahead-enabled': false,
-        'search-location': RESOURCES,
-        'sitewide-search-app-used': false, // this is not the sitewide search app
-        'type-ahead-option-keyword-selected': undefined,
-        'type-ahead-option-position': undefined,
-        'type-ahead-options-list': undefined,
-        'type-ahead-options-count': undefined,
+      addSearchGADataToStorage({
+        [PAGE_PATH]: document.location.pathname,
+        [SEARCH_LOCATION]: RESOURCES,
+        [SEARCH_APP_USED]: false,
+        [SEARCH_SELECTION]: 'All VA.gov',
+        [SEARCH_TYPEAHEAD_ENABLED]: false,
       });
     }
 
@@ -122,6 +120,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
             'vads-u-align-items--center vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-dark vads-u-background-color--gray-lightest medium-screen:vads-u-display--none',
             { 'va-border-bottom-radius--0': expanded },
           )}
+          data-testid="rs-mobile-expand-collapse"
           onClick={() => setExpanded(!expanded)}
           type="button"
         >

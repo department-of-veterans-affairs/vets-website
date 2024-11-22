@@ -4,11 +4,11 @@ import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import DetailPageLayout, {
   CCDetails,
-  Section,
   What,
   When,
   Prepare,
 } from './DetailPageLayout';
+import Section from '../Section';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
