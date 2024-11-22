@@ -8,14 +8,6 @@
         {
           "name": "burial_form_enabled",
           "value": true
-        },
-        {
-          "name": "burialFormV2",
-          "value": true
-        },
-        {
-          "name": "burial_form_v2",
-          "value": true
         }
       ]
     }
