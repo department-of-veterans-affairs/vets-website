@@ -81,7 +81,7 @@
   "nyc": {
     "report-dir": "./coverage",
     "temp-directory": "../.nyc_output",
-    "sourceMap": true,
+    "sourceMap": false,
     "instrument": false,
     "include": [
       "src/**"
