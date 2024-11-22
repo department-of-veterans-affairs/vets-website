@@ -97,7 +97,7 @@ export const digitalFormPhoneAndEmail = ({ additionalFields, pageTitle }) => {
   return { schema, uiSchema };
 };
 
-/** @returns {Record<string, FormConfigPage>} */
+/** @returns {FormConfigPages} */
 export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
   /** @type {ArrayBuilderOptions} */
   const options = {
@@ -113,6 +113,31 @@ export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
         `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
           item?.dateRange?.to,
         )}`,
+    },
+  };
+
+  /** @returns {PageSchema} */
+  const datePage = {
+    title: 'Dates you were employed',
+    path: 'employers/:index/dates',
+    uiSchema: {
+      ...webComponentPatterns.arrayBuilderItemSubsequentPageTitleUI(
+        ({ formData }) =>
+          formData?.name
+            ? `Dates you were employed at ${formData.name}`
+            : 'Dates you were employed',
+      ),
+      dateRange: webComponentPatterns.currentOrPastDateRangeUI(
+        'Start date of employment',
+        'End date of employment',
+      ),
+    },
+    schema: {
+      type: 'object',
+      properties: {
+        dateRange: webComponentPatterns.currentOrPastDateRangeSchema,
+      },
+      required: ['dateRange'],
     },
   };
 
@@ -178,5 +203,6 @@ export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
   return arrayBuilder(options, pageBuilder => ({
     employerSummary: pageBuilder.summaryPage(summaryPage),
     employerNamePage: pageBuilder.itemPage(namePage),
+    employerDatePage: pageBuilder.itemPage(datePage),
   }));
 };

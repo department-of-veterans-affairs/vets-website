@@ -258,8 +258,18 @@ describe('listLoopPages', () => {
       expect(employerNamePage.uiSchema.name).to.not.eq(undefined);
     });
 
-    it('includes a date page');
-    it('includes a third item page');
+    it('includes a date page', () => {
+      const { employerDatePage } = listLoopPages(optional, arrayBuilderStub);
+
+      expect(employerDatePage.title).to.eq('Dates you were employed');
+      expect(employerDatePage.path).to.eq('employers/:index/dates');
+      expect(employerDatePage.schema.properties.dateRange).to.eq(
+        webComponentPatterns.currentOrPastDateRangeSchema,
+      );
+      expect(employerDatePage.uiSchema.dateRange).to.not.eq(undefined);
+    });
+
+    it('includes a details page');
   });
 
   context('when optional is false', () => {
