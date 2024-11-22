@@ -1,5 +1,6 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import sessionStatus from './fixtures/session-status.json';
+import ccdGenerateResponse from './fixtures/ccd-generate-response.json';
 
 describe('Medical Records Authenticated Users', () => {
   it('Visits Medical Records Authenticated Users', () => {
@@ -28,13 +29,15 @@ describe('Medical Records Authenticated Users', () => {
       .first()
       .click();
 
-    cy.intercept('GET', 'my_health/v1/medical_records/ccd/generate').as(
-      'generateCcd',
-    );
+    cy.intercept(
+      'GET',
+      'my_health/v1/medical_records/ccd/generate',
+      ccdGenerateResponse,
+    ).as('generateCcd');
 
-    // cy.get('button[class="link-button"]')
-    //   .first()
-    //   .click();
+    cy.get('button[class="link-button"]')
+      .first()
+      .click();
 
     // Axe check
     cy.injectAxe();
