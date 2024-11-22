@@ -20,6 +20,7 @@ const perPage = 20;
 const MedicationsList = props => {
   const history = useHistory();
   const {
+    isFullList,
     rxList,
     pagination,
     selectedSortOption,
@@ -64,12 +65,13 @@ const MedicationsList = props => {
       <>
         {/* TODO: clean after the filter toggle is gone */}
         {showFilterContent &&
+          !isFullList &&
           selectedFilterOption?.length > 0 && (
             <strong>{selectedFilterOption} medications</strong>
           )}
         {/* TODO: clean after the filter toggle is gone */}
         {`${
-          showFilterContent && selectedFilterOption?.length > 0
+          showFilterContent && !isFullList && selectedFilterOption?.length > 0
             ? ''
             : ' medications'
         }, ${sortOptionLowercase}`}
@@ -142,6 +144,7 @@ const MedicationsList = props => {
 export default MedicationsList;
 
 MedicationsList.propTypes = {
+  isFullList: PropTypes.bool,
   pagination: PropTypes.object,
   rxList: PropTypes.array,
   scrollLocation: PropTypes.object,
