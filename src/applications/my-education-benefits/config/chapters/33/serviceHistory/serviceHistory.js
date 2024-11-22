@@ -46,6 +46,37 @@ const serviceHistory33 = {
           </p>
         </>
       ),
+      'ui:options': {
+        hideIf: formData => formData?.meb160630Automation,
+      },
+    },
+    'view:newSubHeading': {
+      'ui:description': (
+        <>
+          <h3>Review your service history</h3>
+          <p>
+            The displayed service history is reported to the VA by DOD and may
+            include service which is not creditable for the benefit you are
+            applying for
+          </p>
+          <p>
+            VA will only consider active duty service (
+            <a
+              target="_blank"
+              href="https://uscode.house.gov/view.xhtml?req=(title:38%20section:3301%20edition:prelim)%20OR%20(granuleid:USC-prelim-title38-section3301)&f=treesort&edition=prelim&num=0&jumpTo=true"
+              rel="noreferrer"
+            >
+              Authority 38 U.S.C. 3301(1)
+            </a>
+            ) and a 6-year service obligation (you agreed to serve 6 years) in
+            the Selective Reserve when determining your eligibility. Please
+            review your service history and indicate if anything is incorrect.
+          </p>
+        </>
+      ),
+      'ui:options': {
+        hideIf: formData => !formData?.meb160630Automation,
+      },
     },
     [formFields.toursOfDuty]: {
       ...toursOfDutyUI,
@@ -148,6 +179,10 @@ const serviceHistory33 = {
     type: 'object',
     properties: {
       'view:subHeading': {
+        type: 'object',
+        properties: {},
+      },
+      'view:newSubHeading': {
         type: 'object',
         properties: {},
       },

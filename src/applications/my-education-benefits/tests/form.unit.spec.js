@@ -7,8 +7,12 @@ describe('Service History Chapter', () => {
     uiSchema,
   } = formConfig?.chapters?.serviceHistoryChapter?.pages?.serviceHistory;
 
-  it('renders Service History header', () => {
+  it('renders original Ch33 Service History header', () => {
     expect(uiSchema['view:subHeading']).to.exist;
     expect(schema.properties['view:subHeading']).to.exist;
+  });
+  it('renders the new multiple chapter Service History header', () => {
+    expect(uiSchema['view:newSubHeading']).to.exist;
+    expect(schema.properties['view:newSubHeading']).to.exist;
   });
 });
