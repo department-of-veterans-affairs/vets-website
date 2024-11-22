@@ -21,6 +21,7 @@ const initialState = {
     suffix: null,
   },
   createdAt: null,
+  preferredName: null,
   email: null,
   dob: null,
   gender: null,
