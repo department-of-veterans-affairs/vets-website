@@ -31,7 +31,7 @@ export const buildOperatingStatusProps = attrs => {
       break;
     case 'virtual_care':
       statusLabel = 'Virtual care only';
-      statusType = 'info';
+      statusType = 'warning';
       break;
     default:
       // ex: notice
