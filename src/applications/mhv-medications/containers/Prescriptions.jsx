@@ -308,7 +308,7 @@ const Prescriptions = () => {
         dispatch(
           getPaginatedFilteredList(
             storedPageNumber,
-            storedFilterOption,
+            filterOptions[storedFilterOption].url,
             sortEndpoint,
           ),
         ).then(() => updateLoadingStatus(false, ''));
@@ -820,6 +820,7 @@ const Prescriptions = () => {
       <PrescriptionsPrintOnly
         list={printedList}
         hasError={hasFullListDownloadError || isAlertVisible || allergiesError}
+        isFullList={printedList.length === prescriptionsFullList.length}
       />
     </div>
   );
