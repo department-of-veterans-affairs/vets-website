@@ -55,9 +55,6 @@ export function AddressSection({ address }) {
 
   return (
     <>
-      {/* <div aria-live="polite" aria-relevant="additions">
-        {emptyAddress ? <NoAddressBanner /> : addressContent}
-      </div> */}
       {emptyAddress ? <NoAddressBanner /> : addressContent}
       {viewLettersButton}
     </>
