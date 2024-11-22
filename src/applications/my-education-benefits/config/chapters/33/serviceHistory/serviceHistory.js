@@ -25,14 +25,9 @@ const checkBoxValidation = {
 const serviceHistory33 = {
   uiSchema: {
     'view:subHeading': {
-      'ui:description': <h3>Review your service history</h3>,
-      'ui:options': {
-        hideIf: formData => formData?.showMebDgi40Features,
-      },
-    },
-    'view:newSubHeading': {
       'ui:description': (
         <>
+          <h3>Review your service history</h3>
           <p>
             The displayed service history is reported to VA by DOD and may
             include service which is not creditable for the Post-9/11 GI Bill.
@@ -51,9 +46,6 @@ const serviceHistory33 = {
           </p>
         </>
       ),
-      'ui:options': {
-        hideIf: formData => !formData?.showMebDgi40Features,
-      },
     },
     [formFields.toursOfDuty]: {
       ...toursOfDutyUI,
@@ -156,10 +148,6 @@ const serviceHistory33 = {
     type: 'object',
     properties: {
       'view:subHeading': {
-        type: 'object',
-        properties: {},
-      },
-      'view:newSubHeading': {
         type: 'object',
         properties: {},
       },
