@@ -31,8 +31,14 @@ const SelectAccreditedRepresentative = props => {
     formData?.['view:representativeSearchResults'],
   );
 
+  const query = formData['view:representativeQuery'];
+  const invalidQuery = query === undefined || !query.trim();
+
   const noSearchError =
     'Enter the name of the accredited representative or VSO you’d like to appoint';
+
+  const noSelectionError =
+    'Select the accredited representative or VSO you’d like to appoint below.';
 
   const isReviewPage = useReviewPage();
 
@@ -62,9 +68,13 @@ const SelectAccreditedRepresentative = props => {
 
   const handleGoForward = ({ selectionMade = false }) => {
     const selection = formData['view:selectedRepresentative'];
+    const noSelectionExists = !selection && !selectionMade;
 
-    if (!selection && !selectionMade) {
-      setError('You must select an accredited representative');
+    if (noSelectionExists && !invalidQuery) {
+      setError(noSelectionError);
+      scrollToFirstError({ focusOnAlertRole: true });
+    } else if (noSelectionExists && invalidQuery) {
+      setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
       if (selection === currentSelectedRep) {
@@ -78,9 +88,7 @@ const SelectAccreditedRepresentative = props => {
   };
 
   const handleSearch = async () => {
-    const query = formData['view:representativeQuery'];
-
-    if (query === undefined || !query.trim()) {
+    if (invalidQuery) {
       setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
       return;
