@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { format, parseISO } from 'date-fns';
 import { ApplicationSelector } from '../../client/ApplicationSelector';
+import { Broadcast } from '../../Broadcast';
 
 const API_BASE_URL = 'http://localhost:1337';
 
@@ -215,6 +216,7 @@ const DevPanel = () => {
       <div className="vads-l-row">
         <div className="vads-l-col--2 vads-l-grid-container vads-u-padding--0">
           <ApplicationSelector />
+          <Broadcast />
         </div>
         {renderProcessColumn(
           'fe-dev-server',

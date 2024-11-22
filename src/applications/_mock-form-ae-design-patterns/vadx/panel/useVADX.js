@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useBroadcastChannel } from '../useBroadcastChannel';
 
 export const useVADX = () => {
   const [isDevLoading, setIsDevLoading] = useState(false);
 
-  const [localToggles, setLocalToggles, clearLocalToggles] = useLocalStorage(
-    'vadx-toggles',
-    {},
-  );
+  // feature toggles
+  const [
+    localToggles,
+    setLocalToggles,
+    clearLocalToggles,
+  ] = useBroadcastChannel('vadx-toggles', {});
+
+  // Default to toggles tab if no tab is set
+  const [activeTab, setActiveTab] = useBroadcastChannel('vadx-tab', 'toggles');
 
   const [showVADX, setShowVADX] = useLocalStorage('vadx-display', false);
 
@@ -38,8 +44,6 @@ export const useVADX = () => {
     },
     [showVADX, setShowVADX],
   );
-  // Default to toggles tab if no tab is set
-  const [activeTab, setActiveTab] = useLocalStorage('vadx-tab', 'toggles');
 
   return {
     isDevLoading,

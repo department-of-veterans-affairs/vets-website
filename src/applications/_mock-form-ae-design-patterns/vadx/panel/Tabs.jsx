@@ -3,6 +3,7 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 import styled from 'styled-components';
 import { TogglesTab } from './tabs/TogglesTab';
 import { UserTab } from './tabs/UserTab';
+import { Other } from './tabs/Other';
 
 const VADXPanelDiv = styled.div`
   background-color: var(--vads-color-white);
@@ -25,7 +26,7 @@ const VADXPanelDiv = styled.div`
 const tabMap = new Map([
   ['toggles', panelApi => <TogglesTab key="0" panelApi={panelApi} />],
   ['user', <UserTab key="1" />],
-  ['other', <div key="2">Other tab content</div>],
+  ['other', <Other key="2" />],
 ]);
 
 const tabHelper = (panelApi, activeTab, plugin = null) => {

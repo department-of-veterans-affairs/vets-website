@@ -6,6 +6,8 @@ import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
 import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 
+import { VADXProvider } from './vadx/context/vadx';
+
 import grayTaskConfig from './patterns/pattern2/TaskGray/form/config/form';
 
 import blueFormConfig from './patterns/pattern2/TaskBlue/config/form';
@@ -32,10 +34,12 @@ import { VADXPanelLoader } from './vadx/panel/VADXPanelLoader';
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
 const routeHoc = Component => props => (
   <Suspense fallback={<div>Loading...</div>}>
-    <PatternConfigProvider {...props}>
-      <Component {...props} />
-      <VADXPanelLoader />
-    </PatternConfigProvider>
+    <VADXProvider>
+      <PatternConfigProvider {...props}>
+        <Component {...props} />
+        <VADXPanelLoader />
+      </PatternConfigProvider>
+    </VADXProvider>
   </Suspense>
 );
 
