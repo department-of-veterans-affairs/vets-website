@@ -11,11 +11,7 @@ import { Facility, MockAppointment } from '../tests/mocks/unit-test-helpers';
 const facilityData = new Facility();
 
 describe('VAOS Component: StatusAlert', () => {
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingAfterVisitSummary: false,
-    },
-  };
+  const initialState = {};
   it('Should display confirmation of VA appointment alert message', () => {
     const mockAppointment = new MockAppointment({ start: moment() });
     mockAppointment.setKind('clinic');
