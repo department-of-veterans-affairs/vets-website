@@ -15,6 +15,7 @@ const stateFn = ({ preferredName = 'Bob', first = 'Robert' } = {}) => ({
       userFullName: {
         first,
       },
+      preferredName,
     },
   },
 });
