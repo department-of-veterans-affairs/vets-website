@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
-
+import filterRx from '../fixtures/filter-prescriptions.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
@@ -13,7 +13,10 @@ import { Paths } from '../utils/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
-    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    ).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -462,19 +465,11 @@ class MedicationsListPage {
   };
 
   selectSortDropDownOption = (text, intercept) => {
-    cy.intercept(
-      'GET',
-      `/my_health/v1/prescriptions?page=1&per_page=20null${intercept}`,
-      prescriptions,
-    ).as('medicationList');
+    cy.intercept('GET', `${intercept}`, prescriptions).as('medicationList');
     cy.get('[data-testid="sort-dropdown"]')
       .find('#options')
       .select(text, { force: true });
-    cy.intercept(
-      'GET',
-      `/my_health/v1/prescriptions?page=1&per_page=20null${intercept}`,
-      prescriptions,
-    );
+    cy.intercept('GET', `${intercept}`, prescriptions);
   };
 
   loadRxDefaultSortAlphabeticallyByStatus = () => {
@@ -610,13 +605,11 @@ class MedicationsListPage {
   };
 
   verifyCmopNdcNumberIsNull = () => {
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[1].attributes).to.include({
-          cmopNdcNumber: null,
-        });
+    cy.wait('@medicationsList').then(interception => {
+      expect(interception.response.body.data[1].attributes).to.include({
+        cmopNdcNumber: null,
       });
+    });
   };
 
   verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
@@ -655,16 +648,14 @@ class MedicationsListPage {
     frontImprint,
     backImprint,
   ) => {
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[19].attributes).to.include({
-          shape,
-          color,
-          frontImprint,
-          backImprint,
-        });
+    cy.wait('@medicationsList').then(interception => {
+      expect(interception.response.body.data[19].attributes).to.include({
+        shape,
+        color,
+        frontImprint,
+        backImprint,
       });
+    });
   };
 
   verifyPrintThisPageOptionFromDropDownMenuOnListPage = () => {
@@ -748,9 +739,8 @@ class MedicationsListPage {
       .and('contain', description);
   };
 
-  clickFilterRadioButtonOptionOnListPage = (option, status) => {
-    cy.get(`[label="${option}"]`).click();
-    cy.intercept('GET', `${status}`, prescription);
+  clickFilterRadioButtonOptionOnListPage = option => {
+    cy.contains(`${option}`).click({ force: true });
   };
 
   verifyFilterHeaderTextHasFocusafterExpanded = () => {
@@ -766,10 +756,11 @@ class MedicationsListPage {
       .shadow()
       .find('[type="button"]')
       .should('be.visible')
-      .and('have.text', 'Filter');
+      .and('have.text', 'Apply filter');
   };
 
-  clickFilterButtonOnAccordion = () => {
+  clickFilterButtonOnAccordion = url => {
+    cy.intercept('GET', `${url}`, filterRx);
     cy.get('[data-testid="filter-button"]')
       .shadow()
       .find('[type="button"]')
@@ -783,7 +774,7 @@ class MedicationsListPage {
   };
 
   verifyAllMedicationsRadioButtonIsChecked = () => {
-    cy.get(`input[type="radio"][value="All medications"]`).should('be.checked');
+    cy.contains('All medications').should('be.visible');
   };
 
   verifyFocusOnPaginationTextInformationOnListPage = text => {

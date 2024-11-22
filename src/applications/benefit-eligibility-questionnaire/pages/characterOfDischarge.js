@@ -11,10 +11,7 @@ export default {
       enableAnalytics: true,
       title:
         'What is the highest character of discharge you have received or expect to receive?',
-      hint: `If you served multiple times with different characters of discharge,
-      please select the "highest" of your discharge statuses. 
-      If you feel your character of discharge is unjust, you can apply for
-      a discharge upgrade.`,
+      hint: `If you served multiple times with different characters of discharge, please select the "highest" of your discharge statuses. If you feel your character of discharge is unjust, you can apply for a discharge upgrade.`,
       required: () => true,
       errorMessages: {
         required: 'Character of discharge is required',

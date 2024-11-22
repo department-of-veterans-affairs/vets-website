@@ -12,11 +12,11 @@ import DetailPageLayout, {
   When,
   What,
   Where,
-  Section,
   ClinicOrFacilityPhone,
   Prepare,
   Who,
 } from './DetailPageLayout';
+import Section from '../Section';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import Address from '../Address';
