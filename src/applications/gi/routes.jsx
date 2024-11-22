@@ -4,7 +4,7 @@ import GiBillApp from './containers/GiBillApp';
 import SearchPage from './containers/SearchPage';
 import ComparePage from './containers/ComparePage';
 import ProfilePage from './containers/ProfilePage';
-import ProgramsList from './components/profile/ProgramsList';
+import ProgramsList from './containers/ProgramsList';
 import LicenseCertificationSearchResults from './containers/LicenseCertificationSearchResults';
 import LicenseCertificationSearch from './components/LicenseCertificationSearch';
 
