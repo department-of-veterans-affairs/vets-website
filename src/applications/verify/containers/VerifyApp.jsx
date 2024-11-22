@@ -39,7 +39,7 @@ export default function VerifyApp() {
   }
 
   const { idme, logingov } = SERVICE_PROVIDERS;
-  const signInMethod = profile?.signIn?.serviceName ?? 'mhv';
+  const signInMethod = profile?.signIn?.serviceName;
   const singleVerifyButton =
     signInMethod === 'logingov' ? (
       <VerifyLogingovButton />
