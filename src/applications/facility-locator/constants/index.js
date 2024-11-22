@@ -103,7 +103,7 @@ export const OperatingStatusDisplay = {
   },
   [OperatingStatus.VIRTUAL_CARE]: {
     operationStatusTitle: 'Virtual care only',
-    alertClass: 'info',
+    alertClass: 'warning',
   },
 };
 
