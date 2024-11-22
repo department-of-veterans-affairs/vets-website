@@ -49,9 +49,6 @@ import SelectOrganization from '../components/SelectOrganization';
 
 import SubmissionError from '../components/SubmissionError';
 
-// import { prefillTransformer } from '../prefill-transformer';
-// import ClaimantType from '../components/ClaimantType';
-
 const mockData = initialData;
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
