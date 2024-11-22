@@ -37,6 +37,7 @@ const DownloadReportPage = () => {
         <va-accordion-item
           bordered="true"
           header="Continuity of care document (VA Health Summary)"
+          data-testid="ccdAccordionItem"
         >
           <p className="vads-u-margin--0">
             This Continuity of Care Document (CCD) is a summary of your VA
@@ -61,6 +62,7 @@ const DownloadReportPage = () => {
               onClick={() =>
                 dispatch(genAndDownloadCCD(userName.first, userName.last))
               }
+              data-testid="generateCcdButton"
             >
               <va-icon icon="file_download" size={3} /> Download .xml file
             </button>
