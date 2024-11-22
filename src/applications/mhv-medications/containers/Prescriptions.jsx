@@ -641,6 +641,7 @@ const Prescriptions = () => {
               paginatedPrescriptionsList.length === 0) ||
             (showFilterContent &&
               filteredList &&
+              filteredList?.length === 0 &&
               filterCount &&
               Object.values(filterCount).every(value => value === 0)) ? (
               <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
