@@ -11,7 +11,7 @@ import reducer from '../../reducers';
 const commonStore = createCommonStore(reducer);
 
 describe('<LicenseCertificationSearchResults />', () => {
-  it('should render', async () => {
+  it('should render', () => {
     const wrapper = shallow(
       <Provider store={commonStore}>
         <LicenseCertificationSearchResults
@@ -23,7 +23,7 @@ describe('<LicenseCertificationSearchResults />', () => {
       </Provider>,
     );
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(wrapper).to.not.be.null;
     });
 
