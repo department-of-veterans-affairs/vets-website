@@ -8,7 +8,7 @@
 export default function getPageFlow(referralId) {
   return {
     appointments: {
-      url: '/appointments',
+      url: '/',
       label: 'Appointments',
       next: 'scheduleReferral',
       previous: '',

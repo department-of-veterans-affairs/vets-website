@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import classNames from 'classnames';
 import {
   fetchPendingAppointments,
   startNewAppointmentFlow,
@@ -20,12 +18,12 @@ import InfoAlert from '../components/InfoAlert';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import RequestAppointmentLayout from '../appointment-list/components/AppointmentsPage/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from '../appointment-list/components/BackendAppointmentServiceAlert';
-import PendingReferralCard from './components/PendingReferralCard';
-import { selectFeatureCCDirectScheduling } from '../redux/selectors';
 import { setFormCurrentPage } from './redux/actions';
 import ReferralLayout from './components/ReferralLayout';
+import { createReferrals } from './utils/referrals';
+import ReferralList from './components/ReferralList';
 
-export default function ReferralsAndRequests({ hasTypeChanged }) {
+export default function ReferralsAndRequests() {
   const {
     pendingAppointments,
     pendingStatus,
@@ -37,10 +35,6 @@ export default function ReferralsAndRequests({ hasTypeChanged }) {
 
   const dispatch = useDispatch();
 
-  const featureCCDirectScheduling = useSelector(
-    selectFeatureCCDirectScheduling,
-  );
-
   const location = useLocation();
   useEffect(
     () => {
@@ -50,19 +44,19 @@ export default function ReferralsAndRequests({ hasTypeChanged }) {
   );
 
   // TODO add referral fetch
-  const pendingReferrals = [];
+  const pendingReferrals = createReferrals(3, new Date().toISOString());
 
   useEffect(
     () => {
       if (pendingStatus === FETCH_STATUS.notStarted) {
         dispatch(fetchPendingAppointments());
-      } else if (hasTypeChanged && pendingStatus === FETCH_STATUS.succeeded) {
+      } else if (pendingStatus === FETCH_STATUS.succeeded) {
         scrollAndFocus('#type-dropdown');
-      } else if (hasTypeChanged && pendingStatus === FETCH_STATUS.failed) {
+      } else if (pendingStatus === FETCH_STATUS.failed) {
         scrollAndFocus('h3');
       }
     },
-    [pendingStatus, hasTypeChanged, dispatch],
+    [pendingStatus, dispatch],
   );
 
   if (
@@ -71,10 +65,7 @@ export default function ReferralsAndRequests({ hasTypeChanged }) {
   ) {
     return (
       <div className="vads-u-margin-y--8">
-        <va-loading-indicator
-          set-focus={hasTypeChanged}
-          message="Loading your appointment requests..."
-        />
+        <va-loading-indicator message="Loading your appointment requests..." />
       </div>
     );
   }
@@ -115,82 +106,66 @@ export default function ReferralsAndRequests({ hasTypeChanged }) {
     return 0;
   });
 
-  const paragraphText = featureCCDirectScheduling
-    ? "These requests and referrals haven't been scheduled yet."
-    : 'Appointments that you request will show here until staff review and schedule them.';
-
   return (
     <ReferralLayout>
+      <BackendAppointmentServiceAlert />
       <h1>Referrals and requests</h1>
       <p>Find your requested appointments and community care referrals.</p>
-      <>
-        <BackendAppointmentServiceAlert />
-
-        {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
-          <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
-            <NoAppointments
-              showAdditionalRequestDescription
-              description="appointment requests"
-              showScheduleButton={showScheduleButton}
-              startNewAppointmentFlow={() => {
-                recordEvent({
-                  event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-                });
-                startNewAppointmentFlow();
-              }}
-              level={2}
-            />
-          </div>
-        )}
-        {appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
-          <p className="vaos-hide-for-print mobile:vads-u-margin-bottom--1 mobile-lg:vads-u-margin-bottom--2">
-            {paragraphText}
-          </p>
-        )}
-        {featureCCDirectScheduling && (
-          <ul
-            className={classNames(
-              'vads-u-padding-left--0 vads-u-margin-top--0',
+      <ReferralList referrals={pendingReferrals} />
+      {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
+        <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
+          <NoAppointments
+            showAdditionalRequestDescription
+            description="appointment requests"
+            showScheduleButton={showScheduleButton}
+            startNewAppointmentFlow={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+              });
+              startNewAppointmentFlow();
+            }}
+            level={2}
+          />
+        </div>
+      )}
+      {appointmentsByStatus.map(statusBucket => {
+        return (
+          <React.Fragment key={statusBucket[0]}>
+            {statusBucket[0] === APPOINTMENT_STATUS.cancelled && (
+              <>
+                <h2>Canceled requests</h2>
+                <p
+                  className="vaos-hide-for-print"
+                  data-testid="appointments-cancelled-text"
+                >
+                  These are requested appointments that you or staff have asked
+                  to be canceled. If you still want this appointment, contact
+                  your facility or start scheduling.
+                </p>
+              </>
             )}
-            data-cy="requested-appointment-list"
-          >
-            {pendingReferrals.map((referral, index) => {
-              return <PendingReferralCard key={index} referral={referral} />;
-            })}
-          </ul>
-        )}
-        {appointmentsByStatus.map(statusBucket => {
-          return (
-            <React.Fragment key={statusBucket[0]}>
-              {statusBucket[0] === APPOINTMENT_STATUS.cancelled && (
-                <>
-                  <h2>Canceled requests</h2>
-                  <p className="vaos-hide-for-print">
-                    These appointment requests have been canceled.
-                  </p>
-                </>
-              )}
-              {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-              <ul
-                className={classNames(
-                  'vads-u-padding-left--0 vads-u-margin-top--0',
-                )}
-                data-cy="requested-appointment-list"
-              >
-                {statusBucket[1].map((appt, index) => {
-                  return (
-                    <RequestAppointmentLayout key={index} appointment={appt} />
-                  );
-                })}
-              </ul>
-            </React.Fragment>
-          );
-        })}
-      </>
+            {statusBucket[0] === APPOINTMENT_STATUS.proposed && (
+              <>
+                <h2>Active requests</h2>
+                <p className="vaos-hide-for-print">
+                  We'll contact you to finish scheduling these appointments.
+                </p>
+              </>
+            )}
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul
+              className="vads-u-padding-left--0 vads-u-margin-top--0"
+              data-cy="requested-appointment-list"
+            >
+              {statusBucket[1].map((appt, index) => {
+                return (
+                  <RequestAppointmentLayout key={index} appointment={appt} />
+                );
+              })}
+            </ul>
+          </React.Fragment>
+        );
+      })}
     </ReferralLayout>
   );
 }
-
-ReferralsAndRequests.propTypes = {
-  hasTypeChanged: PropTypes.bool,
-};

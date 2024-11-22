@@ -40,10 +40,6 @@ function BreadCrumbNav() {
   );
 }
 
-BreadCrumbNav.propTypes = {
-  linkText: PropTypes.string.isRequired,
-};
-
 export default function ReferralLayout({ children, hasEyebrow }) {
   const location = useLocation();
 
@@ -79,6 +75,6 @@ export default function ReferralLayout({ children, hasEyebrow }) {
 }
 
 ReferralLayout.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.array,
   hasEyebrow: PropTypes.bool,
 };

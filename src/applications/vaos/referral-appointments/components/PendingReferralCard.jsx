@@ -6,14 +6,19 @@ import ListItem from '../../appointment-list/components/AppointmentsPage/ListIte
 import AppointmentRow from '../../appointment-list/components/AppointmentsPage/AppointmentRow';
 import AppointmentColumn from '../../appointment-list/components/AppointmentsPage/AppointmentColumn';
 
-export default function PendingReferralCard({ referral }) {
+const PendingReferralCard = ({ referral, handleClick }) => {
   const first = true;
   const grouped = true;
-  const idClickable = `id-${referral.id.replace('.', '\\.')}`;
+  const idClickable = `id-${referral.UUID.replace('.', '\\.')}`;
   const isCanceled = referral.status === 'cancelled';
-  const typeOfCareName = referral.typeOfCare;
+  const typeOfCareName = referral.CategoryOfCare;
 
-  const link = 'schedule-referral/123456';
+  const link = `schedule-referral/?id=${referral.UUID}`;
+
+  const appointmentString =
+    referral.numberOfAppointments === 1
+      ? '1 appointment'
+      : `${referral.numberOfAppointments} appointments`;
 
   return (
     <ListItem appointment={referral} borderBottom status="pending">
@@ -37,8 +42,7 @@ export default function PendingReferralCard({ referral }) {
                     // canceled={isCanceled}
                     className="vads-u-font-weight--bold vaos-appts__display--table"
                   >
-                    {' '}
-                    {typeOfCareName} referral
+                    {typeOfCareName} request
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0"
@@ -47,36 +51,41 @@ export default function PendingReferralCard({ referral }) {
                     canceled={isCanceled}
                   >
                     <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
-                      You can now schedule your community care appointment
+                      {`You have been approved for ${appointmentString}. All appointments for this referral must be scheduled by ${
+                        referral.ReferralExpirationDate
+                      }.`}
                     </span>
                   </AppointmentColumn>
                 </AppointmentRow>
               </AppointmentColumn>
 
               <AppointmentColumn
-                id={`vaos-referral-detail-${referral.id}`}
+                id={`vaos-referral-detail-${referral.UUID}`}
                 className="vaos-hide-for-print"
                 padding="0"
                 size="1"
                 aria-label="schedule your appointment"
               >
-                <a
-                  className="vaos-appts__focus--hide-outline"
-                  aria-describedby={`vaos-referral-detail-${referral.id}`}
+                <va-link-action
+                  type="secondary"
                   href={link}
-                  onClick={e => e.preventDefault()}
-                >
-                  schedule your appointment
-                </a>
+                  aria-describedby={`vaos-referral-detail-${referral.UUID}`}
+                  message-aria-describedby="Custom message"
+                  text="Schedule your appointment"
+                  onClick={e => handleClick(e, referral.UUID)}
+                />
               </AppointmentColumn>
             </AppointmentRow>
-          </AppointmentColumn>{' '}
+          </AppointmentColumn>
         </AppointmentRow>
       </AppointmentFlexGrid>
     </ListItem>
   );
-}
+};
 
 PendingReferralCard.propTypes = {
+  handleClick: PropTypes.func.isRequired,
   referral: PropTypes.object.isRequired,
 };
+
+export default PendingReferralCard;

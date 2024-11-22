@@ -9,12 +9,13 @@ export default function ListItem({
   children,
   status,
 }) {
-  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
+  const UniqueIdentifier = appointment.id || appointment.UUID;
+  const idClickable = `id-${UniqueIdentifier.replace('.', '\\.')}`;
 
   return (
     <li
       id={idClickable}
-      data-request-id={appointment.id}
+      data-request-id={UniqueIdentifier}
       data-status={status}
       className={classNames(
         'vaos-appts__listItem--clickable',
