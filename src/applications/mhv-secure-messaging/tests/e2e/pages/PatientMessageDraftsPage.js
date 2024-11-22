@@ -163,7 +163,10 @@ class PatientMessageDraftsPage {
       draftMessage,
     ).as('deletedDraftResponse');
 
-    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM)
+      .shadow()
+      .find(`button`)
+      .click({ force: true });
   };
 
   deleteMultipleDraft = (mockResponse, reducedMockResponse, index = 0) => {

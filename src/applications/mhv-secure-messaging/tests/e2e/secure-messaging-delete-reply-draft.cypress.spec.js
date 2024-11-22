@@ -31,7 +31,7 @@ describe('SM DELETE REPLY DRAFT', () => {
 
     PatientReplyPage.clickSaveReplyDraftButton(singleMessage, `Test Body`);
 
-    PatientMessageDraftsPage.clickMultipleDeleteButton();
+    PatientMessageDraftsPage.clickDeleteButton();
     PatientMessageDraftsPage.confirmDeleteDraft(updatedSingleThreadResponse);
     PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
     PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
