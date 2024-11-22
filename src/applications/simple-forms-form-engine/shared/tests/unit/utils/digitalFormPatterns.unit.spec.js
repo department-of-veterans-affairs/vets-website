@@ -207,7 +207,7 @@ describe('listLoopPages', () => {
     itemPage: pageConfig => pageConfig,
     summaryPage: pageConfig => pageConfig,
   };
-  // const required = findChapterByType('digital_form_list_loop');
+  const required = findChapterByType('digital_form_list_loop');
 
   let arrayBuilderStub;
 
@@ -227,7 +227,6 @@ describe('listLoopPages', () => {
     expect(options.arrayPath).to.eq('employers');
     expect(options.nounSingular).to.eq('employer');
     expect(options.nounPlural).to.eq('employers');
-    expect(options.required).to.eq(false);
     expect(options.maxItems).to.eq(4);
   });
 
@@ -269,14 +268,61 @@ describe('listLoopPages', () => {
       expect(employerDatePage.uiSchema.dateRange).to.not.eq(undefined);
     });
 
-    it('includes a details page');
+    it('includes a details page', () => {
+      const { employerDetailPage } = listLoopPages(optional, arrayBuilderStub);
+
+      expect(employerDetailPage.title).to.eq('Employment detail for employer');
+      expect(employerDetailPage.path).to.eq('employers/:index/detail');
+      expect(employerDetailPage.schema.properties.typeOfWork).to.eq(
+        webComponentPatterns.textSchema,
+      );
+      expect(employerDetailPage.schema.properties.hoursPerWeek).to.eq(
+        webComponentPatterns.numberSchema,
+      );
+      expect(employerDetailPage.schema.properties.lostTime).to.eq(
+        webComponentPatterns.numberSchema,
+      );
+      expect(employerDetailPage.schema.properties.highestIncome).to.eq(
+        webComponentPatterns.textSchema,
+      );
+      expect(employerDetailPage.uiSchema.typeOfWork).to.not.eq(undefined);
+      expect(employerDetailPage.uiSchema.hoursPerWeek).to.not.eq(undefined);
+      expect(employerDetailPage.uiSchema.lostTime).to.not.eq(undefined);
+      expect(employerDetailPage.uiSchema.highestIncome).to.not.eq(undefined);
+    });
   });
 
-  context('when optional is false', () => {
-    it('includes an introPage');
-  });
+  describe('additionalFields', () => {
+    // let pages;
 
-  context('when optional is true', () => {
-    it('does not include an introPage');
+    context('when optional is false', () => {
+      beforeEach(() => {
+        listLoopPages(required, arrayBuilderStub);
+        // introPage = pages.employer;
+      });
+
+      it('sets required to true', () => {
+        const options = arrayBuilderStub.getCall(0).args[0];
+
+        expect(options.required).to.eq(true);
+      });
+
+      it('includes an introPage');
+    });
+
+    context('when optional is true', () => {
+      beforeEach(() => {
+        listLoopPages(optional, arrayBuilderStub);
+        // introPage = pages.employer;
+      });
+
+      it('sets required to false', () => {
+        const options = arrayBuilderStub.getCall(0).args[0];
+
+        expect(options.required).to.eq(false);
+      });
+
+      it('does not include an introPage');
+    });
   });
 });

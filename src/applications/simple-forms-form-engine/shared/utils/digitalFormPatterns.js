@@ -98,13 +98,16 @@ export const digitalFormPhoneAndEmail = ({ additionalFields, pageTitle }) => {
 };
 
 /** @returns {FormConfigPages} */
-export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
+export const listLoopPages = (
+  { additionalFields: { optional } },
+  arrayBuilder = arrayBuilderPages,
+) => {
   /** @type {ArrayBuilderOptions} */
   const options = {
     arrayPath: 'employers',
     nounSingular: 'employer',
     nounPlural: 'employers',
-    required: false,
+    required: !optional,
     isItemIncomplete: item => !item?.name || !item.address || !item.dateRange,
     maxItems: 4,
     text: {
@@ -168,6 +171,50 @@ export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
   };
 
   /** @type {PageSchema} */
+  const detailPage = {
+    path: 'employers/:index/detail',
+    schema: {
+      properties: {
+        typeOfWork: webComponentPatterns.textSchema,
+        hoursPerWeek: webComponentPatterns.numberSchema,
+        lostTime: webComponentPatterns.numberSchema,
+        highestIncome: webComponentPatterns.textSchema,
+      },
+      required: ['typeOfWork', 'hoursPerWeek', 'lostTime', 'highestIncome'],
+      type: 'object',
+    },
+    title: 'Employment detail for employer',
+    uiSchema: {
+      ...webComponentPatterns.arrayBuilderItemSubsequentPageTitleUI(
+        ({ formData }) =>
+          formData?.name
+            ? `Employment detail for ${formData.name}`
+            : 'Employment detail',
+      ),
+      typeOfWork: webComponentPatterns.textUI({
+        hint: 'If self-employed enter "Self"',
+        title: 'Type of work',
+      }),
+      hoursPerWeek: webComponentPatterns.numberUI({
+        title: 'Hours per week',
+        min: 0,
+        max: 168,
+      }),
+      lostTime: webComponentPatterns.numberUI({
+        hint: 'Total hours',
+        title: 'Lost time from illness',
+        min: 0,
+        max: 8760,
+      }),
+      highestIncome: webComponentPatterns.textUI({
+        currency: true,
+        hint: 'Total $ amount',
+        title: 'Highest gross income per month',
+      }),
+    },
+  };
+
+  /** @type {PageSchema} */
   const summaryPage = {
     path: 'employers',
     schema: {
@@ -204,5 +251,6 @@ export const listLoopPages = (_, arrayBuilder = arrayBuilderPages) => {
     employerSummary: pageBuilder.summaryPage(summaryPage),
     employerNamePage: pageBuilder.itemPage(namePage),
     employerDatePage: pageBuilder.itemPage(datePage),
+    employerDetailPage: pageBuilder.itemPage(detailPage),
   }));
 };
