@@ -43,7 +43,7 @@ export const dropdownSchema = [
 const filterSuggestions = (suggestions, value) => {
   // add filter options as arg
   if (!value) {
-    return suggestions;
+    return [];
   }
 
   return suggestions.filter(suggestion => {
@@ -107,7 +107,7 @@ export default function LicenseCertificationSearchForm({
       />
       <div>
         <LcKeywordSearch
-          inputRef={name}
+          inputValue={name}
           suggestions={filteredSuggestions}
           onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
         />

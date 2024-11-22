@@ -23,6 +23,10 @@ export default function LcKeywordSearch({
     }
   };
 
+  const handleClearInput = () => {
+    onUpdateAutocompleteSearchTerm('');
+  };
+
   return (
     <div id="keyword-search">
       <Downshift
@@ -50,7 +54,7 @@ export default function LcKeywordSearch({
             >
               License/Certification Name
             </label>
-            <div className="lc-name-search-container">
+            <div className="lc-name-search-container vads-u-display--flex">
               <input
                 aria-controls="lcKeywordSearch"
                 className="lc-name-search-input"
@@ -60,31 +64,42 @@ export default function LcKeywordSearch({
                   'aria-labelledby': 'lc-search-label',
                 })}
               />
+              {inputValue &&
+                inputValue.length > 0 && (
+                  <va-icon
+                    size={3}
+                    icon="cancel"
+                    id="clear-input"
+                    class="vads-u-display--flex vads-u-align-items--center"
+                    onClick={handleClearInput}
+                  />
+                )}
             </div>
-            {isOpen && (
-              <div
-                className="suggestions-list"
-                role="listbox"
-                id="lcKeywordSearch"
-                style={{ maxWidth: '30rem' }}
-              >
-                {suggestions.map((item, index) => (
-                  <div
-                    key={index}
-                    role="option"
-                    aria-selected={
-                      selectedItem === item.label ? 'true' : 'false'
-                    }
-                    className={classNames('suggestion', {
-                      'suggestion-highlighted': highlightedIndex === index,
-                    })}
-                    {...getItemProps({ item })}
-                  >
-                    {item.name}
-                  </div>
-                ))}
-              </div>
-            )}
+            {isOpen &&
+              suggestions.length > 0 && (
+                <div
+                  className="suggestions-list"
+                  role="listbox"
+                  id="lcKeywordSearch"
+                  style={{ maxWidth: '30rem' }}
+                >
+                  {suggestions.map((item, index) => (
+                    <div
+                      key={index}
+                      role="option"
+                      aria-selected={
+                        selectedItem === item.label ? 'true' : 'false'
+                      }
+                      className={classNames('suggestion', {
+                        'suggestion-highlighted': highlightedIndex === index,
+                      })}
+                      {...getItemProps({ item })}
+                    >
+                      {item.name}
+                    </div>
+                  ))}
+                </div>
+              )}
           </div>
         )}
       </Downshift>
