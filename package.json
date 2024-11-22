@@ -106,7 +106,7 @@
   },
   "devDependencies": {
     "@actions/core": "^1.9.1",
-    "@axe-core/react": "^4.10.0",
+    "@axe-core/react": "^4.10.1",
     "@babel/core": "^7.26.0",
     "@babel/eslint-parser": "^7.25.9",
     "@babel/parser": "^7.26.2",
@@ -143,7 +143,7 @@
     "@webpack-cli/serve": "^1.6.0",
     "append-query": "^2.1.1",
     "autoprefixer": "^10.3.5",
-    "axe-core": "^4.4.3",
+    "axe-core": "^4.10.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-dynamic-import-node": "^2.3.3",
@@ -261,13 +261,12 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^48.0.1",
-    "@department-of-veterans-affairs/css-library": "^0.14.0",
-    "@department-of-veterans-affairs/formation": "11.0.26",
+    "@department-of-veterans-affairs/formation": "^12.0.0",
+    "@department-of-veterans-affairs/component-library": "^48.0.2",
+    "@department-of-veterans-affairs/css-library": "^0.15.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
-    "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^2.2.5",
     "blob-polyfill": "^5.0.20210201",
@@ -378,7 +377,8 @@
     "**/minimist": "^1.2.6",
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
-    "**/fbjs": "^3.0.4"
+    "**/fbjs": "^3.0.4",
+    "ws": "7.5.10"
   },
   "workspaces": {
     "packages": [
@@ -403,6 +403,7 @@
     "nohoist": [
       "**/applications-check-in/i18next-resources-to-backend",
       "**/applications-check-in/react-i18next",
+      "**/applications-claims-status/@department-of-veterans-affairs/component-library",
       "**/applications-vaos/simple-guid",
       "**/applications-vaos/mocker-api",
       "**/platform-pdf/blob-stream",
@@ -440,6 +441,7 @@
       "**/platform-testing/sentry-testkit",
       "**/platform-testing/table",
       "**/platform-testing/winston"
+
     ]
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"

@@ -57,6 +57,7 @@
   "disability526NewConfirmationPage": "disability_526_new_confirmation_page",
   "disablityBenefitsBrowserMonitoringEnabled": "disablity_benefits_browser_monitoring_enabled",
   "dischargeWizardFeatures": "discharge_wizard_features",
+  "disputeDebt": "dispute_debt",
   "enrollmentVerification": "enrollment_verification",
   "ezrProdEnabled": "ezr_prod_enabled",
   "ezrUploadEnabled": "ezr_upload_enabled",
@@ -151,7 +152,6 @@
   "myVaHideNotificationsSection": "my_va_hide_notifications_section",
   "myVaLighthouseUploadsReport": "my_va_lighthouse_uploads_report",
   "myVaNotificationDotIndicator": "my_va_notification_dot_indicator",
-  "myVaFormSubmissionStatuses": "my_va_form_submission_statuses",
   "myVaUpdateErrorsWarnings": "my_va_update_errors_warnings",
   "myVaUseExperimental": "my_va_experimental",
   "myVaUseExperimentalFrontend": "my_va_experimental_frontend",
@@ -282,6 +282,7 @@
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "veteranOnboardingContactInfoFlow": "veteran_onboarding_contact_info_flow",
   "veteranOnboardingShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
+  "veteranStatusCardUseLighthouse": "veteran_status_card_use_lighthouse",
   "virtualAgentComponentTesting": "virtual_agent_component_testing",
   "virtualAgentEnableMsftPvaTesting": "virtual_agent_enable_msft_pva_testing",
   "virtualAgentEnableNluPvaTesting": "virtual_agent_enable_nlu_pva_testing",
@@ -294,5 +295,6 @@
   "showYellowRibbonTable": "show_yellow_ribbon_table",
   "showLcInComparisonTool": "show_lc_in_comparison_tool",
   "giComparisonToolShowRatings": "gi_comparison_tool_show_ratings",
-  "fsrWizard": "fsr_wizard"
+  "fsrWizard": "fsr_wizard",
+  "isDGIBEndpoint": "is_DGIB_endpoint"
 }
