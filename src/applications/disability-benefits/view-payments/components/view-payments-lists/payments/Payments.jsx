@@ -51,9 +51,9 @@ const Payments = ({
       <>
         {textContent}
         {alertMessage}
-        <p className="vads-u-font-size--lg vads-u-font-family--serif">
-          Displaying {from} - {to} of {data.length}
-        </p>
+        <h3 className="vads-u-font-size--lg vads-u-font-family--serif">
+          Displaying {from} - {to} of {data.length} payments
+        </h3>
         <va-table>
           <va-table-row slot="headers">
             {fields.map(field => (

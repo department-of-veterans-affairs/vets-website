@@ -1,21 +1,55 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
   VaButton,
+  VaAccordion,
+  VaAccordionItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
+  ALL_MEDICATIONS_FILTER_KEY,
   filterOptions,
+  SESSION_RX_FILTER_OPEN_BY_DEFAULT,
   SESSION_SELECTED_FILTER_OPTION,
 } from '../../util/constants';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const MedicationsListFilter = props => {
-  const { updateFilter, filterOption, setFilterOption } = props;
+  const { updateFilter, filterOption, setFilterOption, filterCount } = props;
+  const ref = useRef(null);
+
+  const mapFilterCountToFilterLabels = label => {
+    switch (label) {
+      case filterOptions.ALL_MEDICATIONS.label: {
+        return filterCount.allMedications;
+      }
+      case filterOptions.ACTIVE.label: {
+        return filterCount.active;
+      }
+      case filterOptions.RECENTLY_REQUESTED.label: {
+        return filterCount.recentlyRequested;
+      }
+      case filterOptions.RENEWAL.label: {
+        return filterCount.renewal;
+      }
+      case filterOptions.NON_ACTIVE.label: {
+        return filterCount.nonActive;
+      }
+      default:
+        return null;
+    }
+  };
+
+  useEffect(() => {
+    if (sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {
+      ref.current.setAttribute('open', true);
+      sessionStorage.removeItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT);
+    }
+  }, []);
 
   const handleFilterOptionChange = ({ detail }) => {
-    setFilterOption(detail?.value);
+    setFilterOption(detail.value);
   };
 
   const handleFilterSubmit = () => {
@@ -26,9 +60,10 @@ const MedicationsListFilter = props => {
   const handleAccordionItemToggle = ({ target }) => {
     if (target) {
       const isOpen = target.getAttribute('open');
-      if (!isOpen) {
+      if (isOpen === 'false') {
         setFilterOption(
-          sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) || null,
+          sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
+            ALL_MEDICATIONS_FILTER_KEY,
         );
       }
     }
@@ -36,19 +71,21 @@ const MedicationsListFilter = props => {
 
   const filterOptionsArray = Object.keys(filterOptions);
   return (
-    <va-accordion
+    <VaAccordion
       bordered
       open-single
       data-testid="filter-accordion"
       class="filter-accordion"
       onAccordionItemToggled={handleAccordionItemToggle}
+      uswds
     >
-      <va-accordion-item
+      <VaAccordionItem
         header="Filter list"
         bordered="true"
-        open={!!filterOption}
         id="filter"
         data-testid="rx-filter"
+        ref={ref}
+        uswds
       >
         <span slot="icon">
           <va-icon aria-hidden="true" icon="filter_alt" />
@@ -62,26 +99,33 @@ const MedicationsListFilter = props => {
           {filterOptionsArray.map(option => (
             <VaRadioOption
               key={`filter option ${filterOptions[option].label}`}
-              label={filterOptions[option].label}
-              name={filterOptions[option].name}
-              value={filterOptions[option].label}
+              label={`${filterOptions[option].label}${
+                filterCount
+                  ? ` (${mapFilterCountToFilterLabels(
+                      filterOptions[option].label,
+                    )})`
+                  : ''
+              }`}
+              name="filter-options-group"
+              value={option}
               description={filterOptions[option].description}
-              checked={filterOption === filterOptions[option].label}
+              checked={filterOption === option}
             />
           ))}
         </VaRadio>
         <VaButton
           className="vads-u-width--full tablet:vads-u-width--auto filter-submit-btn vads-u-margin-top--3"
           onClick={handleFilterSubmit}
-          text="Filter"
+          text="Apply filter"
           data-testid="filter-button"
         />
-      </va-accordion-item>
-    </va-accordion>
+      </VaAccordionItem>
+    </VaAccordion>
   );
 };
 
 MedicationsListFilter.propTypes = {
+  filterCount: PropTypes.object,
   filterOption: PropTypes.string,
   setFilterOption: PropTypes.func,
   updateFilter: PropTypes.func,
