@@ -626,6 +626,7 @@ const Prescriptions = () => {
               paginatedPrescriptionsList.length === 0) ||
             (showFilterContent &&
               filteredList &&
+              filterCount &&
               Object.values(filterCount).every(value => value === 0)) ? (
               <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
                 <h2 className="vads-u-margin--0">
@@ -776,14 +777,18 @@ const Prescriptions = () => {
                   )}
                   {showFilterContent && (
                     <>
-                      {filteredList?.length === 0 && (
-                        <div>
-                          <h2 id="no-matches-msg">
-                            We didn’t find any matches for this filter
-                          </h2>
-                          <p>Try selecting a different filter.</p>
-                        </div>
-                      )}
+                      {filteredList?.length === 0 &&
+                        filterCount &&
+                        Object.values(filterCount).some(
+                          value => value !== 0,
+                        ) && (
+                          <div>
+                            <h2 id="no-matches-msg">
+                              We didn’t find any matches for this filter
+                            </h2>
+                            <p>Try selecting a different filter.</p>
+                          </div>
+                        )}
                       {isLoading && (
                         <div className="vads-u-height--viewport vads-u-padding-top--3">
                           <va-loading-indicator
