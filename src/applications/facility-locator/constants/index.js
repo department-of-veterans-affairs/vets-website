@@ -69,6 +69,42 @@ export const OperatingStatus = {
   LIMITED: 'LIMITED',
   CLOSED: 'CLOSED',
   NOTICE: 'NOTICE',
+  TEMPORARY_CLOSURE: 'TEMPORARY_CLOSURE',
+  TEMPORARY_LOCATION: 'TEMPORARY_LOCATION',
+  VIRTUAL_CARE: 'VIRTUAL_CARE',
+  COMING_SOON: 'COMING_SOON',
+};
+
+// Used in multiple places, so export it here
+export const OperatingStatusDisplay = {
+  [OperatingStatus.CLOSED]: {
+    operationStatusTitle: 'Facility Closed',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.LIMITED]: {
+    operationStatusTitle: 'Limited services and hours',
+    alertClass: 'info',
+  },
+  [OperatingStatus.NOTICE]: {
+    operationStatusTitle: 'Facility notice',
+    alertClass: 'info',
+  },
+  [OperatingStatus.COMING_SOON]: {
+    operationStatusTitle: 'Coming soon',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.TEMPORARY_CLOSURE]: {
+    operationStatusTitle: 'Temporary facility closure',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.TEMPORARY_LOCATION]: {
+    operationStatusTitle: 'Temporary location',
+    alertClass: 'warning',
+  },
+  [OperatingStatus.VIRTUAL_CARE]: {
+    operationStatusTitle: 'Virtual care only',
+    alertClass: 'info',
+  },
 };
 
 /**
