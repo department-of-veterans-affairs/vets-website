@@ -28,22 +28,18 @@ export const userLoader = async () => {
     const path = '/accredited_representative_portal/v0/user';
     const user = await apiRequest(`${environment.API_URL}${path}`);
 
-    // Success condition: Check for 'serviceName'
     const serviceName = user?.profile?.signIn?.serviceName;
     if (!serviceName) {
       throw new Error('Missing user with sign-in service name.');
     }
 
-    // Store 'serviceName' in sessionStorage for access token refreshing
     sessionStorage.setItem('serviceName', serviceName);
 
-    // Return the user data
     return { user, isUserLoading: false, error: null };
   } catch (e) {
     const error =
       e.errors?.[0]?.detail || e.message || 'Unknown error while fetching user';
 
-    // Otherwise, throw the error to be handled by the application
     return { user: null, isUserLoading: false, error };
   }
 };
