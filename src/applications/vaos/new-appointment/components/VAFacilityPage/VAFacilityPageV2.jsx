@@ -194,6 +194,7 @@ export default function VAFacilityPageV2() {
             disabled
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
+            displayNextButton={false}
           />
         </div>
       </div>
