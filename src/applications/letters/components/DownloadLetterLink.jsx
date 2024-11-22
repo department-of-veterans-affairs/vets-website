@@ -30,7 +30,7 @@ export class DownloadLetterLink extends React.Component {
 
   render() {
     let buttonText;
-    let buttonDisabled;
+    let buttonDisabled = null; // false causes MS Voice Access to ignore buttons
     let message;
     switch (this.props.downloadStatus) {
       case DOWNLOAD_STATUSES.downloading:
