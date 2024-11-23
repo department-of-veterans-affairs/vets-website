@@ -18,20 +18,33 @@ const initialState = {
   medications: undefined,
 };
 
-const NONE_ENTERED = 'None entered';
+export const NONE_ENTERED = 'None entered';
 
-const mapValue = (map, value) => (map[value] !== undefined ? map[value] : null);
+/**
+ * @param {*} map an object containing key value pairs
+ * @param {*} key the key to search for
+ * @returns the corresponding value
+ */
+export const mapValue = (map, key) => {
+  if (!map || key === null) return null;
+  return map[key] !== undefined ? map[key] : null;
+};
 
-const formatTimestamp = timestamp => {
-  if (!timestamp) return null;
-  return format(new Date(timestamp), 'MMM d, yyyy');
+/**
+ * @param {Number} timestamp a millisecond timestamp. e.g. 1610082000000
+ * @returns a nicely formatted date
+ */
+export const formatTimestamp = timestamp => {
+  if (timestamp === undefined || timestamp === null) return null;
+  if (typeof timestamp !== 'number' || Number.isNaN(timestamp)) return null;
+  return format(new Date(timestamp), 'MMMM d, yyyy');
 };
 
 /**
  * @param {String} inputDate acceptable formats: 05/09/2017, 2020-11-10, 2020-04-29T23:59:00
  * @returns a date formatted as May 1, 2024
  */
-function convertDate(inputDate) {
+export function formatDate(inputDate) {
   if (!inputDate) return null;
 
   const months = [
@@ -98,7 +111,11 @@ function convertDate(inputDate) {
   return `${monthName} ${day}, ${year}`;
 }
 
-function convertTime(inputTime) {
+/**
+ * @param {*} inputTime a time in the format of either: 2100, 21:00
+ * @returns a time formatted as 2100
+ */
+export const formatTime = inputTime => {
   if (!inputTime) return null;
 
   // Regular expression to match HH:MM or HHMM format
@@ -110,21 +127,20 @@ function convertTime(inputTime) {
   }
 
   const [, hours, minutes] = match;
-  return `${hours}${minutes}`;
-}
+  return `${hours.padStart(2, '0')}${minutes.padStart(2, '0')}`;
+};
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
  * - DTO:
  */
-const convertVitalsBloodPressure = recordList => {
-  if (!recordList) return null;
+export const convertVitalsBloodPressure = recordList => {
+  if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: convertDate(record.dateEntered), // 05/09/2017
-    time: convertTime(record.timeEntered), // 23:59
-    // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
-    systolic: record.systolic || NONE_ENTERED, // 150
-    diastolic: record.diastolic || NONE_ENTERED, // 40
+    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+    systolic: record.systolic || NONE_ENTERED,
+    diastolic: record.diastolic || NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
   }));
 };
@@ -133,16 +149,15 @@ const convertVitalsBloodPressure = recordList => {
  * - Stored procedure: bbvitalsandreadings.prc
  * - DTO:
  */
-const convertVitalsBloodSugar = recordList => {
-  if (!recordList) return null;
+export const convertVitalsBloodSugar = recordList => {
+  if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: convertDate(record.dateEntered), // 05/09/2017
-    time: convertTime(record.timeEntered), // 23:59
-    // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
+    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
     method:
       mapValue(Const.VITALS_BLOOD_SUGAR_METHOD, record.testingMethod) ||
-      NONE_ENTERED, // CLT, I, SL, etc.
-    bloodSugarCount: record.bloodSugarCount || NONE_ENTERED, // 180
+      NONE_ENTERED,
+    bloodSugarCount: record.bloodSugarCount || NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
   }));
 };
@@ -151,18 +166,17 @@ const convertVitalsBloodSugar = recordList => {
  * - Stored procedure: bbvitalsandreadings.prc
  * - DTO:
  */
-const convertVitalsBodyTemp = recordList => {
-  if (!recordList) return null;
+export const convertVitalsBodyTemp = recordList => {
+  if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: convertDate(record.dateEntered), // 05/09/2017
-    time: convertTime(record.timeEntered), // 23:59
-    // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
-    bodyTemperature: record.bodyTemperature || NONE_ENTERED, // 98
+    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+    bodyTemperature: record.bodyTemperature || NONE_ENTERED,
     measure:
-      mapValue(Const.VITALS_BODY_TEMP_MEASURE, record.measure) || NONE_ENTERED, // C, F, etc.
+      mapValue(Const.VITALS_BODY_TEMP_MEASURE, record.measure) || NONE_ENTERED,
     method:
       mapValue(Const.VITALS_BODY_TEMP_METHOD, record.bodyTemperatureMethod) ||
-      NONE_ENTERED, // M, etc.
+      NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
   }));
 };
@@ -171,16 +185,15 @@ const convertVitalsBodyTemp = recordList => {
  * - Stored procedure: bbvitalsandreadings.prc
  * - DTO:
  */
-const convertVitalsBodyWeight = recordList => {
-  if (!recordList) return null;
+export const convertVitalsBodyWeight = recordList => {
+  if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: convertDate(record.dateEntered), // 05/09/2017
-    time: convertTime(record.timeEntered), // 23:59
-    // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
-    bodyWeight: record.bodyweight || NONE_ENTERED, // 123
+    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+    bodyWeight: record.bodyweight || NONE_ENTERED,
     measure:
-      mapValue(Const.VITALS_BODY_TEMP_MEASURE, record.bodyweightMeasure) ||
-      NONE_ENTERED, //  P, etc.
+      mapValue(Const.VITALS_BODY_WEIGHT_MEASURE, record.bodyweightMeasure) ||
+      NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
   }));
 };
@@ -189,15 +202,14 @@ const convertVitalsBodyWeight = recordList => {
  * - Stored procedure: bbvitalsandreadings.prc
  * - DTO:
  */
-const convertVitalsCholesterol = recordList => {
-  if (!recordList) return null;
+export const convertVitalsCholesterol = recordList => {
+  if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: convertDate(record.dateEntered), // 05/09/2017
-    time: convertTime(record.timeEntered), // 23:59
-    // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
+    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
     totalCholesterol: record.total || NONE_ENTERED, // 350
-    hdl: record.hdl || NONE_ENTERED, // 150
-    ldl: record.ldl || NONE_ENTERED, // 100
+    hdl: record.hdl || NONE_ENTERED,
+    ldl: record.ldl || NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
   }));
 };
@@ -207,10 +219,10 @@ const convertVitalsCholesterol = recordList => {
  * - DTO:
  */
 const convertVitalsHeartRate = recordList => {
-  if (!recordList) return null;
+  if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: convertDate(record.dateEntered), // 05/09/2017
-    time: convertTime(record.timeEntered), // 23:59
+    date: formatDate(record.dateEntered), // 05/09/2017
+    time: formatTime(record.timeEntered), // 23:59
     // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
     heartRate: record.heartRate || NONE_ENTERED, // 123
     comments: record.comments || NONE_ENTERED,
@@ -222,10 +234,10 @@ const convertVitalsHeartRate = recordList => {
  * - DTO:
  */
 const convertVitalsInr = recordList => {
-  if (!recordList) return null;
+  if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: convertDate(record.dateEntered), // 05/09/2017
-    time: convertTime(record.timeEntered), // 23:59
+    date: formatDate(record.dateEntered), // 05/09/2017
+    time: formatTime(record.timeEntered), // 23:59
     // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
     inrValue: record.inr || NONE_ENTERED, // 0.2
     lowendTargetRange: record.lowendTargetRange || NONE_ENTERED, // NONE
@@ -241,10 +253,10 @@ const convertVitalsInr = recordList => {
  * - DTO:
  */
 const convertVitalsPain = recordList => {
-  if (!recordList) return null;
+  if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: convertDate(record.dateEntered), // 05/09/2017
-    time: convertTime(record.timeEntered), // 23:59
+    date: formatDate(record.dateEntered), // 05/09/2017
+    time: formatTime(record.timeEntered), // 23:59
     // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
     painLevel: record.painLevel || NONE_ENTERED, // 3
     comments: record.comments || NONE_ENTERED,
@@ -256,10 +268,10 @@ const convertVitalsPain = recordList => {
  * - DTO:
  */
 const convertVitalsPulseOx = recordList => {
-  if (!recordList) return null;
+  if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: convertDate(record.dateEntered), // 05/09/2017
-    time: convertTime(record.timeEntered), // 23:59
+    date: formatDate(record.dateEntered), // 05/09/2017
+    time: formatTime(record.timeEntered), // 23:59
     // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
     oximeterReading: record.oximeterReading || NONE_ENTERED, // 65
     respiratoryRate: record.respiratoryRate || NONE_ENTERED, // 67
@@ -303,7 +315,7 @@ const convertAllergies = responseObject => {
   const recordList = responseObject.pojoObject;
   return recordList.map(record => ({
     allergyName: record.allergy || NONE_ENTERED,
-    date: convertDate(record.eventDate), // 2020-11-10
+    date: formatDate(record.eventDate), // 2020-11-10
     severity:
       mapValue(Const.ALLERGIES_SEVERITY, record.severity) || NONE_ENTERED, // S, etc.
     diagnosed:
@@ -373,7 +385,7 @@ const convertVaccines = responseObject => {
     other: record.otherVaccine || NONE_ENTERED,
     method:
       mapValue(Const.VACCINE_METHOD, record.vaccinationMethod) || NONE_ENTERED,
-    dateReceived: convertDate(record.dateReceived) || NONE_ENTERED, // 2022-06-29
+    dateReceived: formatDate(record.dateReceived) || NONE_ENTERED, // 2022-06-29
     reactions:
       record.reactions && record.reactions.length > 0
         ? record.reactions
@@ -393,7 +405,7 @@ const convertLabsAndTests = responseObject => {
   const recordList = responseObject.pojoObject;
   return recordList.map(record => ({
     testName: record.testName || NONE_ENTERED,
-    date: convertDate(record.eventDate) || NONE_ENTERED, // 2019-12-03T23:59:00
+    date: formatDate(record.eventDate) || NONE_ENTERED, // 2019-12-03T23:59:00
     locationPerformed: record.locationPerformed || NONE_ENTERED,
     provider: record.provider || NONE_ENTERED,
     results: record.results || NONE_ENTERED,
@@ -410,8 +422,8 @@ const convertMedicalEvents = responseObject => {
   const recordList = responseObject.pojoObject;
   return recordList.map(record => ({
     medicalEvent: record.medicalEvent || NONE_ENTERED,
-    startDate: convertDate(record.startDate) || NONE_ENTERED, // 2020-04-14T23:59:00
-    stopDate: convertDate(record.stopDate) || NONE_ENTERED, // 2020-04-29T23:59:00
+    startDate: formatDate(record.startDate) || NONE_ENTERED, // 2020-04-14T23:59:00
+    stopDate: formatDate(record.stopDate) || NONE_ENTERED, // 2020-04-29T23:59:00
     response: record.response || NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
   }));
@@ -426,7 +438,7 @@ const convertMilitaryHistory = responseObject => {
   const recordList = responseObject.pojoObject;
   return recordList.map(record => ({
     eventTitle: record.eventTitle || NONE_ENTERED,
-    eventDate: convertDate(record.eventDate) || NONE_ENTERED, // 2020-11-10
+    eventDate: formatDate(record.eventDate) || NONE_ENTERED, // 2020-11-10
     serviceBranch:
       mapValue(Const.MILITARY_HISTORY_BRANCH, record.serviceBranch) ||
       NONE_ENTERED,
@@ -570,7 +582,7 @@ const convertFoodJournalMealItemList = list => {
 const convertFoodJournal = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
-    date: convertDate(record.dispJournalDate) || NONE_ENTERED, // 09/14/2021
+    date: formatDate(record.dispJournalDate) || NONE_ENTERED, // 09/14/2021
     dayOfWeek: formatDayOfWeek(record.dispJournalDate) || NONE_ENTERED,
     waterConsumed: record.glassesOfWater || 0,
     breakfastItems: convertFoodJournalMealItemList(record.breakFastMealItems),
@@ -606,7 +618,7 @@ const convertActivityJournalActivity = record => {
 const convertActivityJournal = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
-    date: convertDate(record.dispJournalDate) || NONE_ENTERED, // 07/24/2020
+    date: formatDate(record.dispJournalDate) || NONE_ENTERED, // 07/24/2020
     dayOfWeek: formatDayOfWeek(record.dispJournalDate) || NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
     activities: Array.isArray(record.activityDetails)
@@ -630,8 +642,8 @@ const convertMedications = recordList => {
     strength: record.strength || NONE_ENTERED,
     dose: record.dosage || NONE_ENTERED,
     frequency: record.frequency || NONE_ENTERED,
-    startDate: convertDate(record.dispStartDate) || NONE_ENTERED, // 09/14/2021
-    stopDate: convertDate(record.dispEndDate) || NONE_ENTERED, // 09/29/2021
+    startDate: formatDate(record.dispStartDate) || NONE_ENTERED, // 09/14/2021
+    stopDate: formatDate(record.dispEndDate) || NONE_ENTERED, // 09/29/2021
     pharmacyName: record.pharmacyName || NONE_ENTERED,
     pharmacyPhone: record.pharmacyPhone || NONE_ENTERED,
     reasonForTaking: record.reason || NONE_ENTERED,
