@@ -1,8 +1,8 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import sessionStatus from './fixtures/session-status.json';
 
-describe('Medical Records Authenticated Users', () => {
-  it('Visits Medical Records Authenticated Users', () => {
+describe('Medical Records download page', () => {
+  it('Verifies CCD download', () => {
     const site = new MedicalRecordsSite();
     site.login();
     site.loadPage();
