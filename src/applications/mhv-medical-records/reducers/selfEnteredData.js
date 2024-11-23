@@ -27,10 +27,13 @@ const formatTimestamp = timestamp => {
   return format(new Date(timestamp), 'MMM d, yyyy');
 };
 
+/**
+ * @param {String} inputDate acceptable formats: 05/09/2017, 2020-11-10, 2020-04-29T23:59:00
+ * @returns a date formatted as May 1, 2024
+ */
 function convertDate(inputDate) {
   if (!inputDate) return null;
 
-  // Define an array of month names
   const months = [
     'January',
     'February',
@@ -110,6 +113,10 @@ function convertTime(inputTime) {
   return `${hours}${minutes}`;
 }
 
+/**
+ * - Stored procedure: bbvitalsandreadings.prc
+ * - DTO:
+ */
 const convertVitalsBloodPressure = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
@@ -122,6 +129,10 @@ const convertVitalsBloodPressure = recordList => {
   }));
 };
 
+/**
+ * - Stored procedure: bbvitalsandreadings.prc
+ * - DTO:
+ */
 const convertVitalsBloodSugar = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
@@ -136,6 +147,10 @@ const convertVitalsBloodSugar = recordList => {
   }));
 };
 
+/**
+ * - Stored procedure: bbvitalsandreadings.prc
+ * - DTO:
+ */
 const convertVitalsBodyTemp = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
@@ -152,6 +167,10 @@ const convertVitalsBodyTemp = recordList => {
   }));
 };
 
+/**
+ * - Stored procedure: bbvitalsandreadings.prc
+ * - DTO:
+ */
 const convertVitalsBodyWeight = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
@@ -166,6 +185,10 @@ const convertVitalsBodyWeight = recordList => {
   }));
 };
 
+/**
+ * - Stored procedure: bbvitalsandreadings.prc
+ * - DTO:
+ */
 const convertVitalsCholesterol = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
@@ -179,6 +202,10 @@ const convertVitalsCholesterol = recordList => {
   }));
 };
 
+/**
+ * - Stored procedure: bbvitalsandreadings.prc
+ * - DTO:
+ */
 const convertVitalsHeartRate = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
@@ -190,6 +217,10 @@ const convertVitalsHeartRate = recordList => {
   }));
 };
 
+/**
+ * - Stored procedure: bbvitalsandreadings.prc
+ * - DTO:
+ */
 const convertVitalsInr = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
@@ -205,6 +236,10 @@ const convertVitalsInr = recordList => {
   }));
 };
 
+/**
+ * - Stored procedure: bbvitalsandreadings.prc
+ * - DTO:
+ */
 const convertVitalsPain = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
@@ -216,6 +251,10 @@ const convertVitalsPain = recordList => {
   }));
 };
 
+/**
+ * - Stored procedure: bbvitalsandreadings.prc
+ * - DTO:
+ */
 const convertVitalsPulseOx = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
@@ -236,7 +275,8 @@ const convertVitalsPulseOx = recordList => {
 };
 
 /**
- * This function and its called functions were derived using bbvitalsandreadings.prc
+ * - Stored procedure: bbvitalsandreadings.prc
+ * - DTO:
  */
 const convertVitals = record => {
   // Good test user w/ MHV correlation ID 23889276
@@ -254,7 +294,8 @@ const convertVitals = record => {
 };
 
 /**
- * This function was derived using bballergies.prc
+ * - Stored procedure: bballergies.prc
+ * - DTO:
  */
 const convertAllergies = responseObject => {
   // Good test user w/ MHV correlation ID 15176497
@@ -295,7 +336,8 @@ const getIssueList = record => {
 };
 
 /**
- * This function was derived using bbfamilyhealthhistory.prc
+ * - Stored procedure: bbfamilyhealthhistory.prc
+ * - DTO:
  */
 const convertFamilyHealthHistory = responseObject => {
   // Good test user w/ MHV correlation ID 15176497
@@ -318,7 +360,8 @@ const convertFamilyHealthHistory = responseObject => {
 };
 
 /**
- * This function was derived using bbimmunizations.prc
+ * - Stored procedure: bbimmunizations.prc
+ * - DTO:
  */
 const convertVaccines = responseObject => {
   // Good test user w/ MHV correlation ID 15176497
@@ -342,7 +385,7 @@ const convertVaccines = responseObject => {
 };
 
 /**
- * - Stored procedure: bbimmunizations.prc
+ * - Stored procedure: bblabsandtests.prc
  * - DTO: TestEntryDTO.java
  */
 const convertLabsAndTests = responseObject => {
@@ -494,6 +537,108 @@ const convertTreatmentFacilities = recordList => {
   }));
 };
 
+const formatDayOfWeek = dateStr => {
+  if (!dateStr) return null;
+  const date = new Date(dateStr);
+  const options = { weekday: 'long' };
+  return date.toLocaleDateString('en-US', options);
+};
+
+/**
+ * - Stored procedure: bbfoodjournal.prc
+ * - DTO: mhv-np-journal-api/.../MealItemDTO.java
+ */
+const convertFoodJournalMealItem = record => {
+  return {
+    item: record.item || NONE_ENTERED,
+    quantity: record.quantity || NONE_ENTERED,
+    servingSize: record.servingSize || NONE_ENTERED,
+    methodOfPreparation: record.prepMethod || NONE_ENTERED,
+  };
+};
+
+const convertFoodJournalMealItemList = list => {
+  return Array.isArray(list)
+    ? list.map(mealRecord => convertFoodJournalMealItem(mealRecord))
+    : [];
+};
+
+/**
+ * - Stored procedure: bbfoodjournal.prc
+ * - DTO: mhv-np-journal-api/.../FoodJournalDTO.java
+ */
+const convertFoodJournal = recordList => {
+  if (!recordList) return null;
+  return recordList.map(record => ({
+    date: convertDate(record.dispJournalDate) || NONE_ENTERED, // 09/14/2021
+    dayOfWeek: formatDayOfWeek(record.dispJournalDate) || NONE_ENTERED,
+    waterConsumed: record.glassesOfWater || 0,
+    breakfastItems: convertFoodJournalMealItemList(record.breakFastMealItems),
+    lunchItems: convertFoodJournalMealItemList(record.lunchMealItems),
+    dinnerItems: convertFoodJournalMealItemList(record.dinnerMealItems),
+    snackItems: convertFoodJournalMealItemList(record.snackMealItems),
+    comments: record.comments || NONE_ENTERED,
+  }));
+};
+
+/**
+ * - Stored procedure: bbactivityjournal.prc
+ * - DTO: mhv-np-journal-api/.../ActivityDetailDTO.java
+ */
+const convertActivityJournalActivity = record => {
+  return {
+    activity: record.description || NONE_ENTERED,
+    type:
+      mapValue(Const.ACTIVITY_JOURNAL_TYPE, record.quantity) || NONE_ENTERED,
+    distanceDuration: record.distanceDuration || NONE_ENTERED,
+    measure: record.dispMeasure || NONE_ENTERED,
+    intensity: record.dispIntensity || NONE_ENTERED,
+    numberOfSets: record.setCount || NONE_ENTERED,
+    numberOfReps: record.repCount || NONE_ENTERED,
+    timeOfDay: record.dispTimeOfDay || NONE_ENTERED,
+  };
+};
+
+/**
+ * - Stored procedure: bbactivityjournal.prc
+ * - DTO: mhv-np-journal-api/.../ActivityJournalDTO.java
+ */
+const convertActivityJournal = recordList => {
+  if (!recordList) return null;
+  return recordList.map(record => ({
+    date: convertDate(record.dispJournalDate) || NONE_ENTERED, // 07/24/2020
+    dayOfWeek: formatDayOfWeek(record.dispJournalDate) || NONE_ENTERED,
+    comments: record.comments || NONE_ENTERED,
+    activities: Array.isArray(record.activityDetails)
+      ? record.activityDetails.map(activity =>
+          convertActivityJournalActivity(activity),
+        )
+      : [],
+  }));
+};
+
+/**
+ * - Stored procedure: bbmedications.prc
+ * - DTO: mhv-np-rxrefill-api/.../MedicationHistoryDTO.java
+ */
+const convertMedications = recordList => {
+  if (!recordList) return null;
+  return recordList.map(record => ({
+    category: record.dispCategory || NONE_ENTERED,
+    drugName: record.medicationName || NONE_ENTERED,
+    prescriptionNumber: record.prescriptionNumber || NONE_ENTERED,
+    strength: record.strength || NONE_ENTERED,
+    dose: record.dosage || NONE_ENTERED,
+    frequency: record.frequency || NONE_ENTERED,
+    startDate: convertDate(record.dispStartDate) || NONE_ENTERED, // 09/14/2021
+    stopDate: convertDate(record.dispEndDate) || NONE_ENTERED, // 09/29/2021
+    pharmacyName: record.pharmacyName || NONE_ENTERED,
+    pharmacyPhone: record.pharmacyPhone || NONE_ENTERED,
+    reasonForTaking: record.reason || NONE_ENTERED,
+    comments: record.comments || NONE_ENTERED,
+  }));
+};
+
 export const selfEnteredReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.SelfEntered.GET_VITALS: {
@@ -559,19 +704,19 @@ export const selfEnteredReducer = (state = initialState, action) => {
     case Actions.SelfEntered.GET_FOOD_JOURNAL: {
       return {
         ...state,
-        foodJournal: action.payload,
+        foodJournal: convertFoodJournal(action.payload),
       };
     }
     case Actions.SelfEntered.GET_ACTIVITY_JOURNAL: {
       return {
         ...state,
-        activityJournal: action.payload,
+        activityJournal: convertActivityJournal(action.payload),
       };
     }
     case Actions.SelfEntered.GET_MEDICATIONS: {
       return {
         ...state,
-        medications: action.payload,
+        medications: convertMedications(action.payload),
       };
     }
     default:

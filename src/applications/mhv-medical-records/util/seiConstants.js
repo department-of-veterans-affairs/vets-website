@@ -327,7 +327,7 @@ export const MILITARY_HISTORY_LOCATION = {
 };
 
 /** from LocationEnumeration.java */
-export const ProviderTypeEnumeration = {
+export const HEALTHCARE_PROVIDER_TYPE = {
   P: 'Primary',
   S: 'Specialist',
   D: 'Dentist',
@@ -339,4 +339,21 @@ export const ProviderTypeEnumeration = {
 export const TREATMENT_FACILITY_TYPE = {
   V: 'VA',
   NV: 'Non VA',
+};
+
+/** from ActivityTypeEnumeration.java */
+export const ACTIVITY_JOURNAL_TYPE = {
+  A: 'Aerobic/Cardio',
+  W: 'Weights',
+  O: 'Other',
+};
+/** from MeasureEnumeration.java */
+export const ACTIVITY_JOURNAL_MEASURE = {
+  MN: 'Min(s)',
+  HR: 'hr(s)',
+  ML: 'mile(s)',
+  KM: 'kilometer(s)',
+  LP: 'lap(s)',
+  P: 'pound(s)',
+  KG: 'kilogram(s)',
 };
