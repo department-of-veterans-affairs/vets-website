@@ -4,7 +4,7 @@ import {
   getSeiAllergies,
   getSeiFamilyHistory,
   getSeiVaccines,
-  getSeiChemlab,
+  getSeiTestEntries,
   getSeiMedicalEvents,
   getSeiMilitaryHistory,
   getSeiProviders,
@@ -17,7 +17,6 @@ import {
 
 export const getSelfEnteredVitals = () => async dispatch => {
   const response = await getSeiVitalSigns();
-  console.log('response', response);
   dispatch({
     type: Actions.SelfEntered.GET_VITALS,
     payload: response,
@@ -45,10 +44,10 @@ export const getSelfEnteredVaccines = () => async dispatch => {
     payload: response,
   });
 };
-export const getSelfEnteredChemlab = () => async dispatch => {
-  const response = await getSeiChemlab();
+export const getSelfEnteredTestEntries = () => async dispatch => {
+  const response = await getSeiTestEntries();
   dispatch({
-    type: Actions.SelfEntered.GET_CHEMLAB,
+    type: Actions.SelfEntered.GET_TEST_ENTRIES,
     payload: response,
   });
 };

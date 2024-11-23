@@ -32,10 +32,11 @@ export const getSeiVaccines = () => {
   });
 };
 
-export const getSeiChemlab = () => {
-  return apiRequest(`${apiBasePath}/medical_records/self_entered/chemlab`, {
-    headers,
-  });
+export const getSeiTestEntries = () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/self_entered/test_entries`,
+    { headers },
+  );
 };
 
 export const getSeiMedicalEvents = () => {
