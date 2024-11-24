@@ -9,11 +9,10 @@ import { createItemName } from './utils';
 const datePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Date of ${createItemName(formData)}`,
+      ({ formData }) => `Start date of ${createItemName(formData)}`,
     ),
     date: textUI({
-      title:
-        'What is the approximate date this condition began? If you’re having trouble remembering the exact date you can provide a year.',
+      title: 'What’s the approximate date your condition started?',
       hint: 'For example: January 2004 or 2004',
       charcount: true,
     }),

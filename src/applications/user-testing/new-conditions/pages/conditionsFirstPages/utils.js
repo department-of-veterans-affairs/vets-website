@@ -2,7 +2,7 @@ import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/a
 
 import { conditionObjects } from '../../content/conditionOptions';
 
-export const createTitle = (defaultTitle, editTitle) => {
+export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   const search = getArrayUrlSearchParams();
   const isEdit = search.get('edit');
 
