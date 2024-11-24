@@ -29,9 +29,9 @@ const initialState = {
 };
 
 /**
- * Convert the FHIR vaccine resource from the backend into the appropriate model.
- * @param {Object} vaccine a FHIR vaccine resource
- * @returns a vaccine object that this application can use, or null if the param is null/undefined
+ * Convert the medication resource from the backend into the appropriate model.
+ * @param {Object} medication an MHV medication resource
+ * @returns a medication object that this application can use, or null if the param is null/undefined
  */
 
 export const convertMedication = med => {
@@ -57,9 +57,9 @@ export const convertMedication = med => {
 };
 
 /**
- * Convert the FHIR vaccine resource from the backend into the appropriate model.
- * @param {Object} vaccine a FHIR vaccine resource
- * @returns a vaccine object that this application can use, or null if the param is null/undefined
+ * Convert the appointment resource from the backend into the appropriate model.
+ * @param {Object} appt an MHV appointment resource
+ * @returns an appointment object that this application can use, or null if the param is null/undefined
  */
 
 export const convertAppointment = appt => {
@@ -107,9 +107,9 @@ export const convertAppointment = appt => {
 };
 
 /**
- * Convert the FHIR vaccine resource from the backend into the appropriate model.
- * @param {Object} vaccine a FHIR vaccine resource
- * @returns a vaccine object that this application can use, or null if the param is null/undefined
+ * Convert the demographic resource from the backend into the appropriate model.
+ * @param {Object} item an MHV demographic resource
+ * @returns a demographic object that this application can use, or null if the param is null/undefined
  */
 
 export const convertDemographics = item => {
@@ -186,25 +186,9 @@ export const convertDemographics = item => {
 };
 
 /**
- * Convert the FHIR vaccine resource from the backend into the appropriate model.
- * @param {Object} vaccine a FHIR vaccine resource
- * @returns a vaccine object that this application can use, or null if the param is null/undefined
- */
-
-export const convertMilitaryService = data => {
-  if (typeof data === 'undefined' || data === null) {
-    return null;
-  }
-  return {
-    id: data.id,
-    name: data.vaccineCode?.text,
-  };
-};
-
-/**
- * Convert the FHIR vaccine resource from the backend into the appropriate model.
- * @param {Object} vaccine a FHIR vaccine resource
- * @returns a vaccine object that this application can use, or null if the param is null/undefined
+ * Convert the patient resource from the backend into the appropriate model.
+ * @param {Object} data an MHV patient resource
+ * @returns an account summary object that this application can use, or null if the param is null/undefined
  */
 
 export const convertAccountSummary = data => {
