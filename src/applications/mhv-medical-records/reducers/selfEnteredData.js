@@ -478,7 +478,7 @@ export const convertHealthcareProviders = recordList => {
       NONE_ENTERED,
     otherClinicianInformation: record.otherClinician || NONE_ENTERED,
     phoneNumber: record.workPhone
-      ? `${record.workPhone || ''} Ext: ${record.workPhoneExt || ''}`
+      ? `${record.workPhone || ''} Ext: ${record.workPhoneExt || ''}`.trim()
       : NONE_ENTERED,
     email: record.emailAddress || NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
@@ -542,7 +542,7 @@ export const convertTreatmentFacilities = recordList => {
     vaHomeFacility: getVaHomeFacility(record.homeFacility) || NONE_ENTERED,
     phoneNumber: record.contactInfoWorkPhone
       ? `${record.contactInfoWorkPhone ||
-          ''} Ext: ${record.contactInfoWorkPhoneExt || ''}`
+          ''} Ext: ${record.contactInfoWorkPhoneExt || ''}`.trim()
       : NONE_ENTERED,
     faxNumber: record.contactInfoFax || NONE_ENTERED,
     mailingAddress:
@@ -566,7 +566,7 @@ export const convertTreatmentFacilities = recordList => {
  * @param {String} dateStr in the format MM/DD/YYYY
  * @returns {String|null} the day of the week
  */
-const formatDayOfWeek = dateStr => {
+export const formatDayOfWeek = dateStr => {
   if (!dateStr) return null;
 
   const [month, day, year] = dateStr.split('/').map(Number);

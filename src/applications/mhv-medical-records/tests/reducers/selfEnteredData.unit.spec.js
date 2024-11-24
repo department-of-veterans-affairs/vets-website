@@ -1,5 +1,17 @@
 import { expect } from 'chai';
 import {
+  convertActivityJournal,
+  convertAllergies,
+  convertFamilyHealthHistory,
+  convertFoodJournal,
+  convertHealthcareProviders,
+  convertHealthInsurance,
+  convertLabsAndTests,
+  convertMedicalEvents,
+  convertMedications,
+  convertMilitaryHistory,
+  convertTreatmentFacilities,
+  convertVaccines,
   convertVitals,
   convertVitalsBloodPressure,
   convertVitalsBloodSugar,
@@ -11,22 +23,11 @@ import {
   convertVitalsPain,
   convertVitalsPulseOx,
   formatDate,
+  formatDayOfWeek,
   formatTime,
   formatTimestamp,
   mapValue,
   NONE_ENTERED,
-  convertAllergies,
-  convertFamilyHealthHistory,
-  convertVaccines,
-  convertLabsAndTests,
-  convertMedicalEvents,
-  convertMilitaryHistory,
-  convertHealthcareProviders,
-  convertHealthInsurance,
-  convertTreatmentFacilities,
-  convertFoodJournal,
-  convertActivityJournal,
-  convertMedications,
 } from '../../reducers/selfEnteredData';
 import seiVitals from '../fixtures/sei/seiVitals.json';
 
@@ -183,6 +184,52 @@ describe('formatTime', () => {
   it('returns null when inputTime is null or undefined', () => {
     expect(formatTime(null)).to.be.null;
     expect(formatTime(undefined)).to.be.null;
+  });
+});
+
+describe('formatDayOfWeek', () => {
+  it('should return the correct day of the week for a valid date', () => {
+    expect(formatDayOfWeek('01/01/2024')).to.eq('Monday');
+    expect(formatDayOfWeek('12/25/2024')).to.eq('Wednesday');
+    expect(formatDayOfWeek('07/04/2024')).to.eq('Thursday');
+  });
+
+  it('should handle leap years correctly', () => {
+    expect(formatDayOfWeek('02/29/2020')).to.eq('Saturday');
+    expect(formatDayOfWeek('02/29/2024')).to.eq('Thursday');
+  });
+
+  it('should return null for an invalid date', () => {
+    expect(formatDayOfWeek('00/00/2024')).to.be.null;
+  });
+
+  it('should return null for an empty or null input', () => {
+    expect(formatDayOfWeek('')).to.be.null;
+    expect(formatDayOfWeek(null)).to.be.null;
+    expect(formatDayOfWeek(undefined)).to.be.null;
+  });
+
+  it('should handle single-digit month and day correctly', () => {
+    expect(formatDayOfWeek('7/4/2024')).to.eq('Thursday');
+    expect(formatDayOfWeek('9/1/2024')).to.eq('Sunday');
+  });
+
+  it('should handle invalid formats gracefully', () => {
+    expect(formatDayOfWeek('2024-07-04')).to.be.null; // Incorrect format
+    expect(formatDayOfWeek('July 4, 2024')).to.be.null; // Incorrect format
+    expect(formatDayOfWeek('04/07/')).to.be.null; // Missing year
+    expect(formatDayOfWeek('')).to.be.null; // Empty string
+    expect(formatDayOfWeek('07')).to.be.null; // Only month provided
+  });
+
+  it('should handle edge case years', () => {
+    expect(formatDayOfWeek('01/01/1900')).to.eq('Monday');
+    expect(formatDayOfWeek('12/31/9999')).to.eq('Friday');
+  });
+
+  it('should return null for non-numeric input', () => {
+    expect(formatDayOfWeek('MM/DD/YYYY')).to.be.null; // Placeholder format
+    expect(formatDayOfWeek('abc/def/ghi')).to.be.null; // Non-numeric string
   });
 });
 
@@ -688,6 +735,11 @@ describe('convertFamilyHealthHistory', () => {
     expect(convertFamilyHealthHistory(input)).to.deep.equal(expected);
   });
 
+  it('should return a single health issue without a comma', () => {
+    const input = { pojoObject: [{ slInsomnia: true }] };
+    expect(convertFamilyHealthHistory(input)[0].healthIssues).to.eq('Insomnia');
+  });
+
   it('should return an object with "Not Entered" for empty values', () => {
     const input = { pojoObject: [{}] };
     const expected = [
@@ -735,6 +787,13 @@ describe('convertVaccines', () => {
       },
     ];
     expect(convertVaccines(input)).to.deep.equal(expected);
+  });
+
+  it('should return a single reaction without a comma', () => {
+    const input = {
+      pojoObject: [{ reactions: [{ reactionTypeCode: 'HLS' }] }],
+    };
+    expect(convertVaccines(input)[0].reactions).to.eq('Chills');
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -851,7 +910,66 @@ describe('convertMedicalEvents', () => {
   });
 });
 
-// TODO: Military History
+describe('convertMilitaryHistory', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = {
+      pojoObject: [
+        {
+          eventTitle: 'Deployment to Iraq',
+          eventDate: '2020-11-10',
+          serviceBranch: 'A',
+          rank: 'Sergeant',
+          exposures: 'Burn pits',
+          serviceLocation: 'O',
+          occupationSpecialty: 'Infantry',
+          serviceAssignment: 'Combat Operations',
+          experience: 'Testing',
+        },
+      ],
+    };
+    const expected = [
+      {
+        eventTitle: 'Deployment to Iraq',
+        eventDate: 'November 10, 2020',
+        serviceBranch: 'Army',
+        rank: 'Sergeant',
+        exposuresExist: 'Yes',
+        locationOfService: 'Overseas',
+        militaryOccupationalSpecialty: 'Infantry',
+        assignment: 'Combat Operations',
+        exposures: 'Burn pits',
+        militaryServiceExperience: 'Testing',
+      },
+    ];
+    expect(convertMilitaryHistory(input)).to.deep.equal(expected);
+  });
+
+  it('should handle missing or null fields gracefully', () => {
+    const input = {
+      pojoObject: [{}],
+    };
+    const expected = [
+      {
+        eventTitle: NONE_ENTERED,
+        eventDate: NONE_ENTERED,
+        serviceBranch: NONE_ENTERED,
+        rank: NONE_ENTERED,
+        exposuresExist: 'No',
+        locationOfService: NONE_ENTERED,
+        militaryOccupationalSpecialty: NONE_ENTERED,
+        assignment: NONE_ENTERED,
+        exposures: NONE_ENTERED,
+        militaryServiceExperience: NONE_ENTERED,
+      },
+    ];
+    expect(convertMilitaryHistory(input)).to.deep.equal(expected);
+  });
+
+  it('should return null when pojoObject is null or missing', () => {
+    expect(convertMilitaryHistory({ pojoObject: null })).to.be.null;
+    expect(convertMilitaryHistory({})).to.be.null;
+  });
+});
 
 describe('convertHealthcareProviders', () => {
   it('should return a correctly transformed array for valid input', () => {
@@ -878,6 +996,25 @@ describe('convertHealthcareProviders', () => {
       },
     ];
     expect(convertHealthcareProviders(input)).to.deep.equal(expected);
+  });
+
+  it('handles partial names', () => {
+    expect(
+      convertHealthcareProviders([{ firstName: 'John' }])[0].providerName,
+    ).to.eq('John');
+    expect(
+      convertHealthcareProviders([{ lastName: 'Doe' }])[0].providerName,
+    ).to.eq('Doe');
+  });
+
+  it('handles partial phone numbers', () => {
+    expect(
+      convertHealthcareProviders([{ workPhone: '123-456-7890' }])[0]
+        .phoneNumber,
+    ).to.eq('123-456-7890 Ext:');
+    expect(
+      convertHealthcareProviders([{ workPhoneExt: '101' }])[0].phoneNumber,
+    ).to.eq(NONE_ENTERED);
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -933,6 +1070,15 @@ describe('convertHealthInsurance', () => {
       },
     ];
     expect(convertHealthInsurance(input)).to.deep.equal(expected);
+  });
+
+  it('handles partial names', () => {
+    expect(
+      convertHealthInsurance([{ firstNameOfInsured: 'Jane' }])[0].insured,
+    ).to.eq('Jane');
+    expect(
+      convertHealthInsurance([{ lastNameOfInsured: 'Doe' }])[0].insured,
+    ).to.eq('Doe');
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -991,6 +1137,24 @@ describe('convertTreatmentFacilities', () => {
       },
     ];
     expect(convertTreatmentFacilities(input)).to.deep.equal(expected);
+  });
+
+  it('handles partial phone numbers', () => {
+    expect(
+      convertTreatmentFacilities([{ contactInfoWorkPhone: '123-456-7890' }])[0]
+        .phoneNumber,
+    ).to.eq('123-456-7890 Ext:');
+    expect(
+      convertTreatmentFacilities([{ contactInfoWorkPhoneExt: '101' }])[0]
+        .phoneNumber,
+    ).to.eq(NONE_ENTERED);
+  });
+
+  it('should return a single address part without a comma', () => {
+    const input = [{ addressCity: 'Some City' }];
+    expect(convertTreatmentFacilities(input)[0].mailingAddress).to.eq(
+      'Some City',
+    );
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -1086,7 +1250,7 @@ describe('convertFoodJournal', () => {
     expect(convertFoodJournal(input)).to.deep.equal(expected);
   });
 
-  it('should return an empty array for null input', () => {
+  it('should return null for an empty or invalid input', () => {
     expect(convertFoodJournal(null)).to.be.null;
     expect(convertFoodJournal([])).to.deep.equal([]);
   });
@@ -1147,7 +1311,72 @@ describe('convertActivityJournal', () => {
     expect(convertActivityJournal(input)).to.deep.equal(expected);
   });
 
-  it('should return an empty array for empty input', () => {
+  it('should return null for an empty or invalid input', () => {
+    expect(convertActivityJournal(null)).to.be.null;
     expect(convertActivityJournal([])).to.deep.equal([]);
+  });
+});
+
+describe('convertMedications', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        dispCategory: 'Chronic',
+        medicationName: 'Lisinopril',
+        prescriptionNumber: 'RX12345',
+        strength: '10 mg',
+        dosage: '1 tablet',
+        frequency: 'Once daily',
+        dispStartDate: '7/1/2024',
+        dispEndDate: '7/31/2024',
+        pharmacyName: 'Pharmacy Co.',
+        pharmacyPhone: '123-456-7890',
+        reason: 'High blood pressure',
+        comments: 'Take with food',
+      },
+    ];
+    const expected = [
+      {
+        category: 'Chronic',
+        drugName: 'Lisinopril',
+        prescriptionNumber: 'RX12345',
+        strength: '10 mg',
+        dose: '1 tablet',
+        frequency: 'Once daily',
+        startDate: 'July 1, 2024',
+        stopDate: 'July 31, 2024',
+        pharmacyName: 'Pharmacy Co.',
+        pharmacyPhone: '123-456-7890',
+        reasonForTaking: 'High blood pressure',
+        comments: 'Take with food',
+      },
+    ];
+    expect(convertMedications(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = [{}];
+    const expected = [
+      {
+        category: NONE_ENTERED,
+        drugName: NONE_ENTERED,
+        prescriptionNumber: NONE_ENTERED,
+        strength: NONE_ENTERED,
+        dose: NONE_ENTERED,
+        frequency: NONE_ENTERED,
+        startDate: NONE_ENTERED,
+        stopDate: NONE_ENTERED,
+        pharmacyName: NONE_ENTERED,
+        pharmacyPhone: NONE_ENTERED,
+        reasonForTaking: NONE_ENTERED,
+        comments: NONE_ENTERED,
+      },
+    ];
+    expect(convertMedications(input)).to.deep.equal(expected);
+  });
+
+  it('should return null for an empty or invalid input', () => {
+    expect(convertMedications(null)).to.be.null;
+    expect(convertMedications([])).to.deep.equal([]);
   });
 });

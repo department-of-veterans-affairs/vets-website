@@ -363,6 +363,7 @@ export const ACTIVITY_JOURNAL_TYPE = {
   W: 'Weights',
   O: 'Other',
 };
+
 /** from MeasureEnumeration.java */
 export const ACTIVITY_JOURNAL_MEASURE = {
   MN: 'Min(s)',
@@ -372,4 +373,13 @@ export const ACTIVITY_JOURNAL_MEASURE = {
   LP: 'lap(s)',
   P: 'pound(s)',
   KG: 'kilogram(s)',
+};
+
+/** from CategoryTypeEnumeration.java */
+export const MEDICATIONS_CATEGORY = {
+  M: 'Rx Medication',
+  OTC: 'Over-the-Counter',
+  H: 'Herbal',
+  S: 'Supplement',
+  O: 'Other',
 };
