@@ -132,7 +132,7 @@ export const formatTime = inputTime => {
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
- * - DTO:
+ * - DTO: mhv-np-vital-signs-api/.../BloodPressureReadingDTO.java
  */
 export const convertVitalsBloodPressure = recordList => {
   if (!Array.isArray(recordList)) return [];
@@ -147,7 +147,7 @@ export const convertVitalsBloodPressure = recordList => {
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
- * - DTO:
+ * - DTO: mhv-np-vital-signs-api/.../BloodSugarReadingDTO.java
  */
 export const convertVitalsBloodSugar = recordList => {
   if (!Array.isArray(recordList)) return [];
@@ -164,7 +164,7 @@ export const convertVitalsBloodSugar = recordList => {
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
- * - DTO:
+ * - DTO: mhv-np-vital-signs-api/.../BodyTemperatureDTO.java
  */
 export const convertVitalsBodyTemp = recordList => {
   if (!Array.isArray(recordList)) return [];
@@ -183,7 +183,7 @@ export const convertVitalsBodyTemp = recordList => {
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
- * - DTO:
+ * - DTO: mhv-np-vital-signs-api/.../BodyWeightReadingDTO.java
  */
 export const convertVitalsBodyWeight = recordList => {
   if (!Array.isArray(recordList)) return [];
@@ -200,7 +200,7 @@ export const convertVitalsBodyWeight = recordList => {
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
- * - DTO:
+ * - DTO: mhv-np-vital-signs-api/.../LipidsReadingDTO.java
  */
 export const convertVitalsCholesterol = recordList => {
   if (!Array.isArray(recordList)) return [];
@@ -216,14 +216,13 @@ export const convertVitalsCholesterol = recordList => {
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
- * - DTO:
+ * - DTO: mhv-np-vital-signs-api/.../HeartRateReadingDTO.java
  */
-const convertVitalsHeartRate = recordList => {
+export const convertVitalsHeartRate = recordList => {
   if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: formatDate(record.dateEntered), // 05/09/2017
-    time: formatTime(record.timeEntered), // 23:59
-    // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
+    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
     heartRate: record.heartRate || NONE_ENTERED, // 123
     comments: record.comments || NONE_ENTERED,
   }));
@@ -231,67 +230,69 @@ const convertVitalsHeartRate = recordList => {
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
- * - DTO:
+ * - DTO: mhv-np-vital-signs-api/.../InrReadingDTO.java
  */
-const convertVitalsInr = recordList => {
+export const convertVitalsInr = recordList => {
   if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: formatDate(record.dateEntered), // 05/09/2017
-    time: formatTime(record.timeEntered), // 23:59
-    // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
-    inrValue: record.inr || NONE_ENTERED, // 0.2
-    lowendTargetRange: record.lowendTargetRange || NONE_ENTERED, // NONE
-    highendTargetRange: record.highendTragetRange || NONE_ENTERED, // NONE
-    location: record.location || NONE_ENTERED, // null
-    provider: record.provider || NONE_ENTERED, // null
+    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+    inrValue: record.inr || NONE_ENTERED,
+    lowendTargetRange:
+      mapValue(Const.VITALS_INR_LOW_TARGET_RANGE, record.lowendTargetRange) ||
+      NONE_ENTERED,
+    highendTargetRange:
+      mapValue(Const.VITALS_INR_HIGH_TARGET_RANGE, record.highendTragetRange) ||
+      NONE_ENTERED,
+    location: record.location || NONE_ENTERED,
+    provider: record.provider || NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
   }));
 };
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
- * - DTO:
+ * - DTO: mhv-np-vital-signs-api/.../PainReadingDTO.java
  */
-const convertVitalsPain = recordList => {
+export const convertVitalsPain = recordList => {
   if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: formatDate(record.dateEntered), // 05/09/2017
-    time: formatTime(record.timeEntered), // 23:59
-    // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
-    painLevel: record.painLevel || NONE_ENTERED, // 3
+    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+    painLevel: record.painLevel || NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
   }));
 };
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
- * - DTO:
+ * - DTO: mhv-np-vital-signs-api/.../PulseOximetryReadingDTO.java
  */
-const convertVitalsPulseOx = recordList => {
+export const convertVitalsPulseOx = recordList => {
   if (!Array.isArray(recordList)) return [];
   return recordList.map(record => ({
-    date: formatDate(record.dateEntered), // 05/09/2017
-    time: formatTime(record.timeEntered), // 23:59
-    // readingDate: record.readingDate, // 1494388740000 - the timestamp of dateEntered + timeEntered
-    oximeterReading: record.oximeterReading || NONE_ENTERED, // 65
-    respiratoryRate: record.respiratoryRate || NONE_ENTERED, // 67
+    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+    oximeterReading: record.oximeterReading || NONE_ENTERED,
+    respiratoryRate: record.respiratoryRate || NONE_ENTERED,
     supplementalOxygenDevice:
       mapValue(Const.VITALS_PULSE_OX_DEVICE, record.suppOxygenDevice) ||
-      NONE_ENTERED, // FM, etc.
-    oxygenSetting: record.oxygenSetting || NONE_ENTERED, // 3
+      NONE_ENTERED,
+    oxygenSetting: record.oxygenSetting || NONE_ENTERED,
     symptoms:
-      mapValue(Const.VITALS_PULSE_OX_SYMPTOMS, record.symptoms) || NONE_ENTERED, // D, etc.
-    otherSymptoms: record.otherSymptoms || NONE_ENTERED, // null, apparently a free-form string
+      mapValue(Const.VITALS_PULSE_OX_SYMPTOMS, record.symptoms) || NONE_ENTERED,
+    otherSymptoms: record.otherSymptoms || NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
   }));
 };
 
 /**
  * - Stored procedure: bbvitalsandreadings.prc
- * - DTO:
+ * - DTO: mhv-np-vital-signs-api/.../VitalSignsSummaryDTO.java
  */
-const convertVitals = record => {
+export const convertVitals = record => {
   // Good test user w/ MHV correlation ID 23889276
+  if (!record) return null;
   return {
     bloodPressure: convertVitalsBloodPressure(record?.bloodPreassureReadings),
     bloodSugar: convertVitalsBloodSugar(record?.bloodSugarReadings),
@@ -307,19 +308,19 @@ const convertVitals = record => {
 
 /**
  * - Stored procedure: bballergies.prc
- * - DTO:
+ * - DTO: mhv-np-health-history-api/.../AllergyDTO.java
  */
-const convertAllergies = responseObject => {
+export const convertAllergies = responseObject => {
   // Good test user w/ MHV correlation ID 15176497
   if (!responseObject?.pojoObject) return null;
   const recordList = responseObject.pojoObject;
   return recordList.map(record => ({
     allergyName: record.allergy || NONE_ENTERED,
-    date: formatDate(record.eventDate), // 2020-11-10
+    date: formatDate(record.eventDate) || NONE_ENTERED, // 2020-11-10
     severity:
-      mapValue(Const.ALLERGIES_SEVERITY, record.severity) || NONE_ENTERED, // S, etc.
+      mapValue(Const.ALLERGIES_SEVERITY, record.severity) || NONE_ENTERED,
     diagnosed:
-      mapValue(Const.ALLERGIES_DIAGNOSED, record.diagnosed) || NONE_ENTERED, // Y, etc.
+      mapValue(Const.ALLERGIES_DIAGNOSED, record.diagnosed) || NONE_ENTERED,
     reaction: record.reaction || NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
   }));

@@ -1,17 +1,23 @@
 import { expect } from 'chai';
 import {
+  convertVitals,
   convertVitalsBloodPressure,
+  convertVitalsBloodSugar,
+  convertVitalsBodyTemp,
+  convertVitalsBodyWeight,
+  convertVitalsCholesterol,
+  convertVitalsHeartRate,
+  convertVitalsInr,
+  convertVitalsPain,
+  convertVitalsPulseOx,
   formatDate,
   formatTime,
   formatTimestamp,
   mapValue,
   NONE_ENTERED,
-  convertVitalsBloodSugar,
-  convertVitalsBodyTemp,
-  convertVitalsBodyWeight,
-  convertVitalsCholesterol,
+  convertAllergies,
 } from '../../reducers/selfEnteredData';
-// import seiVitals from '../fixtures/sei/seiVitals.json';
+import seiVitals from '../fixtures/sei/seiVitals.json';
 
 describe('mapValue', () => {
   it('returns the corresponding value for a valid key', () => {
@@ -382,5 +388,262 @@ describe('convertVitalsCholesterol', () => {
 
   it('should return an empty array when the input is an empty array', () => {
     expect(convertVitalsCholesterol([])).to.deep.equal([]);
+  });
+});
+
+describe('convertVitalsHeartRate', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        dateEntered: '12/15/2021',
+        timeEntered: '09:40',
+        comments: 'some comments',
+        heartRate: 90,
+      },
+    ];
+    const expected = [
+      {
+        comments: 'some comments',
+        date: 'December 15, 2021',
+        heartRate: 90,
+        time: '0940',
+      },
+    ];
+    expect(convertVitalsHeartRate(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = [{}];
+    const expected = [
+      {
+        comments: NONE_ENTERED,
+        date: NONE_ENTERED,
+        heartRate: NONE_ENTERED,
+        time: NONE_ENTERED,
+      },
+    ];
+    expect(convertVitalsHeartRate(input)).to.deep.equal(expected);
+  });
+
+  it('should return an empty array when the input is an empty array', () => {
+    expect(convertVitalsHeartRate([])).to.deep.equal([]);
+  });
+});
+
+describe('convertVitalsInr', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        dateEntered: '12/15/2021',
+        timeEntered: '12:30',
+        inr: 2.8,
+        lowendTargetRange: 'METR',
+        highendTragetRange: 'METR',
+        location: 'Location value',
+        provider: 'Provider value',
+        comments: 'Some comments',
+      },
+    ];
+    const expected = [
+      {
+        comments: 'Some comments',
+        date: 'December 15, 2021',
+        highendTargetRange: '3.5',
+        inrValue: 2.8,
+        location: 'Location value',
+        lowendTargetRange: '2.0',
+        provider: 'Provider value',
+        time: '1230',
+      },
+    ];
+    expect(convertVitalsInr(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = [{}];
+    const expected = [
+      {
+        comments: NONE_ENTERED,
+        date: NONE_ENTERED,
+        highendTargetRange: NONE_ENTERED,
+        inrValue: NONE_ENTERED,
+        location: NONE_ENTERED,
+        lowendTargetRange: NONE_ENTERED,
+        provider: NONE_ENTERED,
+        time: NONE_ENTERED,
+      },
+    ];
+    expect(convertVitalsInr(input)).to.deep.equal(expected);
+  });
+
+  it('should return an empty array when the input is an empty array', () => {
+    expect(convertVitalsInr([])).to.deep.equal([]);
+  });
+});
+
+describe('convertVitalsPain', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        dateEntered: '12/15/2021',
+        timeEntered: '12:20',
+        comments: 'Some comments',
+        painLevel: 5,
+      },
+    ];
+    const expected = [
+      {
+        comments: 'Some comments',
+        date: 'December 15, 2021',
+        painLevel: 5,
+        time: '1220',
+      },
+    ];
+    expect(convertVitalsPain(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = [{}];
+    const expected = [
+      {
+        comments: NONE_ENTERED,
+        date: NONE_ENTERED,
+        painLevel: NONE_ENTERED,
+        time: NONE_ENTERED,
+      },
+    ];
+    expect(convertVitalsPain(input)).to.deep.equal(expected);
+  });
+
+  it('should return an empty array when the input is an empty array', () => {
+    expect(convertVitalsPain([])).to.deep.equal([]);
+  });
+});
+
+describe('convertVitalsPulseOx', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        dateEntered: '12/15/2021',
+        timeEntered: '13:20',
+        comments: 'Some comments',
+        suppOxygenDevice: 'OH',
+        oxygenSetting: 2,
+        respiratoryRate: 18,
+        oximeterReading: 95,
+        otherSymptoms: 'Some symptoms',
+        symptoms: 'C',
+      },
+    ];
+    const expected = [
+      {
+        comments: 'Some comments',
+        date: 'December 15, 2021',
+        otherSymptoms: 'Some symptoms',
+        oximeterReading: 95,
+        oxygenSetting: 2,
+        respiratoryRate: 18,
+        supplementalOxygenDevice: 'Oxygen Hood',
+        symptoms: 'Confusion',
+        time: '1320',
+      },
+    ];
+    expect(convertVitalsPulseOx(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = [{}];
+    const expected = [
+      {
+        comments: NONE_ENTERED,
+        date: NONE_ENTERED,
+        otherSymptoms: NONE_ENTERED,
+        oximeterReading: NONE_ENTERED,
+        oxygenSetting: NONE_ENTERED,
+        respiratoryRate: NONE_ENTERED,
+        supplementalOxygenDevice: NONE_ENTERED,
+        symptoms: NONE_ENTERED,
+        time: NONE_ENTERED,
+      },
+    ];
+    expect(convertVitalsPulseOx(input)).to.deep.equal(expected);
+  });
+
+  it('should return an empty array when the input is an empty array', () => {
+    expect(convertVitalsPulseOx([])).to.deep.equal([]);
+  });
+});
+
+describe('convertVitals', () => {
+  it('should correctly handle a full response', () => {
+    const result = convertVitals(seiVitals);
+    expect(result.bloodPressure.length).to.eq(5);
+    expect(result.bloodSugar.length).to.eq(5);
+    expect(result.bodyTemperature.length).to.eq(5);
+    expect(result.bodyWeight.length).to.eq(5);
+    expect(result.cholesterol.length).to.eq(5);
+    expect(result.heartRate.length).to.eq(5);
+    expect(result.inr.length).to.eq(5);
+    expect(result.pain.length).to.eq(5);
+    expect(result.pulseOximetry.length).to.eq(5);
+  });
+
+  it('should correctly handle null input', () => {
+    expect(convertVitals(null)).to.be.null;
+  });
+});
+
+describe('convertAllergies', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = {
+      pojoObject: [
+        {
+          allergiesId: 16956740,
+          comments: 'some comments',
+          allergy: 'pollen Allergy',
+          eventDate: '2020-04-03',
+          reaction: 'runny nose, red eyes',
+          diagnosed: 'Y',
+          severity: 'S',
+          userprofileId: 15176497,
+          source: 'Self',
+        },
+      ],
+    };
+    const expected = [
+      {
+        allergyName: 'pollen Allergy',
+        comments: 'some comments',
+        date: 'April 3, 2020',
+        diagnosed: 'Yes',
+        reaction: 'runny nose, red eyes',
+        severity: 'Severe',
+      },
+    ];
+    expect(convertAllergies(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = { pojoObject: [{}] };
+    const expected = [
+      {
+        allergyName: NONE_ENTERED,
+        comments: NONE_ENTERED,
+        date: NONE_ENTERED,
+        diagnosed: NONE_ENTERED,
+        reaction: NONE_ENTERED,
+        severity: NONE_ENTERED,
+      },
+    ];
+    expect(convertAllergies(input)).to.deep.equal(expected);
+  });
+
+  it('should return an empty array when the input is an empty array', () => {
+    expect(convertAllergies({ pojoObject: [] })).to.deep.equal([]);
+  });
+
+  it('should return null when pojoObject is null or missing', () => {
+    expect(convertAllergies({ pojoObject: null })).to.be.null;
+    expect(convertAllergies({})).to.be.null;
   });
 });

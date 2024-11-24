@@ -31,6 +31,22 @@ export const VITALS_BODY_WEIGHT_MEASURE = {
   N: 'Not Available',
 };
 
+/** from InrHighEndTargetRangeEnumeration.java */
+export const VITALS_INR_HIGH_TARGET_RANGE = {
+  NONE: 'No Target',
+  LETR: '3.0',
+  METR: '3.5',
+  HETR: '4.0',
+};
+
+/** from InrLowEndTargetRangeEnumeration.java */
+export const VITALS_INR_LOW_TARGET_RANGE = {
+  NONE: 'No Target',
+  LETR: '1.5',
+  METR: '2.0',
+  HETR: '2.5',
+};
+
 /** from OxygenDeviceEnumeraion.java */
 export const VITALS_PULSE_OX_DEVICE = {
   N: 'None',
