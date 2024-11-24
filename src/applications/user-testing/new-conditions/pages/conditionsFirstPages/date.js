@@ -1,6 +1,7 @@
 import {
   arrayBuilderItemSubsequentPageTitleUI,
-  textUI,
+  currentOrPastMonthYearDateSchema,
+  currentOrPastMonthYearDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { createItemName } from './utils';
@@ -11,19 +12,15 @@ const datePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `Start date of ${createItemName(formData)}`,
     ),
-    date: textUI({
+    date: currentOrPastMonthYearDateUI({
       title: 'What’s the approximate date your condition started?',
       hint: 'For example: January 2004 or 2004',
-      charcount: true,
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      date: {
-        type: 'string',
-        maxLength: 25,
-      },
+      date: currentOrPastMonthYearDateSchema(),
     },
     required: ['date'],
   },
