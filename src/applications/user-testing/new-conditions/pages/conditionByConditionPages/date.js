@@ -20,7 +20,7 @@ const datePage = {
   schema: {
     type: 'object',
     properties: {
-      date: currentOrPastMonthYearDateSchema(),
+      date: currentOrPastMonthYearDateSchema,
     },
     required: ['date'],
   },

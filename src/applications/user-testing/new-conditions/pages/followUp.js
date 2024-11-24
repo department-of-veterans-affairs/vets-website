@@ -139,7 +139,7 @@ export default {
           type: 'object',
           required: ['cause'],
           properties: {
-            date: currentOrPastMonthYearDateSchema(),
+            date: currentOrPastMonthYearDateSchema,
             cause: radioSchema(Object.keys(causeOptions)),
             primaryDescription: {
               type: 'string',
