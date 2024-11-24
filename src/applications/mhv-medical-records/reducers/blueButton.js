@@ -33,7 +33,6 @@ const initialState = {
  * @param {Object} medication an MHV medication resource
  * @returns a medication object that this application can use, or null if the param is null/undefined
  */
-
 export const convertMedication = med => {
   if (typeof med === 'undefined' || med === null) {
     return null;
@@ -61,7 +60,6 @@ export const convertMedication = med => {
  * @param {Object} appt an MHV appointment resource
  * @returns an appointment object that this application can use, or null if the param is null/undefined
  */
-
 export const convertAppointment = appt => {
   if (typeof appt === 'undefined' || appt === null) {
     return null;
@@ -111,7 +109,6 @@ export const convertAppointment = appt => {
  * @param {Object} item an MHV demographic resource
  * @returns a demographic object that this application can use, or null if the param is null/undefined
  */
-
 export const convertDemographics = item => {
   if (typeof item === 'undefined' || item === null) {
     return null;
@@ -190,7 +187,6 @@ export const convertDemographics = item => {
  * @param {Object} data an MHV patient resource
  * @returns an account summary object that this application can use, or null if the param is null/undefined
  */
-
 export const convertAccountSummary = data => {
   if (typeof data === 'undefined' || data === null) {
     return null;
