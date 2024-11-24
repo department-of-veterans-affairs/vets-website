@@ -30,6 +30,10 @@ export const mapValue = (map, key) => {
   return map[key] !== undefined ? map[key] : null;
 };
 
+const handleNull = (value, ifNullValue) => {
+  return value !== null && value !== undefined ? value : ifNullValue;
+};
+
 /**
  * @param {Number} timestamp a millisecond timestamp. e.g. 1610082000000
  * @returns a nicely formatted date
@@ -352,12 +356,14 @@ const getIssueList = record => {
  * - Stored procedure: bbfamilyhealthhistory.prc
  * - DTO:
  */
-const convertFamilyHealthHistory = responseObject => {
+export const convertFamilyHealthHistory = responseObject => {
   // Good test user w/ MHV correlation ID 15176497
   if (!responseObject?.pojoObject) return null;
   const recordList = responseObject.pojoObject;
   return recordList.map(record => ({
-    relationship: record.relationship || NONE_ENTERED,
+    relationship:
+      mapValue(Const.FAMILY_HISTORY_RELATIONSHIPS, record.relationship) ||
+      NONE_ENTERED,
     firstName: record.firstName || NONE_ENTERED,
     lastName: record.lastName || NONE_ENTERED,
     livingOrDeceased: getLivingOrDeceased(record.living) || NONE_ENTERED,
@@ -376,7 +382,7 @@ const convertFamilyHealthHistory = responseObject => {
  * - Stored procedure: bbimmunizations.prc
  * - DTO:
  */
-const convertVaccines = responseObject => {
+export const convertVaccines = responseObject => {
   // Good test user w/ MHV correlation ID 15176497
   if (!responseObject?.pojoObject) return null;
   const recordList = responseObject.pojoObject;
@@ -390,7 +396,9 @@ const convertVaccines = responseObject => {
     reactions:
       record.reactions && record.reactions.length > 0
         ? record.reactions
-            .map(reaction => mapValue(Const.VACCINE_REACTION, reaction))
+            .map(reaction =>
+              mapValue(Const.VACCINE_REACTION, reaction.reactionTypeCode),
+            )
             .join(', ')
         : NONE_ENTERED,
     comments: record.comments || NONE_ENTERED,
@@ -401,7 +409,7 @@ const convertVaccines = responseObject => {
  * - Stored procedure: bblabsandtests.prc
  * - DTO: TestEntryDTO.java
  */
-const convertLabsAndTests = responseObject => {
+export const convertLabsAndTests = responseObject => {
   if (!responseObject?.pojoObject) return null;
   const recordList = responseObject.pojoObject;
   return recordList.map(record => ({
@@ -418,7 +426,7 @@ const convertLabsAndTests = responseObject => {
  * - Stored procedure: bbmedicalevents.prc
  * - DTO: MedicalEventDTO.java
  */
-const convertMedicalEvents = responseObject => {
+export const convertMedicalEvents = responseObject => {
   if (!responseObject?.pojoObject) return null;
   const recordList = responseObject.pojoObject;
   return recordList.map(record => ({
@@ -434,7 +442,7 @@ const convertMedicalEvents = responseObject => {
  * - Stored procedure: bbmilitaryhealthhistory.prc
  * - DTO: MilitaryHistoryDTO.java
  */
-const convertMilitaryHistory = responseObject => {
+export const convertMilitaryHistory = responseObject => {
   if (!responseObject?.pojoObject) return null;
   const recordList = responseObject.pojoObject;
   return recordList.map(record => ({
@@ -459,10 +467,12 @@ const convertMilitaryHistory = responseObject => {
  * - Stored procedure: bbhealthcareproviders.prc
  * - DTO: mhv-np-getcare-api/.../HealthCareProviderDTO.java
  */
-const convertHealthcareProviders = recordList => {
-  if (!recordList) return null;
+export const convertHealthcareProviders = recordList => {
+  if (!Array.isArray(recordList)) return null;
   return recordList.map(record => ({
-    providerName: `${record.firstName || ''} ${record.lastName || ''}`,
+    providerName:
+      `${record.firstName || ''} ${record.lastName || ''}`.trim() ||
+      NONE_ENTERED,
     typeOfProvider:
       mapValue(Const.HEALTHCARE_PROVIDER_TYPE, record.providerType) ||
       NONE_ENTERED,
@@ -489,7 +499,7 @@ const getPrimaryInsurance = primaryInd => {
  * - Stored procedure: bbhealthinsurance.prc
  * - DTO: mhv-np-getcare-api/.../HealthInsuranceDTO.java
  */
-const convertHealthInsurance = recordList => {
+export const convertHealthInsurance = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
     healthInsuranceCompany: record.companyName || NONE_ENTERED,
@@ -497,8 +507,9 @@ const convertHealthInsurance = recordList => {
       getPrimaryInsurance(record.primaryInd) || NONE_ENTERED,
     idNumber: record.insuranceIdNumber || NONE_ENTERED,
     groupNumber: record.groupNumber || NONE_ENTERED,
-    insured: `${record.firstNameOfInsured || ''} ${record.lastNameOfInsured ||
-      ''}`,
+    insured:
+      `${record.firstNameOfInsured || ''} ${record.lastNameOfInsured ||
+        ''}`.trim() || NONE_ENTERED,
     startDate: formatTimestamp(record.startDate) || NONE_ENTERED,
     stopDate: formatTimestamp(record.stopDate) || NONE_ENTERED,
     preApprovalPhoneNumber: record.preApprovalPhone || NONE_ENTERED,
@@ -521,7 +532,7 @@ const getVaHomeFacility = vaHomeFacility => {
  * - Stored procedure: bbtreatmentfacilities.prc
  * - DTO: mhv-np-getcare-api/.../TreatmentFacilityDTO.java
  */
-const convertTreatmentFacilities = recordList => {
+export const convertTreatmentFacilities = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
     facilityName: record.facilityName || NONE_ENTERED,
@@ -550,18 +561,30 @@ const convertTreatmentFacilities = recordList => {
   }));
 };
 
+/**
+ * This function should be deterministic and does not depend on current time zone.
+ * @param {String} dateStr in the format MM/DD/YYYY
+ * @returns {String|null} the day of the week
+ */
 const formatDayOfWeek = dateStr => {
   if (!dateStr) return null;
-  const date = new Date(dateStr);
-  const options = { weekday: 'long' };
-  return date.toLocaleDateString('en-US', options);
+
+  const [month, day, year] = dateStr.split('/').map(Number);
+  if (!month || !day || !year) return null;
+
+  // Use Date.UTC to create the date in a fixed time zone (UTC)
+  const date = new Date(Date.UTC(year, month - 1, day));
+
+  // Use Intl.DateTimeFormat for consistent day-of-week formatting
+  const options = { weekday: 'long', timeZone: 'UTC' }; // Ensure fixed UTC time zone
+  return new Intl.DateTimeFormat('en-US', options).format(date);
 };
 
 /**
  * - Stored procedure: bbfoodjournal.prc
  * - DTO: mhv-np-journal-api/.../MealItemDTO.java
  */
-const convertFoodJournalMealItem = record => {
+export const convertFoodJournalMealItem = record => {
   return {
     item: record.item || NONE_ENTERED,
     quantity: record.quantity || NONE_ENTERED,
@@ -580,7 +603,7 @@ const convertFoodJournalMealItemList = list => {
  * - Stored procedure: bbfoodjournal.prc
  * - DTO: mhv-np-journal-api/.../FoodJournalDTO.java
  */
-const convertFoodJournal = recordList => {
+export const convertFoodJournal = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
     date: formatDate(record.dispJournalDate) || NONE_ENTERED, // 09/14/2021
@@ -602,12 +625,13 @@ const convertActivityJournalActivity = record => {
   return {
     activity: record.description || NONE_ENTERED,
     type:
-      mapValue(Const.ACTIVITY_JOURNAL_TYPE, record.quantity) || NONE_ENTERED,
-    distanceDuration: record.distanceDuration || NONE_ENTERED,
+      mapValue(Const.ACTIVITY_JOURNAL_TYPE, record.activityType) ||
+      NONE_ENTERED,
+    distanceDuration: handleNull(record.distanceDuration, NONE_ENTERED),
     measure: record.dispMeasure || NONE_ENTERED,
     intensity: record.dispIntensity || NONE_ENTERED,
-    numberOfSets: record.setCount || NONE_ENTERED,
-    numberOfReps: record.repCount || NONE_ENTERED,
+    numberOfSets: handleNull(record.setCount, NONE_ENTERED),
+    numberOfReps: handleNull(record.repCount, NONE_ENTERED),
     timeOfDay: record.dispTimeOfDay || NONE_ENTERED,
   };
 };
@@ -616,7 +640,7 @@ const convertActivityJournalActivity = record => {
  * - Stored procedure: bbactivityjournal.prc
  * - DTO: mhv-np-journal-api/.../ActivityJournalDTO.java
  */
-const convertActivityJournal = recordList => {
+export const convertActivityJournal = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
     date: formatDate(record.dispJournalDate) || NONE_ENTERED, // 07/24/2020
@@ -634,7 +658,7 @@ const convertActivityJournal = recordList => {
  * - Stored procedure: bbmedications.prc
  * - DTO: mhv-np-rxrefill-api/.../MedicationHistoryDTO.java
  */
-const convertMedications = recordList => {
+export const convertMedications = recordList => {
   if (!recordList) return null;
   return recordList.map(record => ({
     category: record.dispCategory || NONE_ENTERED,

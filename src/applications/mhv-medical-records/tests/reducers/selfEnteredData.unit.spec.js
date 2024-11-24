@@ -16,6 +16,17 @@ import {
   mapValue,
   NONE_ENTERED,
   convertAllergies,
+  convertFamilyHealthHistory,
+  convertVaccines,
+  convertLabsAndTests,
+  convertMedicalEvents,
+  convertMilitaryHistory,
+  convertHealthcareProviders,
+  convertHealthInsurance,
+  convertTreatmentFacilities,
+  convertFoodJournal,
+  convertActivityJournal,
+  convertMedications,
 } from '../../reducers/selfEnteredData';
 import seiVitals from '../fixtures/sei/seiVitals.json';
 
@@ -645,5 +656,498 @@ describe('convertAllergies', () => {
   it('should return null when pojoObject is null or missing', () => {
     expect(convertAllergies({ pojoObject: null })).to.be.null;
     expect(convertAllergies({})).to.be.null;
+  });
+});
+
+describe('convertFamilyHealthHistory', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = {
+      pojoObject: [
+        {
+          relationship: 'M',
+          firstName: 'Jane',
+          lastName: 'Doe',
+          living: false,
+          slInsomnia: true,
+          kiStones: true,
+          comments: 'Family health issue comments',
+        },
+      ],
+    };
+    const expected = [
+      {
+        relationship: 'Mother',
+        firstName: 'Jane',
+        lastName: 'Doe',
+        livingOrDeceased: 'Deceased',
+        healthIssues: 'Insomnia, Kidney Stones',
+        otherHealthIssues: NONE_ENTERED,
+        comments: 'Family health issue comments',
+      },
+    ];
+    expect(convertFamilyHealthHistory(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = { pojoObject: [{}] };
+    const expected = [
+      {
+        relationship: NONE_ENTERED,
+        firstName: NONE_ENTERED,
+        lastName: NONE_ENTERED,
+        livingOrDeceased: NONE_ENTERED,
+        healthIssues: NONE_ENTERED,
+        otherHealthIssues: NONE_ENTERED,
+        comments: NONE_ENTERED,
+      },
+    ];
+    expect(convertFamilyHealthHistory(input)).to.deep.equal(expected);
+  });
+
+  it('should return null when pojoObject is null or missing', () => {
+    expect(convertFamilyHealthHistory({ pojoObject: null })).to.be.null;
+    expect(convertFamilyHealthHistory({})).to.be.null;
+  });
+});
+
+describe('convertVaccines', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = {
+      pojoObject: [
+        {
+          vaccinationTypeCode: 'FLU',
+          otherVaccine: 'another vaccine',
+          vaccinationMethod: 'J',
+          dateReceived: '2022-06-29',
+          reactions: [{ reactionTypeCode: 'HLS' }, { reactionTypeCode: 'RSH' }],
+          comments: 'Flu vaccine comments',
+        },
+      ],
+    };
+    const expected = [
+      {
+        vaccine: 'Flu (influenza)',
+        other: 'another vaccine',
+        method: 'Injection',
+        dateReceived: 'June 29, 2022',
+        reactions: 'Chills, Rash',
+        comments: 'Flu vaccine comments',
+      },
+    ];
+    expect(convertVaccines(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = { pojoObject: [{}] };
+    const expected = [
+      {
+        vaccine: NONE_ENTERED,
+        other: NONE_ENTERED,
+        method: NONE_ENTERED,
+        dateReceived: NONE_ENTERED,
+        reactions: NONE_ENTERED,
+        comments: NONE_ENTERED,
+      },
+    ];
+    expect(convertVaccines(input)).to.deep.equal(expected);
+  });
+
+  it('should return null when pojoObject is null or missing', () => {
+    expect(convertVaccines({ pojoObject: null })).to.be.null;
+    expect(convertVaccines({})).to.be.null;
+  });
+});
+
+describe('convertLabsAndTests', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = {
+      pojoObject: [
+        {
+          testName: 'Blood Test',
+          eventDate: '2020-11-10',
+          locationPerformed: 'Test Lab',
+          provider: 'Dr. Smith',
+          results: 'Normal',
+          comments: 'Routine test',
+        },
+      ],
+    };
+    const expected = [
+      {
+        testName: 'Blood Test',
+        date: 'November 10, 2020',
+        locationPerformed: 'Test Lab',
+        provider: 'Dr. Smith',
+        results: 'Normal',
+        comments: 'Routine test',
+      },
+    ];
+    expect(convertLabsAndTests(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = { pojoObject: [{}] };
+    const expected = [
+      {
+        testName: NONE_ENTERED,
+        date: NONE_ENTERED,
+        locationPerformed: NONE_ENTERED,
+        provider: NONE_ENTERED,
+        results: NONE_ENTERED,
+        comments: NONE_ENTERED,
+      },
+    ];
+    expect(convertLabsAndTests(input)).to.deep.equal(expected);
+  });
+
+  it('should return null when pojoObject is null or missing', () => {
+    expect(convertLabsAndTests({ pojoObject: null })).to.be.null;
+    expect(convertLabsAndTests({})).to.be.null;
+  });
+});
+
+describe('convertMedicalEvents', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = {
+      pojoObject: [
+        {
+          medicalEvent: 'Surgery',
+          startDate: '2020-04-14T23:59:00',
+          stopDate: '2020-04-29T23:59:00',
+          response: 'Successful',
+          comments: 'Major surgery performed',
+        },
+      ],
+    };
+    const expected = [
+      {
+        medicalEvent: 'Surgery',
+        startDate: 'April 14, 2020',
+        stopDate: 'April 29, 2020',
+        response: 'Successful',
+        comments: 'Major surgery performed',
+      },
+    ];
+    expect(convertMedicalEvents(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = { pojoObject: [{}] };
+    const expected = [
+      {
+        medicalEvent: NONE_ENTERED,
+        startDate: NONE_ENTERED,
+        stopDate: NONE_ENTERED,
+        response: NONE_ENTERED,
+        comments: NONE_ENTERED,
+      },
+    ];
+    expect(convertMedicalEvents(input)).to.deep.equal(expected);
+  });
+
+  it('should return null when pojoObject is null or missing', () => {
+    expect(convertMedicalEvents({ pojoObject: null })).to.be.null;
+    expect(convertMedicalEvents({})).to.be.null;
+  });
+});
+
+// TODO: Military History
+
+describe('convertHealthcareProviders', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        firstName: 'John',
+        lastName: 'Doe',
+        providerType: 'P',
+        otherClinician: 'General Practitioner',
+        workPhone: '123-456-7890',
+        workPhoneExt: '101',
+        emailAddress: 'johndoe@example.com',
+        comments: 'Family doctor',
+      },
+    ];
+    const expected = [
+      {
+        providerName: 'John Doe',
+        typeOfProvider: 'Primary',
+        otherClinicianInformation: 'General Practitioner',
+        phoneNumber: '123-456-7890 Ext: 101',
+        email: 'johndoe@example.com',
+        comments: 'Family doctor',
+      },
+    ];
+    expect(convertHealthcareProviders(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = [{}];
+    const expected = [
+      {
+        providerName: NONE_ENTERED,
+        typeOfProvider: NONE_ENTERED,
+        otherClinicianInformation: NONE_ENTERED,
+        phoneNumber: NONE_ENTERED,
+        email: NONE_ENTERED,
+        comments: NONE_ENTERED,
+      },
+    ];
+    expect(convertHealthcareProviders(input)).to.deep.equal(expected);
+  });
+
+  it('should return null for an empty or invalid input', () => {
+    expect(convertHealthcareProviders(null)).to.be.null;
+    expect(convertHealthcareProviders([])).to.deep.equal([]);
+  });
+});
+
+describe('convertHealthInsurance', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        companyName: 'HealthCo',
+        primaryInd: true,
+        insuranceIdNumber: '12345',
+        groupNumber: '67890',
+        firstNameOfInsured: 'Jane',
+        lastNameOfInsured: 'Doe',
+        startDate: 1610125200000,
+        stopDate: 1620057600000,
+        preApprovalPhone: '123-456-7890',
+        companyPhone: '987-654-3210',
+        comments: 'Health insurance details',
+      },
+    ];
+    const expected = [
+      {
+        healthInsuranceCompany: 'HealthCo',
+        primaryInsuranceProvider: 'Yes',
+        idNumber: '12345',
+        groupNumber: '67890',
+        insured: 'Jane Doe',
+        startDate: 'January 8, 2021',
+        stopDate: 'May 3, 2021',
+        preApprovalPhoneNumber: '123-456-7890',
+        healthInsCoPhoneNumber: '987-654-3210',
+        comments: 'Health insurance details',
+      },
+    ];
+    expect(convertHealthInsurance(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = [{}];
+    const expected = [
+      {
+        healthInsuranceCompany: NONE_ENTERED,
+        primaryInsuranceProvider: NONE_ENTERED,
+        idNumber: NONE_ENTERED,
+        groupNumber: NONE_ENTERED,
+        insured: NONE_ENTERED,
+        startDate: NONE_ENTERED,
+        stopDate: NONE_ENTERED,
+        preApprovalPhoneNumber: NONE_ENTERED,
+        healthInsCoPhoneNumber: NONE_ENTERED,
+        comments: NONE_ENTERED,
+      },
+    ];
+    expect(convertHealthInsurance(input)).to.deep.equal(expected);
+  });
+
+  it('should return null for an empty or invalid input', () => {
+    expect(convertHealthInsurance(null)).to.be.null;
+    expect(convertHealthInsurance([])).to.deep.equal([]);
+  });
+});
+
+describe('convertTreatmentFacilities', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        facilityName: 'VA Hospital',
+        facilityType: 'V',
+        homeFacility: true,
+        contactInfoWorkPhone: '123-456-7890',
+        contactInfoWorkPhoneExt: '101',
+        contactInfoFax: '123-456-7891',
+        addressStreet1: '123 Main St',
+        addressStreet2: 'Apt 4',
+        addressCity: 'Some City',
+        addressState: 'MD',
+        addressCountry: 'USA',
+        addressPostalCode: '12345',
+        comments: 'Great facility',
+      },
+    ];
+    const expected = [
+      {
+        facilityName: 'VA Hospital',
+        facilityType: 'VA',
+        vaHomeFacility: 'Yes',
+        phoneNumber: '123-456-7890 Ext: 101',
+        faxNumber: '123-456-7891',
+        mailingAddress: '123 Main St, Apt 4, Some City, MD, USA, 12345',
+        comments: 'Great facility',
+      },
+    ];
+    expect(convertTreatmentFacilities(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = [{}];
+    const expected = [
+      {
+        facilityName: NONE_ENTERED,
+        facilityType: NONE_ENTERED,
+        vaHomeFacility: NONE_ENTERED,
+        phoneNumber: NONE_ENTERED,
+        faxNumber: NONE_ENTERED,
+        mailingAddress: NONE_ENTERED,
+        comments: NONE_ENTERED,
+      },
+    ];
+    expect(convertTreatmentFacilities(input)).to.deep.equal(expected);
+  });
+
+  it('should return null for an empty or invalid input', () => {
+    expect(convertTreatmentFacilities(null)).to.be.null;
+    expect(convertTreatmentFacilities([])).to.deep.equal([]);
+  });
+});
+
+describe('convertFoodJournal', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        dispJournalDate: '07/24/2024',
+        glassesOfWater: 8,
+        breakFastMealItems: [
+          {
+            item: 'Eggs',
+            quantity: 2,
+            servingSize: 'large',
+            prepMethod: 'Scrambled',
+          },
+        ],
+        lunchMealItems: [
+          {
+            item: 'Sandwich',
+            quantity: 1,
+            servingSize: 'medium',
+            prepMethod: 'Grilled',
+          },
+        ],
+        comments: 'Healthy meals',
+      },
+    ];
+    const expected = [
+      {
+        date: 'July 24, 2024',
+        dayOfWeek: 'Wednesday',
+        waterConsumed: 8,
+        breakfastItems: [
+          {
+            item: 'Eggs',
+            quantity: 2,
+            servingSize: 'large',
+            methodOfPreparation: 'Scrambled',
+          },
+        ],
+        lunchItems: [
+          {
+            item: 'Sandwich',
+            quantity: 1,
+            servingSize: 'medium',
+            methodOfPreparation: 'Grilled',
+          },
+        ],
+        dinnerItems: [],
+        snackItems: [],
+        comments: 'Healthy meals',
+      },
+    ];
+    expect(convertFoodJournal(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = [{}];
+    const expected = [
+      {
+        date: NONE_ENTERED,
+        dayOfWeek: NONE_ENTERED,
+        waterConsumed: 0,
+        breakfastItems: [],
+        lunchItems: [],
+        dinnerItems: [],
+        snackItems: [],
+        comments: NONE_ENTERED,
+      },
+    ];
+    expect(convertFoodJournal(input)).to.deep.equal(expected);
+  });
+
+  it('should return an empty array for null input', () => {
+    expect(convertFoodJournal(null)).to.be.null;
+    expect(convertFoodJournal([])).to.deep.equal([]);
+  });
+});
+
+describe('convertActivityJournal', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        dispJournalDate: '7/4/2024',
+        comments: 'Great workout',
+        activityDetails: [
+          {
+            description: 'Running',
+            activityType: 'A',
+            dispMeasure: 'Min(s)',
+            dispIntensity: 'Moderate impact',
+            distanceDuration: 30,
+            setCount: 0,
+            repCount: 0,
+            dispTimeOfDay: 'Afternoon',
+          },
+        ],
+      },
+    ];
+    const expected = [
+      {
+        date: 'July 4, 2024',
+        dayOfWeek: 'Thursday',
+        comments: 'Great workout',
+        activities: [
+          {
+            activity: 'Running',
+            type: 'Aerobic/Cardio',
+            distanceDuration: 30,
+            measure: 'Min(s)',
+            intensity: 'Moderate impact',
+            numberOfSets: 0,
+            numberOfReps: 0,
+            timeOfDay: 'Afternoon',
+          },
+        ],
+      },
+    ];
+    expect(convertActivityJournal(input)).to.deep.equal(expected);
+  });
+
+  it('should return an object with "Not Entered" for empty values', () => {
+    const input = [{}];
+    const expected = [
+      {
+        date: NONE_ENTERED,
+        dayOfWeek: NONE_ENTERED,
+        comments: NONE_ENTERED,
+        activities: [],
+      },
+    ];
+    expect(convertActivityJournal(input)).to.deep.equal(expected);
+  });
+
+  it('should return an empty array for empty input', () => {
+    expect(convertActivityJournal([])).to.deep.equal([]);
   });
 });
