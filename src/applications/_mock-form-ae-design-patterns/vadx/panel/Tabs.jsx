@@ -2,15 +2,14 @@ import React from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import styled from 'styled-components';
 import { TogglesTab } from './tabs/TogglesTab';
-import { UserTab } from './tabs/UserTab';
-import { Other } from './tabs/Other';
+import { FormTab } from './tabs/FormTab';
+import { OtherTab } from './tabs/OtherTab';
 
 const VADXPanelDiv = styled.div`
   background-color: var(--vads-color-white);
   position: fixed;
-  left: 0;
+  right: 0;
   top: 2.5rem;
-  border-radius: 1rem;
   overflow: scroll;
   max-height: 100vh;
   min-height: 25vh;
@@ -20,13 +19,13 @@ const VADXPanelDiv = styled.div`
   resize: both;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   z-index: 300;
-  padding: 1rem;
+  padding: 0.5rem;
 `;
 
 const tabMap = new Map([
   ['toggles', panelApi => <TogglesTab key="0" panelApi={panelApi} />],
-  ['user', <UserTab key="1" />],
-  ['other', <Other key="2" />],
+  ['form', <FormTab key="1" />],
+  ['other', <OtherTab key="2" />],
 ]);
 
 const tabHelper = (panelApi, activeTab, plugin = null) => {

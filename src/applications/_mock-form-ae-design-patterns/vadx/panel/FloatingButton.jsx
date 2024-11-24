@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const FloatingButtonStyled = styled.button`
   position: fixed;
-  left: -2.5rem;
+  right: -2.5rem;
   bottom: 1rem;
   cursor: pointer;
   padding: 0.75rem 0.1rem;
@@ -14,18 +14,18 @@ const FloatingButtonStyled = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: left 0.3s, padding 0.3s;
+  transition: right 0.3s, padding 0.3s;
   &:hover {
-    left: 0;
-    padding: 0.75rem 0.2rem 0.75rem 0.75rem;
+    right: 0;
+    padding: 0.75rem 0.75rem 0.75rem 0.2rem;
   }
 `;
 
 export const FloatingButton = ({ showVADX, setShowVADX }) => {
   return (
     <FloatingButtonStyled onClick={() => setShowVADX(!showVADX)} type="button">
+      <va-icon icon={showVADX ? 'chevron_right' : 'chevron_left'} size={3} />
       vadx
-      <va-icon icon={showVADX ? 'chevron_left' : 'chevron_right'} size={3} />
     </FloatingButtonStyled>
   );
 };
