@@ -636,10 +636,16 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
-            {paginatedPrescriptionsList &&
-            paginatedPrescriptionsList.length === 0 ? (
+            {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
+            (showFilterContent &&
+              filteredList?.length === 0 &&
+              filterCount &&
+              Object.values(filterCount).every(value => value === 0)) ? (
               <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                <h2 className="vads-u-margin--0">
+                <h2
+                  className="vads-u-margin--0"
+                  data-testid="empty-medList-alert"
+                >
                   You don’t have any VA prescriptions or medication records
                 </h2>
                 <p className="vads-u-margin-y--3">
@@ -787,14 +793,24 @@ const Prescriptions = () => {
                   )}
                   {showFilterContent && (
                     <>
-                      {filteredList?.length === 0 && (
-                        <div>
-                          <h2 id="no-matches-msg">
-                            We didn’t find any matches for this filter
-                          </h2>
-                          <p>Try selecting a different filter.</p>
-                        </div>
-                      )}
+                      {filteredList?.length === 0 &&
+                        filterCount &&
+                        Object.values(filterCount).some(
+                          value => value !== 0,
+                        ) && (
+                          <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color vads-u-margin-top--3">
+                            <h3
+                              className="vads-u-margin--0"
+                              id="no-matches-msg"
+                              data-testid="zero-filter-results"
+                            >
+                              We didn’t find any matches for this filter
+                            </h3>
+                            <p className="vads-u-margin-y--2">
+                              Try selecting a different filter.
+                            </p>
+                          </div>
+                        )}
                       {isLoading && (
                         <div className="vads-u-height--viewport vads-u-padding-top--3">
                           <va-loading-indicator
