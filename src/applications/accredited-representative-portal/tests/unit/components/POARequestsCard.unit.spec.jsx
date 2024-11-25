@@ -3,7 +3,6 @@ import upperFirst from 'lodash/upperFirst';
 import React from 'react';
 
 import POARequestsCard, {
-  createRelationshipCell,
   formatDate,
 } from '../../../components/POARequestsCard/POARequestsCard';
 import mockPOARequestsResponse from '../../../mocks/mockPOARequestsResponse.json';
@@ -31,9 +30,7 @@ describe('POARequestsTable', () => {
       expect(getByTestId(`poa-request-card-${id}-name`).textContent).to.eq(
         `${attributes.claimant.lastName}, ${attributes.claimant.firstName}`,
       );
-      expect(
-        getByTestId(`poa-request-card-${id}-relationship`).textContent,
-      ).to.eq(createRelationshipCell(attributes));
+
       expect(getByTestId(`poa-request-card-${id}-city`).textContent).to.eq(
         attributes.claimantAddress.city,
       );
@@ -43,9 +40,19 @@ describe('POARequestsTable', () => {
       expect(getByTestId(`poa-request-card-${id}-zip`).textContent).to.eq(
         attributes.claimantAddress.zip,
       );
-      expect(getByTestId(`poa-request-card-${id}-received`).textContent).to.eq(
-        formatDate(attributes.submittedAt),
-      );
+      if (attributes.status === 'Declined') {
+        expect(
+          getByTestId(`poa-request-card-${id}-declined`).textContent,
+        ).to.eq(formatDate(attributes.acceptedOrDeclinedAt));
+      } else if (attributes.status === 'Accepted') {
+        expect(
+          getByTestId(`poa-request-card-${id}-accepted`).textContent,
+        ).to.eq(formatDate(attributes.acceptedOrDeclinedAt));
+      } else {
+        expect(
+          getByTestId(`poa-request-card-${id}-received`).textContent,
+        ).to.eq(formatDate(attributes.expiresAt));
+      }
     });
   });
 });

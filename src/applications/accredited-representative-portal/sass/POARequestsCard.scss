@@ -14,6 +14,11 @@
       max-width: 600px;
     }
 
+    &-icon {
+      margin-right: 5px;
+      color: var(--vads-color-action-focus-on-light);
+    }
+
     &-field,
     &-title {
       margin: 0;
@@ -31,6 +36,7 @@
         display: flex;
         align-items: center;
         margin-top: 8px;
+        flex-wrap: wrap;
       }
 
       &--label {
