@@ -16,13 +16,13 @@ export default {
     'view:disabilityEligibility': {
       'ui:description': (
         <div>
-          <a
+          <va-link
             href="https://www.va.gov/disability/eligibility"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Learn more about disability ratings (opens in a new tab)
-          </a>{' '}
+            external
+            text="Learn more about disability ratings"
+            type="secondary"
+            label="Learn more about disability ratings"
+          />{' '}
         </div>
       ),
     },

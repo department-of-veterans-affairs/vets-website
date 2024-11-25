@@ -36,7 +36,7 @@ export class PrintPage extends React.Component {
           <div className="print-screen">
             <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
             <h1 className="section-header">
-              Post-9/11 GI Bill
+              Your Post-9/11 GI Bill
               <sup>&reg;</sup> Statement of Benefits
             </h1>
             <button className="usa-button-primary" onClick={this.printWindow}>

@@ -548,10 +548,17 @@ export const updateLcFilterDropdowns = (dropdowns, target) => {
   );
 };
 
-export const handleLcResultsSearch = (history, name, type) => {
+export const handleLcResultsSearch = (
+  history,
+  type = 'all',
+  name = null,
+  state = 'all',
+) => {
   return name
-    ? history.push(`/lc-search/results?type=${type}&name=${name}`)
-    : history.push(`/lc-search/results?type=${type}`);
+    ? history.push(
+        `/lc-search/results?type=${type}&name=${name}&state=${state}`,
+      )
+    : history.push(`/lc-search/results?type=${type}&state=${state}`);
 };
 
 export const formatProgramType = programType => {
