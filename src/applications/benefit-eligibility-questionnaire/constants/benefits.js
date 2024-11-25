@@ -520,7 +520,7 @@ export const BENEFITS_LIST = [
     category: categories.HEALTH_CARE,
     id: 'FMP',
     description:
-      "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care. Click Learn More below to find out how the Foreign Medical Program works and how to register.",
+      "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care. Select Learn More below to find out how the Foreign Medical Program works and how to register.",
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
@@ -577,11 +577,11 @@ export const BENEFITS_LIST = [
     applyNowURL: '',
   },
   {
-    name: 'VALife insurance',
+    name: 'Veterans Affairs Life Insurance (VALife)',
     category: categories.LIFE_INSURANCE,
     id: 'VAL',
     description:
-      "Veterans Affairs Life (VALife) insurance provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
+      "Veterans Affairs Life Insurance (VALife) provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
