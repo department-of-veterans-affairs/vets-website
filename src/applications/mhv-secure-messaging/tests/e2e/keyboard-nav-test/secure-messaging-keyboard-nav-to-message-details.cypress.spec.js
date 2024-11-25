@@ -25,10 +25,10 @@ describe('Navigate to Message Details ', () => {
   it('keyboard navigation to main buttons', () => {
     PatientMessageDetailsPage.verifyButtonsKeyboardNavigation();
 
-    PatientMessageDetailsPage.verifySingleButton('reply');
-    PatientMessageDetailsPage.verifySingleButton('print');
-    PatientMessageDetailsPage.verifySingleButton('move');
-    PatientMessageDetailsPage.verifySingleButton('trash');
+    PatientMessageDetailsPage.verifyReplyButtonByKeyboard('reply');
+    PatientMessageDetailsPage.verifySingleButtonByKeyboard('print');
+    PatientMessageDetailsPage.verifySingleButtonByKeyboard('move');
+    PatientMessageDetailsPage.verifySingleButtonByKeyboard('trash');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

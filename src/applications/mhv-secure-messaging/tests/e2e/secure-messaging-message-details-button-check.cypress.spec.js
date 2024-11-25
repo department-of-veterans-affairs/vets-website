@@ -18,10 +18,10 @@ describe('SM SINGLE MESSAGE', () => {
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
 
-    PatientMessageDetailsPage.verifySingleButton('reply');
-    PatientMessageDetailsPage.verifySingleButton('print');
-    PatientMessageDetailsPage.verifySingleButton('move');
-    PatientMessageDetailsPage.verifySingleButton('trash');
+    PatientMessageDetailsPage.verifySingleButton(`reply`);
+    PatientMessageDetailsPage.verifySingleButton(`print`);
+    PatientMessageDetailsPage.verifySingleButton(`move`);
+    PatientMessageDetailsPage.verifySingleButton(`trash`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

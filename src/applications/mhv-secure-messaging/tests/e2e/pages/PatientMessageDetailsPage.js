@@ -295,6 +295,15 @@ class PatientMessageDetailsPage {
   };
 
   verifySingleButton = text => {
+    cy.get(`[data-testid*=${text}]`).should(`be.visible`);
+  };
+
+  verifyReplyButtonByKeyboard = text => {
+    cy.tabToElement(`[data-testid*=${text}]`);
+    cy.get(`[data-testid*=${text}]`).should('be.focused');
+  };
+
+  verifySingleButtonByKeyboard = text => {
     cy.tabToElement(`#${text}-button`);
     cy.get(`#${text}-button`).then(el => {
       cy.wrap(el)

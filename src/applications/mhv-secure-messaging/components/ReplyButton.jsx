@@ -21,7 +21,6 @@ const ReplyButton = props => {
     props.visible && (
       <button
         type="button"
-        id="reply-button"
         className="usa-button vads-u-width--full reply-button-in-body vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
         data-testid="reply-button-body"
         onClick={handleReplyButton}
