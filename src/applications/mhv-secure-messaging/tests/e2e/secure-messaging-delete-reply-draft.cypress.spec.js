@@ -8,35 +8,35 @@ import { AXE_CONTEXT } from './utils/constants';
 import singleThreadResponse from './fixtures/thread-response-new-api.json';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 
-describe('SM DELETE REPLY DRAFT', () => {
-  const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
-    singleThreadResponse,
-  );
-  const singleMessage = { data: updatedSingleThreadResponse.data[0] };
-  it('verify user can delete draft on reply', () => {
-    SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
+for (let i = 0; i < 200; i += 1) {
+  describe('SM DELETE REPLY DRAFT', () => {
+    const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
+      singleThreadResponse,
+    );
+    // const singleMessage = { data: updatedSingleThreadResponse.data[0] };
+    it('verify user can delete draft on reply', () => {
+      SecureMessagingSite.login();
+      PatientInboxPage.loadInboxMessages();
+      PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
 
-    PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getContinueButton().click();
+      PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
+      PatientInterstitialPage.getContinueButton().click();
 
-    PatientReplyPage.getMessageBodyField().click({ force: true });
+      PatientReplyPage.getMessageBodyField().click({ force: true });
 
-    PatientReplyPage.getMessageBodyField()
-      .clear({ force: true })
-      .type(`Test Body`, {
-        force: true,
-      });
+      PatientReplyPage.getMessageBodyField()
+        .clear({ force: true })
+        .type(`Test Body`, {
+          force: true,
+        });
 
-    PatientReplyPage.clickSaveReplyDraftButton(singleMessage, `Test Body`);
+      PatientMessageDraftsPage.clickDeleteButton();
+      PatientMessageDraftsPage.confirmDeleteDraft(updatedSingleThreadResponse);
+      PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
+      PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
 
-    PatientMessageDraftsPage.clickDeleteButton();
-    PatientMessageDraftsPage.confirmDeleteDraft(updatedSingleThreadResponse);
-    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
-    PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT);
+    });
   });
-});
+}
