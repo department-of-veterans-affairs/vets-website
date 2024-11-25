@@ -802,6 +802,7 @@ const Prescriptions = () => {
                             <h3
                               className="vads-u-margin--0"
                               id="no-matches-msg"
+                              data-testid="zero-filter-results"
                             >
                               We didn’t find any matches for this filter
                             </h3>
