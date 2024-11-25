@@ -636,11 +636,8 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
-            {(!showFilterContent &&
-              paginatedPrescriptionsList &&
-              paginatedPrescriptionsList.length === 0) ||
+            {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
             (showFilterContent &&
-              filteredList &&
               filteredList?.length === 0 &&
               filterCount &&
               Object.values(filterCount).every(value => value === 0)) ? (
