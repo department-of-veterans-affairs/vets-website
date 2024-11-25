@@ -22,6 +22,32 @@ const VitalListItem = props => {
     [record.type],
   );
 
+  const dataTestIds = useMemo(
+    () => {
+      if (isAccelerating) {
+        return {
+          displayName: `vital-${_.kebabCase(updatedRecordType)}-display-name`,
+          noRecordMessage: `vital-${_.kebabCase(
+            updatedRecordType,
+          )}-no-record-message`,
+          measurement: `vital-${_.kebabCase(updatedRecordType)}-measurement`,
+          date: `vital-${_.kebabCase(updatedRecordType)}-date`,
+          dateTimestamp: `vital-${_.kebabCase(
+            updatedRecordType,
+          )}-date-timestamp`,
+        };
+      }
+      return {
+        displayName: 'vital-li-display-name',
+        noRecordMessage: 'vital-li-no-record-message',
+        measurement: 'vital-li-measurement',
+        date: 'vital-li-date',
+        dateTimestamp: 'vital-li-date-timestamp',
+      };
+    },
+    [updatedRecordType, isAccelerating],
+  );
+
   return (
     <va-card
       class="record-list-item vads-u-border--0 vads-u-padding-left--0 vads-u-padding-top--1 mobile-lg:vads-u-padding-top--2"
@@ -29,13 +55,16 @@ const VitalListItem = props => {
     >
       <h2
         className="vads-u-font-size--h3 vads-u-line-height--4 vads-u-margin-top--0 vads-u-margin-bottom--1"
-        data-testid="vital-li-display-name"
+        data-testid={dataTestIds.displayName}
       >
         {displayName}
       </h2>
 
       {record.noRecords && (
-        <p className="vads-u-margin--0">
+        <p
+          className="vads-u-margin--0"
+          data-testid={dataTestIds.noRecordMessage}
+        >
           {`There are no ${displayName.toLowerCase()} results ${
             isAccelerating
               ? `from the current time frame.`
@@ -53,7 +82,7 @@ const VitalListItem = props => {
             <span
               className="vads-u-display--inline"
               data-dd-privacy="mask"
-              data-testid="vital-li-measurement"
+              data-testid={dataTestIds.measurement}
             >
               {record.measurement}
             </span>
@@ -61,10 +90,10 @@ const VitalListItem = props => {
           <div
             className="vads-u-line-height--4 vads-u-margin-bottom--1"
             data-dd-privacy="mask"
-            data-testid="vital-li-date"
+            data-testid={dataTestIds.date}
           >
             <span className="vads-u-font-weight--bold">Date: </span>
-            <span>
+            <span data-testid={dataTestIds.dateTimestamp}>
               {isAccelerating
                 ? dateFormatWithoutTimezone(
                     record.effectiveDateTime,
