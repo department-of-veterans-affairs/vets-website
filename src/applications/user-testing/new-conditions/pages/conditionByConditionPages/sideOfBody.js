@@ -14,7 +14,8 @@ const sideOfBodyOptions = {
 const sideOfBodyPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Side of the body for ${formData || 'condition'}`,
+      ({ formData }) =>
+        `Side of the body for ${formData?.condition || 'condition'}`,
     ),
     sideOfBody: radioUI({
       title: 'Which side of the body is your condition on?',
