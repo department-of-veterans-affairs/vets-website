@@ -4,7 +4,7 @@ import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-a
 
 describe('Prefill pattern - Gray Task', () => {
   beforeEach(() => {
-    cy.login(mockUsers.loa3User72);
+    cy.login(mockUsers.loa3User);
 
     cy.intercept('/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {
       statusCode: 200,
