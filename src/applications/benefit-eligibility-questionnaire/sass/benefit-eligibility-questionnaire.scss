@@ -85,7 +85,7 @@
   list-style-type: none !important;
 }
 
-@media (max-width: 40.063em) {
+@media (max-width: $small-screen) {
   .vads-l-grid-container {
 
     .progress-box {
@@ -115,4 +115,17 @@
   .benefit-list {
     padding-left: 0;
   }
+}
+
+.blue-heading {
+  padding: 0.5rem 1rem;
+  color: var(--vads-color-white);
+  background: var(--vads-color-primary-darker);
+  height: 26px;
+  margin: -16px;
+  margin-bottom: 1rem;
+}
+
+.category-label {
+  font-weight: normal !important;
 }

@@ -22,14 +22,13 @@ export default {
       'ui:description': (
         <>
           <p>
-            <a
-              target="_blank"
+            <va-link
               href="https://www.va.gov/discharge-upgrade-instructions"
-              rel="noreferrer"
-            >
-              Learn more about the discharge upgrade process (opens in a new
-              tab)
-            </a>{' '}
+              external
+              text="Learn more about the discharge upgrade process"
+              type="secondary"
+              label="Learn more about the discharge upgrade process"
+            />{' '}
             <br />
             Not sure about this question? Call us at{' '}
             <va-telephone contact="8006982411" /> (
