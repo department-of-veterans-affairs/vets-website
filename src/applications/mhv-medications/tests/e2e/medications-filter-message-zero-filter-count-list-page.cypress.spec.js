@@ -1,11 +1,11 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
-import { Data, Paths } from './utils/constants';
-import renewRx from './fixtures/filter-prescriptions.json';
+import { Alerts, Paths } from './utils/constants';
+import zeroFilterCountRx from './fixtures/filter-count-zero-prescriptions.json';
 
-describe('Medications List Page Renewal Filter Option', () => {
-  it('visits Medications List Page Filter Option Renewal', () => {
+describe('Medications List Page Recently Requested No Rx Option', () => {
+  it('visits Medications List Page Filter Option Recently Requested Zero Results', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
@@ -17,19 +17,17 @@ describe('Medications List Page Renewal Filter Option', () => {
     listPage.clickGotoMedicationsLink();
     listPage.clickfilterAccordionDropdownOnListPage();
     listPage.verifyFilterOptionsOnListPage(
-      'Renewal needed before refill',
-      'Prescriptions that just ran out of refills or became too old to refill (expired)',
+      'Recently requested',
+      'Refill requests in process or shipped in the last 15 days',
     );
     listPage.verifyFilterButtonWhenAccordionExpanded();
-    listPage.clickFilterRadioButtonOptionOnListPage(
-      'Renewal needed before refill',
-    );
+    listPage.clickFilterRadioButtonOptionOnListPage('Recently requested');
     listPage.clickFilterButtonOnAccordion(
-      Paths.INTERCEPT.RENEW_FILTER_LIST,
-      renewRx,
+      Paths.INTERCEPT.RECENTLY_REQUESTED_FILTER_LIST,
+      zeroFilterCountRx,
     );
-    listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      Data.PAGINATION_RENEW,
+    listPage.verifyMessageForZeroFilterResultsOnListPage(
+      Alerts.NO_FILTER_RESULTS,
     );
   });
 });
