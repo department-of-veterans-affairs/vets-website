@@ -6,6 +6,7 @@ import {
   digitalFormIdentificationInfo,
   digitalFormNameAndDoB,
   digitalFormPhoneAndEmail,
+  listLoopPages,
 } from './digitalFormPatterns';
 
 const getChapterKey = chapter =>
@@ -24,7 +25,8 @@ export const selectSchemas = page => {
   }
 };
 
-const formatChapter = chapter => {
+/** @returns {FormConfigPages} */
+export const formatPages = chapter => {
   let pages;
 
   if (chapter.type === 'digital_form_your_personal_info') {
@@ -42,6 +44,8 @@ const formatChapter = chapter => {
         ...digitalFormIdentificationInfo(identificationInfo),
       },
     };
+  } else if (chapter.type === 'digital_form_list_loop') {
+    listLoopPages(chapter);
   } else {
     pages = {
       // For now, all chapters except for "Your personal information" are
@@ -55,10 +59,14 @@ const formatChapter = chapter => {
     };
   }
 
+  return pages;
+};
+
+const formatChapter = chapter => {
   return {
     [getChapterKey(chapter)]: {
       title: chapter.chapterTitle,
-      pages,
+      pages: formatPages(chapter),
     },
   };
 };

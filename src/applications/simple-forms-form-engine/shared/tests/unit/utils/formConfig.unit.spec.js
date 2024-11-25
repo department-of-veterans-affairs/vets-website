@@ -8,14 +8,17 @@ import { render } from '@testing-library/react';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
 import * as IntroductionPage from '../../../containers/IntroductionPage';
 import { normalizedForm } from '../../../_config/formConfig';
-import { createFormConfig, selectSchemas } from '../../../utils/formConfig';
+import { createFormConfig, formatPages } from '../../../utils/formConfig';
 
-const [yourPersonalInfo, address, phoneAndEmail] = normalizedForm.chapters;
+const [
+  yourPersonalInfo,
+  address,
+  phoneAndEmail,
+  listLoop,
+] = normalizedForm.chapters;
 
 describe('createFormConfig', () => {
   let formConfig;
-  let identificationSpy;
-  let nameSpy;
   let stub;
 
   beforeEach(() => {
@@ -36,12 +39,6 @@ describe('createFormConfig', () => {
     };
     stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
 
-    identificationSpy = sinon.spy(
-      digitalFormPatterns,
-      'digitalFormIdentificationInfo',
-    );
-    nameSpy = sinon.spy(digitalFormPatterns, 'digitalFormNameAndDoB');
-
     formConfig = createFormConfig(normalizedForm, {
       rootUrl: '/root-url',
       trackingPrefix: 'tracking-prefix-',
@@ -50,8 +47,6 @@ describe('createFormConfig', () => {
 
   afterEach(() => {
     stub.restore();
-    identificationSpy.restore();
-    nameSpy.restore();
   });
 
   it('returns a properly formatted Form Config object', () => {
@@ -91,20 +86,9 @@ describe('createFormConfig', () => {
       `resBurden: ${normalizedForm.ombInfo.resBurden}`,
     );
   });
-
-  it('returns a personal information chapter', () => {
-    const [nameAndDob, identificationInfo] = yourPersonalInfo.pages;
-
-    expect(formConfig.chapters.personalInformationChapter.title).to.eq(
-      yourPersonalInfo.chapterTitle,
-    );
-
-    expect(identificationSpy.calledWith(identificationInfo)).to.eq(true);
-    expect(nameSpy.calledWith(nameAndDob)).to.eq(true);
-  });
 });
 
-describe('selectSchemas', () => {
+describe('formatPages', () => {
   let spy;
 
   context('with Address pattern', () => {
@@ -113,7 +97,7 @@ describe('selectSchemas', () => {
     });
 
     it('calls digitalFormAddress', () => {
-      selectSchemas(address);
+      formatPages(address);
 
       expect(spy.calledWith(address)).to.eq(true);
     });
@@ -125,9 +109,43 @@ describe('selectSchemas', () => {
     });
 
     it('calls digitalFormPhoneAndEmail', () => {
-      selectSchemas(phoneAndEmail);
+      formatPages(phoneAndEmail);
 
       expect(spy.calledWith(phoneAndEmail)).to.eq(true);
+    });
+  });
+
+  context('when digital_form_list_loop', () => {
+    beforeEach(() => {
+      spy = sinon.spy(digitalFormPatterns, 'listLoopPages');
+    });
+
+    it('calls listLoopPages', () => {
+      formatPages(listLoop);
+
+      expect(spy.calledWith(listLoop)).to.eq(true);
+    });
+  });
+
+  context('when digital_form_your_personal_info', () => {
+    let identificationSpy;
+    let nameSpy;
+
+    beforeEach(() => {
+      identificationSpy = sinon.spy(
+        digitalFormPatterns,
+        'digitalFormIdentificationInfo',
+      );
+      nameSpy = sinon.spy(digitalFormPatterns, 'digitalFormNameAndDoB');
+    });
+
+    it('calls the appropriate patterns', () => {
+      const [nameAndDob, identificationInfo] = yourPersonalInfo.pages;
+
+      formatPages(yourPersonalInfo);
+
+      expect(identificationSpy.calledWith(identificationInfo)).to.eq(true);
+      expect(nameSpy.calledWith(nameAndDob)).to.eq(true);
     });
   });
 });
