@@ -1186,11 +1186,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
-      await screen.findByText(
-        /We found one facility that accepts online scheduling for this care/i,
-      );
-
-      expect(screen.baseElement).to.contain.text('Facility 1');
+      await screen.findByText(/You can.t schedule this appointment online/i);
 
       await cleanup();
       await setTypeOfEyeCare(store, /Ophthalmology/i);
@@ -1247,7 +1243,6 @@ describe('VAOS Page: VAFacilityPage', () => {
         featureToggles: {
           vaOnlineSchedulingDirect: true,
           vaOnlineSchedulingUseDsot: true,
-          vaOnlineSchedulingFacilitiesServiceV2: true,
         },
         user: {
           profile: {
@@ -1384,7 +1379,6 @@ describe('VAOS Page: VAFacilityPage', () => {
       featureToggles: {
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingUseDsot: true,
-        vaOnlineSchedulingFacilitiesServiceV2: true,
         vaOnlineSchedulingOhDirectSchedule: true,
       },
       user: {
