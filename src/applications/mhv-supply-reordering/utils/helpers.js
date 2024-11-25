@@ -11,7 +11,15 @@ const suppliesReplaceSchema = formData =>
 
 const suppliesUpdateUiSchema = formData =>
   (formData?.supplies || []).reduce(
-    (acc, s) => ({ ...acc, [s.productId]: { 'ui:title': s.productName } }),
+    (acc, { deviceName, lastOrderDate, productId, productName, quantity }) => ({
+      ...acc,
+      [productId]: {
+        'ui:title': productName,
+        'ui:description': `Device: ${deviceName}\nQuantity: ${quantity}\nLast ordered on ${formatDate(
+          lastOrderDate,
+        )}`,
+      },
+    }),
     {},
   );
 

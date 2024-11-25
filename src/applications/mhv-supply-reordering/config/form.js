@@ -6,7 +6,6 @@ import manifest from '../manifest.json';
 
 import chooseSupplies from '../pages/chooseSupplies';
 import contactInformation from '../pages/contactInformation';
-// import selectSupplies from '../pages/selectSupplies';
 
 import EditAddress from '../components/EditAddress';
 import EditEmail from '../components/EditEmail';
@@ -57,17 +56,6 @@ const chapters = {
       },
     },
   },
-  // selectSuppliesChapter: {
-  //   title: 'Select supplies',
-  //   pages: {
-  //     selectSupplies: {
-  //       path: 'select-supplies',
-  //       title: 'Select supplies',
-  //       uiSchema: selectSupplies.uiSchema,
-  //       schema: selectSupplies.schema,
-  //     },
-  //   },
-  // },
   contactInformationChapter: {
     title: 'Contact information',
     pages: {
