@@ -4,8 +4,8 @@ import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns
 import { CONDITIONS_FIRST } from '../../constants';
 import introPage from '../conditionByConditionPages/intro'; // Same content as conditionByCondition so using to ensure consistency
 import sideOfBodyPage from '../conditionByConditionPages/sideOfBody'; // Same content as conditionByCondition so using to ensure consistency
-import summaryPage from '../conditionByConditionPages/summary'; // Same content as conditionByCondition so using to ensure consistency
 import conditionPage from './condition';
+import summaryPage from './summary'; // Same content as conditionByCondition so using to ensure consistency
 import { arrayBuilderOptions, hasSideOfBody } from './utils';
 
 const conditionsFirstPages = arrayBuilderPages(
@@ -41,7 +41,7 @@ const conditionsFirstPages = arrayBuilderPages(
 
         return hasSideOfBody(formData, index)
           ? helpers.navForwardKeepUrlParams(props)
-          : helpers.navForwardSummary(props);
+          : helpers.navForwardFinishedItem(props);
       },
     }),
     conditionsFirstSideOfBody: pageBuilder.itemPage({
