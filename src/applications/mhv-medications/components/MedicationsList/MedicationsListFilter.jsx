@@ -85,6 +85,7 @@ const MedicationsListFilter = props => {
         id="filter"
         data-testid="rx-filter"
         ref={ref}
+        level={3}
         uswds
       >
         <span slot="icon">
