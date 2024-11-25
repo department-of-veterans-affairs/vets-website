@@ -55,7 +55,7 @@ describe('<AddressSection>', () => {
     expect($('va-button', container).getAttribute('text')).to.eq(
       'View letters',
     );
-    expect($('va-button', container).getAttribute('disabled')).to.eq('false');
+    expect($('va-button', container).getAttribute('disabled')).to.eq(null);
   });
 
   it('should render an empty address warning on the view screen and disable the View letters button', () => {
