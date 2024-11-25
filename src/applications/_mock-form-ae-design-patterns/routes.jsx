@@ -27,9 +27,16 @@ const Form1990Entry = lazy(() =>
   import('./patterns/pattern2/TaskOrange/Form1990App'),
 );
 
+import { VADXPlugin } from './shared/components/VADXPlugin';
+
 const DevPanel = lazy(() => import('./vadx/app/pages/DevPanel'));
 
 import { VADXPanelLoader } from './vadx/panel/VADXPanelLoader';
+
+const plugin = {
+  id: 'AEDP',
+  component: VADXPlugin,
+};
 
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
 const routeHoc = Component => props => (
@@ -37,7 +44,7 @@ const routeHoc = Component => props => (
     <VADXProvider>
       <PatternConfigProvider {...props}>
         <Component {...props} />
-        <VADXPanelLoader />
+        <VADXPanelLoader plugin={plugin} />
       </PatternConfigProvider>
     </VADXProvider>
   </Suspense>

@@ -10,18 +10,22 @@ export const useBroadcastStorage = ({ dbName, storeName }) => {
   /**
    * @param {string} key - the key to use for the storing and broadcasting
    */
-  const useStorageForKey = key => {
+  const useStorageForKey = (key, defaultValue = null) => {
     const storage = useMemo(() => new StorageAdapter(dbName, storeName), []);
     const [, sendMessage] = useBroadcastChannel(
       `${dbName}-${storeName}-${key}`,
     );
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState(defaultValue);
 
     const setVal = async val => {
       await storage.set(key, val);
       sendMessage(val);
       setValue(val);
     };
+
+    if (defaultValue !== null) {
+      setVal(defaultValue);
+    }
 
     const getVal = useCallback(
       async () => {
