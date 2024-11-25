@@ -10,7 +10,6 @@ import {
   selectFeatureCommunityCare,
   selectSystemIds,
   selectRegisteredCernerFacilityIds,
-  selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
@@ -304,9 +303,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        initialState,
-      );
       const { newAppointment } = initialState;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
@@ -325,7 +321,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
-            useV2: featureFacilitiesServiceV2,
           });
         }
 
@@ -907,14 +902,11 @@ export function submitAppointmentOrRequest(history) {
 export function requestProvidersList(address) {
   return async (dispatch, getState) => {
     try {
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        getState(),
-      );
-      let location = address;
+      const location = address;
       const { newAppointment } = getState();
       const { communityCareProviders } = newAppointment;
       const sortMethod = newAppointment.ccProviderPageSortMethod;
-      let { selectedCCFacility } = newAppointment;
+      const { selectedCCFacility } = newAppointment;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       let ccProviderCacheKey = `${sortMethod}_${typeOfCare.ccId}`;
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
@@ -927,18 +919,6 @@ export function requestProvidersList(address) {
       dispatch({
         type: FORM_REQUESTED_PROVIDERS,
       });
-
-      if (!featureFacilitiesServiceV2 && !address) {
-        try {
-          selectedCCFacility = await getLocation({
-            facilityId: selectedCCFacility.id,
-          });
-          location = selectedCCFacility.position;
-        } catch (error) {
-          location = null;
-          captureError(error);
-        }
-      }
 
       if (!typeOfCareProviders) {
         typeOfCareProviders = await getCommunityProvidersByTypeOfCare({
