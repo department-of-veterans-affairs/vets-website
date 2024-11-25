@@ -170,4 +170,4 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 3000);
+module.exports = delay(responses, 750);
