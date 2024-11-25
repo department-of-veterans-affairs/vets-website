@@ -201,7 +201,7 @@ createScheduleViewVAAppointmentsPage(
   widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
 );
 createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
-createSituationUpdatesBanner(store);
+createSituationUpdatesBanner(store, widgetTypes.SITUATION_UPDATES_BANNER);
 createViewTestAndLabResultsPage(
   store,
   widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,

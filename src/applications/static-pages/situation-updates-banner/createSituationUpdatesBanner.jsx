@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import widgetTypes from '../widgetTypes';
 import SituationUpdateBanner from './situationUpdateBanner';
 
 export const BannerContainer = () => {
@@ -39,9 +38,9 @@ export const BannerContainer = () => {
   return <SituationUpdateBanner {...defaultProps} />;
 };
 
-export default async function createSituationUpdatesBanner(store) {
+export default async function createSituationUpdatesBanner(store, widgetType) {
   const bannerWidget = document.querySelector(
-    `[data-widget-type="${widgetTypes.SITUATION_UPDATES_BANNER}"]`,
+    `[data-widget-type="${widgetType}"]`,
   );
 
   if (bannerWidget) {
