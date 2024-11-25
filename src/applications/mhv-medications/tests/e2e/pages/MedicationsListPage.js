@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
-import filterRx from '../fixtures/filter-prescriptions.json';
+
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
@@ -756,7 +756,7 @@ class MedicationsListPage {
       .and('have.text', 'Apply filter');
   };
 
-  clickFilterButtonOnAccordion = url => {
+  clickFilterButtonOnAccordion = (url, filterRx) => {
     cy.intercept('GET', `${url}`, filterRx);
     cy.get('[data-testid="filter-button"]')
       .shadow()
@@ -803,6 +803,12 @@ class MedicationsListPage {
 
   verifyEmptyMedicationsListAlertOnListPage = text => {
     cy.get('[data-testid="empty-medList-alert"]').should('have.text', text);
+  };
+
+  verifyMessageForZeroFilterResultsOnListPage = text => {
+    cy.get('[data-testid="zero-filter-results"]')
+      .should('have.text', text)
+      .and('be.focused');
   };
 }
 
