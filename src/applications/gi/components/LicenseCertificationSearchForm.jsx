@@ -130,25 +130,9 @@ export default function LicenseCertificationSearchForm({
         required={dropdowns[0].label === 'category'}
       />
 
-      {showStateAlert && (
-        <va-alert
-          className="license-alert"
-          // slim={true}
-          // disable-analytics={true}
-          visible={dropdowns[0].current.optionLabel === 'License'}
-          // close-btn-aria-label={closeBtnAriaLabel}
-          closeable={false}
-          fullWidth={false}
-          style={{ maxWidth: '30rem' }}
-        >
-          The state of {dropdowns[1].current.optionLabel} has been selected
-          becuase the {name} license is specific to it.
-        </va-alert>
-      )}
-
       <Dropdown
         disabled={dropdowns[0].current.optionLabel === 'Certification'}
-        label={capitalizeFirstLetter(dropdowns[1].label)}
+        label={`${capitalizeFirstLetter(dropdowns[1].label)}`}
         visible
         name={dropdowns[1].label}
         options={dropdowns[1].options}
@@ -157,7 +141,28 @@ export default function LicenseCertificationSearchForm({
         alt={dropdowns[1].alt}
         selectClassName="lc-dropdown-filter"
         required={dropdowns[1].label === 'category'}
-      />
+      >
+        {showStateAlert && name.length > 0 ? (
+          <va-alert
+            className="license-alert"
+            // slim={true}
+            // disable-analytics={true}
+            visible={dropdowns[0].current.optionLabel === 'License'}
+            // close-btn-aria-label={closeBtnAriaLabel}
+            closeable={false}
+            fullWidth={false}
+            style={{ maxWidth: '30rem' }}
+          >
+            The state of {dropdowns[1].current.optionLabel} has been selected
+            becuase the {name} license is specific to it.
+          </va-alert>
+        ) : (
+          <>
+            (Note: Certifications are nationwide. Selecting a state from this
+            dropdown will only impact licenses and prep courses)
+          </>
+        )}
+      </Dropdown>
       <div>
         <LcKeywordSearch
           inputValue={name}
