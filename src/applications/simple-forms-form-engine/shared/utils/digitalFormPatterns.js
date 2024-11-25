@@ -7,8 +7,20 @@ const defaultSchema = {
   type: 'object',
 };
 
-/** @returns {PageSchema} */
-export const digitalFormAddress = ({ additionalFields, pageTitle }) => {
+// This chapter contains only one page. This is often referred to as a single
+// response step.
+/** @returns {FormConfigPages} */
+const singlePageChapter = ({ id, pageTitle, schema, uiSchema }) => ({
+  [id]: {
+    path: id.toString(),
+    schema,
+    title: pageTitle,
+    uiSchema,
+  },
+});
+
+/** @returns {FormConfigPages} */
+export const addressPages = ({ additionalFields, id, pageTitle }) => {
   const schema = {
     ...defaultSchema,
   };
@@ -25,56 +37,11 @@ export const digitalFormAddress = ({ additionalFields, pageTitle }) => {
     uiSchema.address = webComponentPatterns.addressUI();
   }
 
-  return { schema, uiSchema };
+  return singlePageChapter({ id, pageTitle, schema, uiSchema });
 };
 
-/** @returns {PageSchema} */
-export const digitalFormNameAndDoB = ({ includeDateOfBirth, pageTitle }) => {
-  const schema = {
-    ...defaultSchema,
-    properties: {
-      fullName: webComponentPatterns.fullNameSchema,
-    },
-  };
-  const uiSchema = {
-    ...webComponentPatterns.titleUI(pageTitle),
-    fullName: webComponentPatterns.fullNameUI(),
-  };
-
-  if (includeDateOfBirth) {
-    schema.properties.dateOfBirth = webComponentPatterns.dateOfBirthSchema;
-    uiSchema.dateOfBirth = webComponentPatterns.dateOfBirthUI();
-  }
-
-  return { schema, uiSchema };
-};
-
-/** @returns {PageSchema} */
-export const digitalFormIdentificationInfo = ({
-  includeServiceNumber,
-  pageTitle,
-}) => {
-  const schema = {
-    ...defaultSchema,
-    properties: {
-      veteranId: webComponentPatterns.ssnOrVaFileNumberSchema,
-    },
-  };
-  const uiSchema = {
-    ...webComponentPatterns.titleUI(pageTitle),
-    veteranId: webComponentPatterns.ssnOrVaFileNumberUI(),
-  };
-
-  if (includeServiceNumber) {
-    schema.properties.serviceNumber = webComponentPatterns.serviceNumberSchema;
-    uiSchema.serviceNumber = webComponentPatterns.serviceNumberUI();
-  }
-
-  return { schema, uiSchema };
-};
-
-/** @returns {PageSchema} */
-export const digitalFormPhoneAndEmail = ({ additionalFields, pageTitle }) => {
+/** @returns {FormConfigPages} */
+export const phoneAndEmailPages = ({ additionalFields, id, pageTitle }) => {
   const schema = {
     ...defaultSchema,
     properties: {
@@ -94,7 +61,7 @@ export const digitalFormPhoneAndEmail = ({ additionalFields, pageTitle }) => {
     uiSchema.emailAddress = webComponentPatterns.emailUI();
   }
 
-  return { schema, uiSchema };
+  return singlePageChapter({ id, pageTitle, schema, uiSchema });
 };
 
 /** @returns {FormConfigPages} */
@@ -284,4 +251,67 @@ export const listLoopPages = (
   };
 
   return arrayBuilder(options, pageBuilderCallback);
+};
+
+/** @returns {FormConfigPages} */
+export const personalInfoPages = chapter => {
+  const [nameAndDob, identificationInfo] = chapter.pages;
+
+  /** @returns {PageSchema} */
+  const nameAndDobPage = ({ includeDateOfBirth, pageTitle }) => {
+    const schema = {
+      ...defaultSchema,
+      properties: {
+        fullName: webComponentPatterns.fullNameSchema,
+      },
+    };
+    const uiSchema = {
+      ...webComponentPatterns.titleUI(pageTitle),
+      fullName: webComponentPatterns.fullNameUI(),
+    };
+
+    if (includeDateOfBirth) {
+      schema.properties.dateOfBirth = webComponentPatterns.dateOfBirthSchema;
+      uiSchema.dateOfBirth = webComponentPatterns.dateOfBirthUI();
+    }
+
+    return {
+      path: 'name-and-date-of-birth',
+      title: pageTitle,
+      schema,
+      uiSchema,
+    };
+  };
+
+  /** @returns {PageSchema} */
+  const identificationInfoPage = ({ includeServiceNumber, pageTitle }) => {
+    const schema = {
+      ...defaultSchema,
+      properties: {
+        veteranId: webComponentPatterns.ssnOrVaFileNumberSchema,
+      },
+    };
+    const uiSchema = {
+      ...webComponentPatterns.titleUI(pageTitle),
+      veteranId: webComponentPatterns.ssnOrVaFileNumberUI(),
+    };
+
+    if (includeServiceNumber) {
+      schema.properties.serviceNumber =
+        webComponentPatterns.serviceNumberSchema;
+      uiSchema.serviceNumber = webComponentPatterns.serviceNumberUI();
+    }
+
+    return {
+      path: 'identification-information',
+      title: pageTitle,
+      schema,
+      uiSchema,
+    };
+  };
+
+  return {
+    nameAndDateOfBirth: nameAndDobPage(nameAndDob),
+    identificationInformation: identificationInfoPage(identificationInfo),
+  };
 };

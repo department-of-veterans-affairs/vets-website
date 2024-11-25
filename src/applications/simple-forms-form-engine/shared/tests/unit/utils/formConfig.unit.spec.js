@@ -91,24 +91,24 @@ describe('createFormConfig', () => {
 describe('formatPages', () => {
   let spy;
 
-  context('with Address pattern', () => {
+  context('when digital_form_address', () => {
     beforeEach(() => {
-      spy = sinon.spy(digitalFormPatterns, 'digitalFormAddress');
+      spy = sinon.spy(digitalFormPatterns, 'addressPages');
     });
 
-    it('calls digitalFormAddress', () => {
+    it('calls addressPages', () => {
       formatPages(address);
 
       expect(spy.calledWith(address)).to.eq(true);
     });
   });
 
-  context('with Phone and Email Address pattern', () => {
+  context('when digital_form_phone_and_email', () => {
     beforeEach(() => {
-      spy = sinon.spy(digitalFormPatterns, 'digitalFormPhoneAndEmail');
+      spy = sinon.spy(digitalFormPatterns, 'phoneAndEmailPages');
     });
 
-    it('calls digitalFormPhoneAndEmail', () => {
+    it('calls phoneAndEmailPages', () => {
       formatPages(phoneAndEmail);
 
       expect(spy.calledWith(phoneAndEmail)).to.eq(true);
@@ -128,24 +128,14 @@ describe('formatPages', () => {
   });
 
   context('when digital_form_your_personal_info', () => {
-    let identificationSpy;
-    let nameSpy;
-
     beforeEach(() => {
-      identificationSpy = sinon.spy(
-        digitalFormPatterns,
-        'digitalFormIdentificationInfo',
-      );
-      nameSpy = sinon.spy(digitalFormPatterns, 'digitalFormNameAndDoB');
+      spy = sinon.spy(digitalFormPatterns, 'personalInfoPages');
     });
 
-    it('calls the appropriate patterns', () => {
-      const [nameAndDob, identificationInfo] = yourPersonalInfo.pages;
-
+    it('calls personalInfoPages', () => {
       formatPages(yourPersonalInfo);
 
-      expect(identificationSpy.calledWith(identificationInfo)).to.eq(true);
-      expect(nameSpy.calledWith(nameAndDob)).to.eq(true);
+      expect(spy.calledWith(yourPersonalInfo)).to.eq(true);
     });
   });
 });

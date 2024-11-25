@@ -2,11 +2,10 @@ import React from 'react';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
-  digitalFormAddress,
-  digitalFormIdentificationInfo,
-  digitalFormNameAndDoB,
-  digitalFormPhoneAndEmail,
+  addressPages,
   listLoopPages,
+  personalInfoPages,
+  phoneAndEmailPages,
 } from './digitalFormPatterns';
 
 const getChapterKey = chapter =>
@@ -14,52 +13,20 @@ const getChapterKey = chapter =>
     ? 'personalInformationChapter'
     : `chapter${chapter.id}`;
 
-export const selectSchemas = page => {
-  switch (page.type) {
+/** @returns {FormConfigPages} */
+export const formatPages = chapter => {
+  switch (chapter.type) {
     case 'digital_form_address':
-      return digitalFormAddress(page);
+      return addressPages(chapter);
+    case 'digital_form_list_loop':
+      return listLoopPages(chapter);
     case 'digital_form_phone_and_email':
-      return digitalFormPhoneAndEmail(page);
+      return phoneAndEmailPages(chapter);
+    case 'digital_form_your_personal_info':
+      return personalInfoPages(chapter);
     default:
       return {};
   }
-};
-
-/** @returns {FormConfigPages} */
-export const formatPages = chapter => {
-  let pages;
-
-  if (chapter.type === 'digital_form_your_personal_info') {
-    const [nameAndDob, identificationInfo] = chapter.pages;
-
-    pages = {
-      nameAndDateOfBirth: {
-        path: 'name-and-date-of-birth',
-        title: nameAndDob.pageTitle,
-        ...digitalFormNameAndDoB(nameAndDob),
-      },
-      identificationInformation: {
-        path: 'identification-information',
-        title: identificationInfo.pageTitle,
-        ...digitalFormIdentificationInfo(identificationInfo),
-      },
-    };
-  } else if (chapter.type === 'digital_form_list_loop') {
-    listLoopPages(chapter);
-  } else {
-    pages = {
-      // For now, all chapters except for "Your personal information" are
-      // assumed to contain only one page, and there are no
-      // separate IDs for pages. This will probably change at some point.
-      [chapter.id]: {
-        path: chapter.id.toString(),
-        title: chapter.pageTitle,
-        ...selectSchemas(chapter),
-      },
-    };
-  }
-
-  return pages;
 };
 
 const formatChapter = chapter => {
