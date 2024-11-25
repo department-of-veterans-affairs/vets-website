@@ -352,7 +352,7 @@ describe('VAOS Backend Service Alert', () => {
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
       end: moment()
-        .add(1, 'days')
+        .add(2, 'days')
         .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       requests: [appointment],
@@ -444,7 +444,7 @@ describe('VAOS Backend Service Alert', () => {
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
       end: moment()
-        .add(1, 'days')
+        .add(2, 'days')
         .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       requests: [appointment],

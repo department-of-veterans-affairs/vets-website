@@ -132,7 +132,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.GI_BILL_BENEFITS]: {
     id: CTA_WIDGET_TYPES.GI_BILL_BENEFITS,
     deriveToolUrlDetails: () => ({
-      url: '/education/gi-bill/post-9-11/ch-33-benefit/status',
+      url: '/education/check-remaining-post-9-11-gi-bill-benefits/status',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
@@ -330,10 +330,7 @@ export const ctaWidgetsLookup = {
   },
   [CTA_WIDGET_TYPES.VIEW_DEPENDENTS]: {
     id: CTA_WIDGET_TYPES.VIEW_DEPENDENTS,
-    deriveToolUrlDetails: () => ({
-      url: viewDependentsUrl,
-      redirect: false,
-    }),
+    deriveToolUrlDetails: () => ({ url: viewDependentsUrl, redirect: false }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
