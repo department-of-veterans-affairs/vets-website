@@ -105,14 +105,6 @@ export default function LicenseCertificationSearchForm({
         selectClassName="lc-dropdown-filter"
         required={dropdowns[0].label === 'category'}
       />
-      <div>
-        <LcKeywordSearch
-          inputValue={name}
-          suggestions={filteredSuggestions}
-          onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
-        />
-      </div>
-
       {dropdowns[0].current.optionLabel !== 'Prep Course' && (
         <Dropdown
           disabled={false}
@@ -127,6 +119,14 @@ export default function LicenseCertificationSearchForm({
           required={dropdowns[1].label === 'category'}
         />
       )}
+      <div>
+        <LcKeywordSearch
+          inputValue={name}
+          suggestions={filteredSuggestions}
+          onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
+        />
+      </div>
+
       <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
         <va-button
           text="Submit"
@@ -134,7 +134,7 @@ export default function LicenseCertificationSearchForm({
         />
         <va-button
           text="Reset Search"
-          className="usa-button-secondary"
+          className="usa-button-secondary reset-search"
           onClick={handleReset}
         />
       </div>

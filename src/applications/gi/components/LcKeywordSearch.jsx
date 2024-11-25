@@ -56,6 +56,11 @@ export default function LcKeywordSearch({
             </label>
             <div className="lc-name-search-container vads-u-display--flex">
               <input
+                style={
+                  inputValue.length === 0
+                    ? { maxWidth: '30rem' }
+                    : { width: '100%', borderRight: 'none' }
+                }
                 aria-controls="lcKeywordSearch"
                 className="lc-name-search-input"
                 {...getInputProps({
@@ -70,7 +75,7 @@ export default function LcKeywordSearch({
                     size={3}
                     icon="cancel"
                     id="clear-input"
-                    class="vads-u-display--flex vads-u-align-items--center"
+                    class="lc-clear vads-u-display--flex vads-u-align-items--center"
                     onClick={handleClearInput}
                   />
                 )}
@@ -83,34 +88,38 @@ export default function LcKeywordSearch({
                   id="lcKeywordSearch"
                   style={{ maxWidth: '30rem' }}
                 >
-                  {suggestions.map((item, index) => (
-                    <div
-                      key={index}
-                      role="option"
-                      aria-selected={
-                        selectedItem === item.label ? 'true' : 'false'
-                      }
-                      className={classNames('suggestion', {
-                        'suggestion-highlighted': highlightedIndex === index,
-                      })}
-                      {...getItemProps({ item })}
-                    >
-                      {index !== 0 ? (
-                        item.name
-                      ) : (
-                        <div className="keyword-suggestion-container">
-                          <span className="vads-u-padding-right--1">
-                            {item.name}
-                          </span>
-                          <span>
-                            {`(${
-                              suggestions.length > 1 ? suggestions.length : 'No'
-                            } results)`}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                  {suggestions
+                    .map((item, index) => (
+                      <div
+                        key={index}
+                        role="option"
+                        aria-selected={
+                          selectedItem === item.label ? 'true' : 'false'
+                        }
+                        className={classNames('suggestion', {
+                          'suggestion-highlighted': highlightedIndex === index,
+                        })}
+                        {...getItemProps({ item })}
+                      >
+                        {index !== 0 ? (
+                          item.name
+                        ) : (
+                          <div className="keyword-suggestion-container">
+                            <span className="vads-u-padding-right--1">
+                              {item.name}
+                            </span>
+                            <span>
+                              {`(${
+                                suggestions.length > 1
+                                  ? suggestions.length
+                                  : 'No'
+                              } results)`}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ))
+                    .slice(0, 5)}
                 </div>
               )}
           </div>

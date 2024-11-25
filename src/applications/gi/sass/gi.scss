@@ -318,9 +318,20 @@
   padding-left: 0;
 }
 
-.lc-name-search-input {
+.lc-name-search-container {
   max-width: 30rem;
 }
+
+.lc-clear {
+  border: 1px solid $color-gray-dark;
+  border-left: none;
+}
+
+.reset-search {
+  background-color: $color-white;
+  color: $color-primary;
+}
+
 .inst-remove-btn::part(button) {
   background-color: transparent;
 }
