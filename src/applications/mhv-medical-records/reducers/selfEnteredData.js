@@ -134,19 +134,37 @@ export const formatTime = inputTime => {
   return `${hours.padStart(2, '0')}${minutes.padStart(2, '0')}`;
 };
 
+export const sortDesc = key => (a, b) => {
+  const valueA = a[key];
+  const valueB = b[key];
+
+  // Handle null values: place them at the end
+  if (valueA === null) return 1;
+  if (valueB === null) return -1;
+
+  // Compare numbers or strings in descending order
+  if (valueA > valueB) return -1;
+  if (valueA < valueB) return 1;
+
+  return 0;
+};
+
 /**
  * - Stored procedure: bbvitalsandreadings.prc
  * - DTO: mhv-np-vital-signs-api/.../BloodPressureReadingDTO.java
  */
 export const convertVitalsBloodPressure = recordList => {
   if (!Array.isArray(recordList)) return [];
-  return recordList.map(record => ({
-    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
-    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
-    systolic: record.systolic || NONE_ENTERED,
-    diastolic: record.diastolic || NONE_ENTERED,
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+      time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+      systolic: record.systolic || NONE_ENTERED,
+      diastolic: record.diastolic || NONE_ENTERED,
+      comments: record.comments || NONE_ENTERED,
+      sort: record.reading,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 /**
@@ -155,15 +173,18 @@ export const convertVitalsBloodPressure = recordList => {
  */
 export const convertVitalsBloodSugar = recordList => {
   if (!Array.isArray(recordList)) return [];
-  return recordList.map(record => ({
-    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
-    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
-    method:
-      mapValue(Const.VITALS_BLOOD_SUGAR_METHOD, record.testingMethod) ||
-      NONE_ENTERED,
-    bloodSugarCount: record.bloodSugarCount || NONE_ENTERED,
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+      time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+      method:
+        mapValue(Const.VITALS_BLOOD_SUGAR_METHOD, record.testingMethod) ||
+        NONE_ENTERED,
+      bloodSugarCount: record.bloodSugarCount || NONE_ENTERED,
+      comments: record.comments || NONE_ENTERED,
+      sort: record.reading,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 /**
@@ -172,17 +193,21 @@ export const convertVitalsBloodSugar = recordList => {
  */
 export const convertVitalsBodyTemp = recordList => {
   if (!Array.isArray(recordList)) return [];
-  return recordList.map(record => ({
-    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
-    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
-    bodyTemperature: record.bodyTemperature || NONE_ENTERED,
-    measure:
-      mapValue(Const.VITALS_BODY_TEMP_MEASURE, record.measure) || NONE_ENTERED,
-    method:
-      mapValue(Const.VITALS_BODY_TEMP_METHOD, record.bodyTemperatureMethod) ||
-      NONE_ENTERED,
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+      time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+      bodyTemperature: record.bodyTemperature || NONE_ENTERED,
+      measure:
+        mapValue(Const.VITALS_BODY_TEMP_MEASURE, record.measure) ||
+        NONE_ENTERED,
+      method:
+        mapValue(Const.VITALS_BODY_TEMP_METHOD, record.bodyTemperatureMethod) ||
+        NONE_ENTERED,
+      comments: record.comments || NONE_ENTERED,
+      sort: record.reading,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 /**
@@ -191,15 +216,18 @@ export const convertVitalsBodyTemp = recordList => {
  */
 export const convertVitalsBodyWeight = recordList => {
   if (!Array.isArray(recordList)) return [];
-  return recordList.map(record => ({
-    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
-    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
-    bodyWeight: record.bodyweight || NONE_ENTERED,
-    measure:
-      mapValue(Const.VITALS_BODY_WEIGHT_MEASURE, record.bodyweightMeasure) ||
-      NONE_ENTERED,
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+      time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+      bodyWeight: record.bodyweight || NONE_ENTERED,
+      measure:
+        mapValue(Const.VITALS_BODY_WEIGHT_MEASURE, record.bodyweightMeasure) ||
+        NONE_ENTERED,
+      comments: record.comments || NONE_ENTERED,
+      sort: record.reading,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 /**
@@ -208,14 +236,17 @@ export const convertVitalsBodyWeight = recordList => {
  */
 export const convertVitalsCholesterol = recordList => {
   if (!Array.isArray(recordList)) return [];
-  return recordList.map(record => ({
-    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
-    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
-    totalCholesterol: record.total || NONE_ENTERED, // 350
-    hdl: record.hdl || NONE_ENTERED,
-    ldl: record.ldl || NONE_ENTERED,
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+      time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+      totalCholesterol: record.total || NONE_ENTERED, // 350
+      hdl: record.hdl || NONE_ENTERED,
+      ldl: record.ldl || NONE_ENTERED,
+      comments: record.comments || NONE_ENTERED,
+      sort: record.reading,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 /**
@@ -224,12 +255,15 @@ export const convertVitalsCholesterol = recordList => {
  */
 export const convertVitalsHeartRate = recordList => {
   if (!Array.isArray(recordList)) return [];
-  return recordList.map(record => ({
-    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
-    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
-    heartRate: record.heartRate || NONE_ENTERED, // 123
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+      time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+      heartRate: record.heartRate || NONE_ENTERED, // 123
+      comments: record.comments || NONE_ENTERED,
+      sort: record.reading,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 /**
@@ -238,20 +272,25 @@ export const convertVitalsHeartRate = recordList => {
  */
 export const convertVitalsInr = recordList => {
   if (!Array.isArray(recordList)) return [];
-  return recordList.map(record => ({
-    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
-    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
-    inrValue: record.inr || NONE_ENTERED,
-    lowendTargetRange:
-      mapValue(Const.VITALS_INR_LOW_TARGET_RANGE, record.lowendTargetRange) ||
-      NONE_ENTERED,
-    highendTargetRange:
-      mapValue(Const.VITALS_INR_HIGH_TARGET_RANGE, record.highendTragetRange) ||
-      NONE_ENTERED,
-    location: record.location || NONE_ENTERED,
-    provider: record.provider || NONE_ENTERED,
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+      time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+      inrValue: record.inr || NONE_ENTERED,
+      lowendTargetRange:
+        mapValue(Const.VITALS_INR_LOW_TARGET_RANGE, record.lowendTargetRange) ||
+        NONE_ENTERED,
+      highendTargetRange:
+        mapValue(
+          Const.VITALS_INR_HIGH_TARGET_RANGE,
+          record.highendTragetRange,
+        ) || NONE_ENTERED,
+      location: record.location || NONE_ENTERED,
+      provider: record.provider || NONE_ENTERED,
+      comments: record.comments || NONE_ENTERED,
+      sort: record.reading,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 /**
@@ -260,12 +299,15 @@ export const convertVitalsInr = recordList => {
  */
 export const convertVitalsPain = recordList => {
   if (!Array.isArray(recordList)) return [];
-  return recordList.map(record => ({
-    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
-    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
-    painLevel: record.painLevel || NONE_ENTERED,
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+      time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+      painLevel: record.painLevel || NONE_ENTERED,
+      comments: record.comments || NONE_ENTERED,
+      sort: record.reading,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 /**
@@ -274,20 +316,24 @@ export const convertVitalsPain = recordList => {
  */
 export const convertVitalsPulseOx = recordList => {
   if (!Array.isArray(recordList)) return [];
-  return recordList.map(record => ({
-    date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
-    time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
-    oximeterReading: record.oximeterReading || NONE_ENTERED,
-    respiratoryRate: record.respiratoryRate || NONE_ENTERED,
-    supplementalOxygenDevice:
-      mapValue(Const.VITALS_PULSE_OX_DEVICE, record.suppOxygenDevice) ||
-      NONE_ENTERED,
-    oxygenSetting: record.oxygenSetting || NONE_ENTERED,
-    symptoms:
-      mapValue(Const.VITALS_PULSE_OX_SYMPTOMS, record.symptoms) || NONE_ENTERED,
-    otherSymptoms: record.otherSymptoms || NONE_ENTERED,
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      date: formatDate(record.dateEntered) || NONE_ENTERED, // 05/09/2017
+      time: formatTime(record.timeEntered) || NONE_ENTERED, // 23:59
+      oximeterReading: record.oximeterReading || NONE_ENTERED,
+      respiratoryRate: record.respiratoryRate || NONE_ENTERED,
+      supplementalOxygenDevice:
+        mapValue(Const.VITALS_PULSE_OX_DEVICE, record.suppOxygenDevice) ||
+        NONE_ENTERED,
+      oxygenSetting: record.oxygenSetting || NONE_ENTERED,
+      symptoms:
+        mapValue(Const.VITALS_PULSE_OX_SYMPTOMS, record.symptoms) ||
+        NONE_ENTERED,
+      otherSymptoms: record.otherSymptoms || NONE_ENTERED,
+      comments: record.comments || NONE_ENTERED,
+      sort: record.reading,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 /**
@@ -318,16 +364,19 @@ export const convertAllergies = responseObject => {
   // Good test user w/ MHV correlation ID 15176497
   if (!responseObject?.pojoObject) return null;
   const recordList = responseObject.pojoObject;
-  return recordList.map(record => ({
-    allergyName: record.allergy || NONE_ENTERED,
-    date: formatDate(record.eventDate) || NONE_ENTERED, // 2020-11-10
-    severity:
-      mapValue(Const.ALLERGIES_SEVERITY, record.severity) || NONE_ENTERED,
-    diagnosed:
-      mapValue(Const.ALLERGIES_DIAGNOSED, record.diagnosed) || NONE_ENTERED,
-    reaction: record.reaction || NONE_ENTERED,
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      allergyName: record.allergy || NONE_ENTERED,
+      date: formatDate(record.eventDate) || NONE_ENTERED, // 2020-11-10
+      severity:
+        mapValue(Const.ALLERGIES_SEVERITY, record.severity) || NONE_ENTERED,
+      diagnosed:
+        mapValue(Const.ALLERGIES_DIAGNOSED, record.diagnosed) || NONE_ENTERED,
+      reaction: record.reaction || NONE_ENTERED,
+      comments: record.comments || NONE_ENTERED,
+      sort: record.eventDate,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 const getLivingOrDeceased = isLiving => {
@@ -354,7 +403,7 @@ const getIssueList = record => {
 
 /**
  * - Stored procedure: bbfamilyhealthhistory.prc
- * - DTO:
+ * - DTO: mhv-np-health-history-api/.../HealthHistoryRecordDTO.java
  */
 export const convertFamilyHealthHistory = responseObject => {
   // Good test user w/ MHV correlation ID 15176497
@@ -380,34 +429,40 @@ export const convertFamilyHealthHistory = responseObject => {
 
 /**
  * - Stored procedure: bbimmunizations.prc
- * - DTO:
+ * - DTO: mhv-np-health-history-api/.../ImmunizationDTO.java
+ * - BE Sort: ImmunizationRepository.java, "order by a.dateReceived desc"
  */
 export const convertVaccines = responseObject => {
   // Good test user w/ MHV correlation ID 15176497
   if (!responseObject?.pojoObject) return null;
   const recordList = responseObject.pojoObject;
-  return recordList.map(record => ({
-    vaccine:
-      mapValue(Const.VACCINE_TYPE, record.vaccinationTypeCode) || NONE_ENTERED,
-    other: record.otherVaccine || NONE_ENTERED,
-    method:
-      mapValue(Const.VACCINE_METHOD, record.vaccinationMethod) || NONE_ENTERED,
-    dateReceived: formatDate(record.dateReceived) || NONE_ENTERED, // 2022-06-29
-    reactions:
-      record.reactions && record.reactions.length > 0
-        ? record.reactions
-            .map(reaction =>
-              mapValue(Const.VACCINE_REACTION, reaction.reactionTypeCode),
-            )
-            .join(', ')
-        : NONE_ENTERED,
-    comments: record.comments || NONE_ENTERED,
-  }));
+  return recordList
+    .map(record => ({
+      vaccine:
+        mapValue(Const.VACCINE_TYPE, record.vaccinationTypeCode) ||
+        NONE_ENTERED,
+      other: record.otherVaccine || NONE_ENTERED,
+      method:
+        mapValue(Const.VACCINE_METHOD, record.vaccinationMethod) ||
+        NONE_ENTERED,
+      dateReceived: formatDate(record.dateReceived) || NONE_ENTERED, // 2022-06-29
+      reactions:
+        record.reactions && record.reactions.length > 0
+          ? record.reactions
+              .map(reaction =>
+                mapValue(Const.VACCINE_REACTION, reaction.reactionTypeCode),
+              )
+              .join(', ')
+          : NONE_ENTERED,
+      comments: record.comments || NONE_ENTERED,
+      sort: record.dateReceived,
+    }))
+    .sort(sortDesc('sort'));
 };
 
 /**
  * - Stored procedure: bblabsandtests.prc
- * - DTO: TestEntryDTO.java
+ * - DTO: mhv-np-health-history-api/.../TestEntryDTO.java
  */
 export const convertLabsAndTests = responseObject => {
   if (!responseObject?.pojoObject) return null;
@@ -424,7 +479,7 @@ export const convertLabsAndTests = responseObject => {
 
 /**
  * - Stored procedure: bbmedicalevents.prc
- * - DTO: MedicalEventDTO.java
+ * - DTO: mhv-np-health-history-api/.../MedicalEventDTO.java
  */
 export const convertMedicalEvents = responseObject => {
   if (!responseObject?.pojoObject) return null;
@@ -440,7 +495,7 @@ export const convertMedicalEvents = responseObject => {
 
 /**
  * - Stored procedure: bbmilitaryhealthhistory.prc
- * - DTO: MilitaryHistoryDTO.java
+ * - DTO: mhv-np-health-history-api/.../MilitaryHistoryDTO.java
  */
 export const convertMilitaryHistory = responseObject => {
   if (!responseObject?.pojoObject) return null;

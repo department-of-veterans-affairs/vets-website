@@ -28,6 +28,7 @@ import {
   formatTimestamp,
   mapValue,
   NONE_ENTERED,
+  sortDesc,
 } from '../../reducers/selfEnteredData';
 import seiVitals from '../fixtures/sei/seiVitals.json';
 
@@ -233,6 +234,28 @@ describe('formatDayOfWeek', () => {
   });
 });
 
+describe('sortDesc', () => {
+  it('should sort numbers', () => {
+    const data = [{ key: 2 }, { key: 3 }, { key: null }, { key: 1 }];
+
+    const sorted = data.sort(sortDesc('key'));
+    const expectedValues = [3, 2, 1, null];
+    expectedValues.forEach((value, index) => {
+      expect(sorted[index].key).to.eq(value);
+    });
+  });
+
+  it('should sort strings', () => {
+    const data = [{ key: '2' }, { key: '3' }, { key: null }, { key: '1' }];
+
+    const sorted = data.sort(sortDesc('key'));
+    const expectedValues = ['3', '2', '1', null];
+    expectedValues.forEach((value, index) => {
+      expect(sorted[index].key).to.eq(value);
+    });
+  });
+});
+
 describe('convertVitalsBloodPressure', () => {
   it('should return a correctly transformed array for valid input', () => {
     const input = [
@@ -251,9 +274,23 @@ describe('convertVitalsBloodPressure', () => {
         diastolic: 40,
         comments: 'test',
         systolic: 150,
+        sort: undefined,
       },
     ];
     expect(convertVitalsBloodPressure(input)).to.deep.equal(expected);
+  });
+
+  it('should be sorted reverse chronologically', () => {
+    const input = [
+      { comments: 1, reading: 1600000000000 },
+      { comments: 2, reading: null },
+      { comments: 3, reading: 1700000000000 },
+    ];
+    const list = convertVitalsBloodPressure(input);
+    const expectedValues = [3, 1, 2];
+    expectedValues.forEach((value, index) => {
+      expect(list[index].comments).to.eq(value);
+    });
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -265,6 +302,7 @@ describe('convertVitalsBloodPressure', () => {
         diastolic: NONE_ENTERED,
         comments: NONE_ENTERED,
         systolic: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertVitalsBloodPressure(input)).to.deep.equal(expected);
@@ -293,9 +331,23 @@ describe('convertVitalsBloodSugar', () => {
         date: 'December 15, 2021',
         method: 'Clinical Lab Test',
         time: '0920',
+        sort: undefined,
       },
     ];
     expect(convertVitalsBloodSugar(input)).to.deep.equal(expected);
+  });
+
+  it('should be sorted reverse chronologically', () => {
+    const input = [
+      { comments: 1, reading: 1600000000000 },
+      { comments: 2, reading: null },
+      { comments: 3, reading: 1700000000000 },
+    ];
+    const list = convertVitalsBloodSugar(input);
+    const expectedValues = [3, 1, 2];
+    expectedValues.forEach((value, index) => {
+      expect(list[index].comments).to.eq(value);
+    });
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -307,6 +359,7 @@ describe('convertVitalsBloodSugar', () => {
         date: NONE_ENTERED,
         method: NONE_ENTERED,
         time: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertVitalsBloodSugar(input)).to.deep.equal(expected);
@@ -337,9 +390,23 @@ describe('convertVitalsBodyTemp', () => {
         measure: 'Fahrenheit',
         method: 'Mouth',
         time: '0920',
+        sort: undefined,
       },
     ];
     expect(convertVitalsBodyTemp(input)).to.deep.equal(expected);
+  });
+
+  it('should be sorted reverse chronologically', () => {
+    const input = [
+      { comments: 1, reading: 1600000000000 },
+      { comments: 2, reading: null },
+      { comments: 3, reading: 1700000000000 },
+    ];
+    const list = convertVitalsBodyTemp(input);
+    const expectedValues = [3, 1, 2];
+    expectedValues.forEach((value, index) => {
+      expect(list[index].comments).to.eq(value);
+    });
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -352,6 +419,7 @@ describe('convertVitalsBodyTemp', () => {
         measure: NONE_ENTERED,
         method: NONE_ENTERED,
         time: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertVitalsBodyTemp(input)).to.deep.equal(expected);
@@ -380,9 +448,23 @@ describe('convertVitalsBodyWeight', () => {
         date: 'January 7, 2022',
         measure: 'Pounds',
         time: '1530',
+        sort: undefined,
       },
     ];
     expect(convertVitalsBodyWeight(input)).to.deep.equal(expected);
+  });
+
+  it('should be sorted reverse chronologically', () => {
+    const input = [
+      { comments: 1, reading: 1600000000000 },
+      { comments: 2, reading: null },
+      { comments: 3, reading: 1700000000000 },
+    ];
+    const list = convertVitalsBodyWeight(input);
+    const expectedValues = [3, 1, 2];
+    expectedValues.forEach((value, index) => {
+      expect(list[index].comments).to.eq(value);
+    });
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -394,6 +476,7 @@ describe('convertVitalsBodyWeight', () => {
         date: NONE_ENTERED,
         measure: NONE_ENTERED,
         time: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertVitalsBodyWeight(input)).to.deep.equal(expected);
@@ -424,9 +507,23 @@ describe('convertVitalsCholesterol', () => {
         ldl: 150,
         time: '1111',
         totalCholesterol: 450,
+        sort: undefined,
       },
     ];
     expect(convertVitalsCholesterol(input)).to.deep.equal(expected);
+  });
+
+  it('should be sorted reverse chronologically', () => {
+    const input = [
+      { comments: 1, reading: 1600000000000 },
+      { comments: 2, reading: null },
+      { comments: 3, reading: 1700000000000 },
+    ];
+    const list = convertVitalsCholesterol(input);
+    const expectedValues = [3, 1, 2];
+    expectedValues.forEach((value, index) => {
+      expect(list[index].comments).to.eq(value);
+    });
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -439,6 +536,7 @@ describe('convertVitalsCholesterol', () => {
         ldl: NONE_ENTERED,
         time: NONE_ENTERED,
         totalCholesterol: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertVitalsCholesterol(input)).to.deep.equal(expected);
@@ -465,9 +563,23 @@ describe('convertVitalsHeartRate', () => {
         date: 'December 15, 2021',
         heartRate: 90,
         time: '0940',
+        sort: undefined,
       },
     ];
     expect(convertVitalsHeartRate(input)).to.deep.equal(expected);
+  });
+
+  it('should be sorted reverse chronologically', () => {
+    const input = [
+      { comments: 1, reading: 1600000000000 },
+      { comments: 2, reading: null },
+      { comments: 3, reading: 1700000000000 },
+    ];
+    const list = convertVitalsHeartRate(input);
+    const expectedValues = [3, 1, 2];
+    expectedValues.forEach((value, index) => {
+      expect(list[index].comments).to.eq(value);
+    });
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -478,6 +590,7 @@ describe('convertVitalsHeartRate', () => {
         date: NONE_ENTERED,
         heartRate: NONE_ENTERED,
         time: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertVitalsHeartRate(input)).to.deep.equal(expected);
@@ -512,9 +625,23 @@ describe('convertVitalsInr', () => {
         lowendTargetRange: '2.0',
         provider: 'Provider value',
         time: '1230',
+        sort: undefined,
       },
     ];
     expect(convertVitalsInr(input)).to.deep.equal(expected);
+  });
+
+  it('should be sorted reverse chronologically', () => {
+    const input = [
+      { comments: 1, reading: 1600000000000 },
+      { comments: 2, reading: null },
+      { comments: 3, reading: 1700000000000 },
+    ];
+    const list = convertVitalsInr(input);
+    const expectedValues = [3, 1, 2];
+    expectedValues.forEach((value, index) => {
+      expect(list[index].comments).to.eq(value);
+    });
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -529,6 +656,7 @@ describe('convertVitalsInr', () => {
         lowendTargetRange: NONE_ENTERED,
         provider: NONE_ENTERED,
         time: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertVitalsInr(input)).to.deep.equal(expected);
@@ -555,9 +683,23 @@ describe('convertVitalsPain', () => {
         date: 'December 15, 2021',
         painLevel: 5,
         time: '1220',
+        sort: undefined,
       },
     ];
     expect(convertVitalsPain(input)).to.deep.equal(expected);
+  });
+
+  it('should be sorted reverse chronologically', () => {
+    const input = [
+      { comments: 1, reading: 1600000000000 },
+      { comments: 2, reading: null },
+      { comments: 3, reading: 1700000000000 },
+    ];
+    const list = convertVitalsPain(input);
+    const expectedValues = [3, 1, 2];
+    expectedValues.forEach((value, index) => {
+      expect(list[index].comments).to.eq(value);
+    });
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -568,6 +710,7 @@ describe('convertVitalsPain', () => {
         date: NONE_ENTERED,
         painLevel: NONE_ENTERED,
         time: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertVitalsPain(input)).to.deep.equal(expected);
@@ -604,9 +747,23 @@ describe('convertVitalsPulseOx', () => {
         supplementalOxygenDevice: 'Oxygen Hood',
         symptoms: 'Confusion',
         time: '1320',
+        sort: undefined,
       },
     ];
     expect(convertVitalsPulseOx(input)).to.deep.equal(expected);
+  });
+
+  it('should be sorted reverse chronologically', () => {
+    const input = [
+      { comments: 1, reading: 1600000000000 },
+      { comments: 2, reading: null },
+      { comments: 3, reading: 1700000000000 },
+    ];
+    const list = convertVitalsPulseOx(input);
+    const expectedValues = [3, 1, 2];
+    expectedValues.forEach((value, index) => {
+      expect(list[index].comments).to.eq(value);
+    });
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -622,6 +779,7 @@ describe('convertVitalsPulseOx', () => {
         supplementalOxygenDevice: NONE_ENTERED,
         symptoms: NONE_ENTERED,
         time: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertVitalsPulseOx(input)).to.deep.equal(expected);
@@ -676,9 +834,25 @@ describe('convertAllergies', () => {
         diagnosed: 'Yes',
         reaction: 'runny nose, red eyes',
         severity: 'Severe',
+        sort: '2020-04-03',
       },
     ];
     expect(convertAllergies(input)).to.deep.equal(expected);
+  });
+
+  it('should be sorted reverse chronologically', () => {
+    const input = {
+      pojoObject: [
+        { comments: 1, eventDate: '2021-01-01' },
+        { comments: 2, eventDate: null },
+        { comments: 3, eventDate: '2022-02-02' },
+      ],
+    };
+    const list = convertAllergies(input);
+    const expectedValues = [3, 1, 2];
+    expectedValues.forEach((value, index) => {
+      expect(list[index].comments).to.eq(value);
+    });
   });
 
   it('should return an object with "Not Entered" for empty values', () => {
@@ -691,6 +865,7 @@ describe('convertAllergies', () => {
         diagnosed: NONE_ENTERED,
         reaction: NONE_ENTERED,
         severity: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertAllergies(input)).to.deep.equal(expected);
@@ -771,6 +946,7 @@ describe('convertVaccines', () => {
           otherVaccine: 'another vaccine',
           vaccinationMethod: 'J',
           dateReceived: '2022-06-29',
+          reactionTypeCode: 'ST',
           reactions: [{ reactionTypeCode: 'HLS' }, { reactionTypeCode: 'RSH' }],
           comments: 'Flu vaccine comments',
         },
@@ -784,6 +960,7 @@ describe('convertVaccines', () => {
         dateReceived: 'June 29, 2022',
         reactions: 'Chills, Rash',
         comments: 'Flu vaccine comments',
+        sort: '2022-06-29',
       },
     ];
     expect(convertVaccines(input)).to.deep.equal(expected);
@@ -806,6 +983,7 @@ describe('convertVaccines', () => {
         dateReceived: NONE_ENTERED,
         reactions: NONE_ENTERED,
         comments: NONE_ENTERED,
+        sort: undefined,
       },
     ];
     expect(convertVaccines(input)).to.deep.equal(expected);
