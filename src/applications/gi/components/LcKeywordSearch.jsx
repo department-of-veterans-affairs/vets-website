@@ -16,10 +16,12 @@ export default function LcKeywordSearch({
   };
 
   const handleSuggestionSelected = selected => {
-    onUpdateAutocompleteSearchTerm(selected.label);
+    const { name, type } = selected;
+
+    onUpdateAutocompleteSearchTerm(name);
 
     if (onSelection) {
-      onSelection(selected);
+      onSelection({ type, state: 'FL' });
     }
   };
 
@@ -57,7 +59,7 @@ export default function LcKeywordSearch({
             <div className="lc-name-search-container vads-u-display--flex">
               <input
                 style={
-                  inputValue.length === 0
+                  inputValue === ''
                     ? { maxWidth: '30rem' }
                     : { width: '100%', borderRight: 'none' }
                 }

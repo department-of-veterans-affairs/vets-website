@@ -9,6 +9,10 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
+  return { optionValue: state[0], optionLabel: state[1] };
+});
+
 export const dropdownSchema = [
   {
     label: 'category',
@@ -29,12 +33,7 @@ export const dropdownSchema = [
   },
   {
     label: 'state',
-    options: [
-      { optionValue: 'all', optionLabel: 'All' },
-      ...Object.entries(ADDRESS_DATA.states).map(state => {
-        return { optionValue: state[0], optionLabel: state[1] };
-      }),
-    ],
+    options: [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates],
     alt: 'state',
     current: { optionValue: 'all', optionLabel: 'All' },
   },
@@ -59,6 +58,7 @@ export default function LicenseCertificationSearchForm({
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
   const [name, setName] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
+  const [showStateAlert, setShowStateAlert] = useState(false);
 
   useEffect(
     () => {
@@ -74,7 +74,7 @@ export default function LicenseCertificationSearchForm({
 
       setFilteredSuggestions(newSuggestions);
     },
-    [name],
+    [name, suggestions],
   );
 
   const handleReset = () => {
@@ -91,6 +91,30 @@ export default function LicenseCertificationSearchForm({
     setName(value);
   };
 
+  const onSelection = selection => {
+    const { type, state } = selection; // TODO ensure state is added to response object
+    const stateItem = mappedStates.find(_state => {
+      return _state.optionValue === state;
+    });
+
+    const updateStateDropdown = dropdowns.map(dropdown => {
+      return dropdown.label === 'state'
+        ? {
+            ...dropdown,
+            current: {
+              optionValue: stateItem.optionValue,
+              optionLabel: stateItem.optionValue,
+            },
+          }
+        : dropdown;
+    });
+
+    if (type === 'license' && dropdowns[1].current.optionValue !== state) {
+      setDropdowns(updateStateDropdown);
+      setShowStateAlert(true);
+    }
+  };
+
   return (
     <form>
       <Dropdown
@@ -105,25 +129,41 @@ export default function LicenseCertificationSearchForm({
         selectClassName="lc-dropdown-filter"
         required={dropdowns[0].label === 'category'}
       />
-      {dropdowns[0].current.optionLabel !== 'Prep Course' && (
-        <Dropdown
-          disabled={false}
-          label={capitalizeFirstLetter(dropdowns[1].label)}
-          visible
-          name={dropdowns[1].label}
-          options={dropdowns[1].options}
-          value={dropdowns[1].current.optionValue}
-          onChange={handleChange}
-          alt={dropdowns[1].alt}
-          selectClassName="lc-dropdown-filter"
-          required={dropdowns[1].label === 'category'}
-        />
+
+      {showStateAlert && (
+        <va-alert
+          className="license-alert"
+          // slim={true}
+          // disable-analytics={true}
+          visible={dropdowns[0].current.optionLabel === 'License'}
+          // close-btn-aria-label={closeBtnAriaLabel}
+          closeable={false}
+          fullWidth={false}
+          style={{ maxWidth: '30rem' }}
+        >
+          The state of {dropdowns[1].current.optionLabel} has been selected
+          becuase the {name} license is specific to it.
+        </va-alert>
       )}
+
+      <Dropdown
+        disabled={dropdowns[0].current.optionLabel === 'Certification'}
+        label={capitalizeFirstLetter(dropdowns[1].label)}
+        visible
+        name={dropdowns[1].label}
+        options={dropdowns[1].options}
+        value={dropdowns[1].current.optionValue}
+        onChange={handleChange}
+        alt={dropdowns[1].alt}
+        selectClassName="lc-dropdown-filter"
+        required={dropdowns[1].label === 'category'}
+      />
       <div>
         <LcKeywordSearch
           inputValue={name}
           suggestions={filteredSuggestions}
           onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
+          onSelection={onSelection}
         />
       </div>
 
@@ -143,6 +183,6 @@ export default function LicenseCertificationSearchForm({
 }
 
 LicenseCertificationSearchForm.propTypes = {
-  suggestions: PropTypes.array,
   handleSearch: PropTypes.func.isRequired,
+  suggestions: PropTypes.array,
 };
