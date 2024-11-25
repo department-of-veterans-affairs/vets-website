@@ -38,10 +38,6 @@ const RadiologyDetails = props => {
       ],
   );
 
-  // const imageStatus = useSelector(
-  //    state => state.mr.images.imageStatus,
-  // );
-
   const dispatch = useDispatch();
 
   const [downloadStarted, setDownloadStarted] = useState(false);

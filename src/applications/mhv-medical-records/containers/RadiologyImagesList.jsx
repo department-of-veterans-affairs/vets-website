@@ -13,6 +13,9 @@ const RadiologyImagesList = () => {
   // const labAndTestDetails = useSelector(
   //   state => state.mr.labsAndTests.labsAndTestsDetails,
   // );
+  const radiologyDetails = useSelector(
+    state => state.mr.labsAndTests.labsAndTestsDetails,
+  );
 
   const imageList = useSelector(state => state.mr.images.imageList);
   const [study] = useState('453-2487450');
@@ -44,9 +47,12 @@ const RadiologyImagesList = () => {
 
   useEffect(
     () => {
-      dispatch(setImageList('453-2487450'));
+      // dispatch(setImageList('453-2487450'));
+      if (radiologyDetails) {
+        dispatch(setImageList(radiologyDetails.studyId));
+      }
     },
-    [dispatch],
+    [dispatch, radiologyDetails],
   );
 
   useEffect(
@@ -62,7 +68,6 @@ const RadiologyImagesList = () => {
         <ImageGallery
           record={labAndTestDetails}
           imageList={imageList}
-          imageListLength={10}
           study={study}
           imageCount={6}
           detailsType="labs and tests"

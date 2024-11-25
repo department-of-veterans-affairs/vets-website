@@ -32,7 +32,7 @@ const ImageGallery = ({ record, imageList, imageCount, study, print }) => {
   };
 
   const content = () => {
-    if (imageList.length) {
+    if (imageList.length && study) {
       return (
         <>
           <PrintHeader />
