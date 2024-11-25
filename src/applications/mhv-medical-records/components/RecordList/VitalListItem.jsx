@@ -35,6 +35,9 @@ const VitalListItem = props => {
           dateTimestamp: `vital-${_.kebabCase(
             updatedRecordType,
           )}-date-timestamp`,
+          reviewLink: `vital-${_.kebabCase(
+            updatedRecordType,
+          )}-review-over-time`,
         };
       }
       return {
@@ -43,6 +46,7 @@ const VitalListItem = props => {
         measurement: 'vital-li-measurement',
         date: 'vital-li-date',
         dateTimestamp: 'vital-li-date-timestamp',
+        reviewLink: 'vital-li-review-over-time',
       };
     },
     [updatedRecordType, isAccelerating],
@@ -106,7 +110,7 @@ const VitalListItem = props => {
           <Link
             to={`/vitals/${_.kebabCase(updatedRecordType)}-history`}
             className="vads-u-line-height--4"
-            data-testid="vital-li-review-over-time"
+            data-testid={dataTestIds.reviewLink}
           >
             <strong>
               Review your{' '}

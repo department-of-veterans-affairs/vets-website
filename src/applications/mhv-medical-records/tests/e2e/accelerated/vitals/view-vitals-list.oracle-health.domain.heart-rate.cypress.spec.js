@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 // import VitalsListPage from './pages/VitalsListPage';
 import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitals from '../../fixtures/vitals/blood-pressure.json';
+import vitals from '../../fixtures/vitals/heart-rate.json';
 
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
@@ -86,25 +86,20 @@ describe('Medical Records View Vitals', () => {
       waitForAnimations: true,
     });
 
-    cy.get("[data-testid='current-date-display']").should('be.visible');
-    cy.get("[data-testid='current-date-display']").contains('March 2024');
-
     // check for latest id
-    cy.get('[data-testid="vital-blood-pressure-measurement"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="vital-blood-pressure-measurement"]').contains(
-      '130/81',
+    cy.get('[data-testid="vital-heart-rate-measurement"]').should('be.visible');
+    cy.get('[data-testid="vital-heart-rate-measurement"]').contains(
+      '98 beats per minute',
     );
 
-    cy.get('[data-testid="vital-blood-pressure-date-timestamp"]').should(
+    cy.get('[data-testid="vital-heart-rate-date-timestamp"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-blood-pressure-date-timestamp"]').contains(
-      'March 26, 2024',
+    cy.get('[data-testid="vital-heart-rate-date-timestamp"]').contains(
+      'January 1, 2014',
     );
 
-    cy.get('[data-testid="vital-blood-pressure-review-over-time"]').should(
+    cy.get('[data-testid="vital-heart-rate-review-over-time"]').should(
       'be.visible',
     );
 
