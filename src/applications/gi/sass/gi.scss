@@ -317,6 +317,10 @@
   list-style: none;
   padding-left: 0;
 }
+
+.lc-name-search-input {
+  max-width: 30rem;
+}
 .inst-remove-btn::part(button) {
   background-color: transparent;
 }

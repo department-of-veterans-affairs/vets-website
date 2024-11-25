@@ -23,6 +23,7 @@ export const labTypes = {
   PATHOLOGY: 'pathology',
   EKG: 'electrocardiogram',
   RADIOLOGY: 'radiology',
+  CVIX_RADIOLOGY: 'cvix_radiology',
   OTHER: 'other',
 };
 
