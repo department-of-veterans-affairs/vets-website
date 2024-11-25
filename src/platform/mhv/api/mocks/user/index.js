@@ -12,6 +12,7 @@ const defaultUser = {
         firstName: 'Pat',
         middleName: '',
         lastName: 'Doe',
+        preferredName: 'PeeDee',
         gender: 'F',
         birthDate: '1985-01-01',
         verified: true,
