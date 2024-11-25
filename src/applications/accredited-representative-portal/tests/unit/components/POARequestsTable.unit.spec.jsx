@@ -2,10 +2,10 @@ import { expect } from 'chai';
 import upperFirst from 'lodash/upperFirst';
 import React from 'react';
 
-import POARequestsTable, {
+import POARequestsCard, {
   createRelationshipCell,
   formatDate,
-} from '../../../components/POARequestsTable/POARequestsTable';
+} from '../../../components/POARequestsCard/POARequestsCard';
 import mockPOARequestsResponse from '../../../mocks/mockPOARequestsResponse.json';
 import { renderTestApp } from '../helpers';
 
@@ -14,14 +14,14 @@ const MOCK_POA_REQUESTS = mockPOARequestsResponse.data;
 describe('POARequestsTable', () => {
   it('renders card', () => {
     const { getByTestId } = renderTestApp(
-      <POARequestsTable poaRequests={MOCK_POA_REQUESTS} />,
+      <POARequestsCard poaRequests={MOCK_POA_REQUESTS} />,
     );
     expect(getByTestId('poa-requests-card')).to.exist;
   });
 
   it('renders POA requests', () => {
     const { getByTestId } = renderTestApp(
-      <POARequestsTable poaRequests={MOCK_POA_REQUESTS} />,
+      <POARequestsCard poaRequests={MOCK_POA_REQUESTS} />,
     );
 
     MOCK_POA_REQUESTS.forEach(({ id, attributes }) => {
