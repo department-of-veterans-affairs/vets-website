@@ -159,7 +159,11 @@ export default function ReferralsAndRequests() {
             >
               {statusBucket[1].map((appt, index) => {
                 return (
-                  <RequestAppointmentLayout key={index} appointment={appt} />
+                  <RequestAppointmentLayout
+                    key={index}
+                    index={index}
+                    appointment={appt}
+                  />
                 );
               })}
             </ul>

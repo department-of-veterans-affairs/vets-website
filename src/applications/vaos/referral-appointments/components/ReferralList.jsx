@@ -29,6 +29,7 @@ const ReferralList = ({ referrals }) => {
           return (
             <PendingReferralCard
               key={index}
+              index={index}
               referral={referral}
               handleClick={handleReferralClick}
             />

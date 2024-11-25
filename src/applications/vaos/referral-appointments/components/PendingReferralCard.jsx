@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import AppointmentFlexGrid from '../../appointment-list/components/AppointmentsPage/AppointmentFlexGrid';
 import ListItem from '../../appointment-list/components/AppointmentsPage/ListItem';
 import AppointmentRow from '../../appointment-list/components/AppointmentsPage/AppointmentRow';
 import AppointmentColumn from '../../appointment-list/components/AppointmentsPage/AppointmentColumn';
 
-const PendingReferralCard = ({ referral, handleClick }) => {
-  const first = true;
-  const grouped = true;
+const PendingReferralCard = ({ referral, handleClick, index }) => {
+  const first = index === 0;
   const idClickable = `id-${referral.UUID.replace('.', '\\.')}`;
   const isCanceled = referral.status === 'cancelled';
   const typeOfCareName = referral.CategoryOfCare;
@@ -21,19 +19,15 @@ const PendingReferralCard = ({ referral, handleClick }) => {
       : `${referral.numberOfAppointments} appointments`;
 
   return (
-    <ListItem appointment={referral} borderBottom status="pending">
+    <ListItem
+      appointment={referral}
+      borderTop={first}
+      borderBottom
+      status="pending"
+    >
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
         <AppointmentRow className="vads-u-margin-x--1p5 mobile:vads-u-flex-direction--row">
-          <AppointmentColumn
-            className={classNames(
-              'vads-u-border-color--gray-medium',
-              'vads-u-padding-y--2',
-              {
-                'vads-u-border-top--1px': grouped && !first,
-              },
-            )}
-            size="1"
-          >
+          <AppointmentColumn className="vads-u-padding-y--2" size="1">
             <AppointmentRow className="vaos-appts__column-gap--3 mobile-lg:vads-u-flex-direction--row">
               <AppointmentColumn size="1" className="vads-u-flex--4">
                 <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table mobile:vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
@@ -42,10 +36,10 @@ const PendingReferralCard = ({ referral, handleClick }) => {
                     // canceled={isCanceled}
                     className="vads-u-font-weight--bold vaos-appts__display--table"
                   >
-                    {typeOfCareName} request
+                    {typeOfCareName} referral
                   </AppointmentColumn>
                   <AppointmentColumn
-                    padding="0"
+                    padding="0p5"
                     size="1"
                     className="vaos-appts__display--table"
                     canceled={isCanceled}
@@ -62,7 +56,7 @@ const PendingReferralCard = ({ referral, handleClick }) => {
               <AppointmentColumn
                 id={`vaos-referral-detail-${referral.UUID}`}
                 className="vaos-hide-for-print"
-                padding="0"
+                padding="0p5"
                 size="1"
                 aria-label="schedule your appointment"
               >
@@ -85,6 +79,7 @@ const PendingReferralCard = ({ referral, handleClick }) => {
 
 PendingReferralCard.propTypes = {
   handleClick: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
   referral: PropTypes.object.isRequired,
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import PendingReferralCard from './PendingReferralCard';
@@ -26,7 +26,7 @@ describe('VAOS Component: PendingReferralCard', () => {
   });
 
   it('should display the correct type of care name', () => {
-    expect(screen.getByText('CARDIOLOGY request')).to.exist;
+    expect(screen.getByText('CARDIOLOGY referral')).to.exist;
   });
 
   it('should display the correct number of appointments and expiration date', () => {
@@ -39,7 +39,7 @@ describe('VAOS Component: PendingReferralCard', () => {
   // skipped for now unitl we can figure out how to test the click event
   it.skip('should call handleClick when the link is clicked', () => {
     const link = screen.getByTestId('appointment-list-item');
-    link.click();
+    fireEvent.click(link);
     expect(handleClick.calledOnce).to.be.true;
     expect(handleClick.calledWith(sinon.match.any, referral.UUID)).to.be.true;
   });
