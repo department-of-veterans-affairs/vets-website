@@ -32,8 +32,9 @@ function ProfileNotUpdatedNote(props) {
             <>
               <va-link
                 href="https://va.gov"
-                text="Find out how to change you address in your VA.gov profile (opens in
+                text="Find out how to change your address in your VA.gov profile (opens in
             new tab)"
+                external
               />
             </>
           )}
