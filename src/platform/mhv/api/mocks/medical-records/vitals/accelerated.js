@@ -10684,7 +10684,7 @@ const entries = [
   },
 ];
 
-const singleInJanuary = [
+const oneInEveryMonth = [
   {
     fullUrl:
       'https://sandbox-api.va.gov/services/fhir/v0/r4/Observation/4-1bKlpYjrXYfgnN',
@@ -10713,7 +10713,7 @@ const singleInJanuary = [
           {
             system: 'http://loinc.org',
             code: '85354-9',
-            display: 'Blood Pressure',
+            display: 'Blood Pressure - Januar',
           },
         ],
         text: 'Blood Pressure',
@@ -10784,7 +10784,229 @@ const singleInJanuary = [
             text: 'Systolic Blood Pressure',
           },
           valueQuantity: {
-            value: 130,
+            value: 202401,
+            unit: 'mm Hg',
+            system: 'http://unitsofmeasure.org',
+            code: 'mm[Hg]',
+          },
+        },
+      ],
+    },
+    search: {
+      mode: 'match',
+    },
+  },
+  {
+    fullUrl:
+      'https://sandbox-api.va.gov/services/fhir/v0/r4/Observation/4-1bKlpYjrXYfgnN',
+    resource: {
+      resourceType: 'Observation',
+      id: '4-1bKlpYjrXYfgnN',
+      meta: {
+        lastUpdated: '2013-04-25T06:10:16Z',
+      },
+      status: 'final',
+      category: [
+        {
+          coding: [
+            {
+              system:
+                'http://terminology.hl7.org/CodeSystem/observation-category',
+              code: 'vital-signs',
+              display: 'Vital Signs',
+            },
+          ],
+          text: 'Vital Signs',
+        },
+      ],
+      code: {
+        coding: [
+          {
+            system: 'http://loinc.org',
+            code: '85354-9',
+            display: 'Blood Pressure - Januar',
+          },
+        ],
+        text: 'Blood Pressure',
+      },
+      subject: {
+        reference: 'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/49',
+        display: 'Mrs. Therese102 Un745 Oberbrunner298',
+      },
+      encounter: {
+        reference:
+          'https://sandbox-api.va.gov/services/fhir/v0/r4/Encounter/4-1abONcOSZ9W4SB',
+      },
+      effectiveDateTime: '2024-01-06T06:10:16Z',
+      issued: '2013-01-06T06:10:16Z',
+      performer: [
+        {
+          reference:
+            'https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79MfQbW4eP',
+          display: 'Dr. Francis500 Ratke343',
+        },
+        {
+          reference:
+            'https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/4-5pFm5ABdt3x',
+          display: 'TEST VAMC',
+        },
+      ],
+      interpretation: [
+        {
+          coding: [
+            {
+              system:
+                'http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation',
+              code: 'A',
+              display: 'Abnormal',
+            },
+          ],
+          text: 'A',
+        },
+      ],
+      component: [
+        {
+          code: {
+            coding: [
+              {
+                system: 'http://loinc.org',
+                code: '8462-4',
+                display: 'Diastolic Blood Pressure',
+              },
+            ],
+            text: 'Diastolic Blood Pressure',
+          },
+          valueQuantity: {
+            value: 81,
+            unit: 'mm Hg',
+            system: 'http://unitsofmeasure.org',
+            code: 'mm[Hg]',
+          },
+        },
+        {
+          code: {
+            coding: [
+              {
+                system: 'http://loinc.org',
+                code: '8480-6',
+                display: 'Systolic Blood Pressure',
+              },
+            ],
+            text: 'Systolic Blood Pressure',
+          },
+          valueQuantity: {
+            value: 202402,
+            unit: 'mm Hg',
+            system: 'http://unitsofmeasure.org',
+            code: 'mm[Hg]',
+          },
+        },
+      ],
+    },
+    search: {
+      mode: 'match',
+    },
+  },
+  {
+    fullUrl:
+      'https://sandbox-api.va.gov/services/fhir/v0/r4/Observation/4-1bKlpYjrXYfgnN',
+    resource: {
+      resourceType: 'Observation',
+      id: '4-1bKlpYjrXYfgnN',
+      meta: {
+        lastUpdated: '2013-04-25T06:10:16Z',
+      },
+      status: 'final',
+      category: [
+        {
+          coding: [
+            {
+              system:
+                'http://terminology.hl7.org/CodeSystem/observation-category',
+              code: 'vital-signs',
+              display: 'Vital Signs',
+            },
+          ],
+          text: 'Vital Signs',
+        },
+      ],
+      code: {
+        coding: [
+          {
+            system: 'http://loinc.org',
+            code: '85354-9',
+            display: 'Blood Pressure - Januar',
+          },
+        ],
+        text: 'Blood Pressure',
+      },
+      subject: {
+        reference: 'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/49',
+        display: 'Mrs. Therese102 Un745 Oberbrunner298',
+      },
+      encounter: {
+        reference:
+          'https://sandbox-api.va.gov/services/fhir/v0/r4/Encounter/4-1abONcOSZ9W4SB',
+      },
+      effectiveDateTime: '2024-02-26T06:10:16Z',
+      issued: '2013-02-26T06:10:16Z',
+      performer: [
+        {
+          reference:
+            'https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79MfQbW4eP',
+          display: 'Dr. Francis500 Ratke343',
+        },
+        {
+          reference:
+            'https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/4-5pFm5ABdt3x',
+          display: 'TEST VAMC',
+        },
+      ],
+      interpretation: [
+        {
+          coding: [
+            {
+              system:
+                'http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation',
+              code: 'A',
+              display: 'Abnormal',
+            },
+          ],
+          text: 'A',
+        },
+      ],
+      component: [
+        {
+          code: {
+            coding: [
+              {
+                system: 'http://loinc.org',
+                code: '8462-4',
+                display: 'Diastolic Blood Pressure',
+              },
+            ],
+            text: 'Diastolic Blood Pressure',
+          },
+          valueQuantity: {
+            value: 81,
+            unit: 'mm Hg',
+            system: 'http://unitsofmeasure.org',
+            code: 'mm[Hg]',
+          },
+        },
+        {
+          code: {
+            coding: [
+              {
+                system: 'http://loinc.org',
+                code: '8480-6',
+                display: 'Systolic Blood Pressure',
+              },
+            ],
+            text: 'Systolic Blood Pressure',
+          },
+          valueQuantity: {
+            value: 2024023,
             unit: 'mm Hg',
             system: 'http://unitsofmeasure.org',
             code: 'mm[Hg]',
@@ -10799,10 +11021,11 @@ const singleInJanuary = [
 ];
 
 const all = (from, _to) => {
-  const bucket = singleInJanuary;
+  const bucket = oneInEveryMonth;
 
   const matches = [];
-  const fromDate = new Date(from);
+  const [year, month] = from.split('-');
+  const fromDate = new Date(year, month - 1, 1);
   const toDate = new Date(
     fromDate.getFullYear(),
     fromDate.getMonth() + 1,
@@ -10816,10 +11039,16 @@ const all = (from, _to) => {
   for (const entry of bucket) {
     // include entry if effectiveDateTime is between from and to
     const entryDate = new Date(entry.resource.effectiveDateTime);
-
+    // console.log({
+    //   fromDate:fromDate.getTime(),
+    //   entryDate:entryDate.getTime(),
+    //   toDate:toDate.getTime(),
+    //   afterFrom:entryDate.getTime() >= fromDate.getTime(),
+    //   beforeTo:entryDate.getTime() <= toDate.getTime()
+    // })
     if (
-      new Date(entry.resource.effectiveDateTime) >= fromDate &&
-      new Date(entry.resource.effectiveDateTime) <= toDate
+      entryDate.getTime() >= fromDate.getTime() &&
+      entryDate.getTime() <= toDate.getTime()
     ) {
       // console.log('got match');
       matches.push(entry);

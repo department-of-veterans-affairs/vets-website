@@ -17,6 +17,7 @@ import {
   getLastUpdatedText,
   formatNameFirstToLast,
   formatNameFirstLast,
+  getMonthFromSelectedDate,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
@@ -623,5 +624,27 @@ describe('formatNameFirstLast', () => {
     const updatedName = formatNameFirstLast(user2.userFullName);
 
     expect(updatedName).to.eq(firstMiddleLastSuffixName);
+  });
+});
+
+describe('getMonthFromSelectedDate', () => {
+  it('should return the formatted date', () => {
+    const date = '2024-01';
+    const result = getMonthFromSelectedDate({ date });
+    expect(result).to.equal('January 2024');
+  });
+  it('should accept a mask for the date', () => {
+    const date = '2024-01';
+    const result = getMonthFromSelectedDate({ date, mask: 'MMMM' });
+    expect(result).to.equal('January');
+  });
+  it('should return null if the date is not provided', () => {
+    const result = getMonthFromSelectedDate({});
+    expect(result).to.be.null;
+  });
+  it('should return null is date string doesnt match the format', () => {
+    const date = '2024';
+    const result = getMonthFromSelectedDate({ date });
+    expect(result).to.be.null;
   });
 });

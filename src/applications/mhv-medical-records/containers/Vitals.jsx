@@ -17,6 +17,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
 } from '../util/constants';
+import { getMonthFromSelectedDate } from '../util/helpers';
 import { Actions } from '../util/actionTypes';
 import * as Constants from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -38,12 +39,15 @@ const Vitals = () => {
   const [acceleratedVitalsDate, setAcceleratedVitalsDate] = useState(
     format(new Date(), 'yyyy-MM'),
   );
+  const [displayDate, setDisplayDate] = useState('');
   const activeAlert = useAlerts(dispatch);
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
 
   const { isAcceleratingVitals } = useAcceleratedData();
+  const isLoadingAcceleratedData =
+    isAcceleratingVitals && listState === Constants.loadStates.FETCHING;
 
   const dispatchAction = useMemo(
     () => {
@@ -135,6 +139,7 @@ const Vitals = () => {
     if (vitals?.length === 0) {
       return (
         <>
+          <p>Vitals include:</p>
           <ul>
             <li>Blood pressure and blood oxygen level</li>
             <li>Breathing rate and heart rate</li>
@@ -148,28 +153,48 @@ const Vitals = () => {
     if (cards?.length) {
       return (
         <>
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.VPR}
-            newRecordsFound={
-              Array.isArray(vitals) &&
-              Array.isArray(updatedRecordList) &&
-              vitals.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
+          {!isAcceleratingVitals && (
+            <NewRecordsIndicator
+              refreshState={refresh}
+              extractType={refreshExtractTypes.VPR}
+              newRecordsFound={
+                Array.isArray(vitals) &&
+                Array.isArray(updatedRecordList) &&
+                vitals.length !== updatedRecordList.length
+              }
+              reloadFunction={() => {
+                dispatch(reloadRecords());
+              }}
+            />
+          )}
+          {isAcceleratingVitals && (
+            <div className="vads-u-margin-top--2 ">
+              <hr className="vads-u-margin-y--1 vads-u-padding-0" />
+              <p className="vads-u-margin--0">
+                Showing most recent vitals from{' '}
+                <span className="vads-u-font-weight--bold">
+                  {getMonthFromSelectedDate({ date: displayDate })}
+                </span>
+                .
+              </p>
+              <hr className="vads-u-margin-y--1 vads-u-padding-0" />
+            </div>
+          )}
 
           <RecordList
             records={cards}
             type={recordType.VITALS}
             perPage={7}
             hidePagination
+            domainOptions={{
+              isAccelerating: isAcceleratingVitals,
+              timeFrame: acceleratedVitalsDate,
+            }}
           />
         </>
       );
     }
+
     return (
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
@@ -184,27 +209,40 @@ const Vitals = () => {
   const updateDate = event => {
     const [year, month] = event.target.value.split('-');
     // Ignore transient date changes.
-    if (year.length === 4 && month.length === 2) {
+    if (year?.length === 4 && month?.length === 2) {
       setAcceleratedVitalsDate(`${year}-${month}`);
-      dispatch({
-        type: Actions.Vitals.UPDATE_LIST_STATE,
-        payload: Constants.loadStates.PRE_FETCH,
-      });
     }
+  };
+
+  const triggerApiUpdate = e => {
+    e.preventDefault();
+    setDisplayDate(acceleratedVitalsDate);
+    dispatch({
+      type: Actions.Vitals.UPDATE_LIST_STATE,
+      payload: Constants.loadStates.PRE_FETCH,
+    });
   };
 
   const datePicker = () => {
     return (
-      <div>
-        <VaDate
-          label="Select a month and year"
-          // Limit to current month and year
-          name="vitals-date-picker"
-          monthYearOnly
-          value={new Date().toISOString().split('T')[0]}
-          onDateChange={updateDate}
-          data-testid="date-picker"
-        />
+      <div className="vads-u-display--flex vads-u-flex-direction--column">
+        <div style={{ flex: 'inherit' }}>
+          <VaDate
+            label="Choose a month and year"
+            name="vitals-date-picker"
+            monthYearOnly
+            onDateChange={updateDate}
+            value={acceleratedVitalsDate}
+            data-testid="date-picker"
+          />
+        </div>
+        <div className="vads-u-margin-top--2">
+          <va-button
+            text="Update time frame"
+            onClick={triggerApiUpdate}
+            disabled={isLoadingAcceleratedData}
+          />
+        </div>
       </div>
     );
   };
@@ -217,10 +255,21 @@ const Vitals = () => {
       </h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
         {`Vitals are basic health numbers your providers check at your
-        appointments. ${vitals?.length === 0 ? 'Vitals include:' : ''}`}
+        appointments.`}
       </p>
       {isAcceleratingVitals && datePicker()}
-      {content()}
+      {isLoadingAcceleratedData && (
+        <>
+          <div className="vads-u-margin-y--8">
+            <va-loading-indicator
+              message="We’re loading your records."
+              setFocus
+              data-testid="loading-indicator"
+            />
+          </div>
+        </>
+      )}
+      {!isLoadingAcceleratedData && content()}
     </div>
   );
 };

@@ -110,7 +110,9 @@ const responses = {
   // medical records
   'GET /my_health/v1/medical_records/session/status':
     session.phrRefreshInProgressNoNewRecords,
-  'GET /my_health/v1/medical_records/session': session.error,
+  'GET /my_health/v1/medical_records/session':
+    session.phrRefreshInProgressNoNewRecords,
+  'POST /my_health/v1/medical_records/session': {},
   'GET /my_health/v1/medical_records/status': status.error,
   'GET /my_health/v1/medical_records/labs_and_tests': labsAndTests.all,
   'GET /my_health/v1/medical_records/labs_and_tests/:id': labsAndTests.single,

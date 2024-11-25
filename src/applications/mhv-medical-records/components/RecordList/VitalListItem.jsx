@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { vitalTypeDisplayNames } from '../../util/constants';
+import { dateFormatWithoutTimezone } from '../../util/helpers';
 
 const VitalListItem = props => {
-  const { record } = props;
+  const { record, options = {} } = props;
+  const { isAccelerating } = options;
   const displayName = vitalTypeDisplayNames[record.type];
 
   const updatedRecordType = useMemo(
@@ -34,7 +36,11 @@ const VitalListItem = props => {
 
       {record.noRecords && (
         <p className="vads-u-margin--0">
-          {`There are no ${displayName.toLowerCase()} results in your VA medical records.`}
+          {`There are no ${displayName.toLowerCase()} results ${
+            isAccelerating
+              ? `from the current time frame.`
+              : 'in your VA medical records.'
+          }`}
         </p>
       )}
 
@@ -58,7 +64,14 @@ const VitalListItem = props => {
             data-testid="vital-li-date"
           >
             <span className="vads-u-font-weight--bold">Date: </span>
-            <span>{record.date}</span>
+            <span>
+              {isAccelerating
+                ? dateFormatWithoutTimezone(
+                    record.effectiveDateTime,
+                    'MMMM d, yyyy',
+                  )
+                : record.date}
+            </span>
           </div>
 
           <Link
@@ -90,5 +103,6 @@ const VitalListItem = props => {
 export default VitalListItem;
 
 VitalListItem.propTypes = {
+  options: PropTypes.object,
   record: PropTypes.object,
 };
