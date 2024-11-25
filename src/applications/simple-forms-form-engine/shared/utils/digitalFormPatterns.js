@@ -215,8 +215,26 @@ export const listLoopPages = (
   };
 
   /** @type {PageSchema} */
-  const summaryPage = {
+  const introPage = {
     path: 'employers',
+    title: 'Employers',
+    uiSchema: {
+      ...webComponentPatterns.titleUI(
+        `Treatment records`,
+        `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${
+          options.maxItems
+        }.`,
+      ),
+    },
+    schema: {
+      type: 'object',
+      properties: {},
+    },
+  };
+
+  /** @type {PageSchema} */
+  const summaryPage = {
+    path: optional ? 'employers' : 'employers-summary',
     schema: {
       type: 'object',
       properties: {
@@ -224,7 +242,7 @@ export const listLoopPages = (
       },
       required: ['view:hasEmployers'],
     },
-    title: 'Your employers',
+    title: optional ? 'Your employers' : 'Review your employers',
     uiSchema: {
       'view:hasEmployers': webComponentPatterns.arrayBuilderYesNoUI(
         options,
@@ -247,10 +265,23 @@ export const listLoopPages = (
     },
   };
 
-  return arrayBuilder(options, pageBuilder => ({
-    employerSummary: pageBuilder.summaryPage(summaryPage),
-    employerNamePage: pageBuilder.itemPage(namePage),
-    employerDatePage: pageBuilder.itemPage(datePage),
-    employerDetailPage: pageBuilder.itemPage(detailPage),
-  }));
+  /** @returns {FormConfigPages} */
+  const pageBuilderCallback = pageBuilder => {
+    /** @type {FormConfigPages} */
+    const pages = {};
+
+    if (!optional) {
+      pages.employer = pageBuilder.introPage(introPage);
+    }
+
+    return {
+      ...pages,
+      employerSummary: pageBuilder.summaryPage(summaryPage),
+      employerNamePage: pageBuilder.itemPage(namePage),
+      employerDatePage: pageBuilder.itemPage(datePage),
+      employerDetailPage: pageBuilder.itemPage(detailPage),
+    };
+  };
+
+  return arrayBuilder(options, pageBuilderCallback);
 };

@@ -233,8 +233,6 @@ describe('listLoopPages', () => {
   it('includes a summary page', () => {
     const { employerSummary } = listLoopPages(optional, arrayBuilderStub);
 
-    expect(employerSummary.title).to.eq('Your employers');
-    expect(employerSummary.path).to.eq('employers');
     expect(employerSummary.schema.properties['view:hasEmployers']).to.eq(
       webComponentPatterns.arrayBuilderYesNoSchema,
     );
@@ -293,12 +291,11 @@ describe('listLoopPages', () => {
   });
 
   describe('additionalFields', () => {
-    // let pages;
+    let pages;
 
     context('when optional is false', () => {
       beforeEach(() => {
-        listLoopPages(required, arrayBuilderStub);
-        // introPage = pages.employer;
+        pages = listLoopPages(required, arrayBuilderStub);
       });
 
       it('sets required to true', () => {
@@ -307,13 +304,23 @@ describe('listLoopPages', () => {
         expect(options.required).to.eq(true);
       });
 
-      it('includes an introPage');
+      it('includes an introPage', () => {
+        const { employer: introPage, employerSummary } = pages;
+
+        expect(introPage.title).to.eq('Employers');
+        expect(introPage.path).to.eq('employers');
+        // introPages have no schemas
+        expect(Object.keys(introPage.schema.properties).length).to.eq(0);
+        expect(introPage.uiSchema).to.not.eq(undefined);
+
+        expect(employerSummary.title).to.eq('Review your employers');
+        expect(employerSummary.path).to.eq('employers-summary');
+      });
     });
 
     context('when optional is true', () => {
       beforeEach(() => {
-        listLoopPages(optional, arrayBuilderStub);
-        // introPage = pages.employer;
+        pages = listLoopPages(optional, arrayBuilderStub);
       });
 
       it('sets required to false', () => {
@@ -322,7 +329,13 @@ describe('listLoopPages', () => {
         expect(options.required).to.eq(false);
       });
 
-      it('does not include an introPage');
+      it('does not include an introPage', () => {
+        const { employerSummary } = pages;
+
+        expect(pages.employer).to.eq(undefined);
+        expect(employerSummary.title).to.eq('Your employers');
+        expect(employerSummary.path).to.eq('employers');
+      });
     });
   });
 });
