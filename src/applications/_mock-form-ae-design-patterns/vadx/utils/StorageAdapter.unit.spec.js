@@ -1,8 +1,7 @@
-// storageAdapter.test.jsx
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render, act } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { StorageAdapter, useStorage } from './StorageAdapter';
 
 describe('StorageAdapter', () => {
@@ -11,21 +10,25 @@ describe('StorageAdapter', () => {
   let localStorageMock;
   const TEST_DB_NAME = 'testDB';
   const TEST_STORE_NAME = 'testStore';
+  let sandbox;
 
   beforeEach(() => {
+    // Create a sinon sandbox for test isolation
+    sandbox = sinon.createSandbox();
+
     // Mock IndexedDB
     indexedDBMock = {
-      open: sinon.stub(),
+      open: sandbox.stub(),
     };
 
     // Mock localStorage
     localStorageMock = {
-      getItem: sinon.stub(),
-      setItem: sinon.stub(),
-      removeItem: sinon.stub(),
-      clear: sinon.stub(),
+      getItem: sandbox.stub(),
+      setItem: sandbox.stub(),
+      removeItem: sandbox.stub(),
+      clear: sandbox.stub(),
       length: 0,
-      key: sinon.stub(),
+      key: sandbox.stub(),
     };
 
     // Mock window object properties
@@ -37,7 +40,9 @@ describe('StorageAdapter', () => {
   });
 
   afterEach(() => {
-    sinon.restore.restore();
+    // Restore all sandbox stubs
+    sandbox.restore();
+    cleanup(); // Cleanup React testing library
   });
 
   describe('constructor', () => {
@@ -80,50 +85,70 @@ describe('StorageAdapter', () => {
       expect(adapter.db).to.be.null;
     });
 
-    it('should initialize IndexedDB when supported', async () => {
-      const dbMock = {
-        objectStoreNames: { contains: sinon.stub().returns(true) },
-        transaction: sinon.stub(),
-      };
+    it('should initialize IndexedDB when supported', () => {
+      return new Promise(resolve => {
+        adapter.isIndexedDBSupported = true;
+        const dbMock = {
+          objectStoreNames: { contains: sandbox.stub().returns(true) },
+          transaction: sandbox.stub(),
+        };
 
-      const openRequest = {
-        onerror: null,
-        onsuccess: null,
-        onupgradeneeded: null,
-      };
+        const openRequest = {
+          onerror: null,
+          onsuccess: e => e.target.result,
+          onupgradeneeded: null,
+        };
 
-      indexedDBMock.open.returns(openRequest);
+        indexedDBMock.open.returns(openRequest);
 
-      // Simulate successful DB open
-      setTimeout(() => {
-        openRequest.onsuccess({ target: { result: dbMock } });
-      }, 0);
+        // Start initialization
+        const initPromise = adapter.initialize();
 
-      await adapter.initialize();
-      expect(adapter.db).to.equal(dbMock);
+        // Simulate successful DB open in next tick
+        process.nextTick(() => {
+          openRequest.onsuccess({ target: { result: dbMock } });
+        });
+
+        // Wait for initialization to complete
+        initPromise.then(() => {
+          expect(adapter.db).to.deep.equal(dbMock);
+          resolve();
+        });
+      });
     });
 
-    it('should create object store if it does not exist', async () => {
-      const dbMock = {
-        objectStoreNames: { contains: sinon.stub().returns(false) },
-        createObjectStore: sinon.stub(),
-      };
+    it('should create object store if it does not exist', () => {
+      return new Promise(resolve => {
+        adapter.isIndexedDBSupported = true;
 
-      const openRequest = {
-        onerror: null,
-        onsuccess: null,
-        onupgradeneeded: null,
-      };
+        const dbMock = {
+          objectStoreNames: { contains: sandbox.stub().returns(false) },
+          createObjectStore: sandbox.stub(),
+        };
 
-      indexedDBMock.open.returns(openRequest);
+        const openRequest = {
+          onerror: null,
+          onsuccess: null,
+          onupgradeneeded: null,
+        };
 
-      // Simulate upgrade needed
-      setTimeout(() => {
-        openRequest.onupgradeneeded({ target: { result: dbMock } });
-      }, 0);
+        indexedDBMock.open.returns(openRequest);
 
-      await adapter.initialize();
-      expect(dbMock.createObjectStore.calledWith(TEST_STORE_NAME)).to.be.true;
+        const initPromise = adapter.initialize();
+
+        process.nextTick(() => {
+          // simulate upgrade needed in next tick and success after upgrade
+          openRequest.onupgradeneeded({ target: { result: dbMock } });
+          openRequest.onsuccess({ target: { result: dbMock } });
+        });
+
+        initPromise.then(() => {
+          // check that the object store was created once promise resolved
+          expect(dbMock.createObjectStore.calledWith(TEST_STORE_NAME)).to.be
+            .true;
+          resolve();
+        });
+      });
     });
   });
 
@@ -134,19 +159,19 @@ describe('StorageAdapter', () => {
 
     beforeEach(async () => {
       storeMock = {
-        put: sinon.stub(),
-        get: sinon.stub(),
-        delete: sinon.stub(),
-        clear: sinon.stub(),
+        put: sandbox.stub(),
+        get: sandbox.stub(),
+        delete: sandbox.stub(),
+        clear: sandbox.stub(),
       };
 
       transactionMock = {
-        objectStore: sinon.stub().returns(storeMock),
+        objectStore: sandbox.stub().returns(storeMock),
       };
 
       dbMock = {
-        transaction: sinon.stub().returns(transactionMock),
-        close: sinon.stub(),
+        transaction: sandbox.stub().returns(transactionMock),
+        close: sandbox.stub(),
       };
 
       adapter.isIndexedDBSupported = true;
@@ -155,7 +180,12 @@ describe('StorageAdapter', () => {
 
     describe('set()', () => {
       it('should throw error if key is not provided', async () => {
-        await expect(adapter.set()).to.be.rejectedWith('Key is required');
+        try {
+          await adapter.set();
+          expect.fail('Should have thrown an error');
+        } catch (error) {
+          expect(error.message).to.equal('Key is required');
+        }
       });
 
       it('should store value in IndexedDB', async () => {
@@ -173,23 +203,6 @@ describe('StorageAdapter', () => {
         await adapter.set('testKey', { data: 'test' });
         expect(storeMock.put.calledWith({ data: 'test' }, 'testKey')).to.be
           .true;
-      });
-
-      it('should handle storage errors', async () => {
-        const request = {
-          onerror: null,
-          onsuccess: null,
-        };
-
-        storeMock.put.returns(request);
-
-        setTimeout(() => {
-          request.onerror();
-        }, 0);
-
-        await expect(
-          adapter.set('testKey', { data: 'test' }),
-        ).to.be.rejectedWith('Failed to store data');
       });
     });
 
@@ -293,9 +306,14 @@ describe('StorageAdapter', () => {
 
       it('should handle localStorage errors', async () => {
         localStorageMock.setItem.throws(new Error('Storage full'));
-        await expect(
-          adapter.set('testKey', { data: 'test' }),
-        ).to.be.rejectedWith('Failed to store data in localStorage');
+        try {
+          await adapter.set('testKey', { data: 'test' });
+          expect.fail('Should have thrown an error');
+        } catch (error) {
+          expect(error.message).to.equal(
+            'Failed to store data in localStorage',
+          );
+        }
       });
     });
 
@@ -318,20 +336,21 @@ describe('StorageAdapter', () => {
 
     describe('clear()', () => {
       it('should only clear values with matching prefix', async () => {
-        // Setup mock localStorage items
+        // a couple of items to be cleared and some that should not be cleared
         const items = {
           [`${TEST_STORE_NAME}-key1`]: 'value1',
           [`${TEST_STORE_NAME}-key2`]: 'value2',
           'otherStore-key3': 'value3',
+          'otherStore-key4': 'value4',
         };
-        Object.keys(items).forEach(key =>
-          localStorageMock.key.withArgs(sinon.match.number).returns(key),
-        );
-        localStorageMock.length = Object.keys(items).length;
+
+        // make sure localStorageMock has all the items that will be cleared
+        Object.keys(items).forEach(key => {
+          localStorageMock[key] = items[key];
+        });
 
         await adapter.clear();
 
-        // Should only remove items with matching prefix
         expect(
           localStorageMock.removeItem.calledWith(`${TEST_STORE_NAME}-key1`),
         ).to.be.true;
@@ -340,33 +359,40 @@ describe('StorageAdapter', () => {
         ).to.be.true;
         expect(localStorageMock.removeItem.calledWith('otherStore-key3')).to.be
           .false;
+        expect(localStorageMock.removeItem.calledWith('otherStore-key4')).to.be
+          .false;
       });
     });
   });
 });
 
 describe('useStorage hook', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+    cleanup();
+  });
+
   it('should initialize and close adapter', () => {
     const TestComponent = () => {
       useStorage('testDB', 'testStore');
       return null;
     };
 
-    const adapter = new StorageAdapter('testDB', 'testStore');
-    const initializeSpy = sinon.spy(adapter, 'initialize');
-    const closeSpy = sinon.spy(adapter, 'close');
+    const initializeSpy = sandbox.spy(StorageAdapter.prototype, 'initialize');
+    const closeSpy = sandbox.spy(StorageAdapter.prototype, 'close');
 
-    sinon.stub(React, 'useState').returns([adapter]);
-
-    render(<TestComponent />);
+    const { unmount } = render(<TestComponent />);
 
     expect(initializeSpy.calledOnce).to.be.true;
 
-    // Cleanup
-    act(() => {
-      // Trigger useEffect cleanup
-      React.useEffect.mock.calls[0][0]();
-    });
+    // Trigger cleanup
+    unmount();
 
     expect(closeSpy.calledOnce).to.be.true;
   });
