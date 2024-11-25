@@ -184,7 +184,7 @@ export const BENEFITS_LIST = [
     id: 'SBP',
     description:
       "If you're a service member in your last 180 days of service, the DOD Skillbridge program can help you gain valuable civilian work experience through specific industry training, apprenticeships, or internships.",
-    isTimeSensitive: false,
+    isTimeSensitive: true,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -336,7 +336,7 @@ export const BENEFITS_LIST = [
     id: 'TAP',
     description:
       "If you're a transitioning service member, the TAP program provides information, services, and training to help you plan for your transition and meet your post-military goals.",
-    isTimeSensitive: false,
+    isTimeSensitive: true,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -419,7 +419,7 @@ export const BENEFITS_LIST = [
     category: categories.HOUSING,
     id: 'DHS',
     description:
-      "We offer housing grants for for Veterans and service-connected disabilities so they can buy or change a home to meet their needs and live more independentaly. Find out if you're eligible for a disability housing grant and how to apply.",
+      'We offer housing grants for Veterans and service members with certain service-connected disabilities so they can buy or change a home to meet their needs and live more independently. Changing a home might involve installing ramps or widening doorways. Find out if you’re eligible for a disability housing grant—and how to apply.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [
@@ -446,8 +446,9 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
+      'https://www.va.gov/housing-assistance/disability-housing-grants/',
+    applyNowURL:
       'https://www.va.gov/housing-assistance/disability-housing-grants/how-to-apply/',
-    applyNowURL: '',
   },
   {
     name: 'Veterans Pension',
@@ -491,7 +492,7 @@ export const BENEFITS_LIST = [
     category: categories.HEALTH_CARE,
     id: 'MHC',
     description:
-      "VA has a variety of mental health resources, information, treatment options and more - all accessible to Veterans, Veterans' supporters and the general public. Click Learn More below to learn more about about a specific mental health topic or topic ot to find information specifically tailored to your needs.",
+      'VA has a variety of mental health resources, information, treatment options and more — all accessible to Veterans, Veterans’ supporters and the general public. Select Learn More below to learn more about a specific mental health topic or to find information specifically tailored to your needs.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
@@ -515,11 +516,11 @@ export const BENEFITS_LIST = [
     applyNowURL: '',
   },
   {
-    name: 'Foriegn Medical Program',
+    name: 'Foreign Medical Program',
     category: categories.HEALTH_CARE,
     id: 'FMP',
     description:
-      "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care. Click Learn More below to find out how the Foriegn Medical Program works and how to register.",
+      "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care. Click Learn More below to find out how the Foreign Medical Program works and how to register.",
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
@@ -541,7 +542,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/health-care/foriegn-medical-program/',
+    learnMoreURL: 'https://www.va.gov/health-care/foreign-medical-program/',
     applyNowURL:
       'https://www.va.gov/health-care/foreign-medical-program/register-form-10-7959f-1/introduction',
   },
@@ -576,11 +577,11 @@ export const BENEFITS_LIST = [
     applyNowURL: '',
   },
   {
-    name: 'VALife insurance',
+    name: 'Veterans Affairs Life Insurance (VALife)',
     category: categories.LIFE_INSURANCE,
     id: 'VAL',
     description:
-      "Veterans Affairs Life (VALife) insurance provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
+      "Veterans Affairs Life Insurance (VALife) provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
@@ -769,7 +770,7 @@ export const BENEFITS_LIST = [
     category: categories.MORE_SUPPORT,
     id: 'DCU',
     description:
-      'Click the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.',
+      'Select the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],
