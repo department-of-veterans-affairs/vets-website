@@ -19,7 +19,7 @@ export default {
     properties: {
       [veteranFields.parentObject]: {
         type: 'object',
-        required: ['homePhone', 'email'],
+        required: [veteranFields.homePhone, veteranFields.email],
         properties: {
           [veteranFields.homePhone]: phoneSchema,
           [veteranFields.email]: emailSchema,
