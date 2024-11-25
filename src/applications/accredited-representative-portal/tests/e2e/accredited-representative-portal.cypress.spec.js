@@ -93,7 +93,7 @@ describe('Accredited Representative Portal', () => {
         'have.text',
         'Power of attorney requests',
       );
-      cy.get('[data-testid=poa-requests-table]').should('exist');
+      cy.get('[data-testid=poa-requests-card]').should('exist');
 
       cy.get('[data-testid=wider-than-mobile-logo-row-logo-link]').click();
       cy.get('[data-testid=landing-page-heading]').should(

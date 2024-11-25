@@ -2,12 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const BenefitCard = ({ benefit }) => {
-  const { name, category, description, learnMoreURL, applyNowURL } = benefit;
+  const {
+    name,
+    category,
+    description,
+    isTimeSensitive,
+    learnMoreURL,
+    applyNowURL,
+  } = benefit;
   return (
-    <div className="vads-u-margin-bottom--2">
+    <div className="benefit-card vads-u-margin-bottom--2">
       <va-card tabIndex="0">
-        <h3>
-          <span className="usa-label">{category}</span>
+        <>
+          {isTimeSensitive && (
+            <div className="blue-heading">
+              <span>
+                <b>Time-sensitive benefit</b>
+              </span>
+            </div>
+          )}
+        </>
+        <h3 className="vads-u-margin-top--0">
+          <span className="usa-label category-label">{category}</span>
           <br />
           <br />
           <span>{name}</span>
@@ -44,11 +60,12 @@ const BenefitCard = ({ benefit }) => {
 
 BenefitCard.propTypes = {
   benefit: PropTypes.shape({
-    name: PropTypes.string,
+    applyNowURL: PropTypes.string,
     category: PropTypes.string,
     description: PropTypes.string,
+    isTimeSensitive: PropTypes.bool,
     learnMoreURL: PropTypes.string,
-    applyNowURL: PropTypes.string,
+    name: PropTypes.string,
   }),
 };
 

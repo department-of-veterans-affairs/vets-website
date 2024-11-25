@@ -1,4 +1,5 @@
 import React from 'react';
+import { expect } from 'chai';
 import { testComponentRender } from '../../../../shared/tests/pages/pageTests.spec';
 import {
   ApplicantDependentStatusPage,
@@ -19,6 +20,10 @@ import {
   ApplicantRelOriginPage,
   ApplicantRelOriginReviewPage,
 } from '../../../pages/ApplicantRelOriginPage';
+import {
+  SignerContactInfoPage,
+  signerContactOnGoForward,
+} from '../../../pages/SignerContactInfoPage';
 import mockData from '../../e2e/fixtures/data/test-data.json';
 
 // Basic render tests:
@@ -76,3 +81,37 @@ testComponentRender(
     title={() => {}}
   />,
 );
+testComponentRender(
+  'SignerContactInfoPage',
+  <SignerContactInfoPage data={{}} />,
+);
+testComponentRender(
+  'SignerContactInfoPage',
+  <SignerContactInfoPage onReviewPage />,
+);
+describe('SignerContactOnGoForward', () => {
+  it("should copy certifier info to sponsor if certifierRole === 'sponsor'", () => {
+    const props = {
+      data: {
+        certifierRole: 'sponsor',
+        certifierName: { first: 'first', last: 'last' },
+      },
+    };
+    signerContactOnGoForward(props); // operates directly on `props`
+    expect(props.data.veteransFullName.first).to.eq(
+      props.data.certifierName.first,
+    );
+  });
+  it("should copy certifier info to applicant array if certifierRole === 'applicant'", () => {
+    const props = {
+      data: {
+        certifierRole: 'applicant',
+        certifierName: { first: 'first', last: 'last' },
+      },
+    };
+    signerContactOnGoForward(props); // operates directly on `props`
+    expect(props.data.applicants[0].applicantName.first).to.eq(
+      props.data.certifierName.first,
+    );
+  });
+});
