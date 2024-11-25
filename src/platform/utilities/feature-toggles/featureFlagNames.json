@@ -7,6 +7,7 @@
   "askVaIntroductionPageFeature": "ask_va_introduction_page_feature",
   "authExpVbaDowntimeMessage": "auth_exp_vba_downtime_message",
   "avsEnabled": "avs_enabled",
+  "bannerUseAlternativeBanners": "banner_use_alternative_banners",
   "bcasLettersUseLighthouse": "bcas_letters_use_lighthouse",
   "benefitsDocumentsUseLighthouse": "benefits_documents_use_lighthouse",
   "burialFormEnabled": "burial_form_enabled",
