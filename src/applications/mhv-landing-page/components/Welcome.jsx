@@ -43,9 +43,11 @@ const Welcome = ({ name }) => (
         onClick={() => {
           datadogRum.addAction('Click on Landing Page: Welcome - Profile');
           recordEvent({
-            event: 'nav-linkslist',
-            'links-list-header': 'Profile',
-            'links-list-section-header': 'Welcome',
+            event: 'nav-link-click',
+            action: 'click',
+            'link-label': 'Profile',
+            'link-destination': '/profile',
+            'link-origin': window.location.href,
           });
         }}
       >

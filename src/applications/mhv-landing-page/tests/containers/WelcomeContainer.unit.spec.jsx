@@ -70,10 +70,13 @@ describe('WelcomeContainer component', () => {
 
     it('reports to GA on click of profile links', async () => {
       const eventData = {
-        event: 'nav-linkslist',
-        'links-list-header': 'Profile',
-        'links-list-section-header': 'Welcome',
+        event: 'nav-link-click',
+        action: 'click',
+        'link-destination': '/profile',
+        'link-label': 'Profile',
+        'link-origin': 'http://localhost/',
       };
+      global.window.location = new URL(`http://localhost/`);
       global.window.dataLayer = [];
       const { getByRole } = setup();
       const profileLink = getByRole('link', { name: /profile/i });
