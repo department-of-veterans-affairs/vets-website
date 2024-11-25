@@ -1,8 +1,7 @@
-import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render, cleanup } from '@testing-library/react';
-import { StorageAdapter, useStorage } from './StorageAdapter';
+import { cleanup } from '@testing-library/react';
+import { StorageAdapter } from './StorageAdapter';
 
 describe('StorageAdapter', () => {
   let adapter;
@@ -363,37 +362,5 @@ describe('StorageAdapter', () => {
           .false;
       });
     });
-  });
-});
-
-describe('useStorage hook', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-    cleanup();
-  });
-
-  it('should initialize and close adapter', () => {
-    const TestComponent = () => {
-      useStorage('testDB', 'testStore');
-      return null;
-    };
-
-    const initializeSpy = sandbox.spy(StorageAdapter.prototype, 'initialize');
-    const closeSpy = sandbox.spy(StorageAdapter.prototype, 'close');
-
-    const { unmount } = render(<TestComponent />);
-
-    expect(initializeSpy.calledOnce).to.be.true;
-
-    // Trigger cleanup
-    unmount();
-
-    expect(closeSpy.calledOnce).to.be.true;
   });
 });

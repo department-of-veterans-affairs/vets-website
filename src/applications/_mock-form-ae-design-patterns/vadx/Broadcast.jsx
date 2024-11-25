@@ -1,17 +1,28 @@
 import React from 'react';
-import { useBroadcastChannel } from './useBroadcastChannel';
+import { useBroadcastStorage } from './useBroadcastStorage';
 
 export const Broadcast = () => {
-  const [message, sendMessage] = useBroadcastChannel(
-    'mock-form-ae-design-patterns',
-  );
+  const { useStorageForKey } = useBroadcastStorage({
+    dbName: 'vadx',
+    storeName: 'preferences',
+  });
+
+  const [theme, setTheme, removeTheme] = useStorageForKey('theme');
+
+  const handleSave = async () => {
+    await setTheme('dark');
+  };
+
+  const handleRemove = async () => {
+    await removeTheme();
+  };
 
   return (
-    <>
-      <p>{message}</p>
-      <button onClick={() => sendMessage(`hello ${Date.now()}`)}>
-        Send Message
-      </button>
-    </>
+    <div>
+      <button onClick={handleSave}>Save</button>
+      <button onClick={handleRemove}>Remove</button>
+
+      <div>Theme: {theme}</div>
+    </div>
   );
 };

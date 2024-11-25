@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { StorageError } from './StorageError';
 
@@ -145,7 +144,9 @@ export class StorageAdapter {
               'STORAGE_ADAPTER_READ_ERROR',
             ),
           );
-        request.onsuccess = () => resolve(request.result);
+        request.onsuccess = () => {
+          resolve(request.result);
+        };
       });
     }
 
@@ -188,7 +189,7 @@ export class StorageAdapter {
     }
 
     try {
-      localStorage.removeItem(key);
+      localStorage.removeItem(`${this.storeName}-${key}`);
       return Promise.resolve();
     } catch (error) {
       throw new StorageError(
@@ -244,24 +245,6 @@ export class StorageAdapter {
     }
   }
 }
-
-// Example Hook for using the storage adapter
-// TODO: consider using a context provider instead of a hook
-export const useStorage = (dbName, storeName, version = 1) => {
-  const [adapter] = React.useState(
-    () => new StorageAdapter(dbName, storeName, version),
-  );
-
-  React.useEffect(
-    () => {
-      adapter.initialize();
-      return () => adapter.close();
-    },
-    [adapter],
-  );
-
-  return adapter;
-};
 
 // PropTypes for components using the storage adapter
 export const StorageAdapterPropTypes = {

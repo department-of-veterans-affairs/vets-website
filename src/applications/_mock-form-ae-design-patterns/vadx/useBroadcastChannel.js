@@ -1,11 +1,7 @@
-import { useEffect, useMemo } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useEffect, useMemo, useState } from 'react';
 
-export const useBroadcastChannel = (channelName, initialValue = null) => {
-  const [message, setMessage, clearMessage] = useLocalStorage(
-    channelName,
-    initialValue,
-  );
+export const useBroadcastChannel = channelName => {
+  const [message, setMessage] = useState(null);
 
   const channel = useMemo(() => new BroadcastChannel(channelName), [
     channelName,
@@ -32,5 +28,5 @@ export const useBroadcastChannel = (channelName, initialValue = null) => {
     setMessage(msg);
   };
 
-  return [message, sendMessage, clearMessage];
+  return [message, sendMessage];
 };
