@@ -14,6 +14,7 @@ import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
+import AccountHandler from './AccountHandler';
 import HelpdeskInfo from './HelpdeskInfo';
 import Alerts from '../containers/Alerts';
 import {
@@ -73,6 +74,7 @@ const LandingPage = ({ data = {} }) => {
         )}
         {userRegistered && <HubLinks hubs={hubs} />}
         {userRegistered && <NewsletterSignup />}
+        <AccountHandler />
       </div>
     </>
   );

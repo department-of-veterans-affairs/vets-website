@@ -5,6 +5,7 @@ const commonResponses = require('../../../testing/local-dev-mock-api/common');
 
 const featureToggles = require('./feature-toggles');
 const user = require('./user');
+const MHVAccountStatus = require('./user/mhv-account-status');
 const vamcEhr = require('./vamc-ehr.json');
 const personalInformation = require('./user/personal-information.json');
 
@@ -136,6 +137,8 @@ const responses = {
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
   'GET /my_health/v1/medical_records/vitals': vitals.all,
+
+  'GET /v0/user/mhv_user_account': MHVAccountStatus.eightZeroOne,
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner
