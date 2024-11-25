@@ -69,7 +69,7 @@ export default function ScheduleReferral(props) {
           {currentReferral.ReferralNumber}
         </p>
         <va-additional-info
-          data-testid="help-text"
+          data-testid="additional-appointment-help-text"
           uswds
           trigger="If you were approved for more than one appointment"
           class="vads-u-margin-bottom--2"
