@@ -11,9 +11,9 @@ const OptionalStep = ({ formValues }) => {
     return (
       <section className="vads-u-margin-top--3">
         <va-summary-box>
-          <h4 slot="headline">
+          <h2 slot="headline" className="vads-u-font-size--h4">
             (Optional): Apply to the Physical Disability Board of Review (PDBR)
-          </h4>
+          </h2>
           <p>
             If you believe your disability rating for TBI, PTSD, or mental
             health conditions is too low, consider applying to the Physical
