@@ -43,9 +43,10 @@ export const safeNewDate = dateStr => {
  */
 export const getPhase = (extractStatus, retrieved) => {
   if (
-    !extractStatus.lastRequested ||
-    !extractStatus.lastCompleted ||
-    !extractStatus.lastSuccessfulCompleted
+    !extractStatus?.lastRequested ||
+    !extractStatus?.lastCompleted ||
+    !extractStatus?.lastSuccessfulCompleted ||
+    !retrieved
   ) {
     return null;
   }

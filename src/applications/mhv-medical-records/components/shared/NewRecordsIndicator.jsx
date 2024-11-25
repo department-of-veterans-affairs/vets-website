@@ -113,15 +113,19 @@ const NewRecordsIndicator = ({
             status="warning"
             visible
             aria-live="polite"
-            data-testid="new-records-refreshed-stale"
+            data-testid="new-records-refreshed-call_failed"
           >
             <h2>Your records may not be up to date.</h2>
             <p>
               There’s a problem with our system, and we can’t access the date
-              your records were last updated. We’re sorry. Please check back
-              later for updates. If it still doesn’t work, call us at
-              877-327-0022 (TTY:711). We’re here Monday through Friday, 8:00 a.m
-              to 8:00 p. ET.
+              your records were last updated. We’re sorry.
+            </p>
+
+            <p> Please check backlater for updates.</p>
+
+            <p>
+              If it still doesn’t work, call us at 877-327-0022 (TTY:711). We’re
+              here Monday through Friday, 8:00 a.m to 8:00 p. ET.
             </p>
           </va-alert>
         );
