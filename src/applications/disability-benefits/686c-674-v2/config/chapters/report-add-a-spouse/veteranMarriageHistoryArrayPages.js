@@ -49,7 +49,7 @@ export const veteranMarriageHistoryOptions = {
       !item?.startLocation?.location?.state) ||
     (item?.endLocation?.outsideUsa === false &&
       !item?.endLocation?.location?.state),
-  maxItems: 7,
+  maxItems: 20,
   text: {
     getItemName: item =>
       `${capitalize(item.fullName?.first) || ''} ${capitalize(

@@ -548,6 +548,19 @@ export const updateLcFilterDropdowns = (dropdowns, target) => {
   );
 };
 
+export const handleLcResultsSearch = (
+  history,
+  type = 'all',
+  name = null,
+  state = 'all',
+) => {
+  return name
+    ? history.push(
+        `/lc-search/results?type=${type}&name=${name}&state=${state}`,
+      )
+    : history.push(`/lc-search/results?type=${type}&state=${state}`);
+};
+
 export const formatProgramType = programType => {
   if (!programType) return '';
 
@@ -556,4 +569,42 @@ export const formatProgramType = programType => {
     .filter(word => word.trim()) // Filter out empty strings caused by extra hyphens
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
+};
+
+export const generateMockPrograms = numPrograms => {
+  const programNames = [
+    'CERTIFIED ETHICAL HACKER',
+    'CISCO SYSTEMS - CCDA',
+    'CERTIFIED INFORMATION SYSTEMS SECURITY',
+    'VMWARE CERTIFIED ASSOCIATE',
+    'MICROSOFT CERTIFIED PROFESSIONAL',
+    'CISCO SYSTEMS - CCDP',
+    'CISCO SYSTEMS - CCNA',
+    'CISCO SYSTEMS - CCNA SECURITY',
+    'CISCO SYSTEMS - CCNA VOICE',
+    'CISCO SYSTEMS - CCNA WIRELESS',
+    'DATABASE AND SOFTWARE DEVELOPER',
+    'CISCO SYSTEMS - CCNP',
+    'CISCO SYSTEMS - CCNP SECURITY',
+    'CISCO SYSTEMS - CCNP VOICE',
+    'CISCO SYSTEMS - CCNP WIRELESS',
+    'COMPTIA A PLUS',
+    'COMPTIA LINUX PLUS',
+    'COMPTIA NETWORK PLUS',
+    'COMPTIA SECURITY PLUS',
+    'NETWORK SECURITY ENGINEER',
+    'IT SYSTEMS ENGINEER',
+    'MICROSOFT CERTIFIED SOLUTIONS ASSOCIATE',
+  ];
+
+  return Array.from({ length: numPrograms }, (_, index) => ({
+    id: (index + 1).toString(),
+    type: 'institution_programs',
+    attributes: {
+      programType: 'NCD',
+      description: programNames[index % programNames.length],
+      facilityCode: '3V000242',
+      institutionName: 'LAB FOUR PROFESSIONAL DEVELOPMENT CENTER - NASHVILLE',
+    },
+  }));
 };

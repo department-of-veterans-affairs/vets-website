@@ -1,7 +1,7 @@
-import { isAttorneyOrClaimsAgent } from './helpers';
+import { getRepType } from './helpers';
 
 function consentLimitsTransform(formData) {
-  const authorizeRecords = formData['view:authorizeRecordsCheckbox'] || {};
+  const authorizeRecords = formData.authorizeMedicalSelectCheckbox || {};
 
   const conditionsMap = {
     alcoholRecords: 'ALCOHOLISM',
@@ -13,6 +13,13 @@ function consentLimitsTransform(formData) {
   return Object.entries(conditionsMap)
     .filter(([key]) => authorizeRecords[key])
     .map(([, value]) => value);
+}
+
+function yesNoToBoolean(field) {
+  if (typeof field !== 'string') {
+    return null;
+  }
+  return !!field.trim().startsWith('Yes');
 }
 
 export function pdfTransform(formData) {
@@ -29,14 +36,17 @@ export function pdfTransform(formData) {
     applicantName,
     applicantDOB,
     claimantRelationship,
+    'Branch of Service': serviceBranch,
     homeAddress: claimantAddress,
     authorizationRadio,
     authorizeAddressRadio,
+    authorizeInsideVARadio,
+    authorizeOutsideVARadio,
+    authorizeNamesTextArea,
     applicantPhone,
     applicantEmail,
   } = formData;
 
-  // extracts address information
   const createAddress = (address = {}) => ({
     addressLine1: address.street || '',
     addressLine2: address.street2 || '',
@@ -47,7 +57,6 @@ export function pdfTransform(formData) {
     zipCodeSuffix: address.zipCodeSuffix || '',
   });
 
-  // construct veteran object
   const veteran = {
     name: {
       first: veteranFullName?.first || '',
@@ -58,7 +67,7 @@ export function pdfTransform(formData) {
     vaFileNumber,
     dateOfBirth,
     serviceNumber,
-    insuranceNumbers: [],
+    serviceBranch,
     address: createAddress(homeAddress),
     phone,
     email,
@@ -81,19 +90,35 @@ export function pdfTransform(formData) {
           email: applicantEmail || '',
         };
 
-  const representative = {
-    id: selectedRep?.id,
-  };
+  const repType = getRepType(selectedRep);
 
-  if (!isAttorneyOrClaimsAgent(formData)) {
-    representative.organizationId = formData.selectedAccreditedOrganizationId;
+  const representative = {};
+
+  if (repType !== 'Organization') {
+    representative.id = selectedRep?.id;
+  }
+
+  if (repType === 'Organization') {
+    representative.organizationId = selectedRep?.id;
+  } else if (repType === 'VSO Representative') {
+    if (formData?.selectedAccreditedOrganizationId) {
+      representative.organizationId = formData.selectedAccreditedOrganizationId;
+    } else {
+      representative.organizationId =
+        selectedRep?.attributes?.accreditedOrganizations?.data[0]?.id;
+    }
   }
 
   return {
     veteran,
-    recordConsent: authorizationRadio || '',
-    consentAddressChange: authorizeAddressRadio || '',
+    recordConsent: yesNoToBoolean(authorizationRadio),
+    consentAddressChange: yesNoToBoolean(authorizeAddressRadio),
     consentLimits: consentLimitsTransform(formData),
+    consentInsideAccess: yesNoToBoolean(authorizeInsideVARadio),
+    consentOutsideAccess: yesNoToBoolean(authorizeOutsideVARadio),
+    consentTeamMembers: authorizeNamesTextArea
+      .split(',')
+      .map(item => item.trim()),
     representative,
     ...(formData['view:applicantIsVeteran'] === 'No' && { claimant }),
   };

@@ -1,6 +1,7 @@
 import medicationsList from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import { medicationsUrls } from '../../../util/constants';
+import { Paths } from '../utils/constants';
 
 class MedicationsRefillPage {
   loadRefillPage = prescriptions => {
@@ -67,17 +68,13 @@ class MedicationsRefillPage {
     cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
       .first()
       .click({ waitForAnimations: true });
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      medicationsList,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
   };
 
   clickGoToMedicationsListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      'my_health/v1/prescriptions?page=1&per_page=20All%20medications',
       medicationsList,
     ).as('medicationsList');
     cy.intercept(
@@ -86,6 +83,7 @@ class MedicationsRefillPage {
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.get('[data-testid="medications-page-link"]').should('exist');
     cy.get('[data-testid="medications-page-link"]')
       .first()
@@ -93,11 +91,7 @@ class MedicationsRefillPage {
   };
 
   clickBackToMedicationsBreadcrumbOnRefillPage = () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      medicationsList,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',

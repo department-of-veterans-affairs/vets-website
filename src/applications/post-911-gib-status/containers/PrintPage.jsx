@@ -12,24 +12,14 @@ export class PrintPage extends React.Component {
     focusElement('.print-screen');
     document.querySelector('header').classList.add('no-print-no-sr');
     document.querySelector('footer').classList.add('no-print-no-sr');
-    document
-      // TO-DO: Update after correct breadcrumbs classname successfully tested
-      .querySelector(this.getBreadcrumbsSelector())
-      .classList.add('no-print-no-sr');
+    document.querySelector('va-breadcrumbs').classList.add('no-print-no-sr');
   }
 
   componentWillUnmount() {
     document.querySelector('header').classList.remove('no-print-no-sr');
     document.querySelector('footer').classList.remove('no-print-no-sr');
-    document
-      // TO-DO: Update after correct breadcrumbs classname successfully tested
-      .querySelector(this.getBreadcrumbsSelector())
-      .classList.remove('no-print-no-sr');
+    document.querySelector('va-breadcrumbs').classList.remove('no-print-no-sr');
   }
-
-  // TO-DO: Remove after correct breadcrumbs classname successfully tested
-  getBreadcrumbsSelector = () =>
-    this.props.breadcrumbsUpdated ? 'va-breadcrumbs' : '.va-nav-breadcrumbs';
 
   backToStatement = () => this.props.router.push('/');
 
@@ -46,7 +36,7 @@ export class PrintPage extends React.Component {
           <div className="print-screen">
             <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
             <h1 className="section-header">
-              Post-9/11 GI Bill
+              Your Post-9/11 GI Bill
               <sup>&reg;</sup> Statement of Benefits
             </h1>
             <button className="usa-button-primary" onClick={this.printWindow}>

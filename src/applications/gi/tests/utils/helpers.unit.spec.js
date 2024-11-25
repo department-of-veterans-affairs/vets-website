@@ -538,6 +538,7 @@ describe('GIBCT helpers:', () => {
       expect(scrollByStub.called).to.be.false;
     });
   });
+
   describe('formatProgramType', () => {
     it('should return an empty string when programType is null or undefined', () => {
       expect(formatProgramType(null)).to.equal('');

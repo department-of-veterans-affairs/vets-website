@@ -119,7 +119,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -186,7 +186,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         directPastVisits: true,
       });
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -247,7 +247,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         directPastVisits: true,
       });
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -333,16 +333,17 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
       };
       const store = createTestStore(state);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      expect(await screen.findByText(/We couldn’t find a VA facility/i)).to
-        .exist;
+      expect(
+        await screen.findByText(/You can’t schedule this appointment online/i),
+      ).to.exist;
       expect(screen.baseElement).to.contain.text(
-        'None of the facilities where you receive care accepts online appointments for primary care.',
+        'None of your VA facilities have online scheduling for primary care.',
       );
       expect(screen.getByText(/Facility 983/i)).to.exist;
       expect(screen.baseElement).to.contain.text('Facility 983');
@@ -406,16 +407,17 @@ describe('VAOS Page: VAFacilityPage', () => {
       mockSchedulingConfigurations(configs);
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      expect(await screen.findByText(/We couldn’t find a VA facility/i)).to
-        .exist;
+      expect(
+        await screen.findByText(/You can’t schedule this appointment online/i),
+      ).to.exist;
       expect(screen.baseElement).to.contain.text(
-        'None of the facilities where you receive care accepts online appointments for primary care.',
+        'None of your VA facilities have online scheduling for primary care.',
       );
       expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
       expect(screen.baseElement).to.contain.text('Bozeman VA medical center');
@@ -429,7 +431,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     it('should display an error message when facilities call fails', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -512,7 +514,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
@@ -599,7 +601,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
@@ -675,7 +677,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -684,7 +686,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       await cleanup();
 
-      await setTypeOfCare(store, 'EYE'); // eye care
+      await setTypeOfCare(store, /eye care/i);
       await setTypeOfEyeCare(store, /optometry/i);
 
       screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -725,7 +727,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       const store = createTestStore({
         ...initialState,
       });
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -830,7 +832,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -904,7 +906,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -980,7 +982,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
       await screen.findAllByRole('radio');
@@ -1044,7 +1046,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           },
         },
       });
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
       await screen.findAllByRole('radio');
@@ -1103,7 +1105,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       ]);
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const { baseElement, findByText, history } = renderWithStoreAndRouter(
         <VAFacilityPage />,
@@ -1177,18 +1179,14 @@ describe('VAOS Page: VAFacilityPage', () => {
       ]);
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, 'EYE'); // eye care
+      await setTypeOfCare(store, /eye care/i);
       await setTypeOfEyeCare(store, /optometry/i);
 
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      await screen.findByText(
-        /We found one facility that accepts online scheduling for this care/i,
-      );
-
-      expect(screen.baseElement).to.contain.text('Facility 1');
+      await screen.findByText(/You can.t schedule this appointment online/i);
 
       await cleanup();
       await setTypeOfEyeCare(store, /Ophthalmology/i);
@@ -1245,7 +1243,6 @@ describe('VAOS Page: VAFacilityPage', () => {
         featureToggles: {
           vaOnlineSchedulingDirect: true,
           vaOnlineSchedulingUseDsot: true,
-          vaOnlineSchedulingFacilitiesServiceV2: true,
         },
         user: {
           profile: {
@@ -1307,7 +1304,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
       });
 
-      await setTypeOfCare(store, '323'); // primary care
+      await setTypeOfCare(store, /primary care/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -1382,7 +1379,6 @@ describe('VAOS Page: VAFacilityPage', () => {
       featureToggles: {
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingUseDsot: true,
-        vaOnlineSchedulingFacilitiesServiceV2: true,
         vaOnlineSchedulingOhDirectSchedule: true,
       },
       user: {
@@ -1446,7 +1442,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
       });
 
-      await setTypeOfCare(store, '123'); // nutrition and food
+      await setTypeOfCare(store, /nutrition and food/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,

@@ -54,6 +54,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  onFormLoaded,
 } from '../utils/evidence';
 import { hasMstOption } from '../utils/mstOption';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
@@ -69,6 +70,7 @@ import {
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
   SUBMIT_URL,
+  SC_NEW_FORM_DATA,
 } from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 import { title995, getSubTitle } from '../content/title';
@@ -144,6 +146,7 @@ const formConfig = {
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
+  onFormLoaded,
   formOptions: {
     focusOnAlertRole: true,
   },
@@ -309,6 +312,9 @@ const formConfig = {
           title: 'VA medical records',
           path: EVIDENCE_VA_PATH,
           depends: hasVAEvidence,
+          appStateSelector: state => ({
+            [SC_NEW_FORM_DATA]: state.form?.data?.[SC_NEW_FORM_DATA] || false,
+          }),
           CustomPage: EvidenceVaRecords,
           CustomPageReview: null,
           uiSchema: evidenceVaRecords.uiSchema,
