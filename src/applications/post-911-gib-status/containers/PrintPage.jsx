@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import { formatDateLong } from 'platform/utilities/date';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+
 import UserInfoSection from '../components/UserInfoSection';
 
 export class PrintPage extends React.Component {
@@ -63,7 +63,6 @@ export class PrintPage extends React.Component {
 }
 
 PrintPage.propTypes = {
-  breadcrumbsUpdated: PropTypes.bool,
   enrollmentData: PropTypes.object,
   router: PropTypes.shape({
     push: PropTypes.func,
@@ -73,8 +72,6 @@ PrintPage.propTypes = {
 function mapStateToProps(state) {
   return {
     enrollmentData: state.post911GIBStatus.enrollmentData,
-    // TO-DO: Remove after correct breadcrumbs classname successfully tested
-    breadcrumbsUpdated: toggleValues(state).sob_print_page_update,
   };
 }
 
