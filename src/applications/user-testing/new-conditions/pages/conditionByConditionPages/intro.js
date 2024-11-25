@@ -5,7 +5,7 @@ const introPage = {
   uiSchema: {
     ...titleUI(
       'New conditions',
-      'In the next few screens, we’ll ask you about the new condition or conditions you’re filing for compensation.',
+      'On the next few screens, we’ll ask you about the new condition or conditions you’re claiming for disability compensation.',
     ),
   },
   schema: {
