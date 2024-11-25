@@ -95,7 +95,20 @@ export default function LcKeywordSearch({
                       })}
                       {...getItemProps({ item })}
                     >
-                      {item.name}
+                      {index !== 0 ? (
+                        item.name
+                      ) : (
+                        <div className="keyword-suggestion-container">
+                          <span className="vads-u-padding-right--1">
+                            {item.name}
+                          </span>
+                          <span>
+                            {`(${
+                              suggestions.length > 1 ? suggestions.length : 'No'
+                            } results)`}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
