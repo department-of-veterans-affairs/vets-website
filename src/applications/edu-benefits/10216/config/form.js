@@ -1,13 +1,16 @@
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
+import React from 'react';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 // Example of an imported schema:
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
 
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import {
+  textUI,
+  currentOrPastDateUI,
+} from '~/platform/forms-system/src/js/web-component-patterns';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from '../22-10216-schema.json';
@@ -28,6 +31,12 @@ import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+
+const subTitle = (
+  <div className="schemaform-subtitle vads-u-color--gray">
+    35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
+  </div>
+);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -53,7 +62,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Complex Form',
+  title: 'Request exemption from the 85/15 Rule reporting requirements',
+  subTitle,
   defaultDefinitions: {
     fullName,
     ssn,
@@ -63,21 +73,49 @@ const formConfig = {
   },
   chapters: {
     applicantInformationChapter: {
-      title: 'Applicant Information',
+      title: 'Institution Details',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
+        institutionDetails: {
+          path: 'institution-details',
+          title: 'Institution Details',
           uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
+            institutionName: {
+              'ui:title': 'Institution name',
+              'ui:component': textUI,
+              'ui:errorMessages': {
+                required: 'Please enter the name of your institution',
+              },
+            },
+            facilityCode: {
+              'ui:title': 'Facility code',
+              'ui:component': textUI,
+              'ui:errorMessages': {
+                required: 'Please enter your facility code',
+              },
+            },
+            startDate: {
+              ...currentOrPastDateUI('Term start date'),
+              'ui:errorMessages': {
+                required: 'Please enter the start date of your term',
+              },
+              'ui:options': {
+                hint: null,
+              },
+            },
           },
           schema: {
             type: 'object',
-            required: ['fullName'],
+            required: ['institutionName', 'facilityCode', 'startDate'],
             properties: {
-              fullName,
-              ssn,
+              institutionName: {
+                type: 'string',
+              },
+              facilityCode: {
+                type: 'string',
+              },
+              startDate: {
+                type: 'string',
+              },
             },
           },
         },
