@@ -51,6 +51,20 @@ const filterSuggestions = (suggestions, value) => {
   });
 };
 
+const resetStateDropdown = dropdowns => {
+  return dropdowns.map(dropdown => {
+    return dropdown.label === 'state'
+      ? {
+          ...dropdown,
+          current: {
+            optionValue: 'all',
+            optionLabel: 'All',
+          },
+        }
+      : dropdown;
+  });
+};
+
 export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
@@ -84,7 +98,14 @@ export default function LicenseCertificationSearchForm({
 
   const handleChange = e => {
     const newDropdowns = updateLcFilterDropdowns(dropdowns, e.target);
-    setDropdowns(newDropdowns);
+
+    if (newDropdowns[0].current.optionValue === 'certification') {
+      setDropdowns(resetStateDropdown);
+    }
+
+    setDropdowns(current => {
+      return updateLcFilterDropdowns(current, e.target);
+    });
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
