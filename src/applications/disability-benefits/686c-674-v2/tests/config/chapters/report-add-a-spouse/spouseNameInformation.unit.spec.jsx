@@ -6,6 +6,7 @@ import createCommonStore from '@department-of-veterans-affairs/platform-startup/
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
+import { SupportingEvidenceNeeded } from '../../../../config/chapters/report-add-a-spouse/current-marriage-information/helpers';
 
 const defaultStore = createCommonStore();
 
@@ -81,4 +82,27 @@ describe('686 current marriage information: Spouse military service information'
 
     expect($$('va-text-input', container).length).to.equal(2);
   });
+});
+
+describe('686 current marriage information: helpers', () => {
+  const store = {
+    getState: () => ({
+      form: {
+        data: {
+          currentMarriageInformation: {
+            type: 'PROXY',
+          },
+        },
+      },
+    }),
+    dispatch: () => {},
+    subscribe: () => {},
+  };
+  const { queryByText } = render(
+    <Provider store={store}>
+      <SupportingEvidenceNeeded />
+    </Provider>,
+  );
+
+  expect(queryByText(/proxy/)).to.not.be.null;
 });

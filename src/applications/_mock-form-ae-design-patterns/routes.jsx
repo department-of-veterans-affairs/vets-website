@@ -13,6 +13,7 @@ import blueFormConfig from './patterns/pattern2/TaskBlue/config/form';
 import { formConfigForOrangeTask } from './patterns/pattern2/TaskOrange/config/form';
 
 import App from './App';
+import ReviewPage from './patterns/pattern2/post-study/ReviewPage';
 
 import { LandingPage } from './shared/components/pages/LandingPage';
 import DevPanel from './dev/client/DevPanel';
@@ -97,7 +98,7 @@ const pattern2Routes = [
     ),
     indexRoute: {
       onEnter: (nextState, replace) =>
-        replace('/2/task-orange/introduction?loggedIn=true'),
+        replace('/2/task-orange/introduction?loggedIn=false'),
     },
     childRoutes: createRoutesWithSaveInProgress(formConfigForOrangeTask),
   },
@@ -113,6 +114,14 @@ const pattern2Routes = [
         replace('/2/task-blue/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(blueFormConfig),
+  },
+  {
+    path: '/2/post-study',
+    component: props => (
+      <PatternConfigProvider {...props}>
+        <ReviewPage {...props} />,
+      </PatternConfigProvider>
+    ),
   },
 ];
 

@@ -5,6 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { useSelector } from 'react-redux';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { selectFilterFlag } from '../../util/selectors';
+import { SESSION_RX_FILTER_OPEN_BY_DEFAULT } from '../../util/constants';
 
 const RefillNotification = ({ refillStatus }) => {
   // Selectors
@@ -37,6 +38,13 @@ const RefillNotification = ({ refillStatus }) => {
     },
     [refillStatus, successfulMeds, failedMeds],
   );
+
+  const handleGoToMedicationsListOnSuccess = () => {
+    if (!sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {
+      sessionStorage.setItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT, true);
+    }
+  };
+
   const isNotSubmitted =
     refillStatus === 'finished' &&
     successfulMeds?.length === 0 &&
@@ -144,6 +152,7 @@ const RefillNotification = ({ refillStatus }) => {
               dataDogActionNames.refillPage
                 .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
             }
+            onClick={handleGoToMedicationsListOnSuccess}
           >
             Go to your medications list
           </Link>

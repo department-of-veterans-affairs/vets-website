@@ -8,12 +8,10 @@ import {
 export default {
   uiSchema: {
     characterOfDischarge: selectUI({
+      enableAnalytics: true,
       title:
         'What is the highest character of discharge you have received or expect to receive?',
-      hint: `If you served multiple times with different characters of discharge,
-      please select the "highest" of your discharge statuses. 
-      If you feel your character of discharge is unjust, you can apply for
-      a discharge upgrade.`,
+      hint: `If you served multiple times with different characters of discharge, please select the "highest" of your discharge statuses. If you feel your character of discharge is unjust, you can apply for a discharge upgrade.`,
       required: () => true,
       errorMessages: {
         required: 'Character of discharge is required',
@@ -24,14 +22,13 @@ export default {
       'ui:description': (
         <>
           <p>
-            <a
-              target="_blank"
+            <va-link
               href="https://www.va.gov/discharge-upgrade-instructions"
-              rel="noreferrer"
-            >
-              Learn more about the discharge upgrade process (opens in a new
-              tab)
-            </a>{' '}
+              external
+              text="Learn more about the discharge upgrade process"
+              type="secondary"
+              label="Learn more about the discharge upgrade process"
+            />{' '}
             <br />
             Not sure about this question? Call us at{' '}
             <va-telephone contact="8006982411" /> (

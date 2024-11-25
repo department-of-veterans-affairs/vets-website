@@ -68,22 +68,14 @@ export const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  title: ({ currentLocation }) => {
-    if (isOnConfirmationPage(currentLocation)) {
-      return 'Your benefits and resources';
-    }
-    if (isOnReviewPage(currentLocation)) {
-      return 'Review your information';
-    }
-    return 'Benefit and resource recommendation tool';
-  },
+  title: 'Discover your benefits',
   subTitle: ({ currentLocation }) => {
     if (
       isOnReviewPage(currentLocation) ||
       isOnConfirmationPage(currentLocation)
     )
       return '';
-    return 'Please answer the questions to help us recommend helpful resources and benefits.';
+    return `Please answer the questions to help us recommend\nhelpful resources and benefits.`;
   },
   defaultDefinitions: {
     fullName,

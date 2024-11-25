@@ -3,30 +3,33 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import repStatusLoader from 'applications/static-pages/representative-status';
-import { useStore, connect } from 'react-redux';
+// import repStatusLoader from 'applications/static-pages/representative-status';
+import {
+  // useStore,
+  connect,
+} from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
 import GetFormHelp from '../components/GetFormHelp';
 
 const IntroductionPage = props => {
   const { route, loggedIn } = props;
   const { formConfig, pageList } = route;
-  const store = useStore();
+  // const store = useStore();
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
 
-  // search from query params on page load
-  useEffect(() => {
-    repStatusLoader(store, 'representative-status', 3, false);
-  }, []);
+  // // search from query params on page load
+  // useEffect(() => {
+  //   repStatusLoader(store, 'representative-status', 3, false);
+  // }, []);
 
   return (
     <article className="schemaform-intro">
       <div className="title-section">
         <FormTitle
-          title="Request help from a VA accredited representative or VSO"
+          title="Fill out your form to request help"
           subTitle="VA Form 21-22 and VA Form 21-22a"
         />
         <p>
@@ -41,7 +44,7 @@ const IntroductionPage = props => {
         </p>
         <>
           <div tabIndex="-1">
-            <div data-widget-type="representative-status" />
+            {/* <div data-widget-type="representative-status" /> */}
           </div>
         </>
       </div>

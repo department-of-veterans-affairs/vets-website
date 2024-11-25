@@ -8,7 +8,6 @@ import DeniedConfirmation from '../components/confirmation/DeniedConfirmation';
 import UnderReviewConfirmation from '../components/confirmation/UnderReviewConfirmation';
 
 import { formFields } from '../constants';
-
 import {
   fetchClaimStatus,
   sendConfirmation as sendConfirmationAction,
@@ -24,23 +23,25 @@ export const ConfirmationPage = ({
   confirmationLoading,
   confirmationError,
 }) => {
-  const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
   const [apiError, setApiError] = useState(false); // Track if a 400 or 500 error happens
 
   useEffect(
     () => {
-      if (!fetchedClaimStatus) {
-        getClaimStatus()
+      if (!claimStatus) {
+        getClaimStatus('ToeSubmission')
           .then(response => {
-            if (!response || response.status >= 400) {
-              setApiError(true);
+            // Only trigger error if response has a status code >= 400
+            if (response?.status >= 400) {
+              setApiError(true); // Set error if the response status indicates a failure
             }
           })
-          .catch(() => setApiError(true)) // Catch any network errors
-          .finally(() => setFetchedClaimStatus(true)); // Ensure we set fetchedClaimStatus
+          .catch(() => {
+            // Catch any network errors and set error to true
+            setApiError(true);
+          });
       }
     },
-    [fetchedClaimStatus, getClaimStatus],
+    [getClaimStatus, claimStatus],
   );
 
   const { first, last, middle, suffix } = user?.profile?.userFullName || {};
@@ -60,7 +61,9 @@ export const ConfirmationPage = ({
     window.print();
   }, []);
 
+  // Handle API errors
   if (apiError) {
+    // Show error page if apiError is true
     return (
       <UnderReviewConfirmation
         user={claimantName}
@@ -75,7 +78,7 @@ export const ConfirmationPage = ({
     );
   }
 
-  if (!fetchedClaimStatus) {
+  if (!claimStatus) {
     return (
       <va-loading-indicator
         class="vads-u-margin-y--5"
@@ -86,6 +89,7 @@ export const ConfirmationPage = ({
     );
   }
 
+  // Handle rendering based on claimStatus once it's populated
   switch (claimStatus?.claimStatus) {
     case 'ELIGIBLE': {
       return (

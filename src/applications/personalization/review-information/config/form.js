@@ -1,11 +1,31 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 import { TITLE } from '../constants';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const allContactInformationKeys = ['address', 'email', 'phone'];
+
+const content = getContent('form');
+content.title = '';
+content.description = null;
+
+const profileContactInfoPage = profileContactInfo({
+  contactPath: 'contact-information',
+  included: allContactInformationKeys,
+  contactInfoRequiredKeys: allContactInformationKeys,
+  addressKey: 'address',
+  mobilePhoneKey: 'phone',
+  contactInfoUiSchema: {},
+  disableMockContactInfo: true,
+  content,
+});
+
+profileContactInfoPage.confirmContactInfo.onNavForward = ({ goPath }) => {
+  goPath('confirmation');
+};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -40,22 +60,18 @@ const formConfig = {
   title: TITLE,
   defaultDefinitions: {},
   chapters: {
-    infoPages: {
+    infoPage: {
       pages: {
-        ...profileContactInfo({
-          contactPath: 'contact-information',
-          included: allContactInformationKeys,
-          contactInfoRequiredKeys: allContactInformationKeys,
-          addressKey: 'address',
-          mobilePhoneKey: 'phone',
-          contactInfoUiSchema: {},
-          disableMockContactInfo: true,
-        }),
+        ...profileContactInfoPage,
       },
     },
   },
   customText: {
+    finishAppLaterMessage: ' ',
     submitButtonText: 'Finish',
+  },
+  formOptions: {
+    noTopNav: true,
   },
   // getHelp,
   footerContent,

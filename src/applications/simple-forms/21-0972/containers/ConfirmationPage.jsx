@@ -2,13 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-
-const content = {
-  headlineText: 'You’ve submitted your alternate signer certification',
-  nextStepsText:
-    'You may now sign other forms on behalf of the Veteran or non-Veteran claimant you identified in this form.',
-};
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
 const childContent = (
   <>
@@ -308,22 +302,35 @@ const childContent = (
   </>
 );
 
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
+  const { formConfig } = props?.route;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
   return (
-    <ConfirmationPageView
-      submitterHeader="Who submitted this form"
-      formType="alternate signer certification"
-      submitterName={form.data.preparerFullName}
-      submitDate={submitDate}
+    <ConfirmationView
+      formConfig={formConfig}
       confirmationNumber={confirmationNumber}
-      content={content}
-      childContent={childContent}
-    />
+      submitDate={submitDate}
+      pdfUrl={submission.response?.pdfUrl}
+    >
+      <ConfirmationView.SubmissionAlert />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList
+        item2Content={`If we need information after reviewing
+            your form, we’ll contact you. After we review your form,
+            you may sign other forms on behalf of the Veteran or
+            non-Veteran claimant you identified in this form.`}
+      />
+      {childContent}
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
   );
 };
 
@@ -343,6 +350,7 @@ ConfirmationPage.propTypes = {
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.object,
 };
 
 function mapStateToProps(state) {

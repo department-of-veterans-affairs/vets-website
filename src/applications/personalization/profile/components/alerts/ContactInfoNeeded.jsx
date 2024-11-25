@@ -34,7 +34,10 @@ export const ContactInfoNeeded = () => {
               Add your contact information to your profile so that we can
               contact you about your VA benefits and services.
             </p>
-            <VaLinkAction href="" text="Add your contact information" />
+            <VaLinkAction
+              href="/my-va/welcome-va-setup/review-information/contact-information"
+              text="Add your contact information"
+            />
           </VaAlert>
         </div>
       </Toggler.Enabled>

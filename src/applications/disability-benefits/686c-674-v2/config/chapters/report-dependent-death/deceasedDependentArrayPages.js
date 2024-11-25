@@ -10,6 +10,8 @@ import {
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
+  yesNoUI,
+  yesNoSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
   ssnUI,
@@ -44,7 +46,7 @@ export const deceasedDependentOptions = {
     !item?.dependentDeathDate ||
     (item?.dependentDeathLocation?.outsideUsa === false &&
       !item?.dependentDeathLocation?.location?.state),
-  maxItems: 7,
+  maxItems: 20,
   text: {
     getItemName: item =>
       `${capitalize(item.fullName?.first) || ''} ${capitalize(
@@ -67,9 +69,9 @@ export const deceasedDependentOptions = {
 export const deceasedDependentIntroPage = {
   uiSchema: {
     ...titleUI({
-      title: 'Dependents who have died',
+      title: 'Your dependents who have died',
       description:
-        'In the next few questions, we’ll ask you about your dependents who have died. You must add at least one dependent. You may add up to 7 dependents.',
+        'In the next few questions, we’ll ask you about your dependents who have died. You must add at least one dependent who has died.',
     }),
   },
   schema: {
@@ -102,7 +104,7 @@ export const deceasedDependentSummaryPage = {
 export const deceasedDependentPersonalInfoPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Dependent who has died',
+      title: 'Remove a dependent who has died',
       nounSingular: deceasedDependentOptions.nounSingular,
     }),
     fullName: fullNameNoSuffixUI(),
@@ -128,14 +130,9 @@ export const deceasedDependentPersonalInfoPage = {
 /** @returns {PageSchema} */
 export const deceasedDependentTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      const fullName = formData?.fullName || {};
-      const { first = '', last = '' } = fullName;
-
-      return first && last
-        ? `Your relationship to ${capitalize(first)} ${capitalize(last)}`
-        : 'Your relationship to the deceased dependent';
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Your relationship to this dependent',
+    ),
     dependentType: {
       ...radioUI({
         title: 'What was your relationship to the dependent?',
@@ -155,20 +152,28 @@ export const deceasedDependentTypePage = {
 /** @returns {PageSchema} */
 export const deceasedDependentChildTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      const fullName = formData?.fullName || {};
-      const { first = '', last = '' } = fullName;
-
-      return first && last
-        ? `Your relationship to ${capitalize(first)} ${capitalize(last)}`
-        : 'Your relationship to the deceased dependent';
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Your relationship to this dependent',
+    ),
     childStatus: {
       ...checkboxGroupUI({
         title: 'What type of child?',
         required: () => true,
         labels: childTypeLabels,
       }),
+      'ui:options': {
+        updateSchema: (formData, schema, _uiSchema, index) => {
+          const itemData = formData?.deaths?.[index];
+
+          if (itemData?.dependentType !== 'child' && itemData?.childStatus) {
+            Object.keys(itemData.childStatus).forEach(key => {
+              itemData.childStatus[key] = undefined;
+            });
+          }
+
+          return schema;
+        },
+      },
     },
   },
   schema: {
@@ -181,14 +186,9 @@ export const deceasedDependentChildTypePage = {
 
 export const deceasedDependentDateOfDeathPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      const fullName = formData?.fullName || {};
-      const { first = '', last = '' } = fullName;
-
-      return first && last
-        ? `When did ${capitalize(first)} ${capitalize(last)} die?`
-        : 'When did the dependent die?';
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'When did this dependent die?',
+    ),
     dependentDeathDate: currentOrPastDateUI({
       title: 'Date of death',
       required: () => true,
@@ -204,14 +204,9 @@ export const deceasedDependentDateOfDeathPage = {
 
 export const deceasedDependentLocationOfDeathPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      const fullName = formData?.fullName || {};
-      const { first = '', last = '' } = fullName;
-
-      return first && last
-        ? `Where did ${capitalize(first)} ${capitalize(last)} die?`
-        : 'Where did the dependent die?';
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Where did this dependent die?',
+    ),
     dependentDeathLocation: {
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
@@ -257,6 +252,21 @@ export const deceasedDependentLocationOfDeathPage = {
     type: 'object',
     properties: {
       dependentDeathLocation: customLocationSchema,
+    },
+  },
+};
+
+export const deceasedDependentIncomePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Dependent’s income'),
+    deceasedDependentIncome: yesNoUI(
+      'Did this dependent earn an income in the last 365 days? Answer this question only if you are adding this dependent to your pension.',
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      deceasedDependentIncome: yesNoSchema,
     },
   },
 };

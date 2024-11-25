@@ -135,7 +135,12 @@ export class LetterList extends React.Component {
           available here yet, but if you’re eligible for them, you can get them
           through these links:
         </p>
-        <ul>
+        <ul className="vads-u-margin-bottom--9">
+          <li>
+            <a href="/education/download-letters/" target="_blank">
+              <strong>Download your VA education letters.</strong>
+            </a>
+          </li>
           <li>
             <a
               href="/education/gi-bill/post-9-11/ch-33-benefit"
@@ -143,6 +148,18 @@ export class LetterList extends React.Component {
             >
               <strong>
                 View and print your Post-9/11 GI Bill statement of benefits.
+              </strong>
+            </a>
+          </li>
+          <li>
+            <a
+              href="/housing-assistance/home-loans/check-coe-status/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <strong>
+                Download a copy of your Certificate of Eligibility for home
+                loan.
               </strong>
             </a>
           </li>
@@ -158,14 +175,15 @@ export class LetterList extends React.Component {
             </a>
           </li>
         </ul>
-        <div className="feature help-desk">
-          <h2>Need help?</h2>
-          <div>
-            If you have any questions, please call the VA Benefits Help Desk:
-            <br />
-            <va-telephone contact="8008271000" />, Monday &#8211; Friday, 8 a.m.
-            &#8211; 9 p.m. ET
-          </div>
+
+        <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
+          Need help?
+        </h2>
+        <div className="vads-u-margin-bottom--4">
+          If you have any questions, please call the VA Benefits Help Desk:
+          <br />
+          <va-telephone contact="8008271000" />, Monday &#8211; Friday, 8 a.m.
+          &#8211; 9 p.m. ET
         </div>
       </div>
     );

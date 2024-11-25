@@ -9,7 +9,26 @@
 .benefit-eligibility-questionnaire .confirmation-page p,
 .benefit-eligibility-questionnaire article p,
 .benefit-eligibility-questionnaire form > div:first-of-type * {
-  width: 75ch !important;
+  @media (min-width: $medium-screen) {
+    width: 75ch !important;
+  }
+}
+
+.benefit-card p {
+  white-space: pre-line;
+  max-width: 65ch;
+}
+
+.benefit-eligibility-questionnaire .schemaform-subtitle {
+  @media (min-width: $medium-screen) {
+    width: 100%;
+    white-space: pre-line;
+  }
+}
+
+.benefit-eligibility-questionnaire .row {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 #filters-section-desktop {
@@ -96,4 +115,13 @@
   .benefit-list {
     padding-left: 0;
   }
+}
+
+.blue-heading {
+  padding: 0.5rem 1rem;
+  color: var(--vads-color-white);
+  background: var(--vads-color-primary-darker);
+  height: 26px;
+  margin: -16px;
+  margin-bottom: 1rem;
 }

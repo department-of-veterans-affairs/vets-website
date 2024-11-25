@@ -7,7 +7,7 @@ import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-a
 describe('Prefill pattern - Blue Task', () => {
   beforeEach(() => {
     // mockInterceptors();
-    cy.login(mockUsers.loa3User72);
+    cy.login(mockUsers.loa3User);
 
     cy.intercept('/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {
       statusCode: 200,
@@ -133,17 +133,15 @@ describe('Prefill pattern - Blue Task', () => {
 
     // check prefilled contact info page
     cy.url().should('contain', '/veteran-information');
-    cy.findByText('Home phone number').should('exist');
-    cy.get('va-telephone[contact="9898981233"]').should('exist');
 
     cy.findByText('Mobile phone number').should('exist');
-    cy.get('va-telephone[contact="6195551234"]').should('exist');
+    cy.get('va-telephone[contact="5554044567"]').should('exist');
 
     cy.findByText('Email address').should('exist');
-    cy.findByText('myemail72585885@unattended.com').should('exist');
+    cy.findByText('Mitchell.Jenkins.Test@gmail.com').should('exist');
 
     cy.findByText('Mailing address').should('exist');
-    cy.findByText('123 Mailing Address St.').should('exist');
+    cy.findByText('125 Main St.').should('exist');
     cy.findByText('Fulton, NY 97063').should('exist');
 
     cy.injectAxeThenAxeCheck();
@@ -163,12 +161,10 @@ describe('Prefill pattern - Blue Task', () => {
     // confirming save to profile ques is selected yes by default
     cy.contains(
       'legend',
-      'Do you also want to save this updated mailing address to your VA.gov profile?',
+      'Do you also want to update this information in your VA.gov profile?',
     ).should('exist');
-    // cy.findByText(
-    //   'Do you also want to save this updated mailing address to your VA.gov profile',
-    // ).should('exist');
-    cy.get('#saveToProfileYes').should('be.checked');
+
+    cy.get('#saveToProfileYes').click();
 
     cy.findByTestId('save-edit-button').click();
 

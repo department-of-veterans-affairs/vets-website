@@ -11,8 +11,8 @@ const { gulfWarStartDate, gulfWarEndDate } = fullSchemaHca.properties;
 export default {
   uiSchema: {
     ...titleUI(
-      'Service dates for Gulf War locations',
-      'Enter any date range you served in a Gulf War location. You don\u2019t need to have exact dates.',
+      'Service dates after August 2, 1990',
+      'Enter any date range you served in a Gulf War location on or after August 2, 1990. You don\u2019t need to have exact dates.',
     ),
     'view:gulfWarServiceDates': {
       gulfWarStartDate: {

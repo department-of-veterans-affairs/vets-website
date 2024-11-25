@@ -7,7 +7,11 @@ import Address from '../../../components/Address';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { selectRequestedAppointmentDetails } from '../../redux/selectors';
 import ListBestTimeToCall from '../ListBestTimeToCall';
-import { Details, Section } from '../../../components/layout/DetailPageLayout';
+import {
+  CCDetails,
+  Details,
+} from '../../../components/layout/DetailPageLayout';
+import Section from '../../../components/Section';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
@@ -15,7 +19,7 @@ import NewTabAnchor from '../../../components/NewTabAnchor';
 export default function CancelPageLayoutRequest() {
   const { id } = useParams();
   const {
-    bookingNotes,
+    appointment,
     email,
     facility,
     facilityId,
@@ -34,11 +38,8 @@ export default function CancelPageLayoutRequest() {
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  let [reason, otherDetails] = bookingNotes.split(':');
-  if (isCC) {
-    reason = null;
-    otherDetails = bookingNotes;
-  }
+
+  const { reasonForAppointment, patientComments } = appointment || {};
   const { providerName } = preferredProvider || {};
 
   return (
@@ -79,6 +80,7 @@ export default function CancelPageLayoutRequest() {
           <Section heading="Language you’d prefer the provider speak" level={3}>
             {preferredLanguage}
           </Section>
+          <CCDetails otherDetails={patientComments} request level={3} />
         </>
       )}
       {!isCC && (
@@ -129,9 +131,14 @@ export default function CancelPageLayoutRequest() {
             )}
             {!facilityPhone && <>Not available</>}
           </Section>
+          <Details
+            reason={reasonForAppointment}
+            otherDetails={patientComments}
+            request
+            level={3}
+          />
         </>
       )}
-      <Details reason={reason} otherDetails={otherDetails} request level={3} />
       <Section heading="Your contact details" level={3}>
         <span data-dd-privacy="mask">Email: {email}</span>
         <br />

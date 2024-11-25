@@ -7,6 +7,10 @@ export function transform(formConfig, form) {
   // Clone the form in so we don’t modify the original...because of reasons FP
   const newForm = cloneDeep(form);
 
+  // Remove prefilled EDIPI/ICN fields
+  delete newForm.data.edipi;
+  delete newForm.data.icn;
+
   if (newForm.data.benefit === 'chapter33' && newForm.data.sponsorStatus) {
     if (newForm.data.sponsorStatus === 'powOrMia') {
       newForm.data.veteranDateOfDeath =

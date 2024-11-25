@@ -63,7 +63,6 @@ const HealthConditions = () => {
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
         Health conditions
       </h1>
-      <h2 className="sr-only">List of Health conditions</h2>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
         Health condition records are available{' '}
         <span className="vads-u-font-weight--bold">36 hours</span> after your

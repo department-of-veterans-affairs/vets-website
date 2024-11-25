@@ -80,7 +80,9 @@ export class IntroductionPage extends React.Component {
           Scholarship).
         </p>
         {this.loginPrompt()}
-        <h4>Follow the steps below to apply for this scholarship</h4>
+        <h3 className="vads-u-font-size--h4">
+          Follow the steps below to apply for this scholarship
+        </h3>
         <div className="process schemaform-process">
           <ol>
             <li
@@ -90,7 +92,9 @@ export class IntroductionPage extends React.Component {
               itemType="http://schema.org/HowToSection"
             >
               <div itemProp="name">
-                <h5>Determine your eligibility</h5>
+                <h4 className="vads-u-font-size--h5">
+                  Determine your eligibility
+                </h4>
               </div>
               <div itemProp="itemListElement">
                 <div className="vads-u-font-weight--bold">
@@ -153,7 +157,7 @@ export class IntroductionPage extends React.Component {
               itemType="http://schema.org/HowToSection"
             >
               <div itemProp="name">
-                <h5>Prepare</h5>
+                <h4 className="vads-u-font-size--h5">Prepare</h4>
               </div>
               <div itemProp="itemListElement">
                 <div>
@@ -177,7 +181,7 @@ export class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>Apply</h5>
+                <h4 className="vads-u-font-size--h5">Apply</h4>
               </div>
               <p>Complete this education benefits form.</p>
               <p>
@@ -192,7 +196,7 @@ export class IntroductionPage extends React.Component {
               itemType="http://schema.org/HowToSection"
             >
               <div itemProp="name">
-                <h5>VA review</h5>
+                <h4 className="vads-u-font-size--h5">VA review</h4>
               </div>
               <div itemProp="itemListElement">
                 <p>
@@ -211,7 +215,7 @@ export class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-five">
               <div>
-                <h5>Decision</h5>
+                <h4 className="vads-u-font-size--h5">Decision</h4>
               </div>
               <p>
                 If we approve your application, you’ll get a Certificate of

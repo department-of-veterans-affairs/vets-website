@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import formConfig from '../config/form';
 
 const IntroductionPage = ({ router }) => {
   const startForm = event => {
@@ -9,23 +10,18 @@ const IntroductionPage = ({ router }) => {
   };
   return (
     <article className="schemaform-intro">
-      <FormTitle title="Benefit and resource recommendation tool" subtitle="" />
-      <p>
-        <b>
-          Note: This tool is not an application for VA benefits and it doesn’t
-          determine your eligibility for benefits.
-        </b>{' '}
-        After you use this tool, you can learn more about eligibility and how to
-        apply.
-      </p>
-      <p>
-        To find VA benefits that may be relevant for you, answer a few questions
-        about your goals and experiences.
-      </p>
-      <p>
-        This is our first version. Right now, this tool focuses on education and
-        career benefits. We’ll add more types of benefits soon.
-      </p>
+      <FormTitle title={formConfig.title} subtitle="" />
+      <div role="heading" aria-level="2">
+        <p>
+          If you’re a Veteran or transitioning service member, answer a few
+          questions
+          <br />
+          about your goals and experiences. We’ll help you find benefits
+          <br />
+          you may want to apply for.
+        </p>
+      </div>
+
       <va-link-action
         href="#"
         onClick={startForm}
@@ -33,7 +29,26 @@ const IntroductionPage = ({ router }) => {
         text="Get started"
         data-testid="get-started"
       />
-      <p />
+
+      <div role="heading" aria-level="2">
+        <p>
+          <b>Note:</b> This tool is not an application for VA benefits. And it
+          doesn’t confirm your eligibility. On the results page, we’ll help you
+          learn more about eligibility and how to apply.
+        </p>
+        <p>
+          If you’re a family member, caregiver, or survivor of a Veteran,
+          <br />
+          <va-link
+            href="https://www.va.gov/family-and-caregiver-benefits/"
+            external
+            text="visit this page"
+            type="secondary"
+            label="visit this page"
+          />
+          to learn about potential benefits for you.
+        </p>
+      </div>
     </article>
   );
 };

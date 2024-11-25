@@ -31,23 +31,25 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
       >
         <div>
           <p>
-            You’ll need to sign in with a verified account through one of our
-            account providers. Identity verification helps us protect your
-            information and prevent fraud and identity theft.
+            You’ll need to sign in with an identity-verified account through one
+            of our account providers. Identity verification helps us protect all
+            Veterans’ information and prevent scammers from stealing your
+            benefits.
           </p>
           <p>
             <strong>Don’t yet have a verified account?</strong> Create a{' '}
-            <strong>Login.gov</strong> or <strong>ID.me</strong> account now.
-            Then come back here and sign in. We’ll help you verify.
+            <strong>Login.gov</strong> or <strong>ID.me</strong> account. We’ll
+            help you verify your identity for your account now.
           </p>
           <p>
             <strong>Not sure if your account is verified?</strong> Sign in here.
-            We’ll tell you if you need to verify.
+            If you still need to verify your identity, we’ll help you do that
+            now.
           </p>
           <p>
             <va-button
               onClick={handleSignIn}
-              text="Sign in or create account"
+              text="Sign in or create an account"
             />
           </p>
           <p>

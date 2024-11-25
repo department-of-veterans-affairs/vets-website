@@ -124,11 +124,10 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
   if (ConfirmationField) {
     if (typeof ConfirmationField === 'function') {
-      const {
-        data: confirmData = refinedData,
-        label: confirmLabel = label,
-      } = ConfirmationField({ formData: refinedData });
-      return reviewEntry(description, key, uiSchema, confirmLabel, confirmData);
+      const { data: confirmData = refinedData } = ConfirmationField({
+        formData: refinedData,
+      });
+      return reviewEntry(description, key, uiSchema, label, confirmData);
     }
 
     if (isReactComponent(ConfirmationField)) {
@@ -310,17 +309,11 @@ export const ChapterSectionCollection = ({
           className || 'vads-u-margin-top--2',
         )}
       >
-        <div className="print-only">
-          <h2>{header}</h2>
-          {content}
-        </div>
-        <div className="screen-only">
-          <VaAccordion bordered open-single uswds>
-            <VaAccordionItem header={header} id="info" bordered uswds>
-              {content}
-            </VaAccordionItem>
-          </VaAccordion>
-        </div>
+        <VaAccordion bordered open-single uswds>
+          <VaAccordionItem header={header} bordered uswds>
+            {content}
+          </VaAccordionItem>
+        </VaAccordion>
       </div>
     );
   }

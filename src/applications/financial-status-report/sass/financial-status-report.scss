@@ -366,7 +366,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
     &::before {
       content: "";
       -webkit-mask-image: url("/img/navigate_far_before.svg#icon");
-      mask-image: url("/img/navigate_far_before.svg#icon")t;
+      mask-image: url("/img/navigate_far_before.svg#icon");
     }
   }
 }
@@ -377,7 +377,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
     &::after {
       content: "";
       -webkit-mask-image: url("/img/navigate_far_next.svg#icon");
-      mask-image: url("/img/navigate_far_next.svg#icon")t;
+      mask-image: url("/img/navigate_far_next.svg#icon");
     }
   }
 }
@@ -408,11 +408,8 @@ va-checkbox {
 .resolution-option-radio {
   .usa-radio__label {
     font-weight: bold;
-    max-width: fit-content;
   }
   .usa-radio__label-description {
-      font-weight: normal;
-      text-wrap: wrap;
+    font-weight: normal;
   }
 }
-

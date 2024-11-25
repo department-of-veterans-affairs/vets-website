@@ -24,9 +24,36 @@ import {
   handleInputFocusWithPotentialOverLap,
   validateSearchTermSubmit,
   searchCriteriaFromCoords,
+  formatProgramType,
+  isReviewInstance,
+  isSmallScreenLogic,
+  updateLcFilterDropdowns,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
+  describe('isReviewInstance', () => {
+    let locationStub;
+
+    beforeEach(() => {
+      locationStub = sinon.stub(window, 'location').value({ hostname: '' });
+    });
+
+    afterEach(() => {
+      locationStub.restore();
+    });
+
+    it('should return false for non-review hostnames', () => {
+      locationStub.value.hostname = 'www.vets.gov';
+      const result = isReviewInstance();
+      expect(result).to.be.false;
+    });
+
+    it('should return false for completely different hostnames', () => {
+      locationStub.value.hostname = 'some.other-domain.com';
+      const result = isReviewInstance();
+      expect(result).to.be.false;
+    });
+  });
   describe('formatNumber', () => {
     it('should format numbers', () => {
       expect(formatNumber(1000)).to.equal('1,000');
@@ -106,8 +133,15 @@ describe('GIBCT helpers:', () => {
   });
 
   describe('formatDollarAmount', () => {
-    const data = 100.5;
-    expect(formatDollarAmount(data)).to.equal('$101');
+    it('should format a valid dollar amount correctly', () => {
+      const data = 100.5;
+      expect(formatDollarAmount(data)).to.equal('$101');
+    });
+
+    it('should return $0 when the input is null', () => {
+      const data = null;
+      expect(formatDollarAmount(data)).to.equal('$0');
+    });
   });
 
   describe('handleScrollOnInputFocus', () => {
@@ -145,6 +179,12 @@ describe('GIBCT helpers:', () => {
     it("Any null or undefined will return 'N/A' ", () => {
       const value = undefined;
       expect(naIfNull(value)).to.eq('N/A');
+    });
+  });
+  describe('isSmallScreenLogic', () => {
+    it('should return false when the screen width is above the specified max width', () => {
+      window.matchMedia = () => ({ matches: false });
+      expect(isSmallScreenLogic(600)).to.be.false;
     });
   });
   describe('boolYesNo', () => {
@@ -194,6 +234,14 @@ describe('GIBCT helpers:', () => {
       const areaCode = 123;
       const phoneNumber = 4567890;
       expect(phoneInfo(areaCode, phoneNumber)).to.eq('123-4567890');
+    });
+    it('should return an empty string when both areaCode and phoneNumber are missing', () => {
+      const areaCode = '';
+      const phoneNumber = '';
+
+      const result = phoneInfo(areaCode, phoneNumber);
+
+      expect(result).to.eq('');
     });
   });
   describe('isPresent', () => {
@@ -488,6 +536,96 @@ describe('GIBCT helpers:', () => {
       );
       expect(scrollIntoViewStub.called).to.be.false;
       expect(scrollByStub.called).to.be.false;
+    });
+  });
+
+  describe('formatProgramType', () => {
+    it('should return an empty string when programType is null or undefined', () => {
+      expect(formatProgramType(null)).to.equal('');
+    });
+    it('should return an empty string when programType is an empty string', () => {
+      expect(formatProgramType('')).to.equal('');
+    });
+    it('should capitalize each word and join with spaces when programType is hyphenated', () => {
+      expect(formatProgramType('online-program')).to.equal('Online Program');
+    });
+    it('should handle a single word programType', () => {
+      expect(formatProgramType('bachelor')).to.equal('Bachelor');
+    });
+    it('should handle multiple hyphenated words', () => {
+      expect(formatProgramType('associate-degree-program')).to.equal(
+        'Associate Degree Program',
+      );
+    });
+    it('should handle programType with extra hyphens', () => {
+      expect(formatProgramType('masters--program')).to.equal('Masters Program');
+    });
+    it('should lowercase the remaining characters of each word after capitalizing the first', () => {
+      expect(formatProgramType('DOCTORATE-PROGRAM')).to.equal(
+        'Doctorate Program',
+      );
+    });
+  });
+
+  describe('updateLcFilterDropdowns', () => {
+    it('should update the correct dropdown with the selected option based on the target id and value', () => {
+      const dropdowns = [
+        {
+          label: 'category',
+          options: [
+            { optionValue: '', optionLabel: '-Select-' },
+            { optionValue: 'licenses', optionLabel: 'License' },
+            { optionValue: 'certifications', optionLabel: 'Certification' },
+            { optionValue: 'preps', optionLabel: 'Prep Course' },
+          ],
+          alt: 'category type',
+          current: { optionValue: '', optionLabel: '-Select-' },
+        },
+        {
+          label: 'state',
+          options: [
+            { optionValue: 'All', optionLabel: 'All' },
+            { optionValue: 'CA', optionLabel: 'California' },
+            { optionValue: 'TX', optionLabel: 'Texas' },
+          ],
+          alt: 'state',
+          current: { optionValue: 'All', optionLabel: 'All' },
+        },
+      ];
+
+      // Sample target (representing an event.target object)
+      const target = {
+        id: 'category',
+        value: 'licenses',
+      };
+
+      const expectedResult = [
+        {
+          label: 'category',
+          options: [
+            { optionValue: '', optionLabel: '-Select-' },
+            { optionValue: 'licenses', optionLabel: 'License' },
+            { optionValue: 'certifications', optionLabel: 'Certification' },
+            { optionValue: 'preps', optionLabel: 'Prep Course' },
+          ],
+          alt: 'category type',
+          current: { optionValue: 'licenses', optionLabel: 'License' },
+        },
+        {
+          label: 'state',
+          options: [
+            { optionValue: 'All', optionLabel: 'All' },
+            { optionValue: 'CA', optionLabel: 'California' },
+            { optionValue: 'TX', optionLabel: 'Texas' },
+          ],
+          alt: 'state',
+          current: { optionValue: 'All', optionLabel: 'All' },
+        },
+      ];
+
+      const result = updateLcFilterDropdowns(dropdowns, target);
+
+      expect(result).to.deep.equal(expectedResult);
     });
   });
 });
