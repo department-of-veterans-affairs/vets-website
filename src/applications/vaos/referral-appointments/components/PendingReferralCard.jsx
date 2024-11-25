@@ -1,4 +1,5 @@
 import React from 'react';
+import { format, startOfDay } from 'date-fns';
 import PropTypes from 'prop-types';
 import AppointmentFlexGrid from '../../appointment-list/components/AppointmentsPage/AppointmentFlexGrid';
 import ListItem from '../../appointment-list/components/AppointmentsPage/ListItem';
@@ -17,6 +18,11 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
     referral.numberOfAppointments === 1
       ? '1 appointment'
       : `${referral.numberOfAppointments} appointments`;
+
+  const expiration = format(
+    startOfDay(new Date(referral.ReferralExpirationDate)),
+    'MMMM, dd, yyyy',
+  );
 
   return (
     <ListItem
@@ -45,9 +51,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
                     canceled={isCanceled}
                   >
                     <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
-                      {`You have been approved for ${appointmentString}. All appointments for this referral must be scheduled by ${
-                        referral.ReferralExpirationDate
-                      }.`}
+                      {`You have been approved for ${appointmentString}. All appointments for this referral must be scheduled by ${expiration}.`}
                     </span>
                   </AppointmentColumn>
                 </AppointmentRow>
