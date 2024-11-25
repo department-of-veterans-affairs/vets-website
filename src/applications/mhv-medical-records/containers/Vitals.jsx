@@ -39,7 +39,7 @@ const Vitals = () => {
   const [acceleratedVitalsDate, setAcceleratedVitalsDate] = useState(
     format(new Date(), 'yyyy-MM'),
   );
-  const [displayDate, setDisplayDate] = useState('');
+  const [displayDate, setDisplayDate] = useState(acceleratedVitalsDate);
   const activeAlert = useAlerts(dispatch);
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
@@ -172,7 +172,10 @@ const Vitals = () => {
               <hr className="vads-u-margin-y--1 vads-u-padding-0" />
               <p className="vads-u-margin--0">
                 Showing most recent vitals from{' '}
-                <span className="vads-u-font-weight--bold">
+                <span
+                  className="vads-u-font-weight--bold"
+                  data-testid="current-date-display"
+                >
                   {getMonthFromSelectedDate({ date: displayDate })}
                 </span>
                 .
@@ -241,6 +244,7 @@ const Vitals = () => {
             text="Update time frame"
             onClick={triggerApiUpdate}
             disabled={isLoadingAcceleratedData}
+            data-testid="update-time-frame-button"
           />
         </div>
       </div>
