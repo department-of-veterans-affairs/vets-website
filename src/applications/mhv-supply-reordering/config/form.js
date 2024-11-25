@@ -6,7 +6,7 @@ import manifest from '../manifest.json';
 
 import chooseSupplies from '../pages/chooseSupplies';
 import contactInformation from '../pages/contactInformation';
-import selectSupplies from '../pages/selectSupplies';
+// import selectSupplies from '../pages/selectSupplies';
 
 import EditAddress from '../components/EditAddress';
 import EditEmail from '../components/EditEmail';
@@ -46,28 +46,28 @@ const customText = {
 };
 
 const chapters = {
-  // chooseSuppliesChapter: {
-  //   title: 'Choose supplies',
-  //   pages: {
-  //     chooseSupplies: {
-  //       path: 'choose-supplies',
-  //       title: 'Choose supplies',
-  //       uiSchema: chooseSupplies.uiSchema,
-  //       schema: chooseSupplies.schema,
-  //     },
-  //   },
-  // },
-  selectSuppliesChapter: {
-    title: 'Select supplies',
+  chooseSuppliesChapter: {
+    title: 'Choose supplies',
     pages: {
-      selectSupplies: {
-        path: 'select-supplies',
-        title: 'Select supplies',
-        uiSchema: selectSupplies.uiSchema,
-        schema: selectSupplies.schema,
+      chooseSupplies: {
+        path: 'choose-supplies',
+        title: 'Choose supplies',
+        uiSchema: chooseSupplies.uiSchema,
+        schema: chooseSupplies.schema,
       },
     },
   },
+  // selectSuppliesChapter: {
+  //   title: 'Select supplies',
+  //   pages: {
+  //     selectSupplies: {
+  //       path: 'select-supplies',
+  //       title: 'Select supplies',
+  //       uiSchema: selectSupplies.uiSchema,
+  //       schema: selectSupplies.schema,
+  //     },
+  //   },
+  // },
   contactInformationChapter: {
     title: 'Contact information',
     pages: {
