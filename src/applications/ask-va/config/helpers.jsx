@@ -9,7 +9,8 @@ import {
   isQuestionAboutVeteranOrSomeoneElseLabels,
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
-  TopicAppraisalsSpeciallyAdapatedHousing,
+  TopicAppraisals,
+  TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
@@ -446,9 +447,12 @@ export const isPostalCodeRequired = data => {
     return true;
   }
 
-  // Check general question
+  // Flow 3.1
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
-  if (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL) {
+  if (
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+  ) {
     return true;
   }
 
@@ -462,6 +466,7 @@ export const isStateOfPropertyRequired = data => {
 
   return (
     selectCategory === CategoryHousingAssistanceAndHomeLoans &&
-    selectTopic === TopicAppraisalsSpeciallyAdapatedHousing
+    (selectTopic === TopicSpeciallyAdapatedHousing ||
+      selectTopic === TopicAppraisals)
   );
 };
