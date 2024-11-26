@@ -39,7 +39,7 @@ export function AddressSection({ address }) {
         <VaButton
           data-cy="view-letters-button"
           className="vads-u-margin-y--4"
-          disabled={emptyAddress ? true : null} // false causes MS Voice Access to ignore buttons
+          disabled={emptyAddress ? true : undefined} // false causes MS Voice Access to ignore buttons
           text="View letters"
           onClick={() => navigateToLetterList(navigate)}
         />
