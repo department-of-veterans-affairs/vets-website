@@ -1,9 +1,9 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Vitals from '../pages/Vitals';
 import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitalsData from '../../fixtures/vitals/body-height.json';
+import vitalsData from '../../fixtures/vitals/body-weight.json';
 
-describe('Medical Records View Body Height', () => {
+describe('Medical Records View Body Weight', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
@@ -24,21 +24,19 @@ describe('Medical Records View Body Height', () => {
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
     // check for latest id
-    cy.get('[data-testid="vital-body-height-measurement"]').should(
+    cy.get('[data-testid="vital-body-weight-measurement"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-body-height-measurement"]').contains(
-      '171.3 cm',
-    );
+    cy.get('[data-testid="vital-body-weight-measurement"]').contains('88.6 kg');
 
-    cy.get('[data-testid="vital-body-height-date-timestamp"]').should(
+    cy.get('[data-testid="vital-body-weight-date-timestamp"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-body-height-date-timestamp"]').contains(
+    cy.get('[data-testid="vital-body-weight-date-timestamp"]').contains(
       'January 1, 2014',
     );
 
-    cy.get('[data-testid="vital-body-height-review-over-time"]').should(
+    cy.get('[data-testid="vital-body-weight-review-over-time"]').should(
       'be.visible',
     );
 
