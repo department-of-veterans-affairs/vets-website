@@ -46,7 +46,7 @@ export const deceasedDependentOptions = {
     !item?.dependentDeathDate ||
     (item?.dependentDeathLocation?.outsideUsa === false &&
       !item?.dependentDeathLocation?.location?.state),
-  maxItems: 7,
+  maxItems: 20,
   text: {
     getItemName: item =>
       `${capitalize(item.fullName?.first) || ''} ${capitalize(

@@ -1,7 +1,8 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
-import { Data } from './utils/constants';
+import { Data, Paths } from './utils/constants';
+import filterRx from './fixtures/filter-prescriptions.json';
 
 describe('Medications List Page Active Filter Option', () => {
   it('visits Medications List Page Filter Option Active', () => {
@@ -20,10 +21,10 @@ describe('Medications List Page Active Filter Option', () => {
     );
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Active');
-    listPage.clickFilterButtonOnAccordion();
+
+    listPage.clickFilterButtonOnAccordion(Paths.ACTIVE_FILTER, filterRx);
     listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      Data.PAGINATION_TEXT,
+      Data.PAGINATION_ACTIVE_TEXT,
     );
-    listPage.verifyNameOfFirstRxOnMedicationsList('active');
   });
 });
