@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { PluginContext } from '../context/PluginContext';
+import { PluginContext } from '../context/plugin';
 import { VADXContext } from '../context/vadx';
 
 import Tabs from './Tabs';
