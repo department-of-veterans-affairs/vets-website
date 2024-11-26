@@ -31,16 +31,14 @@ export function getFileError(file) {
 }
 
 function addError(errors, index, errorMessage) {
-  /*
-  if (!errors[index]) {
-    errors[index] = {
-      __errors: [],
-      addError(msg) {
-        this.__errors.push(msg);
-      },
-    };
-  }
-    */
+  // if (!errors[index]) {
+  //   errors[index] = {
+  //     __errors: [],
+  //     addError(msg) {
+  //       this.__errors.push(msg);
+  //     },
+  //   };
+  // }
   errors[index].addError(errorMessage);
 }
 
@@ -54,17 +52,15 @@ export async function validateFile(errors, fileList) {
         return; // Exit early to avoid unnecessary processing
       }
 
-      // Ensure the errors object is initialized before the fetch call
-      /*
-      if (!errors[index]) {
-        errors[index] = {
-          __errors: [],
-          addError(msg) {
-            this.__errors.push(msg);
-          },
-        };
-      }
-        */
+      // // Ensure the errors object is initialized before the fetch call
+      // if (!errors[index]) {
+      //   errors[index] = {
+      //     __errors: [],
+      //     addError(msg) {
+      //       this.__errors.push(msg);
+      //     },
+      //   };
+      // }
 
       try {
         const API_KEY = '3rJVnS49VTHsntVg3m9L9IrGhhbmX7BN';
