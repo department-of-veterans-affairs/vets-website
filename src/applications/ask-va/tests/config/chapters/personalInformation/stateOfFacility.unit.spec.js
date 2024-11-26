@@ -11,7 +11,7 @@ import { removeReqFromLabel } from '../../../fixtures/test-helpers/helpers';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.aboutSomeoneElseRelationshipConnectedThroughWorkEducation.pages.stateOfSchool_aboutsomeoneelserelationshipconnectedthroughworkeducation;
+} = formConfig.chapters.aboutSomeoneElseRelationshipConnectedThroughWorkEducation.pages.stateOfFacility_aboutsomeoneelserelationshipconnectedthroughworkeducation;
 
 describe('stateOfSchoolPage', () => {
   it('should render', () => {
@@ -30,7 +30,7 @@ describe('stateOfSchoolPage', () => {
 
     const label = $('label', container);
 
-    expect($('h3', container).textContent).to.eq('State of school');
+    expect($('h3', container).textContent).to.eq('State of facility');
     expect(removeReqFromLabel(label.textContent)).to.eq('Select state');
   });
 });

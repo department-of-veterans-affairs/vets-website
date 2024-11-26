@@ -505,6 +505,10 @@ export const CHAPTER_3 = {
     TITLE: 'State of school',
     QUESTION_1: 'Select state',
   },
+  STATE_OF_FACILITY: {
+    TITLE: 'State of facility',
+    QUESTION_1: 'Select state',
+  },
   SCHOOL_STATE_OR_RESIDENCY: {
     TITLE: 'School information',
     PAGE_DESCRIPTION: 'School or state of residency',
