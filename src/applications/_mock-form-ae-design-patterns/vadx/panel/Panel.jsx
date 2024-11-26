@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Tabs from './Tabs';
-import { PluginContext } from './plugin';
+import { PluginContext } from './Plugin';
 import { FloatingButton } from './FloatingButton';
 import { VADXContext } from '../context/vadx';
 

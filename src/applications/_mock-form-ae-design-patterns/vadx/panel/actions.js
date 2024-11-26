@@ -3,12 +3,12 @@ import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
 
 // actions
-export const POWERTOOLS_TOGGLES_OVERRIDDEN = 'POWERTOOLS_TOGGLES_OVERRIDDEN';
-export const POWERTOOLS_TOGGLES_DEFAULT = 'POWERTOOLS_TOGGLES_DEFAULT';
+export const VADX_TOGGLES_OVERRIDDEN = 'VADX_TOGGLES_OVERRIDDEN';
+export const VADX_TOGGLES_DEFAULT = 'VADX_TOGGLES_DEFAULT';
 
-export const setPowerToolsToggles = toggles => async dispatch => {
+export const setVadxToggles = toggles => async dispatch => {
   dispatch({
-    type: POWERTOOLS_TOGGLES_OVERRIDDEN,
+    type: VADX_TOGGLES_OVERRIDDEN,
   });
   dispatch({
     type: TOGGLE_VALUES_SET,
@@ -16,11 +16,11 @@ export const setPowerToolsToggles = toggles => async dispatch => {
   });
 };
 
-export const restoreDefaultPowerToolsToggles = () => async dispatch => {
+export const restoreDefaultVadxToggles = () => async dispatch => {
   const toggles = await apiRequest(`${environment.API_URL}/v0/feature_toggles`);
 
   dispatch({
-    type: POWERTOOLS_TOGGLES_DEFAULT,
+    type: VADX_TOGGLES_DEFAULT,
   });
   dispatch({
     type: TOGGLE_VALUES_SET,

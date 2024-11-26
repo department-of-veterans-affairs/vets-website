@@ -1,26 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
-import HeadingHierarchyAnalyzer from './headingHierarchyAnalyzer';
+import PropTypes from 'prop-types';
+import HeadingHierarchyAnalyzer from '../utils/HeadingHierarchyAnalyzer';
 
 const PreXs = styled.pre`
   font-size: 0.75rem;
 `;
 
+/**
+ * @component HeadingHierarchyInspector - analyzes and displays the heading hierarchy of a page,
+ * highlighting any accessibility issues in the heading structure. It automatically
+ * re-runs analysis when the route changes and displays both errors and a visual
+ * representation of the heading tree hierarchy.
+ *
+ * @param {Object} props
+ * @param {Object} props.location - Router location object from withRouter HOC.
+ *                                 Used to trigger re-analysis on route changes.
+ *
+ * @dependencies
+ * - Requires HeadingHierarchyAnalyzer utility
+ * - Wrapped with withRouter HOC for location updates
+ */
 const HeadingHierarchyInspectorBase = ({ location }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [analysis, setAnalysis] = useState(null);
 
   const runAnalysis = () => {
+    setIsOpen(false);
     const analyzer = new HeadingHierarchyAnalyzer();
     const results = analyzer.analyze();
     setAnalysis(results);
     setIsOpen(true);
-  };
-
-  const closeAnalysis = () => {
-    setIsOpen(false);
-    setAnalysis(null);
   };
 
   useEffect(
@@ -36,9 +47,7 @@ const HeadingHierarchyInspectorBase = ({ location }) => {
   return (
     <div>
       {!isOpen ? (
-        <button onClick={runAnalysis} className="usa-button" type="button">
-          Analyze Heading Structure
-        </button>
+        <p>Loading heading analysis...</p>
       ) : (
         <div className="vads-l-grid-container--full-width vads-u-padding--0p5 vads-u-border--1px vads-u-border-color--gray-light">
           <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--gray-light">
@@ -53,13 +62,6 @@ const HeadingHierarchyInspectorBase = ({ location }) => {
                 </span>
               )}
             </p>
-            <button
-              onClick={closeAnalysis}
-              className="usa-button usa-button-secondary vads-u-margin--0 vads-u-padding--1"
-              aria-label="Close analysis overlay"
-            >
-              ✕
-            </button>
           </div>
 
           <div className="vads-u-padding-bottom--0p5">
@@ -107,6 +109,10 @@ const HeadingHierarchyInspectorBase = ({ location }) => {
       )}
     </div>
   );
+};
+
+HeadingHierarchyInspectorBase.propTypes = {
+  location: PropTypes.object.isRequired,
 };
 
 export const HeadingHierarchyInspector = withRouter(

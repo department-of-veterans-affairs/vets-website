@@ -11,15 +11,15 @@ import { debounce, isEqual } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMockedLogin } from '../../hooks/useMockedLogin';
 import { vadxPreferencesStorage } from '../utils/StorageAdapter';
-import { setPowerToolsToggles } from '../panel/actions';
-
-export const VADXContext = createContext(null);
+import { setVadxToggles } from '../panel/actions';
 
 /**
  * @typedef {Object} SyncContextValue
  * @property {Object} syncedData - The synchronized data
  * @property {Function} setSyncedData - Function to update synced data
  */
+
+export const VADXContext = createContext(null);
 
 /**
  * @param {Object} props
@@ -32,11 +32,14 @@ export const VADXProvider = ({ children }) => {
 
   const dispatch = useDispatch();
 
+  // Create a broadcast channel to synchronize data between tabs
+  // this will act as a pub/sub system for the preferences
   const broadcastChannel = useMemo(
     () => new BroadcastChannel(`vadx-preferences`),
     [],
   );
 
+  // mock login functions
   const { logIn, logOut } = useMockedLogin();
 
   useEffect(
@@ -92,10 +95,12 @@ export const VADXProvider = ({ children }) => {
     [broadcastChannel],
   );
 
+  // update the loading state for the dev tools
   const updateDevLoading = isLoading => {
     setSyncedData({ ...preferences, isDevLoading: isLoading });
   };
 
+  // update the search query for the dev tools
   const updateSearchQuery = useCallback(
     query => {
       setSyncedData({ ...preferences, searchQuery: query });
@@ -103,14 +108,17 @@ export const VADXProvider = ({ children }) => {
     [preferences, setSyncedData],
   );
 
+  // update the active tab for the dev tools
   const updateActiveTab = tab => {
     setSyncedData({ ...preferences, activeTab: tab });
   };
 
+  // update the show state for the dev tools
   const updateShowVADX = show => {
     setSyncedData({ ...preferences, showVADX: show });
   };
 
+  // update local toggles
   const updateLocalToggles = useCallback(
     toggles => {
       setSyncedData({ ...preferences, localToggles: toggles });
@@ -118,11 +126,13 @@ export const VADXProvider = ({ children }) => {
     [preferences, setSyncedData],
   );
 
+  // clear local toggles
   const updateClearLocalToggles = () => {
     setSyncedData({ ...preferences, localToggles: {} });
-    dispatch(setPowerToolsToggles({}));
+    dispatch(setVadxToggles({}));
   };
 
+  // debounce the search query for the dev tools toggle tab
   const debouncedSetSearchQuery = useMemo(
     () => debounce(updateSearchQuery, 300),
     [updateSearchQuery],
@@ -137,13 +147,15 @@ export const VADXProvider = ({ children }) => {
     [preferences?.localToggles],
   );
 
+  // check if the local toggles are not empty and not equal to the toggles state
   const customLocalToggles =
     !localTogglesAreEmpty && !isEqual(preferences?.localToggles, togglesState);
 
+  // if the custom local toggles are true, then update the redux state for the toggles
   useEffect(
     () => {
       if (customLocalToggles) {
-        dispatch(setPowerToolsToggles(preferences?.localToggles));
+        dispatch(setVadxToggles(preferences?.localToggles));
       }
     },
     [customLocalToggles, preferences?.localToggles, dispatch],

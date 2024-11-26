@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from 'platform/utilities/environment';
 
-import { PluginProvider } from './plugin';
+import { PluginProvider } from './Plugin';
 
 const LazyPanel = React.lazy(() => import('./Panel'));
 
