@@ -3,16 +3,11 @@ import React from 'react';
 import { checkboxGroupSchema } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import {
+  numberOfSuppliesPhrase,
   suppliesReplaceSchema,
   suppliesUpdateUiSchema,
   suppliesUi,
 } from '../utils/helpers';
-
-const numberOfSuppliesPhrase = count => {
-  if (count > 1) return `${count} supplies`;
-  if (count === 1) return `${count} supply`;
-  return 'no supplies';
-};
 
 const Description = ({ formData }) => {
   const count = formData?.supplies?.length || 0;

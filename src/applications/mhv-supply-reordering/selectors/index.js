@@ -28,7 +28,7 @@ const showAlertNoRecordForUser = state =>
 
 const showAlertNoSuppliesForReorder = state =>
   state?.mdotInProgressForm?.formData?.supplies?.every(
-    supply => supply?.availableForReorder === undefined,
+    supply => !supply?.availableForReorder,
   ) || false;
 
 const showAlertReorderAccessExpired = state =>

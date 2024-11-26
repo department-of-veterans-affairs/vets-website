@@ -89,13 +89,6 @@ const chapters = {
   },
 };
 
-// const formOptions = {
-//   noTitle: true,
-//   noTopNav: true,
-//   fullWidth: true,
-//   noBottomNav: true,
-// };
-
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -119,7 +112,6 @@ const formConfig = {
   chapters,
   getHelp,
   footerContent,
-  // formOptions,
   useTopBackLink: true,
 };
 

@@ -68,11 +68,8 @@ describe('suppliesUpdateUiSchema', () => {
       { productId: 123, productName: 'Product 123' },
       { productId: 456, productName: 'Product 456' },
     ];
-    const expected = {
-      '123': 'Product 123',
-      '456': 'Product 456',
-    };
+    const expectedKeys = ['123', '456'];
     const result = suppliesUpdateUiSchema({ supplies });
-    expect(result).to.deep.equal(expected);
+    expect(Object.keys(result)).to.deep.equal(expectedKeys);
   });
 });

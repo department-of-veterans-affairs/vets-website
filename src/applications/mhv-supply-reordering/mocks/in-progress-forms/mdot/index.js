@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-unused-vars
+import { unauthenticated, internalServerError, notFound } from './errors';
+
 const supplies = [
   {
     productName: 'ERHK HE11 680 MINI',
@@ -77,43 +80,6 @@ const getOk = {
     prefill: true,
     returnUrl: '/veteran-information',
   },
-};
-
-// eslint-disable-next-line no-unused-vars
-const unauthenticated = {
-  errors: [
-    {
-      title: 'Not authorized',
-      detail: 'Not authorized',
-      code: '401',
-      status: '401',
-    },
-  ],
-};
-
-// eslint-disable-next-line no-unused-vars
-const internalServerError = {
-  errors: [
-    {
-      title: 'Internal server error',
-      detail: 'Internal server error',
-      code: '500',
-      status: '500',
-    },
-  ],
-};
-
-// eslint-disable-next-line no-unused-vars
-const notFound = {
-  errors: [
-    {
-      title: 'Veteran Not Found',
-      detail: 'The veteran could not be found',
-      code: 'MDOT_invalid',
-      source: 'MDOT::Client',
-      status: '404',
-    },
-  ],
 };
 
 const putOk = {

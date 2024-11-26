@@ -4,7 +4,17 @@ import {
   checkboxGroupUI,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
-const formatDate = dateString => format(new Date(dateString), 'MMMM d, yyyy');
+const formatDate = dateString =>
+  dateString ? format(new Date(dateString), 'MMMM d, yyyy') : undefined;
+
+const numberOfSuppliesPhrase = count => {
+  if (count > 1) return `${count} supplies`;
+  if (count === 1) return `${count} supply`;
+  return 'no supplies';
+};
+
+const sortSupplies = supplies =>
+  supplies?.sort((a, b) => a.productName.localCompare(b.productName));
 
 const suppliesReplaceSchema = formData =>
   checkboxGroupSchema((formData?.supplies || []).map(s => s.productId));
@@ -42,6 +52,8 @@ const suppliesUi = ({
 
 export {
   formatDate,
+  numberOfSuppliesPhrase,
+  sortSupplies,
   suppliesReplaceSchema,
   suppliesUpdateUiSchema,
   suppliesUi,
