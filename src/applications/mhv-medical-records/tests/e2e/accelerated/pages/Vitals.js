@@ -1,5 +1,5 @@
 class Vitals {
-  setIntercepts = ({ vitalData }) => {
+  setIntercepts = ({ vitalData, useOhData = true }) => {
     cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
       'session',
     );
@@ -37,7 +37,11 @@ class Vitals {
     });
     cy.intercept('GET', '/my_health/v1/medical_records/vitals*', req => {
       // check the correct param was used
-      expect(req.url).to.contain('use_oh_data_path=1');
+      if (useOhData) {
+        expect(req.url).to.contain('use_oh_data_path=1');
+      } else {
+        expect(req.url).to.not.contain('use_oh_data_path=1');
+      }
       req.reply(vitalData);
     }).as('vitals-list');
   };
