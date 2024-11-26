@@ -6,42 +6,26 @@ import { StorageAdapter } from './StorageAdapter';
 describe('StorageAdapter', () => {
   let adapter;
   let indexedDBMock;
-  let localStorageMock;
   const TEST_DB_NAME = 'testDB';
   const TEST_STORE_NAME = 'testStore';
   let sandbox;
 
   beforeEach(() => {
-    // Create a sinon sandbox for test isolation
     sandbox = sinon.createSandbox();
 
-    // Mock IndexedDB
     indexedDBMock = {
       open: sandbox.stub(),
     };
 
-    // Mock localStorage
-    localStorageMock = {
-      getItem: sandbox.stub(),
-      setItem: sandbox.stub(),
-      removeItem: sandbox.stub(),
-      clear: sandbox.stub(),
-      length: 0,
-      key: sandbox.stub(),
-    };
-
-    // Mock window object properties
     global.indexedDB = indexedDBMock;
-    global.localStorage = localStorageMock;
 
-    // Create fresh adapter instance
+    // Create fresh adapter instance otherwise the tests are affected by previous tests
     adapter = new StorageAdapter(TEST_DB_NAME, TEST_STORE_NAME);
   });
 
   afterEach(() => {
-    // Restore all sandbox stubs
     sandbox.restore();
-    cleanup(); // Cleanup React testing library
+    cleanup(); // Cleanup React testing library added just in case @testing-library/react acts up
   });
 
   describe('constructor', () => {
@@ -78,15 +62,8 @@ describe('StorageAdapter', () => {
   });
 
   describe('initialization', () => {
-    it('should fall back to localStorage when IndexedDB is not supported', async () => {
-      adapter.isIndexedDBSupported = false;
-      await adapter.initialize();
-      expect(adapter.db).to.be.null;
-    });
-
-    it('should initialize IndexedDB when supported', () => {
+    it('should initialize IndexedDB', () => {
       return new Promise(resolve => {
-        adapter.isIndexedDBSupported = true;
         const dbMock = {
           objectStoreNames: { contains: sandbox.stub().returns(true) },
           transaction: sandbox.stub(),
@@ -118,8 +95,6 @@ describe('StorageAdapter', () => {
 
     it('should create object store if it does not exist', () => {
       return new Promise(resolve => {
-        adapter.isIndexedDBSupported = true;
-
         const dbMock = {
           objectStoreNames: { contains: sandbox.stub().returns(false) },
           createObjectStore: sandbox.stub(),
@@ -173,7 +148,6 @@ describe('StorageAdapter', () => {
         close: sandbox.stub(),
       };
 
-      adapter.isIndexedDBSupported = true;
       adapter.db = dbMock;
     });
 
@@ -282,84 +256,6 @@ describe('StorageAdapter', () => {
 
         await adapter.clear();
         expect(storeMock.clear.called).to.be.true;
-      });
-    });
-  });
-
-  describe('storage operations with localStorage fallback', () => {
-    beforeEach(() => {
-      adapter.isIndexedDBSupported = false;
-      adapter.db = null;
-    });
-
-    describe('set()', () => {
-      it('should store value in localStorage with proper prefix', async () => {
-        await adapter.set('testKey', { data: 'test' });
-        expect(
-          localStorageMock.setItem.calledWith(
-            `${TEST_STORE_NAME}-testKey`,
-            JSON.stringify({ data: 'test' }),
-          ),
-        ).to.be.true;
-      });
-
-      it('should handle localStorage errors', async () => {
-        localStorageMock.setItem.throws(new Error('Storage full'));
-        try {
-          await adapter.set('testKey', { data: 'test' });
-          expect.fail('Should have thrown an error');
-        } catch (error) {
-          expect(error.message).to.equal(
-            'Failed to store data in localStorage',
-          );
-        }
-      });
-    });
-
-    describe('get()', () => {
-      it('should retrieve value from localStorage with proper prefix', async () => {
-        localStorageMock.getItem.returns(JSON.stringify({ data: 'test' }));
-        const result = await adapter.get('testKey');
-        expect(
-          localStorageMock.getItem.calledWith(`${TEST_STORE_NAME}-testKey`),
-        ).to.be.true;
-        expect(result).to.deep.equal({ data: 'test' });
-      });
-
-      it('should return null for non-existent keys', async () => {
-        localStorageMock.getItem.returns(null);
-        const result = await adapter.get('nonexistentKey');
-        expect(result).to.be.null;
-      });
-    });
-
-    describe('clear()', () => {
-      it('should only clear values with matching prefix', async () => {
-        // a couple of items to be cleared and some that should not be cleared
-        const items = {
-          [`${TEST_STORE_NAME}-key1`]: 'value1',
-          [`${TEST_STORE_NAME}-key2`]: 'value2',
-          'otherStore-key3': 'value3',
-          'otherStore-key4': 'value4',
-        };
-
-        // make sure localStorageMock has all the items that will be cleared
-        Object.keys(items).forEach(key => {
-          localStorageMock[key] = items[key];
-        });
-
-        await adapter.clear();
-
-        expect(
-          localStorageMock.removeItem.calledWith(`${TEST_STORE_NAME}-key1`),
-        ).to.be.true;
-        expect(
-          localStorageMock.removeItem.calledWith(`${TEST_STORE_NAME}-key2`),
-        ).to.be.true;
-        expect(localStorageMock.removeItem.calledWith('otherStore-key3')).to.be
-          .false;
-        expect(localStorageMock.removeItem.calledWith('otherStore-key4')).to.be
-          .false;
       });
     });
   });
