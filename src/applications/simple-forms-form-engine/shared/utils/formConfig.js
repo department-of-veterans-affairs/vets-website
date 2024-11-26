@@ -29,14 +29,12 @@ export const formatPages = chapter => {
   }
 };
 
-const formatChapter = chapter => {
-  return {
-    [getChapterKey(chapter)]: {
-      title: chapter.chapterTitle,
-      pages: formatPages(chapter),
-    },
-  };
-};
+const formatChapter = chapter => ({
+  [getChapterKey(chapter)]: {
+    title: chapter.chapterTitle,
+    pages: formatPages(chapter),
+  },
+});
 
 const formatChapters = chapters =>
   chapters.reduce(
