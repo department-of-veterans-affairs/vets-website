@@ -12,11 +12,12 @@ describe('Medical Records View Body Height', () => {
       isAcceleratingEnabled: true,
       isAcceleratingVitals: true,
     });
-    cy.visit('my-health/medical-records');
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
 
   it('Visits View Vitals List', () => {
+    cy.visit('my-health/medical-records');
+
     Vitals.checkLandingPageLinks();
     // check for MY Va Health links
     Vitals.goToVitalPage();
