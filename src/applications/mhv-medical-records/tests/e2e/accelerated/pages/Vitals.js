@@ -86,6 +86,12 @@ class Vitals {
     cy.get("[data-testid='current-date-display']").should('be.visible');
     cy.get("[data-testid='current-date-display']").contains(dateString);
   };
+
+  viewNextPage = () => {
+    cy.get(
+      'nav > ul > li.usa-pagination__item.usa-pagination__arrow > a',
+    ).click();
+  };
 }
 
 export default new Vitals();

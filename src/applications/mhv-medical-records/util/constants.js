@@ -146,8 +146,7 @@ export const vitalTypeDisplayNames = {
   WEIGHT: 'Weight',
   BODY_HEIGHT: 'Height',
   HEIGHT: 'Height',
-  PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED:
-    'Pain severity - 0-10 verbal numeric rating [Score] - Reported',
+  PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED: 'Pain severity',
   PAIN_SEVERITY: 'Pain severity',
 };
 
