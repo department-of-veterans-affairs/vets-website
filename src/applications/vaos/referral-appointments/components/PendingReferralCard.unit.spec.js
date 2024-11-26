@@ -33,6 +33,7 @@ describe('VAOS Component: PendingReferralCard', () => {
     expect(
       screen.getByText(
         'You have been approved for 1 appointment. All appointments for this referral must be scheduled by',
+        { exact: false },
       ),
     ).to.exist;
   });
