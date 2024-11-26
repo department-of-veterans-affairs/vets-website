@@ -36,7 +36,7 @@ const acceleratedVitals = require('./medical-records/vitals/accelerated');
 
 const responses = {
   ...commonResponses,
-  'GET /v0/user': user.acceleratedCernerUser,
+  'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
@@ -170,4 +170,4 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 3000);
+module.exports = delay(responses, 750);

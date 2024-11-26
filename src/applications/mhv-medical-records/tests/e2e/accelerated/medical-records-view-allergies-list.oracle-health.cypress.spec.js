@@ -7,6 +7,7 @@ describe('Medical Records View Allergies', () => {
     const site = new MedicalRecordsSite();
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
+      isAcceleratingEnabled: true,
       isAcceleratingAllergies: true,
     });
 

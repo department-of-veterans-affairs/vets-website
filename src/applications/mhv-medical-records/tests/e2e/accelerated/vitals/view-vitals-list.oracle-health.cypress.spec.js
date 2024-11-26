@@ -44,6 +44,9 @@ describe('Medical Records View Vitals', () => {
       .should('be.visible')
       .click();
 
+    cy.get("[data-testid='current-date-display']").should('be.visible');
+    cy.get("[data-testid='current-date-display']").should('not.be.empty');
+
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

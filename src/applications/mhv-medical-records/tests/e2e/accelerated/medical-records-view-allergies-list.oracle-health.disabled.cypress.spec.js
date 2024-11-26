@@ -9,6 +9,7 @@ describe('Medical Records View Vitals', () => {
   beforeEach(() => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
+      isAcceleratingEnabled: false,
       isAcceleratingAllergies: false,
     });
 

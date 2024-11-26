@@ -82,13 +82,31 @@ describe('Medical Records View Vitals', () => {
     cy.get('select[name="vitals-date-pickerMonth"]').select('3');
     cy.get('input[name="vitals-date-pickerYear"]').clear();
     cy.get('input[name="vitals-date-pickerYear"]').type('2024');
+    cy.get('[data-testid="update-time-frame-button"]').click({
+      waitForAnimations: true,
+    });
+
+    cy.get("[data-testid='current-date-display']").should('be.visible');
+    cy.get("[data-testid='current-date-display']").contains('March 2024');
 
     // check for latest id
-    cy.get('[data-testid="vital-li-measurement"]').should('be.visible');
-    cy.get('[data-testid="vital-li-measurement"]').contains('130/81');
+    cy.get('[data-testid="vital-blood-pressure-measurement"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="vital-blood-pressure-measurement"]').contains(
+      '130/81',
+    );
 
-    cy.get('[data-testid="vital-li-date"]').should('be.visible');
-    cy.get('[data-testid="vital-li-date"]').contains('March 26, 2024');
+    cy.get('[data-testid="vital-blood-pressure-date-timestamp"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="vital-blood-pressure-date-timestamp"]').contains(
+      'March 26, 2024',
+    );
+
+    cy.get('[data-testid="vital-blood-pressure-review-over-time"]').should(
+      'be.visible',
+    );
 
     // Axe check
     cy.injectAxe();

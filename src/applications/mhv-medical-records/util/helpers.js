@@ -436,18 +436,6 @@ export const decodeBase64Report = data => {
   }
   return null;
 };
-const generateHash = async data => {
-  const dataBuffer = new TextEncoder().encode(data);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-};
-
-export const radiologyRecordHash = async record => {
-  const { procedureName, radiologist, stationNumber, eventDate } = record;
-  const dataString = `${procedureName}|${radiologist}|${stationNumber}|${eventDate}`;
-  return (await generateHash(dataString)).substring(0, 8);
-};
 
 /**
  * @function getLastUpdatedText
@@ -485,7 +473,6 @@ export const getLastUpdatedText = (refreshStateStatus, extractType) => {
  * @param {Object} nameObject {first, middle, last, suffix}
  * @returns {String} formatted timestamp
  */
-
 export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
   let returnName = '';
 
@@ -504,10 +491,9 @@ export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
 };
 
 /**
- * @param {Object} nameObject name
+ * @param {Object} name data from FHIR object containing name
  * @returns {String} formatted timestamp
  */
-
 export const formatNameFirstToLast = name => {
   try {
     if (typeof name === 'object') {
