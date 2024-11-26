@@ -225,70 +225,59 @@ export function recordApplicantRelationship({ formData: { onBehalfOf } }) {
  * @param {string} Label text
  * @param {string} Example text
  */
-export const getIssueLabel = (labelText, exampleText) => (
-  <div>
-    {labelText}
-    <br />
-    <span>
-      <em>{exampleText}</em>
-    </span>
-  </div>
-);
 
-export const transcriptReleaseLabel = getIssueLabel(
-  'Release of transcripts',
-  'The school won’t release your transcripts.',
-);
-
-export const recruitingLabel = getIssueLabel(
-  'Recruiting or marketing practices',
-  'The school made inaccurate claims about the quality of its education or its school requirements.',
-);
-
-export const studentLoansLabel = getIssueLabel(
-  'Student loan',
-  'The school didn’t provide you a total cost of your school loan.',
-);
-
-export const qualityLabel = getIssueLabel(
-  'Quality of education',
-  'The school doesn’t have qualified teachers.',
-);
-
-export const creditTransferLabel = getIssueLabel(
-  'Transfer of credits',
-  'The school isn’t accredited for transfer of credits.',
-);
-
-export const accreditationLabel = getIssueLabel(
-  'Accreditation',
-  'The school is unable to get or keep accreditation.',
-);
-
-export const jobOpportunitiesLabel = getIssueLabel(
-  'Post-graduation job opportunity',
-  'The school made promises to you about job placement or salary after graduation.',
-);
-
-export const gradePolicyLabel = getIssueLabel(
-  'Grade policy',
-  'The school didn’t give you a copy of its grade policy or it changed its grade policy in the middle of the year.',
-);
-
-export const refundIssuesLabel = getIssueLabel(
-  'Refund issues',
-  'The school won’t refund your GI Bill payment.',
-);
-
-export const financialIssuesLabel = getIssueLabel(
-  'Financial concern',
-  'The school is charging you a higher tuition or extra fees.',
-);
-
-export const changeInDegreeLabel = getIssueLabel(
-  'Change in degree plan or requirements',
-  'The school added new hour or course requirements after you enrolled.',
-);
+export const issueLabelMap = {
+  recruiting: {
+    label: 'Recruiting or marketing practices',
+    description:
+      'The school made inaccurate claims about the quality of its education or its school requirements.',
+  },
+  quality: {
+    label: 'Quality of education',
+    description: 'The school doesn’t have qualified teachers.',
+  },
+  creditTransfer: {
+    label: 'Transfer of credits',
+    description: 'The school isn’t accredited for transfer of credits.',
+  },
+  studentLoans: {
+    label: 'Student loan',
+    description:
+      'The school didn’t provide you a total cost of your school loan.',
+  },
+  accreditation: {
+    label: 'Accreditation',
+    description: 'The school is unable to get or keep accreditation.',
+  },
+  transcriptRelease: {
+    label: 'Release of transcripts',
+    description: 'The school won’t release your transcripts.',
+  },
+  changeInDegree: {
+    label: 'Change in degree plan or requirements',
+    description:
+      'The school added new hour or course requirements after you enrolled.',
+  },
+  financialIssues: {
+    label: 'Financial concern',
+    description: 'The school is charging you a higher tuition or extra fees.',
+  },
+  refundIssues: {
+    label: 'Refund issues',
+    description: 'The school won’t refund your GI Bill payment.',
+  },
+  jobOpportunities: {
+    label: 'Post-graduation job opportunity',
+    description:
+      'The school made promises to you about job placement or salary after graduation.',
+  },
+  gradePolicy: {
+    label: 'Grade policy',
+    description:
+      'The school didn’t give you a copy of its grade policy or it changed its grade policy in the middle of the year.',
+  },
+  other: { label: 'Other' },
+};
 
 export function issueUIDescription({ formContext }) {
   if (!formContext) {
