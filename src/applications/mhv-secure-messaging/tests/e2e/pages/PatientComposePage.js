@@ -363,7 +363,14 @@ class PatientComposePage {
     });
   };
 
-  clickConfirmDeleteButton = () => {
+  clickConfirmDeleteButton = mockResponse => {
+    cy.intercept(
+      'PATCH',
+      `${Paths.INTERCEPT.MESSAGE_THREADS}${
+        mockResponse.data.attributes.threadId
+      }/move?folder_id=-3`,
+      {},
+    ).as('deleteMessageWithAttachment');
     cy.get(Locators.ALERTS.DELETE_MESSAGE)
       .shadow()
       .find('button')
@@ -494,6 +501,13 @@ class PatientComposePage {
       .find(`.last-focusable-child`)
       .should('be.visible')
       .and(`have.text`, secondBtnText);
+  };
+
+  verifyAttchedFilesList = listLength => {
+    cy.get(`.attachments-section`)
+      .find(`.attachments-list`)
+      .children()
+      .should(`have.length`, listLength);
   };
 }
 
