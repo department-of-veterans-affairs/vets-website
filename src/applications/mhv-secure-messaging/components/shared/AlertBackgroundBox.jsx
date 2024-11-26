@@ -188,7 +188,10 @@ const AlertBackgroundBox = props => {
   return (
     <>
       {activeAlert &&
-        activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
+        activeAlert.header !== Alerts.Headers.HIDE_ALERT &&
+        activeAlert.content !==
+          (Alerts.Message.ATTACHMENT_SCAN_FAIL ||
+            Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL) && (
           <VaAlert
             uswds
             ref={alertRef}
