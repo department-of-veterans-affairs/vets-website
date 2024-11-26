@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { add, format, compareAsc } from 'date-fns';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import { genAndDownloadCCD } from '../actions/downloads';
+
+const { utcToZonedTime } = require('date-fns-tz');
 
 const DownloadReportPage = () => {
   const dispatch = useDispatch();
 
   const generatingCCD = useSelector(state => state.mr.downloads.generatingCCD);
+  const ccdError = useSelector(state => state.mr.downloads.error);
   const userName = useSelector(state => state.user.profile.userFullName);
+
+  const CCDRetryTimestamp = useMemo(
+    () => {
+      const errorTimestamp = localStorage.getItem('lastCCDError');
+
+      if (errorTimestamp !== null) {
+        const retryDate = add(new Date(errorTimestamp), { hours: 24 });
+        if (compareAsc(retryDate, new Date()) >= 0) {
+          return format(
+            utcToZonedTime(retryDate, 'America/New_York'),
+            "MMMM dd, yyyy 'at' K:mm aaaa",
+          );
+        }
+      }
+      return null;
+    },
+    [ccdError],
+  );
 
   return (
     <div>
@@ -33,6 +55,29 @@ const DownloadReportPage = () => {
         text="Select records and download"
       />
       <h2>Other reports you can download</h2>
+      {CCDRetryTimestamp ? (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h2 slot="headline">
+            We can’t download your Continuity of Care Document right now
+          </h2>
+          <p>
+            We’re sorry. There’s a problem with our system.{' '}
+            <strong>Try again after 24 hours ({CCDRetryTimestamp} ET).</strong>
+          </p>
+          <p className="vads-u-margin-bottom--0">
+            If it still doesn’t work, call us at{' '}
+            <va-telephone contact="8773270022" /> (
+            <va-telephone tty contact="711" />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </p>
+        </va-alert>
+      ) : (
+        <></>
+      )}
       <va-accordion bordered>
         <va-accordion-item
           bordered="true"

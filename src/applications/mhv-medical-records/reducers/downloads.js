@@ -11,6 +11,11 @@ const initialState = {
    * @type {string}
    */
   timestampCCD: undefined,
+  /**
+   * Error in generation of CCD
+   * @type {Boolean}
+   */
+  error: false,
 };
 
 export const downloadsReducer = (state = initialState, action) => {
@@ -26,6 +31,20 @@ export const downloadsReducer = (state = initialState, action) => {
         ...state,
         generatingCCD: false,
         timestampCCD: action.response,
+      };
+    }
+    case Actions.Downloads.CANCEL_CCD: {
+      return {
+        ...state,
+        generatingCCD: false,
+      };
+    }
+    case Actions.Downloads.CCD_GENERATION_ERROR: {
+      return {
+        ...state,
+        generatingCCD: false,
+        timestampCCD: action.response,
+        error: true,
       };
     }
     default: {

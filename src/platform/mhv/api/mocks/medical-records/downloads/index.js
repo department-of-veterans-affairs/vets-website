@@ -1,6 +1,7 @@
 const generateCCD = (req, res) => {
   const randomSeed = Math.floor(Math.random() * 2);
 
+  // SUCCESSFUL GENERATION
   return res.json([
     {
       dateGenerated: '2024-10-31T10:28:05.000-0400',
@@ -13,6 +14,20 @@ const generateCCD = (req, res) => {
       patientId: '1012740024V936776',
     },
   ]);
+
+  // ERROR IN REPORT
+  // return res.json([
+  //   {
+  //     dateGenerated: '2024-11-25T10:28:05.000-0400',
+  //     status: 'ERROR',
+  //     patientId: '1012740024V936776',
+  //   },
+  //   {
+  //     dateGenerated: '2024-10-30T10:00:40.000-0400',
+  //     status: 'COMPLETE',
+  //     patientId: '1012740024V936776',
+  //   },
+  // ]);
 };
 
 module.exports = {
