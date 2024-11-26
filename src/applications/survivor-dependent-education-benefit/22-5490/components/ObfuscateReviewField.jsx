@@ -8,11 +8,21 @@ function ObfuscateReviewField({ children, uiSchema }) {
   const visibleLastDigits = formData.slice(-4); // Extract last 4 digits for accessibility
 
   return (
-    <dl className="survivor-benefit-definition-list survivor-benefit-obfuscate-review">
-      <dt className="survivor-benefit-definition-list_term">
+    <dl
+      className="survivor-benefit-definition-list survivor-benefit-obfuscate-review"
+      aria-labelledby="obfuscate-review-title"
+      aria-describedby="obfuscate-review-value"
+    >
+      <dt
+        id="obfuscate-review-title"
+        className="survivor-benefit-definition-list_term"
+      >
         {uiSchema['ui:title']}
       </dt>
-      <dd className="survivor-benefit-definition-list_definition">
+      <dd
+        id="obfuscate-review-value"
+        className="survivor-benefit-definition-list_definition"
+      >
         <span aria-hidden="true">{maskedValue}</span>
         <span className="sr-only">Ending in {visibleLastDigits}</span>
       </dd>
