@@ -98,7 +98,9 @@ export const convertAppointment = appt => {
       clinicPhone: clinic.phoneNumber || 'N/A',
     },
     detailsShared: {
-      reason: attributes.serviceCategory?.[0]?.text || 'Not specified',
+      reason: attributes.serviceCategory?.[0]?.text
+        ? attributes.serviceCategory.map(item => item.text).join(', ')
+        : 'Not specified',
       otherDetails: attributes.friendlyName || 'No details provided',
     },
   };
@@ -110,6 +112,9 @@ export const convertAppointment = appt => {
  * @returns a demographic object that this application can use, or null if the param is null/undefined
  */
 export const convertDemographics = item => {
+  const noneRecorded = 'None recorded';
+  const noInfoReported = 'No information reported';
+
   if (typeof item === 'undefined' || item === null) {
     return null;
   }
@@ -118,7 +123,7 @@ export const convertDemographics = item => {
     id: item.id,
     facility: item.facilityInfo.name,
     firstName: item.firstName,
-    middleName: item.middleName || 'None recorded',
+    middleName: item.middleName || noneRecorded,
     lastName: item.lastName,
     dateOfBirth: new Date(item.dateOfBirth).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -127,10 +132,10 @@ export const convertDemographics = item => {
     }),
     age: item.age,
     gender: item.gender,
-    ethnicity: 'None recorded', // Assuming no data provided
-    religion: item.religion || 'None recorded',
-    placeOfBirth: item.placeOfBirth || 'None recorded',
-    maritalStatus: item.maritalStatus || 'None recorded',
+    ethnicity: noneRecorded, // no matching attribute in test user data
+    religion: item.religion || noneRecorded,
+    placeOfBirth: item.placeOfBirth || noneRecorded,
+    maritalStatus: item.maritalStatus || noneRecorded,
     permanentAddress: {
       street: `${item.permStreet1} ${item.permStreet2 || ''}`.trim(),
       city: item.permCity,
@@ -139,23 +144,23 @@ export const convertDemographics = item => {
       country: item.permCountry,
     },
     contactInfo: {
-      homePhone: 'None recorded',
-      workPhone: 'None recorded',
-      cellPhone: 'None recorded',
-      emailAddress: item.permEmailAddress || 'None recorded',
+      homePhone: noneRecorded, // no matching attribute in test user data
+      workPhone: noneRecorded, // no matching attribute in test user data
+      cellPhone: noneRecorded, // no matching attribute in test user data
+      emailAddress: item.permEmailAddress || noneRecorded,
     },
     eligibility: {
-      serviceConnectedPercentage: item.serviceConnPercentage || 'None recorded',
-      meansTestStatus: 'None recorded', // Assuming no data provided
-      primaryEligibilityCode: 'None recorded', // Assuming no data provided
+      serviceConnectedPercentage: item.serviceConnPercentage || noneRecorded,
+      meansTestStatus: noneRecorded, // no matching attribute in test user data
+      primaryEligibilityCode: noneRecorded, // no matching attribute in test user data
     },
     employment: {
-      occupation: item.employmentStatus || 'None recorded',
-      meansTestStatus: 'None recorded', // Assuming no data provided
-      employerName: 'None recorded', // Assuming no data provided
+      occupation: item.employmentStatus || noneRecorded,
+      meansTestStatus: noneRecorded, // no matching attribute in test user data
+      employerName: noneRecorded, // no matching attribute in test user data
     },
     primaryNextOfKin: {
-      name: item.nextOfKinName || 'None recorded',
+      name: item.nextOfKinName || noneRecorded,
       address: {
         street: `${item.nextOfKinStreet1} ${item.nextOfKinStreet2 ||
           ''}`.trim(),
@@ -163,10 +168,10 @@ export const convertDemographics = item => {
         state: item.nextOfKinState,
         zipcode: item.nextOfKinZipcode,
       },
-      phone: item.nextOfKinHomePhone || 'None recorded',
+      phone: item.nextOfKinHomePhone || noneRecorded,
     },
     emergencyContact: {
-      name: item.emergencyName || 'No information reported',
+      name: item.emergencyName || noInfoReported,
       address: {
         street: `${item.emergencyStreet1} ${item.emergencyStreet2 ||
           ''}`.trim(),
@@ -174,11 +179,11 @@ export const convertDemographics = item => {
         state: item.emergencyState,
         zipcode: item.emergencyZipcode,
       },
-      phone: item.emergencyHomePhone || 'No information reported',
+      phone: item.emergencyHomePhone || noInfoReported,
     },
-    vaGuardian: 'No information reported',
-    civilGuardian: 'No information reported',
-    activeInsurance: 'No information reported',
+    vaGuardian: noInfoReported, // no matching attribute in test user data
+    civilGuardian: noInfoReported, // no matching attribute in test user data
+    activeInsurance: noInfoReported, // no matching attribute in test user data
   };
 };
 
@@ -202,24 +207,30 @@ export const convertAccountSummary = data => {
   }));
 
   // Extract user profile details
-  const authenticationInfo =
-    ipas && ipas[0]
-      ? {
-          source: 'VA',
-          authenticationStatus: ipas[0].status || 'Unknown',
-          authenticationDate: new Date(
-            ipas[0].authenticationDate,
-          ).toLocaleDateString('en-US', {
+  const ipa = ipas && ipas[0];
+  const authenticatingFacility =
+    ipa?.authenticatingFacilityId &&
+    facilities.find(
+      facility => facility.facilityInfoId === ipa.authenticatingFacilityId,
+    );
+  const authenticationInfo = ipa
+    ? {
+        source: 'VA',
+        authenticationStatus: ipa.status || 'Unknown',
+        authenticationDate: new Date(ipa.authenticationDate).toLocaleDateString(
+          'en-US',
+          {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
-          }),
-          authenticationFacilityName:
-            facilities[0]?.facilityInfo?.name || 'Unknown Facility',
-          authenticationFacilityID:
-            facilities[0]?.facilityInfo?.stationNumber || 'Unknown ID',
-        }
-      : {};
+          },
+        ),
+        authenticationFacilityName:
+          authenticatingFacility?.facilityInfo?.name || 'Unknown Facility',
+        authenticationFacilityID:
+          authenticatingFacility?.facilityInfo?.stationNumber || 'Unknown ID',
+      }
+    : {};
 
   return {
     authenticationSummary: authenticationInfo,
