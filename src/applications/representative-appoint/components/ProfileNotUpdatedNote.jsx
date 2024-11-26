@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -31,7 +32,7 @@ function ProfileNotUpdatedNote(props) {
           {includeLink && (
             <>
               <va-link
-                href="https://va.gov"
+                href={`https://${environment.BASE_URL}/change-address`}
                 text="Find out how to change your address in your VA.gov profile (opens in
             new tab)"
                 external
