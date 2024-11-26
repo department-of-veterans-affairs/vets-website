@@ -9,7 +9,7 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Email address'),
-    reviewedVeteranEmail: emailToSendNotificationsUI(),
+    veteranEmail: emailToSendNotificationsUI(),
     'view:additionalInfo': {
       'ui:description': (
         <p className="vads-u-margin-top--4">
@@ -26,12 +26,12 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      reviewedVeteranEmail: emailToSendNotificationsSchema,
+      veteranEmail: emailToSendNotificationsSchema,
       'view:additionalInfo': {
         type: 'object',
         properties: {},
       },
     },
-    required: ['reviewedVeteranEmail'],
+    required: ['veteranEmail'],
   },
 };

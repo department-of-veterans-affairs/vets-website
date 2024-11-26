@@ -194,7 +194,7 @@ export const initializeFormDataWithPreparerIdentificationAndPrefill = (
   };
 
   if (preparerIsVeteranAndHasPrefill({ formData })) {
-    formData.reviewedVeteranEmail = veteranPrefillStore.email;
+    formData.veteranEmail = veteranPrefillStore.email;
   }
 
   return formData;
