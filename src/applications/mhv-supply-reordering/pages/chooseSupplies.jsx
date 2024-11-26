@@ -10,8 +10,8 @@ import {
 
 const numberOfSuppliesPhrase = count => {
   if (count > 1) return `${count} supplies`;
-  if (count < 1) return 'no supplies';
-  return `${count} supply`;
+  if (count === 1) return `${count} supply`;
+  return 'no supplies';
 };
 
 const Description = ({ formData }) => {
