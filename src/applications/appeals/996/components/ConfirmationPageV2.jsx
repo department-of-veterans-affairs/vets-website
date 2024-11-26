@@ -24,14 +24,15 @@ import {
   RepresentativeEmailTitle,
 } from '../content/InformalConferenceRep';
 import { CONFERENCE_TIMES_V2_5 } from '../constants';
+import { formTitle } from '../content/title';
 
 import {
   ConfirmationTitle,
   ConfirmationAlert,
+  ConfirmationSummary,
   ConfirmationReturnLink,
 } from '../../shared/components/ConfirmationCommon';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
-import ConfirmationPdfMessages from '../../shared/components/ConfirmationPdfMessages';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 
 export const ConfirmationPageV2 = () => {
@@ -67,53 +68,26 @@ export const ConfirmationPageV2 = () => {
     false;
   const { informalConferenceRep = {} } = data;
 
-  const alertTitle = 'We’ve received your request for a Higher-Level Review';
-  const alertContent = (
-    <>
-      <p className="vads-u-margin-top--0">
-        If you requested an informal conference, we’ll contact you to schedule
-        your conference.
-      </p>
-      <p className="vads-u-margin-bottom--0">
-        After we’ve completed our review, we’ll mail you a decision packet with
-        the details of our decision.
-      </p>
-    </>
-  );
-
   return (
     <>
-      <ConfirmationTitle pageTitle="Request a Higher-Level Review" />
-      <ConfirmationAlert alertTitle={alertTitle} alertContent={alertContent} />
+      <ConfirmationTitle pageTitle={formTitle} />
+      <ConfirmationAlert alertTitle="We’ve received your request for a Higher-Level Review">
+        <>
+          <p className="vads-u-margin-top--0">
+            If you requested an informal conference, we’ll contact you to
+            schedule your conference.
+          </p>
+          <p className="vads-u-margin-bottom--0">
+            After we’ve completed our review, we’ll mail you a decision packet
+            with the details of our decision.
+          </p>
+        </>
+      </ConfirmationAlert>
 
-      <div className="screen-only">
-        {downloadUrl && (
-          <va-summary-box uswds class="vads-u-margin-top--2">
-            <h3 slot="headline" className="vads-u-margin-top--0">
-              Save a PDF copy of your Higher-Level Review request
-            </h3>
-            <p>
-              If you’d like to save a PDF copy of your completed Higher-Level
-              Review request for your records, you can download it now.
-            </p>
-            <p>
-              <ConfirmationPdfMessages pdfApi={downloadUrl} />
-            </p>
-            <p>
-              <strong>Note:</strong> This PDF is for your records only. You’ve
-              already submitted your completed Higher-Level Review request. We
-              ask that you don’t send us another copy.
-            </p>
-          </va-summary-box>
-        )}
-
-        <h3>Print this confirmation page</h3>
-        <p>
-          You can print this page, which includes a summary of the information
-          you submitted in your Higher-Level Review request.
-        </p>
-        <va-button onClick={window.print} text="Print this page" />
-      </div>
+      <ConfirmationSummary
+        name="Higher-Level Review"
+        downloadUrl={downloadUrl}
+      />
 
       <h2>What to expect next</h2>
       <p>
