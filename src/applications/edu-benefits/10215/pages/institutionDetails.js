@@ -1,35 +1,49 @@
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+// web-component-patterns
+import {
+  currentOrPastDateSchema,
+  currentOrPastDateUI,
+} from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
+import {
+  textSchema,
+  textUI,
+} from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 const uiSchema = {
   institutionDetails: {
-    'ui:title': 'Tell us about your institution',
+    ...titleUI('Tell us about your institution'),
     institutionName: {
-      'ui:title': 'Institution name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: 'Please enter an institution name',
-      },
+      ...textUI({
+        title: 'Institution name',
+        errorMessages: {
+          required: "Please enter your institution's name",
+        },
+      }),
     },
     facilityCode: {
-      'ui:title': 'Facility code',
-      'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: 'Please enter a facility code',
-      },
+      ...textUI({
+        title: 'Facility code',
+        hint: '',
+        errorMessages: {
+          required: "Please enter your institution's facilty code",
+        },
+      }),
     },
     termStartDate: {
-      'ui:title': 'Term start date',
-      'ui:widget': 'date',
-      'ui:errorMessages': {
-        required: 'Please enter a term start date',
-      },
+      ...currentOrPastDateUI({
+        title: 'Term start date',
+        errorMessages: {
+          required: 'Please enter a term start date',
+        },
+      }),
     },
     dateOfCalculations: {
-      'ui:title': 'Date of calculations',
-      'ui:widget': 'date',
-      'ui:errorMessages': {
-        required: 'Please enter a date of calculations',
-      },
+      ...currentOrPastDateUI({
+        title: 'Date of calculations',
+        errorMessages: {
+          required: 'Please enter the date these calculations were performed',
+        },
+      }),
     },
   },
 };
@@ -40,18 +54,10 @@ const schema = {
     institutionDetails: {
       type: 'object',
       properties: {
-        institutionName: {
-          type: 'string',
-        },
-        facilityCode: {
-          type: 'string',
-        },
-        termStartDate: {
-          type: 'string',
-        },
-        dateOfCalculations: {
-          type: 'string',
-        },
+        institutionName: textSchema,
+        facilityCode: textSchema,
+        termStartDate: currentOrPastDateSchema,
+        dateOfCalculations: currentOrPastDateSchema,
       },
       required: [
         'institutionName',

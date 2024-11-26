@@ -1,3 +1,5 @@
+import React from 'react';
+
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
@@ -48,8 +50,12 @@ const formConfig = {
       'Please sign in again to continue your application for education benefits.',
   },
   title: 'Report 85/15 Rule enrollment ratios',
-  subTitle:
-    'Statement of Assurance of Compliance with 85% Enrollment Ratios (VA Form 22-10215)',
+  subTitle: () => (
+    <p className="vads-u-margin-bottom--0">
+      Statement of Assurance of Compliance with 85% Enrollment Ratios (VA Form
+      22-10215)
+    </p>
+  ),
   defaultDefinitions: {
     fullName,
     ssn,
