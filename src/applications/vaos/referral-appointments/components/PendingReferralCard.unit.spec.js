@@ -7,7 +7,7 @@ import { createReferral } from '../utils/referrals';
 
 describe('VAOS Component: PendingReferralCard', () => {
   const referral = createReferral(
-    '2025-01-01',
+    '2025-01-01T10:00:00Z',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
   );
 

@@ -20,10 +20,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
       : `${referral.numberOfAppointments} appointments`;
 
   const dt = new Date(referral.ReferralExpirationDate);
-  const dtDateOnly = new Date(
-    dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000,
-  );
-  const expiration = format(dtDateOnly, 'MMMM, dd, yyyy');
+  const expiration = format(dt, 'MMMM, dd, yyyy');
 
   return (
     <ListItem
