@@ -1,9 +1,5 @@
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import moment from 'moment';
-import { isEmpty } from 'lodash';
-import formConfig from '../config/form';
 import { DATE_FORMAT } from '../definitions/constants';
 
 export const representativeTypeMap = {
@@ -12,57 +8,8 @@ export const representativeTypeMap = {
   'Veterans Service Organization (VSO)': 'Veterans Service Organization (VSO)',
 };
 
-export const deviewifyFields = formData => {
-  const newFormData = {};
-  Object.keys(formData).forEach(key => {
-    const nonViewKey = /^view:/.test(key) ? key.replace('view:', '') : key;
-    // Recurse if necessary
-    newFormData[nonViewKey] =
-      typeof formData[key] === 'object' && !Array.isArray(formData[key])
-        ? deviewifyFields(formData[key])
-        : formData[key];
-  });
-  return newFormData;
-};
-
 export const preparerIsVeteran = ({ formData } = {}) =>
   formData?.['view:applicantIsVeteran'] === 'Yes';
-
-export const isLoggedIn = ({ formData } = {}) => {
-  if (formData) {
-    return formData['view:isLoggedIn'];
-  }
-  return false;
-};
-
-export const hasVeteranPrefill = ({ formData } = {}) => {
-  return (
-    !isEmpty(formData?.['view:veteranPrefillStore']?.fullName) &&
-    !isEmpty(formData?.['view:veteranPrefillStore']?.dateOfBirth) &&
-    !isEmpty(formData?.['view:veteranPrefillStore']?.veteranSsnLastFour) &&
-    !isEmpty(
-      formData?.['view:veteranPrefillStore']?.veteranVaFileNumberLastFour,
-    )
-  );
-};
-
-export const preparerIsVeteranAndHasPrefill = ({ formData }) => {
-  if (environment.isLocalhost()) {
-    return true;
-  }
-  return preparerIsVeteran({ formData }) && hasVeteranPrefill({ formData });
-};
-
-export const initializeFormDataWithClaimantInformationAndPrefill = (
-  applicantIsVeteran,
-  veteranPrefillStore,
-) => {
-  return {
-    ...createInitialState(formConfig).data,
-    'view:applicantIsVeteran': applicantIsVeteran,
-    'view:veteranPrefillStore': veteranPrefillStore,
-  };
-};
 
 /**
  * Show one thing, have a screen reader say another.
@@ -103,28 +50,6 @@ export const getFormSubtitle = formData => {
     return 'VA Form 21-22a';
   }
   return 'VA Forms 21-22 and 21-22a';
-};
-
-/**
- * Setting submit url suffix based on rep type
- */
-export const getFormSubmitUrlSuffix = formData => {
-  const entity = formData['view:selectedRepresentative'];
-  const entityType = entity?.type;
-
-  if (entityType === 'organization') {
-    return '2122';
-  }
-  if (['representative', 'individual'].includes(entityType)) {
-    const { individualType } = entity.attributes;
-    if (
-      ['representative', 'veteran_service_officer'].includes(individualType)
-    ) {
-      return '2122';
-    }
-    return '2122a';
-  }
-  return '2122';
 };
 
 export const getEntityAddressAsObject = addressData => ({

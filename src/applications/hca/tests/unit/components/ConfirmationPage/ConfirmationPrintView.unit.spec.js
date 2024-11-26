@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import ConfirmationPrintView from '../../../../components/ConfirmationPage/ConfirmationPrintView';
-import { normalizeFullName } from '../../../../utils/helpers';
+import { normalizeFullName } from '../../../../utils/helpers/general';
 
 describe('hca <ConfirmationPrintView>', () => {
   const getData = ({ timestamp = undefined }) => ({

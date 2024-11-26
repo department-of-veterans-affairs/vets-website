@@ -58,6 +58,7 @@ const providerOrgs = require('./epsApi/providerOrganizations.json');
 const providerServices = require('./epsApi/providerServices.json');
 const providerSlots = require('./epsApi/providerServicesSlots.json');
 const referralUtils = require('../../referral-appointments/utils/referrals');
+const providerUtils = require('../../referral-appointments/utils/provider');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -507,10 +508,11 @@ const responses = {
       3,
       new Date().toISOString(),
     );
+    const singleReferral = referrals.find(
+      referral => referral?.UUID === req.params.referralId,
+    );
     return res.json({
-      data: referrals.find(
-        referral => referral?.uuid === req.params.referralId,
-      ),
+      data: singleReferral ?? {},
     });
   },
   'GET /vaos/v2/epsApi/appointments': (req, res) => {
@@ -666,6 +668,13 @@ const responses = {
     return res.json({
       data: getSlot.find(slot => slot?.id === req.params.slotId),
     });
+  },
+  'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
+    // Provider 3 throws error
+    if (req.params.providerId === '3') {
+      return res.status(500).json({ error: true });
+    }
+    return res.json({ data: providerUtils.createProviderDetails(5) });
   },
   'GET /v0/user': {
     data: {

@@ -75,7 +75,6 @@ yarn generate-form-docs -- pensions
 Active toggle names:
 
 - `pension_form_enabled`: Enable the pension form
-- `pension_ipf_callbacks_endpoint`: Pension IPF VANotify notification callbacks endpoint
 - `pension_browser_monitoring_enabled`: Pension Datadog RUM monitoring
 - `pension_claim_submission_to_lighthouse`: Pension claim submission uses Lighthouse API
 

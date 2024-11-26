@@ -1543,5 +1543,17 @@
     "src": "/ROCHEYENNE",
     "dest": "/cheyenne-va-regional-benefit-office/",
     "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/detroit",
+    "dest": "/detroit-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RODETROIT",
+    "dest": "/detroit-va-regional-benefit-office/",
+    "catchAll": true
   }
 ]

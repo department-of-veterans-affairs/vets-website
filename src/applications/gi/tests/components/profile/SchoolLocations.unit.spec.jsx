@@ -511,7 +511,6 @@ describe('<SchoolLocations>', () => {
         },
       },
     };
-
     const onViewLess = sinon.spy();
 
     const wrapper = shallow(
@@ -532,21 +531,18 @@ describe('<SchoolLocations>', () => {
     expect(tableRows).to.have.lengthOf(11);
 
     const buttons = wrapper.find('button');
-    expect(buttons).to.have.lengthOf(2);
+    expect(buttons).to.have.lengthOf(1);
 
     const showNextButton = buttons.at(0);
     expect(showNextButton.text()).to.equal('Show next 3');
     showNextButton.simulate('click');
 
-    const showLessButton = wrapper.find('button').at(0);
-    expect(showLessButton.text()).to.equal('...View less');
+    const showLessButton = wrapper.find('[data-testid="view-less"]');
     showLessButton.simulate('click');
     expect(onViewLess.calledOnce).to.equal(true);
 
-    const viewAllButton = buttons.at(1);
-    expect(viewAllButton.text()).to.equal('View all');
+    const viewAllButton = wrapper.find('[data-testid="view-all"]').at(0);
     viewAllButton.simulate('click');
-
     const newTableRows = wrapper.find('tr');
     expect(newTableRows).to.have.lengthOf(14);
 
@@ -825,18 +821,14 @@ describe('<SchoolLocations>', () => {
         constants={testState.constants}
       />,
     );
-
     const facilityTable = wrapper.find('table.sl-table');
     expect(facilityTable).to.have.lengthOf(1);
-
     const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(11);
-
-    const buttons = wrapper.find('button');
-
-    const showNextButton = buttons.at(0);
-    expect(showNextButton.text()).to.equal('Show next 10');
-    showNextButton.simulate('click');
+    const viewAllButton = wrapper.find('[data-testid="view-all"]').at(0);
+    viewAllButton.simulate('click');
+    const newTableRows = wrapper.find('tr');
+    expect(newTableRows).to.have.lengthOf(23);
     wrapper.unmount();
   });
 });

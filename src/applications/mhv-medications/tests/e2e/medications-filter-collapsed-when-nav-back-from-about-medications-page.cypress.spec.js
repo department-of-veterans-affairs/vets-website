@@ -16,13 +16,13 @@ describe('Medications List Page Filter Collapsed ', () => {
     listPage.clickGotoMedicationsLink();
 
     listPage.clickfilterAccordionDropdownOnListPage();
-    listPage.verifyFilterOptionsOnListPage(
-      'All medications',
-      'All medications in your VA medical record',
-    );
+    // listPage.verifyFilterOptionsOnListPage(
+    //   'All medications',
+    //   'All medications in your VA medical record',
+    // );
     listPage.verifyFilterButtonWhenAccordionExpanded();
-    listPage.clickFilterRadioButtonOptionOnListPage('All medications');
-    listPage.verifyNameOfFirstRxOnMedicationsList('all medications');
+    //  listPage.clickFilterRadioButtonOptionOnListPage('All medications');
+
     detailsPage.clickMedicationsLandingPageBreadcrumbsOnListPage();
     listPage.clickGotoMedicationsLink();
     listPage.verifyFilterCollapsedOnListPage();

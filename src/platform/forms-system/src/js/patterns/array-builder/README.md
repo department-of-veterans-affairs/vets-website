@@ -81,7 +81,7 @@ const options = {
   isItemIncomplete: item => !item?.name, // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => item.name,
+    getItemName: (item, index) => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
   },
 };
@@ -214,7 +214,7 @@ const options = {
   isItemIncomplete: item => !item?.name, // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => item.name,
+    getItemName: (item, index) => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
     summaryDescription: 'You can add up to 5 items',
   },
@@ -315,7 +315,7 @@ const options = {
   useLinkInsteadOfYesNo: true,
   required: false,
   text: {
-    getItemName: item => item.name,
+    getItemName: (item, index) => item.name,
     summaryTitle: title,
     summaryTitleWithoutItems: title,
     summaryDescription: description,

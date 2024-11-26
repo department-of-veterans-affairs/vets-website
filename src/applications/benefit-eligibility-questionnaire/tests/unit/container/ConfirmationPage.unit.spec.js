@@ -75,7 +75,7 @@ describe('<ConfirmationPage>', () => {
 
     const ulQualified = container.querySelectorAll('ul.benefit-list');
     expect(container.querySelector('#results-container')).to.exist;
-    expect(ulQualified[1].querySelectorAll('li')).to.have.lengthOf(1);
+    expect(ulQualified[1].querySelectorAll('li')).to.have.lengthOf(19);
   });
 
   it('should render results page when query string is provided', () => {
@@ -112,7 +112,7 @@ const mockBenefits = [
   },
   {
     id: '2',
-    name: 'Careers & Employment',
+    name: 'Careers and Employment',
     category: 'Careers',
     isTimeSensitive: false,
   },
@@ -187,7 +187,7 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
       .getAllByRole('listitem')
       .map(li => li.textContent);
     expect(benefitNames).to.have.lengthOf(6);
-    expect(benefitNames[0]).to.contain('Careers & Employment');
+    expect(benefitNames[0]).to.contain('Careers and Employment');
   });
 
   it('should show all benefits when "All" filter is selected', () => {
@@ -270,7 +270,7 @@ describe('<ConfirmationPage> with <va-banner />', () => {
     expect(banner).to.have.attribute('type', 'warning');
   });
 
-  it('should handle "Go back" link inside <va-banner />', async () => {
+  it('should handle "Go back" link', async () => {
     const { mockStore, props } = getData([]);
     const { container } = subject({ mockStore, props });
 
@@ -279,6 +279,26 @@ describe('<ConfirmationPage> with <va-banner />', () => {
 
     await waitFor(() => {
       expect(props.router.goBack.called).to.be.true;
+    });
+  });
+
+  it('should handle "Filter and sort" action link', async () => {
+    const { mockStore, props } = getData([]);
+    const { container } = subject({ mockStore, props });
+
+    window.innerWidth = 430;
+    window.innerHeight = 932;
+
+    const actionLink = container.querySelector(
+      'va-link-action[text="Filter and sort"]',
+    );
+    fireEvent.click(actionLink);
+
+    await waitFor(() => {
+      const filterSelect = container.querySelector('[name="filter-benefits"]');
+      const sortSelect = container.querySelector('[name="sort-benefits"]');
+      expect(filterSelect).to.exist;
+      expect(sortSelect).to.exist;
     });
   });
 });

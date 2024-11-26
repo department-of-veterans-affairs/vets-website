@@ -63,12 +63,20 @@ export const branchesOfService = [
   'Unknown',
 ];
 
+// Categories
 export const CategoryEducation = 'Education benefits and work study';
 export const CategoryVeteranReadinessAndEmployment =
   'Veteran Readiness and Employment';
+export const CategoryGuardianshipCustodianshipFiduciaryIssues =
+  'Guardianship, custodianship, or fiduciary issues';
+export const CategoryHousingAssistanceAndHomeLoans =
+  'Housing assistance and home loans';
+
+// Topics
 export const TopicVeteranReadinessAndEmploymentChapter31 =
   'Veteran Readiness and Employment (Chapter 31)';
-
+export const TopicAppraisalsSpeciallyAdapatedHousing =
+  'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
 export const requireSignInCategories = [
   CategoryEducation,
   'Education benefits and work study',
@@ -488,6 +496,10 @@ export const CHAPTER_3 = {
     TITLE: 'Your school facility',
     QUESTION_1: 'Do you want this to be your saved school facility?',
   },
+  STATE_OF_PROPERTY: {
+    TITLE: 'State of property',
+    QUESTION_1: 'Select state',
+  },
   STATE_OF_SCHOOL: {
     TITLE: 'State of school',
     QUESTION_1: 'Select state',
@@ -597,3 +609,11 @@ export const breadcrumbsDictionary = {
 
 // Health care label is currently different on local/dev and staging (pulling from CRM updated list)
 export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];
+
+// Define the states requiring postal code
+export const statesRequiringPostalCode = [
+  'California',
+  'New York',
+  'Pennsylvania',
+  'Texas',
+];
