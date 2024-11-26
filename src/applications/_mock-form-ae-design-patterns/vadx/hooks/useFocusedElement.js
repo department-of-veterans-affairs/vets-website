@@ -45,7 +45,7 @@ const getFriendlySelector = (element, truncateInnerTextLength = 30) => {
  * and can help to highlight focused element on hover.
  *
  * @returns {Object} An object containing:
- *   - displayString: A friendly selector string for the focused element
+ *   - displayString: A user friendly selector string for the focused element
  *   - onMouseEnter: Function to handle mouse enter events and highlight the element
  *   - onMouseLeave: Function to handle mouse leave events and remove highlighting
  *
@@ -99,7 +99,6 @@ export function useFocusedElement() {
       });
     };
 
-    // Add event listeners for focus tracking
     document.addEventListener('focusin', handleFocus);
     document.addEventListener('focusout', handleBlur);
 
@@ -124,7 +123,7 @@ export function useFocusedElement() {
         const previousOutline = element.style.outline;
 
         // Apply highlight styles
-        // TODO: make these colors more subtle or align with design system better
+        // TODO: make these colors more subtle or align with VADS better
         element.style.backgroundColor = 'rgba(255, 255, 0, 0.3)';
         element.style.outline = '2px solid #007AFF';
 

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy } from 'react';
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import { Toggler } from 'platform/utilities/feature-toggles';
 
@@ -6,8 +6,6 @@ import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
 import ezrFormConfig from './patterns/pattern1/ezr/config/form';
-
-import { VADXProvider } from './vadx/context/vadx';
 
 import grayTaskConfig from './patterns/pattern2/TaskGray/form/config/form';
 
@@ -32,7 +30,7 @@ import { VADXPlugin } from './shared/components/VADXPlugin';
 
 const DevPanel = lazy(() => import('./vadx/app/pages/DevPanel'));
 
-import { VADXPanelLoader } from './vadx/panel/VADXPanelLoader';
+import { VADX } from './vadx';
 
 const plugin = {
   id: 'AEDP',
@@ -41,17 +39,14 @@ const plugin = {
 
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
 const routeHoc = Component => props => (
-  <Suspense fallback={<div>Loading...</div>}>
-    <VADXProvider>
-      <PatternConfigProvider {...props}>
-        <Component {...props} />
-        <VADXPanelLoader
-          plugin={plugin}
-          featureToggleName={Toggler.TOGGLE_NAMES.profileUseExperimental}
-        />
-      </PatternConfigProvider>
-    </VADXProvider>
-  </Suspense>
+  <PatternConfigProvider {...props}>
+    <VADX
+      plugin={plugin}
+      featureToggleName={Toggler.TOGGLE_NAMES.profileUseExperimental}
+    >
+      <Component {...props} />
+    </VADX>
+  </PatternConfigProvider>
 );
 
 const pattern1Routes = [

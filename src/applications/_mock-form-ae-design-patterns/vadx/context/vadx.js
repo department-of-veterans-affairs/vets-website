@@ -11,7 +11,7 @@ import { debounce, isEqual } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMockedLogin } from '../../hooks/useMockedLogin';
 import { vadxPreferencesStorage } from '../utils/StorageAdapter';
-import { setVadxToggles } from '../panel/actions';
+import { setVadxToggles } from '../actions/toggles';
 
 /**
  * @typedef {Object} SyncContextValue
