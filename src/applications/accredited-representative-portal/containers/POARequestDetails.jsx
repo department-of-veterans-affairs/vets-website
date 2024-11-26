@@ -21,17 +21,24 @@ const checkAuthorizations = (
 };
 
 const POARequestDetails = () => {
-  const { poaRequests } = usePOARequests();
+  const { isLoading, poaRequests } = usePOARequests();
   const { id } = useParams();
 
   const poaRequest =
     poaRequests && poaRequests.find(r => r.id === Number(id))?.attributes;
 
+  if (isLoading)
+    return (
+      <va-loading-indicator
+        data-testid="poa-requests-table-fetcher-loading"
+        message="Loading POA requests..."
+      />
+    );
   return (
     <section className="poa-request-details">
       <h1>
-        <span data-testid="poa-request-details-header">POA request:</span>
-        {poaRequest?.claimant?.firstName} {poaRequest?.claimant?.lastName}
+        POA request: {poaRequest?.claimant?.firstName}{' '}
+        {poaRequest?.claimant?.lastName}
       </h1>
 
       <span
