@@ -21,8 +21,8 @@ describe('Medical Records View Breathing Rate', () => {
     // check for MY Va Health links
     Vitals.goToVitalPage();
     // switch to march 2024
-    Vitals.selectMonthAndYear({ month: 3, year: 2024 });
-    Vitals.verifySelectedDate('March 2024');
+    Vitals.selectMonthAndYear({ month: '3', year: 2024 });
+    Vitals.verifySelectedDate({ dateString: 'March 2024' });
 
     // check for latest id
     cy.get('[data-testid="vital-respiratory-rate-measurement"]').should(
