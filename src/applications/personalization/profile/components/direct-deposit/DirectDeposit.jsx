@@ -52,9 +52,13 @@ const MontgomeryGiBillDescription = () => (
     trigger=" How to update your direct deposit information for Montgomery GI Bill"
     class="vads-u-margin-top--4 gi-bill-info"
     uswds
+    data-testid="gi-bill-additional-info"
   >
     <div>
-      <p className="vads-u-margin-top--0 vads-u-color--black">
+      <p
+        className="vads-u-margin-top--0 vads-u-color--black"
+        data-testid="gi-bill-description"
+      >
         If you’re getting benefits through the Montgomery GI Bill Active Duty
         (MGIB-AD) or Montgomery GI Bill Selected Reserve (MGIB-SR), you’ll need
         to update your direct deposit information using our enrollment
@@ -64,6 +68,7 @@ const MontgomeryGiBillDescription = () => (
         <va-link
           href="https://www.va.gov/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit"
           text="Update direct deposit information for MGIB benefits"
+          data-testid="gi-bill-update-link"
         />
       </p>
     </div>

@@ -238,36 +238,32 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
   });
   describe('Montgomery GI Bill', () => {
     it('Renders GI Bill additional information', () => {
-      const triggerText =
-        'How to update your direct deposit information for Montgomery GI Bill';
-      const additionalInfoText =
-        'If you’re getting benefits through the Montgomery GI Bill Active Duty (MGIB-AD) or Montgomery GI Bill Selected Reserve (MGIB-SR), you’ll need to update your direct deposit information using our enrollment verification tool.';
-      const linkText = 'Update direct deposit information for MGIB benefits';
-      const hrefLink =
-        'https://www.va.gov/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit';
-      const { container, getByText } = renderWithProfileReducersAndRouter(
+      const { getByTestId } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,
         {
           initialState: createInitialState(),
         },
       );
 
-      const additionalInfoElement = container.querySelector(
-        'va-additional-info',
-      );
+      // Test the va-additional-info element
+      const additionalInfoElement = getByTestId('gi-bill-additional-info');
       expect(additionalInfoElement).to.exist;
       expect(additionalInfoElement.getAttribute('trigger').trim()).to.equal(
-        triggerText,
+        'How to update your direct deposit information for Montgomery GI Bill',
       );
-      expect(getByText(additionalInfoText)).to.exist;
 
-      const updateDirectDepositLink = container.querySelector('va-link');
-      expect(updateDirectDepositLink).to.exist;
-      expect(updateDirectDepositLink.getAttribute('href').trim()).to.equal(
-        hrefLink,
+      // Test the description paragraph
+      const descriptionElement = getByTestId('gi-bill-description');
+      expect(descriptionElement).to.exist;
+
+      // Test the link
+      const linkElement = getByTestId('gi-bill-update-link');
+      expect(linkElement).to.exist;
+      expect(linkElement.getAttribute('href').trim()).to.equal(
+        'https://www.va.gov/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit',
       );
-      expect(updateDirectDepositLink.getAttribute('text').trim()).to.equal(
-        linkText,
+      expect(linkElement.getAttribute('text').trim()).to.equal(
+        'Update direct deposit information for MGIB benefits',
       );
     });
   });
