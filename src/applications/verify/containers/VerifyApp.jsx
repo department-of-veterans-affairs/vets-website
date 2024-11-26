@@ -1,35 +1,35 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { selectProfile, isProfileLoading } from 'platform/user/selectors';
+import { useSelector } from 'react-redux';
+import { selectProfile } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { hasSession } from 'platform/user/profile/utilities';
-import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
-import { VerifyButton } from 'platform/user/authentication/components/VerifyButton';
-import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
+import {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+} from 'platform/user/authentication/components/VerifyButton';
 import { focusElement } from '~/platform/utilities/ui';
 
-export const selectCSP = selectedPolicy =>
-  Object.values(SERVICE_PROVIDERS).find(csp => csp.policy === selectedPolicy);
+export default function VerifyApp() {
+  const profile = useSelector(selectProfile);
 
-export const VerifyApp = ({ profile, useOAuth, loading }) => {
   useEffect(
     () => {
       if (!hasSession() || (hasSession() && profile.verified)) {
         window.location.replace('/');
       }
 
+      document.title = `Verify your identity`; // title should match h1 tag
       recordEvent({ event: 'verify-prompt-displayed' });
 
-      if (!loading) {
+      if (!profile?.loading) {
         focusElement('h1');
       }
     },
-    [loading, profile.verified],
+    [profile.loading, profile.verified],
   );
 
-  if (loading) {
+  if (profile?.loading) {
     return (
       <va-loading-indicator
         data-testid="loading-indicator"
@@ -37,78 +37,65 @@ export const VerifyApp = ({ profile, useOAuth, loading }) => {
       />
     );
   }
+
   const { idme, logingov } = SERVICE_PROVIDERS;
-  const signInMethod = !profile.loading && profile.signIn.serviceName;
+  const signInMethod = profile?.signIn?.serviceName;
+  const singleVerifyButton =
+    signInMethod === 'logingov' ? (
+      <VerifyLogingovButton />
+    ) : (
+      <VerifyIdmeButton />
+    );
+
+  const deprecationDates = `${
+    signInMethod === 'mhv' ? `January 31,` : `September 30,`
+  } 2025.`;
+  const { label } = SERVICE_PROVIDERS[signInMethod];
+  const deprecationDatesContent = (
+    <p>
+      You’ll need to sign in with a different account after{' '}
+      <strong>{deprecationDates}</strong>. After this date, we’ll remove the{' '}
+      <strong>{label}</strong> sign-in option. You’ll need to sign in using a{' '}
+      <strong>Login.gov</strong> or <strong>ID.me</strong> account.
+    </p>
+  );
 
   return (
     <section data-testid="verify-app" className="verify">
       <div className="container">
         <div className="row">
-          <div className="columns small-12 fed-warning--v2">
-            <h1>Verify your identity</h1>
-            <va-alert visible status="success">
-              You signed in with {SERVICE_PROVIDERS[signInMethod].label}
-            </va-alert>
-            <p>
-              We’ll need to verify your identity so that you can securely access
-              and manage your benefits.
-              <br />
-              <a
-                href="/resources/privacy-and-security-on-vagov/#why-do-i-need-to-verify-my-ide"
-                target="_blank"
-              >
-                Why does VA.gov verify identity?
-              </a>
-            </p>
-            <p>
-              This one-time process will take <strong>5 - 10 minutes</strong> to
-              complete.
-            </p>
-            {[idme.policy, logingov.policy].includes(signInMethod) ? (
-              <div data-testid="verify-button">
-                {' '}
-                <VerifyButton
-                  {...selectCSP(signInMethod)}
-                  useOAuth={useOAuth}
-                />{' '}
-              </div>
+          <div className="columns small-12 fed-warning--v2 vads-u-margin-y--2">
+            <h1 className="vads-u-margin-top--2">Verify your identity</h1>
+            {![idme.policy, logingov.policy].includes(signInMethod) ? (
+              <>
+                {deprecationDatesContent}
+                <div data-testid="verify-button-group">
+                  <VerifyLogingovButton />
+                  <VerifyIdmeButton />
+                </div>
+              </>
             ) : (
-              <div data-testid="verify-button-group">
-                <VerifyButton
-                  {...selectCSP(logingov.policy)}
-                  useOAuth={useOAuth}
-                />
-                <VerifyButton {...selectCSP(idme.policy)} useOAuth={useOAuth} />
-              </div>
-            )}
-            <div className="help-info">
-              <h2>Having trouble verifying your identity?</h2>
-              <p>
-                <a href="/resources/signing-in-to-vagov/" target="_blank">
-                  Get answers to frequently asked questions
+              <>
+                <p>
+                  We need you to verify your identity for your{' '}
+                  <strong>{label}</strong> account. This step helps us protect
+                  all Veterans’ information and prevent scammers from stealing
+                  your benefits.
+                </p>
+                <p>
+                  This one-time process often takes about 10 minutes. You’ll
+                  need to provide certain personal information and
+                  identification.
+                </p>
+                <div>{singleVerifyButton}</div>
+                <a href="/resources/verifying-your-identity-on-vagov/">
+                  Learn more about verifying your identity
                 </a>
-              </p>
-              <p>
-                <SubmitSignInForm startSentence />
-              </p>
-            </div>
+              </>
+            )}
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-const mapStateToProps = state => ({
-  loading: isProfileLoading(state),
-  profile: selectProfile(state),
-  useOAuth: isAuthenticatedWithOAuth(state),
-});
-
-export default connect(mapStateToProps)(VerifyApp);
-
-VerifyApp.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  profile: PropTypes.object.isRequired,
-  useOAuth: PropTypes.bool,
-};
+}

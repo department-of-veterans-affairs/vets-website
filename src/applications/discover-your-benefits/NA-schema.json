@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Benefit Eligibility Questionnaire",
+  "title": "Discover Your Benefits",
   "type": "object",
   "additionalProperties": false,
   "definitions": {

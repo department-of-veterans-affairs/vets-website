@@ -103,6 +103,21 @@ class PatientMessageDraftsPage {
     });
   };
 
+  confirmDeleteDraft = draftMessage => {
+    cy.intercept(
+      'DELETE',
+      `${Paths.INTERCEPT.MESSAGES}/${
+        draftMessage.data[0].attributes.messageId
+      }`,
+      draftMessage,
+    ).as('deletedDraftResponse');
+
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM)
+      .shadow()
+      .find(`button`)
+      .click({ force: true });
+  };
+
   clickMultipleDeleteButton = number => {
     cy.get(`[data-testid="reply-form"]`)
       .find('va-accordion-item')
@@ -152,18 +167,6 @@ class PatientMessageDraftsPage {
     ).as('saveDraft');
     cy.get(`#save-draft-button-${btnNum}`).click();
     cy.wait('@saveDraft');
-  };
-
-  confirmDeleteDraft = draftMessage => {
-    cy.intercept(
-      'DELETE',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        draftMessage.data[0].attributes.messageId
-      }`,
-      draftMessage,
-    ).as('deletedDraftResponse');
-
-    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
   };
 
   deleteMultipleDraft = (mockResponse, reducedMockResponse, index = 0) => {
