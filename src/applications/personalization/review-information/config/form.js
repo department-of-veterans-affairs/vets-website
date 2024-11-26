@@ -20,6 +20,8 @@ const profileContactInfoPage = profileContactInfo({
   mobilePhoneKey: 'phone',
   contactInfoUiSchema: {},
   disableMockContactInfo: true,
+  contactSectionHeadingLevel: 'h2',
+  editContactInfoHeadingLevel: 'h2',
   content,
 });
 
