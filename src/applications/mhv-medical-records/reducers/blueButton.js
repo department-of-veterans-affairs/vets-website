@@ -98,6 +98,7 @@ export const convertAppointment = appt => {
       clinicPhone: clinic.phoneNumber || 'N/A',
     },
     detailsShared: {
+      // check with mike
       reason: attributes.serviceCategory?.[0]?.text
         ? attributes.serviceCategory.map(item => item.text).join(', ')
         : 'Not specified',
@@ -119,6 +120,7 @@ export const convertDemographics = item => {
     return null;
   }
 
+  // check all no-matches with mike
   return {
     id: item.id,
     facility: item.facilityInfo.name,
@@ -239,24 +241,27 @@ export const convertAccountSummary = data => {
 };
 
 export const blueButtonReducer = (state = initialState, action) => {
-  if (action.type === Actions.BlueButtonReport.GET) {
-    return {
-      ...state,
-      medicationsList:
-        action.medicationsResponse.data?.map(med => {
-          return convertMedication(med);
-        }) || [],
-      appointmentsList:
-        action.appointmentsResponse.data?.map(appt => {
-          return convertAppointment(appt);
-        }) || [],
-      demographics:
-        action.demographicsResponse.content?.map(item => {
-          return convertDemographics(item);
-        }) || [],
-      militaryService: action.militaryServiceResponse || '',
-      accountSummary: convertAccountSummary(action.patientResponse) || {},
-    };
+  // eslint-disable-next-line sonarjs/no-small-switch
+  switch (action.type) {
+    case Actions.BlueButtonReport.GET:
+      return {
+        ...state,
+        medicationsList:
+          action.medicationsResponse.data?.map(med => {
+            return convertMedication(med);
+          }) || [],
+        appointmentsList:
+          action.appointmentsResponse.data?.map(appt => {
+            return convertAppointment(appt);
+          }) || [],
+        demographics:
+          action.demographicsResponse.content?.map(item => {
+            return convertDemographics(item);
+          }) || [],
+        militaryService: action.militaryServiceResponse || '',
+        accountSummary: convertAccountSummary(action.patientResponse) || {},
+      };
+    default:
+      return state;
   }
-  return state;
 };
