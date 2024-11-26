@@ -34,9 +34,8 @@ const initialState = {
  * @returns a medication object that this application can use, or null if the param is null/undefined
  */
 export const convertMedication = med => {
-  if (typeof med === 'undefined' || med === null) {
-    return null;
-  }
+  if (!med) return null;
+
   const { attributes } = med;
   return {
     id: med.id,
@@ -61,9 +60,7 @@ export const convertMedication = med => {
  * @returns an appointment object that this application can use, or null if the param is null/undefined
  */
 export const convertAppointment = appt => {
-  if (typeof appt === 'undefined' || appt === null) {
-    return null;
-  }
+  if (!appt) return null;
 
   const { attributes } = appt;
   const location = attributes.location?.attributes || {};
@@ -108,80 +105,78 @@ export const convertAppointment = appt => {
 };
 
 /**
- * Convert the demographic resource from the backend into the appropriate model.
- * @param {Object} item an MHV demographic resource
+ * Convert the demographic data from the backend into the appropriate model.
+ * @param {Object} info an MHV demographic content item
  * @returns a demographic object that this application can use, or null if the param is null/undefined
  */
-export const convertDemographics = item => {
+export const convertDemographics = info => {
   const noneRecorded = 'None recorded';
   const noInfoReported = 'No information reported';
 
-  if (typeof item === 'undefined' || item === null) {
-    return null;
-  }
+  if (!info) return null;
 
   // check all no-matches with mike
   return {
-    id: item.id,
-    facility: item.facilityInfo.name,
-    firstName: item.firstName,
-    middleName: item.middleName || noneRecorded,
-    lastName: item.lastName,
-    dateOfBirth: new Date(item.dateOfBirth).toLocaleDateString('en-US', {
+    id: info.id,
+    facility: info.facilityInfo.name,
+    firstName: info.firstName,
+    middleName: info.middleName || noneRecorded,
+    lastName: info.lastName,
+    dateOfBirth: new Date(info.dateOfBirth).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     }),
-    age: item.age,
-    gender: item.gender,
+    age: info.age,
+    gender: info.gender,
     ethnicity: noneRecorded, // no matching attribute in test user data
-    religion: item.religion || noneRecorded,
-    placeOfBirth: item.placeOfBirth || noneRecorded,
-    maritalStatus: item.maritalStatus || noneRecorded,
+    religion: info.religion || noneRecorded,
+    placeOfBirth: info.placeOfBirth || noneRecorded,
+    maritalStatus: info.maritalStatus || noneRecorded,
     permanentAddress: {
-      street: `${item.permStreet1} ${item.permStreet2 || ''}`.trim(),
-      city: item.permCity,
-      state: item.permState,
-      zipcode: item.permZipcode,
-      country: item.permCountry,
+      street: `${info.permStreet1} ${info.permStreet2 || ''}`.trim(),
+      city: info.permCity,
+      state: info.permState,
+      zipcode: info.permZipcode,
+      country: info.permCountry,
     },
     contactInfo: {
       homePhone: noneRecorded, // no matching attribute in test user data
       workPhone: noneRecorded, // no matching attribute in test user data
       cellPhone: noneRecorded, // no matching attribute in test user data
-      emailAddress: item.permEmailAddress || noneRecorded,
+      emailAddress: info.permEmailAddress || noneRecorded,
     },
     eligibility: {
-      serviceConnectedPercentage: item.serviceConnPercentage || noneRecorded,
+      serviceConnectedPercentage: info.serviceConnPercentage || noneRecorded,
       meansTestStatus: noneRecorded, // no matching attribute in test user data
       primaryEligibilityCode: noneRecorded, // no matching attribute in test user data
     },
     employment: {
-      occupation: item.employmentStatus || noneRecorded,
+      occupation: info.employmentStatus || noneRecorded,
       meansTestStatus: noneRecorded, // no matching attribute in test user data
       employerName: noneRecorded, // no matching attribute in test user data
     },
     primaryNextOfKin: {
-      name: item.nextOfKinName || noneRecorded,
+      name: info.nextOfKinName || noneRecorded,
       address: {
-        street: `${item.nextOfKinStreet1} ${item.nextOfKinStreet2 ||
+        street: `${info.nextOfKinStreet1} ${info.nextOfKinStreet2 ||
           ''}`.trim(),
-        city: item.nextOfKinCity,
-        state: item.nextOfKinState,
-        zipcode: item.nextOfKinZipcode,
+        city: info.nextOfKinCity,
+        state: info.nextOfKinState,
+        zipcode: info.nextOfKinZipcode,
       },
-      phone: item.nextOfKinHomePhone || noneRecorded,
+      phone: info.nextOfKinHomePhone || noneRecorded,
     },
     emergencyContact: {
-      name: item.emergencyName || noInfoReported,
+      name: info.emergencyName || noInfoReported,
       address: {
-        street: `${item.emergencyStreet1} ${item.emergencyStreet2 ||
+        street: `${info.emergencyStreet1} ${info.emergencyStreet2 ||
           ''}`.trim(),
-        city: item.emergencyCity,
-        state: item.emergencyState,
-        zipcode: item.emergencyZipcode,
+        city: info.emergencyCity,
+        state: info.emergencyState,
+        zipcode: info.emergencyZipcode,
       },
-      phone: item.emergencyHomePhone || noInfoReported,
+      phone: info.emergencyHomePhone || noInfoReported,
     },
     vaGuardian: noInfoReported, // no matching attribute in test user data
     civilGuardian: noInfoReported, // no matching attribute in test user data
@@ -195,9 +190,8 @@ export const convertDemographics = item => {
  * @returns an account summary object that this application can use, or null if the param is null/undefined
  */
 export const convertAccountSummary = data => {
-  if (typeof data === 'undefined' || data === null) {
-    return null;
-  }
+  if (!data) return null;
+
   // Extract necessary fields
   const { facilities, ipas } = data;
 
