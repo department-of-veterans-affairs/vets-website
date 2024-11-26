@@ -62,19 +62,6 @@ export const setup = ({ authenticated } = {}) => {
     },
   }).as('submitApplication');
 
-  cy.intercept(
-    'GET',
-    `${BURIALS_CLAIMS_URL}/${SUBMISSION_CONFIRMATION_NUMBER}`,
-    {
-      data: {
-        attributes: {
-          submittedAt: SUBMISSION_DATE,
-          state: 'success',
-        },
-      },
-    },
-  ).as('pollSubmission');
-
   cy.intercept('POST', CLAIM_ATTACHMENTS_URL, {
     data: {
       attributes: {
