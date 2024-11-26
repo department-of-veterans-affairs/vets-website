@@ -51,20 +51,20 @@ function MilitaryAutoSuggest({
       {({ getInputProps, getItemProps, isOpen, highlightedIndex }) => (
         <div className="relative">
           {/* Add label with htmlFor */}
-          <label htmlFor="military-auto-suggest">
-            Select a military rank:
-            <input
-              id="military-auto-suggest"
-              type="text"
-              {...getInputProps({
-                value,
-                onChange: e => {
-                  setInputValue(e.target.value);
-                  onSelectionChange(e.target.value);
-                },
-              })}
-            />
-          </label>
+          {/* <label htmlFor="military-auto-suggest"> */}
+          {/* Select a military rank: */}
+          <input
+            id="military-auto-suggest"
+            type="text"
+            {...getInputProps({
+              value,
+              onChange: e => {
+                setInputValue(e.target.value);
+                onSelectionChange(e.target.value);
+              },
+            })}
+          />
+          {/* </label> */}
           {isOpen && (
             <div className="autosuggest-list">
               {labels

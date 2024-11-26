@@ -1126,6 +1126,8 @@ export const preparerVeteranUI = {
 };
 
 export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
+  // dispatch(setData(updatedFormData));
+
   // Map the highestRank to the corresponding Rank Description from jsonData
   const rankMap = jsonData.reduce((map, rank) => {
     // eslint-disable-next-line no-param-reassign
@@ -1140,8 +1142,10 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
     rank['Rank Description'].toUpperCase(),
   );
 
-  for (let index = 0; index < serviceRecords.length; index++) {
-    const serviceRecord = serviceRecords[index];
+  // for (let index = 0; index < serviceRecords.length; index++) {
+  if (serviceRecords !== null && serviceRecords !== undefined) {
+    // const serviceRecord = serviceRecords[index];
+    const serviceRecord = serviceRecords;
 
     // Check if serviceBranch is undefined and highestRank is defined
     if (
@@ -1151,18 +1155,18 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
       if (isVeteran(formData)) {
         if (!isAuthorizedAgent(formData)) {
           // Self
-          errors[index].highestRank.addError(
+          errors.highestRank.addError(
             'Select a branch of service before selecting your highest rank attained.',
           );
         } else {
           // Applicant
-          errors[index].highestRank.addError(
+          errors.highestRank.addError(
             "Select Applicant's branch of service before selecting the Applicant's highest rank attained.",
           );
         }
       } else {
         // Sponsor
-        errors[index].highestRank.addError(
+        errors.highestRank.addError(
           "Select Sponsor's branch of service before selecting the Sponsor's highest rank attained.",
         );
       }
@@ -1176,40 +1180,40 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
       highestRankDescription &&
       !validRanks.includes(highestRankDescription)
     ) {
-      errors[index].highestRank.addError(
+      errors.highestRank.addError(
         'Enter a valid rank, or leave this field blank.',
       );
     }
 
     // Date of birth validation
     let dob;
-    let errorMessage;
+    // let errorMessage;
 
-    if (isVeteran(formData)) {
-      if (!isAuthorizedAgent(formData)) {
-        // Self
-        dob = formData.application.claimant.dateOfBirth;
-        errorMessage = 'Provide a valid date that is after your date of birth';
-      } else {
-        // Applicant
-        dob = formData.application.claimant.dateOfBirth;
-        errorMessage =
-          "Provide a valid date that is after the applicant's date of birth";
-      }
-    } else {
-      // Sponsor
-      dob = formData.application.veteran.dateOfBirth;
-      errorMessage =
-        "Provide a valid date that is after the sponsor's date of birth";
-    }
+    // if (isVeteran(formData)) {
+    //   if (!isAuthorizedAgent(formData)) {
+    //     // Self
+    //     // dob = formData.application.claimant.dateOfBirth;
+    //     errorMessage = 'Provide a valid date that is after your date of birth';
+    //   } else {
+    //     // Applicant
+    //     // dob = formData.application.claimant.dateOfBirth;
+    //     errorMessage =
+    //       "Provide a valid date that is after the applicant's date of birth";
+    //   }
+    // } else {
+    //   // Sponsor
+    //   // dob = formData.application.veteran.dateOfBirth;
+    //   errorMessage =
+    //     "Provide a valid date that is after the sponsor's date of birth";
+    // }
 
     // Date of birth validation against service start date and service end date
     if (serviceRecord.dateRange.from <= dob) {
-      errors[index].dateRange.from.addError(errorMessage);
+      //   errors.dateRange.from.addError(errorMessage);
     }
 
     if (serviceRecord.dateRange.to <= dob) {
-      errors[index].dateRange.to.addError(errorMessage);
+      //   errors.dateRange.to.addError(errorMessage);
     }
   }
 };

@@ -44,7 +44,8 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
     // if (formData.application.veteran.serviceRecords) {
     // console.log("form data: ", formData);
 
-    if (formData.serviceRecords && selection.key) {
+    if (formData.serviceRecords) {
+      // } && selection.key) {
       // console.log("We in here");
 
       const updatedFormData = {

@@ -22,6 +22,7 @@ import {
   isAuthorizedAgent,
   hasServiceRecord,
   // getServicePeriodsSummaryTitle,
+  validateMilitaryHistory,
 } from '../../utils/helpers';
 // const { veteran } = fullSchemaPreNeed.properties.application.properties;
 import HighestRankAutoSuggest from '../../components/HighestRankAutoSuggest';
@@ -185,6 +186,7 @@ function servicePeriodInformationPage(isVet, isPrep) {
         'dischargeType',
         'nationalGuardState',
       ],
+      'ui:validations': [validateMilitaryHistory],
       serviceBranch: autosuggest.uiSchema(
         // eslint-disable-next-line no-nested-ternary
         isVet
