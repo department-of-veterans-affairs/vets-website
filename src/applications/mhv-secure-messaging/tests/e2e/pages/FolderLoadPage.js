@@ -105,7 +105,7 @@ class FolderLoadPage {
     cy.get(Locators.BACK_TO).click({ force: true });
   };
 
-  backToFolder = name => {
+  backToInbox = name => {
     cy.get(Locators.LINKS.CRUMB)
       .contains(name)
       .click({ force: true });

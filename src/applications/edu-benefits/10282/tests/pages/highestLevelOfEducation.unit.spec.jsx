@@ -8,7 +8,7 @@ describe('Edu 10282 highestLevelOfEducation', () => {
   it('should hide other eduction when highest level of education is not something else', () => {
     const formData = {
       highestLevelOfEducation: {
-        level: 'High school',
+        level: 'HS',
       },
     };
     const result = uiSchema.highestLevelOfEducation.otherEducation[
@@ -19,7 +19,7 @@ describe('Edu 10282 highestLevelOfEducation', () => {
   it('should not hide other eduction when highest level of education is something else', () => {
     const formData = {
       highestLevelOfEducation: {
-        level: 'Something else',
+        level: 'NA',
       },
     };
     const result = uiSchema.highestLevelOfEducation.otherEducation[
