@@ -141,7 +141,7 @@ const Prescriptions = () => {
       `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
     );
     dispatch(
-      getPaginatedFilteredList(1, filterOptions[filterBy].url, sortBy),
+      getPaginatedFilteredList(1, filterOptions[filterBy]?.url, sortBy),
     ).then(() => {
       updateLoadingStatus(false, '');
       focusElement(document.getElementById('showingRx'));
@@ -308,7 +308,7 @@ const Prescriptions = () => {
         dispatch(
           getPaginatedFilteredList(
             storedPageNumber,
-            filterOptions[storedFilterOption].url,
+            filterOptions[storedFilterOption]?.url,
             sortEndpoint,
           ),
         ).then(() => updateLoadingStatus(false, ''));
@@ -811,15 +811,16 @@ const Prescriptions = () => {
                             </p>
                           </div>
                         )}
-                      {isLoading && (
-                        <div className="vads-u-height--viewport vads-u-padding-top--3">
-                          <va-loading-indicator
-                            message={`${loadingMessage}`}
-                            setFocus
-                            data-testid="loading-indicator"
-                          />
-                        </div>
-                      )}
+                      {isLoading &&
+                        (!filteredList || filteredList?.length === 0) && (
+                          <div className="vads-u-height--viewport vads-u-padding-top--3">
+                            <va-loading-indicator
+                              message={`${loadingMessage}`}
+                              setFocus
+                              data-testid="loading-indicator"
+                            />
+                          </div>
+                        )}
                     </>
                   )}
                 </div>
