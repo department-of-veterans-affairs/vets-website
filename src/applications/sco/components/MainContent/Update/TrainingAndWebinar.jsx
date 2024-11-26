@@ -20,7 +20,7 @@ const TrainingAndWebinar = () => {
       />
       <LiSpanAndVaLinkAndPTag
         href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/presentations.asp"
-        hrefText="Office Hours and Webinars"
+        hrefText="Office Hours and webinars"
         pText="Join our office hours and webinars for information on the GI Bill, related legislation, and processes."
       />
       <LiSpanAndVaLinkAndPTag

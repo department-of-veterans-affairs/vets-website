@@ -27,7 +27,7 @@ const OtherResources = () => {
           User guides and essential information
           <ul>
             <LiSpanAndVaLink
-              hrefText="Enrollment Manager user guide"
+              hrefText="Enrollment Manager User Guide"
               href="https://vbatraining.adobeconnect.com/pz0f1ckt4nrh/default/index.html"
             />
             <LiSpanAndVaLink
@@ -47,7 +47,7 @@ const OtherResources = () => {
               href="https://benefits.va.gov/gibill/docs/guides/ihl-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
-              hrefText="Download non-college degree programs - Enrollment Manager Quick Start Guide (PDF, 3 pages)"
+              hrefText="Download Non-College Degree Programs - Enrollment Manager Quick Start Guide (PDF, 3 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ncd-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
