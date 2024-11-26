@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  emailSchema,
+  emailToSendNotificationsSchema,
   emailToSendNotificationsUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -9,7 +9,7 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Email address'),
-    reviewedVeteranEmail: emailToSendNotificationsUI,
+    reviewedVeteranEmail: emailToSendNotificationsUI(),
     'view:additionalInfo': {
       'ui:description': (
         <p className="vads-u-margin-top--4">
@@ -26,7 +26,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      reviewedVeteranEmail: emailSchema,
+      reviewedVeteranEmail: emailToSendNotificationsSchema,
       'view:additionalInfo': {
         type: 'object',
         properties: {},

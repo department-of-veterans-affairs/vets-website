@@ -1,5 +1,5 @@
 import {
-  emailSchema,
+  emailToSendNotificationsSchema,
   emailToSendNotificationsUI,
   phoneUI,
   phoneSchema,
@@ -12,14 +12,14 @@ export default {
     ...titleUI('Phone and email address'),
     survivingDependentPhone: phoneUI('Phone number'),
     survivingDependentInternationalPhone: phoneUI('International phone number'),
-    survivingDependentEmail: emailToSendNotificationsUI,
+    survivingDependentEmail: emailToSendNotificationsUI(),
   },
   schema: {
     type: 'object',
     properties: {
       survivingDependentPhone: phoneSchema,
       survivingDependentInternationalPhone: phoneSchema,
-      survivingDependentEmail: emailSchema,
+      survivingDependentEmail: emailToSendNotificationsSchema,
     },
     required: ['survivingDependentPhone', 'survivingDependentEmail'],
   },
