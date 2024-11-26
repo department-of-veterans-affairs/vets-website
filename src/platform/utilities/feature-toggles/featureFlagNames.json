@@ -62,7 +62,6 @@
   "ezrProdEnabled": "ezr_prod_enabled",
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
-  "facilitiesPpmsSuppressCommunityCare": "facilities_ppms_suppress_community_care",
   "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",
   "facilityLocatorLatLongOnly": "facility_locator_lat_long_only",
   "facilityLocatorPredictiveLocationSearch": "facility_locator_predictive_location_search",
