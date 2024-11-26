@@ -258,18 +258,20 @@ Provider notes: ${vital.notes}\n\n`,
         </h1>
         <h2 className="sr-only">{`List of ${vitalDisplayName} results`}</h2>
 
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(vitalsList) &&
-            Array.isArray(updatedRecordList) &&
-            vitalsList.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!isAcceleratingVitals && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(vitalsList) &&
+              Array.isArray(updatedRecordList) &&
+              vitalsList.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
 
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
