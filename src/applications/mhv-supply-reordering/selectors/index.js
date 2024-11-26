@@ -15,7 +15,7 @@ const selectUnavailableSupplies = state =>
   ) || [];
 
 const canReorderOn = state =>
-  state?.mdotInProgressForm?.formData?.supplies
+  selectUnavailableSupplies(state)
     ?.map(s => s?.nextAvailabilityDate)
     ?.sort()
     ?.at(0);

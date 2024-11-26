@@ -91,8 +91,10 @@ When requesting `GET /v0/in_progress_forms/MDOT`, the MDOT client in vets-api wi
 
 see `src/applications/disability-benefits/all-claims/pages/toxicExposure/toxicExposureConditions.js` for an example.
 
-## Device Types
+## Device Types, Device Names
 
 How do we access other device types? (e.g. - assistive devices, nebulizers). Are these included in the request for supplies?
 
-The `productGroup` property of a supply can be one of the following values: `['accessories', 'batteries', 'apnea']`.
+The `productGroup` property of a supply can be one of the following values: `['accessories', 'batteries', 'apnea']`. `'assistive devices'` will be added to this list in the near future.
+
+The `deviceName` property of a supply indicates the associated device for the supply.

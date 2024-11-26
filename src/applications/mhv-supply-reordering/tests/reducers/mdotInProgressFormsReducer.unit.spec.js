@@ -20,7 +20,7 @@ describe('mdotInProgressFormReducer', () => {
     state = undefined;
   });
 
-  describe('GET_MDOT_IN_PROGRESS_FORM_STARTED', () => {
+  describe('action.type: GET_MDOT_IN_PROGRESS_FORM_STARTED', () => {
     it('sets loading', () => {
       action = {
         type: GET_MDOT_IN_PROGRESS_FORM_STARTED,
@@ -30,7 +30,7 @@ describe('mdotInProgressFormReducer', () => {
     });
   });
 
-  describe('GET_MDOT_IN_PROGRESS_FORM_SUCCEEDED', () => {
+  describe('action.type: GET_MDOT_IN_PROGRESS_FORM_SUCCEEDED', () => {
     it('sets formData', () => {
       action = {
         type: GET_MDOT_IN_PROGRESS_FORM_SUCCEEDED,
@@ -43,7 +43,7 @@ describe('mdotInProgressFormReducer', () => {
     });
   });
 
-  describe('GET_MDOT_IN_PROGRESS_FORM_FAILED', () => {
+  describe('action.type: GET_MDOT_IN_PROGRESS_FORM_FAILED', () => {
     it('sets error', () => {
       action = {
         type: GET_MDOT_IN_PROGRESS_FORM_FAILED,
