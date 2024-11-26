@@ -38,7 +38,7 @@ export class DownloadLetterLink extends React.Component {
         buttonDisabled = true;
         break;
       case DOWNLOAD_STATUSES.success:
-        buttonText = 'Download letter';
+        buttonText = `${this.props.letterName} (PDF)`;
         message = (
           <va-alert status="success" role="alert">
             <h4 slot="headline">Your letter has successfully downloaded.</h4>
@@ -62,7 +62,7 @@ export class DownloadLetterLink extends React.Component {
         );
         break;
       default:
-        buttonText = 'Download letter';
+        buttonText = `${this.props.letterName} (PDF)`;
     }
 
     return (
