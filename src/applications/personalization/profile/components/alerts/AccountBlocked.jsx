@@ -1,4 +1,4 @@
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import { C as CONTACTS } from '@department-of-veterans-affairs/component-library/dist/components/contacts';
 import React from 'react';
 
 import PropTypes from 'prop-types';
