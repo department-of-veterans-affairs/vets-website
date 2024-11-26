@@ -1,5 +1,8 @@
 import React from 'react';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { generateTitle } from '../../../utils/helpers';
 
 export default {
@@ -7,25 +10,20 @@ export default {
     'ui:title': generateTitle('DD214 or other separation documents'),
     'ui:description': (
       <>
-        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-          You can choose one of these options:
-        </p>
-        <ul className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
+        <p>You can choose one of these options:</p>
+        <ul>
           <li>
             Upload a copy of the Veteran’s DD214 or other separation documents,{' '}
             <strong>or</strong>
           </li>
           <li>Answer questions about the Veteran’s military history</li>
         </ul>
-        <p
-          className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans"
-          aria-live="polite"
-        >
+        <p aria-live="polite">
           Uploading a copy can help us process your application faster and
           you’ll skip certain questions about the deceased Veteran’s military
           service history.
         </p>
-        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
+        <p>
           If you don’t have a copy and need these documents to answer questions
           about military service history, you can request them and finish this
           form later.{' '}
@@ -34,31 +32,21 @@ export default {
           href="/records/get-military-service-records/"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Learn more about requesting military service records (opens in new tab)"
         >
           Learn more about requesting military service records (opens in new
           tab)
         </a>
       </>
     ),
-    'view:separationDocuments': {
-      ...yesNoUI({
-        title:
-          'Do you want to upload a copy of the Veteran’s DD214 or other separation documents?',
-      }),
-      'ui:options': {
-        classNames: 'vads-u-margin-bottom--2',
-      },
-    },
+    'view:separationDocuments': yesNoUI(
+      'Do you want to upload a copy of the Veteran’s DD214 or other separation documents?',
+    ),
   },
   schema: {
     type: 'object',
     required: ['view:separationDocuments'],
     properties: {
-      'view:separationDocuments': {
-        type: 'boolean',
-        properties: {},
-      },
+      'view:separationDocuments': yesNoSchema,
     },
   },
 };
