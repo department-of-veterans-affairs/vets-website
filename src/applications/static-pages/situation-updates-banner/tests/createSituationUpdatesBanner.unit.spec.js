@@ -45,12 +45,18 @@ describe('createSituationUpdatesBanner', () => {
 
   it('should not render banner when widget container is not found', async () => {
     document.body.removeChild(widgetContainer);
-    await createSituationUpdatesBanner(store);
+    await createSituationUpdatesBanner(
+      store,
+      widgetTypes.SITUATION_UPDATES_BANNER,
+    );
     expect(ReactDOM.render.called).to.be.false;
   });
 
   it('should render banner with default props when widget container exists', async () => {
-    await createSituationUpdatesBanner(store);
+    await createSituationUpdatesBanner(
+      store,
+      widgetTypes.SITUATION_UPDATES_BANNER,
+    );
 
     expect(ReactDOM.render.calledOnce).to.be.true;
 
