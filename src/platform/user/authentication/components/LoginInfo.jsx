@@ -3,7 +3,7 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
 export default () => (
   <div className="row">
-    <div className="columns print-full-width sign-in-wrapper">
+    <div className="usa-width-two-thirds medium-8 columns print-full-width sign-in-wrapper">
       <div className="help-info">
         <h2 className="vads-u-margin-top--0">Having trouble signing in?</h2>
         <p>

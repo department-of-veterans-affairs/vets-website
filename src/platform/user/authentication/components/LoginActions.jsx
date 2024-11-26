@@ -39,7 +39,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
   return (
     <div className="row">
-      <div className="columns print-full-width sign-in-wrapper">
+      <div className="usa-width-two-thirds medium-8 columns print-full-width sign-in-wrapper">
         {reduceAllowedProviders(v2SignInProviders, isRegisteredApp).map(csp => (
           <LoginButton
             csp={csp}
@@ -74,7 +74,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
               className="vads-u-margin-bottom--0 vads-u-margin-top--3"
             >
               DS Logon sign-in option
-              <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+              <span className="vads-u-display--block vads-u-font-size--base vads-u-font-family--sans">
                 Available through September 30, 2025
               </span>
             </h3>

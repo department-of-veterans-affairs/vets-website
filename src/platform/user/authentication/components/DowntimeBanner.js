@@ -27,7 +27,7 @@ export default function DowntimeBanners() {
 
   return (
     <div className="downtime-notification row">
-      <div className="sign-in-wrapper">
+      <div className="columns small-12">
         <div className="form-warning-banner fed-warning--v2">
           {isApiDown() ? renderServiceDown('mvi') : null}
           {renderMaintenanceWindow(maintenanceWindows)}
