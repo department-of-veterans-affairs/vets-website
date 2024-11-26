@@ -75,8 +75,9 @@ export const CategoryHousingAssistanceAndHomeLoans =
 // Topics
 export const TopicVeteranReadinessAndEmploymentChapter31 =
   'Veteran Readiness and Employment (Chapter 31)';
-export const TopicAppraisalsSpeciallyAdapatedHousing =
+export const TopicSpeciallyAdapatedHousing =
   'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
+export const TopicAppraisals = 'Appraisals';
 export const requireSignInCategories = [
   CategoryEducation,
   'Education benefits and work study',
