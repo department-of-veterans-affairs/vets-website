@@ -108,16 +108,10 @@ export function getPatientEligibility(
   ).then(parseApiObject);
 }
 
-export function getPatientRelationships({ facilityId, typeOfCareId }) {
-  const url = '/vaos/v2/relationships';
+export function getPatientRelationships({ locationId, typeOfCareId }) {
   return apiRequestWithUrl(
-    appendQuery(
-      url,
-      // eslint-disable-next-line camelcase
-      { facility_id: facilityId, clinical_service_id: typeOfCareId },
-      { removeNull: true },
-    ),
-  ).then(parseApiList);
+    `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,
+  ).then(parseApiObject);
 }
 
 export function getFacilityById(id) {
