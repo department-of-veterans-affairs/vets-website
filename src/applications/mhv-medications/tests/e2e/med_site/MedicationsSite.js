@@ -4,7 +4,7 @@ import mockUnauthenticatedUser from '../fixtures/non-rx-user.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import cernerUser from '../fixtures/cerner-user.json';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
-
+import { Paths } from '../utils/constants';
 import prescriptions from '../fixtures/prescriptions.json';
 import { medicationsUrls } from '../../../util/constants';
 
@@ -91,11 +91,9 @@ class MedicationsSite {
   };
 
   loadVAPaginationNextPrescriptions = (interceptedPage = 2, mockRx) => {
-    cy.intercept(
-      'GET',
-      `my_health/v1/prescriptions?page=${interceptedPage}&per_page=20`,
-      mockRx,
-    ).as(`Prescriptions${interceptedPage}`);
+    cy.intercept('GET', Paths.INTERCEPT.PAGINATION_NEXT, mockRx).as(
+      `Prescriptions${interceptedPage}`,
+    );
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
@@ -130,10 +128,12 @@ class MedicationsSite {
     displayedEndNumber,
     threadLength,
   ) => {
-    cy.get('[data-testid="page-total-info"]').should(
-      'contain',
-      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, alphabetically by status`,
-    );
+    cy.get('[data-testid="page-total-info"]').should($el => {
+      const text = $el.text().trim();
+      expect(text).to.include(
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, alphabetically by status`,
+      );
+    });
   };
 
   verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
