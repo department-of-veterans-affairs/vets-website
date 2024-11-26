@@ -1,10 +1,8 @@
 import {
+  arrayBuilderItemSubsequentPageTitleUI,
   radioSchema,
   radioUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import { createTitle } from './utils';
 
 const sideOfBodyOptions = {
   RIGHT: 'Right',
@@ -15,16 +13,12 @@ const sideOfBodyOptions = {
 /** @returns {PageSchema} */
 const sideOfBodyPage = {
   uiSchema: {
-    ...titleUI(({ formData }) => {
-      const condition = formData.condition || 'condition';
-
-      return createTitle(
-        `Where is your ${condition}?`,
-        `Edit side of body for ${condition}`,
-      );
-    }),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Side of the body for ${formData?.condition || 'condition'}`,
+    ),
     sideOfBody: radioUI({
-      title: 'Side of body',
+      title: 'Which side of the body is your condition on?',
       labels: sideOfBodyOptions,
     }),
   },

@@ -520,7 +520,7 @@ export const BENEFITS_LIST = [
     category: categories.HEALTH_CARE,
     id: 'FMP',
     description:
-      "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care. Click Learn More below to find out how the Foreign Medical Program works and how to register.",
+      "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care. Select Learn More below to find out how the Foreign Medical Program works and how to register.",
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
