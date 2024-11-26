@@ -58,6 +58,7 @@ export const SERVICE_PROVIDERS = {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
     image: <IDMeSVG />,
+    altImage: <IDMeSVG toggleWhite />,
     policy: 'idme',
     className: 'idme-button',
   },
