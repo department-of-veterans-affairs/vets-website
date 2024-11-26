@@ -1,9 +1,9 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Vitals from '../pages/Vitals';
 import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitalsData from '../../fixtures/vitals/heart-rate.json';
+import vitalsData from '../../fixtures/vitals/breathing-rate.json';
 
-describe('Medical Records View Heart Rate', () => {
+describe('Medical Records View Breathing Rate', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
@@ -12,8 +12,8 @@ describe('Medical Records View Heart Rate', () => {
       isAcceleratingEnabled: true,
       isAcceleratingVitals: true,
     });
-    cy.visit('my-health/medical-records');
     Vitals.setIntercepts({ vitalData: vitalsData });
+    cy.visit('my-health/medical-records');
   });
 
   it('Visits View Vitals List', () => {
@@ -23,20 +23,23 @@ describe('Medical Records View Heart Rate', () => {
     // switch to march 2024
     Vitals.selectMonthAndYear({ month: 3, year: 2024 });
     Vitals.verifySelectedDate('March 2024');
-    // check for latest id
-    cy.get('[data-testid="vital-heart-rate-measurement"]').should('be.visible');
-    cy.get('[data-testid="vital-heart-rate-measurement"]').contains(
-      '98 beats per minute',
-    );
 
-    cy.get('[data-testid="vital-heart-rate-date-timestamp"]').should(
+    // check for latest id
+    cy.get('[data-testid="vital-respiratory-rate-measurement"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-heart-rate-date-timestamp"]').contains(
-      'January 1, 2014',
+    cy.get('[data-testid="vital-respiratory-rate-measurement"]').contains(
+      '13 breaths per minute',
     );
 
-    cy.get('[data-testid="vital-heart-rate-review-over-time"]').should(
+    cy.get('[data-testid="vital-respiratory-rate-date-timestamp"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="vital-respiratory-rate-date-timestamp"]').contains(
+      'January 18, 2017',
+    );
+
+    cy.get('[data-testid="vital-respiratory-rate-review-over-time"]').should(
       'be.visible',
     );
 
