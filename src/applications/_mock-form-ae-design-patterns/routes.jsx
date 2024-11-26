@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
@@ -44,7 +45,10 @@ const routeHoc = Component => props => (
     <VADXProvider>
       <PatternConfigProvider {...props}>
         <Component {...props} />
-        <VADXPanelLoader plugin={plugin} />
+        <VADXPanelLoader
+          plugin={plugin}
+          featureToggleName={Toggler.TOGGLE_NAMES.profileUseExperimental}
+        />
       </PatternConfigProvider>
     </VADXProvider>
   </Suspense>

@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useBroadcastStorage } from '../useBroadcastStorage';
 
 export const useVADX = () => {
-  const [isDevLoading, setIsDevLoading] = useState(false);
+  const { useStorageForKey } = useBroadcastStorage({
+    dbName: 'vadx',
+    storeName: 'preferences',
+  });
 
   // feature toggles
   const [localToggles, setLocalToggles, clearLocalToggles] = useLocalStorage(
@@ -13,7 +17,7 @@ export const useVADX = () => {
   // Default to toggles tab if no tab is set
   const [activeTab, setActiveTab] = useLocalStorage('vadx-tab', 'toggles');
 
-  const [showVADX, setShowVADX] = useLocalStorage('vadx-display', false);
+  const [showVADX, setShowVADX] = useStorageForKey('vadx-display', false);
 
   const [searchQuery, setSearchQuery] = useLocalStorage(
     'vadx-toggle-search',
@@ -44,8 +48,6 @@ export const useVADX = () => {
   );
 
   return {
-    isDevLoading,
-    setIsDevLoading,
     localToggles,
     setLocalToggles,
     clearLocalToggles,

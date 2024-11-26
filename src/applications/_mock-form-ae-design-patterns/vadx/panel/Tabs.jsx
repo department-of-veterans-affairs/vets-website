@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import styled from 'styled-components';
 import { TogglesTab } from './tabs/TogglesTab';
 import { FormTab } from './tabs/FormTab';
 import { OtherTab } from './tabs/OtherTab';
+import { VADXContext } from '../context/vadx';
 
 const VADXPanelDiv = styled.div`
   background-color: var(--vads-color-white);
@@ -23,12 +24,12 @@ const VADXPanelDiv = styled.div`
 `;
 
 const tabMap = new Map([
-  ['toggles', panelApi => <TogglesTab key="0" panelApi={panelApi} />],
+  ['toggles', <TogglesTab key="0" />],
   ['form', <FormTab key="1" />],
   ['other', <OtherTab key="2" />],
 ]);
 
-const tabHelper = (panelApi, activeTab, plugin = null) => {
+const tabHelper = (activeTab, plugin = null) => {
   if (plugin && plugin?.id) {
     tabMap.set(plugin.id, plugin.component);
   }
@@ -41,21 +42,25 @@ const tabHelper = (panelApi, activeTab, plugin = null) => {
     result.activeTabContent = tab;
 
     if (typeof tab === 'function') {
-      result.activeTabContent = tab(panelApi, plugin);
+      result.activeTabContent = tab(plugin);
     }
   }
 
   return result;
 };
 
-export const Tabs = ({ panelApi, plugin }) => {
-  const { showVADX, activeTab, setActiveTab } = panelApi;
+export const Tabs = ({ plugin }) => {
+  const { preferences, setSyncedData } = useContext(VADXContext);
 
-  const { tabMap: tabs, activeTabContent } = tabHelper(
-    panelApi,
-    activeTab,
-    plugin,
-  );
+  const showVADX = !!preferences?.showVADX;
+
+  const activeTab = preferences?.activeTab || 'toggles';
+
+  const setActiveTab = tab => {
+    setSyncedData({ ...preferences, activeTab: tab });
+  };
+
+  const { tabMap: tabs, activeTabContent } = tabHelper(activeTab, plugin);
 
   const tabKeys = Array.from(tabs.keys());
 

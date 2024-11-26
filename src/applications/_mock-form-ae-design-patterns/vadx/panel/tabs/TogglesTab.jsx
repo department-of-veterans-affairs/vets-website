@@ -3,65 +3,31 @@ import {
   VaCheckbox,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { debounce, isEqual } from 'lodash';
+import React, { useContext } from 'react';
 import environment from '~/platform/utilities/environment';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import { setPowerToolsToggles } from '../actions';
+import { VADXContext } from '../../context/vadx';
 
-export const TogglesTab = ({ panelApi }) => {
+export const TogglesTab = () => {
   const {
-    isDevLoading,
-    setIsDevLoading,
-    localToggles,
-    setLocalToggles,
-    clearLocalToggles,
-    searchQuery,
-    setSearchQuery,
-  } = panelApi;
+    preferences,
+    updateDevLoading,
+    updateLocalToggles,
+    updateClearLocalToggles,
+    debouncedSetSearchQuery,
+    togglesLoading,
+    togglesState,
+  } = useContext(VADXContext);
 
-  const debouncedSetSearchQuery = useMemo(() => debounce(setSearchQuery, 300), [
-    setSearchQuery,
-  ]);
+  const { searchQuery, isDevLoading } = preferences;
 
-  const loading = useSelector(state => state?.featureToggles?.loading);
-
-  const toggles = useSelector(state => state?.featureToggles);
-
-  const dispatch = useDispatch();
-
-  const localTogglesAreEmpty = useMemo(() => isEqual(localToggles, {}), [
-    localToggles,
-  ]);
-  const customLocalToggles =
-    !localTogglesAreEmpty && !isEqual(localToggles, toggles);
-
-  useEffect(
-    () => {
-      if (localTogglesAreEmpty) {
-        setLocalToggles(toggles);
-      }
-    },
-    [localTogglesAreEmpty, toggles, setLocalToggles],
-  );
-
-  useEffect(
-    () => {
-      if (customLocalToggles) {
-        dispatch(setPowerToolsToggles(localToggles));
-      }
-    },
-    [customLocalToggles, localToggles, dispatch],
-  );
-
-  if (loading) {
+  if (togglesLoading) {
     return <div>Loading...</div>;
   }
 
   const fetchDevToggles = async () => {
     try {
-      setIsDevLoading(true);
+      updateDevLoading(true);
 
       const response = await fetch(
         'https://staging-api.va.gov/v0/feature_toggles',
@@ -77,20 +43,20 @@ export const TogglesTab = ({ panelApi }) => {
           return acc;
         }, {});
 
-      setLocalToggles(formattedToggles);
+      updateLocalToggles(formattedToggles);
 
-      setIsDevLoading(false);
+      updateDevLoading(false);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Error fetching dev toggles:', error);
     }
   };
 
-  const filteredToggles = Object.keys(toggles).filter(
-    toggle =>
-      toggle.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      toggle !== 'loading',
-  );
+  const filteredToggles = Object.keys(togglesState).filter(toggle => {
+    const toggleName = toggle?.toLowerCase?.() || '';
+    const searchQueryLower = searchQuery?.toLowerCase?.() || '';
+    return toggleName.includes(searchQueryLower) && toggle !== 'loading';
+  });
 
   return (
     <>
@@ -105,7 +71,7 @@ export const TogglesTab = ({ panelApi }) => {
       <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
         <VaButton
           onClick={() => {
-            clearLocalToggles();
+            updateClearLocalToggles();
             window.location.reload();
           }}
           text="Reset Toggles"
@@ -126,7 +92,7 @@ export const TogglesTab = ({ panelApi }) => {
         </span>
       </div>
 
-      {Object.keys(toggles).length < 2 && (
+      {Object.keys(togglesState).length < 2 && (
         <div className="vads-u-margin-top--1">
           <p className="vads-u-display--flex vads-u-align-items--center vads-u-margin--0">
             <va-icon icon="error_outline" size={4} />
@@ -143,14 +109,14 @@ export const TogglesTab = ({ panelApi }) => {
           <span key={toggle}>
             <VaCheckbox
               label={toggle}
-              checked={!!toggles[toggle]}
+              checked={!!togglesState[toggle]}
               enable-analytics={false}
               onVaChange={e => {
                 const updatedToggles = {
-                  ...toggles,
+                  ...togglesState,
                   [toggle]: e.target.checked,
                 };
-                setLocalToggles(updatedToggles);
+                updateLocalToggles(updatedToggles);
               }}
             />
           </span>

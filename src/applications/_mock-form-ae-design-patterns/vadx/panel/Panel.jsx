@@ -1,19 +1,23 @@
 import React, { useContext } from 'react';
 import Tabs from './Tabs';
-import { useVADX } from './useVADX';
 import { PluginContext } from './plugin';
 import { FloatingButton } from './FloatingButton';
+import { VADXContext } from '../context/vadx';
 
 const VADXContainer = () => {
-  const ctx = useContext(PluginContext);
-  const panelApi = useVADX();
+  const pluginContext = useContext(PluginContext);
+  const { preferences, updateShowVADX } = useContext(VADXContext);
+
+  const showVADX = !!preferences?.showVADX;
+
+  const handleShowVADX = () => {
+    updateShowVADX(!showVADX);
+  };
+
   return (
     <>
-      <Tabs panelApi={panelApi} plugin={ctx.plugin} />
-      <FloatingButton
-        showVADX={panelApi.showVADX}
-        setShowVADX={panelApi.setShowVADX}
-      />
+      <Tabs plugin={pluginContext?.plugin} />
+      <FloatingButton showVADX={showVADX} setShowVADX={handleShowVADX} />
     </>
   );
 };

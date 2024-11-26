@@ -3,13 +3,12 @@ import { StorageError } from './StorageError';
 
 /**
  * @class StorageAdapter
- * @description Handles browser storage operations with IndexedDB primary and localStorage fallback.
- * TODO: Not sure if the fallback is needed anymore, simplify if not.
+ * @description Handles browser storage operations with IndexedDB
  */
 export class StorageAdapter {
   /**
    * @param {!string} dbName - Database name
-   * @param {!string} storeName - Object store name / used as prefix for writes to localStorage when IndexedDB is not supported
+   * @param {!string} storeName - Object store name
    * @param {number} [version=1] - DB Version number
    * @throws {StorageError} if dbName or storeName is not provided or is only spaces or empty strings
    */
@@ -24,19 +23,6 @@ export class StorageAdapter {
     this.storeName = storeName;
     this.version = version;
     this.db = null;
-    this.isIndexedDBSupported = StorageAdapter._checkIndexedDBSupport();
-  }
-
-  /**
-   * @returns {boolean}
-   * @private
-   */
-  static _checkIndexedDBSupport() {
-    try {
-      return 'indexedDB' in window && window.indexedDB !== null;
-    } catch (e) {
-      return false;
-    }
   }
 
   /**
@@ -46,12 +32,6 @@ export class StorageAdapter {
    * @returns {Promise<void>}
    */
   async initialize() {
-    if (!this.isIndexedDBSupported) {
-      // eslint-disable-next-line no-console
-      console.warn('IndexedDB not supported, falling back to localStorage');
-      return;
-    }
-
     try {
       const db = await new Promise((resolve, reject) => {
         const request = indexedDB.open(this.dbName, this.version);
@@ -78,7 +58,6 @@ export class StorageAdapter {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to initialize IndexedDB:', error);
-      this.isIndexedDBSupported = false;
     }
   }
 
@@ -93,7 +72,11 @@ export class StorageAdapter {
       throw new StorageError('Key is required', 'STORAGE_ADAPTER_INVALID_KEY');
     }
 
-    if (this.isIndexedDBSupported && this.db) {
+    if (!this.db) {
+      await this.initialize();
+    }
+
+    if (this.db) {
       return new Promise((resolve, reject) => {
         const transaction = this.db.transaction([this.storeName], 'readwrite');
         const store = transaction.objectStore(this.storeName);
@@ -110,15 +93,7 @@ export class StorageAdapter {
       });
     }
 
-    try {
-      localStorage.setItem(`${this.storeName}-${key}`, JSON.stringify(value));
-      return Promise.resolve();
-    } catch (error) {
-      throw new StorageError(
-        'Failed to store data in localStorage',
-        'STORAGE_ADAPTER_LOCALSTORAGE_ERROR',
-      );
-    }
+    return Promise.resolve();
   }
 
   /**
@@ -131,7 +106,11 @@ export class StorageAdapter {
       throw new StorageError('Key is required', 'STORAGE_ADAPTER_INVALID_KEY');
     }
 
-    if (this.isIndexedDBSupported && this.db) {
+    if (!this.db) {
+      await this.initialize();
+    }
+
+    if (this.db) {
       return new Promise((resolve, reject) => {
         const transaction = this.db.transaction([this.storeName], 'readonly');
         const store = transaction.objectStore(this.storeName);
@@ -150,15 +129,7 @@ export class StorageAdapter {
       });
     }
 
-    try {
-      const value = localStorage.getItem(`${this.storeName}-${key}`);
-      return Promise.resolve(value ? JSON.parse(value) : null);
-    } catch (error) {
-      throw new StorageError(
-        'Failed to retrieve data from localStorage',
-        'STORAGE_ADAPTER_LOCALSTORAGE_ERROR',
-      );
-    }
+    return Promise.resolve(null);
   }
 
   /**
@@ -171,7 +142,11 @@ export class StorageAdapter {
       throw new StorageError('Key is required', 'STORAGE_ADAPTER_INVALID_KEY');
     }
 
-    if (this.isIndexedDBSupported && this.db) {
+    if (!this.db) {
+      await this.initialize();
+    }
+
+    if (this.db) {
       return new Promise((resolve, reject) => {
         const transaction = this.db.transaction([this.storeName], 'readwrite');
         const store = transaction.objectStore(this.storeName);
@@ -188,15 +163,7 @@ export class StorageAdapter {
       });
     }
 
-    try {
-      localStorage.removeItem(`${this.storeName}-${key}`);
-      return Promise.resolve();
-    } catch (error) {
-      throw new StorageError(
-        'Failed to remove data from localStorage',
-        'STORAGE_ADAPTER_LOCALSTORAGE_ERROR',
-      );
-    }
+    return Promise.resolve();
   }
 
   /**
@@ -204,7 +171,11 @@ export class StorageAdapter {
    * @returns {Promise<void>}
    */
   async clear() {
-    if (this.isIndexedDBSupported && this.db) {
+    if (!this.db) {
+      await this.initialize();
+    }
+
+    if (this.db) {
       return new Promise((resolve, reject) => {
         const transaction = this.db.transaction([this.storeName], 'readwrite');
         const store = transaction.objectStore(this.storeName);
@@ -221,30 +192,21 @@ export class StorageAdapter {
       });
     }
 
-    try {
-      // only clear data for this store in localStorage
-      Object.keys(localStorage)
-        .filter(key => key.startsWith(`${this.storeName}-`))
-        .forEach(key => localStorage.removeItem(key));
-      return Promise.resolve();
-    } catch (error) {
-      throw new StorageError(
-        'Failed to clear localStorage',
-        'STORAGE_ADAPTER_LOCALSTORAGE_ERROR',
-      );
-    }
+    return Promise.resolve();
   }
 
   /**
    * Closes indexedDB connection
    */
   close() {
-    if (this.isIndexedDBSupported && this.db) {
+    if (this.db) {
       this.db.close();
       this.db = null;
     }
   }
 }
+
+export const vadxPreferencesStorage = new StorageAdapter('vadx', 'preferences');
 
 // PropTypes for components using the storage adapter
 export const StorageAdapterPropTypes = {

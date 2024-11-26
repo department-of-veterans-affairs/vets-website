@@ -3,12 +3,16 @@ import { StorageAdapter } from './utils/StorageAdapter';
 import { useBroadcastChannel } from './useBroadcastChannel';
 
 /**
- * @param {string} dbName - should be the same across an app for the most part
- * @param {string} storeName - name of the store, also used as the internal broadcast channel name
+ * Hook for managing broadcast storage across browser tabs/windows
+ * @param {Object} config - Configuration object
+ * @param {string} config.dbName - Should be the same across an app for the most part
+ * @param {string} config.storeName - Name of the store, also used as the internal broadcast channel name
  */
 export const useBroadcastStorage = ({ dbName, storeName }) => {
   /**
    * @param {string} key - the key to use for the storing and broadcasting
+   * @param {*} defaultValue - Default value if none exists in storage
+   * @returns {Array} Returns [value, setVal, removeVal, getVal, storage]
    */
   const useStorageForKey = (key, defaultValue = null) => {
     const storage = useMemo(() => new StorageAdapter(dbName, storeName), []);
@@ -57,7 +61,5 @@ export const useBroadcastStorage = ({ dbName, storeName }) => {
     return [value, setVal, removeVal, getVal, storage];
   };
 
-  return {
-    useStorageForKey,
-  };
+  return { useStorageForKey };
 };
