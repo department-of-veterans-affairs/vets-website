@@ -23,6 +23,8 @@ const profileContactInfoPage = profileContactInfo({
   contactInfoRequiredKeys: allContactInformationKeys,
   addressKey: 'address',
   mobilePhoneKey: 'phone',
+  contactInfoUiSchema: {},
+  contactSectionHeadingLevel: 'h2',
   editContactInfoHeadingLevel: 'h2',
 });
 
@@ -40,8 +42,10 @@ profileContactInfoPage.confirmContactInfo.CustomPage = props =>
     contactPath,
     keys: confirmContactInfoKeys,
     requiredKeys: allContactInformationKeys,
-    contactSectionHeadingLevel: 'h2',
+    contactInfoPageKey: 'confirmContactInfo',
     disableMockContactInfo: true,
+    contactSectionHeadingLevel: 'h2',
+    editContactInfoHeadingLevel: 'h2',
     contentBeforeButtons: WelcomeVAContactAdditionalInfo,
   });
 
