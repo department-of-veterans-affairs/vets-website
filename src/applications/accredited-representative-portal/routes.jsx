@@ -4,7 +4,7 @@ import App from './containers/App';
 import LandingPage from './containers/LandingPage';
 import POARequestsPage from './containers/POARequestsPage';
 import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
-import POARequestDetails from './components/POARequestDetails/POARequestDetails';
+import POARequestDetails from './containers/POARequestDetails';
 
 const routes = (
   <Routes>

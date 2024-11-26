@@ -1,40 +1,44 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useParams } from 'react-router-dom-v5-compat';
-import usePOARequests from '../../hooks/usePOARequests';
-import { formatDate } from '../POARequestsTable/POARequestsTable';
+import { useParams, Link } from 'react-router-dom-v5-compat';
+import { formatDateShort } from 'platform/utilities/date/index';
+import usePOARequests from '../hooks/usePOARequests';
+
+const checkAuthorizations = (
+  isTreatmentDisclosureAuthorized,
+  isAddressChangingAuthorized,
+  status,
+) => {
+  const authorizations = [];
+  if (isTreatmentDisclosureAuthorized === status) {
+    authorizations.push('Health');
+  }
+
+  if (isAddressChangingAuthorized === status) {
+    authorizations.push('Address');
+  }
+  return authorizations.length > 0 ? authorizations.join(', ') : 'None';
+};
 
 const POARequestDetails = () => {
-  const { poaRequests } = usePOARequests();
+  const { isLoading, poaRequests } = usePOARequests();
   const { id } = useParams();
 
-  const details =
-    poaRequests &&
-    poaRequests
-      .filter(request => request.id === Number(id))
-      .map(request => request.attributes);
+  const poaRequest =
+    poaRequests && poaRequests.find(r => r.id === Number(id))?.attributes;
 
-  const checkAuthorizations = (
-    isTreatmentDisclosureAuthorized,
-    isAddressChangingAuthorized,
-    status,
-  ) => {
-    const authorizations = [];
-    if (isTreatmentDisclosureAuthorized === status) {
-      authorizations.push('Health');
-    }
-
-    if (isAddressChangingAuthorized === status) {
-      authorizations.push('Address');
-    }
-    return authorizations.length > 0 ? authorizations.join(', ') : 'None';
-  };
-
+  if (isLoading)
+    return (
+      <va-loading-indicator
+        data-testid="poa-requests-table-fetcher-loading"
+        message="Loading POA requests..."
+      />
+    );
   return (
-    <section data-testid="poa-requests-card" className="poa-request-details">
+    <section className="poa-request-details">
       <h1>
-        POA Requests: {details[0].claimant?.firstName}{' '}
-        {details[0].claimant?.lastName}{' '}
+        POA request: {poaRequest?.claimant?.firstName}{' '}
+        {poaRequest?.claimant?.lastName}
       </h1>
 
       <span
@@ -43,13 +47,13 @@ const POARequestDetails = () => {
         tabIndex={-1}
       />
 
-      <h2>Veteran Information</h2>
+      <h2>Veteran information</h2>
 
       <ul className="poa-request-details__list">
         <li className="poa-request-details__list-item">
           <p className="poa-request-details__title">Name</p>
           <p className="poa-request-details__subtitle">
-            {details[0].veteran.lastName}, {details[0].veteran.firstName}
+            {poaRequest?.veteran?.lastName}, {poaRequest?.veteran?.firstName}
           </p>
         </li>
 
@@ -63,32 +67,33 @@ const POARequestDetails = () => {
         </li>
       </ul>
 
-      <h2>POA Request Information</h2>
+      <h2>POA request information</h2>
 
       <ul className="poa-request-details__list">
         <li className="poa-request-details__list-item">
           <p className="poa-request-details__title">POA submission date</p>
           <p className="poa-request-details__subtitle">
-            {formatDate(details[0].submittedAt)}
+            {poaRequest?.submittedAt &&
+              formatDateShort(poaRequest?.submittedAt)}
           </p>
         </li>
         <li className="poa-request-details__list-item">
           <p className="poa-request-details__title">
-            {details[0].status === 'Declined' && (
+            {poaRequest?.status === 'Declined' && (
               <va-icon
                 icon="close"
                 class="poa-request__card-icon--red poa-request__card-icon"
               />
             )}
-            {details[0].status === 'Accepted' && (
+            {poaRequest?.status === 'Accepted' && (
               <va-icon
                 icon="check_circle"
                 class="poa-request__card-icon--green poa-request__card-icon"
               />
             )}
-            <span>POA Status</span>
+            <span>POA status</span>
           </p>
-          <p className="poa-request-details__subtitle">{details[0].status}</p>
+          <p className="poa-request-details__subtitle">{poaRequest?.status}</p>
         </li>
         <li className="poa-request-details__list-item">
           <p className="poa-request-details__title">Represented through</p>
@@ -98,27 +103,27 @@ const POARequestDetails = () => {
         </li>
       </ul>
 
-      <h2>Claimant Information</h2>
+      <h2>Claimant information</h2>
       <ul className="poa-request-details__list">
         <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">Claimant Name</p>
+          <p className="poa-request-details__title">Claimant name</p>
           <p className="poa-request-details__subtitle">
-            {details[0].claimant.lastName}, {details[0].claimant.firstName}
+            {poaRequest?.claimant.lastName}, {poaRequest?.claimant.firstName}
           </p>
         </li>
         <li className="poa-request-details__list-item">
           <p className="poa-request-details__title">Relationship to Veteran</p>
           <p className="poa-request-details__subtitle">
-            {details[0].claimant.relationshipToVeteran}
+            {poaRequest?.claimant.relationshipToVeteran}
           </p>
         </li>
         <li className="poa-request-details__list-item">
           <p className="poa-request-details__title">Address</p>
           <p className="poa-request-details__subtitle">
-            {details[0].claimantAddress.city},{' '}
-            {details[0].claimantAddress.state}
+            {poaRequest?.claimantAddress.city},{' '}
+            {poaRequest?.claimantAddress.state}
             <br />
-            {details[0].claimantAddress.zip}
+            {poaRequest?.claimantAddress.zip}
           </p>
         </li>
 
@@ -133,7 +138,7 @@ const POARequestDetails = () => {
         </li>
       </ul>
 
-      <h2>Limitations of Consent</h2>
+      <h2>Limitations of consent</h2>
       <ul className="poa-request-details__list">
         <li className="poa-request-details__list-item">
           <p className="poa-request-details__title">
@@ -144,8 +149,8 @@ const POARequestDetails = () => {
             Approves
           </p>
           {checkAuthorizations(
-            details[0].isTreatmentDisclosureAuthorized,
-            details[0].isAddressChangingAuthorized,
+            poaRequest?.isTreatmentDisclosureAuthorized,
+            poaRequest?.isAddressChangingAuthorized,
             true,
           )}
         </li>
@@ -153,18 +158,19 @@ const POARequestDetails = () => {
           <p className="poa-request-details__title">
             <va-icon
               icon="warning"
-              class="poa-request__card-icon--red poa-request__card-icon"
+              class="vads-u-color--error poa-request__card-icon"
             />
             Declines
           </p>
 
           {checkAuthorizations(
-            details[0].isTreatmentDisclosureAuthorized,
-            details[0].isAddressChangingAuthorized,
+            poaRequest?.isTreatmentDisclosureAuthorized,
+            poaRequest?.isAddressChangingAuthorized,
             false,
           )}
         </li>
       </ul>
+      <Link to="/poa-requests/">Back to power of attorney list</Link>
     </section>
   );
 };

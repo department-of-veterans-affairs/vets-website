@@ -5,7 +5,7 @@ import POARequestsCard from '../POARequestsCard/POARequestsCard';
 import ErrorMessage from '../common/ErrorMessage';
 
 const POARequestsTableFetcher = ({ usePOARequests }) => {
-  const { isLoading, error, poaRequests } = usePOARequests();
+  const { isLoading, error, poaRequests } = usePOARequests([]);
 
   if (isLoading)
     return (
