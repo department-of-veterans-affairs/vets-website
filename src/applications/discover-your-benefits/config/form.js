@@ -40,7 +40,7 @@ export const formConfig = {
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: submitHandler,
-  trackingPrefix: 'benefit-eligibility-questionnaire-',
+  trackingPrefix: 'discover-your-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
