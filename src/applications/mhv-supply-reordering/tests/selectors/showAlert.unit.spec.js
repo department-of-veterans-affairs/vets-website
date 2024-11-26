@@ -27,8 +27,8 @@ describe('showAlertDeceased', () => {
   });
 
   it('returns false, otherwise', () => {
-    result = showAlertDeceased(stateFn());
-    expect(result).to.eq(false);
+    expect(showAlertDeceased(stateFn())).to.eq(false);
+    expect(showAlertDeceased({})).to.eq(false);
   });
 });
 
@@ -40,8 +40,8 @@ describe('showAlertNoRecordForUser', () => {
   });
 
   it('returns false, otherwise', () => {
-    result = showAlertNoRecordForUser(stateFn());
-    expect(result).to.eq(false);
+    expect(showAlertNoRecordForUser(stateFn())).to.eq(false);
+    expect(showAlertNoRecordForUser({})).to.eq(false);
   });
 });
 
@@ -58,10 +58,15 @@ describe('showAlertNoSuppliesForReorder', () => {
     expect(result).to.eq(true);
   });
 
-  it('returns false, otherwise', () => {
+  it('returns false when supplies are availableForReorder', () => {
     const supplies = [{ productId: '123', availableForReorder: true }];
     result = showAlertNoSuppliesForReorder(stateFn({ formData: { supplies } }));
     expect(result).to.eq(false);
+  });
+
+  it('returns false, otherwise', () => {
+    expect(showAlertNoSuppliesForReorder(stateFn())).to.eq(false);
+    expect(showAlertNoSuppliesForReorder({})).to.eq(false);
   });
 });
 
@@ -73,26 +78,30 @@ describe('showAlertReorderAccessExpired', () => {
   });
 
   it('returns false, otherwise', () => {
-    result = showAlertReorderAccessExpired(stateFn());
-    expect(result).to.eq(false);
+    expect(showAlertReorderAccessExpired(stateFn())).to.eq(false);
+    expect(showAlertReorderAccessExpired({})).to.eq(false);
   });
 });
 
 describe('showAlertSomethingWentWrong', () => {
-  it('returns true when error.status is 500', () => {
-    state = stateFn({ error: { status: 500 } });
-    result = showAlertSomethingWentWrong(state);
-    expect(result).to.eq(true);
+  [500, 502, 503].forEach(status => {
+    it(`returns true when error.status is ${status} (server error)`, () => {
+      state = stateFn({ error: { status } });
+      result = showAlertSomethingWentWrong(state);
+      expect(result).to.eq(true);
+    });
   });
 
-  it('returns true when error.status is 503', () => {
-    state = stateFn({ error: { status: 503 } });
-    result = showAlertSomethingWentWrong(state);
-    expect(result).to.eq(true);
+  [401, 403, 404].forEach(status => {
+    it(`returns false when error.status is ${status} (client error)`, () => {
+      state = stateFn({ error: { status } });
+      result = showAlertSomethingWentWrong(state);
+      expect(result).to.eq(false);
+    });
   });
 
   it('returns false, otherwise', () => {
-    result = showAlertSomethingWentWrong(stateFn());
-    expect(result).to.eq(false);
+    expect(showAlertSomethingWentWrong(stateFn())).to.eq(false);
+    expect(showAlertSomethingWentWrong({})).to.eq(false);
   });
 });
