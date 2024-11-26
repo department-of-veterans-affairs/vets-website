@@ -10,7 +10,7 @@ import { formatDate } from '../../utils/helpers';
  * @returns the alert
  */
 const AlertNoSuppliesForReorder = ({ reorderDate }) => {
-  const date = formatDate(reorderDate);
+  const date = reorderDate ? formatDate(reorderDate) : undefined;
   return (
     <va-alert
       status="warning"
@@ -18,10 +18,12 @@ const AlertNoSuppliesForReorder = ({ reorderDate }) => {
     >
       <h3 slot="headline">You can’t reorder your items at this time</h3>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <span>
-          Our records show that your items aren’t available for reorder until{' '}
-          {date}. You can only order items once every 5 months.
-        </span>
+        {date && (
+          <span>
+            Our records show that your items aren’t available for reorder until{' '}
+            {date}. You can only order items once every 5 months.
+          </span>
+        )}
         <span className="vads-u-margin-top--1">
           If you need an item sooner, call the DLC Customer Service Section at{' '}
           <DlcTelephoneLink /> or email <DlcEmailLink />.
