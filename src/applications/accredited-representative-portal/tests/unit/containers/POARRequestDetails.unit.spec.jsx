@@ -1,13 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { renderTestApp } from '../helpers';
+import mockPOARequestsResponse from '../../../mocks/mockPOARequestsResponse.json';
 import POARequestDetails from '../../../containers/POARequestDetails';
 
+const MOCK_POA_REQUESTS = mockPOARequestsResponse.data;
 describe('render POA request details page', () => {
-  const getPOARequestDetailsPage = () => render(<POARequestDetails />);
-
   it('renders heading', () => {
-    const { getByTestId } = getPOARequestDetailsPage();
+    const { getByTestId } = renderTestApp(
+      <POARequestDetails poaRequests={MOCK_POA_REQUESTS} />,
+    );
     expect(getByTestId('poa-request-details-header').textContent).to.eq(
       'POA request:',
     );
