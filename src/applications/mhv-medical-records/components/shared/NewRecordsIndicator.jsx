@@ -121,7 +121,7 @@ const NewRecordsIndicator = ({
               your records were last updated. We’re sorry.
             </p>
 
-            <p> Please check backlater for updates.</p>
+            <p> Please check back later for updates.</p>
 
             <p>
               If it still doesn’t work, call us at call us at{' '}
