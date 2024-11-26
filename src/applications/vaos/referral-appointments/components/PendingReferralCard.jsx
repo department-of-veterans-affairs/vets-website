@@ -20,7 +20,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
       : `${referral.numberOfAppointments} appointments`;
 
   const dt = new Date(referral.ReferralExpirationDate);
-  const expiration = format(dt, 'MMMM, dd, yyyy');
+  const expiration = format(dt, 'MMMM, d, yyyy');
 
   return (
     <ListItem
