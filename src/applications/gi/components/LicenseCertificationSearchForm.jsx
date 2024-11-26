@@ -39,14 +39,17 @@ export const dropdownSchema = [
   },
 ];
 
-const filterSuggestions = (suggestions, value) => {
-  // add filter options as arg
+const filterSuggestions = (suggestions, value, filters) => {
+  const { type } = filters; // destructure state once it's added to the response
+
   if (!value) {
     return [];
   }
 
   return suggestions.filter(suggestion => {
-    // TODO add logic to account for filterOptions
+    if (type !== suggestion.type) return false;
+    // TODO add logic to account for state
+
     return suggestion.name.toLowerCase().includes(value.toLowerCase());
   });
 };
@@ -76,7 +79,9 @@ export default function LicenseCertificationSearchForm({
 
   useEffect(
     () => {
-      const newSuggestions = filterSuggestions(suggestions, name);
+      const newSuggestions = filterSuggestions(suggestions, name, {
+        type: dropdowns[0].current.optionValue,
+      });
 
       if (name.trim() !== '') {
         newSuggestions.unshift({
@@ -104,16 +109,17 @@ export default function LicenseCertificationSearchForm({
     }
 
     setDropdowns(current => {
+      // update url params
       return updateLcFilterDropdowns(current, e.target);
     });
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
-    setName(value);
+    setName(value); // update url params
   };
 
   const onSelection = selection => {
-    const { type, state } = selection; // TODO ensure state is added to response object
+    const { type, state } = selection; // TODO ensure state is added to response object coming from BE
     const stateItem = mappedStates.find(_state => {
       return _state.optionValue === state;
     });
@@ -131,7 +137,7 @@ export default function LicenseCertificationSearchForm({
     });
 
     if (type === 'license' && dropdowns[1].current.optionValue !== state) {
-      setDropdowns(updateStateDropdown);
+      setDropdowns(updateStateDropdown); // update url params
       setShowStateAlert(true);
     }
   };
