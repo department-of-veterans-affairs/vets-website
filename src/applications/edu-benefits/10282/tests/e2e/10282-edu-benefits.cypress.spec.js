@@ -295,5 +295,4 @@
 //       cy.location('href').should('contain', '/review-and-submit');
 //     });
 //   });
-
 // });
