@@ -20,7 +20,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
       : `${referral.numberOfAppointments} appointments`;
 
   const dt = new Date(referral.ReferralExpirationDate);
-  const expiration = format(dt, 'MMMM, d, yyyy');
+  const expiration = format(dt, 'MMMM d, yyyy');
 
   return (
     <ListItem
@@ -40,7 +40,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
                     // canceled={isCanceled}
                     className="vads-u-font-weight--bold vaos-appts__display--table"
                   >
-                    {typeOfCareName} referral
+                    {`${typeOfCareName} referral`}
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0p5"
