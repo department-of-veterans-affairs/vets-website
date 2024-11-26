@@ -1,5 +1,5 @@
 import React from 'react';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import AppointmentFlexGrid from '../../appointment-list/components/AppointmentsPage/AppointmentFlexGrid';
 import ListItem from '../../appointment-list/components/AppointmentsPage/ListItem';
@@ -19,9 +19,11 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
       ? '1 appointment'
       : `${referral.numberOfAppointments} appointments`;
 
-  const strDate = referral.ReferralExpirationDate;
-  const isoDate = parseISO(strDate);
-  const expiration = format(isoDate, 'MMMM, dd, yyyy');
+  const dt = new Date(referral.ReferralExpirationDate);
+  const dtDateOnly = new Date(
+    dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000,
+  );
+  const expiration = format(dtDateOnly, 'MMMM, dd, yyyy');
 
   return (
     <ListItem
