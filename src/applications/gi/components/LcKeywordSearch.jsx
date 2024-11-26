@@ -9,6 +9,7 @@ export default function LcKeywordSearch({
   suggestions,
   onSelection,
   onUpdateAutocompleteSearchTerm,
+  handleClearInput,
 }) {
   const handleChange = e => {
     const { value } = e.target;
@@ -20,13 +21,7 @@ export default function LcKeywordSearch({
 
     onUpdateAutocompleteSearchTerm(name);
 
-    if (onSelection) {
-      onSelection({ type, state: 'FL' }); // remove hardcoded state
-    }
-  };
-
-  const handleClearInput = () => {
-    onUpdateAutocompleteSearchTerm('');
+    onSelection({ type, state: type === 'license' ? 'FL' : 'all' }); // remove hardcoded state
   };
 
   return (
@@ -132,8 +127,8 @@ export default function LcKeywordSearch({
 }
 
 LcKeywordSearch.propTypes = {
+  onSelection: PropTypes.func.isRequired,
   inputValue: PropTypes.string,
   suggestions: PropTypes.array,
-  onSelection: PropTypes.func,
   onUpdateAutocompleteSearchTerm: PropTypes.func,
 };

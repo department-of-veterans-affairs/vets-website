@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
-import { updateLcFilterDropdowns } from '../utils/helpers';
+import { handleUpdateLcFilterDropdowns } from '../utils/helpers';
 import LcKeywordSearch from './LcKeywordSearch';
 
 function capitalizeFirstLetter(string) {
@@ -85,8 +85,8 @@ export default function LicenseCertificationSearchForm({
       if (name.trim() !== '') {
         newSuggestions.unshift({
           name,
-          link: 'lce/', // verify link
-          type: 'all', // verify type
+          link: 'lce/',
+          type: 'all',
         });
       }
 
@@ -101,7 +101,7 @@ export default function LicenseCertificationSearchForm({
   };
 
   const handleChange = e => {
-    const newDropdowns = updateLcFilterDropdowns(dropdowns, e.target);
+    const newDropdowns = handleUpdateLcFilterDropdowns(dropdowns, e.target);
 
     if (newDropdowns[0].current.optionValue === 'certification') {
       setDropdowns(resetStateDropdown);
@@ -109,7 +109,7 @@ export default function LicenseCertificationSearchForm({
 
     setDropdowns(current => {
       // update url params
-      return updateLcFilterDropdowns(current, e.target);
+      return handleUpdateLcFilterDropdowns(current, e.target);
     });
   };
 
@@ -138,23 +138,16 @@ export default function LicenseCertificationSearchForm({
       };
     });
 
-    const updateStateDropdown = dropdowns.map(dropdown => {
-      return dropdown.label === 'state'
-        ? {
-            ...dropdown,
-            current: dropdown.options.find(option => {
-              return option.optionValue === state;
-            }),
-          }
-        : dropdown;
-    });
-
     if (type === 'license' && dropdowns[1].current.optionValue !== state) {
       setShowStateAlert(true);
-      setDropdowns(updateStateDropdown); // update url params
     }
 
     setDropdowns(updateDropdowns);
+  };
+
+  const handleClearInput = () => {
+    onUpdateAutocompleteSearchTerm('');
+    setShowStateAlert(false);
   };
 
   return (
@@ -211,6 +204,7 @@ export default function LicenseCertificationSearchForm({
           suggestions={filteredSuggestions}
           onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
           onSelection={onSelection}
+          handleClearInput={handleClearInput}
         />
       </div>
 
