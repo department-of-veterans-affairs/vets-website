@@ -312,18 +312,17 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
                 <strong>Note:</strong> If you can’t find the prescription you’re
                 looking for, you may need to renew it. Go to your medications
                 list and filter by “renewal needed before refill.”
-                <div className="vads-u-margin-top--2">
-                  <Link
-                    data-testid="medications-page-link"
-                    to="/"
-                    data-dd-action-name={
-                      dataDogActionNames.refillPage
-                        .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW
-                    }
-                  >
-                    Go to your medications list
-                  </Link>
-                </div>
+                <Link
+                  data-testid="medications-page-link"
+                  className="vads-u-margin-top--2 vads-u-display--block"
+                  to="/"
+                  data-dd-action-name={
+                    dataDogActionNames.refillPage
+                      .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW
+                  }
+                >
+                  Go to your medications list
+                </Link>
               </p>
             ) : (
               <RenewablePrescriptions

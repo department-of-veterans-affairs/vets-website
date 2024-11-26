@@ -1,52 +1,52 @@
 import React from 'react';
-import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
-import CustomGroupCheckboxField from '../../components/CustomGroupCheckboxField';
+import {
+  checkboxGroupSchema,
+  checkboxGroupUI,
+  titleUI,
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
-const { ethnicity, orginRace } = fullSchema10282.properties;
+const ethnicityLabels = {
+  HL: 'Hispanic or Latino',
+  NHL: 'Not Hispanic or Latino',
+  NA: 'Prefer not to answer',
+};
+const raceLabels = {
+  isAmericanIndianOrAlaskanNative: 'American Indian or Alaskan Native',
+  isAsian: 'Asian',
+  isBlackOrAfricanAmerican: 'Black or African American',
+  isNativeHawaiianOrOtherPacificIslander:
+    'Native Hawaiian or Other Pacific Islander',
+  isWhite: 'White',
+  noAnswer: 'Prefer not to answer',
+};
+
 const uiSchema = {
-  'ui:title': (
-    <h3
-      className="vads-u-margin--0 vads-u-color--base"
-      data-testid="ethnicity-and-race"
-    >
-      Your ethnicity and race
-    </h3>
-  ),
+  ...titleUI('Your ethnicity and race'),
   ethnicity: {
-    'ui:title': 'What is your ethnicity?',
-    'ui:widget': 'radio',
+    ...radioUI({
+      title: 'What is your ethnicity?',
+      labels: ethnicityLabels,
+    }),
   },
-  orginRace: {
-    'ui:title': 'What is your race?',
-    'ui:description': (
+  originRace: checkboxGroupUI({
+    title: 'What is your race?',
+    description: (
       <p className="vads-u-margin-top--0  vads-u-color--gray-medium">
         Select all that you identify with
       </p>
     ),
-    'ui:widget': CustomGroupCheckboxField,
-    'ui:field': CustomGroupCheckboxField,
-    'ui:options': {
-      showFieldLabel: true,
-      labels: orginRace.enum,
-      keepInPageOnReview: true,
-      viewField: CustomGroupCheckboxField,
-      expandUnderCondition: 'Yes',
-    },
-  },
+    required: false,
+    labels: raceLabels,
+  }),
 };
 
 const schema = {
   type: 'object',
   properties: {
-    ethnicity,
-    orginRace: {
-      type: 'array',
-      items: {
-        type: 'string',
-        enum: orginRace.enum,
-      },
-      uniqueItems: true,
-    },
+    ethnicity: radioSchema(Object.keys(ethnicityLabels)),
+    originRace: checkboxGroupSchema(Object.keys(raceLabels)),
   },
 };
 
