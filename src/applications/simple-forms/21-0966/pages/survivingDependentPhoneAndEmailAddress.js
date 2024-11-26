@@ -1,6 +1,6 @@
 import {
   emailSchema,
-  emailUI,
+  emailToSendNotificationsUI,
   phoneUI,
   phoneSchema,
   titleUI,
@@ -12,7 +12,7 @@ export default {
     ...titleUI('Phone and email address'),
     survivingDependentPhone: phoneUI('Phone number'),
     survivingDependentInternationalPhone: phoneUI('International phone number'),
-    survivingDependentEmail: emailUI('Email address'),
+    survivingDependentEmail: emailToSendNotificationsUI,
   },
   schema: {
     type: 'object',
@@ -21,6 +21,6 @@ export default {
       survivingDependentInternationalPhone: phoneSchema,
       survivingDependentEmail: emailSchema,
     },
-    required: ['survivingDependentPhone'],
+    required: ['survivingDependentPhone', 'survivingDependentEmail'],
   },
 };

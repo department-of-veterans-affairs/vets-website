@@ -168,7 +168,7 @@ export const survivingDependentContactInformationChapterTitle = ({
 };
 
 export const veteranPersonalInformationChapterTitle = ({ formData } = {}) => {
-  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+  if (preparerIsVeteran({ formData })) {
     return 'Your personal information';
   }
 
@@ -176,7 +176,7 @@ export const veteranPersonalInformationChapterTitle = ({ formData } = {}) => {
 };
 
 export const veteranContactInformationChapterTitle = ({ formData } = {}) => {
-  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+  if (preparerIsVeteran({ formData })) {
     return 'Your contact information';
   }
 
@@ -187,11 +187,17 @@ export const initializeFormDataWithPreparerIdentificationAndPrefill = (
   preparerIdentification,
   veteranPrefillStore,
 ) => {
-  return {
+  const formData = {
     ...createInitialState(formConfig).data,
     preparerIdentification,
     'view:veteranPrefillStore': veteranPrefillStore,
   };
+
+  if (preparerIsVeteranAndHasPrefill({ formData })) {
+    formData.reviewedVeteranEmail = veteranPrefillStore.email;
+  }
+
+  return formData;
 };
 
 export const goPathAfterGettingITF = (
