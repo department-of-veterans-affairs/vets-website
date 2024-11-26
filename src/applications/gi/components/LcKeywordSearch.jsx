@@ -21,7 +21,7 @@ export default function LcKeywordSearch({
     onUpdateAutocompleteSearchTerm(name);
 
     if (onSelection) {
-      onSelection({ type, state: 'FL' });
+      onSelection({ type, state: 'FL' }); // remove hardcoded state
     }
   };
 

@@ -47,7 +47,7 @@ const filterSuggestions = (suggestions, value, filters) => {
   }
 
   return suggestions.filter(suggestion => {
-    if (type !== suggestion.type) return false;
+    if (type !== suggestion.type && type !== 'all') return false;
     // TODO add logic to account for state
 
     return suggestion.name.toLowerCase().includes(value.toLowerCase());
@@ -59,10 +59,9 @@ const resetStateDropdown = dropdowns => {
     return dropdown.label === 'state'
       ? {
           ...dropdown,
-          current: {
-            optionValue: 'all',
-            optionLabel: 'All',
-          },
+          current: dropdown.options.find(
+            option => option.optionValue === 'all',
+          ),
         }
       : dropdown;
   });
@@ -93,7 +92,7 @@ export default function LicenseCertificationSearchForm({
 
       setFilteredSuggestions(newSuggestions);
     },
-    [name, suggestions],
+    [name, suggestions, dropdowns],
   );
 
   const handleReset = () => {
@@ -120,26 +119,42 @@ export default function LicenseCertificationSearchForm({
 
   const onSelection = selection => {
     const { type, state } = selection; // TODO ensure state is added to response object coming from BE
-    const stateItem = mappedStates.find(_state => {
-      return _state.optionValue === state;
+
+    const updateDropdowns = dropdowns.map(dropdown => {
+      if (dropdown.label === 'state') {
+        return {
+          ...dropdown,
+          current: dropdown.options.find(option => {
+            return option.optionValue === state;
+          }),
+        };
+      }
+
+      return {
+        ...dropdown,
+        current: dropdown.options.find(option => {
+          return option.optionValue === type;
+        }),
+      };
     });
 
     const updateStateDropdown = dropdowns.map(dropdown => {
       return dropdown.label === 'state'
         ? {
             ...dropdown,
-            current: {
-              optionValue: stateItem.optionValue,
-              optionLabel: stateItem.optionValue,
-            },
+            current: dropdown.options.find(option => {
+              return option.optionValue === state;
+            }),
           }
         : dropdown;
     });
 
     if (type === 'license' && dropdowns[1].current.optionValue !== state) {
-      setDropdowns(updateStateDropdown); // update url params
       setShowStateAlert(true);
+      setDropdowns(updateStateDropdown); // update url params
     }
+
+    setDropdowns(updateDropdowns);
   };
 
   return (
