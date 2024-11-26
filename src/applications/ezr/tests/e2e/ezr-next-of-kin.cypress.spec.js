@@ -74,7 +74,7 @@ describe('EZR TERA flow', () => {
     selectYesNoWebComponent('view:isNextOfKinEnabled', true);
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
-    contact = testData.veteranContacts[1];
+    [, contact] = testData.veteranContacts;
     // NoK 2 basic info
     cy.get(`[name="root_fullName_first"]`)
       .first()
@@ -97,5 +97,6 @@ describe('EZR TERA flow', () => {
     fillTextWebComponent('address_postalCode', contact.address.postalCode);
 
     cy.tabToElementAndPressSpace('.usa-button-primary');
+    cy.injectAxeThenAxeCheck();
   });
 });
