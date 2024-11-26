@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
-import { unauthenticated, internalServerError, notFound } from './errors';
-import { supplies } from './supplies';
+const { unauthenticated, internalServerError, notFound } = require('./errors');
+const { supplies } = require('./supplies');
 // const supplies = [];
 
 const getOk = {
