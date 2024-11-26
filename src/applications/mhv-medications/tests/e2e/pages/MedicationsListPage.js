@@ -13,7 +13,7 @@ import { Paths } from '../utils/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
-    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
+    cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -462,19 +462,11 @@ class MedicationsListPage {
   };
 
   selectSortDropDownOption = (text, intercept) => {
-    cy.intercept(
-      'GET',
-      `/my_health/v1/prescriptions?page=1&per_page=20null${intercept}`,
-      prescriptions,
-    ).as('medicationList');
+    cy.intercept('GET', `${intercept}`, prescriptions).as('medicationList');
     cy.get('[data-testid="sort-dropdown"]')
       .find('#options')
       .select(text, { force: true });
-    cy.intercept(
-      'GET',
-      `/my_health/v1/prescriptions?page=1&per_page=20null${intercept}`,
-      prescriptions,
-    );
+    cy.intercept('GET', `${intercept}`, prescriptions);
   };
 
   loadRxDefaultSortAlphabeticallyByStatus = () => {
@@ -610,13 +602,11 @@ class MedicationsListPage {
   };
 
   verifyCmopNdcNumberIsNull = () => {
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[1].attributes).to.include({
-          cmopNdcNumber: null,
-        });
+    cy.wait('@medicationsList').then(interception => {
+      expect(interception.response.body.data[1].attributes).to.include({
+        cmopNdcNumber: null,
       });
+    });
   };
 
   verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
@@ -655,16 +645,14 @@ class MedicationsListPage {
     frontImprint,
     backImprint,
   ) => {
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[19].attributes).to.include({
-          shape,
-          color,
-          frontImprint,
-          backImprint,
-        });
+    cy.wait('@medicationsList').then(interception => {
+      expect(interception.response.body.data[19].attributes).to.include({
+        shape,
+        color,
+        frontImprint,
+        backImprint,
       });
+    });
   };
 
   verifyPrintThisPageOptionFromDropDownMenuOnListPage = () => {
@@ -748,9 +736,8 @@ class MedicationsListPage {
       .and('contain', description);
   };
 
-  clickFilterRadioButtonOptionOnListPage = (option, status) => {
-    cy.get(`[label="${option}"]`).click();
-    cy.intercept('GET', `${status}`, prescription);
+  clickFilterRadioButtonOptionOnListPage = option => {
+    cy.contains(`${option}`).click({ force: true });
   };
 
   verifyFilterHeaderTextHasFocusafterExpanded = () => {
@@ -766,10 +753,11 @@ class MedicationsListPage {
       .shadow()
       .find('[type="button"]')
       .should('be.visible')
-      .and('have.text', 'Filter');
+      .and('have.text', 'Apply filter');
   };
 
-  clickFilterButtonOnAccordion = () => {
+  clickFilterButtonOnAccordion = (url, filterRx) => {
+    cy.intercept('GET', `${url}`, filterRx);
     cy.get('[data-testid="filter-button"]')
       .shadow()
       .find('[type="button"]')
@@ -783,7 +771,7 @@ class MedicationsListPage {
   };
 
   verifyAllMedicationsRadioButtonIsChecked = () => {
-    cy.get(`input[type="radio"][value="All medications"]`).should('be.checked');
+    cy.contains('All medications').should('be.visible');
   };
 
   verifyFocusOnPaginationTextInformationOnListPage = text => {
@@ -801,6 +789,26 @@ class MedicationsListPage {
       .shadow()
       .find('[class="usa-legend"]', { force: true })
       .should('not.exist');
+  };
+
+  visitMedicationsListPageURL = medication => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/allergies',
+      allergies,
+    ).as('allergies');
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
+    cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('noMedications');
+  };
+
+  verifyEmptyMedicationsListAlertOnListPage = text => {
+    cy.get('[data-testid="empty-medList-alert"]').should('have.text', text);
+  };
+
+  verifyMessageForZeroFilterResultsOnListPage = text => {
+    cy.get('[data-testid="zero-filter-results"]')
+      .should('have.text', text)
+      .and('be.focused');
   };
 }
 
