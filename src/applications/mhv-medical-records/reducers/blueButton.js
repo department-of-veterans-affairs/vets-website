@@ -83,13 +83,7 @@ export const convertAppointment = appt => {
     what: attributes.serviceName || 'General',
     where: {
       facilityName: location.name || 'Unknown Facility',
-      address: location.physicalAddress
-        ? `${location.physicalAddress.line.join(' ')}, ${
-            location.physicalAddress.city
-          }, ${location.physicalAddress.state} ${
-            location.physicalAddress.postalCode
-          }`
-        : 'No address available',
+      address: location.physicalAddress || 'No address available',
       clinicName: attributes.clinic || 'Unknown Clinic',
       location: clinic.physicalLocation || 'Unknown Location',
       clinicPhone: clinic.phoneNumber || 'N/A',
