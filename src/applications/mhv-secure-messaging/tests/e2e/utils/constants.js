@@ -105,6 +105,8 @@ export const Locators = {
     ADDITIONAL_FILTER: `.va-accordion__header`,
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
+    // check if below are duplicates
+    REPLY_BTN: '#reply-button',
     REPLY: '[data-testid="reply-button-body"]',
     CONTINUE: '[data-testid="continue-button"]',
     TEST2: '[data-testid=radiobutton-TEST2]',
@@ -211,6 +213,7 @@ export const Locators = {
     VA_ALERT: `va-alert`,
     FIELD_ERROR: `#input-error-message`,
     REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
+    OLD_MSG_HEAD: `[data-testid=expired-alert-message]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -291,7 +294,9 @@ export const Alerts = {
     UPCOMING: `Upcoming maintenance on My HealtheVet`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
-  OLD_MSG: 'This conversation is too old for new replies',
+  OLD_MSG_HEAD: 'This conversation is too old for new replies',
+  OLD_MSG_SUBHEAD:
+    "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
   PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
   TRY_SEARCH: 'Try the search box or one of the common questions below.',
   SAVE_ATTCH: `We can't save attachments in a draft message`,
