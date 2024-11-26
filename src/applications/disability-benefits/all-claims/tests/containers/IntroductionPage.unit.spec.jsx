@@ -114,6 +114,27 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
+  it('should render evidence needed info alert and link to 5103', () => {
+    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
+    const vaAlerts = wrapper.find('va-alert');
+    expect(vaAlerts.length).to.equal(2);
+    expect(
+      vaAlerts
+        .first()
+        .find('h4')
+        .text(),
+    ).to.equal('Notice of evidence needed');
+    expect(
+      vaAlerts
+        .first()
+        .find('a')
+        .props().href,
+    ).to.equal(
+      `https://www.va.gov/disability/how-to-file-claim/evidence-needed/`,
+    );
+    wrapper.unmount();
+  });
+
   it('should display default process steps when not BDD flow', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
 

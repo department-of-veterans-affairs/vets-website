@@ -2,6 +2,18 @@ import { render } from '@testing-library/react';
 import { supportingEvidenceOrientation } from '../../content/supportingEvidenceOrientation';
 
 describe('supportingEvidenceOrientation', () => {
+  it('should render evidence needed info alert', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingNew': false,
+        'view:claimingIncrease': true,
+      },
+    };
+    const result = render(supportingEvidenceOrientation({ formData }));
+    const expectedString = 'Notice of evidence needed';
+    result.getByText(expectedString);
+  });
+
   it('renders increase message when claiming only an increase', () => {
     const formData = {
       'view:claimType': {
