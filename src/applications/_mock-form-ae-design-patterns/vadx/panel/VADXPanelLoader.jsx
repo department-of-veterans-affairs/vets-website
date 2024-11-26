@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
@@ -22,14 +22,12 @@ export const VADXPanelLoader = ({ plugin = null, featureToggleName }) => {
 
   try {
     const shouldShowViaToggle = useToggleValue(featureToggleName);
-    const shouldShowViaEnv = environment.isLocalhost;
+    const shouldShowViaEnv = environment.isLocalhost();
 
     return shouldShowViaToggle && shouldShowViaEnv ? (
-      <Suspense fallback={<div>Loading...</div>}>
-        <PluginProvider plugin={plugin}>
-          <LazyPanel />
-        </PluginProvider>
-      </Suspense>
+      <PluginProvider plugin={plugin}>
+        <LazyPanel />
+      </PluginProvider>
     ) : null;
   } catch (error) {
     // explicitly going to require a featureToggleName to be provided so that teams can manage their own VADX instances

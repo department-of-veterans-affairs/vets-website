@@ -14,3 +14,8 @@ export const VADXPlugin = () => {
     </div>
   );
 };
+
+export const plugin = {
+  id: 'AEDP',
+  component: VADXPlugin,
+};

@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
-
 import PropTypes from 'prop-types';
+
 import { VADXProvider } from './context/vadx';
 import { VADXPanelLoader } from './panel/VADXPanelLoader';
 
