@@ -32,7 +32,7 @@ describe('VAOS Component: PendingReferralCard', () => {
   it('should display the correct number of appointments and expiration date', () => {
     expect(
       screen.getByText(
-        'You have been approved for 1 appointment. All appointments for this referral must be scheduled by June, 29, 2025.',
+        'You have been approved for 1 appointment. All appointments for this referral must be scheduled by June, 30, 2025.',
       ),
     ).to.exist;
   });

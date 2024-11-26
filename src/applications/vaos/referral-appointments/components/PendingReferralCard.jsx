@@ -1,5 +1,5 @@
 import React from 'react';
-import { format, startOfDay } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
 import AppointmentFlexGrid from '../../appointment-list/components/AppointmentsPage/AppointmentFlexGrid';
 import ListItem from '../../appointment-list/components/AppointmentsPage/ListItem';
@@ -19,10 +19,9 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
       ? '1 appointment'
       : `${referral.numberOfAppointments} appointments`;
 
-  const expiration = format(
-    startOfDay(new Date(referral.ReferralExpirationDate)),
-    'MMMM, dd, yyyy',
-  );
+  const strDate = referral.ReferralExpirationDate;
+  const isoDate = parseISO(strDate);
+  const expiration = format(isoDate, 'MMMM, dd, yyyy');
 
   return (
     <ListItem
@@ -32,8 +31,8 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
       status="pending"
     >
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
-        <AppointmentRow className="vads-u-margin-x--1p5 mobile:vads-u-flex-direction--row">
-          <AppointmentColumn className="vads-u-padding-y--2" size="1">
+        <AppointmentRow className="vads-u-margin-x--0p5 mobile:vads-u-flex-direction--row">
+          <AppointmentColumn className="vads-u-padding-y--1" size="1">
             <AppointmentRow className="vaos-appts__column-gap--3 mobile-lg:vads-u-flex-direction--row">
               <AppointmentColumn size="1" className="vads-u-flex--4">
                 <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table mobile:vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">

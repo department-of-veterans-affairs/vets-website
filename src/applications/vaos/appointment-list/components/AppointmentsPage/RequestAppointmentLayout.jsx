@@ -57,8 +57,8 @@ export default function RequestAppointmentLayout({ appointment, index }) {
       status="pending"
     >
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
-        <AppointmentRow className="vads-u-margin-x--1p5 mobile:vads-u-flex-direction--row">
-          <AppointmentColumn className="vads-u-padding-y--2" size="1">
+        <AppointmentRow className="vads-u-margin-x--0p5 mobile:vads-u-flex-direction--row">
+          <AppointmentColumn className="vads-u-padding-y--1" size="1">
             <AppointmentRow className="vaos-appts__column-gap--3 mobile-lg:vads-u-flex-direction--row">
               <AppointmentColumn size="1" className="vads-u-flex--4">
                 <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table mobile:vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
