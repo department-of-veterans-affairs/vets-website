@@ -81,7 +81,7 @@ export default function AppointmentsPage() {
         return;
       }
       // TODO: Get referral data from redux
-      const referralFromId = createReferral(new Date().toISOString(), id);
+      const referralFromId = createReferral('2024-09-09', id);
       setReferral(referralFromId);
     },
     [location, featureCCDirectScheduling],
