@@ -8,6 +8,17 @@ import * as ENVIRONMENTS from 'site/constants/environments';
 import DirectDepositViewField from '../components/DirectDepositViewField';
 import ObfuscateReviewField from '../components/ObfuscateReviewField';
 
+const shouldStartInEditMode = formData => {
+  const bankAccount = formData?.bankAccount;
+  const hasData = [
+    bankAccount?.accountType,
+    bankAccount?.routingNumber,
+    bankAccount?.accountNumber,
+  ].some(field => field?.length > 0);
+  // Return false to not start in edit mode if any data is present
+  return !hasData;
+};
+
 const checkImageSrc = (() => {
   const bucket = environment.isProduction()
     ? BUCKETS[ENVIRONMENTS.VAGOVPROD]
@@ -32,7 +43,7 @@ const directDeposit = {
         itemNameAction: 'Update',
         reviewTitle: 'Direct deposit information',
         showFieldLabel: false,
-        startInEdit: true,
+        startInEdit: formData => shouldStartInEditMode(formData),
         viewComponent: DirectDepositViewField,
         volatileData: true,
       },
