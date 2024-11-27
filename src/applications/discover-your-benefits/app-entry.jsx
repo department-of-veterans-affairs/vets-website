@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/benefit-eligibility-questionnaire.scss';
+import './sass/discover-your-benefits.scss';
 
 import startApp from 'platform/startup';
 

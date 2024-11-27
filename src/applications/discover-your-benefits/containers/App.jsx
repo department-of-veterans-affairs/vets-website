@@ -8,7 +8,7 @@ import formConfig from '../config/form';
 
 export default function App({ location, children }) {
   return (
-    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 benefit-eligibility-questionnaire">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 discover-your-benefits">
       <VaBreadcrumbs
         breadcrumbList={[
           {
@@ -16,7 +16,7 @@ export default function App({ location, children }) {
             label: 'VA.gov Home',
           },
           {
-            href: '/benefit-eligibility-questionnaire',
+            href: '/discover-your-benefits',
             label: formConfig.title,
           },
         ]}

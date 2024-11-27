@@ -26,7 +26,7 @@ describe('<ConfirmationPage>', () => {
       displayResults: sinon.mock(),
       setSubmission: sinon.mock(),
       location: {
-        basename: '/benefit-eligibility-questionnaire',
+        basename: '/discover-your-benefits',
         pathname: '/confirmation',
         query: {},
         search: '',
@@ -226,7 +226,7 @@ describe('<ConfirmationPage> with <va-banner />', () => {
         displayResults: sinon.mock(),
         setSubmission: sinon.mock(),
         location: {
-          basename: '/benefit-eligibility-questionnaire',
+          basename: '/discover-your-benefits',
           pathname: '/confirmation',
           query: {},
           search: '',
