@@ -8,14 +8,14 @@ import { createReferral } from '../utils/referrals';
 
 describe('VAOS Component: PendingReferralCard', () => {
   beforeEach(() => {
-    MockDate.set('2025-01-01T10:00:00Z');
+    MockDate.set('2025-01-01');
   });
   afterEach(() => {
     MockDate.reset();
   });
 
   const referral = createReferral(
-    '2025-01-01T10:00:00Z',
+    '2025-01-01',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
   );
 
@@ -36,11 +36,10 @@ describe('VAOS Component: PendingReferralCard', () => {
   it('should display the correct type of care name', () => {
     expect(screen.getByText('Cardiology referral')).to.exist;
   });
-  // TODO add date to string to test when we figure out how to test the date in the pipeline
   it('should display the correct number of appointments and expiration date', () => {
     expect(
       screen.getByText(
-        'You have been approved for 1 appointment. All appointments for this referral must be scheduled by June 30, 2025.',
+        'You have been approved for 1 appointment. All appointments for this referral must be scheduled by July 1, 2025.',
       ),
     ).to.exist;
   });

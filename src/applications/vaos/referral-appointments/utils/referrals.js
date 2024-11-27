@@ -1,8 +1,7 @@
 /* eslint-disable camelcase */
 
-const dateFns = require('date-fns');
+const { addDays, addMonths, format } = require('date-fns');
 
-const { addDays, addMonths, format } = dateFns;
 /**
  * Creates a referral object relative to a start date.
  *
@@ -10,7 +9,9 @@ const { addDays, addMonths, format } = dateFns;
  * @returns {Object} Referral object
  */
 const createReferral = (startDate, uuid) => {
-  const relativeDate = new Date(startDate);
+  const [year, month, day] = startDate.split('-');
+  const relativeDate = new Date(year, month - 1, day);
+
   const mydFormat = 'yyyy-MM-dd';
   const mydWithTimeFormat = 'yyyy-MM-dd kk:mm:ss';
 
