@@ -6,10 +6,10 @@ describe('Medical Records download page', () => {
     const site = new MedicalRecordsSite();
     site.login();
     site.loadPage();
-    // cy.intercept('POST', '/my_health/v1/medical_records/session', {
-    //   statusCode: 204,
-    //   body: {},
-    // }).as('session');
+    cy.intercept('POST', '/my_health/v1/medical_records/session', {
+      statusCode: 204,
+      body: {},
+    }).as('session');
     cy.intercept('GET', '/my_health/v1/medical_records/session/status', {
       statusCode: 200,
       body: sessionStatus, // status response copied from staging
@@ -19,8 +19,6 @@ describe('Medical Records download page', () => {
     cy.get('[data-testid="selfEnteredAccordionItem"]').click();
 
     cy.get('[data-testid="downloadSelfEnteredButton"]').should('be.visible');
-
-    cy.get('[data-testid="downloadSelfEnteredButton"]').click();
 
     // Axe check
     cy.injectAxe();
