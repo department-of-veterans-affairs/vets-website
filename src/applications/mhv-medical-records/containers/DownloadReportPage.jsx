@@ -48,6 +48,7 @@ const DownloadReportPage = () => {
         <va-accordion-item
           bordered="true"
           header="Self-entered health information"
+          data-testid="selfEnteredAccordionItem"
         >
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
@@ -58,7 +59,10 @@ const DownloadReportPage = () => {
             directly. If you want to share this information with your care team,
             print this report and bring it to your next appointment.
           </p>
-          <button className="link-button">
+          <button
+            className="link-button"
+            data-testid="downloadSelfEnteredButton"
+          >
             <va-icon icon="file_download" size={3} /> Download PDF
           </button>
         </va-accordion-item>
