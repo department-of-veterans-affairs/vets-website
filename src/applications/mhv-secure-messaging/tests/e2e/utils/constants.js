@@ -251,7 +251,7 @@ export const Locators = {
     NUMBER_OF_THREADS: `[data-testid="displaying-number-of-threads"]`,
   },
   DROPDOWN: {
-    RECIPIENTS: `va-additional-info[trigger^="If you"]`,
+    ADD_INFO: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
   },
   ICONS: {
