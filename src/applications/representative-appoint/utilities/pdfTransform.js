@@ -67,7 +67,7 @@ export function pdfTransform(formData) {
     vaFileNumber,
     dateOfBirth,
     serviceNumber,
-    serviceBranch: serviceBranch.replace(/ /g, '_').toUpperCase(),
+    serviceBranch: serviceBranch?.replace(/ /g, '_').toUpperCase() || null,
     address: createAddress(homeAddress),
     phone,
     email,
@@ -105,7 +105,7 @@ export function pdfTransform(formData) {
       representative.organizationId = formData.selectedAccreditedOrganizationId;
     } else {
       representative.organizationId =
-        selectedRep?.attributes?.accreditedOrganizations?.data[0]?.id;
+        selectedRep?.attributes?.accreditedOrganizations?.data[0]?.id || null;
     }
   }
 
@@ -117,8 +117,8 @@ export function pdfTransform(formData) {
     consentInsideAccess: yesNoToBoolean(authorizeInsideVARadio),
     consentOutsideAccess: yesNoToBoolean(authorizeOutsideVARadio),
     consentTeamMembers: authorizeNamesTextArea
-      .split(',')
-      .map(item => item.trim()),
+      ? authorizeNamesTextArea.split(',').map(item => item.trim())
+      : null,
     representative,
     ...(formData['view:applicantIsVeteran'] === 'No' && { claimant }),
   };
