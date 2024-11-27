@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
-import filterRx from '../fixtures/filter-prescriptions.json';
+
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
@@ -13,7 +13,7 @@ import { Paths } from '../utils/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
-    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
+    cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -33,7 +33,7 @@ class MedicationsListPage {
 
   clickGotoMedicationsLinkForListPageAPICallFail = () => {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+
     cy.intercept('GET', Paths.MED_LIST, { forceNetworkError: true }).as(
       'medicationsList',
     );
@@ -602,13 +602,11 @@ class MedicationsListPage {
   };
 
   verifyCmopNdcNumberIsNull = () => {
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[1].attributes).to.include({
-          cmopNdcNumber: null,
-        });
+    cy.wait('@medicationsList').then(interception => {
+      expect(interception.response.body.data[1].attributes).to.include({
+        cmopNdcNumber: null,
       });
+    });
   };
 
   verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
@@ -647,16 +645,14 @@ class MedicationsListPage {
     frontImprint,
     backImprint,
   ) => {
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[19].attributes).to.include({
-          shape,
-          color,
-          frontImprint,
-          backImprint,
-        });
+    cy.wait('@medicationsList').then(interception => {
+      expect(interception.response.body.data[19].attributes).to.include({
+        shape,
+        color,
+        frontImprint,
+        backImprint,
       });
+    });
   };
 
   verifyPrintThisPageOptionFromDropDownMenuOnListPage = () => {
@@ -760,7 +756,7 @@ class MedicationsListPage {
       .and('have.text', 'Apply filter');
   };
 
-  clickFilterButtonOnAccordion = url => {
+  clickFilterButtonOnAccordion = (url, filterRx) => {
     cy.intercept('GET', `${url}`, filterRx);
     cy.get('[data-testid="filter-button"]')
       .shadow()
@@ -793,6 +789,26 @@ class MedicationsListPage {
       .shadow()
       .find('[class="usa-legend"]', { force: true })
       .should('not.exist');
+  };
+
+  visitMedicationsListPageURL = medication => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/allergies',
+      allergies,
+    ).as('allergies');
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
+    cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('noMedications');
+  };
+
+  verifyEmptyMedicationsListAlertOnListPage = text => {
+    cy.get('[data-testid="empty-medList-alert"]').should('have.text', text);
+  };
+
+  verifyMessageForZeroFilterResultsOnListPage = text => {
+    cy.get('[data-testid="zero-filter-results"]')
+      .should('have.text', text)
+      .and('be.focused');
   };
 }
 

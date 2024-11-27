@@ -28,7 +28,6 @@ import {
   isReviewInstance,
   isSmallScreenLogic,
   updateLcFilterDropdowns,
-  handleLcResultsSearch,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -627,36 +626,6 @@ describe('GIBCT helpers:', () => {
       const result = updateLcFilterDropdowns(dropdowns, target);
 
       expect(result).to.deep.equal(expectedResult);
-    });
-  });
-
-  describe('handleLcResultsSearch function', () => {
-    let history;
-
-    beforeEach(() => {
-      history = { push: sinon.spy() };
-    });
-
-    it('should call history.push with the correct URL when handleSearch is called with a name', () => {
-      const name = 'testName';
-      const type = 'testType';
-
-      handleLcResultsSearch(history, name, type);
-      expect(history.push.calledOnce).to.be.true;
-      expect(history.push.firstCall.args[0]).to.equal(
-        `/lc-search/results?type=${type}&name=${name}`,
-      );
-    });
-
-    it('should call history.push with the correct URL when handleSearch is called without a name', () => {
-      const name = '';
-      const type = 'testType';
-
-      handleLcResultsSearch(history, name, type);
-      expect(history.push.calledOnce).to.be.true;
-      expect(history.push.firstCall.args[0]).to.equal(
-        `/lc-search/results?type=${type}`,
-      );
     });
   });
 });
