@@ -28,10 +28,6 @@ const DirectDepositCustomReview = ({ formData, editPage }) => {
           onClick={editPage}
         />
       </div>
-      <p className="vads-u-margin-bottom--2">
-        <strong>Note:</strong> We make payments only through direct deposit,
-        also called electronic funds transfer (EFT).
-      </p>
       <dl className="review">
         <div className="review-row">
           <dt>Account type</dt>
