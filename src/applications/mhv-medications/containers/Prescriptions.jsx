@@ -201,11 +201,16 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (!filteredList?.length) {
+      if (
+        !isLoading &&
+        filteredList?.length === 0 &&
+        filterCount &&
+        Object.values(filterCount).some(value => value !== 0)
+      ) {
         focusElement(document.getElementById('no-matches-msg'));
       }
     },
-    [filteredList],
+    [filteredList, isLoading, filterCount],
   );
 
   useEffect(
@@ -733,10 +738,12 @@ const Prescriptions = () => {
                           <BeforeYouDownloadDropdown page={pageType.LIST} />
                         </>
                       )}
-                      <MedicationsListSort
-                        value={selectedSortOption}
-                        sortRxList={sortRxList}
-                      />
+                      {(!showFilterContent || !isLoading) && (
+                        <MedicationsListSort
+                          value={selectedSortOption}
+                          sortRxList={sortRxList}
+                        />
+                      )}
                       <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
                       {isLoading ? (
                         <div className="vads-u-height--viewport vads-u-padding-top--3">
@@ -759,24 +766,25 @@ const Prescriptions = () => {
                           updateLoadingStatus={updateLoadingStatus}
                         />
                       )}
-                      {showFilterContent && (
-                        <>
-                          <PrintDownload
-                            onDownload={handleFullListDownload}
-                            isSuccess={
-                              pdfTxtGenerateStatus.status ===
-                              PDF_TXT_GENERATE_STATUS.Success
-                            }
-                            isLoading={
-                              !allergiesError &&
-                              pdfTxtGenerateStatus.status ===
-                                PDF_TXT_GENERATE_STATUS.InProgress
-                            }
-                            list
-                          />
-                          <BeforeYouDownloadDropdown page={pageType.LIST} />
-                        </>
-                      )}
+                      {showFilterContent &&
+                        !isLoading && (
+                          <>
+                            <PrintDownload
+                              onDownload={handleFullListDownload}
+                              isSuccess={
+                                pdfTxtGenerateStatus.status ===
+                                PDF_TXT_GENERATE_STATUS.Success
+                              }
+                              isLoading={
+                                !allergiesError &&
+                                pdfTxtGenerateStatus.status ===
+                                  PDF_TXT_GENERATE_STATUS.InProgress
+                              }
+                              list
+                            />
+                            <BeforeYouDownloadDropdown page={pageType.LIST} />
+                          </>
+                        )}
                     </>
                   ) : (
                     <>
@@ -793,7 +801,8 @@ const Prescriptions = () => {
                   )}
                   {showFilterContent && (
                     <>
-                      {filteredList?.length === 0 &&
+                      {!isLoading &&
+                        filteredList?.length === 0 &&
                         filterCount &&
                         Object.values(filterCount).some(
                           value => value !== 0,
