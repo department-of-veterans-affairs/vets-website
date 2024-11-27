@@ -82,6 +82,17 @@ $breakpoints: (
 @import "~foundation-sites/scss/foundation/components/block-grid";
 //~~~~~~~
 
+// Overrides above order specifically for larger screens
+@include media($medium-screen) {
+  .usa-width-one-fourth {
+    margin-right: 2.35765%;
+    width: 23.23176%;
+  }
+  .usa-width-three-fourths {
+    width: 74.41059%;
+  }
+}
+
 // Grid container
 .vads-l-grid-container,
 .vads-l-grid-container--full {
