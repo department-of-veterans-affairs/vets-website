@@ -324,6 +324,7 @@ export const Data = {
   SAMPLE_XLS: 'sample_XLS.xls',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
+  EDIT_DRAFT: 'Edit draft',
   GO_YOUR_INBOX: 'Go to your inbox',
   BACK_TO_MSG: 'Back to messages',
   FOLDER_NAME_CANNOT_BLANK: 'Folder name cannot be blank',
