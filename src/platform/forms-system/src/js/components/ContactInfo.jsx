@@ -74,6 +74,7 @@ const ContactInfo = ({
   testContinueAlert = false,
   contactInfoPageKey,
   disableMockContactInfo = false,
+  contactSectionHeadingLevel,
 }) => {
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
@@ -213,7 +214,7 @@ const ContactInfo = ({
   );
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
-  const Headers = onReviewPage ? 'h5' : 'h4';
+  const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
   const headerClassNames = ['vads-u-font-size--h4', 'vads-u-width--auto'].join(
     ' ',
   );
@@ -425,6 +426,7 @@ const ContactInfo = ({
 ContactInfo.propTypes = {
   contactInfoPageKey: contactInfoPropTypes.contactInfoPageKey,
   contactPath: PropTypes.string,
+  contactSectionHeadingLevel: PropTypes.string,
   content: contactInfoPropTypes.content, // content passed in from profileContactInfo
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,

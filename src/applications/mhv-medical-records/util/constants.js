@@ -23,6 +23,7 @@ export const labTypes = {
   PATHOLOGY: 'pathology',
   EKG: 'electrocardiogram',
   RADIOLOGY: 'radiology',
+  CVIX_RADIOLOGY: 'cvix_radiology',
   OTHER: 'other',
 };
 
@@ -212,6 +213,7 @@ export const refreshPhases = {
   IN_PROGRESS: 'in_progress',
   CURRENT: 'current',
   FAILED: 'failed',
+  CALL_FAILED: 'call_failed',
 };
 
 export const loadStates = {
