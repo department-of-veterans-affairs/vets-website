@@ -14,10 +14,14 @@ import VerifiedPrefillAlert from '../components/VerifiedPrefillAlert';
 import Alerts from './Alerts';
 import SuppliesAvailable from '../components/SuppliesAvailable';
 import SuppliesUnavailable from '../components/SuppliesUnavailable';
-import { selectSupplies, selectUnavailableSupplies } from '../selectors';
+import {
+  selectSupplies,
+  selectUnavailableSupplies,
+  showCtaStartOrder,
+} from '../selectors';
 
 const Loading = () => (
-  <div className="vads-u-margin--5">
+  <div className="vads-u-margin--5" data-testid="reorder-loading">
     <va-loading-indicator message="Please wait while we load your information..." />
   </div>
 );
@@ -30,6 +34,7 @@ export const IntroductionPage = ({ route }) => {
     state?.user?.profile?.loading ||
     false;
 
+  const renderCtaStartOrder = useSelector(showCtaStartOrder);
   const supplies = useSelector(selectSupplies);
   const unavailableSupplies = useSelector(selectUnavailableSupplies);
 
@@ -46,18 +51,24 @@ export const IntroductionPage = ({ route }) => {
       <Breadcrumbs />
       <FormTitle title={TITLE} />
       <p>{SUBTITLE}</p>
-      <Alerts />
-      <SuppliesAvailable supplies={supplies} />
-      <SaveInProgressIntro
-        headingLevel={3}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        startText="Start a new order"
-        formConfig={route.formConfig}
-        verifiedPrefillAlert={VerifiedPrefillAlert}
-      />
-      <SuppliesUnavailable supplies={unavailableSupplies} />
+      <div className="vads-u-margin-bottom--2">
+        <Alerts />
+        {renderCtaStartOrder && (
+          <>
+            <SuppliesAvailable supplies={supplies} />
+            <SaveInProgressIntro
+              headingLevel={3}
+              prefillEnabled={route.formConfig.prefillEnabled}
+              messages={route.formConfig.savedFormMessages}
+              pageList={route.pageList}
+              startText="Start a new order"
+              formConfig={route.formConfig}
+              verifiedPrefillAlert={VerifiedPrefillAlert}
+            />
+            <SuppliesUnavailable supplies={unavailableSupplies} />
+          </>
+        )}
+      </div>
     </>
   );
 };

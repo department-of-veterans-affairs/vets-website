@@ -45,7 +45,7 @@ export default {
     'ui:description': Description,
     'ui:required': () => true, // don't allow progressing without all contact info
     'ui:options': {
-      hideOnReview: true,
+      hideOnReview: false,
       forceDivWrapper: true,
     },
   },

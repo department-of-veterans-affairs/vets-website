@@ -38,6 +38,13 @@ const showAlertReorderAccessExpired = state =>
 const showAlertSomethingWentWrong = state =>
   Math.trunc(+state?.mdotInProgressForm?.error?.status / 500) === 1;
 
+const showCtaStartOrder = state =>
+  !showAlertDeceased(state) &&
+  !showAlertNoRecordForUser(state) &&
+  !showAlertReorderAccessExpired(state) &&
+  !showAlertSomethingWentWrong(state) &&
+  !showAlertNoSuppliesForReorder(state);
+
 export {
   canReorderOn,
   isLOA3,
@@ -46,6 +53,7 @@ export {
   selectSupplies,
   selectUnavailableSupplies,
   signInServiceEnabled,
+  showCtaStartOrder,
   showAlertDeceased,
   showAlertNoRecordForUser,
   showAlertNoSuppliesForReorder,
