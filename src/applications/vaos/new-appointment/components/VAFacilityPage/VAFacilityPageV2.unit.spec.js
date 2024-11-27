@@ -437,8 +437,11 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
-      expect(await screen.findByText(/something went wrong on our end/i)).to
-        .exist;
+      expect(
+        await screen.findByText(
+          /You can.t schedule an appointment online right now/i,
+        ),
+      ).to.exist;
     });
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0

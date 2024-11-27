@@ -232,6 +232,7 @@ export const refreshPhases = {
   IN_PROGRESS: 'in_progress',
   CURRENT: 'current',
   FAILED: 'failed',
+  CALL_FAILED: 'call_failed',
 };
 
 export const loadStates = {
