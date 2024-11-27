@@ -102,7 +102,7 @@ function IntroductionLogin({
                   your application, you won’t be able to save the information
                   you’ve already filled in.
                 </p>
-                <va-button
+                <button
                   className="usa-button-primary"
                   onClick={openLoginModal}
                   // aria-label={ariaLabel}
@@ -110,7 +110,7 @@ function IntroductionLogin({
                   type="button"
                 >
                   {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-                </va-button>
+                </button>
               </div>
             </va-alert>
             <p className="vads-u-margin-top--4">
