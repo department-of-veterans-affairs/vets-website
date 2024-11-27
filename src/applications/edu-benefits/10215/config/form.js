@@ -3,6 +3,12 @@
 // import fullSchema from 'vets-json-schema/dist/22-10215-schema.json';
 // import fullSchema from '../22-10215-schema.json';
 
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import {
+  // arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderYesNoSchema,
+  arrayBuilderYesNoUI,
+} from '~/platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -14,6 +20,19 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
 import { prepare } from '../pages/prepare';
+import { programInfo } from '../pages/program-intro';
+
+function includeChapter(page) {
+  return formData => formData?.chapterSelect?.[page];
+}
+
+const programOptions = {
+  arrayPath: 'prepare',
+  nounSingular: 'program',
+  nounPlural: 'programs',
+  required: true,
+  maxItems: 10000,
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -39,12 +58,35 @@ const formConfig = {
     programsChapter: {
       title: '85/15 calculations',
       pages: {
-        prepare: {
-          path: '85/15-calculations-1',
-          title: '85/15 calculations',
-          uiSchema: prepare.uiSchema,
-          schema: prepare.schema,
-        },
+        ...arrayBuilderPages(programOptions, pageBuilder => ({
+          prepare: pageBuilder.introPage({
+            path: '85/15-calculations-intro',
+            title: '85/15 calculations',
+            uiSchema: prepare.uiSchema,
+            schema: prepare.schema,
+          }),
+          programSummary: pageBuilder.summaryPage({
+            title: 'Review your 85/15 calculations',
+            path: '85/15-calculations-summary',
+            uiSchema: {
+              'view:prepare': arrayBuilderYesNoUI(programOptions),
+            },
+            schema: {
+              type: 'object',
+              properties: {
+                'view:prepare': arrayBuilderYesNoSchema,
+              },
+              required: ['view:prepare'],
+            },
+            depends: includeChapter('programIntro'),
+          }),
+          programIntro: pageBuilder.itemPage({
+            title: 'Program information',
+            path: '85/15-calculations/:index/program-information',
+            uiSchema: programInfo.uiSchema,
+            schema: programInfo.schema,
+          }),
+        })),
       },
     },
   },
