@@ -107,7 +107,7 @@ class FormPage extends React.Component {
   // Navigate to the next page
   onSubmit = ({ formData }) => {
     const { form, route, location } = this.props;
-    let newFormData = form.data;
+    let newFormData = formData || form.data;
 
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been
