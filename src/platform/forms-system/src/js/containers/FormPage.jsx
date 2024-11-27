@@ -107,7 +107,7 @@ class FormPage extends React.Component {
   // Navigate to the next page
   onSubmit = ({ formData }) => {
     const { form, route, location } = this.props;
-    let newData = formData || form.data;
+    let newFormData = form.data;
 
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been
@@ -118,15 +118,19 @@ class FormPage extends React.Component {
       (!route.pageConfig.CustomPage ||
         route.pageConfig.customPageUsesPagePerItemData)
     ) {
-      newData = this.setArrayIndexedData(formData);
-      this.props.setData(newData);
+      newFormData = this.setArrayIndexedData(formData);
+      this.props.setData(newFormData);
     }
 
-    const path = getNextPagePath(route.pageList, newData, location.pathname);
+    const path = getNextPagePath(
+      route.pageList,
+      newFormData,
+      location.pathname,
+    );
 
     if (typeof route.pageConfig.onNavForward === 'function') {
       route.pageConfig.onNavForward({
-        formData: newData,
+        formData: newFormData,
         goPath: customPath => this.props.router.push(customPath),
         goNextPath: urlParams => {
           const urlParamsString = stringifyUrlParams(urlParams);
