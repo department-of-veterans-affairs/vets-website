@@ -18,7 +18,6 @@ export const getAppData = state => ({
   featureTogglesLoaded: state.featureToggles?.loading === false,
   formId: state?.form?.formId,
   isClaimantCallComplete: state.data?.personalInfoFetchComplete,
-  isEligibilityCallComplete: state.data?.eligibilityFetchComplete,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,

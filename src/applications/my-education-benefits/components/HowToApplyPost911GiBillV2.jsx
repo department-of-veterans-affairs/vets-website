@@ -11,7 +11,6 @@ import { getAppData } from '../selectors/selectors';
 function HowToApplyPost911GiBillV2({
   formId,
   isClaimantCallComplete,
-  isEligibilityCallComplete,
   isLOA3,
   isLoggedIn,
   savedForms,
@@ -20,7 +19,7 @@ function HowToApplyPost911GiBillV2({
   route,
   user,
 }) {
-  const apiCallsComplete = isClaimantCallComplete && isEligibilityCallComplete;
+  const apiCallsComplete = isClaimantCallComplete;
   const savedForm = savedForms?.find(f => f.form === formId);
 
   const renderNote = () => {
@@ -73,16 +72,15 @@ HowToApplyPost911GiBillV2.propTypes = {
   route: PropTypes.object.isRequired,
   formId: PropTypes.string,
   isClaimantCallComplete: PropTypes.bool,
-  isEligibilityCallComplete: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  meb160630Automation: PropTypes.bool,
   savedForms: PropTypes.arrayOf(
     PropTypes.shape({
       form: PropTypes.string,
     }),
   ),
   showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
-  meb160630Automation: PropTypes.bool,
   user: PropTypes.object,
 };
 
