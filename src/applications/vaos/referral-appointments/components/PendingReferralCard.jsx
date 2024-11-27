@@ -19,10 +19,8 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
       ? '1 appointment'
       : `${referral.numberOfAppointments} appointments`;
 
-  const expiration = format(
-    parseISO(referral.ReferralExpirationDate),
-    'MMMM d, yyyy',
-  );
+  const parsedDate = parseISO(referral.ReferralExpirationDate);
+  const expiration = format(parsedDate, 'MMMM d, yyyy');
 
   return (
     <ListItem
