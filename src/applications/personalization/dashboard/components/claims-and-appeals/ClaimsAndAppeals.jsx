@@ -180,14 +180,14 @@ const ClaimsAndAppeals = ({
               </>
             )}
           </DashboardWidgetWrapper>
+          {highlightedClaimOrAppeal &&
+            !hasAPIError &&
+            !isLOA1 && (
+              <DashboardWidgetWrapper>
+                <PopularActionsForClaimsAndAppeals />
+              </DashboardWidgetWrapper>
+            )}
         </DowntimeNotification>
-        {highlightedClaimOrAppeal &&
-          !hasAPIError &&
-          !isLOA1 && (
-            <DashboardWidgetWrapper>
-              <PopularActionsForClaimsAndAppeals />
-            </DashboardWidgetWrapper>
-          )}
       </div>
     </div>
   );

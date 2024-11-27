@@ -135,26 +135,15 @@ const BenefitPaymentsAndDebt = ({
         )}
         {hasNoOutstandingDebts() && (
           <>
-            <DowntimeNotification
-              appTitle="benefit application drafts"
-              dependencies={[
-                externalServices.DMC_DEBTS,
-                externalServices.VBS_MEDICAL_COPAYS,
-              ]}
-            >
-              <DashboardWidgetWrapper>
-                <NoOutstandingDebtsText />
-              </DashboardWidgetWrapper>
-            </DowntimeNotification>
+            <DashboardWidgetWrapper>
+              <NoOutstandingDebtsText />
+            </DashboardWidgetWrapper>
           </>
         )}
         {debtsCount > 0 && (
           <DowntimeNotification
             appTitle="benefit application drafts"
-            dependencies={[
-              externalServices.DMC_DEBTS,
-              externalServices.VBS_MEDICAL_COPAYS,
-            ]}
+            dependencies={[externalServices.DMC_DEBTS]}
           >
             <DashboardWidgetWrapper>
               <DebtsCard debts={debts} />
@@ -165,10 +154,7 @@ const BenefitPaymentsAndDebt = ({
           <>
             <DowntimeNotification
               appTitle="benefit application drafts"
-              dependencies={[
-                externalServices.DMC_DEBTS,
-                externalServices.VBS_MEDICAL_COPAYS,
-              ]}
+              dependencies={[externalServices.VBS_MEDICAL_COPAYS]}
             >
               <DashboardWidgetWrapper>
                 <CopaysCard copays={copays} />

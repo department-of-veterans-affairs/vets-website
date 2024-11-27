@@ -118,38 +118,33 @@ const BenefitPayments = ({
       data-testid="dashboard-section-payment"
     >
       <h2>Benefit payments</h2>
-      <div className="vads-l-row">
-        {lastPayment && (
-          <>
-            <DowntimeNotification
-              appTitle="benefit application drafts"
-              dependencies={[externalServices.BGS_PAYMENT_HISTORY]}
-            >
+      <DowntimeNotification
+        appTitle="benefit application drafts"
+        dependencies={[externalServices.BGS_PAYMENT_HISTORY]}
+      >
+        <div className="vads-l-row">
+          {lastPayment && (
+            <>
               <DashboardWidgetWrapper>
                 <PaymentsCard lastPayment={lastPayment} />
               </DashboardWidgetWrapper>
-            </DowntimeNotification>
+              <DashboardWidgetWrapper>
+                <PopularActionsForPayments />
+              </DashboardWidgetWrapper>
+            </>
+          )}
+          {!lastPayment && (
             <DashboardWidgetWrapper>
-              <PopularActionsForPayments />
-            </DashboardWidgetWrapper>
-          </>
-        )}
-        {!lastPayment && (
-          <DashboardWidgetWrapper>
-            <DowntimeNotification
-              appTitle="benefit application drafts"
-              dependencies={[externalServices.BGS_PAYMENT_HISTORY]}
-            >
               {paymentsError ? <PaymentsError /> : <NoRecentPaymentText />}
-            </DowntimeNotification>
-            <PopularActionsForPayments
-              showPaymentHistoryLink={
-                (payments && !!payments.length) || paymentsError
-              }
-            />
-          </DashboardWidgetWrapper>
-        )}
-      </div>
+              <PopularActionsForPayments
+                showPaymentHistoryLink={
+                  (payments && !!payments.length) || paymentsError
+                }
+              />
+            </DashboardWidgetWrapper>
+          )}
+        </div>
+      </DowntimeNotification>
     </div>
   );
 };
