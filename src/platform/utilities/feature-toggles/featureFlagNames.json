@@ -145,6 +145,7 @@
   "mhvSecureMessagingFilterAccordion": "mhv_secure_messaging_filter_accordion",
   "mhvSecureMessagingTriageGroupPlainLanguage": "mhv_secure_messaging_triage_group_plain_language",
   "mhvSecureMessagingRecipientOptGroups": "mhv_secure_messaging_recipient_opt_groups",
+  "mhvSecureMessagingRecipientCombobox": "mhv_secure_messaging_recipient_combobox",
   "mhvTransitionalMedicalRecordsLandingPage": "mhv_transitional_medical_records_landing_page",
   "mhvVaHealthChatEnabled": "mhv_va_health_chat_enabled",
   "militaryBenefitEstimates": "military_benefit_estimates",
