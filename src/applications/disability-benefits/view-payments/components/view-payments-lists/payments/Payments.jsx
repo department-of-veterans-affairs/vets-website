@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 import { clientServerErrorContent } from '../helpers';
 
@@ -26,22 +27,24 @@ const Payments = ({
   textContent,
   alertMessage,
 }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [currentData, setCurrentData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  // Using `useRef` here to avoid triggering a rerender whenever these are
-  // updated
-  const totalPages = useRef(0);
-  const paginatedData = useRef([]);
+  const currentPage = new URLSearchParams(location.search).get('page') || 1;
+  const [totalPages, setTotalPages] = useState(0);
 
-  useEffect(() => {
-    paginatedData.current = paginateData(data);
-    setCurrentData(paginatedData.current[currentPage - 1]);
-    totalPages.current = paginatedData.current.length;
-  }, []);
+  useEffect(
+    () => {
+      const paginatedData = paginateData(data);
+      setCurrentData(paginatedData[currentPage - 1]);
+      setTotalPages(paginatedData.length);
+    },
+    [currentPage, data],
+  );
 
   const onPageChange = page => {
-    setCurrentData(paginatedData.current[page - 1]);
-    setCurrentPage(page);
+    const newURL = `${location.pathname}?page=${page}`;
+    navigate(newURL);
   };
 
   const [from, to] = getFromToNums(currentPage, data.length);
@@ -75,7 +78,7 @@ const Payments = ({
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={currentPage}
-          pages={totalPages.current}
+          pages={totalPages}
           maxPageListLength={MAX_PAGE_LIST_LENGTH}
           showLastPage
         />
