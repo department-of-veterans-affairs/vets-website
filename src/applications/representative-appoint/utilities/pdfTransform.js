@@ -67,7 +67,7 @@ export function pdfTransform(formData) {
     vaFileNumber,
     dateOfBirth,
     serviceNumber,
-    serviceBranch,
+    serviceBranch: serviceBranch.replace(/ /g, '_').toUpperCase(),
     address: createAddress(homeAddress),
     phone,
     email,
