@@ -5,7 +5,8 @@ const { addDays, addMonths, format } = require('date-fns');
 /**
  * Creates a referral object relative to a start date.
  *
- * @param {String} startDate The date to base the referral around
+ * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
+ * @param {String} uuid The UUID for the referral
  * @returns {Object} Referral object
  */
 const createReferral = (startDate, uuid) => {
