@@ -10,7 +10,7 @@ import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagName
 import { getAppData } from '../selectors/selectors';
 import LoadingIndicator from './LoadingIndicator';
 
-function IntroductionLoginV2({
+function IntroductionLogin({
   isClaimantCallComplete,
   isPersonalInfoFetchFailed,
   isLoggedIn,
@@ -102,7 +102,7 @@ function IntroductionLoginV2({
                   your application, you won’t be able to save the information
                   you’ve already filled in.
                 </p>
-                <button
+                <va-button
                   className="usa-button-primary"
                   onClick={openLoginModal}
                   // aria-label={ariaLabel}
@@ -110,7 +110,7 @@ function IntroductionLoginV2({
                   type="button"
                 >
                   {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-                </button>
+                </va-button>
               </div>
             </va-alert>
             <p className="vads-u-margin-top--4">
@@ -178,7 +178,7 @@ function IntroductionLoginV2({
     </>
   );
 }
-IntroductionLoginV2.propTypes = {
+IntroductionLogin.propTypes = {
   route: PropTypes.object.isRequired,
   isClaimantCallComplete: PropTypes.bool,
   isLOA3: PropTypes.bool,
@@ -209,4 +209,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IntroductionLoginV2);
+)(IntroductionLogin);

@@ -8,7 +8,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 
 import { getAppData } from '../selectors/selectors';
 
-function HowToApplyPost911GiBillV2({
+function HowToApplyPost911GiBill({
   formId,
   isClaimantCallComplete,
   isLOA3,
@@ -68,7 +68,7 @@ function HowToApplyPost911GiBillV2({
   );
 }
 
-HowToApplyPost911GiBillV2.propTypes = {
+HowToApplyPost911GiBill.propTypes = {
   route: PropTypes.object.isRequired,
   formId: PropTypes.string,
   isClaimantCallComplete: PropTypes.bool,
@@ -93,4 +93,4 @@ const mapStateToProps = state => ({
     state.featureToggles[featureFlagNames.meb160630Automation],
 });
 
-export default connect(mapStateToProps)(HowToApplyPost911GiBillV2);
+export default connect(mapStateToProps)(HowToApplyPost911GiBill);
