@@ -5,7 +5,7 @@ const { snakeCase } = require('lodash');
 const profileToggles = {
   aedpVADX: false,
   profileUseExperimental: false,
-  coeAccess: false,
+  coeAccess: true,
   showEduBenefits1990Wizard: true,
   showEduBenefits0994Wizard: true,
   showEduBenefits1995Wizard: true,
