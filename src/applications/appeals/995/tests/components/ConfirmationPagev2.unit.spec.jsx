@@ -50,7 +50,7 @@ describe('ConfirmationPageV2', () => {
     expect($('va-alert[status="success"]', container)).to.exist;
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(7);
+    expect(items.length).to.eq(9);
     expect(
       items.map(
         (el, index) => el[[1, 2].includes(index) ? 'innerHTML' : 'textContent'],
@@ -61,6 +61,8 @@ describe('ConfirmationPageV2', () => {
       '<va-telephone contact="" not-clickable="true"></va-telephone>',
       '',
       ',  ',
+      'No',
+      'None selected',
       'No, I didn’t certify',
       'None selected',
     ]);
@@ -110,10 +112,10 @@ describe('ConfirmationPageV2', () => {
       'You uploaded these documents:',
     );
 
-    expect($$('ul', container).length).to.eq(7);
+    expect($$('ul', container).length).to.eq(8);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(30);
+    expect(items.length).to.eq(32);
     expect(
       items.map((el, index) => el[index === 4 ? 'innerHTML' : 'textContent']),
     ).to.deep.equal([
@@ -129,6 +131,8 @@ describe('ConfirmationPageV2', () => {
       'TinnitusDecision date: June 1, 2021',
       'TestDecision date: January 1, 2022',
       'Test 2Decision date: June 28, 2022',
+      'Yes',
+      'I gave permission in the past, but I want to revoke (or cancel) my permission',
       'Yes, I certify',
       'A VA Vet center, A community care provider that VA paid for, A VA medical center (also called a VAMC), A community-based outpatient clinic (also called a CBOC), A Department of Defense military treatment facility (also called an MTF), A non-VA healthcare provider, and Lorem ipsum',
       'VAMC Location 1',
@@ -155,6 +159,7 @@ describe('ConfirmationPageV2', () => {
     const data = getData({
       ...maxData.data,
       facilityTypes: {},
+      optionIndicator: 'no',
       [EVIDENCE_VA]: false,
       [EVIDENCE_PRIVATE]: false,
       [EVIDENCE_OTHER]: false,
@@ -195,10 +200,10 @@ describe('ConfirmationPageV2', () => {
       'I didn’t add any evidence',
     );
 
-    expect($$('ul', container).length).to.eq(4);
+    expect($$('ul', container).length).to.eq(5);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(14);
+    expect(items.length).to.eq(16);
     expect(
       items.map((el, index) => el[index === 4 ? 'innerHTML' : 'textContent']),
     ).to.deep.equal([
@@ -214,6 +219,8 @@ describe('ConfirmationPageV2', () => {
       'TinnitusDecision date: June 1, 2021',
       'TestDecision date: January 1, 2022',
       'Test 2Decision date: June 28, 2022',
+      'Yes',
+      'No',
       'Yes, I certify',
       'None selected',
     ]);

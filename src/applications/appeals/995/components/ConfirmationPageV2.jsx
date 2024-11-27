@@ -26,6 +26,7 @@ import {
 import { content as notice5103Content } from '../content/notice5103';
 import { facilityTypeTitle, facilityTypeList } from '../content/facilityTypes';
 import { content as evidenceContent } from '../content/evidenceSummary';
+import { optionIndicatorChoices } from '../content/optionIndicator';
 import {
   getVAEvidence,
   getPrivateEvidence,
@@ -210,6 +211,35 @@ export const ConfirmationPageV2 = () => {
       )}
 
       <ConfirmationIssues data={data} />
+
+      {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+          a problem with Safari not treating the `ul` as a list. */}
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="remove-bullets" role="list">
+        <li>
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            Option for claims related to MST
+          </div>
+          <div
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-dd-action-name="notice 5103 reviewed"
+          >
+            {data.mstOption ? 'Yes' : 'No'}
+          </div>
+        </li>
+
+        <li>
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            Option to add an indicator
+          </div>
+          <div
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-dd-action-name="notice 5103 reviewed"
+          >
+            {optionIndicatorChoices[data.optionIndicator] ?? 'None selected'}
+          </div>
+        </li>
+      </ul>
 
       <h3 className="vads-u-margin-top--2">New and relevant evidence</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around

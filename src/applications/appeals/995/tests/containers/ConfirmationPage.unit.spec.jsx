@@ -160,9 +160,9 @@ describe('Confirmation page', () => {
       </Provider>,
     );
 
-    expect($$('ul', container).length).to.eq(7);
+    expect($$('ul', container).length).to.eq(8);
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
-    ).to.eq(30);
+    ).to.eq(32);
   });
 });

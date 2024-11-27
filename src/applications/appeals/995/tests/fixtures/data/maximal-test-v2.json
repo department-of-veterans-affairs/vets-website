@@ -104,6 +104,8 @@
         "view:selected": true
       }
     ],
+    "mstOption": true,
+    "optionIndicator": "revoke",
     "socOptIn": true,
     "form5103Acknowledged": true,
     "privacyAgreementAccepted": true,
