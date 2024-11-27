@@ -6,9 +6,9 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import Footer from '../../../components/common/Footer/Footer';
-import Header from '../../../components/common/Header/Header';
-import { SIGN_IN_URL } from '../../../constants';
+import Footer from '../components/common/Footer/Footer';
+import Header from '../components/common/Header/Header';
+import { SIGN_IN_URL } from '../constants';
 import { fetchUser } from '../actions/user';
 import { selectIsUserLoading } from '../selectors/user';
 import { selectShouldGoToSignIn } from '../selectors/navigation';
