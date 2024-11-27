@@ -34,7 +34,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
       {/* start US Gov banner */}
       <div className="usa-accordion">
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
+          <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--1">
             <img
               alt="U.S. flag"
               className="vads-u-margin-right--1"
@@ -72,7 +72,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
         </div>
         <div
           aria-hidden={!govBannerIsOpen ? 'true' : 'false'}
-          className={`usa-accordion-content vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--1p5 vads-u-padding-y--2 ${
+          className={`usa-accordion-content vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--2p5 vads-u-padding-y--3 ${
             !govBannerIsOpen ? 'banner-display--none' : 'banner-display--flex'
           }`}
           id="official-govt-site-explanation"
@@ -109,7 +109,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
       {/* end US Gov banner */}
 
       {/* start Veterans Crisis Line banner */}
-      <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
+      <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--1">
         <button
           className="va-button-link vads-u-color--white vads-u-text-decoration--none vcl-modal-open"
           type="button"

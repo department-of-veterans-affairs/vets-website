@@ -1414,7 +1414,12 @@
     height: 42px;
     width: 45px;
 
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 312px) {
+      margin: 11px 0 0;
+      height: 42px;
+    }
+
+    @media screen and (min-width: 313px) and (max-width: 767px) {
       margin: 10px 0 0;
       height: 42px;
     }
@@ -2310,6 +2315,7 @@
 
    .usa-banner-button-text {
     font-size: 12px;
+    font-family: $font-stack;
    }
 
   @media (min-width: 1008px) {

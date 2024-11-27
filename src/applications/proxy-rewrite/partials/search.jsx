@@ -56,7 +56,7 @@ const Search = ({ isDesktop, searchIsOpen }) => {
     return (
       <>
         <label
-          className="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-left--2p5"
+          className="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-left--2"
           htmlFor="search-header-dropdown-input-field"
         >
           Search
