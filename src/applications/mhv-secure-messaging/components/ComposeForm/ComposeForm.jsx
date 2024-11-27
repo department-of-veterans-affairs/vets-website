@@ -47,9 +47,10 @@ import { RadioCategories } from '../../util/inputContants';
 import { getCategories } from '../../actions/categories';
 import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
+import { getPatientSignature } from '../../actions/preferences';
 
 const ComposeForm = props => {
-  const { pageTitle, headerRef, draft, recipients, signature } = props;
+  const { pageTitle, headerRef, draft, recipients } = props;
   const {
     noAssociations,
     allTriageGroupsBlocked,
@@ -58,10 +59,21 @@ const ComposeForm = props => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const signature = useSelector(state => state.sm.preferences?.signature);
+
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
+
+  useEffect(
+    () => {
+      if (!signature) {
+        dispatch(getPatientSignature());
+      }
+    },
+    [signature, dispatch],
+  );
 
   useEffect(
     () => {
@@ -346,7 +358,11 @@ const ComposeForm = props => {
         setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
         messageValid = false;
       }
-      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+      if (
+        messageBody === '' ||
+        messageBody.match(/^[\s]+$/) ||
+        messageBody.trim() === formattedSignature.trim()
+      ) {
         setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
         messageValid = false;
       }
@@ -372,6 +388,7 @@ const ComposeForm = props => {
       messageBody,
       category,
       isSignatureRequired,
+      formattedSignature,
       electronicSignature,
       checkboxMarked,
       setMessageInvalid,

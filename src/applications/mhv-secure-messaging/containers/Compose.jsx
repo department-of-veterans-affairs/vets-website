@@ -8,13 +8,11 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
 import { PageTitles, Paths } from '../util/constants';
-import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
-  const signature = useSelector(state => state.sm.preferences.signature);
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
 
@@ -45,15 +43,6 @@ const Compose = () => {
       };
     },
     [dispatch, draftId, location.pathname],
-  );
-
-  useEffect(
-    () => {
-      if (!signature) {
-        dispatch(getPatientSignature());
-      }
-    },
-    [signature, dispatch],
   );
 
   useEffect(
@@ -96,7 +85,6 @@ const Compose = () => {
             headerRef={header}
             draft={draftMessage}
             recipients={!recipients.error && recipients}
-            signature={signature}
           />
         </>
       );
