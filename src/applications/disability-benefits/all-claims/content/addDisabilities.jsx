@@ -7,8 +7,9 @@ export const addDisabilitiesInstructions = (
   <>
     <h3>Tell us the new conditions you want to claim</h3>
     <p>
-      Enter the name of your condition. Then, select your condition from the
-      list of possible matches.
+      Enter the name of your condition. As you type, the dropdown will list
+      suggestions. The first suggestion will match exactly what you type. Select
+      your condition from the list.
     </p>
     <h4>If your conditions aren’t listed</h4>
     <p>
