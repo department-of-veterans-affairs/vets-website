@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import FinancialInformation from '../../../../components/FormPages/FinancialInformation';
+import InsuranceInformation from '../../../../components/FormPages/InsuranceInformation';
 
-describe('hca Financial Information page', () => {
+describe('hca Insurance Information page', () => {
   const subject = () => {
     const props = { data: {}, goBack: () => {}, goForward: () => {} };
-    const { container } = render(<FinancialInformation {...props} />);
+    const { container } = render(<InsuranceInformation {...props} />);
     const selectors = () => ({
       continueBtn: container.querySelector('.usa-button-primary'),
       backBtn: container.querySelector('.usa-button-secondary'),

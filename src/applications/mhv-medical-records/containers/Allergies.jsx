@@ -64,18 +64,21 @@ const Allergies = props => {
   );
 
   const user = useSelector(state => state.user.profile);
-  const { isAccelerating } = useAcceleratedData();
+  const { isAcceleratingAllergies } = useAcceleratedData();
 
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatchAction = isCurrent => {
+    return getAllergiesList(isCurrent, isAcceleratingAllergies);
+  };
 
   useListRefresh({
     listState,
     listCurrentAsOf: allergiesCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.ALLERGY,
-    dispatchAction: isCurrent =>
-      getAllergiesList({ isCurrent, isAccelerating }),
+    dispatchAction,
     dispatch,
   });
 
@@ -120,7 +123,7 @@ const Allergies = props => {
     const scaffold = generatePdfScaffold(user, title, value, subject, preface);
     const pdfData = {
       ...scaffold,
-      ...generateAllergiesContent(allergies, isAccelerating),
+      ...generateAllergiesContent(allergies, isAcceleratingAllergies),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
@@ -128,7 +131,7 @@ const Allergies = props => {
 
   const generateAllergyListItemTxt = item => {
     setDownloadStarted(true);
-    if (isAccelerating) {
+    if (isAcceleratingAllergies) {
       return `
 ${txtLine}\n\n
 ${item.name}\n
@@ -214,7 +217,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         <RecordList
           records={allergies?.map(allergy => ({
             ...allergy,
-            isOracleHealthData: isAccelerating,
+            isOracleHealthData: isAcceleratingAllergies,
           }))}
           type={recordType.ALLERGIES}
         />
