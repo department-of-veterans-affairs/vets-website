@@ -47,6 +47,15 @@ const removeButtonClass = [
   'vads-u-margin-top--0',
 ].join(' ');
 
+const confirmationPageLabel = showListOnly =>
+  showListOnly
+    ? [
+        'vads-u-margin-bottom--0p5',
+        'vads-u-color--gray',
+        'vads-u-font-size--sm',
+      ].join(' ')
+    : '';
+
 const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
   // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
@@ -72,7 +81,9 @@ export const VaContent = ({
 }) =>
   list?.length ? (
     <>
-      <div className="va-title">{content.vaTitle}</div>
+      <div className={`va-title ${confirmationPageLabel(showListOnly)}`}>
+        {content.vaTitle}
+      </div>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
         {list.map((location, index) => {
@@ -208,7 +219,9 @@ export const PrivateContent = ({
 }) =>
   list?.length ? (
     <>
-      <div className="private-title">{content.privateTitle}</div>
+      <div className={`private-title ${confirmationPageLabel(showListOnly)}`}>
+        {content.privateTitle}
+      </div>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
         {list.map((facility, index) => {
@@ -296,7 +309,13 @@ export const PrivateContent = ({
           );
         })}
         <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
-          <div className="private-limitation">{limitContent.title}</div>
+          <div
+            className={`private-limitation ${confirmationPageLabel(
+              showListOnly,
+            )}`}
+          >
+            {limitContent.title}
+          </div>
           <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
           {!reviewMode && (
             <div className="vads-u-margin-top--1p5">
@@ -355,7 +374,9 @@ export const UploadContent = ({
 }) =>
   list?.length ? (
     <>
-      <div className="upload-title">{content.otherTitle}</div>
+      <div className={`upload-title ${confirmationPageLabel(showListOnly)}`}>
+        {content.otherTitle}
+      </div>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
         {list.map((upload, index) => {

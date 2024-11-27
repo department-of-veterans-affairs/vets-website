@@ -43,6 +43,8 @@ import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 import { showValueOrNotSelected } from '../../shared/utils/confirmation';
 import { SC_NEW_FORM_DATA } from '../constants';
 
+// import maxData from '../tests/fixtures/data/maximal-test-v2.json';
+
 export const ConfirmationPageV2 = () => {
   resetStoredSubTask();
 
@@ -52,7 +54,7 @@ export const ConfirmationPageV2 = () => {
   // Fix this after Lighthouse sets up the download URL
   const downloadUrl = ''; // SC_PDF_DOWNLOAD_URL;
 
-  const { data = {} } = form;
+  const { data = {} } = form; // maxData;
 
   const vaEvidence = getVAEvidence(data);
   const privateEvidence = getPrivateEvidence(data);
@@ -246,7 +248,9 @@ export const ConfirmationPageV2 = () => {
           <h3 className="vads-u-margin-top--2">
             {evidenceContent.summaryTitle}
           </h3>
-          <div>{evidenceContent.missingEvidenceReviewText}</div>
+          <div className="no-evidence">
+            {evidenceContent.missingEvidenceReviewText}
+          </div>
         </>
       )}
 

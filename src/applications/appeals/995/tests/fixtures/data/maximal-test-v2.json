@@ -43,6 +43,15 @@
     "otherHousingRisks": "Lorem ipsum",
     "pointOfContactName": "John Doe",
     "pointOfContactPhone": "8005551212",
+    "facilityTypes": {
+      "vetCenter": true,
+      "ccp": true,
+      "vamc": true,
+      "cboc": true,
+      "mtf": true,
+      "nonVa": true,
+      "other": "Lorem ipsum"
+    },
     "contestedIssues": [
       {
         "type": "contestableIssue",
@@ -123,7 +132,43 @@
         }
       }
     ],
-
+    "providerFacility": [
+      {
+        "providerFacilityName": "Private Doctor",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "123 main",
+          "city": "city",
+          "state": "AK",
+          "postalCode": "90210"
+        },
+        "issues": [
+          "Test",
+          "Test 2"
+        ],
+        "treatmentDateRange": {
+          "from": "2022-1-1",
+          "to": "2022-2-1"
+        }
+      },
+      {
+        "providerFacilityName": "Private Hospital",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "456 main",
+          "city": "city",
+          "state": "AK",
+          "postalCode": "90211"
+        },
+        "issues": [
+          "Test 2"
+        ],
+        "treatmentDateRange": {
+          "from": "2022-2-1",
+          "to": "2022-5-1"
+        }
+      }
+    ],
     "limitedConsent": "Pizza addiction",
     "view:patientAcknowledgement": {
       "view:acknowledgement": true
