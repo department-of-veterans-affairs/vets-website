@@ -9,11 +9,12 @@ import {
   schoolInYourProfileOptions,
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
-  yourRoleOptions,
+  yourRoleOptionsEducation,
 } from '../../constants';
 import {
   isLocationOfResidenceRequired,
   isPostalCodeRequired,
+  isStateOfPropertyRequired,
 } from '../helpers';
 
 // Personal Information
@@ -35,7 +36,9 @@ import relationshipToVeteranPage from '../chapters/personalInformation/relations
 import schoolInYourProfilePage from '../chapters/personalInformation/schoolInYourProfile';
 import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
 import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
+import stateOfPropertyPage from '../chapters/personalInformation/stateOfProperty';
 import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
+import stateOfFacilityPage from '../chapters/personalInformation/stateOfFacility';
 import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
 import theirVRECounselorPage from '../chapters/personalInformation/theirVRECounselor';
@@ -201,11 +204,16 @@ const ch3Pages = {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: stateOfSchoolPage.uiSchema,
     schema: stateOfSchoolPage.schema,
+    depends: form => form.school === 'My facility is not listed',
+  },
+  stateOfFacility: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: stateOfFacilityPage.uiSchema,
+    schema: stateOfFacilityPage.schema,
     depends: form =>
-      form.school === 'My facility is not listed' ||
-      form.yourRole === yourRoleOptions.VA_EMPLOYEE ||
-      form.yourRole === yourRoleOptions.WORK_STUDY_SUP ||
-      form.yourRole === yourRoleOptions.OTHER,
+      form.yourRoleEducation === yourRoleOptionsEducation.VA_EMPLOYEE ||
+      form.yourRoleEducation === yourRoleOptionsEducation.WORK_STUDY_SUP ||
+      form.yourRoleEducation === yourRoleOptionsEducation.OTHER,
   },
   stateOrFacility: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -225,9 +233,9 @@ const ch3Pages = {
     uiSchema: schoolInYourProfilePage.uiSchema,
     schema: schoolInYourProfilePage.schema,
     depends: form =>
-      yourRoleOptions[form.yourRoleEducation] === yourRoleOptions.SCO ||
-      yourRoleOptions[form.yourRoleEducation] ===
-        yourRoleOptions.TRAINING_OR_APPRENTICESHIP_SUP,
+      form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
+      form.yourRoleEducation ===
+        yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP,
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
@@ -349,6 +357,12 @@ const ch3Pages = {
         form.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
       );
     },
+  },
+  stateOfProperty: {
+    title: CHAPTER_3.STATE_OF_PROPERTY.TITLE,
+    uiSchema: stateOfPropertyPage.uiSchema,
+    schema: stateOfPropertyPage.schema,
+    depends: form => isStateOfPropertyRequired(form),
   },
 };
 
@@ -490,6 +504,7 @@ const aboutMyselfRelationshipVeteran = [
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
+  'stateOfProperty',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -510,6 +525,7 @@ const aboutMyselfRelationshipFamilyMember = [
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
+  'stateOfProperty',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -530,6 +546,7 @@ const aboutSomeoneElseRelationshipVeteran = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutYourself',
   'yourBranchOfService',
   'yourContactInformation',
@@ -561,6 +578,7 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutYourselfRelationshipFamilyMember',
   'yourContactInformation',
   'yourMailingAddress',
@@ -580,6 +598,7 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutTheVeteran',
   'dateOfDeath',
   'aboutYourselfGeneral',
@@ -613,6 +632,7 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
+  'stateOfProperty',
   'aboutYourself',
   'yourContactInformation',
   'yourMailingAddress',
@@ -630,6 +650,7 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkEducation = [
   'searchSchools',
   'useThisSchool',
   'stateOfSchool',
+  'stateOfFacility',
   'aboutYourself',
   'yourContactInformation',
 ];
@@ -644,6 +665,7 @@ const generalQuestion = [
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
+  'stateOfProperty',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',

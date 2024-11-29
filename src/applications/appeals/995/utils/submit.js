@@ -9,6 +9,13 @@ import {
   buildVaLocationString,
 } from '../validations/evidence';
 
+import { showScNewForm } from './toggle';
+import {
+  getVAEvidence,
+  getOtherEvidence,
+  getPrivateEvidence,
+} from './evidence';
+
 import { MAX_LENGTH } from '../../shared/constants';
 import '../../shared/definitions';
 import {
@@ -16,11 +23,6 @@ import {
   replaceSubmittedData,
 } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
-import {
-  getVAEvidence,
-  getOtherEvidence,
-  getPrivateEvidence,
-} from './evidence';
 
 /**
  * @typedef ClaimantData
@@ -130,22 +132,43 @@ export const getPhone = formData => {
     : {};
 };
 
-export const hasDuplicateLocation = (list, currentLocation) =>
+export const hasDuplicateLocation = (list, currentLocation, newForm = false) =>
   !!list.find(location => {
-    const { locationAndName, evidenceDates } = location.attributes;
+    const {
+      locationAndName,
+      evidenceDates,
+      treatmentDate,
+    } = location.attributes;
+
     return (
       buildVaLocationString(
         {
           locationAndName,
-          evidenceDates: {
-            from: evidenceDates[0].startDate,
-            to: evidenceDates[0].endDate,
-          },
+          evidenceDates: newForm
+            ? {}
+            : {
+                from: evidenceDates?.[0]?.startDate,
+                to: evidenceDates?.[0]?.endDate,
+              },
+          treatmentDate: newForm ? treatmentDate : '',
         },
         ',',
         { includeIssues: false },
       ) ===
-      buildVaLocationString(currentLocation, ',', { includeIssues: false })
+      buildVaLocationString(
+        {
+          locationAndName: currentLocation.locationAndName,
+          evidenceDates: newForm
+            ? {}
+            : {
+                from: currentLocation.evidenceDates?.from,
+                to: currentLocation.evidenceDates?.to,
+              },
+          treatmentDate: newForm ? currentLocation.treatmentDate : '',
+        },
+        ',',
+        { includeIssues: false },
+      )
     );
   });
 
@@ -220,31 +243,43 @@ export const getEvidence = formData => {
   const evidenceSubmission = {
     evidenceType: [],
   };
+  const showNewFormContent = showScNewForm(formData);
   // Add VA evidence data
   const locations = getVAEvidence(formData);
   if (locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
-    evidenceSubmission.retrieveFrom = locations.reduce((list, location) => {
-      if (!hasDuplicateLocation(list, location)) {
-        list.push({
-          type: 'retrievalEvidence',
-          attributes: {
-            // we're not including the issues here - it's only in the form to make
-            // the UX consistent with the private records location pages
-            locationAndName: location.locationAndName,
-            // Lighthouse wants between 1 and 4 evidenceDates, but we're only
-            // providing one
-            evidenceDates: [
-              {
-                startDate: fixDateFormat(location.evidenceDates.from),
-                endDate: fixDateFormat(location.evidenceDates.to),
-              },
-            ],
-          },
-        });
-      }
-      return list;
-    }, []);
+    evidenceSubmission.retrieveFrom = formData.locations.reduce(
+      (list, location) => {
+        if (!hasDuplicateLocation(list, location, showNewFormContent)) {
+          // Temporary transformation of `treatmentDate` (YYYY-MM) to
+          // `evidenceDates` range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
+          const from = showNewFormContent
+            ? `${location.treatmentDate}-01`
+            : location.evidenceDates?.from;
+          const to = showNewFormContent
+            ? `${location.treatmentDate}-01`
+            : location.evidenceDates?.to;
+          list.push({
+            type: 'retrievalEvidence',
+            attributes: {
+              // we're not including the issues here - it's only in the form to make
+              // the UX consistent with the private records location pages
+              locationAndName: location.locationAndName,
+              // Lighthouse wants between 1 and 4 evidenceDates, but we're only
+              // providing one
+              evidenceDates: [
+                {
+                  startDate: fixDateFormat(from),
+                  endDate: fixDateFormat(to),
+                },
+              ],
+            },
+          });
+        }
+        return list;
+      },
+      [],
+    );
   }
   // additionalDocuments added in submit-transformer
   if (getOtherEvidence(formData).length) {

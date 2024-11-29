@@ -47,6 +47,7 @@ import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
 import BenefitApplications from './benefit-application-drafts/BenefitApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
+import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
 
 const DashboardHeader = ({ showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -108,6 +109,7 @@ const DashboardHeader = ({ showNotifications, user }) => {
           });
         }}
       />
+      <ContactInfoNeeded />
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
   );

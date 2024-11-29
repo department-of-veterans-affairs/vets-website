@@ -3,11 +3,14 @@ import React from 'react';
 import {
   CategoryEducation,
   CategoryGuardianshipCustodianshipFiduciaryIssues,
+  CategoryHousingAssistanceAndHomeLoans,
   CategoryVeteranReadinessAndEmployment,
   contactOptions,
   isQuestionAboutVeteranOrSomeoneElseLabels,
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
+  TopicAppraisals,
+  TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
@@ -444,12 +447,26 @@ export const isPostalCodeRequired = data => {
     return true;
   }
 
-  // Check general question
+  // Flow 3.1
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
-  if (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL) {
+  if (
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+  ) {
     return true;
   }
 
   // Default to false if none of the conditions are met
   return false;
+};
+
+// Reference Rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#state-of-property
+export const isStateOfPropertyRequired = data => {
+  const { selectCategory, selectTopic } = data;
+
+  return (
+    selectCategory === CategoryHousingAssistanceAndHomeLoans &&
+    (selectTopic === TopicSpeciallyAdapatedHousing ||
+      selectTopic === TopicAppraisals)
+  );
 };
