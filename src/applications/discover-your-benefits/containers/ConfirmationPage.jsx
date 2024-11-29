@@ -43,24 +43,36 @@ export class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
+    this.initializePage();
+    this.handleResults();
+    this.resetSubmissionStatus();
+  }
+
+  initializePage() {
     focusElement('h1');
     scrollToTop('topScrollElement');
-    // Update query string based on results.
-    if (this.props.results.data && this.props.results.data.length > 0) {
+  }
+
+  handleResults() {
+    const { results, location, displayResults } = this.props;
+
+    if (results.data && results.data.length > 0) {
       this.handleResultsData();
-    } else if (
-      this.props.location.query &&
-      Object.keys(this.props.location.query).length > 0
-    ) {
-      // Display results based on query string.
-      const { benefits } = this.props.location.query;
-      if (benefits) {
-        const benefitIds = benefits.split(',');
-
-        this.props.displayResults(benefitIds);
-      }
+    } else if (location.query && Object.keys(location.query).length > 0) {
+      this.displayResultsFromQuery(location.query, displayResults);
     }
+  }
 
+  displayResultsFromQuery(query, displayResults) {
+    const { benefits } = query;
+
+    if (benefits) {
+      const benefitIds = benefits.split(',');
+      displayResults(benefitIds);
+    }
+  }
+
+  resetSubmissionStatus() {
     const now = new Date().getTime();
 
     this.props.setSubmission('status', false);
