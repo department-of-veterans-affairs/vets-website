@@ -116,7 +116,7 @@ export default function LcKeywordSearch({
                         )}
                       </div>
                     ))
-                    .slice(0, 5)}
+                    .slice(0, 6)}
                 </div>
               )}
           </div>

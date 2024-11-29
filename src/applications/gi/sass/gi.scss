@@ -296,15 +296,6 @@
   }
 }
 
-.lc-dropdown-filter {
-  max-width: 30rem;
-}
-
-.lc-filter-options {
-  padding: 0.5rem;
-  margin: 0;
-}
-
 .provider-info-container > span {
   gap: 1rem;
 }
@@ -318,7 +309,7 @@
   padding-left: 0;
 }
 
-.lc-name-search-container {
+.lc-dropdown-filter {
   max-width: 30rem;
 }
 
@@ -339,6 +330,7 @@
 .inst-remove-btn::part(button) {
   background-color: transparent;
 }
+
 .search-container {
   va-text-input::part(input) {
     width: 100%;

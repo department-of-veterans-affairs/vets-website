@@ -25,6 +25,7 @@ export const buildRoutes = () => {
           render={({ match }) => <ProfilePage match={match} />}
         />
         <Route
+          exact
           path="/lc-search"
           render={({ match }) => <LicenseCertificationSearch match={match} />}
         />
