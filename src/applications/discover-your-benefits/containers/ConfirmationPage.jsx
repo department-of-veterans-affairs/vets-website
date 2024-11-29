@@ -71,19 +71,6 @@ export class ConfirmationPage extends React.Component {
     this.props.router.goBack();
   };
 
-  createFilterText() {
-    const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
-    return (
-      <>
-        Showing {this.state.resultsCount} {resultsText}, filtered to show{' '}
-        <b>{this.state.filterValue} results</b>, sorted{' '}
-        {this.state.sortValue === 'alphabetical'
-          ? 'alphabetically by benefit name'
-          : `alphabetically by benefit ${this.state.sortValue}`}
-      </>
-    );
-  }
-
   handleResultsData() {
     const benefits = this.props.results.data.map(r => r.id).join(',');
     const queryParams = { benefits };
@@ -193,6 +180,19 @@ export class ConfirmationPage extends React.Component {
     focusElement('h1');
     scrollToTop('topScrollElement');
   };
+
+  createFilterText() {
+    const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
+    return (
+      <>
+        Showing {this.state.resultsCount} {resultsText}, filtered to show{' '}
+        <b>{this.state.filterValue} results</b>, sorted{' '}
+        {this.state.sortValue === 'alphabetical'
+          ? 'alphabetically by benefit name'
+          : `alphabetically by benefit ${this.state.sortValue}`}
+      </>
+    );
+  }
 
   resetSubmissionStatus() {
     const now = new Date().getTime();

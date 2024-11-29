@@ -60,10 +60,15 @@ const Benefits = ({
 };
 
 Benefits.propTypes = {
-  benefits: PropTypes.array,
-  benefitsList: PropTypes.array,
   handleClick: PropTypes.func.isRequired,
-  benefitIds: PropTypes.array || PropTypes.object,
+  benefits: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  ),
+  benefitsList: PropTypes.array,
+
+  benefitIds: PropTypes.object || PropTypes.array,
   queryString: PropTypes.shape({
     allBenefits: PropTypes.string,
   }),
