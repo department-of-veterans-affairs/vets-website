@@ -2,6 +2,7 @@
 import '@department-of-veterans-affairs/formation/dist/formation';
 // Relative imports.
 import '../monitoring/sentry.js';
+import '../monitoring/web-vitals.js';
 import './component-library-analytics-setup';
 import './medallia-feedback-button';
 import './moment-setup';
