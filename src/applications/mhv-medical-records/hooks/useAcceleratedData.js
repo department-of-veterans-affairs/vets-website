@@ -6,6 +6,7 @@ import { useMemo, useEffect } from 'react';
 
 const useAcceleratedData = () => {
   const dispatch = useDispatch();
+
   const isAcceleratedDeliveryEnabled = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryEnabled],
@@ -23,6 +24,8 @@ const useAcceleratedData = () => {
       ],
   );
 
+  const state = useSelector(s => s);
+
   useEffect(
     () => {
       // use Drupal based Cerner facility data
@@ -32,6 +35,17 @@ const useAcceleratedData = () => {
   );
 
   const isCerner = useSelector(selectIsCernerPatient);
+
+  const isLoading = useMemo(
+    () => {
+      return (
+        state.featureToggles.loading ||
+        state.drupalStaticData?.vamcEhrData?.loading
+      );
+    },
+    [state.featureToggles, state.drupalStaticData],
+  );
+
   const isAcceleratingAllergies = useMemo(
     () => {
       return (
@@ -55,6 +69,7 @@ const useAcceleratedData = () => {
   return {
     isAcceleratingAllergies,
     isAcceleratingVitals,
+    isLoading,
   };
 };
 
