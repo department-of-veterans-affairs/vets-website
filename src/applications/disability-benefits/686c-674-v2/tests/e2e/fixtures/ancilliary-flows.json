@@ -85,7 +85,8 @@
         "postalCode": "20500"
       },
       "veteranContactInformation": {
-        "phoneNumber": "1231231234"
+        "phoneNumber": "1231231234",
+        "emailAddress": "test@test.com"
       }
     },
     "view:686Information": {},
