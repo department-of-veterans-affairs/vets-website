@@ -45,15 +45,6 @@ export class ConfirmationPage extends React.Component {
     this.resetSubmissionStatus();
   }
 
-  displayResultsFromQuery(query, displayResults) {
-    const { benefits } = query;
-
-    if (benefits) {
-      const benefitIds = benefits.split(',');
-      displayResults(benefitIds);
-    }
-  }
-
   resetSubmissionStatus() {
     const now = new Date().getTime();
 
@@ -197,10 +188,19 @@ export class ConfirmationPage extends React.Component {
     }, sortingCallback);
   };
 
-  initializePage() {
+  displayResultsFromQuery = (query, displayResults) => {
+    const { benefits } = query;
+
+    if (benefits) {
+      const benefitIds = benefits.split(',');
+      displayResults(benefitIds);
+    }
+  };
+
+  initializePage = () => {
     focusElement('h1');
     scrollToTop('topScrollElement');
-  }
+  };
 
   applyInitialSort() {
     const hasResults = !!this.props.results.data;

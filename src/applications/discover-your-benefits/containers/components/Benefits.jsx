@@ -63,6 +63,10 @@ Benefits.propTypes = {
   benefits: PropTypes.array,
   benefitsList: PropTypes.array,
   handleClick: PropTypes.func.isRequired,
+  benefitIds: PropTypes.array || PropTypes.object,
+  queryString: PropTypes.shape({
+    allBenefits: PropTypes.string,
+  }),
   results: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool,
@@ -73,9 +77,6 @@ Benefits.propTypes = {
       }),
     ),
     error: PropTypes.object,
-  }),
-  queryString: PropTypes.shape({
-    allBenefits: PropTypes.bool,
   }),
 };
 
