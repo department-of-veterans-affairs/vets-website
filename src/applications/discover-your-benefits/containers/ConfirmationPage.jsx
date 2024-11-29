@@ -78,7 +78,7 @@ export class ConfirmationPage extends React.Component {
     e.preventDefault();
 
     if (window.history.length > 2) {
-      browserHistory.goBack();
+      this.props.router.goBack();
     }
   };
 
