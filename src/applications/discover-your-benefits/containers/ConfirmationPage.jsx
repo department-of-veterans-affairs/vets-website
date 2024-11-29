@@ -18,8 +18,6 @@ export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
 
-    const queryParams = new URLSearchParams(window.location.search).toString();
-
     this.state = {
       hasResults: false,
       resultsCount: 0,
@@ -30,7 +28,6 @@ export class ConfirmationPage extends React.Component {
       benefits: [],
       benefitsList: BENEFITS_LIST,
       showMobileFilters: false,
-      currentQueryString: queryParams,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -46,21 +43,6 @@ export class ConfirmationPage extends React.Component {
     this.initializePage();
     this.handleResults();
     this.resetSubmissionStatus();
-  }
-
-  initializePage() {
-    focusElement('h1');
-    scrollToTop('topScrollElement');
-  }
-
-  handleResults() {
-    const { results, location, displayResults } = this.props;
-
-    if (results.data && results.data.length > 0) {
-      this.handleResultsData();
-    } else if (location.query && Object.keys(location.query).length > 0) {
-      this.displayResultsFromQuery(location.query, displayResults);
-    }
   }
 
   displayResultsFromQuery(query, displayResults) {
@@ -87,6 +69,16 @@ export class ConfirmationPage extends React.Component {
       (!prevProps.results.data || prevProps.results.data.length === 0)
     ) {
       this.handleResultsData();
+    }
+  }
+
+  handleResults() {
+    const { results, location, displayResults } = this.props;
+
+    if (results.data && results.data.length > 0) {
+      this.handleResultsData();
+    } else if (location.query && Object.keys(location.query).length > 0) {
+      this.displayResultsFromQuery(location.query, displayResults);
     }
   }
 
@@ -204,6 +196,11 @@ export class ConfirmationPage extends React.Component {
       };
     }, sortingCallback);
   };
+
+  initializePage() {
+    focusElement('h1');
+    scrollToTop('topScrollElement');
+  }
 
   applyInitialSort() {
     const hasResults = !!this.props.results.data;

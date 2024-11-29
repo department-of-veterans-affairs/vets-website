@@ -60,11 +60,22 @@ const Benefits = ({
 };
 
 Benefits.propTypes = {
+  benefits: PropTypes.array,
+  benefitsList: PropTypes.array,
+  handleClick: PropTypes.func.isRequired,
   results: PropTypes.shape({
-    isLoading: PropTypes.bool,
+    isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool,
-    data: PropTypes.array,
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        name: PropTypes.string,
+      }),
+    ),
     error: PropTypes.object,
+  }),
+  queryString: PropTypes.shape({
+    allBenefits: PropTypes.bool,
   }),
 };
 
