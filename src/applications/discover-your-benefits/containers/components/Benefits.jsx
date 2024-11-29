@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import BenefitCard from '../../components/BenefitCard';
 import NoResultsBanner from '../../components/NoResultsBanner';
@@ -56,6 +57,15 @@ const Benefits = ({
         )}
     </>
   );
+};
+
+Benefits.propTypes = {
+  results: PropTypes.shape({
+    isLoading: PropTypes.bool,
+    isError: PropTypes.bool,
+    data: PropTypes.array,
+    error: PropTypes.object,
+  }),
 };
 
 export default Benefits;
