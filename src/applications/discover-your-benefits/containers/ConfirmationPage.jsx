@@ -45,14 +45,6 @@ export class ConfirmationPage extends React.Component {
     this.resetSubmissionStatus();
   }
 
-  resetSubmissionStatus() {
-    const now = new Date().getTime();
-
-    this.props.setSubmission('status', false);
-    this.props.setSubmission('hasAttemptedSubmit', false);
-    this.props.setSubmission('timestamp', now);
-  }
-
   componentDidUpdate(prevProps) {
     if (
       this.props.results.data &&
@@ -201,6 +193,14 @@ export class ConfirmationPage extends React.Component {
     focusElement('h1');
     scrollToTop('topScrollElement');
   };
+
+  resetSubmissionStatus() {
+    const now = new Date().getTime();
+
+    this.props.setSubmission('status', false);
+    this.props.setSubmission('hasAttemptedSubmit', false);
+    this.props.setSubmission('timestamp', now);
+  }
 
   applyInitialSort() {
     const hasResults = !!this.props.results.data;
