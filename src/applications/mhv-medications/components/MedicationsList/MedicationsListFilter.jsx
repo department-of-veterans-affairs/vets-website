@@ -120,23 +120,19 @@ const MedicationsListFilter = props => {
             />
           ))}
         </VaRadio>
-        <div>
-          <VaButton
-            className="vads-u-width--full tablet:vads-u-width--auto filter-submit-btn vads-u-margin-top--3"
-            onClick={handleFilterSubmit}
-            text="Apply filter"
-            data-testid="filter-button"
-          />
-        </div>
-        <div>
-          <VaButton
-            className="vads-u-width--full tablet:vads-u-width--auto filter-submit-btn vads-u-margin-top--3"
-            secondary
-            onClick={handleFilterReset}
-            text="Reset filter"
-            data-testid="filter-reset-button"
-          />
-        </div>
+        <VaButton
+          className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
+          onClick={handleFilterSubmit}
+          text="Apply filter"
+          data-testid="filter-button"
+        />
+        <VaButton
+          className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
+          secondary
+          onClick={handleFilterReset}
+          text="Reset filter"
+          data-testid="filter-reset-button"
+        />
       </VaAccordionItem>
     </VaAccordion>
   );
