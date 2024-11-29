@@ -74,10 +74,12 @@ export class ConfirmationPage extends React.Component {
     }
   }
 
-  handleClick = e => {
+  handleBackClick = e => {
     e.preventDefault();
 
-    this.props.router.goBack();
+    if (window.history.length > 2) {
+      browserHistory.goBack();
+    }
   };
 
   createFilterText() {
@@ -377,12 +379,14 @@ export class ConfirmationPage extends React.Component {
                 <div id="filter-text">{this.state.filterText}</div>
               )}
               <p>
-                <va-link
-                  data-testid="back-link"
-                  href="#"
-                  onClick={this.handleClick}
-                  text="Go back and review your entries"
-                />
+                {window.history.length > 2 && (
+                  <va-link
+                    data-testid="back-link"
+                    href="#"
+                    onClick={this.handleBackClick}
+                    text="Go back and review your entries"
+                  />
+                )}
               </p>
 
               <div>
@@ -414,7 +418,7 @@ export class ConfirmationPage extends React.Component {
                   this.state.benefits.length === 0 && (
                     <NoResultsBanner
                       data={this.props.results.data}
-                      handleClick={this.handleClick}
+                      handleBackClick={this.handleBackClick}
                     />
                   )}
               </div>
@@ -447,7 +451,7 @@ export class ConfirmationPage extends React.Component {
                     <va-link
                       data-testid="back-link-banner"
                       href="#"
-                      onClick={this.handleClick}
+                      onClick={this.handleBackClick}
                       text="Go back and review your entries"
                     />
                   </p>
