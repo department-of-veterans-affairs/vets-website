@@ -29,6 +29,7 @@ export default {
         ),
         serviceBranch: {
           'ui:title': 'Branch of service',
+          'ui:required': () => true,
         },
         serviceStatus: {
           'ui:title':
@@ -55,6 +56,7 @@ export default {
   },
   schema: {
     type: 'object',
+
     properties: {
       toursOfDuty,
     },

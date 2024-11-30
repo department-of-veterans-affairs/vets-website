@@ -2,15 +2,14 @@
 // imported above would import and use these common definitions:
 import React from 'react';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
 // Example of an imported schema:
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
-
 import {
   textUI,
   currentOrPastDateUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+// import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from '../22-10216-schema.json';
@@ -29,15 +28,17 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
+import { validateFacilityCode } from '../utilities';
+import Alert from '../components/Alert';
 
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+const { date, dateRange, usaPhone } = commonDefinitions;
 
 const subTitle = (
   <div className="schemaform-subtitle vads-u-color--gray">
     35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
   </div>
 );
-
+let isAccredited = false;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -65,8 +66,6 @@ const formConfig = {
   title: 'Request exemption from the 85/15 Rule reporting requirements',
   subTitle,
   defaultDefinitions: {
-    fullName,
-    ssn,
     date,
     dateRange,
     usaPhone,
@@ -82,6 +81,8 @@ const formConfig = {
             institutionName: {
               'ui:title': 'Institution name',
               'ui:component': textUI,
+              'ui:required': () => true,
+
               'ui:errorMessages': {
                 required: 'Please enter the name of your institution',
               },
@@ -89,19 +90,27 @@ const formConfig = {
             facilityCode: {
               'ui:title': 'Facility code',
               'ui:component': textUI,
+              'ui:required': () => true,
               'ui:errorMessages': {
                 required: 'Please enter your facility code',
+              },
+              'ui:options': {
+                showFieldLabel: true,
+                keepInPageOnReview: true,
               },
             },
             startDate: {
               ...currentOrPastDateUI('Term start date'),
+              'ui:required': () => true,
               'ui:errorMessages': {
-                required: 'Please enter the start date of your term',
-              },
-              'ui:options': {
-                hint: null,
+                required: 'Please enter a date',
               },
             },
+            'ui:validations': [
+              async (_, field) => {
+                isAccredited = await validateFacilityCode(field);
+              },
+            ],
           },
           schema: {
             type: 'object',
@@ -119,6 +128,16 @@ const formConfig = {
             },
           },
         },
+        additionalErrorChapter: {
+          title: 'Institution Details',
+          path: 'additional-form',
+          uiSchema: { 'ui:webComponentField': () => <Alert /> },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+          depends: () => !isAccredited,
+        },
       },
     },
     serviceHistoryChapter: {
@@ -129,6 +148,7 @@ const formConfig = {
           title: 'Service History',
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
+          depends: () => isAccredited,
         },
       },
     },
