@@ -127,6 +127,7 @@ export class ConfirmEligibilityView extends React.Component {
           this.props.remainingEntitlement.totalDays > 180 && (
             <div>
               <div className="usa-alert usa-alert-warning vads-u-background-color--white">
+                <va-icon icon="warning" size={3} />
                 <div className="usa-alert-body">
                   <strong>Your remaining education benefits</strong>
                   <div className="usa-alert-text">

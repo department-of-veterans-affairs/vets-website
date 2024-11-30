@@ -29,6 +29,7 @@ export class IntroductionPage extends React.Component {
             id="entitlement-remaining-alert"
             className="usa-alert usa-alert-warning schemaform-sip-alert"
           >
+            <va-icon icon="warning" size={3} />
             <div className="usa-alert-body">
               <h3 className="usa-alert-heading">You may not be eligible</h3>
               <div className="usa-alert-text">

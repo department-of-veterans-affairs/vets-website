@@ -3,6 +3,7 @@ import React from 'react';
 function ClaimsAppealsUnavailable() {
   return (
     <div className="usa-alert usa-alert-warning claims-unavailable">
+      <va-icon icon="warning" size={3} />
       <div className="usa-alert-body">
         <h4 className="claims-alert-header">
           Claim and Appeal status is unavailable

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const missingEventsAlert = (
   <div className="usa-alert usa-alert-warning">
+    <va-icon icon="warning" size={3} />
     <div className="usa-alert-body">
       <h4 className="usa-alert-heading">Missing events</h4>
       <p className="usa-alert-text">

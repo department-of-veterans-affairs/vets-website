@@ -64,6 +64,7 @@ export function transform(formConfig, form) {
 
 export const benefitsEligibilityBox = (
   <div className="usa-alert usa-alert-info">
+    <va-icon icon="info" size={3} />
     <div className="usa-alert-body">
       <ul>
         <li>You may be eligible for more than 1 education benefit program.</li>
@@ -83,6 +84,7 @@ export const benefitsEligibilityBox = (
 
 export const reserveKickerWarning = (
   <div className="usa-alert usa-alert-warning usa-content secondary">
+    <va-icon icon="warning" size={3} />
     <div className="usa-alert-body">
       <span>
         You can only transfer a kicker from a benefit that you relinquish (give

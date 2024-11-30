@@ -75,6 +75,7 @@ class SaveInProgressErrorPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
+              <va-icon icon="error" size={3} className="vads-u-color--error" />
               You’re signed out of your account. {noAuth}
             </div>
             <div>
@@ -99,6 +100,7 @@ class SaveInProgressErrorPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
+              <va-icon icon="error" size={3} className="vads-u-color--error" />
               We’re sorry. We’re having some server issues and are working to
               fix them. Please try applying again in a few moments.
             </div>
@@ -115,6 +117,7 @@ class SaveInProgressErrorPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
+              <va-icon icon="error" size={3} className="vads-u-color--error" />
               {forbidden || DEFAULT_FORBIDDEN_MESSAGE}
             </div>
             <div style={{ marginTop: '30px' }} />
@@ -125,6 +128,7 @@ class SaveInProgressErrorPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
+              <va-icon icon="error" size={3} className="vads-u-color--error" />
               We’re sorry, but we’re unable to connect to VA.gov. Please check
               that you’re connected to the Internet and try again.
             </div>
@@ -141,6 +145,7 @@ class SaveInProgressErrorPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
+              <va-icon icon="error" size={3} className="vads-u-color--error" />
               We’re sorry. Something went wrong when we tried to access your
               {appType}. We’re working to fix this. You can try applying again
               in a few moments or start your {appType} over.
@@ -158,6 +163,7 @@ class SaveInProgressErrorPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
+              <va-icon icon="error" size={3} className="vads-u-color--error" />
               We’re sorry. Something went wrong when we tried to find your{' '}
               {appType}. {notFound}
             </div>

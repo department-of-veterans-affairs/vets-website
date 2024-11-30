@@ -16,7 +16,8 @@ export const receiveTextsAlert = () => (
     className="usa-alert usa-alert-warning background-color-only"
     role="alert"
   >
-    Since you've opted to receive text message updates, you need to enter your
+    <va-icon icon="warning" size={3} />
+    Since you’ve opted to receive text message updates, you need to enter your
     mobile phone number so we can send updates to your device.
   </div>
 );
