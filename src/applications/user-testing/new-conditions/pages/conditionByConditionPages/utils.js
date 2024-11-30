@@ -12,18 +12,6 @@ export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   return defaultTitle;
 };
 
-export const hasSideOfBody = (formData, index) => {
-  const condition = formData?.conditionByCondition
-    ? formData.conditionByCondition[index]?.condition
-    : formData.condition;
-
-  const conditionObject = conditionObjects.find(
-    conditionObj => conditionObj.option === condition,
-  );
-
-  return conditionObject ? conditionObject.sideOfBody : false;
-};
-
 const createCauseDescriptions = item => {
   return {
     NEW: 'Caused by an injury or exposure during my service.',
@@ -76,4 +64,16 @@ export const arrayBuilderOptions = {
     getItemName: item => createItemName(item, true),
     cardDescription: item => createCauseDescriptions(item)[(item?.cause)],
   },
+};
+
+export const hasSideOfBody = (formData, index) => {
+  const condition = formData?.[arrayBuilderOptions.arrayPath]
+    ? formData?.[arrayBuilderOptions.arrayPath][index]?.condition
+    : formData.condition;
+
+  const conditionObject = conditionObjects.find(
+    conditionObj => conditionObj.option === condition,
+  );
+
+  return conditionObject ? conditionObject.sideOfBody : false;
 };

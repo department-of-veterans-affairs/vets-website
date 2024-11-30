@@ -7,7 +7,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { conditionOptions } from '../../content/conditionOptions';
-import { createItemName } from './utils';
+import { arrayBuilderOptions, createItemName } from './utils';
 
 const createCauseFollowUpTitles = formData => {
   const causeTitle = {
@@ -31,8 +31,8 @@ const createCauseFollowUpTitles = formData => {
 // TODO: Fix formData so that shape is consistent
 // formData changes shape between add and edit which results in the need for the conditional below
 const createCauseFollowUpConditional = (formData, index, causeType) => {
-  const cause = formData?.conditionByCondition
-    ? formData.conditionByCondition[index]?.cause
+  const cause = formData?.[arrayBuilderOptions.arrayPath]
+    ? formData?.[arrayBuilderOptions.arrayPath]?.[index]?.cause
     : formData.cause;
   return cause !== causeType;
 };
@@ -46,7 +46,7 @@ const getOtherConditions = (formData, currentIndex) => {
     formData?.ratedDisabilities?.map(disability => disability.name) || [];
 
   const otherNewConditions =
-    formData?.conditionByCondition
+    formData?.[arrayBuilderOptions.arrayPath]
       ?.filter((_, index) => index !== currentIndex)
       ?.map(condition => createItemName(condition)) || [];
 

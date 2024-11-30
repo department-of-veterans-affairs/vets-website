@@ -12,18 +12,6 @@ export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   return defaultTitle;
 };
 
-export const hasSideOfBody = (formData, index) => {
-  const condition = formData?.conditionsFirst
-    ? formData.conditionsFirst[index]?.condition
-    : formData.condition;
-
-  const conditionObject = conditionObjects.find(
-    conditionObj => conditionObj.option === condition,
-  );
-
-  return conditionObject ? conditionObject.sideOfBody : false;
-};
-
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
 export const capitalizeFirstLetter = string => {
   return string?.charAt(0).toUpperCase() + string?.slice(1);
@@ -52,4 +40,16 @@ export const arrayBuilderOptions = {
   text: {
     getItemName: item => createItemName(item, true),
   },
+};
+
+export const hasSideOfBody = (formData, index) => {
+  const condition = formData?.[arrayBuilderOptions.arrayPath]
+    ? formData?.[arrayBuilderOptions.arrayPath][index]?.condition
+    : formData.condition;
+
+  const conditionObject = conditionObjects.find(
+    conditionObj => conditionObj.option === condition,
+  );
+
+  return conditionObject ? conditionObject.sideOfBody : false;
 };
