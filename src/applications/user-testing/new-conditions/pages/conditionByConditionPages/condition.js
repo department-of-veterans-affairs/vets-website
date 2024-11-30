@@ -33,6 +33,8 @@ const validateNotMissing = (err, fieldData) => {
   }
 };
 
+// TODO: On edit, allows previous index value to be the same as later index value
+// Note: Does not allow later index to be same as previous on edit
 const validateNotDuplicate = (err, fieldData, formData) => {
   const currentList =
     formData?.[arrayBuilderOptions.arrayPath]?.map(condition =>

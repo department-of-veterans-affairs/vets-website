@@ -31,6 +31,7 @@ export default {
   title: formData => createItemName(formData, true),
   depends: formData => formData.demo === 'CONDITIONS_FIRST',
   path: `new-conditions-${CONDITIONS_FIRST}-follow-up/:index`,
+  // TODO: Can date, cause, and followups each be on their own page with this pattern of looping?
   showPagePerItem: true,
   arrayPath: 'conditionsFirst',
   uiSchema: {
@@ -38,6 +39,8 @@ export default {
     conditionsFirst: {
       items: {
         ...titleUI(({ formData }) => createItemName(formData, true)),
+        // TODO: The date data is being kept in sync between the loops
+        // TODO: Date data is being cleared when hit back from summary page
         date: currentOrPastMonthYearDateUI({
           title: 'What’s the approximate date your condition started?',
           hint: 'For example: January 2004 or 2004',
