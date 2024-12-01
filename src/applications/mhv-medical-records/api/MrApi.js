@@ -6,7 +6,7 @@ import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import allergies from '../tests/fixtures/allergies.json';
-import { radiologyRecordHash } from '../util/helpers';
+import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
 import radiology from '../tests/fixtures/radiologyRecordsMhv.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
@@ -40,27 +40,43 @@ export const getLabOrTest = id => {
   });
 };
 
+export const getImagingStudies = () => {
+  return apiRequest(`${apiBasePath}/medical_records/imaging`, { headers });
+};
+
+export const requestImagingStudy = studyId => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/imaging/${studyId}/request`,
+    { headers },
+  );
+};
+
+export const getImageList = studyId => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/imaging/${studyId}/images`,
+    { headers },
+  );
+};
+
 export const getMhvRadiologyTests = () => {
   return apiRequest(`${apiBasePath}/medical_records/radiology`, {
     headers,
   });
 };
 
+/**
+ * Get radiology details from the backend. There are no APIs to get a single record by ID, so we
+ * need to pull all records and retrieve the right one by ID or hash.
+ *
+ * @param {*} id
+ * @returns an object containing both the PHR and CVIX reports, if they exist
+ */
 export const getMhvRadiologyDetails = async id => {
-  const numericId = +id.substring(1).split('-')[0];
-  const response = await getMhvRadiologyTests();
-  let details = response.find(record => +record.id === numericId);
-  if (!details) {
-    // If the underlying radiology ID has changed due to wipe-and-replace, use the hash to compare.
-    const hashId = id.split('-')[1];
-    details = (await Promise.all(
-      response.map(async record => ({
-        ...record,
-        hash: await radiologyRecordHash(record),
-      })),
-    )).find(record => record.hash === hashId);
-  }
-  return details;
+  const [phrResponse, cvixResponse] = await Promise.all([
+    getMhvRadiologyTests(),
+    getImagingStudies(),
+  ]);
+  return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
 export const getNotes = () => {
@@ -79,6 +95,17 @@ export const getVitalsList = () => {
   return apiRequest(`${apiBasePath}/medical_records/vitals`, {
     headers,
   });
+};
+
+export const getAcceleratedVitals = async vitalsDate => {
+  const from = `&from=${vitalsDate}`;
+  const to = `&to=${vitalsDate}`;
+  return apiRequest(
+    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1${from}${to}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getConditions = async () => {
@@ -165,24 +192,6 @@ export const postSharingUpdateStatus = (optIn = false) => {
     method: 'POST',
     headers,
   });
-};
-
-export const getImagingStudies = () => {
-  return apiRequest(`${apiBasePath}/medical_records/imaging`, { headers });
-};
-
-export const requestImagingStudy = studyId => {
-  return apiRequest(
-    `${apiBasePath}/medical_records/imaging/${studyId}/request`,
-    { headers },
-  );
-};
-
-export const getImageList = studyId => {
-  return apiRequest(
-    `${apiBasePath}/medical_records/imaging/${studyId}/images`,
-    { headers },
-  );
 };
 
 /**
