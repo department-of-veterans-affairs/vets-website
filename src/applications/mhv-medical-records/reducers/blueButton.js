@@ -128,7 +128,9 @@ export const convertDemographics = info => {
     placeOfBirth: info.placeOfBirth || noneRecorded,
     maritalStatus: info.maritalStatus || noneRecorded,
     permanentAddress: {
-      street: `${info.permStreet1} ${info.permStreet2 || ''}`.trim(),
+      street:
+        [info.permStreet1, info.permStreet2].filter(Boolean).join(' ') ||
+        undefined,
       city: info.permCity,
       state: info.permState,
       zipcode: info.permZipcode,
@@ -153,8 +155,10 @@ export const convertDemographics = info => {
     primaryNextOfKin: {
       name: info.nextOfKinName || noneRecorded,
       address: {
-        street: `${info.nextOfKinStreet1} ${info.nextOfKinStreet2 ||
-          ''}`.trim(),
+        street:
+          [info.nextOfKinStreet1, info.nextOfKinStreet2]
+            .filter(Boolean)
+            .join(' ') || undefined,
         city: info.nextOfKinCity,
         state: info.nextOfKinState,
         zipcode: info.nextOfKinZipcode,
@@ -164,8 +168,10 @@ export const convertDemographics = info => {
     emergencyContact: {
       name: info.emergencyName || noInfoReported,
       address: {
-        street: `${info.emergencyStreet1} ${info.emergencyStreet2 ||
-          ''}`.trim(),
+        street:
+          [info.emergencyStreet1, info.emergencyStreet2]
+            .filter(Boolean)
+            .join(' ') || undefined,
         city: info.emergencyCity,
         state: info.emergencyState,
         zipcode: info.emergencyZipcode,
@@ -187,7 +193,7 @@ export const convertAccountSummary = data => {
   if (!data) return null;
 
   // Extract necessary fields
-  const { facilities, ipas } = data;
+  const { facilities = [], ipas } = data;
 
   // Map facilities
   const mappedFacilities = facilities.map(facility => ({
@@ -201,8 +207,10 @@ export const convertAccountSummary = data => {
   const authenticatingFacility =
     ipa?.authenticatingFacilityId &&
     facilities.find(
-      facility => facility.facilityInfoId === ipa.authenticatingFacilityId,
+      facility =>
+        facility.facilityInfo.stationNumber === ipa.authenticatingFacilityId,
     );
+
   const authenticationInfo = ipa
     ? {
         source: 'VA',
