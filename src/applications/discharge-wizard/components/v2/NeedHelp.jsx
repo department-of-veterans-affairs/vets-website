@@ -2,8 +2,8 @@ import React from 'react';
 
 export const NeedHelp = () => {
   return (
-    <div className="row need-help-padding-top ">
-      <div className="usa-width-one-whole medium-8 columns">
+    <div className="row need-help-padding-top">
+      <div className="usa-width-one-whole columns">
         <va-need-help>
           <div slot="content">
             <p>
