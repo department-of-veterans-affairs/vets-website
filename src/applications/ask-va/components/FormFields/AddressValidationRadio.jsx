@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { URL, envUrl } from '../../constants';
-import { formatAddress } from '../../helpers';
+import { formatAddress } from '../../utils/helpers';
 
 const AddressValidationRadio = props => {
   const { formData, setFormData } = props;
@@ -115,21 +115,19 @@ const AddressValidationRadio = props => {
           htmlFor={id}
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
         >
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--0p5">
-            <span
-              className="dd-privacy-hidden"
-              data-dd-action-name="street address"
-            >
-              {addressStreet}
-            </span>
-            <span
-              className="dd-privacy-hidden"
-              data-dd-action-name="city, state and zip code"
-            >
-              {cityStateZip}
-            </span>
-            <span>{addressCountry}</span>
-          </div>
+          <span
+            className="dd-privacy-hidden"
+            data-dd-action-name="street address"
+          >
+            {addressStreet}
+          </span>
+          <span
+            className="dd-privacy-hidden vads-u-margin-left--0p5"
+            data-dd-action-name="city, state and zip code"
+          >
+            {cityStateZip}
+          </span>
+          <span>{addressCountry}</span>
         </label>
       </div>
     );

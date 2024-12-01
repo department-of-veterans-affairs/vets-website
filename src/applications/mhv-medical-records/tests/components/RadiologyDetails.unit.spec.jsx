@@ -51,6 +51,7 @@ describe('Radiology details component', () => {
     expect(header).to.exist;
   });
 
+  // This test will give different results when run in different time zones.
   it('should display the formatted date', () => {
     const formattedDate = screen.getByText('January 6, 2004, 7:27 p.m.', {
       exact: true,
@@ -74,7 +75,7 @@ describe('Radiology details component', () => {
     expect(reason).to.exist;
   });
   it('should display who the test was ordered by', () => {
-    const reason = screen.getByText('DOE,JOHN', {
+    const reason = screen.getByText('JOHN DOE', {
       exact: true,
       selector: 'p',
     });
@@ -88,7 +89,7 @@ describe('Radiology details component', () => {
     expect(reason).to.exist;
   });
   it('should display the imaging provider', () => {
-    const reason = screen.getByText('DOE,JANE', {
+    const reason = screen.getByText('JANE DOE', {
       exact: true,
       selector: 'p',
     });

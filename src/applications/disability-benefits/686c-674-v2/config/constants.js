@@ -19,10 +19,15 @@ export const TASK_KEYS = {
 
 export const MARRIAGE_TYPES = {
   ceremonial: 'CEREMONIAL',
+  civil: 'CIVIL',
   commonLaw: 'COMMON-LAW',
   tribal: 'TRIBAL',
   proxy: 'PROXY',
   other: 'OTHER',
 };
 
-export const NETWORTH_VALUE = '155,356';
+export const NETWORTH_VALUE = '159,240';
+
+export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
+export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
+export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';

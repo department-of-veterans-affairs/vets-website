@@ -224,7 +224,7 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
         'polyfills',
         useLocalStylesAndComponents ? null : 'web-components',
         'vendor',
-        useLocalStylesAndComponents ? null : 'style',
+        'style',
         entryName,
       ],
       filename: path.join(buildPath, rootUrl, 'index.html'),

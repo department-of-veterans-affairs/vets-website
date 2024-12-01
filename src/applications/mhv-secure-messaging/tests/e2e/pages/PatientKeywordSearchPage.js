@@ -14,17 +14,6 @@ class PatientKeywordSearchPage {
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
-    cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'mhv_secure_messaging_to_va_gov_release',
-            value: true,
-          },
-        ],
-      },
-    }).as('featureToggle');
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_CATEGORY, mockCategories).as(
       'categories',
     );

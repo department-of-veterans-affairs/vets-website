@@ -4,39 +4,29 @@ import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { fetchUser } from '../actions/user';
-import { selectUserIsLoading } from '../selectors/user';
+
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
+import { fetchUser } from '../actions/user';
+import { selectIsUserLoading } from '../selectors/user';
 
 const App = () => {
-  const dispatch = useDispatch();
-  const isLoading = useSelector(selectUserIsLoading);
-
-  useEffect(
-    () => {
-      dispatch(fetchUser());
-    },
-    [dispatch],
-  );
-
   const {
-    useToggleValue,
+    TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
     useToggleLoadingValue,
-    TOGGLE_NAMES,
+    useToggleValue,
   } = useFeatureToggle();
 
-  const isAppToggleLoading = useToggleLoadingValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
-  );
-
-  const isAppEnabled = useToggleValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
-  );
-
+  const isAppEnabled = useToggleValue(appToggleKey);
   const isProduction = window.Cypress || environment.isProduction();
+  const shouldExitApp = isProduction && !isAppEnabled;
+
+  const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
+  const isUserLoading = useSelector(selectIsUserLoading);
+
+  const dispatch = useDispatch();
+  useEffect(() => dispatch(fetchUser()), [dispatch]);
 
   if (isAppToggleLoading) {
     return (
@@ -46,21 +36,23 @@ const App = () => {
     );
   }
 
-  if (isProduction && !isAppEnabled) {
-    document.location.replace('/');
+  if (shouldExitApp) {
+    window.location.replace('/');
     return null;
   }
 
+  const content = isUserLoading ? (
+    <VaLoadingIndicator message="Loading user information..." />
+  ) : (
+    <Outlet />
+  );
+
   return (
-    <>
+    <div className="container">
       <Header />
-      {isLoading ? (
-        <VaLoadingIndicator message="Loading user information..." />
-      ) : (
-        <Outlet />
-      )}
+      {content}
       <Footer />
-    </>
+    </div>
   );
 };
 

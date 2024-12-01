@@ -8,73 +8,29 @@ import {
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
-import {
-  getPatientInstruction,
-  getProviderName,
-  getTypeOfCareById,
-} from '../../utils/appointment';
+import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 
-/**
- * Gets appointment info from comments field for Va appointment Requests.
- *
- * @param {String} comments VA appointment comments value
- * @param {String} key key of appointment info you want returned
- * @returns {Array} returns formatted data
- */
-export function getAppointmentInfoFromComments(comments, key) {
-  const data = [];
-  const appointmentInfo = comments?.split('|');
-
-  if (key === 'modality') {
-    const preferredModality = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('preferred modality:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-
-    if (appointmentInfo) {
-      data.push(preferredModality);
-    }
-    return data;
-  }
-
-  if (key === 'contact') {
-    const phone = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('phone number:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-    const email = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('email:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-
-    const transformedPhone = { system: 'phone', value: phone };
-    const transformedEmail = { system: 'email', value: email };
-
-    data.push(transformedPhone, transformedEmail);
-    return data;
-  }
-  return data;
-}
-function getAppointmentType(appt) {
-  if (appt.kind === 'cc' && appt.start) {
-    return APPOINTMENT_TYPES.ccAppointment;
-  }
-  if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
-    return APPOINTMENT_TYPES.ccRequest;
-  }
-  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
+export function getAppointmentType(appt) {
+  // Cerner appointments have a different structure than VAOS appointments
+  // TODO: refactor this once logic is moved to vets-api
+  const isCerner = appt?.id?.startsWith('CERN');
+  if (isCerner && isEmpty(appt?.end)) {
     return APPOINTMENT_TYPES.request;
   }
-
+  if (isCerner && !isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.start) {
+    return APPOINTMENT_TYPES.ccAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.ccRequest;
+  }
+  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.request;
+  }
   return APPOINTMENT_TYPES.vaAppointment;
 }
-
 /**
  * Gets the type of visit that matches our array of visit constant
  *
@@ -176,13 +132,18 @@ export function transformVAOSAppointment(appt) {
       kind: appt.telehealth?.vvsKind,
       url: appt.telehealth?.url,
       duration: appt.minutesDuration,
-      providers: (providers || []).map(provider => ({
-        name: {
-          firstName: provider.name?.given,
-          lastName: provider.name?.family,
-        },
-        display: `${provider.name?.given} ${provider.name?.family}`,
-      })),
+      providers: (providers || [])
+        .map(provider => {
+          if (!provider.name) return null;
+          return {
+            name: {
+              firstName: provider.name?.given,
+              lastName: provider.name?.family,
+            },
+            display: `${provider.name?.given} ${provider.name?.family}`,
+          };
+        })
+        .filter(Boolean),
       isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
@@ -236,6 +197,7 @@ export function transformVAOSAppointment(appt) {
       },
       contact: appt.contact,
       preferredDates: appt?.preferredDates || [],
+      preferredModality: appt?.preferredModality,
     };
   }
 
@@ -246,7 +208,6 @@ export function transformVAOSAppointment(appt) {
   }
   // get reason code from appt.reasonCode?.coding for v0 appointments
   const reasonCodeV0 = appt.reasonCode?.coding;
-  let comment = null;
   const reasonForAppointment = appt.reasonForAppointment
     ? appt.reasonForAppointment
     : PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
@@ -255,13 +216,6 @@ export function transformVAOSAppointment(appt) {
           purpose.commentShort === reasonCodeV0?.[0]?.code,
       )?.short;
   const patientComments = appt.reasonCode ? appt.patientComments : null;
-  if (reasonForAppointment && patientComments) {
-    comment = `${reasonForAppointment}: ${patientComments}`;
-  } else if (reasonForAppointment) {
-    comment = reasonForAppointment;
-  } else {
-    comment = patientComments;
-  }
   return {
     resourceType: 'Appointment',
     id: appt.id,
@@ -269,6 +223,8 @@ export function transformVAOSAppointment(appt) {
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     avsPath: isPast ? appt.avsPath : null,
     start: !isRequest ? start.format() : null,
+    reasonForAppointment,
+    patientComments,
     timezone: appointmentTZ,
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status
@@ -287,10 +243,6 @@ export function transformVAOSAppointment(appt) {
       clinicPhoneExtension:
         appt.extension?.clinic?.phoneNumberExtension || null,
     },
-    comment:
-      isVideo && !!appt.patientInstruction
-        ? getPatientInstruction(appt)
-        : comment,
     videoData,
     communityCareProvider:
       isCC && !isRequest

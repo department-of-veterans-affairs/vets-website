@@ -1,10 +1,10 @@
 import { isEqual } from 'lodash';
-import { add, endOfDay, format, isAfter } from 'date-fns';
+import { add, format, isAfter, isValid, isWithinInterval } from 'date-fns';
 import {
   convertToDateField,
   validateCurrentOrPastDate,
-} from '~/platform/forms-system/src/js/validation';
-import { isValidDateRange } from '~/platform/forms/validations';
+} from 'platform/forms-system/src/js/validation';
+import { isValidDateRange } from 'platform/forms/validations';
 
 export function validateServiceDates(
   errors,
@@ -13,17 +13,8 @@ export function validateServiceDates(
 ) {
   const fromDate = convertToDateField(lastEntryDate);
   const toDate = convertToDateField(lastDischargeDate);
-  const yearFromToday = endOfDay(add(new Date(), { years: 1 }));
+  const yearFromToday = add(new Date(), { years: 1 });
   const endDate = format(yearFromToday, 'MMMM d, yyyy');
-
-  if (
-    !isValidDateRange(fromDate, toDate) ||
-    isAfter(new Date(lastDischargeDate), yearFromToday)
-  ) {
-    errors.lastDischargeDate.addError(
-      `Discharge date must be after the service period start date and before ${endDate} (1 year from today)`,
-    );
-  }
 
   if (veteranDateOfBirth) {
     const dateOfBirthPlus15 = add(new Date(veteranDateOfBirth), { years: 15 });
@@ -33,6 +24,15 @@ export function validateServiceDates(
         'You must have been at least 15 years old when you entered the service',
       );
     }
+  }
+
+  if (
+    !isValidDateRange(fromDate, toDate) ||
+    isAfter(new Date(lastDischargeDate), yearFromToday)
+  ) {
+    errors.lastDischargeDate.addError(
+      `Discharge date must be after the service period start date and before ${endDate} (1 year from today)`,
+    );
   }
 }
 
@@ -116,4 +116,33 @@ export function validatePolicyNumber(errors, fieldData) {
       'Policy number (either this or the group code is required)',
     );
   }
+}
+
+export function validateInsurancePolicy(item) {
+  const {
+    insuranceName,
+    insurancePolicyHolderName,
+    'view:policyNumberOrGroupCode': policyNumberOrGroupCode = {},
+  } = item || {};
+  const { insurancePolicyNumber, insuranceGroupCode } = policyNumberOrGroupCode;
+  return (
+    !insuranceName ||
+    !insurancePolicyHolderName ||
+    (!insurancePolicyNumber && !insuranceGroupCode)
+  );
+}
+
+export function validateVeteranDob(dateOfBirth) {
+  if (!dateOfBirth) return null;
+
+  const birthdate = new Date(dateOfBirth);
+  if (!isValid(birthdate)) return null;
+
+  const isWithinRange = isWithinInterval(birthdate, {
+    start: new Date('1900-01-01'),
+    end: new Date(),
+  });
+  if (!isWithinRange) return null;
+
+  return dateOfBirth;
 }

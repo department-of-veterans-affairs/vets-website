@@ -1,12 +1,19 @@
 import { Actions } from '../util/actionTypes';
-import { defaultSelectedSortOption } from '../util/constants';
+import { defaultSelectedSortOption, sourcesToHide } from '../util/constants';
+import { categorizePrescriptions } from '../util/helpers';
 
 export const initialState = {
   /**
+   * REMOVE ONCE FILTER FEATURE IS DEVELOPED AND LIVE
    * The list of paginated and sorted prescriptions returned from the api
    * @type {array}
    */
   prescriptionsList: undefined,
+  /**
+   * The list of paginated and filtered prescriptions returned from the api
+   * @type {array}
+   */
+  prescriptionsFilteredList: undefined,
   /**
    * The list of sorted prescriptions returned from the api
    * @type {array}
@@ -16,6 +23,10 @@ export const initialState = {
    * Pagination received form meta object in prescriptionsList payload
    */
   prescriptionsPagination: undefined,
+  /**
+   * Pagination received form meta object in prescriptionsList payload
+   */
+  prescriptionsFilteredPagination: undefined,
   /**
    * Sort option used for sorting the prescriptions list
    */
@@ -28,7 +39,16 @@ export const initialState = {
    * The list of refillable prescriptions returned from the api
    * @type {array}
    */
-  refillablePrescriptionsList: undefined,
+  refillableList: undefined,
+  /**
+   * The list of renewable prescriptions returned from the api
+   * @type {array}
+   */
+  renewableList: undefined,
+  /**
+   * Refill Page successful/failed notification
+   */
+  refillNotification: undefined,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -48,23 +68,80 @@ export const prescriptionsReducer = (state = initialState, action) => {
         apiError: false,
       };
     }
+    // **Remove once filter feature is developed and live.**
     case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,
-        prescriptionsList: action.response.data.map(rx => {
-          return { ...rx.attributes };
-        }),
+        prescriptionsList: action.response.data
+          .map(rx => {
+            return { ...rx.attributes };
+            // temporary plug until those sources are ready at va.gov
+          })
+          .filter(rx => {
+            return !sourcesToHide.includes(rx.prescriptionSource);
+          }),
         prescriptionsPagination: action.response.meta.pagination,
         apiError: false,
       };
     }
-    case Actions.Prescriptions.GET_REFILLABLE_LIST: {
+    case Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST: {
       return {
         ...state,
-        refillablePrescriptionsList: action.response.data.map(rx => {
-          return { ...rx.attributes };
-        }),
+        prescriptionsFilteredList: action.response.data
+          .map(rx => {
+            return { ...rx.attributes };
+            // temporary plug until those sources are ready at va.gov
+          })
+          .filter(rx => {
+            return !sourcesToHide.includes(rx.prescriptionSource);
+          }),
+        prescriptionsFilteredPagination: action.response.meta.pagination,
+        filterCount: action.response.meta.filterCount,
         apiError: false,
+      };
+    }
+    case Actions.Prescriptions.GET_REFILLABLE_LIST: {
+      const refillablePrescriptionsList = action.response.data
+        .map(rx => {
+          return { ...rx.attributes };
+        })
+        .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
+
+      const [
+        refillableList,
+        renewableList,
+      ] = refillablePrescriptionsList.reduce(categorizePrescriptions, [[], []]);
+
+      return {
+        ...state,
+        refillableList,
+        renewableList,
+        apiError: false,
+      };
+    }
+    case Actions.Prescriptions.FILL_NOTIFICATION: {
+      const { failedIds, successfulIds, prescriptions } = action.response;
+
+      const successfulMeds = prescriptions?.filter(item =>
+        successfulIds?.includes(String(item.prescriptionId)),
+      );
+      const failedMeds = prescriptions?.filter(item =>
+        failedIds?.includes(String(item.prescriptionId)),
+      );
+
+      return {
+        ...state,
+        refillNotification: {
+          successfulMeds,
+          failedMeds,
+        },
+        apiError: false,
+      };
+    }
+    case Actions.Prescriptions.CLEAR_FILL_NOTIFICATION: {
+      return {
+        ...state,
+        refillNotification: initialState.refillNotification,
       };
     }
     case Actions.Prescriptions.GET_API_ERROR: {
@@ -73,6 +150,7 @@ export const prescriptionsReducer = (state = initialState, action) => {
         apiError: true,
       };
     }
+    // **Remove once filter feature is developed and live.**
     case Actions.Prescriptions.UPDATE_SORT_OPTION: {
       return {
         ...state,

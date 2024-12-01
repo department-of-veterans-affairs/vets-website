@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -26,7 +26,6 @@ import {
   generateEkgContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { useIsDetails } from '../../hooks/useIsDetails';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -38,9 +37,6 @@ const EkgDetails = props => {
   );
   const user = useSelector(state => state.user.profile);
   const [downloadStarted, setDownloadStarted] = useState(false);
-
-  const dispatch = useDispatch();
-  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -91,10 +87,15 @@ const EkgDetails = props => {
         className="vads-u-margin-bottom--0"
         aria-describedby="ekg-date"
         data-testid="ekg-record-name"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="ekg-date" />
+      <DateSubheading
+        date={record.date}
+        id="ekg-date"
+        label="Date and time collected"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -104,14 +105,14 @@ const EkgDetails = props => {
       />
       <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
-      <div className="electrocardiogram-details max-80">
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
+      <div className="test-details-container max-80">
+        <h2 className="vads-u-font-size--md vads-u-font-family--sans">
+          Location
         </h2>
-        <p data-testid="ekg-record-facility">
+        <p data-testid="ekg-record-facility" data-dd-privacy="mask">
           {record.facility || 'There is no facility reported at this time'}
         </p>
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h2 className="vads-u-font-size--md vads-u-font-family--sans">
           Results
         </h2>
         <p data-testid="ekg-results">
@@ -119,7 +120,7 @@ const EkgDetails = props => {
           results, you can request a copy of your complete medical record from
           your VA health facility.
         </p>
-        <p className="vads-u-margin-top--2 no-print">
+        <p className="vads-u-margin-top--3 no-print">
           <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
             Learn how to get records from your VA health facility
           </a>

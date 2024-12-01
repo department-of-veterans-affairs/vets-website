@@ -60,11 +60,7 @@ describe('HCA-User-Authenticated-Without-DOB', () => {
       '/veteran-information/personal-information',
     );
 
-    goToNextPage();
-
-    cy.findAllByText(/date of birth/i, { selector: 'legend' })
-      .first()
-      .should('exist');
+    goToNextPage('/veteran-information/profile-information-dob');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -123,11 +119,7 @@ describe('HCA-User-Authenticated-With-Invalid-DOB', () => {
       '/veteran-information/personal-information',
     );
 
-    goToNextPage();
-
-    cy.findAllByText(/date of birth/i, { selector: 'legend' })
-      .first()
-      .should('exist');
+    goToNextPage('/veteran-information/profile-information-dob');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -167,7 +159,7 @@ describe('HCA-User-Authenticated-With-DOB', () => {
     }).as('mockSubmit');
   });
 
-  it('works with profile data that has date of birth ', () => {
+  it('works with profile data that has valid date of birth ', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
     cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
@@ -185,13 +177,7 @@ describe('HCA-User-Authenticated-With-DOB', () => {
       '/veteran-information/personal-information',
     );
 
-    cy.findAllByText(/continue/i, { selector: 'button' })
-      .first()
-      .click();
-
-    cy.findAllByText(/place of birth/i, { selector: 'legend' })
-      .first()
-      .should('exist');
+    goToNextPage('/veteran-information/birth-information');
 
     cy.injectAxe();
     cy.axeCheck();

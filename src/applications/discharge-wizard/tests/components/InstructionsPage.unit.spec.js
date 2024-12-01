@@ -11,7 +11,7 @@ describe('Discharge Wizard <InstructionsPage /> ', () => {
     const tree = mount(<InstructionsPage />);
     const html = tree.html();
     expect(html).to.contain('Get started');
-    expect(html).to.contain('How to Apply for a Discharge Upgrade');
+    expect(html).to.contain('How to apply for a discharge upgrade');
     expect(tree.find('p[itemProp="description"]')).to.be.lengthOf(1);
     tree.unmount();
   });

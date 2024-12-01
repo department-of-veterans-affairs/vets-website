@@ -60,7 +60,7 @@ describe('Applicant Name/DOB page title', () => {
     formConfig,
     formConfig.chapters.applicantInformation.pages.applicantNameDob.schema,
     formConfig.chapters.applicantInformation.pages.applicantNameDob.uiSchema,
-    5,
+    4,
     'Applicant name/DOB',
     { ...mockData.data },
   );
@@ -282,8 +282,8 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.healthcareInformation.pages.primaryEOB.schema,
-  formConfig.chapters.healthcareInformation.pages.primaryEOB.uiSchema,
+  formConfig.chapters.healthcareInformation.pages.primaryEob.schema,
+  formConfig.chapters.healthcareInformation.pages.primaryEob.uiSchema,
   1,
   'Applicant primary provides EOB',
   { ...mockData.data },

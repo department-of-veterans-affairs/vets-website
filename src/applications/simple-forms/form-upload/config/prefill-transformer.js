@@ -14,17 +14,15 @@ const prefillTransformer = (pages, formData, metadata, state) => {
     pages,
     formData: {
       ...formData,
-      veteran: {
-        address: {
-          postalCode: address.postalCode || profileZip,
-        },
-        fullName: fullName || profileFullName,
-        idNumber: {
-          ssn: ssn || profileSsn,
-          vaFileNumber: vaFileNumber || profileVaFileNumber,
-        },
-        loa: loa.current,
+      address: {
+        postalCode: address.postalCode || profileZip,
       },
+      fullName: fullName || profileFullName,
+      idNumber: {
+        ssn: ssn || profileSsn,
+        vaFileNumber: vaFileNumber || profileVaFileNumber,
+      },
+      loa: loa.current,
     },
     metadata,
     state,

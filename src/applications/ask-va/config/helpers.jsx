@@ -1,5 +1,20 @@
 import React from 'react';
 
+import {
+  CategoryEducation,
+  CategoryGuardianshipCustodianshipFiduciaryIssues,
+  CategoryHousingAssistanceAndHomeLoans,
+  CategoryVeteranReadinessAndEmployment,
+  contactOptions,
+  isQuestionAboutVeteranOrSomeoneElseLabels,
+  relationshipOptionsSomeoneElse,
+  statesRequiringPostalCode,
+  TopicAppraisals,
+  TopicSpeciallyAdapatedHousing,
+  TopicVeteranReadinessAndEmploymentChapter31,
+  whoIsYourQuestionAboutLabels,
+} from '../constants';
+
 export const ServerErrorAlert = () => (
   <>
     <h2
@@ -21,179 +36,185 @@ export const contactRules = {
     'Education benefits and work study': ['EMAIL'],
   },
   'Burials and memorials': {
-    'Pre-need eligibility for burial': ['EMAIL', 'PHONE'],
     'Burial allowance': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Burial allowance for unclaimed Veteran remains': ['EMAIL', 'PHONE'],
-    'Burial in a VA national cemetery': ['EMAIL', 'PHONE'],
     'Burial in a VA grant-funded state or tribal cemetery': ['EMAIL', 'PHONE'],
+    'Burial in a VA national cemetery': ['EMAIL', 'PHONE'],
     'Memorial items': ['EMAIL', 'PHONE'],
+    'Pre-need eligibility for burial': ['EMAIL', 'PHONE'],
     Other: ['EMAIL', 'PHONE'],
   },
   'Center for Minority Veterans': {
     'Programs and policies': ['EMAIL', 'PHONE', 'US_MAIL'],
   },
   'Center for Women Veterans': {
-    'Programs and policies': ['EMAIL', 'US_MAIL'],
     'General question': ['EMAIL'],
+    'Programs and policies': ['EMAIL'],
   },
-  'Debt for benefit overpayments and copay bills': {
-    'School Certifying Officials (SCOs) or other school officials': [
+  'Debt for benefit overpayments and health care copay bills': {
+    'Education benefit overpayments (for school officials)': [
       'EMAIL',
       'PHONE',
       'US_MAIL',
     ],
-    'Cemetery debt': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Disability compensation overpayment': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Disputing a debt': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Drill pay debt': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Education benefit overpayment': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Home loan debt': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Copay debt': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Pension benefit overpayment': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Separation debt': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Severance pay debt': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Veteran Readiness and Employment debt': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Burial benefit overpayments': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Disability compensation overpayments': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Drill pay overpayments': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Education benefit overpayments (for students)': [
+      'EMAIL',
+      'PHONE',
+      'US_MAIL',
+    ],
+    'Health care copay debt': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Home loan overpayments': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Pension benefit overpayments': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Separation pay overpayments': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Severance pay overpayments': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Veteran Readiness and Employment overpayments': [
+      'EMAIL',
+      'PHONE',
+      'US_MAIL',
+    ],
   },
   'Decision reviews and appeals': {
+    'Board Appeals': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Higher-Level Reviews or Supplemental Claims': [
       'EMAIL',
       'PHONE',
       'US_MAIL',
     ],
-    'Board Appeals': ['EMAIL', 'PHONE', 'US_MAIL'],
   },
-  'DEERS (Defense Enrollment Eligibility Reporting System)': {
+  'Defense Enrollment Eligibility Reporting System (DEERS)': {
     'Adding requests': ['EMAIL'],
     'Updating DEERS records': ['EMAIL'],
   },
   'Disability compensation': {
     'Aid and Attendance or Housebound benefits': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Claim status': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Direct deposit': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'How to file a disability claim': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Guardianship, custodianship, or fiduciary issues': [
       'EMAIL',
       'PHONE',
       'US_MAIL',
     ],
-    'Issue with compensation received': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Checking claim status': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'How to file a claim': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Payment issues': ['EMAIL', 'PHONE', 'US_MAIL'],
   },
   'Education benefits and work study': {
-    'Transferring benefits after a death': ['EMAIL'],
-    'Compliance surveys': ['EMAIL'],
-    'On-the-job training and apprenticeships': ['EMAIL'],
-    'Post-9/11 GI Bill': ['EMAIL'],
-    'School Certifying Officials (SCOs)': ['EMAIL'],
     'Benefits for survivors and dependents': ['EMAIL'],
-    'Transferred education benefits for family members': ['EMAIL'],
-    'Tuition Assistance Top-Up': ['EMAIL'],
-    'Web Automated Verification of Enrollment (WAVE)': ['EMAIL'],
-    'Work study': ['EMAIL'],
+    'Certificate of Eligibility (COE) or Statement of Benefits': ['EMAIL'],
+    'Compliance surveys': ['EMAIL'],
     'Educational and career counseling': ['EMAIL'],
+    'Licensing and testing fees': ['EMAIL'],
     'Montgomery GI Bill Active Duty (Chapter 30)': ['EMAIL'],
     'Montgomery GI Bill Selected Reserve (Chapter 1606)': ['EMAIL'],
+    'On-the-job training and apprenticeships': ['EMAIL'],
+    'Post-9/11 GI Bill (Chapter 33)': ['EMAIL'],
     'Reserve Educational Assistance Program (Chapter 1607)': ['EMAIL'],
-    'Veterans’ Educational Assistance Program (Chapter 32)': ['EMAIL'],
+    'School Certifying Officials (SCOs)': ['EMAIL'],
+    'Transfer of benefits': ['EMAIL'],
+    'Tuition Assistance Top-Up': ['EMAIL'],
+    'Verifying school enrollment': ['EMAIL'],
     'Veteran Readiness and Employment (Chapter 31)': [
       'EMAIL',
       'PHONE',
       'US_MAIL',
     ],
-    'Verify school enrollment': ['EMAIL'],
-    'Request Certificate of Eligibility (COE) or Statement of Benefits': [
-      'EMAIL',
-    ],
-    'Licensing and testing fees': ['EMAIL'],
-    'Upload documents': ['EMAIL'],
+    'Veterans’ Educational Assistance Program (Chapter 32)': ['EMAIL'],
+    'Web Automated Verification of Enrollment (WAVE)': ['EMAIL'],
+    'Work study': ['EMAIL'],
   },
   'Guardianship, custodianship, or fiduciary issues': {
     'Accounting issue': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Investigations and field examinations': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'About the program': ['EMAIL', 'PHONE', 'US_MAIL'],
+    Other: ['EMAIL', 'PHONE', 'US_MAIL'],
   },
   'Health care': {
-    'Family health benefits': ['EMAIL', 'PHONE'],
-    'Eligibility and how to apply': ['EMAIL'],
-    'Getting care at a local VA medical center': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Audiology and hearing aids': ['EMAIL'],
+    'Billing and copays': ['EMAIL'],
     'Career opportunities at VA health facilities': ['EMAIL', 'PHONE'],
     'Caregiver support program': ['EMAIL', 'PHONE'],
-    'Vet Centers and readjustment counseling': ['EMAIL'],
-    'Audiology and hearing aids': ['EMAIL'],
-    Prosthetics: ['EMAIL'],
-    "Women's health services": ['EMAIL', 'PHONE'],
+    'Eligibility and how to apply': ['EMAIL'],
+    'Family member health benefits': ['EMAIL', 'PHONE'],
     'Foreign Medical Program': ['EMAIL', 'PHONE'],
+    'Getting care at a local VA medical center': ['EMAIL', 'PHONE', 'US_MAIL'],
+    Prosthetics: ['EMAIL'],
+    'Vet Centers and readjustment counseling': ['EMAIL'],
+    "Women's health services": ['EMAIL', 'PHONE'],
   },
   'Housing assistance and home loans': {
     Appraisals: ['EMAIL', 'PHONE'],
     'Funding fee refund': ['EMAIL', 'PHONE'],
+    'Help to avoid foreclosure': ['EMAIL', 'PHONE'],
+    'Home loan benefits': ['EMAIL', 'PHONE'],
+    'Homes for sale by VA': ['EMAIL', 'PHONE'],
     'Home Loan Certificate of Eligibility (COE) or Restoration of Entitlement (ROE)': [
       'EMAIL',
       'PHONE',
     ],
-    'Help to avoid foreclosure': ['EMAIL', 'PHONE'],
     'Native American Direct Loan (NADL)': ['EMAIL', 'PHONE'],
+    'Property titles and taxes for homes sold by VA': ['EMAIL', 'PHONE'],
     'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants': [
       'EMAIL',
       'PHONE',
     ],
-    'Home loan benefits': ['EMAIL', 'PHONE'],
-    'Homes for sale by VA': ['EMAIL', 'PHONE'],
-    'Property titles and taxes for homes sold by VA': ['EMAIL', 'PHONE'],
   },
   'Life insurance': {
+    'Accessing policy online': ['EMAIL', 'PHONE'],
+    'Family Servicemembers’ Group Life Insurance (FSGLI)': ['EMAIL', 'PHONE'],
     'Insurance claims': ['EMAIL', 'PHONE'],
     'Insurance premiums': ['EMAIL', 'PHONE'],
     'Insurance website issues': ['EMAIL', 'PHONE'],
-    'Accessing your policy online': ['EMAIL', 'PHONE'],
     'Policy loans': ['EMAIL', 'PHONE'],
     'Service-Disabled Veterans Life Insurance (S-DVI)': ['EMAIL', 'PHONE'],
     'Servicemembers’ Group Life Insurance (SGLI)': ['EMAIL', 'PHONE'],
-    'Family Servicemembers’ Group Life Insurance (FSGLI)': ['EMAIL', 'PHONE'],
+    'Veterans Affairs Life Insurance (VALife)': ['EMAIL', 'PHONE'],
     'Veterans’ Group Life Insurance (VGLI)': ['EMAIL', 'PHONE'],
     'Veterans’ Mortgage Life Insurance (VMLI)': ['EMAIL', 'PHONE'],
-    'Veterans Affairs Life Insurance (VALife)': ['EMAIL', 'PHONE'],
     Other: ['EMAIL', 'PHONE'],
   },
   Pension: {
     'Aid and Attendance or Housebound benefits': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Direct deposit': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'How to apply for pension benefits': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Guardianship, custodianship, or fiduciary issues': [
       'EMAIL',
       'PHONE',
       'US_MAIL',
     ],
-    'Issue with payment': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'How to apply': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Payment issues': ['EMAIL', 'PHONE', 'US_MAIL'],
   },
   'Sign in and technical issues': {
-    'Topics TBD': ['EMAIL'],
+    'Signing in to VA.gov and managing VA.gov profile': ['EMAIL'],
+    'Signing in to VA life insurance portal': ['EMAIL'],
+    'Technical issues on VA.gov': ['EMAIL'],
   },
   'Survivor benefits': {
     'Aid and Attendance or Housebound benefits': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Claim status': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Direct deposit': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'How to apply for benefits': ['EMAIL', 'PHONE', 'US_MAIL'],
     'Guardianship, custodianship, or fiduciary issues': [
       'EMAIL',
       'PHONE',
       'US_MAIL',
     ],
-    'Issue with benefit payment': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Checking claim status': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'How to apply': ['EMAIL', 'PHONE', 'US_MAIL'],
+    'Payment issues': ['EMAIL', 'PHONE', 'US_MAIL'],
   },
   'Veteran ID Card (VIC)': {
-    'Veteran ID Card (VIC) for discounts': ['EMAIL'],
     'Veteran Health Identification Card (VHIC) for health appointments': [
       'EMAIL',
     ],
+    'Veteran ID Card (VIC) for discounts': ['EMAIL'],
   },
   'Veteran Readiness and Employment': {
     'Financial issues': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'How to apply': ['EMAIL', 'PHONE', 'US_MAIL'],
-    'Follow up on application or contact counselor': [
+    'Following up on application or contacting counselor': [
       'EMAIL',
       'PHONE',
       'US_MAIL',
     ],
+    'How to apply': ['EMAIL', 'PHONE', 'US_MAIL'],
     Other: ['EMAIL', 'PHONE', 'US_MAIL'],
   },
 };
@@ -230,3 +251,222 @@ export const MilitaryBaseInfo = () => (
     </va-additional-info>
   </div>
 );
+
+// Reference Rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Location%20and%20postal%20code.md#guardianship-and-vre
+export const isLocationOfResidenceRequired = data => {
+  const {
+    contactPreference,
+    relationshipToVeteran,
+    selectCategory,
+    selectTopic,
+    whoIsYourQuestionAbout,
+    isQuestionAboutVeteranOrSomeoneElse,
+  } = data;
+
+  // Check if location is required based on contact preference
+  if (contactPreference === contactOptions.US_MAIL) {
+    return false;
+  }
+
+  // Guardianship and VR&E rules
+  const GuardianshipAndVRE =
+    (selectCategory === CategoryGuardianshipCustodianshipFiduciaryIssues ||
+      selectCategory === CategoryVeteranReadinessAndEmployment) &&
+    selectTopic !== 'Other';
+
+  const EducationAndVRE =
+    selectCategory === CategoryEducation &&
+    selectTopic === TopicVeteranReadinessAndEmploymentChapter31;
+
+  // About myself
+  // Flow 1.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN)
+  ) {
+    return true;
+  }
+
+  // Flow 1.2
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER)
+  ) {
+    return true;
+  }
+
+  // About someone else
+  // Flow 2.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN)
+  ) {
+    return true;
+  }
+
+  // Flow 2.2.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN)
+  ) {
+    return true;
+  }
+
+  // Flow 2.2.2
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE)
+  ) {
+    return true;
+  }
+
+  // Flow 2.3
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN)
+  ) {
+    return true;
+  }
+
+  // Check general question
+  // eslint-disable-next-line sonarjs/prefer-single-boolean-return
+  if (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL) {
+    return true;
+  }
+
+  // Default to false if none of the conditions are met
+  return false;
+};
+
+// Reference Rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Location%20and%20postal%20code.md#guardianship-and-vre
+export const isPostalCodeRequired = data => {
+  const {
+    contactPreference,
+    relationshipToVeteran,
+    selectCategory,
+    selectTopic,
+    whoIsYourQuestionAbout,
+    isQuestionAboutVeteranOrSomeoneElse,
+    yourLocationOfResidence,
+    familyMembersLocationOfResidence,
+    veteransLocationOfResidence,
+  } = data;
+
+  // Check if location is required based on contact preference
+  if (contactPreference === contactOptions.US_MAIL) {
+    return false;
+  }
+
+  // Guardianship and VR&E rules
+  const GuardianshipAndVRE =
+    (selectCategory === CategoryGuardianshipCustodianshipFiduciaryIssues ||
+      selectCategory === CategoryVeteranReadinessAndEmployment) &&
+    selectTopic !== 'Other';
+
+  const EducationAndVRE =
+    selectCategory === CategoryEducation &&
+    selectTopic === TopicVeteranReadinessAndEmploymentChapter31;
+
+  // About myself
+  // Flow 1.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
+    statesRequiringPostalCode.includes(yourLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 1.2
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER) &&
+    statesRequiringPostalCode.includes(yourLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // About someone else
+  // Flow 2.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
+    statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 2.2.1
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 2.2.2
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE) &&
+    statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 2.3
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+      isQuestionAboutVeteranOrSomeoneElse ===
+        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Flow 3.1
+  // eslint-disable-next-line sonarjs/prefer-single-boolean-return
+  if (
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+  ) {
+    return true;
+  }
+
+  // Default to false if none of the conditions are met
+  return false;
+};
+
+// Reference Rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#state-of-property
+export const isStateOfPropertyRequired = data => {
+  const { selectCategory, selectTopic } = data;
+
+  return (
+    selectCategory === CategoryHousingAssistanceAndHomeLoans &&
+    (selectTopic === TopicSpeciallyAdapatedHousing ||
+      selectTopic === TopicAppraisals)
+  );
+};

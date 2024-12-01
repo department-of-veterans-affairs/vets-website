@@ -17,7 +17,6 @@ const MonetaryCheckList = ({
 }) => {
   const {
     assets,
-    gmtData,
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
@@ -53,40 +52,8 @@ const MonetaryCheckList = ({
   const title = 'Your household assets';
   const prompt = 'Select any of these financial assets you have:';
 
-  // noCashList - remove cash in hand for original asset implementation
-  //  only used to protect save in progress for forms prior to streamlinedWaiverAssetUpdate
-  const noCashList = monetaryAssetList.filter(
-    asset => asset.toLowerCase() !== 'cash',
-  );
-
-  // noLiquidAssetsList - remove liquid assets for streamlinedWaiverAssetUpdate
-  //  this filter hides all the fields we collect in previous steps
-  const noLiquidAssetsList = noCashList.filter(
-    asset =>
-      asset.toLowerCase() !== 'checking accounts' &&
-      asset.toLowerCase() !== 'savings accounts',
-  );
-
-  const streamlinedList = data['view:streamlinedWaiverAssetUpdate']
-    ? noLiquidAssetsList
-    : noCashList;
-
-  // only filtering out these options for streamlined candidiates
-  const adjustForStreamlined =
-    (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
-    (data['view:streamlinedWaiverAssetUpdate'] &&
-      gmtData?.isEligibleForStreamlined &&
-      gmtData?.incomeBelowOneFiftyGmt);
-
-  const adjustedAssetList =
-    adjustForStreamlined || showReviewNavigation
-      ? streamlinedList
-      : monetaryAssetList;
-
-  // reviewDepends - only show/handle review alert and navigation if
-  //  feature flag is on, user is in review mode, and they have not seen the cash pages
-  const reviewDepends =
-    reviewNavigation && showReviewNavigation && !adjustForStreamlined;
+  // reviewDepends - only show/handle review alert and navigation
+  const reviewDepends = reviewNavigation && showReviewNavigation;
 
   const handleBackNavigation = () => {
     if (reviewDepends) {
@@ -118,7 +85,7 @@ const MonetaryCheckList = ({
         ) : null}
         <Checklist
           prompt={prompt}
-          options={adjustedAssetList}
+          options={monetaryAssetList}
           onChange={event => onChange(event)}
           isBoxChecked={isBoxChecked}
         />
@@ -141,16 +108,11 @@ MonetaryCheckList.propTypes = {
     assets: PropTypes.shape({
       monetaryAssets: PropTypes.array,
     }),
-    gmtData: PropTypes.shape({
-      incomeBelowGmt: PropTypes.bool,
-      isEligibleForStreamlined: PropTypes.bool,
-      incomeBelowOneFiftyGmt: PropTypes.bool,
-    }),
+
     reviewNavigation: PropTypes.bool,
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
-    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
     'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,

@@ -44,6 +44,22 @@ describe('Claim Serializer', () => {
     });
   });
 
+  it('should set supporting documents and tracked items to empty arrays when data is missing', () => {
+    const claim = {
+      id: 1,
+      type: 'claim',
+      attributes: {},
+    };
+    const serializedClaim = serializeClaim(claim);
+    expect(serializedClaim).to.eql({
+      ...claim,
+      attributes: {
+        supportingDocuments: [],
+        trackedItems: [],
+      },
+    });
+  });
+
   it('should return no supporting docs when there is only one and it is associated with a tracked item', () => {
     const claim = {
       id: 1,

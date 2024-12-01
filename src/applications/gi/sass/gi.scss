@@ -1,4 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 @import "partials/gi-vet-tec";
@@ -34,7 +35,6 @@
       padding-right: 0.4em;
       vertical-align: sub;
     }
-
   }
   .about-this-tool {
     margin-top: 1em;
@@ -42,8 +42,8 @@
     a {
       // background-image: none;
       text-align: center;
-      font-family: $font-sans;
-      font-size: 0.850rem;
+      font-family: var(--font-source-sans);
+      font-size: 0.85rem;
       line-height: 2.5rem;
       margin-right: 1.5625rem;
       margin-bottom: 0.75rem;
@@ -119,6 +119,29 @@
   .learn-more-button {
     background-image: none !important;
     font-weight: inherit !important;
+  }
+  .learn-more-btn::part(button) {
+    background-color: transparent;
+    color: var(--vads-color-primary);
+    border: none;
+    outline: none;
+    font-weight: normal;
+    text-decoration: underline;
+    padding: 0;
+    margin-right: 0;
+  }
+  .learn-more-bold-text::part(button) {
+    font-weight: bold;
+  }
+
+  .remove-btn::part(button) {
+    background-color: transparent;
+    color: var(--vads-color-primary);
+    border: none;
+    outline: none;
+    font-weight: normal;
+    text-decoration: underline;
+    padding: 0;
   }
 
   .gids-radio-buttons {
@@ -213,34 +236,6 @@
   text-transform: capitalize;
 }
 
-.main-title {
-  padding-right: 9em;
-  @media (max-width: 1004px) {
-    padding-right: 0;
-    text-align: left;
-  }
-  @media (max-width: $small-screen) {
-    text-align: center;
-  }
-}
-
-.tool-description {
-  text-align: center;
-  padding-bottom: 2em;
-  padding-right: 9em;
-
-  @media (max-width: 1004px) {
-    padding-right: 0;
-    text-align: left;
-  }
-
-  @media (max-width: $small-screen) {
-    padding-left: 20px;
-    padding-bottom: 1em;
-    padding-right: 0;
-  }
-}
-
 .small-screen-font {
   @media (max-width: $small-screen) {
     font-size: 15px;
@@ -274,10 +269,75 @@
   background-color: rgba(255, 255, 255, 0.7);
   z-index: 10000;
 }
-.input-container-width{
+
+.input-container-width {
   width: 100% !important;
 }
 
-.main-text-subtext {
-  padding-right: 8em;
+.yr-table-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  &:nth-of-type(2) {
+    width: inherit;
+    gap: 0;
+
+    @media (min-width: 900px) {
+      width: 15rem;
+      gap: 4rem;
+    }
+  }
+}
+
+.sort-icon {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.lc-dropdown-filter {
+  max-width: 30rem;
+}
+
+.lc-filter-options {
+  padding: 0.5rem;
+  margin: 0;
+}
+
+.provider-info-container > span {
+  gap: 1rem;
+}
+
+.required-label {
+  color: $color-red-dark;
+}
+
+.remove-bullets {
+  list-style: none;
+  padding-left: 0;
+}
+
+.lc-name-search-input {
+  max-width: 30rem;
+}
+.inst-remove-btn::part(button) {
+  background-color: transparent;
+}
+.search-container {
+  va-text-input::part(input) {
+    width: 100%;
+    min-width: 576px;
+  }
+
+  @media (max-width: 1024px) {
+    va-text-input::part(input) {
+      min-width: 420px;
+    }
+  }
+  @media (max-width: 480px) {
+    va-text-input::part(input) {
+      min-width: 100%;
+    }
+  }
 }

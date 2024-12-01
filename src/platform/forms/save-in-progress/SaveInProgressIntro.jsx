@@ -331,7 +331,7 @@ class SaveInProgressIntro extends React.Component {
     const data = formData || {};
     // pathname is only provided when the first page is conditional
     if (pathname) return getNextPagePath(pageList, data, pathname);
-    return pageList[1].path;
+    return pageList[1]?.path;
   };
 
   handleClick = () => {
@@ -377,6 +377,12 @@ class SaveInProgressIntro extends React.Component {
             message={`Checking to see if you have a saved version of this ${appType} ...`}
           />
           <br />
+          {devOnlyForceShowFormControls && (
+            <>
+              <div>dev only:</div>
+              <div>{this.getFormControls(savedForm)}</div>
+            </>
+          )}
         </div>
       );
     }

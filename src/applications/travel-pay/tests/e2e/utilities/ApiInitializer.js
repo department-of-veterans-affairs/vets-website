@@ -8,7 +8,7 @@ class ApiInitializer {
           type: 'feature_toggles',
           features: [
             { name: 'travel_pay_power_switch', value: true },
-            { name: 'travelPayPowerSwitch', value: true },
+            { name: 'travel_pay_view_claim_details', value: true },
           ],
         },
       }).as('featureToggles');
@@ -17,7 +17,7 @@ class ApiInitializer {
 
   initializeClaims = {
     happyPath: () => {
-      cy.intercept('GET', '/travel_pay/claims', claims).as('sm');
+      cy.intercept('GET', '/travel_pay/v0/claims', claims).as('sm');
     },
   };
 }

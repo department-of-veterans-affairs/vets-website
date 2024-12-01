@@ -43,12 +43,13 @@ describe('Edu 1995 benefitSelection', () => {
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
-      .empty;
+    expect(
+      Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
+    ).to.equal(1);
 
     submitForm(form);
 
-    expect(onSubmit.called).to.be.true;
+    expect(onSubmit.called).to.be.false;
   });
 });
 

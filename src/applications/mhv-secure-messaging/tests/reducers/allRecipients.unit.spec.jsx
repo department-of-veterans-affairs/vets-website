@@ -20,6 +20,7 @@ describe('allRecipients reducers', () => {
       allRecipientsTriageTeams.data.map(recipient => {
         return {
           id: recipient.attributes.triageTeamId,
+          triageTeamId: recipient.attributes.triageTeamId,
           name: recipient.attributes.name,
           stationNumber: recipient.attributes.stationNumber,
           blockedStatus: recipient.attributes.blockedStatus,

@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { head } from 'lodash';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
-import OnThisPageLinks from '../components/OnThisPageLinks';
 import HistoryTable from '../components/HistoryTable';
 import {
   setPageFocus,
   debtLettersShowLettersVBMS,
   showPaymentHistory,
+  formatDate,
 } from '../../combined/utils/helpers';
 import { getCurrentDebt, currency } from '../utils/page';
 import {
@@ -21,41 +20,7 @@ import {
 } from '../const/deduction-codes';
 import DebtDetailsCard from '../components/DebtDetailsCard';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
-
-const dummyHistory = [
-  {
-    transactionFiscalCode: '04Q',
-    transactionDate: 'January 3, 2022',
-    transactionDescription: 'Partial payment of $100.00',
-    transactionOffsetAmount: '-$100.00',
-    transactionTotalAmount: '$100.00',
-    transactionInterestAmount: '$0.00',
-  },
-  {
-    transactionFiscalCode: '04Q',
-    transactionDate: 'March 15, 2022',
-    transactionDescription: 'Partial payment of $150.00',
-    transactionOffsetAmount: '-$150.00',
-    transactionTotalAmount: '$150.00',
-    transactionInterestAmount: '$0.00',
-  },
-  {
-    transactionFiscalCode: '04Q',
-    transactionDate: 'June 1, 2022',
-    transactionDescription: 'Partial payment of $50.00',
-    transactionOffsetAmount: '-$50.00',
-    transactionTotalAmount: '$50.00',
-    transactionInterestAmount: '$0.00',
-  },
-  {
-    transactionFiscalCode: '08Q',
-    transactionDate: 'June 1, 2023',
-    transactionDescription: 'Partial payment of -$50.00',
-    transactionOffsetAmount: '$50.00',
-    transactionTotalAmount: '-$50.00',
-    transactionInterestAmount: '$0.00',
-  },
-];
+import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
@@ -64,17 +29,13 @@ const DebtDetails = () => {
   const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
   const location = useLocation();
   const currentDebt = getCurrentDebt(selectedDebt, debts, location);
-  currentDebt.paymentHistory = dummyHistory.sort((a, b) => {
-    return new Date(b.transactionDate) - new Date(a.transactionDate);
-  });
+
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
   const filteredHistory = currentDebt.debtHistory
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
-  const hasPaymentHistory =
-    currentDebt.paymentHistory && currentDebt.paymentHistory.length > 0;
 
   const howToUserData = {
     fileNumber: currentDebt.fileNumber,
@@ -83,6 +44,9 @@ const DebtDetails = () => {
     deductionCode: currentDebt.deductionCode,
   };
 
+  const title = `Your ${deductionCodes[currentDebt.deductionCode]}`;
+  useHeaderPageTitle(title);
+
   const showDebtLetterDownload = useSelector(state =>
     debtLettersShowLettersVBMS(state),
   );
@@ -90,24 +54,12 @@ const DebtDetails = () => {
   const formatCurrency = amount => currency.format(parseFloat(amount));
 
   const getLatestPaymentDateFromCurrentDebt = debt => {
-    const mostRecentDate = head(debt.paymentHistory).transactionDate;
+    const mostRecentDate = head(debt.fiscalTransactionData)?.transactionDate;
 
     if (mostRecentDate === '') return 'N/A';
 
     return mostRecentDate;
   };
-
-  const getFirstPaymentDateFromCurrentDebt = debt => {
-    const firstPaymentDate = last(debt.paymentHistory).transactionDate;
-
-    if (firstPaymentDate === '') return 'N/A';
-
-    return firstPaymentDate;
-  };
-
-  currentDebt.firstPaymentDate = getFirstPaymentDateFromCurrentDebt(
-    currentDebt,
-  );
 
   useEffect(() => {
     setPageFocus('h1');
@@ -128,7 +80,7 @@ const DebtDetails = () => {
   }
 
   return (
-    <>
+    <article>
       <VaBreadcrumbs
         breadcrumbList={[
           {
@@ -141,12 +93,13 @@ const DebtDetails = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current VA debt',
+            label: 'Current debts',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/details/${selectedDebt.fileNumber +
-              selectedDebt.deductionCode}`,
-            label: 'Debt details',
+            href: `/manage-va-debt/summary/debt-balances/details/${
+              selectedDebt.compositeDebtId
+            }`,
+            label: `${title}`,
           },
         ]}
         label="Breadcrumb"
@@ -154,15 +107,15 @@ const DebtDetails = () => {
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 className="vads-u-margin-bottom--2" tabIndex="-1">
-          Your {deductionCodes[currentDebt.deductionCode]}
+          {title}
         </h1>
         {dateUpdated && (
           <p className="va-introtext">
             Updated on
             <span className="vads-u-margin-left--0p5">
-              {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+              {formatDate(dateUpdated)}
             </span>
-            . Payments after this date will not be reflected here.
+            .
           </p>
         )}
         <DebtDetailsCard debt={currentDebt} />
@@ -174,35 +127,32 @@ const DebtDetails = () => {
             {whyContent}
           </va-additional-info>
         )}
-        <OnThisPageLinks
-          isDetailsPage
-          hasHistory={hasFilteredHistory}
-          hasPaymentHistory={hasPaymentHistory}
-          showDebtLetterDownload={showDebtLetterDownload}
-        />
+        <va-on-this-page />
         {shouldShowPaymentHistory && (
           <div>
             <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
               Debt details
             </h2>
-            <div className="small-screen:vads-u-display--flex small-screen:vads-u-justify-content--space-between vads-u-margin-bottom--2 medium-screen:vads-u-max-width--90">
+            <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
               <div>
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
                     Current balance as of{' '}
-                    {getLatestPaymentDateFromCurrentDebt(currentDebt)}
+                    {formatDate(
+                      getLatestPaymentDateFromCurrentDebt(currentDebt),
+                    )}
                   </span>
-                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
                     {formatCurrency(currentDebt.currentAr)}
                   </span>
                 </h3>
               </div>
-              <div className="vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
+              <div className="debt-balance-details mobile-lg:vads-u-margin-top--0">
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
                     Original overpayment amount
                   </span>
-                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
                     {formatCurrency(currentDebt.originalAr)}
                   </span>
                 </h3>
@@ -219,11 +169,6 @@ const DebtDetails = () => {
             >
               Debt letter history
             </h2>
-            <p className="vads-u-margin-y--2">
-              {`You can check the status ${
-                showDebtLetterDownload ? `or download the letters for` : `of`
-              } this debt.`}
-            </p>
             <HistoryTable history={filteredHistory} />
             {showDebtLetterDownload ? (
               <>
@@ -246,23 +191,8 @@ const DebtDetails = () => {
         )}
         <HowDoIPay userData={howToUserData} />
         <NeedHelp />
-        <va-need-help id="needHelp" class="vads-u-margin-top--4">
-          <div slot="content">
-            <p>
-              If you have any questions about your benefit overpayment or if you
-              think your debt was created in an error, you can dispute it.
-              Contact us online through <a href="https://ask.va.gov/">Ask VA</a>{' '}
-              or call the Debt Management Center at{' '}
-              <va-telephone contact="8008270648" /> (
-              <va-telephone contact="711" tty="true" />
-              ). For international callers, use{' '}
-              <va-telephone contact="6127136415" />. We’re here Monday through
-              Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
-        </va-need-help>
       </div>
-    </>
+    </article>
   );
 };
 

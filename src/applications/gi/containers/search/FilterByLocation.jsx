@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
@@ -139,6 +140,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchFilterChange: filterChange,
+};
+FilterByLocation.propTypes = {
+  dispatchFilterChange: PropTypes.func,
+  filters: PropTypes.object,
+  preview: PropTypes.object,
+  search: PropTypes.object,
+  smallScreen: PropTypes.bool,
 };
 
 export default connect(

@@ -16,57 +16,69 @@ import {
   selectFacility,
   selectIsPast,
 } from '../../appointment-list/redux/selectors';
+import {
+  selectFeatureTravelPayViewClaimDetails,
+  selectFeatureTravelPaySubmitMileageExpense,
+} from '../../redux/selectors';
 import StatusAlert from '../StatusAlert';
 import FacilityPhone from '../FacilityPhone';
+import TravelReimbursementSection from '../TravelReimbursementSection';
+import AppointmentTasksSection from '../AppointmentTasksSection';
+import Section from '../Section';
 
-export function Section({ children, heading }) {
+export function When({ children, level = 2 }) {
   return (
-    <>
-      <h2 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
-        {heading}
-      </h2>
+    <Section heading="When" level={level}>
       {children}
-    </>
+    </Section>
   );
-}
-Section.propTypes = {
-  children: PropTypes.node,
-  heading: PropTypes.string,
-};
-
-export function When({ children }) {
-  return <Section heading="When">{children}</Section>;
 }
 When.propTypes = {
   children: PropTypes.node,
+  level: PropTypes.number,
 };
 
-export function What({ children }) {
+export function What({ children, level = 2 }) {
   if (!children) {
     return null;
   }
-  return <Section heading="What">{children}</Section>;
+  return (
+    <Section heading="What" level={level}>
+      {children}
+    </Section>
+  );
 }
 What.propTypes = {
   children: PropTypes.node,
+  level: PropTypes.number,
 };
 
-export function Who({ children }) {
+export function Who({ children, level = 2 }) {
   if (!children) {
     return null;
   }
-  return <Section heading="Who">{children}</Section>;
+  return (
+    <Section heading="Who" level={level}>
+      {children}
+    </Section>
+  );
 }
 Who.propTypes = {
   children: PropTypes.node,
+  level: PropTypes.number,
 };
 
-export function Where({ children, heading = 'Where' } = {}) {
-  return <Section heading={heading}>{children}</Section>;
+export function Where({ children, heading = 'Where', level = 2 } = {}) {
+  return (
+    <Section heading={heading} level={level}>
+      {children}
+    </Section>
+  );
 }
 Where.propTypes = {
   children: PropTypes.node,
   heading: PropTypes.string,
+  level: PropTypes.number,
 };
 
 export function Prepare({ children } = {}) {
@@ -74,6 +86,47 @@ export function Prepare({ children } = {}) {
 }
 Prepare.propTypes = {
   children: PropTypes.node,
+};
+
+export function CCDetails({ otherDetails, request, level = 2 }) {
+  const heading = request
+    ? 'Details you’d like to share with your provider'
+    : 'Details you shared with your provider';
+  return (
+    <Section heading={heading} level={level}>
+      <span className="vaos-u-word-break--break-word">
+        Other details: {`${otherDetails || 'Not available'}`}
+      </span>
+    </Section>
+  );
+}
+CCDetails.propTypes = {
+  level: PropTypes.number,
+  otherDetails: PropTypes.string,
+  request: PropTypes.bool,
+};
+
+export function Details({ reason, otherDetails, request, level = 2 }) {
+  const heading = request
+    ? 'Details you’d like to share with your provider'
+    : 'Details you shared with your provider';
+  return (
+    <Section heading={heading} level={level}>
+      <span>
+        Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
+      </span>
+      <br />
+      <span className="vaos-u-word-break--break-word">
+        Other details: {`${otherDetails || 'Not available'}`}
+      </span>
+    </Section>
+  );
+}
+Details.propTypes = {
+  level: PropTypes.number,
+  otherDetails: PropTypes.string,
+  reason: PropTypes.string,
+  request: PropTypes.bool,
 };
 
 export function ClinicOrFacilityPhone({
@@ -127,6 +180,7 @@ function CancelButton({ appointment }) {
         });
         dispatch(startAppointmentCancel(appointment));
       }}
+      data-testid="cancel-button"
     />
   );
 
@@ -144,6 +198,12 @@ export default function DetailPageLayout({
 }) {
   const { id } = useParams();
   const { facility } = useSelector(state => selectFacility(state, id));
+  const featureTravelPayViewClaimDetails = useSelector(state =>
+    selectFeatureTravelPayViewClaimDetails(state),
+  );
+  const featureTravelPaySubmitMileageExpense = useSelector(state =>
+    selectFeatureTravelPaySubmitMileageExpense(state),
+  );
 
   if (!appointment) return null;
 
@@ -155,6 +215,10 @@ export default function DetailPageLayout({
       <AppointmentCard appointment={appointment}>
         <h1 className="vads-u-font-size--h2">{heading}</h1>
         <StatusAlert appointment={appointment} facility={facility} />
+        {featureTravelPaySubmitMileageExpense &&
+          featureTravelPayViewClaimDetails && (
+            <AppointmentTasksSection appointment={appointment} />
+          )}
         {isPastAppointment &&
           APPOINTMENT_STATUS.booked === appointment.status && (
             <Section heading="After visit summary">
@@ -162,6 +226,9 @@ export default function DetailPageLayout({
             </Section>
           )}
         {children}
+        {featureTravelPayViewClaimDetails && (
+          <TravelReimbursementSection appointment={appointment} />
+        )}
         <div
           className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"
           style={{ rowGap: '16px' }}

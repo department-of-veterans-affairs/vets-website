@@ -5,88 +5,15 @@ import sinon from 'sinon';
 
 import { $ } from '~/platform/forms-system/src/js/utilities/ui';
 import * as focusUtils from '~/platform/utilities/ui/focus';
+import * as focusReview from 'platform/forms-system/src/js/utilities/ui/focus-review';
 
 import {
-  focusIssue,
   focusFileCard,
   focusAddAnotherButton,
   focusCancelButton,
-  focusRadioH3,
-  focusAlertH3,
-  focusH3,
   focusOnAlert,
+  focusH3AfterAlert,
 } from '../../utils/focus';
-import { LAST_ISSUE } from '../../constants';
-
-describe('focusIssue', () => {
-  afterEach(() => {
-    window.sessionStorage.removeItem(LAST_ISSUE);
-  });
-  const renderPage = () =>
-    render(
-      <div id="main">
-        <h3>Title</h3>
-        <ul>
-          <li id="issue-0">
-            <input />
-            <a href="#0" className="edit-issue-link">
-              Edit
-            </a>
-          </li>
-          <li id="issue-1">
-            <input />
-            <a href="#1" className="edit-issue-link">
-              Edit
-            </a>
-          </li>
-        </ul>
-        <a href="#new" className="add-new-issue">
-          Add
-        </a>
-      </div>,
-    );
-
-  it('should focus on header', async () => {
-    window.sessionStorage.removeItem(LAST_ISSUE);
-    const { container } = await renderPage();
-
-    await focusIssue(0, container);
-    await waitFor(() => {
-      const target = $('h3', container);
-      expect(document.activeElement).to.eq(target);
-    });
-  });
-  it('should focus on add new issue link', async () => {
-    window.sessionStorage.setItem(LAST_ISSUE, -1);
-    const { container } = await renderPage();
-
-    await focusIssue(0, container);
-    await waitFor(() => {
-      const target = $('.add-new-issue', container);
-      expect(document.activeElement).to.eq(target);
-    });
-  });
-  it('should focus on second input', async () => {
-    window.sessionStorage.setItem(LAST_ISSUE, '1,updated');
-    const { container } = await renderPage();
-
-    await focusIssue(0, container);
-    await waitFor(() => {
-      const target = $('#issue-1 input', container);
-      expect(document.activeElement).to.eq(target);
-    });
-  });
-  it('should focus on second edit link', async () => {
-    window.sessionStorage.setItem(LAST_ISSUE, '1,cancel');
-    const { container } = await renderPage();
-
-    await focusIssue(0, container);
-    await waitFor(() => {
-      const target = $('#issue-1 .edit-issue-link', container);
-      expect(document.activeElement).to.eq(target);
-    });
-  });
-});
 
 describe('focusFileCard', () => {
   let focusElementSpy;
@@ -299,84 +226,6 @@ describe('focusAddAnotherButton', () => {
   });
 });
 
-describe('focusRadioH3', () => {
-  const renderPage = (hasRadio = true) =>
-    render(
-      <div id="main">
-        {hasRadio ? (
-          <va-radio label-header-level="3" label="test">
-            <va-radio-option label="1" name="test" value="1" />
-            <va-radio-option label="2" name="test" value="2" />
-          </va-radio>
-        ) : (
-          <div className="nav-header">
-            <h2>test 2</h2>
-          </div>
-        )}
-      </div>,
-    );
-
-  it('should focus on H3', async () => {
-    // h3 is inside shadow DOM (not supported in RTL), so test by stubbing
-    // waitForRenderThenFocus
-    const focusSpy = sinon.spy(focusUtils, 'waitForRenderThenFocus');
-    await renderPage();
-
-    await focusRadioH3();
-    await waitFor(() => {
-      expect(focusSpy.args[0][0]).to.eq('h3');
-      focusSpy.restore();
-    });
-  });
-  it('should focus on H2', async () => {
-    const { container } = await renderPage(false);
-
-    await focusRadioH3();
-    await waitFor(() => {
-      const target = $('h2', container);
-      expect(document.activeElement).to.eq(target);
-    });
-  });
-});
-
-describe('focusAlertH3', () => {
-  const renderPage = () =>
-    render(
-      <div id="main">
-        <h3>test</h3>
-      </div>,
-    );
-
-  it('should focus on H3', async () => {
-    const { container } = await renderPage();
-
-    await focusAlertH3();
-    await waitFor(() => {
-      const target = $('h3', container);
-      expect(document.activeElement).to.eq(target);
-    });
-  });
-});
-
-describe('focusH3', () => {
-  const renderPage = () =>
-    render(
-      <div id="main">
-        <h3>test</h3>
-      </div>,
-    );
-
-  it('should focus on H3', async () => {
-    const { container } = await renderPage();
-
-    await focusH3();
-    await waitFor(() => {
-      const target = $('h3', container);
-      expect(document.activeElement).to.eq(target);
-    });
-  });
-});
-
 describe('focusOnAlert', () => {
   const renderPage = (hasErrorAlert = true) =>
     render(
@@ -408,6 +257,53 @@ describe('focusOnAlert', () => {
     await focusOnAlert();
     await waitFor(() => {
       expect(document.activeElement?.tagName).to.eq('BODY');
+    });
+  });
+});
+
+describe('focusH3AfterAlert', () => {
+  let focusElementSpy;
+  let focusReviewSpy;
+  beforeEach(() => {
+    focusElementSpy = sinon.stub(focusUtils, 'focusElement');
+    focusReviewSpy = sinon.stub(focusReview, 'focusReview');
+  });
+  afterEach(() => {
+    focusElementSpy.restore();
+    focusReviewSpy.restore();
+  });
+
+  const setup = () =>
+    render(
+      <div id="main">
+        <div name="topContentElement" />
+        <div name="testScrollElement" />
+        <div>
+          <va-alert status="info" visible="false">
+            <h3 id="alert" slot="headline">
+              Alert header
+            </h3>
+          </va-alert>
+          <h3 id="header">Page header</h3>
+        </div>
+      </div>,
+    );
+
+  it('should focus on h3 outside of va-alert on review page', async () => {
+    setup();
+
+    await focusH3AfterAlert();
+    await waitFor(() => {
+      expect(focusElementSpy.args[0][0]).to.eq('h3#header');
+    });
+  });
+
+  it('should focus on header on review page', async () => {
+    setup();
+
+    await focusH3AfterAlert(null, { name: 'test', onReviewPage: true });
+    await waitFor(() => {
+      expect(focusReviewSpy.args[0]).to.deep.equal(['test', true, true]);
     });
   });
 });

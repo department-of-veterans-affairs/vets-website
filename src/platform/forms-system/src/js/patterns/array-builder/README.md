@@ -12,6 +12,8 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
     - [Step 2. Create either "required" pages flow or "optional" pages flow](#step-2-create-either-required-pages-flow-or-optional-pages-flow)
     - [Example Pages "Required" Flow](#example-pages-required-flow)
     - [Example Pages "Optional" Flow](#example-pages-optional-flow)
+    - [Example using action link (or button) instead of yes/no question](#example-using-action-link-or-button-instead-of-yesno-question)
+    - [Example content at bottom of page](#example-content-at-bottom-of-page)
   - [Web Component Patterns](#web-component-patterns)
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
   - [General Pattern Text Overrides](#general-pattern-text-overrides)
@@ -79,7 +81,7 @@ const options = {
   isItemIncomplete: item => !item?.name, // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => item.name,
+    getItemName: (item, index) => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
   },
 };
@@ -212,8 +214,9 @@ const options = {
   isItemIncomplete: item => !item?.name, // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => item.name,
+    getItemName: (item, index) => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
+    summaryDescription: 'You can add up to 5 items',
   },
 };
 
@@ -294,13 +297,75 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
 );
 ```
 
+### Example using action link (or button) instead of yes/no question
+Use the [Optional flow](#example-pages-optional-flow) as a starting point, and make the following replacements:
+
+```js
+const title = 'Events from your service';
+const description = (
+  <div>
+    <p>Lorem ipsum dolor sit amet.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
+  </div>
+);
+
+/** @type {ArrayBuilderOptions} */
+const options = {
+  ...
+  useLinkInsteadOfYesNo: true,
+  required: false,
+  text: {
+    getItemName: (item, index) => item.name,
+    summaryTitle: title,
+    summaryTitleWithoutItems: title,
+    summaryDescription: description,
+    summaryDescriptionWithoutItems: description,
+    summaryAddLinkText: (props) => {
+      return props.itemData?.length ? 'Add another event' : 'Add an event';
+    },
+    reviewAddButtonText: (props) => {
+      return props.itemData?.length ? 'Add another event' : 'Add an event';
+    },
+    yesNoBlankReviewQuestion: 'Did you have any events?', // No
+    cardDescription: item =>
+      `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
+        item?.dateRange?.to,
+      )}`,
+  },
+};
+```
+
+If you want to use a button instead of a link, use `useButtonInsteadOfYesNo: true`.
+
+`uiSchema` or `schema` no longer be necessary if using a link or button.
+
+### Example content at bottom of page
+If you want additional content below the link or button, you can use the `ContentBeforeButtons` prop at the `form/config` page level.
+
+```js
+export const nounPluralReplaceMePages = arrayBuilderPages( options,
+  pageBuilder => ({
+    nounPluralReplaceMeSummary: pageBuilder.summaryPage({
+      ...
+      ContentBeforeButtons: () => (
+        <div>
+          <p>Content before "Finish your form later" link, and back/continue buttons</p>
+        </div>
+      ),
+    }),
+    ...
+  }),
+);
+```
+
+
 ## Web Component Patterns
 | Pattern | Description |
 |---------|-------------|
-| `arrayBuilderItemFirstPageTitleUI` | Should be used instead of `titleUI` for the first item page. Includes adding "Edit" before the title if in edit mode, and showing a `va-alert` warning if an item is required when removing all. |
+| `arrayBuilderItemFirstPageTitleUI` | Should be used instead of `titleUI` for the first item page. Includes adding "Edit" before the title if in edit mode, and showing a `va-alert` warning if an item is required when removing all. The description instructions can optionally be hidden when their is only one item page via the `hasMultipleItemPages: false` function parameter. |
 | `arrayBuilderItemSubsequentPageTitleUI` | Can be used instead of `titleUI` for subsequent item pages. Includes adding "Edit" before the title if in edit mode. If you need to use a custom title instead, you can try passing `withEditTitle` into your implementation. |
-| `withEditTitle` | Used with `arrayBuilderItemFirstPageTitleUI` and `arrayBuilderItemSubsequentPageTitleUI` to show "Edit" before the title, provided as an export for custom use. |
-| `arrayBuilderYesNoUI` | Should be used instead of `yesNoUI` for the summary page. Has dynamic text for if the user has 0 items, or more 1+ items, and validation for max items. You can override all text values. |
+| `withEditTitle` | Used with `arrayBuilderItemFirstPageTitleUI` and `arrayBuilderItemSubsequentPageTitleUI` to show "Edit" before the title, provided as an export for custom use. The "Edit" title item can be optionally lowercased via the `lowerCase` function parameter. |
+| `arrayBuilderYesNoUI` | Should be used instead of `yesNoUI` for the summary page. Has dynamic text for if the user has 0 items, or more 1+ items, and validation for max items. After an item is added/cancelled the yes/no question is reset. You can override all text values. |
 
 ### Example `arrayBuilderYesNoUI` Text Overrides:
 ```js
@@ -365,6 +430,9 @@ const options = {
 | `deleteYes` |
 | `reviewAddButtonText` |
 | `summaryTitle` |
+| `summaryTitleWithoutItems` |
+| `summaryDescription` |
+| `summaryDescriptionWithoutItems` |
 | `yesNoBlankReviewQuestion` |
 
 ## URL Query Params

@@ -24,4 +24,14 @@ describe('<ClaimPage>', () => {
 
     expect(props.getClaim.called).to.be.true;
   });
+  it('calls clearClaim when it unmounts', () => {
+    props.clearClaim = sinon.spy();
+    const { unmount } = renderWithRouter(
+      <ClaimPage {...props}>
+        <div />
+      </ClaimPage>,
+    );
+    unmount();
+    expect(props.clearClaim.called).to.be.true;
+  });
 });

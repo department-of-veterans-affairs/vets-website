@@ -84,9 +84,8 @@ const ArrayBuilderCards = ({
   const isMounted = useRef(true);
 
   useEffect(() => {
+    isMounted.current = true;
     return () => {
-      // notice this is in the return of the useEffect
-      // which is the cleanup function
       isMounted.current = false;
     };
   }, []);
@@ -129,10 +128,13 @@ const ArrayBuilderCards = ({
       focusRemoveButton: false,
     });
     onRemove(removedIndex, removedItem);
+    // forceRerender should happen BEFORE onRemoveAll because
+    // we should handle any data manipulation before a potential
+    // change of URL
+    forceRerender(newData);
     if (arrayWithRemovedItem.length === 0) {
       onRemoveAll();
     }
-    forceRerender(newData);
   }
 
   const Card = ({ index, children }) => (
@@ -155,7 +157,18 @@ const ArrayBuilderCards = ({
         {arrayData?.length && (
           <ul className="vads-u-margin-top--2 vads-u-padding--0">
             {arrayData.map((itemData, index) => {
-              const itemName = getText('getItemName', itemData);
+              const itemName = getText(
+                'getItemName',
+                itemData,
+                formData,
+                index,
+              );
+              const itemDescription = getText(
+                'cardDescription',
+                itemData,
+                formData,
+                index,
+              );
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
@@ -164,10 +177,15 @@ const ArrayBuilderCards = ({
                       <CardHeading className="vads-u-margin-top--0">
                         {itemName}
                       </CardHeading>
-                      {getText('cardDescription', itemData)}
+                      {itemDescription}
                       {isIncomplete(itemData) && (
                         <MissingInformationAlert>
-                          {getText('cardItemMissingInformation', itemData)}
+                          {getText(
+                            'cardItemMissingInformation',
+                            itemData,
+                            formData,
+                            index,
+                          )}
                         </MissingInformationAlert>
                       )}
                     </div>
@@ -178,17 +196,11 @@ const ArrayBuilderCards = ({
                           index,
                           isReview,
                         })}
-                        srText={`${itemName}. ${getText(
-                          'cardDescription',
-                          itemData,
-                        )}`}
+                        srText={`Edit ${itemName}`}
                       />
                       <RemoveButton
                         onClick={() => showRemoveConfirmationModal(index)}
-                        srText={`Delete ${itemName}. ${getText(
-                          'cardDescription',
-                          itemData,
-                        )}`}
+                        srText={`Delete ${itemName}`}
                       />
                     </span>
                   </Card>
@@ -201,9 +213,19 @@ const ArrayBuilderCards = ({
       <VaModal
         clickToClose
         status="warning"
-        modalTitle={getText('deleteTitle', currentItem)}
-        primaryButtonText={getText('deleteYes', currentItem)}
-        secondaryButtonText={getText('deleteNo', currentItem)}
+        modalTitle={getText('deleteTitle', currentItem, formData, currentIndex)}
+        primaryButtonText={getText(
+          'deleteYes',
+          currentItem,
+          formData,
+          currentIndex,
+        )}
+        secondaryButtonText={getText(
+          'deleteNo',
+          currentItem,
+          formData,
+          currentIndex,
+        )}
         onCloseEvent={() =>
           hideRemoveConfirmationModal({
             focusRemoveButton: true,
@@ -219,8 +241,13 @@ const ArrayBuilderCards = ({
         uswds
       >
         {required(formData) && arrayData?.length === 1
-          ? getText('deleteNeedAtLeastOneDescription', currentItem)
-          : getText('deleteDescription', currentItem)}
+          ? getText(
+              'deleteNeedAtLeastOneDescription',
+              currentItem,
+              formData,
+              currentIndex,
+            )
+          : getText('deleteDescription', currentItem, formData, currentIndex)}
       </VaModal>
     </div>
   );
@@ -237,11 +264,6 @@ const mapDispatchToProps = {
 
 ArrayBuilderCards.propTypes = {
   arrayPath: PropTypes.string.isRequired,
-  cardDescription: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.string,
-  ]).isRequired,
   editItemPathUrl: PropTypes.string.isRequired,
   forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
@@ -253,6 +275,11 @@ ArrayBuilderCards.propTypes = {
   setFormData: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
+  cardDescription: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.string,
+  ]),
   titleHeaderLevel: PropTypes.func,
 };
 

@@ -10,7 +10,7 @@ describe('Header <MenuItemLevel1>', () => {
     const wrapper = shallow(<MenuItemLevel1 item={item} />);
 
     expect(
-      wrapper.find('li.vads-u-background-color--primary-darker'),
+      wrapper.find('li.vads-u-background-color--primary-dark'),
     ).to.have.length(1);
     expect(wrapper.find('a[href="https://example.com"]')).to.have.length(1);
     expect(wrapper.find('a').text()).to.equal('example');
@@ -35,7 +35,7 @@ describe('Header <MenuItemLevel1>', () => {
     );
 
     expect(
-      wrapper.find('li.vads-u-background-color--primary-darker'),
+      wrapper.find('li.vads-u-background-color--primary-dark'),
     ).to.have.length(1);
     expect(wrapper.find('a')).to.have.length(0);
     expect(wrapper.find('.header-menu-item-button')).to.have.length(1);
@@ -65,7 +65,7 @@ describe('Header <MenuItemLevel1>', () => {
     );
 
     expect(
-      wrapper.find('li.vads-u-background-color--primary-darker'),
+      wrapper.find('li.vads-u-background-color--primary-dark'),
     ).to.have.length(1);
     expect(wrapper.find('a')).to.have.length(0);
     expect(wrapper.find('.header-menu-item-button')).to.have.length(1);

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -58,15 +57,12 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           The information you enter on the next page is completely confidential.
         </p>
         <p>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link
-            className="vads-c-action-link--green"
+          <va-link-action
             data-testid="duw-start-form"
             href="#"
             onClick={startForm}
-          >
-            Get started
-          </Link>
+            text="Get started"
+          />
         </p>
         <va-accordion>
           <va-accordion-item header="Can I get VA benefits without a discharge upgrade?">
@@ -126,8 +122,8 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           <va-accordion-item header="What if I already applied for an upgrade or correction and was denied?">
             <p>
               If your previous upgrade application was denied, you can apply
-              again, but you may have to follow a different process. Click the{' '}
-              <strong>Get Started</strong> button above. When you’re asked if
+              again, but you may have to follow a different process. Select the{' '}
+              <strong>Get Started</strong> link above. When you’re asked if
               you’ve applied before, select <strong>Yes</strong>. After you’ve
               answered all the questions, you’ll see application instructions
               specific to your situation.
@@ -179,7 +175,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
             <p>
               You can also apply to the Department of Defense (DoD) or the Coast
               Guard for a second DD214 only for that honorable period of
-              service. Click the <strong>Get Started</strong> button above and
+              service. Select the <strong>Get Started</strong> link above and
               answer the questions based on your most recent discharge. When
               you’re asked if you completed a period of service in which your
               character of service was honorable or general under honorable
@@ -198,12 +194,12 @@ const HomePage = ({ router, setIntroPageViewed }) => {
               record of their earlier characterization of discharge.
             </p>
             <p>
-              If you have a DD215 and want an updated DD214, click the{' '}
-              <strong>Get Started</strong> button above. On the next page,
-              select: “I received a discharge upgrade or correction, but my
-              upgrade came in the form of a DD215, and I want an updated DD214.”
-              After you’ve answered all the questions, you’ll see instructions
-              for how to request a new DD214.
+              If you have a DD215 and want an updated DD214, select the{' '}
+              <strong>Get Started</strong> link above. On the next page, select:
+              “I received a discharge upgrade or correction, but my upgrade came
+              in the form of a DD215, and I want an updated DD214.” After you’ve
+              answered all the questions, you’ll see instructions for how to
+              request a new DD214.
             </p>
           </va-accordion-item>
         </va-accordion>

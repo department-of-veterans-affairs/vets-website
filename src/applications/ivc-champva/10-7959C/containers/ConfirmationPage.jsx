@@ -7,13 +7,15 @@ import { focusElement } from 'platform/utilities/ui';
 import {
   VaAlert,
   VaLinkAction,
+  VaLink,
+  VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   requiredFiles,
-  office,
   officeAddress,
   officeFaxNum,
 } from '../config/constants';
+import { applicantWording } from '../../shared/utilities';
 import { prefixFileNames } from '../components/MissingFileConsentPage';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 import { ConfirmationPagePropTypes } from '../../shared/constants';
@@ -21,7 +23,9 @@ import { ConfirmationPagePropTypes } from '../../shared/constants';
 const heading = (
   <>
     <VaAlert uswds status="success">
-      <h2>You’ve submitted your CHAMPVA application</h2>
+      <h2>
+        You’ve submitted your CHAMPVA Other Health Insurance Certification form
+      </h2>
     </VaAlert>
   </>
 );
@@ -30,14 +34,12 @@ const requiredWarningHeading = (
   <>
     <VaAlert uswds status="warning">
       <h2>
-        You submitted your CHAMPVA Other Health Insurance Certification form
+        You’ve submitted your CHAMPVA Other Health Insurance Certification form
         without required documents
       </h2>
     </VaAlert>
-    <p>
-      You’ll still need to send us these required documents in order for us to
-      process this form:
-    </p>
+    <h2>You still need to mail supporting documents</h2>
+    <p>We can’t review your form until we receive copies of these documents:</p>
   </>
 );
 
@@ -50,8 +52,17 @@ const optionalWarningHeading = (
 
 const mailPreamble = (
   <>
-    <p>Write the Beneficiary’s name on each page of the document.</p>
-    <p>Mail copies of the documents here: </p>
+    <va-link
+      href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your"
+      text="Learn more about the supporting documents you need to submit (opens in a
+      new tab)"
+    />
+
+    <p>
+      Write the sponsor’s first and last name and last four digits of their
+      Social Security number on each page of the document.
+    </p>
+    <p>Mail copies of the supporting documents to this address:</p>
   </>
 );
 
@@ -69,13 +80,11 @@ export function ConfirmationPage(props) {
     showMail: true,
     allPages: form.pages,
     fileNameMap: prefixFileNames(data, requiredFiles),
-    optionalDescription: '',
     requiredDescription: '',
     requiredFiles,
     nonListNameKey: 'applicantName',
     mailingAddress: officeAddress,
     mailPreamble,
-    officeName: office,
     faxNum: officeFaxNum,
     showNameHeader: false,
     showRequirementHeaders: false,
@@ -104,11 +113,20 @@ export function ConfirmationPage(props) {
           Your submission information
         </h3>
         {(data.statementOfTruthSignature || data.signature) && (
-          <span className="veterans-full-name">
-            <strong>Who submitted this form</strong>
+          <>
+            <span className="veterans-full-name">
+              <strong>Applicant’s name</strong>
+              <br />
+              {applicantWording(form.data, false, false, false)}
+            </span>
             <br />
-            {data.statementOfTruthSignature || data.signature}
-          </span>
+            <br />
+            <span className="signer-name">
+              <strong>Who submitted this form</strong>
+              <br />
+              {data.statementOfTruthSignature || data.signature}
+            </span>
+          </>
         )}
         <br />
         {data.statementOfTruthSignature && (
@@ -131,6 +149,7 @@ export function ConfirmationPage(props) {
           You can print this confirmation for page for your records.
         </span>
         <br />
+        <br />
         <va-button
           uswds
           className="usa-button screen-only"
@@ -139,10 +158,24 @@ export function ConfirmationPage(props) {
         />
       </div>
       <h2 className="vads-u-font-size--h3">What to expect next</h2>
+      <p>It will take about 90 days to process your application.</p>
       <p>
-        We’ll contact the number you listed on this form by mail or phone if we
-        have questions or need more information.
+        If we have any questions or need additional information, we'll contact
+        you.
       </p>
+
+      <h2 className="vads-u-font-size--h3">
+        How to contact us about your form
+      </h2>
+      <p>
+        If you have any questions about your form, you can call us at{' '}
+        <VaTelephone contact="800-733-8387" /> (TTY: 711). We’re here Monday
+        through Friday, 8:05 a.m. to 7:30 p.m. ET.
+      </p>
+      <p>You can also contact us online through our Ask VA tool.</p>
+      <VaLink text="Go to Ask VA" href="https://ask.va.gov/" />
+      <br />
+      <br />
       <VaLinkAction href="/" text="Go back to VA.gov" />
     </div>
   );

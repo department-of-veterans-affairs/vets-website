@@ -1,13 +1,41 @@
-import React from 'react';
+// components/confirmation/ConfirmationApproved.jsx
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LETTER_URL } from '../../constants';
+import LoadingIndicator from '../LoadingIndicator';
 import FormFooter from '../FormFooter';
 
-export default function ConfirmationApproved({
+const ConfirmationApproved = ({
   claimantName,
   confirmationDate,
+  confirmationError,
+  confirmationLoading,
   printPage,
-}) {
+  sendConfirmation,
+  userEmail,
+  userFirstName,
+}) => {
+  useEffect(
+    () => {
+      sendConfirmation({
+        claimStatus: 'ELIGIBLE',
+        email: userEmail,
+        firstName: userFirstName,
+      });
+    },
+    [sendConfirmation, userEmail, userFirstName],
+  );
+
+  if (confirmationLoading) {
+    return <LoadingIndicator message="Sending confirmation email..." />;
+  }
+
+  if (confirmationError) {
+    return (
+      <div>Error sending confirmation email: {confirmationError.message}</div>
+    );
+  }
+
   return (
     <div className="meb-confirmation-page meb-confirmation-page_approved">
       <va-alert status="success">
@@ -18,7 +46,7 @@ export default function ConfirmationApproved({
           We reviewed your application and have determined that you are entitled
           to educational benefits under the Post-9/11 GI Bill. Your Certificate
           of Eligibility is now available. A physical copy will also be mailed
-          to your mailing address.
+          to your mailing address.{' '}
         </p>
         <va-link
           download
@@ -28,25 +56,25 @@ export default function ConfirmationApproved({
         />
         <br />
         <br />
-        <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/ ">
+        <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/">
           View a statement of your benefits
         </a>
       </va-alert>
 
       <div className="feature">
         <h3>Application for VA education benefits (Form 22-1990)</h3>
+        <h3>Post-9/11 GI Bill, Chapter 33</h3>
         {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
         <dl>
           <dt>Date received</dt>
           <dd>{confirmationDate}</dd>
         </dl>
-        <button
+        <va-button
+          uswds
           className="usa-button meb-print"
+          text="Print this page"
           onClick={printPage}
-          type="button"
-        >
-          Print this page
-        </button>
+        />
       </div>
 
       <h2>What happens next?</h2>
@@ -59,7 +87,7 @@ export default function ConfirmationApproved({
         </li>
         <li>
           Use our{' '}
-          <a href="/education/gi-bill-comparison-tool/ ">
+          <a href="/education/gi-bill-comparison-tool/">
             GI Bill Comparison Tool
           </a>{' '}
           to help you decide which education program and school is best for you.
@@ -109,10 +137,17 @@ export default function ConfirmationApproved({
       <FormFooter />
     </div>
   );
-}
+};
 
 ConfirmationApproved.propTypes = {
   claimantName: PropTypes.string.isRequired,
   confirmationDate: PropTypes.string.isRequired,
+  confirmationError: PropTypes.bool.isRequired,
+  confirmationLoading: PropTypes.bool.isRequired,
   printPage: PropTypes.func.isRequired,
+  sendConfirmation: PropTypes.func.isRequired,
+  userEmail: PropTypes.string.isRequired,
+  userFirstName: PropTypes.string.isRequired,
 };
+
+export default ConfirmationApproved;

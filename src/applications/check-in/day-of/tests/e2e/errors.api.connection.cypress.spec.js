@@ -10,6 +10,7 @@ import EmergencyContact from '../../../tests/e2e/pages/EmergencyContact';
 import AppointmentsPage from '../../../tests/e2e/pages/AppointmentsPage';
 import TravelPages from '../../../tests/e2e/pages/TravelPages';
 import Arrived from './pages/Arrived';
+import UpcomingAppointments from '../../../tests/e2e/pages/UpcomingAppointmentsPage';
 
 describe('Check In Experience | Day Of | API Errors', () => {
   const {
@@ -51,7 +52,11 @@ describe('Check In Experience | Day Of | API Errors', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();
       AppointmentsPage.validatePageLoaded();
-      AppointmentsPage.validateErrorMessage();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptGoToUpcomingAppointmentsPage();
+      UpcomingAppointments.validatePageLoaded();
+      UpcomingAppointments.validateErrorMessage();
+      cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--Errors--upcoming-fail');
       cy.injectAxeThenAxeCheck();
     });

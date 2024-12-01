@@ -1,9 +1,9 @@
 import React from 'react';
-import moment from 'moment';
+import { add, getUnixTime, sub } from 'date-fns';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { render } from '@testing-library/react';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -66,9 +66,7 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -102,9 +100,7 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -121,14 +117,7 @@ describe('schemaform <ApplicationStatus>', () => {
   it('should clear wizard status when starting a new application', () => {
     const wizardStatus = 'testKey';
     const fetchSpy = sinon.stub();
-
-    // delete/revert in issue #82798
-    const initialState = {
-      featureToggles: {
-        myVaEnableNewSipConfig: true,
-      },
-    };
-    const wrapper = renderInReduxProvider(
+    const tree = render(
       <ApplicationStatus
         formId="21P-527EZ"
         wizardStatus={wizardStatus}
@@ -144,37 +133,27 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
           ],
         }}
         formConfig={formConfigDefaultData}
       />,
-      initialState,
     );
 
-    wrapper.container.querySelector('.usa-button-secondary').click(); // open modal
+    tree.container.querySelector('.usa-button-secondary').click(); // open modal
 
-    expect(wrapper.container.querySelector('.va-modal-body')).to.not.be.null;
+    expect(tree.container.querySelector('.va-modal-body')).to.not.be.null;
 
-    wrapper.getByText('Start a new application').click();
+    tree.getByText('Start a new application').click();
 
     // remove form & reset wizard
     expect(sessionStorage.getItem(wizardStatus)).to.be.null;
   });
 
   it('should render expired form', () => {
-    // delete/revert in issue #82798
-    const initialState = {
-      featureToggles: {
-        myVaEnableNewSipConfig: true,
-      },
-    };
-
-    const wrapper = renderInReduxProvider(
+    const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
         login={{
@@ -188,20 +167,16 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .add(-1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(sub(Date.now(), { days: 1 })),
               },
             },
           ],
         }}
         formConfig={formConfigDefaultData}
       />,
-      initialState,
     );
-    expect(wrapper.getByText(/Your application has expired/));
-    expect(wrapper.getByRole('button', { name: /Start a new application/ })).to
-      .not.be.null;
+    expect(tree.subTree('.usa-alert-warning')).to.not.be.false;
+    expect(tree.text()).to.include('start a new application');
   });
   it('should render saved form from ids', () => {
     const tree = SkinDeep.shallowRender(
@@ -218,9 +193,7 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_22_1990,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -251,17 +224,13 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_22_1990,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
             {
               form: VA_FORM_IDS.FORM_22_1995,
               metadata: {
-                expiresAt: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -295,9 +264,7 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .subtract(1, 'day')
-                  .unix(),
+                expiresAt: getUnixTime(sub(Date.now(), { days: 1 })),
               },
             },
           ],
@@ -327,12 +294,8 @@ describe('schemaform <ApplicationStatus>', () => {
             {
               form: VA_FORM_IDS.FORM_21P_527EZ,
               metadata: {
-                expiresAt: moment()
-                  .add(+1, 'day')
-                  .unix(),
-                lastUpdated: moment()
-                  .subtract(1, 'hour')
-                  .unix(),
+                expiresAt: getUnixTime(add(Date.now(), { days: 1 })),
+                lastUpdated: getUnixTime(sub(Date.now(), { hours: 1 })),
               },
             },
           ],

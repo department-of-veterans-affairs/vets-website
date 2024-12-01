@@ -27,6 +27,9 @@ const selectFeatureToggles = createSelector(
     isUpcomingAppointmentsEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceUpcomingAppointmentsEnabled
     ],
+    isMedicationReviewContentEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceMedicationReviewContent
+    ],
   }),
   toggles => toggles,
 );

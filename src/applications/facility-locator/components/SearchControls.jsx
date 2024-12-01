@@ -17,6 +17,7 @@ import {
 import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
+import { SearchControlsTypes } from '../types';
 
 const SearchControls = props => {
   const {
@@ -157,7 +158,7 @@ const SearchControls = props => {
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
           >
-            City, state or postal code{' '}
+            <span id="city-state-zip-text">City, state or postal code</span>{' '}
             <span className="form-required-span">(*Required)</span>
           </label>
           {geolocationInProgress ? (
@@ -170,6 +171,7 @@ const SearchControls = props => {
               onClick={handleGeolocationButtonClick}
               type="button"
               className="use-my-location-link"
+              aria-describedby="city-state-zip-text"
             >
               <va-icon icon="near_me" size={3} />
               Use my location
@@ -210,7 +212,7 @@ const SearchControls = props => {
   };
 
   const renderFacilityTypeDropdown = () => {
-    const { suppressCCP, suppressPharmacies, suppressPPMS } = props;
+    const { suppressPharmacies, suppressPPMS } = props;
     const { facilityType, isValid, facilityTypeChanged } = currentQuery;
     const locationOptions = suppressPPMS
       ? nonPPMSfacilityTypeOptions
@@ -219,10 +221,6 @@ const SearchControls = props => {
 
     if (suppressPharmacies) {
       delete locationOptions.pharmacy;
-    }
-
-    if (suppressCCP) {
-      delete locationOptions.provider;
     }
 
     const options = Object.keys(locationOptions).map(facility => (
@@ -260,7 +258,6 @@ const SearchControls = props => {
     const disabled = ![
       LocationType.HEALTH,
       LocationType.URGENT_CARE,
-      LocationType.BENEFITS,
       LocationType.CC_PROVIDER,
       LocationType.EMERGENCY_CARE,
     ].includes(facilityType);
@@ -335,26 +332,28 @@ const SearchControls = props => {
   // Track geocode errors
   useEffect(
     () => {
-      switch (currentQuery.geocodeError) {
-        case 0:
-          break;
-        case 1:
-          recordEvent({
-            event: 'fl-get-geolocation-permission-error',
-            'error-key': '1_PERMISSION_DENIED',
-          });
-          break;
-        case 2:
-          recordEvent({
-            event: 'fl-get-geolocation-other-error',
-            'error-key': '2_POSITION_UNAVAILABLE',
-          });
-          break;
-        default:
-          recordEvent({
-            event: 'fl-get-geolocation-other-error',
-            'error-key': '3_TIMEOUT',
-          });
+      if (currentQuery?.geocodeError) {
+        switch (currentQuery.geocodeError) {
+          case 0:
+            break;
+          case 1:
+            recordEvent({
+              event: 'fl-get-geolocation-permission-error',
+              'error-key': '1_PERMISSION_DENIED',
+            });
+            break;
+          case 2:
+            recordEvent({
+              event: 'fl-get-geolocation-other-error',
+              'error-key': '2_POSITION_UNAVAILABLE',
+            });
+            break;
+          default:
+            recordEvent({
+              event: 'fl-get-geolocation-other-error',
+              'error-key': '3_TIMEOUT',
+            });
+        }
       }
     },
     [currentQuery.geocodeError],
@@ -379,7 +378,11 @@ const SearchControls = props => {
             : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
         </p>
       </VaModal>
-      <form id="facility-search-controls" onSubmit={handleSubmit}>
+      <form
+        className="vads-u-margin-bottom--0"
+        id="facility-search-controls"
+        onSubmit={handleSubmit}
+      >
         <div className="columns">
           {renderLocationInputField()}
           <div id="search-controls-bottom-row">
@@ -392,5 +395,7 @@ const SearchControls = props => {
     </div>
   );
 };
+
+SearchControls.propTypes = SearchControlsTypes;
 
 export default SearchControls;

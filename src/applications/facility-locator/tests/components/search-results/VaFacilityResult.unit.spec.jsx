@@ -10,10 +10,13 @@ describe('VaFacilityResult', () => {
     const query = {
       facilityType: LocationType.HEALTH,
     };
+
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[0]} query={query} />,
     );
+
     expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
@@ -28,10 +31,13 @@ describe('VaFacilityResult', () => {
     const query = {
       facilityType: LocationType.BENEFITS,
     };
+
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[6]} query={query} />,
     );
+
     expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
@@ -44,12 +50,15 @@ describe('VaFacilityResult', () => {
 
   it('Should render VaFacility VA, facility type cemetery', () => {
     const query = {
-      facilityType: LocationType.CEMETARY,
+      facilityType: LocationType.CEMETERY,
     };
+
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[7]} query={query} />,
     );
+
     expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
@@ -64,14 +73,17 @@ describe('VaFacilityResult', () => {
     const query = {
       facilityType: LocationType.VET_CENTER,
     };
+
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[8]} query={query} />,
     );
+
     expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
-    expect(wrapper.find('.facility-result a').props().href).to.equal(
+    expect(wrapper.find('.facility-result va-link').props().href).to.equal(
       'https://va.gov/alexandria',
     );
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);

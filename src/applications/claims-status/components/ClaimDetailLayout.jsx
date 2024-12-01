@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {
   buildDateFormatter,
   claimAvailable,
-  getClaimType,
   isClaimOpen,
   isPopulatedClaim,
+  generateClaimTitle,
 } from '../utils/helpers';
 import { setFocus } from '../utils/page';
 import AddingDetails from './AddingDetails';
@@ -21,23 +21,15 @@ const focusHeader = () => {
   setFocus('.claim-contentions-header');
 };
 
-const getBreadcrumbText = (currentTab, claimType) => {
-  let joiner;
-  if (currentTab === 'Status' || currentTab === 'Details') {
-    joiner = 'of';
-  } else {
-    joiner = 'for';
-  }
-
-  return `${currentTab} ${joiner} your ${claimType} claim`;
-};
-
 export default function ClaimDetailLayout(props) {
   const { claim, clearNotification, currentTab, loading, message } = props;
 
   const tabs = ['Status', 'Files', 'Details', 'Overview'];
-  const claimType = getClaimType(claim).toLowerCase();
 
+  // Providing an empty array will show the breadcrumbs for the main claims
+  //   list page while the detail page loads (to avoid a flash of incorrect
+  //   content).
+  let breadcrumbs = [];
   let bodyContent;
   let headingContent;
   if (loading) {
@@ -48,7 +40,14 @@ export default function ClaimDetailLayout(props) {
       />
     );
   } else if (claimAvailable(claim)) {
-    const claimTitle = `Your ${claimType} claim`;
+    breadcrumbs = [
+      {
+        href: '../status',
+        label: generateClaimTitle(claim, 'breadcrumb', currentTab),
+        isRouterLink: true,
+      },
+    ];
+    const claimTitle = generateClaimTitle(claim, 'detail');
     const { claimDate, closeDate, contentions, status } =
       claim.attributes || {};
 
@@ -80,6 +79,9 @@ export default function ClaimDetailLayout(props) {
             contentions={contentions}
             onClick={focusHeader}
           />
+          {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (
+            <AddingDetails />
+          )}
         </div>
       </>
     );
@@ -91,9 +93,6 @@ export default function ClaimDetailLayout(props) {
           <div key={tab} id={`tabPanel${tab}`} className="tab-panel">
             {currentTab === tab && (
               <div className="tab-content claim-tab-content">
-                {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (
-                  <AddingDetails />
-                )}
                 {props.children}
               </div>
             )}
@@ -102,6 +101,14 @@ export default function ClaimDetailLayout(props) {
       </div>
     );
   } else {
+    // Will provide a default title, e.g. "Status of your claim"
+    breadcrumbs = [
+      {
+        href: '../status',
+        label: generateClaimTitle(null, 'breadcrumb', currentTab),
+        isRouterLink: true,
+      },
+    ];
     bodyContent = (
       <>
         <h1>We encountered a problem</h1>
@@ -110,18 +117,12 @@ export default function ClaimDetailLayout(props) {
     );
   }
 
-  const crumb = {
-    href: `../status`,
-    label: getBreadcrumbText(currentTab, claimType),
-    isRouterLink: true,
-  };
-
   return (
     <div>
       <div name="topScrollElement" />
       <div className="row">
         <div className="usa-width-two-thirds medium-8 columns">
-          <ClaimsBreadcrumbs crumbs={[crumb]} />
+          <ClaimsBreadcrumbs crumbs={breadcrumbs} />
           {!!headingContent && <div>{headingContent}</div>}
           <div>{bodyContent}</div>
           <NeedHelp />

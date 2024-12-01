@@ -3,17 +3,23 @@ import sinon from 'sinon';
 import {
   concatObservationInterpretations,
   dateFormat,
-  getStatusExtractPhase,
+  dateFormatWithoutTimezone,
+  dispatchDetails,
+  extractContainedByRecourceType,
+  extractContainedResource,
+  formatDate,
+  formatNameFirstLast,
+  formatNameFirstToLast,
+  getActiveLinksStyle,
+  getLastUpdatedText,
   getObservationValueWithUnits,
   getReactions,
+  getStatusExtractPhase,
   nameFormat,
   processList,
-  extractContainedResource,
-  dispatchDetails,
-  getActiveLinksStyle,
-  dateFormatWithoutTimezone,
-  formatDate,
+  getMonthFromSelectedDate,
 } from '../../util/helpers';
+
 import { refreshPhases } from '../../util/constants';
 
 describe('Name formatter', () => {
@@ -43,6 +49,7 @@ describe('Date formatter with no timezone', () => {
     const formattedDate = dateFormatWithoutTimezone(timeStamp);
     expect(formattedDate).to.eq('September 29, 2023, 11:04 a.m.');
   });
+
   it('formats an epoch date in the original time without a timezone', () => {
     const timeStamp = 1605300748000;
     const formattedDate = dateFormatWithoutTimezone(timeStamp);
@@ -128,6 +135,85 @@ describe('extractContainedResource', () => {
     };
 
     const result = extractContainedResource(resource, '#b2');
+    expect(result).to.eq(null);
+  });
+});
+
+describe('extractContainedByResourceType', () => {
+  const mockRecord = {
+    contained: [
+      {
+        resourceType: 'Organization',
+        id: 'ex-MHV-organization-something',
+        name: 'Something',
+      },
+      {
+        resourceType: 'Practitioner',
+        id: 'ex-MHV-practitioner-somebody',
+        name: [{ text: 'Somebody' }],
+      },
+      { resourceType: 'Observation', id: 'ex-MHV-lab-stuff', name: 'Stuff' },
+    ],
+    performer: [
+      { reference: '#ex-MHV-organization-something' },
+      { reference: '#ex-MHV-practitioner-somebody' },
+    ],
+  };
+
+  it('should extract the contained resource when provided a valid reference array and resourceType', () => {
+    const result = extractContainedByRecourceType(
+      mockRecord,
+      'Practitioner',
+      mockRecord.performer,
+    );
+    const desired = mockRecord.contained.find(
+      e => e.id === 'ex-MHV-practitioner-somebody',
+    );
+
+    expect(result).to.deep.equal(desired);
+  });
+
+  it('should return null if resource does not contain the "contained" property', () => {
+    const mockRecord2 = {
+      performer: [{ reference: '#ex-MHV-organization-something' }],
+    };
+
+    const result = extractContainedByRecourceType(
+      mockRecord2,
+      'Practitioner',
+      mockRecord.performer,
+    );
+    expect(result).to.eq(null);
+  });
+
+  it('should return null if "contained" property is not an array', () => {
+    const mockRecord3 = {
+      contained: 'not-an-array',
+      performer: [
+        { reference: '#ex-MHV-organization-something' },
+        { reference: '#ex-MHV-practitioner-somebody' },
+      ],
+    };
+
+    const result = extractContainedByRecourceType(
+      mockRecord3,
+      'Practitioner',
+      mockRecord.performer,
+    );
+    expect(result).to.eq(null);
+  });
+
+  it('should return null if resourceType is not provided', () => {
+    const result = extractContainedByRecourceType(mockRecord, 'Practitioner');
+    expect(result).to.eq(null);
+  });
+
+  it('should return null if no match is found in the "contained" array', () => {
+    const result = extractContainedByRecourceType(
+      mockRecord,
+      'Specimen',
+      mockRecord.performer,
+    );
     expect(result).to.eq(null);
   });
 });
@@ -361,5 +447,204 @@ describe('getStatusExtractPhase', () => {
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
       refreshPhases.CURRENT,
     );
+  });
+});
+
+describe('getLastUpdatedText', () => {
+  it('should return the last updated string when the refreshStateStatus contains the extractType and lastSuccessfulCompleted', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
+    ];
+    const extractType = 'type1';
+
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
+
+    const testDate = new Date('2024-09-15T10:00:00Z');
+
+    expect(result).to.equal(
+      `Last updated at ${testDate.getHours() % 12 ||
+        12}:00 a.m. on ${testDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}`,
+    );
+  });
+
+  it('should return null when no matching extractType is found', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
+    ];
+    const extractType = 'type2';
+
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
+
+    expect(result).to.be.null;
+  });
+
+  it('should return null when refreshStateStatus is undefined', () => {
+    const result = getLastUpdatedText(undefined, 'type1');
+    expect(result).to.be.null;
+  });
+
+  it('should return null when no lastSuccessfulCompleted is present', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: null },
+    ];
+    const extractType = 'type1';
+
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
+
+    expect(result).to.be.null;
+  });
+});
+
+describe('formatNameFirstToLast', () => {
+  it('formats a name string from "Last,First" to "First Last"', () => {
+    const input = 'Schmo,Joe';
+    const expectedOutput = 'Joe Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('formats a name with middle initial from "Last,First Middle" to "First Middle Last"', () => {
+    const input = 'Schmo,Joe R';
+    const expectedOutput = 'Joe R Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('returns original name if not in "Last,First" format', () => {
+    const input = 'Schmo Joe';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(input);
+  });
+
+  it('handles object input with given and family names correctly', () => {
+    const input = { given: ['Joe', 'R'], family: 'Schmo' };
+    const expectedOutput = 'Joe R Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('handles object input with text property in "Last,First" format', () => {
+    const input = { text: 'Schmo,Joe' };
+    const expectedOutput = 'Joe Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('returns text property if not in "Last,First" format', () => {
+    const input = { text: 'Schmo Joe' };
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(input.text);
+  });
+
+  it('returns null on unexpected object without necessary properties', () => {
+    const input = { other: 'value' };
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null if input is null', () => {
+    const result = formatNameFirstToLast(null);
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null if input is undefined', () => {
+    const result = formatNameFirstToLast(undefined);
+
+    expect(result).to.be.null;
+  });
+
+  it('handles a name string without a comma as original input', () => {
+    const input = 'SingleName';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(input);
+  });
+
+  it('handles object input with empty given array and family name', () => {
+    const input = { given: [], family: 'Schmo' };
+    const expectedOutput = ' Schmo';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(expectedOutput);
+  });
+
+  it('handles empty string input as empty string', () => {
+    const input = '';
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq('');
+  });
+
+  it('handles improperly formatted text field in object as original input', () => {
+    const input = { text: 'SchmoJoe' };
+    const result = formatNameFirstToLast(input);
+
+    expect(result).to.eq(input.text);
+  });
+});
+
+describe('formatNameFirstLast', () => {
+  const user1 = {
+    userFullName: {
+      first: 'Joe',
+      last: 'Schmo',
+    },
+  };
+
+  const user2 = {
+    userFullName: {
+      first: 'Joe',
+      last: 'Schmo',
+      middle: 'R',
+      suffix: 'Jr',
+    },
+  };
+
+  it('returns a name formatted with the first name before to the last name', () => {
+    const lastFirstName = 'Joe Schmo';
+    const updatedName = formatNameFirstLast(user1.userFullName);
+
+    expect(updatedName).to.eq(lastFirstName);
+  });
+
+  it('returns a name formatted with the first name and middle initial and suffix', () => {
+    const firstMiddleLastSuffixName = 'Joe R Schmo, Jr';
+    const updatedName = formatNameFirstLast(user2.userFullName);
+
+    expect(updatedName).to.eq(firstMiddleLastSuffixName);
+  });
+});
+
+describe('getMonthFromSelectedDate', () => {
+  it('should return the formatted date', () => {
+    const date = '2024-01';
+    const result = getMonthFromSelectedDate({ date });
+    expect(result).to.equal('January 2024');
+  });
+  it('should accept a mask for the date', () => {
+    const date = '2024-01';
+    const result = getMonthFromSelectedDate({ date, mask: 'MMMM' });
+    expect(result).to.equal('January');
+  });
+  it('should return null if the date is not provided', () => {
+    const result = getMonthFromSelectedDate({});
+    expect(result).to.be.null;
+  });
+  it('should return null is date string doesnt match the format', () => {
+    const date = '2024';
+    const result = getMonthFromSelectedDate({ date });
+    expect(result).to.be.null;
   });
 });

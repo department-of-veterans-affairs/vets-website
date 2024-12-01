@@ -1,3 +1,4 @@
+import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { isChapterFieldRequired } from '../../../helpers';
 import { addSpouse } from '../../../utilities';
@@ -6,6 +7,19 @@ import { marriageTypeInformation } from './helpers';
 import { locationUISchema } from '../../../location-schema';
 
 const { currentMarriageInformation } = addSpouse.properties;
+
+merge(currentMarriageInformation.properties.type, {
+  type: 'string',
+  enum: ['CEREMONIAL', 'CIVIL', 'COMMON-LAW', 'TRIBAL', 'PROXY', 'OTHER'],
+  enumNames: [
+    'Religious ceremony (minister, justice of the peace, etc.)',
+    'Civil ceremony',
+    'Common-law',
+    'Tribal',
+    'Proxy',
+    'Other',
+  ],
+});
 
 export const schema = {
   type: 'object',

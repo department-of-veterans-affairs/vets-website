@@ -9,13 +9,22 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { getPrescriptionsPaginatedSortedList } from '../actions/prescriptions';
+import {
+  getPaginatedFilteredList,
+  getPrescriptionsPaginatedSortedList,
+} from '../actions/prescriptions';
 import {
   medicationsUrls,
   rxListSortingOptions,
   defaultSelectedSortOption,
+  SESSION_SELECTED_PAGE_NUMBER,
+  filterOptions,
 } from '../util/constants';
-import { selectRefillContentFlag } from '../util/selectors';
+import {
+  selectAllergiesFlag,
+  selectFilterFlag,
+  selectRefillContentFlag,
+} from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { dataDogActionNames } from '../util/dataDogConstants';
@@ -28,8 +37,14 @@ const LandingPage = () => {
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
+  const filteredList = useSelector(
+    state => state.rx.prescriptions?.prescriptionsFilteredList,
+  );
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
+  );
+  const selectedSortOption = useSelector(
+    state => state.rx.prescriptions?.selectedSortOption,
   );
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
@@ -42,6 +57,8 @@ const LandingPage = () => {
     state => state.featureToggles,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const showAllergiesContent = useSelector(selectAllergiesFlag);
+  const showFilterContent = useSelector(selectFilterFlag);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
@@ -53,6 +70,10 @@ const LandingPage = () => {
   const refillUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
+
+  useEffect(() => {
+    sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
+  }, []);
 
   useEffect(
     () => {
@@ -75,7 +96,7 @@ const LandingPage = () => {
 
   useEffect(
     () => {
-      if (!paginatedPrescriptionsList) {
+      if (!showFilterContent && !paginatedPrescriptionsList) {
         setIsPrescriptionsLoading(true);
         dispatch(
           getPrescriptionsPaginatedSortedList(
@@ -90,18 +111,39 @@ const LandingPage = () => {
     [dispatch, paginatedPrescriptionsList],
   );
 
+  useEffect(
+    () => {
+      if (showFilterContent && !filteredList) {
+        setIsPrescriptionsLoading(true);
+        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
+        const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
+        dispatch(
+          getPaginatedFilteredList(
+            1,
+            filterOptions.ALL_MEDICATIONS.url,
+            sortEndpoint,
+          ),
+        )
+          .then(() => setIsPrescriptionsLoading(false))
+          .catch(() => setIsPrescriptionsLoading(false));
+      }
+    },
+    // disabled warning: filteredList must be left of out dependency array to avoid infinite loop, and filterOption to avoid on change api fetch
+    [dispatch, showFilterContent],
+  );
+
   const content = () => {
     return (
       <>
         <div className="main-content">
-          <section>
+          <section className="vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4">
             <h1
               data-testid="landing-page-heading"
-              className="small-screen:vads-u-margin-bottom--0 vads-u-margin-bottom--1"
+              className="mobile-lg:vads-u-margin-bottom--0 vads-u-margin-bottom--1"
             >
               About medications
             </h1>
-            <p className="vads-u-font-family--serif vads-u-margin-top--1">
+            <p className="vads-u-font-family--serif vads-u-margin-top--1 vads-u-font-size--lg">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
@@ -114,7 +156,7 @@ const LandingPage = () => {
           ) : (
             <>
               <CernerFacilityAlert />
-              {paginatedPrescriptionsList?.length ? (
+              {paginatedPrescriptionsList?.length || filteredList?.length ? (
                 <section>
                   <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
                     {showRefillContent ? (
@@ -188,12 +230,12 @@ const LandingPage = () => {
               )}
             </>
           )}
-          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--6 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
+          <div className="no-print vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
           <section>
-            <h2 className="vads-u-margin-top--0">
+            <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
               What to know as you try out this tool
             </h2>
-            <p>
+            <p className="vads-u-margin-top--0">
               We’re giving the trusted My HealtheVet pharmacy tool a new home
               here on VA.gov. In this new tool, you can find all your medication
               records in a single list.
@@ -569,20 +611,30 @@ const LandingPage = () => {
                     If allergies or reactions are missing from your list, tell
                     your care team right away.
                   </p>
-                  <a
-                    href={mhvUrl(
-                      isAuthenticatedWithSSOe(fullState),
-                      'va-allergies-adverse-reactions',
-                    )}
-                    rel="noreferrer"
-                    data-dd-action-name={
-                      dataDogActionNames.landingPage
-                        .GO_TO_YOUR_ALLERGY_AND_REACTION_RECORDS_LINK
-                    }
-                  >
-                    Go to your allergy and reaction records on the My HealtheVet
-                    website
-                  </a>
+                  {showAllergiesContent ? (
+                    <a
+                      href="/my-health/medical-records/allergies"
+                      rel="noreferrer"
+                      data-testid="allergies-reactions-link"
+                    >
+                      Go to your allergies and reactions
+                    </a>
+                  ) : (
+                    <a
+                      href={mhvUrl(
+                        isAuthenticatedWithSSOe(fullState),
+                        'va-allergies-adverse-reactions',
+                      )}
+                      rel="noreferrer"
+                      data-dd-action-name={
+                        dataDogActionNames.landingPage
+                          .GO_TO_YOUR_ALLERGY_AND_REACTION_RECORDS_LINK
+                      }
+                    >
+                      Go to your allergy and reaction records on the My
+                      HealtheVet website
+                    </a>
+                  )}
                   <h4 className="vads-u-margin-top--2">
                     If you use Meds by Mail
                   </h4>
@@ -638,7 +690,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6 vads-l-col--12 medium-screen:vads-l-col--8">
+      <div className="landing-page mobile-lg:vads-u-margin-top--1 vads-u-margin-bottom--6">
         {content()}
       </div>
     </RequiredLoginView>

@@ -1,7 +1,7 @@
 import React from 'react';
-import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { formatDate } from '../../combined/utils/helpers';
 
 export const DownloadLettersAlert = () => (
   <va-alert status="warning">
@@ -41,7 +41,7 @@ export const DowntimeMessage = () => {
         12:30 a.m. to 3 a.m. ET. Thank you for your patience.
       </p>
 
-      <p>Date: {moment().format('dddd, MMMM D, YYYY')}</p>
+      <p>Date: {formatDate(new Date())}</p>
       <p>Start/End time: 12:30 a.m. to 3:00 a.m. ET</p>
 
       <h4>What can you do</h4>
@@ -60,7 +60,7 @@ export const DowntimeMessage = () => {
 };
 
 export const DebtLetterDownloadDisabled = () => (
-  <va-alert status="warning">
+  <va-alert data-testid="letters-disabled-alert" status="warning">
     <h3 className="vads-u-font-size--h3" slot="headline">
       Your debt letters are currently unavailable for download.
     </h3>

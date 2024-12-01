@@ -1,5 +1,4 @@
 import * as adaptiveBenefits from './adaptiveBenefits';
-import * as addDisabilities from './addDisabilities';
 import * as additionalBehaviorChanges from './additionalBehaviorChanges';
 import * as additionalDocuments from './additionalDocuments';
 import * as additionalExposures from './toxicExposure/additionalExposures';
@@ -46,6 +45,7 @@ import * as instructionalPart3 from './instructionalPart3';
 import * as medals from './medals';
 import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
+import * as mentalHealthConditions from './mentalHealth/mentalHealthConditions';
 import * as militaryDutyImpact from './militaryDutyImpact';
 import * as militaryHistory from './militaryHistory';
 import * as newDisabilityFollowUp from './newDisabilityFollowUp';
@@ -113,12 +113,11 @@ import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
 import * as veteranInfo from './veteranInfo';
 import * as workBehaviorChanges from './workBehaviorChanges';
-import * as addDisabilitiesRevised from './addDisabilitiesRevised';
+import * as addDisabilities from './addDisabilities';
 
 export {
   adaptiveBenefits,
   addDisabilities,
-  addDisabilitiesRevised,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalExposures,
@@ -165,6 +164,7 @@ export {
   medals,
   medicalCare,
   mentalHealthChanges,
+  mentalHealthConditions,
   militaryDutyImpact,
   militaryHistory,
   newDisabilityFollowUp,

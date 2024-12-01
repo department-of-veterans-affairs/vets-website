@@ -14,7 +14,9 @@ describe('Vaccines list container', () => {
     user,
     mr: {
       vaccines: {
-        vaccinesList: vaccines.entry.map(vaccine => convertVaccine(vaccine)),
+        vaccinesList: vaccines.entry.map(vaccine =>
+          convertVaccine(vaccine.resource),
+        ),
       },
     },
     featureToggles: {

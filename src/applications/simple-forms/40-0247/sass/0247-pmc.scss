@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
@@ -61,4 +61,9 @@ input[name="root_additionalCopies"] {
 
 va-text-input[name="root_additionalCopies"]::part(label) {
   margin-top: 0;
+}
+
+va-radio::part(header) {
+  color: var(--vads-color-base-darker);
+  font-size: 1.25rem;
 }

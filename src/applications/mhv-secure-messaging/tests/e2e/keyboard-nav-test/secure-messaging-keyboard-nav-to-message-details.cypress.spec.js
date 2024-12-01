@@ -1,18 +1,18 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import mockMessageWithAttachment from '../fixtures/message-response-withattachments.json';
-import mockMessages from '../fixtures/messages-response.json';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT } from '../utils/constants';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
+import singleThreadResponse from '../fixtures/thread-response-new-api.json';
 
 describe('Navigate to Message Details ', () => {
   beforeEach(() => {
+    const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
+      singleThreadResponse,
+    );
     SecureMessagingSite.login();
-    mockMessageWithAttachment.data.id = '7192838';
-    mockMessageWithAttachment.data.attributes.attachment = true;
-    mockMessageWithAttachment.data.attributes.body = 'attachment';
-    PatientInboxPage.loadInboxMessages(mockMessages, mockMessageWithAttachment);
-    PatientMessageDetailsPage.loadMessageDetails(mockMessageWithAttachment);
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
   });
 
   it('keyboard navigation to expand messages', () => {
@@ -25,19 +25,10 @@ describe('Navigate to Message Details ', () => {
   it('keyboard navigation to main buttons', () => {
     PatientMessageDetailsPage.verifyButtonsKeyboardNavigation();
 
-    cy.tabToElement('#print-button')
-      .should('contain', 'Print')
-      .and('have.focus');
-
-    cy.realPress('Tab');
-    cy.get(Locators.BUTTONS.BUTTON_MOVE)
-      .should(`contain`, `Move`)
-      .and('have.focus');
-
-    cy.realPress('Tab');
-    cy.get(Locators.BUTTONS.BUTTON_TRASH)
-      .should(`contain`, `Trash`)
-      .and('have.focus');
+    PatientMessageDetailsPage.verifyReplyButtonByKeyboard('reply');
+    PatientMessageDetailsPage.verifySingleButtonByKeyboard('print');
+    PatientMessageDetailsPage.verifySingleButtonByKeyboard('move');
+    PatientMessageDetailsPage.verifySingleButtonByKeyboard('trash');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

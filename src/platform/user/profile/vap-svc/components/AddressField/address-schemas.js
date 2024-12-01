@@ -102,8 +102,7 @@ const formSchema = {
 // Updated to set Country input to inert instead of disable
 const uiSchema = {
   [MILITARY_BASE_DATA]: {
-    'ui:title':
-      'I live on a United States military base outside of the United States.',
+    'ui:title': 'I live outside of the United States on a U.S. military base.',
     'ui:webComponentField': VaCheckboxField,
   },
   [MILITARY_BASE_DATA_INFO]: {

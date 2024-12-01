@@ -121,6 +121,16 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [ALL_PAGES.page10b0.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            cy.get('select').select(1);
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       [ALL_PAGES.page13.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -269,22 +279,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [ALL_PAGES.page18f1.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.url().then(url => {
-              selectRadioWebComponent(
-                'applicantSponsorMarriageDetails',
-                data.applicants[getIdx(url)].applicantSponsorMarriageDetails
-                  .relationshipToVeteran,
-              );
-            });
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       [ALL_PAGES.page18f3.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -293,25 +287,6 @@ const testConfig = createTestConfig(
               fillDateWebComponentPattern(
                 'dateOfMarriageToSponsor',
                 data.applicants[getIdx(url)].dateOfMarriageToSponsor,
-              );
-            });
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [ALL_PAGES.page18f6.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.url().then(url => {
-              fillDateWebComponentPattern(
-                'dateOfMarriageToSponsor',
-                data.applicants[getIdx(url)].dateOfMarriageToSponsor,
-              );
-              fillDateWebComponentPattern(
-                'dateOfSeparationFromSponsor',
-                data.applicants[getIdx(url)].dateOfSeparationFromSponsor,
               );
             });
             cy.axeCheck();
@@ -405,7 +380,7 @@ const testConfig = createTestConfig(
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

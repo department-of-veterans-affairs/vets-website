@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import debounce from 'platform/utilities/data/debounce';
-
 import { EVIDENCE_VA_PATH } from '../constants';
-import { content } from '../content/evidenceVaRecords';
-import { getIndex, hasErrors } from '../utils/evidence';
+import { content, contentOld } from '../content/evidenceVaRecords';
+import { getIndex, getVAEvidence, hasErrors } from '../utils/evidence';
+import { showScNewForm as newFormToggle } from '../utils/toggle';
 import {
   validateVaLocation,
   validateVaIssues,
-  validateVaFromDate,
-  validateVaToDate,
+  validateVaFromDate, // YYYY-MM-DD
+  validateVaToDate, // YYYY-MM-DD
+  validateVaDate, // YYYY-MM
   validateVaUnique,
   isEmptyVaEntry,
 } from '../validations/evidence';
-import { focusEvidence } from '../utils/focus';
+
+import { focusEvidence, focusFirstError } from '../../shared/utils/focus';
 import {
   HeaderAndModal,
   IssueAndDates,
@@ -31,6 +32,7 @@ const defaultData = {
   locationAndName: '',
   issues: [],
   evidenceDates: { from: '', to: '' },
+  treatmentDate: '',
 };
 const defaultState = {
   dirty: {
@@ -53,7 +55,7 @@ const EvidenceVaRecords = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { locations = [] } = data || {};
+  const locations = getVAEvidence(data || {});
 
   // *** state ***
   // currentIndex is zero-based
@@ -73,6 +75,8 @@ const EvidenceVaRecords = ({
   const [addOrEdit, setAddOrEdit] = useState(getPageType(currentData));
 
   const availableIssues = getSelected(data).map(getIssueName);
+  const showScNewForm = newFormToggle(data);
+  const setContent = showScNewForm ? content : contentOld;
 
   // *** validations ***
   const errors = {
@@ -89,8 +93,17 @@ const EvidenceVaRecords = ({
       data,
       currentIndex,
     )[0],
-    from: checkValidations([validateVaFromDate], currentData),
-    to: checkValidations([validateVaToDate], currentData),
+    from: showScNewForm
+      ? null
+      : checkValidations([validateVaFromDate], currentData, data),
+    to: showScNewForm
+      ? null
+      : checkValidations([validateVaToDate], currentData, data),
+    treatmentDate:
+      showScNewForm &&
+      (currentData.noDate
+        ? null
+        : checkValidations([validateVaDate], currentData, data)),
   };
 
   useEffect(
@@ -101,7 +114,7 @@ const EvidenceVaRecords = ({
       setCurrentState(defaultState);
       focusEvidence();
       setForceReload(false);
-      debounce(() => setIsBusy(false));
+      setTimeout(() => setIsBusy(false));
     },
     // don't include locations or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -113,6 +126,8 @@ const EvidenceVaRecords = ({
     issues = currentData.issues,
     from = currentData.evidenceDates?.from,
     to = currentData.evidenceDates?.to,
+    txdate = currentData.treatmentDate,
+    nodate = currentData.noDate,
     remove = false,
   } = {}) => {
     const newData = {
@@ -122,6 +137,8 @@ const EvidenceVaRecords = ({
         from,
         to,
       },
+      treatmentDate: txdate,
+      noDate: nodate,
     };
 
     const newLocations = [...locations];
@@ -167,13 +184,19 @@ const EvidenceVaRecords = ({
         // event.detail from testing
         const fieldName = event.target?.getAttribute('name') || event.detail;
         updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+        if (hasErrors(errors)) {
+          focusFirstError();
+        }
       }
     },
     onChange: event => {
       const { target = {} } = event;
       const fieldName = target.name;
-      // target.value from va-text-input & va-memorable-date
-      const value = target.value || '';
+      // target.value from va-text-input, va-memorable-date, & va-date
+      const value =
+        showScNewForm && fieldName === 'nodate'
+          ? target.checked // I don't have a date checkbox
+          : target.value || '';
       updateCurrentLocation({ [fieldName]: value });
     },
 
@@ -300,7 +323,7 @@ const EvidenceVaRecords = ({
           currentState={currentState}
           currentIndex={currentIndex}
           addOrEdit={addOrEdit}
-          content={content}
+          content={setContent}
           handlers={handlers}
         />
 
@@ -308,7 +331,8 @@ const EvidenceVaRecords = ({
           id="add-location-name"
           name="name"
           type="text"
-          label={content.locationAndName}
+          label={setContent.locationAndName}
+          hint={setContent?.locationAndNameHint || ''}
           required
           value={currentData.locationAndName}
           onInput={handlers.onChange}
@@ -322,17 +346,17 @@ const EvidenceVaRecords = ({
         <IssueAndDates
           currentData={currentData}
           availableIssues={availableIssues}
-          content={content}
+          content={setContent}
           handlers={handlers}
           showError={showError}
           isInvalid={isInvalid}
-          dateRangeKey="evidenceDates"
+          dateRangeKey={showScNewForm ? 'treatmentDate' : 'evidenceDates'}
         />
 
         <PageNavigation
           path={`${VA_PATH}?index=${currentIndex + 1}`}
           content={{
-            ...content,
+            ...setContent,
             contentBeforeButtons,
             contentAfterButtons,
           }}

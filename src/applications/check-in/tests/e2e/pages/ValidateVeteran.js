@@ -164,7 +164,9 @@ class ValidateVeteran {
   }
 
   attemptToGoToNextPage = () => {
-    cy.get('[data-testid=check-in-button]').click({ waitForAnimations: true });
+    cy.get('[data-testid=check-in-button]').click({
+      waitForAnimations: true,
+    });
   };
 
   attemptToGoToNextPageWithEnterKey = () => {

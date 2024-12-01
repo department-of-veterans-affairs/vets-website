@@ -1,86 +1,312 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { startOfMonth, format, addMinutes, isWithinInterval } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import CalendarWidget from '../components/calendar/CalendarWidget';
 import FormLayout from '../new-appointment/components/FormLayout';
-// import { onCalendarChange } from "../new-appointment/redux/actions";
-// import { useDispatch } from 'react-redux';
+import { onCalendarChange } from '../new-appointment/redux/actions';
 import FormButtons from '../components/FormButtons';
+import { referral } from './temp-data/referral';
+import { getSelectedDate } from '../new-appointment/redux/selectors';
+import { selectUpcomingAppointments } from '../appointment-list/redux/selectors';
+import { routeToNextReferralPage, routeToPreviousReferralPage } from './flow';
+import { setFormCurrentPage, fetchProviderDetails } from './redux/actions';
+import { selectCurrentPage, getProviderInfo } from './redux/selectors';
+import { FETCH_STATUS } from '../utils/constants';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
+import {
+  getTimezoneDescByFacilityId,
+  getTimezoneByFacilityId,
+} from '../utils/timezone';
 
 export const ChooseDateAndTime = () => {
-  // const dispatch = useDispatch();
-  const availableSlots = [
-    {
-      end: '2024-07-02T17:00:00Z',
-      id: '32303',
-      start: '2024-07-01T10:00:00',
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+  const selectedDate = useSelector(state => getSelectedDate(state));
+  const upcomingAppointments = useSelector(state =>
+    selectUpcomingAppointments(state),
+  );
+  const location = useLocation();
+  const currentPage = useSelector(selectCurrentPage);
+  const startMonth = format(startOfMonth(referral.preferredDate), 'yyyy-MM');
+  const [error, setError] = useState('');
+  const pageTitle = 'Schedule an appointment with your provider';
+  const latestAvailableSlot = new Date(
+    Math.max.apply(
+      null,
+      referral.slots.map(slot => {
+        return new Date(slot.start);
+      }),
+    ),
+  );
+  const fullAddress = addressObject => {
+    let addressString = addressObject.street1;
+    if (addressObject.street2) {
+      addressString = `${addressString}, ${addressObject.street2}`;
+    }
+    if (addressObject.street3) {
+      addressString = `${addressString}, ${addressObject.street3}`;
+    }
+    addressString = `${addressString}, ${addressObject.city}, ${
+      addressObject.state
+    }, ${addressObject.zip}`;
+    return addressString;
+  };
+  const selectedDateKey = `selected-date-referral-${referral.id}`;
+  const onChange = useCallback(
+    value => {
+      setError('');
+      dispatch(onCalendarChange(value));
+      sessionStorage.setItem(selectedDateKey, value);
     },
-    {
-      end: '2024-07-02T18:00:00Z',
-      id: '23555',
-      start: '2024-07-02T11:00:00',
+    [dispatch, selectedDateKey],
+  );
+
+  const { provider, providerFetchStatus } = useSelector(
+    state => getProviderInfo(state),
+    shallowEqual,
+  );
+
+  useEffect(
+    () => {
+      const savedSelectedDate = sessionStorage.getItem(selectedDateKey);
+
+      if (!savedSelectedDate) {
+        return;
+      }
+
+      dispatch(onCalendarChange([savedSelectedDate]));
     },
-  ];
-  const selectedDates = ['2024-07-02T11:00:00'];
-  const timezone = 'America/Denver';
-  const preferredDate = '2024-07-02';
-  const startMonth = preferredDate
-    ? moment(preferredDate).format('YYYY-MM')
-    : null;
-  const [submitted, setSubmitted] = useState(false);
+    [dispatch, selectedDateKey],
+  );
+
+  const hasConflict = useCallback(
+    () => {
+      let conflict = false;
+      const selectedMonth = format(new Date(selectedDate), 'yyyy-MM');
+      if (!(selectedMonth in upcomingAppointments)) {
+        return conflict;
+      }
+      const selectedDay = format(new Date(selectedDate), 'dd');
+      const monthOfApts = upcomingAppointments[selectedMonth];
+      const daysWithApts = monthOfApts.map(apt => {
+        return format(new Date(apt.start), 'dd');
+      });
+      if (!daysWithApts.includes(selectedDay)) {
+        return conflict;
+      }
+      const unavailableTimes = monthOfApts.map(upcomingAppointment => {
+        return {
+          start: zonedTimeToUtc(
+            new Date(upcomingAppointment.start),
+            upcomingAppointment.timezone,
+          ),
+          end: zonedTimeToUtc(
+            addMinutes(
+              new Date(upcomingAppointment.start),
+              upcomingAppointment.minutesDuration,
+            ),
+            upcomingAppointment.timezone,
+          ),
+        };
+      });
+      unavailableTimes.forEach(range => {
+        if (
+          isWithinInterval(
+            zonedTimeToUtc(new Date(selectedDate), referral.timezone),
+            {
+              start: range.start,
+              end: range.end,
+            },
+          )
+        ) {
+          conflict = true;
+        }
+      });
+      return conflict;
+    },
+    [selectedDate, upcomingAppointments],
+  );
+
+  useEffect(
+    () => {
+      if (providerFetchStatus === FETCH_STATUS.notStarted) {
+        dispatch(fetchProviderDetails(referral.provider));
+      } else if (providerFetchStatus === FETCH_STATUS.succeeded) {
+        scrollAndFocus('h1');
+      } else if (providerFetchStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('h2');
+      }
+    },
+    [dispatch, providerFetchStatus],
+  );
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('scheduleAppointment'));
+    },
+    [location, dispatch],
+  );
+
+  const onBack = () => {
+    routeToPreviousReferralPage(history, currentPage, referral.id);
+  };
+
+  const onSubmit = () => {
+    if (error) {
+      return;
+    }
+
+    if (!selectedDate) {
+      setError(
+        'Please choose your preferred date and time for your appointment',
+      );
+      return;
+    }
+
+    if (upcomingAppointments && hasConflict()) {
+      setError(
+        'You already have an appointment at this time. Please select another day or time.',
+      );
+      return;
+    }
+
+    routeToNextReferralPage(history, currentPage);
+  };
+
+  if (
+    providerFetchStatus === FETCH_STATUS.loading ||
+    providerFetchStatus === FETCH_STATUS.notStarted
+  ) {
+    return (
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator message="Loading available appointments times..." />
+      </div>
+    );
+  }
+
+  if (providerFetchStatus === FETCH_STATUS.failed) {
+    return (
+      <va-alert status="error">
+        <h2>"We’re sorry. We’ve run into a problem"</h2>
+        <p>
+          We’re having trouble getting your upcoming appointments. Please try
+          again later.
+        </p>
+      </va-alert>
+    );
+  }
   return (
-    <FormLayout>
-      <div>
-        <h1>Choose a date and time</h1>
-        <p>Physical Therapy</p>
-        <p>GLA Medical Canter - Southwest</p>
-
-        <h1>Physical Therapy of GLA</h1>
-        <p>111 Medical Lane, Suite 300</p>
-        <p>Los Angeles, CA 12345</p>
-        <p>Phone: 555-555-5555</p>
-
-        <p>7 minute drive (2 miles)</p>
-      </div>
-      <div>
-        <CalendarWidget
-          maxSelections={1}
-          availableSlots={availableSlots}
-          value={selectedDates}
-          id="dateTime"
-          timezone={timezone}
-          additionalOptions={{
-            required: true,
-          }}
-          // disabled={loadingSlots}
-          disabledMessage={
-            <va-loading-indicator
-              data-testid="loadingIndicator"
-              set-focus
-              message="Finding appointment availability..."
+    <FormLayout pageTitle={pageTitle}>
+      <>
+        <div>
+          <h1>{pageTitle}</h1>
+          <p>
+            You or your referring VA facility selected to schedule an
+            appointment online with this provider:
+          </p>
+          <p className="vads-u-font-weight--bold vads-u-margin--0">
+            {provider.providerName}
+          </p>
+          <p className="vads-u-margin-top--0">{referral.typeOfCare}</p>
+          <p className="vads-u-margin--0 vads-u-font-weight--bold">
+            {provider.orgName}
+          </p>
+          <address>
+            <p className="vads-u-margin--0">
+              {provider.orgAddress.street1} <br />
+              {provider.orgAddress.street2 && (
+                <>
+                  {provider.orgAddress.street2}
+                  <br />
+                </>
+              )}
+              {provider.orgAddress.street3 && (
+                <>
+                  {provider.orgAddress.street3}
+                  <br />
+                </>
+              )}
+              {provider.orgAddress.city}, {provider.orgAddress.state},{' '}
+              {provider.orgAddress.zip}
+            </p>
+            <div
+              data-testid="directions-link-wrapper"
+              className="vads-u-display--flex vads-u-color--link-default"
+            >
+              <va-icon
+                className="vads-u-margin-right--0p5 vads-u-color--link-default"
+                icon="directions"
+                size={3}
+              />
+              <a
+                data-testid="directions-link"
+                href={`https://maps.google.com?addr=Current+Location&daddr=${fullAddress(
+                  provider.orgAddress,
+                )}`}
+                aria-label={`directions to ${provider.orgName}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Directions
+              </a>
+            </div>
+          </address>
+          <p>
+            Phone:{' '}
+            <va-telephone
+              contact={provider.orgPhone}
+              data-testid="provider-telephone"
             />
-          }
-          onChange={null}
-          onNextMonth={null}
-          onPreviousMonth={null}
-          minDate={moment()
-            .add(1, 'days')
-            .format('YYYY-MM-DD')}
-          maxDate={moment()
-            .add(395, 'days')
-            .format('YYYY-MM-DD')}
-          required
-          requiredMessage="Please choose your preferred date and time for your appointment"
-          startMonth={startMonth}
-          showValidation={submitted && !selectedDates?.length}
-          showWeekends
+          </p>
+          <p>
+            {provider.driveTime} ({provider.driveDistance})
+          </p>
+          <h2>Choose a date and time</h2>
+          <p>
+            Select an available date and time from the calendar below.
+            Appointment times are displayed in{' '}
+            {`${getTimezoneDescByFacilityId(referral.provider)}`}.
+          </p>
+        </div>
+        <div>
+          <CalendarWidget
+            maxSelections={1}
+            availableSlots={provider.slots}
+            value={[selectedDate]}
+            id="dateTime"
+            timezone={getTimezoneByFacilityId(referral.provider)}
+            additionalOptions={{
+              required: true,
+            }}
+            // disabled={loadingSlots}
+            disabledMessage={
+              <va-loading-indicator
+                data-testid="loadingIndicator"
+                set-focus
+                message="Finding appointment availability..."
+              />
+            }
+            onChange={onChange}
+            onNextMonth={null}
+            onPreviousMonth={null}
+            minDate={format(new Date(), 'yyyy-MM-dd')}
+            maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
+            required
+            requiredMessage={error}
+            startMonth={startMonth}
+            showValidation={error.length > 0}
+            showWeekends
+            overrideMaxDays
+          />
+        </div>
+        <FormButtons
+          onBack={() => onBack()}
+          onSubmit={() => onSubmit()}
+          loadingText="Page change in progress"
         />
-      </div>
-      <FormButtons
-        onBack={() => {}}
-        onSubmit={() => setSubmitted(true)}
-        // pageChangeInProgress={pageChangeInProgress}
-        loadingText="Page change in progress"
-      />
+      </>
     </FormLayout>
   );
 };

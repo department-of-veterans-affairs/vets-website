@@ -1,4 +1,3 @@
-import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
 import { mockGETEndpoints } from '../helpers';
 import DirectDepositPage from './page-objects/DirectDeposit';
 
@@ -36,25 +35,6 @@ describe('Direct Deposit - Happy Path', () => {
 
       cy.injectAxeThenAxeCheck();
     });
-
-    it('should show legacy direct deposit page when profileShowDirectDepositSingleForm is false', () => {
-      directDeposit.setup({
-        featureToggles: generateFeatureToggles(),
-      });
-
-      directDeposit.visitPage();
-
-      directDeposit.confirmDirectDepositInSubnav();
-
-      // exclusive to legacy page
-      cy.findAllByTestId('legacy-direct-deposit').should('exist');
-
-      cy.findByRole('heading', { name: 'Direct deposit information' }).should(
-        'exist',
-      );
-
-      cy.injectAxeThenAxeCheck();
-    });
   });
 
   describe('unified direct deposit page', () => {
@@ -70,6 +50,37 @@ describe('Direct Deposit - Happy Path', () => {
       cy.findByRole('heading', { name: 'Direct deposit information' }).should(
         'exist',
       );
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('Gi Bill information', () => {
+    const triggerTestId = 'gi-bill-additional-info';
+    const descriptionTestId = 'gi-bill-description';
+    const linkTestId = 'gi-bill-update-link';
+    const linkHref =
+      'https://www.va.gov/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit';
+
+    it('should reveal additional info and verify the link functionality', () => {
+      directDeposit.setup();
+
+      directDeposit.visitPage();
+      // the trigger element is visible and clickable
+      cy.get(`[data-testid="${triggerTestId}"]`)
+        .should('be.visible')
+        .click();
+
+      // the additional information description is visible
+      cy.get(`[data-testid="${descriptionTestId}"]`).should('be.visible');
+
+      // the link is visible, has the correct href, and opens the expected URL
+      cy.get(`[data-testid="${linkTestId}"]`)
+        .should('be.visible')
+        .and('have.attr', 'href', linkHref)
+        .click();
+
+      cy.url().should('eq', linkHref);
 
       cy.injectAxeThenAxeCheck();
     });

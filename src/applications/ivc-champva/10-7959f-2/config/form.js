@@ -1,7 +1,9 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { cloneDeep } from 'lodash';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import {
-  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberNoHintSchema,
   ssnOrVaFileNumberNoHintUI,
   fullNameUI,
   fullNameSchema,
@@ -13,10 +15,13 @@ import {
   addressSchema,
   emailUI,
   emailSchema,
+  radioSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import transformForSubmit from './submitTransformer';
+import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -25,7 +30,11 @@ import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../../shared/components/InternationalPhone';
-import PaymentSelectionUI from '../components/PaymentSelection';
+import PaymentSelectionUI, {
+  PaymentReviewScreen,
+} from '../components/PaymentSelection';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { UploadDocuments } from '../components/UploadDocuments';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -34,24 +43,44 @@ veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  transformForSubmit,
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'fmp-cover-sheet-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  customText: {
+    reviewPageTitle: 'Review and submit',
+    submitButtonText: 'Submit',
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranFullName',
+    },
+  },
+  submissionError: SubmissionError,
   formId: '10-7959F-2',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your health care benefits application (10-7959F-2) is in progress.',
-    //   expired: 'Your saved health care benefits application (10-7959F-2) has expired. If you want to apply for health care benefits, please start a new application.',
-    //   saved: 'Your health care benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your health care benefits application (10-7959F-2) is in progress.',
+      expired:
+        'Your saved health care benefits application (10-7959F-2) has expired. If you want to apply for health care benefits, please start a new application.',
+      saved: 'Your health care benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [externalServices.pega],
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for health care benefits.',
     noAuth:
@@ -62,15 +91,15 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     veteranInfoChapter: {
-      title: 'Name and date of birth',
+      title: 'Personal information',
       pages: {
         page1: {
-          path: 'veteran-info',
-          title: 'Personal Information',
+          path: 'veteran-information',
+          title: 'Name and date of birth',
           uiSchema: {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
-            veteranDateOfBirth: dateOfBirthUI({ required: true }),
+            veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
           },
           schema: {
             type: 'object',
@@ -88,10 +117,11 @@ const formConfig = {
       title: 'Identification information',
       pages: {
         page2: {
-          path: 'identification-information',
+          path: 'identification-information ',
+          title: 'Identification information ',
           uiSchema: {
             ...titleUI(
-              'Identification information',
+              'Identification information ',
               'You must enter either a Social Security Number or a VA file number.',
             ),
             messageAriaDescribedby:
@@ -103,7 +133,7 @@ const formConfig = {
             required: ['veteranSocialSecurityNumber'],
             properties: {
               titleSchema,
-              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
             },
           },
         },
@@ -118,10 +148,10 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Mailing address',
-              "We'll send any important information about your claim to this address. This can be your current home address or a more permanent location.",
+              "We'll send any important information about your claim to this address.",
             ),
             messageAriaDescribedby:
-              "We'll send any important information about your claim to this address. This can be your current home address or a more permanent location.",
+              "We'll send any important information about your claim to this address.",
             veteranAddress: addressUI({
               required: {
                 state: () => true,
@@ -144,9 +174,9 @@ const formConfig = {
       pages: {
         page4: {
           path: 'same-as-mailing-address',
-          title: 'Home address ',
+          title: 'Home address status',
           uiSchema: {
-            ...titleUI('Home address'),
+            ...titleUI('Home address status'),
             sameMailingAddress: yesNoUI({
               title: 'Is your home address the same as your mailing address?',
               labels: {
@@ -169,11 +199,7 @@ const formConfig = {
           title: 'Home address ',
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
-            ...titleUI(
-              `Home address`,
-              `Provide the address where you're living right now`,
-            ),
-            messageAriaDescribedby: `Provide the address where you're living right now.`,
+            ...titleUI(`Home address`),
             physicalAddress: {
               ...addressUI({
                 required: {
@@ -194,24 +220,24 @@ const formConfig = {
       },
     },
     contactInformation: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         page5: {
-          path: 'contact-info',
+          path: 'contact-information',
           title: 'Phone and email address',
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+              'Include a country code for foreign phone numbers',
             ),
             messageAriaDescribedby:
-              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+              'Include a country code for foreign phone numbers',
             veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
-            required: ['veteranPhoneNumber'],
+            required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
               veteranPhoneNumber: internationalPhoneSchema,
@@ -222,11 +248,11 @@ const formConfig = {
       },
     },
     paymentSelection: {
-      title: 'Payment Selection',
+      title: 'Payment selection',
       pages: {
         page6: {
-          path: 'payment',
-          title: 'Payment Selection',
+          path: 'payment-selection',
+          title: 'Where to send the payment',
           uiSchema: {
             ...titleUI('Where to send the payment'),
             sendPayment: PaymentSelectionUI(),
@@ -236,7 +262,53 @@ const formConfig = {
             required: ['sendPayment'],
             properties: {
               titleSchema,
-              sendPayment: yesNoSchema,
+              sendPayment: radioSchema(['Veteran', 'Provider']),
+            },
+          },
+          CustomPageReview: PaymentReviewScreen,
+        },
+      },
+    },
+    fileUpload: {
+      title: 'Supporting files',
+      pages: {
+        page7: {
+          path: 'upload-supporting-documents',
+          title: 'Included files',
+          uiSchema: {
+            ...titleUI({
+              title: 'Upload billing statements and supporting documents',
+              headerLevel: 2,
+            }),
+            'view:UploadDocuments': {
+              'ui:description': UploadDocuments,
+            },
+            uploadSection: fileUploadUI({
+              label: 'Upload file',
+              attachmentName: false,
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['uploadSection'],
+            properties: {
+              titleSchema,
+              'view:UploadDocuments': {
+                type: 'object',
+                properties: {},
+              },
+              uploadSection: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
             },
           },
         },

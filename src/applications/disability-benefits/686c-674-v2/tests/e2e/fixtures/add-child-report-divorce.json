@@ -57,13 +57,16 @@
       "veteranAddress": {
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
-        "countryName": "USA",
-        "addressLine1": "1600 Pennsylvania Ave",
+        "country": "USA",
+        "street": "1600 Pennslyvania Av",
         "city": "Washington",
-        "stateCode": "DC",
-        "zipCode": "20500"
+        "state": "DC",
+        "postalCode": "20500"
       },
-      "phoneNumber": "1231231234"
+      "veteranContactInformation": {
+        "phoneNumber": "1231231234",
+        "emailAddress": "test@test.com"
+      }
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
@@ -79,15 +82,17 @@
         "first": "john",
         "last": "does"
       },
-      "ssn": "123211234",
-      "birthDate": "1989-04-08",
       "date": "1991-07-07",
-      "location": {
-        "isOutsideUs": false,
-        "state": "MD",
-        "city": "Army Post Office"
+      "divorceLocation": {
+        "outsideUsa": false,
+        "location": {
+          "state": "MD",
+          "city": "Army Post Office"
+        }
       },
-      "reasonMarriageEnded": "Divorce"
+      "reasonMarriageEnded": "Divorce",
+      "birthDate": "1991-05-04",
+      "formerSpouseIncome": false
     },
     "veteranInformation": {
       "fullName": {

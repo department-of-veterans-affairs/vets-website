@@ -2,14 +2,20 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { setupServer } from 'msw/node';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { rest } from 'msw';
 import IntroductionPage from '../../containers/IntroductionPage';
 
-const store = {
+const generateStore = ({
+  hasVaFileNumber,
+  isLoading = false,
+  spyFn = () => {},
+}) => ({
   getState: () => ({
     vaFileNumber: {
-      hasVaFileNumber: {
-        VALIDVAFILENUMBER: true,
-      },
+      isLoading,
+      hasVaFileNumber: { ...hasVaFileNumber },
     },
     user: {
       login: {
@@ -29,14 +35,10 @@ const store = {
       data: {},
       contestedIssues: {},
     },
-    // featureToggles: {
-    //   loading: false,
-    //   [`burials_form_enabled`]: true,
-    // },
   }),
   subscribe: () => {},
-  dispatch: () => {},
-};
+  dispatch: spyFn,
+});
 
 const mockRoute = {
   pageList: [
@@ -54,7 +56,40 @@ const mockRoute = {
 };
 
 describe('IntroductionPage', () => {
+  const server = setupServer();
+  before(() => {
+    server.listen();
+  });
+  beforeEach(() => {
+    server.resetHandlers();
+  });
+  after(() => {
+    server.close();
+  });
   it('renders the IntroductionPage component', () => {
+    localStorage.setItem('hasSession', true);
+    const store = generateStore({
+      hasVaFileNumber: { VALIDVAFILENUMBER: true },
+    });
+
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
+        (_, res, ctx) =>
+          res(
+            ctx.status(200),
+            ctx.json({
+              data: {
+                attributes: {
+                  // eslint-disable-next-line camelcase
+                  valid_va_file_number: true,
+                },
+              },
+            }),
+          ),
+      ),
+    );
+
     const screen = render(
       <Provider store={store}>
         <IntroductionPage
@@ -68,120 +103,73 @@ describe('IntroductionPage', () => {
       .exist;
     expect(screen.queryByText('Follow these steps to get started')).to.exist;
   });
+  it('renders the IntroductionPage component', () => {
+    localStorage.setItem('hasSession', true);
+    const store = generateStore({
+      hasVaFileNumber: { errors: 'va file num error' },
+    });
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
+        (_, res, ctx) =>
+          res(
+            ctx.status(401),
+            ctx.json({
+              errors: 'junk',
+            }),
+          ),
+      ),
+    );
+
+    const screen = render(
+      <Provider store={store}>
+        <IntroductionPage
+          route={mockRoute}
+          location={{ basename: '/some-path' }}
+        />
+      </Provider>,
+    );
+
+    expect(screen.queryByText('We’re sorry. Something went wrong on our end'))
+      .to.exist;
+  });
+  it('renders the IntroductionPage component', () => {
+    localStorage.setItem('hasSession', true);
+    const store = generateStore({
+      isLoading: true,
+    });
+
+    const screen = render(
+      <Provider store={store}>
+        <IntroductionPage
+          route={mockRoute}
+          location={{ basename: '/some-path' }}
+        />
+      </Provider>,
+    );
+
+    const loadingIndicator = $('va-loading-indicator', screen.container);
+
+    expect(loadingIndicator).to.not.be.null;
+  });
+  it('renders the IntroductionPage component', () => {
+    localStorage.setItem('hasSession', true);
+    const store = generateStore({
+      isLoading: false,
+      hasVaFileNumber: false,
+    });
+
+    const screen = render(
+      <Provider store={store}>
+        <IntroductionPage
+          route={mockRoute}
+          location={{ basename: '/some-path' }}
+        />
+      </Provider>,
+    );
+
+    const loadingIndicator = $('va-loading-indicator', screen.container);
+
+    expect(loadingIndicator).to.be.null;
+  });
 });
-
-// import { expect } from 'chai';
-// import { shallow } from 'enzyme';
-// import React from 'react';
-// import { IntroductionPage } from '../../containers/IntroductionPage';
-
-// function getProps(dependentsToggle, errorCode, validVaFileNumber, isLoading) {
-//   const errors = errorCode
-//     ? [
-//         {
-//           code: errorCode,
-//         },
-//       ]
-//     : undefined;
-
-//   return {
-//     vaFileNumber: {
-//       hasVaFileNumber: {
-//         errors,
-//         VALIDVAFILENUMBER: validVaFileNumber,
-//       },
-//       isLoading,
-//     },
-//     user: {
-//       login: {
-//         currentlyLoggedIn: true,
-//       },
-//     },
-//     dependentsToggle,
-//     route: {
-//       formConfig: {
-//         prefillEnabled: false,
-//         savedFormMessages: undefined,
-//         downtime: undefined,
-//         pageList: [],
-//       },
-//     },
-//     verifyVaFileNumber: () => {},
-//   };
-// }
-
-// describe('Introduction Page', () => {
-//   it('should render with undefined dependents toggle', () => {
-//     const props = getProps(undefined, null);
-//     const component = shallow(<IntroductionPage {...props} />);
-//     const loadingIndicators = component.find('va-loading-indicator');
-//     expect(loadingIndicators.length).to.eql(1);
-//     component.unmount();
-//   });
-
-//   it('should render with falsy dependents toggle', () => {
-//     const props = getProps(false, null);
-//     const component = shallow(<IntroductionPage {...props} />);
-//     const [subheader] = component.find('h2');
-//     expect(subheader.props.children).to.eql(
-//       'We’re still working on this feature',
-//     );
-//     component.unmount();
-//   });
-
-//   it('should render with server errors', () => {
-//     const props = getProps(true, 500);
-//     const component = shallow(<IntroductionPage {...props} />);
-//     const [alert] = component.find('h2');
-//     expect(alert.props.children).to.eql(
-//       'We’re sorry. Something went wrong on our end',
-//     );
-//     component.unmount();
-//   });
-
-//   it('should render with client errors', () => {
-//     const props = getProps(true, 400);
-//     const component = shallow(<IntroductionPage {...props} />);
-//     const [alert] = component.find('h2');
-//     expect(alert.props.children).to.eql(
-//       'Your profile is missing some required information',
-//     );
-//     component.unmount();
-//   });
-
-//   it('should render with missing va file number', () => {
-//     const props = getProps(true, 400);
-//     const component = shallow(<IntroductionPage {...props} />);
-//     const [alert] = component.find('h2');
-//     expect(alert.props.children).to.eql(
-//       'Your profile is missing some required information',
-//     );
-//     component.unmount();
-//   });
-
-//   it('should render with missing va file number', () => {
-//     const props = getProps(true, 400);
-//     const component = shallow(<IntroductionPage {...props} />);
-//     const [alert] = component.find('h2');
-//     expect(alert.props.children).to.eql(
-//       'Your profile is missing some required information',
-//     );
-//     component.unmount();
-//   });
-
-//   it('should render with isLoading', () => {
-//     const props = getProps(true, undefined, 1, true);
-//     const component = shallow(<IntroductionPage {...props} />);
-//     const loadingIndicators = component.find('va-loading-indicator');
-//     expect(loadingIndicators.length).to.eql(1);
-//     component.unmount();
-//   });
-
-//   it('should render without isLoading', () => {
-//     const props = getProps(true, undefined, 1, false);
-//     const component = shallow(<IntroductionPage {...props} />);
-//     const loadingIndicators = component.find('va-loading-indicator');
-//     expect(loadingIndicators.length).to.eql(0);
-//     component.unmount();
-//   });
-// });

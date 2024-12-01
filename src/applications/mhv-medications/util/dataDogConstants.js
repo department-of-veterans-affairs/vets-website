@@ -3,6 +3,7 @@ export const pageType = {
   DETAILS: 'Details Page',
   LIST: 'List Page',
   REFILL: 'Refill Page',
+  DOCUMENTATION: 'Documentation',
 };
 
 export const dataDogActionNames = {

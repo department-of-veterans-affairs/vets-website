@@ -26,12 +26,17 @@ const initialState = {
   listState: loadStates.PRE_FETCH,
 
   /**
-   * The list of vaccines returned from the api
-   * @type {array}
+   * The list of vitals returned from the api
+   * @type {Array}
    */
   vitalsList: undefined,
   /**
-   * The vaccine currently being displayed to the user
+   * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
+   * @type {Array}
+   */
+  updatedList: undefined,
+  /**
+   * The vital currently being displayed to the user
    */
   vitalDetails: undefined,
 };
@@ -42,7 +47,7 @@ const getUnit = (type, unit) => {
 };
 
 const getMeasurement = (record, type) => {
-  if (type === vitalTypes.BLOOD_PRESSURE) {
+  if (vitalTypes.BLOOD_PRESSURE.includes(type)) {
     const systolic = record.component.find(
       item => item.code.coding[0].code === loincCodes.SYSTOLIC,
     );
@@ -80,6 +85,7 @@ export const convertVital = record => {
     date: record?.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
+    effectiveDateTime: record?.effectiveDateTime,
     location: extractLocation(record),
     notes:
       (isArrayAndHasItems(record.note) && record.note[0].text) || EMPTY_FIELD,
@@ -97,14 +103,37 @@ export const vitalReducer = (state = initialState, action) => {
       };
     }
     case Actions.Vitals.GET_LIST: {
+      const oldList = state.vitalsList;
+      const newList =
+        action.response.entry?.map(vital => {
+          return convertVital(vital.resource);
+        }) || [];
+
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        vitalsList:
-          action.response.entry?.map(vital => {
-            return convertVital(vital.resource);
-          }) || [],
+        vitalsList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Vitals.COPY_UPDATED_LIST: {
+      const originalList = state.vitalsList;
+      const { updatedList } = state;
+      if (
+        Array.isArray(originalList) &&
+        Array.isArray(updatedList) &&
+        // FIXME: the updated list could be the same length as the original list but have different contents.
+        originalList.length !== updatedList.length
+      ) {
+        return {
+          ...state,
+          vitalsList: state.updatedList,
+          updatedList: undefined,
+        };
+      }
+      return {
+        ...state,
       };
     }
     case Actions.Vitals.CLEAR_DETAIL: {

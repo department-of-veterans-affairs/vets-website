@@ -19,7 +19,7 @@ const LandingPageWelcome = ({ firstName = '', children }) => (
               Welcome to the Accredited Representative Portal
               {firstName && `, ${firstName}`}
             </h1>
-            <h2 className="vads-u-color--white vads-u-margin-top--3 vads-u-font-size--xl small-desktop-screen:vads-u-font-size--2xl">
+            <h2 className="vads-u-color--white vads-u-margin-top--3 vads-u-font-size--xl desktop:vads-u-font-size--2xl">
               Manage power of attorney requests
             </h2>
             <p className="vads-u-color--white vads-u-padding-right--5">

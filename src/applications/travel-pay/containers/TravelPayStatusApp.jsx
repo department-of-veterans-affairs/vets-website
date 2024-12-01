@@ -5,7 +5,6 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { parseISO, isWithinInterval } from 'date-fns';
-import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaBackToTop,
   VaPagination,
@@ -37,6 +36,7 @@ export default function App({ children }) {
   const { isLoading, travelClaims, error } = useSelector(
     state => state.travelPay,
   );
+  const [hasFetchedClaims, setHasFetchedClaims] = useState(false);
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
@@ -88,18 +88,22 @@ export default function App({ children }) {
   }
 
   // TODO: Move this logic to the API-side
+  const compareClaimsDate = (a, b) => {
+    // Date.parse(null) evaluates to NaN, which is falsy. By including
+    // the OR condition, any comparison with a null appointmentDateTime
+    // will fallback to comparing the createOn value instead.
+    return (
+      Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime) ||
+      Date.parse(b.createdOn) - Date.parse(a.createdOn)
+    );
+  };
+
   switch (orderClaimsBy) {
     case 'mostRecent':
-      travelClaims.sort(
-        (a, b) =>
-          Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime),
-      );
+      travelClaims.sort((a, b) => compareClaimsDate(a, b));
       break;
     case 'oldest':
-      travelClaims.sort(
-        (a, b) =>
-          Date.parse(a.appointmentDateTime) - Date.parse(b.appointmentDateTime),
-      );
+      travelClaims.sort((a, b) => compareClaimsDate(b, a));
       break;
     default:
       break;
@@ -151,16 +155,20 @@ export default function App({ children }) {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
-  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
   const toggleIsLoading = useToggleLoadingValue();
+  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
+  const canViewClaimDetails = useToggleValue(
+    TOGGLE_NAMES.travelPayViewClaimDetails,
+  );
 
   useEffect(
     () => {
-      if (userLoggedIn) {
+      if (userLoggedIn && !hasFetchedClaims && travelClaims.length === 0) {
         dispatch(getTravelClaims());
+        setHasFetchedClaims(true);
       }
     },
-    [dispatch, userLoggedIn],
+    [dispatch, userLoggedIn, travelClaims, hasFetchedClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
@@ -196,6 +204,41 @@ export default function App({ children }) {
     displayedClaims = displayedClaims.slice(pageStart - 1, pageEnd);
   }
 
+  const resultsText = () => {
+    let sortAndFilterText;
+
+    if (orderClaimsBy === 'mostRecent') {
+      sortAndFilterText = 'date (most recent)';
+    }
+
+    if (orderClaimsBy === 'oldest') {
+      sortAndFilterText = 'date (oldest)';
+    }
+
+    let appliedFiltersLength = appliedStatusFilters.length;
+    if (appliedDateFilter !== 'all') {
+      appliedFiltersLength += 1;
+    }
+
+    if (appliedFiltersLength > 0) {
+      sortAndFilterText += `, with ${appliedFiltersLength} ${
+        appliedFiltersLength === 1 ? 'filter' : 'filters'
+      } applied`;
+    }
+
+    if (numResults === 0 && appliedFiltersLength > 0) {
+      // Note that appliedFiltersLength === 1 should never be true here, since
+      // 0 claims matching a single filter should mean the filter isn't shown
+      return `Showing 0 claims with ${appliedFiltersLength} ${
+        appliedFiltersLength === 1 ? 'filter' : 'filters'
+      } applied`;
+    }
+
+    return numResults === 0
+      ? `Showing ${numResults} claims`
+      : `Showing ${pageStart} ‒ ${pageEnd} of ${numResults} claims, sorted by ${sortAndFilterText}.`;
+  };
+
   const onPageSelect = useCallback(
     selectedPage => {
       setCurrentPage(selectedPage);
@@ -223,7 +266,6 @@ export default function App({ children }) {
 
   return (
     <>
-      <MhvSecondaryNav />
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
         <h1
@@ -283,6 +325,7 @@ export default function App({ children }) {
                     <va-button
                       onClick={() => onSortClick()}
                       data-testid="Sort travel claims"
+                      secondary
                       text="Sort"
                       label="Sort"
                     />
@@ -301,18 +344,20 @@ export default function App({ children }) {
                 </div>
 
                 <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
-                  {numResults === 0
-                    ? `Showing ${numResults} events`
-                    : `Showing ${pageStart} ‒ ${pageEnd} of ${numResults} events`}
+                  {resultsText()}
                 </h2>
 
                 <section
                   id="travel-claims-list"
                   className="travel-claim-list-container"
                 >
-                  {displayedClaims.map(travelClaim =>
-                    TravelClaimCard(travelClaim),
-                  )}
+                  {displayedClaims.map(travelClaim => (
+                    <TravelClaimCard
+                      key={travelClaim.id}
+                      {...travelClaim}
+                      canViewClaimDetails={canViewClaimDetails}
+                    />
+                  ))}
                 </section>
                 {shouldPaginate && (
                   <VaPagination

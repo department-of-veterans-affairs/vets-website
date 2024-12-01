@@ -20,7 +20,7 @@ import { medicationsUrls } from '../util/constants';
 const App = ({ children }) => {
   const user = useSelector(selectUser);
   const contentClasses =
-    'main-content vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-margin-left--neg2 vads-u-max-width--100';
+    'main-content usa-width-two-thirds medium-screen:vads-u-margin-left--neg2 vads-u-max-width--100';
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -74,7 +74,7 @@ const App = ({ children }) => {
       serviceRequired={[backendServices.USER_PROFILE]}
     >
       <MhvSecondaryNav />
-      <div className="routes-container vads-l-grid-container">
+      <div className="routes-container usa-grid">
         <div className={`${contentClasses}`}>
           <DowntimeNotification
             appTitle="Medications"

@@ -6,7 +6,8 @@ import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import allergies from '../tests/fixtures/allergies.json';
-import radiologyRecordsMhv from '../tests/fixtures/radiologyRecordsMhv.json';
+import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
+import radiology from '../tests/fixtures/radiologyRecordsMhv.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -39,12 +40,43 @@ export const getLabOrTest = id => {
   });
 };
 
+export const getImagingStudies = () => {
+  return apiRequest(`${apiBasePath}/medical_records/imaging`, { headers });
+};
+
+export const requestImagingStudy = studyId => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/imaging/${studyId}/request`,
+    { headers },
+  );
+};
+
+export const getImageList = studyId => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/imaging/${studyId}/images`,
+    { headers },
+  );
+};
+
 export const getMhvRadiologyTests = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(radiologyRecordsMhv);
-    }, 1000);
+  return apiRequest(`${apiBasePath}/medical_records/radiology`, {
+    headers,
   });
+};
+
+/**
+ * Get radiology details from the backend. There are no APIs to get a single record by ID, so we
+ * need to pull all records and retrieve the right one by ID or hash.
+ *
+ * @param {*} id
+ * @returns an object containing both the PHR and CVIX reports, if they exist
+ */
+export const getMhvRadiologyDetails = async id => {
+  const [phrResponse, cvixResponse] = await Promise.all([
+    getMhvRadiologyTests(),
+    getImagingStudies(),
+  ]);
+  return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
 export const getNotes = () => {
@@ -63,6 +95,17 @@ export const getVitalsList = () => {
   return apiRequest(`${apiBasePath}/medical_records/vitals`, {
     headers,
   });
+};
+
+export const getAcceleratedVitals = async vitalsDate => {
+  const from = `&from=${vitalsDate}`;
+  const to = `&to=${vitalsDate}`;
+  return apiRequest(
+    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1${from}${to}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getConditions = async () => {
@@ -87,6 +130,24 @@ export const getAllergy = id => {
   return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
     headers,
   });
+};
+
+export const getAcceleratedAllergies = async () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
+    {
+      headers,
+    },
+  );
+};
+
+export const getAcceleratedAllergy = id => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/allergies/${id}?use_oh_data_path=1`,
+    {
+      headers,
+    },
+  );
 };
 
 /**
@@ -146,6 +207,7 @@ export const postSharingUpdateStatus = (optIn = false) => {
 export const getDataForBlueButton = () => {
   return new Promise(resolve => {
     const data = {
+      radiology,
       labsAndTests,
       careSummariesAndNotes: notes,
       vaccines,

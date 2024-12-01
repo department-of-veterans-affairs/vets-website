@@ -24,12 +24,26 @@ import { isSameMonth, getDateRangesBetween } from '../helpers';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
-  const { expirationDate, updated, month, day, loading } = useData();
+  const {
+    expirationDate,
+    updated,
+    month,
+    day,
+    loading,
+    indicator,
+    enrollmentVerifications,
+    claimantId,
+  } = useData();
   const response = useSelector(state => state.personalInfo);
   const personalInfo = response?.personalInfo?.['vye::UserInfo'];
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
   const enrollmentData = personalInfo;
   const [expandedEnrollmentData, setExpandedEnrollmentData] = useState({});
+
+  useEffect(() => {
+    document.title =
+      'Montgomery GI Bill enrollment verification | Veterans Affairs';
+  }, []);
 
   useEffect(
     () => {
@@ -129,7 +143,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
   return (
     <>
       <div name="topScrollElement" />
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <EnrollmentVerificationBreadcrumbs />
@@ -144,13 +158,15 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
               <>
                 <PeriodsToVerify
                   enrollmentData={expandedEnrollmentData}
+                  enrollmentVerifications={enrollmentVerifications}
+                  claimantId={claimantId}
                   link={() => (
                     <PageLink
                       linkText="Start enrollment verification"
                       relativeURL={VERIFICATION_REVIEW_RELATIVE_URL}
                       URL={VERIFICATION_REVIEW_URL}
                       margin="0"
-                      className="vye-mimic-va-button vads-u-font-family--sans"
+                      className="vads-u-font-family--sans"
                     />
                   )}
                   toggleEnrollmentSuccess={toggleEnrollmentSuccess}
@@ -159,6 +175,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                   updated={updated}
                   remainingBenefits={`${month} Months, ${day} Days`}
                   expirationDate={expirationDate}
+                  indicator={indicator}
                   link={() => (
                     <PageLink
                       linkText="Manage your Montgomery GI Bill benefits information"
@@ -173,8 +190,9 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             )}
             <PreviousEnrollmentVerifications
               enrollmentData={expandedEnrollmentData}
+              enrollmentVerifications={enrollmentVerifications}
+              claimantId={claimantId}
             />
-
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your Montgomery GI Bill benefits information"

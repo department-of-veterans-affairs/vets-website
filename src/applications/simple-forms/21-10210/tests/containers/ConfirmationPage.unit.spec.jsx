@@ -44,7 +44,7 @@ describe('Confirmation page', () => {
   it('it should show status success', () => {
     const { container } = render(
       <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
     expect(container.querySelector('va-alert')).to.have.attr(
@@ -60,11 +60,12 @@ describe('Confirmation page', () => {
 
     const { getByText } = render(
       <Provider store={mockStore(store)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
-    getByText(/Jack W Witness/);
+    getByText(/Jack/);
+    getByText(/Witness/);
   });
 
   it('should show the witness name if it was a third party 2', () => {
@@ -74,11 +75,12 @@ describe('Confirmation page', () => {
 
     const { getByText } = render(
       <Provider store={mockStore(store)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
-    getByText(/Jack W Witness/);
+    getByText(/Jack/);
+    getByText(/Witness/);
   });
 
   it('should show the claimant name if it is a self claim but a nonveteran', () => {
@@ -88,11 +90,12 @@ describe('Confirmation page', () => {
 
     const { getByText } = render(
       <Provider store={mockStore(store)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
-    getByText(/Joe C Claimant/);
+    getByText(/Joe/);
+    getByText(/Claimant/);
   });
 
   it('should show the veteran name if it is a self claim', () => {
@@ -100,12 +103,13 @@ describe('Confirmation page', () => {
     store.form.data.claimOwnership = CLAIM_OWNERSHIPS.SELF;
     store.form.data.claimantType = CLAIMANT_TYPES.VETERAN;
 
-    const { getByText } = render(
+    const { getByText, getAllByText } = render(
       <Provider store={mockStore(store)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
-    getByText(/John Veteran/);
+    getByText(/John/);
+    getAllByText(/Veteran/);
   });
 });

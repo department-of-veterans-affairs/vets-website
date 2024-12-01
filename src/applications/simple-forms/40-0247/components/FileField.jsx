@@ -1,19 +1,16 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
-/* Customized copy of Platform's FileField component
-  * - Adds new optional prop `ariaLabelAdditionalText` to append additional
-  *   text to the upload button's aria-label attribute.
-*/
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import environment from 'platform/utilities/environment';
+
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import unset from 'platform/utilities/data/unset';
-import environment from 'platform/utilities/environment';
 import {
   displayFileSize,
   focusElement,
@@ -22,6 +19,7 @@ import {
 } from 'platform/utilities/ui';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
+import { ERROR_ELEMENTS } from 'platform/utilities/constants';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   ShowPdfPassword,
@@ -33,6 +31,7 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
 import { usePreviousValue } from 'platform/forms-system/src/js/helpers';
+import { MISSING_PASSWORD_ERROR } from 'platform/forms-system/src/js/validation';
 
 /**
  * Modal content callback
@@ -49,7 +48,7 @@ import { usePreviousValue } from 'platform/forms-system/src/js/helpers';
  * @property {string} buttonText='Upload' - upload button text
  * @property {string} addAnotherLabel='Upload another' - upload another text,
  *  replaces upload button text when greater than one upload is showing
- * @property {string} ariaLabelAdditionalText='' - additional screen-reader text to be appended to upload button's aria-label attribute.
+ * @property {string} ariaLabelAdditionalText additional screen-reader text to be appended to upload button's aria-label attribute.
  * @property {string} tryAgain='Try again' - button in enableShortWorkflow
  * @property {string} newFile='Upload a new file' - button in enableShortWorkflow
  * @property {string} cancel='Cancel' - button visible while uploading & in enableShortWorkflow
@@ -265,11 +264,23 @@ const FileField = props => {
       const BYTES_LIMIT = 20 * 1024 * 1024;
 
       // Check to see if the file size is greater than 20MB
-      if (!environment.isProduction() && currentFile.size > BYTES_LIMIT) {
+      if (currentFile.size > BYTES_LIMIT) {
         allFiles[idx] = {
           file: currentFile,
           name: currentFile.name,
           errorMessage: 'File size must not be greater than 20.0 MB.',
+        };
+        props.onChange(allFiles);
+        return;
+      }
+
+      // MBMS-66936 prod flag
+      if (!environment.isProduction() && checkResults.checkIsEncryptedPdf) {
+        allFiles[idx] = {
+          file: currentFile,
+          name: 'Upload additional evidence',
+          errorMessage:
+            'We weren’t able to upload your file. Make sure the file is not encrypted and is an accepted format.',
         };
         props.onChange(allFiles);
         return;
@@ -421,6 +432,302 @@ const FileField = props => {
 
   const uploadText = content[files.length > 0 ? 'uploadAnother' : 'upload'];
 
+  // MBMS-66936 prod flag
+  if (!environment.isProduction()) {
+    return (
+      <div
+        className={
+          formContext.reviewMode ? 'schemaform-file-upload-review' : undefined
+        }
+      >
+        <VaModal
+          clickToClose
+          status="warning"
+          modalTitle="Are you sure you want to delete this file?"
+          primaryButtonText={content.yesButton}
+          secondaryButtonText={content.noButton}
+          onCloseEvent={closeRemoveModal}
+          onPrimaryButtonClick={() => closeRemoveModal({ remove: true })}
+          onSecondaryButtonClick={closeRemoveModal}
+          visible={showRemoveModal}
+          uswds
+        >
+          <p>
+            {removeIndex !== null
+              ? content.modalContent(files[removeIndex]?.name)
+              : null}
+          </p>
+        </VaModal>
+        {files.length > 0 && (
+          <ul className="schemaform-file-list">
+            {files.map((file, index) => {
+              const errors =
+                errorSchema?.[index]?.__errors ||
+                [file.errorMessage].filter(error => error);
+
+              // Don't show missing password error in the card (above the input
+              // label), but we are adding an error for missing password to
+              // prevent page submission without adding an error; see #71406
+              const hasVisibleError =
+                errors.length > 0 && errors[0] !== MISSING_PASSWORD_ERROR;
+
+              const itemClasses = classNames('va-growable-background', {
+                'schemaform-file-error usa-input-error':
+                  hasVisibleError && !file.uploading,
+              });
+              const itemSchema = schema.items[index];
+              const attachmentIdSchema = {
+                $id: `${idSchema.$id}_${index}_attachmentId`,
+              };
+              const attachmentNameSchema = {
+                $id: `${idSchema.$id}_${index}_attachmentName`,
+              };
+              const attachmentIdErrors = get(
+                [index, 'attachmentId'],
+                errorSchema,
+              );
+              const attachmentNameErrors = get([index, 'name'], errorSchema);
+              const showPasswordInput =
+                file.isEncrypted && !file.confirmationCode;
+              const showPasswordSuccess =
+                file.isEncrypted && file.confirmationCode;
+              const description =
+                (!file.uploading && uiOptions.itemDescription) || '';
+
+              const fileListId = getFileListId(index);
+              const fileNameId = `${idSchema.$id}_file_name_${index}`;
+
+              if (hasVisibleError) {
+                setTimeout(() => {
+                  scrollToFirstError();
+                  if (enableShortWorkflow) {
+                    const retryButton = $(`[name="retry_upload_${index}"]`);
+                    if (retryButton) {
+                      focusElement('button', {}, retryButton?.shadowRoot);
+                    }
+                  } else if (showPasswordInput) {
+                    focusElement(`#${fileListId} .usa-input-error-message`);
+                  } else {
+                    focusElement(ERROR_ELEMENTS.join(','));
+                  }
+                }, 250);
+              } else if (showPasswordInput) {
+                setTimeout(() => {
+                  const passwordInput = $(`[name="get_password_${index}"]`);
+                  if (passwordInput) {
+                    focusElement('input', {}, passwordInput?.shadowRoot);
+                    scrollTo(`get_password_${index}"]`);
+                  }
+                }, 100);
+              }
+
+              const allowRetry =
+                errors[0] === FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
+
+              const retryButtonText =
+                content[allowRetry ? 'tryAgain' : 'newFile'];
+              const deleteButtonText =
+                content[hasVisibleError ? 'cancel' : 'delete'];
+
+              const getUiSchema = innerUiSchema =>
+                typeof innerUiSchema === 'function'
+                  ? innerUiSchema({
+                      fileId: fileNameId,
+                      index,
+                      fileName: file.name,
+                    })
+                  : innerUiSchema;
+
+              // make index available to widgets in attachment ui schema
+              const indexedRegistry = {
+                ...registry,
+                formContext: {
+                  ...registry.formContext,
+                  pagePerItemIndex: index,
+                },
+              };
+
+              return (
+                <li key={index} id={fileListId} className={itemClasses}>
+                  {file.uploading && (
+                    <div className="schemaform-file-uploading">
+                      <strong
+                        id={fileNameId}
+                        className="dd-privacy-hidden"
+                        data-dd-action-name="file name"
+                      >
+                        {file.name}
+                      </strong>
+                      <br />
+                      {/* no USWDS v3 "activity progress bar" */}
+                      <va-progress-bar percent={progress} />
+                      <va-button
+                        secondary
+                        class="cancel-upload vads-u-width--auto"
+                        onClick={() => {
+                          cancelUpload(index);
+                        }}
+                        label={content.cancelLabel(file.name)}
+                        text={content.cancel}
+                        uswds
+                      />
+                    </div>
+                  )}
+                  {description && <p>{description}</p>}
+                  {!file.uploading && (
+                    <>
+                      <strong
+                        id={fileNameId}
+                        className="dd-privacy-hidden"
+                        data-dd-action-name="file name"
+                      >
+                        {file.name}
+                      </strong>
+                      {file?.size && <div> {displayFileSize(file.size)}</div>}
+                    </>
+                  )}
+                  {showPasswordSuccess && <PasswordSuccess />}
+                  {!hasVisibleError &&
+                    !showPasswordInput &&
+                    get('properties.attachmentId', itemSchema) && (
+                      <Tag className="schemaform-file-attachment review">
+                        <SchemaField
+                          name="attachmentId"
+                          required={attachmentIdRequired}
+                          schema={itemSchema.properties.attachmentId}
+                          uiSchema={getUiSchema(uiOptions.attachmentSchema)}
+                          errorSchema={attachmentIdErrors}
+                          idSchema={attachmentIdSchema}
+                          formData={formData[index].attachmentId}
+                          onChange={value => onAttachmentIdChange(index, value)}
+                          onBlur={onBlur}
+                          registry={indexedRegistry}
+                          disabled={props.disabled}
+                          readonly={props.readonly}
+                        />
+                      </Tag>
+                    )}
+                  {!hasVisibleError &&
+                    !showPasswordInput &&
+                    uiOptions.attachmentName && (
+                      <Tag className="schemaform-file-attachment review">
+                        <SchemaField
+                          name="attachmentName"
+                          required
+                          schema={itemSchema.properties.name}
+                          uiSchema={getUiSchema(uiOptions.attachmentName)}
+                          errorSchema={attachmentNameErrors}
+                          idSchema={attachmentNameSchema}
+                          formData={formData[index].name}
+                          onChange={value =>
+                            onAttachmentNameChange(index, value)
+                          }
+                          onBlur={onBlur}
+                          registry={indexedRegistry}
+                          disabled={props.disabled}
+                          readonly={props.readonly}
+                        />
+                      </Tag>
+                    )}
+                  {!file.uploading &&
+                    hasVisibleError && (
+                      <span className="usa-input-error-message" role="alert">
+                        <span className="sr-only">Error</span> {errors[0]}
+                      </span>
+                    )}
+                  {!formContext.reviewMode &&
+                    !isUploading && (
+                      <div className="vads-u-margin-top--2">
+                        {hasVisibleError && (
+                          <va-button
+                            name={`retry_upload_${index}`}
+                            class="retry-upload vads-u-width--auto vads-u-margin-right--2"
+                            onClick={getRetryFunction(
+                              allowRetry,
+                              index,
+                              file.file,
+                            )}
+                            label={
+                              allowRetry
+                                ? content.tryAgainLabel(file.name)
+                                : content.newFile
+                            }
+                            text={retryButtonText}
+                            uswds
+                          />
+                        )}
+                        {!showPasswordInput && (
+                          <va-button
+                            secondary
+                            class="delete-upload vads-u-width--auto"
+                            onClick={() => {
+                              if (hasVisibleError) {
+                                // Cancelling with error should not show the remove
+                                // file modal
+                                removeFile(index);
+                              } else {
+                                openRemoveModal(index);
+                              }
+                            }}
+                            label={content[
+                              hasVisibleError ? 'cancelLabel' : 'deleteLabel'
+                            ](file.name)}
+                            text={deleteButtonText}
+                            uswds
+                          />
+                        )}
+                      </div>
+                    )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+        {// Don't render an upload button on review & submit page while in
+        // review mode
+        showButtons && (
+          <>
+            {(maxItems === null || files.length < maxItems) &&
+              // Prevent additional upload if any upload has error state
+              checkUploadVisibility() && (
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                <label
+                  id={`${idSchema.$id}_add_label`}
+                  htmlFor={idSchema.$id}
+                  className="upload-button-label vads-u-display--inline-block"
+                >
+                  <va-button
+                    id="upload-button"
+                    ref={fileButtonRef}
+                    secondary
+                    class="vads-u-padding-x--0 vads-u-padding-y--1"
+                    onClick={() => fileInputRef?.current?.click()}
+                    // label is the aria-label
+                    label={`${uploadText} ${titleString || ''}. ${
+                      content.ariaLabelAdditionalText
+                    }`}
+                    text={uploadText}
+                    uswds
+                  />
+                </label>
+              )}
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+              className="vads-u-display--none"
+              id={idSchema.$id}
+              name={idSchema.$id}
+              onChange={onAddFile}
+              onClick={() => {
+                fileInputRef.current.value = '';
+              }}
+            />
+          </>
+        )}
+      </div>
+    );
+  }
   return (
     <div
       className={

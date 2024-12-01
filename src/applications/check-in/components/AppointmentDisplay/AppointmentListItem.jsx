@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-
+import { useSelector } from 'react-redux';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import {
   appointmentIcon,
   clinicName,
@@ -10,9 +11,12 @@ import {
 import { APP_NAMES } from '../../utils/appConstants';
 
 const AppointmentListItem = props => {
-  const { appointment, goToDetails, router, app, page } = props;
+  const { appointment, goToDetails, router, app, page, count } = props;
   const { t } = useTranslation();
-
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isMedicationReviewContentEnabled } = useSelector(
+    selectFeatureToggles,
+  );
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
 
@@ -77,7 +81,9 @@ const AppointmentListItem = props => {
     }
     return (
       <span data-testid="in-person-msg-confirmation">
-        {t('remember-to-bring-your-insurance-cards-with-you')}
+        {isMedicationReviewContentEnabled
+          ? t('on-day-of-appointment-we-send-text')
+          : t('remember-to-bring-your-insurance-cards-with-you')}
       </span>
     );
   };
@@ -105,12 +111,8 @@ const AppointmentListItem = props => {
       </div>
     );
   };
-
-  return (
-    <li
-      className="vads-u-border-bottom--1px vads-u-border-color--gray-light check-in--appointment-item"
-      data-testid="appointment-list-item"
-    >
+  const appointmentItem = (
+    <>
       <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2p5">
         {page === 'confirmation' && (
           <div className="vads-u-font-family--serif vads-u-font-size--lg vads-u-line-height--2 vads-u-margin-bottom--1">
@@ -173,6 +175,24 @@ const AppointmentListItem = props => {
             <div>{infoBlockMessage()}</div>
           </va-alert>
         )}
+    </>
+  );
+  if (count === 1) {
+    return (
+      <div
+        className="vads-u-border-bottom--1px vads-u-border-color--gray-light check-in--appointment-item"
+        data-testid="appointment-item"
+      >
+        {appointmentItem}
+      </div>
+    );
+  }
+  return (
+    <li
+      className="vads-u-border-bottom--1px vads-u-border-color--gray-light check-in--appointment-item"
+      data-testid="appointment-list-item"
+    >
+      {appointmentItem}
     </li>
   );
 };
@@ -180,6 +200,7 @@ const AppointmentListItem = props => {
 AppointmentListItem.propTypes = {
   app: PropTypes.string.isRequired,
   appointment: PropTypes.object.isRequired,
+  count: PropTypes.number.isRequired,
   page: PropTypes.string.isRequired,
   goToDetails: PropTypes.func,
   router: PropTypes.object,

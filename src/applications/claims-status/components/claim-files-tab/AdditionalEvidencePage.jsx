@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import { Element } from 'platform/utilities/scroll';
 
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
+import Standard5103Alert from './Standard5103Alert';
 
 import { benefitsDocumentsUseLighthouse } from '../../selectors';
 import { setFocus, setPageFocus } from '../../utils/page';
@@ -30,6 +32,7 @@ import {
 import {
   getFilesNeeded,
   getFilesOptional,
+  isAutomated5103Notice,
   isClaimOpen,
 } from '../../utils/helpers';
 import withRouter from '../../utils/withRouter';
@@ -43,13 +46,12 @@ const scrollToError = () => {
   });
 };
 
-const { Element } = Scroll;
-
 const filesPath = `../files`;
 
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
+    this.scrollToSection();
   }
 
   // eslint-disable-next-line camelcase
@@ -66,6 +68,9 @@ class AdditionalEvidencePage extends React.Component {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
+    if (this.props.location.hash !== prevProps.location.hash) {
+      this.scrollToSection();
+    }
   }
 
   componentWillUnmount() {
@@ -74,6 +79,12 @@ class AdditionalEvidencePage extends React.Component {
     }
   }
 
+  scrollToSection = () => {
+    if (this.props.location.hash === '#add-files') {
+      setPageFocus('h3#add-files');
+    }
+  };
+
   goToFilesPage() {
     this.props.getClaim(this.props.claim.id);
     this.props.navigate(filesPath);
@@ -81,6 +92,8 @@ class AdditionalEvidencePage extends React.Component {
 
   render() {
     const { claim, lastPage } = this.props;
+    const { claimPhaseDates, evidenceWaiverSubmitted5103 } = claim.attributes;
+
     let content;
 
     const isOpen = isClaimOpen(
@@ -96,7 +109,14 @@ class AdditionalEvidencePage extends React.Component {
         />
       );
     } else {
-      const { message } = this.props;
+      const { message, filesNeeded } = this.props;
+
+      const standard5103NoticeExists =
+        claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
+        evidenceWaiverSubmitted5103 === false;
+      const automated5103NoticeExists = filesNeeded.some(i =>
+        isAutomated5103Notice(i.displayName),
+      );
 
       content = (
         <div className="additional-evidence-container">
@@ -110,10 +130,12 @@ class AdditionalEvidencePage extends React.Component {
               />
             </>
           )}
-          <h3 className="vads-u-margin-bottom--3">Additional evidence</h3>
+          <h3 id="add-files" className="vads-u-margin-bottom--3">
+            Additional evidence
+          </h3>
           {isOpen ? (
             <>
-              {this.props.filesNeeded.map(item => (
+              {filesNeeded.map(item => (
                 <FilesNeeded
                   key={item.id}
                   id={claim.id}
@@ -124,6 +146,14 @@ class AdditionalEvidencePage extends React.Component {
                   previousPage="files"
                 />
               ))}
+              <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+                <Toggler.Enabled>
+                  {standard5103NoticeExists &&
+                    !automated5103NoticeExists && (
+                      <Standard5103Alert previousPage="files" />
+                    )}
+                </Toggler.Enabled>
+              </Toggler>
               {this.props.filesOptional.map(item => (
                 <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
@@ -223,6 +253,7 @@ AdditionalEvidencePage.propTypes = {
   getClaim: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  location: PropTypes.object,
   message: PropTypes.object,
   navigate: PropTypes.func,
   params: PropTypes.object,

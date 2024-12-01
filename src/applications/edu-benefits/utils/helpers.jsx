@@ -1,13 +1,15 @@
 import _ from 'lodash';
-import moment from 'moment';
 
-import { dateToMoment } from 'platform/utilities/date';
+import { hasSession } from 'platform/user/profile/utilities';
+import { dateFieldToDate } from 'platform/utilities/date';
+import { format, isBefore, isValid, parse } from 'date-fns';
 
 export function getLabel(options, value) {
   const matched = _.find(options, option => option.value === value);
 
   return matched ? matched.label : null;
 }
+
 export function convertToggle() {
   const url = window.location.href;
   const params = new URLSearchParams(new URL(url).search);
@@ -34,17 +36,23 @@ function formatDayMonth(val) {
   return val.toString();
 }
 
-function formatYear(val) {
+export function formatYear(val) {
   if (!val || !val.length) {
     return 'XXXX';
   }
 
-  const yearDate = moment(val, 'YYYY');
-  if (!yearDate.isValid()) {
+  // Strip non-digit characters
+  const cleanedVal = val.replace(/\D/g, '');
+
+  // Handle 2 digit years
+  const parseFormat = cleanedVal.length === 2 ? 'yy' : 'yyyy';
+
+  const yearDate = parse(cleanedVal, parseFormat, new Date());
+  if (!isValid(yearDate)) {
     return 'XXXX';
   }
 
-  return yearDate.format('YYYY');
+  return format(yearDate, 'yyyy');
 }
 
 export function formatPartialDate(field) {
@@ -84,19 +92,9 @@ export function showSomeoneElseServiceQuestion(claimType) {
 
 export function hasServiceBefore1978(data) {
   return data.toursOfDuty.some(tour => {
-    const fromDate = dateToMoment(tour.dateRange.from);
-    return fromDate.isValid() && fromDate.isBefore('1978-01-02');
+    const fromDate = dateFieldToDate(tour.dateRange.from);
+    return isValid(fromDate) && isBefore(fromDate, new Date('1978-01-02'));
   });
-}
-
-export function hasServiceBefore1977(data) {
-  return (
-    data.toursOfDuty &&
-    data.toursOfDuty.some(tour => {
-      const fromDate = moment(tour.dateRange.from);
-      return fromDate.isValid() && fromDate.isBefore('1977-01-02');
-    })
-  );
 }
 
 export function showRelinquishedEffectiveDate(benefitsRelinquished) {
@@ -138,6 +136,7 @@ export function showYesNo(field) {
 
   return field.value === 'Y' ? 'Yes' : 'No';
 }
+
 export function isValidRoutingNumber(value) {
   if (/^\d{9}$/.test(value)) {
     const digits = value.split('').map(val => parseInt(val, 10));
@@ -150,3 +149,54 @@ export function isValidRoutingNumber(value) {
   }
   return false;
 }
+
+const additionalSchema = {
+  edipi: {
+    type: 'string',
+  },
+  icn: {
+    type: 'string',
+  },
+};
+
+const additionalUiSchema = {
+  edipi: {
+    'ui:options': {
+      hideIf: () => true,
+    },
+  },
+  icn: {
+    'ui:options': {
+      hideIf: () => true,
+    },
+  },
+};
+
+/**
+ * Adds additional schema to the Applicant Information if the
+ * user is authenticated which contains EDIPI and ICN fields.
+ */
+export const updateApplicantInformationPage = page =>
+  hasSession()
+    ? {
+        ...page,
+        schema: {
+          ...page.schema,
+          properties: {
+            ...page.schema.properties,
+            ...additionalSchema,
+          },
+        },
+        uiSchema: {
+          ...page.uiSchema,
+          ...additionalUiSchema,
+        },
+      }
+    : page;
+
+export const applicantInformationTransform = formData => {
+  const clonedData = _.cloneDeep(formData);
+  delete clonedData.edipi;
+  delete clonedData.icn;
+  return clonedData;
+};

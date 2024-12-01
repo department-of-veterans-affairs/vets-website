@@ -22,6 +22,12 @@ import {
 } from '../constants/gmtCalculationTypes';
 
 const isLocalhost = environment.isLocalhost();
+
+// only to be updated when downstream services are updated
+//  check with sitewide-public-websites to confirm income_limits also contains
+//  data for the new year from VES
+const GMT_YEAR = 2024;
+
 /**
  * Helper calculates and returns the income upper threshold, asset threshold, and discretionary income threshold
  * based on the given GMT value.
@@ -45,22 +51,25 @@ const calculateThresholds = gmtValue => {
 
 /**
  * Determines the appropriate data source based on configuration settings and environment.
+ * Leverages GMT_YEAR constant for the year of the data being requested.
  *
+ * @param {number} dependents - The number of dependents.
+ * @param {string} zipCode - The ZIP code for which data is being requested.
  * @returns {string} The URL of the data source.
  */
 
-const getDataUrl = (dependents, year, zipCode) => {
+const getDataUrl = (dependents, zipCode) => {
   if (isLocalhost && USE_GEOGRAPHIC_MOCK_DATA) {
     return null; // Return mock data directly
   }
 
   if (isLocalhost && USE_STAGING_DATA) {
-    return `https://staging-api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
+    return `https://staging-api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${GMT_YEAR}/${dependents}`;
   }
 
   return `${
     environment.API_URL
-  }/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
+  }/income_limits/v1/limitsByZipCode/${zipCode}/${GMT_YEAR}/${dependents}`;
 };
 
 /**
@@ -68,12 +77,11 @@ const getDataUrl = (dependents, year, zipCode) => {
  * uses staging data, or returns mock data (if enabled).
  *
  * @param {number} dependents - The number of dependents.
- * @param {number} year - The year for which data is being requested.
  * @param {string} zipCode - The ZIP code for which data is being requested.
  * @returns {Promise<Object>} A promise resolving to the GMT thresholds data or error object.
  */
-export const getGMT = async (dependents, year, zipCode) => {
-  const dataUrl = getDataUrl(dependents, year, zipCode);
+export const getGMT = async (dependents, zipCode) => {
+  const dataUrl = getDataUrl(dependents, zipCode);
 
   if (dataUrl === null && isLocalhost) {
     // Mock data scenario

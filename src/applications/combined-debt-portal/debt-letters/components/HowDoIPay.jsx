@@ -1,9 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { deductionCodes } from '../const/deduction-codes';
 
-const HowDoIPay = ({ userData }) => (
-  <>
-    <article className="vads-u-font-family--sans vads-u-padding-x--0">
+export const getDeductionDescription = code => {
+  const description = deductionCodes[code];
+  if (!description) {
+    return '';
+  }
+  return `– ${description}`;
+};
+
+const HowDoIPay = ({ userData }) => {
+  const { deductionCode } = userData;
+
+  return (
+    <article className="vads-u-padding-x--0">
       <h2
         id="howDoIPay"
         className="vads-u-margin-top--4 vads-u-margin-bottom-2"
@@ -44,7 +55,7 @@ const HowDoIPay = ({ userData }) => (
           </li>
           <li>
             <strong>Deduction Code: </strong>
-            {userData.deductionCode}
+            {userData.deductionCode} {getDeductionDescription(deductionCode)}
           </li>
         </ul>
       ) : (
@@ -90,8 +101,8 @@ const HowDoIPay = ({ userData }) => (
         USA
       </p>
     </article>
-  </>
-);
+  );
+};
 
 HowDoIPay.propTypes = {
   showDebtLetterDownload: PropTypes.bool,

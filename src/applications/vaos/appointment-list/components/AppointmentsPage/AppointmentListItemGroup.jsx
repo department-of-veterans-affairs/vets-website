@@ -150,7 +150,7 @@ export default function AppointmentListItemGroup({ data }) {
           handleClick={() => handleClick({ history, link, idClickable })}
           handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
         >
-          <AppointmentRow className="xsmall-screen:vads-u-flex-direction--row">
+          <AppointmentRow className="mobile:vads-u-flex-direction--row">
             <div
               className={classNames(
                 'vads-l-col vads-u-margin-left--1 vads-u-padding-y--1p5',

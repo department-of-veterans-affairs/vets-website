@@ -3,6 +3,10 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import WIP from '../../shared/components/WIP';
@@ -36,12 +40,17 @@ export default function App({ location, children }) {
   });
 
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959c}>
         <Toggler.Enabled>
           <VaBreadcrumbs breadcrumbList={breadcrumbList} />
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-            {children}
+            <DowntimeNotification
+              appTitle={`CHAMPVA Form ${formConfig.formId}`}
+              dependencies={[externalServices.pega]}
+            >
+              {children}
+            </DowntimeNotification>
           </RoutedSavableApp>
         </Toggler.Enabled>
         <Toggler.Disabled>

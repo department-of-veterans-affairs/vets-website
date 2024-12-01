@@ -1,5 +1,5 @@
 // Style for schemaform
-
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 .va-growable-background {
   padding: 1em;
   margin-bottom: 1em;
@@ -45,8 +45,7 @@ fieldset {
 @media (max-width: 40.063em) {
   .progress-box {
     border: none;
-    padding-left: 1.25rem - 0.5859375rem;
-    padding-right: 1.25rem - 0.5859375rem;
+    padding: 0;
   }
 }
 
@@ -85,24 +84,19 @@ dl.review {
     border-top: 1px solid var(--vads-color-base-light);
     padding: 0.9375rem;
     padding-left: 0;
+    column-gap: 0.9375rem;
     > dd {
       font-weight: bold;
-      text-align: right;
+      @media (min-width: $xsmall-screen) {
+        text-align: right;
+      }
     }
     > dt > p {
       margin-top: 0;
       margin-bottom: 0;
     }
-    @media (min-width: $small-screen) {
+    @media (min-width: $xsmall-screen) {
       flex-direction: row;
-      > dd {
-        padding-left: 5px;
-        min-width: 100px;
-      }
-      > dt {
-        max-width: 60%;
-        min-width: 40%;
-      }
     }
   }
   border-bottom: 1px solid var(--vads-color-base-light);
@@ -184,10 +178,6 @@ label {
 
 .schemaform-block {
   margin-top: 2em;
-}
-
-.nav-header-schemaform {
-  margin-top: 1em !important;
 }
 
 .progress-box-schemaform {
@@ -602,8 +592,10 @@ va-accordion-item[data-unviewed-pages="true"] {
   background: var(--vads-color-white);
   border: 1px solid var(--vads-color-base-dark);
   // Box shadow only sides and bottom of suggestion list.
-  box-shadow: 3px 3px 3px -3px var(--vads-color-action-focus-on-light), -3px 3px 3px -3px var(--vads-color-action-focus-on-light),
-    7px 7px 7px -7px var(--vads-color-action-focus-on-light), -7px 7px 7px -7px var(--vads-color-action-focus-on-light);
+  box-shadow: 3px 3px 3px -3px var(--vads-color-action-focus-on-light),
+    -3px 3px 3px -3px var(--vads-color-action-focus-on-light),
+    7px 7px 7px -7px var(--vads-color-action-focus-on-light),
+    -7px 7px 7px -7px var(--vads-color-action-focus-on-light);
   list-style: none;
   margin-top: -0.3125rem;
   max-width: 28.75rem;
@@ -759,3 +751,8 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
 @include header-style("rjsf-wc-header--h2", $h2-font-size, $h3-font-size);
 @include header-style("rjsf-wc-header--h3", $h3-font-size, $h4-font-size);
 @include header-style("rjsf-wc-header--h4", $h4-font-size, $h5-font-size);
+
+/* Edit contact info save button */
+.va-profile-wrapper button[data-action="save-edit"] {
+  padding: 0.45rem 1.25rem;
+}

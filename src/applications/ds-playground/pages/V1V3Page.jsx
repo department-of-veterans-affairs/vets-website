@@ -112,7 +112,7 @@ export default function V1V3Page() {
 
   return (
     <>
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <div className="vads-l-row">
           <h1>V1 and V3 Side-by-Side Demo</h1>
         </div>
@@ -716,7 +716,7 @@ export default function V1V3Page() {
                   paddingLeft: '2rem',
                 }}
               >
-                <div className="nav-header nav-header-schemaform">
+                <div className="nav-header">
                   <h2
                     className="vads-u-font-size--h4"
                     id="nav-form-header"

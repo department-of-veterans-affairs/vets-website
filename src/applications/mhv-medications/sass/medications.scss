@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "./prescription-details";
 @import "./print-download";
 
@@ -29,6 +29,10 @@
   margin-top: 70px;
 }
 
+.print-download-btn-min-height {
+  min-height: 44px;
+}
+
 .renew-pagination-container {
   width: 100%;
   display: flex;
@@ -37,8 +41,8 @@
 .routes-container {
   @media (max-width: $small-screen) {
     // .vads-l-grid-container adds 15px on left and right, this overwrites that
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 .main-content {
@@ -57,6 +61,9 @@
   .right-angle {
     text-decoration: none;
   }
+}
+.usa-button {
+  width: 100%;
 }
 .va-button {
   margin: 4px 0;
@@ -149,6 +156,10 @@
 .renew-card-details > p {
   margin: 0px;
 }
+//fixed misaligned icon for filter component
+#filter > span {
+  vertical-align: top;
+}
 
 .pagination {
   max-width: 500px;
@@ -156,6 +167,9 @@
 }
 
 @media print {
+  .main-content {
+    width: 100%;
+  }
   .landing-page {
     margin-top: 10px;
   }
@@ -249,12 +263,6 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
-  }
-}
-
-.vads-u-width--responsive{
-  @media (max-width: $small-screen) {
-    width: 100% !important;
   }
 }
 

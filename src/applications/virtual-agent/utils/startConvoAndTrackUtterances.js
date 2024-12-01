@@ -3,6 +3,7 @@ import {
   processSendMessageActivity,
   processIncomingActivity,
   processMicrophoneActivity,
+  addActivityData,
 } from './actions';
 
 const StartConvoAndTrackUtterances = {
@@ -23,8 +24,16 @@ const StartConvoAndTrackUtterances = {
     };
 
     const canProcessAction = processActionType[action.type];
-    if (canProcessAction) processActionType[action.type]();
-    return next(action);
+    if (canProcessAction) {
+      processActionType[action.type]();
+    }
+
+    let updatedAction = action;
+    if (event.isRootBotToggleOn) {
+      updatedAction = addActivityData(updatedAction, options);
+    }
+
+    return next(updatedAction);
   },
 };
 

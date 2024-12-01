@@ -54,7 +54,6 @@ import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrie
 import {
   adaptiveBenefits,
   addDisabilities,
-  addDisabilitiesRevised,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalRemarks781,
@@ -73,6 +72,7 @@ import {
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
+  mentalHealthConditions,
   militaryHistory,
   newDisabilityFollowUp,
   newPTSDFollowUp,
@@ -110,10 +110,10 @@ import {
   workBehaviorChanges,
 } from '../pages';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
-import { showRevisedNewDisabilitiesPage } from '../content/addDisabilities';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
+import { showMentalHealthPages } from '../content/mentalHealth';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
 
@@ -327,28 +327,10 @@ const formConfig = {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
           depends: formData =>
-            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
-            !showRevisedNewDisabilitiesPage(),
+            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData),
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
-          appStateSelector: state => ({
-            // needed for validateDisabilityName to work properly on the review
-            // & submit page. Validation functions are provided the pageData and
-            // not the formData on the review & submit page. For more details
-            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-            newDisabilities: state.form?.data?.newDisabilities || [],
-          }),
-        },
-        addDisabilitiesRevised: {
-          title: 'Add a new disability REVISED!',
-          path: 'new-disabilities-revised/add',
-          depends: formData =>
-            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
-            showRevisedNewDisabilitiesPage(),
-          uiSchema: addDisabilitiesRevised.uiSchema,
-          schema: addDisabilitiesRevised.schema,
-          updateFormData: addDisabilitiesRevised.updateFormData,
           appStateSelector: state => ({
             // needed for validateDisabilityName to work properly on the review
             // & submit page. Validation functions are provided the pageData and
@@ -562,6 +544,13 @@ const formConfig = {
           appStateSelector: state => ({
             serviceInformation: state.form?.data?.serviceInformation,
           }),
+        },
+        mentalHealthConditions: {
+          title: 'Mental health conditions',
+          path: `disabilities/781-screener`,
+          depends: formData => showMentalHealthPages(formData),
+          uiSchema: mentalHealthConditions.uiSchema,
+          schema: mentalHealthConditions.schema,
         },
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {

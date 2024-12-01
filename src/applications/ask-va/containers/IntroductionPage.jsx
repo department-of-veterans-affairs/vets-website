@@ -19,15 +19,21 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { envUrl } from '../constants';
-import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
+import {
+  inProgressOrReopenedIcon,
+  newIcon,
+  successIcon,
+} from '../utils/helpers';
 import DashboardCards from './DashboardCards';
+import DashboardCardsMock from './DashboardCardsMock';
 
 const IntroductionPage = props => {
-  const { route, loggedIn, toggleLoginModal } = props;
+  const { route, toggleLoginModal, loggedIn } = props;
   const { formConfig, pageList, pathname, formData } = route;
   const [inquiryData, setInquiryData] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
+  const [showMockDashboard, setShowMockDashboard] = useState(false);
 
   const getStartPage = () => {
     const data = formData || {};
@@ -156,24 +162,45 @@ const IntroductionPage = props => {
         visible
         uswds
       >
-        <h3 slot="headline">Sign in to ask a question</h3>
+        <h4 slot="headline">Sign in to ask a question</h4>
         <div>
           <p className="vads-u-margin-top--0">
             You’ll need to sign in with a verified{' '}
             <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
             <span className="vads-u-font-weight--bold">ID.me</span> account or a
             Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
-            or{' '}
-            <span className="vads-u-font-weight--bold">
-              My HealtheVet account.
-            </span>{' '}
-            If you don’t have any of those accounts, you can create a free{' '}
-            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
+            account. If you don’t have any of those accounts, you can create a
+            free <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
             <span className="vads-u-font-weight--bold">ID.me</span> account now.
           </p>
           <VaButton
             text="Sign in or create an account"
             onClick={showSignInModal}
+          />
+        </div>
+      </VaAlert>
+
+      <VaAlert
+        close-btn-aria-label="Close notification"
+        status="info"
+        visible
+        uswds
+        className="vads-u-margin-top--3"
+      >
+        <h4 slot="headline">Research Study - Sign in to ask a question</h4>
+        <div>
+          <p className="vads-u-margin-top--0">
+            You’ll need to sign in with a verified{' '}
+            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
+            <span className="vads-u-font-weight--bold">ID.me</span> account or a
+            Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
+            account. If you don’t have any of those accounts, you can create a
+            free <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
+            <span className="vads-u-font-weight--bold">ID.me</span> account now.
+          </p>
+          <VaButton
+            text="Sign in or create an account"
+            onClick={() => setShowMockDashboard(true)}
           />
         </div>
       </VaAlert>
@@ -209,16 +236,13 @@ const IntroductionPage = props => {
         </li>
         <li>
           <strong>If you think your life or health is in danger,</strong> call{' '}
-          <va-telephone
-            contact="911"
-            message-aria-describedby="Emergency care contact number"
-          />{' '}
-          or go to the nearest emergency room.
+          <va-telephone contact="911" message-aria-describedby="9 1 1" /> or go
+          to the nearest emergency room.
         </li>
       </ul>
 
       <h2>Check the status of your question</h2>
-      <p className="vads-u-margin--0">Reference number</p>
+      <p className="vads-u-margin--0">Enter your reference number</p>
       <VaSearchInput
         label="Reference number"
         value={searchReferenceNumber}
@@ -274,11 +298,8 @@ const IntroductionPage = props => {
               <li>
                 <strong>If you think your life or health is in danger,</strong>{' '}
                 call{' '}
-                <va-telephone
-                  contact="911"
-                  message-aria-describedby="Emergency care contact number"
-                />
-                , or go to the nearest emergency room.
+                <va-telephone contact="911" message-aria-describedby="9 1 1" />,
+                or go to the nearest emergency room.
               </li>
             </ul>
           </va-accordion-item>
@@ -289,13 +310,72 @@ const IntroductionPage = props => {
     </>
   );
 
+  const mockDashboard = (
+    <>
+      <va-link-action
+        href="/"
+        message-aria-describedby="Ask a new question"
+        text="Ask a new question"
+      />
+      <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
+        <va-accordion
+          disable-analytics={{
+            value: 'false',
+          }}
+          open-single
+          section-heading={{
+            value: 'null',
+          }}
+          uswds={{
+            value: 'true',
+          }}
+        >
+          <va-accordion-item header="When to use Ask VA" id="first">
+            <p>
+              You can use Ask VA to ask a question online. You can ask about
+              education, disability compensation, health care and many other
+              topics.
+            </p>
+            <p>
+              If you need help now, use one of these urgent communication
+              options:
+            </p>
+            <ul>
+              <li>
+                <strong>
+                  If you’re in crisis or having thoughts of suicide,
+                </strong>{' '}
+                connect with our Veterans Crisis Line. We offer confidential
+                support anytime, day or night.{' '}
+                <a href="https://www.veteranscrisisline.net">
+                  Connect with Veterans Crisis Line
+                </a>
+              </li>
+              <li>
+                <strong>If you think your life or health is in danger,</strong>{' '}
+                call{' '}
+                <va-telephone contact="911" message-aria-describedby="9 1 1" />,
+                or go to the nearest emergency room.
+              </li>
+            </ul>
+          </va-accordion-item>
+        </va-accordion>
+      </div>
+
+      <DashboardCardsMock />
+    </>
+  );
+
   const subTitle =
     'Get answers to your questions about VA benefits and service. You should receive a reply within 7 business days.';
 
   return (
     <div className="schemaform-intro">
       <FormTitle title={formConfig.title} subTitle={subTitle} />
-      {loggedIn ? authenticatedUI : unAuthenticatedUI}
+      {loggedIn && authenticatedUI}
+      {/* Temporary mock dashboard experience for research study */}
+      {!loggedIn && showMockDashboard && mockDashboard}
+      {!loggedIn && !showMockDashboard && unAuthenticatedUI}
     </div>
   );
 };

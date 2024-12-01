@@ -3,6 +3,7 @@ import appendQuery from 'append-query';
 // eslint-disable-next-line import/no-unresolved
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { format, addMonths } from 'date-fns';
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
@@ -265,7 +266,9 @@ const v2 = {
     };
   },
   getUpcomingAppointmentsData: async token => {
-    const url = `/check_in/v2/sessions/${token}/appointments`;
+    const startDate = format(new Date(), 'yyyy-MM-dd');
+    const endDate = format(addMonths(new Date(), 13), 'yyyy-MM-dd');
+    const url = `/check_in/v2/sessions/${token}/appointments?start=${startDate}&end=${endDate}`;
     const requestUrl = `${environment.API_URL}${url}`;
     const json = await makeApiCallWithSentry(
       apiRequest(requestUrl),

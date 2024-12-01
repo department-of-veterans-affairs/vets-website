@@ -14,31 +14,56 @@ const EducationFacilitySearch = ({ onChange }) => {
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
+  const [fetchDataError, setFetchDataError] = useState({ hasError: false });
 
   const getApiData = url => {
+    const searchURL = url.split('?');
     setIsSearching(true);
     return apiRequest(url)
       .then(res => {
+        if (!Array.isArray(res.data)) res.data = [res.data];
         setApiData(res);
         setIsSearching(false);
+        setFetchDataError({ hasError: false, errorMessage: '' });
       })
       .catch(() => {
         setIsSearching(false);
+        setFetchDataError({
+          hasError: true,
+          errorMessage:
+            searchURL > 1
+              ? "Check the spelling of the school's name or city you entered"
+              : 'Check the school code you entered',
+        });
       });
   };
 
   const getFacilitiesFromLocation = async input => {
     const place = await convertLocation(input);
     const getLocation = place.zipCode[0].text;
-    const url = `${envUrl}${URL.GET_SCHOOL}${getLocation}`;
+    const url = `${envUrl}${URL.GET_SCHOOL}search?name=${getLocation}`;
     await getApiData(url);
     setPageURL(url);
   };
 
   const getFacilities = async input => {
+    const url = `${envUrl}${URL.GET_SCHOOL}search?name=${input}`;
+    await getApiData(url);
+    setPageURL(url);
+  };
+
+  const getFacilitiesByCode = async input => {
     const url = `${envUrl}${URL.GET_SCHOOL}${input}`;
     await getApiData(url);
     setPageURL(url);
+  };
+
+  const checkInput = input => {
+    const searchInput = parseInt(input, 10);
+    if (isNaN(searchInput)) {
+      return getFacilities(input);
+    }
+    return getFacilitiesByCode(input);
   };
 
   return (
@@ -46,7 +71,9 @@ const EducationFacilitySearch = ({ onChange }) => {
       <div className="facility-locator vads-u-margin-top--2">
         <SearchControls
           locateUser={getFacilitiesFromLocation}
-          onSubmit={getFacilities}
+          onSubmit={checkInput}
+          searchTitle="Search for your school"
+          searchHint="You can search by school name, code or location."
         />
         {isSearching ? (
           <va-loading-indicator
@@ -60,6 +87,7 @@ const EducationFacilitySearch = ({ onChange }) => {
             pageURL={pageURL}
             getData={getApiData}
             onChange={onChange}
+            dataError={fetchDataError}
           />
         )}
       </div>

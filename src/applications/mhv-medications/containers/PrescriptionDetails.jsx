@@ -57,7 +57,6 @@ const PrescriptionDetails = () => {
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
-    message: undefined,
   });
   const dispatch = useDispatch();
 
@@ -78,12 +77,12 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(`${prescriptionHeader} | Veterans Affairs`);
+        updatePageTitle('Medications details | Veterans Affairs');
       } else {
         window.scrollTo(0, 0);
       }
     },
-    [prescription, prescriptionHeader],
+    [prescription],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
@@ -202,7 +201,6 @@ const PrescriptionDetails = () => {
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
-      message: 'Loading...',
     });
     await Promise.allSettled([!allergies && dispatch(getAllergiesList())]);
   };
@@ -324,11 +322,7 @@ const PrescriptionDetails = () => {
   const hasPrintError =
     prescription && !prescriptionsApiError && !allergiesError;
   const content = () => {
-    if (
-      (pdfTxtGenerateStatus.status !== PDF_TXT_GENERATE_STATUS.InProgress ||
-        allergiesError) &&
-      (prescription || prescriptionsApiError)
-    ) {
+    if (prescription || prescriptionsApiError) {
       return (
         <>
           <div className="no-print">
@@ -346,7 +340,7 @@ const PrescriptionDetails = () => {
               <>
                 <p
                   id="last-filled"
-                  className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
+                  className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--4 vads-u-margin-bottom--3"
                   data-testid="rx-last-filled-date"
                 >
                   {filledEnteredDate()}
@@ -369,10 +363,15 @@ const PrescriptionDetails = () => {
                 )}
                 <div className="no-print">
                   <PrintDownload
-                    download={handleFileDownload}
+                    onDownload={handleFileDownload}
                     isSuccess={
                       pdfTxtGenerateStatus.status ===
                       PDF_TXT_GENERATE_STATUS.Success
+                    }
+                    isLoading={
+                      !allergiesError &&
+                      pdfTxtGenerateStatus.status ===
+                        PDF_TXT_GENERATE_STATUS.InProgress
                     }
                   />
                   <BeforeYouDownloadDropdown page={pageType.DETAILS} />
@@ -407,9 +406,7 @@ const PrescriptionDetails = () => {
     }
     return (
       <va-loading-indicator
-        message={
-          pdfTxtGenerateStatus.message || 'Loading your medication record...'
-        }
+        message="Loading your medication record..."
         setFocus
         data-testid="loading-indicator"
       />

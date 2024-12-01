@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import debounce from 'platform/utilities/data/debounce';
-
 import { EVIDENCE_PRIVATE_PATH } from '../constants';
 import { content } from '../content/evidencePrivateRecords';
 import { getIndex, hasErrors } from '../utils/evidence';
@@ -20,7 +18,7 @@ import {
   validatePrivateUnique,
   isEmptyPrivateEntry,
 } from '../validations/evidence';
-import { focusEvidence } from '../utils/focus';
+import { focusEvidence } from '../../shared/utils/focus';
 import {
   HeaderAndModal,
   FacilityAddress,
@@ -127,7 +125,7 @@ const EvidencePrivateRecords = ({
       setCurrentState(defaultState);
       focusEvidence();
       setForceReload(false);
-      debounce(() => setIsBusy(false));
+      setTimeout(() => setIsBusy(false));
     },
     // don't include providerFacility or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps

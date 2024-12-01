@@ -11,7 +11,7 @@ import { showMedicalEvidenceClarification } from '../../../helpers';
 
 const path = showMedicalEvidenceClarification()
   ? 'medical/history/condition'
-  : 'temporarily-hide';
+  : 'temporarily-hidden-conditions';
 
 const { medicalCondition } = fullSchemaPensions.properties;
 /** @type {PageSchema} */

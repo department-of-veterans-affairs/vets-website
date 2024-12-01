@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
@@ -7,7 +7,10 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -49,8 +52,9 @@ import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
 import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
-import BenefitApplicationDrafts from './benefit-application-drafts/BenefitApplicationDrafts';
+import BenefitApplications from './benefit-application-drafts/BenefitApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
+import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
 
 const DashboardHeader = ({ showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -64,7 +68,7 @@ const DashboardHeader = ({ showNotifications, user }) => {
   return (
     <div>
       {displayOnboardingInformation && (
-        <VaAlert status="info" visible>
+        <VaAlert status="info" visible className="vads-u-margin-top--4">
           <h2> Welcome to VA, {user.profile.userFullName.first}</h2>
           <p>
             We understand that transitioning out of the military can be a
@@ -112,13 +116,34 @@ const DashboardHeader = ({ showNotifications, user }) => {
           });
         }}
       />
+      <ContactInfoNeeded />
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
   );
 };
 
-const LOA1Content = ({ isLOA1, isVAPatient }) => {
+const LOA1Content = ({
+  isLOA1,
+  isVAPatient,
+  welcomeModalVisible,
+  dismissWelcomeModal,
+  user,
+}) => {
   const signInService = useSelector(signInServiceName);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showWelcomeToMyVaMessage = useToggleValue(
+    TOGGLE_NAMES.veteranOnboardingShowWelcomeMessageToNewUsers,
+  );
+
+  const userCreationTime = new Date(user.profile.createdAt);
+  const oneDayLater = new Date(
+    userCreationTime.getTime() + 24 * 60 * 60 * 1000,
+  );
+  const currentDate = new Date();
+  const userIsNew =
+    currentDate.getTime() > userCreationTime.getTime() &&
+    currentDate.getTime() < oneDayLater.getTime();
+
   return (
     <>
       <div className="vads-l-row">
@@ -134,7 +159,27 @@ const LOA1Content = ({ isLOA1, isVAPatient }) => {
 
       <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
       <EducationAndTraining isLOA1={isLOA1} />
-      <BenefitApplicationDrafts isLOA1={isLOA1} />
+      <BenefitApplications />
+
+      {showWelcomeToMyVaMessage &&
+        userIsNew && (
+          <VaModal
+            large
+            modalTitle="Welcome to My VA"
+            onCloseEvent={dismissWelcomeModal}
+            onPrimaryButtonClick={dismissWelcomeModal}
+            primaryButtonText="Continue"
+            visible={welcomeModalVisible}
+            data-testid="welcome-modal"
+          >
+            <p>
+              We’ll help you get started managing your benefits and information
+              online, as well as help you find resources and support. Once you
+              have applications or claims in process, you’ll be able to check
+              status here at My VA.
+            </p>
+          </VaModal>
+        )}
     </>
   );
 };
@@ -145,8 +190,11 @@ DashboardHeader.propTypes = {
 };
 
 LOA1Content.propTypes = {
+  dismissWelcomeModal: PropTypes.func,
   isLOA1: PropTypes.bool,
   isVAPatient: PropTypes.bool,
+  welcomeModalVisible: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 const Dashboard = ({
@@ -166,10 +214,19 @@ const Dashboard = ({
   showNotInMPIError,
   showNotifications,
   isVAPatient,
+  user,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
   const dispatch = useDispatch();
+
+  const [welcomeModalVisible, setWelcomeModalVisible] = useState(
+    !localStorage.getItem('welcomeToMyVAModalIsDismissed'),
+  );
+  const dismissWelcomeModal = () => {
+    setWelcomeModalVisible(false);
+    localStorage.setItem('welcomeToMyVAModalIsDismissed', 'true');
+  };
 
   useEffect(
     () => {
@@ -229,7 +286,7 @@ const Dashboard = ({
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
-      user={props.user}
+      user={user}
       showProfileErrorMessage
     >
       <DowntimeNotification
@@ -278,7 +335,13 @@ const Dashboard = ({
 
               {/* LOA1 user experience */}
               {isLOA1 && (
-                <LOA1Content isLOA1={isLOA1} isVAPatient={isVAPatient} />
+                <LOA1Content
+                  isLOA1={isLOA1}
+                  isVAPatient={isVAPatient}
+                  welcomeModalVisible={welcomeModalVisible}
+                  dismissWelcomeModal={dismissWelcomeModal}
+                  user={user}
+                />
               )}
 
               {/* LOA3 user experience */}
@@ -302,7 +365,7 @@ const Dashboard = ({
                     showNotifications={showNotifications}
                   />
                   <EducationAndTraining />
-                  <BenefitApplicationDrafts />
+                  <BenefitApplications />
                 </>
               )}
             </div>

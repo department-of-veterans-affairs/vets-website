@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-import FormQuestion from './FormQuestion';
-import FormResult from './FormResult';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import { isEqual } from 'lodash';
+import FormResult from './FormResult';
+import FormQuestion from './FormQuestion';
 import {
   getEnabledQuestions,
   checkFormStatus,
@@ -30,7 +30,7 @@ export default function MultiQuestionForm({
   // note: investigate https://reactjs.org/docs/hooks-reference.html#usereducer
   useEffect(
     () => {
-      let completed = formState.completed;
+      let { completed } = formState;
       const newStatus = checkFormStatus({ questionState, customId });
       if (formState.status !== newStatus) {
         // record first completion of form

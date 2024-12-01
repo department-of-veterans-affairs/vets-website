@@ -1,11 +1,13 @@
 import React from 'react';
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   capitalizeEachWord,
   formSubtitle,
+  formTitle,
   formatMonthYearDate,
   isClaimingNew,
+  makeConditionsSchema,
   sippableId,
+  validateConditions,
 } from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
 
@@ -20,12 +22,12 @@ export const conditionsDescription = (
   >
     <div>
       <p className="vads-u-margin-top--0">
-        Toxic exposures include exposures to substances like Agent Orange, burn
+        Toxic exposure includes exposure to substances like Agent Orange, burn
         pits, radiation, asbestos, or contaminated water.
       </p>
       <p className="vads-u-margin-bottom--0">
         <a
-          href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/"
+          href="https://www.va.gov/disability/eligibility/hazardous-materials-exposure/"
           target="_blank"
           rel="noreferrer"
         >
@@ -87,16 +89,10 @@ export const goBackLink = 'Edit locations and dates';
 export const goBackLinkExposures = 'Edit exposures and dates';
 export const noDatesEntered = 'No dates entered';
 export const notSureDatesSummary = 'I’m not sure of the dates';
-export const notSureDatesDetails = (
-  <p className="vads-spacing-1">
-    I’m not sure of the dates I served in this location
-  </p>
-);
-export const notSureHazardDetails = (
-  <p className="vads-spacing-1">
-    I’m not sure of the dates I was exposed to this hazard
-  </p>
-);
+export const notSureDatesDetails =
+  'I’m not sure of the dates I served in this location';
+export const notSureHazardDetails =
+  'I’m not sure of the dates I was exposed to this hazard';
 
 /**
  * Generate the Toxic Exposure subtitle, which is used on Review and Submit and on the pages
@@ -107,7 +103,7 @@ export const notSureHazardDetails = (
  * @param {number} totalItems - total number of selected items
  * @param {string} itemName - Display name of the location or hazard
  * @param {string} itemType - Name of the item. Defaults to 'Location'
- * @returns
+ * @returns {string} subtitle
  */
 export function teSubtitle(
   currentItem,
@@ -120,36 +116,6 @@ export function teSubtitle(
       totalItems > 0 &&
       `${itemType} ${currentItem} of ${totalItems}: ${itemName}`) ||
     itemName
-  );
-}
-
-/**
- * Create the markup for page description including the subtitle and date range description text
- *
- * @param {number} currentItem - Current item being viewed
- * @param {number} totalItems - Total items for this group
- * @param {string} itemName - Display name of the location or hazard
- * @param {string} itemName - Name of the item to display
- * @returns h4 subtitle and p description
- */
-export function dateRangePageDescription(
-  currentItem,
-  totalItems,
-  itemName,
-  itemType = 'Location',
-) {
-  const subtitle = formSubtitle(
-    teSubtitle(currentItem, totalItems, itemName, itemType),
-  );
-  return (
-    <>
-      {subtitle}
-      <p>
-        {itemType === 'Location'
-          ? dateRangeDescriptionWithLocation
-          : dateRangeDescriptionWithHazard}
-      </p>
-    </>
   );
 }
 
@@ -214,13 +180,7 @@ export function isClaimingTECondition(formData) {
  * @returns {object} Object with id's for each condition
  */
 export function makeTEConditionsSchema(formData) {
-  const options = (formData?.newDisabilities || []).map(disability =>
-    sippableId(disability.condition),
-  );
-
-  options.push('none');
-
-  return checkboxGroupSchema(options);
+  return makeConditionsSchema(formData);
 }
 
 /**
@@ -266,21 +226,19 @@ export function makeTEConditionsUISchema(formData) {
 }
 
 /**
- * Validates selected Toxic Exposure conditions. If the 'none' checkbox is selected along with a new condition
- * adds an error.
- *
+ * Validates 'none' checkbox is not selected along with a new condition
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
 export function validateTEConditions(errors, formData) {
   const { conditions = {} } = formData?.toxicExposure;
 
-  if (
-    conditions?.none === true &&
-    Object.values(conditions).filter(value => value === true).length > 1
-  ) {
-    errors.toxicExposure.conditions.addError(noneAndConditionError);
-  }
+  validateConditions(
+    conditions,
+    errors,
+    'toxicExposure',
+    noneAndConditionError,
+  );
 }
 
 /**
@@ -481,4 +439,44 @@ export function datesDescription(dates) {
     formatMonthYearDate(dates?.startDate) || 'No start date entered';
   const endDate = formatMonthYearDate(dates?.endDate) || 'No end date entered';
   return `${startDate} - ${endDate}`;
+}
+
+/**
+ * Create a title and subtitle for a page which will be passed into ui:title so that
+ * they are grouped in the same legend
+ * @param {string} title - the title for the page, which displays below the stepper
+ * @param {string} subTitle - the subtitle for the page, which displays below the title
+ * @returns {JSX.Element} markup with title and subtitle. example below.
+ *
+ * <h3 class="...">Service after August 2, 1990</h3>
+ * <h4 class="...">Location 2 of 2: Iraq</h4>
+ */
+export function titleWithSubtitle(title, subTitle) {
+  return (
+    <>
+      {formTitle(title)}
+      {formSubtitle(subTitle)}
+    </>
+  );
+}
+
+/**
+ * Group together the title, subtitle and description for the details page
+ * @param {string} title - the title for the page, which displays below the stepper
+ * @param {string} subTitle - markup for the page that displays in between the title and rest of the page
+ * @param {string} type - the type of page to generate for, locations or hazards
+ * @returns {JSX.Element} legend for the fieldset
+ */
+export function detailsPageBegin(title, subTitle, type = 'locations') {
+  return (
+    <legend>
+      {formTitle(title)}
+      {formSubtitle(subTitle)}
+      <p className="vads-u-color--base vads-u-font-weight--normal vads-u-margin-bottom--0">
+        {type === 'locations'
+          ? dateRangeDescriptionWithLocation
+          : dateRangeDescriptionWithHazard}
+      </p>
+    </legend>
+  );
 }

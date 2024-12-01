@@ -8,6 +8,7 @@
     "applicantAddress": {
       "country": "USA",
       "street": "123 Circle Street",
+      "street2": "Apt 1C",
       "city": "Cityburg",
       "state": "CA",
       "postalCode": "12312"
@@ -19,7 +20,6 @@
       "last": "Jones",
       "suffix": "III"
     },
-    "applicantDOB": "2000-02-01",
     "certifierRole": "other",
     "signature": "Certifier Jones"
   }

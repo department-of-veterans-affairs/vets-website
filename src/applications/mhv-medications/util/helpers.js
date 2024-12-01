@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import cheerio from 'cheerio';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
 import {
@@ -426,6 +427,8 @@ export const sanitizeKramesHtmlStr = htmlString => {
       return word;
     });
     h2.textContent = words.join(' ');
+    h2.setAttribute('id', h2.textContent);
+    h2.setAttribute('tabindex', '-1');
     heading.replaceWith(h2);
   });
 
@@ -442,4 +445,78 @@ export const sanitizeKramesHtmlStr = htmlString => {
   });
 
   return tempDiv.innerHTML;
+};
+
+/**
+ * Return medication information page HTML as text
+ */
+export const convertHtmlForDownload = (html, option) => {
+  const $ = cheerio.load(html);
+  const contentElements = [
+    'address',
+    'blockquote',
+    'canvas',
+    'dd',
+    'div',
+    'dt',
+    'fieldset',
+    'figcaption',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'li',
+    'p',
+    'pre',
+  ];
+  const elements = $(contentElements.join(', '));
+  if (option === DOWNLOAD_FORMAT.PDF) {
+    const textBlocks = [];
+    elements.each((_, el) => {
+      textBlocks.push({
+        text: $(el)
+          .text()
+          .trim(),
+        type: el.tagName,
+      });
+    });
+    return textBlocks;
+  }
+  elements.each((_, el) => {
+    if (
+      $(el)
+        .text()
+        .includes('\n')
+    ) {
+      return;
+    }
+    if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(el.tagName)) {
+      $(el).prepend('\n');
+      $(el).after('\n\n\n');
+      return;
+    }
+    if (el.tagName === 'li') {
+      $(el).prepend('\t- ');
+      if (!el.next || el.next.name !== 'li') {
+        $(el).after('\n\n');
+      } else {
+        $(el).after('\n');
+      }
+      return;
+    }
+    $(el).after('\n\n');
+  });
+  return $.text().trim();
+};
+
+/**
+ * Categorizes prescriptions into refillable and renewable
+ */
+export const categorizePrescriptions = ([refillable, renewable], rx) => {
+  if (rx.isRefillable) {
+    return [[...refillable, rx], renewable];
+  }
+  return [refillable, [...renewable, rx]];
 };

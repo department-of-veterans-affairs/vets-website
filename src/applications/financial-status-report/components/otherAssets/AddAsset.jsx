@@ -158,7 +158,7 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
               {
                 label: `${labelText} asset`,
                 onClick: handlers.onUpdate,
-                isSubmitting: true, // If this button submits a form
+                isSubmitting: 'prevent', // If this button submits a form
               },
             ]}
           />

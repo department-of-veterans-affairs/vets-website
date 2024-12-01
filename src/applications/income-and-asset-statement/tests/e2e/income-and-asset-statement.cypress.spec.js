@@ -4,6 +4,7 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import {
+  fillDateWebComponentPattern,
   fillStandardTextInput,
   fillTextWebComponent,
   selectRadioWebComponent,
@@ -20,6 +21,11 @@ const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
 let addedUnassociatedIncomeItem = false;
 let addedAssociatedIncomeItem = false;
 let addedOwnedAssetItem = false;
+let addedRoyaltiesItem = false;
+let addedAssetTransferItem = false;
+let addedTrustItem = false;
+let addedAnnuityItem = false;
+let addedUnreportedAssetItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -159,6 +165,209 @@ const testConfig = createTestConfig(
             fillStandardTextInput('ownedPortionValue', ownedPortionValue);
 
             addedOwnedAssetItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'royalties-and-other-properties-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingRoyalties = data['view:isAddingRoyalties'];
+            if (addedRoyaltiesItem) {
+              isAddingRoyalties = false;
+              addedRoyaltiesItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingRoyalties',
+              isAddingRoyalties,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'royalties-and-other-properties/0/income-type': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { royaltiesAndOtherProperties } = data;
+            const {
+              incomeGenerationMethod,
+              grossMonthlyIncome,
+              fairMarketValue,
+              canBeSold,
+            } = royaltiesAndOtherProperties[0];
+
+            selectRadioWebComponent(
+              'incomeGenerationMethod',
+              incomeGenerationMethod,
+            );
+            fillStandardTextInput('grossMonthlyIncome', grossMonthlyIncome);
+            fillStandardTextInput('fairMarketValue', fairMarketValue);
+            selectYesNoWebComponent('canBeSold', canBeSold);
+
+            addedRoyaltiesItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'asset-transfers-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingAssetTransfers = data['view:isAddingAssetTransfers'];
+            if (addedAssetTransferItem) {
+              isAddingAssetTransfers = false;
+              addedAssetTransferItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingAssetTransfers',
+              isAddingAssetTransfers,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'asset-transfers/0/market-value': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { assetTransfers } = data;
+            const {
+              fairMarketValue,
+              saleValue,
+              capitalGainValue,
+            } = assetTransfers[0];
+
+            fillStandardTextInput('fairMarketValue', fairMarketValue);
+            fillStandardTextInput('saleValue', saleValue);
+            fillStandardTextInput('capitalGainValue', capitalGainValue);
+
+            addedAssetTransferItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'trusts-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingTrusts = data['view:isAddingTrusts'];
+            if (addedTrustItem) {
+              isAddingTrusts = false;
+              addedTrustItem = false;
+            }
+
+            selectYesNoWebComponent('view:isAddingTrusts', isAddingTrusts);
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'trusts/0/added-funds': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { trusts } = data;
+            const { addedFundsDate, addedFundsAmount } = trusts[0];
+
+            fillDateWebComponentPattern('addedFundsDate', addedFundsDate);
+            fillStandardTextInput('addedFundsAmount', addedFundsAmount);
+
+            addedTrustItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'annuities-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingAnnuities = data['view:isAddingAnnuities'];
+            if (addedAnnuityItem) {
+              isAddingAnnuities = false;
+              addedAnnuityItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingAnnuities',
+              isAddingAnnuities,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'annuities/0/added-funds': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { annuities } = data;
+            const { addedFundsDate, addedFundsAmount } = annuities[0];
+
+            fillDateWebComponentPattern('addedFundsDate', addedFundsDate);
+            fillStandardTextInput('addedFundsAmount', addedFundsAmount);
+
+            addedAnnuityItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'unreported-assets-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingUnreportedAssets =
+              data['view:isAddingUnreportedAssets'];
+            if (addedUnreportedAssetItem) {
+              isAddingUnreportedAssets = false;
+              addedUnreportedAssetItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingUnreportedAssets',
+              isAddingUnreportedAssets,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'unreported-assets/0/asset-type': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { unreportedAssets } = data;
+            const {
+              assetType,
+              ownedPortionValue,
+              assetLocation,
+            } = unreportedAssets[0];
+
+            fillStandardTextInput('assetType', assetType);
+            fillStandardTextInput('ownedPortionValue', ownedPortionValue);
+            fillStandardTextInput('assetLocation', assetLocation);
+
+            addedUnreportedAssetItem = true;
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()

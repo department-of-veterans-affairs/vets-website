@@ -31,6 +31,7 @@ describe('answer cleanup utilities', () => {
         SERVICE_BRANCH: ARMY,
         DISCHARGE_YEAR: 2009,
         DISCHARGE_MONTH: null,
+        FAILURE_TO_EXHAUST: null,
       }),
     ).to.be.true;
   });

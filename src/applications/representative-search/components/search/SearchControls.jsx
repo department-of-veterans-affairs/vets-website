@@ -235,12 +235,7 @@ const SearchControls = props => {
                   aria-label="Use my location"
                   style={{ order: 2 }}
                 >
-                  <va-icon
-                    size={4}
-                    icon="see name mappings here https://design.va.gov/foundation/icons"
-                    className="use-my-location-button"
-                    aria-hidden="true"
-                  />
+                  <va-icon size={4} icon="near_me" aria-hidden="true" />
                   Use my location
                 </button>
               )}

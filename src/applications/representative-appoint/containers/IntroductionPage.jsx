@@ -1,92 +1,175 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
-// import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+// import repStatusLoader from 'applications/static-pages/representative-status';
+import {
+  // useStore,
+  connect,
+} from 'react-redux';
+import { isLoggedIn } from 'platform/user/selectors';
+import GetFormHelp from '../components/GetFormHelp';
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
+const IntroductionPage = props => {
+  const { route, loggedIn } = props;
+  const { formConfig, pageList } = route;
+  // const store = useStore();
+
+  useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
-  }
+  }, []);
 
-  render() {
-    const { route } = this.props;
-    const { formConfig, pageList } = route;
+  // // search from query params on page load
+  // useEffect(() => {
+  //   repStatusLoader(store, 'representative-status', 3, false);
+  // }, []);
 
-    return (
-      <article className="schemaform-intro">
+  return (
+    <article className="schemaform-intro">
+      <div className="title-section">
         <FormTitle
-          title="Fill out your form to appoint a VA accredited representative or VSO"
-          subtitle="Equal to VA Form 21-22 (Fill out your form to appoint a VA accredited representative or VSO)"
+          title="Fill out your form to request help"
+          subTitle="VA Form 21-22 and VA Form 21-22a"
         />
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        >
-          Please complete the 21-22 form to apply for accredited representative
-          appointment.
-        </SaveInProgressIntro>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for accredited representative
-          appointment.
-        </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
-            <h4>To fill out this application, you’ll need your:</h4>
+        <p>
+          A VA accredited representative can help you file a claim or request a
+          decision review.
+        </p>
+        <p>
+          Use our online tool to pre-fill your VA Form 21-22 to appoint a
+          Veteran Service Organization (VSO). Or, use our online tool to
+          pre-fill your VA Form 21-22a to appoint a VA accredited attorney or
+          claims agent.
+        </p>
+        <>
+          <div tabIndex="-1">
+            {/* <div data-widget-type="representative-status" /> */}
+          </div>
+        </>
+      </div>
+      {loggedIn && (
+        <>
+          <p />
+          <SaveInProgressIntro
+            alertTitle="Sign in with a verified account to request help from a VA accredited representative"
+            formConfig={formConfig}
+            headingLevel={2}
+            messages={formConfig.savedFormMessages}
+            prefillEnabled={formConfig.prefillEnabled}
+            pageList={pageList}
+            unauthStartText="Sign in or create an account"
+            startText="Request help from a VA accredited representative or VSO"
+          />
+        </>
+      )}
+      <h2>Follow these steps to pre-fill your form</h2>
+      <div className="vads-u-padding-left--2">
+        <va-process-list uswds>
+          <va-process-list-item
+            header="Contact the accredited representative"
+            level="3"
+          >
+            <p>
+              You’ll need to contact the accredited representative you’d like to
+              appoint to ask if they’re available to help you.
+            </p>
+            <p>
+              If you’d like to work with an accredited VSO representative,
+              you’ll need to appoint their organization. You should contact them
+              to confirm which organization they’re accredited by. You’ll need
+              to select this organization on your form.
+            </p>
+            <va-additional-info trigger="If you don't know who you'd like to appoint">
+              <p>
+                You can use our search tool to find an accredited
+                representative.
+              </p>
+              <p />
+              <a
+                href="/get-help-from-accredited-representative/find-rep"
+                target="_blank"
+              >
+                Find an accredited representative or VSO
+              </a>
+            </va-additional-info>
+          </va-process-list-item>
+          <va-process-list-item header="Gather your information" level="3">
+            <p>Here’s what you’ll need to complete this form:</p>
             <ul>
-              <li>Social Security number (required)</li>
+              <li>Your Social Security number or VA file number</li>
+              <li>Your date of birth</li>
+              <li>Your mailing address and phone number</li>
+              <li>
+                Your branch of service (only if you’d like to appoint an
+                attorney or claims agent)
+              </li>
+              <li>
+                The name of the organization you’d like to appoint, if you’d
+                like to work with an accredited VSO representative
+              </li>
             </ul>
             <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
+              If you’re a dependent or surviving spouse, we’ll ask you for some
+              personal information about the Veteran or service member you’re
+              connected to.
             </p>
-          </li>
-          <li>
-            <h3>Apply</h3>
-            <p>Complete this accredited representative appointment form.</p>
+          </va-process-list-item>
+          <va-process-list-item header="Start your form" level="3">
             <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
+              We’ll take you through each step of our online tool. It should
+              take about 5 minutes.
             </p>
-          </li>
-          <li>
-            <h3>VA Review</h3>
             <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
+              After you complete your form, you’ll need to download, print, and
+              sign it. Then mail or bring your form to the accredited
+              representative you’re appointing. The accredited representative
+              will sign your form and submit it for you.
             </p>
-          </li>
-          <li>
-            <h3>Decision</h3>
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </li>
+          </va-process-list-item>
         </va-process-list>
-        <SaveInProgressIntro
-          buttonOnly
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        />
-        <p />
-        {/* <OMBInfo resBurden={5} ombNumber="2900-0321" expDate="07/31/2026" /> */}
-      </article>
-    );
-  }
+      </div>
+      <SaveInProgressIntro
+        alertTitle="Sign in with a verified account to request help from a VA accredited representative"
+        formConfig={formConfig}
+        headingLevel={2}
+        messages={formConfig.savedFormMessages}
+        prefillEnabled={formConfig.prefillEnabled}
+        pageList={pageList}
+        unauthStartText="Sign in or create an account"
+        startText="Request help from a VA accredited representative or VSO"
+        verifiedPrefillAlert={<></>}
+      />
+      <p />
+      <va-omb-info
+        exp-date="07/31/2026"
+        omb-number="2900-0321"
+        res-burden="5"
+      />
+      <p />
+      <GetFormHelp />
+    </article>
+  );
+};
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.object,
+      customText: PropTypes.shape({
+        appType: PropTypes.string,
+      }),
+    }),
+    loggedIn: PropTypes.bool,
+    pageList: PropTypes.array,
+  }),
+};
+
+function mapStateToProps(state) {
+  return {
+    loggedIn: isLoggedIn(state),
+  };
 }
 
-export default IntroductionPage;
+export default connect(mapStateToProps)(IntroductionPage);

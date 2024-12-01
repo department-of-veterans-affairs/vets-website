@@ -92,18 +92,20 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
-            profileHideDirectDeposit: true,
+            profileHideDirectDeposit: false,
             profileShowCredentialRetirementMessaging: true,
-            profileShowEmailNotificationSettings: true,
-            profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
-            profileShowQuickSubmitNotificationSetting: true,
-            profileUseExperimental: true,
-            profileShowDirectDepositSingleForm: true,
-            profileShowDirectDepositSingleFormUAT: false,
-            profileShowDirectDepositSingleFormAlert: true,
-            profileShowDirectDepositSingleFormEduDowntime: true,
+            profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
+            profileShowNewHealthCareCopayBillNotificationSetting: false,
+            profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+            profileShowMhvNotificationSettingsEmailRxShipment: true,
+            profileShowMhvNotificationSettingsNewSecureMessaging: true,
+            profileShowMhvNotificationSettingsMedicalImages: true,
+            profileShowQuickSubmitNotificationSetting: false,
+            profileShowNoValidationKeyAddressAlert: false,
+            profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
+            veteranOnboardingContactInfoFlow: true,
           }),
         ),
       secondsOfDelay,
@@ -126,6 +128,7 @@ const responses = {
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
     // return res.json(user.badAddress); // user with bad address
     // return res.json(user.nonVeteranUser); // non-veteran user
+    // return res.json(user.loa3UserWithNoFacilities); // user without facilities and not a vaPatient
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithoutLighthouseServiceAvailable); // user without lighthouse service available / no icn or participant id
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
@@ -144,7 +147,13 @@ const responses = {
     // downtime for VA Profile aka Vet360 (according to service name in response)
     // return res.json(
     //   maintenanceWindows.createDowntimeActiveNotification([
-    //     maintenanceWindows.SERVICES.VA_PROFILE,
+    //     maintenanceWindows.SERVICES.VAPRO_PROFILE_PAGE,
+    //     maintenanceWindows.SERVICES.VAPRO_CONTACT_INFO,
+    //     maintenanceWindows.SERVICES.LIGHTHOUSE_DIRECT_DEPOSIT,
+    //     maintenanceWindows.SERVICES.VAPRO_MILITARY_INFO,
+    //     maintenanceWindows.SERVICES.VAPRO_NOTIFICATION_SETTINGS,
+    //     maintenanceWindows.SERVICES.VAPRO_HEALTH_CARE_CONTACTS,
+    //     maintenanceWindows.SERVICES.VAPRO_PERSONAL_INFO,
     //   ]),
     // );
   },
@@ -177,8 +186,13 @@ const responses = {
     // return res.status(200).json(mockDisabilityCompensations.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () => res.status(200).json(directDeposits.base),
+      secondsOfDelay,
+    );
     // this endpoint is used for the single form version of the direct deposit page
-    return res.status(200).json(directDeposits.base);
+
     // return res.status(500).json(genericErrors.error500);
     // return res.status(400).json(directDeposits.updates.errors.unspecified);
     // user with no dd data but is eligible

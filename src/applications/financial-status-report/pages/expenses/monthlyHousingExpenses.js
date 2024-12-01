@@ -1,17 +1,20 @@
+import React from 'react';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { validateCurrency } from '../../utils/validations';
-// import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default {
   uiSchema: {
     expenses: {
-      'ui:title': 'Monthly housing expenses',
+      'ui:title': () => (
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0">Monthly housing expenses</h3>
+        </legend>
+      ),
       monthlyHousingExpenses: {
         'ui:title':
           'What is the total amount you pay for rent and/or mortgage payments each month?',
         'ui:webComponentField': VaTextInputField,
         'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
           currency: true,
           width: 'lg',
           hint:

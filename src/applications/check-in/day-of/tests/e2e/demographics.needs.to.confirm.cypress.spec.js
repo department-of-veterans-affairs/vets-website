@@ -10,10 +10,16 @@ import TravelPages from '../../../tests/e2e/pages/TravelPages';
 import Arrived from './pages/Arrived';
 import SeeStaff from './pages/SeeStaff';
 import Confirmation from './pages/Confirmation';
+import AppointmentDetails from '../../../tests/e2e/pages/AppointmentDetails';
 
 describe('Check In Experience | Day Of |', () => {
   describe('Patient who needs to confirm demographics', () => {
     beforeEach(() => {
+      const appointments = [
+        {
+          appointmentIen: '0001',
+        },
+      ];
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -27,7 +33,7 @@ describe('Check In Experience | Day Of |', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withValidation();
       initializeUpcomingAppointmentsDataGet.withSuccess();
-      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataGet.withSuccessAndUpdate({ appointments });
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
       cy.visitWithUUID();
@@ -68,6 +74,9 @@ describe('Check In Experience | Day Of |', () => {
       TravelPages.attemptToGoToNextPage('no');
 
       Confirmation.validatePageLoaded();
+      Confirmation.clickDetails();
+      AppointmentDetails.validatePageLoadedInPerson();
+      cy.createScreenshots('Day-of-check-in--Pages--details--after-check-in');
       cy.injectAxeThenAxeCheck();
     });
     it('should direct patient to front desk if answer is no to demographics question', () => {

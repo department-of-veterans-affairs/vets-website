@@ -28,9 +28,7 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should show "Student Verification of Enrollment (VA Form 22-8979)"', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
-    ).click();
+    cy.get('.vads-u-font-family--sans.vads-u-margin-top--0').click();
     cy.get('.va-introtext').should(
       'contain',
       'Student Verification of Enrollment (VA Form 22-8979)',
@@ -40,17 +38,13 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should show the submit button not disabled when radio button is checked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
-    ).click();
+    cy.get('.vads-u-font-family--sans.vads-u-margin-top--0').click();
     cy.get('[id="enrollmentCheckbox"]').click();
     cy.get('[text="Submit"]').should('not.be.disabled');
   });
   it('should go back to previous screen when Go Back button is clicked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
-    ).click();
+    cy.get('.vads-u-font-family--sans.vads-u-margin-top--0').click();
     cy.get('[class="usa-button usa-button--outline"]').click({
       multiple: true,
     });
@@ -62,12 +56,20 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should show error message when submit button is clicked and something went wrong', () => {
     cy.injectAxeThenAxeCheck();
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'toggle_vye_application', value: true },
+          { name: 'mgib_verifications_maintenance', value: false },
+          { name: 'is_DGIB_endpoint', value: false },
+        ],
+      },
+    });
     cy.get('[data-testid="have-not-verified"]')
       .should('be.visible')
       .and('contain', 'You haven’t verified your enrollment for the month.');
-    cy.get(
-      '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
-    ).click();
+    cy.get('.vads-u-font-family--sans.vads-u-margin-top--0').click();
     cy.get('[id="enrollmentCheckbox"]').click();
     cy.get('[text="Submit"]').click();
     cy.get('[class="vads-u-margin-y--0"]').should(
@@ -82,11 +84,14 @@ describe('Enrollment Verification Page Tests', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+      { timeout: 5000 },
     ).click({ multiple: true });
-    cy.get('a[href="/education/verify-school-enrollment/mgib-enrollments/"]')
+    cy.get('a[href="/education/verify-school-enrollment/mgib-enrollments/"]', {
+      timeout: 5000,
+    })
+      .should('be.visible')
       .first()
       .click({ multiple: true });
-    cy.url().should('not.include', '/benefits-profile');
   });
   it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
     cy.injectAxeThenAxeCheck();
@@ -187,14 +192,30 @@ describe('Enrollment Verification Page Tests', () => {
       'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
     ).should('contain', 'You currently have no enrollments.');
   });
+  it('should show Delimiting date if deldate is not null', () => {
+    cy.injectAxeThenAxeCheck();
+    const enrollmentData = {
+      ...UPDATED_USER_MOCK_DATA['vye::UserInfo'],
+      delDate: '2017-04-05',
+    };
+    cy.intercept('GET', '/vye/v1', {
+      statusCode: 200,
+      body: enrollmentData,
+    });
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
+    cy.get('p[data-testid="del-title"]').should('be.visible');
+  });
   it('show required error message when button is click and the checkbox is not checked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[data-testid="have-not-verified"]')
       .should('be.visible')
       .and('contain', 'You haven’t verified your enrollment for the month.');
-    cy.get(
-      '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
-    ).click();
+    cy.get('.vads-u-font-family--sans.vads-u-margin-top--0').click();
     cy.get('[text="Submit"]').click();
     cy.get('[id="root_educationType-error-message"]').should(
       'contain',

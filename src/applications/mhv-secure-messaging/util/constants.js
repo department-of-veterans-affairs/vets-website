@@ -15,6 +15,7 @@ export const Paths = {
   SEARCH: '/search/',
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
+  CONTACT_LIST: '/contact-list/',
 };
 
 export const DefaultFolders = {
@@ -51,32 +52,44 @@ export const ErrorMessages = {
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
+    CHECKBOX_REQUIRED: 'You must certify by checking the box.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
     BODY_REQUIRED: 'Message body cannot be blank.',
     SIGNATURE_REQUIRED: 'Enter your full name',
     VALID_SIGNATURE_REQUIRED: 'This field accepts alphabetic characters only',
+    CONT_SAVING_DRAFT: {
+      title: 'Do you want to save your draft message?',
+      cancelButtonText: 'Save draft', // top button - save draft and remain on page
+      confirmButtonText: 'Delete draft', // bottom button - delete draft and leave page
+    },
+    CONT_SAVING_DRAFT_CHANGES: {
+      title: 'Do you want to save your changes to this draft?',
+      cancelButtonText: 'Save changes', // top button - save draft and remain on page
+      confirmButtonText: 'Delete changes', // bottom button - delete draft and leave page
+    },
     UNABLE_TO_SAVE: {
       title: "We can't save this message yet",
-      p1: 'We need more information from you before we can save this draft.',
-      p2:
-        "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+      p1:
+        "We need more information from you before we can save this draft. You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Delete draft', // bottom button - delete draft and leave page
     },
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT: {
       title: "We can't save attachments in a draft message",
       p1:
         "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
-      saveDraft: 'Save draft without attachments',
-      editDraft: 'Keep editing',
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Save draft without attachments', // bottom button - save draft and leave page
     },
     UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS: {
       title: "We can't save your signature or attachments in a draft message",
-      editDraft: 'Edit draft',
-      saveDraft: 'Save draft without signature or attachments',
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Save draft without signature or attachments', // bottom button - save draft and leave page
     },
     UNABLE_TO_SAVE_DRAFT_SIGNATURE: {
       title: "We can't save your signature in a draft message",
-      editDraft: 'Edit draft',
-      saveDraft: 'Save draft without signature',
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Save draft without signature', // bottom button - save draft and leave page
     },
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
@@ -118,6 +131,16 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_DRAFT_SIGNATURE_ERROR: 'unable to save draft with signature',
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT_SIGNATURE_ERROR:
       'unable to save draft with attachment and signature',
+    CONT_SAVING_DRAFT_ERROR: 'your draft is not saved',
+    CONT_SAVING_DRAFT_CHANGES_ERROR: 'your draft changes are not saved',
+  },
+  ContactList: {
+    SAVE_AND_EXIT: {
+      title: 'Do you want to save your changes to your contact list?',
+      confirmButtonText: 'Save',
+      cancelButtonText: 'Delete changes and exit',
+    },
+    MINIMUM_SELECTION: 'Select at least one team',
   },
 };
 
@@ -146,10 +169,15 @@ export const Alerts = {
     DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
-    SEND_MESSAGE_SUCCESS: 'Secure message was successfully sent.',
+    SEND_MESSAGE_SUCCESS: 'Message Sent.',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',
+    SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',
+    ATTACHMENT_SCAN_FAIL:
+      'Our file scanner found a problem with your attachment. To send your message, remove this attachment.',
+    MULTIPLE_ATTACHMENTS_SCAN_FAIL:
+      'Our file scanner found a problem with your attachments. To send your message, remove the attachments.',
   },
 
   Folder: {
@@ -182,6 +210,13 @@ export const Alerts = {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
     THREAD_NOT_FOUND_ERROR: 'This conversation was not found.',
   },
+  ContactList: {
+    CANNOT_SAVE:
+      "We're sorry. We couldn't save your changes. Try saving again.",
+  },
+  Headers: {
+    HIDE_ALERT: 'HIDE_ALERT',
+  },
 };
 
 export const Errors = {
@@ -190,6 +225,7 @@ export const Errors = {
     BLOCKED_USER2: 'SM151',
     TG_NOT_ASSOCIATED: 'SM129',
     SERVICE_OUTAGE: '503',
+    ATTACHMENT_SCAN_FAIL: 'SM172',
   },
 };
 
@@ -239,6 +275,11 @@ export const Breadcrumbs = {
   FOLDERS: { href: Paths.FOLDERS, label: 'More folders', isRouterLink: true },
   SENT: { href: Paths.SENT, label: 'Sent', isRouterLink: true },
   TRASH: { href: Paths.DELETED, label: 'Trash', isRouterLink: true },
+  MESSAGE_THREAD: {
+    href: Paths.MESSAGE_THREAD,
+    label: 'Edit draft',
+    isRouterLink: true,
+  },
 };
 
 export const InnerNavigationPaths = [
@@ -299,6 +340,17 @@ export const Attachments = {
   TOTAL_MAX_FILE_SIZE: 10000000,
 };
 
+export const ElectronicSignatureBox = {
+  TITLE: 'Electronic signature',
+  DESCRIPTION:
+    'You need to sign all new messages you send to this team. Enter your full name here to sign your message.',
+  FULLNAME_LABEL: 'Your full name',
+  CHECKBOX_LABEL:
+    'I certify that the above is correct and true to the best of my knowledge and belief.',
+  NOTE_PARAGRAPH:
+    'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information (Reference: 18 U.S.C. 1001).',
+};
+
 export const threadSortingOptions = {
   SENT_DATE_DESCENDING: {
     sortField: 'SENT_DATE',
@@ -350,6 +402,8 @@ export const threadSortingOptions = {
   },
 };
 
+export const THREADS_PER_PAGE_DEFAULT = 10;
+
 export const BreadcrumbViews = {
   DESKTOP_VIEW:
     'desktop-view vads-u-margin-left--neg7 vads-u-font-weight--bold vads-u-font-size--md vads-u-padding-y--2',
@@ -359,6 +413,8 @@ export const BreadcrumbViews = {
 export const PageTitles = {
   DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
   PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
+  CONVERSATION_TITLE_TAG:
+    'Conversation - MHV Secure Messaging | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
@@ -375,6 +431,7 @@ export const ParentComponent = {
   FOLDER_HEADER: 'Folder Header',
   MESSAGE_THREAD: 'Message Thread',
   REPLY_FORM: 'Reply Form',
+  CONTACT_LIST: 'Contact list',
 };
 
 export const RecipientStatus = {

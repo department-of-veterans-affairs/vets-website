@@ -45,3 +45,7 @@ export const getConditionDetails = (
 export const clearConditionDetails = () => async dispatch => {
   dispatch({ type: Actions.Conditions.CLEAR_DETAIL });
 };
+
+export const reloadRecords = () => async dispatch => {
+  dispatch({ type: Actions.Conditions.COPY_UPDATED_LIST });
+};

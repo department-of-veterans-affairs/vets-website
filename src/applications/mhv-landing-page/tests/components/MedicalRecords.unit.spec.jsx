@@ -37,6 +37,8 @@ describe('MHV Landing Page -- temporary Medical Records page', () => {
 
       await waitFor(() => {
         const goBack1 = getByRole('link', { name: /Go back/ });
+        // Change the link to an anchor, so JSDOM does not complain about navigation
+        goBack1.href = '#dummy-link';
         fireEvent.click(goBack1);
 
         expect(spyDog.called).to.be.true;

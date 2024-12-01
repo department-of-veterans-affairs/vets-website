@@ -60,6 +60,7 @@ export const uiSchema = {
   benefitAppliedFor: {
     'ui:widget': 'radio',
     'ui:title': 'Which benefit do you want to change to?',
+    'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
     'ui:options': {
       labels: benefitsLabelsUpdate,
       hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
@@ -69,6 +70,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['benefitUpdate'],
   properties: {
     benefitUpdate: displayBenefit,
     changeAnotherBenefit,

@@ -87,6 +87,15 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'report-674-student-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('#root_studentAddressMarriageTuition_address_city').select(
+            'APO',
+          );
+          cy.get('.usa-button-primary').click();
+        });
+      },
       '686-report-dependent-death/0/additional-information': ({
         afterHook,
       }) => {

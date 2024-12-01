@@ -154,7 +154,7 @@ const PayrollDeductionInputList = props => {
         {
           label: getContinueButtonText(),
           onClick: updateFormData,
-          isSubmitting: true, // If this button submits a form
+          isSubmitting: 'prevent', // If this button submits a form
         },
       ]}
     />

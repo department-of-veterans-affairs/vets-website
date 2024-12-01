@@ -1,66 +1,73 @@
 {
   "data": {
     "householdIncome": true,
-    "studentDidAttendSchoolLastTerm": true,
-    "lastTermSchoolInformation": {
-      "name": "phoenix online",
-      "address": {
-        "countryName": "USA",
-        "addressLine1": "1600 Pennslyvania Av",
-        "city": "Washington",
-        "stateCode": "DC",
-        "zipCode": "20500"
+    "view:completedStudent": false,
+    "studentInformation": [
+    {
+      "remarks": "remarks section",
+      "studentNetworthInformation": {
+        "savings": "6000",
+        "securities": "3455",
+        "realEstate": "43332",
+        "otherAssets": "3433",
+        "totalValue": "23455"
       },
-      "termBegin": "2010-04-06",
-      "dateTermEnded": "2011-04-06",
-      "classesPerWeek": 4,
-      "hoursPerWeek": 5
-    },
-    "currentTermDates": {
-      "officialSchoolStartDate": "2010-06-04",
-      "expectedStudentStartDate": "2011-04-06",
-      "expectedGraduationDate": "2013-05-04"
-    },
-    "programInformation": {
-      "studentIsEnrolledFullTime": false,
-      "courseOfStudy": "asdfasdfa",
-      "classesPerWeek": 4,
-      "hoursPerWeek": 4
-    },
-    "schoolInformation": {
-      "name": "Los Angeles VA",
-      "address": {
-        "countryName": "USA",
-        "addressLine1": "1600 Pennslyvania Av",
-        "city": "Washington",
-        "stateCode": "DC",
-        "zipCode": "20500"
+      "studentExpectedEarningsNextYear": {
+        "earningsFromAllEmployment": "1",
+        "annualSocialSecurityPayments": "1",
+        "otherAnnuitiesIncome": "1",
+        "allOtherIncome": "1"
       },
-      "schoolType": "HighSch",
-      "trainingProgram": "Marine Biology"
-    },
-    "studentAddressMarriageTuition": {
-      "address": {
-        "view:livesOnMilitaryBase": true,
-        "view:livesOnMilitaryBaseInfo": {},
-        "countryName": "USA",
-        "addressLine1": "123 athome dr",
-        "city": "APO",
-        "stateCode": "AA",
-        "zipCode": "34012"
+      "studentEarningsFromSchoolYear": {
+        "earningsFromAllEmployment": "2000",
+        "annualSocialSecurityPayments": "$4000",
+        "otherAnnuitiesIncome": "2000.86",
+        "allOtherIncome": "100"
       },
-      "wasMarried": false,
-      "tuitionIsPaidByGovAgency": true,
-      "agencyName": "fbi",
-      "datePaymentsBegan": "2009-03-03"
-    },
-    "studentNameAndSsn": {
-      "view:674Information": {},
-      "fullName": { "first": "Jonathan", "last": "Yuen" },
-      "ssn": "123211234",
-      "birthDate": "1991-03-09",
-      "isParent": "N"
-    },
+      "claimsOrReceivesPension": true,
+      "studentIncome": false,
+      "fullName": {
+        "first": "John",
+        "middle": "C",
+        "last": "Doe"
+      },
+      "birthDate": "1991-02-19",
+      "schoolInformation": {
+        "lastTermSchoolInformation": {
+          "termBegin": "2000-02-12",
+          "dateTermEnded": "2000-03-23"
+        },
+        "studentDidAttendSchoolLastTerm": true,
+        "currentTermDates": {
+          "officialSchoolStartDate": "1991-01-19",
+          "expectedStudentStartDate": "2000-02-19",
+          "expectedGraduationDate": "1991-03-19"
+        },
+        "isSchoolAccredited": true,
+        "view:accredited": {},
+        "dateFullTimeEnded": "2000-02-12",
+        "studentIsEnrolledFullTime": false,
+        "name": "Test"
+      },
+      "benefitPaymentDate": "2021-01-19",
+      "typeOfProgramOrBenefit": {
+        "ch35": true
+      },
+      "tuitionIsPaidByGovAgency": false,
+      "view:programExamples": {},
+      "wasMarried": true,
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123 Fake St.",
+        "city": "Fakesville",
+        "state": "AL",
+        "postalCode": "12345"
+      },
+      "ssn": "333445555",
+      "isParent": false
+    }
+  ],
     "childrenToAdd": [
       {
         "doesChildLiveWithYou": true,
@@ -83,13 +90,16 @@
       "veteranAddress": {
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
-        "countryName": "USA",
-        "addressLine1": "1600 Pennslyvania Av",
+        "country": "USA",
+        "street": "1600 Pennslyvania Av",
         "city": "Washington",
-        "stateCode": "DC",
-        "zipCode": "20500"
+        "state": "DC",
+        "postalCode": "20500"
       },
-      "phoneNumber": "1231231234"
+      "veteranContactInformation": {
+        "phoneNumber": "1231231234",
+        "emailAddress": "test@test.com"
+      }
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
@@ -104,7 +114,8 @@
     },
     "doesLiveWithSpouse": {},
     "view:additionalEvidenceDescription": {},
-    "reportDivorce": { "fullName": {}, "location": { "isOutsideUs": false } },
+    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}}, "formerSpouseIncome": false },
+    "view:completedMarriedChild": false,
     "childMarriage": { "fullName": {} },
     "childStoppedAttendingSchool": { "fullName": {} },
     "veteranInformation": {

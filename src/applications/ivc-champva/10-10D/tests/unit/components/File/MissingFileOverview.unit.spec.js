@@ -1,15 +1,67 @@
 import React from 'react';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import SupportingDocumentsPage from '../../../../pages/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../../../../pages/MissingFileConsentPage';
-import { testComponentRender } from '../../../../../shared/tests/pages/pageTests.spec';
+import {
+  REQUIRED_FILES,
+  FILE_UPLOAD_ORDER,
+} from '../../../../config/constants';
+import {
+  testComponentRender,
+  getProps,
+} from '../../../../../shared/tests/pages/pageTests.spec';
 import {
   hasReq,
   checkFlags,
 } from '../../../../../shared/components/fileUploads/MissingFileOverview';
+import MissingFileList from '../../../../../shared/components/fileUploads/MissingFileList';
+import { getAllPages } from '../../../../../shared/tests/helpers';
+import SupportingDocsVerification from '../../../../../shared/components/fileUploads/supportingDocsVerification';
 
 import formConfig from '../../../../config/form';
 import mockData from '../../../e2e/fixtures/data/test-data.json';
+
+describe('FILE_UPLOAD_ORDER constant', () => {
+  it('should match order of file upload fields present in formConfig', () => {
+    /* 
+    NOTE: FILE_UPLOAD_ORDER must be manually updated if the order
+    of file uploads in `formConfig` ever changes. This test serves to
+    make sure that happens. The backend relies on this list to properly
+    map metadata to the tmp files generated when users upload docs.
+    */
+
+    const verifier = new SupportingDocsVerification([]);
+    // We want this `FILE_UPLOAD_ORDER` to match what we pull from formConfig.
+    // This helper produces a list like:
+    //  ['applicantBirthCertOrSocialSecCard','applicantAdoptionPapers', ...]
+    const generatedArr = verifier
+      .getApplicantFileKeyNames(getAllPages(formConfig))
+      .map(el => el.name);
+
+    let orderIsSame = true;
+    generatedArr.forEach((el, idx) => {
+      if (FILE_UPLOAD_ORDER[idx] !== el) {
+        orderIsSame = false;
+      }
+    });
+
+    expect(
+      orderIsSame,
+      `Expected FILE_UPLOAD_ORDER array:
+      
+      ${FILE_UPLOAD_ORDER.join('\n\t')}
+      
+      to have same order as defined in formConfig:
+      
+      ${generatedArr.join('\n\t')}
+
+      Please verify that FILE_UPLOAD_ORDER matches the order of file upload properties defined in formConfig.
+      `,
+    ).to.be.true;
+  });
+});
 
 describe('hasReq', () => {
   const data = {
@@ -150,3 +202,64 @@ testComponentRender(
     showConsent={false}
   />,
 );
+
+// Test that the `MissingFileList` component generates the right markup
+describe('MissingFileList', () => {
+  const data = {
+    applicants: [
+      {
+        applicantName: { first: 'Bill', last: 'Last' },
+        // two required files
+        missingUploads: [
+          {
+            name: Object.keys(REQUIRED_FILES)[0],
+            path: 'fake/path/to/upload/screen/0',
+            required: true,
+            uploaded: false,
+          },
+          {
+            name: Object.keys(REQUIRED_FILES)[1],
+            path: 'fake/path/to/upload/screen/1',
+            required: true,
+            uploaded: false,
+          },
+        ],
+      },
+    ],
+  };
+  it('should display matching number of <li>s as missing required files', () => {
+    const { mockStore } = getProps();
+
+    const { container } = render(
+      <Provider store={mockStore}>
+        {MissingFileList({
+          data: data.applicants,
+          disableLinks: true,
+          subset: true, // required files
+          listItemShowNamePrefix: false,
+        })}
+      </Provider>,
+    );
+
+    // We should have one list item for every require file in the testdata
+    expect(container.querySelectorAll('li')).to.have.lengthOf(2);
+  });
+
+  it('should display matching number of <a>s as missing required files when links enabled', () => {
+    const { mockStore } = getProps();
+
+    const { container } = render(
+      <Provider store={mockStore}>
+        {MissingFileList({
+          data: data.applicants,
+          disableLinks: false,
+          subset: true, // required files
+          listItemShowNamePrefix: false,
+        })}
+      </Provider>,
+    );
+
+    // We should have one list item for every require file in the testdata
+    expect(container.querySelectorAll('a')).to.have.lengthOf(2);
+  });
+});

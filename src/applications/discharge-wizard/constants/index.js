@@ -125,8 +125,24 @@ export const DUW_UPDATE_PRIOR_SERVICE =
   'discharge-upgrade-wizard/DUW_UPDATE_PREV_PRIOR_SERVICE';
 export const DUW_UPDATE_FAILURE_TO_EXHAUST =
   'discharge-upgrade-wizard/DUW_UPDATE_FAILURE_TO_EXHAUST';
+export const DUW_EDIT_MODE = 'discharge-upgrade-wizard/DUW_EDIT_MODE';
+export const DUW_QUESTION_SELECTED_TO_EDIT =
+  'discharge-upgrade-wizard/DUW_QUESTION_SELECTED_TO_EDIT';
+export const DUW_QUESTION_FLOW_CHANGED =
+  'discharge-upgrade-wizard/DUW_QUESTION_FLOW_CHANGED';
+export const DUW_ANSWER_CHANGED = 'discharge-upgrade-wizard/DUW_ANSWER_CHANGED';
+export const DUW_ROUTE_MAP = 'discharge-upgrade-wizard/DUW_ROUTE_MAP';
+
+export const DRB = 'DRB';
+export const BCMR = 'BCMR';
+export const BCNR = 'BCNR';
+export const AFDRB = 'AFDRB';
 
 export const ROUTES = Object.freeze({
+  // v1
+  QUESTIONS: 'questions',
+  GUIDANCE: 'guidance',
+  // v2
   HOME: 'introduction',
   SERVICE_BRANCH: 'service-branch',
   DISCHARGE_YEAR: 'discharge-year',
@@ -141,13 +157,17 @@ export const ROUTES = Object.freeze({
   PRIOR_SERVICE: 'prior-service',
   FAILURE_TO_EXHAUST: 'failure-to-exhaust',
   REVIEW: 'review',
-  RESULT: 'result',
+  RESULTS: 'results',
+  DD214: 'request-dd214-v2',
 });
 
 export const questionsToClearMap = Object.freeze({
-  SERVICE_BRANCH: [],
-  DISCHARGE_YEAR: [SHORT_NAME_MAP.DISCHARGE_MONTH],
-  DISCHARGE_MONTH: [],
+  SERVICE_BRANCH: [SHORT_NAME_MAP.PREV_APPLICATION_TYPE],
+  DISCHARGE_YEAR: [
+    SHORT_NAME_MAP.DISCHARGE_MONTH,
+    SHORT_NAME_MAP.FAILURE_TO_EXHAUST,
+  ],
+  DISCHARGE_MONTH: [SHORT_NAME_MAP.FAILURE_TO_EXHAUST],
   REASON: [
     SHORT_NAME_MAP.DISCHARGE_TYPE,
     SHORT_NAME_MAP.COURT_MARTIAL,
@@ -156,9 +176,10 @@ export const questionsToClearMap = Object.freeze({
     SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
     SHORT_NAME_MAP.PREV_APPLICATION_YEAR,
     SHORT_NAME_MAP.PRIOR_SERVICE,
+    SHORT_NAME_MAP.FAILURE_TO_EXHAUST,
   ],
-  DISCHARGE_TYPE: [],
-  COURT_MARTIAL: [],
+  DISCHARGE_TYPE: [SHORT_NAME_MAP.PRIOR_SERVICE],
+  COURT_MARTIAL: [SHORT_NAME_MAP.FAILURE_TO_EXHAUST],
   INTENTION: [],
   PREV_APPLICATION: [
     SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
@@ -179,6 +200,17 @@ export const questionsToClearMap = Object.freeze({
   FAILURE_TO_EXHAUST: [],
 });
 
+export const forkableQuestions = [
+  SHORT_NAME_MAP.DISCHARGE_YEAR,
+  SHORT_NAME_MAP.DISCHARGE_MONTH,
+  SHORT_NAME_MAP.REASON,
+  SHORT_NAME_MAP.COURT_MARTIAL,
+  SHORT_NAME_MAP.DISCHARGE_TYPE,
+  SHORT_NAME_MAP.PREV_APPLICATION,
+  SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
+  SHORT_NAME_MAP.PREV_APPLICATION_YEAR,
+];
+
 export const errorTextMap = Object.freeze({
   SERVICE_BRANCH: 'Select a branch.',
   DISCHARGE_YEAR: 'Select a year.',
@@ -189,4 +221,19 @@ export const errorTextMap = Object.freeze({
 export const labelTextMap = Object.freeze({
   DISCHARGE_YEAR: 'Year',
   DISCHARGE_MONTH: 'Month',
+});
+
+export const monthLabelMap = Object.freeze({
+  1: 'January',
+  2: 'February',
+  3: 'March',
+  4: 'April',
+  5: 'May',
+  6: 'June',
+  7: 'July',
+  8: 'August',
+  9: 'September',
+  10: 'October',
+  11: 'November',
+  12: 'December',
 });

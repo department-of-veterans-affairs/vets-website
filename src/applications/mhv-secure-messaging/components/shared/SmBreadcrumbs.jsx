@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -14,6 +14,10 @@ const SmBreadcrumbs = () => {
   const folderList = useSelector(state => state.sm.folders.folderList);
   const crumb = useSelector(state => state.sm.breadcrumbs.list);
   const crumbsList = useSelector(state => state.sm.breadcrumbs.crumbsList);
+  const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
+  const activeDraftId = useSelector(
+    state => state.sm.threadDetails?.drafts?.[0]?.messageId,
+  );
   const previousPath = useRef(null);
 
   const [locationBasePath, locationChildPath] = useMemo(
@@ -23,6 +27,43 @@ const SmBreadcrumbs = () => {
       return pathElements;
     },
     [location],
+  );
+
+  const pathsWithShortBreadcrumb = [
+    Constants.Paths.MESSAGE_THREAD,
+    Constants.Paths.REPLY,
+    Constants.Paths.COMPOSE,
+    Constants.Paths.CONTACT_LIST,
+  ];
+
+  const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(
+    `/${locationBasePath}/`,
+  );
+
+  const pathsWithBackBreadcrumb = [
+    Constants.Paths.COMPOSE,
+    Constants.Paths.CONTACT_LIST,
+  ];
+
+  const backBreadcrumb = pathsWithBackBreadcrumb.includes(
+    `/${locationBasePath}/`,
+  );
+
+  const navigateBack = useCallback(
+    () => {
+      if (
+        `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST &&
+        previousUrl === Constants.Paths.COMPOSE &&
+        activeDraftId
+      ) {
+        history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
+      } else if (previousUrl !== Constants.Paths.CONTACT_LIST) {
+        history.push(previousUrl);
+      } else {
+        history.push(Constants.Paths.INBOX);
+      }
+    },
+    [activeDraftId, history, locationBasePath, previousUrl],
   );
 
   useEffect(
@@ -77,7 +118,7 @@ const SmBreadcrumbs = () => {
         dispatch(
           setBreadcrumbs([
             {
-              href: `/folders/`,
+              href: Constants.Paths.FOLDERS,
               label: Constants.Breadcrumbs.FOLDERS.label,
               isRouterLink: true,
             },
@@ -124,22 +165,25 @@ const SmBreadcrumbs = () => {
 
   return (
     <div>
-      {locationBasePath === 'thread' ||
-      locationBasePath === 'reply' ||
-      locationBasePath === 'new-message' ? (
+      {shortenBreadcrumb ? (
         <nav
           aria-label="Breadcrumb"
-          smCrumbLabel={crumb.label}
           className="breadcrumbs vads-u-padding-y--4"
         >
           <span className="sm-breadcrumb-list-item">
-            {locationBasePath === 'new-message' ? (
+            <va-icon
+              icon="arrow_back"
+              size={1}
+              style={{ position: 'relative', top: '-5px', left: '-1px' }}
+              class="vads-u-color--gray-medium"
+            />
+            {backBreadcrumb ? (
               // eslint-disable-next-line jsx-a11y/anchor-is-valid
               <Link
                 to="#"
                 onClick={e => {
                   e.preventDefault();
-                  history.goBack();
+                  navigateBack();
                 }}
                 className="vads-u-font-size--md"
               >
@@ -158,9 +202,8 @@ const SmBreadcrumbs = () => {
           label="Breadcrumb"
           home-veterans-affairs
           onRouteChange={handleRoutechange}
-          className="small-screen:vads-u-margin-y--2"
+          className="mobile-lg:vads-u-margin-y--2"
           dataTestid="sm-breadcrumbs"
-          smCrumbLabel={crumb.label}
           uswds
         />
       )}

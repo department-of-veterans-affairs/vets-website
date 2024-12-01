@@ -73,6 +73,52 @@ describe('<Dashboard />', () => {
     });
   });
 
+  it('renders the welcome modal for a recent LOA1 user', async () => {
+    mockFetch();
+    initialState.user.profile.loa.current = 1;
+    initialState.user.profile.loa.highest = 1;
+    initialState.featureToggles = {
+      [Toggler.TOGGLE_NAMES
+        .veteranOnboardingShowWelcomeMessageToNewUsers]: true,
+    };
+
+    // User created 8 hours ago is recent
+    initialState.user.profile.createdAt = new Date(
+      new Date().getTime() - 8 * 60 * 60 * 1000,
+    );
+
+    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('welcome-modal')).to.exist;
+    });
+  });
+
+  it('does not render the welcome modal for LOA1 user that is not recent', async () => {
+    mockFetch();
+    initialState.user.profile.loa.current = 1;
+    initialState.user.profile.loa.highest = 1;
+    initialState.featureToggles = {
+      [Toggler.TOGGLE_NAMES
+        .veteranOnboardingShowWelcomeMessageToNewUsers]: true,
+    };
+
+    // User created 36 hours ago is not recent
+    initialState.user.profile.createdAt = new Date(
+      new Date().getTime() - 36 * 60 * 60 * 1000,
+    );
+
+    const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    expect(queryByTestId('welcome-modal')).to.not.exist;
+  });
+
   it('renders for an LOA3 user', async () => {
     mockFetch();
 

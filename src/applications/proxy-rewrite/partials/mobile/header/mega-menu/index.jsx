@@ -57,10 +57,10 @@ const MegaMenu = ({
     if (sectionData.menuSections) {
       return (
         <Fragment key={index}>
-          <li className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
+          <li className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
             <button
               aria-expanded={levelOneIndexOpen === index}
-              className="header-menu-item-button level1 vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
+              className="header-menu-item-button level1 vads-u-background-color--primary-dark vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
               id={`${sectionData.title}--${index + 1}`}
               type="button"
               onClick={() => toggleLevelOne(index)}
@@ -120,7 +120,7 @@ const MegaMenu = ({
 
     return (
       <li
-        className="vads-u-font-size--base vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
+        className="vads-u-font-size--base vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
         key={index}
       >
         <a
@@ -151,7 +151,7 @@ const MegaMenu = ({
           {megaMenuData.map((section, index) =>
             buildLevelOneLinks(section, index),
           )}
-          <li className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold vads-u-font-size--md">
+          <li className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold vads-u-font-size--md">
             <a
               className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
               href="https://www.va.gov/contact-us/"

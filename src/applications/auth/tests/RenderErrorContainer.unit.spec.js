@@ -64,7 +64,7 @@ describe('RenderErrorContainer', () => {
         />,
       );
 
-      const button = wrapper.find('button');
+      const button = wrapper.find('va-button');
       button.simulate('click');
 
       expect(renderOptions.openLoginModal.called).to.be.true;

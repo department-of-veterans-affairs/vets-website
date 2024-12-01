@@ -15,6 +15,7 @@ import {
   SMALL_SCREEN_WIDTH,
   PREVIOUS_URL_PUSHED_TO_HISTORY,
   filterKeys,
+  ERROR_MESSAGES,
 } from '../constants';
 
 /**
@@ -285,12 +286,12 @@ const isPortrait = () => {
   return window.matchMedia('(orientation: portrait)').matches;
 };
 
-export const isSmallScreenLogic = () =>
-  matchMedia('(max-width: 480px)').matches;
+export const isSmallScreenLogic = (maxWidth = 480) =>
+  matchMedia(`(max-width: ${maxWidth}px)`).matches;
 
-export const isSmallScreen = () => {
+export const isSmallScreen = (maxWidth = 480) => {
   const portrait = isPortrait();
-  const smallScreen = isSmallScreenLogic();
+  const smallScreen = isSmallScreenLogic(maxWidth);
   const browserZoomLevel = Math.round(window.devicePixelRatio * 100);
   return (smallScreen && portrait) || (smallScreen && browserZoomLevel <= 150);
 };
@@ -392,7 +393,28 @@ export const sortedSpecializedMissionDefinitions = () => {
   );
 };
 
-export const validateSearchTerm = (
+export const validateSearchTerm = (searchTerm, dispatchError, error, type) => {
+  const empty = searchTerm.trim() === '';
+  const invalidZipCodePattern = /^\d{6,}$/;
+
+  if (
+    type === 'name' &&
+    error === ERROR_MESSAGES.searchByNameInputEmpty &&
+    !empty
+  ) {
+    dispatchError(null);
+  } else if (type === 'location') {
+    if (error === ERROR_MESSAGES.searchbyLocationInputEmpty && !empty) {
+      dispatchError(null);
+    } else if (
+      error === ERROR_MESSAGES.invalidZipCode &&
+      !invalidZipCodePattern.test(searchTerm)
+    )
+      dispatchError(null);
+  }
+};
+
+export const validateSearchTermSubmit = (
   searchTerm,
   dispatchError,
   error,
@@ -404,25 +426,41 @@ export const validateSearchTerm = (
 
   if (type === 'name') {
     if (empty) {
-      dispatchError('Please fill in a school, employer, or training provider.');
+      dispatchError(ERROR_MESSAGES.searchByNameInputEmpty);
     } else if (filterKeys.every(key => filters[key] === false)) {
-      dispatchError('Please select at least one filter.');
+      dispatchError(ERROR_MESSAGES.checkBoxFilterEmpty);
     } else if (error !== null) {
       dispatchError(null);
     }
+    return !empty && !filterKeys.every(key => filters[key] === false);
   }
 
   if (type === 'location') {
     if (empty) {
-      dispatchError('Please fill in a city, state, or postal code.');
+      dispatchError(ERROR_MESSAGES.searchbyLocationInputEmpty);
     } else if (invalidZipCodePattern.test(searchTerm)) {
-      dispatchError('Please enter a valid postal code.');
+      dispatchError(ERROR_MESSAGES.invalidZipCode);
+    } else if (filterKeys.every(key => filters[key] === false)) {
+      dispatchError(ERROR_MESSAGES.checkBoxFilterEmpty);
     } else if (error !== null) {
       dispatchError(null);
     }
+    return (
+      !empty &&
+      !filterKeys.every(key => filters[key] === false) &&
+      !invalidZipCodePattern.test(searchTerm)
+    );
   }
 
   return !empty;
+};
+
+export const isEmptyCheckboxFilters = filters => {
+  let isEmpty = true;
+
+  if (!filterKeys.every(key => filters[key] === false)) isEmpty = false;
+
+  return isEmpty;
 };
 
 export const currentTab = () => {
@@ -483,3 +521,90 @@ export function showSchoolContentBasedOnType(type) {
   };
   return !(type in validateTypes);
 }
+
+export const getGIBillHeaderText = (automatedTest = false) => {
+  return isShowVetTec(automatedTest)
+    ? 'Learn about and compare your GI Bill benefits at approved schools, employers, and VET TEC providers.'
+    : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
+};
+
+export const updateLcFilterDropdowns = (dropdowns, target) => {
+  const updatedFieldIndex = dropdowns.findIndex(dropdown => {
+    return dropdown.label === target.id;
+  });
+
+  const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
+    option => option.optionValue === target.value,
+  );
+
+  return dropdowns.map(
+    (dropdown, index) =>
+      index === updatedFieldIndex
+        ? {
+            ...dropdown,
+            current: dropdown.options[selectedOptionIndex],
+          }
+        : dropdown,
+  );
+};
+
+export const handleLcResultsSearch = (
+  history,
+  type = 'all',
+  name = null,
+  state = 'all',
+) => {
+  return name
+    ? history.push(
+        `/lc-search/results?type=${type}&name=${name}&state=${state}`,
+      )
+    : history.push(`/lc-search/results?type=${type}&state=${state}`);
+};
+
+export const formatProgramType = programType => {
+  if (!programType) return '';
+
+  return programType
+    .split('-')
+    .filter(word => word.trim()) // Filter out empty strings caused by extra hyphens
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
+
+export const generateMockPrograms = numPrograms => {
+  const programNames = [
+    'CERTIFIED ETHICAL HACKER',
+    'CISCO SYSTEMS - CCDA',
+    'CERTIFIED INFORMATION SYSTEMS SECURITY',
+    'VMWARE CERTIFIED ASSOCIATE',
+    'MICROSOFT CERTIFIED PROFESSIONAL',
+    'CISCO SYSTEMS - CCDP',
+    'CISCO SYSTEMS - CCNA',
+    'CISCO SYSTEMS - CCNA SECURITY',
+    'CISCO SYSTEMS - CCNA VOICE',
+    'CISCO SYSTEMS - CCNA WIRELESS',
+    'DATABASE AND SOFTWARE DEVELOPER',
+    'CISCO SYSTEMS - CCNP',
+    'CISCO SYSTEMS - CCNP SECURITY',
+    'CISCO SYSTEMS - CCNP VOICE',
+    'CISCO SYSTEMS - CCNP WIRELESS',
+    'COMPTIA A PLUS',
+    'COMPTIA LINUX PLUS',
+    'COMPTIA NETWORK PLUS',
+    'COMPTIA SECURITY PLUS',
+    'NETWORK SECURITY ENGINEER',
+    'IT SYSTEMS ENGINEER',
+    'MICROSOFT CERTIFIED SOLUTIONS ASSOCIATE',
+  ];
+
+  return Array.from({ length: numPrograms }, (_, index) => ({
+    id: (index + 1).toString(),
+    type: 'institution_programs',
+    attributes: {
+      programType: 'NCD',
+      description: programNames[index % programNames.length],
+      facilityCode: '3V000242',
+      institutionName: 'LAB FOUR PROFESSIONAL DEVELOPMENT CENTER - NASHVILLE',
+    },
+  }));
+};

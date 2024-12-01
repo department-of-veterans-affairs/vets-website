@@ -57,7 +57,7 @@ Cypress.Commands.add('checkSearch', () => {
   // Pin
   cy.get('.i-pin-card-map')
     .should('be.visible')
-    .contains('A');
+    .contains('1');
 
   // Back to Result list
   cy.get('#react-tabs-0').click();
@@ -104,7 +104,7 @@ describe('Mobile', () => {
     cy.injectAxe();
 
     // desktop - large
-    cy.viewport(1008, 1000);
+    cy.viewport(1024, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
       expect($element.width()).closeTo(50, 2);

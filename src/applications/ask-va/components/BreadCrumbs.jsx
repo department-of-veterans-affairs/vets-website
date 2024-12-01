@@ -6,10 +6,13 @@ const adjustLocation = currentLocation => {
   if (currentLocation.startsWith('/contact-us/ask-va-too/user/dashboard')) {
     return '/user/dashboard';
   }
+  if (currentLocation.startsWith('/response-sent')) {
+    return '/response-sent';
+  }
   if (currentLocation.startsWith('/introduction')) {
     return '/introduction';
   }
-  return '/newInquiry';
+  return '/newQuestion';
 };
 
 const BreadCrumbs = ({ currentLocation }) => {

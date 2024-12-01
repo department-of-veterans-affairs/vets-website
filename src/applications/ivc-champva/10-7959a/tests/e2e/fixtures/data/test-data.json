@@ -1,5 +1,7 @@
 {
+  "description": "Applicant is certifier, two policies, medical claim, has EOB",
   "data": {
+    "view:hasPolicies": true,
     "certifierRole": "applicant",
     "sponsorName": {
       "first": "Sponsor",
@@ -11,6 +13,7 @@
       "first": "Beneficiary",
       "last": "Jones"
     },
+    "applicantPhone": "1231231234",
     "applicantMemberNumber": "222111123",
     "applicantDOB": "2000-10-25",
     "applicantAddress": {
@@ -29,7 +32,7 @@
         "isEncrypted": false
       }
     ],
-    "primaryEOB": [
+    "primaryEob": [
       {
         "name": "Document1.png",
         "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b65",
@@ -37,7 +40,7 @@
         "isEncrypted": false
       }
     ],
-    "secondaryEOB": [
+    "secondaryEob": [
       {
         "name": "Document1.png",
         "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b66",

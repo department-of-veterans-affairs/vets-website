@@ -1,14 +1,15 @@
 import React from 'react';
 import { merge } from 'lodash';
-import PropTypes from 'prop-types';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
 
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
+
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -24,6 +25,7 @@ import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
+import jsonData from './Military Ranks.json';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -199,6 +201,38 @@ export function militaryDetailsSubHeader(formData) {
       )}
     </div>
   );
+}
+
+export const createPayload = (file, formId, password) => {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+};
+
+export function parseResponse({ data }) {
+  const { name } = data.attributes;
+  const focusFileCard = () => {
+    const target = $$('.schemaform-file-list li').find(entry =>
+      entry.textContent?.trim().includes(name),
+    );
+
+    if (target) {
+      focusElement(target);
+    }
+  };
+
+  setTimeout(() => {
+    focusFileCard();
+  }, 100);
+
+  return {
+    name,
+    confirmationCode: data.attributes.confirmationCode,
+  };
 }
 
 export const contactInfoDescription = (
@@ -477,15 +511,13 @@ export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
   'Applicant is the Veteran or service member',
 );
 
-export const applicantDetailsCityTitle = 'Your birth city or county';
+export const applicantDetailsCityTitle = 'Your birth city';
 
-export const applicantDetailsStateTitle = 'Your birth state or territory';
+export const applicantDetailsStateTitle = 'Your birth state';
 
-export const applicantDetailsPreparerCityTitle =
-  'Applicant’s birth city or county';
+export const applicantDetailsPreparerCityTitle = 'Applicant’s birth city';
 
-export const applicantDetailsPreparerStateTitle =
-  'Applicant’s birth state or territory';
+export const applicantDetailsPreparerStateTitle = 'Applicant’s birth state';
 
 export const applicantDemographicsGenderTitle = 'What’s your sex?';
 
@@ -745,39 +777,8 @@ export const preparerDateOfBirthUI = currentOrPastDateUI(
   'Applicant’s date of birth',
 );
 
-class SSNWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { val: props.value };
-  }
-
-  handleChange = val => {
-    // Insert dashes if they are missing.
-    // Keep if value is valid and formatted with dashes.
-    // Set empty value to undefined.
-    const formattedSSN =
-      (val && /^\d{9}$/.test(val)
-        ? `${val.substr(0, 3)}-${val.substr(3, 2)}-${val.substr(5)}`
-        : val) || undefined;
-
-    this.setState({ val }, () => {
-      this.props.onChange(formattedSSN);
-    });
-  };
-
-  render() {
-    return (
-      <TextWidget
-        {...this.props}
-        value={this.state.val}
-        onChange={this.handleChange}
-      />
-    );
-  }
-}
-
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
+export const ssnDashesUI = ssnUI;
 
 export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
   'ui:title': 'Applicant’s Social Security number',
@@ -887,18 +888,29 @@ export const veteranUI = {
       'ui:title': 'Other',
     },
     'ui:validations': [
-      // require at least one value to be true/checked
+      // require at least one value to be true/checked + custom validation to ensure that "Prefer not to answer" is not selected along with other options
       (errors, fields) => {
-        if (!Object.values(fields).some(val => val === true)) {
-          errors.addError('Please provide a response');
+        const { na, ...otherFields } = fields;
+        const otherSelected = Object.values(otherFields).some(
+          val => val === true,
+        );
+
+        if (na && otherSelected) {
+          errors.addError(
+            'When selecting Prefer not to answer, you can’t have another option.',
+          );
+        } else if (!na && !otherSelected) {
+          errors.addError('Please provide a response.');
         }
       },
     ],
     'ui:options': {
-      hint: 'You can select more than one option.',
+      hint:
+        'You can select more than one option, unless you prefer not to answer.',
       showFieldLabel: true,
     },
   },
+
   raceComment: {
     'ui:title': 'Enter the race that best describes you',
     'ui:widget': 'textarea',
@@ -1059,8 +1071,24 @@ export const preparerVeteranUI = {
 };
 
 export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
+  // Map the highestRank to the corresponding Rank Description from jsonData
+  const rankMap = jsonData.reduce((map, rank) => {
+    // eslint-disable-next-line no-param-reassign
+    map[rank['Rank Code'].toUpperCase()] = rank[
+      'Rank Description'
+    ].toUpperCase();
+    return map;
+  }, {});
+
+  // Create a list of valid rank descriptions
+  const validRanks = jsonData.map(rank =>
+    rank['Rank Description'].toUpperCase(),
+  );
+
   for (let index = 0; index < serviceRecords.length; index++) {
     const serviceRecord = serviceRecords[index];
+
+    // Check if serviceBranch is undefined and highestRank is defined
     if (
       serviceRecord.serviceBranch === undefined &&
       serviceRecord.highestRank !== undefined
@@ -1085,6 +1113,20 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
       }
     }
 
+    // Validate if highestRank is valid using Rank Description
+    const highestRank = serviceRecord.highestRank?.toUpperCase();
+    const highestRankDescription = rankMap[highestRank] || highestRank;
+
+    if (
+      highestRankDescription &&
+      !validRanks.includes(highestRankDescription)
+    ) {
+      errors[index].highestRank.addError(
+        'Enter a valid rank, or leave this field blank.',
+      );
+    }
+
+    // Date of birth validation
     let dob;
     let errorMessage;
 
@@ -1129,8 +1171,8 @@ export const selfServiceRecordsUI = {
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1143,8 +1185,8 @@ export const selfServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
+      'Service Start Date',
+      'Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1165,6 +1207,10 @@ export const selfServiceRecordsUI = {
     highestRank: {
       'ui:title': 'Highest rank attained',
       'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
@@ -1190,8 +1236,8 @@ export const preparerServiceRecordsUI = {
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1204,8 +1250,8 @@ export const preparerServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Applicant’s service start date',
-      'Applicant’s service end date',
+      'Applicant’s Service Start Date',
+      'Applicant’s Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1226,6 +1272,10 @@ export const preparerServiceRecordsUI = {
     highestRank: {
       'ui:title': 'Applicant’s highest rank attained',
       'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
@@ -1311,8 +1361,3 @@ export function MailingAddressStateTitle(props) {
   }
   return 'State or territory';
 }
-
-SSNWidget.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-};

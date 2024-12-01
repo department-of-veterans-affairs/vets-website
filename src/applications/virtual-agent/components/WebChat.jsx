@@ -9,7 +9,6 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 // Hooks
 import useBotPonyFill from '../hooks/useBotPonyfill';
 import useDirectLine from '../hooks/useDirectline';
-import useRecordRxSession from '../hooks/useRecordRxSession';
 import useRxSkillEventListener from '../hooks/useRxSkillEventListener';
 import useSetSendBoxMessage from '../hooks/useSetSendBoxMessage';
 import useWebChatStore from '../hooks/useWebChatStore';
@@ -19,6 +18,7 @@ import clearBotSessionStorageEventListener from '../event-listeners/clearBotSess
 import signOutEventListener from '../event-listeners/signOutEventListener';
 
 // Middleware
+import { activityMiddleware } from '../middleware/activityMiddleware';
 import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
 
 // Selectors
@@ -66,7 +66,11 @@ const WebChat = ({
   apiSession,
   setParamLoadingStatus,
 }) => {
-  const { ReactWebChat, createDirectLine, createStore } = webChatFramework;
+  const {
+    createDirectLine,
+    createStore,
+    Components: { BasicWebChat, Composer },
+  } = webChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
 
   const userFirstName = useSelector(selectUserFirstName);
@@ -81,6 +85,10 @@ const WebChat = ({
   // value of specific toggle
   const isComponentToggleOn = useToggleValue(
     TOGGLE_NAMES.virtualAgentComponentTesting,
+  );
+
+  const isRootBotToggleOn = useToggleValue(
+    TOGGLE_NAMES.virtualAgentEnableRootBot,
   );
 
   validateParameters({
@@ -100,6 +108,7 @@ const WebChat = ({
     isMobile,
     environment,
     isComponentToggleOn,
+    isRootBotToggleOn,
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);
@@ -108,14 +117,14 @@ const WebChat = ({
   useBotPonyFill(setBotPonyfill, environment);
   useRxSkillEventListener(setIsRXSkill);
   useSetSendBoxMessage(isRXSkill);
-  useRecordRxSession(isRXSkill);
 
   const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
 
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
-      <ReactWebChat
+      <Composer
         cardActionMiddleware={cardActionMiddleware}
+        activityMiddleware={activityMiddleware}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}
@@ -124,7 +133,9 @@ const WebChat = ({
         {...isRXSkill === 'true' && {
           webSpeechPonyfillFactory: speechPonyfill,
         }}
-      />
+      >
+        <BasicWebChat />
+      </Composer>
     </div>
   );
 };
@@ -136,7 +147,10 @@ WebChat.propTypes = {
   webChatFramework: PropTypes.shape({
     createDirectLine: PropTypes.func.isRequired,
     createStore: PropTypes.func.isRequired,
-    ReactWebChat: PropTypes.func.isRequired,
+    Components: PropTypes.shape({
+      BasicWebChat: PropTypes.func.isRequired,
+      Composer: PropTypes.func.isRequired,
+    }),
   }).isRequired,
 };
 

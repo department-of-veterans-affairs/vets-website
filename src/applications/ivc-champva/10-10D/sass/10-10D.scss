@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
@@ -10,4 +10,9 @@
 // the 'upload' button and its associated label text.
 .upload-button-label.vads-u-display--inline-block {
   margin-top: initial;
+}
+
+va-accordion-item[data-chapter="uploadFiles"] {
+  display: none;
+  visibility: hidden;
 }

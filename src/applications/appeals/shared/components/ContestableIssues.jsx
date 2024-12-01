@@ -76,22 +76,23 @@ const ContestableIssues = props => {
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
   const { submitted } = formContext;
+  const loadedIssues = formData.contestedIssues || [];
 
   // combine all issues for viewing
-  const items = (formData.contestedIssues || [])
+  const items = loadedIssues
     .map(item => ({
       ...item?.attributes,
       [SELECTED]: item?.[SELECTED],
     }))
     .concat(formData.additionalIssues || []);
 
+  const hasIssues = items.length > 0;
   const hasSelected = someSelected(items);
+  const showAlert = !hasIssues && !hasSelected && !submitted && !onReviewPage;
   const showApiFailure =
-    !submitted &&
-    !onReviewPage &&
-    apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
+    showAlert && apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
   const showNoneSelected =
-    !submitted && !onReviewPage && formData.contestedIssues?.length === 0;
+    showAlert && !showApiFailure && formData.contestedIssues?.length === 0;
   const showEditModeError =
     !showNoneSelected && !hasSelected && (onReviewPage || submitted);
 
@@ -105,7 +106,7 @@ const ContestableIssues = props => {
     [onReviewPage, showEditModeError, submitted],
   );
 
-  if (onReviewPage && inReviewMode && items.length && !hasSelected) {
+  if (onReviewPage && inReviewMode && hasIssues && !hasSelected) {
     return (
       <NoneSelectedAlert
         count={items.length}
@@ -123,10 +124,10 @@ const ContestableIssues = props => {
         setShowErrorModal(true);
         event.preventDefault(); // prevent checking
         checked = false;
-      } else if (index < formData.contestedIssues.length) {
+      } else if (index < loadedIssues.length) {
         // contestable issue check toggle
         const changedItems = set(
-          `contestedIssues[${index}].${SELECTED}`,
+          ['contestedIssues', index, SELECTED],
           checked,
           formData,
         );
@@ -134,10 +135,7 @@ const ContestableIssues = props => {
         setFormData(changedItems);
       } else {
         // additional issue check toggle
-        const adjustedIndex = calculateIndexOffset(
-          index,
-          formData.contestedIssues.length,
-        );
+        const adjustedIndex = calculateIndexOffset(index, loadedIssues.length);
         const updatedAdditionalIssues = formData.additionalIssues.map(
           (issue, indx) =>
             adjustedIndex === indx ? { ...issue, [SELECTED]: checked } : issue,
@@ -151,7 +149,7 @@ const ContestableIssues = props => {
     onShowRemoveModal: cardIndex => {
       const adjustedIndex = calculateIndexOffset(
         cardIndex,
-        formData.contestedIssues.length,
+        loadedIssues.length,
       );
       setRemoveIndex(adjustedIndex);
       setShowRemoveModal(true);
@@ -160,7 +158,7 @@ const ContestableIssues = props => {
       focusIssue(
         null,
         null,
-        `${formData.contestedIssues.length + removeIndex},remove-cancel`,
+        `${loadedIssues.length + removeIndex},remove-cancel`,
       );
       setShowRemoveModal(false);
       setRemoveIndex(null);
@@ -195,7 +193,8 @@ const ContestableIssues = props => {
       options,
       showCheckbox,
       onReviewPage,
-      onChange: handlers.onChange,
+      // props.testChange for testing
+      onChange: props.testChange || handlers.onChange,
       onRemove: handlers.onShowRemoveModal,
     };
 
@@ -207,7 +206,7 @@ const ContestableIssues = props => {
     <>
       <div name="eligibleScrollElement" />
       {showApiFailure && <ApiFailureAlert />}
-      {showNoneSelected && !showApiFailure && <NoEligibleIssuesAlert />}
+      {showNoneSelected && <NoEligibleIssuesAlert />}
       {showEditModeError && (
         <NoneSelectedAlert
           count={formData.contestedIssues?.length || 0}
@@ -282,6 +281,7 @@ ContestableIssues.propTypes = {
   id: PropTypes.string,
   options: PropTypes.shape({}),
   setFormData: PropTypes.func,
+  testChange: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

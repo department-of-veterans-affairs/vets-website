@@ -2,7 +2,6 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
 
 function HomepageRedesignModal({ dismiss }) {
   const noscriptElements = document.getElementsByTagName('noscript');
@@ -25,11 +24,6 @@ function HomepageRedesignModal({ dismiss }) {
           cssClass="va-modal announcement-brand-consolidation"
           visible
           onCloseEvent={() => {
-            recordEvent({
-              event: 'int-modal-click',
-              'modal-status': 'closed',
-              'modal-title': 'Try our new VA.gov homepage',
-            });
             dismiss();
           }}
           id="modal-announcement"
@@ -39,11 +33,6 @@ function HomepageRedesignModal({ dismiss }) {
           aria-labelledby="homepage-modal-label-title"
           secondary-button-text="Not today, go to the current homepage"
           onSecondaryButtonClick={() => {
-            recordEvent({
-              event: 'cta-button-click',
-              'button-type': 'secondary',
-              'button-click-label': 'Not today, go to the current homepage',
-            });
             dismiss();
           }}
         >
@@ -73,11 +62,6 @@ function HomepageRedesignModal({ dismiss }) {
               href="/new-home-page"
               onClick={() => {
                 dismiss();
-                recordEvent({
-                  event: 'cta-button-click',
-                  'button-click-label': 'Try the new home page',
-                  'button-type': 'link',
-                });
               }}
             >
               Try the new home page

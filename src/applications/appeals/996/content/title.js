@@ -8,21 +8,12 @@ export const formTitle = 'Request a Higher-Level Review';
 export const longFormTitle =
   'Request a Higher-Level Review with VA Form 20-0996';
 
-export const newFormSubTitle =
-  'Decision Review Request: Higher-Level Review (VA Form 20-0996)';
-export const oldFormSubTitle = 'VA Form 20-0996 (Higher-Level Review)';
+export const subTitle = 'VA Form 20-0996';
 
 export const AppTitle = () => (
   <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
     <Toggler.Enabled>{formTitle}</Toggler.Enabled>
     <Toggler.Disabled>{longFormTitle}</Toggler.Disabled>
-  </Toggler>
-);
-
-export const FormSubTitle = () => (
-  <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
-    <Toggler.Enabled>{newFormSubTitle}</Toggler.Enabled>
-    <Toggler.Disabled>{oldFormSubTitle}</Toggler.Disabled>
   </Toggler>
 );
 
@@ -32,6 +23,5 @@ export const FormSubTitle = () => (
  */
 export const PageTitle = () => {
   const title = <AppTitle />;
-  const subTitle = <FormSubTitle />;
   return <FormTitle title={title} subTitle={subTitle} />;
 };

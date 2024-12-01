@@ -46,6 +46,11 @@ describe('Medications Prescriptions container', () => {
           totalPages: 7,
           totalEntries: 122,
         },
+        prescriptionsFilteredPagination: {
+          currentPage: 1,
+          totalPages: 7,
+          totalEntries: 122,
+        },
         prescriptionDetails: {
           prescriptionId: 1234567890,
         },
@@ -106,10 +111,8 @@ describe('Medications Prescriptions container', () => {
 
   it('displays intro text ', async () => {
     const screen = setup();
-    expect(
-      await screen.findByText(
-        'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications. If you print or download this list, we’ll include a list of your allergies.',
-      ),
+    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
+      'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications',
     );
   });
 
@@ -285,5 +288,60 @@ describe('Medications Prescriptions container', () => {
     expect(button).to.exist;
     expect(button).to.have.text('Print this page of the list');
     button.click();
+  });
+
+  it('displays link for allergies if mhv_medications_display_allergies feature flag is set to true', () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_allergies: true,
+      },
+    });
+    expect(screen.getByText('Go to your allergies and reactions'));
+  });
+  it('displays "If you print or download this list, we’ll include a list of your allergies." if mhv_medications_display_allergies feature flag is set to false', async () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_allergies: false,
+      },
+    });
+    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
+      'If you print or download this list, we’ll include a list of your allergies.',
+    );
+  });
+  it('displays filter accordion if mhv_medications_display_filter feature flag is set to true', async () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_filter: true,
+      },
+    });
+    expect(await screen.getByTestId('filter-accordion')).to.exist;
+  });
+  it('does not display filter accordion if mhv_medications_display_filter feature flag is set to false', async () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_filter: false,
+      },
+    });
+    expect(await screen.queryByTestId('filter-accordion')).to.not.exist;
   });
 });

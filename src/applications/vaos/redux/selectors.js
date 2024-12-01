@@ -6,6 +6,7 @@ import {
   selectCernerFacilityIds,
   selectEhrDataByVhaId,
 } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { getRealFacilityId } from '../utils/appointment';
 
 export const selectRegisteredCernerFacilityIds = state => {
   const patientFacilities = selectPatientFacilities(state);
@@ -13,7 +14,10 @@ export const selectRegisteredCernerFacilityIds = state => {
 
   return (
     patientFacilities?.reduce((accumulator, current) => {
-      if (cernerFacilityIds.includes(current.facilityId) || current.isCerner)
+      if (
+        cernerFacilityIds.includes(getRealFacilityId(current.facilityId)) ||
+        current.isCerner
+      )
         return [...accumulator, current.facilityId];
       return accumulator;
     }, []) || []
@@ -61,12 +65,6 @@ export const selectFeatureVAOSServiceVAAppointments = state =>
 export const selectFeatureVAOSServiceCCAppointments = state =>
   toggleValues(state).vaOnlineSchedulingVAOSServiceCCAppointments;
 
-export const selectFeatureFacilitiesServiceV2 = state =>
-  toggleValues(state).vaOnlineSchedulingFacilitiesServiceV2;
-
-export const selectFeatureStatusImprovementCanceled = state =>
-  toggleValues(state).vaOnlineSchedulingStatusImprovementCanceled;
-
 export const selectFeatureVaosV2Next = state =>
   toggleValues(state).vaOnlineSchedulingVAOSV2Next;
 
@@ -85,20 +83,11 @@ export const selectFeatureBreadcrumbUrlUpdate = state =>
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
 
-export const selectFeatureAfterVisitSummary = state =>
-  toggleValues(state).vaOnlineSchedulingAfterVisitSummary;
-
-export const selectFeatureStartSchedulingLink = state =>
-  toggleValues(state).vaOnlineSchedulingStartSchedulingLink;
-
 export const selectFeatureBookingExclusion = state =>
   toggleValues(state).vaOnlineSchedulingBookingExclusion;
 
 export const selectFeatureDatadogRum = state =>
   toggleValues(state).vaOnlineSchedulingDatadogRum;
-
-export const selectFeatureAppointmentDetailsRedesign = state =>
-  toggleValues(state).vaOnlineSchedulingAppointmentDetailsRedesign;
 
 export const selectFeatureCCDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectScheduling;
@@ -108,11 +97,17 @@ export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 export const selectFeatureRecentLocationsFilter = state =>
   toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
 
-export const selectFeatureMedReviewInstructions = state =>
-  toggleValues(state).vaOnlineSchedulingMedReviewInstructions;
-
 export const selectFeatureOHDirectSchedule = state =>
-  toggleValues(state).vaOnlineSchedulingOHDirectSchedule;
+  toggleValues(state).vaOnlineSchedulingOhDirectSchedule;
 
 export const selectFeatureOHRequest = state =>
-  toggleValues(state).vaOnlineSchedulingOHRequest;
+  toggleValues(state).vaOnlineSchedulingOhRequest;
+
+export const selectFeatureRemovePodiatry = state =>
+  toggleValues(state).vaOnlineSchedulingRemovePodiatry;
+
+export const selectFeatureTravelPayViewClaimDetails = state =>
+  toggleValues(state).travelPayViewClaimDetails;
+
+export const selectFeatureTravelPaySubmitMileageExpense = state =>
+  toggleValues(state).travelPaySubmitMileageExpense;

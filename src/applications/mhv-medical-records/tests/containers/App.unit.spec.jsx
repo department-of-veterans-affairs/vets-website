@@ -47,10 +47,26 @@ describe('App', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_to_va_gov_release: true,
+      // eslint-disable-next-line camelcase
+      mhv_integration_medical_records_to_phase_1: true,
     },
     mr: {
       breadcrumbs: {
-        list: [],
+        crumbsList: [
+          {
+            href: '/',
+            label: 'VA.gov home',
+          },
+          {
+            href: '/my-health',
+            label: 'My HealtheVet',
+          },
+          {
+            href: '/',
+            label: 'Medical records',
+            isRouterLink: true,
+          },
+        ],
       },
     },
   };
@@ -157,6 +173,7 @@ describe('App', () => {
           'Review, print, and download your VA medical records.',
         ),
       );
+      expect(screen.getByRole('navigation', { name: 'My HealtheVet' }));
     });
 
     it('renders the global downtime notification', () => {
@@ -290,7 +307,7 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(screen.getByTestId('no-breadcrumbs')).to.exist;
+    expect(screen.getByTestId('breadcrumbs')).to.exist;
   });
 
   it('does not render breadcrumbs when downtime and not at the landing page', () => {
@@ -308,7 +325,7 @@ describe('App', () => {
       reducers: reducer,
       path: `/vaccines`,
     });
-    expect(screen.queryByTestId('no-breadcrumbs')).to.not.exist;
+    expect(screen.queryByTestId('breadcrumbs')).to.not.exist;
   });
 
   describe('Side Nav feature flag functionality', () => {

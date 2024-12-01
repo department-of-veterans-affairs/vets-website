@@ -176,6 +176,28 @@
                   }
                 }
               ]
+            },
+            {
+              "id": 13,
+              "name": "New benefit overpayment debt notification",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification"
+                }
+              ]
+            },
+            {
+              "id": 14,
+              "name": "New health care copay bill",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification"
+                }
+              ]
             }
           ]
         },

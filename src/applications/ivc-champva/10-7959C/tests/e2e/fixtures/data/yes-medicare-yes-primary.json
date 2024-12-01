@@ -6,7 +6,6 @@
       "first": "Jimmy",
       "last": "Alvin"
     },
-    "applicantDOB": "1958-01-01",
     "applicantAddress": {
       "country": "USA",
       "street": "456 Street Circle",
@@ -34,7 +33,7 @@
     "applicantPrimaryExpirationDate": "2010-01-01",
     "applicantPrimaryThroughEmployer": false,
     "applicantPrimaryHasPrescription": true,
-    "applicantPrimaryEOB": false,
+    "applicantPrimaryEob": false,
     "applicantPrimaryInsuranceType": "medigap",
     "primaryMedigapPlan": "A",
     "primaryAdditionalComments": "Additional primary comment",

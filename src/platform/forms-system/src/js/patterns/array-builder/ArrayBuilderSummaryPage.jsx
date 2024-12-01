@@ -10,6 +10,8 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import { setData } from '~/platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCards from './ArrayBuilderCards';
+import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
+import ArrayBuilderSummaryNoSchemaFormPage from './ArrayBuilderSummaryNoSchemaFormPage';
 import {
   createArrayBuilderItemAddPath,
   getUpdatedItemFromPath,
@@ -47,6 +49,19 @@ function filterEmptyItems(arrayData) {
     : arrayData;
 }
 
+function checkHasYesNoReviewError(reviewErrors, hasItemsKey) {
+  return (
+    hasItemsKey && reviewErrors?.errors?.some(obj => obj.name === hasItemsKey)
+  );
+}
+
+function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
+  // use the same error message as the yes/no field
+  const error =
+    hasItemsKey && reviewErrors?.errors?.find(obj => obj.name === hasItemsKey);
+  return error?.message;
+}
+
 /**
  * @param {{
  *   arrayPath: string,
@@ -61,23 +76,28 @@ function filterEmptyItems(arrayData) {
  *   nounSingular: string,
  *   required: (formData) => boolean,
  *   titleHeaderLevel: string,
- * }} props
+ *   useLinkInsteadOfYesNo: boolean,
+ *   useButtonInsteadOfYesNo: boolean,
+ * }} arrayBuilderOptions
  * @returns {CustomPageType}
  */
-export default function ArrayBuilderSummaryPage({
-  arrayPath,
-  firstItemPagePath,
-  getText,
-  hasItemsKey,
-  introPath,
-  isItemIncomplete,
-  isReviewPage,
-  maxItems,
-  nounPlural,
-  nounSingular,
-  required,
-  titleHeaderLevel = '3',
-}) {
+export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
+  const {
+    arrayPath,
+    firstItemPagePath,
+    getText,
+    hasItemsKey,
+    introPath,
+    isItemIncomplete,
+    isReviewPage,
+    maxItems,
+    nounPlural,
+    nounSingular,
+    required,
+    titleHeaderLevel = '3',
+    useLinkInsteadOfYesNo,
+    useButtonInsteadOfYesNo,
+  } = arrayBuilderOptions;
   /** @type {CustomPageType} */
   function CustomPage(props) {
     const {
@@ -93,34 +113,53 @@ export default function ArrayBuilderSummaryPage({
 
     const [showUpdatedAlert, setShowUpdatedAlert] = useState(!!updatedItemData);
     const [showRemovedAlert, setShowRemovedAlert] = useState(false);
+    const [showReviewErrorAlert, setShowReviewErrorAlert] = useState(false);
     const [removedItemText, setRemovedItemText] = useState('');
     const [removedItemIndex, setRemovedItemIndex] = useState(null);
     const updatedAlertRef = useRef(null);
     const removedAlertRef = useRef(null);
+    const reviewErrorAlertRef = useRef(null);
     const { uiSchema, schema } = props;
     const Heading = `h${titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
+    const hasReviewError =
+      isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
 
     useEffect(() => {
-      // We may end up with empty items if the user navigates back
-      // from outside of the array scope, because of FormPage's
-      // prePopulateArrayData function which auto populates an
-      // array with empty initial values. This will remove any items
-      // with no array data.
-      if (arrayData?.length) {
-        const newArrayData = filterEmptyItems(arrayData);
-        if (newArrayData?.length !== arrayData.length) {
-          props.setData({ ...props.data, [arrayPath]: newArrayData });
+      const cleanupEmptyItems = () => {
+        // We may end up with empty items if the user navigates back
+        // from outside of the array scope, because of FormPage's
+        // prePopulateArrayData function which auto populates an
+        // array with empty initial values. This will remove any items
+        // with no array data.
+        if (arrayData?.length) {
+          const newArrayData = filterEmptyItems(arrayData);
+          if (newArrayData?.length !== arrayData.length) {
+            props.setData({ ...props.data, [arrayPath]: newArrayData });
+          }
         }
-      }
-    }, []);
+      };
 
-    useEffect(() => {
-      if (!isReviewPage && !arrayData?.length && required(props.data)) {
-        // We shouldn't be on this page if there are no items and its required
-        // because the required flow goes intro -> item page with no items
-        props.goToPath(introPath);
-      }
+      const redirectToIntroIfEmpty = () => {
+        if (!isReviewPage && !arrayData?.length && required(props.data)) {
+          // We shouldn't be on this page if there are no items and its required
+          // because the required flow goes intro -> item page with no items
+          props.goToPath(introPath);
+        }
+      };
+
+      const resetYesNo = () => {
+        // We shouldn't persist the 'yes' answer after an item is entered/cancelled
+        // We should ask the yes/no question again after an item is entered/cancelled
+        // Since it is required, it shouldn't be left null/undefined
+        if (!isReviewPage && props.data?.[hasItemsKey]) {
+          props.setData({ ...props.data, [hasItemsKey]: undefined });
+        }
+      };
+
+      cleanupEmptyItems();
+      redirectToIntroIfEmpty();
+      resetYesNo();
     }, []);
 
     useEffect(
@@ -156,8 +195,8 @@ export default function ArrayBuilderSummaryPage({
           (uiSchema &&
             schema?.properties &&
             isMaxItemsReached &&
-            props.data[hasItemsKey] !== false) ||
-          (isReviewPage && props.data[hasItemsKey] == null)
+            props.data?.[hasItemsKey] !== false) ||
+          (isReviewPage && props.data?.[hasItemsKey] == null)
         ) {
           // 1. If the user has reached the max items, we want to make sure the
           //    yes/no field is set to false because it will be hidden yet required.
@@ -182,6 +221,22 @@ export default function ArrayBuilderSummaryPage({
         },
       });
     }
+
+    useEffect(
+      () => {
+        setShowReviewErrorAlert(hasReviewError);
+        if (
+          props.recalculateErrors &&
+          props.name &&
+          (showUpdatedAlert || showRemovedAlert)
+        ) {
+          // Affects the red highlighting at the chapter level and
+          // error messages. This prop only exists on the review page.
+          props.recalculateErrors(props.name);
+        }
+      },
+      [hasReviewError, showUpdatedAlert, showRemovedAlert],
+    );
 
     function addAnotherItemButtonClick() {
       const index = arrayData ? arrayData.length : 0;
@@ -228,8 +283,7 @@ export default function ArrayBuilderSummaryPage({
       // so we can go ahead and remove it if there is a new
       // alert
       setShowUpdatedAlert(false);
-
-      setRemovedItemText(getText('alertItemDeleted', item));
+      setRemovedItemText(getText('alertItemDeleted', item, props.data, index));
       setRemovedItemIndex(index);
       setShowRemovedAlert(true);
       requestAnimationFrame(() => {
@@ -252,15 +306,13 @@ export default function ArrayBuilderSummaryPage({
       }
     }
 
-    const Title = (
-      <>
-        <Heading
-          className="vads-u-color--gray-dark vads-u-margin-top--0"
-          data-title-for-noun-singular={`${nounSingular}`}
-        >
-          {getText('summaryTitle', updatedItemData)}
-        </Heading>
-      </>
+    const Title = ({ textType }) => (
+      <Heading
+        className="vads-u-color--gray-dark vads-u-margin-top--0"
+        data-title-for-noun-singular={nounSingular}
+      >
+        {getText(textType, updatedItemData, props.data)}
+      </Heading>
     );
 
     const UpdatedAlert = ({ show }) => {
@@ -271,7 +323,12 @@ export default function ArrayBuilderSummaryPage({
               onDismiss={onDismissUpdatedAlert}
               nounSingular={nounSingular}
               index={updateItemIndex}
-              text={getText('alertItemUpdated', updatedItemData)}
+              text={getText(
+                'alertItemUpdated',
+                updatedItemData,
+                props.data,
+                updateItemIndex,
+              )}
             />
           ) : null}
         </div>
@@ -293,12 +350,38 @@ export default function ArrayBuilderSummaryPage({
       );
     };
 
+    const ReviewErrorAlert = ({ show }) => {
+      return (
+        <div ref={reviewErrorAlertRef}>
+          {show ? (
+            <div className="vads-u-margin-top--2">
+              <VaAlert
+                status="error"
+                slim
+                tabIndex={0}
+                visible
+                name={`${nounPlural}ReviewError`}
+              >
+                {getYesNoReviewErrorMessage(props.reviewErrors, hasItemsKey)}
+              </VaAlert>
+            </div>
+          ) : null}
+        </div>
+      );
+    };
+
     const Cards = () => (
       <div>
         <RemovedAlert show={showRemovedAlert} />
         <UpdatedAlert show={showUpdatedAlert} />
+        <ReviewErrorAlert show={showReviewErrorAlert} />
         <ArrayBuilderCards
-          cardDescription={getText('cardDescription', updatedItemData)}
+          cardDescription={getText(
+            'cardDescription',
+            updatedItemData,
+            props.data,
+            updateItemIndex,
+          )}
           arrayPath={arrayPath}
           nounSingular={nounSingular}
           nounPlural={nounPlural}
@@ -316,70 +399,77 @@ export default function ArrayBuilderSummaryPage({
 
     if (isReviewPage) {
       return (
-        <>
-          {arrayData?.length ? (
-            Title
-          ) : (
-            <>
-              <div className="form-review-panel-page-header-row">
-                <h4
-                  className="form-review-panel-page-header vads-u-font-size--h5"
-                  data-title-for-noun-singular={`${nounSingular}`}
-                >
-                  {getText('summaryTitle', updatedItemData)}
-                </h4>
-              </div>
-              <dl className="review">
-                <div className="review-row">
-                  <dt>{getText('yesNoBlankReviewQuestion')}</dt>
-                  <dd>
-                    <span
-                      className="dd-privacy-hidden"
-                      data-dd-action-name="data value"
-                    >
-                      No
-                    </span>
-                  </dd>
-                </div>
-              </dl>
-            </>
-          )}
-          <Cards />
-          {!isMaxItemsReached && (
-            <div className="vads-u-margin-top--2">
-              <va-button
-                data-action="add"
-                text={getText('reviewAddButtonText', updatedItemData)}
-                onClick={addAnotherItemButtonClick}
-                primary
-                uswds
-              />
-            </div>
-          )}
-        </>
+        <ArrayBuilderSummaryReviewPage
+          customPageProps={props}
+          arrayBuilderOptions={arrayBuilderOptions}
+          arrayData={arrayData}
+          addAnotherItemButtonClick={addAnotherItemButtonClick}
+          updatedItemData={updatedItemData}
+          Cards={Cards}
+          Title={Title}
+          hideAdd={isMaxItemsReached}
+        />
       );
     }
 
+    const newUiSchema = { ...uiSchema };
+    let newSchema = schema;
+    let title;
+    let descriptionWithCards;
+
     if (arrayData?.length > 0) {
-      uiSchema['ui:title'] = (
+      title = (
         <>
-          {Title}
+          <Title textType="summaryTitle" />
+          {getText('summaryDescription', null, props.data) && (
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
+              {getText('summaryDescription', null, props.data)}
+            </span>
+          )}
           {isMaxItemsReached && (
             <MaxItemsAlert>
-              {getText('alertMaxItems', updatedItemData)}
+              {getText(
+                'alertMaxItems',
+                updatedItemData,
+                props.data,
+                updateItemIndex,
+              )}
             </MaxItemsAlert>
           )}
         </>
       );
       // ensure new reference to trigger re-render
-      uiSchema['ui:description'] = <Cards />;
+      descriptionWithCards = <Cards />;
     } else {
-      uiSchema['ui:title'] = undefined;
-      uiSchema['ui:description'] = undefined;
+      title = <Title textType="summaryTitleWithoutItems" />;
+      descriptionWithCards =
+        getText('summaryDescriptionWithoutItems', null, props.data) ||
+        undefined;
     }
 
-    if (schema?.properties && maxItems && arrayData?.length >= maxItems) {
-      schema.properties[hasItemsKey]['ui:hidden'] = true;
+    newUiSchema['ui:title'] = title;
+    newUiSchema['ui:description'] = descriptionWithCards;
+
+    const hideAdd = maxItems && arrayData?.length >= maxItems;
+
+    if (schema?.properties && hideAdd && newSchema.properties?.[hasItemsKey]) {
+      newSchema = { ...schema };
+      newSchema.properties[hasItemsKey]['ui:hidden'] = true;
+    }
+
+    if (useLinkInsteadOfYesNo || useButtonInsteadOfYesNo) {
+      return (
+        <ArrayBuilderSummaryNoSchemaFormPage
+          title={title}
+          description={descriptionWithCards}
+          arrayData={arrayData}
+          hideAdd={hideAdd}
+          Cards={Cards}
+          customPageProps={props}
+          arrayBuilderOptions={arrayBuilderOptions}
+          addAnotherItemButtonClick={addAnotherItemButtonClick}
+        />
+      );
     }
 
     return (
@@ -388,8 +478,8 @@ export default function ArrayBuilderSummaryPage({
         title={props.title}
         data={props.data}
         appStateData={props.appStateData}
-        schema={schema}
-        uiSchema={uiSchema}
+        schema={newSchema}
+        uiSchema={newUiSchema}
         pagePerItemIndex={props.pagePerItemIndex}
         formContext={props.formContext}
         trackingPrefix={props.trackingPrefix}
@@ -398,6 +488,7 @@ export default function ArrayBuilderSummaryPage({
       >
         <>
           {/* contentBeforeButtons = save-in-progress links */}
+          {props.pageContentBeforeButtons}
           {props.contentBeforeButtons}
           <FormNavButtons
             goBack={props.goBack}
@@ -425,19 +516,37 @@ export default function ArrayBuilderSummaryPage({
     onContinue: PropTypes.func,
     onReviewPage: PropTypes.bool,
     onSubmit: PropTypes.func,
+    pageContentBeforeButtons: PropTypes.node,
     pagePerItemIndex: PropTypes.number,
+    recalculateErrors: PropTypes.func,
+    reviewErrors: PropTypes.object,
     setData: PropTypes.func, // available regardless of review page or not
     setFormData: PropTypes.func, // not available on review page
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
   };
 
+  const mapStateToProps = state => ({
+    reviewErrors: state?.form?.formErrors,
+  });
+
   const mapDispatchToProps = {
     setData,
   };
 
   return connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   )(CustomPage);
 }
+
+SuccessAlert.propTypes = {
+  nounSingular: PropTypes.string,
+  index: PropTypes.number,
+  onDismiss: PropTypes.func,
+  text: PropTypes.string,
+};
+
+MaxItemsAlert.propTypes = {
+  children: PropTypes.node,
+};
