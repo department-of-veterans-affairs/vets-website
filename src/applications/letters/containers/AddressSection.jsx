@@ -39,8 +39,8 @@ export function AddressSection({ address }) {
         <VaButton
           data-cy="view-letters-button"
           className="vads-u-margin-y--4"
-          disabled={emptyAddress}
-          text="View Letters"
+          disabled={emptyAddress ? true : undefined} // false causes MS Voice Access to ignore buttons
+          text="View letters"
           onClick={() => navigateToLetterList(navigate)}
         />
       </div>
@@ -55,9 +55,7 @@ export function AddressSection({ address }) {
 
   return (
     <>
-      <div aria-live="polite" aria-relevant="additions">
-        {emptyAddress ? <NoAddressBanner /> : addressContent}
-      </div>
+      {emptyAddress ? <NoAddressBanner /> : addressContent}
       {viewLettersButton}
     </>
   );
