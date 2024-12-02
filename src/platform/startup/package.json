@@ -2,18 +2,20 @@
   "name": "@department-of-veterans-affairs/platform-startup",
   "version": "1.0.0",
   "scripts": {
-    "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+    "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
   },
   "exports": {
-    "." : "./exportsFile.js",
-    "./index" : "./index.js",
-    "./store" : "./store.js",
-    "./react" : "./react.js",
-    "./setup" : "./setup.js",
-    "./router" : "./router.js",
-    "./analytics-middleware" : "./analytics-middleware.js"
+    ".": "./exportsFile.js",
+    "./index": "./index.js",
+    "./store": "./store.js",
+    "./react": "./react.js",
+    "./setup": "./setup.js",
+    "./router": "./router.js",
+    "./analytics-middleware": "./analytics-middleware.js"
   },
   "peerDependencies": {
+    "@sentry/browser": "*",
+    "chai": "*",
     "history": "*",
     "react": "*",
     "react-dom": "*",
@@ -23,11 +25,8 @@
     "redux": "*",
     "redux-localstorage": "*",
     "redux-thunk": "*",
-    "@sentry/browser": "*",
-    "chai": "*",
     "sinon": "*"
   },
   "license": "MIT",
   "private": true
 }
-  
