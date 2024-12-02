@@ -31,8 +31,15 @@ const useAcceleratedData = () => {
     },
     [dispatch],
   );
-
   const isCerner = useSelector(selectIsCernerPatient);
+
+  const { featureToggles, drupalStaticData } = useSelector(state => state);
+  const isLoading = useMemo(
+    () => {
+      return featureToggles.loading || drupalStaticData?.vamcEhrData?.loading;
+    },
+    [drupalStaticData, featureToggles],
+  );
 
   const isAcceleratingAllergies = useMemo(
     () => {
@@ -55,6 +62,7 @@ const useAcceleratedData = () => {
   );
 
   return {
+    isLoading,
     isAcceleratingAllergies,
     isAcceleratingVitals,
   };
