@@ -107,7 +107,7 @@ const ReplyDraftItem = props => {
     clearTimeout(timeoutId);
   };
 
-  const formattededSignature = useMemo(
+  const formattedSignature = useMemo(
     () => {
       return messageSignatureFormatter(signature);
     },
@@ -152,14 +152,18 @@ const ReplyDraftItem = props => {
   const checkMessageValidity = useCallback(
     () => {
       let messageValid = true;
-      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+      if (
+        messageBody === '' ||
+        messageBody.match(/^[\s]+$/) ||
+        (formattedSignature && messageBody.trim() === formattedSignature.trim())
+      ) {
         setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
         messageValid = false;
       }
       setMessageInvalid(!messageValid);
       return { messageValid };
     },
-    [messageBody],
+    [formattedSignature, messageBody],
   );
 
   const messageBodyHandler = e => {
@@ -523,7 +527,7 @@ const ReplyDraftItem = props => {
               draftSequence ? `-${draftSequence}` : ''
             }`}
             onInput={messageBodyHandler}
-            value={draft?.body || formattededSignature} // populate with the signature, unless there is a saved draft
+            value={draft?.body || formattedSignature} // populate with the signature, unless there is a saved draft
             error={bodyError}
             onFocus={e => {
               setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
