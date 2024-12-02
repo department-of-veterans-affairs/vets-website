@@ -355,7 +355,7 @@ class PatientMessageDetailsPage {
       'GET',
       `${Paths.SM_API_EXTENDED}/${singleThreadData.data[0].id}/thread*`,
       singleThreadData,
-    ).as('replyThread');
+    ).as('replyThreadInfo');
 
     cy.get(Locators.BUTTONS.REPLY).click({ force: true });
     PatientInterstitialPage.getContinueButton().click();
