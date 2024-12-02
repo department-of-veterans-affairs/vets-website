@@ -29,7 +29,7 @@ const IntroductionPage = props => {
     <article className="schemaform-intro">
       <div className="title-section">
         <FormTitle
-          title="Fill out your form to request help"
+          title="Get help from a VA accredited representative or VSO"
           subTitle="VA Form 21-22 and VA Form 21-22a"
         />
         <p>
@@ -59,7 +59,7 @@ const IntroductionPage = props => {
             prefillEnabled={formConfig.prefillEnabled}
             pageList={pageList}
             unauthStartText="Sign in or create an account"
-            startText="Request help from a VA accredited representative or VSO"
+            startText="Fill out your form to request help"
           />
         </>
       )}
@@ -137,7 +137,7 @@ const IntroductionPage = props => {
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}
         unauthStartText="Sign in or create an account"
-        startText="Request help from a VA accredited representative or VSO"
+        startText="Fill out your form to request help"
         verifiedPrefillAlert={<></>}
       />
       <p />
