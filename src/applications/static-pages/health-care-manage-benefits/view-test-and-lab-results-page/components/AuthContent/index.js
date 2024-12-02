@@ -118,18 +118,6 @@ export const AuthContent = ({
                   Find out how to apply for VA health care
                 </a>
               </p>
-              <p>
-                <strong>Note:</strong> If you sign in with a Basic account,
-                you’ll find only the results you’ve entered yourself.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Learn about the 2 different My HealtheVet account types
-                </a>
-              </p>
             </div>
           </div>
         </div>
