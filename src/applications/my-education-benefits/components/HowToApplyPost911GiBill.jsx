@@ -8,10 +8,9 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 
 import { getAppData } from '../selectors/selectors';
 
-function HowToApplyPost911GiBillV2({
+function HowToApplyPost911GiBill({
   formId,
   isClaimantCallComplete,
-  isEligibilityCallComplete,
   isLOA3,
   isLoggedIn,
   savedForms,
@@ -20,7 +19,7 @@ function HowToApplyPost911GiBillV2({
   route,
   user,
 }) {
-  const apiCallsComplete = isClaimantCallComplete && isEligibilityCallComplete;
+  const apiCallsComplete = isClaimantCallComplete;
   const savedForm = savedForms?.find(f => f.form === formId);
 
   const renderNote = () => {
@@ -69,20 +68,19 @@ function HowToApplyPost911GiBillV2({
   );
 }
 
-HowToApplyPost911GiBillV2.propTypes = {
+HowToApplyPost911GiBill.propTypes = {
   route: PropTypes.object.isRequired,
   formId: PropTypes.string,
   isClaimantCallComplete: PropTypes.bool,
-  isEligibilityCallComplete: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  meb160630Automation: PropTypes.bool,
   savedForms: PropTypes.arrayOf(
     PropTypes.shape({
       form: PropTypes.string,
     }),
   ),
   showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
-  meb160630Automation: PropTypes.bool,
   user: PropTypes.object,
 };
 
@@ -95,4 +93,4 @@ const mapStateToProps = state => ({
     state.featureToggles[featureFlagNames.meb160630Automation],
 });
 
-export default connect(mapStateToProps)(HowToApplyPost911GiBillV2);
+export default connect(mapStateToProps)(HowToApplyPost911GiBill);
