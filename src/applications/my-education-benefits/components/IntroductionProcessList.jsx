@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-function IntroductionProcessListV2() {
+function IntroductionProcessList() {
   return (
     <va-process-list>
       <va-process-list-item header="Check your eligibility">
@@ -64,4 +64,4 @@ function IntroductionProcessListV2() {
   );
 }
 
-export default connect()(IntroductionProcessListV2);
+export default connect()(IntroductionProcessList);
