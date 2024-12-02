@@ -33,7 +33,9 @@ jobs:
         uses: ./.github/workflows/install
         with:
           key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
+          yarn_cache_folder: 
+            .cache/yarn 
+            /github/home/.cache/Cypress
           path: |
             .cache/yarn
             /github/home/.cache/Cypress
