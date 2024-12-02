@@ -361,7 +361,7 @@ const ComposeForm = props => {
       if (
         messageBody === '' ||
         messageBody.match(/^[\s]+$/) ||
-        messageBody.trim() === formattedSignature.trim()
+        (formattedSignature && messageBody.trim() === formattedSignature.trim())
       ) {
         setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
         messageValid = false;
