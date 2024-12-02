@@ -68,15 +68,20 @@ export const ConfirmationPageV2 = () => {
     false;
   const { informalConferenceRep = {} } = data;
 
+  const conferenceMessage = hasConference
+    ? `Since you requested an informal conference, we’ll contact ${
+        hasRepContact ? 'your accredited representative' : 'you'
+      } to schedule your conference.`
+    : '';
+
   return (
     <>
       <ConfirmationTitle pageTitle={formTitle} />
       <ConfirmationAlert alertTitle="We’ve received your request for a Higher-Level Review">
         <>
-          <p className="vads-u-margin-top--0">
-            If you requested an informal conference, we’ll contact you to
-            schedule your conference.
-          </p>
+          {hasConference && (
+            <p className="vads-u-margin-top--0">{conferenceMessage}</p>
+          )}
           <p className="vads-u-margin-bottom--0">
             After we’ve completed our review, we’ll mail you a decision packet
             with the details of our decision.
@@ -90,10 +95,9 @@ export const ConfirmationPageV2 = () => {
       />
 
       <h2>What to expect next</h2>
-      <p>
+      <p className="next-steps">
         You don’t need to do anything unless we send you a letter asking for
-        more information. If you requested an informal conference, we’ll contact
-        you to schedule your conference.
+        more information. {conferenceMessage}
       </p>
       <p>
         <a href="/decision-reviews/after-you-request-review/">
