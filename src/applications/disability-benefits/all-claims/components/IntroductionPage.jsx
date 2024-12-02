@@ -10,6 +10,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { itfNotice } from '../content/introductionPage';
 import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
@@ -169,29 +170,28 @@ class IntroductionPage extends React.Component {
                   your disability happened or how it got worse
                 </li>
               </ul>
-              <va-alert slim status="info" uswds>
-                <h4 className="vads-u-font-size--h6">
-                  Notice of evidence needed
-                </h4>
-                <p className="vads-u-margin-bottom--1">
-                  We're required by law to tell you what evidence you'll need to
-                  submit to support your disability claim.
-                </p>
-                <p className="vads-u-margin-y--1">
-                  You can review the official evidence requirements on{' '}
-                  <b>pages 3 through 8</b> of VA Form 21-526EZ.
-                </p>
-                <p className="vads-u-margin-bottom--1">
-                  <a
-                    href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Review official requirements on VA Form 21-526EZ (opens in
-                    new tab)
-                  </a>
-                </p>
-              </va-alert>
+              {environment.isLocalhost() && (
+                <va-alert slim status="info">
+                  <h4 className="vads-u-font-size--h6">
+                    Notice of evidence needed
+                  </h4>
+                  <p className="vads-u-margin-bottom--1">
+                    We're required by law to tell you what evidence you'll need
+                    to submit to support your disability claim.
+                  </p>
+                  <p className="vads-u-margin-y--1">
+                    You can review the evidence requirements on our evidence
+                    needed for your disability claim page.
+                  </p>
+                  <p className="vads-u-margin-bottom--1">
+                    <va-link
+                      external
+                      href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/"
+                      text="Review the evidence requirements"
+                    />
+                  </p>
+                </va-alert>
+              )}
               {isBDDForm ? (
                 <va-summary-box class="vads-u-margin-bottom--1" uswds>
                   <strong>
