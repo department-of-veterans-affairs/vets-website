@@ -106,6 +106,7 @@ const responses = {
             profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
             veteranOnboardingContactInfoFlow: true,
+            veteranStatusCardUseLighthouse: true,
           }),
         ),
       secondsOfDelay,
@@ -236,7 +237,8 @@ const responses = {
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
-    return res.status(200).json(ratingInfo.success);
+    // return res.status(200).json(ratingInfo.success.serviceConnected0);
+    return res.status(200).json(ratingInfo.success.serviceConnected40);
     // return res.status(500).json(genericErrors.error500);
   },
 

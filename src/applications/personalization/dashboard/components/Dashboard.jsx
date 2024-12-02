@@ -128,7 +128,7 @@ const LOA1Content = ({
     TOGGLE_NAMES.veteranOnboardingShowWelcomeMessageToNewUsers,
   );
 
-  const userCreationTime = new Date(user.profile.createdAt);
+  const userCreationTime = new Date(user.profile.initialSignIn);
   const oneDayLater = new Date(
     userCreationTime.getTime() + 24 * 60 * 60 * 1000,
   );
