@@ -33,8 +33,7 @@ function ProfileNotUpdatedNote(props) {
             <>
               <va-link
                 href={`https://${environment.BASE_URL}/change-address`}
-                text="Find out how to change your address in your VA.gov profile (opens in
-            new tab)"
+                text="Find out how to change your address in your VA.gov profile"
                 external
               />
             </>
