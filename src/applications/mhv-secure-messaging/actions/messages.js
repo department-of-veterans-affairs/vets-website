@@ -248,7 +248,7 @@ export const sendReply = (
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
-          '',
+          Constants.Alerts.Headers.HIDE_ALERT,
           Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL,
         ),
       );

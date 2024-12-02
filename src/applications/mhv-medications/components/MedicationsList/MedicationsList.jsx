@@ -20,6 +20,7 @@ const perPage = 20;
 const MedicationsList = props => {
   const history = useHistory();
   const {
+    isFullList,
     rxList,
     pagination,
     selectedSortOption,
@@ -39,7 +40,7 @@ const MedicationsList = props => {
     ".no-print [data-testid='page-total-info']";
 
   const onPageChange = page => {
-    document.querySelector('.va-breadcrumbs-li')?.scrollIntoView();
+    document.getElementById('showingRx').scrollIntoView();
     // replace terniary with true once loading spinner is added for the filter list fetch
     updateLoadingStatus(!showFilterContent, 'Loading your medications...');
     history.push(`/?page=${page}`);
@@ -64,12 +65,13 @@ const MedicationsList = props => {
       <>
         {/* TODO: clean after the filter toggle is gone */}
         {showFilterContent &&
+          !isFullList &&
           selectedFilterOption?.length > 0 && (
             <strong>{selectedFilterOption} medications</strong>
           )}
         {/* TODO: clean after the filter toggle is gone */}
         {`${
-          showFilterContent && selectedFilterOption?.length > 0
+          showFilterContent && !isFullList && selectedFilterOption?.length > 0
             ? ''
             : ' medications'
         }, ${sortOptionLowercase}`}
@@ -142,6 +144,7 @@ const MedicationsList = props => {
 export default MedicationsList;
 
 MedicationsList.propTypes = {
+  isFullList: PropTypes.bool,
   pagination: PropTypes.object,
   rxList: PropTypes.array,
   scrollLocation: PropTypes.object,
