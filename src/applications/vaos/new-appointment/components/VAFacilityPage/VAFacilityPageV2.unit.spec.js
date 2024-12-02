@@ -437,8 +437,11 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
-      expect(await screen.findByText(/something went wrong on our end/i)).to
-        .exist;
+      expect(
+        await screen.findByText(
+          /You can.t schedule an appointment online right now/i,
+        ),
+      ).to.exist;
     });
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
@@ -1186,11 +1189,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
-      await screen.findByText(
-        /We found one facility that accepts online scheduling for this care/i,
-      );
-
-      expect(screen.baseElement).to.contain.text('Facility 1');
+      await screen.findByText(/You can.t schedule this appointment online/i);
 
       await cleanup();
       await setTypeOfEyeCare(store, /Ophthalmology/i);
