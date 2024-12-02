@@ -414,6 +414,7 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+          CYRESS_CODE_COVERAGE: true
 
       - name: View code coverage summary
         run: npx nyc report --reporter=text-summary

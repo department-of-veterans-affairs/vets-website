@@ -79,8 +79,14 @@
     "*.(js|jsx)": "eslint --fix -c ./.eslintrc.changed.js"
   },
   "nyc": {
-    "report-dir": "./coverage",
+    "report-dir": "coverage",
     "temp-directory": ".nyc_output",
+    "all": true,
+    "reporter": [
+      "json",
+      "text",
+      "lcov"
+    ],
     "sourceMap": false,
     "instrument": false,
     "include": [
