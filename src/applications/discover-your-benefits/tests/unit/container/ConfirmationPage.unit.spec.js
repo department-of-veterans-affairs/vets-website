@@ -7,7 +7,6 @@ import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
-import { BENEFITS_LIST } from '../../../constants/benefits';
 
 describe('<ConfirmationPage>', () => {
   sinon.stub(Date, 'getTime');
@@ -68,15 +67,6 @@ describe('<ConfirmationPage>', () => {
         <ConfirmationPage {...props} />
       </Provider>,
     );
-
-  it('should render results page', () => {
-    const { mockStore, props } = getData([BENEFITS_LIST[0]]);
-    const { container } = subject({ mockStore, props });
-
-    const ulQualified = container.querySelectorAll('ul.benefit-list');
-    expect(container.querySelector('#results-container')).to.exist;
-    expect(ulQualified[1].querySelectorAll('li')).to.have.lengthOf(19);
-  });
 
   it('should render results page when query string is provided', () => {
     const { mockStore, props } = getData([]);
@@ -188,7 +178,7 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     const benefitNames = wrapper
       .getAllByRole('listitem')
       .map(li => li.textContent);
-    expect(benefitNames).to.have.lengthOf(6);
+    expect(benefitNames).to.have.lengthOf(1);
     expect(benefitNames[0]).to.contain('Careers and Employment');
   });
 
@@ -204,7 +194,7 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     const benefitNames = wrapper
       .getAllByRole('listitem')
       .map(li => li.textContent);
-    expect(benefitNames).to.have.lengthOf(23);
+    expect(benefitNames).to.have.lengthOf(3);
     expect(benefitNames[0]).to.contain('Careers');
     expect(benefitNames[1]).to.contain('Education');
   });
