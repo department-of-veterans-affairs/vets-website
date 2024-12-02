@@ -509,6 +509,22 @@ class PatientComposePage {
       .children()
       .should(`have.length`, listLength);
   };
+
+  verifyRecipientsQuantityInGroup = (index, quantity) => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`optgroup`)
+      .eq(index)
+      .find('option')
+      .should(`have.length`, quantity);
+  };
+
+  verifyRecipientsGroupName = (index, text) => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`optgroup`)
+      .eq(index)
+      .invoke('attr', 'label')
+      .should(`eq`, text);
+  };
 }
 
 export default new PatientComposePage();
