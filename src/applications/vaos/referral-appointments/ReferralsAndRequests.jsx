@@ -44,7 +44,7 @@ export default function ReferralsAndRequests() {
   );
 
   // TODO add referral fetch
-  const pendingReferrals = createReferrals(3, new Date().toISOString());
+  const pendingReferrals = createReferrals(3, '2024-09-09');
 
   useEffect(
     () => {
