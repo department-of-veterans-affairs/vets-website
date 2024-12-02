@@ -1,35 +1,35 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import mockMessages from './fixtures/messages-response.json';
-import mockThread from './fixtures/thread-response.json';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
+import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
+import { AXE_CONTEXT } from './utils/constants';
+import singleThreadResponse from './fixtures/thread-response-new-api.json';
+import PatientInterstitialPage from './pages/PatientInterstitialPage';
 
 describe('SM DELETE REPLY DRAFT', () => {
+  const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
+    singleThreadResponse,
+  );
   it('verify user can delete draft on reply', () => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages(mockMessages);
-    PatientInboxPage.loadSingleThread(mockThread);
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
 
-    cy.intercept(
-      `GET`,
-      `http://localhost:3000/my_health/v1/messaging/messages/7192838/thread?full_body=true`,
-      mockThread,
-    ).as(`testRequest`);
-    cy.get(Locators.BUTTONS.REPLY).click();
+    PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
     PatientInterstitialPage.getContinueButton().click();
 
+    PatientReplyPage.getMessageBodyField().click({ force: true });
+
     PatientReplyPage.getMessageBodyField()
-      .focus()
-      .clear()
-      .type(`Test body`);
+      .clear({ force: true })
+      .type(`Test Body`, {
+        force: true,
+      });
 
     PatientMessageDraftsPage.clickDeleteButton();
-
-    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
-
+    PatientMessageDraftsPage.confirmDeleteDraft(updatedSingleThreadResponse);
     PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
     PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
 

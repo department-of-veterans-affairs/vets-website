@@ -27,6 +27,7 @@
     "./ServiceProvidersText": "./authentication/components/ServiceProvidersText.jsx",
     "./SessionTimeoutModal": "./authentication/components/SessionTimeoutModal.jsx",
     "./SignInModal": "./authentication/components/SignInModal.jsx",
+    "./VerifyButton": "./authentication/components/VerifyButton.jsx",
     "./AcceptTermsPrompt": "./authorization/components/AcceptTermsPrompt.jsx",
     "./RequiredLoginView": "./authorization/components/RequiredLoginView.jsx",
     "./MHVApp": "./authorization/container/MHVApp.jsx",
