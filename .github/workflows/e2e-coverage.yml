@@ -402,6 +402,9 @@ jobs:
       - name: Instrument code
         run: npx nyc instrument --compact=false src .nyc_output
 
+      - name: List directories
+        run: ls -a
+
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
