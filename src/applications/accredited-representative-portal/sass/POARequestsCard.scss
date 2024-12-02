@@ -28,8 +28,9 @@
         color: var(--vads-color-white);
         max-width: fit-content;
         text-transform: uppercase;
-        padding: 2px 10px;
+        padding: 0 10px;
         margin-bottom: 5px;
+        line-height: 20px;
       }
 
       &--request {

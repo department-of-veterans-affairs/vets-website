@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
+import {
+  formatDateParsedZoneLong,
+  timeFromNow,
+} from 'platform/utilities/date/index';
 
 export const createLimitationsCell = (
   isTreatmentDisclosureAuthorized,
@@ -15,33 +19,13 @@ export const createLimitationsCell = (
   return limitations.length > 0 ? limitations.join(', ') : 'None';
 };
 
-export const formatDate = date => {
-  const [month, day, year] = new Date(date)
-    .toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
-    .split(' ');
-  return `${month} ${day} ${year}`;
-};
-
-export const checkDaysLeft = date => {
-  const today = new Date();
-  const diffInMs = new Date(date) - new Date(today);
-  const numOfDays = diffInMs / (1000 * 60 * 60 * 24);
-  if (numOfDays > 0 && numOfDays <= 7) {
-    return (
-      <va-icon
-        class="poa-request__card-icon"
-        icon="warning"
-        size={2}
-        srtext="warning"
-        aria-hidden="true"
-      />
-    );
-  }
-  return null;
+const expiresSoon = expDate => {
+  const EXPIRES_SOON_THRESHOLD_DURATION = 7;
+  const now = new Date();
+  const expiresAt = new Date(expDate);
+  const daysLeft = timeFromNow(expiresAt, now);
+  const numOfDays = daysLeft.replace(/\D/g, '');
+  return numOfDays > 0 && numOfDays <= EXPIRES_SOON_THRESHOLD_DURATION;
 };
 
 const POARequestsCard = ({ poaRequests }) => {
@@ -96,7 +80,7 @@ const POARequestsCard = ({ poaRequests }) => {
                     POA request declined on:
                   </span>
                   <span data-testid={`poa-request-card-${id}-declined`}>
-                    {formatDate(poaRequest.acceptedOrDeclinedAt)}
+                    {formatDateParsedZoneLong(poaRequest.acceptedOrDeclinedAt)}
                   </span>
                 </>
               )}
@@ -106,19 +90,27 @@ const POARequestsCard = ({ poaRequests }) => {
                     POA request accepted on:
                   </span>
                   <span data-testid={`poa-request-card-${id}-accepted`}>
-                    {formatDate(poaRequest.acceptedOrDeclinedAt)}
+                    {formatDateParsedZoneLong(poaRequest.acceptedOrDeclinedAt)}
                   </span>
                 </>
               )}
 
               {poaRequest.status === 'Pending' && (
                 <>
-                  {checkDaysLeft(poaRequest.expiresAt)}
+                  {expiresSoon(poaRequest.expiresAt) && (
+                    <va-icon
+                      class="poa-request__card-icon"
+                      icon="warning"
+                      size={2}
+                      srtext="warning"
+                      aria-hidden="true"
+                    />
+                  )}
                   <span className="poa-request__card-field--label">
                     POA request expires on:
                   </span>
                   <span data-testid={`poa-request-card-${id}-received`}>
-                    {formatDate(poaRequest.expiresAt)}
+                    {formatDateParsedZoneLong(poaRequest.expiresAt)}
                   </span>
                 </>
               )}
