@@ -33,7 +33,7 @@ export const setClaimTypeNewOnly = formData =>
     formData,
   );
 
-export default function prefillTransformer(pages, formData, metadata) {
+export default function prefillTransformer(pages, formData, metadata, state) {
   const prefillRatedDisabilities = data => {
     const { disabilities } = data;
 
@@ -154,6 +154,15 @@ export default function prefillTransformer(pages, formData, metadata) {
     return newData;
   };
 
+  const prefillFullName = data => {
+    const newData = _.omit(['view:userFullName'], data);
+    if (state?.user?.profile?.userFullName) {
+      newData['view:userFullName'] = state.user.profile.userFullName;
+    }
+
+    return newData;
+  };
+
   const transformations = [
     prefillRatedDisabilities,
     prefillContactInformation,
@@ -161,9 +170,11 @@ export default function prefillTransformer(pages, formData, metadata) {
     prefillBankInformation,
     prefillStartedFormVersion,
     prefillSyncModern0781Flow,
+    prefillFullName,
   ];
 
-  const applyTransformations = (data = {}, transformer) => transformer(data);
+  const applyTransformations = (data = {}, transformer) =>
+    transformer(data, state);
 
   return {
     metadata,
