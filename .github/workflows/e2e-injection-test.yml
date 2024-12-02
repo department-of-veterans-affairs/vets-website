@@ -1,10 +1,17 @@
 name: E2E Proxy Rewrite Injection Test
 
 
+# on:
+#   workflow_dispatch:
+#   schedule:
+#     - cron: 0 14 * * 1-5
+
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: 0 14 * * 1-5
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
 
 jobs:
   cypress-tests:
