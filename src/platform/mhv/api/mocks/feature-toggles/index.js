@@ -5,6 +5,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayFilter = true,
+    mhvMedicationsDisplayGrouping = true,
 
     // medical records
     mhvTransitionalMedicalRecordsLandingPage = true,
@@ -66,6 +67,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_filter',
           value: mhvMedicationsDisplayFilter,
+        },
+        {
+          name: 'mhv_medications_display_grouping',
+          value: mhvMedicationsDisplayGrouping,
         },
 
         // medical records
