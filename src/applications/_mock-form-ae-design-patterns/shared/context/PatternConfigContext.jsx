@@ -49,7 +49,8 @@ export const getFormConfig = location => {
 export const PatternConfigContext = createContext();
 
 export const PatternConfigProvider = ({ location, children }) => {
-  useMockedLogin(location);
+  const { useLoggedInQuery } = useMockedLogin();
+  useLoggedInQuery(location);
   const formConfig = getFormConfig(location);
 
   const dispatch = useDispatch();

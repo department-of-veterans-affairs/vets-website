@@ -12,7 +12,6 @@ describe('SM DELETE REPLY DRAFT', () => {
   const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
     singleThreadResponse,
   );
-  // const singleMessage = { data: updatedSingleThreadResponse.data[0] };
   it('verify user can delete draft on reply', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();

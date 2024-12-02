@@ -25,6 +25,7 @@ let addedRoyaltiesItem = false;
 let addedAssetTransferItem = false;
 let addedTrustItem = false;
 let addedAnnuityItem = false;
+let addedUnreportedAssetItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -324,6 +325,49 @@ const testConfig = createTestConfig(
             fillStandardTextInput('addedFundsAmount', addedFundsAmount);
 
             addedAnnuityItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'unreported-assets-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingUnreportedAssets =
+              data['view:isAddingUnreportedAssets'];
+            if (addedUnreportedAssetItem) {
+              isAddingUnreportedAssets = false;
+              addedUnreportedAssetItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingUnreportedAssets',
+              isAddingUnreportedAssets,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'unreported-assets/0/asset-type': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { unreportedAssets } = data;
+            const {
+              assetType,
+              ownedPortionValue,
+              assetLocation,
+            } = unreportedAssets[0];
+
+            fillStandardTextInput('assetType', assetType);
+            fillStandardTextInput('ownedPortionValue', ownedPortionValue);
+            fillStandardTextInput('assetLocation', assetLocation);
+
+            addedUnreportedAssetItem = true;
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()
