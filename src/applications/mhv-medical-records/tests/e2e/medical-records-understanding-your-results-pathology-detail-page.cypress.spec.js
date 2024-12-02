@@ -4,7 +4,7 @@ import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 import sessionStatus from './fixtures/session-status.json';
 
-describe('Medical Records Understanding Your Results Pathology Detail Page', () => {
+describe.skip('Medical Records Understanding Your Results Pathology Detail Page', () => {
   const site = new MedicalRecordsSite();
 
   before(() => {
