@@ -1,10 +1,8 @@
 import { expect } from 'chai';
 import upperFirst from 'lodash/upperFirst';
 import React from 'react';
-
-import POARequestsCard, {
-  formatDate,
-} from '../../../components/POARequestsCard/POARequestsCard';
+import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
+import POARequestsCard from '../../../components/POARequestsCard/POARequestsCard';
 import mockPOARequestsResponse from '../../../mocks/mockPOARequestsResponse.json';
 import { renderTestApp } from '../helpers';
 
@@ -43,15 +41,15 @@ describe('POARequestsTable', () => {
       if (attributes.status === 'Declined') {
         expect(
           getByTestId(`poa-request-card-${id}-declined`).textContent,
-        ).to.eq(formatDate(attributes.acceptedOrDeclinedAt));
+        ).to.eq(formatDateParsedZoneLong(attributes.acceptedOrDeclinedAt));
       } else if (attributes.status === 'Accepted') {
         expect(
           getByTestId(`poa-request-card-${id}-accepted`).textContent,
-        ).to.eq(formatDate(attributes.acceptedOrDeclinedAt));
+        ).to.eq(formatDateParsedZoneLong(attributes.acceptedOrDeclinedAt));
       } else {
         expect(
           getByTestId(`poa-request-card-${id}-received`).textContent,
-        ).to.eq(formatDate(attributes.expiresAt));
+        ).to.eq(formatDateParsedZoneLong(attributes.expiresAt));
       }
     });
   });
