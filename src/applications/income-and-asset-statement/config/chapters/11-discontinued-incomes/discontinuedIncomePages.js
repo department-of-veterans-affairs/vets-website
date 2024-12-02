@@ -117,7 +117,7 @@ const summaryPage = {
 const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Discontinued income',
+      title: 'Discontinued income relationship',
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
@@ -164,9 +164,7 @@ const relationshipPage = {
 /** @returns {PageSchema} */
 const incomePayerPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Discontinued income relationship',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Discontinued income payer'),
     payer: textUI({
       title: 'Income payer name',
       hint: 'Name of business, financial institution, etc.',
