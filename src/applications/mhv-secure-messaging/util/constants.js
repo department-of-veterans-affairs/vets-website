@@ -175,7 +175,9 @@ export const Alerts = {
       'We’re sorry. We couldn’t load this page. Try again later.',
     SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',
     ATTACHMENT_SCAN_FAIL:
-      'Your message failed to send. Your file failed our scan. Try sending your message without any attachments.',
+      'Our file scanner found a problem with your attachment. To send your message, remove this attachment.',
+    MULTIPLE_ATTACHMENTS_SCAN_FAIL:
+      'Our file scanner found a problem with your attachments. To send your message, remove the attachments.',
   },
 
   Folder: {

@@ -10,7 +10,6 @@ import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
 import { ProfileLink } from '@@profile/components/ProfileLink';
 import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
-import { ContactInfoNeeded } from '../alerts/ContactInfoNeeded';
 
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
@@ -28,8 +27,6 @@ export const Hub = () => {
       <div className="vads-l-row">
         <h1>Profile</h1>
       </div>
-
-      <ContactInfoNeeded className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
 
       {hasBadAddress && (
         <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--10" />

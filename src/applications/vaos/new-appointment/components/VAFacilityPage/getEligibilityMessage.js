@@ -3,7 +3,6 @@ import React from 'react';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FacilityAddress from '../../../components/FacilityAddress';
 import NewTabAnchor from '../../../components/NewTabAnchor';
-import State from '../../../components/State';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 import { aOrAn, lowerCase } from '../../../utils/formatters';
 
@@ -59,9 +58,6 @@ export default function getEligibilityMessage({
         <p>You’ll need to call the facility to schedule an appointment.</p>
         <p>
           <strong>{facilityDetails.name}</strong>
-          <br />
-          {facilityDetails.address?.city},{' '}
-          <State state={facilityDetails.address?.state} />
           <br />
           <strong>Main phone: </strong>
           <VaTelephone contact={contact} />
