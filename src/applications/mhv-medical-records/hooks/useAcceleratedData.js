@@ -6,6 +6,7 @@ import { useMemo, useEffect } from 'react';
 
 const useAcceleratedData = () => {
   const dispatch = useDispatch();
+
   const isAcceleratedDeliveryEnabled = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryEnabled],
@@ -32,6 +33,7 @@ const useAcceleratedData = () => {
   );
 
   const isCerner = useSelector(selectIsCernerPatient);
+
   const isAcceleratingAllergies = useMemo(
     () => {
       return (
