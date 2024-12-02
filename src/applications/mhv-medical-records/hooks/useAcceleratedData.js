@@ -24,8 +24,6 @@ const useAcceleratedData = () => {
       ],
   );
 
-  const state = useSelector(s => s);
-
   useEffect(
     () => {
       // use Drupal based Cerner facility data
@@ -35,16 +33,6 @@ const useAcceleratedData = () => {
   );
 
   const isCerner = useSelector(selectIsCernerPatient);
-
-  const isLoading = useMemo(
-    () => {
-      return (
-        state.featureToggles.loading ||
-        state.drupalStaticData?.vamcEhrData?.loading
-      );
-    },
-    [state.featureToggles, state.drupalStaticData],
-  );
 
   const isAcceleratingAllergies = useMemo(
     () => {
@@ -69,7 +57,6 @@ const useAcceleratedData = () => {
   return {
     isAcceleratingAllergies,
     isAcceleratingVitals,
-    isLoading,
   };
 };
 
