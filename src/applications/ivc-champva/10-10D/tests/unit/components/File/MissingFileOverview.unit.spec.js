@@ -4,7 +4,10 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import SupportingDocumentsPage from '../../../../pages/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../../../../pages/MissingFileConsentPage';
-import { REQUIRED_FILES } from '../../../../config/constants';
+import {
+  REQUIRED_FILES,
+  FILE_UPLOAD_ORDER,
+} from '../../../../config/constants';
 import {
   testComponentRender,
   getProps,
@@ -14,9 +17,51 @@ import {
   checkFlags,
 } from '../../../../../shared/components/fileUploads/MissingFileOverview';
 import MissingFileList from '../../../../../shared/components/fileUploads/MissingFileList';
+import { getAllPages } from '../../../../../shared/tests/helpers';
+import SupportingDocsVerification from '../../../../../shared/components/fileUploads/supportingDocsVerification';
 
 import formConfig from '../../../../config/form';
 import mockData from '../../../e2e/fixtures/data/test-data.json';
+
+describe('FILE_UPLOAD_ORDER constant', () => {
+  it('should match order of file upload fields present in formConfig', () => {
+    /* 
+    NOTE: FILE_UPLOAD_ORDER must be manually updated if the order
+    of file uploads in `formConfig` ever changes. This test serves to
+    make sure that happens. The backend relies on this list to properly
+    map metadata to the tmp files generated when users upload docs.
+    */
+
+    const verifier = new SupportingDocsVerification([]);
+    // We want this `FILE_UPLOAD_ORDER` to match what we pull from formConfig.
+    // This helper produces a list like:
+    //  ['applicantBirthCertOrSocialSecCard','applicantAdoptionPapers', ...]
+    const generatedArr = verifier
+      .getApplicantFileKeyNames(getAllPages(formConfig))
+      .map(el => el.name);
+
+    let orderIsSame = true;
+    generatedArr.forEach((el, idx) => {
+      if (FILE_UPLOAD_ORDER[idx] !== el) {
+        orderIsSame = false;
+      }
+    });
+
+    expect(
+      orderIsSame,
+      `Expected FILE_UPLOAD_ORDER array:
+      
+      ${FILE_UPLOAD_ORDER.join('\n\t')}
+      
+      to have same order as defined in formConfig:
+      
+      ${generatedArr.join('\n\t')}
+
+      Please verify that FILE_UPLOAD_ORDER matches the order of file upload properties defined in formConfig.
+      `,
+    ).to.be.true;
+  });
+});
 
 describe('hasReq', () => {
   const data = {
