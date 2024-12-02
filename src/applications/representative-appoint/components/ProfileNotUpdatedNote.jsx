@@ -32,7 +32,7 @@ function ProfileNotUpdatedNote(props) {
           {includeLink && (
             <>
               <va-link
-                href={`https://${environment.BASE_URL}/change-address`}
+                href={`${environment.BASE_URL}/change-address`}
                 text="Find out how to change your address in your VA.gov profile"
                 external
               />
