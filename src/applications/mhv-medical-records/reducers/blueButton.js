@@ -89,7 +89,6 @@ export const convertAppointment = appt => {
       clinicPhone: clinic.phoneNumber || 'N/A',
     },
     detailsShared: {
-      // check with mike
       reason: attributes.serviceCategory?.[0]?.text
         ? attributes.serviceCategory.map(item => item.text).join(', ')
         : 'Not specified',
@@ -109,7 +108,6 @@ export const convertDemographics = info => {
 
   if (!info) return null;
 
-  // check all no-matches with mike
   return {
     id: info.id,
     facility: info.facilityInfo.name,
