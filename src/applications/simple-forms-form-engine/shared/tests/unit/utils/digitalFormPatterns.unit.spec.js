@@ -55,17 +55,17 @@ describe('addressPages', () => {
   });
 
   context('when militaryAddressCheckbox is false', () => {
-    let noMiliarySpy;
+    let noMilitarySpy;
 
     beforeEach(() => {
-      noMiliarySpy = sinon.spy(addressPatterns, 'addressNoMilitarySchema');
+      noMilitarySpy = sinon.spy(addressPatterns, 'addressNoMilitarySchema');
     });
 
     it('calls addressNoMilitarySchema', () => {
       const chapter = findChapterByType('digital_form_address');
       const schemas = addressPages(chapter);
 
-      expect(noMiliarySpy.calledOnce).to.eq(true);
+      expect(noMilitarySpy.calledOnce).to.eq(true);
       expect(schemas[chapter.id].uiSchema.address).to.not.eq(undefined);
     });
   });
