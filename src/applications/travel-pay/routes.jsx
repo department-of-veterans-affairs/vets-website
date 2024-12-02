@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import TravelPayStatusApp from './containers/TravelPayStatusApp';
 import TravelClaimDetails from './components/TravelClaimDetails';
+import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 
 const routes = (
   <Switch>
@@ -10,9 +11,12 @@ const routes = (
       <MhvSecondaryNav />
       <TravelPayStatusApp />
     </Route>
-    <Route exact path="/:id">
+    <Route exact path="/claims/:id">
       <MhvSecondaryNav />
       <TravelClaimDetails />
+    </Route>
+    <Route exact path="/new/:apptId">
+      <SubmitFlowWrapper />
     </Route>
   </Switch>
 );

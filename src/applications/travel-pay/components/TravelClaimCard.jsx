@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { formatDateTime } from '../util/dates';
 
+import { appointment } from '../services/mocks/appointments';
+
 export default function TravelClaimCard(props) {
   const {
     canViewClaimDetails,
@@ -54,7 +56,7 @@ export default function TravelClaimCard(props) {
       {canViewClaimDetails && (
         <Link
           to={{
-            pathname: `/${id}`,
+            pathname: `/claims/${id}`,
             state: { claimDetailsProps: props },
           }}
           className="vads-u-display--flex vads-u-align-items--center"
@@ -62,6 +64,18 @@ export default function TravelClaimCard(props) {
           Travel reimbursement claim details <va-icon icon="chevron_right" />
         </Link>
       )}
+
+      <Link
+        to={{
+          pathname: `/new/${appointment.id}`,
+          state: {
+            appointment,
+          },
+        }}
+        className="vads-u-display--flex vads-u-align-items--center"
+      >
+        File a claim
+      </Link>
     </va-card>
   );
 }
