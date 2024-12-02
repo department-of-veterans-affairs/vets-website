@@ -400,7 +400,7 @@ jobs:
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Instrument code
-        run: npx nyc instrument --compact=false src .nyc_output
+        run: npx nyc instrument --compact=false src ./config/.nyc_output
 
       - name: List directories
         run: ls -a
