@@ -57,6 +57,7 @@ const SubmitFlowWrapper = ({ address }) => {
     e.preventDefault();
     if (!yesNo) {
       // TODO: send to error page
+      // console.info("You can't do that!");
     } else {
       setYesNo(undefined);
       setPageIndex(pageIndex + 1);
@@ -79,7 +80,13 @@ const SubmitFlowWrapper = ({ address }) => {
     {
       page: 'intro',
       component: (
-        <IntroductionPage appointment={appointment} onNext={onNextPage} />
+        <IntroductionPage
+          appointment={appointment}
+          onNext={e => {
+            e.preventDefault();
+            setPageIndex(pageIndex + 1);
+          }}
+        />
       ),
     },
     {
