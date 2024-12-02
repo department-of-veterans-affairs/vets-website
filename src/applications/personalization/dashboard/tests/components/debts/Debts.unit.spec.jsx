@@ -10,11 +10,11 @@ import {
   setFetchJSONResponse,
 } from '~/platform/testing/unit/helpers';
 
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import { createDebtsSuccess } from '../../../mocks/debts';
 import { user81Copays } from '../../../mocks/medical-copays';
 import BenefitPaymentsAndDebt from '../../../components/debts/Debts';
 import reducers from '../../../reducers';
-import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 const mockStore = configureStore([thunk]);
 
@@ -142,6 +142,13 @@ describe('<BenefitPaymentsAndDebt />', () => {
         debtsErrors: [],
         copaysErrors: [],
       },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
     });
 
     const { getByTestId } = render(
@@ -191,6 +198,13 @@ describe('<BenefitPaymentsAndDebt />', () => {
         debtsErrors: ['Some error'],
         copaysErrors: [],
       },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
     });
 
     const { getByTestId } = render(
@@ -210,6 +224,13 @@ describe('<BenefitPaymentsAndDebt />', () => {
         copays: [],
         debtsErrors: [],
         copaysErrors: ['Another error'],
+      },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
       },
     });
 
