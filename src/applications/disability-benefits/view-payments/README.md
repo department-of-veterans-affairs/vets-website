@@ -38,6 +38,9 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
 ## How to mock data and view payments locally
 When developing locally, `vets-api` is not able to properly access BGS to retrieve payment data. In order to view payment data locally, we have to mock the return data.
 
+> [!NOTE]
+> The above will return an array of payments, but it will not include any returned payments. When viewing the page at `/va-payment-history/payments`, you will only see the `Payments you received` table.
+
 ### Start vets-api locally
 
 1. Open up the project in **VSCode** or in a **terminal instance** by cding into the vets-api project.
@@ -231,8 +234,6 @@ When developing locally, `vets-api` is not able to properly access BGS to retrie
      ```ruby
      BGS::PaymentService.new(current_user).payment_history
      ```
-   - > [!NOTE]
-     > The above will return an array of payments, but it will not include any returned payments. When viewing the page at `/va-payment-history/payments`, you will only see the `Payments you received` table.
 
 4. Once in the vets-api project use the following commands:
 
