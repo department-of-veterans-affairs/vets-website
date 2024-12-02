@@ -21,7 +21,10 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingEditContactList = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
+    mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
+    mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvIntegrationMedicalRecordsToPhase1 = true,
   } = toggles;
 
   return {
@@ -33,8 +36,16 @@ const generateFeatureToggles = (toggles = {}) => {
           value: true,
         },
         {
+          name: 'mhv_accelerated_delivery_enabled',
+          value: mhvAcceleratedDeliveryEnabled,
+        },
+        {
           name: 'mhv_accelerated_delivery_allergies_enabled',
           value: mhvAcceleratedDeliveryAllergiesEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_vital_signs_enabled',
+          value: mhvAcceleratedDeliveryVitalSignsEnabled,
         },
         {
           name: 'mhv_landing_page_personalization',
@@ -60,7 +71,7 @@ const generateFeatureToggles = (toggles = {}) => {
         // medical records
         {
           name: 'mhv_integration_medical_records_to_phase_1',
-          value: true,
+          value: mhvIntegrationMedicalRecordsToPhase1,
         },
         {
           name: 'mhv_medical_records_kill_external_links',
