@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  * Initializes web vitals reporting to GA4 on non-localhost environments.
  */
@@ -9,7 +10,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 const recordWebVitalsEvent = event => {
   const webVitalsEvent = {
-    event: 'web-vitals',
+    event: 'web_vitals',
     event_category: 'Performance',
     event_action: event.name,
     event_value: Math.round(
