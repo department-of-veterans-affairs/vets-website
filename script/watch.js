@@ -3,13 +3,13 @@ const printBuildHelp = require('./build-help');
 const { runCommand } = require('./utils');
 
 // Preset memory options 1gb -> 8gb
-const memoryOptions = [1024, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 16384];
+const memoryOptions = [1024, 2048, 3072, 4096, 5120, 6144, 7168, 8192];
 
 // Caching the input memory arg
 const memorySet = argv.env ? argv.env.memory : null;
 
 // Default memory setting
-let memory = '16384';
+let memory = '8192';
 
 // If the value passed isn't in the memoryOptions, use default
 if (memorySet && memoryOptions.includes(memorySet)) {
