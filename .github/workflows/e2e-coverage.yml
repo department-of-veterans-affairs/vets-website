@@ -402,16 +402,6 @@ jobs:
       - name: Instrument code
         run: npx nyc instrument --compact=false src .nyc_output
 
-      - name: View code coverage summary
-        run: npx nyc report --reporter=text-summary
-
-      - name: Create coverage artifact
-        uses: actions/upload-artifact@v3
-        if: ${{ always() }}
-        with:
-          name: code-coverage-artifacts
-          path: coverage/coverage-summary.json
-
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
@@ -421,6 +411,16 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+
+      - name: View code coverage summary
+        run: npx nyc report --reporter=text-summary
+  
+      - name: Create coverage artifact
+        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        with:
+          name: code-coverage-artifacts
+          path: coverage/coverage-summary.json
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
