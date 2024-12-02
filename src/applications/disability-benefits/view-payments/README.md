@@ -231,6 +231,7 @@ When developing locally, `vets-api` is not able to properly access BGS to retrie
         ```
 3. Mock `payment_history_controller` to use the hard-coded data from step 3
    - Open `app/controllers/v0/profile/payment_history_controller.rb` and change line 23 to the following:
+
      ```ruby
      BGS::PaymentService.new(current_user).payment_history
      ```
