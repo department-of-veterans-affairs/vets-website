@@ -25,10 +25,10 @@
   "ignore": ["./src/platform/polyfills/preESModulesPolyfills.js"],
   "plugins": [
     "lodash",
-    [
-      "babel-plugin-istanbul",
-      { "exclude": ["**/tests/**/*", "**/mocks/**/*"] }
-    ],
+    // [
+    //   "babel-plugin-istanbul",
+    //   { "exclude": ["**/tests/**/*", "**/mocks/**/*"] }
+    // ],
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-export-namespace-from",
     "@babel/plugin-proposal-numeric-separator",
