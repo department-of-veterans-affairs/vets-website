@@ -29,33 +29,19 @@ export async function addStyleToShadowDomOnPages(
       }
     });
 }
-let apiCalled = false;
 export const validateFacilityCode = async field => {
-  const isValidDate = dateString => {
-    const dateParts = dateString?.split('-');
-    const month = parseInt(dateParts?.[1], 10);
-    const year = parseInt(dateParts?.[0], 10);
-    return (
-      month >= 1 && month <= 12 && year > 0 && year.toString().length === 4
-    );
-  };
-  if (!apiCalled && isValidDate(field?.startDate)) {
-    try {
-      const response = await apiRequest(
-        `/gi/institutions/${field?.facilityCode}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+  try {
+    const response = await apiRequest(
+      `/gi/institutions/${field?.facilityCode}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
-      apiCalled = true;
-      return response?.data?.attributes?.accredited;
-    } catch (error) {
-      return false;
-    }
+      },
+    );
+    return response?.data?.attributes?.accredited;
+  } catch (error) {
+    return false;
   }
-  // apiCalled = false;
-  return true;
 };

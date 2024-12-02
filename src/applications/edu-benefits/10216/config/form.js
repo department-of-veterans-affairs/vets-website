@@ -77,6 +77,14 @@ const formConfig = {
         institutionDetails: {
           path: 'institution-details',
           title: 'Institution Details',
+          onNavForward: async ({ formData, goPath }) => {
+            isAccredited = await validateFacilityCode(formData);
+            if (isAccredited) {
+              goPath('/service-history');
+            } else {
+              goPath('/additional-form');
+            }
+          },
           uiSchema: {
             institutionName: {
               'ui:title': 'Institution name',
@@ -106,11 +114,6 @@ const formConfig = {
                 required: 'Please enter a date',
               },
             },
-            'ui:validations': [
-              async (_, field) => {
-                isAccredited = await validateFacilityCode(field);
-              },
-            ],
           },
           schema: {
             type: 'object',
@@ -136,7 +139,6 @@ const formConfig = {
             type: 'object',
             properties: {},
           },
-          depends: () => !isAccredited,
         },
       },
     },
@@ -148,7 +150,6 @@ const formConfig = {
           title: 'Service History',
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
-          depends: () => isAccredited,
         },
       },
     },
