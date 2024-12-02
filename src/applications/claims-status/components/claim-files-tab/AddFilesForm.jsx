@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  VaFileInput,
   VaModal,
   VaSelect,
   VaTextInput,
   VaCheckbox,
   VaButton,
+  VaFileInputMultiple,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -83,9 +83,26 @@ class AddFilesForm extends React.Component {
     });
   };
 
-  add = async files => {
-    const file = files[0];
-    const { onAddFile, mockReadAndCheckFile } = this.props;
+  addFile = (file, extraData) => {
+    const { onAddFile } = this.props;
+
+    this.setState({ errorMessage: null });
+    // Note that the lighthouse api changes the file type to a pdf and the name is then updated as well.
+    // After submitting a file you will see this change in the Documents Filed section.
+    // EX: test.jpg ->> test.pdf
+    onAddFile([file], extraData);
+    setTimeout(() => {
+      scrollToFile(this.props.files.length - 1);
+      setFocus(
+        document.querySelectorAll('.document-item-container')[
+          this.props.files.length - 1
+        ],
+      );
+    });
+  };
+
+  validateFile = async file => {
+    const { mockReadAndCheckFile } = this.props;
     const extraData = {};
     const hasPdfSizeLimit = isPdf(file);
 
@@ -106,20 +123,7 @@ class AddFilesForm extends React.Component {
       if (file.name?.toLowerCase().endsWith('pdf')) {
         extraData.isEncrypted = checkResults.checkIsEncryptedPdf;
       }
-
-      this.setState({ errorMessage: null });
-      // Note that the lighthouse api changes the file type to a pdf and the name is then updated as well.
-      // After submitting a file you will see this change in the Documents Filed section.
-      // EX: test.jpg ->> test.pdf
-      onAddFile([file], extraData);
-      setTimeout(() => {
-        scrollToFile(this.props.files.length - 1);
-        setFocus(
-          document.querySelectorAll('.document-item-container')[
-            this.props.files.length - 1
-          ],
-        );
-      });
+      this.addFile(file, extraData);
     } else if (!isValidFileType(file)) {
       this.setState({
         errorMessage: 'Please choose a file from one of the accepted types.',
@@ -130,9 +134,50 @@ class AddFilesForm extends React.Component {
         errorMessage: `The file you selected is larger than the ${maxSize}MB maximum file size and could not be added.`,
       });
     } else if (isEmptyFileSize(file)) {
+
       this.setState({
         errorMessage:
           'The file you selected is empty. Files uploaded must be larger than 0B.',
+      });
+    }
+  };
+
+  changeFiles = async files => {
+    // Find changed file - only one file will have changed set to true
+    const filesDeleted =
+      files.length < this.props.files.length || files.length === 0;
+
+    let changedFile = null;
+    let componentFiles = [];
+    let propFiles = [];
+
+    if (files.length > 0) {
+      changedFile = files.find(file => file.changed);
+      componentFiles = files.map((x, index) => {
+        return { index: index, name: x.file.name };
+      });
+      propFiles = this.props.files.map((x, index) => {
+        return { index: index, name: x.file.name };
+      });
+    }
+
+    if (!filesDeleted && changedFile.changed) {
+      // add changed file
+      const file = changedFile.file;
+      await this.validateFile(file);
+    } else if (filesDeleted && files.length === 0) {
+      // file is deleted and there was only one file
+      this.props.onRemoveFile(0);
+    } else {
+      // file is deleted and there are other files, find the diff and delete
+      // files [file1, file3]
+      // prop.files [file1, file2, file3]
+      // loop through propFiles and find difference
+      const fileToDelete = propFiles.filter(x => !componentFiles.includes(x));
+
+      //TODO due to bug with vaChange running 2x, fileToDelete can return more then one item, so we have to loop
+      fileToDelete.forEach(file => {
+        this.props.onRemoveFile(file.index);
       });
     }
   };
@@ -175,35 +220,20 @@ class AddFilesForm extends React.Component {
   render() {
     const showUploadModal =
       this.props.uploading && this.state.canShowUploadModal;
-
-    return (
+    const testContent = (
+      <div>
+        <va-select label="What kind of file is this?" required>
+          <option key="1" value="1">
+            Public Document
+          </option>
+          <option key="2" value="2">
+            Private Document
+          </option>
+        </va-select>
+      </div>
+    );
+    const additionalFormInputsContent = (
       <>
-        <div className="add-files-form">
-          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--3">
-            Please only submit evidence that supports this claim. To submit
-            supporting documents for a new disability claim, please visit our{' '}
-            <a
-              id="how-to-file-claim"
-              href="/disability/how-to-file-claim"
-              target="_blank"
-            >
-              How to File a Claim page (opens in a new tab)
-            </a>{' '}
-            .
-          </p>
-          <VaFileInput
-            id="file-upload"
-            className="vads-u-margin-bottom--3"
-            error={this.getErrorMessage()}
-            label="Upload additional evidence"
-            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
-            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-            onVaChange={e => this.add(e.detail.files)}
-            name="fileUpload"
-            additionalErrorClass="claims-upload-input-error-message"
-            aria-describedby="file-requirements"
-          />
-        </div>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
             <div key={index} className="document-item-container">
@@ -278,6 +308,50 @@ class AddFilesForm extends React.Component {
             </div>
           ),
         )}
+      </>
+    );
+    return (
+      <>
+        <div className="add-files-form">
+          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--3">
+            Please only submit evidence that supports this claim. To submit
+            supporting documents for a new disability claim, please visit our{' '}
+            <a
+              id="how-to-file-claim"
+              href="/disability/how-to-file-claim"
+              target="_blank"
+            >
+              How to File a Claim page (opens in a new tab)
+            </a>{' '}
+            .
+          </p>
+          {/* <VaFileInput
+            id="file-upload"
+            className="vads-u-margin-bottom--3"
+            error={this.getErrorMessage()}
+            label="Upload additional evidence"
+            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
+            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+            onVaChange={e => this.add(e.detail.files)}
+            name="fileUpload"
+            additionalErrorClass="claims-upload-input-error-message"
+            aria-describedby="file-requirements"
+          /> */}
+          <VaFileInputMultiple
+            id="file-upload"
+            className="vads-u-margin-bottom--3"
+            error={this.getErrorMessage()}
+            label="Upload additional evidence"
+            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
+            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+            onVaMultipleChange={e => this.changeFiles(e.detail)}
+            name="fileUpload"
+            additionalErrorClass="claims-upload-input-error-message"
+            aria-describedby="file-requirements"
+          >
+            {testContent}
+          </VaFileInputMultiple>
+        </div>
         <VaCheckbox
           label="The files I uploaded support this claim only."
           className="vads-u-margin-y--3"
