@@ -5,7 +5,6 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 // Relative imports.
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import {
   authenticatedWithSSOePropType,
@@ -119,10 +118,6 @@ export const AuthContent = ({
                   Find out how to apply for VA health care
                 </a>
               </p>
-              <p>
-                <strong>And you must have one of these free accounts:</strong>
-              </p>
-              <ServiceProvidersList />
               <p>
                 <strong>Note:</strong> If you sign in with a Basic account,
                 you’ll find only the results you’ve entered yourself.
