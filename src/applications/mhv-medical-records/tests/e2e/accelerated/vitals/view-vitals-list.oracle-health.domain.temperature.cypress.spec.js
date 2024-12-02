@@ -1,9 +1,9 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Vitals from '../pages/Vitals';
 import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitalsData from '../../fixtures/vitals/blood-pressure.json';
+import vitalsData from '../../fixtures/vitals/temperature.json';
 
-describe('Medical Records View Blood Pressure', () => {
+describe('Medical Records View Temperature', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
@@ -12,8 +12,8 @@ describe('Medical Records View Blood Pressure', () => {
       isAcceleratingEnabled: true,
       isAcceleratingVitals: true,
     });
-    cy.visit('my-health/medical-records');
     Vitals.setIntercepts({ vitalData: vitalsData });
+    cy.visit('my-health/medical-records');
   });
 
   it('Visits View Vitals List', () => {
@@ -23,26 +23,26 @@ describe('Medical Records View Blood Pressure', () => {
     // switch to march 2024
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
+
     // check for latest id
-    cy.get('[data-testid="vital-blood-pressure-measurement"]').should(
+    cy.get('[data-testid="vital-body-temperature-measurement"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-blood-pressure-measurement"]').contains(
-      '130/81',
+    cy.get('[data-testid="vital-body-temperature-measurement"]').contains(
+      '39.134 Cel',
     );
 
-    cy.get('[data-testid="vital-blood-pressure-date-timestamp"]').should(
+    cy.get('[data-testid="vital-body-temperature-date-timestamp"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-blood-pressure-date-timestamp"]').contains(
-      'March 26, 2024',
+    cy.get('[data-testid="vital-body-temperature-date-timestamp"]').contains(
+      'December 29, 2004',
     );
 
-    cy.get('[data-testid="vital-blood-pressure-review-over-time"]').should(
+    cy.get('[data-testid="vital-body-temperature-review-over-time"]').should(
       'be.visible',
     );
 
-    // Axe check
     cy.injectAxeThenAxeCheck();
   });
 });

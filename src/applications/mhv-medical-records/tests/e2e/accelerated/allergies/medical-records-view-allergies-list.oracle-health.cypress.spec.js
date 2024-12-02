@@ -1,17 +1,19 @@
-import MedicalRecordsSite from '../mr_site/MedicalRecordsSite';
-// import VitalsListPage from './pages/VitalsListPage';
-import oracleHealthUser from '../fixtures/user/oracle-health.json';
+import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
+import allergiesData from '../../fixtures/allergies/sample-lighthouse.json';
+import oracleHealthUser from '../../fixtures/user/oracle-health.json';
+import Allergies from '../pages/Allergies';
 
-describe('Medical Records View Vitals', () => {
+describe('Medical Records View Allergies', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: true,
       isAcceleratingAllergies: true,
     });
+    cy.visit('my-health/medical-records');
+    // set up intercepts
     cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
       'session',
     );
@@ -47,30 +49,37 @@ describe('Medical Records View Vitals', () => {
         ],
       });
     });
-    cy.visit('my-health/medical-records');
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies*', req => {
+      // check the correct param was used
+      expect(req.url).to.contain('use_oh_data_path=1');
+      req.reply(allergiesData);
+    }).as('allergies-list');
   });
 
-  it('Visits View Vitals List', () => {
+  it('Visits Medical Records View Allergies List', () => {
     // check for MY Va Health links
-    cy.get('[data-testid="labs-and-tests-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="summary-and-notes-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="vaccines-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="health-conditions-oh-landing-page-link"]').should(
-      'be.visible',
+    Allergies.checkLandingPageLinks();
+
+    Allergies.goToAllergiesPage();
+
+    cy.injectAxeThenAxeCheck();
+    // // check the intercept that the correct param was used
+
+    cy.title().should(
+      'contain',
+      'Allergies and Reactions - Medical Records | Veterans Affairs',
     );
 
-    cy.get('[data-testid="allergies-landing-page-link"]').should('be.visible');
+    // Select the one that says seafood
+    cy.get('.no-print [data-testid="allergy-link-4-6Z8D6dAzABlkPZA"]')
+      .should('be.visible')
+      .click();
 
-    cy.get('[data-testid="vitals-landing-page-link"]').should('be.visible');
+    // check the provider is listed
+    cy.findByText('Recorded by').should('exist');
+    cy.findByText('Dr. Marietta439 Schmeler639 MD').should('exist');
 
-    // Axe check
-    cy.injectAxe();
-    cy.axeCheck('main');
+    // check the location is not listed
+    cy.findByText('Location').should('not.exist');
   });
 });

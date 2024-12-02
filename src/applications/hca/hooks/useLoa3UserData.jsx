@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEnrollmentStatus } from '../utils/actions/enrollment-status';
-import { fetchTotalDisabilityRating } from '../utils/actions/disability-rating';
+import {
+  fetchEnrollmentStatus,
+  fetchTotalDisabilityRating,
+} from '../utils/actions';
 import { selectAuthStatus } from '../utils/selectors';
 
 export const useLoa3UserData = () => {

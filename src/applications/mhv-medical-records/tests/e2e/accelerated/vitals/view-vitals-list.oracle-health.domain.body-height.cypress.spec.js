@@ -1,9 +1,9 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Vitals from '../pages/Vitals';
 import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitalsData from '../../fixtures/vitals/blood-pressure.json';
+import vitalsData from '../../fixtures/vitals/body-height.json';
 
-describe('Medical Records View Blood Pressure', () => {
+describe('Medical Records View Body Height', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
@@ -12,11 +12,12 @@ describe('Medical Records View Blood Pressure', () => {
       isAcceleratingEnabled: true,
       isAcceleratingVitals: true,
     });
-    cy.visit('my-health/medical-records');
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
 
   it('Visits View Vitals List', () => {
+    cy.visit('my-health/medical-records');
+
     Vitals.checkLandingPageLinks();
     // check for MY Va Health links
     Vitals.goToVitalPage();
@@ -24,25 +25,24 @@ describe('Medical Records View Blood Pressure', () => {
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
     // check for latest id
-    cy.get('[data-testid="vital-blood-pressure-measurement"]').should(
+    cy.get('[data-testid="vital-body-height-measurement"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-blood-pressure-measurement"]').contains(
-      '130/81',
+    cy.get('[data-testid="vital-body-height-measurement"]').contains(
+      '171.3 cm',
     );
 
-    cy.get('[data-testid="vital-blood-pressure-date-timestamp"]').should(
+    cy.get('[data-testid="vital-body-height-date-timestamp"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-blood-pressure-date-timestamp"]').contains(
-      'March 26, 2024',
+    cy.get('[data-testid="vital-body-height-date-timestamp"]').contains(
+      'January 1, 2014',
     );
 
-    cy.get('[data-testid="vital-blood-pressure-review-over-time"]').should(
+    cy.get('[data-testid="vital-body-height-review-over-time"]').should(
       'be.visible',
     );
 
-    // Axe check
     cy.injectAxeThenAxeCheck();
   });
 });

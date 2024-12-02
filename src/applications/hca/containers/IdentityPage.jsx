@@ -10,7 +10,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import {
   fetchEnrollmentStatus,
   resetEnrollmentStatus as resetEnrollmentStatusAction,
-} from '../utils/actions/enrollment-status';
+} from '../utils/actions';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 import { selectEnrollmentStatus } from '../utils/selectors';
 import useAfterRenderEffect from '../hooks/useAfterRenderEffect';
