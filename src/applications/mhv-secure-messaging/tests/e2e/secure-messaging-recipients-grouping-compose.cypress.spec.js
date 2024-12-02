@@ -44,13 +44,36 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
       0,
       'VA Kansas City health care',
     );
+
     PatientComposePage.verifyRecipientsGroupName(1, 'VA Madison health care');
+
     PatientComposePage.verifyRecipientsGroupName(
       2,
       'VA Martinsburg health care',
     );
+
     PatientComposePage.verifyRecipientsGroupName(
       3,
+      'VA Puget Sound health care',
+    );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify recipient is in a correct group', () => {
+    PatientComposePage.verifyFacilityNameByRecipientName(
+      `TG-7410`,
+      'VA Kansas City health care',
+    );
+
+    PatientComposePage.verifyFacilityNameByRecipientName(
+      `SLC4 PCMM`,
+      'VA Martinsburg health care',
+    );
+
+    PatientComposePage.verifyFacilityNameByRecipientName(
+      `OH TG GROUP 002`,
       'VA Puget Sound health care',
     );
 

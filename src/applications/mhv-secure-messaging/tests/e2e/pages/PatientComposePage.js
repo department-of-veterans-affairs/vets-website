@@ -525,6 +525,12 @@ class PatientComposePage {
       .invoke('attr', 'label')
       .should(`eq`, text);
   };
+
+  verifyFacilityNameByRecipientName = (recipientName, facilityName) => {
+    cy.contains(recipientName)
+      .parent()
+      .should('have.attr', 'label', facilityName);
+  };
 }
 
 export default new PatientComposePage();

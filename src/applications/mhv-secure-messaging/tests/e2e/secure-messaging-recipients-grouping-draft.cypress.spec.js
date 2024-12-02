@@ -59,4 +59,24 @@ describe('SM RECIPIENTS GROUPING ON DRAFT', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
+
+  it('verify recipient is in a correct group', () => {
+    PatientComposePage.verifyFacilityNameByRecipientName(
+      `Record Amendment Admin`,
+      'VA Kansas City health care',
+    );
+
+    PatientComposePage.verifyFacilityNameByRecipientName(
+      `Jeasmitha-Cardio-Clinic`,
+      'VA Madison health care',
+    );
+
+    PatientComposePage.verifyFacilityNameByRecipientName(
+      `CAMRY_PCMM`,
+      'VA Puget Sound health care',
+    );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
 });
