@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -32,6 +32,7 @@ const Payments = ({
   const [currentData, setCurrentData] = useState([]);
   const currentPage = new URLSearchParams(location.search).get('page') || 1;
   const [totalPages, setTotalPages] = useState(0);
+  const tableHeadingRef = useRef(null);
 
   useEffect(
     () => {
@@ -44,6 +45,9 @@ const Payments = ({
 
   const onPageChange = page => {
     const newURL = `${location.pathname}?page=${page}`;
+    if (tableHeadingRef) {
+      tableHeadingRef.current.focus();
+    }
     navigate(newURL);
   };
 
@@ -54,7 +58,11 @@ const Payments = ({
       <>
         {textContent}
         {alertMessage}
-        <h3 className="vads-u-font-size--lg vads-u-font-family--serif">
+        <h3
+          className="vads-u-font-size--lg vads-u-font-family--serif"
+          ref={tableHeadingRef}
+          tabIndex={-1}
+        >
           Displaying {from} - {to} of {data.length} payments
         </h3>
         <va-table>
