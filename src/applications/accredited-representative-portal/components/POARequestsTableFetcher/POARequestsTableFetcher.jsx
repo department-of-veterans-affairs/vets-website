@@ -5,7 +5,7 @@ import POARequestsCard from '../POARequestsCard/POARequestsCard';
 import ErrorMessage from '../common/ErrorMessage';
 
 const POARequestsTableFetcher = ({ usePOARequests }) => {
-  const { isLoading, error, poaRequests } = usePOARequests([]);
+  const { isLoading, error, poaRequests } = usePOARequests();
 
   if (isLoading)
     return (
@@ -15,7 +15,7 @@ const POARequestsTableFetcher = ({ usePOARequests }) => {
       />
     );
   if (error) return <ErrorMessage />;
-  if (!poaRequests || poaRequests.length === 0)
+  if (poaRequests.length === 0)
     return (
       <p data-testid="poa-requests-table-fetcher-no-poa-requests">
         No POA requests found

@@ -20,12 +20,11 @@ const checkAuthorizations = (
   return authorizations.length > 0 ? authorizations.join(', ') : 'None';
 };
 
-const POARequestDetails = () => {
+const POARequestDetailsPage = () => {
   const { poaRequests } = usePOARequests();
   const { id } = useParams();
 
-  const poaRequest =
-    poaRequests && poaRequests.find(r => r.id === Number(id))?.attributes;
+  const poaRequest = poaRequests.find(r => r.id === Number(id))?.attributes;
 
   return (
     <section className="poa-request-details">
@@ -75,13 +74,13 @@ const POARequestDetails = () => {
             {poaRequest?.status === 'Declined' && (
               <va-icon
                 icon="close"
-                class="poa-request__card-icon--red poa-request__card-icon"
+                class="vads-u-background-color--error poa-request__card-icon"
               />
             )}
             {poaRequest?.status === 'Accepted' && (
               <va-icon
                 icon="check_circle"
-                class="poa-request__card-icon--green poa-request__card-icon"
+                class="vads-u-background-color--success poa-request__card-icon"
               />
             )}
             <span>POA status</span>
@@ -167,7 +166,7 @@ const POARequestDetails = () => {
     </section>
   );
 };
-POARequestDetails.propTypes = {
+POARequestDetailsPage.propTypes = {
   usePOARequests: PropTypes.func.isRequired,
 };
-export default POARequestDetails;
+export default POARequestDetailsPage;
