@@ -1,12 +1,10 @@
 import _ from 'lodash';
 import {
   CategoryEducation,
-  CategoryVeteranReadinessAndEmployment,
   CHAPTER_2,
   CHAPTER_3,
   healthcareCategoryLabels,
   schoolInYourProfileOptions,
-  TopicVeteranReadinessAndEmploymentChapter31,
   yourRoleOptionsEducation,
 } from '../../constants';
 import {
@@ -14,6 +12,7 @@ import {
   isLocationOfResidenceRequired,
   isPostalCodeRequired,
   isStateOfPropertyRequired,
+  isVRERequired,
 } from '../helpers';
 
 // Personal Information
@@ -319,10 +318,7 @@ const ch3Pages = {
     title: CHAPTER_3.YOUR_VRE_INFORMATION.TITLE,
     uiSchema: yourVREInformationPage.uiSchema,
     schema: yourVREInformationPage.schema,
-    depends: form =>
-      form.selectCategory === CategoryVeteranReadinessAndEmployment ||
-      (form.selectCategory === CategoryEducation &&
-        form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31),
+    depends: form => isVRERequired(form),
   },
   yourVRECounselor: {
     title: CHAPTER_3.YOUR_VRE_COUNSELOR.TITLE,
@@ -334,10 +330,7 @@ const ch3Pages = {
     title: CHAPTER_3.THEIR_VRE_INFORMATION.TITLE,
     uiSchema: theirVREInformationPage.uiSchema,
     schema: theirVREInformationPage.schema,
-    depends: form =>
-      form.selectCategory === CategoryVeteranReadinessAndEmployment ||
-      (form.selectCategory === CategoryEducation &&
-        form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31),
+    depends: form => isVRERequired(form),
   },
   theirVRECounselor: {
     title: CHAPTER_3.THEIR_VRE_COUNSELOR.TITLE,

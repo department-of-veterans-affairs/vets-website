@@ -489,3 +489,14 @@ export const isBranchOfServiceRequired = data => {
     whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
   );
 };
+
+// Veteran Readiness and Employment (VR&E) rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#veteran-readiness-and-employment-vre-information
+export const isVRERequired = data => {
+  const { selectCategory, selectTopic } = data;
+
+  return (
+    selectCategory === CategoryVeteranReadinessAndEmployment ||
+    (selectCategory === CategoryEducation &&
+      selectTopic === TopicVeteranReadinessAndEmploymentChapter31)
+  );
+};
