@@ -398,9 +398,10 @@
       "src/applications/check-in",
       "src/applications/vaos",
       "src/applications/claims-status",
-      "src/applications/accredited-representative-portal/accreditation/21"
+      "src/applications/accredited-representative-portal/accreditation/21a"
     ],
     "nohoist": [
+      "**/applications/accredited-representative-portal/accreditation/21a/react-router",
       "**/applications-check-in/i18next-resources-to-backend",
       "**/applications-check-in/react-i18next",
       "**/applications-claims-status/@department-of-veterans-affairs/component-library",
