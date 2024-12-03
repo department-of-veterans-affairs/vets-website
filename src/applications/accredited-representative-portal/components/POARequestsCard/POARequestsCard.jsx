@@ -5,6 +5,7 @@ import {
   formatDateParsedZoneLong,
   timeFromNow,
 } from 'platform/utilities/date/index';
+import { differenceInDays } from 'date-fns';
 
 export const createLimitationsCell = (
   isTreatmentDisclosureAuthorized,
@@ -20,12 +21,14 @@ export const createLimitationsCell = (
 };
 
 const expiresSoon = expDate => {
-  const EXPIRES_SOON_THRESHOLD_DURATION = 7;
+  const EXPIRES_SOON_THRESHOLD_DURATION = 7 * 24 * 60 * 60 * 1000;
   const now = new Date();
   const expiresAt = new Date(expDate);
   const daysLeft = timeFromNow(expiresAt, now);
-  const numOfDays = daysLeft.replace(/\D/g, '');
-  if (numOfDays > 0 && numOfDays <= EXPIRES_SOON_THRESHOLD_DURATION) {
+  if (
+    differenceInDays(expiresAt, now) > 0 &&
+    differenceInDays(expiresAt, now) < EXPIRES_SOON_THRESHOLD_DURATION
+  ) {
     return ` (in ${daysLeft})`;
   }
   return null;
