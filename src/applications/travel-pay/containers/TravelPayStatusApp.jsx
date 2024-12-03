@@ -18,7 +18,7 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
-import HelpText from '../components/HelpText';
+import { HelpTextContent } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
 
@@ -268,15 +268,17 @@ export default function App({ children }) {
     <>
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
-        <h1
-          className="claims-controller-title"
-          tabIndex="-1"
-          data-testid="header"
-        >
+        <h1 className="vads-u-font-size--h2" tabIndex="-1" data-testid="header">
           Check your travel reimbursement claim status
         </h1>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          <HelpText />
+          <h2 className="vads-u-font-size--h4">
+            You can use this tool to check the status of your VA travel claims.
+          </h2>
+          <va-additional-info trigger="How to manage your claims or get more information">
+            <HelpTextContent />
+          </va-additional-info>
+
           {isLoading && (
             <va-loading-indicator
               label="Loading"
@@ -298,7 +300,7 @@ export default function App({ children }) {
             travelClaims.length > 0 && (
               <>
                 <div className="btsss-claims-sort-and-filter-container">
-                  <h2>Your travel claims</h2>
+                  <h2 className="vads-u-font-size--h4">Your travel claims</h2>
                   <p>
                     This list shows all the appointments you've filed a travel
                     claim for.
