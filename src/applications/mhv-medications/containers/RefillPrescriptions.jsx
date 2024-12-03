@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   VaButton,
   VaCheckbox,
+  VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import {
@@ -190,77 +191,62 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
             {fullRefillList?.length > 0 ? (
               <div>
                 <CernerFacilityAlert />
-                <h2
-                  className="vads-u-margin-top--3"
-                  data-testid="refill-page-subtitle"
+                <VaCheckboxGroup
+                  data-testid="refill-checkbox-group"
+                  label={`You have ${fullRefillList.length} prescription${
+                    fullRefillList.length !== 1 ? 's' : ''
+                  } ready to refill.`}
+                  use-forms-pattern="single"
+                  form-heading-level={2}
+                  form-heading="Ready to refill"
+                  class="vads-u-margin-bottom--4 tablet:vads-u-margin-bottom--5"
+                  error={
+                    !hasNoOptionSelectedError
+                      ? ''
+                      : 'Select at least one prescription to refill'
+                  }
                 >
-                  Ready to refill
-                </h2>
-                <p
-                  className={`vads-u-margin-top--3 vads-u-margin-bottom--${
-                    !hasNoOptionSelectedError ? '3' : '2'
-                  }`}
-                  data-testid="refill-page-list-count"
-                  id="refill-page-list-count"
-                >
-                  You have {fullRefillList.length}{' '}
-                  {`prescription${fullRefillList.length !== 1 ? 's' : ''}`}{' '}
-                  ready to refill.
-                </p>
-                <p
-                  id="select-one-rx-error"
-                  data-testid="select-one-rx-error"
-                  className={`vads-u-color--secondary vads-u-font-weight--bold rx-refill-submit-error-${
-                    !hasNoOptionSelectedError ? 'hidden' : 'visible'
-                  }`}
-                  role="alert"
-                >
-                  <span className="usa-sr-only">Error</span>
-                  <span
-                    className="usa-error-message"
-                    data-testid="select-rx-error-message"
-                  >
-                    Select at least one prescription to refill
-                  </span>
-                </p>
-                {fullRefillList?.length > 1 && (
-                  <VaCheckbox
-                    id="select-all-checkbox"
-                    data-testid="select-all-checkbox"
-                    label={`Select all ${fullRefillList.length} refills`}
-                    name="select-all-checkbox"
-                    className="vads-u-margin-bottom--3 select-all-checkbox no-print"
-                    data-dd-action-name={
-                      dataDogActionNames.refillPage.SELECT_ALL_CHECKBOXES
-                    }
-                    checked={selectedRefillListLength === fullRefillList.length}
-                    onVaChange={onSelectAll}
-                    uswds
-                  />
-                )}
-                {fullRefillList.slice().map((prescription, idx) => (
-                  <div key={idx} className="vads-u-margin-bottom--2">
+                  {fullRefillList?.length > 1 && (
                     <VaCheckbox
-                      id={`checkbox-${prescription.prescriptionId}`}
-                      data-testid={`refill-prescription-checkbox-${idx}`}
-                      label={prescription.prescriptionName}
-                      name={prescription.prescriptionId}
-                      className="select-1-checkbox vads-u-margin-y--0"
+                      id="select-all-checkbox"
+                      data-testid="select-all-checkbox"
+                      label={`Select all ${fullRefillList.length} refills`}
+                      name="select-all-checkbox"
+                      className="vads-u-margin-bottom--3 select-all-checkbox no-print"
                       data-dd-action-name={
-                        dataDogActionNames.refillPage
-                          .SELECT_SINGLE_MEDICATION_CHECKBOX
+                        dataDogActionNames.refillPage.SELECT_ALL_CHECKBOXES
                       }
                       checked={
-                        selectedRefillList.find(
-                          item =>
-                            item.prescriptionId === prescription.prescriptionId,
-                        ) || false
+                        selectedRefillListLength === fullRefillList.length
                       }
-                      onVaChange={() => onSelectPrescription(prescription)}
+                      onVaChange={onSelectAll}
                       uswds
-                      checkbox-description={`Prescription number: ${
-                        prescription.prescriptionNumber
-                      }
+                    />
+                  )}
+                  {fullRefillList.slice().map((prescription, idx) => (
+                    <div key={idx} className="vads-u-margin-bottom--2">
+                      <VaCheckbox
+                        id={`checkbox-${prescription.prescriptionId}`}
+                        data-testid={`refill-prescription-checkbox-${idx}`}
+                        label={prescription.prescriptionName}
+                        name={prescription.prescriptionId}
+                        className="select-1-checkbox vads-u-margin-y--0"
+                        data-dd-action-name={
+                          dataDogActionNames.refillPage
+                            .SELECT_SINGLE_MEDICATION_CHECKBOX
+                        }
+                        checked={
+                          selectedRefillList.find(
+                            item =>
+                              item.prescriptionId ===
+                              prescription.prescriptionId,
+                          ) || false
+                        }
+                        onVaChange={() => onSelectPrescription(prescription)}
+                        uswds
+                        checkbox-description={`Prescription number: ${
+                          prescription.prescriptionNumber
+                        }
                         ${
                           prescription.sortedDispensedDate ||
                           prescription.dispensedDate
@@ -272,9 +258,10 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
                             : 'Not filled yet'
                         }
                         ${prescription.refillRemaining} refills left`}
-                    />
-                  </div>
-                ))}
+                      />
+                    </div>
+                  ))}
+                </VaCheckboxGroup>
                 <VaButton
                   uswds
                   type="button"
