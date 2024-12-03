@@ -29,7 +29,7 @@ const expiresSoon = expDate => {
     differenceInDays(expiresAt, now) > 0 &&
     differenceInDays(expiresAt, now) < EXPIRES_SOON_THRESHOLD_DURATION
   ) {
-    return ` (in ${daysLeft})`;
+    return `(in ${daysLeft})`;
   }
   return null;
 };
@@ -64,13 +64,15 @@ const POARequestsCard = ({ poaRequests }) => {
 
             <p className="poa-request__card-field poa-request__card-field--location">
               <span data-testid={`poa-request-card-${id}-city`}>
-                {poaRequest.claimantAddress.city},{' '}
+                {poaRequest.claimantAddress.city}
               </span>
+              {', '}
               <span data-testid={`poa-request-card-${id}-state`}>
-                {poaRequest.claimantAddress.state},{' '}
+                {poaRequest.claimantAddress.state}
               </span>
+              {', '}
               <span data-testid={`poa-request-card-${id}-zip`}>
-                {poaRequest.claimantAddress.zip}{' '}
+                {poaRequest.claimantAddress.zip}
               </span>
             </p>
 
@@ -115,6 +117,8 @@ const POARequestsCard = ({ poaRequests }) => {
                   </span>
                   <span data-testid={`poa-request-card-${id}-received`}>
                     {formatDateParsedZoneLong(poaRequest.expiresAt)}
+                  </span>
+                  <span className="poa-request__card-field--expiry">
                     {expiresSoon(poaRequest.expiresAt)}
                   </span>
                 </>
