@@ -146,9 +146,9 @@
       "view:bankName": "Comerica"
     },
     "view:userFullName": {
-      "first": "Mark",
-      "middle": "Tux",
-      "last": "Polarbear"
+      "view:first": "Mark",
+      "view:middle": "Tux",
+      "view:last": "Polarbear"
     }
   }
 }
