@@ -4,7 +4,7 @@ import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/med
 import { isValidDateString } from 'platform/utilities/date';
 import { formatDate } from '../../../../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
+import { selectEnrollmentStatus } from '../../../../utils/selectors';
 import content from '../../../../locales/en/content.json';
 
 const WarningStatus = () => {
