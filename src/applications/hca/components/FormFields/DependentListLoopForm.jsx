@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
-
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import {
   dependentSchema as schema,
   dependentUISchema as uiSchema,
 } from '../../definitions/dependent';
-import { selectAuthStatus } from '../../utils/selectors/auth-status';
+import { selectAuthStatus } from '../../utils/selectors';
 import {
   replaceStrValues,
   normalizeFullName,

@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
-// import VitalsListPage from './pages/VitalsListPage';
+import Vitals from '../pages/Vitals';
 import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitals from '../../fixtures/vitals/sample-lighthouse.json';
+import vitalsData from '../../fixtures/vitals/sample-lighthouse.json';
 
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
@@ -9,15 +9,12 @@ describe('Medical Records View Vitals', () => {
   beforeEach(() => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
+      isAcceleratingEnabled: false,
       isAcceleratingVitals: false,
     });
     cy.visit('my-health/medical-records');
-    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
-    cy.intercept('GET', '/my_health/v1/medical_records/vitals*', req => {
-      // check the correct param was used
-      expect(req.url).to.not.contain('use_oh_data_path=1');
-      req.reply(vitals);
-    }).as('vitals-list');
+
+    Vitals.setIntercepts({ vitalData: vitalsData, useOhData: false });
   });
 
   it('Visits View Vitals List', () => {
