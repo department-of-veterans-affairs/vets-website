@@ -149,6 +149,8 @@ export const RESPONSE_PAGE = {
   },
 };
 
+export const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
+
 export const pronounLabels = {
   heHimHis: 'He/him/his',
   sheHerHers: 'She/her/hers',

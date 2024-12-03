@@ -8,7 +8,7 @@ const Benefits = ({
   benefits,
   benefitsList,
   benefitIds,
-  handleClick,
+  handleBackClick,
   results,
   queryString,
 }) => {
@@ -36,7 +36,10 @@ const Benefits = ({
         {!queryString.allBenefits &&
           !results.isLoading &&
           benefits.length === 0 && (
-            <NoResultsBanner data={results.data} handleClick={handleClick} />
+            <NoResultsBanner
+              data={results.data}
+              handleBackClick={handleBackClick}
+            />
           )}
       </div>
       {queryString.allBenefits &&
@@ -60,7 +63,7 @@ const Benefits = ({
 };
 
 Benefits.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleBackClick: PropTypes.func.isRequired,
   benefits: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,

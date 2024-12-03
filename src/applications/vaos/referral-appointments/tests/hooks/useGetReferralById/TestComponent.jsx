@@ -13,7 +13,7 @@ export default function TestComponent() {
       <p>Test component</p>
       <p>{currentReferral?.UUID}</p>
       <p>{referralFetchStatus}</p>
-      <p>{referralNotFound}</p>
+      <p>{`Referral not found: ${referralNotFound}`}</p>
     </div>
   );
 }

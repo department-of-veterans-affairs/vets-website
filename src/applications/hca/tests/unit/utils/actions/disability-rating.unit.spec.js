@@ -1,11 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import {
   mockApiRequest,
   setFetchJSONResponse,
-} from '~/platform/testing/unit/helpers';
-import { fetchTotalDisabilityRating } from '../../../../utils/actions/disability-rating';
+} from 'platform/testing/unit/helpers';
+import { fetchTotalDisabilityRating } from '../../../../utils/actions';
 import { DISABILITY_RATING_ACTIONS } from '../../../../utils/constants';
 
 describe('hca disability rating actions', () => {
