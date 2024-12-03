@@ -24,12 +24,13 @@ export default function AccountSwitch({ userEmails }) {
   const userHasLogingov = userEmails.logingov;
   const userHasBoth = userHasIdme && userHasLogingov;
   const headingText = userHasLogingov ? 'Login.gov' : 'ID.me';
+  const strongTag = (
+    <strong>{userHasBoth ? 'Login.gov or ID.me' : headingText}</strong>
+  );
   return (
     <div>
       <h2 className="vads-u-margin-y--0" id="accountSwitchH2">
-        Start using your{' '}
-        <strong>{userHasBoth ? 'Login.gov or ID.me' : headingText}</strong>{' '}
-        account now
+        Start using your {strongTag} account now
       </h2>
       {userHasLogingov && (
         <CspDisplay
