@@ -1,5 +1,5 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { insuranceTextOverrides } from '../../../utils/helpers/form-config';
+import { insuranceTextOverrides } from '../../../utils/helpers';
 import { validateInsurancePolicy } from '../../../utils/validation';
 import {
   policyPage,

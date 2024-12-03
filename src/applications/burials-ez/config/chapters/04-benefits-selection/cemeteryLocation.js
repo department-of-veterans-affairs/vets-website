@@ -1,4 +1,7 @@
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import {
+  textUI,
+  textSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { generateTitle } from '../../../utils/helpers';
 
 export default {
@@ -7,18 +10,8 @@ export default {
     cemeteryLocation: {
       'ui:description':
         'You selected that the deceased Veteran was buried in a state cemetery. Enter additional information here.',
-      'ui:options': {
-        classNames:
-          'vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans',
-      },
-      name: {
-        'ui:title': 'Name of state cemetery',
-        'ui:webComponentField': VaTextInputField,
-      },
-      zip: {
-        'ui:title': 'Zip code for state cemetery',
-        'ui:webComponentField': VaTextInputField,
-      },
+      name: textUI('Name of state cemetery'),
+      zip: textUI('Zip code for state cemetery'),
     },
   },
   schema: {
@@ -28,12 +21,8 @@ export default {
         type: 'object',
         required: ['name', 'zip'],
         properties: {
-          name: {
-            type: 'string',
-          },
-          zip: {
-            type: 'string',
-          },
+          name: textSchema,
+          zip: textSchema,
         },
       },
     },

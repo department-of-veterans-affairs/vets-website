@@ -122,43 +122,62 @@ export const EMPTY_FIELD = 'None noted';
 export const IS_TESTING = false;
 
 export const vitalTypes = {
-  BLOOD_PRESSURE: 'BLOOD_PRESSURE',
-  PULSE: 'PULSE',
-  RESPIRATION: 'RESPIRATION',
-  PULSE_OXIMETRY: 'PULSE_OXIMETRY',
-  TEMPERATURE: 'TEMPERATURE',
-  WEIGHT: 'WEIGHT',
-  HEIGHT: 'HEIGHT',
+  BLOOD_PRESSURE: ['BLOOD_PRESSURE'],
+  PULSE: ['PULSE', 'HEART_RATE'],
+  RESPIRATION: ['RESPIRATION', 'RESPIRATORY_RATE'],
+  PULSE_OXIMETRY: ['PULSE_OXIMETRY', 'OXYGEN_SATURATION_IN_ARTERIAL_BLOOD'],
+  TEMPERATURE: ['TEMPERATURE', 'BODY_TEMPERATURE'],
+  WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
+  HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
+  PAIN_SEVERITY: ['PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED'],
 };
 
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
   PULSE: 'Heart rate',
+  HEART_RATE: 'Heart rate',
   RESPIRATION: 'Breathing rate',
+  RESPIRATORY_RATE: 'Breathing rate',
   PULSE_OXIMETRY: 'Blood oxygen level (pulse oximetry)',
+  OXYGEN_SATURATION_IN_ARTERIAL_BLOOD: 'Blood oxygen level (pulse oximetry)',
   TEMPERATURE: 'Temperature',
+  BODY_TEMPERATURE: 'Temperature',
+  BODY_WEIGHT: 'Weight',
   WEIGHT: 'Weight',
+  BODY_HEIGHT: 'Height',
   HEIGHT: 'Height',
+  PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED: 'Pain severity',
+  PAIN_SEVERITY: 'Pain severity',
 };
 
 export const vitalUnitCodes = {
   BLOOD_PRESSURE: '',
   PULSE: '/min',
+  HEART_RATE: '/min',
   RESPIRATION: '/min',
+  RESPIRATORY_RATE: '/min',
   PULSE_OXIMETRY: '%',
   TEMPERATURE: '[degF]',
   WEIGHT: '[lb_av]',
+  BODY_WEIGHT: '[lb_av]',
   HEIGHT: '[in_i]',
+  BODY_HEIGHT: '[in_i]',
+  PAIN_SEVERITY: '',
 };
 
 export const vitalUnitDisplayText = {
   BLOOD_PRESSURE: '',
   PULSE: ' beats per minute',
+  HEART_RATE: ' beats per minute',
   RESPIRATION: ' breaths per minute',
+  RESPIRATORY_RATE: ' breaths per minute',
   PULSE_OXIMETRY: '%',
   TEMPERATURE: ' °F',
   WEIGHT: ' pounds',
+  BODY_WEIGHT: ' pounds',
   HEIGHT: ' inches',
+  BODY_HEIGHT: ' inches',
+  PAIN_SEVERITY: '',
 };
 
 export const ALERT_TYPE_ERROR = 'error';
@@ -213,6 +232,7 @@ export const refreshPhases = {
   IN_PROGRESS: 'in_progress',
   CURRENT: 'current',
   FAILED: 'failed',
+  CALL_FAILED: 'call_failed',
 };
 
 export const loadStates = {

@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import AccountSwitch from '../components/AccountSwitch';
 
 const mockStore = {
-  getState: () => {},
+  getState: () => ({ user: { profile: { session: { authBroker: 'iam' } } } }),
   subscribe: () => {},
   dispatch: () => {},
 };
