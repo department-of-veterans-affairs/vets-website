@@ -1,4 +1,7 @@
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { Actions } from '../util/actionTypes';
+import { medicationTypes } from '../util/constants';
 
 const initialState = {
   /**
@@ -28,29 +31,63 @@ const initialState = {
   accountSummary: undefined,
 };
 
+const noneRecorded = 'None recorded';
+const noInfoReported = 'No information reported';
+const na = 'N/A';
+
 /**
- * Convert the medication resource from the backend into the appropriate model.
+ * Convert a non-VA medication resource from the backend into the appropriate model.
+ * @param {Object} medication an MHV medication resource
+ * @returns a medication object that this application can use, or null if the param is null/undefined
+ */
+export const convertNonVaMedication = med => {
+  return {
+    id: med.id,
+    type: medicationTypes.NON_VA,
+    prescriptionName: med.prescriptionName,
+    medication: med.prescriptionName || na,
+    instructions: med.sig || na,
+    reasonForUse: med.reason || na,
+    status: med.dispStatus || na,
+    startDate:
+      new Date(med.refillDate || med.orderedDate).toLocaleDateString() || na,
+    documentedBy: `${med.providerLastName || na}, ${med.providerFirstName ||
+      na}`,
+    documentedAtFacility: med.facilityName || na,
+    providerNotes: med.remarks || na,
+  };
+};
+
+/**
+ * Convert a medication resource from the backend into the appropriate model.
  * @param {Object} medication an MHV medication resource
  * @returns a medication object that this application can use, or null if the param is null/undefined
  */
 export const convertMedication = med => {
   if (!med) return null;
+  if (med.dispStatus?.toLowerCase()?.includes('non-va'))
+    return convertNonVaMedication(med);
 
   const { attributes } = med;
   return {
     id: med.id,
+    type: medicationTypes.VA,
     prescriptionName: attributes.prescriptionName,
-    lastFilledOn: attributes.lastFilledDate || 'Not filled yet',
+    lastFilledOn: attributes.lastFilledDate
+      ? formatDateLong(attributes.lastFilledDate)
+      : 'Not filled yet',
     status: attributes.refillStatus,
     refillsLeft: attributes.refillRemaining,
     prescriptionNumber: attributes.prescriptionNumber,
-    prescribedOn: attributes.orderedDate,
+    prescribedOn: formatDateLong(attributes.orderedDate),
     prescribedBy: `${attributes.providerFirstName ||
       ''} ${attributes.providerLastName || ''}`.trim(),
     facility: attributes.facilityName,
-    expirationDate: attributes.expirationDate,
+    expirationDate: formatDateLong(attributes.expirationDate),
     instructions: attributes.sig || 'No instructions available',
     quantity: attributes.quantity,
+    pharmacyPhoneNumber: pharmacyPhoneNumber(med.attributes),
+    indicationForUse: med.indicationForUse || noneRecorded,
   };
 };
 
@@ -103,9 +140,6 @@ export const convertAppointment = appt => {
  * @returns a demographic object that this application can use, or null if the param is null/undefined
  */
 export const convertDemographics = info => {
-  const noneRecorded = 'None recorded';
-  const noInfoReported = 'No information reported';
-
   if (!info) return null;
 
   return {

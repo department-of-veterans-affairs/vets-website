@@ -425,7 +425,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
         doc
           .font(config.text.boldFont)
           .fontSize(config.text.size)
-          .text(titleText, x, doc.y, { lineGap: 2 });
+          .text(titleText, x, doc.y, { lineGap: 2, paragraphGap: 6 });
       }),
     );
   }
@@ -436,7 +436,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
       element.weight === 'bold' ? config.text.boldFont : config.text.font;
     const paragraphOptions = {
       continued: !!element.continued,
-      lineGap: 2,
+      lineGap: item.lineGap || 2,
       ...(i === item.value.length - 1 && {
         paragraphGap: element?.paragraphGap ?? 6,
       }),
@@ -451,7 +451,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
     if (Array.isArray(element.value)) {
       content.push(
         doc.struct('List', () => {
-          doc.list(element.value, {
+          doc.font(font).list(element.value, {
             ...paragraphOptions,
             listType: 'bullet',
             bulletRadius: 2,

@@ -18,6 +18,7 @@ import {
   generateFinalHeaderContent,
   generateFooterContent,
   generateInitialHeaderContent,
+  createRichTextDetailItem,
 } from './utils';
 
 const config = {
@@ -202,67 +203,67 @@ const validate = data => {
   }
 };
 
-const generateTocItem = (doc, parent, data, pageData) => {
-  const leftMargin = 100;
-  const pages =
-    pageData.startPage === pageData.endPage
-      ? `page ${pageData.startPage}`
-      : `pages ${pageData.startPage} - ${pageData.endPage}`;
-  const tocItemTitle =
-    pages.length > 13 ? data.title.slice(0, 13 - pages.length) : data.title;
+// const generateTocItem = (doc, parent, data, pageData) => {
+//   const leftMargin = 100;
+//   const pages =
+//     pageData.startPage === pageData.endPage
+//       ? `page ${pageData.startPage}`
+//       : `pages ${pageData.startPage} - ${pageData.endPage}`;
+//   const tocItemTitle =
+//     pages.length > 13 ? data.title.slice(0, 13 - pages.length) : data.title;
 
-  parent.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.tocHeading.font)
-        .fontSize(config.tocHeading.size)
-        .text(`${tocItemTitle} ${pages}`, leftMargin, doc.y, {
-          lineGap: 6,
-        });
-    }),
-  );
-  parent.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text(data.subtitle, leftMargin, doc.y, {
-          lineGap: 6,
-          width: 410,
-        });
-    }),
-  );
-  doc.moveDown();
-};
+//   parent.add(
+//     doc.struct('P', () => {
+//       doc
+//         .font(config.tocHeading.font)
+//         .fontSize(config.tocHeading.size)
+//         .text(`${tocItemTitle} ${pages}`, leftMargin, doc.y, {
+//           lineGap: 6,
+//         });
+//     }),
+//   );
+//   parent.add(
+//     doc.struct('P', () => {
+//       doc
+//         .font(config.text.font)
+//         .fontSize(config.text.size)
+//         .text(data.subtitle, leftMargin, doc.y, {
+//           lineGap: 6,
+//           width: 410,
+//         });
+//     }),
+//   );
+//   doc.moveDown();
+// };
 
-const generateTableOfContents = (doc, parent, data, tocPageData) => {
-  doc.switchToPage(1);
-  const tableOfContents = doc.struct('Sect', {
-    title: 'Table of contents',
-  });
-  tableOfContents.add(
-    createHeading(doc, 'H2', config, 'Table of contents', {
-      paragraphGap: 30,
-      align: 'center',
-      y: 100,
-    }),
-  );
-  parent.add(tableOfContents);
-  for (const recordSet of data.recordSets) {
-    // TODO: Enable ToC to span multiple pages, possibly by generating
-    // separate PDFs and then combining them since the ToC is generated
-    // within the doc after the rest of the doc is generated
-    generateTocItem(
-      doc,
-      tableOfContents,
-      recordSet.toc,
-      tocPageData[recordSet.type],
-    );
-  }
+// const generateTableOfContents = (doc, parent, data, tocPageData) => {
+//   doc.switchToPage(1);
+//   const tableOfContents = doc.struct('Sect', {
+//     title: 'Table of contents',
+//   });
+//   tableOfContents.add(
+//     createHeading(doc, 'H2', config, 'Table of contents', {
+//       paragraphGap: 30,
+//       align: 'center',
+//       y: 100,
+//     }),
+//   );
+//   parent.add(tableOfContents);
+//   for (const recordSet of data.recordSets) {
+//     // TODO: Enable ToC to span multiple pages, possibly by generating
+//     // separate PDFs and then combining them since the ToC is generated
+//     // within the doc after the rest of the doc is generated
+//     generateTocItem(
+//       doc,
+//       tableOfContents,
+//       recordSet.toc,
+//       tocPageData[recordSet.type],
+//     );
+//   }
 
-  doc.moveDown();
-  tableOfContents.end();
-};
+//   doc.moveDown();
+//   tableOfContents.end();
+// };
 
 const generateRecordSetIntroduction = async (doc, parent, recordSet) => {
   const headOptions = { x: 20, paragraphGap: 10 };
@@ -295,6 +296,39 @@ const generateRecordTitle = (doc, parent, record) => {
 
   doc.moveDown();
   title.end();
+};
+
+const generateDetailsContentSets = async (doc, parent, data) => {
+  // console.log('((( generating )))');
+  const details = doc.struct('Sect', {
+    title: 'Details',
+  });
+  parent.add(details);
+
+  for (const detail of data.details) {
+    if (detail.header) {
+      const headOptions = { x: 30, paragraphGap: 12 };
+      details.add(createHeading(doc, 'H4', config, detail.header, headOptions));
+    }
+    const itemIndent = 30;
+    for (const item of detail.items) {
+      let structs;
+
+      if (item.isRich) {
+        structs = await createRichTextDetailItem(doc, config, itemIndent, item);
+      } else {
+        structs = await createDetailItem(doc, config, itemIndent, item);
+      }
+
+      for (const struct of structs) {
+        details.add(struct);
+      }
+    }
+    doc.moveDown();
+  }
+
+  doc.moveDown();
+  details.end();
 };
 
 const generateDetailsContent = async (doc, parent, data) => {
@@ -410,6 +444,7 @@ export const generateResultsContent = async (doc, parent, data) => {
 };
 
 const generate = async data => {
+  // try {
   validate(data);
   const tocPageData = {};
   const doc = createAccessibleDoc(data, config);
@@ -442,7 +477,9 @@ const generate = async data => {
       for (const record of recordSet.records) {
         generateRecordTitle(doc, wrapper, record);
 
-        if (record.details) {
+        if (Array.isArray(record.details)) {
+          await generateDetailsContentSets(doc, wrapper, record);
+        } else if (record.details) {
           await generateDetailsContent(doc, wrapper, record);
         }
         if (record.results) {
@@ -462,7 +499,7 @@ const generate = async data => {
     tocPageData[recordSet.type].endPage = endPage;
   }
 
-  await generateTableOfContents(doc, wrapper, data, tocPageData);
+  // await generateTableOfContents(doc, wrapper, data, tocPageData);
 
   doc.font(config.text.font).fontSize(config.text.size);
   await generateFinalHeaderContent(doc, data, config, 2);
@@ -472,6 +509,9 @@ const generate = async data => {
 
   doc.flushPages();
   return doc;
+  // } catch (error) {
+  //   console.log('error: ', error);
+  // }
 };
 
 export { generate };

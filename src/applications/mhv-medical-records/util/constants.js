@@ -7,6 +7,19 @@ export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
 };
 
+export const blueButtonRecordTypes = {
+  MEDICATIONS: 'medications',
+  APPOINTMENTS: 'appointments',
+  DEMOGRAPHICS: 'demographics',
+  MILITARY_SERVICE: 'military service',
+  ACCOUNT_SUMMARY: 'account summary',
+};
+
+export const medicationTypes = {
+  VA: 'va',
+  NON_VA: 'non-va',
+};
+
 export const accessAlertTypes = {
   ALLERGY: 'allergy',
   VACCINE: 'vaccine',

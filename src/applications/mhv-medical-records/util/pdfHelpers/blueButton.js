@@ -1,4 +1,9 @@
-import { labTypes, loincCodes, recordType } from '../constants';
+import {
+  blueButtonRecordTypes,
+  labTypes,
+  loincCodes,
+  recordType,
+} from '../constants';
 import {
   generateChemHemContent,
   generateEkgContent,
@@ -15,6 +20,7 @@ import { generateAllergiesContent } from './allergies';
 import { generateConditionContent } from './conditions';
 import { generateVitalsContentByType } from './vitals';
 import { isArrayAndHasItems } from '../helpers';
+import { generateMedicationsContent } from './medications';
 
 export const generateBlueButtonData = ({
   labsAndTests,
@@ -23,6 +29,11 @@ export const generateBlueButtonData = ({
   allergies,
   conditions,
   vitals,
+  medications,
+  appointments,
+  demographics,
+  militaryService,
+  accountSummary,
 }) => {
   const data = [];
 
@@ -155,6 +166,39 @@ export const generateBlueButtonData = ({
       },
       records: generateVitalsContentByType(vitals),
     });
+  }
+
+  if (medications.length) {
+    data.push({
+      type: blueButtonRecordTypes.MEDICATIONS,
+      title: 'Medications',
+      subtitles: [
+        'This is a list of prescriptions and other medications in your VA medical records.',
+        'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications. When you download medications records, we also include a list of allergies and reactions in your VA medical records.',
+        `Showing ${medications.length} medications, alphabetically by name`,
+      ],
+      records: medications.map(record => {
+        const title = record.prescriptionName;
+        const content = generateMedicationsContent(record);
+        return { title, ...content };
+      }),
+    });
+  }
+
+  if (appointments.length) {
+    // console.log('appointments: ', appointments);
+  }
+
+  if (demographics.length) {
+    // console.log('demographics: ', demographics);
+  }
+
+  if (militaryService.length) {
+    // console.log('militaryService: ', militaryService);
+  }
+
+  if (accountSummary) {
+    // console.log('accountSummary: ', accountSummary);
   }
 
   return data;
