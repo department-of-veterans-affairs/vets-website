@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { SESSION_ITEM_NAME, SHARED_PATHS } from '../../utils/constants';
-import { normalizeFullName } from '../../utils/helpers/general';
+import { normalizeFullName } from '../../utils/helpers';
 import { REACT_BINDINGS } from '../../utils/imports';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 

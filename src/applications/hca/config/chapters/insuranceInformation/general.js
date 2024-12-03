@@ -11,7 +11,7 @@ import {
   TricarePolicyDescription,
 } from '../../../components/FormDescriptions';
 import { validatePolicyNumber } from '../../../utils/validation';
-import { getInsuranceAriaLabel } from '../../../utils/helpers/insurance';
+import { getInsuranceAriaLabel } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { providers, isCoveredByHealthInsurance } = FULL_SCHEMA.properties;

@@ -38,7 +38,7 @@ import {
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   collectMedicareInformation,
-} from '../utils/helpers/form-config';
+} from '../utils/helpers';
 import { SHARED_PATHS } from '../utils/constants';
 import { FULL_SCHEMA } from '../utils/imports';
 import migrations from './migrations';

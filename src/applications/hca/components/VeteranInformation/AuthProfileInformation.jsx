@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AuthenticatedShortFormAlert from '../FormAlerts/AuthenticatedShortFormAlert';
-import { formatDate, normalizeFullName } from '../../utils/helpers/general';
+import { formatDate, normalizeFullName } from '../../utils/helpers';
 import { APP_URLS, HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 import { CONTACTS } from '../../utils/imports';
 
