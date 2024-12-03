@@ -1,6 +1,6 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import preSubmitInfo from '@department-of-veterans-affairs/platform-forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 const body = (
   <>
