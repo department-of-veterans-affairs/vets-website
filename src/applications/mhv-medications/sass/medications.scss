@@ -62,7 +62,7 @@
     text-decoration: none;
   }
 }
-.usa-button {
+.usa-button:not(.feedback-button) {
   width: 100%;
 }
 .va-button {
