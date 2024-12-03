@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { selectRumUser } from '../../../../utils/selectors/datadog-rum';
+import { selectRumUser } from '../../../../utils/selectors';
 
 describe('hca DatadogRUM selector', () => {
   const state = {
@@ -20,15 +20,13 @@ describe('hca DatadogRUM selector', () => {
     },
   };
 
-  describe('when `selectRumUser` executes', () => {
-    it('should return correct user properties', () => {
-      expect(selectRumUser(state)).to.eql({
-        disabilityRating: 0,
-        isSignedIn: true,
-        serviceProvider: 'IDme',
-        loa: 3,
-        enrollmentStatus: 'noneOfTheAbove',
-      });
+  it('should return correct user properties when `selectRumUser` executes', () => {
+    expect(selectRumUser(state)).to.eql({
+      disabilityRating: 0,
+      isSignedIn: true,
+      serviceProvider: 'IDme',
+      loa: 3,
+      enrollmentStatus: 'noneOfTheAbove',
     });
   });
 });

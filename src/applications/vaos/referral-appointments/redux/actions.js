@@ -105,10 +105,10 @@ export function fetchReferrals() {
 
 export function fetchReferralById(id) {
   return async dispatch => {
+    dispatch({
+      type: FETCH_REFERRAL,
+    });
     try {
-      dispatch({
-        type: FETCH_REFERRAL,
-      });
       const referrals = await getPatientReferralById(id);
       dispatch({
         type: FETCH_REFERRAL_SUCCEEDED,
