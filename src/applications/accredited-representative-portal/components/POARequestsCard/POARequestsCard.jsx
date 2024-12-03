@@ -25,7 +25,10 @@ const expiresSoon = expDate => {
   const expiresAt = new Date(expDate);
   const daysLeft = timeFromNow(expiresAt, now);
   const numOfDays = daysLeft.replace(/\D/g, '');
-  return numOfDays > 0 && numOfDays <= EXPIRES_SOON_THRESHOLD_DURATION;
+  if (numOfDays > 0 && numOfDays <= EXPIRES_SOON_THRESHOLD_DURATION) {
+    return ` (in ${daysLeft})`;
+  }
+  return null;
 };
 
 const POARequestsCard = ({ poaRequests }) => {
@@ -38,12 +41,12 @@ const POARequestsCard = ({ poaRequests }) => {
       {poaRequests.map(({ id, attributes: poaRequest }) => (
         <li key={id}>
           <va-card class="poa-request__card">
-            <p
+            <span
               data-testid={`poa-request-card-${id}-status`}
-              className="poa-request__card-field poa-request__card-field--status"
+              className="usa-label poa-request__card-field"
             >
               {poaRequest.status}
-            </p>
+            </span>
             <Link to={`/poa-requests/${id}`}>
               <span className="sr-only">View details for </span>
               <h3
@@ -58,15 +61,13 @@ const POARequestsCard = ({ poaRequests }) => {
 
             <p className="poa-request__card-field poa-request__card-field--location">
               <span data-testid={`poa-request-card-${id}-city`}>
-                {poaRequest.claimantAddress.city}
+                {poaRequest.claimantAddress.city},{' '}
               </span>
-              ,
               <span data-testid={`poa-request-card-${id}-state`}>
-                {poaRequest.claimantAddress.state}
+                {poaRequest.claimantAddress.state},{' '}
               </span>
-              ,
               <span data-testid={`poa-request-card-${id}-zip`}>
-                {poaRequest.claimantAddress.zip}
+                {poaRequest.claimantAddress.zip}{' '}
               </span>
             </p>
 
@@ -111,6 +112,7 @@ const POARequestsCard = ({ poaRequests }) => {
                   </span>
                   <span data-testid={`poa-request-card-${id}-received`}>
                     {formatDateParsedZoneLong(poaRequest.expiresAt)}
+                    {expiresSoon(poaRequest.expiresAt)}
                   </span>
                 </>
               )}

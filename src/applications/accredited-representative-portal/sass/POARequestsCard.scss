@@ -16,22 +16,15 @@
 
     &-icon {
       margin-right: 5px;
-      color: var(--vads-color-action-focus-on-light);
+      color: var(--vads-color-warning-dark);
     }
 
-    &-field,
     &-title {
-      margin: 0;
+      margin: 3px 0 0 0;
+    }
 
-      &--status {
-        background: $vads-color-base-dark;
-        color: var(--vads-color-white);
-        max-width: fit-content;
-        text-transform: uppercase;
-        padding: 0 10px;
-        margin-bottom: 5px;
-        line-height: 20px;
-      }
+    &-field {
+      margin: 0;
 
       &--request {
         display: flex;
