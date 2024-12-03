@@ -10,9 +10,8 @@ import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagName
 import { getAppData } from '../selectors/selectors';
 import LoadingIndicator from './LoadingIndicator';
 
-function IntroductionLoginV2({
+function IntroductionLogin({
   isClaimantCallComplete,
-  isEligibilityCallComplete,
   isPersonalInfoFetchFailed,
   isLoggedIn,
   isLOA3,
@@ -24,8 +23,7 @@ function IntroductionLoginV2({
   showMebEnhancements06, // Add showMebEnhancements06 as a prop
   showMebEnhancements09, // Add showMebEnhancements09 as a prop
 }) {
-  const apiCallsComplete =
-    isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
+  const apiCallsComplete = isLOA3 === false || isClaimantCallComplete;
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
   };
@@ -180,11 +178,9 @@ function IntroductionLoginV2({
     </>
   );
 }
-IntroductionLoginV2.propTypes = {
+IntroductionLogin.propTypes = {
   route: PropTypes.object.isRequired,
-  eligibility: PropTypes.arrayOf(PropTypes.string),
   isClaimantCallComplete: PropTypes.bool,
-  isEligibilityCallComplete: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
@@ -213,4 +209,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IntroductionLoginV2);
+)(IntroductionLogin);
