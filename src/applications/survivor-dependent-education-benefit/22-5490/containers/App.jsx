@@ -113,7 +113,8 @@ function App({
                 label: 'Education and training',
               },
               {
-                href: '/education/survivor-dependent-education-benefit-22-5490',
+                href:
+                  '/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
                 label: 'Apply for survivor dependent benefits',
               },
             ]}
