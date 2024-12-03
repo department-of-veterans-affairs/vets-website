@@ -30,8 +30,6 @@ export const burialUploadUI = content => {
   const addAnotherLabel = 'Upload another file';
 
   return fileUploadUI(content, {
-    // title: content.label,
-    // itemDescription: content.description,
     fileUploadUrl: uploadUrl,
     addAnotherLabel,
     buttonText: content.buttonText || 'Upload file',
@@ -56,6 +54,5 @@ export const burialUploadUI = content => {
       'ui:disabled': false,
       'ui:webComponentField': VaSelectField,
     }),
-    uswds: true,
   });
 };

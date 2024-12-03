@@ -57,6 +57,12 @@ const MedicationsListFilter = props => {
     focusElement(document.getElementById('showingRx'));
   };
 
+  const handleFilterReset = () => {
+    setFilterOption(ALL_MEDICATIONS_FILTER_KEY);
+    updateFilter(ALL_MEDICATIONS_FILTER_KEY);
+    focusElement(document.getElementById('showingRx'));
+  };
+
   const handleAccordionItemToggle = ({ target }) => {
     if (target) {
       const isOpen = target.getAttribute('open');
@@ -85,6 +91,7 @@ const MedicationsListFilter = props => {
         id="filter"
         data-testid="rx-filter"
         ref={ref}
+        level={3}
         uswds
       >
         <span slot="icon">
@@ -114,10 +121,17 @@ const MedicationsListFilter = props => {
           ))}
         </VaRadio>
         <VaButton
-          className="vads-u-width--full tablet:vads-u-width--auto filter-submit-btn vads-u-margin-top--3"
+          className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
           onClick={handleFilterSubmit}
           text="Apply filter"
           data-testid="filter-button"
+        />
+        <VaButton
+          className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
+          secondary
+          onClick={handleFilterReset}
+          text="Reset filter"
+          data-testid="filter-reset-button"
         />
       </VaAccordionItem>
     </VaAccordion>
