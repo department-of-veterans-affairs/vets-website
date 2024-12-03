@@ -2867,22 +2867,22 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/component-library@^48.1.0":
-  version "48.1.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-48.1.0.tgz#58295952277dc40aa327253c7b1635409105de1e"
-  integrity sha512-8LZxe2goaAFVrWGexWt2D2cuFt5ZutzTaEQLW7oO2lQCR4RERvRpdW0DgJYWLPCTnHEqh+32Brf0ZYVMiTXOTA==
+"@department-of-veterans-affairs/component-library@^48.1.1":
+  version "48.1.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-48.1.1.tgz#e238a904d2831e0cfee303fcd38a681fd9b03e9f"
+  integrity sha512-DCQ3RebCQq3Xv6op5zADib2JR6ihcZqE6wLUNWQLmfFyk1J4RJTukzpHTeQQfr73BC1dHUXpsAR0HrB2xq22Rw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "16.1.0"
+    "@department-of-veterans-affairs/web-components" "16.1.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.15.0-rc1":
-  version "0.15.0-rc1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.15.0-rc1.tgz#ba4a954acc02788196d91d09363482ef7a4e11e2"
-  integrity sha512-3Lp/Qrdh3zRPhq2aU1YJD0HajgLZA4NCj/+2yPgh1Z8U0NcgtR91vjjZgdg/mPxgb34w1Me+0sdP8oyDCU9FQw==
+"@department-of-veterans-affairs/css-library@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.16.0.tgz#af006de30678dbe2ac593312996f57f4a2b9f3c1"
+  integrity sha512-4+fHX1dpYWsEWF9w/cnSHp1j3E5LA/B3hDn6oSfff6UpB8jBqkSDXuq+aUFl83JBtk4Xo7i+NmcEOWB7GGhrAQ==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.9.0"
@@ -2903,16 +2903,6 @@
   integrity sha512-reeGP82EAEY4azLB3Og+o/KcWIbyDuKqShTT5NHHAgH9SvXsgqK/JTvrVmnvNDxWM0RV5UR3DkwmecuGU+8W+w==
   dependencies:
     jsx-ast-utils "^3.3.3"
-
-"@department-of-veterans-affairs/formation@^12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-12.0.0.tgz#ac80f71ba3e689fec2d448b3917c867f122b2ba3"
-  integrity sha512-IzR06KRJemPt1QDK1s/9L8bcmzxeHZ6J8b8/pwMcyUWTmkpBOz+HJORawNt5aN+QSv5yyDA9qzFX3emdFTBsqg==
-  dependencies:
-    "@fortawesome/fontawesome-free" "^5.15.4"
-    domready "^1.0.8"
-    element-closest "^3.0.1"
-    foundation-sites "5"
 
 "@department-of-veterans-affairs/generator-vets-website@^3.12.0":
   version "3.12.0"
@@ -2977,10 +2967,10 @@
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
 
-"@department-of-veterans-affairs/web-components@16.1.0":
-  version "16.1.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-16.1.0.tgz#d8c142eee1f9ae8d93a34dc5cf58c58802d334e9"
-  integrity sha512-MkZ0hZjLjLhbeDmrKV4ZD4F1InOUR56DFUncRV4Sv8zYIjsGGCTJynaL0tPRpu9Him2NGc2A97NqB35FaXXjwg==
+"@department-of-veterans-affairs/web-components@16.1.1":
+  version "16.1.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-16.1.1.tgz#edb260ee8b1c79d7e949fdb50cedcf8fa2112b45"
+  integrity sha512-gWtAY2tghGfvOjwkL0m3AHUoiut4YYCrllGCIHK97g0vyfG1eR8fWEBDusc5cfxiNHH7VZ/BVKuF1pmF57dscw==
   dependencies:
     "@stencil/core" "4.20.0"
     aria-hidden "^1.1.3"
@@ -3190,11 +3180,6 @@
   integrity sha512-/Ro85goRZnCojzxOegANFYL0LaDIpdPjAukR7xMTjOtRx+3yyjR0ifGTOW3/Kjhmab3t6GnyHBYWZSudxEOxPA==
   dependencies:
     tslib "^2.1.0"
-
-"@fortawesome/fontawesome-free@^5.15.4":
-  version "5.15.4"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.4.tgz#ecda5712b61ac852c760d8b3c79c96adca5554e5"
-  integrity sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg==
 
 "@gar/promisify@^1.0.1", "@gar/promisify@^1.1.3":
   version "1.1.3"
@@ -9063,11 +9048,6 @@ element-closest@^2.0.1:
   resolved "https://registry.npmjs.org/element-closest/-/element-closest-2.0.2.tgz"
   integrity sha1-cqdAoQdFM4LijfnOXbtajfD5Zuw=
 
-element-closest@^3.0.1:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/element-closest/-/element-closest-3.0.2.tgz#3814a69a84f30e48e63eaf57341f4dbf4227d2aa"
-  integrity sha512-JxKQiJKX0Zr5Q2/bCaTx8P+UbfyMET1OQd61qu5xQFeWr1km3fGaxelSJtnfT27XQ5Uoztn2yIyeamAc/VX13g==
-
 element-remove@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/element-remove/-/element-remove-1.0.4.tgz#e587c53176bb196310bc99a75f45fe6eda016c21"
@@ -10905,7 +10885,7 @@ forwarded@~0.1.2:
   resolved "https://registry.npmjs.org/forwarded/-/forwarded-0.1.2.tgz"
   integrity sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ=
 
-foundation-sites@5, foundation-sites@^5.5.3:
+foundation-sites@^5.5.3:
   version "5.5.3"
   resolved "https://registry.npmjs.org/foundation-sites/-/foundation-sites-5.5.3.tgz"
   integrity sha1-ZVbrKzHN47ImYwEWvSFdldBWwKc=
