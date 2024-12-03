@@ -2,11 +2,10 @@
 /**
  * Initializes web vitals reporting to GA4 on non-localhost environments.
  */
-
-import { onCLS, onINP, onLCP, onTTFB } from 'web-vitals';
-
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
+import { onCLS, onINP, onLCP, onTTFB } from 'web-vitals';
 
 const recordWebVitalsEvent = event => {
   const webVitalsEvent = {
@@ -22,8 +21,11 @@ const recordWebVitalsEvent = event => {
   recordEvent(webVitalsEvent);
 };
 
-// url check is necessary for e2e tests and local environments
-const trackWebVitals = environment.BASE_URL.indexOf('localhost') < 0;
+const trackWebVitals =
+  // Exclude production for now.
+  !environment.isProduction &&
+  // Exclude cypress containers and localhost from tracking web vitals.
+  environment.BASE_URL.indexOf('localhost') < 0;
 
 if (trackWebVitals) {
   onCLS(recordWebVitalsEvent);
