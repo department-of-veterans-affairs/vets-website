@@ -5,7 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { ServiceConnectedDisabilityDescription } from '../../content/newConditions';
-import { createItemName } from './utils';
+import { createItemName, getOtherConditions } from './utils';
 
 export const causeOptions = {
   NEW:
@@ -18,6 +18,34 @@ export const causeOptions = {
     'My condition was caused by an injury or event that happened when I was receiving VA care.',
 };
 
+export const causeWithoutSecondaryOptions = {
+  NEW:
+    'My condition was caused by an injury or exposure during my military service.',
+  WORSENED:
+    'My condition existed before I served in the military, but it got worse because of my military service.',
+  VA:
+    'My condition was caused by an injury or event that happened when I was receiving VA care.',
+};
+
+// TODO: Get index from path
+const getUiOptions = formData => ({
+  'ui:options': {
+    labels: getOtherConditions(formData, 0).length
+      ? causeOptions
+      : causeWithoutSecondaryOptions,
+  },
+});
+
+// TODO: Get index from path
+const getSchemaOptions = formData =>
+  radioSchema(
+    Object.keys(
+      getOtherConditions(formData, 0).length
+        ? causeOptions
+        : causeWithoutSecondaryOptions,
+    ),
+  );
+
 /** @returns {PageSchema} */
 const causePage = {
   uiSchema: {
@@ -27,6 +55,8 @@ const causePage = {
     cause: radioUI({
       title: 'What caused your condition?',
       labels: causeOptions,
+      updateUiSchema: formData => getUiOptions(formData),
+      updateSchema: formData => getSchemaOptions(formData),
     }),
     'view:serviceConnectedDisabilityDescription': {
       'ui:description': ServiceConnectedDisabilityDescription,
