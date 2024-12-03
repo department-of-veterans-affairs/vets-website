@@ -111,7 +111,28 @@ class IntroductionPage extends React.Component {
               .
             </p>
           )}
-
+          {environment.isLocalhost() && (
+            <va-alert slim status="info">
+              <h4 className="vads-u-font-size--h6">
+                Notice of evidence needed
+              </h4>
+              <p className="vads-u-margin-bottom--1">
+                We're required by law to tell you what evidence you'll need to
+                submit to support your disability claim.
+              </p>
+              <p className="vads-u-margin-y--1">
+                You can review the evidence requirements on our evidence needed
+                for your disability claim page.
+              </p>
+              <p className="vads-u-margin-bottom--1">
+                <va-link
+                  external
+                  href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/"
+                  text="Review the evidence requirements"
+                />
+              </p>
+            </va-alert>
+          )}
           <va-process-list class="vads-u-padding-y--0">
             {/* Prepare */}
             <va-process-list-item>
@@ -170,28 +191,6 @@ class IntroductionPage extends React.Component {
                   your disability happened or how it got worse
                 </li>
               </ul>
-              {environment.isLocalhost() && (
-                <va-alert slim status="info">
-                  <h4 className="vads-u-font-size--h6">
-                    Notice of evidence needed
-                  </h4>
-                  <p className="vads-u-margin-bottom--1">
-                    We're required by law to tell you what evidence you'll need
-                    to submit to support your disability claim.
-                  </p>
-                  <p className="vads-u-margin-y--1">
-                    You can review the evidence requirements on our evidence
-                    needed for your disability claim page.
-                  </p>
-                  <p className="vads-u-margin-bottom--1">
-                    <va-link
-                      external
-                      href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/"
-                      text="Review the evidence requirements"
-                    />
-                  </p>
-                </va-alert>
-              )}
               {isBDDForm ? (
                 <va-summary-box class="vads-u-margin-bottom--1" uswds>
                   <strong>
