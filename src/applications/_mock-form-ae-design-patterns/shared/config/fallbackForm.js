@@ -2,7 +2,6 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../../manifest.json';
 
 import IntroductionPage from '../components/pages/IntroductionPage1010ezr';
-import ConfirmationPage from '../components/pages/ConfirmationPage';
 import VeteranProfileInformation from '../../patterns/pattern1/TaskGreen/VeteranProfileInformation';
 import { VIEW_FIELD_SCHEMA } from '../../utils/constants';
 
@@ -14,7 +13,6 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '_mock-form-ae-design-patterns-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   saveInProgress: {
     // messages: {

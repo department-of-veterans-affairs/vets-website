@@ -10,7 +10,6 @@ import content from '../../../../shared/locales/en/content.json';
 import { VIEW_FIELD_SCHEMA } from '../../../../utils/constants';
 
 import IntroductionPage from '../../../../shared/components/pages/IntroductionPage1010ezr';
-import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 import { prefillTransformer } from '../../../../utils/helpers/prefill-transformer';
 
 import { EditAddress } from '../EditContactInfoTaskGreen';
@@ -58,7 +57,6 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'task-green',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
   saveInProgress: {

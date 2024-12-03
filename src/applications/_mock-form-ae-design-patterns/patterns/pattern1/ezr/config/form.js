@@ -22,7 +22,6 @@ import {
 import { prefillTransformer } from '../../../../utils/helpers/prefill-transformer';
 
 import IntroductionPage from '../../../../shared/components/pages/IntroductionPage1010ezr';
-import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContactInformation from './chapters/veteranInformation/contactInformation';
 import maritalStatus from './chapters/householdInformation/maritalStatus';
@@ -93,7 +92,6 @@ const formConfig = {
   trackingPrefix: 'ezr',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
   saveInProgress: {

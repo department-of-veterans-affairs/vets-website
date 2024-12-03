@@ -2,19 +2,19 @@ import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+// application root imports
 import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
-import manifest from '../manifest.json';
+import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
+import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 
+// page level component imports
+import IntroductionPage from '../pages/introduction/IntroductionPage';
+
+// config imports
 import { contactInformation } from './pages/contactInformation';
 import { reviewAndSubmit } from './pages/reviewAndSubmit';
 import { applicantInformation } from './pages/applicantInformation';
 import { editVeteranAddress } from './pages/editVeteranAddress';
-
-import GetFormHelp from '../components/GetFormHelp';
-import ErrorText from '../components/ErrorText';
-
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { prefillTransformer } from '../helpers';
 
@@ -37,14 +37,12 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
   defaultDefinitions: {},
   saveInProgress: {},
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
-  errorText: ErrorText,
   chapters: {
     applicantInformation: {
       title: 'Applicant information',

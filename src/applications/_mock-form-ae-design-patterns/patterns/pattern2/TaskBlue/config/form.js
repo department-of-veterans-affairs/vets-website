@@ -1,14 +1,14 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import profileContactInfo from './profileContactInfo';
 
-import manifest from '../../../../manifest.json';
+// application root imports
+import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
+import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
+import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
 
+// page level imports
 import IntroductionPage from '../IntroductionPage';
-import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
-import { GetFormHelp } from '../GetFormHelp';
-
-import veteranInfo from '../pages/veteranInfo';
-import { taskCompletePagePattern2 } from '../../../../shared/config/taskCompletePage';
+import profileContactInfo from './profileContactInfo';
+import veteranInfo from './veteranInfo';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -18,7 +18,6 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'task-blue',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
   saveInProgress: {

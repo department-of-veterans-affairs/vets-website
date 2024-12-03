@@ -1,13 +1,12 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
 import profileContactInfo from './profileContactInfo';
 import { customText } from '../content/saveInProgress';
+import IntroductionPage from '../IntroductionPage';
 
 import manifest from '../../../../manifest.json';
-
-import IntroductionPage from '../IntroductionPage';
-import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 import { taskCompletePagePattern1 } from '../../../../shared/config/taskCompletePage';
-import { GetFormHelp } from '../GetFormHelp';
+import { GetFormHelp } from '../../../../shared/components/GetFormHelp';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -17,7 +16,6 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'task-purple',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
   saveInProgress: {
