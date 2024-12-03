@@ -25,25 +25,30 @@ export const ChooseDateAndTime = props => {
   const { currentReferral } = props;
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+
   const { provider, providerFetchStatus } = useSelector(
     state => getProviderInfo(state),
     shallowEqual,
   );
-  const [slots, setSlots] = useState(provider?.slots ?? []);
-  const [latestAvailableSlot, setLatestAvailableSlot] = useState(new Date());
-  const selectedDate = useSelector(state => getSelectedDate(state));
-  const [loading, setLoading] = useState(true);
-  const [failed, setFailed] = useState(false);
   const { futureStatus, appointmentsByMonth } = useSelector(
     state => getUpcomingAppointmentListInfo(state),
     shallowEqual,
   );
+  const selectedDate = useSelector(state => getSelectedDate(state));
+  const currentPage = useSelector(selectCurrentPage);
+
+  const [slots, setSlots] = useState(provider?.slots ?? []);
+  const [latestAvailableSlot, setLatestAvailableSlot] = useState(new Date());
+  const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const [error, setError] = useState('');
+
   const facilityTimeZone = getTimezoneByFacilityId(
     currentReferral.ReferringFacilityInfo.FacilityCode,
   );
-  const location = useLocation();
-  const currentPage = useSelector(selectCurrentPage);
-  const [error, setError] = useState('');
+  const selectedDateKey = `selected-date-referral-${currentReferral.UUID}`;
+
   const fullAddress = addressObject => {
     let addressString = addressObject.street1;
     if (addressObject.street2) {
@@ -57,44 +62,6 @@ export const ChooseDateAndTime = props => {
     }, ${addressObject.zip}`;
     return addressString;
   };
-  const selectedDateKey = `selected-date-referral-${currentReferral.UUID}`;
-  const onChange = useCallback(
-    value => {
-      setError('');
-      dispatch(onCalendarChange(value));
-      sessionStorage.setItem(selectedDateKey, value);
-    },
-    [dispatch, selectedDateKey],
-  );
-  useEffect(
-    () => {
-      if (provider && provider.slots.length) {
-        setSlots(provider.slots);
-        const latest = new Date(
-          Math.max.apply(
-            null,
-            provider.slots.map(slot => {
-              return new Date(slot.start);
-            }),
-          ),
-        );
-        setLatestAvailableSlot(latest);
-      }
-    },
-    [provider, provider.slots],
-  );
-  useEffect(
-    () => {
-      const savedSelectedDate = sessionStorage.getItem(selectedDateKey);
-
-      if (!savedSelectedDate) {
-        return;
-      }
-
-      dispatch(onCalendarChange([savedSelectedDate]));
-    },
-    [dispatch, selectedDateKey],
-  );
 
   const hasConflict = useCallback(
     () => {
@@ -143,7 +110,65 @@ export const ChooseDateAndTime = props => {
     },
     [facilityTimeZone, selectedDate, appointmentsByMonth],
   );
+  const onChange = useCallback(
+    value => {
+      setError('');
+      dispatch(onCalendarChange(value));
+      sessionStorage.setItem(selectedDateKey, value);
+    },
+    [dispatch, selectedDateKey],
+  );
+  const onBack = () => {
+    routeToPreviousReferralPage(history, currentPage, currentReferral.UUID);
+  };
+  const onSubmit = () => {
+    if (error) {
+      return;
+    }
+    if (!selectedDate) {
+      setError(
+        'Please choose your preferred date and time for your appointment',
+      );
+      return;
+    }
+    if (appointmentsByMonth && hasConflict()) {
+      setError(
+        'You already have an appointment at this time. Please select another day or time.',
+      );
+      return;
+    }
+    routeToNextReferralPage(history, currentPage);
+  };
 
+  useEffect(
+    () => {
+      if (provider && provider.slots.length) {
+        setSlots(provider.slots);
+        const latest = new Date(
+          Math.max.apply(
+            null,
+            provider.slots.map(slot => {
+              return new Date(slot.start);
+            }),
+          ),
+        );
+        setLatestAvailableSlot(latest);
+      }
+    },
+    [provider, provider.slots],
+  );
+  useEffect(
+    () => {
+      const savedSelectedDate = sessionStorage.getItem(selectedDateKey);
+
+      if (!savedSelectedDate) {
+        return;
+      }
+
+      dispatch(onCalendarChange([savedSelectedDate]));
+    },
+    [dispatch, selectedDateKey],
+  );
   useEffect(
     () => {
       if (
@@ -173,39 +198,12 @@ export const ChooseDateAndTime = props => {
     },
     [currentReferral.providerId, dispatch, providerFetchStatus, futureStatus],
   );
-
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleAppointment'));
     },
     [location, dispatch],
   );
-
-  const onBack = () => {
-    routeToPreviousReferralPage(history, currentPage, currentReferral.UUID);
-  };
-
-  const onSubmit = () => {
-    if (error) {
-      return;
-    }
-
-    if (!selectedDate) {
-      setError(
-        'Please choose your preferred date and time for your appointment',
-      );
-      return;
-    }
-
-    if (appointmentsByMonth && hasConflict()) {
-      setError(
-        'You already have an appointment at this time. Please select another day or time.',
-      );
-      return;
-    }
-
-    routeToNextReferralPage(history, currentPage);
-  };
 
   if (loading) {
     return (
