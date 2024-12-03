@@ -1,17 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { startOfMonth, format, addMinutes, isWithinInterval } from 'date-fns';
+import { format, addMinutes, isWithinInterval } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import CalendarWidget from '../components/calendar/CalendarWidget';
 import ReferralLayout from './components/ReferralLayout';
 import { onCalendarChange } from '../new-appointment/redux/actions';
 import FormButtons from '../components/FormButtons';
-import { referral } from './temp-data/referral';
 import { getSelectedDate } from '../new-appointment/redux/selectors';
-import { selectUpcomingAppointments } from '../appointment-list/redux/selectors';
+import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from './flow';
 import { setFormCurrentPage, fetchProviderDetails } from './redux/actions';
+import { fetchFutureAppointments } from '../appointment-list/redux/actions';
 import { selectCurrentPage, getProviderInfo } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -20,26 +21,29 @@ import {
   getTimezoneByFacilityId,
 } from '../utils/timezone';
 
-export const ChooseDateAndTime = () => {
+export const ChooseDateAndTime = props => {
+  const { currentReferral } = props;
   const dispatch = useDispatch();
-
   const history = useHistory();
+  const { provider, providerFetchStatus } = useSelector(
+    state => getProviderInfo(state),
+    shallowEqual,
+  );
+  const [slots, setSlots] = useState(provider?.slots ?? []);
+  const [latestAvailableSlot, setLatestAvailableSlot] = useState(new Date());
   const selectedDate = useSelector(state => getSelectedDate(state));
-  const upcomingAppointments = useSelector(state =>
-    selectUpcomingAppointments(state),
+  const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const { futureStatus, appointmentsByMonth } = useSelector(
+    state => getUpcomingAppointmentListInfo(state),
+    shallowEqual,
+  );
+  const facilityTimeZone = getTimezoneByFacilityId(
+    currentReferral.ReferringFacilityInfo.FacilityCode,
   );
   const location = useLocation();
   const currentPage = useSelector(selectCurrentPage);
-  const startMonth = format(startOfMonth(referral.preferredDate), 'yyyy-MM');
   const [error, setError] = useState('');
-  const latestAvailableSlot = new Date(
-    Math.max.apply(
-      null,
-      referral.slots.map(slot => {
-        return new Date(slot.start);
-      }),
-    ),
-  );
   const fullAddress = addressObject => {
     let addressString = addressObject.street1;
     if (addressObject.street2) {
@@ -53,7 +57,7 @@ export const ChooseDateAndTime = () => {
     }, ${addressObject.zip}`;
     return addressString;
   };
-  const selectedDateKey = `selected-date-referral-${referral.id}`;
+  const selectedDateKey = `selected-date-referral-${currentReferral.UUID}`;
   const onChange = useCallback(
     value => {
       setError('');
@@ -62,12 +66,23 @@ export const ChooseDateAndTime = () => {
     },
     [dispatch, selectedDateKey],
   );
-
-  const { provider, providerFetchStatus } = useSelector(
-    state => getProviderInfo(state),
-    shallowEqual,
+  useEffect(
+    () => {
+      if (provider && provider.slots.length) {
+        setSlots(provider.slots);
+        const latest = new Date(
+          Math.max.apply(
+            null,
+            provider.slots.map(slot => {
+              return new Date(slot.start);
+            }),
+          ),
+        );
+        setLatestAvailableSlot(latest);
+      }
+    },
+    [provider, provider.slots],
   );
-
   useEffect(
     () => {
       const savedSelectedDate = sessionStorage.getItem(selectedDateKey);
@@ -85,11 +100,11 @@ export const ChooseDateAndTime = () => {
     () => {
       let conflict = false;
       const selectedMonth = format(new Date(selectedDate), 'yyyy-MM');
-      if (!(selectedMonth in upcomingAppointments)) {
+      if (!(selectedMonth in appointmentsByMonth)) {
         return conflict;
       }
       const selectedDay = format(new Date(selectedDate), 'dd');
-      const monthOfApts = upcomingAppointments[selectedMonth];
+      const monthOfApts = appointmentsByMonth[selectedMonth];
       const daysWithApts = monthOfApts.map(apt => {
         return format(new Date(apt.start), 'dd');
       });
@@ -114,7 +129,7 @@ export const ChooseDateAndTime = () => {
       unavailableTimes.forEach(range => {
         if (
           isWithinInterval(
-            zonedTimeToUtc(new Date(selectedDate), referral.timezone),
+            zonedTimeToUtc(new Date(selectedDate), facilityTimeZone),
             {
               start: range.start,
               end: range.end,
@@ -126,21 +141,39 @@ export const ChooseDateAndTime = () => {
       });
       return conflict;
     },
-    [selectedDate, upcomingAppointments],
+    [facilityTimeZone, selectedDate, appointmentsByMonth],
   );
 
   useEffect(
     () => {
-      if (providerFetchStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchProviderDetails(referral.provider));
-      } else if (providerFetchStatus === FETCH_STATUS.succeeded) {
+      if (
+        providerFetchStatus === FETCH_STATUS.notStarted ||
+        futureStatus === FETCH_STATUS.notStarted
+      ) {
+        if (providerFetchStatus === FETCH_STATUS.notStarted) {
+          dispatch(fetchProviderDetails(currentReferral.providerId));
+        }
+        if (futureStatus === FETCH_STATUS.notStarted) {
+          dispatch(fetchFutureAppointments({ includeRequests: false }));
+        }
+      } else if (
+        providerFetchStatus === FETCH_STATUS.succeeded &&
+        futureStatus === FETCH_STATUS.succeeded
+      ) {
+        setLoading(false);
         scrollAndFocus('h1');
-      } else if (providerFetchStatus === FETCH_STATUS.failed) {
+      } else if (
+        providerFetchStatus === FETCH_STATUS.failed ||
+        futureStatus === FETCH_STATUS.failed
+      ) {
+        setLoading(false);
+        setFailed(true);
         scrollAndFocus('h2');
       }
     },
-    [dispatch, providerFetchStatus],
+    [currentReferral.providerId, dispatch, providerFetchStatus, futureStatus],
   );
+
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleAppointment'));
@@ -149,7 +182,7 @@ export const ChooseDateAndTime = () => {
   );
 
   const onBack = () => {
-    routeToPreviousReferralPage(history, currentPage, referral.id);
+    routeToPreviousReferralPage(history, currentPage, currentReferral.UUID);
   };
 
   const onSubmit = () => {
@@ -164,7 +197,7 @@ export const ChooseDateAndTime = () => {
       return;
     }
 
-    if (upcomingAppointments && hasConflict()) {
+    if (appointmentsByMonth && hasConflict()) {
       setError(
         'You already have an appointment at this time. Please select another day or time.',
       );
@@ -174,10 +207,7 @@ export const ChooseDateAndTime = () => {
     routeToNextReferralPage(history, currentPage);
   };
 
-  if (
-    providerFetchStatus === FETCH_STATUS.loading ||
-    providerFetchStatus === FETCH_STATUS.notStarted
-  ) {
+  if (loading) {
     return (
       <div className="vads-u-margin-y--8">
         <va-loading-indicator message="Loading available appointments times..." />
@@ -185,7 +215,7 @@ export const ChooseDateAndTime = () => {
     );
   }
 
-  if (providerFetchStatus === FETCH_STATUS.failed) {
+  if (failed) {
     return (
       <va-alert status="error">
         <h2>"We’re sorry. We’ve run into a problem"</h2>
@@ -208,7 +238,9 @@ export const ChooseDateAndTime = () => {
           <p className="vads-u-font-weight--bold vads-u-margin--0">
             {provider.providerName}
           </p>
-          <p className="vads-u-margin-top--0">{referral.typeOfCare}</p>
+          <p className="vads-u-margin-top--0">
+            {currentReferral.CategoryOfCare}
+          </p>
           <p className="vads-u-margin--0 vads-u-font-weight--bold">
             {provider.orgName}
           </p>
@@ -266,16 +298,19 @@ export const ChooseDateAndTime = () => {
           <p>
             Select an available date and time from the calendar below.
             Appointment times are displayed in{' '}
-            {`${getTimezoneDescByFacilityId(referral.provider)}`}.
+            {`${getTimezoneDescByFacilityId(
+              currentReferral.ReferringFacilityInfo.FacilityCode,
+            )}`}
+            .
           </p>
         </div>
         <div>
           <CalendarWidget
             maxSelections={1}
-            availableSlots={provider.slots}
+            availableSlots={slots}
             value={[selectedDate]}
             id="dateTime"
-            timezone={getTimezoneByFacilityId(referral.provider)}
+            timezone={facilityTimeZone}
             additionalOptions={{
               required: true,
             }}
@@ -294,7 +329,7 @@ export const ChooseDateAndTime = () => {
             maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
             required
             requiredMessage={error}
-            startMonth={startMonth}
+            startMonth={format(new Date(), 'yyyy-MM')}
             showValidation={error.length > 0}
             showWeekends
             overrideMaxDays
@@ -308,6 +343,10 @@ export const ChooseDateAndTime = () => {
       </>
     </ReferralLayout>
   );
+};
+
+ChooseDateAndTime.propTypes = {
+  currentReferral: PropTypes.object.isRequired,
 };
 
 export default ChooseDateAndTime;
