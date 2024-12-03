@@ -2,7 +2,7 @@ import React from 'react';
 
 export const maskEmail = (email, testid) => {
   if (!email) {
-    return <span aria-label="No email provided" />;
+    return <span data-testid={testid} aria-label="No email provided" />;
   }
   const [name, domain] = email.split('@');
   const maskedName =
