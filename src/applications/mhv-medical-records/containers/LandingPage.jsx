@@ -75,7 +75,6 @@ const LandingPage = () => {
         >
           Medical records
         </h1>
-
         <DowntimeNotification
           appTitle={downtimeNotificationParams.appTitle}
           dependencies={[
@@ -120,7 +119,6 @@ const LandingPage = () => {
           )}
         </section>
       )}
-
       {displayNotes && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -160,7 +158,6 @@ const LandingPage = () => {
           )}
         </section>
       )}
-
       {displayVaccines && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -194,7 +191,6 @@ const LandingPage = () => {
           )}
         </section>
       )}
-
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
           Allergies and reactions
@@ -227,7 +223,6 @@ const LandingPage = () => {
           </Link>
         )}
       </section>
-
       {displayConditions && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -258,7 +253,6 @@ const LandingPage = () => {
           )}
         </section>
       )}
-
       {displayVitals && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -295,7 +289,6 @@ const LandingPage = () => {
           )}
         </section>
       )}
-
       {displayMedicalRecordsSettings && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -317,7 +310,6 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
-
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
           Download your Blue Button report or health summary
@@ -343,7 +335,6 @@ const LandingPage = () => {
           />
         </p>
       </section>
-
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
           What to know as you try out this tool
@@ -370,7 +361,6 @@ const LandingPage = () => {
           />
         </p>
       </section>
-
       <section className="vads-u-margin-bottom--4">
         <h2>Questions about this medical records tool</h2>
         <va-accordion bordered>
