@@ -48,6 +48,7 @@ const createReferral = (startDate, uuid) => {
     numberOfAppointments: 1,
     providerName: 'Dr. Face',
     providerLocation: 'New skin technologies bldg 2',
+    providerId: '111',
   };
 };
 
