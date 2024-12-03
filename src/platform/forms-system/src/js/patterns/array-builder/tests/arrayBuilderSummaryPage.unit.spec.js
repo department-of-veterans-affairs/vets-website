@@ -156,7 +156,7 @@ describe('ArrayBuilderSummaryPage', () => {
 
     const CustomPage = ArrayBuilderSummaryPage({
       arrayPath: 'employers',
-      firstItemPagePath: '/first-item/:index',
+      getFirstItemPagePath: () => '/first-item/:index',
       hasItemsKey: 'view:hasOption',
       isItemIncomplete: item => !item?.name,
       isReviewPage,

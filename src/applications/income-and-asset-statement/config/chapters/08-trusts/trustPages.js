@@ -338,8 +338,10 @@ export const trustPages = arrayBuilderPages(
     trustHasAddedFundsPage: pageBuilder.itemPage({
       title: 'Trust has added funds',
       path: 'trusts/:index/has-added-funds',
+      // TODO: use depends: (formData, index) instead on the dynamic page.
       onNavForward: props => {
-        return props.formData.addedFundsAfterEstablishment
+        const item = props.formData?.[options.arrayPath]?.[props.index];
+        return item?.addedFundsAfterEstablishment
           ? helpers.navForwardKeepUrlParams(props) // go to next page
           : helpers.navForwardFinishedItem(props); // return to summary
       },
