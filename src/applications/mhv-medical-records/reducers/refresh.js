@@ -155,6 +155,12 @@ export const refreshReducer = (state = initialState, action) => {
         statusPollBeginDate: action.payload,
       };
     }
+    case Actions.Refresh.STATUS_CALL_FAILED: {
+      return {
+        ...state,
+        phase: refreshPhases.CALL_FAILED,
+      };
+    }
     default:
       return state;
   }

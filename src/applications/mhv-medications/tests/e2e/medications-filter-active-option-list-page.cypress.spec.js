@@ -1,7 +1,8 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
-import { Paths } from './utils/constants';
+import { Data, Paths } from './utils/constants';
+import filterRx from './fixtures/filter-prescriptions.json';
 
 describe('Medications List Page Active Filter Option', () => {
   it('visits Medications List Page Filter Option Active', () => {
@@ -19,15 +20,11 @@ describe('Medications List Page Active Filter Option', () => {
       'Active prescriptions and non-VA medications',
     );
     listPage.verifyFilterButtonWhenAccordionExpanded();
-    listPage.clickFilterRadioButtonOptionOnListPage(
-      'Active',
-      Paths.INTERCEPT.ACTIVE_FILTER_LIST,
-    );
+    listPage.clickFilterRadioButtonOptionOnListPage('Active');
 
-    listPage.clickFilterButtonOnAccordion();
-    // listPage.verifyFocusOnPaginationTextInformationOnListPage(
-    //   Data.PAGINATION_TEXT,
-    // );
-    // listPage.verifyNameOfFirstRxOnMedicationsList('active');
+    listPage.clickFilterButtonOnAccordion(Paths.ACTIVE_FILTER, filterRx);
+    listPage.verifyFocusOnPaginationTextInformationOnListPage(
+      Data.PAGINATION_ACTIVE_TEXT,
+    );
   });
 });

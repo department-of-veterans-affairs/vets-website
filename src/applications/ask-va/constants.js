@@ -63,14 +63,21 @@ export const branchesOfService = [
   'Unknown',
 ];
 
+// Categories
 export const CategoryEducation = 'Education benefits and work study';
 export const CategoryVeteranReadinessAndEmployment =
   'Veteran Readiness and Employment';
 export const CategoryGuardianshipCustodianshipFiduciaryIssues =
   'Guardianship, custodianship, or fiduciary issues';
+export const CategoryHousingAssistanceAndHomeLoans =
+  'Housing assistance and home loans';
+
+// Topics
 export const TopicVeteranReadinessAndEmploymentChapter31 =
   'Veteran Readiness and Employment (Chapter 31)';
-
+export const TopicSpeciallyAdapatedHousing =
+  'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
+export const TopicAppraisals = 'Appraisals';
 export const requireSignInCategories = [
   CategoryEducation,
   'Education benefits and work study',
@@ -141,6 +148,8 @@ export const RESPONSE_PAGE = {
     LIST_ITEM_2: 'Your file should be no larger than 25MB',
   },
 };
+
+export const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
 
 export const pronounLabels = {
   heHimHis: 'He/him/his',
@@ -490,8 +499,16 @@ export const CHAPTER_3 = {
     TITLE: 'Your school facility',
     QUESTION_1: 'Do you want this to be your saved school facility?',
   },
+  STATE_OF_PROPERTY: {
+    TITLE: 'State of property',
+    QUESTION_1: 'Select state',
+  },
   STATE_OF_SCHOOL: {
     TITLE: 'State of school',
+    QUESTION_1: 'Select state',
+  },
+  STATE_OF_FACILITY: {
+    TITLE: 'State of facility',
     QUESTION_1: 'Select state',
   },
   SCHOOL_STATE_OR_RESIDENCY: {

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/ui';
+import { isLoggedIn } from 'platform/user/selectors';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import { fetchRepStatus } from '../api/fetchRepStatus';
 import SearchResult from './SearchResult';
@@ -30,14 +31,21 @@ const SelectAccreditedRepresentative = props => {
     formData?.['view:representativeSearchResults'],
   );
 
+  const query = formData['view:representativeQuery'];
+  const invalidQuery = query === undefined || !query.trim();
+
   const noSearchError =
     'Enter the name of the accredited representative or VSO you’d like to appoint';
+
+  const noSelectionError =
+    'Select the accredited representative or VSO you’d like to appoint below.';
 
   const isReviewPage = useReviewPage();
 
   const getRepStatus = async () => {
     if (loggedIn) {
       setLoadingPOA(true);
+
       try {
         const res = await fetchRepStatus();
         setLoadingPOA(false);
@@ -60,9 +68,13 @@ const SelectAccreditedRepresentative = props => {
 
   const handleGoForward = ({ selectionMade = false }) => {
     const selection = formData['view:selectedRepresentative'];
+    const noSelectionExists = !selection && !selectionMade;
 
-    if (!selection && !selectionMade) {
-      setError('You must select an accredited representative');
+    if (noSelectionExists && !invalidQuery) {
+      setError(noSelectionError);
+      scrollToFirstError({ focusOnAlertRole: true });
+    } else if (noSelectionExists && invalidQuery) {
+      setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
       if (selection === currentSelectedRep) {
@@ -76,9 +88,7 @@ const SelectAccreditedRepresentative = props => {
   };
 
   const handleSearch = async () => {
-    const query = formData['view:representativeQuery'];
-
-    if (query === undefined || !query.trim()) {
+    if (invalidQuery) {
       setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
       return;
@@ -187,7 +197,8 @@ const SelectAccreditedRepresentative = props => {
       </p>
       <va-link
         href="/get-help-from-accredited-representative/find-rep"
-        text="Find a VA accredited representative or VSO (opens in new tab)"
+        text="Find a VA accredited representative or VSO"
+        external
       />
       <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
     </div>
@@ -206,6 +217,7 @@ SelectAccreditedRepresentative.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
+  loggedIn: isLoggedIn(state),
 });
 
 const mapDispatchToProps = {
