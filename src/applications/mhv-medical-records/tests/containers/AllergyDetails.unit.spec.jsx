@@ -213,9 +213,8 @@ describe('Allergy details container with multiple categories/types', () => {
   });
 
   it('should include the array of allergy types as a joined list', async () => {
-    screen.debug(undefined, 10000);
     await waitFor(() => {
-      expect(screen.getByText('Food, Medication, Drug allergy')).to.exist;
+      expect(screen.getByText('Food, medication, drug allergy')).to.exist;
     });
   });
 });

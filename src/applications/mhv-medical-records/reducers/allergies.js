@@ -64,8 +64,8 @@ export const convertAllergy = allergy => {
     type:
       (isArrayAndHasItems(allergy.category) &&
         allergy.category
-          .map(str => str.charAt(0).toUpperCase() + str.slice(1))
-          .join(', ')) ||
+          .join(', ')
+          .replace(/^./, char => char.toUpperCase())) ||
       EMPTY_FIELD,
     name: allergy?.code?.text || EMPTY_FIELD,
     date: allergy?.recordedDate
