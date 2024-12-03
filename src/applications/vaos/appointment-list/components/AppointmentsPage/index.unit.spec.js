@@ -17,6 +17,8 @@ import {
 import AppointmentsPage from '.';
 import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
 import { getVAOSRequestMock } from '../../../tests/mocks/mock';
+import { createReferral } from '../../../referral-appointments/utils/referrals';
+import { FETCH_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -542,43 +544,25 @@ describe('VAOS Page: AppointmentsPage', () => {
       expect(await screen.queryByTestId('referral-task-card')).not.to.exist;
     });
 
-    describe('when a referral UUID is passed', () => {
+    describe('when a referral ID is passed', () => {
       it('should display the referral task card', async () => {
-        // Given the veteran lands on the VAOS homepage with with a UUID passed
-        const appointment = getVAOSRequestMock();
-        appointment.id = '1';
-        appointment.attributes = {
-          id: '1',
-          kind: 'clinic',
-          locationId: '983',
-          requestedPeriods: [{}],
-          serviceType: 'primaryCare',
-          status: 'proposed',
-        };
-
-        mockVAOSAppointmentsFetch({
-          start: moment()
-            .subtract(1, 'month')
-            .format('YYYY-MM-DD'),
-          end: moment()
-            .add(395, 'days')
-            .format('YYYY-MM-DD'),
-          statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-          requests: [appointment],
-        });
-        mockVAOSAppointmentsFetch({
-          start: moment()
-            .subtract(120, 'days')
-            .format('YYYY-MM-DD'),
-          end: moment().format('YYYY-MM-DD'),
-          statuses: ['proposed', 'cancelled'],
-          requests: [appointment],
-        });
-        // Given the veteran lands on the VAOS homepage with a UUID passed
+        // Given the veteran lands on the VAOS homepage with with a ID passed
         // When the page displays
         const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-          initialState: defaultState,
-          path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c68',
+          initialState: {
+            ...defaultState,
+            referral: {
+              facility: null,
+              referrals: [
+                createReferral(
+                  new Date(),
+                  'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+                ),
+              ],
+              referralFetchStatus: FETCH_STATUS.succeeded,
+            },
+          },
+          path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
         });
 
         await screen.findByRole('heading', { name: 'Appointments' });
