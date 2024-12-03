@@ -405,6 +405,7 @@ jobs:
       - name: List directories
         run: |
           cd config
+          cd .nyc_output
           ls -a
 
       - name: Run Cypress tests
