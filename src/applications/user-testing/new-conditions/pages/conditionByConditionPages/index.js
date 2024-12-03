@@ -71,7 +71,9 @@ const conditionByConditionPages = arrayBuilderPages(
 
         return hasSideOfBody(formData, index)
           ? helpers.navBackKeepUrlParams(props)
-          : goPath(`new-conditions/${index}/condition${urlParamsString}`);
+          : goPath(
+              `new-conditions-${CONDITION_BY_CONDITION}/${index}/condition${urlParamsString}`,
+            );
       },
     }),
     conditionByConditionCause: pageBuilder.itemPage({

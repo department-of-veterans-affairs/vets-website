@@ -125,8 +125,8 @@ export const vitalTypes = {
   BLOOD_PRESSURE: ['BLOOD_PRESSURE'],
   PULSE: ['PULSE', 'HEART_RATE'],
   RESPIRATION: ['RESPIRATION', 'RESPIRATORY_RATE'],
-  PULSE_OXIMETRY: ['PULSE_OXIMETRY'],
-  TEMPERATURE: ['TEMPERATURE'],
+  PULSE_OXIMETRY: ['PULSE_OXIMETRY', 'OXYGEN_SATURATION_IN_ARTERIAL_BLOOD'],
+  TEMPERATURE: ['TEMPERATURE', 'BODY_TEMPERATURE'],
   WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
   PAIN_SEVERITY: ['PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED'],
@@ -139,13 +139,14 @@ export const vitalTypeDisplayNames = {
   RESPIRATION: 'Breathing rate',
   RESPIRATORY_RATE: 'Breathing rate',
   PULSE_OXIMETRY: 'Blood oxygen level (pulse oximetry)',
+  OXYGEN_SATURATION_IN_ARTERIAL_BLOOD: 'Blood oxygen level (pulse oximetry)',
   TEMPERATURE: 'Temperature',
+  BODY_TEMPERATURE: 'Temperature',
   BODY_WEIGHT: 'Weight',
   WEIGHT: 'Weight',
   BODY_HEIGHT: 'Height',
   HEIGHT: 'Height',
-  PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED:
-    'Pain severity - 0-10 verbal numeric rating [Score] - Reported',
+  PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED: 'Pain severity',
   PAIN_SEVERITY: 'Pain severity',
 };
 

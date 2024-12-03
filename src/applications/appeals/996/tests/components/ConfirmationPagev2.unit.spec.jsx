@@ -57,6 +57,8 @@ describe('ConfirmationPageV2', () => {
   });
 
   it('should render the confirmation page with evidence', () => {
+    const contactRepMessage =
+      'Since you requested an informal conference, we’ll contact your accredited representative to schedule your conference.';
     const data = getData();
     const { container } = render(
       <Provider store={mockStore(data)}>
@@ -64,9 +66,13 @@ describe('ConfirmationPageV2', () => {
       </Provider>,
     );
 
-    expect($('va-alert[status="success"]', container)).to.exist;
-    expect($('va-alert[status="success"]', container).innerHTML).to.contain(
-      `After we’ve completed our review`,
+    const alert = $('va-alert[status="success"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain(contactRepMessage);
+    expect(alert.innerHTML).to.contain('After we’ve completed our review');
+
+    expect($('.next-steps', container).textContent).to.contain(
+      contactRepMessage,
     );
     // expect($('va-loading-indicator', container)).to.exist;
     const h2s = $$('h2', container);
@@ -122,6 +128,8 @@ describe('ConfirmationPageV2', () => {
   });
 
   it('should render the confirmation page with a hearing request', () => {
+    const contactMeMessage =
+      'Since you requested an informal conference, we’ll contact you to schedule your conference.';
     const data = getData({
       informalConference: 'me',
     });
@@ -129,6 +137,15 @@ describe('ConfirmationPageV2', () => {
       <Provider store={mockStore(data)}>
         <ConfirmationPageV2 />
       </Provider>,
+    );
+
+    const alert = $('va-alert[status="success"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain(contactMeMessage);
+    expect(alert.innerHTML).to.contain('After we’ve completed our review');
+
+    expect($('.next-steps', container).textContent).to.contain(
+      contactMeMessage,
     );
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
@@ -148,6 +165,15 @@ describe('ConfirmationPageV2', () => {
       <Provider store={mockStore(data)}>
         <ConfirmationPageV2 />
       </Provider>,
+    );
+
+    const alert = $('va-alert[status="success"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.not.contain('Since you requested');
+    expect(alert.innerHTML).to.contain('After we’ve completed our review');
+
+    expect($('.next-steps', container).textContent).to.not.contain(
+      'Since you requested',
     );
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
