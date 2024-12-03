@@ -3,7 +3,7 @@ import {
   isClientError,
   isServerError,
   parseResponseErrors,
-} from '../../../../utils/helpers/disability-rating';
+} from '../../../../utils/helpers';
 
 describe('hca disability rating helpers', () => {
   context('when `isClientError` executes', () => {
