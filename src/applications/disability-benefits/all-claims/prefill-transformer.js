@@ -154,6 +154,9 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     return newData;
   };
 
+  /**
+   * Save full name to use for verification on the Review page's signature component
+   */
   const prefillFullName = data => {
     const newData = _.omit(['view:userFullName'], data);
     if (state?.user?.profile?.userFullName) {

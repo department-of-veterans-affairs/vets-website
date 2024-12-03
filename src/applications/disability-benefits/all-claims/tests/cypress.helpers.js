@@ -233,9 +233,13 @@ export const reviewAndSubmitPageFlow = (
   let veteranSignature = signerName;
 
   if (typeof veteranSignature === 'object') {
-    veteranSignature = signerName.middle
-      ? `${signerName.first} ${signerName.middle} ${signerName.last}`
-      : `${signerName.first} ${signerName.last}`;
+    const first = veteranSignature['view:first'];
+    const middle = veteranSignature['view:middle'];
+    const last = veteranSignature['view:last'];
+
+    veteranSignature = middle
+      ? `${first} ${middle} ${last}`
+      : `${first} ${last}`;
   }
 
   cy.fillVaTextInput('veteran-signature', veteranSignature);
@@ -401,7 +405,7 @@ export const pageHooks = (cy, testOptions = {}) => ({
   //       // if (environment.isLocalhost()) {
   //       const fullName = data['view:userFullName'];
 
-  //       reviewAndSubmitPageFlow(fullName, 'Submit application');
+  //       reviewAndSubmitPageFlow(fullName);
   //       // }
   //     });
   //   });
