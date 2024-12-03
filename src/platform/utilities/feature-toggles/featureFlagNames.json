@@ -290,6 +290,7 @@
   "virtualAgentEnableRootBot": "virtual_agent_enable_root_bot",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentVoice": "virtual_agent_voice",
+  "virtualAgentEnableDatadogLogging": "virtual_agent_enable_datadog_logging",
   "vyeLoginWidget": "vye_login_widget",
   "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search",
   "showYellowRibbonTable": "show_yellow_ribbon_table",
