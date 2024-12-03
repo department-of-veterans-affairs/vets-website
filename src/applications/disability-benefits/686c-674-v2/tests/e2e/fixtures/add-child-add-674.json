@@ -41,7 +41,7 @@
         "currentTermDates": {
           "officialSchoolStartDate": "1991-01-19",
           "expectedStudentStartDate": "2000-02-19",
-          "expectedGraduationDate": "1991-03-19"
+          "expectedGraduationDate": "2030-03-19"
         },
         "isSchoolAccredited": true,
         "view:accredited": {},
