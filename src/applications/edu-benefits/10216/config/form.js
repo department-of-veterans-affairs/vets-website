@@ -5,10 +5,6 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // Example of an imported schema:
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
-import {
-  textUI,
-  currentOrPastDateUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
 // import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
@@ -30,6 +26,7 @@ import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
 import { validateFacilityCode } from '../utilities';
 import Alert from '../components/Alert';
+import InstitutionDetails from '../pages/institutionDetails';
 
 const { date, dateRange, usaPhone } = commonDefinitions;
 
@@ -85,51 +82,8 @@ const formConfig = {
               goPath('/additional-form');
             }
           },
-          uiSchema: {
-            institutionName: {
-              'ui:title': 'Institution name',
-              'ui:component': textUI,
-              'ui:required': () => true,
-
-              'ui:errorMessages': {
-                required: 'Please enter the name of your institution',
-              },
-            },
-            facilityCode: {
-              'ui:title': 'Facility code',
-              'ui:component': textUI,
-              'ui:required': () => true,
-              'ui:errorMessages': {
-                required: 'Please enter your facility code',
-              },
-              'ui:options': {
-                showFieldLabel: true,
-                keepInPageOnReview: true,
-              },
-            },
-            startDate: {
-              ...currentOrPastDateUI('Term start date'),
-              'ui:required': () => true,
-              'ui:errorMessages': {
-                required: 'Please enter a date',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['institutionName', 'facilityCode', 'startDate'],
-            properties: {
-              institutionName: {
-                type: 'string',
-              },
-              facilityCode: {
-                type: 'string',
-              },
-              startDate: {
-                type: 'string',
-              },
-            },
-          },
+          uiSchema: InstitutionDetails.uiSchema,
+          schema: InstitutionDetails.schema,
         },
         additionalErrorChapter: {
           title: 'Institution Details',
