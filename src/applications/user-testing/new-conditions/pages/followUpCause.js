@@ -22,7 +22,7 @@ const causesWithoutSecondary = allCauses.filter(cause => cause !== 'SECONDARY');
 
 /** @type {PageSchema} */
 export default {
-  title: formData => createItemName(formData, true),
+  title: formData => `Cause of ${createItemName(formData)}`,
   depends: formData => formData.demo === 'CONDITIONS_FIRST',
   path: `new-conditions-${CONDITIONS_FIRST}-follow-up-cause/:index`,
   showPagePerItem: true,
@@ -31,7 +31,7 @@ export default {
     'ui:title': 'Conditions follow up - Cause',
     conditionsFirst: {
       items: {
-        ...titleUI(({ formData }) => createItemName(formData, true)),
+        ...titleUI(({ formData }) => `Cause of ${createItemName(formData)}`),
         cause: radioUI({
           title: 'What caused your condition?',
           labels: causeOptions,

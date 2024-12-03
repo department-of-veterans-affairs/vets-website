@@ -9,6 +9,7 @@ import {
 import { CONDITIONS_FIRST } from '../constants';
 import { conditionOptions } from '../content/conditionOptions';
 import { createItemName } from './conditionsFirstPages/utils';
+import { createCauseFollowUpTitles } from './conditionByConditionPages/causeFollowUp';
 
 const getOtherConditions = (formData, currentIndex) => {
   const otherNewConditions = formData?.conditionsFirst
@@ -24,7 +25,7 @@ const createCauseFollowUpConditional = (formData, index, causeType) => {
 
 /** @type {PageSchema} */
 export default {
-  title: formData => createItemName(formData, true),
+  title: formData => createCauseFollowUpTitles(formData),
   depends: formData => formData.demo === 'CONDITIONS_FIRST',
   path: `new-conditions-${CONDITIONS_FIRST}-follow-up-cause-description/:index`,
   showPagePerItem: true,
@@ -33,7 +34,7 @@ export default {
     'ui:title': 'Conditions follow up - Cause description',
     conditionsFirst: {
       items: {
-        ...titleUI(({ formData }) => createItemName(formData, true)),
+        ...titleUI(({ formData }) => createCauseFollowUpTitles(formData)),
         primaryDescription: textareaUI({
           title:
             'Briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
