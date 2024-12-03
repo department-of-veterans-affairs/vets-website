@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { selectFeatureToggles } from '../../../../utils/selectors/feature-toggles';
+import { selectFeatureToggles } from '../../../../utils/selectors';
 
 describe('hca FeatureToggles selector', () => {
   const state = {
