@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import LicenseCertificationSearchForm from './LicenseCertificationSearchForm';
-import { handleLcResultsSearch } from '../utils/helpers';
+import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 import { fetchLicenseCertificationResults } from '../actions';
 
 function LicenseCertificationSearch({
@@ -13,6 +13,7 @@ function LicenseCertificationSearch({
   hasFetchedOnce,
 }) {
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     dispatchFetchLicenseCertificationResults();
@@ -40,6 +41,7 @@ function LicenseCertificationSearch({
               handleSearch={(type, name) =>
                 handleLcResultsSearch(history, type, name)
               }
+              handleUpdateQueryParam={() => updateQueryParam(history, location)}
             />
           </div>
         </section>

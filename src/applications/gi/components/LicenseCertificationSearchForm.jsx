@@ -70,6 +70,7 @@ const resetStateDropdown = dropdowns => {
 export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
+  handleUpdateQueryParam,
 }) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
   const [name, setName] = useState('');
@@ -107,14 +108,13 @@ export default function LicenseCertificationSearchForm({
       setDropdowns(resetStateDropdown);
     }
 
-    setDropdowns(current => {
-      // update url params
-      return handleUpdateLcFilterDropdowns(current, e.target);
-    });
+    handleUpdateQueryParam()(e.target.id, e.target.value);
+
+    setDropdowns(current => handleUpdateLcFilterDropdowns(current, e.target));
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
-    setName(value); // update url params
+    setName(value);
   };
 
   const onSelection = selection => {

@@ -548,6 +548,22 @@ export const handleUpdateLcFilterDropdowns = (dropdowns, target) => {
   );
 };
 
+export const updateQueryParam = (history, location) => {
+  return (key, value) => {
+    // Get the current query parameters
+    const searchParams = new URLSearchParams(location.search);
+
+    // Set the new query parameter
+    searchParams.set(key, value);
+
+    // Update the URL with the new query string
+    history.push({
+      pathname: location.pathname,
+      search: searchParams.toString(),
+    });
+  };
+};
+
 export const handleLcResultsSearch = (
   history,
   type = 'all',
