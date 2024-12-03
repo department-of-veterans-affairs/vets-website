@@ -555,7 +555,7 @@ describe('VAOS Page: AppointmentsPage', () => {
               facility: null,
               referrals: [
                 createReferral(
-                  new Date(),
+                  moment().format('YYYY-MM-DD'),
                   'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
                 ),
               ],

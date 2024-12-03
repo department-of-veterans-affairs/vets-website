@@ -17,7 +17,7 @@ const initialState = {
   referral: {
     facility: null,
     referrals: [
-      createReferral(new Date(), 'add2f0f4-a1ea-4dea-a504-a54ab57c6801'),
+      createReferral('11-29-2024', 'add2f0f4-a1ea-4dea-a504-a54ab57c6801'),
     ],
     referralFetchStatus: FETCH_STATUS.succeeded,
   },
