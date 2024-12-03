@@ -280,7 +280,7 @@ const FileField = props => {
           file: currentFile,
           name: 'Upload additional evidence',
           errorMessage:
-            'We weren’t able to upload your file. Make sure the file is not encrypted and is an accepted format.',
+            'We weren’t able to upload your file. Make sure the file is not encrypted and is in an accepted format.',
         };
         props.onChange(allFiles);
         return;
