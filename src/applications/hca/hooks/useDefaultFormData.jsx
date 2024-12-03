@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
-import { selectAuthStatus } from '../utils/selectors/auth-status';
+import { selectAuthStatus, selectFeatureToggles } from '../utils/selectors';
 import { validateVeteranDob } from '../utils/validation';
 
 /**

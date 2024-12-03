@@ -1,6 +1,6 @@
-import MedicalRecordsSite from '../mr_site/MedicalRecordsSite';
-import allergies from '../fixtures/allergies/sample-lighthouse.json';
-import oracleHealthUser from '../fixtures/user/oracle-health.json';
+import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
+import allergies from '../../fixtures/allergies/sample-lighthouse.json';
+import oracleHealthUser from '../../fixtures/user/oracle-health.json';
 
 describe('Medical Records View Allergies', () => {
   beforeEach(() => {
@@ -50,17 +50,6 @@ describe('Medical Records View Allergies', () => {
       'contain',
       'Allergies and Reactions - Medical Records | Veterans Affairs',
     );
-
-    // Select the one that says seafood
-    cy.get('.no-print [data-testid="allergy-link-4-6Z8D6dAzABlkPZA"]')
-      .should('be.visible')
-      .click();
-
-    // check the provider is listed
-    cy.findByText('Recorded by').should('exist');
-    cy.findByText('Dr. Marietta439 Schmeler639 MD').should('exist');
-
-    // check the location is not listed
-    cy.findByText('Location').should('not.exist');
+    cy.get('#new-records-indicator').should('not.exist');
   });
 });
