@@ -31,9 +31,9 @@ const directDeposit = {
   uiSchema: {
     'view:directDeposit': {
       'ui:title': (
-        <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
+        <div className="vads-u-font-size--h5 vads-u-margin-top--0">
           Direct deposit information
-        </h4>
+        </div>
       ),
       'ui:field': ReviewCardField,
       'ui:options': {
