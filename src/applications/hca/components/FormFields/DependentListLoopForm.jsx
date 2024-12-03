@@ -7,10 +7,7 @@ import {
   dependentUISchema as uiSchema,
 } from '../../definitions/dependent';
 import { selectAuthStatus } from '../../utils/selectors';
-import {
-  replaceStrValues,
-  normalizeFullName,
-} from '../../utils/helpers/general';
+import { replaceStrValues, normalizeFullName } from '../../utils/helpers';
 import DependentSIPWarning from '../FormAlerts/DependentSIPWarning';
 
 const DependentListLoopForm = props => {
