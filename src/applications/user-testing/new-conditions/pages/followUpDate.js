@@ -21,7 +21,6 @@ export default {
         ...titleUI(({ formData }) => createItemName(formData, true)),
         date: currentOrPastMonthYearDateUI({
           title: 'What’s the approximate date your condition started?',
-          hint: 'For example: January 2004 or 2004',
         }),
       },
     },
