@@ -74,13 +74,13 @@ const POARequestDetailsPage = () => {
             {poaRequest?.status === 'Declined' && (
               <va-icon
                 icon="close"
-                class="vads-u-background-color--error poa-request__card-icon"
+                class="vads-u-color--error poa-request__card-icon"
               />
             )}
             {poaRequest?.status === 'Accepted' && (
               <va-icon
                 icon="check_circle"
-                class="vads-u-background-color--success poa-request__card-icon"
+                class="vads-u-color--success poa-request__card-icon"
               />
             )}
             <span>POA status</span>

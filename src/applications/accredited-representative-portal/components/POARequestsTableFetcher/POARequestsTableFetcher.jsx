@@ -15,7 +15,7 @@ const POARequestsTableFetcher = ({ usePOARequests }) => {
       />
     );
   if (error) return <ErrorMessage />;
-  if (poaRequests.length === 0)
+  if (!poaRequests)
     return (
       <p data-testid="poa-requests-table-fetcher-no-poa-requests">
         No POA requests found
