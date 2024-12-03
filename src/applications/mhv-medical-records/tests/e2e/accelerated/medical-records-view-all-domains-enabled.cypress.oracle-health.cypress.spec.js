@@ -12,6 +12,41 @@ describe('Medical Records View Vitals', () => {
       isAcceleratingVitals: true,
       isAcceleratingAllergies: true,
     });
+    cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
+      'session',
+    );
+    cy.intercept('GET', '/my_health/v1/medical_records/session/status', req => {
+      req.reply({
+        retrievedDate: 1732224967218,
+        lastRefreshDate: null,
+        facilityExtractStatusList: [
+          {
+            extract: 'Allergy',
+            lastRequested: 1732224367218,
+            lastCompleted: 1732224667218,
+            lastSuccessfulCompleted: 1732224667218,
+          },
+          {
+            extract: 'ImagingStudy',
+            lastRequested: 1732224367218,
+            lastCompleted: 1732224667218,
+            lastSuccessfulCompleted: 1732224667218,
+          },
+          {
+            extract: 'VPR',
+            lastRequested: 1732224367218,
+            lastCompleted: 1732224667218,
+            lastSuccessfulCompleted: 1732224667218,
+          },
+          {
+            extract: 'ChemistryHematology',
+            lastRequested: 1732224367218,
+            lastCompleted: 1732224667218,
+            lastSuccessfulCompleted: 1732224667218,
+          },
+        ],
+      });
+    });
     cy.visit('my-health/medical-records');
   });
 
