@@ -3,14 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "react-router": "5.2.0",
-    "react-router-dom": "5.2.0",
-    "redux": "4.0.3"
-  },
-  "peerDependencies": {
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-redux": "7.2.6",
-    "prop-types": "*"
+    "react-router": "3.2.0",
+    "history": "3.0.0"
   }
 }
