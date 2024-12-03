@@ -38,7 +38,7 @@ export const buildRoutes = () => {
           )}
         />
         <Route
-          path="/lc-search/:type/:id"
+          path="/lc-search/results/:type/:id"
           render={({ match }) => (
             <LicenseCertificationSearchResult match={match} />
           )}

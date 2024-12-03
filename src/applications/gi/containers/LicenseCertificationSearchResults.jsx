@@ -68,7 +68,7 @@ function LicenseCertificationSearchResults({
                         {result.type}
                       </h4>
                       <va-link-action
-                        href={`${result.link.split('lce/')[1]}`}
+                        href={`results/${result.link.split('lce/')[1]}`}
                         text="View test amount details"
                         type="secondary"
                       />
