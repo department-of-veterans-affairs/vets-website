@@ -37,11 +37,12 @@ export default function transformForSubmit(formConfig, form) {
         state: 'NA',
         postalCode: 'NA',
       },
-      ssn: transformedData?.veteranSocialSecurityNumber?.ssn || '',
-      // file_number:
-      //   transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
-      va_claim_number:
-        transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
+      ssn: transformedData?.veteranSocialSecurityNumber?.ssn
+        ? transformedData?.veteranSocialSecurityNumber?.ssn
+        : '',
+      vaFileNumber: transformedData?.veteranSocialSecurityNumber?.ssn
+        ? ''
+        : transformedData?.veteranSocialSecurityNumber.vaFileNumber,
       phone_number: transformedData.veteranPhoneNumber || '',
       email_address: transformedData.veteranEmailAddress || '',
     },
