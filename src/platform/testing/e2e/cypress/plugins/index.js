@@ -18,18 +18,20 @@ module.exports = async (on, config) => {
     on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
     registerCodeCoverageTasks(on, config);
 
-    // on('after:run', async () => {
-    //   const execa = require('execa');
-    //   try {
-    //     // Use execa to run the NYC coverage report command
-    //     await execa('nyc', ['report', '--reporter=html'], {
-    //       stdio: 'inherit',
-    //     });
-    //     console.log('Coverage report generated successfully.');
-    //   } catch (error) {
-    //     console.error('Error generating coverage report:', error);
-    //   }
-    // });
+    on('after:run', async () => {
+      const coverage = global.__coverage__ || {};
+
+      const nycOutputDir = path.resolve('.nyc_output');
+      const outJsonPath = path.join(nycOutputDir, 'out.json');
+
+      if (!fs.existsSync(nycOutputDir)) {
+        fs.mkdirSync(nycOutputDir, { recursive: true });
+      }
+
+      fs.writeFileSync(outJsonPath, JSON.stringify(coverage, null, 2));
+      // eslint-disable-next-line no-console
+      console.log(`Coverage saved to ${outJsonPath}`);
+    });
   }
 
   let appRegistry;

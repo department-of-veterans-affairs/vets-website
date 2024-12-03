@@ -420,6 +420,7 @@ jobs:
           CYRESS_CODE_COVERAGE: true
 
       - name: View code coverage summary
+        if: 
         run: npx nyc report --reporter=text-summary
   
       - name: Create coverage artifact
