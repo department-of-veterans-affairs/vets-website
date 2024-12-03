@@ -5,6 +5,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 // application root imports
 import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
+import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
 import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 
 // page level component imports
@@ -37,6 +38,7 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   introduction: IntroductionPage,
+  confirmation: Confirmation,
   defaultDefinitions: {},
   saveInProgress: {},
   title: 'Apply for education benefits',

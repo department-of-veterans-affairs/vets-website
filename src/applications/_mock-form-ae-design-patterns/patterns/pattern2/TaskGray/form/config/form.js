@@ -7,6 +7,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 // application root imports
 import { scrollAndFocusTarget } from 'applications/_mock-form-ae-design-patterns/utils/focus';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
+import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
 import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
 import { VIEW_FIELD_SCHEMA } from 'applications/_mock-form-ae-design-patterns/utils/constants';
 
@@ -35,6 +36,7 @@ const formConfig = {
     reviewPageTitle: 'Review your request',
   },
   introduction: IntroductionPage,
+  confirmation: Confirmation,
   formId: VA_FORM_IDS.FORM_26_1880,
   version: 0,
   prefillEnabled: true,
