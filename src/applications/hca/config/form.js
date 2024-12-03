@@ -8,7 +8,7 @@ import { externalServices } from '@department-of-veterans-affairs/platform-monit
 
 // internal imports
 import { prefillTransformer } from './prefill-transformer';
-import { transform } from '../utils/helpers';
+import { submitTransformer } from './submit-transformer';
 import {
   isLoggedOut,
   isSigiEnabled,
@@ -157,7 +157,7 @@ const formConfig = {
     dependencies: [externalServices['1010ez']],
     message: DowntimeWarning,
   },
-  transformForSubmit: transform,
+  transformForSubmit: submitTransformer,
   introduction: IntroductionPage,
   v3SegmentedProgressBar: true,
   additionalRoutes: [
