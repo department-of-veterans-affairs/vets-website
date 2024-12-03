@@ -33,3 +33,5 @@ if (trackWebVitals) {
   onLCP(recordWebVitalsEvent);
   onTTFB(recordWebVitalsEvent);
 }
+
+export { recordWebVitalsEvent };
