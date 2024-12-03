@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { scrollTo } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-export const MailingAddressEditBase = props => {
+const EditVeteranAddressBase = props => {
   const dispatch = useDispatch();
 
   const { location } = props;
@@ -79,7 +79,7 @@ export const MailingAddressEditBase = props => {
   );
 };
 
-MailingAddressEditBase.propTypes = {
+EditVeteranAddressBase.propTypes = {
   data: PropTypes.object.isRequired,
   goBack: PropTypes.func.isRequired,
   goToPath: PropTypes.func.isRequired,
@@ -88,4 +88,4 @@ MailingAddressEditBase.propTypes = {
   location: PropTypes.object,
 };
 
-export const MailingAddressEdit = withRouter(MailingAddressEditBase);
+export const EditVeteranAddress = withRouter(EditVeteranAddressBase);

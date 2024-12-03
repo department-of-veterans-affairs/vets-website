@@ -14,13 +14,7 @@ const formConfig = {
   trackingPrefix: '_mock-form-ae-design-patterns-',
   introduction: IntroductionPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your mock form ae design patterns benefits application (00-1234) is in progress.',
-    //   expired: 'Your saved mock form ae design patterns benefits application (00-1234) has expired. If you want to apply for mock form ae design patterns benefits, please start a new application.',
-    //   saved: 'Your mock form ae design patterns benefits application has been saved.',
-    // },
-  },
+  saveInProgress: {},
   version: 0,
   prefillTransformer(pages, formData, metadata) {
     const transformedData = {
