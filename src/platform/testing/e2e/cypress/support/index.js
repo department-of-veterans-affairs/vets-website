@@ -68,6 +68,13 @@ beforeEach(() => {
   cy.intercept('GET', '/v0/maintenance_windows', {
     data: [],
   });
+  if (window.__coverage__) {
+    // eslint-disable-next-line no-console
+    console.log('Coverage data exists.');
+  } else {
+    // eslint-disable-next-line no-console
+    console.warn('No coverage data detected!');
+  }
 });
 // Assign the video path to the context property for failed tests
 Cypress.on('test:after:run', test => {
