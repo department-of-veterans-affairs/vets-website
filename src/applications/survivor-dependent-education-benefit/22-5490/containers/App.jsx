@@ -109,8 +109,12 @@ function App({
                 label: 'Home',
               },
               {
-                href: '/education',
-                label: 'Education and training',
+                href: '/family-and-caregiver-benefits',
+                label: 'Family and caregiver benefits',
+              },
+              {
+                href: '/family-and-caregiver-benefits/education-and-careers',
+                label: 'Education and career benefits for family members',
               },
               {
                 href:
