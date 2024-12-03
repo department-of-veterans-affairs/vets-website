@@ -1,11 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { getActivePages } from 'platform/forms-system/src/js/helpers';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-
 import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 import {
@@ -20,6 +17,10 @@ import {
   SESSION_ITEM_NAME,
   SHARED_PATHS,
 } from '../../utils/constants';
+import { REACT_BINDINGS } from '../../utils/imports';
+
+// expose React binding for web components
+const { VaModal } = REACT_BINDINGS;
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;

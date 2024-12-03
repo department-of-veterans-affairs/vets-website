@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { REACT_BINDINGS } from '../../utils/imports';
+
+// expose React binding for web components
+const { VaCheckbox } = REACT_BINDINGS;
 
 const PreSubmitNotice = props => {
   const { preSubmitInfo, showError, onSectionComplete, submission } = props;
