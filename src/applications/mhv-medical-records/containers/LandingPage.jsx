@@ -90,6 +90,15 @@ const LandingPage = () => {
         </p>
       </section>
 
+      {isLoading && (
+        <section>
+          <va-loading-indicator
+            message="Loading your medical records..."
+            set-focus
+          />
+        </section>
+      )}
+
       {!isLoading && (
         <>
           {displayLabsAndTest && (
