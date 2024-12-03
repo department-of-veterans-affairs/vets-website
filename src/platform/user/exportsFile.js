@@ -83,9 +83,6 @@ export {
   default as LogoutAlert,
 } from './authentication/components/LogoutAlert';
 export {
-  default as ServiceProvidersList,
-} from './authentication/components/ServiceProvidersList';
-export {
   default as ServiceProviders,
   ServiceProvidersTextCreateAcct,
 } from './authentication/components/ServiceProvidersText';
