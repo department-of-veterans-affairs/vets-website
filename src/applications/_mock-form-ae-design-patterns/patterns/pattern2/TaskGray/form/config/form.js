@@ -23,8 +23,6 @@ import ReviewPage from '../../pages/ReviewPage';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/2/task-gray/',
-  // submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
-  // transformForSubmit: customCOEsubmit,
   trackingPrefix: 'task-gray',
   customText: {
     appAction: 'your COE request',

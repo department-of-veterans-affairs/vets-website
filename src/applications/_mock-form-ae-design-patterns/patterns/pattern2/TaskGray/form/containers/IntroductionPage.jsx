@@ -6,7 +6,6 @@ import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-import COEIntroPageBox from '../content/COEIntroPageBox';
 import LoggedInContent from '../content/LoggedInContent';
 import NotLoggedInContent from '../content/NotLoggedInContent';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
@@ -44,11 +43,6 @@ const IntroductionPage = ({
     } else {
       content = (
         <div className="vads-u-margin-bottom--2">
-          <COEIntroPageBox
-            referenceNumber={coe.referenceNumber}
-            requestDate={coe.applicationCreateDate}
-            status={coe.status}
-          />
           {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
             <LoggedInContent route={route} status={coe.status} />
           )}
