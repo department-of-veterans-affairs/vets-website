@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import TravelPayStatusApp from './containers/TravelPayStatusApp';
 import TravelClaimDetails from './components/TravelClaimDetails';
-import ClaimStatusExplainerPage from './pages/ClaimStatusExplainerPage';
+import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
 
 const routes = (
   <Switch>

@@ -1,5 +1,5 @@
 import React from 'react';
-import BreadCrumbs from '../components/Breadcrumbs';
+import BreadCrumbs from '../../components/Breadcrumbs';
 
 const ClaimStatusExplainerPage = () => {
   return (
