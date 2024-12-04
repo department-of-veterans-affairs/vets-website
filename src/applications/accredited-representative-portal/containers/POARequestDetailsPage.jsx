@@ -136,7 +136,7 @@ const POARequestDetailsPage = () => {
           <p className="poa-request-details__title">
             <va-icon
               icon="check_circle"
-              class="poa-request__card-icon--green poa-request__card-icon"
+              class="vads-u-color--success poa-request__card-icon"
             />
             Approves
           </p>
