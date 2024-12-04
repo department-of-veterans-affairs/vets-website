@@ -6,9 +6,6 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
 // import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../22-10216-schema.json';
 
 // import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
 
@@ -22,7 +19,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // const { } = fullSchema.definitions;
 
 // pages
-import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
 import { validateFacilityCode } from '../utilities';
 import Alert from '../components/Alert';
@@ -105,46 +101,6 @@ const formConfig = {
           title: 'Service History',
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
-        },
-      },
-    },
-    additionalInformationChapter: {
-      title: 'Additional Information',
-      pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
-        },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
         },
       },
     },

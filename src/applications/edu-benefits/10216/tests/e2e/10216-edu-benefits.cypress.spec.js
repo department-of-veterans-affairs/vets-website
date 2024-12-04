@@ -4,26 +4,26 @@ describe('22-10282 Edu form', () => {
       .last()
       .click();
   };
-  const checkErrorMessage = (errorId, expectedMessage) => {
-    cy.get(errorId)
-      .should('exist')
-      .should('contain', expectedMessage);
+  const checkErrorMessage = errorId => {
+    cy.get(errorId).should('exist');
   };
   const checkAccredited = facilityCode => {
     startApplication();
-    cy.get('[id="root_facilityCode"]')
+    cy.get('[name="root_institutionName"]')
       .should('exist')
-      .type(facilityCode, { force: true });
-    cy.get('[id="root_institutionName"]')
-      .should('exist')
+      .first()
       .type('test', { force: true });
-    cy.get('[name="root_startDateMonth"]')
+    cy.get('[name="root_facilityCode"]')
+      .should('exist')
+      .first()
+      .type(facilityCode, { force: true });
+    cy.get('[name="root_termStartDateMonth"]')
       .should('exist')
       .select('January', { force: true });
-    cy.get('[name="root_startDateDay"]')
+    cy.get('[name="root_termStartDateDay"]')
       .should('exist')
       .type('1', { force: true });
-    cy.get('[name="root_startDateYear"]')
+    cy.get('[name="root_termStartDateYear"]')
       .should('exist')
       .type('2024', { force: true });
     cy.get('[class="usa-button-primary"]').click({ force: true });
@@ -46,26 +46,22 @@ describe('22-10282 Edu form', () => {
       .should('exist')
       .click({ force: true });
     checkErrorMessage(
-      '[id="root_institutionName-error-message"]',
-      'Please enter the name of your institution',
+      'va-text-input[error="Please enter the name of your institution"]',
     );
-    checkErrorMessage(
-      '[id="root_facilityCode-error-message"]',
-      'Please enter your facility code',
-    );
+    checkErrorMessage('va-text-input[error="Please enter your facility code"]');
   });
   it('should show errors if facility code is less than 8 digits', () => {
     cy.injectAxeThenAxeCheck();
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(100);
     startApplication();
-    cy.get('[id="root_facilityCode"]')
+    cy.get('[name="root_facilityCode"]')
       .should('exist')
-      .type('1234567', { force: true });
+      .first()
+      .type('1234567');
     cy.get('[class="usa-button-primary"]').click({ force: true });
     checkErrorMessage(
-      '[id="root_facilityCode-error-message"]',
-      'Facility code must be exactly 8 characters long',
+      'va-text-input[error="Please enter a valid 8-digit facility code"]',
     );
   });
   it('should navigate to additional form if school is not accredited', () => {

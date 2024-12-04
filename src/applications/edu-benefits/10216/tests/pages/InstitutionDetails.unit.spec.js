@@ -3,12 +3,12 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
-import {
-  DefinitionTester,
-  submitForm,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 import * as utilities from '../../utilities';
+
+const definitions = formConfig.defaultDefinitions;
 
 describe('Form Configuration', () => {
   const {
@@ -80,7 +80,7 @@ describe('Form Configuration', () => {
         .uiSchema.facilityCode['ui:validations'][0];
     validateFacilityCode(errors, '1234567');
     expect(errors.messages).to.include(
-      'Facility code must be exactly 8 characters long',
+      'Please enter a valid 8-digit facility code',
     );
 
     errors.messages = [];
@@ -89,21 +89,19 @@ describe('Form Configuration', () => {
   });
   it('should show errors when required field is empty', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         onSubmit={onSubmit}
         data={{}}
         uiSchema={uiSchema}
-        definitions={{}}
+        definitions={definitions}
       />,
     );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-    expect(
-      Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
-    ).to.equal(2);
-
+    form.find('form').simulate('submit');
+    expect(form.find('va-text-input[error]').length).to.equal(2);
+    expect(form.find('va-memorable-date[error]').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });
