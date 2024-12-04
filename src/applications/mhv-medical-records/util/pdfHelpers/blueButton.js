@@ -21,6 +21,7 @@ import { generateConditionContent } from './conditions';
 import { generateVitalsContentByType } from './vitals';
 import { isArrayAndHasItems } from '../helpers';
 import { generateMedicationsContent } from './medications';
+import { generateAppointmentContent } from './appointments';
 
 export const generateBlueButtonData = ({
   labsAndTests,
@@ -186,7 +187,26 @@ export const generateBlueButtonData = ({
   }
 
   if (appointments.length) {
-    // console.log('appointments: ', appointments);
+    const upcoming = appointments.filter(appt => appt.isUpcoming);
+    const past = appointments.filter(appt => !appt.isUpcoming);
+
+    data.push({
+      type: blueButtonRecordTypes.APPOINTMENTS,
+      title: 'Appointments',
+      subtitles: [
+        'Your VA appointments may be by telephone, video, or in person. Always bring your insurance information with you to your appointment.',
+      ],
+      records: [
+        {
+          title: 'Upcoming appointments',
+          ...generateAppointmentContent(upcoming),
+        },
+        {
+          title: 'Past appointments',
+          ...generateAppointmentContent(past),
+        },
+      ],
+    });
   }
 
   if (demographics.length) {

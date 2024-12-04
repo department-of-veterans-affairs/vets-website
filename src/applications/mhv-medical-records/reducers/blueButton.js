@@ -1,6 +1,7 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { isAfter } from 'date-fns';
+import { capitalize } from 'lodash';
 import { Actions } from '../util/actionTypes';
 import { medicationTypes } from '../util/constants';
 import { dateFormat } from '../util/helpers';
@@ -100,25 +101,37 @@ export const convertMedication = med => {
 export const convertAppointment = appt => {
   if (!appt) return null;
 
-  const { attributes } = appt;
-  const location = attributes.location?.attributes || {};
-  const clinic = attributes.extension?.clinic || {};
   const now = new Date();
+  const { attributes } = appt;
+  const appointmentTime = new Date(attributes.localStartTime);
+  const location = attributes.location?.attributes || {};
+  const { line, city, state, postalCode } = location.physicalAddress;
+  const clinic = attributes.extension?.clinic || {};
+  const practitioners = attributes.practitioners || [];
+  const practitionerNames =
+    practitioners.length > 0
+      ? practitioners
+          .map(
+            practitioner =>
+              `${practitioner.name.given.join(' ')} ${
+                practitioner.name.family
+              }`,
+          )
+          .join(', ')
+      : 'Not available';
 
   return {
     id: appt.id,
-    date: dateFormat(attributes.localStartTime),
-    isUpcoming: isAfter(attributes.localStartTime, now),
-    appointmentType: attributes.kind === 'clinic' ? 'In person' : 'Virtual',
+    date: dateFormat(appointmentTime),
+    isUpcoming: isAfter(appointmentTime, now),
+    appointmentType: capitalize(attributes.kind),
     status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
     what: attributes.serviceName || 'General',
-    where: {
-      facilityName: location.name || 'Unknown Facility',
-      address: location.physicalAddress || 'No address available',
-      clinicName: attributes.clinic || 'Unknown Clinic',
-      location: clinic.physicalLocation || 'Unknown Location',
-      clinicPhone: clinic.phoneNumber || 'N/A',
-    },
+    who: practitionerNames,
+    address: [location.name, ...line, `${city}, ${state} ${postalCode}`],
+    location: attributes.physicalLocation || 'Unknown Location',
+    clinicName: attributes.clinic || 'Unknown Clinic',
+    clinicPhone: clinic.phoneNumber || 'N/A',
     detailsShared: {
       reason: attributes.serviceCategory?.[0]?.text
         ? attributes.serviceCategory.map(item => item.text).join(', ')

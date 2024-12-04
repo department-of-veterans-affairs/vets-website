@@ -432,6 +432,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
 
   for (let i = 0; i < item.value.length; i += 1) {
     const element = item.value[i];
+    let elementTitleText = element.title ?? '';
     const font =
       element.weight === 'bold' ? config.text.boldFont : config.text.font;
     const paragraphOptions = {
@@ -455,9 +456,27 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
             ...paragraphOptions,
             listType: 'bullet',
             bulletRadius: 2,
-            indent: 8,
+            indent: 20,
             baseline: 'hanging',
           });
+        }),
+      );
+    } else if (element.title) {
+      elementTitleText += ': ';
+      content.push(
+        doc.struct('P', () => {
+          doc
+            .font(config.text.boldFont)
+            .fontSize(config.text.size)
+            .text(elementTitleText, x, doc.y, {
+              ...paragraphOptions,
+              continued: true,
+              indent: 20,
+            });
+          doc
+            .font(config.text.font)
+            .fontSize(config.text.size)
+            .text(element.value);
         }),
       );
     } else {

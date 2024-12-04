@@ -299,7 +299,6 @@ const generateRecordTitle = (doc, parent, record) => {
 };
 
 const generateDetailsContentSets = async (doc, parent, data) => {
-  // console.log('((( generating )))');
   const details = doc.struct('Sect', {
     title: 'Details',
   });
@@ -360,12 +359,15 @@ const generateResultItemContent = async (
   hasHorizontalRule,
   hasH2,
 ) => {
-  const headingOptions = { paragraphGap: 10, x: hasH2 ? 40 : 20 };
+  const headingOptions = {
+    paragraphGap: 10,
+    x: hasH2 || item.indentHeader ? 40 : 20,
+  };
   if (item.header) {
     results.add(
       await createHeading(
         doc,
-        hasH2 ? 'H5' : 'H3',
+        item.headerType || (hasH2 ? 'H5' : 'H3'),
         config,
         item.header,
         headingOptions,
@@ -376,7 +378,15 @@ const generateResultItemContent = async (
   for (const resultItem of item.items) {
     let indent = item.header ? 50 : 40;
     if (!hasH2) indent = 30;
-    const structs = await createDetailItem(doc, config, indent, resultItem);
+    if (item.itemsIndent) indent = item.itemsIndent;
+
+    let structs;
+    if (resultItem.isRich) {
+      structs = await createRichTextDetailItem(doc, config, indent, resultItem);
+    } else {
+      structs = await createDetailItem(doc, config, indent, resultItem);
+    }
+
     for (const struct of structs) {
       results.add(struct);
     }
@@ -402,7 +412,7 @@ export const generateResultsContent = async (doc, parent, data) => {
   if (data.results.preface) {
     const prefaceOptions = {
       paragraphGap: 12,
-      x: 30,
+      x: data.results.prefaceIndent || 30,
     };
     results.add(
       createSubHeading(doc, config, data.results.preface, prefaceOptions),
@@ -444,6 +454,8 @@ export const generateResultsContent = async (doc, parent, data) => {
 };
 
 const generate = async data => {
+  // console.log('((( generating ))) ', data);
+
   // try {
   validate(data);
   const tocPageData = {};
@@ -460,7 +472,7 @@ const generate = async data => {
   // is left intact for screen reader users.
 
   await generateCoverPage(doc, wrapper, data);
-  doc.addPage({ margins: config.margins });
+  // doc.addPage({ margins: config.margins });
   generateInitialHeaderContent(doc, wrapper, data, config, {
     nameDobOnly: true,
   });
