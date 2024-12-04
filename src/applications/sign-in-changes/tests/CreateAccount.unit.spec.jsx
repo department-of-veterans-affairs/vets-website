@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import CreateAccount from '../components/CreateAccount';
 
 const generateStore = () => ({
-  getState: () => {},
+  getState: () => ({ user: { profile: { session: { authBroker: 'iam' } } } }),
   subscribe: () => {},
   dispatch: () => {},
 });

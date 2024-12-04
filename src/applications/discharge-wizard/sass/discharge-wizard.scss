@@ -80,7 +80,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
           border-color: transparent;
         }
 
-        & + li.list-group-item {
+        &+li.list-group-item {
           margin-top: -1.6em;
         }
       }
@@ -124,6 +124,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     display: flex;
     flex-direction: column;
   }
+
   .answer-review-label {
     display: flex;
     justify-content: space-between;
@@ -132,6 +133,10 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   .answer-review {
     display: grid;
     row-gap: 10px;
+  }
+
+  .need-help-padding-top {
+    padding-top: 3rem;
   }
 
   va-button-pair {

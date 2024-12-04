@@ -32,6 +32,7 @@ import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
 import {
   employersDatesPage,
   employersIntroPage,
+  employersOptionalPage,
   employersOptions,
   employersPageNameAndAddressPage,
   employersSummaryPage,
@@ -359,6 +360,18 @@ const formConfig = {
             uiSchema: employersDatesPage.uiSchema,
             schema: employersDatesPage.schema,
             depends: includeChapter('arrayMultiPageBuilder'),
+          }),
+          multiPageBuilderOptional: pageBuilder.itemPage({
+            title: 'Optional page',
+            path: 'array-multiple-page-builder/:index/optional',
+            uiSchema: employersOptionalPage.uiSchema,
+            schema: employersOptionalPage.schema,
+            depends: (formData, index) => {
+              return (
+                includeChapter('arrayMultiPageBuilder') &&
+                formData?.employers?.[index]?.address?.state === 'CA'
+              );
+            },
           }),
         })),
       },

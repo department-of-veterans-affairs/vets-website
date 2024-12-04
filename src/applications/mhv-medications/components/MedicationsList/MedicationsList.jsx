@@ -40,7 +40,7 @@ const MedicationsList = props => {
     ".no-print [data-testid='page-total-info']";
 
   const onPageChange = page => {
-    document.querySelector('.va-breadcrumbs-li')?.scrollIntoView();
+    document.getElementById('showingRx').scrollIntoView();
     // replace terniary with true once loading spinner is added for the filter list fetch
     updateLoadingStatus(!showFilterContent, 'Loading your medications...');
     history.push(`/?page=${page}`);

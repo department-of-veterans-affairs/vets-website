@@ -58,6 +58,7 @@ export const SERVICE_PROVIDERS = {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
     image: <IDMeSVG />,
+    altImage: <IDMeSVG toggleWhite />,
     policy: 'idme',
     className: 'idme-button',
   },
@@ -160,6 +161,7 @@ export const AUTH_PARAMS = {
   redirectUri: 'redirect_uri',
   scope: 'scope',
   verification: 'verification',
+  operation: 'operation',
 };
 
 export const OCC_MOBILE = {

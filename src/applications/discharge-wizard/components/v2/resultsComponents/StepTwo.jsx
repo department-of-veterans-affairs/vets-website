@@ -1,79 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { determineBoardObj, stepHeaderLevel } from '../../../helpers';
+import {
+  determineBoardObj,
+  stepHeaderLevel,
+  renderMedicalRecordInfo,
+} from '../../../helpers';
 
 import {
   SHORT_NAME_MAP,
   RESPONSES,
 } from '../../../constants/question-data-map';
 import { DRB } from '../../../constants';
-
-const renderMedicalRecordInfo = formResponses => {
-  if (
-    [
-      RESPONSES.REASON_PTSD,
-      RESPONSES.REASON_TBI,
-      RESPONSES.REASON_SEXUAL_ASSAULT,
-    ].indexOf(formResponses[SHORT_NAME_MAP.REASON]) > -1
-  ) {
-    let requestQuestion;
-    if (parseInt(formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR], 10) >= 1992) {
-      requestQuestion = (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html"
-        >
-          Find out how to request your military medical records (opens in a new
-          tab).
-        </a>
-      );
-    } else {
-      requestQuestion = (
-        <span>
-          Your <strong>military medical records</strong> will be included with
-          the VA medical records you request.
-        </span>
-      );
-    }
-
-    return (
-      <li>
-        <strong>Medical Records</strong>: In most cases, the Board won’t have
-        easy access to your medical records, so you should submit any relevant
-        documents yourself.
-        <ul>
-          <li>
-            You can request your <strong>VA medical records</strong> by
-            submitting VA Form 10-5345 to your local VA Medical Center.
-            <br />
-            {/* Intentionally not using <va-link> per Platform Analytics team */}
-            <a
-              download
-              href="https://www.va.gov/find-forms/about-form-10-5345/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <va-icon
-                icon="file_download"
-                size={3}
-                className="vads-u-margin-top--0p5 vads-u-padding-right--1"
-              />
-              Download VA Form 10-5345 (opens in a new tab)
-            </a>
-          </li>
-          <li>{requestQuestion}</li>
-          <li>
-            You can also submit{' '}
-            <strong>medical records from a private practice doctor</strong>
-            —contact your doctor’s office to get the records you need.
-          </li>
-        </ul>
-      </li>
-    );
-  }
-  return null;
-};
 
 const StepTwo = ({ formResponses }) => {
   if (
@@ -209,10 +146,10 @@ const StepTwo = ({ formResponses }) => {
       </p>
       <ul>
         <li>
-          <strong>Military Record</strong>: In most cases, your records will be
-          important to the Board’s decision. The Board may not have easy access
-          to your military records, especially if you served many years ago, so
-          we strongly recommend you submit any relevant documents yourself.{' '}
+          <h3>Military Record</h3> In most cases, your records will be important
+          to the Board’s decision. The Board may not have easy access to your
+          military records, especially if you served many years ago, so we
+          strongly recommend you submit any relevant documents yourself.{' '}
           {boardToSubmit.abbr !== DRB ? (
             <span>
               Note that the {boardToSubmit.abbr} is required to help you collect
