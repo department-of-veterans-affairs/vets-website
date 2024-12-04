@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
-import FormLayout from '../new-appointment/components/FormLayout';
+import ReferralLayout from './components/ReferralLayout';
 import ReferralAppLink from './components/ReferralAppLink';
 import { setFormCurrentPage } from './redux/actions';
 
@@ -23,7 +23,7 @@ export default function ScheduleReferral(props) {
       ? '1 appointment'
       : `${currentReferral.numberOfAppointments} appointments`;
   return (
-    <FormLayout pageTitle="Review Approved Referral">
+    <ReferralLayout hasEyebrow>
       <div>
         <h1>Referral for {currentReferral.CategoryOfCare}</h1>
         <p data-testid="subtitle">
@@ -94,7 +94,7 @@ export default function ScheduleReferral(props) {
           {currentReferral.ReferringFacilityInfo.Phone}
         </p>
       </div>
-    </FormLayout>
+    </ReferralLayout>
   );
 }
 

@@ -8,13 +8,13 @@
 export default function getPageFlow(referralId) {
   return {
     appointments: {
-      url: '/appointments',
+      url: '/',
       label: 'Appointments',
       next: 'scheduleReferral',
       previous: '',
     },
-    activeReferrals: {
-      url: '/appointments/pending',
+    referralsAndRequests: {
+      url: '/referrals-requests',
       label: 'Active referrals',
       next: 'scheduleReferral',
       previous: 'appointments',
@@ -23,7 +23,7 @@ export default function getPageFlow(referralId) {
       url: `/schedule-referral?id=${referralId}`,
       label: 'Referral for',
       next: 'scheduleAppointment',
-      previous: 'activeReferrals',
+      previous: 'referralsAndRequests',
     },
     scheduleAppointment: {
       url: `/schedule-referral/date-time?id=${referralId}`,
@@ -70,6 +70,12 @@ export function routeToPreviousReferralPage(
 
 export function routeToNextReferralPage(history, current, referralId = null) {
   return routeToPageInFlow(history, current, 'next', referralId);
+}
+
+export function routeToCCPage(history, page) {
+  const pageFlow = getPageFlow();
+  const nextPage = pageFlow[page];
+  return history.push(nextPage.url);
 }
 
 /* Function to get label from the flow
