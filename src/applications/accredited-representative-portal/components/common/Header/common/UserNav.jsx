@@ -56,7 +56,7 @@ const UserNav = ({ isMobile }) => {
       <a
         href={SIGN_IN_URL}
         data-testid="user-nav-mobile-sign-in-link"
-        className="mobile-nav__sign-in usa-button"
+        className="nav__sign-in usa-button"
       >
         Sign in
       </a>

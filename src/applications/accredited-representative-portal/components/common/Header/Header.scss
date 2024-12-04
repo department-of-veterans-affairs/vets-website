@@ -1,8 +1,54 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-.mobile-nav {
+.nav {
   padding: 1.5px 8px;
+  flex-wrap: wrap;
 
+  &__container {
+    width: 100%;
+    flex-wrap: wrap;
+    margin: 8px 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  &__flag {
+    width: 16px;
+    height: 16px;
+    margin-right: 15px;
+    @media (min-width: $medium-screen) {
+      margin: 4px 12px 4px;
+    }
+  }
+
+  &__govt-site-explanation {
+    flex-direction: column;
+    color: var(--vads-color-black);
+    width: 91%;
+    font-size: 12.8px;
+
+    @media (min-width: $medium-screen) {
+      flex-direction: row;
+      margin: 4px;
+    }
+
+    &-sub-text {
+      text-decoration: underline;
+    }
+  }
+
+  &__decorator {
+    display: none;
+    width: 100%;
+    height: 1px;
+    background-color: var(--vads-color-white);
+    margin-bottom: 48px;
+
+    @media (min-width: $medium-screen) {
+      display: flex;
+    }
+  }
   &__sign-in {
     width: auto;
     margin-left: auto;
@@ -14,6 +60,16 @@
   &__logo {
     height: 24px;
     margin-right: 10px;
+
+    &--desktop {
+      height: auto;
+      width: 636px;
+      margin: 24px 0 16px;
+      display: none;
+      @media (min-width: $medium-screen) {
+        display: block;
+      }
+    }
 
     &-text {
       display: flex;
