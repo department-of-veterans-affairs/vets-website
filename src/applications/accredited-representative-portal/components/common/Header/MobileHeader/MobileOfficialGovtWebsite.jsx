@@ -15,12 +15,12 @@ export const MobileOfficialGovtWebsite = () => {
   };
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column">
+    <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column">
       {/* Banner */}
-      <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
+      <div className="nav__container vads-u-display--flex">
         <img
           alt="U.S. flag"
-          className="header-us-flag vads-u-margin-right--1"
+          className="nav__flag"
           src="https://www.va.gov/img/tiny-usa-flag.png"
         />
         {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
@@ -28,29 +28,31 @@ export const MobileOfficialGovtWebsite = () => {
           data-testid="official-govt-website-toggle-mobile"
           aria-controls="official-govt-site-explanation"
           aria-expanded={expanded ? 'true' : 'false'}
-          className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center"
+          className="nav__govt-site-explanation va-button-link vads-u-text-decoration--none vads-u-display--flex"
           onClick={onToggle}
           type="button"
         >
           An official website of the United States government.
-          <span className="usa-banner-button-text">Here’s how you know</span>
-          <svg
-            aria-hidden="true"
-            className={`vads-u-margin-left--0p5${
-              expanded ? ' govt-expanded-arrow' : ''
-            }`}
-            focusable="false"
-            width="12"
-            viewBox="6 6 12 12"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="#005ea2"
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M16.59 8.59L12 13.17L7.41 8.59L6 10L12 16L18 10L16.59 8.59Z"
-            />
-          </svg>
+          <span className="nav__govt-site-explanation-sub-text">
+            Here’s how you know
+            <svg
+              aria-hidden="true"
+              className={`vads-u-margin-left--0p5${
+                expanded ? ' govt-expanded-arrow' : ''
+              }`}
+              focusable="false"
+              width="12"
+              viewBox="6 6 12 12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="#005ea2"
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M16.59 8.59L12 13.17L7.41 8.59L6 10L12 16L18 10L16.59 8.59Z"
+              />
+            </svg>
+          </span>
         </button>
       </div>
       {/* Expanded section */}
