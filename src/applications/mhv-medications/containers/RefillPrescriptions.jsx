@@ -100,6 +100,9 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
         item => item.prescriptionId === rx.prescriptionId,
       )
     ) {
+      if (hasNoOptionSelectedError) {
+        setHasNoOptionSelectedError(false);
+      }
       setSelectedRefillList([...selectedRefillList, rx]);
     } else {
       setSelectedRefillList(
@@ -115,6 +118,9 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
       event.detail.checked &&
       selectedRefillListLength !== fullRefillList.length
     ) {
+      if (hasNoOptionSelectedError) {
+        setHasNoOptionSelectedError(false);
+      }
       setSelectedRefillList(fullRefillList);
     } else if (!event.detail.checked) {
       setSelectedRefillList([]);
@@ -191,15 +197,18 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
             {fullRefillList?.length > 0 ? (
               <div>
                 <CernerFacilityAlert />
+                <h2
+                  className="vads-u-margin-top--3"
+                  data-testid="refill-page-subtitle"
+                >
+                  Ready to refill
+                </h2>
                 <VaCheckboxGroup
                   data-testid="refill-checkbox-group"
                   label={`You have ${fullRefillList.length} prescription${
                     fullRefillList.length !== 1 ? 's' : ''
                   } ready to refill.`}
-                  use-forms-pattern="single"
-                  form-heading-level={2}
-                  form-heading="Ready to refill"
-                  class="vads-u-margin-bottom--4 tablet:vads-u-margin-bottom--5"
+                  class="vads-u-margin-bottom--2 tablet:vads-u-margin-bottom--2p5"
                   error={
                     !hasNoOptionSelectedError
                       ? ''

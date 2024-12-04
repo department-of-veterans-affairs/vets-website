@@ -108,9 +108,12 @@ describe('Refill Prescriptions Component', () => {
     const title = await screen.findByTestId('refill-page-title');
     expect(title).to.exist;
     expect(title).to.have.text('Refill prescriptions');
-    const checkboxGroup = await screen.findByTestId('refill-checkbox-group');
-    expect(checkboxGroup).to.exist;
-    expect(checkboxGroup['form-heading']).to.have.equal('Ready to refill');
+    const heading = await screen.findByRole('heading', {
+      level: 2,
+      name: /Ready to refill/i,
+    });
+    expect(heading).to.exist;
+    expect(heading.tagName).to.equal('H2');
   });
 
   it('Shows the request refill button', async () => {
