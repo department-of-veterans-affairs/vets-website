@@ -404,6 +404,7 @@
       
     ],
     "nohoist": [
+      "**/applications/accredited-representative-portal/accreditation/21a/react-router",
       "**/applications-accredited-representative-portal/react-router-dom",
       "**/applications-check-in/i18next-resources-to-backend",
       "**/applications-check-in/react-i18next",
