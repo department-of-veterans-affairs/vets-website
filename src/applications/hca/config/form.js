@@ -40,7 +40,7 @@ import {
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   collectMedicareInformation,
-} from '../utils/helpers/form-config';
+} from '../utils/helpers';
 import { SHARED_PATHS } from '../utils/constants';
 import migrations from './migrations';
 import manifest from '../manifest.json';

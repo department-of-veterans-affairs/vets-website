@@ -10,6 +10,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 import {
   facilityTypeChoices,
+  facilityTypeList,
   facilityTypeReviewField as ReviewField,
 } from '../../content/facilityTypes';
 
@@ -38,6 +39,41 @@ describe('Supplemental Claims option for facility type page', () => {
     fireEvent.click($('button[type="submit"]', container));
 
     expect(onSubmitSpy.called).to.be.true;
+  });
+});
+
+describe('facilityTypeList', () => {
+  it('should render and show single choice', () => {
+    const data = { vamc: true };
+    expect(facilityTypeList(data)).to.eq(facilityTypeChoices.vamc);
+  });
+
+  it('should render two choices', () => {
+    const data = { ccp: true, nonVa: true };
+    const result = readableList(
+      Object.keys(data).map(
+        key => facilityTypeChoices[key]?.title || facilityTypeChoices[key],
+      ),
+    );
+    expect(facilityTypeList(data)).to.eq(result);
+  });
+
+  it('should render multiple choices', () => {
+    const data = { vetCenter: true, cboc: true, mtf: true };
+    const result = readableList(
+      Object.keys(data).map(
+        key => facilityTypeChoices[key]?.title || facilityTypeChoices[key],
+      ),
+    );
+    expect(facilityTypeList(data)).to.eq(result);
+  });
+
+  it('should render an unknown choice message', () => {
+    const data = { vamc: true, other: 'testing', other2: true };
+    const result = `${
+      facilityTypeChoices.vamc
+    }, testing, and Unknown facility type choice`;
+    expect(facilityTypeList(data)).to.eq(result);
   });
 });
 
