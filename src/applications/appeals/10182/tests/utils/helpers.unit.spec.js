@@ -15,7 +15,7 @@ describe('canUploadEvidence', () => {
       .false;
     expect(canUploadEvidence({ boardReviewOption: 'hearing' })).to.be.false;
   });
-  it('should return false', () => {
+  it('should return true', () => {
     expect(canUploadEvidence({ boardReviewOption: 'evidence_submission' })).to
       .be.true;
   });
@@ -30,7 +30,7 @@ describe('needsHearingType', () => {
     expect(needsHearingType({ boardReviewOption: 'evidence_submission' })).to.be
       .false;
   });
-  it('should return false', () => {
+  it('should return true', () => {
     expect(needsHearingType({ boardReviewOption: 'hearing' })).to.be.true;
   });
 });
@@ -73,7 +73,7 @@ describe('isDirectReview', () => {
     expect(isDirectReview({ boardReviewOption: 'evidence_submission' })).to.be
       .false;
   });
-  it('should return false', () => {
+  it('should return true', () => {
     expect(isDirectReview({ boardReviewOption: 'direct_review' })).to.be.true;
   });
 });
