@@ -78,6 +78,15 @@ export const normalizedForm = {
         includeEmail: false,
       },
     },
+    {
+      id: 162026,
+      type: 'digital_form_list_loop',
+      additionalFields: {
+        optional: false,
+      },
+      chapterTitle: 'Generated List & Loop',
+      pageTitle: 'List & Loop',
+    },
   ],
 };
 
@@ -128,6 +137,15 @@ export const employmentQuestionnaire = {
       additionalFields: {
         includeEmail: true,
       },
+    },
+    {
+      id: 162032,
+      type: 'digital_form_list_loop',
+      additionalFields: {
+        optional: true,
+      },
+      chapterTitle: "Veteran's employment history",
+      pageTitle: 'List & Loop',
     },
   ],
 };

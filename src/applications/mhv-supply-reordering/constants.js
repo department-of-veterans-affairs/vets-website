@@ -19,4 +19,5 @@ export const PRODUCT_GROUPS = freeze({
   ACCESSORIES: 'accessories',
   BATTERIES: 'batteries',
   APNEA: 'apnea',
+  ASSISTIVE_DEVICES: 'assistive devices',
 });

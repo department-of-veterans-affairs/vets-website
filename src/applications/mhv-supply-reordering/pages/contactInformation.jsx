@@ -20,15 +20,15 @@ const Description = ({ formData }) => {
       <h4 className="vads-u-font-size--h3">Email address</h4>
       <span>{emailAddress || ''}</span>
       <p>
-        <Link to="/edit-email-address" aria-label="Edit email address">
+        <Link to="/edit-email" aria-label="Edit email">
           Edit
         </Link>
       </p>
 
-      <h4 className="vads-u-font-size--h3">Mailing address</h4>
+      <h4 className="vads-u-font-size--h3">Shipping address</h4>
       <AddressViewField formData={permanentAddress} />
       <p>
-        <Link to="/edit-mailing-address" aria-label="Edit mailing address">
+        <Link to="/edit-shipping" aria-label="Edit shipping address">
           Edit
         </Link>
       </p>
@@ -43,7 +43,6 @@ export default {
   uiSchema: {
     ...titleUI('Contact information'),
     'ui:description': Description,
-    'ui:required': () => true, // don't allow progressing without all contact info
     'ui:options': {
       hideOnReview: false,
       forceDivWrapper: true,
