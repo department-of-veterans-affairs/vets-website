@@ -12,20 +12,44 @@ const tableConfig = {
 };
 
 module.exports = async (on, config) => {
+  const registerCodeCoverageTasks = require('@cypress/code-coverage/task');
+
   if (process.env.CODE_COVERAGE === 'true') {
-    require('@cypress/code-coverage/task')(on, config);
     on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
+    registerCodeCoverageTasks(on, config);
+
+    on('after:run', async () => {
+      const coverage = global.__coverage__ || {};
+
+      const nycOutputDir = path.resolve('.nyc_output');
+      const outJsonPath = path.join(nycOutputDir, 'out.json');
+
+      if (!fs.existsSync(nycOutputDir)) {
+        fs.mkdirSync(nycOutputDir, { recursive: true });
+      }
+
+      fs.writeFileSync(outJsonPath, JSON.stringify(coverage, null, 2));
+      // eslint-disable-next-line no-console
+      console.log(`Coverage saved to ${outJsonPath}`);
+    });
   }
 
   let appRegistry;
+  const REMOTE_CONTENT_BUILD_REGISTRY =
+    'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main/src/applications/registry.json';
+  async function fetchRegistry() {
+    return fetch(REMOTE_CONTENT_BUILD_REGISTRY);
+  }
+
+  async function getRegistryContents(response) {
+    return response.text();
+  }
+
   if (fs.existsSync('../content-build/src/applications/registry.json')) {
     // eslint-disable-next-line import/no-unresolved
     appRegistry = require('../../../../../../../content-build/src/applications/registry.json');
   } else {
-    const REMOTE_CONTENT_BUILD_REGISTRY =
-      'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main/src/applications/registry.json';
-
-    const response = await fetch(REMOTE_CONTENT_BUILD_REGISTRY);
+    const response = await fetchRegistry();
 
     if (!response.ok) {
       throw new Error(
@@ -36,7 +60,8 @@ module.exports = async (on, config) => {
       );
     }
 
-    const registryContents = await response.text();
+    const registryContents = await getRegistryContents(response);
+
     appRegistry = JSON.parse(registryContents);
   }
 
