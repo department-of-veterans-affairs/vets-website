@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+
 import {
   focusElement,
   scrollTo,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { InfoSection } from '../../../../shared/components/InfoSection';
-import { maskSSN } from '../../../../utils/helpers/general';
-import { genderLabels } from '../utils/labels';
-import { isOnReviewPage } from '../utils/reviewPage';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+
+import { maskSSN } from 'applications/_mock-form-ae-design-patterns/utils/helpers/general';
+import { InfoSection } from 'applications/_mock-form-ae-design-patterns/shared/components/InfoSection';
+import { genderLabels } from '../../utils/labels';
+import { isOnReviewPage } from '../../utils/reviewPage';
 
 const AdditionalInfoContent = () => {
   return (
