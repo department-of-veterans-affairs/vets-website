@@ -21,7 +21,6 @@ import {
   formatCurrency,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
-  showRecipientName,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -137,26 +136,34 @@ const relationshipPage = {
           'incomeReceiptWaivers',
         ),
     },
-    recipientName: {
-      'ui:title': 'Tell us the income recipient’s name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: 'Only needed if child, parent, custodian of child, or other',
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: showRecipientName,
-      },
-      'ui:required': (formData, index) =>
-        recipientNameRequired(formData, index, 'incomeReceiptWaivers'),
-    },
   },
   schema: {
     type: 'object',
     properties: {
       recipientRelationship: radioSchema(Object.keys(relationshipLabels)),
       otherRecipientRelationshipType: { type: 'string' },
-      recipientName: textSchema,
     },
     required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const recipientNamePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Income receipt waiver recipient name',
+    ),
+    recipientName: textUI({
+      title: 'Tell us the income recipient’s name',
+      hint: 'Only needed if child, parent, custodian of child, or other',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientName: textSchema,
+    },
+    required: ['recipientName'],
   },
 };
 
@@ -268,6 +275,14 @@ export const incomeReceiptWaiverPages = arrayBuilderPages(
       path: 'income-receipt-waivers/:index/relationship',
       uiSchema: relationshipPage.uiSchema,
       schema: relationshipPage.schema,
+    }),
+    incomeReceiptWaiverRecipientNamePage: pageBuilder.itemPage({
+      title: 'Income receipt waiver recipient name',
+      path: 'income-receipt-waivers/:index/recipient-name',
+      depends: (formData, index) =>
+        recipientNameRequired(formData, index, 'incomeReceiptWaivers'),
+      uiSchema: recipientNamePage.uiSchema,
+      schema: recipientNamePage.schema,
     }),
     incomeReceiptWaiverPayerPage: pageBuilder.itemPage({
       title: 'Income receipt waiver payer',
