@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import { selectEnrollmentStatus } from '../../../utils/selectors/enrollment-status';
-import { selectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-import { selectAuthStatus } from '../../../utils/selectors/auth-status';
+import {
+  selectAuthStatus,
+  selectFeatureToggles,
+  selectEnrollmentStatus,
+} from '../../../utils/selectors';
 import ProcessDescription from './ProcessDescription';
 import EnrollmentStatus from '../EnrollmentStatus';
 import OMBInfo from './OMBInfo';

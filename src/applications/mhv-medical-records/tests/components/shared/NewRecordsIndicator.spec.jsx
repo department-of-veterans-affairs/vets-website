@@ -74,6 +74,7 @@ describe('NewRecordsIndicator', () => {
       expect(getByTestId('new-records-refreshed-stale')).to.not.exist;
       expect(getByTestId('new-records-loading-indicator')).to.not.exist;
       expect(getByTestId('new-records-refreshed-failed')).to.not.exist;
+      expect(getByTestId('new-records-refreshed-call_failed')).to.not.exist;
     });
   });
 
@@ -93,6 +94,7 @@ describe('NewRecordsIndicator', () => {
       expect(getByTestId('new-records-refreshed-current')).to.not.exist;
       expect(getByTestId('new-records-loading-indicator')).to.not.exist;
       expect(getByTestId('new-records-refreshed-failed')).to.not.exist;
+      expect(getByTestId('new-records-refreshed-call_failed')).to.not.exist;
     });
   });
 
@@ -108,6 +110,7 @@ describe('NewRecordsIndicator', () => {
     );
 
     waitFor(() => {
+      expect(getByTestId('new-records-refreshed-call_failed')).to.not.exist;
       expect(getByTestId('new-records-refreshed-failed')).to.exist;
       expect(getByTestId('new-records-refreshed-stale')).to.not.exist;
       expect(getByTestId('new-records-refreshed-current')).to.not.exist;

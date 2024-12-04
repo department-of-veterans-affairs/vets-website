@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getInsuranceAriaLabel } from '../../../../utils/helpers/insurance';
+import { getInsuranceAriaLabel } from '../../../../utils/helpers';
 
 describe('hca `getInsuranceAriaLabel` method', () => {
   it('should return a generic label when the provider name is not provided', () => {
