@@ -1,10 +1,4 @@
-import environment from 'platform/utilities/environment';
-
 import DischargeWizardApp from './components/DischargeWizardApp';
-import GuidancePage from './containers/GuidancePage';
-import FormPage from './containers/FormPage';
-import InstructionsPage from './components/InstructionsPage';
-import RequestDD214 from './containers/RequestDD214';
 
 import HomePage from './components/v2/Homepage';
 import ServiceBranch from './components/v2/questions/ServiceBranch';
@@ -23,39 +17,30 @@ import ReviewPage from './components/v2/ReviewPage';
 import ResultsPage from './components/v2/ResultsPage';
 import RequestDD214v2 from './components/v2/RequestDD214';
 
-const envChildRoutes = environment.isProduction()
-  ? [
-      { path: 'questions', component: FormPage },
-      { path: 'guidance', component: GuidancePage },
-      { path: 'request-dd214', component: RequestDD214 },
-    ]
-  : [
-      { path: 'questions', component: FormPage },
-      { path: 'guidance', component: GuidancePage },
-      { path: 'request-dd214', component: RequestDD214 },
-      // new routes for DUW v2
-      { path: 'introduction1', component: HomePage },
-      { path: 'introduction', component: HomePage },
-      { path: 'service-branch', component: ServiceBranch },
-      { path: 'discharge-year', component: DischargeYear },
-      { path: 'discharge-month', component: DischargeMonth },
-      { path: 'reason', component: Reason },
-      { path: 'discharge-type', component: DischargeType },
-      { path: 'court-martial', component: CourtMartial },
-      { path: 'intention', component: Intention },
-      { path: 'prev-application-type', component: PrevApplicationType },
-      { path: 'prev-application', component: PrevApplication },
-      { path: 'prev-application-year', component: PrevApplicationYear },
-      { path: 'prior-service', component: PriorService },
-      { path: 'failure-to-exhaust', component: FailureToExhaust },
-      { path: 'review', component: ReviewPage },
-      { path: 'results', component: ResultsPage },
-      { path: 'request-dd214-v2', component: RequestDD214v2 },
-    ];
+const envChildRoutes = [
+  // new routes for DUW v2
+  { path: 'introduction1', component: HomePage },
+  { path: 'introduction', component: HomePage },
+  { path: 'service-branch', component: ServiceBranch },
+  { path: 'discharge-year', component: DischargeYear },
+  { path: 'discharge-month', component: DischargeMonth },
+  { path: 'reason', component: Reason },
+  { path: 'discharge-type', component: DischargeType },
+  { path: 'court-martial', component: CourtMartial },
+  { path: 'intention', component: Intention },
+  { path: 'prev-application-type', component: PrevApplicationType },
+  { path: 'prev-application', component: PrevApplication },
+  { path: 'prev-application-year', component: PrevApplicationYear },
+  { path: 'prior-service', component: PriorService },
+  { path: 'failure-to-exhaust', component: FailureToExhaust },
+  { path: 'review', component: ReviewPage },
+  { path: 'results', component: ResultsPage },
+  { path: 'request-dd214-v2', component: RequestDD214v2 },
+];
 const routes = {
   path: '/',
   component: DischargeWizardApp,
-  indexRoute: { component: InstructionsPage },
+  indexRoute: { component: HomePage },
   childRoutes: envChildRoutes,
 };
 

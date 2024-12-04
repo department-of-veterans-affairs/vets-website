@@ -2,7 +2,6 @@
 import { expect } from 'chai';
 // relative imports
 import {
-  DW_UPDATE_FIELD,
   // v2
   DUW_UPDATE_FORM_STORE,
   DUW_VIEWED_INTRO_PAGE,
@@ -26,7 +25,6 @@ import {
 } from '../../constants';
 import { RESPONSES } from '../../constants/question-data-map';
 import {
-  updateField,
   // v2
   updateFormStore,
   updateIntroPageViewed,
@@ -48,22 +46,6 @@ import {
   updatePriorService,
   updateFailureToExhaust,
 } from '../../actions';
-
-describe('Discharge Wizard Redux Actions', () => {
-  describe('updateField', () => {
-    it('should return an action in the shape we expect', () => {
-      const key = '1_branchOfService';
-      const value = 'Army';
-      const action = updateField(key, value);
-
-      expect(action).to.be.deep.equal({
-        type: DW_UPDATE_FIELD,
-        key: '1_branchOfService',
-        value: 'Army',
-      });
-    });
-  });
-});
 
 describe('Discharge Wizard Redux Actions v2', () => {
   describe('updateFormStore', () => {
