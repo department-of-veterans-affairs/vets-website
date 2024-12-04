@@ -16,6 +16,7 @@ import assetTransfers from './chapters/07-asset-transfers';
 import trusts from './chapters/08-trusts';
 import annuities from './chapters/09-annuities';
 import unreportedAssets from './chapters/10-unreported-assets';
+import discontinuedIncomes from './chapters/11-discontinued-incomes';
 
 // const { } = fullSchema.properties;
 
@@ -69,6 +70,7 @@ const formConfig = {
     trusts,
     annuities,
     unreportedAssets,
+    discontinuedIncomes,
   },
 };
 
