@@ -28,8 +28,10 @@ export const $$ = (selector, root) => [
  * querySelector without escaping the colon will fail to find the target
  * Note: We shouldn't be passing in something like `:not([name="test"])`
  */
+const REGEXP_BACKSLASH = /\\/g;
 const REGEXP_COLON = /:/g;
-export const fixSelector = selector => selector.replace(REGEXP_COLON, '\\:');
+export const fixSelector = selector =>
+  selector.replace(REGEXP_BACKSLASH, '\\\\').replace(REGEXP_COLON, '\\:');
 
 export {
   focusElement,
