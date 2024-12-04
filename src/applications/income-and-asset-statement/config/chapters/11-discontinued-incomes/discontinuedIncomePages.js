@@ -19,7 +19,6 @@ import {
   formatCurrency,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
-  showRecipientName,
 } from '../../../helpers';
 import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
 
@@ -138,26 +137,34 @@ const relationshipPage = {
           'discontinuedIncomes',
         ),
     },
-    recipientName: {
-      'ui:title': 'Tell us the income recipient’s name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: 'Only needed if child, parent, custodian of child, or other',
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: showRecipientName,
-      },
-      'ui:required': (formData, index) =>
-        recipientNameRequired(formData, index, 'discontinuedIncomes'),
-    },
   },
   schema: {
     type: 'object',
     properties: {
       recipientRelationship: radioSchema(Object.keys(relationshipLabels)),
       otherRecipientRelationshipType: { type: 'string' },
-      recipientName: textSchema,
     },
     required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const recipientNamePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Discontinued income recipient name',
+    ),
+    recipientName: textUI({
+      title: 'Tell us the income recipient’s name',
+      hint: 'Only needed if child, parent, custodian of child, or other',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientName: textSchema,
+    },
+    required: ['recipientName'],
   },
 };
 
@@ -269,6 +276,14 @@ export const discontinuedIncomePages = arrayBuilderPages(
       path: 'discontinued-incomes/:index/relationship',
       uiSchema: relationshipPage.uiSchema,
       schema: relationshipPage.schema,
+    }),
+    discontinuedIncomeRecipientNamePage: pageBuilder.itemPage({
+      title: 'Discontinued income recipient name',
+      path: 'discontinued-incomes/:index/recipient-name',
+      depends: (formData, index) =>
+        recipientNameRequired(formData, index, 'discontinuedIncomes'),
+      uiSchema: recipientNamePage.uiSchema,
+      schema: recipientNamePage.schema,
     }),
     discontinuedIncomePayerPage: pageBuilder.itemPage({
       title: 'Discontinued income payer',
