@@ -1,31 +1,47 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getMHVAccount } from '../utilities/api';
 
 const AccountHandler = ({ MHVAccountStatusFetchComplete }) => {
-  const [state, setState] = useState({ complete: false });
+  const accountStatus = useSelector(state => state?.myHealth?.accountStatus);
+  const dispatch = useDispatch();
+  const [state] = useState({ complete: false });
 
   useEffect(
     () => {
-      getMHVAccount().then(resp => {
-        setState({
-          complete: true,
-          response: resp,
+      const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
+        state.user?.profile?.mhvAccountState,
+      );
+
+      if (hasMHVAccount) {
+        dispatch({
+          type: 'fetchAccountStatusSuccess',
+          data: { error: false },
         });
-      });
+      } else {
+        dispatch({ type: 'fetchAccountStatus' });
+
+        getMHVAccount().then(resp => {
+          dispatch({
+            type: 'fetchAccountStatusSuccess',
+            data: resp,
+          });
+        });
+      }
     },
     [MHVAccountStatusFetchComplete],
   );
 
-  if (!state.complete) {
+  if (accountStatus?.loading) {
     return (
       <div>
         <va-loading-indicator label="Loading" message="thinking..." set-focus />
       </div>
     );
   }
-  if (state.response.errors) {
-    return <div>failed with error {state.response.errors[0].code}</div>;
+  if (accountStatus?.data?.errors) {
+    return <div>failed with error {accountStatus?.data.errors[0].code}</div>;
   }
   return <div>successfully created MHV account</div>;
 };

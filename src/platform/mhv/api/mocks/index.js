@@ -138,6 +138,7 @@ const responses = {
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
   'GET /my_health/v1/medical_records/vitals': vitals.all,
 
+  // 'GET /v0/user/mhv_user_account': MHVAccountStatus.accountSuccess,
   'GET /v0/user/mhv_user_account': MHVAccountStatus.eightZeroOne,
 
   'GET /v0/maintenance_windows': (_req, res) => {
