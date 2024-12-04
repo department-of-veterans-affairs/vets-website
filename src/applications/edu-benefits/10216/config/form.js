@@ -25,7 +25,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
 import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
+import studentRatioCalc from '../pages/studentRatioCalc';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -83,14 +83,14 @@ const formConfig = {
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+    studentRatioCalc: {
+      title: 'Student ratio calculation',
       pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+        studentRatioCalc: {
+          path: 'student-ratio-calculation',
+          title: '35% exemption calculation',
+          uiSchema: studentRatioCalc.uiSchema,
+          schema: studentRatioCalc.schema,
         },
       },
     },
