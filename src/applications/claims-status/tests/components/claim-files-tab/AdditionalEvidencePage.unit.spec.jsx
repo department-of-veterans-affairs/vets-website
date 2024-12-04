@@ -17,6 +17,7 @@ import { renderWithRouter } from '../../utils';
 const getRouter = () => ({ push: sinon.spy() });
 
 const fileFormProps = {
+  params: { id: 1 },
   addFile: () => {},
   cancelUpload: () => {},
   setFieldsDirty: () => {},
@@ -26,6 +27,7 @@ const fileFormProps = {
   files: [],
   filesNeeded: [],
   filesOptional: [],
+  decisionRequested: false,
   resetUploads: () => {},
   clearAdditionalEvidenceNotification: () => {},
   location: {
@@ -58,8 +60,6 @@ describe('<AdditionalEvidencePage>', () => {
 
   context('when cst5103UpdateEnabled is false', () => {
     context('when claim is open', () => {
-      const params = { id: 1 };
-
       const claim = {
         id: 1,
         attributes: {
@@ -73,7 +73,7 @@ describe('<AdditionalEvidencePage>', () => {
 
       it('should render loading div', () => {
         const tree = SkinDeep.shallowRender(
-          <AdditionalEvidencePage params={params} claim={claim} loading />,
+          <AdditionalEvidencePage {...fileFormProps} claim={claim} loading />,
         );
         expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
       });
@@ -87,7 +87,6 @@ describe('<AdditionalEvidencePage>', () => {
 
         const tree = SkinDeep.shallowRender(
           <AdditionalEvidencePage
-            params={params}
             claim={claim}
             message={message}
             filesNeeded={[]}
@@ -100,12 +99,7 @@ describe('<AdditionalEvidencePage>', () => {
       it('should render upload error alert when rerendered', () => {
         const { container, rerender } = render(
           <Provider store={getStore()}>
-            <AdditionalEvidencePage
-              {...fileFormProps}
-              params={params}
-              claim={claim}
-            />
-            ,
+            <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
           </Provider>,
         );
         expect($('va-alert', container)).not.to.exist;
@@ -120,7 +114,6 @@ describe('<AdditionalEvidencePage>', () => {
           <Provider store={getStore()}>
             <AdditionalEvidencePage
               {...fileFormProps}
-              params={params}
               claim={claim}
               message={message}
             />
@@ -142,7 +135,6 @@ describe('<AdditionalEvidencePage>', () => {
         const tree = SkinDeep.shallowRender(
           <AdditionalEvidencePage
             {...fileFormProps}
-            params={params}
             claim={claim}
             clearAdditionalEvidenceNotification={
               clearAdditionalEvidenceNotification
@@ -166,7 +158,6 @@ describe('<AdditionalEvidencePage>', () => {
         const tree = SkinDeep.shallowRender(
           <AdditionalEvidencePage
             {...fileFormProps}
-            params={params}
             claim={claim}
             uploadComplete
             clearAdditionalEvidenceNotification={
@@ -187,7 +178,6 @@ describe('<AdditionalEvidencePage>', () => {
           <Provider store={getStore()}>
             <AdditionalEvidencePage
               {...fileFormProps}
-              params={params}
               claim={claim}
               location={location}
             />
@@ -202,12 +192,9 @@ describe('<AdditionalEvidencePage>', () => {
         const onSubmit = sinon.spy();
         const tree = SkinDeep.shallowRender(
           <AdditionalEvidencePage
-            params={params}
             claim={claim}
             files={files}
             submitFiles={onSubmit}
-            filesNeeded={[]}
-            filesOptional={[]}
             {...fileFormProps}
           />,
         );
@@ -224,7 +211,6 @@ describe('<AdditionalEvidencePage>', () => {
           <Provider store={uploadStore}>
             <AdditionalEvidencePage
               {...fileFormProps}
-              params={params}
               claim={claim}
               uploadField={{ value: null, dirty: false }}
               resetUploads={resetUploads}
@@ -242,16 +228,12 @@ describe('<AdditionalEvidencePage>', () => {
 
         const tree = SkinDeep.shallowRender(
           <AdditionalEvidencePage
-            params={params}
+            {...fileFormProps}
             claim={claim}
-            files={[]}
             uploadComplete
-            uploadField={{ value: null, dirty: false }}
             navigate={navigate}
             getClaim={getClaim}
             resetUploads={resetUploads}
-            filesNeeded={[]}
-            filesOptional={[]}
           />,
         );
 
@@ -263,19 +245,7 @@ describe('<AdditionalEvidencePage>', () => {
       });
 
       it('shows va-alerts when files are needed', () => {
-        const props = {
-          claim,
-          clearAdditionalEvidenceNotification: () => {},
-          files: [],
-          getClaim: () => {},
-          params,
-          resetUploads: () => {},
-          router: getRouter(),
-          uploadField: { value: null, dirty: false },
-          filesNeeded: [],
-          filesOptional: [],
-        };
-        props.filesNeeded = [
+        const filesNeeded = [
           {
             id: 1,
             status: 'NEEDED_FROM_YOU',
@@ -284,7 +254,7 @@ describe('<AdditionalEvidencePage>', () => {
             suspenseDate: '2024-02-01',
           },
         ];
-        props.filesOptional = [
+        const filesOptional = [
           {
             id: 2,
             status: 'NEEDED_FROM_OTHERS',
@@ -295,7 +265,14 @@ describe('<AdditionalEvidencePage>', () => {
 
         const { container } = renderWithRouter(
           <Provider store={getStore()}>
-            <AdditionalEvidencePage {...fileFormProps} {...props} />,
+            <AdditionalEvidencePage
+              {...fileFormProps}
+              claim={claim}
+              router={getRouter()}
+              filesNeeded={filesNeeded}
+              filesOptional={filesOptional}
+            />
+            ,
           </Provider>,
         );
 
@@ -304,22 +281,13 @@ describe('<AdditionalEvidencePage>', () => {
       });
 
       it('doesn’t show va-alerts when no files are needed', () => {
-        const props = {
-          claim,
-          clearAdditionalEvidenceNotification: () => {},
-          files: [],
-          getClaim: () => {},
-          params,
-          resetUploads: () => {},
-          router: getRouter(),
-          uploadField: { value: null, dirty: false },
-          filesNeeded: [],
-          filesOptional: [],
-        };
-
         const { container } = render(
           <Provider store={getStore()}>
-            <AdditionalEvidencePage {...fileFormProps} {...props} />
+            <AdditionalEvidencePage
+              {...fileFormProps}
+              claim={claim}
+              router={getRouter()}
+            />
           </Provider>,
         );
 
@@ -329,8 +297,6 @@ describe('<AdditionalEvidencePage>', () => {
     });
 
     context('when claim is open with automated 5103 and standard 5103', () => {
-      const params = { id: 1 };
-
       const claim = {
         id: 1,
         attributes: {
@@ -360,19 +326,7 @@ describe('<AdditionalEvidencePage>', () => {
       };
 
       it('shows va-alert for automated 5103 notice when files are needed', () => {
-        const props = {
-          claim,
-          clearAdditionalEvidenceNotification: () => {},
-          files: [],
-          getClaim: () => {},
-          params,
-          resetUploads: () => {},
-          router: getRouter(),
-          uploadField: { value: null, dirty: false },
-          filesNeeded: [],
-          filesOptional: [],
-        };
-        props.filesNeeded = [
+        const filesNeeded = [
           {
             description: 'Automated 5103 Notice Response',
             displayName: 'Automated 5103 Notice Response',
@@ -393,7 +347,13 @@ describe('<AdditionalEvidencePage>', () => {
           queryByTestId,
         } = renderWithRouter(
           <Provider store={getStore()}>
-            <AdditionalEvidencePage {...fileFormProps} {...props} />,
+            <AdditionalEvidencePage
+              {...fileFormProps}
+              claim={claim}
+              router={getRouter()}
+              filesNeeded={filesNeeded}
+            />
+            ,
           </Provider>,
         );
 
@@ -406,8 +366,6 @@ describe('<AdditionalEvidencePage>', () => {
       });
     });
     context('when claim is open with only standard 5103', () => {
-      const params = { id: 1 };
-
       const claim = {
         id: 1,
         attributes: {
@@ -425,22 +383,14 @@ describe('<AdditionalEvidencePage>', () => {
       };
 
       it('doesnt show va-alert for standard 5103 notice', () => {
-        const props = {
-          claim,
-          clearAdditionalEvidenceNotification: () => {},
-          files: [],
-          getClaim: () => {},
-          params,
-          resetUploads: () => {},
-          router: getRouter(),
-          uploadField: { value: null, dirty: false },
-          filesNeeded: [],
-          filesOptional: [],
-        };
-
         const { queryByText, queryByTestId } = renderWithRouter(
           <Provider store={getStore()}>
-            <AdditionalEvidencePage {...fileFormProps} {...props} />,
+            <AdditionalEvidencePage
+              {...fileFormProps}
+              claim={claim}
+              router={getRouter()}
+            />
+            ,
           </Provider>,
         );
 
@@ -451,8 +401,6 @@ describe('<AdditionalEvidencePage>', () => {
     });
 
     context('when claim is closed', () => {
-      const params = { id: 1 };
-
       const claim = {
         id: 1,
         attributes: {
@@ -470,7 +418,6 @@ describe('<AdditionalEvidencePage>', () => {
         const { container } = render(
           <AdditionalEvidencePage
             {...fileFormProps}
-            params={params}
             claim={claim}
             resetUploads={resetUploads}
             uploadComplete
@@ -490,7 +437,6 @@ describe('<AdditionalEvidencePage>', () => {
           <Provider store={getStore()}>
             <AdditionalEvidencePage
               {...fileFormProps}
-              params={params}
               claim={claim}
               resetUploads={resetUploads}
               uploadComplete
@@ -513,8 +459,6 @@ describe('<AdditionalEvidencePage>', () => {
 
   context('when cst5103UpdateEnabled is true', () => {
     context('when claim is open with automated 5103 and standard 5103', () => {
-      const params = { id: 1 };
-
       const claim = {
         id: 1,
         attributes: {
@@ -544,19 +488,7 @@ describe('<AdditionalEvidencePage>', () => {
       };
 
       it('shows va-alert for automated 5103 notice when files are needed', () => {
-        const props = {
-          claim,
-          clearAdditionalEvidenceNotification: () => {},
-          files: [],
-          getClaim: () => {},
-          params,
-          resetUploads: () => {},
-          router: getRouter(),
-          uploadField: { value: null, dirty: false },
-          filesNeeded: [],
-          filesOptional: [],
-        };
-        props.filesNeeded = [
+        const filesNeeded = [
           {
             description: 'Automated 5103 Notice Response',
             displayName: 'Automated 5103 Notice Response',
@@ -577,7 +509,13 @@ describe('<AdditionalEvidencePage>', () => {
           queryByTestId,
         } = renderWithRouter(
           <Provider store={getStore(true)}>
-            <AdditionalEvidencePage {...fileFormProps} {...props} />,
+            <AdditionalEvidencePage
+              {...fileFormProps}
+              claim={claim}
+              router={getRouter()}
+              filesNeeded={filesNeeded}
+            />
+            ,
           </Provider>,
         );
 
@@ -590,8 +528,6 @@ describe('<AdditionalEvidencePage>', () => {
       });
     });
     context('when claim is open with only standard 5103', () => {
-      const params = { id: 1 };
-
       const claim = {
         id: 1,
         attributes: {
@@ -608,35 +544,44 @@ describe('<AdditionalEvidencePage>', () => {
         },
       };
 
-      it('shows va-alert for standard 5103 notice', () => {
-        const props = {
-          claim,
-          clearAdditionalEvidenceNotification: () => {},
-          files: [],
-          getClaim: () => {},
-          params,
-          resetUploads: () => {},
-          router: getRouter(),
-          uploadField: { value: null, dirty: false },
-          filesNeeded: [],
-          filesOptional: [],
-        };
+      context('when evidence has not been submitted', () => {
+        it('shows va-alert for standard 5103 notice', () => {
+          const {
+            container,
+            getByText,
+            queryByText,
+            getByTestId,
+          } = renderWithRouter(
+            <Provider store={getStore(true)}>
+              <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
+            </Provider>,
+          );
 
-        const {
-          container,
-          getByText,
-          queryByText,
-          getByTestId,
-        } = renderWithRouter(
-          <Provider store={getStore(true)}>
-            <AdditionalEvidencePage {...props} {...fileFormProps} />,
-          </Provider>,
-        );
+          expect($('.primary-alert', container)).to.exist;
+          expect(getByTestId('standard-5103-notice-alert')).to.exist;
+          getByText('Review evidence list (5103 notice)');
+          expect(queryByText('Automated 5103 Notice Response')).to.be.null;
+        });
+      });
 
-        expect($('.primary-alert', container)).to.exist;
-        expect(getByTestId('standard-5103-notice-alert')).to.exist;
-        getByText('Review evidence list (5103 notice)');
-        expect(queryByText('Automated 5103 Notice Response')).to.be.null;
+      context('when evidence has been submitted', () => {
+        it('doesnt show va-alert for standard 5103 notice', () => {
+          const { container, queryByText } = renderWithRouter(
+            <Provider store={getStore(true)}>
+              <AdditionalEvidencePage
+                {...fileFormProps}
+                claim={claim}
+                router={getRouter()}
+                decisionRequested
+              />
+              ,
+            </Provider>,
+          );
+
+          expect($('.primary-alert', container)).to.not.exist;
+          expect(queryByText('5103 Evidence Notice')).to.be.null;
+          expect(queryByText('Automated 5103 Notice Response')).to.be.null;
+        });
       });
     });
   });
