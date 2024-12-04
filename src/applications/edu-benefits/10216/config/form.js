@@ -35,6 +35,7 @@ const subTitle = (
     35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
   </div>
 );
+
 let isAccredited = false;
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -69,7 +70,7 @@ const formConfig = {
   },
   chapters: {
     applicantInformationChapter: {
-      title: 'Institution Details',
+      title: ' Institution Details',
       pages: {
         institutionDetails: {
           path: 'institution-details',

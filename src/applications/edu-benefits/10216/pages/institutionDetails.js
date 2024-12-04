@@ -25,6 +25,13 @@ export default {
         showFieldLabel: true,
         keepInPageOnReview: true,
       },
+      'ui:validations': [
+        (errors, fieldData) => {
+          if (fieldData && fieldData.length !== 8) {
+            errors.addError('Facility code must be exactly 8 characters long');
+          }
+        },
+      ],
     },
     startDate: {
       ...currentOrPastDateUI('Term start date'),

@@ -22,6 +22,6 @@ export default function App({ location, children }) {
   );
 }
 App.propTypes = {
-  children: PropTypes.node.isRequired,
-  location: PropTypes.object.isRequired,
+  children: PropTypes.node,
+  location: PropTypes.object,
 };
