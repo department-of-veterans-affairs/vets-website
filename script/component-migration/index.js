@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const chalk = require('chalk');
+const _ = require('lodash');
 const commandLineArgs = require('command-line-args');
 const fs = require('fs');
 const glob = require('glob');
@@ -59,10 +60,11 @@ function translateProps(componentString, propMap) {
  * @param {string} newTag The name of the Web Component tag to use
  */
 function replaceTags(fileContents, newTag) {
+  const safeComponent = _.escapeRegExp(options.component);
   const unnamedClosingTags = fileContents.matchAll(
     new RegExp(
-      `(<${options.component}(?!.*<\\/${
-        options.component
+      `(<${safeComponent}(?!.*<\\/${
+        safeComponent
       }>).*?(^\\s+)?\\/>;?$)`,
       'gsm',
     ),
@@ -77,8 +79,8 @@ function replaceTags(fileContents, newTag) {
   );
 
   return namedClosingTags
-    .replace(new RegExp(`<${options.component}`, 'g'), `<${newTag}`)
-    .replace(new RegExp(`</${options.component}`, 'g'), `</${newTag}`);
+    .replace(new RegExp(`<${safeComponent}`, 'g'), `<${newTag}`)
+    .replace(new RegExp(`</${safeComponent}`, 'g'), `</${newTag}`);
 }
 
 /**
