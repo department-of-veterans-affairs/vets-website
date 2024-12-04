@@ -67,11 +67,14 @@ DirectDepositCustomReview.propTypes = {
       }),
     }),
   }).isRequired,
-  title: PropTypes.string.isRequired,
+  formContext: PropTypes.shape({
+    onReviewPage: PropTypes.bool,
+  }),
 };
 
 const mapStateToProps = state => ({
   formData: state.form?.data,
+  formContext: state.formContext,
 });
 
 export default connect(mapStateToProps)(DirectDepositCustomReview);

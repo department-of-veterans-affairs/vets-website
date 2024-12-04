@@ -5,6 +5,8 @@ import environment from 'platform/utilities/environment';
 import * as BUCKETS from 'site/constants/buckets';
 import * as ENVIRONMENTS from 'site/constants/environments';
 
+import DirectDepositTitle from '../components/DirectDepositTitle';
+import DirectDepositDescription from '../components/DirectDepositDescription';
 import DirectDepositViewField from '../components/DirectDepositViewField';
 import ObfuscateReviewField from '../components/ObfuscateReviewField';
 
@@ -30,10 +32,13 @@ const checkImageSrc = (() => {
 const directDeposit = {
   uiSchema: {
     'view:directDeposit': {
-      'ui:title': (
-        <div className="vads-u-font-size--h5 vads-u-margin-top--0">
-          Direct deposit information
-        </div>
+      'ui:title': _props => (
+        <>
+          <DirectDepositTitle
+            formContext={_props.formContext}
+            title="Direct deposit information"
+          />
+        </>
       ),
       'ui:field': ReviewCardField,
       'ui:options': {
@@ -47,11 +52,10 @@ const directDeposit = {
         viewComponent: DirectDepositViewField,
         volatileData: true,
       },
-      'ui:description': (
-        <p>
-          <strong>Note:</strong> We make payments only through direct deposit,
-          also called electronic funds transfer (EFT).
-        </p>
+      'ui:description': _props => (
+        <>
+          <DirectDepositDescription formContext={_props.formContext} />
+        </>
       ),
       bankAccount: {
         ...bankAccountUI,
