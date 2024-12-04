@@ -3,11 +3,20 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { addHours, format } from 'date-fns';
+import sinon from 'sinon';
 import LandingPage from '../../containers/LandingPage';
 import reducer from '../../reducers';
 
 describe('Landing Page', () => {
   const initialState = {
+    featureToggles: {
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+      },
+    },
     user: {
       login: {
         currentlyLoggedIn: true,
@@ -44,7 +53,19 @@ describe('Landing Page', () => {
   });
 
   it('displays a section linking to My HealtheVet classic to download all records', () => {
-    const screen = renderWithStoreAndRouter(<LandingPage />, {});
+    const connectDrupalSourceOfTruthCernerSpy = sinon.spy();
+
+    const customState = {
+      ...initialState,
+    };
+    const screen = renderWithStoreAndRouter(
+      <LandingPage
+        connectToOracleHealthSourceOfTruth={connectDrupalSourceOfTruthCernerSpy}
+      />,
+      {
+        initialState: customState,
+      },
+    );
     expect(
       screen.getByText('Download your Blue Button report or health summary', {
         selector: 'h2',
@@ -70,7 +91,9 @@ describe('Landing Page', () => {
 
   it('displays downtimeNotification when downtimeApproaching is true', () => {
     const customState = {
-      featureToggles: {},
+      featureToggles: {
+        loading: false,
+      },
       scheduledDowntime: {
         globalDowntime: null,
         isReady: true,

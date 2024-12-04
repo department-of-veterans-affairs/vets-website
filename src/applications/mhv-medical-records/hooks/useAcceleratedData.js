@@ -1,8 +1,9 @@
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
-import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMemo, useEffect } from 'react';
+
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
 const useAcceleratedData = () => {
   const dispatch = useDispatch();
@@ -26,8 +27,12 @@ const useAcceleratedData = () => {
 
   useEffect(
     () => {
-      // use Drupal based Cerner facility data
-      connectDrupalSourceOfTruthCerner(dispatch);
+      // TECH DEBT: Do not trigger the connection when uniting tests because
+      // the connection is not mocked and will cause the test to fail
+      if (!window.Mocha) {
+        // use Drupal based Cerner facility data
+        connectDrupalSourceOfTruthCerner(dispatch);
+      }
     },
     [dispatch],
   );
