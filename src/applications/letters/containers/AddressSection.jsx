@@ -18,11 +18,6 @@ const navigateToLetterList = navigate => {
 export function AddressSection({ address }) {
   const location = useLocation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    focusElement('#content');
-  });
-
   const emptyAddress = isAddressEmpty(address);
 
   const addressContent = (
@@ -44,19 +39,23 @@ export function AddressSection({ address }) {
         <VaButton
           data-cy="view-letters-button"
           className="vads-u-margin-y--4"
-          disabled={emptyAddress}
-          text="View Letters"
+          disabled={emptyAddress ? true : undefined} // false causes MS Voice Access to ignore buttons
+          text="View letters"
           onClick={() => navigateToLetterList(navigate)}
         />
       </div>
     );
   }
 
+  // Only set focus on the H1 when AddressSection is loaded.
+  // LettersList component has its own logic.
+  useEffect(() => {
+    focusElement('#letters-title-id');
+  }, []);
+
   return (
     <>
-      <div aria-live="polite" aria-relevant="additions">
-        {emptyAddress ? <NoAddressBanner /> : addressContent}
-      </div>
+      {emptyAddress ? <NoAddressBanner /> : addressContent}
       {viewLettersButton}
     </>
   );

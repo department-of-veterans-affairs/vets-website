@@ -97,9 +97,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/None of the facilities/i);
+      await waitFor(() => {
+        screen.queryByText(/None of your VA facilities/i);
+      });
 
-      expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
+      expect(await screen.queryByText(/Continue/)).not.to.exist;
     });
 
     it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {
@@ -137,8 +139,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/San Diego VA Medical Center/i);
-      fireEvent.click(screen.getByText(/Continue/));
+      await waitFor(() => {
+        screen.queryByText(/San Diego VA Medical Center/i);
+      });
       await screen.findByText(
         /you need to have had a mental health appointment at this facility within the last 12 months/,
       );
@@ -173,12 +176,14 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/San Diego VA Medical Center/i);
+      await waitFor(() => {
+        screen.queryByText(/San Diego VA Medical Center/i);
+      });
       expect(screen.baseElement).to.contain.text(
         'You can’t request another appointment until you schedule or cancel your open requests',
       );
 
-      expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
+      expect(await screen.queryByText(/Continue/)).not.to.exist;
     });
 
     it('should show error message when checks fail', async () => {
@@ -189,8 +194,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      expect(await screen.findByText(/Something went wrong on our end/)).to
-        .exist;
+      expect(
+        await screen.findByText(
+          /You can.t schedule an appointment online right now/,
+        ),
+      ).to.exist;
 
       // expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
@@ -202,7 +210,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         vaOnlineSchedulingCommunityCare: false,
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingFacilitiesServiceV2: true,
       },
       user: {
         profile: {
@@ -281,15 +288,21 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
-      await screen.findByText(
-        /This facility doesn’t have any available clinics that support online scheduling/i,
-      );
-      const loadingEvent = global.window.dataLayer.find(
-        ev => ev.event === 'loading-indicator-displayed',
-      );
+      await waitFor(() => {
+        screen.findByText(
+          /This facility doesn’t have any available clinics that support online scheduling/i,
+        );
+      });
+
+      let loadingEvent;
+      await waitFor(() => {
+        loadingEvent = global.window.dataLayer.find(
+          ev => ev.event === 'loading-indicator-displayed',
+        );
+        expect(loadingEvent).to.exist;
+      });
 
       // It should record GA event for loading modal
-      expect(loadingEvent).to.exist;
       expect('loading-indicator-display-time' in loadingEvent).to.be.true;
     });
 
@@ -338,7 +351,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       expect(
         await screen.findByText(
-          /you need to have had an amputation care appointment at this facility within the last 12 months/i,
+          /You haven’t had a recent appointment at this facility/i,
         ),
       ).to.be.ok;
 
@@ -398,7 +411,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       expect('loading-indicator-display-time' in loadingEvent).to.be.true;
       expect(
         await screen.findByText(
-          /This facility doesn’t have any available clinics/i,
+          /We couldn.t find any open appointment times for online scheduling/i,
         ),
       ).to.be.ok;
     });

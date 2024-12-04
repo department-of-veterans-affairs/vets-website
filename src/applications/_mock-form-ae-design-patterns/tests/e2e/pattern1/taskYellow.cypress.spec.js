@@ -5,9 +5,12 @@ import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-a
 describe('Prefill pattern - Yellow Task', () => {
   beforeEach(() => {
     cy.login(mockUsers.loa3User);
-    cy.intercept('GET', '/v0/feature_toggles*', { loading: false }).as(
-      'mockFeatureToggles',
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        loading: false,
+        features: [],
+      },
+    }).as('mockFeatureToggles');
     cy.intercept('/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {
       statusCode: 200,
       body: mockPrefills.prefill,
@@ -128,7 +131,7 @@ describe('Prefill pattern - Yellow Task', () => {
 
     cy.url().should('contain', '/edit-mailing-address');
 
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
 
     cy.url().should('contain', '/confirm-mailing-address');
   });

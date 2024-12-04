@@ -482,3 +482,9 @@ export const OH_TRANSITION_SITES = {
     telephone: '',
   },
 };
+
+export const TRAVEL_CLAIM_MESSAGES = {
+  noClaim: 'No claims found.',
+  error: 'Travel Pay service unavailable.',
+  success: 'Data retrieved successfully.',
+};

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
+import { selectEnrollmentStatus } from '../../../../utils/selectors';
 import { createLiteralMap } from '../../../../utils/helpers';
 import WarningExplainations from '../ContentBlocks/WarningExplainations';
 
