@@ -5,7 +5,6 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
   radioSchema,
@@ -14,6 +13,8 @@ import {
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
+import { validateDate } from 'platform/forms-system/src/js/validation';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
@@ -227,7 +228,15 @@ const paymentsWillResumePage = {
 const incomeDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver date'),
-    paymentResumeDate: currentOrPastDateUI('When will the payments resume?'),
+    paymentResumeDate: {
+      'ui:title': 'When will the payments resume?',
+      'ui:webComponentField': VaMemorableDateField,
+      'ui:validations': [validateDate],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid date',
+        required: 'Please enter a date',
+      },
+    },
   },
   schema: {
     type: 'object',
