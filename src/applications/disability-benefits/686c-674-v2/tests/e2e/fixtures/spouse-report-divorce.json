@@ -78,7 +78,7 @@
       "view:marriageTypeInformation": {}
     },
     "spouseInformation": {
-      "spouseLegalName": {
+      "fullName": {
         "first": "jane",
         "last": "doe"
       },
@@ -93,15 +93,13 @@
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
         "country": "USA",
-        "street": "1600 Pennslyvania Av",
+        "street": "1600 Fakesville Ave",
         "city": "Washington",
         "state": "DC",
         "postalCode": "20500"
       },
-      "veteranContactInformation": {
-        "phoneNumber": "1231231234",
-        "emailAddress": "test@test.com"
-      }
+      "phoneNumber": "1231231234",
+      "emailAddress": "nope@nope.org"
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
@@ -128,7 +126,7 @@
       },
       "reasonMarriageEnded": "Other",
       "explanationOfOther": "Other reason",
-      "formerSpouseIncome": false
+      "spouseIncome": false
     },
     "veteranInformation": {
       "fullName": {
