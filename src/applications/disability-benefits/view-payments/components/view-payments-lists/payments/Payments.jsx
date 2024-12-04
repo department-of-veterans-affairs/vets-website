@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { useEffect, useState, useRef } from 'react';
 import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
@@ -31,14 +32,14 @@ const Payments = ({
   const navigate = useNavigate();
   const [currentData, setCurrentData] = useState([]);
   const currentPage = new URLSearchParams(location.search).get('page') || 1;
-  const [totalPages, setTotalPages] = useState(0);
+  const totalPages = useRef(0);
   const tableHeadingRef = useRef(null);
 
   useEffect(
     () => {
       const paginatedData = paginateData(data);
       setCurrentData(paginatedData[currentPage - 1]);
-      setTotalPages(paginatedData.length);
+      totalPages.current = paginatedData.length;
     },
     [currentPage, data],
   );
@@ -65,7 +66,8 @@ const Payments = ({
         >
           Displaying {from} - {to} of {data.length} payments
         </h3>
-        <va-table>
+
+        <va-table isFocusable>
           <va-table-row slot="headers">
             {fields.map(field => (
               <span key={field.value}>{field.label}</span>
@@ -86,7 +88,7 @@ const Payments = ({
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={currentPage}
-          pages={totalPages}
+          pages={totalPages.current}
           maxPageListLength={MAX_PAGE_LIST_LENGTH}
           showLastPage
         />
