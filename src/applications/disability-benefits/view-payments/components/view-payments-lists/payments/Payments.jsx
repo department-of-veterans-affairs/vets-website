@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { useEffect, useState, useRef } from 'react';
 import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
