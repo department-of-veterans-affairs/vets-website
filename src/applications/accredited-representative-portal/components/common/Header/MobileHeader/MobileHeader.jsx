@@ -5,13 +5,8 @@ import MobileLogoRow from './MobileLogoRow';
 
 const MobileHeader = () => {
   return (
-    <div
-      data-testid="mobile-header"
-      className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 mobile"
-    >
-      <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <MobileOfficialGovtWebsite />
-      </div>
+    <div data-testid="header">
+      <MobileOfficialGovtWebsite />
       <MobileLogoRow />
     </div>
   );

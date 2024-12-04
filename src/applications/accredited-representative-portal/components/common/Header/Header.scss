@@ -1,5 +1,31 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+.mobile-nav {
+  padding: 1.5px 8px;
+
+  &__sign-in {
+    width: auto;
+    margin-left: auto;
+  }
+
+  &__link {
+    align-items: center;
+  }
+  &__logo {
+    height: 24px;
+    margin-right: 10px;
+
+    &-text {
+      display: flex;
+      flex-wrap: wrap;
+      width: 40%;
+      color: var(--vads-color-white);
+      text-decoration: none;
+      line-height: 15.08px;
+      font-size: 12px;
+    }
+  }
+}
 
 .arp-header {
   min-height: 78px;
