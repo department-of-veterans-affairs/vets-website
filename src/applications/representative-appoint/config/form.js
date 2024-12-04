@@ -22,7 +22,6 @@ import {
   authorizeOutsideVANames,
   claimantRelationship,
   claimantPersonalInformation,
-  // confirmClaimantPersonalInformation,
   claimantContactPhoneEmail,
   claimantContactMailing,
   veteranPersonalInformation,
@@ -197,13 +196,6 @@ const formConfig = {
           uiSchema: claimantPersonalInformation.uiSchema,
           schema: claimantPersonalInformation.schema,
         },
-        // confirmClaimantPersonalInformation: {
-        //   path: 'confirm-claimant-personal-information',
-        //   depends: formData => !preparerIsVeteran({ formData }),
-        //   title: 'Your Personal Information',
-        //   uiSchema: confirmClaimantPersonalInformation.uiSchema,
-        //   schema: confirmClaimantPersonalInformation.schema,
-        // },
         claimantContactMailing: {
           path: 'claimant-contact-mailing',
           depends: formData => !preparerIsVeteran({ formData }),
