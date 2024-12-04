@@ -11,10 +11,8 @@ export function transformPatientRelationship(patientRelationship) {
   const attrs = patientRelationship.attributes.attributes;
   return {
     resourceType: 'PatientProviderRelationship',
-    provider: {
-      name: attrs.provider.name,
-      cernerId: attrs.provider.cernerId,
-    },
+    providerName: attrs.provider.name,
+    providerId: attrs.provider.cernerId,
     serviceType: attrs.serviceType.coding.code,
     location: attrs.location.name,
     clinicName: attrs.clinic.name,
