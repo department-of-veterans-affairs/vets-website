@@ -6,8 +6,8 @@ import {
   VaPrivacyAgreement,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { setupPages } from '../utils/reviewPage';
-import { formConfigForOrangeTask } from '../config/form';
+import { setupPages } from '../../utils/reviewPage';
+import { formConfigForOrangeTask } from '../../config/form';
 
 const ReviewPage = props => {
   const { location } = props;

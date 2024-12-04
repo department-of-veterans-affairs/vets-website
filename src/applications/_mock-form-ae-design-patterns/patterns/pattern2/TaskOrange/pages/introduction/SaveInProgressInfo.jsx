@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router';
 
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Link } from 'react-router';
+
+import { selectAuthStatus } from 'applications/_mock-form-ae-design-patterns/utils/selectors/auth-status';
+import { getTaskFromUrl } from 'applications/_mock-form-ae-design-patterns/utils/helpers/task';
+import { TASKS } from 'applications/_mock-form-ae-design-patterns/utils/constants';
+import content from 'applications/_mock-form-ae-design-patterns/shared/locales/en/content.json';
+
 import SaveInProgressIntro from './SaveInProgressIntro';
-import { selectAuthStatus } from '../../../../utils/selectors/auth-status';
-// import VerifiedPrefillAlert from '../../../../shared/components/alerts/VerifiedPrefillAlert';
-import content from '../../../../shared/locales/en/content.json';
-import { getTaskFromUrl } from '../../../../utils/helpers/task';
-import { TASKS } from '../../../../utils/constants';
 
 const SaveInProgressInfo = ({ formConfig, pageList }) => {
   const { isLoggedOut } = useSelector(selectAuthStatus);
