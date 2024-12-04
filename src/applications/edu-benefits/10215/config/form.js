@@ -4,26 +4,15 @@ import React from 'react';
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-10215-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/22-10215-schema.json';
-
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
 // pages
 import { institutionDetails } from '../pages';
-import serviceHistory from '../pages/serviceHistory';
 
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+const { date } = commonDefinitions;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -57,11 +46,7 @@ const formConfig = {
     </p>
   ),
   defaultDefinitions: {
-    fullName,
-    ssn,
     date,
-    dateRange,
-    usaPhone,
   },
   chapters: {
     institutionDetailsChapter: {
@@ -72,17 +57,6 @@ const formConfig = {
           title: 'Institution details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
-        },
-      },
-    },
-    serviceHistoryChapter: {
-      title: 'Service History',
-      pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
         },
       },
     },
