@@ -49,6 +49,40 @@ const mockStoreStandard = {
   dispatch: () => {},
 };
 
+const mockStoreStandardNoIntro = {
+  getState: () => ({
+    dischargeUpgradeWizard: {
+      duwForm: {
+        form: {
+          [SHORT_NAME_MAP.SERVICE_BRANCH]: null,
+          [SHORT_NAME_MAP.DISCHARGE_YEAR]: null,
+          [SHORT_NAME_MAP.DISCHARGE_MONTH]: null,
+          [SHORT_NAME_MAP.REASON]: null,
+          [SHORT_NAME_MAP.DISCHARGE_TYPE]: null,
+          [SHORT_NAME_MAP.INTENTION]: null,
+          [SHORT_NAME_MAP.COURT_MARTIAL]: null,
+          [SHORT_NAME_MAP.PREV_APPLICATION]: null,
+          [SHORT_NAME_MAP.PREV_APPLICATION_YEAR]: null,
+          [SHORT_NAME_MAP.PREV_APPLICATION_TYPE]: null,
+          [SHORT_NAME_MAP.FAILURE_TO_EXHAUST]: null,
+          [SHORT_NAME_MAP.PRIOR_SERVICE]: null,
+        },
+        viewedIntroPage: false,
+        editMode: false,
+        questionFlowChanged: false,
+        routeMap: [
+          ROUTES.HOME,
+          ROUTES.SERVICE_BRANCH,
+          ROUTES.REASON,
+          ROUTES.PREV_APPLICATION_TYPE,
+        ],
+      },
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
+
 const propsStandard = {
   //   formResponses: {
   //     [SHORT_NAME_MAP.SERVICE_BRANCH]: RESPONSES.AIR_FORCE,
@@ -80,9 +114,31 @@ const propsStandard = {
   //   ],
 };
 
+const propsNoIntroPage = {
+  formResponses: {},
+  answerChanged: false,
+  routeMap: [],
+  setQuestionSelectedToEdit: () => {},
+  setRouteMap: () => {},
+  toggleEditMode: () => {},
+  toggleQuestionFlowChanged: () => {},
+  viewedIntroPage: false,
+  router: {
+    push: pushStub,
+  },
+};
+
 describe('Review Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
+  });
+  it('should show the return home without seeing the intro page', () => {
+    render(
+      <Provider store={mockStoreStandardNoIntro}>
+        <ReviewPage {...propsNoIntroPage} />
+      </Provider>,
+    );
+    expect(pushStub.withArgs(ROUTES.HOME).called).to.be.true;
   });
   it('should show the review page component', () => {
     const tree = shallow(
