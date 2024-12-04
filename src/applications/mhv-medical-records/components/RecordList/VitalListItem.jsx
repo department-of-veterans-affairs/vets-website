@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { vitalTypeDisplayNames } from '../../util/constants';
+import { dateFormatWithoutTimezone } from '../../util/helpers';
 
 const VitalListItem = props => {
-  const { record } = props;
+  const { record, options = {} } = props;
+  const { isAccelerating } = options;
   const displayName = vitalTypeDisplayNames[record.type];
 
   const updatedRecordType = useMemo(
@@ -20,6 +22,36 @@ const VitalListItem = props => {
     [record.type],
   );
 
+  const dataTestIds = useMemo(
+    () => {
+      if (isAccelerating) {
+        return {
+          displayName: `vital-${_.kebabCase(updatedRecordType)}-display-name`,
+          noRecordMessage: `vital-${_.kebabCase(
+            updatedRecordType,
+          )}-no-record-message`,
+          measurement: `vital-${_.kebabCase(updatedRecordType)}-measurement`,
+          date: `vital-${_.kebabCase(updatedRecordType)}-date`,
+          dateTimestamp: `vital-${_.kebabCase(
+            updatedRecordType,
+          )}-date-timestamp`,
+          reviewLink: `vital-${_.kebabCase(
+            updatedRecordType,
+          )}-review-over-time`,
+        };
+      }
+      return {
+        displayName: 'vital-li-display-name',
+        noRecordMessage: 'vital-li-no-record-message',
+        measurement: 'vital-li-measurement',
+        date: 'vital-li-date',
+        dateTimestamp: 'vital-li-date-timestamp',
+        reviewLink: 'vital-li-review-over-time',
+      };
+    },
+    [updatedRecordType, isAccelerating],
+  );
+
   return (
     <va-card
       class="record-list-item vads-u-border--0 vads-u-padding-left--0 vads-u-padding-top--1 mobile-lg:vads-u-padding-top--2"
@@ -27,14 +59,21 @@ const VitalListItem = props => {
     >
       <h2
         className="vads-u-font-size--h3 vads-u-line-height--4 vads-u-margin-top--0 vads-u-margin-bottom--1"
-        data-testid="vital-li-display-name"
+        data-testid={dataTestIds.displayName}
       >
         {displayName}
       </h2>
 
       {record.noRecords && (
-        <p className="vads-u-margin--0">
-          {`There are no ${displayName.toLowerCase()} results in your VA medical records.`}
+        <p
+          className="vads-u-margin--0"
+          data-testid={dataTestIds.noRecordMessage}
+        >
+          {`There are no ${displayName.toLowerCase()} results ${
+            isAccelerating
+              ? `from the current time frame.`
+              : 'in your VA medical records.'
+          }`}
         </p>
       )}
 
@@ -47,7 +86,7 @@ const VitalListItem = props => {
             <span
               className="vads-u-display--inline"
               data-dd-privacy="mask"
-              data-testid="vital-li-measurement"
+              data-testid={dataTestIds.measurement}
             >
               {record.measurement}
             </span>
@@ -55,16 +94,23 @@ const VitalListItem = props => {
           <div
             className="vads-u-line-height--4 vads-u-margin-bottom--1"
             data-dd-privacy="mask"
-            data-testid="vital-li-date"
+            data-testid={dataTestIds.date}
           >
             <span className="vads-u-font-weight--bold">Date: </span>
-            <span>{record.date}</span>
+            <span data-testid={dataTestIds.dateTimestamp}>
+              {isAccelerating
+                ? dateFormatWithoutTimezone(
+                    record.effectiveDateTime,
+                    'MMMM d, yyyy',
+                  )
+                : record.date}
+            </span>
           </div>
 
           <Link
             to={`/vitals/${_.kebabCase(updatedRecordType)}-history`}
             className="vads-u-line-height--4"
-            data-testid="vital-li-review-over-time"
+            data-testid={dataTestIds.reviewLink}
           >
             <strong>
               Review your{' '}
@@ -90,5 +136,6 @@ const VitalListItem = props => {
 export default VitalListItem;
 
 VitalListItem.propTypes = {
+  options: PropTypes.object,
   record: PropTypes.object,
 };

@@ -508,10 +508,11 @@ const responses = {
       3,
       new Date().toISOString(),
     );
+    const singleReferral = referrals.find(
+      referral => referral?.UUID === req.params.referralId,
+    );
     return res.json({
-      data: referrals.find(
-        referral => referral?.uuid === req.params.referralId,
-      ),
+      data: singleReferral ?? {},
     });
   },
   'GET /vaos/v2/epsApi/appointments': (req, res) => {

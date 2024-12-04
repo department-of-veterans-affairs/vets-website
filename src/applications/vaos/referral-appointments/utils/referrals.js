@@ -25,7 +25,7 @@ const createReferral = (startDate, uuid) => {
     ReferringProvider: '534_520824810',
     SourceOfReferral: 'Interfaced from VA',
     Status: 'Approved',
-    CategoryOfCare: 'CARDIOLOGY',
+    CategoryOfCare: 'Cardiology',
     StationID: '528A4',
     Sta6: '534',
     ReferringProviderNPI: '534_520824810',
@@ -44,6 +44,8 @@ const createReferral = (startDate, uuid) => {
     ReferralStatus: 'open',
     UUID: uuid,
     numberOfAppointments: 1,
+    providerName: 'Dr. Face',
+    providerLocation: 'New skin technologies bldg 2',
   };
 };
 

@@ -159,13 +159,15 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       );
     } else {
       benefitSummaryContent = (
-        <div className="feature">
-          <h4>Your VA Benefit Summary letter is currently unavailable</h4>
+        <va-summary-box>
+          <h4 slot="headline">
+            Your VA Benefit Summary letter is currently unavailable
+          </h4>
           <div>
             We weren’t able to retrieve your VA Benefit Summary letter. Please{' '}
             <CallVBACenter />
           </div>
-        </div>
+        </va-summary-box>
       );
     }
 

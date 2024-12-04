@@ -50,7 +50,7 @@ import {
   certifierNameValidation,
   certifierAddressValidation,
 } from '../helpers/validations';
-import { MAX_APPLICANTS, ADDITIONAL_FILES_HINT } from './constants';
+import { ADDITIONAL_FILES_HINT } from './constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
@@ -270,14 +270,12 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            ...titleUI(
-              'Your relationship to the applicant',
-              `You can add up to ${MAX_APPLICANTS} applicants on a single application. If you need to add more than ${MAX_APPLICANTS}, you’ll need to fill out another form for them.`,
-            ),
+            ...titleUI('Your relationship to the applicant'),
             certifierRelationship: {
               relationshipToVeteran: checkboxGroupUI({
                 title: 'Which of these best describes you?',
-                hint: 'Select all that apply',
+                hint:
+                  'If you’re applying on behalf of multiple applicants, you can select all applicable options',
                 required: () => true,
                 labels: {
                   spouse: 'I’m an applicant’s spouse',
@@ -442,6 +440,35 @@ const formConfig = {
               sponsorDeathConditions: yesNoSchema,
             },
           },
+        },
+        page10b0: {
+          path: 'sponsor-mailing-same',
+          title: formData => `${sponsorWording(formData)} address selection`,
+          // Only show if we have addresses to pull from:
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('street', formData?.certifierAddress),
+          CustomPage: props => {
+            const extraProps = {
+              ...props,
+              customAddressKey: 'sponsorAddress',
+              customTitle: `${sponsorWording(props.data)} address selection`,
+              customDescription:
+                'We’ll send any important information about this form to this address.',
+              customSelectText: `Does ${sponsorWording(
+                props.data,
+                false,
+                false,
+              )} live at a previously entered address?`,
+              positivePrefix: 'Yes, their address is',
+              negativePrefix: 'No, they have a different address',
+            };
+            return ApplicantAddressCopyPage(extraProps);
+          },
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
         },
         page10b1: {
           path: 'sponsor-mailing-address',

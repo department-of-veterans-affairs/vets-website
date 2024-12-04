@@ -1,8 +1,5 @@
 import { expect } from 'chai';
-import {
-  createPayload,
-  parseResponse,
-} from '../../../../utils/helpers/file-attachments';
+import { createPayload, parseResponse } from '../../../../utils/helpers';
 
 describe('hca `createPayload` method', () => {
   let mockFile;

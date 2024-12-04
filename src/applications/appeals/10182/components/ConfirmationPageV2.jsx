@@ -14,10 +14,10 @@ import { hearingTypeLabels } from '../content/hearingType';
 import {
   ConfirmationTitle,
   ConfirmationAlert,
+  ConfirmationSummary,
   ConfirmationReturnLink,
 } from '../../shared/components/ConfirmationCommon';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
-import ConfirmationPdfMessages from '../../shared/components/ConfirmationPdfMessages';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 import { showValueOrNotSelected } from '../../shared/utils/confirmation';
 
@@ -48,48 +48,18 @@ export const ConfirmationPageV2 = () => {
   // Fix this after Lighthouse sets up the download URL
   const downloadUrl = ''; // NOD_PDF_DOWNLOAD_URL;
 
-  const alertTitle = 'Your Board Appeal request submission is in progress';
-  const alertContent = (
-    <p>
-      You submitted the request on {submitDate}. It can take a few days for the
-      Board to receive your request. We’ll send you a confirmation letter, once
-      we’ve processed your request.
-    </p>
-  );
-
   return (
     <>
       <ConfirmationTitle pageTitle="Request a Board Appeal" />
-      <ConfirmationAlert alertTitle={alertTitle} alertContent={alertContent} />
-
-      <div className="screen-only">
-        {downloadUrl && (
-          <va-summary-box uswds class="vads-u-margin-top--2">
-            <h3 slot="headline" className="vads-u-margin-top--0">
-              Save a PDF copy of your Board Appeal request
-            </h3>
-            <p>
-              If you’d like to save a PDF copy of your completed Board Appeal
-              request for your records, you can download it now.
-            </p>
-            <p>
-              <ConfirmationPdfMessages pdfApi={downloadUrl} />
-            </p>
-            <p>
-              <strong>Note:</strong> This PDF is for your records only. You’ve
-              already submitted your completed Board Appeal request. We ask that
-              you don’t send us another copy.
-            </p>
-          </va-summary-box>
-        )}
-
-        <h3>Print this confirmation page</h3>
+      <ConfirmationAlert alertTitle="Your Board Appeal request submission is in progress">
         <p>
-          You can print this page, which includes a summary of the information
-          you submitted in your Board Appeal request.
+          You submitted the request on {submitDate}. It can take a few days for
+          the Board to receive your request. We’ll send you a confirmation
+          letter, once we’ve processed your request.
         </p>
-        <va-button onClick={window.print} text="Print this page" />
-      </div>
+      </ConfirmationAlert>
+
+      <ConfirmationSummary name="Board Appeal" downloadUrl={downloadUrl} />
 
       <h2>What to expect next</h2>
       <p>
@@ -192,7 +162,10 @@ export const ConfirmationPageV2 = () => {
         veteran={data.veteran}
       />
 
-      <ConfirmationIssues data={data}>
+      <ConfirmationIssues
+        data={data}
+        text="The issues you’re asking the board to review"
+      >
         <>
           <li>
             <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">

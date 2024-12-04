@@ -32,6 +32,11 @@ const allergies = require('./medical-records/allergies');
 const acceleratedAllergies = require('./medical-records/allergies/full-example');
 const vaccines = require('./medical-records/vaccines');
 const vitals = require('./medical-records/vitals');
+const appointments = require('./medical-records/blue-button/appointments');
+const demographics = require('./medical-records/blue-button/demographics');
+const militaryService = require('./medical-records/blue-button/military-service');
+const patient = require('./medical-records/blue-button/patient');
+const acceleratedVitals = require('./medical-records/vitals/accelerated');
 
 const responses = {
   ...commonResponses,
@@ -39,7 +44,9 @@ const responses = {
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
+    mhvAcceleratedDeliveryEnabled: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
+    mhvAcceleratedDeliveryVitalSignsEnabled: true,
   }),
 
   // VAMC facility data that apps query for on startup
@@ -107,7 +114,9 @@ const responses = {
   // medical records
   'GET /my_health/v1/medical_records/session/status':
     session.phrRefreshInProgressNoNewRecords,
-  'GET /my_health/v1/medical_records/session': session.error,
+  'GET /my_health/v1/medical_records/session':
+    session.phrRefreshInProgressNoNewRecords,
+  'POST /my_health/v1/medical_records/session': {},
   'GET /my_health/v1/medical_records/status': status.error,
   'GET /my_health/v1/medical_records/labs_and_tests': labsAndTests.all,
   'GET /my_health/v1/medical_records/labs_and_tests/:id': labsAndTests.single,
@@ -135,7 +144,20 @@ const responses = {
   },
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
-  'GET /my_health/v1/medical_records/vitals': vitals.all,
+  'GET /my_health/v1/medical_records/vitals': (req, res) => {
+    const { use_oh_data_path, from, to } = req.query;
+    if (use_oh_data_path === '1') {
+      const vitalsData = acceleratedVitals.all(from, to);
+      return res.json(vitalsData);
+    }
+    return res.json(vitals.all);
+  },
+  'GET /my_health/v1/vaos/v2/appointments': appointments.appointments,
+  'GET /my_health/v1/medical_records/patient/demographic':
+    demographics.demographics,
+  'GET /my_health/v1/medical_records/military_service':
+    militaryService.militaryService,
+  'GET /my_health/v1/medical_records/patient': patient.patient,
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner
@@ -158,4 +180,4 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 1000);
+module.exports = delay(responses, 750);

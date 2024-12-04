@@ -54,6 +54,7 @@ import { canAccess } from '../../common/selectors';
 import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
 import BenefitApplications from './benefit-application-drafts/BenefitApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
+import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
 
 const DashboardHeader = ({ showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -115,6 +116,7 @@ const DashboardHeader = ({ showNotifications, user }) => {
           });
         }}
       />
+      <ContactInfoNeeded />
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
   );
@@ -133,7 +135,7 @@ const LOA1Content = ({
     TOGGLE_NAMES.veteranOnboardingShowWelcomeMessageToNewUsers,
   );
 
-  const userCreationTime = new Date(user.profile.createdAt);
+  const userCreationTime = new Date(user.profile.initialSignIn);
   const oneDayLater = new Date(
     userCreationTime.getTime() + 24 * 60 * 60 * 1000,
   );

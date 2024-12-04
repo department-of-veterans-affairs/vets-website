@@ -1,31 +1,41 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import mockMessages from './fixtures/messages-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import { AXE_CONTEXT, Locators } from './utils/constants';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
+import singleThreadResponse from './fixtures/thread-response-new-api.json';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
+    const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
+      singleThreadResponse,
+    );
+    const singleMessage = { data: updatedSingleThreadResponse.data[0] };
     SecureMessagingSite.login();
-    const testMessage = PatientInboxPage.getNewMessageDetails();
-    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
+    PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
+    PatientInterstitialPage.getContinueButton().click();
 
-    PatientMessageDetailsPage.loadMessageDetails(testMessage);
-    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
-    PatientInterstitialPage.getContinueButton().click({
-      waitForAnimations: true,
-    });
-    PatientReplyPage.getMessageBodyField().type('\nTest message body', {
-      force: true,
-    });
+    PatientReplyPage.getMessageBodyField()
+      .clear()
+      .type('Test message body', {
+        force: true,
+      });
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientReplyPage.clickSendReplyMessageDetailsButton(testMessage);
+
+    PatientReplyPage.clickSendReplyMessageButton(singleMessage);
+
     cy.get(Locators.SPINNER).should('be.visible');
+
     PatientReplyPage.verifySendMessageConfirmationMessageText();
+
     PatientReplyPage.verifySendMessageConfirmationHasFocus();
+
     cy.get(Locators.SPINNER).should('not.exist');
   });
 });

@@ -2,12 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { ERR_MSG_CSS_CLASS } from '../../../0994/constants';
 import {
   DefinitionTester,
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../../0994/config/form';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
+import formConfig from '../../config/form';
 
 describe('VET TEC benefits eligibility', () => {
   const page =
@@ -29,7 +29,7 @@ describe('VET TEC benefits eligibility', () => {
     );
 
     selectRadio(form, 'root_appliedForVaEducationBenefits', 'N');
-    expect(form.find('.feature').length).to.equal(1);
+    expect(form.find('va-summary-box').length).to.equal(1);
     form.unmount();
   });
 

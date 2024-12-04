@@ -17,7 +17,7 @@ describe('ConfirmationPersonalInfo', () => {
     last: 'Wazowski',
     suffix: '',
   };
-  const veteran = (US = true) => ({
+  const veteran = (US = true, phone = 'phone') => ({
     vaFileLastFour: '8765',
     address: {
       addressType: US ? 'DOMESTIC' : 'INTERNATIONAL',
@@ -32,16 +32,22 @@ describe('ConfirmationPersonalInfo', () => {
       zipCode: US ? '30012' : null,
       internationalPostalCode: US ? null : '75000',
     },
-    phone: {
+    [phone]: {
       countryCode: '6',
       areaCode: '555',
       phoneNumber: '8001111',
       extension: '2345',
     },
+    homePhone: {
+      countryCode: '7',
+      areaCode: '555',
+      phoneNumber: '8002222',
+      extension: '5678',
+    },
     email: 'user@example.com',
   });
 
-  it('should render all fields', () => {
+  it('should render all fields for HLR & NOD', () => {
     const { container } = render(
       <ConfirmationPersonalInfo
         dob={dob}
@@ -65,6 +71,39 @@ describe('ConfirmationPersonalInfo', () => {
       '●●●–●●–8765V A file number ending with 8 7 6 5',
       'October 28, 2001',
       'Yes',
+      '<va-telephone contact="5558001111" extension="2345" not-clickable="true"></va-telephone>',
+      'user@example.com',
+      '123 Main StNew York, NY 30012',
+    ]);
+  });
+
+  it('should render all fields for SC', () => {
+    const { container } = render(
+      <ConfirmationPersonalInfo
+        dob={dob}
+        homeless
+        userFullName={userFullName}
+        veteran={veteran(true, 'mobilePhone')}
+        hasLivingSituationChapter
+        hasHomeAndMobilePhone
+      />,
+    );
+
+    expect($('h3', container).textContent).to.eq('Personal information');
+    expect($$('ul[role="list"]', container).length).to.eq(1);
+
+    const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
+    expect(items.length).to.eq(7);
+    expect(
+      items.map(
+        (item, index) =>
+          item[[3, 4].includes(index) ? 'innerHTML' : 'textContent'],
+      ),
+    ).to.deep.equal([
+      'Mike Wazowski',
+      '●●●–●●–8765V A file number ending with 8 7 6 5',
+      'October 28, 2001',
+      '<va-telephone contact="5558002222" extension="5678" not-clickable="true"></va-telephone>',
       '<va-telephone contact="5558001111" extension="2345" not-clickable="true"></va-telephone>',
       'user@example.com',
       '123 Main StNew York, NY 30012',

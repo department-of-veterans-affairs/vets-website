@@ -120,6 +120,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
             'vads-u-align-items--center vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-dark vads-u-background-color--gray-lightest medium-screen:vads-u-display--none',
             { 'va-border-bottom-radius--0': expanded },
           )}
+          data-testid="rs-mobile-expand-collapse"
           onClick={() => setExpanded(!expanded)}
           type="button"
         >

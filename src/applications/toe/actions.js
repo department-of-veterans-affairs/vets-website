@@ -160,7 +160,7 @@ function getNowDate() {
 
 export function fetchClaimStatus(selectedChapter) {
   return async dispatch => {
-    dispatch({ type: `${CLAIM_STATUS_ENDPOINT}?type=${selectedChapter}` });
+    dispatch({ type: CLAIM_STATUS_ENDPOINT });
     const timeoutResponse = {
       attributes: {
         claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
@@ -169,7 +169,7 @@ export function fetchClaimStatus(selectedChapter) {
     };
 
     poll({
-      endpoint: CLAIM_STATUS_ENDPOINT,
+      endpoint: `${CLAIM_STATUS_ENDPOINT}?type=${selectedChapter}`,
       validate: response => {
         return (
           response?.data?.attributes?.claimStatus &&

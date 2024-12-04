@@ -13,8 +13,9 @@ const AmOther = props => {
   );
   recordNotificationEvent('ineligibility - is not a Veteran or Service Member');
   return (
-    <div
-      className="feature vads-u-background-color--gray-lightest"
+    <va-card
+      background
+      class="vads-u-margin-bottom--3"
       aria-live="polite"
       aria-atomic="true"
     >
@@ -29,7 +30,7 @@ const AmOther = props => {
       >
         Find out about VA educational and career counseling
       </a>
-    </div>
+    </va-card>
   );
 };
 

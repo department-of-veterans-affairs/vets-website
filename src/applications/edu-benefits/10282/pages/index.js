@@ -1,4 +1,3 @@
-import * as applicantInformationName from './applicantInformation/applicantName';
 import * as applicantInformationCountry from './applicantInformation/applicantCountry';
 import * as veteranDesc from './applicantInformation/applicantDescription';
 import * as applicantContactInfo from './applicantInformation/applicantContactInfo';
@@ -11,7 +10,6 @@ import * as currentAnnualSalary from './educationAndEmploymentHistory/currentAnn
 import * as techIndustryFocusArea from './educationAndEmploymentHistory/techIndustryFocusArea';
 
 export {
-  applicantInformationName,
   applicantInformationCountry,
   veteranDesc,
   applicantContactInfo,

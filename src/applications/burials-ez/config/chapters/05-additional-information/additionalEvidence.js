@@ -74,7 +74,7 @@ export default {
             of Veterans Affairs (VA Form 21-4142)
             <br />
             <a href="/find-forms/about-form-21-4142/" target="_blank">
-              Get VA Form 21-4142 to download
+              Get VA Form 21-4142 to download (opens in new tab)
             </a>
           </li>
           <li>
@@ -82,7 +82,7 @@ export default {
             of Veterans Affairs (VA Form 21-4142a)
             <br />
             <a href="/find-forms/about-form-21-4142a/" target="_blank">
-              Get VA Form 21-4142a to download
+              Get VA Form 21-4142a to download (opens in new tab)
             </a>
           </li>
         </ul>
@@ -95,9 +95,9 @@ export default {
         </ul>
       </>
     ),
-    additionalEvidence: {
-      ...burialUploadUI('Upload additional supporting documents'),
-    },
+    additionalEvidence: burialUploadUI(
+      'Upload additional supporting documents',
+    ),
   },
   schema: {
     type: 'object',

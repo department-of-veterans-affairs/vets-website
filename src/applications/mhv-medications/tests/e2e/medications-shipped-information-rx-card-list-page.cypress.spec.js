@@ -13,13 +13,11 @@ describe('Medications List Page Shipped On Information', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[15].attributes).to.include({
-          dispensedDate: shippedDate,
-        });
+    cy.wait('@medicationsList').then(interception => {
+      expect(interception.response.body.data[15].attributes).to.include({
+        dispensedDate: shippedDate,
       });
+    });
     listPage.verifyShippedOnInformationOnRxCardOnMedicationsListPage(
       shippedDate,
     );

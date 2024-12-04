@@ -3,7 +3,7 @@ import React from 'react';
 import { truncate } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import { Article } from '../prop-types';
-import { ENTITY_BUNDLES } from '../content-modeling';
+import { ENTITY_BUNDLES } from '../constants';
 
 const articleTypes = {
   [ENTITY_BUNDLES.Q_A]: 'Question and answer',
@@ -23,7 +23,6 @@ export const SearchResult = ({
   totalResults,
 }) => {
   const onSearchResultClick = () => {
-    // Track search result click.
     recordEvent({
       event: 'onsite-search-results-click',
       'search-page-path': document.location.pathname,
@@ -51,9 +50,10 @@ export const SearchResult = ({
         className="vads-u-margin-top--0 vads-u-font-size--md"
       >
         <va-link
+          disable-analytics
           onClick={onSearchResultClick}
           href={article.entityUrl.path}
-          text={article.title}
+          text={article.title.trim()}
         />
       </h3>
       <p className="vads-u-margin-top--1p5 vads-u-margin-bottom--0">

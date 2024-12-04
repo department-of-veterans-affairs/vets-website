@@ -42,6 +42,14 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'veteran-identification-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            cy.fillPage();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       'disclosure-information-person-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {

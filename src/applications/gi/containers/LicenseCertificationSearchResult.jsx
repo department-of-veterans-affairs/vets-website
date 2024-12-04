@@ -1,34 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LicenseCertificationResultInfo from '../components/LicenseCertificationResultInfo';
 import { fetchLcResult } from '../actions';
 
-function LicenseCertificationSearchResult({
-  result,
-  hasFetchedResult,
-  dispatchFetchLcResult,
-  resultInfo,
-}) {
-  const { link, type, name } = result;
-
-  const handleClick = () => {
-    dispatchFetchLcResult(link);
-  };
-
+function LicenseCertificationSearchResult() {
   return (
-    <va-accordion-item
-      id={name}
-      header={name}
-      subheader={type}
-      onClick={() => handleClick()}
-    >
-      {hasFetchedResult ? (
-        <LicenseCertificationResultInfo resultInfo={resultInfo} />
-      ) : (
-        <h3>Loading</h3>
-      )}
-    </va-accordion-item>
+    <div>
+      <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
+        <h1> Name</h1>
+        <div>Tab view for results</div>
+      </section>
+    </div>
   );
 }
 

@@ -132,7 +132,7 @@ export const CLAIMANT_TYPES = [
 export const ITF_STATUSES = {
   active: 'active',
   expired: 'expired',
-  claimRecieved: 'claim_recieved',
+  claimRecieved: 'claim_recieved', // intentional typo to match API
   duplicate: 'duplicate',
   incomplete: 'incomplete',
   canceled: 'canceled',

@@ -1,5 +1,7 @@
 /**
  * Renders a select dropdown for selecting recipients in the compose form.
+ *  - Recipients are grouped by VAMC system name.
+ *  - Recipients are sorted alphabetically by VAMC system name and then by name.
  *  - If a recipient requires a signature or switching from a recipient that does not 
  *    require a signature to one that does, an alert is displayed notifying that signature is required.
  *  - If switching from a recipient that requires a signature to one that does not, 
@@ -25,12 +27,22 @@
  * @param {boolean} [props.isSignatureRequired] - Indicates if a signature is required for the selected recipient.
  * @returns {JSX.Element} The rendered RecipientsSelect component.
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { useSelector } from 'react-redux';
 import {
   VaAlert,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { sortRecipients } from '../../util/helpers';
 import { Prompts } from '../../util/constants';
 import CantFindYourTeam from './CantFindYourTeam';
@@ -50,6 +62,53 @@ const RecipientsSelect = ({
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState(null);
+  const [recipientsListSorted, setRecipientsListSorted] = useState([]);
+  const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+
+  const optGroupEnabled = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups
+      ],
+  );
+
+  useEffect(
+    () => {
+      if (optGroupEnabled) {
+        setRecipientsListSorted(() => {
+          return recipientsList
+            .map(item => {
+              return {
+                id: item.id,
+                vamcSystemName: getVamcSystemNameFromVhaId(
+                  ehrDataByVhaId,
+                  item.stationNumber,
+                ),
+                ...item,
+              };
+            })
+            .sort((a, b) => {
+              // If both vamcSystemName are undefined, sort alphabetically by name
+              if (
+                a.vamcSystemName === undefined &&
+                b.vamcSystemName === undefined
+              ) {
+                return a.name.localeCompare(b.name);
+              }
+              // If only one vamcSystemName is undefined, sort it to the top
+              if (a.vamcSystemName === undefined) return -1;
+              if (b.vamcSystemName === undefined) return 1;
+              // If both vamcSystemName are defined, sort by vamcSystemName first, then by name
+              if (a.vamcSystemName !== b.vamcSystemName) {
+                return a.vamcSystemName.localeCompare(b.vamcSystemName);
+              }
+              return a.name.localeCompare(b.name);
+            });
+        });
+      }
+    },
+    [ehrDataByVhaId, recipientsList, optGroupEnabled],
+  );
 
   useEffect(
     () => {
@@ -78,13 +137,13 @@ const RecipientsSelect = ({
 
   const handleRecipientSelect = useCallback(
     e => {
-      if (!+e.detail.value) {
+      const { value } = e.detail;
+      if (!+value) {
         setSelectedRecipient({});
         return;
       }
 
-      const recipient =
-        recipientsList?.find(r => +r.id === +e.detail.value) || {};
+      const recipient = recipientsList.find(r => +r.id === +value) || {};
       setSelectedRecipient(recipient);
 
       if (recipient.signatureRequired || isSignatureRequired) {
@@ -94,6 +153,62 @@ const RecipientsSelect = ({
     [recipientsList, isSignatureRequired, setSelectedRecipient],
   );
 
+  const optionsValues = useMemo(
+    () => {
+      if (!optGroupEnabled) {
+        return sortRecipients(recipientsList)?.map(item => (
+          <option key={item.id} value={item.id}>
+            {item.name}
+          </option>
+        ));
+      }
+
+      let currentVamcSystemName = null;
+      const options = [];
+      let groupedOptions = [];
+
+      recipientsListSorted.forEach(item => {
+        if (item.vamcSystemName === undefined) {
+          options.push(
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>,
+          );
+        } else if (item.vamcSystemName !== currentVamcSystemName) {
+          if (currentVamcSystemName !== null) {
+            options.push(
+              <optgroup
+                key={currentVamcSystemName}
+                label={currentVamcSystemName}
+              >
+                {groupedOptions}
+              </optgroup>,
+            );
+          }
+          currentVamcSystemName = item.vamcSystemName;
+          groupedOptions = [];
+        }
+        groupedOptions.push(
+          <option key={item.id} value={item.id}>
+            {item.name}
+          </option>,
+        );
+      });
+
+      // Push the last group
+      if (currentVamcSystemName !== null) {
+        options.push(
+          <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
+            {groupedOptions}
+          </optgroup>,
+        );
+      }
+
+      return options;
+    },
+    [recipientsListSorted, optGroupEnabled, recipientsList],
+  );
+
   return (
     <>
       <VaSelect
@@ -101,7 +216,7 @@ const RecipientsSelect = ({
         id="recipient-dropdown"
         label="To"
         name="to"
-        value={defaultValue}
+        value={defaultValue !== undefined ? defaultValue : ''}
         onVaSelect={handleRecipientSelect}
         class="composeSelect"
         data-testid="compose-recipient-select"
@@ -110,12 +225,9 @@ const RecipientsSelect = ({
         data-dd-action-name="Compose Recipient Dropdown List"
       >
         <CantFindYourTeam />
-        {sortRecipients(recipientsList)?.map(item => (
-          <option key={item.id} value={item.id}>
-            {item.name}
-          </option>
-        ))}
+        {optionsValues}
       </VaSelect>
+
       {alertDisplayed && (
         <VaAlert
           ref={alertRef}

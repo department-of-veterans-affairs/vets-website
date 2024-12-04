@@ -13,7 +13,7 @@ import { getParamValue } from '../../util/helpers';
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
-  const { records, type, perPage = 10, hidePagination } = props;
+  const { records, type, perPage = 10, hidePagination, domainOptions } = props;
   const totalEntries = records?.length;
 
   const history = useHistory();
@@ -53,7 +53,7 @@ const RecordList = props => {
         setCurrentRecords(paginatedRecords.current[currentPage - 1]);
       }
     },
-    [records, perPage],
+    [records, perPage, currentPage],
   );
 
   useEffect(
@@ -88,7 +88,12 @@ const RecordList = props => {
       <div className="no-print">
         {currentRecords?.length > 0 &&
           currentRecords.map((record, idx) => (
-            <RecordListItem key={idx} record={record} type={type} />
+            <RecordListItem
+              key={idx}
+              record={record}
+              type={type}
+              domainOptions={domainOptions}
+            />
           ))}
       </div>
       <div className="print-only">
@@ -119,6 +124,7 @@ const RecordList = props => {
 export default RecordList;
 
 RecordList.propTypes = {
+  domainOptions: PropTypes.object,
   hidePagination: PropTypes.bool,
   perPage: PropTypes.number,
   records: PropTypes.array,

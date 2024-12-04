@@ -12,8 +12,12 @@ Cypress.Commands.add('testQuestionScenario', ({ scenario, routeOption }) => {
   cy.reload();
   cy.get('body', { timeout: normal }).should('be.visible');
   scenario.questions.forEach(question => {
-    cy.get(`div[id=${question.id}]`, { timeout: slow }).should('be.visible');
-    cy.get(`div[id=${question.id}] > button[value=${question.value}]`).click();
+    cy.get(`va-summary-box[id=${question.id}]`, { timeout: slow }).should(
+      'be.visible',
+    );
+    cy.get(
+      `va-summary-box[id=${question.id}] > button[value=${question.value}]`,
+    ).click();
   });
   cy.get(`div[class*=${scenario.result.class}]`, { timeout: slow }).should(
     'be.visible',
@@ -25,7 +29,7 @@ describe('Coronavirus Screener', () => {
   it('Gets the correct result for each scenario', () => {
     cy.visit('/covid19screen');
     cy.get('body').should('be.visible');
-    cy.get('div[id=question-isStaff]').should('be.visible');
+    cy.get('va-summary-box[id=question-isStaff]').should('be.visible');
     cy.get('div[class*=covid-screener-results-incomplete]').should(
       'be.visible',
     );

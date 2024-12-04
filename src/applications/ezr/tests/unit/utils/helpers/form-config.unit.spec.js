@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { subYears } from 'date-fns';
 import {
   includeSpousalInformation,
   includeHouseholdInformation,
@@ -12,6 +13,12 @@ import {
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
+  canVeteranProvideRadiationCleanupResponse,
+  canVeteranProvideGulfWarResponse,
+  canVeteranProvideCombatOperationsResponse,
+  canVeteranProvideAgentOrangeResponse,
+  includeGulfWarServiceDates,
+  includeAgentOrangeExposureDates,
 } from '../../../../utils/helpers/form-config';
 import {
   DEPENDENT_VIEW_FIELDS,
@@ -278,5 +285,225 @@ describe('ezr form config helpers', () => {
         expect(includeInsuranceInformation(formData)).to.be.true;
       });
     });
+  });
+
+  context('when `includeGulfWarServiceDates` executes', () => {
+    context(
+      'when the `gulfWarService` value is true, `includeTeraInformation` evaluates to true, ' +
+        "and the user's DOB is exactly 15 years ago from the present day or prior",
+      () => {
+        const formData = {
+          gulfWarService: true,
+          hasTeraResponse: true,
+          veteranDateOfBirth: '2009-07-16',
+        };
+        it('returns `true`', () => {
+          expect(includeGulfWarServiceDates(formData)).to.be.true;
+        });
+
+        const formDataWithLatestPossibleDate = {
+          gulfWarService: true,
+          hasTeraResponse: true,
+          veteranDateOfBirth: subYears(new Date(), 15),
+        };
+        it('returns `true`', () => {
+          expect(includeGulfWarServiceDates(formDataWithLatestPossibleDate)).to
+            .be.true;
+        });
+      },
+    );
+
+    context(
+      'when the `gulfWarService` value is false, and/or `includeTeraInformation` evaluates ' +
+        "to false, and/or the user's DOB is NOT exactly 15 years ago from the present day or prior",
+      () => {
+        const formData = {
+          gulfWarService: true,
+          hasTeraResponse: false,
+          veteranDateOfBirth: subYears(new Date(), 10),
+        };
+        it('returns `false`', () => {
+          expect(includeGulfWarServiceDates(formData)).to.be.false;
+        });
+      },
+    );
+  });
+
+  context('when `includeAgentOrangeExposureDates` executes', () => {
+    context(
+      'when the `exposedToAgentOrange` value is true, `includeTeraInformation` evaluates to true, ' +
+        "and the user's DOB is prior to 1966",
+      () => {
+        const formData = {
+          exposedToAgentOrange: true,
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1965-12-31',
+        };
+        it('returns `true`', () => {
+          expect(includeAgentOrangeExposureDates(formData)).to.be.true;
+        });
+      },
+    );
+
+    context(
+      'when the `exposedToAgentOrange` value is false, and/or `includeTeraInformation` evaluates ' +
+        "to false, and/or the user's DOB is NOT prior to 1966",
+      () => {
+        const formData = {
+          exposedToAgentOrange: true,
+          hasTeraResponse: false,
+          veteranDateOfBirth: '1967-01-01',
+        };
+        it('returns `false`', () => {
+          expect(includeAgentOrangeExposureDates(formData)).to.be.false;
+        });
+      },
+    );
+  });
+
+  context('when `canVeteranProvideAgentOrangeResponse` executes', () => {
+    context(
+      "when `includeTeraInformation` evaluates to true and the user's DOB is " +
+        'prior to 1966',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1965-12-31',
+        };
+        it('returns `true`', () => {
+          expect(canVeteranProvideAgentOrangeResponse(formData)).to.be.true;
+        });
+      },
+    );
+
+    context(
+      "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
+        'is NOT prior to 1966',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1974-10-18',
+        };
+        it('returns `false`', () => {
+          expect(canVeteranProvideAgentOrangeResponse(formData)).to.be.false;
+        });
+      },
+    );
+  });
+
+  context('when `canVeteranProvideRadiationCleanupResponse` executes', () => {
+    context(
+      "when `includeTeraInformation` evaluates to true and the user's DOB " +
+        'is prior to 1966',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1965-12-31',
+        };
+        it('returns `true`', () => {
+          expect(canVeteranProvideRadiationCleanupResponse(formData)).to.be
+            .true;
+        });
+      },
+    );
+
+    context(
+      "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
+        'is NOT prior to 1966',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1996-11-18',
+        };
+        it('returns `false`', () => {
+          expect(canVeteranProvideRadiationCleanupResponse(formData)).to.be
+            .false;
+        });
+      },
+    );
+  });
+
+  context('when `canVeteranProvideGulfWarResponse` executes', () => {
+    context(
+      "when `includeTeraInformation` evaluates to true and the user's DOB " +
+        'DOB is exactly 15 years ago from the present day or prior',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '2004-04-23',
+        };
+        it('returns `true`', () => {
+          expect(canVeteranProvideGulfWarResponse(formData)).to.be.true;
+        });
+
+        const formDataWithLatestPossibleDate = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: subYears(new Date(), 15),
+        };
+        it('returns `true`', () => {
+          expect(
+            canVeteranProvideGulfWarResponse(formDataWithLatestPossibleDate),
+          ).to.be.true;
+        });
+      },
+    );
+
+    context(
+      "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
+        'is NOT exactly 15 years ago from the present day or prior',
+      () => {
+        const formData = {
+          hasTeraResponse: false,
+          veteranDateOfBirth: subYears(new Date(), 7),
+        };
+        it('returns `false`', () => {
+          expect(canVeteranProvideGulfWarResponse(formData)).to.be.false;
+        });
+      },
+    );
+  });
+
+  context('when `canVeteranProvideCombatOperationsResponse` executes', () => {
+    context(
+      "when `includeTeraInformation` evaluates to true and the user's DOB " +
+        'is exactly 15 years ago from the present day or prior',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1995-07-15',
+        };
+        it('returns `true`', () => {
+          expect(canVeteranProvideCombatOperationsResponse(formData)).to.be
+            .true;
+        });
+
+        const formDataWithLatestPossibleDate = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: subYears(new Date(), 15),
+        };
+        it('returns `true`', () => {
+          expect(
+            canVeteranProvideCombatOperationsResponse(
+              formDataWithLatestPossibleDate,
+            ),
+          ).to.be.true;
+        });
+      },
+    );
+
+    context(
+      "when `includeTeraInformation` evaluates to false and/or the user's " +
+        'DOB is NOT exactly 15 years ago from the present day or prior',
+      () => {
+        const formData = {
+          hasTeraResponse: false,
+          veteranDateOfBirth: subYears(new Date(), 12),
+        };
+        it('returns `false`', () => {
+          expect(canVeteranProvideCombatOperationsResponse(formData)).to.be
+            .false;
+        });
+      },
+    );
   });
 });

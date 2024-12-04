@@ -221,8 +221,8 @@ ReplyForm.propTypes = {
   replyMessage: PropTypes.object,
   setIsCreateNewModalVisible: PropTypes.func,
   setIsEditing: PropTypes.func,
-  threadId: PropTypes.number,
   setIsSending: PropTypes.func,
+  threadId: PropTypes.number,
 };
 
 export default ReplyForm;

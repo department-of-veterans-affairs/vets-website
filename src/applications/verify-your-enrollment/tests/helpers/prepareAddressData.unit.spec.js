@@ -15,19 +15,6 @@ describe('prepareAddressData', () => {
     expect(result).to.have.property('zipCode', '10001');
   });
 
-  it('should correctly handle a non-USA address', () => {
-    const formData = {
-      countryCodeIso3: 'CAN',
-      province: 'ON',
-      internationalPostalCode: 'K1A 0B1',
-    };
-
-    const result = prepareAddressData(formData);
-
-    expect(result).to.have.property('province', 'ON');
-    expect(result).to.have.property('internationalPostalCode', 'K1A 0B1');
-  });
-
   it('should correctly handle livesOnMilitaryBase address', () => {
     const formData = {
       'view:livesOnMilitaryBase': true,

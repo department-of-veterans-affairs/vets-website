@@ -28,7 +28,9 @@ import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
+import ReferralTaskCard from '../../../referral-appointments/components/ReferralTaskCard';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
+import { createReferral } from '../../../referral-appointments/utils/referrals';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -50,6 +52,7 @@ export default function AppointmentsPage() {
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
+  const [referral, setReferral] = useState();
 
   const featureCCDirectScheduling = useSelector(state =>
     selectFeatureCCDirectScheduling(state),
@@ -64,6 +67,23 @@ export default function AppointmentsPage() {
   // const featureBookingExclusion = useSelector(state =>
   //   selectFeatureBookingExclusion(state),
   // );
+
+  useEffect(
+    () => {
+      if (!featureCCDirectScheduling || !location?.search) {
+        return;
+      }
+      const params = new URLSearchParams(location.search);
+      const id = params.get('id');
+      if (!id) {
+        return;
+      }
+      // TODO: Get referral data from redux
+      const referralFromId = createReferral(new Date().toISOString(), id);
+      setReferral(referralFromId);
+    },
+    [location, featureCCDirectScheduling],
+  );
 
   useEffect(
     () => {
@@ -164,6 +184,7 @@ export default function AppointmentsPage() {
           <ReferralAppLink linkText="Review and manage your appointment notifications" />
         </div>
       )}
+      {featureCCDirectScheduling && <ReferralTaskCard data={referral} />}
       {featureCCDirectScheduling && (
         <div
           className={classNames(

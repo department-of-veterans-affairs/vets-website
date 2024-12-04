@@ -5,6 +5,7 @@ import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-for
 import { Toggler } from 'platform/utilities/feature-toggles';
 
 import ConfirmationPageV2 from '../components/ConfirmationPageV2';
+import { formTitle } from '../content/title';
 import ConfirmationDecisionReviews from '../../shared/components/ConfirmationDecisionReviews';
 
 const alertContent = (
@@ -32,7 +33,7 @@ export const ConfirmationPage = () => {
       <Toggler.Disabled>
         <ConfirmationDecisionReviews
           appType="request"
-          pageTitle="Request a Higher-Level Review"
+          pageTitle={formTitle}
           alertTitle="We’ve received your request for a Higher-Level Review"
           alertContent={alertContent}
         >

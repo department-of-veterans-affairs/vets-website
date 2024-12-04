@@ -18,6 +18,7 @@
     "postalCode": "A9A 9A9"
   },
   "survivingDependentPhone": "1234567890",
+  "survivingDependentEmail": "surviving@dependent.com",
   "veteranFullName": {
     "first": "Veteran",
     "last": "Eteranvay"

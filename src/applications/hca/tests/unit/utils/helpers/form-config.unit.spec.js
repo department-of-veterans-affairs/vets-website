@@ -31,7 +31,7 @@ import {
   includeDependentInformation,
   collectMedicareInformation,
   insuranceTextOverrides,
-} from '../../../../utils/helpers/form-config';
+} from '../../../../utils/helpers';
 import {
   DEPENDENT_VIEW_FIELDS,
   HIGH_DISABILITY_MINIMUM,

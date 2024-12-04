@@ -8,22 +8,17 @@ import { generateTitle } from '../../../utils/helpers';
 export default {
   uiSchema: {
     'ui:title': generateTitle('Cemetery location'),
-    cemetaryLocationQuestion: {
-      ...radioUI({
-        title:
-          'Was the Veteran buried in a state cemetery or on tribal trust land (like a tribal cemetery)?',
-        labels: cemeteryTypeLabels,
-      }),
-    },
-    'ui:options': {
-      classNames: 'vads-u-margin-top--0',
-    },
+    cemetaryLocationQuestion: radioUI({
+      title:
+        'Was the Veteran buried in a state cemetery or on tribal trust land (like a tribal cemetery)?',
+      labels: cemeteryTypeLabels,
+    }),
   },
   schema: {
     type: 'object',
     required: ['cemetaryLocationQuestion'],
     properties: {
-      cemetaryLocationQuestion: radioSchema(['cemetery', 'tribalLand', 'none']),
+      cemetaryLocationQuestion: radioSchema(Object.keys(cemeteryTypeLabels)),
     },
   },
 };

@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import findIndex from 'lodash/findIndex';
 import { Outlet, useLocation } from 'react-router-dom-v5-compat';
 
-import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
-
 import { chapters } from '../utils/chapters';
 
 export function DownloadLetters() {
@@ -18,7 +16,9 @@ export function DownloadLetters() {
 
   return (
     <div className="usa-width-three-fourths letters">
-      <FormTitle title="VA letters and documents" />
+      <h1 id="letters-title-id" data-testid="form-title">
+        VA letters and documents
+      </h1>
       <p className="va-introtext">
         To receive some benefits, Veterans need a letter proving their status.
         You can download some of these benefit letters and documents online.

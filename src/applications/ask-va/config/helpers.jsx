@@ -3,11 +3,14 @@ import React from 'react';
 import {
   CategoryEducation,
   CategoryGuardianshipCustodianshipFiduciaryIssues,
+  CategoryHousingAssistanceAndHomeLoans,
   CategoryVeteranReadinessAndEmployment,
   contactOptions,
   isQuestionAboutVeteranOrSomeoneElseLabels,
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
+  TopicAppraisals,
+  TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
@@ -444,12 +447,56 @@ export const isPostalCodeRequired = data => {
     return true;
   }
 
-  // Check general question
+  // Flow 3.1
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
-  if (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL) {
+  if (
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL &&
+    statesRequiringPostalCode.includes(veteransLocationOfResidence)
+  ) {
     return true;
   }
 
   // Default to false if none of the conditions are met
   return false;
+};
+
+// Reference Rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#state-of-property
+export const isStateOfPropertyRequired = data => {
+  const { selectCategory, selectTopic } = data;
+
+  return (
+    selectCategory === CategoryHousingAssistanceAndHomeLoans &&
+    (selectTopic === TopicSpeciallyAdapatedHousing ||
+      selectTopic === TopicAppraisals)
+  );
+};
+
+// List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
+export const isBranchOfServiceRequired = data => {
+  const { selectCategory, whoIsYourQuestionAbout } = data;
+
+  const branchOfServiceRuleforCategories = [
+    'Veteran ID Card (VIC)',
+    'Disability compensation',
+    'Survivor benefits',
+    'Burials and memorials',
+    'Center for Women Veterans',
+    'Benefits issues outside the U.S.',
+  ];
+
+  return (
+    branchOfServiceRuleforCategories.includes(selectCategory) ||
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  );
+};
+
+// Veteran Readiness and Employment (VR&E) rules: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#veteran-readiness-and-employment-vre-information
+export const isVRERequired = data => {
+  const { selectCategory, selectTopic } = data;
+
+  return (
+    selectCategory === CategoryVeteranReadinessAndEmployment ||
+    (selectCategory === CategoryEducation &&
+      selectTopic === TopicVeteranReadinessAndEmploymentChapter31)
+  );
 };

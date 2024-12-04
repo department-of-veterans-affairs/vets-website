@@ -142,9 +142,14 @@ const formConfig = {
           uiSchema: whoIsYourQuestionAboutPage.uiSchema,
           schema: whoIsYourQuestionAboutPage.schema,
           // Hidden - EDU Question are always 'General Question' unless topic is VR&E
-          depends: form =>
-            form.selectCategory !== CategoryEducation ||
-            form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31,
+          depends: form => {
+            if (form.selectCategory !== CategoryEducation) {
+              return form.selectTopic !== 'Education benefits and work study';
+            }
+            return (
+              form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31
+            );
+          },
         },
         relationshipToVeteran: {
           editModeOnReviewPage: false,

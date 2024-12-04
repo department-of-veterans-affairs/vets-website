@@ -13,6 +13,7 @@ import StepOne from './resultsComponents/StepOne';
 import AdditionalInstructions from './resultsComponents/AdditionalInstructions';
 import StepTwo from './resultsComponents/StepTwo';
 import StepThree from './resultsComponents/StepThree';
+import { NeedHelp } from './NeedHelp';
 
 const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = 'Your Steps for Upgrading Your Discharge';
@@ -58,6 +59,7 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
         uswds
       />
       <AdditionalInstructions formResponses={formResponses} />
+      <NeedHelp />
     </article>
   );
 };

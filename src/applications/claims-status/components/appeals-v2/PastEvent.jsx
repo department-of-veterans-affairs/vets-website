@@ -6,7 +6,7 @@ const PastEvent = ({ title, date, description, hideSeparator }) => {
     hideSeparator === true ? null : <div className="separator" />;
 
   return (
-    <li role="presentation" className={'process-step section-complete'}>
+    <li className="process-step section-complete">
       <h3>{title}</h3>
       <div className="appeal-event-date">on {date}</div>
       <p>{description}</p>

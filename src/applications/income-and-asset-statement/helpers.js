@@ -11,6 +11,9 @@ export const formatCurrency = num => `$${num.toLocaleString()}`;
 export const monthlyMedicalReimbursementAmountRequired = (form, index) =>
   get(['trusts', index, 'monthlyMedicalReimbursementAmount'], form);
 
+export const otherAssetOwnerRelationshipExplanationRequired = (form, index) =>
+  get(['unreportedAssets', index, 'assetOwnerRelationship'], form) === 'OTHER';
+
 export const otherRecipientRelationshipExplanationRequired = (
   form,
   index,

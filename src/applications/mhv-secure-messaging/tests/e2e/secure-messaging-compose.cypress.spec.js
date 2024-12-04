@@ -14,13 +14,13 @@ describe('Secure Messaging Compose', () => {
   it('verify interface', () => {
     PatientComposePage.verifyHeader(Data.START_NEW_MSG);
 
-    PatientComposePage.verifyRecipientsDropdownStatus(`false`);
+    PatientComposePage.verifyAdditionalInfoDropdownStatus(`false`);
 
     PatientComposePage.openRecipientsDropdown();
 
-    PatientComposePage.verifyRecipientsDropdownStatus(`true`);
+    PatientComposePage.verifyAdditionalInfoDropdownStatus(`true`);
 
-    cy.get(Locators.DROPDOWN.RECIPIENTS).should(`be.visible`);
+    cy.get(Locators.DROPDOWN.ADD_INFO).should(`be.visible`);
 
     PatientComposePage.verifyRecipientsDropdownLinks();
 
@@ -75,7 +75,7 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.getMessageSubjectField()
       .clear()
       .type(maxText, { waitForAnimations: true });
-    cy.get(Locators.FIELDS.MESS_SUBJECT).should(
+    cy.get(Locators.FIELDS.MESSAGE_SUBJECT).should(
       'have.attr',
       'value',
       `${maxText}`,

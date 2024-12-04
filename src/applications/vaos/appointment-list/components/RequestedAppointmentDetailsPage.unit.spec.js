@@ -50,7 +50,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     });
     mockAppointmentsApi({
       end: moment()
-        .add(1, 'day')
+        .add(2, 'day')
         .format('YYYY-MM-DD'),
       start: moment()
         .subtract(120, 'days')

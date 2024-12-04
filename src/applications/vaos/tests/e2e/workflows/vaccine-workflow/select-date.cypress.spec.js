@@ -166,7 +166,7 @@ describe('VAOS select appointment date', () => {
         .assertErrorAlert({
           text: /We.ve run into a problem when trying to find available appointment times/i,
         })
-        .assertNexButton({ label: 'Continue', isEnabled: false });
+        .assertNextButton({ label: 'Continue', isEnabled: false });
 
       // Assert
       cy.axeCheckBestPractice();

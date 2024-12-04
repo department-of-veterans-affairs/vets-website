@@ -20,6 +20,7 @@
     },
     "veteran": {
       "homePhone": "1111111111",
+      "email": "user@test.com",
       "address": {
         "isMilitary": false,
         "country": "USA",

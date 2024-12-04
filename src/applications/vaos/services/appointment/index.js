@@ -220,8 +220,8 @@ export function isVAPhoneAppointment(appointment) {
  */
 export function isClinicVideoAppointment(appointment) {
   return (
-    appointment?.videoData.kind === VIDEO_TYPES.clinic ||
-    appointment?.videoData.kind === VIDEO_TYPES.storeForward
+    appointment?.videoData?.kind === VIDEO_TYPES.clinic ||
+    appointment?.videoData?.kind === VIDEO_TYPES.storeForward
   );
 }
 

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { canHaveEducationExpenses } from '../../../../utils/helpers/household';
+import { canHaveEducationExpenses } from '../../../../utils/helpers';
 
 describe('hca household section helpers', () => {
   context('hca `canHaveEducationExpenses` executes', () => {

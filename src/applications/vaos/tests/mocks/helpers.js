@@ -414,7 +414,7 @@ export function mockGetPendingAppointmentsApi({
   responseCode = 200,
 }) {
   const end = moment()
-    .add(1, 'day')
+    .add(2, 'day')
     .format('YYYY-MM-DD');
   const start = moment()
     .subtract(120, 'days')

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  VaAlert,
   VaLink,
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -41,13 +40,7 @@ export default function InterstitialChanges() {
     return <VaLoadingIndicator />;
   }
   if (error) {
-    return (
-      <div>
-        <VaAlert status="error" closeable={false} showIcon uswds>
-          <h1 slot="headline">401: Not authorized</h1>
-        </VaAlert>
-      </div>
-    );
+    window.location = '/';
   }
 
   return (

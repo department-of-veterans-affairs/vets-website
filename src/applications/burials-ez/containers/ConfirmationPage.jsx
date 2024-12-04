@@ -72,7 +72,6 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
         close-btn-aria-label="Close notification"
         status="success"
         visible
-        uswds
       >
         <h2 slot="headline">{alertHeader}</h2>
         <p className="vads-u-margin-y--0">
@@ -244,7 +243,7 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
           target="_blank"
           className="vads-c-action-link--green"
         >
-          Authorize the release of non-VA medical records
+          Authorize the release of non-VA medical records (opens in new tab)
         </a>
       </p>
 
@@ -259,7 +258,7 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
           Affairs (VA Form 21-4142)
           <br />
           <a href="/find-forms/about-form-21-4142/" target="_blank">
-            Get VA Form 21-4142 to download
+            Get VA Form 21-4142 to download (opens in new tab)
           </a>
         </li>
         <li>
@@ -267,7 +266,7 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
           Veterans Affairs (VA Form 21-4142a)
           <br />
           <a href="/find-forms/about-form-21-4142a/" target="_blank">
-            Get VA Form 21-4142a to download
+            Get VA Form 21-4142a to download (opens in new tab)
           </a>
         </li>
       </ul>
@@ -291,10 +290,9 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
             href="/claim-or-appeal-status/"
             rel="noopener noreferrer"
             target="_blank"
-            aria-label="Check the status of your claim"
             className="vads-c-action-link--green vads-u-margin-bottom--4"
           >
-            Check the status of your claim
+            Check the status of your claim (opens in new tab)
           </a>
           <br />
           <a className="vads-c-action-link--blue" href="https://www.va.gov/">

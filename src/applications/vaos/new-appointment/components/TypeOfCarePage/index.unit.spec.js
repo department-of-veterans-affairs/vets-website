@@ -28,7 +28,6 @@ import { FLOW_TYPES } from '../../../utils/constants';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCommunityCare: true,
-    vaOnlineSchedulingFacilitiesServiceV2: true,
   },
   user: {
     profile: {

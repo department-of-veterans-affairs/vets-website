@@ -86,7 +86,7 @@ describe('VAOS Page: AppointmentsPage', () => {
 
     expect(screen.getByText(/Start scheduling/)).to.be.ok;
     userEvent.click(
-      await screen.findByRole('button', { name: /Start scheduling/i }),
+      await screen.findByRole('link', { name: /Start scheduling/i }),
     );
 
     await waitFor(() =>
@@ -128,10 +128,8 @@ describe('VAOS Page: AppointmentsPage', () => {
       within(navigation).queryByRole('link', { name: 'Past appointments' }),
     ).not.to.exist;
 
-    // and scheduling button should be displayed
-    expect(
-      screen.getByRole('button', { name: 'Start scheduling an appointment' }),
-    ).to.be.ok;
+    // and scheduling link should be displayed
+    expect(screen.getByRole('link', { name: 'Start scheduling' })).to.be.ok;
 
     // and appointment list navigation should be displayed
     expect(
@@ -359,10 +357,8 @@ describe('VAOS Page: AppointmentsPage', () => {
       expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
         .exist;
 
-      // and scheduling button should be displayed
-      expect(
-        screen.getByRole('button', { name: 'Start scheduling an appointment' }),
-      ).to.be.ok;
+      // and scheduling link should be displayed
+      expect(screen.getByRole('link', { name: 'Start scheduling' })).to.be.ok;
 
       // and appointment list navigation should be displayed
       expect(
@@ -541,6 +537,61 @@ describe('VAOS Page: AppointmentsPage', () => {
 
       expect(screen.queryByRole('link', { name: /Pending \(1\)/ })).not.to
         .exist;
+
+      // Then it should not display the referral task card
+      expect(await screen.queryByTestId('referral-task-card')).not.to.exist;
+    });
+
+    describe('when a referral UUID is passed', () => {
+      it('should display the referral task card', async () => {
+        // Given the veteran lands on the VAOS homepage with with a UUID passed
+        const appointment = getVAOSRequestMock();
+        appointment.id = '1';
+        appointment.attributes = {
+          id: '1',
+          kind: 'clinic',
+          locationId: '983',
+          requestedPeriods: [{}],
+          serviceType: 'primaryCare',
+          status: 'proposed',
+        };
+
+        mockVAOSAppointmentsFetch({
+          start: moment()
+            .subtract(1, 'month')
+            .format('YYYY-MM-DD'),
+          end: moment()
+            .add(395, 'days')
+            .format('YYYY-MM-DD'),
+          statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+          requests: [appointment],
+        });
+        mockVAOSAppointmentsFetch({
+          start: moment()
+            .subtract(120, 'days')
+            .format('YYYY-MM-DD'),
+          end: moment().format('YYYY-MM-DD'),
+          statuses: ['proposed', 'cancelled'],
+          requests: [appointment],
+        });
+        // Given the veteran lands on the VAOS homepage with a UUID passed
+        // When the page displays
+        const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+          initialState: defaultState,
+          path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c68',
+        });
+
+        await screen.findByRole('heading', { name: 'Appointments' });
+
+        expect(await screen.findByTestId('review-requests-and-referrals')).to
+          .exist;
+
+        expect(screen.queryByRole('link', { name: /Pending \(1\)/ })).not.to
+          .exist;
+
+        // Then it should display the referral task card
+        expect(await screen.findByTestId('referral-task-card')).to.exist;
+      });
     });
   });
 });

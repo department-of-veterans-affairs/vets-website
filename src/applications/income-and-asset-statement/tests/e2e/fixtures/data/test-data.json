@@ -59,11 +59,9 @@
     "assetTransfers": [
       {
         "originalOwnerRelationship": "VETERAN",
-        "otherOriginalOwnerRelationshipType": "",
         "transferMethod": "SOLD",
-        "otherTransferMethod": "",
         "assetType": "Real Estate Property",
-        "newOwnerName": "Alice Johnson",
+        "newOwnerName": { "first": "Alice", "last": "Johnson" },
         "newOwnerRelationship": "Friend",
         "saleReportedToIrs": true,
         "transferDate": "2023-05-15",
@@ -103,6 +101,15 @@
         "annualReceivedIncome": 12000.0,
         "canBeLiquidated": true,
         "surrenderValue": 45000.5
+      }
+    ],
+    "view:isAddingUnreportedAssets": true,
+    "unreportedAssets": [
+      {
+        "assetOwnerRelationship": "VETERAN",
+        "ownedPortionValue": 500000.0,
+        "assetType": "Investment Portfolio",
+        "assetLocation": "Global Investments LLC, Portfolio ID #987654321"
       }
     ],
     "statementOfTruthSignature": "John Doe"

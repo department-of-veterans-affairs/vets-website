@@ -137,7 +137,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.get('[error]').should('not.exist');
 
   // cancel out of edit mode and discard unsaved changes
-  cy.get('va-button[text="Cancel"]').click();
+  cy.findByText('Cancel').click();
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()

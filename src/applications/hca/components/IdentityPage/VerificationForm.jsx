@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import ProgressButton from '~/platform/forms-system/src/js/components/ProgressButton';
-import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
+import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 import LoginRequiredAlert from '../FormAlerts/LoginRequiredAlert';
-import { selectEnrollmentStatus } from '../../utils/selectors/enrollment-status';
+import { selectEnrollmentStatus } from '../../utils/selectors';
 import {
   idFormSchema as schema,
   idFormUiSchema as uiSchema,

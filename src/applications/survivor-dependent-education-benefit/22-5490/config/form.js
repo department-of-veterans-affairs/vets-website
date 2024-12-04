@@ -1015,6 +1015,15 @@ const formConfig = {
                   },
                 },
                 state: {
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length === 1) {
+                        errors.addError('Must be more than 1 character');
+                      } else if (field?.length > 31) {
+                        errors.addError('Must be less than 31 characters');
+                      }
+                    },
+                  ],
                   'ui:options': {
                     replaceSchema: formData => {
                       if (

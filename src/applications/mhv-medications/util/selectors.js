@@ -8,3 +8,6 @@ export const selectAllergiesFlag = state =>
 
 export const selectFilterFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayFilter];
+
+export const selectgroupingFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayGrouping];

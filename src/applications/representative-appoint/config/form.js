@@ -49,9 +49,6 @@ import SelectOrganization from '../components/SelectOrganization';
 
 import SubmissionError from '../components/SubmissionError';
 
-// import { prefillTransformer } from '../prefill-transformer';
-// import ClaimantType from '../components/ClaimantType';
-
 const mockData = initialData;
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -381,7 +378,10 @@ const formConfig = {
         authorizeOutsideVANames: {
           path: 'authorize-outside-va/names',
           depends: formData => {
-            return isAttorneyOrClaimsAgent(formData);
+            return (
+              isAttorneyOrClaimsAgent(formData) &&
+              formData.authorizeOutsideVARadio === 'Yes'
+            );
           },
           title: 'Authorization for Access Outside of VA Systems',
           uiSchema: authorizeOutsideVANames.uiSchema,

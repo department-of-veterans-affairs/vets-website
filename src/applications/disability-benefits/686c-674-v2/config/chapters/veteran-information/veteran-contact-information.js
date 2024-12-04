@@ -55,6 +55,7 @@ export const uiSchema = {
       },
       emailAddress: {
         ...emailUI('Email address'),
+        'ui:required': () => true,
         'ui:options': {
           classNames: 'vads-u-margin-bottom--3',
         },

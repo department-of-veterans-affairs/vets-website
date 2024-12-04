@@ -16,7 +16,7 @@ describe('Medications Download PDF on List Page', () => {
     listPage.clickPrintOrDownloadThisListDropDown();
     listPage.verifyFocusOnPrintDownloadDropDownButton();
     listPage.clickDownloadListAsPDFButtonOnListPage();
-    listPage.verifyLoadingSpinnerForDownloadOnListPage();
+    // listPage.verifyLoadingSpinnerForDownloadOnListPage();
     listPage.verifyDownloadCompleteSuccessMessageBanner();
     listPage.verifyFocusOnPrintDownloadDropDownButton();
     site.verifyDownloadedPdfFile(

@@ -16,26 +16,15 @@ import {
   selectFacility,
   selectIsPast,
 } from '../../appointment-list/redux/selectors';
+import {
+  selectFeatureTravelPayViewClaimDetails,
+  selectFeatureTravelPaySubmitMileageExpense,
+} from '../../redux/selectors';
 import StatusAlert from '../StatusAlert';
 import FacilityPhone from '../FacilityPhone';
-
-export function Section({ children, heading, level = 2 }) {
-  const Heading = `h${level}`;
-
-  return (
-    <>
-      <Heading className="vads-u-font-size--h5 vads-u-margin-bottom--0">
-        {heading}
-      </Heading>
-      {children}
-    </>
-  );
-}
-Section.propTypes = {
-  children: PropTypes.node,
-  heading: PropTypes.string,
-  level: PropTypes.number,
-};
+import TravelReimbursementSection from '../TravelReimbursementSection';
+import AppointmentTasksSection from '../AppointmentTasksSection';
+import Section from '../Section';
 
 export function When({ children, level = 2 }) {
   return (
@@ -209,6 +198,12 @@ export default function DetailPageLayout({
 }) {
   const { id } = useParams();
   const { facility } = useSelector(state => selectFacility(state, id));
+  const featureTravelPayViewClaimDetails = useSelector(state =>
+    selectFeatureTravelPayViewClaimDetails(state),
+  );
+  const featureTravelPaySubmitMileageExpense = useSelector(state =>
+    selectFeatureTravelPaySubmitMileageExpense(state),
+  );
 
   if (!appointment) return null;
 
@@ -220,6 +215,10 @@ export default function DetailPageLayout({
       <AppointmentCard appointment={appointment}>
         <h1 className="vads-u-font-size--h2">{heading}</h1>
         <StatusAlert appointment={appointment} facility={facility} />
+        {featureTravelPaySubmitMileageExpense &&
+          featureTravelPayViewClaimDetails && (
+            <AppointmentTasksSection appointment={appointment} />
+          )}
         {isPastAppointment &&
           APPOINTMENT_STATUS.booked === appointment.status && (
             <Section heading="After visit summary">
@@ -227,6 +226,9 @@ export default function DetailPageLayout({
             </Section>
           )}
         {children}
+        {featureTravelPayViewClaimDetails && (
+          <TravelReimbursementSection appointment={appointment} />
+        )}
         <div
           className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"
           style={{ rowGap: '16px' }}

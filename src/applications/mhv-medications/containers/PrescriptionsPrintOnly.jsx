@@ -6,7 +6,7 @@ import MedicationsList from '../components/MedicationsList/MedicationsList';
 import PrintOnlyPage from './PrintOnlyPage';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 
-const PrescriptionsPrintOnly = ({ list, hasError = false }) => {
+const PrescriptionsPrintOnly = ({ list, isFullList, hasError = false }) => {
   const { search } = useLocation();
   const allergies = useSelector(state => state.rx.allergies.allergiesList);
   const selectedSortOption = useSelector(
@@ -40,6 +40,7 @@ const PrescriptionsPrintOnly = ({ list, hasError = false }) => {
                 totalEntries: list?.length,
               }}
               selectedSortOption={selectedSortOption}
+              isFullList={isFullList}
             />
             <AllergiesPrintOnly allergies={allergies} />
           </PrintOnlyPage>
@@ -57,5 +58,6 @@ export default PrescriptionsPrintOnly;
 
 PrescriptionsPrintOnly.propTypes = {
   hasError: PropTypes.bool,
+  isFullList: PropTypes.bool,
   list: PropTypes.arrayOf(PropTypes.object),
 };

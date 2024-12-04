@@ -4,8 +4,6 @@ import PatientComposePage from './pages/PatientComposePage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT, Locators } from './utils/constants';
-import mockDraftMessages from './fixtures/drafts-response.json';
-import mockDraftResponse from './fixtures/message-draft-response.json';
 
 describe('save draft feature tests', () => {
   const currentDate = GeneralFunctionsPage.getDateFormat();
@@ -30,18 +28,19 @@ describe('save draft feature tests', () => {
   it('re-save existing draft', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessageDraftsPage.loadDraftMessages(
-      mockDraftMessages,
-      mockDraftResponse,
-    );
-    PatientMessageDraftsPage.loadMessageDetails(mockDraftResponse);
+
+    PatientMessageDraftsPage.loadDrafts();
+    PatientMessageDraftsPage.loadSingleDraft();
 
     PatientComposePage.selectCategory('COVID');
     PatientComposePage.getMessageSubjectField().type(`-updated`, {
       force: true,
     });
 
-    PatientComposePage.saveExistingDraft('COVID', 'test subject-updated');
+    PatientMessageDraftsPage.saveExistingDraft(
+      'COVID',
+      'newSavedDraft-updated',
+    );
 
     cy.get(Locators.ALERTS.SAVE_ALERT).should(
       'contain',

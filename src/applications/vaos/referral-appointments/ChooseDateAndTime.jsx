@@ -15,6 +15,10 @@ import { setFormCurrentPage, fetchProviderDetails } from './redux/actions';
 import { selectCurrentPage, getProviderInfo } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import {
+  getTimezoneDescByFacilityId,
+  getTimezoneByFacilityId,
+} from '../utils/timezone';
 
 export const ChooseDateAndTime = () => {
   const dispatch = useDispatch();
@@ -50,12 +54,14 @@ export const ChooseDateAndTime = () => {
     }, ${addressObject.zip}`;
     return addressString;
   };
+  const selectedDateKey = `selected-date-referral-${referral.id}`;
   const onChange = useCallback(
     value => {
       setError('');
       dispatch(onCalendarChange(value));
+      sessionStorage.setItem(selectedDateKey, value);
     },
-    [dispatch],
+    [dispatch, selectedDateKey],
   );
 
   const { provider, providerFetchStatus } = useSelector(
@@ -65,46 +71,17 @@ export const ChooseDateAndTime = () => {
 
   useEffect(
     () => {
-      if (providerFetchStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchProviderDetails(referral.provider));
-      } else if (providerFetchStatus === FETCH_STATUS.succeeded) {
-        scrollAndFocus('h1');
-      } else if (providerFetchStatus === FETCH_STATUS.failed) {
-        scrollAndFocus('h2');
+      const savedSelectedDate = sessionStorage.getItem(selectedDateKey);
+
+      if (!savedSelectedDate) {
+        return;
       }
+
+      dispatch(onCalendarChange([savedSelectedDate]));
     },
-    [dispatch, providerFetchStatus],
-  );
-  useEffect(
-    () => {
-      dispatch(setFormCurrentPage('scheduleAppointment'));
-    },
-    [location, dispatch],
+    [dispatch, selectedDateKey],
   );
 
-  const onBack = () => {
-    routeToPreviousReferralPage(history, currentPage, referral.id);
-  };
-
-  const onSubmit = () => {
-    if (selectedDate && !error) {
-      routeToNextReferralPage(history, currentPage);
-    } else if (!selectedDate) {
-      setError(
-        'Please choose your preferred date and time for your appointment',
-      );
-    }
-  };
-  const getTzName = name => {
-    return new Intl.DateTimeFormat('default', {
-      timeZone: referral.timezone,
-      timeZoneName: name,
-    })
-      .formatToParts()
-      .find(({ type }) => type === 'timeZoneName').value;
-  };
-  const tzLong = getTzName('longGeneric');
-  const tzShort = getTzName('shortGeneric');
   const hasConflict = useCallback(
     () => {
       let conflict = false;
@@ -152,16 +129,52 @@ export const ChooseDateAndTime = () => {
     },
     [selectedDate, upcomingAppointments],
   );
+
   useEffect(
     () => {
-      if (selectedDate && upcomingAppointments && hasConflict()) {
-        setError(
-          'You already have an appointment at this time. Please select another day or time.',
-        );
+      if (providerFetchStatus === FETCH_STATUS.notStarted) {
+        dispatch(fetchProviderDetails(referral.provider));
+      } else if (providerFetchStatus === FETCH_STATUS.succeeded) {
+        scrollAndFocus('h1');
+      } else if (providerFetchStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('h2');
       }
     },
-    [hasConflict, selectedDate, upcomingAppointments],
+    [dispatch, providerFetchStatus],
   );
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('scheduleAppointment'));
+    },
+    [location, dispatch],
+  );
+
+  const onBack = () => {
+    routeToPreviousReferralPage(history, currentPage, referral.id);
+  };
+
+  const onSubmit = () => {
+    if (error) {
+      return;
+    }
+
+    if (!selectedDate) {
+      setError(
+        'Please choose your preferred date and time for your appointment',
+      );
+      return;
+    }
+
+    if (upcomingAppointments && hasConflict()) {
+      setError(
+        'You already have an appointment at this time. Please select another day or time.',
+      );
+      return;
+    }
+
+    routeToNextReferralPage(history, currentPage);
+  };
+
   if (
     providerFetchStatus === FETCH_STATUS.loading ||
     providerFetchStatus === FETCH_STATUS.notStarted
@@ -240,14 +253,21 @@ export const ChooseDateAndTime = () => {
               </a>
             </div>
           </address>
-          <p>Phone: {provider.orgPhone}</p>
+          <p>
+            Phone:{' '}
+            <va-telephone
+              contact={provider.orgPhone}
+              data-testid="provider-telephone"
+            />
+          </p>
           <p>
             {provider.driveTime} ({provider.driveDistance})
           </p>
           <h2>Choose a date and time</h2>
           <p>
             Select an available date and time from the calendar below.
-            Appointment times are displayed in {`${tzLong} (${tzShort})`}.
+            Appointment times are displayed in{' '}
+            {`${getTimezoneDescByFacilityId(referral.provider)}`}.
           </p>
         </div>
         <div>
@@ -256,7 +276,7 @@ export const ChooseDateAndTime = () => {
             availableSlots={provider.slots}
             value={[selectedDate]}
             id="dateTime"
-            timezone={referral.timezone}
+            timezone={getTimezoneByFacilityId(referral.provider)}
             additionalOptions={{
               required: true,
             }}

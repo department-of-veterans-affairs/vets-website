@@ -3,21 +3,26 @@ import PropTypes from 'prop-types';
 import { tabsConfig } from '../../utils/data/tabs';
 import { getStylesForTab } from '../../utils/helpers/tabs';
 
+const getActiveTabClass = (activeTab, tab) => {
+  const isActive = activeTab && activeTab.path === tab.path;
+
+  return `${isActive ? 'vads-u-font-weight--bold' : ''}`;
+};
+
 export const TaskTabs = ({ location, formConfig }) => {
   // get the pattern number from the URL
   const patternNumber = location.pathname.match(/^\/(\d+)\//)?.[1];
   const patternKey = `pattern${patternNumber}`;
-  const tabs = tabsConfig[patternKey];
+  const tabs = tabsConfig?.[patternKey];
+
+  // if there are no tabs for the current pattern/location, don't render the component
+  if (!tabs) {
+    return null;
+  }
 
   const activeTab = tabs.find(
     tab => location.pathname.includes(tab.path) && tab.path !== '/',
   );
-
-  const getActiveTabClass = tab => {
-    const isActive = activeTab && activeTab.path === tab.path;
-
-    return `${isActive ? 'vads-u-font-weight--bold' : ''}`;
-  };
 
   return (
     <nav aria-label="Research study task navigation">
@@ -40,6 +45,7 @@ export const TaskTabs = ({ location, formConfig }) => {
           <li
             key={tab.name}
             className={`vads-u-text-align--center vads-u-margin-bottom--0 ${getActiveTabClass(
+              activeTab,
               tab,
             )}`}
             style={getStylesForTab(tab)}

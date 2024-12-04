@@ -61,7 +61,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     const tree = SkinDeep.shallowRender(
       <VeteranBenefitSummaryLetter {...props} />,
     );
-    const headerText = tree.dive(['.feature', 'h4']).text();
+    const headerText = tree.dive(['va-summary-box', 'h4']).text();
     expect(headerText).to.equal(
       'Your VA Benefit Summary letter is currently unavailable',
     );

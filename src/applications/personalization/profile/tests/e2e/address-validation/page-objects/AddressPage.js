@@ -128,7 +128,7 @@ const confirmAddressFields = (labels, fields) => {
 };
 
 const editAddress = (labels, fields) => {
-  cy.get('va-button[text="Go back to edit"]').click();
+  cy.findByText('Go back to edit').click();
   confirmAddressFields(labels, fields);
   cy.findByTestId('save-edit-button').click({
     force: true,
@@ -298,7 +298,7 @@ class AddressPage {
   };
 
   editAddress = (labels, fields) => {
-    cy.get('va-button[text="Go back to edit"]').click();
+    cy.findByText('Go back to edit').click();
     this.confirmAddressFields(labels, fields);
     cy.findByTestId('save-edit-button').click({
       force: true,

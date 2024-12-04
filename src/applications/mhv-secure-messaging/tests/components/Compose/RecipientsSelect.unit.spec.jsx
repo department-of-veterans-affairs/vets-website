@@ -17,11 +17,41 @@ describe('RecipientsSelect', () => {
         },
       },
     },
+    drupalStaticData: {
+      vamcEhrData: {
+        data: {
+          ehrDataByVhaId: {
+            '402': {
+              vhaId: '402',
+              vamcFacilityName: 'Facility 402 Name',
+              vamcSystemName: 'VA Facility 402',
+              ehr: 'vista',
+            },
+            '552': {
+              vhaId: '552',
+              vamcFacilityName: 'Facility 552 Name',
+              vamcSystemName: 'VA Facility 552',
+              ehr: 'vista',
+            },
+          },
+        },
+      },
+    },
   };
 
   const recipientsList = [
-    { id: 1, name: 'Recipient 1', signatureRequired: true },
-    { id: 2, name: 'Recipient 2', signatureRequired: false },
+    {
+      id: 1,
+      name: 'Recipient 1',
+      stationNumber: '552',
+      signatureRequired: true,
+    },
+    {
+      id: 2,
+      name: 'Recipient 2',
+      stationNumber: '402',
+      signatureRequired: false,
+    },
   ];
 
   const defaultProps = {
@@ -127,5 +157,31 @@ describe('RecipientsSelect', () => {
     expect(contactFacilityLink)
       .to.have.attribute('href')
       .to.contain('/find-locations/');
+  });
+
+  it('displays the correct number of optgroups', async () => {
+    const customState = { ...initialState, featureToggles: [] };
+    customState.featureToggles[
+      `${'mhv_secure_messaging_recipient_opt_groups'}`
+    ] = true;
+
+    const screen = setup({ state: customState });
+
+    await screen.findByTestId('compose-recipient-select');
+
+    await waitFor(() => {
+      expect(screen.container.querySelectorAll('optgroup')).to.have.lengthOf(2);
+    });
+    const optgroups = await screen.container.querySelectorAll('optgroup');
+    expect(optgroups[0].label).to.equal('VA Facility 402');
+    expect(optgroups[1].label).to.equal('VA Facility 552');
+
+    const optionOne = optgroups[0].querySelector('option');
+    expect(optionOne.value).to.equal('2');
+    expect(optionOne.text).to.equal('Recipient 2');
+
+    const optionTwo = optgroups[1].querySelector('option');
+    expect(optionTwo.value).to.equal('1');
+    expect(optionTwo.text).to.equal('Recipient 1');
   });
 });

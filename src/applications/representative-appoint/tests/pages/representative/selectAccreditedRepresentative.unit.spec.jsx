@@ -19,6 +19,7 @@ describe('<SelectAccreditedRepresentative>', () => {
         formContext: {
           submitted,
         },
+        loggedIn: true,
         formData: { 'view:representativeSearchResults': repResults },
         setFormData,
       },
@@ -28,6 +29,7 @@ describe('<SelectAccreditedRepresentative>', () => {
             data: { 'view:representativeSearchResults': repResults },
           },
         }),
+        loggedIn: true,
         subscribe: () => {},
         dispatch: () => ({
           setFormData: () => {},
@@ -62,7 +64,7 @@ describe('<SelectAccreditedRepresentative>', () => {
       </Provider>,
     );
 
-    const selectRepButton = getByTestId(container, 'rep-select-19731'); // YEAH
+    const selectRepButton = getByTestId(container, 'rep-select-19731');
 
     expect(selectRepButton).to.exist;
 
@@ -76,7 +78,7 @@ describe('<SelectAccreditedRepresentative>', () => {
       });
     });
 
-    fetchRepStatusStub.restore();
-    setFormDataSpy.restore();
+    // fetchRepStatusStub.restore();
+    // setFormDataSpy.restore();
   });
 });

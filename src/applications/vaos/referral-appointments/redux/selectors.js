@@ -9,3 +9,17 @@ export function getProviderInfo(state) {
     providerFetchStatus: state.referral.providerFetchStatus,
   };
 }
+
+export function getReferrals(state) {
+  return {
+    referrals: state.referral.referrals,
+    referralsFetchStatus: state.referral.referralsFetchStatus,
+  };
+}
+
+export function getReferral(state) {
+  return {
+    referrals: state.referral.referrals,
+    referralFetchStatus: state.referral.referralFetchStatus,
+  };
+}

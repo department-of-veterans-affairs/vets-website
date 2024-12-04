@@ -7,8 +7,9 @@ export default function LoginGovSVG() {
       viewBox="0 0 114 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      aria-labelledby="logingov-title"
     >
-      <title>Login.gov</title>
+      <title id="logingov-title">Login.gov</title>
       <g clipPath="url(#a)" fill="#fff">
         <path d="M10.388 0h-8.7C.756 0 0 .739 0 1.65v8.086a.974.974 0 0 0 .102.443c.366.714 1.827 3.046 5.934 4.821 4.129-1.786 5.572-4.1 5.938-4.821a.975.975 0 0 0 .102-.443V1.65c0-.438-.178-.857-.495-1.167A1.708 1.708 0 0 0 10.388 0ZM7.673 9.643a9.78 9.78 0 0 1-3.248 0l.562-3.15a1.641 1.641 0 0 1-.665-1.31A1.683 1.683 0 0 1 5.646 3.54a1.726 1.726 0 0 1 1.931.899 1.65 1.65 0 0 1-.47 2.04c.2 1.042.376 2.092.566 3.164Z" />
         <path

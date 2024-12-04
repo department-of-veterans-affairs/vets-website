@@ -96,6 +96,7 @@ export const prescriptionsReducer = (state = initialState, action) => {
             return !sourcesToHide.includes(rx.prescriptionSource);
           }),
         prescriptionsFilteredPagination: action.response.meta.pagination,
+        filterCount: action.response.meta.filterCount,
         apiError: false,
       };
     }

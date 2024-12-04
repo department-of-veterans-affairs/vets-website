@@ -139,12 +139,16 @@
 
 /**
  * @typedef {Object} FormConfigChapter
- * @property {Record<string, FormConfigPage>} [pages]
+ * @property {FormConfigPages} [pages]
  * @property {string | ({ formData, formConfig }) => string} [title]
  * @property {boolean} [hideFormNavProgress]
  * @property {boolean} [hideFormTitle]
  * @property {boolean} [hideOnReviewPage]
  * @property {React.ReactNode} [reviewDescription]
+ */
+
+/**
+ * @typedef {Record<string, FormConfigPage>} FormConfigPages
  */
 
 /**

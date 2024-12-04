@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, {
   Details,
-  Section,
   What,
   When,
   Who,
   ClinicOrFacilityPhone,
   Prepare,
 } from './DetailPageLayout';
+import Section from '../Section';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   AppointmentDate,

@@ -6,6 +6,11 @@ import {
   getConditions,
   getVitalsList,
   getMhvRadiologyTests,
+  getMedications,
+  getDemographicInfo,
+  getMilitaryService,
+  getPatient,
+  getAppointments,
 } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 import * as Constants from '../util/constants';
@@ -21,6 +26,11 @@ export const getBlueButtonReportData = () => async dispatch => {
       conditions,
       vitals,
       radiology,
+      medications,
+      appointments,
+      demographics,
+      militaryService,
+      patient,
     ] = await Promise.all([
       getLabsAndTests(),
       getNotes(),
@@ -29,6 +39,11 @@ export const getBlueButtonReportData = () => async dispatch => {
       getConditions(),
       getVitalsList(),
       getMhvRadiologyTests(),
+      getMedications(),
+      getAppointments(),
+      getDemographicInfo(),
+      getMilitaryService(),
+      getPatient(),
     ]);
     dispatch({
       type: Actions.LabsAndTests.GET_LIST,
@@ -52,6 +67,14 @@ export const getBlueButtonReportData = () => async dispatch => {
       response: conditions,
     });
     dispatch({ type: Actions.Vitals.GET_LIST, response: vitals });
+    dispatch({
+      type: Actions.BlueButtonReport.GET,
+      medicationsResponse: medications,
+      appointmentsResponse: appointments,
+      demographicsResponse: demographics,
+      militaryServiceResponse: militaryService,
+      patientResponse: patient,
+    });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     throw error;

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import { selectEnrollmentStatus } from '../../../utils/selectors/enrollment-status';
+import { selectEnrollmentStatus } from '../../../utils/selectors';
 import ServerErrorAlert from '../../FormAlerts/ServerErrorAlert';
 import WarningHeadline from './Warning/WarningHeadline';
 import WarningStatus from './Warning/WarningStatus';

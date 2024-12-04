@@ -106,6 +106,8 @@ describe('<SelectOrganization>', () => {
       .stub(reviewPageHook, 'useReviewPage')
       .returns(false);
 
+    props.formData.selectedAccreditedOrganizationId = '123';
+
     const { getByText } = render(
       <Provider store={mockStore}>
         <SelectOrganization {...props} />
@@ -135,6 +137,7 @@ describe('<SelectOrganization>', () => {
 
     props.formData['view:representativeStatus'] = { id: '123' };
     props.formData['view:selectedRepresentative'] = repResults[0].data;
+    props.formData.selectedAccreditedOrganizationId = '123';
 
     const { getByText } = render(
       <Provider store={mockStore}>
@@ -165,6 +168,8 @@ describe('<SelectOrganization>', () => {
       .returns(true);
     props.formData['view:representativeStatus'] = null;
     props.formData['view:selectedRepresentative'] = repResults[0].data;
+
+    props.formData.selectedAccreditedOrganizationId = '123';
 
     const { getByText } = render(
       <Provider store={mockStore}>

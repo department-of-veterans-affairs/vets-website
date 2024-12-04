@@ -131,6 +131,12 @@ export const oldSchema = {
 
 export default {
   uiSchema: {
+    'ui:options': {
+      // Moved outside of `items` because the form system isn't set up to detect
+      // an array inside of `oneOf`
+      updateSchema: (formData = {}) =>
+        showScNewForm(formData) ? newSchema : oldSchema,
+    },
     locations: {
       items: {
         'ui:validations': [
@@ -141,10 +147,6 @@ export default {
           validateVaDate,
           validateVaUnique,
         ],
-        'ui:options': {
-          updateSchema: (formData = {}) =>
-            showScNewForm(formData) ? newSchema : oldSchema,
-        },
       },
     },
   },

@@ -31,7 +31,7 @@ describe('Veteran Status PDF template', () => {
   };
 
   describe('PDF Semantics', () => {
-    it('places the page title in an H1', async () => {
+    it('places the name in an H1', async () => {
       const data = require('./fixtures/veteran_status.json');
       const { pdf } = await generateAndParsePdf(data);
 
@@ -41,7 +41,9 @@ describe('Veteran Status PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       expect(content.items.filter(item => item.tag === 'H1').length).to.eq(1);
-      expect(content.items[3].str).to.eq(data.details.title);
+      expect(content.items[3].str).to.eq(data.details.fullName);
+      // H1 in this case is set to 14 px
+      expect(content.items[3].height).to.eq(10.5);
     });
 
     it('All sections are contained by a root level Document element', async () => {
@@ -61,7 +63,7 @@ describe('Veteran Status PDF template', () => {
   });
 
   describe('Document section customization', () => {
-    it('Shows latest service details', async () => {
+    it('Shows service details', async () => {
       const data = require('./fixtures/veteran_status.json');
       const { pdf } = await generateAndParsePdf(data);
 
@@ -71,13 +73,39 @@ describe('Veteran Status PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       const listContent = content.items.filter(
-        item => item.str === 'Latest period of service',
+        item => item.str === 'Period of service',
       );
       expect(listContent.length).to.eq(1);
       const airForceText = content.items.filter(
-        item => item.str === 'United States Air Force • 2009–2013',
+        item =>
+          item.str === `${data.details.serviceHistory[0].branchOfService}`,
       );
       expect(airForceText.length).to.eq(1);
+      const armyText = content.items.filter(
+        item =>
+          item.str === `${data.details.serviceHistory[1].branchOfService}`,
+      );
+      expect(armyText.length).to.eq(1);
+    });
+
+    it('Should only show the 2 most recent periods of service', async () => {
+      const data = require('./fixtures/veteran_status.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      const listItems = content.items.filter(item => item.tag === 'Lbl');
+      expect(listItems.length).to.eq(2);
+
+      const navyService = content.items.filter(
+        item =>
+          item.str === `${data.details.serviceHistory[2].branchOfService}`,
+      );
+      expect(navyService.length).to.eq(0);
     });
 
     it('Shows disability rating details', async () => {
@@ -90,12 +118,13 @@ describe('Veteran Status PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       const ratingText = content.items.filter(
-        item => item.str === 'VA disability rating',
+        item => item.str === 'Disability rating:',
       );
       expect(ratingText.length).to.eq(1);
       const ratingContent = content.items.filter(
         item =>
-          item.str === `${data.details.totalDisabilityRating.toString()}%`,
+          item.str ===
+          `${data.details.totalDisabilityRating.toString()}% service connected`,
       );
       expect(ratingContent.length).to.eq(1);
     });
@@ -110,13 +139,33 @@ describe('Veteran Status PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       const dodIdTitle = content.items.filter(
-        item => item.str === 'DoD ID Number',
+        item => item.str === 'DoD ID Number:',
       );
       expect(dodIdTitle.length).to.eq(1);
       const dodId = content.items.filter(
         item => item.str === data.details.edipi,
       );
       expect(dodId.length).to.eq(1);
+    });
+
+    it("Doesn't show DoD ID Number if it is unavailable", async () => {
+      const data = require('./fixtures/veteran_status.json');
+      data.details.edipi = null;
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+      const dodIdTitle = content.items.filter(
+        item => item.str === 'DoD ID Number:',
+      );
+      expect(dodIdTitle.length).to.eq(0);
+      const dodId = content.items.filter(
+        item => item.str === data.details.edipi,
+      );
+      expect(dodId.length).to.eq(0);
     });
 
     it('Has a default language (english)', async () => {

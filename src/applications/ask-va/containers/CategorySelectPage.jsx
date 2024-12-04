@@ -5,15 +5,16 @@ import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, URL, getApiUrl } from '../constants';
+import { CHAPTER_1, CHAPTER_3, URL, getApiUrl } from '../constants';
 
 const CategorySelectPage = props => {
-  const { onChange, loggedIn, goBack, goToPath, formData } = props;
+  const { onChange, loggedIn, goToPath, formData, router } = props;
   const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
@@ -55,6 +56,14 @@ const CategorySelectPage = props => {
         allowAttachments: selected.attributes.allowAttachments,
       });
     }
+  };
+
+  const handleGoBack = () => {
+    // check if YourPersonalInformation page was shown
+    if (loggedIn) {
+      router.push(CHAPTER_3.YOUR_PERSONAL_INFORMATION.PATH);
+    }
+    router.push('/');
   };
 
   const getApiData = url => {
@@ -117,7 +126,10 @@ const CategorySelectPage = props => {
           ))}
         </VaSelect>
 
-        <FormNavButtons goBack={goBack} goForward={() => showError(formData)} />
+        <FormNavButtons
+          goBack={handleGoBack}
+          goForward={() => showError(formData)}
+        />
       </form>
 
       <RequireSignInModal
@@ -132,8 +144,12 @@ const CategorySelectPage = props => {
 };
 
 CategorySelectPage.propTypes = {
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
   id: PropTypes.string,
   loggedIn: PropTypes.bool,
+  router: PropTypes.object,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
@@ -145,4 +161,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CategorySelectPage);
+export default connect(mapStateToProps)(withRouter(CategorySelectPage));

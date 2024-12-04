@@ -85,7 +85,7 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
           .assertWarningAlert({
             text: /This facility does not allow online requests for this type of care/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertNextButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();

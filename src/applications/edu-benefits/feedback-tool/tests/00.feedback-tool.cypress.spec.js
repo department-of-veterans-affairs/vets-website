@@ -103,7 +103,7 @@ describe('Feedback Tool Test', () => {
     cy.get('input[name="root_issue_recruiting"]').should('exist');
     cy.axeCheck();
 
-    cy.get('#root_issue_other').click();
+    cy.get('va-checkbox[name="root_issue_other"]').click();
     cy.get('textarea[id="root_issueDescription"]').type(
       testData.data.issueDescription,
     );
