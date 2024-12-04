@@ -12,8 +12,19 @@ const ConfirmationPersonalInfo = ({
   homeless,
   userFullName = {},
   veteran = {},
+  hasHomeAndMobilePhone = false,
+  hasLivingSituationChapter = false,
 } = {}) => {
-  const { address = {}, email = '', phone = {}, vaFileLastFour = '' } = veteran;
+  const {
+    address = {},
+    email = '',
+    homePhone = {},
+    mobilePhone = {},
+    vaFileLastFour = '',
+  } = veteran;
+  // Only 995 has both home & mobile phone (currently)
+  const phone = hasHomeAndMobilePhone ? mobilePhone : veteran.phone;
+
   return (
     <>
       <h3 className="vads-u-margin-top--2">Personal information</h3>
@@ -51,17 +62,36 @@ const ConfirmationPersonalInfo = ({
             {getReadableDate(dob)}
           </div>
         </li>
-        <li>
-          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-            Are you experiencing homelessness?
-          </div>
-          <div
-            className="vads-u-margin-bottom--2 dd-privacy-hidden"
-            data-dd-action-name="homeless"
-          >
-            {showValueOrNotSelected(homeless)}
-          </div>
-        </li>
+        {!hasLivingSituationChapter && (
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              Are you experiencing homelessness?
+            </div>
+            <div
+              className="vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-dd-action-name="homeless"
+            >
+              {showValueOrNotSelected(homeless)}
+            </div>
+          </li>
+        )}
+        {hasHomeAndMobilePhone && (
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              Home phone number
+            </div>
+            <div
+              className="vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-dd-action-name="home phone number"
+            >
+              <va-telephone
+                contact={getPhoneString(homePhone)}
+                extension={homePhone?.extension}
+                not-clickable
+              />
+            </div>
+          </li>
+        )}
         <li>
           <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
             Mobile phone number
@@ -113,6 +143,8 @@ const ConfirmationPersonalInfo = ({
 
 ConfirmationPersonalInfo.propTypes = {
   dob: PropTypes.string,
+  hasHomeAndMobilePhone: PropTypes.bool,
+  hasLivingSituationChapter: PropTypes.bool,
   homeless: PropTypes.bool,
   userFullName: PropTypes.shape({}),
   veteran: PropTypes.shape({
