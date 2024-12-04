@@ -1,14 +1,19 @@
-// import React from 'react';
 // import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // import fullSchema from 'vets-json-schema/dist/22-10215-schema.json';
 // import fullSchema from '../22-10215-schema.json';
 
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import {
-  // arrayBuilderItemFirstPageTitleUI,
-  arrayBuilderYesNoSchema,
-  arrayBuilderYesNoUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+// import {
+//   arrayBuilderItemFirstPageTitleUI,
+//   arrayBuilderYesNoSchema,
+//   arrayBuilderYesNoUI,
+//   descriptionUI,
+//   selectSchema,
+//   selectUI,
+//   textareaSchema,
+//   textareaUI,
+// } from '~/platform/forms-system/src/js/web-component-patterns';
+
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -21,17 +26,17 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import { prepare } from '../pages/prepare';
 import { programInfo } from '../pages/program-intro';
+import { ProgramsTable } from '../pages/programs-table';
 
-function includeChapter(page) {
-  return formData => formData?.chapterSelect?.[page];
-}
-
-const programOptions = {
-  arrayPath: 'prepare',
-  nounSingular: 'program',
-  nounPlural: 'programs',
+const arrayBuilderOptions = {
+  arrayPath: 'programs',
+  nounSingular: '85/15 calculation',
+  nounPlural: '85/15 calculations',
   required: true,
-  maxItems: 10000,
+  maxItems: 1000,
+  text: {
+    getItemName: item => item.programName,
+  },
 };
 
 const formConfig = {
@@ -57,37 +62,28 @@ const formConfig = {
   chapters: {
     programsChapter: {
       title: '85/15 calculations',
-      pages: {
-        ...arrayBuilderPages(programOptions, pageBuilder => ({
-          prepare: pageBuilder.introPage({
-            path: '85/15-calculations-intro',
-            title: '85/15 calculations',
-            uiSchema: prepare.uiSchema,
-            schema: prepare.schema,
-          }),
-          programSummary: pageBuilder.summaryPage({
-            title: 'Review your 85/15 calculations',
-            path: '85/15-calculations-summary',
-            uiSchema: {
-              'view:prepare': arrayBuilderYesNoUI(programOptions),
-            },
-            schema: {
-              type: 'object',
-              properties: {
-                'view:prepare': arrayBuilderYesNoSchema,
-              },
-              required: ['view:prepare'],
-            },
-            depends: includeChapter('programIntro'),
-          }),
-          programIntro: pageBuilder.itemPage({
-            title: 'Program information',
-            path: '85/15-calculations/:index/program-information',
-            uiSchema: programInfo.uiSchema,
-            schema: programInfo.schema,
-          }),
-        })),
-      },
+      pages: arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
+        programsIntro: {
+          path: '85/15-calculations',
+          title: '85/15 calculations',
+          uiSchema: prepare.uiSchema,
+          schema: prepare.schema,
+        },
+        programsSummary: pageBuilder.summaryPage({
+          title: 'Review your 85/15 calculations',
+          path: '85-15-calculations-review',
+          CustomPage: ProgramsTable.CustomPage,
+          CustomPageReview: null,
+          uiSchema: ProgramsTable.uiSchema,
+          schema: ProgramsTable.schema,
+        }),
+        addProgram: pageBuilder.itemPage({
+          title: 'Program information',
+          path: '85/15-calculations/:index',
+          uiSchema: programInfo.uiSchema,
+          schema: programInfo.schema,
+        }),
+      })),
     },
   },
 };

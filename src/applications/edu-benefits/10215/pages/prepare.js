@@ -30,8 +30,7 @@ export const prepare = {
     ),
   },
   schema: {
-    // This does still need to be here or it'll throw an error
     type: 'object',
-    properties: {}, // The properties can be empty
+    properties: {},
   },
 };
