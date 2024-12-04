@@ -112,6 +112,16 @@
         "assetLocation": "Global Investments LLC, Portfolio ID #987654321"
       }
     ],
+    "view:isAddingIncomeReceiptWaivers": true,
+    "incomeReceiptWaivers": [
+      {
+        "recipientRelationship": "VETERAN",
+        "payer": "Social Security Administration",
+        "expectedIncome": 2000.0,
+        "paymentResumeDate": "2024-06-01",
+        "waivedGrossMonthlyIncome": 1800.0
+      }
+    ],
     "statementOfTruthSignature": "John Doe"
   }
 }
