@@ -5,6 +5,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayFilter = true,
+    mhvMedicationsDisplayGrouping = true,
 
     // medical records
     mhvTransitionalMedicalRecordsLandingPage = true,
@@ -20,6 +21,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsToVaGovRelease = true,
     mhvSecureMessagingEditContactList = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
+    mhvSecureMessagingRecipientOptGroups = true,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
@@ -65,6 +67,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_filter',
           value: mhvMedicationsDisplayFilter,
+        },
+        {
+          name: 'mhv_medications_display_grouping',
+          value: mhvMedicationsDisplayGrouping,
         },
 
         // medical records
@@ -127,6 +133,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_triage_group_plain_language',
           value: mhvSecureMessagingTriageGroupPlainLanguage,
+        },
+        {
+          name: 'mhv_secure_messaging_recipient_opt_groups',
+          value: mhvSecureMessagingRecipientOptGroups,
         },
       ],
     },

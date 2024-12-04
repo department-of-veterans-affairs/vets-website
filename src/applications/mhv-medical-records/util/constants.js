@@ -125,8 +125,8 @@ export const vitalTypes = {
   BLOOD_PRESSURE: ['BLOOD_PRESSURE'],
   PULSE: ['PULSE', 'HEART_RATE'],
   RESPIRATION: ['RESPIRATION', 'RESPIRATORY_RATE'],
-  PULSE_OXIMETRY: ['PULSE_OXIMETRY'],
-  TEMPERATURE: ['TEMPERATURE'],
+  PULSE_OXIMETRY: ['PULSE_OXIMETRY', 'OXYGEN_SATURATION_IN_ARTERIAL_BLOOD'],
+  TEMPERATURE: ['TEMPERATURE', 'BODY_TEMPERATURE'],
   WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
   PAIN_SEVERITY: ['PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED'],
@@ -139,13 +139,14 @@ export const vitalTypeDisplayNames = {
   RESPIRATION: 'Breathing rate',
   RESPIRATORY_RATE: 'Breathing rate',
   PULSE_OXIMETRY: 'Blood oxygen level (pulse oximetry)',
+  OXYGEN_SATURATION_IN_ARTERIAL_BLOOD: 'Blood oxygen level (pulse oximetry)',
   TEMPERATURE: 'Temperature',
+  BODY_TEMPERATURE: 'Temperature',
   BODY_WEIGHT: 'Weight',
   WEIGHT: 'Weight',
   BODY_HEIGHT: 'Height',
   HEIGHT: 'Height',
-  PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED:
-    'Pain severity - 0-10 verbal numeric rating [Score] - Reported',
+  PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED: 'Pain severity',
   PAIN_SEVERITY: 'Pain severity',
 };
 
@@ -200,6 +201,22 @@ export const pageTitles = {
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
 
+export const selfEnteredTypes = {
+  VITALS: 'vitals',
+  ALLERGIES: 'allergies',
+  FAMILY_HISTORY: 'family history',
+  VACCINES: 'vaccines',
+  TEST_ENTRIES: 'test entries',
+  MEDICAL_EVENTS: 'medical events',
+  MILITARY_HISTORY: 'military history',
+  HEALTH_PROVIDERS: 'health providers',
+  HEALTH_INSURANCE: 'health insurance',
+  TREATMENT_FACILITIES: 'treatment facilities',
+  FOOD_JOURNAL: 'food journal',
+  ACTIVITY_JOURNAL: 'activity journal',
+  MEDICATIONS: 'medications',
+};
+
 export const allergyTypes = {
   OBSERVED:
     'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
@@ -231,6 +248,7 @@ export const refreshPhases = {
   IN_PROGRESS: 'in_progress',
   CURRENT: 'current',
   FAILED: 'failed',
+  CALL_FAILED: 'call_failed',
 };
 
 export const loadStates = {

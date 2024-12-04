@@ -194,8 +194,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      expect(await screen.findByText(/Something went wrong on our end/)).to
-        .exist;
+      expect(
+        await screen.findByText(
+          /You can.t schedule an appointment online right now/,
+        ),
+      ).to.exist;
 
       // expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
@@ -348,7 +351,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       expect(
         await screen.findByText(
-          /you need to have had an amputation care appointment at this facility within the last 12 months/i,
+          /You haven’t had a recent appointment at this facility/i,
         ),
       ).to.be.ok;
 

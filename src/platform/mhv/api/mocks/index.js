@@ -32,6 +32,10 @@ const allergies = require('./medical-records/allergies');
 const acceleratedAllergies = require('./medical-records/allergies/full-example');
 const vaccines = require('./medical-records/vaccines');
 const vitals = require('./medical-records/vitals');
+const appointments = require('./medical-records/blue-button/appointments');
+const demographics = require('./medical-records/blue-button/demographics');
+const militaryService = require('./medical-records/blue-button/military-service');
+const patient = require('./medical-records/blue-button/patient');
 const acceleratedVitals = require('./medical-records/vitals/accelerated');
 
 const responses = {
@@ -148,6 +152,12 @@ const responses = {
     }
     return res.json(vitals.all);
   },
+  'GET /my_health/v1/vaos/v2/appointments': appointments.appointments,
+  'GET /my_health/v1/medical_records/patient/demographic':
+    demographics.demographics,
+  'GET /my_health/v1/medical_records/military_service':
+    militaryService.militaryService,
+  'GET /my_health/v1/medical_records/patient': patient.patient,
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner

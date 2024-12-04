@@ -261,9 +261,9 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/formation": "^12.0.0",
-    "@department-of-veterans-affairs/component-library": "^48.0.2",
+    "@department-of-veterans-affairs/component-library": "^48.1.0",
     "@department-of-veterans-affairs/css-library": "^0.15.0",
+    "@department-of-veterans-affairs/formation": "^12.0.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
@@ -333,7 +333,8 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#71c4501d45b75000818c88707c9c0ecd3dc86dc7"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d100b223e002a2a4eea12544a9b9d539b0d2242f",
+    "web-vitals": "^4.2.4"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
@@ -397,9 +398,11 @@
       "src/platform/mhv",
       "src/applications/check-in",
       "src/applications/vaos",
-      "src/applications/claims-status"
+      "src/applications/claims-status",
+      "src/applications/accredited-representative-portal/accreditation/21a"
     ],
     "nohoist": [
+      "**/applications/accredited-representative-portal/accreditation/21a/react-router",
       "**/applications-check-in/i18next-resources-to-backend",
       "**/applications-check-in/react-i18next",
       "**/applications-claims-status/@department-of-veterans-affairs/component-library",
@@ -440,7 +443,6 @@
       "**/platform-testing/sentry-testkit",
       "**/platform-testing/table",
       "**/platform-testing/winston"
-
     ]
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
