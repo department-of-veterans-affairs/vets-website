@@ -138,9 +138,6 @@ const migrations = [emptyMigration];
 export const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // NOTE: e2e tests will fail until the dependents_applications endpoint gets merged in to vets-api.
-  // All e2e tests will be disabled until then. If you need to run an e2e test, temporarily change
-  // dependents_applications to 21-686c.
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   submit: customSubmit686,
   trackingPrefix: 'disability-21-686c-',
@@ -884,7 +881,7 @@ export const formConfig = {
             schema: deceasedDependentChildTypePage.schema,
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath) &&
-              formData?.deaths?.[index]?.dependentType !== 'child',
+              formData?.deaths?.[index]?.dependentType === 'child',
           }),
           dependentAdditionalInformationPartFour: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
