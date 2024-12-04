@@ -1,7 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import environment from 'platform/utilities/environment';
-import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -878,34 +876,15 @@ export const formConfig = {
             schema: deceasedDependentTypePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-            // TODO: use depends: (formData, index) instead on the dynamic page.
-            onNavForward: ({
-              formData,
-              urlParams,
-              goPath,
-              goNextPath,
-              index,
-            }) => {
-              const item =
-                formData?.[deceasedDependentOptions.arrayPath]?.[index];
-              if (item?.dependentType !== 'child') {
-                const urlParamsString = stringifyUrlParams(urlParams) || '';
-                goPath(
-                  `/686-report-dependent-death/${index}/date-of-death${urlParamsString}`,
-                );
-              } else {
-                goNextPath(urlParams);
-              }
-            },
           }),
-          // conditional page
           dependentAdditionalInformationPartThree: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
             path: '686-report-dependent-death/:index/child-type',
             uiSchema: deceasedDependentChildTypePage.uiSchema,
             schema: deceasedDependentChildTypePage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.reportDeath) &&
+              formData?.deaths?.[index]?.dependentType !== 'child',
           }),
           dependentAdditionalInformationPartFour: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
@@ -914,21 +893,6 @@ export const formConfig = {
             schema: deceasedDependentDateOfDeathPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-            // TODO: use depends: (formData, index) instead on the dynamic page.
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `686-report-dependent-death/${index}/dependent-type${urlParamsString}`,
-              );
-            },
           }),
           dependentAdditionalInformationPartFive: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
