@@ -6201,10 +6201,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.15.3":
-  version: 1.15.3
-  resolution: "@remix-run/router@npm:1.15.3"
-  checksum: 10c0/aea197447cee21e137d70f0c93e00de70c64fcfae20ae349ade9dc4202e782bd94dbc88be7302d13b6aa6cde38a701b074cd8e09a161d14cecda832a36dd2695
+"@remix-run/router@npm:1.21.0":
+  version: 1.21.0
+  resolution: "@remix-run/router@npm:1.21.0"
+  checksum: 10c0/570792211c083a1c7146613b79cbb8e0d1e14f34e974052e060e7f9dcad38c800d80fe0a18bf42811bc278ab12c0e8fd62cfce649e905046c4e55bd5a09eafdc
   languageName: node
   linkType: hard
 
@@ -24309,17 +24309,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom-v5-compat@npm:^6.22.3":
-  version: 6.22.3
-  resolution: "react-router-dom-v5-compat@npm:6.22.3"
+"react-router-dom-v5-compat@npm:^6.28.0":
+  version: 6.28.0
+  resolution: "react-router-dom-v5-compat@npm:6.28.0"
   dependencies:
+    "@remix-run/router": "npm:1.21.0"
     history: "npm:^5.3.0"
-    react-router: "npm:6.22.3"
+    react-router: "npm:6.28.0"
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
     react-router-dom: 4 || 5
-  checksum: 10c0/67e480addedd50bd9b62e4ddd17035264a9c2b676472a080cca428bbcc2939722487491964181da883bb68cc51e4868c962f2bd6de9e105feb6be529b3ba42c5
+  checksum: 10c0/8cbd7feabd1e17ca5c5547ad38ddd0450b82a0e2c29235c99842adac2dc6f313d786c317270eaea593ac159cf5342e9a55c654ba97534dc1360bffc21d073e5a
   languageName: node
   linkType: hard
 
@@ -24351,6 +24352,23 @@ __metadata:
   peerDependencies:
     react: ">=15"
   checksum: 10c0/525ab23f7109140b4027740f0fc45984d951d8fa6e6606549d9beaf5ce60f35036ed0ad960d74c5c081cc8893caa6a885de1100484d4b225ef8e1254b6c420fe
+  languageName: node
+  linkType: hard
+
+"react-router-dom@npm:^5.3.4":
+  version: 5.3.4
+  resolution: "react-router-dom@npm:5.3.4"
+  dependencies:
+    "@babel/runtime": "npm:^7.12.13"
+    history: "npm:^4.9.0"
+    loose-envify: "npm:^1.3.1"
+    prop-types: "npm:^15.6.2"
+    react-router: "npm:5.3.4"
+    tiny-invariant: "npm:^1.0.2"
+    tiny-warning: "npm:^1.0.0"
+  peerDependencies:
+    react: ">=15"
+  checksum: 10c0/f04f727e2ed2e9d1d3830af02cc61690ff67b1524c0d18690582bfba0f4d14142ccc88fb6da6befad644fddf086f5ae4c2eb7048c67da8a0b0929c19426421b0
   languageName: node
   linkType: hard
 
@@ -24404,14 +24422,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router@npm:6.22.3":
-  version: 6.22.3
-  resolution: "react-router@npm:6.22.3"
+"react-router@npm:5.3.4":
+  version: 5.3.4
+  resolution: "react-router@npm:5.3.4"
   dependencies:
-    "@remix-run/router": "npm:1.15.3"
+    "@babel/runtime": "npm:^7.12.13"
+    history: "npm:^4.9.0"
+    hoist-non-react-statics: "npm:^3.1.0"
+    loose-envify: "npm:^1.3.1"
+    path-to-regexp: "npm:^1.7.0"
+    prop-types: "npm:^15.6.2"
+    react-is: "npm:^16.6.0"
+    tiny-invariant: "npm:^1.0.2"
+    tiny-warning: "npm:^1.0.0"
+  peerDependencies:
+    react: ">=15"
+  checksum: 10c0/e15c00dfef199249b4c6e6d98e5e76cc352ce66f3270f13df37cc069ddf7c05e43281e8c308fc407e4435d72924373baef1d2890e0f6b0b1eb423cf47315a053
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.28.0":
+  version: 6.28.0
+  resolution: "react-router@npm:6.28.0"
+  dependencies:
+    "@remix-run/router": "npm:1.21.0"
   peerDependencies:
     react: ">=16.8"
-  checksum: 10c0/a2c85c3d1fa93585e312b1f7e6e21d1ca421875013a8d879e109d3ed41fb035bc93faef4cd42b354ea18d039bc50b679bf752679ad83ac26a986e3432fbd0462
+  checksum: 10c0/b435510de78fd882bf6ca9800a73cd90cee418bd1d19efd91b8dcaebde36929bbb589e25d9f7eec24ceb84255e8d538bc1fe54e6ddb5c43c32798e2b720fa76d
   languageName: node
   linkType: hard
 
@@ -29584,8 +29621,8 @@ __metadata:
     react-meta-tags: "npm:^1.0.1"
     react-redux: "npm:^7.2.6"
     react-router: "npm:3"
-    react-router-dom: "npm:^5.3.0"
-    react-router-dom-v5-compat: "npm:^6.22.3"
+    react-router-dom: "npm:^5.3.4"
+    react-router-dom-v5-compat: "npm:^6.28.0"
     react-router-last-location: "npm:^2.0.1"
     react-scroll: "npm:^1.8.4"
     react-tabs: "npm:^3.2.3"
