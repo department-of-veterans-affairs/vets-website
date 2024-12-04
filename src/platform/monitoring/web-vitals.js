@@ -23,7 +23,7 @@ const recordWebVitalsEvent = event => {
 
 const trackWebVitals =
   // Exclude production for now.
-  !environment.isProduction &&
+  !environment.isProduction() &&
   // Exclude cypress containers and localhost from tracking web vitals.
   environment.BASE_URL.indexOf('localhost') < 0;
 
