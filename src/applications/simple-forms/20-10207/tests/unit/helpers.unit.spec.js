@@ -24,6 +24,7 @@ import {
   statementOfTruthFullNamePath,
   getSubmitterName,
   evidenceConfinementHintUpdateUiSchema,
+  getPhoneAndEmailPageEmailHint,
 } from '../../helpers';
 
 describe('getMockData', () => {
@@ -401,6 +402,31 @@ describe('getPhoneAndEmailPageTitle()', () => {
         preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
       }),
     ).to.equal(`Claimant’s ${titleEnding}`);
+  });
+});
+
+describe('getPhoneAndEmailPageEmailHint', () => {
+  it('returns correct hint for preparerType', () => {
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.VETERAN,
+      }),
+    ).to.include('send you notifications about your');
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.NON_VETERAN,
+      }),
+    ).to.include('send you notifications about your');
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+      }),
+    ).to.include('send you or the Veteran notifications about the');
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+      }),
+    ).to.include('send you or the claimant notifications about the');
   });
 });
 
