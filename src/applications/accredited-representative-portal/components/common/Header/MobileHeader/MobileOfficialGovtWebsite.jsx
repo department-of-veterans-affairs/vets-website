@@ -33,6 +33,7 @@ export const MobileOfficialGovtWebsite = () => {
           type="button"
         >
           An official website of the United States government.
+          <span className="usa-banner-button-text">Here’s how you know</span>
           <svg
             aria-hidden="true"
             className={`vads-u-margin-left--0p5${
