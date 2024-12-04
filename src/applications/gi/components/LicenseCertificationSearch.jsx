@@ -38,10 +38,11 @@ function LicenseCertificationSearch({
           <div className="form-wrapper row">
             <LicenseCertificationSearchForm
               suggestions={lcResults}
-              handleSearch={(type, name) =>
-                handleLcResultsSearch(history, type, name)
+              handleSearch={(category, name) =>
+                handleLcResultsSearch(history, category, name)
               }
               handleUpdateQueryParam={() => updateQueryParam(history, location)}
+              location={location}
             />
           </div>
         </section>

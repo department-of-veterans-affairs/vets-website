@@ -566,15 +566,15 @@ export const updateQueryParam = (history, location) => {
 
 export const handleLcResultsSearch = (
   history,
-  type = 'all',
+  category = 'all',
   name = null,
   state = 'all',
 ) => {
   return name
     ? history.push(
-        `/lc-search/results?type=${type}&name=${name}&state=${state}`,
+        `/lc-search/results?category=${category}&name=${name}&state=${state}`,
       )
-    : history.push(`/lc-search/results?type=${type}&state=${state}`);
+    : history.push(`/lc-search/results?category=${category}&state=${state}`);
 };
 
 export const formatProgramType = programType => {

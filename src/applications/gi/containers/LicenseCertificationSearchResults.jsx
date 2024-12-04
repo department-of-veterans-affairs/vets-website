@@ -14,8 +14,9 @@ function LicenseCertificationSearchResults({
   const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const name = searchParams.get('name');
-  // const type = searchParams.get('type');
+  const name = searchParams.get('name') ?? 'all';
+  const category = searchParams.get('category') ?? 'all';
+  const state = searchParams.get('state') ?? 'all';
 
   const itemsPerPage = 5;
 
@@ -54,8 +55,14 @@ function LicenseCertificationSearchResults({
                 Showing {itemsPerPage} of {lcResults.length} results for:{' '}
                 {name || null}
               </p>
-              <p className="lc-filter-options">
-                <strong>License/Certification Name: </strong>
+              <p className="lc-filter-option">
+                <strong>Category type: </strong> {`"${category}"`}
+              </p>
+              <p className="lc-filter-option">
+                <strong>State: </strong> {`"${state}"`}
+              </p>
+              <p className="lc-filter-option">
+                <strong>License/Certification Name: </strong> {`"${name}"`}
               </p>
             </div>
             <div className="row">

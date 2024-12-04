@@ -71,11 +71,16 @@ export default function LicenseCertificationSearchForm({
   suggestions,
   handleSearch,
   handleUpdateQueryParam,
+  location,
 }) {
   const [dropdowns, setDropdowns] = useState(dropdownSchema);
-  const [name, setName] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [showStateAlert, setShowStateAlert] = useState(false);
+
+  const searchParams = new URLSearchParams(location.search);
+  const name = searchParams.get('name') ?? '';
+  const category = searchParams.get('category') ?? '';
+  const stateParam = searchParams.get('state') ?? '';
 
   useEffect(
     () => {
@@ -98,7 +103,6 @@ export default function LicenseCertificationSearchForm({
 
   const handleReset = () => {
     setDropdowns(dropdownSchema);
-    setName('');
   };
 
   const handleChange = e => {
@@ -114,11 +118,11 @@ export default function LicenseCertificationSearchForm({
   };
 
   const onUpdateAutocompleteSearchTerm = value => {
-    setName(value);
+    handleUpdateQueryParam()('name', value);
   };
 
   const onSelection = selection => {
-    const { type, state } = selection; // TODO ensure state is added to response object coming from BE
+    const { type, state } = selection;
 
     const updateDropdowns = dropdowns.map(dropdown => {
       if (dropdown.label === 'state') {
@@ -146,7 +150,7 @@ export default function LicenseCertificationSearchForm({
   };
 
   const handleClearInput = () => {
-    onUpdateAutocompleteSearchTerm('');
+    handleUpdateQueryParam()('name', '');
     setShowStateAlert(false);
   };
 
@@ -158,7 +162,7 @@ export default function LicenseCertificationSearchForm({
         visible
         name={dropdowns[0].label}
         options={dropdowns[0].options}
-        value={dropdowns[0].current.optionValue}
+        value={category ?? dropdowns[0].current.optionValue}
         onChange={handleChange}
         alt={dropdowns[0].alt}
         selectClassName="lc-dropdown-filter"
@@ -171,7 +175,7 @@ export default function LicenseCertificationSearchForm({
         visible
         name={dropdowns[1].label}
         options={dropdowns[1].options}
-        value={dropdowns[1].current.optionValue}
+        value={stateParam ?? dropdowns[1].current.optionValue}
         onChange={handleChange}
         alt={dropdowns[1].alt}
         selectClassName="lc-dropdown-filter"
