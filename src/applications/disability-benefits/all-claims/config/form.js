@@ -3,7 +3,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
@@ -132,6 +132,7 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
+import getPreSubmitInfo from '../content/preSubmitInfo';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -187,7 +188,7 @@ const formConfig = {
   },
   title: ({ formData }) => getPageTitle(formData),
   subTitle: 'VA Form 21-526EZ',
-  preSubmitInfo,
+  preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
   chapters: {
     veteranDetails: {
