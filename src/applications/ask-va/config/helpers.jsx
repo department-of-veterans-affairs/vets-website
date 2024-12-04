@@ -478,7 +478,7 @@ export const isBranchOfServiceRequired = data => {
   const branchOfServiceRuleforCategories = [
     'Veteran ID Card (VIC)',
     'Disability compensation',
-    'Survivor benefits',
+    'Survivor Benefits',
     'Burials and memorials',
     'Center for Women Veterans',
     'Benefits issues outside the U.S.',
