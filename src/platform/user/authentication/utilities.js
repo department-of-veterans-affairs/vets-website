@@ -44,16 +44,17 @@ export const reduceProviders = obj =>
 
 export const reduceAllowedProviders = (obj, type) => {
   if (!type || type === '') return reduceProviders(obj);
-
   if (
     Object.keys(obj).includes('registeredApps') &&
     type === 'registeredApps'
   ) {
     return reduceProviders(obj.registeredApps);
   }
-
   if (Object.keys(obj).includes('default') && type === 'default') {
     return reduceProviders(obj.default);
+  }
+  if (!Object.keys(obj).includes(type)) {
+    return [];
   }
 
   return reduceProviders(obj);
@@ -126,7 +127,14 @@ export const createExternalApplicationUrl = () => {
   if (!application) {
     return null;
   }
-  const { externalRedirectUrl } = externalApplicationsConfig[application];
+
+  const appConfig = externalApplicationsConfig[application];
+  if (!appConfig) {
+    // Handle undefined application configurations
+    return null;
+  }
+
+  const { externalRedirectUrl } = appConfig;
   let URL = '';
 
   switch (application) {
@@ -155,7 +163,8 @@ export const createExternalApplicationUrl = () => {
       URL = sanitizeUrl(`${externalRedirectUrl}`);
       break;
     default:
-      break;
+      // Ensure the default case returns null for undefined applications
+      return null;
   }
   return URL;
 };

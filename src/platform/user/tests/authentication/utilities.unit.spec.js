@@ -8,6 +8,7 @@ import {
 } from 'platform/utilities/sso/loginAttempted';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 import { API_SIGN_IN_SERVICE_URL } from 'platform/utilities/oauth/constants';
+import * as Sentry from '@sentry/browser';
 import * as authUtilities from '../../authentication/utilities';
 import {
   AUTHN_SETTINGS,
@@ -128,6 +129,130 @@ describe('Authentication Utilities', () => {
     it('should return empty object when no valid AUTH_PARAMS are found', () => {
       setup({ path: usipPath });
       expect(authUtilities.getQueryParams()).to.deep.equal({});
+    });
+  });
+
+  describe('reduceProviders', () => {
+    it('should return an array of keys where values are truthy', () => {
+      const input = { provider1: true, provider2: false, provider3: 'yes' };
+      expect(authUtilities.reduceProviders(input)).to.deep.equal([
+        'provider1',
+        'provider3',
+      ]);
+    });
+
+    it('should return an empty array when all values are falsy', () => {
+      const input = { provider1: false, provider2: 0, provider3: null };
+      expect(authUtilities.reduceProviders(input)).to.deep.equal([]);
+    });
+
+    it('should return an empty array when the input is empty', () => {
+      expect(authUtilities.reduceProviders({})).to.deep.equal([]);
+    });
+  });
+
+  describe('reduceAllowedProviders', () => {
+    it('should call reduceProviders for a valid type', () => {
+      const input = { default: { app1: true, app2: false } };
+      expect(
+        authUtilities.reduceAllowedProviders(input, 'default'),
+      ).to.deep.equal(['app1']);
+    });
+
+    it('should return reduceProviders for "registeredApps"', () => {
+      const input = { registeredApps: { app1: true, app2: false } };
+      expect(
+        authUtilities.reduceAllowedProviders(input, 'registeredApps'),
+      ).to.deep.equal(['app1']);
+    });
+
+    it('should return all providers when type is undefined', () => {
+      const input = { app1: true, app2: false };
+      expect(authUtilities.reduceAllowedProviders(input)).to.deep.equal([
+        'app1',
+      ]);
+    });
+
+    it('should return all providers when type is an empty string', () => {
+      const input = { app1: true, app2: false };
+      expect(authUtilities.reduceAllowedProviders(input, '')).to.deep.equal([
+        'app1',
+      ]);
+    });
+
+    it('should return an empty array if no matching keys exist for type', () => {
+      const input = { otherType: { app1: true } };
+      expect(
+        authUtilities.reduceAllowedProviders(input, 'unknown'),
+      ).to.deep.equal([]);
+    });
+
+    it('should return an empty array if the type is not included in the object', () => {
+      const input = {
+        registeredApps: { app1: true },
+        default: { app2: false },
+      };
+      const type = 'unknownType'; // Type does not exist in input keys
+      const result = authUtilities.reduceAllowedProviders(input, type);
+      expect(result).to.deep.equal([]); // Verifies that an empty array is returned
+    });
+
+    it('should process the entire object using reduceProviders if the type is included', () => {
+      const input = {
+        registeredApps: { app1: true, app2: false },
+        default: { app3: true },
+      };
+      const type = 'registeredApps';
+      const result = authUtilities.reduceAllowedProviders(input, type);
+      expect(result).to.deep.equal(['app1']);
+    });
+
+    it('should process the entire object using reduceProviders when no type is provided', () => {
+      const input = { app1: true, app2: false, app3: true };
+      const result = authUtilities.reduceAllowedProviders(input, undefined); // No type provided
+      expect(result).to.deep.equal(['app1', 'app3']);
+    });
+    it('should process the entire object if type is not provided', () => {
+      const input = { app1: true, app2: false, app3: true };
+      const result = authUtilities.reduceAllowedProviders(input, undefined);
+      expect(result).to.deep.equal(['app1', 'app3']);
+    });
+
+    it('should process registeredApps if type is "registeredApps"', () => {
+      const input = {
+        registeredApps: { app1: true, app2: false },
+        default: { app3: true },
+      };
+      const result = authUtilities.reduceAllowedProviders(
+        input,
+        'registeredApps',
+      );
+      expect(result).to.deep.equal(['app1']);
+    });
+
+    it('should process default if type is "default"', () => {
+      const input = {
+        registeredApps: { app1: true },
+        default: { app3: true, app4: false },
+      };
+      const result = authUtilities.reduceAllowedProviders(input, 'default');
+      expect(result).to.deep.equal(['app3']);
+    });
+
+    it('should return an empty array if type is not a key in the object', () => {
+      const input = { app1: true, app2: false };
+      const result = authUtilities.reduceAllowedProviders(input, 'unknownType');
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should process the entire object if type matches a key not specifically handled', () => {
+      const input = {
+        app1: true,
+        app2: false,
+        app3: true,
+      };
+      const result = authUtilities.reduceAllowedProviders(input, 'app3');
+      expect(result).to.deep.equal(['app1', 'app3']);
     });
   });
 
@@ -340,9 +465,10 @@ describe('Authentication Utilities', () => {
 
   describe('createExternalApplicationUrl', () => {
     afterEach(() => cleanup());
-    it('should return correct url or null for the parsed application param', () => {
+
+    it('should return the correct URL or null for the parsed application param', () => {
       Object.values(EXTERNAL_APPS).forEach(application => {
-        setup({ path: `${usipPath}?application=${application}` });
+        setup({ path: `/sign-in?application=${application}` });
 
         const pathAppend = () => {
           switch (application) {
@@ -364,23 +490,48 @@ describe('Authentication Utilities', () => {
         setup({});
       });
 
-      expect(authUtilities.createExternalApplicationUrl()).to.eq(null);
+      expect(authUtilities.createExternalApplicationUrl()).to.eq(null); // No application param
     });
 
     it('should pass all query params through for OCC mobile applications', () => {
       const application = EXTERNAL_APPS.VA_OCC_MOBILE;
       const mockParams = `?application=${application}&foo=bar&bar=foo`;
-      setup({ path: `${usipPath}${mockParams}` });
+      setup({ path: `/sign-in${mockParams}` });
 
       expect(authUtilities.createExternalApplicationUrl()).to.eq(
         `${EXTERNAL_REDIRECTS[application]}${mockParams}`,
       );
     });
 
-    it('should strip out the 2 `to` query parameters, uses the correct one', () => {
-      setup({
-        path: `${usipPath}${cernerUsipParams}${cernerComplicatedParams}`,
+    describe('EBENEFITS behavior', () => {
+      it('should return a sanitized path when "to" is provided', () => {
+        const application = EXTERNAL_APPS.EBENEFITS;
+        const to = 'track-claims';
+        setup({ path: `/sign-in?application=${application}&to=${to}` });
+
+        const expectedUrl = `${
+          EXTERNAL_REDIRECTS[application]
+        }${authUtilities.sanitizePath(to)}`;
+        expect(authUtilities.createExternalApplicationUrl()).to.equal(
+          expectedUrl,
+        );
       });
+
+      it('should return the default path when "to" is undefined', () => {
+        const application = EXTERNAL_APPS.EBENEFITS;
+        setup({ path: `/sign-in?application=${application}` });
+
+        const expectedUrl = `${
+          EXTERNAL_REDIRECTS[application]
+        }${EBENEFITS_DEFAULT_PATH}`;
+        expect(authUtilities.createExternalApplicationUrl()).to.equal(
+          expectedUrl,
+        );
+      });
+    });
+
+    it('should strip out the 2 `to` query parameters, uses the correct one', () => {
+      setup({ path: `/sign-in${cernerUsipParams}${cernerComplicatedParams}` });
 
       expect(authUtilities.createExternalApplicationUrl()).to.eql(
         `https://staging-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d?authenticated=true`,
@@ -388,13 +539,20 @@ describe('Authentication Utilities', () => {
     });
 
     it('should redirect to the proper Cerner url', () => {
-      setup({
-        path: `${usipPath}${cernerUsipParams}${cernerSandbox}`,
-      });
+      setup({ path: `/sign-in${cernerUsipParams}${cernerSandbox}` });
 
       expect(authUtilities.createExternalApplicationUrl()).to.eql(
         `https://sandbox-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d?authenticated=true`,
       );
+    });
+
+    it('should return null for unsupported or missing applications', () => {
+      const unsupportedApplication = 'unknownApp';
+      setup({ path: `/sign-in?application=${unsupportedApplication}` });
+      expect(authUtilities.createExternalApplicationUrl()).to.be.null;
+
+      setup({ path: '/sign-in' }); // No application query param
+      expect(authUtilities.createExternalApplicationUrl()).to.be.null;
     });
   });
 
@@ -437,6 +595,36 @@ describe('Authentication Utilities', () => {
         internalLink,
       );
       sessionStorage.clear();
+    });
+  });
+  describe('setSentryLoginType', () => {
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should set the loginType tag in Sentry', () => {
+      const sentryStub = sandbox.stub(Sentry, 'setTag');
+      authUtilities.setSentryLoginType('testLoginType');
+
+      expect(sentryStub.calledOnce).to.be.true; // Assert it was called once
+      expect(sentryStub.firstCall.args).to.deep.equal([
+        'loginType',
+        'testLoginType',
+      ]); // Assert arguments
+    });
+
+    it('should clear the loginType tag in Sentry if called with undefined', () => {
+      const sentryStub = sandbox.stub(Sentry, 'setTag');
+      authUtilities.setSentryLoginType(undefined);
+
+      expect(sentryStub.calledOnce).to.be.true; // Assert it was called once
+      expect(sentryStub.firstCall.args).to.deep.equal(['loginType', undefined]); // Assert arguments
     });
   });
 
@@ -558,15 +746,43 @@ describe('Authentication Utilities', () => {
   });
 
   describe('verify', () => {
-    afterEach(() => cleanup());
-    it.skip('should redirect to the verify session url', async () => {
-      setup({ path: nonUsipPath });
-      await authUtilities.verify({ policy: CSP_IDS.LOGIN_GOV });
-      expect(global.window.location).to.equal(
-        API_SESSION_URL({
-          type: `${SIGNUP_TYPES[CSP_IDS.LOGIN_GOV]}_verified`,
-        }),
-      );
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it.skip('should return a URL if isLink is true', async () => {
+      const policy = 'logingov';
+
+      // Call the actual function without stubbing
+      const result = await authUtilities.verify({ policy, isLink: true });
+      // Validate the result contains the expected URL structure
+      expect(result).to.include('logingov_signup');
+      expect(result).to.include('_verified');
+    });
+
+    it.skip('should redirect if isLink is false', async () => {
+      const policy = 'logingov';
+      const type = 'logingov_signup_verified'; // Matches the expected type logic in verify
+
+      // Call the actual function without stubbing sessionTypeUrl
+      const redirectStub = sandbox.stub(authUtilities, 'redirect'); // Stub redirect to intercept the call
+
+      const result = await authUtilities.verify({ policy, isLink: false });
+
+      // Assert the redirect function was called once
+      // expect(redirectStub.called).to.be.;
+
+      // Assert the arguments passed to redirect
+      const [redirectUrl, redirectEvent] = redirectStub.firstCall.args;
+      expect(result).to.contain(redirectUrl);
+      expect(redirectUrl).to.contain(type); // URL contains the expected type
+      expect(redirectEvent).to.equal(`${type}-verify`); // Event matches expected
     });
   });
 
@@ -670,6 +886,17 @@ describe('Authentication Utilities', () => {
       expect(() => API_SESSION_URL({})).to.throw(
         'Attempted to call API_SESSION_URL without a type',
       );
+    });
+  });
+
+  describe('logoutUrl', () => {
+    it('should return the logout session URL', () => {
+      const result = authUtilities.logoutUrl();
+      const expectedUrl = API_SESSION_URL({
+        type: POLICY_TYPES.SLO,
+        version: 'v1',
+      });
+      expect(result).to.equal(expectedUrl);
     });
   });
 });

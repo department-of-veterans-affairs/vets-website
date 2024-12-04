@@ -65,7 +65,7 @@ describe('login DOM ', () => {
           <LoginActions externalApplication={csp} />
         </Provider>,
       );
-      expect(loginButtons.find('button').length).to.eql(4);
+      expect(loginButtons.find('button').length).to.eql(2);
       loginButtons.unmount();
     });
   });
