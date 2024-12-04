@@ -14,8 +14,8 @@ function MilitaryAutoSuggest({
     () => {
       if (value && value !== inputValue) {
         setInputValue(value);
-        setValue(value);
       }
+      onSelectionChange(value);
     },
     [value],
   );
