@@ -298,8 +298,8 @@ const LandingPage = () => {
             Review and update your medical records sharing and notification
             settings.
           </p>
-          <Link
-            to={mhvUrl(
+          <a
+            href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
               'electronic-record-sharing-options',
             )}
@@ -307,7 +307,7 @@ const LandingPage = () => {
             data-testid="settings-landing-page-link"
           >
             Go to your medical records settings
-          </Link>
+          </a>
         </section>
       )}
       <section>
@@ -369,12 +369,7 @@ const LandingPage = () => {
               Where can I find health information I entered myself?
             </h3>
             <p className="vads-u-margin-bottom--2">
-              Right now, your records on VA.gov only include health information
-              your VA providers have entered.
-            </p>
-            <p className="vads-u-margin-bottom--2">
-              To find health information you entered yourself, go to your
-              medical records on the My HealtheVet website.
+              Download your self-entered health information report.
             </p>
             <p className="vads-u-margin-bottom--2">
               <ExternalLink
@@ -382,7 +377,7 @@ const LandingPage = () => {
                   isAuthenticatedWithSSOe(fullState),
                   'download-my-data',
                 )}
-                text="Go to your medical records on the My HealtheVet website"
+                text="Go to download your medical records reports"
               />
             </p>
           </va-accordion-item>
