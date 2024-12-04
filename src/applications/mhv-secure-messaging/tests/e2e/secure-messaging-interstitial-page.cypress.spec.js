@@ -21,7 +21,7 @@ describe('SM INTERSTITIAL PAGE', () => {
     PatientInterstitialPage.crisisLineLink.should('have.focus');
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify crisis line modal', () => {
@@ -49,6 +49,9 @@ describe('SM INTERSTITIAL PAGE', () => {
       'include.text',
       `Get more resources`,
     );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
 
     PatientInterstitialPage.crisisLineModal.find(`button`).click();
   });
