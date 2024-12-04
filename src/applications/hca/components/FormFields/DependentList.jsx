@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { SESSION_ITEM_NAME, SHARED_PATHS } from '../../utils/constants';
-import { normalizeFullName } from '../../utils/helpers/general';
+import { normalizeFullName } from '../../utils/helpers';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 
 // declare shared routes from the form & default states
