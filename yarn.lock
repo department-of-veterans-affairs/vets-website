@@ -8904,8 +8904,8 @@ downgrade-root@^1.0.0:
 
 downloadjs@^1.4.7:
   version "1.4.7"
-  resolved "https://registry.npmjs.org/downloadjs/-/downloadjs-1.4.7.tgz"
-  integrity sha1-9p+W+UDg0FU9rCkROYZaPNAQHjw=
+  resolved "https://registry.yarnpkg.com/downloadjs/-/downloadjs-1.4.7.tgz#f69f96f940e0d0553dac291139865a3cd0101e3c"
+  integrity sha512-LN1gO7+u9xjU5oEScGFKvXhYf7Y/empUIIEAGBs1LzUq/rg5duiDrkuH5A2lQGd5jfMOb9X9usDa2oVXwJ0U/Q==
 
 downshift@^1.22.5:
   version "1.22.5"
@@ -11780,6 +11780,15 @@ history@3, history@^3.0.0:
     query-string "^4.2.2"
     warning "^3.0.0"
 
+history@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/history/-/history-3.0.0.tgz#02cff4e6f69dc62dd81161104a63f5b85ead0c85"
+  integrity sha512-z1VgeZAyJx9txVPaCO168b2YyRbrpMwzP2AzC+bkNjIFhJHB496UVh/wRlW/Xh9cIyrJlsW9j1A/eYcVMFa8Jw==
+  dependencies:
+    invariant "^2.0.0"
+    query-string "^4.1.0"
+    warning "^2.0.0"
+
 history@^4.9.0:
   version "4.10.1"
   resolved "https://registry.npmjs.org/history/-/history-4.10.1.tgz"
@@ -11807,6 +11816,11 @@ hmac-drbg@^1.0.1:
     hash.js "^1.0.3"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
+
+hoist-non-react-statics@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
+  integrity sha512-r8huvKK+m+VraiRipdZYc+U4XW43j6OFG/oIafe7GfDbRpCduRoX9JI/DRxqgtBSCeL+et6N6ibZoedHS2NyOQ==
 
 hoist-non-react-statics@^2.3.1:
   version "2.5.5"
@@ -12479,7 +12493,7 @@ into-stream@^3.1.0:
     from2 "^2.1.1"
     p-is-promise "^1.1.0"
 
-invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
+invariant@^2.0.0, invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -17349,7 +17363,7 @@ qs@6.13.0, qs@6.7.0, qs@^6.0.4, qs@^6.4.0, qs@~6.5.2:
   dependencies:
     side-channel "^1.0.4"
 
-query-string@^4.2.2:
+query-string@^4.1.0, query-string@^4.2.2:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.3.4.tgz#bbb693b9ca915c232515b228b1a02b609043dbeb"
   integrity sha1-u7aTucqRXCMlFbIosaArYJBD2+s=
@@ -17676,6 +17690,19 @@ react-router@3:
     loose-envify "^1.2.0"
     prop-types "^15.7.2"
     react-is "^16.13.0"
+    warning "^3.0.0"
+
+react-router@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-3.2.0.tgz#62b6279d589b70b34e265113e4c0a9261a02ed36"
+  integrity sha512-sXlLOg0TRCqnjCVskqBHGjzNjcJKUqXEKnDSuxMYJSPJNq9hROE9VsiIW2kfIq7Ev+20Iz0nxayekXyv0XNmsg==
+  dependencies:
+    create-react-class "^15.5.1"
+    history "^3.0.0"
+    hoist-non-react-statics "^1.2.0"
+    invariant "^2.2.1"
+    loose-envify "^1.2.0"
+    prop-types "^15.5.6"
     warning "^3.0.0"
 
 react-router@5.2.1:
@@ -21460,6 +21487,13 @@ walk@2.3.x:
   integrity sha512-4eRTBZljBfIISK1Vnt69Gvr2w/wc3U6Vtrw7qiN5iqYJPH7LElcYh/iU4XWhdCy2dZqv1ToMyYlybDylfG/5Vg==
   dependencies:
     foreachasync "^3.0.0"
+
+warning@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-2.1.0.tgz#21220d9c63afc77a8c92111e011af705ce0c6901"
+  integrity sha512-O9pvum8nlCqIT5pRGo2WRQJPRG2bW/ZBeCzl7/8CWREjUW693juZpGup7zbRtuVcSKyGiRAIZLYsh3C0vq7FAg==
+  dependencies:
+    loose-envify "^1.0.0"
 
 warning@^3.0.0:
   version "3.0.0"
