@@ -232,20 +232,13 @@ describe('Landing Page', () => {
     ).to.exist;
 
     expect(
-      screen.getByText(
-        'Download your self-entered health information report.',
+      screen.getAllByText(
+        'Go to your medical records on the My HealtheVet website',
         {
-          selector: 'p',
+          selector: 'a',
           exact: true,
         },
       ),
-    ).to.exist;
-
-    expect(
-      screen.getByText('Go to download your medical records reports', {
-        selector: 'a',
-        exact: true,
-      }),
     ).to.exist;
   });
 });
