@@ -6,17 +6,20 @@ import manifest from '../manifest.json';
 
 import chooseSupplies from '../pages/chooseSupplies';
 import contactInformation from '../pages/contactInformation';
+import editEmail from '../pages/editEmail';
+import editShipping from '../pages/editShipping';
 
-import EditAddress from '../components/EditAddress';
-import EditEmail from '../components/EditEmail';
+// import EditAddress from '../components/EditAddress';
+// import EditEmail from '../components/EditEmail';
 import getHelp from '../components/Help';
 
 import introduction from '../containers/IntroductionPage';
 import confirmation from '../containers/ConfirmationPage';
 
 import prefillTransformer from './prefillTransformer';
+import { emailMissing, permanentAddressMissing } from '../utils/validators';
 
-const blankSchema = { type: 'object', properties: {} };
+// const blankSchema = { type: 'object', properties: {} };
 
 const savedFormMessages = {
   notFound: 'Please start over to reorder health care supplies.',
@@ -34,6 +37,7 @@ const saveInProgress = {
   },
 };
 
+// https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-form-config-options#customText
 const customText = {
   // appSavedSuccessfullyMessage: '',
   appType: 'order',
@@ -65,25 +69,21 @@ const chapters = {
         uiSchema: contactInformation.uiSchema,
         schema: contactInformation.schema,
       },
-      editEmailAddress: {
-        title: 'Edit email address',
+      editEmail: {
+        title: 'Edit email',
         taskListHide: true,
-        path: 'edit-email-address',
-        CustomPage: EditEmail,
-        CustomPageReview: EditEmail,
-        depends: () => false,
-        uiSchema: {},
-        schema: blankSchema,
+        path: 'edit-email',
+        depends: emailMissing,
+        uiSchema: editEmail.uiSchema,
+        schema: editEmail.schema,
       },
-      editMailingAddress: {
-        title: 'Edit mailing address',
+      editShipping: {
+        title: 'Edit shipping address',
         taskListHide: true,
-        path: 'edit-mailing-address',
-        CustomPage: EditAddress,
-        CustomPageReview: EditAddress,
-        depends: () => false,
-        uiSchema: {},
-        schema: blankSchema,
+        path: 'edit-shipping',
+        depends: permanentAddressMissing,
+        uiSchema: editShipping.uiSchema,
+        schema: editShipping.schema,
       },
     },
   },

@@ -3,6 +3,13 @@ const prefillTransformer = (pages, formData, metadata) => ({
   formData: {
     ...formData,
     emailAddress: formData?.vetEmail || formData?.emailAddress,
+    permanentAddress: {
+      ...formData.permanentAddress,
+      country:
+        formData?.permanentAddress?.country === 'UNITED STATES'
+          ? 'USA'
+          : formData?.permanentAddress?.country,
+    },
   },
   metadata,
 });
