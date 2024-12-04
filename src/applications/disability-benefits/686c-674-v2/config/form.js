@@ -593,36 +593,18 @@ export const formConfig = {
             schema: studentEducationBenefitsPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            // TODO: use depends: (formData, index) instead on the dynamic page.
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-              const item = formData?.[addStudentsOptions.arrayPath]?.[index];
-
-              if (Object.values(item?.typeOfProgramOrBenefit).includes(true)) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/student-program-information${urlParamsString}`,
-                );
-              }
-            },
           }),
-          // conditional page
           addStudentsPartSeven: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path:
               'report-674/add-students/:index/student-education-benefits/start-date',
             uiSchema: studentEducationBenefitsStartDatePage.uiSchema,
             schema: studentEducationBenefitsStartDatePage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              Object.values(
+                formData?.studentInformation?.[index]?.typeOfProgramOrBenefit,
+              ).includes(true),
           }),
           addStudentsPartEight: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -631,21 +613,6 @@ export const formConfig = {
             schema: studentProgramInfoPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            // TODO: use depends: (formData, index) instead on the dynamic page.
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `/report-674/add-students/${index}/student-education-benefits${urlParamsString}`,
-              );
-            },
           }),
           addStudentsPartNine: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -655,36 +622,17 @@ export const formConfig = {
             schema: studentAttendancePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            // TODO: use depends: (formData, index) instead on the dynamic page.
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-              const item = formData?.[addStudentsOptions.arrayPath]?.[index];
-
-              if (!item?.schoolInformation?.studentIsEnrolledFullTime) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/school-or-program-accreditation${urlParamsString}`,
-                );
-              }
-            },
           }),
-          // conditional page
           addStudentsPartTen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path:
               'report-674/add-students/:index/date-student-stopped-attending',
             uiSchema: studentStoppedAttendingDatePage.uiSchema,
             schema: studentStoppedAttendingDatePage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              !formData?.studentInformation?.[index]?.schoolInformation
+                ?.studentIsEnrolledFullTime,
           }),
           addStudentsPartEleven: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -694,21 +642,6 @@ export const formConfig = {
             schema: schoolAccreditationPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            // TODO: use depends: (formData, index) instead on the dynamic page.
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `/report-674/add-students/${index}/student-attendance-information${urlParamsString}`,
-              );
-            },
           }),
           addStudentsPartTwelve: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -725,35 +658,16 @@ export const formConfig = {
             schema: previousTermQuestionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            // TODO: use depends: (formData, index) instead on the dynamic page.
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-              const item = formData?.[addStudentsOptions.arrayPath]?.[index];
-
-              if (item?.schoolInformation?.studentDidAttendSchoolLastTerm) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
-                );
-              }
-            },
           }),
-          // conditional page
           addStudentsPartFourteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/previous-term-dates',
             uiSchema: previousTermDatesPage.uiSchema,
             schema: previousTermDatesPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              formData?.studentInformation?.[index]?.schoolInformation
+                ?.studentDidAttendSchoolLastTerm,
           }),
           addStudentsPartFifteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -762,68 +676,33 @@ export const formConfig = {
             schema: claimsOrReceivesPensionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            // TODO: use depends: (formData, index) instead on the dynamic page.
-            onNavForward: ({
-              formData,
-              pathname,
-              urlParams,
-              goPath,
-              goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-              const item = formData?.[addStudentsOptions.arrayPath]?.[index];
-
-              if (item?.claimsOrReceivesPension) {
-                goNextPath(urlParams);
-              } else {
-                goPath(
-                  `/report-674/add-students/${index}/additional-remarks${urlParamsString}`,
-                );
-              }
-            },
-            // TODO: use depends: (formData, index) instead on the dynamic page.
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `/report-674/add-students/${index}/student-previously-attended${urlParamsString}`,
-              );
-            },
           }),
-          // conditional page
           addStudentsPartSixteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/all-student-income',
             uiSchema: studentEarningsPage.uiSchema,
             schema: studentEarningsPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
           }),
-          // conditional page
           addStudentsPartSeventeen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/expected-student-income',
             uiSchema: studentFutureEarningsPage.uiSchema,
             schema: studentFutureEarningsPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
           }),
-          // conditional page
           addStudentsPartEighteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/student-assets',
             uiSchema: studentAssetsPage.uiSchema,
             schema: studentAssetsPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674),
+            depends: (formData, index) =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
           }),
           addStudentsPartNineteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -832,21 +711,6 @@ export const formConfig = {
             schema: remarksPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
-            // TODO: use depends: (formData, index) instead on the dynamic page.
-            onNavBack: ({
-              _formData,
-              pathname,
-              urlParams,
-              goPath,
-              _goNextPath,
-            }) => {
-              const index = getArrayIndexFromPathName(pathname);
-              const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-              return goPath(
-                `/report-674/add-students/${index}/additional-student-income${urlParamsString}`,
-              );
-            },
           }),
         })),
       },
