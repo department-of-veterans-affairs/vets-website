@@ -1,4 +1,3 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
 import manifest from '../../manifest.json';
 import maximalData from '../fixtures/data/maximal.json';
 import formConfig from '../../config/form';
@@ -12,7 +11,7 @@ describe('22-10282 Edu form', () => {
     cy.realPress(['Tab', 'Enter']);
 
     // Applicant name page
-    cy.url({ timeout: Timeouts.slow }).should(
+    cy.url().should(
       'include',
       formConfig.chapters.personalInformation.pages.applicantName.path,
     );
