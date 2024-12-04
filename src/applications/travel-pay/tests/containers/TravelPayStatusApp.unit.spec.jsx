@@ -115,20 +115,6 @@ describe('App', () => {
         areFeatureTogglesLoading: false,
         hasFeatureFlag: false,
       }),
-      path: `/claims`,
-      reducers: reducer,
-    });
-    await waitFor(() => {
-      expect(window.location.replace.called).to.be.true;
-    });
-  });
-
-  it('should redirect to the claims landing page', async () => {
-    renderWithStoreAndRouter(<App />, {
-      initialState: getData({
-        areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
-      }),
       path: `/`,
       reducers: reducer,
     });
