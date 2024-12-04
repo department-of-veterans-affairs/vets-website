@@ -7,6 +7,7 @@ import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDe
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
+import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
 
 function AppointmentListSection() {
   useManualScrollRestoration();
@@ -41,6 +42,7 @@ function AppointmentListSection() {
             component={RequestedAppointmentDetailsPage}
           />
           <Route path="/pending" component={AppointmentsPage} />
+          <Route path="/referrals-requests" component={ReferralsAndRequests} />
           <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
           <Route path="/past" component={AppointmentsPage} />
           <Route
