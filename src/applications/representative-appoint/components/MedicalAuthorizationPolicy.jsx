@@ -11,7 +11,7 @@ const MedicalAuthorizationPolicy = props => {
       <va-accordion uswds bordered open-single>
         <va-accordion-item bordered header="Our records authorization policy">
           {getFormNumber(formData) === '21-22' ? (
-            <p>
+            <p data-testid="medical-authorization-policy-2122">
               <strong>I authorize</strong> the VA facility having custody of my
               VA claimant records to disclose to the service organization named
               in Item 15 all treatment records relating to drug abuse,
@@ -27,7 +27,7 @@ const MedicalAuthorizationPolicy = props => {
               appointment of another representative.
             </p>
           ) : (
-            <p>
+            <p data-testid="medical-authorization-policy-2122a">
               <strong>I authorize</strong> the VA facility having custody of my
               VA claimant records to disclose to the individual named in Item
               16A, and the firm/organization/individual(s) named in Item 19 (if

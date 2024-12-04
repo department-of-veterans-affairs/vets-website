@@ -11,7 +11,7 @@ const AddressAuthorizationPolicy = props => {
       <va-accordion uswds bordered open-single>
         <va-accordion-item bordered header="Our address authorization policy">
           {getFormNumber(formData) === '21-22' ? (
-            <p>
+            <p data-testid="address-authorization-policy-2122">
               <strong>I authorize</strong> any official representative of the
               organization named in Item 15 to act on my behalf to change my
               address in my VA records. This authorization does not extend to
@@ -24,7 +24,7 @@ const AddressAuthorizationPolicy = props => {
               16A is not my appointed fiduciary.
             </p>
           ) : (
-            <p>
+            <p data-testid="address-authorization-policy-2122a">
               <strong>I authorize</strong> the individual named in Item 16A to
               act on my behalf to change my address in my VA records. This
               authorization does not extend to any other individual without my
