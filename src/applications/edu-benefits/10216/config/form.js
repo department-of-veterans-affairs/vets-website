@@ -65,8 +65,8 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    applicantInformationChapter: {
-      title: ' Institution Details',
+    institutionDetailsChapter: {
+      title: 'Institution Details',
       pages: {
         institutionDetails: {
           path: 'institution-details',

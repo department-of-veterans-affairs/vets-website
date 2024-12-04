@@ -14,7 +14,7 @@ describe('Form Configuration', () => {
   const {
     institutionDetails,
     additionalErrorChapter,
-  } = formConfig.chapters.applicantInformationChapter.pages;
+  } = formConfig.chapters.institutionDetailsChapter.pages;
   const { schema, uiSchema } = institutionDetails;
   it('should have the correct uiSchema and schema for institutionDetails', () => {
     expect(institutionDetails.uiSchema).to.be.an('object');
@@ -76,8 +76,8 @@ describe('Form Configuration', () => {
     };
 
     const validateFacilityCode =
-      formConfig.chapters.applicantInformationChapter.pages.institutionDetails
-        .uiSchema.facilityCode['ui:validations'][0];
+      formConfig.chapters.institutionDetailsChapter.pages.institutionDetails
+        .uiSchema.institutionDetails.facilityCode['ui:validations'][0];
     validateFacilityCode(errors, '1234567');
     expect(errors.messages).to.include(
       'Please enter a valid 8-digit facility code',
