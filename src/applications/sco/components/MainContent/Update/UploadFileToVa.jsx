@@ -10,7 +10,7 @@ const UploadFileToVa = () => {
       <MainContentSubDiv id="upload-files-to-va" header="Upload files to VA">
         <LiSpanAndVaLinkAndPTag
           href="https://www.my.va.gov/EducationFileUploads/s/"
-          hrefText="Education File upload portal"
+          hrefText="Education File Upload Portal"
           pText="Upload forms and other accepted documents supporting compliance actions, designating or removing certifying officials, and more."
         />
       </MainContentSubDiv>
