@@ -17,6 +17,7 @@ export function HelpTextContent() {
       through Friday. Have your claim number ready to share when you call.
       <br />
       <Link
+        data-testid="status-explainer-link"
         to={{
           pathname: '/what-does-my-claim-status-mean',
         }}

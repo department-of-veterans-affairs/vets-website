@@ -10,7 +10,7 @@ const ClaimStatusExplainerPage = () => {
             <BreadCrumbs />
             <h1
               tabIndex="-1"
-              data-testid="header"
+              data-testid="status-explainer-header"
               className="vads-u-font-size--h2"
             >
               What does my claim status mean?

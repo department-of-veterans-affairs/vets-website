@@ -72,6 +72,32 @@ describe(`${appName} -- Status Page`, () => {
     );
   });
 
+  it('navigates to the status explainer page and back to status page', () => {
+    cy.get('va-additional-info')
+      .first()
+      .click();
+
+    cy.get('a[data-testid="status-explainer-link"]')
+      .first()
+      .click();
+
+    cy.location('pathname').should(
+      'eq',
+      '/my-health/travel-claim-status/what-does-my-claim-status-mean',
+    );
+
+    cy.get('h1').should('include.text', 'What does my claim status mean?');
+
+    // The 3rd Breadcrumb link (since there are 2 with path: "/")
+    cy.get('a')
+      .eq(2)
+      .click();
+    cy.location('pathname').should(
+      'eq',
+      '/my-health/travel-claim-status/claims',
+    );
+  });
+
   it('sorts the claims ordered by appointment date ascending on user action', () => {
     cy.get('select[name="claimsOrder"]').should('have.value', 'mostRecent');
     cy.get('select[name="claimsOrder"]').select('oldest');
