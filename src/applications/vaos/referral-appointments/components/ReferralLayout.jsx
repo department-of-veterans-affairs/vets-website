@@ -75,6 +75,6 @@ export default function ReferralLayout({ children, hasEyebrow }) {
 }
 
 ReferralLayout.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.node,
   hasEyebrow: PropTypes.bool,
 };

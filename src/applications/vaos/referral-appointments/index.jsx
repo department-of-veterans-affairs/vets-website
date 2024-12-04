@@ -50,6 +50,9 @@ export default function ReferralAppointments() {
     },
     [referralFetchStatus],
   );
+  if (referralNotFound || !featureCCDirectScheduling) {
+    return <Redirect from={basePath.url} to="/" />;
+  }
   if (
     (!referral || referralFetchStatus === FETCH_STATUS.loading) &&
     !referralNotFound
@@ -70,9 +73,6 @@ export default function ReferralAppointments() {
         <p>Please try again later, or contact your VA facility for help.</p>
       </VaAlert>
     );
-  }
-  if (referralNotFound || !featureCCDirectScheduling) {
-    return <Redirect from={basePath.url} to="/" />;
   }
   return (
     <>
