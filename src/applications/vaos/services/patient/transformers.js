@@ -14,9 +14,9 @@ export function transformPatientRelationship(patientRelationship) {
     providerName: attrs.provider.name,
     providerId: attrs.provider.cernerId,
     serviceType: attrs.serviceType.coding.code,
-    location: attrs.location.name,
+    locationName: attrs.location.name,
     clinicName: attrs.clinic.name,
-    clinicId: attrs.clinic.vistaSite,
+    vistaId: attrs.clinic.vistaSite,
     lastSeen: attrs.lastSeen,
   };
 }
