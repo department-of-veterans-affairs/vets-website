@@ -9,8 +9,6 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
 
 import {
-  CONTESTABLE_ISSUES_API,
-  EVIDENCE_UPLOAD_API,
   PRIMARY_PHONE,
   BASE_URL,
   EVIDENCE_VA_PATH,
@@ -20,6 +18,7 @@ import {
   EVIDENCE_PRIVATE,
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
+import { CONTESTABLE_ISSUES_API, EVIDENCE_UPLOAD_API } from '../constants/apis';
 
 import cypressSetup from '../../shared/tests/cypress.setup';
 import {

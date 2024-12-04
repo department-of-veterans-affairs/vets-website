@@ -4,7 +4,7 @@ import formConfig from '../config/form';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 import { fetchItf } from './995.cypress.helpers';
 
 import { CONTACT_INFO_PATH } from '../../shared/constants';

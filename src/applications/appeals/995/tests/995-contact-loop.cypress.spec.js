@@ -1,10 +1,7 @@
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import {
-  BASE_URL,
-  CONTESTABLE_ISSUES_API,
-  CONTACT_INFO_PATH,
-} from '../constants';
+import { BASE_URL, CONTACT_INFO_PATH } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
 import mockV2Data from './fixtures/data/maximal-test.json';
 import { getPastItf, fetchItf } from './995.cypress.helpers';

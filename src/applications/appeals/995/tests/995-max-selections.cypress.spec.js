@@ -1,4 +1,4 @@
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
 import mockData from './fixtures/data/101-issues.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
