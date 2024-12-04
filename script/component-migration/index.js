@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const chalk = require('chalk');
+const _ = require('lodash');
 const commandLineArgs = require('command-line-args');
 const fs = require('fs');
 const glob = require('glob');
@@ -77,8 +78,8 @@ function replaceTags(fileContents, newTag) {
   );
 
   return namedClosingTags
-    .replace(new RegExp(`<${options.component}`, 'g'), `<${newTag}`)
-    .replace(new RegExp(`</${options.component}`, 'g'), `</${newTag}`);
+    .replace(new RegExp(`<${_.escapeRegExp(options.component)}`, 'g'), `<${newTag}`)
+    .replace(new RegExp(`</${_.escapeRegExp(options.component)}`, 'g'), `</${newTag}`);
 }
 
 /**
