@@ -11,7 +11,7 @@ const ClaimantTypeForm = props => {
   return (
     <div className="vads-u-margin-top--2p5">
       <FormTitle
-        title="Fill out your form to request help"
+        title="Get help from a VA accredited representative or VSO"
         subTitle="VA Forms 21-22 and 21-22a"
       />
       <h3>Tell us who you are</h3>{' '}

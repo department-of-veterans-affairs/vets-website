@@ -65,10 +65,12 @@ export class ConfirmationPage extends React.Component {
     }
   }
 
-  handleClick = e => {
+  handleBackClick = e => {
     e.preventDefault();
 
-    this.props.router.goBack();
+    if (window.history.length > 2) {
+      this.props.router.goBack();
+    }
   };
 
   handleResultsData() {
@@ -414,22 +416,23 @@ export class ConfirmationPage extends React.Component {
               {this.state.hasResults && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
-              {!this.props.location.query.allBenefits && (
-                <p>
-                  <va-link
-                    data-testid="back-link"
-                    href="#"
-                    onClick={this.handleClick}
-                    text="Go back and review your entries"
-                  />
-                </p>
-              )}
+              {!this.props.location.query.allBenefits &&
+                window.history.length > 2 && (
+                  <p>
+                    <va-link
+                      data-testid="back-link"
+                      href="#"
+                      onClick={this.handleBackClick}
+                      text="Go back and review your entries"
+                    />
+                  </p>
+                )}
 
               <Benfits
                 results={this.props.results}
                 benefits={this.state.benefits}
                 benefitsList={this.state.benefitsList}
-                handleClick={this.handleClick}
+                handleBackClick={this.handleBackClick}
                 benefitIds={this.state.benefitIds}
                 queryString={this.props.location.query}
               />

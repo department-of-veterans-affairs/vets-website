@@ -13,15 +13,6 @@ export const createPatternTaskCompletePage = ({ redirect }) => {
   };
 };
 
-export const taskCompletePage = {
-  title: "You're done!",
-  path: 'complete',
-  CustomPage: props => <TaskComplete {...props} />,
-  CustomPageReview: null,
-  uiSchema: {},
-  schema: { type: 'object', properties: {} },
-};
-
 export const taskCompletePagePattern1 = createPatternTaskCompletePage({
   redirect: `${MOCK_FORM_AE_DESIGN_PATTERNS_ROOT_URL}/1`,
 });

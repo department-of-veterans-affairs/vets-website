@@ -1,7 +1,8 @@
 // Node modules.
 import '@department-of-veterans-affairs/formation/dist/formation';
 // Relative imports.
-import '../monitoring/sentry.js';
+import '../monitoring/sentry';
+import '../monitoring/web-vitals';
 import './component-library-analytics-setup';
 import './medallia-feedback-button';
 import './moment-setup';
@@ -28,7 +29,7 @@ import { addOverlayTriggers } from './legacy/menu';
 export default function startSitewideComponents(commonStore) {
   // New navigation menu
   if (document.querySelector('#vetnav')) {
-    require('./legacy/mega-menu.js');
+    require('./legacy/mega-menu');
   }
 
   // Prevent some browsers from changing the value when scrolling while hovering

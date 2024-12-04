@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDate } from '../../utils/helpers/general';
+import { formatDate } from '../../utils/helpers';
 
 const CustomDateReviewField = ({
   children: {
