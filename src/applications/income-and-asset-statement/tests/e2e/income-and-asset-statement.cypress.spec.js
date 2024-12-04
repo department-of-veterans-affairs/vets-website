@@ -26,6 +26,7 @@ let addedAssetTransferItem = false;
 let addedTrustItem = false;
 let addedAnnuityItem = false;
 let addedUnreportedAssetItem = false;
+let addedDiscontinuedIncomeItem = false;
 let addedIncomeReceiptWaiverItem = false;
 
 const testConfig = createTestConfig(
@@ -376,6 +377,43 @@ const testConfig = createTestConfig(
           });
         });
       },
+     'discontinued-incomes-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingDiscontinuedIncomes =
+              data['view:isAddingDiscontinuedIncomes'];
+            if (addedDiscontinuedIncomeItem) {
+              isAddingDiscontinuedIncomes = false;
+              addedDiscontinuedIncomeItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingDiscontinuedIncomes',
+              isAddingDiscontinuedIncomes,
+            );
+            
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+       'discontinued-incomes/0/amount': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { discontinuedIncomes } = data;
+            const { grossAnnualAmount } = discontinuedIncomes[0];
+
+            fillStandardTextInput('grossAnnualAmount', grossAnnualAmount);
+
+            addedDiscontinuedIncomeItem = true;
+            
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
       'income-receipt-waivers-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -390,7 +428,7 @@ const testConfig = createTestConfig(
               'view:isAddingIncomeReceiptWaivers',
               isAddingIncomeReceiptWaivers,
             );
-
+            
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()
               .click();
