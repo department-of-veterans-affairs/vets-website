@@ -3,6 +3,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import { fetchFormStatus } from '../actions';
 import formConfig from '../config/form';
@@ -73,10 +74,14 @@ class App extends Component {
     return (
       <>
         {!featureToggles.loading && (
-          <va-breadcrumbs
-            breadcrumb-list={bcString}
-            class="va-nav-breadcrumbs"
-          />
+          <div className="row">
+            <div className="usa-width-two-thirds medium-8 columns print-full-width">
+              <VaBreadcrumbs
+                breadcrumb-list={bcString}
+                class="va-nav-breadcrumbs vads-u-padding--0"
+              />
+            </div>
+          </div>
         )}
         {pending && (
           <va-loading-indicator>
