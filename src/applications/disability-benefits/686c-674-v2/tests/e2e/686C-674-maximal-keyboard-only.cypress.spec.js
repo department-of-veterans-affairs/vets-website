@@ -105,7 +105,6 @@ describe('Form 10-10EZR Keyboard Only', () => {
         emailAddress,
         phoneNumber,
         internationalPhoneNumber,
-        // electronicCorrespondence,
       } = data?.veteranContactInformation;
       cy.typeInIfDataExists(
         `[name="root_veteranContactInformation_phoneNumber"]`,
@@ -120,9 +119,26 @@ describe('Form 10-10EZR Keyboard Only', () => {
         emailAddress,
       );
 
-      cy.get(
-        `[name="root_veteranContactInformation_electronicCorrespondence"]`,
-      ).click();
+      cy.tabToElementAndPressSpace(
+        '[name="root_veteranContactInformation_electronicCorrespondence"]',
+      );
+
+      cy.tabToContinueForm();
+
+      const { first, middle, last } = data?.spouseInformation?.fullName;
+
+      cy.typeInIfDataExists(
+        `[name="root_spouseInformation_fullName_first"]`,
+        first,
+      );
+      cy.typeInIfDataExists(
+        `[name="root_spouseInformation_fullName_middle"]`,
+        middle,
+      );
+      cy.typeInIfDataExists(
+        `[name="root_spouseInformation_fullName_last"]`,
+        last,
+      );
 
       cy.tabToContinueForm();
     });
