@@ -1,7 +1,9 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
+import { isAfter } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import { medicationTypes } from '../util/constants';
+import { dateFormat } from '../util/helpers';
 
 const initialState = {
   /**
@@ -49,8 +51,7 @@ export const convertNonVaMedication = med => {
     instructions: med.sig || na,
     reasonForUse: med.reason || na,
     status: med.dispStatus || na,
-    startDate:
-      new Date(med.refillDate || med.orderedDate).toLocaleDateString() || na,
+    startDate: formatDateLong(med.refillDate || med.orderedDate) || na,
     documentedBy: `${med.providerLastName || na}, ${med.providerFirstName ||
       na}`,
     documentedAtFacility: med.facilityName || na,
@@ -102,19 +103,12 @@ export const convertAppointment = appt => {
   const { attributes } = appt;
   const location = attributes.location?.attributes || {};
   const clinic = attributes.extension?.clinic || {};
+  const now = new Date();
 
   return {
     id: appt.id,
-    date: new Date(attributes.localStartTime).toLocaleString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-      timeZoneName: 'short',
-    }),
+    date: dateFormat(attributes.localStartTime),
+    isUpcoming: isAfter(attributes.localStartTime, now),
     appointmentType: attributes.kind === 'clinic' ? 'In person' : 'Virtual',
     status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
     what: attributes.serviceName || 'General',
