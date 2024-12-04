@@ -138,6 +138,7 @@ const responses = {
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
   'GET /my_health/v1/medical_records/vitals': vitals.all,
   'GET /my_health/v1/medical_records/ccd/generate': downloads.generateCCD,
+  'GET /my_health/v1/medical_records/ccd/download': downloads.downloadCCD,
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner

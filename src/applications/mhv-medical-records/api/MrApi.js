@@ -216,9 +216,9 @@ export const generateCCD = () => {
   return apiRequest(`${apiBasePath}/medical_records/ccd/generate`, { headers });
 };
 
-export const downloadCCD = (timestamp, fileName) => {
-  window.open(
+export const downloadCCD = timestamp => {
+  return apiRequest(
     `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
-    fileName,
+    { headers },
   );
 };
