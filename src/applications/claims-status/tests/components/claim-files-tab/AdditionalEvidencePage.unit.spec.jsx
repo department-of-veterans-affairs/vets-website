@@ -90,7 +90,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('should render upload error alert when rerendered', () => {
       const { container, rerender } = render(
-        <Provider store={getStore()}>
+        <Provider store={getStore}>
           <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
         </Provider>,
       );
@@ -103,7 +103,7 @@ describe('<AdditionalEvidencePage>', () => {
       };
 
       rerender(
-        <Provider store={getStore()}>
+        <Provider store={getStore}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -167,7 +167,7 @@ describe('<AdditionalEvidencePage>', () => {
       const location = { hash: '#add-files' };
 
       render(
-        <Provider store={getStore()}>
+        <Provider store={getStore}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -256,7 +256,7 @@ describe('<AdditionalEvidencePage>', () => {
       ];
 
       const { container } = renderWithRouter(
-        <Provider store={getStore()}>
+        <Provider store={getStore}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -274,7 +274,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('doesn’t show va-alerts when no files are needed', () => {
       const { container } = render(
-        <Provider store={getStore()}>
+        <Provider store={getStore}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -332,7 +332,7 @@ describe('<AdditionalEvidencePage>', () => {
       ];
 
       const { container, getByText, getByTestId } = renderWithRouter(
-        <Provider store={getStore()}>
+        <Provider store={getStore}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -368,7 +368,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('doesnt show va-alert for standard 5103 notice', () => {
       const { queryByText, queryByTestId } = renderWithRouter(
-        <Provider store={getStore()}>
+        <Provider store={getStore}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -418,7 +418,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('should render closed message', () => {
       const { container, getByText } = render(
-        <Provider store={getStore()}>
+        <Provider store={getStore}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
