@@ -202,6 +202,8 @@ export const pageTitles = {
     'Allergies And Reactions Details - Medical Records | Veterans Affairs',
   HEALTH_CONDITIONS_PAGE_TITLE:
     'Health Conditions - Medical Records | Veterans Affairs',
+  HEALTH_CONDITIONS_DETAILS_PAGE_TITLE:
+    'Health Condition Details - Medical Records | Veterans Affairs',
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
     'Download All Medical Records - Medical Records | Veterans Affairs',

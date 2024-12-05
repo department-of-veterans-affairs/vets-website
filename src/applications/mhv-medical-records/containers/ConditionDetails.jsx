@@ -78,9 +78,7 @@ const ConditionDetails = props => {
     () => {
       if (record?.name) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(
-          `${record.name} - ${pageTitles.HEALTH_CONDITIONS_PAGE_TITLE}`,
-        );
+        updatePageTitle(pageTitles.HEALTH_CONDITIONS_DETAILS_PAGE_TITLE);
       }
     },
     [record],
