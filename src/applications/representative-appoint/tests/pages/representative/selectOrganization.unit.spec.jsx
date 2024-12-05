@@ -53,20 +53,20 @@ describe('<SelectOrganization>', () => {
     expect(container).to.exist;
   });
 
-  // it('should call goBack with formData when handleGoBack is triggered and isReviewPage is false', () => {
-  //   const { props, mockStore } = getProps({ setFormData: () => {} });
+  it('should call goBack with formData when handleGoBack is triggered and isReviewPage is false', () => {
+    const { props, mockStore } = getProps({ setFormData: () => {} });
 
-  //   const useReviewPageStub = sinon.stub(reviewPageHook, 'call').returns(false);
+    const useReviewPageStub = sinon.stub(reviewPageHook, 'call').returns(false);
 
-  //   const { getByText } = renderContainer(props, mockStore);
+    const { getByText } = renderContainer(props, mockStore);
 
-  //   fireEvent.click(getByText('Back'));
+    fireEvent.click(getByText('Back'));
 
-  //   expect(props.goBack.calledOnce).to.be.true;
-  //   expect(props.goBack.calledWith(props.formData)).to.be.true;
+    expect(props.goBack.calledOnce).to.be.true;
+    expect(props.goBack.calledWith(props.formData)).to.be.true;
 
-  //   useReviewPageStub.restore();
-  // });
+    useReviewPageStub.restore();
+  });
 
   it('should call goToPath with the correct path when handleGoBack is triggered and isReviewPage is true', () => {
     const useReviewPageStub = sinon
