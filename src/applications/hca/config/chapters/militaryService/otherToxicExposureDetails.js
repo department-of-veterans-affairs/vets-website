@@ -1,8 +1,8 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { ExposureCategoriesLink } from '../../../components/FormDescriptions/OtherExposureDescriptions';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
-const { otherToxicExposure } = fullSchemaHca.properties;
+const { otherToxicExposure } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
