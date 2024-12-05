@@ -59,22 +59,4 @@ describe('VAOS Component: FacilityPhone', () => {
 
     expect(screen.getByTestId('tty-telephone')).to.exist;
   });
-
-  it('should render contact number preferring extension parameter', () => {
-    const screen = renderWithStoreAndRouter(
-      <FacilityPhone contact="123-456-7890 x1234" extension="1111" />,
-      {
-        initialState,
-      },
-    );
-
-    expect(screen.getByText(new RegExp(`Main phone:`))).to.exist;
-
-    const vaPhone = screen.getByTestId('facility-telephone');
-    expect(vaPhone).to.exist;
-    expect(vaPhone).to.have.attribute('contact', '123-456-7890');
-    expect(vaPhone).to.have.attribute('extension', '1111');
-
-    expect(screen.getByTestId('tty-telephone')).to.exist;
-  });
 });

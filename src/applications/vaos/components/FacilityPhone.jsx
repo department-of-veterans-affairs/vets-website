@@ -19,14 +19,8 @@ export default function FacilityPhone({
 
   // Extract number and extension from contact if extension not explicitly set and
   // contact contains an 'x' character, usually in the format "123-456-7890 x1234"
-  if (contact.includes('x')) {
-    const [contactNumber, contactExtension] = contact
-      .split('x')
-      .map(item => item.trim());
-    number = contactNumber;
-    if (!numberExtension) {
-      numberExtension = contactExtension;
-    }
+  if (!extension && contact.includes('x')) {
+    [number, numberExtension] = contact.split('x').map(item => item.trim());
   }
 
   const isClinic = !!heading.includes('Clinic');
