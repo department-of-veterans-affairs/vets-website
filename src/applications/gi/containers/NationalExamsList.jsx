@@ -172,10 +172,12 @@ const NationalExamsList = () => {
                 </p>
               </div>
               <div>
-                <p className="vads-u-margin-bottom--3">
+                <p className="vads-u-margin-bottom--0p5">
                   <strong>
                     Print and fill out form Request for Reimbursement of
-                    National Exam Fee.
+                    National Exam Fee. Send the completed application to the
+                    Regional Processing Office for your region listed in the
+                    form.
                   </strong>
                 </p>
                 <div className="vads-u-margin-bottom--3">
