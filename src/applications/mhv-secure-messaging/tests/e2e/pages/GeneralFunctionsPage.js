@@ -2,9 +2,9 @@ import mockToggles from '../fixtures/toggles-response.json';
 import { Locators } from '../utils/constants';
 
 class GeneralFunctionsPage {
-  getPageHeader() {
+  getPageHeader = () => {
     return cy.get(`h1`);
-  }
+  };
 
   updatedThreadDates = data => {
     const currentDate = new Date();
