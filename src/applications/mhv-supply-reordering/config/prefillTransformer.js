@@ -8,6 +8,14 @@ import constants from 'vets-json-schema/dist/constants.json';
 //   ...
 // ]
 
+const countries = [
+  ...constants.countries,
+  {
+    value: 'USA',
+    label: 'ARMED FORCES AF,EU,ME,CA',
+  },
+];
+
 // constants.states.USA = [  // includes territories
 //   {
 //     'value': 'AL',
@@ -46,28 +54,34 @@ const prefillTransformer = (pages, formData, metadata) => {
   const emailAddress = formData?.vetEmail || formData?.emailAddress;
 
   let { permanentAddress = {}, temporaryAddress = {} } = formData;
-  let country = getValue(permanentAddress?.country, constants.countries);
+  let country = getValue(permanentAddress?.country, countries);
+  let street2 =
+    permanentAddress?.street2?.trim() === ','
+      ? undefined
+      : permanentAddress?.street2;
   let isMilitary = !!getLabel(
     permanentAddress?.state,
     constants.militaryStates,
   );
-  if (country) {
-    permanentAddress = {
-      ...permanentAddress,
-      country,
-      isMilitary,
-    };
-  }
+  permanentAddress = {
+    ...permanentAddress,
+    street2,
+    country,
+    isMilitary,
+  };
 
-  country = getValue(temporaryAddress?.country, constants.countries);
+  country = getValue(temporaryAddress?.country, countries);
+  street2 =
+    temporaryAddress?.street2?.trim() === ','
+      ? undefined
+      : temporaryAddress?.street2;
   isMilitary = !!getLabel(temporaryAddress?.state, constants.militaryStates);
-  if (country) {
-    temporaryAddress = {
-      ...temporaryAddress,
-      country,
-      isMilitary,
-    };
-  }
+  temporaryAddress = {
+    ...temporaryAddress,
+    street2,
+    country,
+    isMilitary,
+  };
 
   return {
     pages,

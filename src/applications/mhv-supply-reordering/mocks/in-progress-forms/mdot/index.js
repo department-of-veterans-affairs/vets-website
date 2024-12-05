@@ -1,3 +1,4 @@
+const { permanentAddress, temporaryAddress } = require('./addresses');
 // eslint-disable-next-line no-unused-vars
 const { unauthenticated, internalServerError, notFound } = require('./errors');
 const { supplies } = require('./supplies');
@@ -10,22 +11,8 @@ const getOk = {
       middle: 'A',
       last: 'Anderson',
     },
-    permanentAddress: {
-      street: '101 EXAMPLE STREET',
-      street2: 'APT 2',
-      city: 'KANSAS CITY',
-      state: 'MO',
-      country: 'UNITED STATES',
-      postalCode: '64117',
-    },
-    temporaryAddress: {
-      street: 'PSC 1234 BOX 12345',
-      street2: ', ',
-      city: 'APO',
-      state: 'AE',
-      country: 'ARMED FORCES AF,EU,ME,CA',
-      postalCode: '09324',
-    },
+    permanentAddress,
+    temporaryAddress,
     ssnLastFour: '1200',
     gender: 'M',
     vetEmail: 'vets.gov.user+1@gmail.com',
