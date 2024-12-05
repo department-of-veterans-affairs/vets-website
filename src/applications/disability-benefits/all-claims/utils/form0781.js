@@ -9,13 +9,14 @@ import { isClaimingNew } from '.';
  *   TRUE if
  *     - is set on form via the backend
  *     - Veteran is claiming a new disability
- *     - Veteran has made prequisite choices on 'screener page'
+ *     - Veteran has selected connected condition choices on 'screener page'
  *   else
  *     - returns false
  */
-
-// TODO: ticket #98450 modifies this top level flipper with a conditional check to a veterans
-// selections on the screener page.
 export function showForm0781Pages(formData) {
-  return formData?.syncModern0781Flow === true && isClaimingNew(formData);
+  return (
+    formData?.syncModern0781Flow === true &&
+    isClaimingNew(formData) &&
+    formData.mentalHealth.conditions?.none !== true
+  );
 }
