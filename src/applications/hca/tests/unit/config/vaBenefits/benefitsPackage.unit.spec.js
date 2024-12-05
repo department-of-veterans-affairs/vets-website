@@ -3,7 +3,6 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import {
   submitForm,
   DefinitionTester,

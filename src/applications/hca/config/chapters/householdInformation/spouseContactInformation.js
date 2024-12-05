@@ -1,12 +1,12 @@
 import merge from 'lodash/merge';
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
-const { spouseAddress: address, spousePhone } = fullSchemaHca.properties;
+const { spouseAddress: address, spousePhone } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
