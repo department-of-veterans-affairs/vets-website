@@ -358,7 +358,7 @@ const generateFooterContent = async (
  * @returns {Object} doc
  */
 const createDetailItem = async (doc, config, x, item) => {
-  const paragraphOptions = { lineGap: 6 };
+  const paragraphOptions = { lineGap: item.lineGap ?? 6 };
   let titleText = item.title ?? '';
   const content = [];
   const monospaceFont = config.text.monospaceFont || config.text.font;
@@ -378,7 +378,7 @@ const createDetailItem = async (doc, config, x, item) => {
       }),
     );
   } else {
-    const blockValueOptions = { lineGap: 6 };
+    const blockValueOptions = { lineGap: item.lineGap ?? 6 };
     paragraphOptions.lineGap = 2;
     if (titleText) {
       titleText += ' ';

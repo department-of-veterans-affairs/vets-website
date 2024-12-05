@@ -23,6 +23,7 @@ import { isArrayAndHasItems } from '../helpers';
 import { generateMedicationsContent } from './medications';
 import { generateAppointmentsContent } from './appointments';
 import { generateDemographicsContent } from './demographics';
+import { generateMilitaryServiceContent } from './militaryService';
 
 export const generateBlueButtonData = ({
   labsAndTests,
@@ -226,7 +227,17 @@ export const generateBlueButtonData = ({
   }
 
   if (militaryService.length) {
-    // console.log('militaryService: ', militaryService);
+    data.push({
+      type: blueButtonRecordTypes.MILITARY_SERVICE,
+      title: 'DOD military service information',
+      titleParagraphGap: 0,
+      titleMoveDownAmount: 0.5,
+      records: [
+        {
+          ...generateMilitaryServiceContent(militaryService),
+        },
+      ],
+    });
   }
 
   if (accountSummary) {

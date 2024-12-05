@@ -266,7 +266,10 @@ const validate = data => {
 // };
 
 const generateRecordSetIntroduction = async (doc, parent, recordSet) => {
-  const headOptions = { x: 20, paragraphGap: 10 };
+  const headOptions = {
+    x: 20,
+    paragraphGap: recordSet.titleParagraphGap ?? 10,
+  };
   const subHeadOptions = { paragraphGap: 0 };
   const introduction = doc.struct('Sect', {
     title: `${recordSet.title} Introduction`,
@@ -276,12 +279,16 @@ const generateRecordSetIntroduction = async (doc, parent, recordSet) => {
     createHeading(doc, 'H2', config, recordSet.title, headOptions),
   );
 
-  for (const subtitle of recordSet.subtitles) {
-    introduction.add(createSubHeading(doc, config, subtitle, subHeadOptions));
-    doc.moveDown();
+  if (recordSet.subtitles) {
+    for (const subtitle of recordSet.subtitles) {
+      introduction.add(createSubHeading(doc, config, subtitle, subHeadOptions));
+      doc.moveDown();
+    }
   }
 
-  doc.moveDown();
+  if (recordSet.titleMoveDownAmount) {
+    doc.moveDown(recordSet.titleMoveDownAmount);
+  } else doc.moveDown();
   introduction.end();
 };
 
@@ -466,7 +473,6 @@ export const generateResultsContent = async (doc, parent, data) => {
 
 const generate = async data => {
   // console.log('((( generating ))) ', data);
-
   // try {
   validate(data);
   const tocPageData = {};
@@ -498,7 +504,7 @@ const generate = async data => {
     generateRecordSetIntroduction(doc, wrapper, recordSet);
     if (Array.isArray(recordSet.records)) {
       for (const record of recordSet.records) {
-        generateRecordTitle(doc, wrapper, record);
+        if (record.title) generateRecordTitle(doc, wrapper, record);
 
         if (Array.isArray(record.details)) {
           await generateDetailsContentSets(doc, wrapper, record);
