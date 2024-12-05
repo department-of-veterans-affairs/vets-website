@@ -1,45 +1,54 @@
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FacilityAddress from '../../../components/FacilityAddress';
-import NewTabAnchor from '../../../components/NewTabAnchor';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
-import { aOrAn, lowerCase } from '../../../utils/formatters';
 
+function NoRecentVisit({ facilityDetails }) {
+  const contact = facilityDetails?.telecom?.find(
+    tele => tele.system === 'phone',
+  )?.value;
+
+  return (
+    <>
+      You haven’t had a recent appointment at this facility, so you’ll need to
+      call to schedule instead.
+      <br />
+      <br />
+      <strong>{facilityDetails.name}</strong>
+      <br />
+      <strong>Main phone: </strong>
+      <VaTelephone contact={contact} />
+      <span>
+        &nbsp;(
+        <VaTelephone contact="711" tty data-testid="tty-telephone" />)
+      </span>
+      <br />
+      <br /> Or you can choose a different facility.
+    </>
+  );
+}
+NoRecentVisit.propTypes = {
+  facilityDetails: PropTypes.object.isRequired,
+};
 export default function getEligibilityMessage({
-  typeOfCare,
   eligibility,
   facilityDetails,
   includeFacilityContactInfo = false,
 }) {
   let content = null;
   let title = null;
-  const settings = facilityDetails?.legacyVAR?.settings?.[typeOfCare.id];
 
   const requestReason = eligibility.requestReasons[0];
   const directReason = eligibility.directReasons[0];
 
   if (
-    requestReason === ELIGIBILITY_REASONS.notSupported &&
-    directReason === ELIGIBILITY_REASONS.noRecentVisit
+    (requestReason === ELIGIBILITY_REASONS.notSupported &&
+      directReason === ELIGIBILITY_REASONS.noRecentVisit) ||
+    requestReason === ELIGIBILITY_REASONS.noRecentVisit
   ) {
-    const monthRequirement = settings?.direct?.patientHistoryDuration
-      ? (settings.direct.patientHistoryDuration / 365) * 12
-      : '24';
-
-    title = 'We couldn’t find a recent appointment at this location';
-    content = (
-      <>
-        To schedule an appointment online at this location, you need to have had{' '}
-        {aOrAn(typeOfCare?.name)} {lowerCase(typeOfCare?.name)} appointment at
-        this facility within the last {monthRequirement} months. Please call
-        this facility to schedule your appointment or{' '}
-        <NewTabAnchor href="/find-locations">
-          search for another VA facility
-        </NewTabAnchor>
-        .
-      </>
-    );
+    title = 'We couldn’t find a recent appointment for you';
+    content = <NoRecentVisit facilityDetails={facilityDetails} />;
   } else if (
     requestReason === ELIGIBILITY_REASONS.notSupported &&
     (directReason === ELIGIBILITY_REASONS.noClinics ||
@@ -79,23 +88,6 @@ export default function getEligibilityMessage({
         You’ll need to call your VA health facility to schedule this
         appointment. Not all VA facilities offer online scheduling for all types
         of care.
-      </>
-    );
-  } else if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
-    const monthRequirement = settings?.request?.patientHistoryDuration
-      ? (settings.request.patientHistoryDuration / 365) * 12
-      : '24';
-    title = 'We can’t find a recent appointment for you';
-    content = (
-      <>
-        To request an appointment online at this location, you need to have had{' '}
-        {aOrAn(typeOfCare?.name)} {lowerCase(typeOfCare?.name)} appointment at
-        this facility within the last {monthRequirement} months. Please call
-        this facility to schedule your appointment or{' '}
-        <NewTabAnchor href="/find-locations">
-          search for another VA facility
-        </NewTabAnchor>
-        .
       </>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {

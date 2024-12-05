@@ -1,6 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import InfoAlert from '../../../components/InfoAlert';
+import { lowerCase } from '../../../utils/formatters';
 import getEligibilityMessage from './getEligibilityMessage';
 
 export default function SingleFacilityEligibilityCheckMessage({
@@ -10,18 +11,24 @@ export default function SingleFacilityEligibilityCheckMessage({
 }) {
   const title = 'You can’t schedule this appointment online';
 
-  const { content } = getEligibilityMessage({
+  const { content, title: newTitle } = getEligibilityMessage({
     eligibility,
     typeOfCare,
     facilityDetails: facility,
   });
 
   return (
-    <div aria-atomic="true" aria-live="assertive">
-      <InfoAlert status="warning" headline={title}>
-        {content}
-      </InfoAlert>
-    </div>
+    <>
+      <p>
+        We found one VA facility for your {lowerCase(typeOfCare?.name)}{' '}
+        appointment
+      </p>
+      <div aria-atomic="true" aria-live="assertive">
+        <InfoAlert status="warning" headline={newTitle || title}>
+          {content}
+        </InfoAlert>
+      </div>
+    </>
   );
 }
 SingleFacilityEligibilityCheckMessage.propTypes = {
