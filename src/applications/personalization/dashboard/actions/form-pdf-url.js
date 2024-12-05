@@ -44,20 +44,23 @@ export const actionSuccess = (guid, response) => ({
   ...response,
 });
 
-const recordFail = (errorKey = 'server error') =>
-  recordEvent({
+const recordFail = (r = recordEvent, errorKey = 'server error') =>
+  r({
     ...RECORD_PROPS,
     'error-key': errorKey,
     'api-status': 'failed',
   });
 
-const recordSuccess = () =>
-  recordEvent({
+const recordSuccess = (r = recordEvent) =>
+  r({
     ...RECORD_PROPS,
     'api-status': 'successful',
   });
 
-export const fetchFormPdfUrl = (formId, submissionGuid) => async dispatch => {
+export const makeFetchFormPdfUrl = (d = download, r = recordEvent) => (
+  formId,
+  submissionGuid,
+) => async dispatch => {
   dispatch(actionStart(submissionGuid));
   try {
     const response = await getFormPdfUrl(formId, submissionGuid);
@@ -65,13 +68,15 @@ export const fetchFormPdfUrl = (formId, submissionGuid) => async dispatch => {
     if (!url) {
       throw new Error('Invalid form pdf url');
     }
-    recordSuccess();
+    recordSuccess(r);
     // TODO: alternate mode for browsers/devices that don't support downloads or filesystem?
-    download(url, undefined, 'application/pdf');
+    d(url, undefined, 'application/pdf');
     return dispatch(actionSuccess(submissionGuid, response));
   } catch (error) {
-    recordFail('internal error');
-    dispatch(actionFail(error));
+    recordFail(r, 'internal error');
+    dispatch(actionFail(submissionGuid, error));
     throw new Error(error);
   }
 };
+
+export default makeFetchFormPdfUrl();
