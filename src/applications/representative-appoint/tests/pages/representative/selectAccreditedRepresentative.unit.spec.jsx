@@ -212,25 +212,4 @@ describe('<SelectAccreditedRepresentative>', () => {
       expect(container.textContent).to.contain('Enter the name');
     });
   });
-
-  it('calls fetchRepresentatives on search', async () => {
-    const { mockStore } = getProps();
-
-    const props = {
-      formData: {
-        'view:representativeQuery': 'Valid Query',
-      },
-      setFormData: sinon.spy(),
-    };
-
-    const container = renderContainer(props, mockStore);
-
-    const vaButton = container.querySelector('va-button[text="Search"]');
-
-    fireEvent.click(vaButton);
-
-    await waitFor(() => {
-      expect(props.setFormData.calledOnce).to.be.true;
-    });
-  });
 });

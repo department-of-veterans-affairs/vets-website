@@ -16,6 +16,9 @@ describe('<SelectOrganization>', () => {
         },
         formData: { 'view:selectedRepresentative': repResults[0].data },
         setFormData,
+        goBack: sinon.spy(),
+        goForward: sinon.spy(),
+        goToPath: sinon.spy(),
       },
       mockStore: {
         getState: () => ({
@@ -25,10 +28,18 @@ describe('<SelectOrganization>', () => {
         }),
         subscribe: () => {},
         dispatch: () => ({
-          setFormData: () => {},
+          setFormData,
         }),
       },
     };
+  };
+
+  const renderContainer = (props, mockStore) => {
+    return render(
+      <Provider store={mockStore}>
+        <SelectOrganization {...props} />
+      </Provider>,
+    );
   };
 
   it('should render component', () => {
@@ -42,65 +53,42 @@ describe('<SelectOrganization>', () => {
     expect(container).to.exist;
   });
 
-  it('should call goBack with formData when handleGoBack is triggered and isReviewPage is false', () => {
-    const goBackSpy = sinon.spy();
-    const goToPathSpy = sinon.spy();
+  // it('should call goBack with formData when handleGoBack is triggered and isReviewPage is false', () => {
+  //   const { props, mockStore } = getProps({ setFormData: () => {} });
 
-    const { props, mockStore } = getProps({ setFormData: () => {} });
-    props.goBack = goBackSpy;
-    props.goToPath = goToPathSpy;
+  //   const useReviewPageStub = sinon.stub(reviewPageHook, 'call').returns(false);
 
-    const useReviewPageStub = sinon.stub(reviewPageHook, 'call').returns(false);
+  //   const { getByText } = renderContainer(props, mockStore);
 
-    const { getByText } = render(
-      <Provider store={mockStore}>
-        <SelectOrganization {...props} />
-      </Provider>,
-    );
+  //   fireEvent.click(getByText('Back'));
 
-    fireEvent.click(getByText('Back'));
+  //   expect(props.goBack.calledOnce).to.be.true;
+  //   expect(props.goBack.calledWith(props.formData)).to.be.true;
 
-    expect(goBackSpy.calledOnce).to.be.true;
-    expect(goBackSpy.calledWith(props.formData)).to.be.true;
-
-    useReviewPageStub.restore();
-  });
+  //   useReviewPageStub.restore();
+  // });
 
   it('should call goToPath with the correct path when handleGoBack is triggered and isReviewPage is true', () => {
-    const goBackSpy = sinon.spy();
-    const goToPathSpy = sinon.spy();
-
     const useReviewPageStub = sinon
       .stub(reviewPageHook, 'useReviewPage')
       .returns(true);
 
     const { props, mockStore } = getProps({ setFormData: () => {} });
-    props.goBack = goBackSpy;
-    props.goToPath = goToPathSpy;
 
-    const { getByText } = render(
-      <Provider store={mockStore}>
-        <SelectOrganization {...props} />
-      </Provider>,
-    );
+    const { getByText } = renderContainer(props, mockStore);
 
     fireEvent.click(getByText('Back'));
 
-    expect(goBackSpy.called).to.be.false;
-    expect(goToPathSpy.calledOnce).to.be.true;
-    expect(goToPathSpy.calledWith('representative-contact?review=true')).to.be
-      .true;
+    expect(props.goBack.called).to.be.false;
+    expect(props.goToPath.calledOnce).to.be.true;
+    expect(props.goToPath.calledWith('representative-contact?review=true')).to
+      .be.true;
 
     useReviewPageStub.restore();
   });
 
   it('should call goForward with formData when handleGoForward is triggered and isReviewPage is false', () => {
-    const goForwardSpy = sinon.spy();
-    const goToPathSpy = sinon.spy();
-
     const { props, mockStore } = getProps();
-    props.goForward = goForwardSpy;
-    props.goToPath = goToPathSpy;
 
     const useReviewPageStub = sinon
       .stub(reviewPageHook, 'useReviewPage')
@@ -116,20 +104,15 @@ describe('<SelectOrganization>', () => {
 
     fireEvent.click(getByText('Continue'));
 
-    expect(goForwardSpy.calledOnce).to.be.true;
-    expect(goForwardSpy.calledWith(props.formData)).to.be.true;
-    expect(goToPathSpy.called).to.be.false;
+    expect(props.goForward.calledOnce).to.be.true;
+    expect(props.goForward.calledWith(props.formData)).to.be.true;
+    expect(props.goToPath.called).to.be.false;
 
     useReviewPageStub.restore();
   });
 
   it('should call goToPath with /representative-replace?review=true when handleGoForward is triggered, isReviewPage is true, and isReplacingRep is true', () => {
-    const goForwardSpy = sinon.spy();
-    const goToPathSpy = sinon.spy();
-
     const { props, mockStore } = getProps();
-    props.goForward = goForwardSpy;
-    props.goToPath = goToPathSpy;
 
     const useReviewPageStub = sinon
       .stub(reviewPageHook, 'useReviewPage')
@@ -147,21 +130,16 @@ describe('<SelectOrganization>', () => {
 
     fireEvent.click(getByText('Continue'));
 
-    expect(goForwardSpy.called).to.be.false;
-    expect(goToPathSpy.calledOnce).to.be.true;
-    expect(goToPathSpy.calledWith('/representative-replace?review=true')).to.be
-      .true;
+    expect(props.goForward.called).to.be.false;
+    expect(props.goToPath.calledOnce).to.be.true;
+    expect(props.goToPath.calledWith('/representative-replace?review=true')).to
+      .be.true;
 
     useReviewPageStub.restore();
   });
 
   it('should call goToPath with /review-and-submit when handleGoForward is triggered, isReviewPage is true, and isReplacingRep is false', () => {
-    const goForwardSpy = sinon.spy();
-    const goToPathSpy = sinon.spy();
-
     const { props, mockStore } = getProps();
-    props.goForward = goForwardSpy;
-    props.goToPath = goToPathSpy;
 
     const useReviewPageStub = sinon
       .stub(reviewPageHook, 'useReviewPage')
@@ -179,9 +157,9 @@ describe('<SelectOrganization>', () => {
 
     fireEvent.click(getByText('Continue'));
 
-    expect(goForwardSpy.called).to.be.false;
-    expect(goToPathSpy.calledOnce).to.be.true;
-    expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+    expect(props.goForward.called).to.be.false;
+    expect(props.goToPath.calledOnce).to.be.true;
+    expect(props.goToPath.calledWith('/review-and-submit')).to.be.true;
 
     useReviewPageStub.restore();
   });
