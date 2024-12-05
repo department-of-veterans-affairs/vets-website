@@ -388,7 +388,7 @@ const LandingPage = () => {
               Where can I find health information I entered myself?
             </h3>
             {phase0p5Flag ? (
-              <section>
+              <div>
                 <p className="vads-u-margin-bottom--2">
                   Download your self-entered health information report.
                 </p>
@@ -397,9 +397,9 @@ const LandingPage = () => {
                     Go to download your medical records reports
                   </Link>
                 </p>
-              </section>
+              </div>
             ) : (
-              <section>
+              <div>
                 <p className="vads-u-margin-bottom--2">
                   Right now, your records on VA.gov only include health
                   information your VA providers have entered.
@@ -417,7 +417,7 @@ const LandingPage = () => {
                     text="Go to your medical records on the My HealtheVet website"
                   />
                 </p>
-              </section>
+              </div>
             )}
           </va-accordion-item>
           <va-accordion-item bordered="true">
