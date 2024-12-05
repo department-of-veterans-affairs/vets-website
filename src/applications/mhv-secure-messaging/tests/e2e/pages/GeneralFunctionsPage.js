@@ -2,7 +2,7 @@ import mockToggles from '../fixtures/toggles-response.json';
 import { Locators } from '../utils/constants';
 
 class GeneralFunctionsPage {
-  get header() {
+  getPageHeader() {
     return cy.get(`h1`);
   }
 

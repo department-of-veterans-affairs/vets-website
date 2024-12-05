@@ -10,15 +10,17 @@ describe('SM INTERSTITIAL PAGE', () => {
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToInterstitialPage();
 
-    GeneralFunctionsPage.header.should('have.focus');
+    GeneralFunctionsPage.getPageHeader().should('have.focus');
 
-    PatientInterstitialPage.crisisLineLink.click();
+    PatientInterstitialPage.getCrisisLineLink().click();
     cy.realType('{esc}');
-    PatientInterstitialPage.crisisLineLink.should('have.focus');
+    PatientInterstitialPage.getCrisisLineLink().should('have.focus');
 
-    PatientInterstitialPage.crisisLineLink.click();
-    PatientInterstitialPage.crisisLineModal.find(`button`).click();
-    PatientInterstitialPage.crisisLineLink.should('have.focus');
+    PatientInterstitialPage.getCrisisLineLink().click();
+    PatientInterstitialPage.getCrisisLineModal()
+      .find(`button`)
+      .click();
+    PatientInterstitialPage.getCrisisLineLink().should('have.focus');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -30,22 +32,22 @@ describe('SM INTERSTITIAL PAGE', () => {
     PatientInboxPage.navigateToInterstitialPage();
 
     cy.get(Locators.ALERTS.VA_CRISIS_LINE).click();
-    PatientInterstitialPage.crisisLineModal
+    PatientInterstitialPage.getCrisisLineModal()
       .find(`h3`)
       .should(`include.text`, `We’re here anytime, day or night – 24/7`);
-    PatientInterstitialPage.crisisLineModalLink
+    PatientInterstitialPage.getCrisisLineModalLink()
       .eq(0)
       .should(`include.text`, `Call`);
-    PatientInterstitialPage.crisisLineModalLink
+    PatientInterstitialPage.getCrisisLineModalLink()
       .eq(1)
       .should(`include.text`, `Text`);
-    PatientInterstitialPage.crisisLineModalLink
+    PatientInterstitialPage.getCrisisLineModalLink()
       .eq(2)
       .should(`include.text`, `Start`);
-    PatientInterstitialPage.crisisLineModalLink
+    PatientInterstitialPage.getCrisisLineModalLink()
       .eq(3)
       .should(`include.text`, `For TTY`);
-    PatientInterstitialPage.crisisLineModal.should(
+    PatientInterstitialPage.getCrisisLineModal().should(
       'include.text',
       `Get more resources`,
     );
@@ -53,6 +55,8 @@ describe('SM INTERSTITIAL PAGE', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientInterstitialPage.crisisLineModal.find(`button`).click();
+    PatientInterstitialPage.getCrisisLineModal()
+      .find(`button`)
+      .click();
   });
 });

@@ -1,15 +1,15 @@
 import { Locators } from '../utils/constants';
 
 class PatientInterstitialPage {
-  get crisisLineLink() {
+  getCrisisLineLink() {
     return cy.get(`[text="Connect with the Veterans Crisis Line"]`);
   }
 
-  get crisisLineModal() {
+  getCrisisLineModal() {
     return cy.get(`#modal-crisisline`);
   }
 
-  get crisisLineModalLink() {
+  getCrisisLineModalLink() {
     return cy.get(`.va-crisis-panel-list`).find(`li`);
   }
 
