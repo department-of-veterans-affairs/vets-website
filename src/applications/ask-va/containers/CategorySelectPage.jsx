@@ -1,5 +1,4 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
@@ -11,10 +10,10 @@ import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, CHAPTER_3, URL, getApiUrl } from '../constants';
+import { CHAPTER_1, URL, getApiUrl } from '../constants';
 
 const CategorySelectPage = props => {
-  const { onChange, loggedIn, goToPath, formData, router } = props;
+  const { onChange, isLoggedIn, goToPath, formData, goBack, router } = props;
   const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
@@ -46,7 +45,7 @@ const CategorySelectPage = props => {
     const selectedValue = event.detail.value;
     const selected = apiData.find(cat => cat.attributes.name === selectedValue);
     localStorage.removeItem('askVAFiles');
-    if (selected.attributes.requiresAuthentication && !loggedIn) {
+    if (selected.attributes.requiresAuthentication && !isLoggedIn) {
       setShowModal({ show: true, selected: `${selectedValue}` });
     } else {
       dispatch(setCategoryID(selected.id));
@@ -56,14 +55,6 @@ const CategorySelectPage = props => {
         allowAttachments: selected.attributes.allowAttachments,
       });
     }
-  };
-
-  const handleGoBack = () => {
-    // check if YourPersonalInformation page was shown
-    if (loggedIn) {
-      router.push(CHAPTER_3.YOUR_PERSONAL_INFORMATION.PATH);
-    }
-    router.push('/');
   };
 
   const getApiData = url => {
@@ -83,7 +74,7 @@ const CategorySelectPage = props => {
     () => {
       getApiData(getApiUrl(URL.GET_CATEGORIES));
     },
-    [loggedIn],
+    [isLoggedIn],
   );
 
   useEffect(
@@ -127,7 +118,7 @@ const CategorySelectPage = props => {
         </VaSelect>
 
         <FormNavButtons
-          goBack={handleGoBack}
+          goBack={() => (isLoggedIn ? goBack() : router.push('/'))}
           goForward={() => showError(formData)}
         />
       </form>
@@ -148,7 +139,7 @@ CategorySelectPage.propTypes = {
   goBack: PropTypes.func,
   goToPath: PropTypes.func,
   id: PropTypes.string,
-  loggedIn: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
   router: PropTypes.object,
   value: PropTypes.string,
   onChange: PropTypes.func,
@@ -156,7 +147,7 @@ CategorySelectPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    loggedIn: isLoggedIn(state),
+    isLoggedIn: state.user.login.currentlyLoggedIn,
     formData: state.form.data,
   };
 }

@@ -3,7 +3,7 @@ import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile
 import {
   ApplicantInformation,
   ApplicantInformationInfoSection,
-} from '../../pages/ApplicantInformation';
+} from '../../pages/applicant-information/ApplicantInformation';
 
 export const applicantInformation = {
   path: 'applicant-information',
