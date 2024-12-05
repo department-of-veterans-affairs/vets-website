@@ -10,7 +10,8 @@ import {
 } from '../utils/helpers';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 import { standard5103Item } from '../constants';
-
+// Not currently being used. Was being used on WhatYouNeedToDo and AdditionalEvidence.
+// Waiting to see if we still need this compoennt or not
 const filesPath = '../files';
 const statusPath = '../status';
 
