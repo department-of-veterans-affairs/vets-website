@@ -1,11 +1,10 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import fullNameUI from '~/platform/forms/definitions/fullName';
-import currentOrPastDateUI from '~/platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from '~/platform/forms-system/src/js/definitions/ssn';
-import currencyUI from '~/platform/forms-system/src/js/definitions/currency';
-
+import fullNameUI from 'platform/forms/definitions/fullName';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency, validateDependentDate } from '../utils/validation';
 import { LAST_YEAR } from '../utils/constants';
+import { FULL_SCHEMA } from '../utils/imports';
 import {
   DependentEducationExpensesDescription,
   DependentSupportDescription,
@@ -17,7 +16,7 @@ const {
   dependents: {
     items: { properties: dependent },
   },
-} = fullSchemaHca.properties;
+} = FULL_SCHEMA.properties;
 
 // define uiSchemas for each page in dependent flow
 export const dependentUISchema = {

@@ -12,7 +12,7 @@ const DesktopFooter = ({ footerData }) => {
   const bottomRail = columns.bottom_rail;
 
   return (
-    <footer className="vads-u-margin-bottom--8 footer ts-footer-container">
+    <footer className="vads-u-margin-bottom--9 footer ts-footer-container">
       <div className="footer-inner">
         <div className="usa-grid-full flex-container">
           <div className="va-footer-linkgroup">
