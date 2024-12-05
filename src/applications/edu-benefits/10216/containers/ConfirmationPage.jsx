@@ -19,6 +19,15 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
+        {/* {true &&
+          <va-alert status="info" uswds>
+            <div className="usa-alert-body">
+              <h3 className="vads-u-margin-top--neg0p5">
+                Complete all submission steps
+              </h3>
+              This form requires additional steps for successful submission. Follow the instructions below carefully to ensure your form is submitted correctly.
+            </div>
+          </va-alert>} */}
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
           To submit your form, follow the steps below
         </h2>
@@ -41,8 +50,8 @@ export class ConfirmationPage extends React.Component {
               Visit the{' '}
               <va-link
                 external
-                text="VA Education File Upload Portal(opens in a new tab)"
-                href="https://www.va.gov/education/"
+                text="VA Education File Upload Portal"
+                href="/EducationFileUploads/s/"
               >
                 VA education portal
               </va-link>
@@ -75,9 +84,9 @@ export class ConfirmationPage extends React.Component {
         <va-link-action
           href="/"
           text="Go back to VA.gov"
-          class="vads-u-margin-top--1p5 vads-u-margin-bottom--3"
+          class="vads-u-margin-top--1p5 vads-u-margin-bottom--2"
         />
-        <va-need-help class="vads-u-margin-top--6">
+        <va-need-help class="vads-u-margin-top--8">
           <div slot="content">
             <GetFormHelp />
           </div>
