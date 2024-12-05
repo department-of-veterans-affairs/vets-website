@@ -198,6 +198,8 @@ export const pageTitles = {
     'Vaccine Details - Medical records | Veterans Affairs',
   ALLERGIES_PAGE_TITLE:
     'Allergies and Reactions - Medical Records | Veterans Affairs',
+  ALLERGY_DETAILS_PAGE_TITLE:
+    'Allergies And Reactions Details - Medical Records | Veterans Affairs',
   HEALTH_CONDITIONS_PAGE_TITLE:
     'Health Conditions - Medical Records | Veterans Affairs',
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
