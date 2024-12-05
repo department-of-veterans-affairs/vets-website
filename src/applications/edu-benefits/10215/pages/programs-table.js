@@ -15,8 +15,9 @@ const arrayBuilderOptions = {
     getItemName: item => item.programName,
   },
 };
-const programs = () => {
-  // console.log(formData);
+const programs = (props) => {
+  console.log(props);
+  // const { programs } = props.data;
   const headings = [
     'Program', 
     'Total enrollment', 
@@ -56,8 +57,10 @@ const programs = () => {
 }
 
 export const ProgramsTable = {
-  contentBeforeButtons: programs,
+  table: programs,
+  // All of the below is overriden by the Custom Page, but required to leave in for the array builder pattern code to play nice
   uiSchema: {
+    'ui:description': (formData) => programs(formData),
     'view:programsSummary': arrayBuilderYesNoUI(arrayBuilderOptions, {
       title: 'Do you have another program to add?',
       labels: {

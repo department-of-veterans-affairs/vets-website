@@ -63,23 +63,23 @@ const formConfig = {
     programsChapter: {
       title: '85/15 calculations',
       pages: arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
-        programsIntro: {
+        programsIntro: pageBuilder.introPage({
           path: '85/15-calculations',
           title: '85/15 calculations',
           uiSchema: prepare.uiSchema,
           schema: prepare.schema,
-        },
+        }),
         programsSummary: pageBuilder.summaryPage({
           title: 'Review your 85/15 calculations',
           path: '85-15-calculations-review',
-          CustomPage: ProgramsTable.CustomPage,
-          CustomPageReview: null,
           uiSchema: ProgramsTable.uiSchema,
           schema: ProgramsTable.schema,
+          CustomPage: props => ProgramsTable.table(props),
+          CustomPageReview: null,
         }),
         addProgram: pageBuilder.itemPage({
           title: 'Program information',
-          path: '85/15-calculations/:index',
+          path: '85/15-calculations/:index/program-information',
           uiSchema: programInfo.uiSchema,
           schema: programInfo.schema,
         }),
