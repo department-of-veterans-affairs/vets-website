@@ -215,7 +215,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /You can.t schedule this appointment online/i,
+            text: /You.ve reached the limit for appointment requests/i,
           })
           .assertButton({ exist: false, label: /Continue/i });
 

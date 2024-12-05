@@ -214,7 +214,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /We couldn.t find a recent appointment at this location/i,
+            text: /You haven.t had a recent appointment at this facility, so you.ll need to call to schedule instead/i,
           });
 
         // Assert
@@ -272,7 +272,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /We can.t find a recent appointment for you/i,
+            text: /You haven.t had a recent appointment at this facility, so you.ll need to call to schedule instead/i,
           });
 
         // Assert

@@ -47,7 +47,7 @@ export default function getEligibilityMessage({
       directReason === ELIGIBILITY_REASONS.noRecentVisit) ||
     requestReason === ELIGIBILITY_REASONS.noRecentVisit
   ) {
-    title = 'We couldn’t find a recent appointment for you';
+    title = 'You can’t schedule this appointment online';
     content = <NoRecentVisit facilityDetails={facilityDetails} />;
   } else if (
     requestReason === ELIGIBILITY_REASONS.notSupported &&
@@ -79,7 +79,7 @@ export default function getEligibilityMessage({
       </>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.error) {
-    title = 'We’re sorry. We’ve run into a problem';
+    title = 'You can’t schedule this appointment online';
     content = 'Something went wrong on our end. Please try again later.';
   } else if (requestReason === ELIGIBILITY_REASONS.notSupported) {
     title = 'This facility doesn’t accept online scheduling for this care';

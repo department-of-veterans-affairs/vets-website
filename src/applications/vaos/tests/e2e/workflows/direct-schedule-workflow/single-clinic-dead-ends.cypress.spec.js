@@ -127,7 +127,7 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
             text: /You can.t schedule this appointment online/i,
           })
           .assertText({
-            text: /To request an appointment online at this location, you need to have had a primary care appointment at this facility within the last 24 months/i,
+            text: /You haven.t had a recent appointment at this facility, so you.ll need to call to schedule instead/i,
           })
           .assertButton({ exist: false, label: /Continue/i });
 
