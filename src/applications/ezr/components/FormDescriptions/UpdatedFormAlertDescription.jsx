@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UpdatedFormAlertDescription = () => (
+const UpdatedFormAlertDescription = (
   <>
     <p>
       You should know that we updated our online form.{' '}

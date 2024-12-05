@@ -260,6 +260,38 @@ describe('ezr validation utils', () => {
               });
             },
           );
+
+          context('when a year is not provided for the start date', () => {
+            const { errors, fieldData, startDateSpy, endDateSpy } = getData({
+              ...test,
+              startDate: 'XXXX-04-XX',
+              endDate: '1998-03-XX',
+            });
+
+            it('should set an error message', () => {
+              test.validatorFn(errors, fieldData);
+              /*
+              When there's no year for the start date, an end date validation error is also
+              thrown because the year for the end date is being compared to a blank value.
+              */
+              expect(startDateSpy.called).to.be.true;
+              expect(endDateSpy.called).to.be.true;
+            });
+          });
+
+          context('when a year is not provided for the end date', () => {
+            const { errors, fieldData, startDateSpy, endDateSpy } = getData({
+              ...test,
+              startDate: '1997-04-XX',
+              endDate: 'XXXX-03-XX',
+            });
+
+            it('should set an error message', () => {
+              test.validatorFn(errors, fieldData);
+              expect(startDateSpy.called).to.be.false;
+              expect(endDateSpy.called).to.be.true;
+            });
+          });
         });
       });
     },
