@@ -13,7 +13,7 @@ const arrayBuilderOptions = {
   },
 };
 
-export const ProgramsTable = {
+export const ProgramSummary = {
   uiSchema: {
     'view:programsSummary': arrayBuilderYesNoUI(arrayBuilderOptions, {
       title: 'Do you have another program to add?',

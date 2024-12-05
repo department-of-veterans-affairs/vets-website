@@ -9,9 +9,9 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
-import { prepare } from '../pages/prepare';
-import { programInfo } from '../pages/program-intro';
-import { ProgramsTable } from '../pages/programs-table';
+import { ProgramIntro } from '../pages/program-intro';
+import { programInfo } from '../pages/program-info';
+import { ProgramSummary } from '../pages/program-summary';
 
 const arrayBuilderOptions = {
   arrayPath: 'programs',
@@ -49,14 +49,14 @@ const formConfig = {
         programsIntro: pageBuilder.introPage({
           path: '85/15-calculations',
           title: '[noun plural]',
-          uiSchema: prepare.uiSchema,
-          schema: prepare.schema,
+          uiSchema: ProgramIntro.uiSchema,
+          schema: ProgramIntro.schema,
         }),
         programsSummary: pageBuilder.summaryPage({
           title: 'Review your [noun plural]',
           path: '85-15-calculations/summary',
-          uiSchema: ProgramsTable.uiSchema,
-          schema: ProgramsTable.schema,
+          uiSchema: ProgramSummary.uiSchema,
+          schema: ProgramSummary.schema,
         }),
         addProgram: pageBuilder.itemPage({
           title: 'Program information',

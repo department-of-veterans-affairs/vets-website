@@ -7,6 +7,7 @@ export default function transform(formConfig, form) {
   // Need to add in Total enrolled FTE And supported student percentage FTE if 10+ supported students enrolled
   //
   const formData = transformForSubmit(formConfig, newForm);
+  console.log(formData);
   return JSON.stringify({
     educationBenefitsClaim: {
       form: formData,
