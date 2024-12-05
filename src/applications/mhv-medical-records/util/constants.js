@@ -187,6 +187,8 @@ export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
   LAB_AND_TEST_RESULTS_PAGE_TITLE:
     'Lab And Test Results - Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE:
+    'Lab And Test Results Details - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
   VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
