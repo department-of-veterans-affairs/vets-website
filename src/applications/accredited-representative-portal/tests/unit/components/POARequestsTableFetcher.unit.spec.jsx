@@ -40,7 +40,7 @@ describe('POARequestsTableFetcher', () => {
     const usePOARequestsMock = () => ({
       isLoading: false,
       error: null,
-      poaRequests: null,
+      poaRequests: 0,
     });
 
     const { getByTestId } = renderTestApp(
