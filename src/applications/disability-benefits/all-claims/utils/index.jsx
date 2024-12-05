@@ -35,6 +35,7 @@ import {
   CHAR_LIMITS,
 } from '../constants';
 import { getBranches } from './serviceBranches';
+import { showForm0781Pages } from './form0781';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -393,6 +394,11 @@ export const hasNewPtsdDisability = formData =>
   _.get('newDisabilities', formData, []).some(disability =>
     isDisabilityPtsd(disability.condition),
   );
+
+// NOTE: this will need to be updated when we have a usecase for the Additional Forms chapter
+// beyond the 0781 flow
+export const showAdditionalFormsChapter = formData =>
+  showForm0781Pages(formData);
 
 export const showPtsdCombat = formData =>
   hasNewPtsdDisability(formData) &&

@@ -40,6 +40,7 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
+  showAdditionalFormsChapter,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
@@ -627,6 +628,7 @@ const formConfig = {
         additionalFormsChapterWrapper: {
           title: 'Additional forms to support your claim 2',
           path: 'additional-forms',
+          depends: formData => showAdditionalFormsChapter(formData),
           uiSchema: additionalFormsChapterWrapper.uiSchema,
           schema: additionalFormsChapterWrapper.schema,
         },
