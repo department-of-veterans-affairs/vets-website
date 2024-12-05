@@ -47,7 +47,7 @@ export default function getEligibilityMessage({
       directReason === ELIGIBILITY_REASONS.noRecentVisit) ||
     requestReason === ELIGIBILITY_REASONS.noRecentVisit
   ) {
-    title = 'You can’t schedule this appointment online';
+    title = 'We couldn’t find a recent appointment for you';
     content = <NoRecentVisit facilityDetails={facilityDetails} />;
   } else if (
     requestReason === ELIGIBILITY_REASONS.notSupported &&

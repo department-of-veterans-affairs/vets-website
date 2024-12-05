@@ -124,7 +124,7 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /You can.t schedule this appointment online/i,
+            text: /We couldn.t find a recent appointment for you/i,
           })
           .assertText({
             text: /You haven.t had a recent appointment at this facility, so you.ll need to call to schedule instead/i,
