@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
+import { kebabCase } from 'lodash';
+
 import { vitalTypeDisplayNames } from '../../util/constants';
-import { dateFormatWithoutTimezone } from '../../util/helpers';
+import { formatDateInLocalTimezone } from '../../util/helpers';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
@@ -26,18 +27,14 @@ const VitalListItem = props => {
     () => {
       if (isAccelerating) {
         return {
-          displayName: `vital-${_.kebabCase(updatedRecordType)}-display-name`,
-          noRecordMessage: `vital-${_.kebabCase(
+          displayName: `vital-${kebabCase(updatedRecordType)}-display-name`,
+          noRecordMessage: `vital-${kebabCase(
             updatedRecordType,
           )}-no-record-message`,
-          measurement: `vital-${_.kebabCase(updatedRecordType)}-measurement`,
-          date: `vital-${_.kebabCase(updatedRecordType)}-date`,
-          dateTimestamp: `vital-${_.kebabCase(
-            updatedRecordType,
-          )}-date-timestamp`,
-          reviewLink: `vital-${_.kebabCase(
-            updatedRecordType,
-          )}-review-over-time`,
+          measurement: `vital-${kebabCase(updatedRecordType)}-measurement`,
+          date: `vital-${kebabCase(updatedRecordType)}-date`,
+          dateTimestamp: `vital-${kebabCase(updatedRecordType)}-date-timestamp`,
+          reviewLink: `vital-${kebabCase(updatedRecordType)}-review-over-time`,
         };
       }
       return {
@@ -99,16 +96,13 @@ const VitalListItem = props => {
             <span className="vads-u-font-weight--bold">Date: </span>
             <span data-testid={dataTestIds.dateTimestamp}>
               {isAccelerating
-                ? dateFormatWithoutTimezone(
-                    record.effectiveDateTime,
-                    'MMMM d, yyyy',
-                  )
+                ? formatDateInLocalTimezone(record.effectiveDateTime)
                 : record.date}
             </span>
           </div>
 
           <Link
-            to={`/vitals/${_.kebabCase(updatedRecordType)}-history`}
+            to={`/vitals/${kebabCase(updatedRecordType)}-history`}
             className="vads-u-line-height--4"
             data-testid={dataTestIds.reviewLink}
           >

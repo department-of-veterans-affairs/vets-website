@@ -536,3 +536,18 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   const formatted = dateFnsFormat(fromDate, mask);
   return `${formatted}`;
 };
+
+/**
+ * Format a iso8601 date in the local browser timezone.
+ *
+ * @param {string} date the date to format, in ISO8601 format
+ * @returns {String} formatted timestamp
+ */
+export const formatDateInLocalTimezone = date => {
+  const dateObj = parseISO(date);
+  const formattedDate = dateFnsFormat(dateObj, 'MMMM d, yyyy h:mm aaaa');
+  const localTimeZoneName = dateObj
+    .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' })
+    .substring(4);
+  return `${formattedDate} ${localTimeZoneName}`;
+};

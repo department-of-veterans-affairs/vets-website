@@ -30,6 +30,7 @@ import {
   generateTextFile,
   getLastUpdatedText,
   formatNameFirstLast,
+  formatDateInLocalTimezone,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -305,7 +306,9 @@ Provider notes: ${vital.notes}\n\n`,
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
                 >
-                  {vital.date}
+                  {isAcceleratingVitals
+                    ? formatDateInLocalTimezone(vital.effectiveDateTime)
+                    : vital.date}
                 </h3>
                 <h4 className=" vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
                   Result
