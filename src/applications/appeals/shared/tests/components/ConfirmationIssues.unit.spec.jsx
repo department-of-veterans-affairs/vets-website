@@ -69,7 +69,7 @@ describe('ConfirmationIssues', () => {
     areaOfDisagreement,
   });
 
-  it('should render all fields with contestedIssues', () => {
+  it('should render contestedIssues in a single UL', () => {
     const { container } = render(
       <ConfirmationIssues
         text="Some issues for review"
@@ -78,8 +78,9 @@ describe('ConfirmationIssues', () => {
     );
 
     expect($('h3', container).textContent).to.eq('Issues for review');
-    expect($$('ul[role="list"]', container).length).to.eq(2);
-    expect($('li', container).textContent).to.contain(
+    expect($$('ul[role="list"]', container).length).to.eq(1);
+    expect($$('li', container).length).to.eq(3);
+    expect($('.issue-block', container).textContent).to.contain(
       'Some issues for review:',
     );
 
@@ -98,8 +99,8 @@ describe('ConfirmationIssues', () => {
     );
 
     expect($('h3', container).textContent).to.eq('Issues for review');
-    expect($$('ul[role="list"]', container).length).to.eq(2);
-    expect($('li', container).textContent).to.contain('Some issues:');
+    expect($$('ul[role="list"]', container).length).to.eq(1);
+    expect($('.issue-block', container).textContent).to.contain('Some issues:');
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
     expect(items.length).to.eq(3);
@@ -109,6 +110,7 @@ describe('ConfirmationIssues', () => {
       'right shoulderDecision date: June 6, 2021Disagree with your evaluation of my condition and this is right shoulder entry',
     ]);
   });
+
   it('should render list children', () => {
     const data = getData({
       areaOfDisagreement: [mockAreaOfDisagreement[0]],
@@ -130,7 +132,12 @@ describe('ConfirmationIssues', () => {
       </ConfirmationIssues>,
     );
 
-    expect($$('li', container)[2].textContent).to.contain(
+    expect($('h3', container).textContent).to.eq('Issues for review');
+    expect($$('ul[role="list"]', container).length).to.eq(2);
+    expect(
+      $$('ul[role="list"] > li > ul[role="list"]', container).length,
+    ).to.eq(1);
+    expect($('li .issue-block', container).textContent).to.contain(
       'You’ve selected these issues for review:',
     );
 
