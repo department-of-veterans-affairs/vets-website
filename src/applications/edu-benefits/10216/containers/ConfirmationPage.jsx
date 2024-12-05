@@ -51,7 +51,7 @@ export class ConfirmationPage extends React.Component {
               <va-link
                 external
                 text="VA Education File Upload Portal"
-                href="/EducationFileUploads/s/"
+                href="https://www.my.va.gov/EducationFileUploads/s/"
               >
                 VA education portal
               </va-link>
