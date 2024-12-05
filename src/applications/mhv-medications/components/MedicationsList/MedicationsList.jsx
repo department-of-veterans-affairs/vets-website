@@ -5,7 +5,12 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
 import MedicationsListCard from './MedicationsListCard';
-import { rxListSortingOptions } from '../../util/constants';
+import {
+  ALL_MEDICATIONS_FILTER_KEY,
+  SESSION_SELECTED_FILTER_OPTION,
+  filterOptions,
+  rxListSortingOptions,
+} from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
 import { selectFilterFlag } from '../../util/selectors';
@@ -15,6 +20,7 @@ const perPage = 20;
 const MedicationsList = props => {
   const history = useHistory();
   const {
+    isFullList,
     rxList,
     pagination,
     selectedSortOption,
@@ -34,8 +40,9 @@ const MedicationsList = props => {
     ".no-print [data-testid='page-total-info']";
 
   const onPageChange = page => {
-    document.querySelector('.va-breadcrumbs-li')?.scrollIntoView();
-    updateLoadingStatus(true, 'Loading your medications...');
+    document.getElementById('showingRx').scrollIntoView();
+    // replace terniary with true once loading spinner is added for the filter list fetch
+    updateLoadingStatus(!showFilterContent, 'Loading your medications...');
     history.push(`/?page=${page}`);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
@@ -46,6 +53,31 @@ const MedicationsList = props => {
     rxList?.length,
     perPage,
   );
+
+  const selectedFilterOption =
+    filterOptions[
+      sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
+        ALL_MEDICATIONS_FILTER_KEY
+    ]?.showingContentDisplayName;
+
+  const filterAndSortContent = () => {
+    return (
+      <>
+        {/* TODO: clean after the filter toggle is gone */}
+        {showFilterContent &&
+          !isFullList &&
+          selectedFilterOption?.length > 0 && (
+            <strong>{selectedFilterOption} medications</strong>
+          )}
+        {/* TODO: clean after the filter toggle is gone */}
+        {`${
+          showFilterContent && !isFullList && selectedFilterOption?.length > 0
+            ? ''
+            : ' medications'
+        }, ${sortOptionLowercase}`}
+      </>
+    );
+  };
 
   return (
     <>
@@ -61,10 +93,12 @@ const MedicationsList = props => {
         <span className="no-print">
           {`Showing ${displayNums[0]} - ${
             displayNums[1]
-          } of ${totalMedications} medications, ${sortOptionLowercase}`}
+          } of ${totalMedications}`}
+          {filterAndSortContent()}
         </span>
         <span className="print-only">
-          {`Showing ${totalMedications} medications, ${sortOptionLowercase}`}
+          {`Showing ${totalMedications}`}
+          {filterAndSortContent()}
         </span>
       </p>
       <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
@@ -110,6 +144,7 @@ const MedicationsList = props => {
 export default MedicationsList;
 
 MedicationsList.propTypes = {
+  isFullList: PropTypes.bool,
   pagination: PropTypes.object,
   rxList: PropTypes.array,
   scrollLocation: PropTypes.object,

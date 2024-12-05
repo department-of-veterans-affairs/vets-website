@@ -3,7 +3,7 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 
 import { EVIDENCE_VA_PATH } from '../constants';
 import { content, contentOld } from '../content/evidenceVaRecords';
-import { getIndex, hasErrors } from '../utils/evidence';
+import { getIndex, getVAEvidence, hasErrors } from '../utils/evidence';
 import { showScNewForm as newFormToggle } from '../utils/toggle';
 import {
   validateVaLocation,
@@ -15,7 +15,7 @@ import {
   isEmptyVaEntry,
 } from '../validations/evidence';
 
-import { focusEvidence, focusFirstError } from '../../shared/utils/focus';
+import { focusEvidence } from '../../shared/utils/focus';
 import {
   HeaderAndModal,
   IssueAndDates,
@@ -55,7 +55,7 @@ const EvidenceVaRecords = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { locations = [] } = data || {};
+  const locations = getVAEvidence(data || {});
 
   // *** state ***
   // currentIndex is zero-based
@@ -184,9 +184,6 @@ const EvidenceVaRecords = ({
         // event.detail from testing
         const fieldName = event.target?.getAttribute('name') || event.detail;
         updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
-        if (hasErrors(errors)) {
-          focusFirstError();
-        }
       }
     },
     onChange: event => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LoginButton } from '~/platform/user/exportsFile';
+import { VerifyButton } from '~/platform/user/exportsFile';
 import { maskEmail } from '../helpers';
 
 const CspDisplay = ({ csp, email, name }) => {
@@ -10,7 +10,12 @@ const CspDisplay = ({ csp, email, name }) => {
         We found an existing <strong>{name}</strong> account for your email
         address: <strong>{maskEmail(email)}</strong>
       </p>
-      <LoginButton csp={csp} data-testid={csp} />
+      {/* change line below */}
+      <VerifyButton
+        csp={csp}
+        data-testid={csp}
+        queryParam={{ operation: 'interstitial_verify' }}
+      />
     </>
   );
 };
@@ -21,7 +26,7 @@ export default function AccountSwitch({ userEmails }) {
   const headingText = userHasLogingov ? 'Login.gov' : 'ID.me';
   return (
     <div>
-      <h2 className="vads-u-margin-y--0">
+      <h2 className="vads-u-margin-y--0" id="accountSwitchH2">
         Start using your{' '}
         <strong>{userHasBoth ? 'Login.gov or ID.me' : headingText}</strong>{' '}
         account now
@@ -31,10 +36,16 @@ export default function AccountSwitch({ userEmails }) {
           csp="logingov"
           email={userEmails.logingov}
           name="Login.gov"
+          id="logingovButton"
         />
       )}
       {userHasIdme && (
-        <CspDisplay csp="idme" email={userEmails.idme} name="ID.me" />
+        <CspDisplay
+          csp="idme"
+          email={userEmails.idme}
+          name="ID.me"
+          id="idmeButton"
+        />
       )}
     </div>
   );

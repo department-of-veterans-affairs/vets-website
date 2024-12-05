@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 
 import {
@@ -13,6 +14,7 @@ import * as focusUtils from '~/platform/utilities/ui/focus';
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import {
   errorMessages,
+  EVIDENCE_VA,
   EVIDENCE_VA_PATH,
   NO_ISSUES_SELECTED,
 } from '../../constants';
@@ -106,7 +108,7 @@ describe('<EvidenceVaRecords>', () => {
 
   const getErrorElements = container =>
     $$(
-      'va-text-input[error], va-checkbox-group[error], va-memorable-date[error]',
+      'va-text-input[error], va-checkbox-group[error], va-date[error], va-memorable-date[error]',
       container,
     );
 
@@ -148,7 +150,7 @@ describe('<EvidenceVaRecords>', () => {
     const setDataSpy = sinon.spy();
     const page = setup({
       setFormData: setDataSpy,
-      data: { ...mockData, locations: [mockLocation] },
+      data: { ...mockData, [EVIDENCE_VA]: true, locations: [mockLocation] },
     });
     const { container } = render(page);
 
@@ -170,7 +172,7 @@ describe('<EvidenceVaRecords>', () => {
     const setDataSpy = sinon.spy();
     const page = setup({
       setFormData: setDataSpy,
-      data: { ...mockData, locations: [mockLocation] },
+      data: { ...mockData, [EVIDENCE_VA]: true, locations: [mockLocation] },
     });
     const { container } = render(page);
 
@@ -192,7 +194,11 @@ describe('<EvidenceVaRecords>', () => {
   describe('valid data navigation', () => {
     it('should navigate forward to VA private request page with valid data', async () => {
       const goSpy = sinon.spy();
-      const data = { ...mockData, locations: [mockLocation] };
+      const data = {
+        ...mockData,
+        [EVIDENCE_VA]: true,
+        locations: [mockLocation],
+      };
       const page = setup({
         index: 0,
         goForward: goSpy,
@@ -231,6 +237,7 @@ describe('<EvidenceVaRecords>', () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
+        [EVIDENCE_VA]: true,
         locations: [mockLocation, {}, mockLocation2],
       };
       const index = 0;
@@ -254,7 +261,7 @@ describe('<EvidenceVaRecords>', () => {
     it('should navigate from zero index, with valid data, to next index when inserting another entry', async () => {
       const goSpy = sinon.spy();
       const locations = [mockLocation, mockLocation2, {}];
-      const data = { ...mockData, locations };
+      const data = { ...mockData, [EVIDENCE_VA]: true, locations };
       const index = 0;
       const page = setup({
         index,
@@ -277,7 +284,12 @@ describe('<EvidenceVaRecords>', () => {
     const showScNewForm = true;
     it('should navigate forward to VA private request page with YYYY-MM date & valid data', async () => {
       const goSpy = sinon.spy();
-      const data = { ...mockData, showScNewForm, locations: [mockLocationNew] };
+      const data = {
+        ...mockData,
+        showScNewForm,
+        [EVIDENCE_VA]: true,
+        locations: [mockLocationNew],
+      };
       const page = setup({
         index: 0,
         goForward: goSpy,
@@ -297,6 +309,7 @@ describe('<EvidenceVaRecords>', () => {
       const data = {
         ...mockData,
         showScNewForm,
+        [EVIDENCE_VA]: true,
         locations: [mockLocationNew2],
       };
       const page = setup({
@@ -315,7 +328,12 @@ describe('<EvidenceVaRecords>', () => {
     });
     it('should navigate back to VA records request page with YYYY-MM date & valid data', async () => {
       const goSpy = sinon.spy();
-      const data = { ...mockData, showScNewForm, locations: [mockLocationNew] };
+      const data = {
+        ...mockData,
+        showScNewForm,
+        [EVIDENCE_VA]: true,
+        locations: [mockLocationNew],
+      };
       const index = 0;
       const page = setup({
         index,
@@ -338,6 +356,7 @@ describe('<EvidenceVaRecords>', () => {
       const data = {
         ...mockData,
         showScNewForm,
+        [EVIDENCE_VA]: true,
         locations: [mockLocationNew, {}, mockLocationNew2],
       };
       const index = 0;
@@ -361,7 +380,12 @@ describe('<EvidenceVaRecords>', () => {
     it('should navigate from zero index, with YYYY-MM date & valid data, to next index when inserting another entry', async () => {
       const goSpy = sinon.spy();
       const locations = [mockLocationNew, mockLocationNew2, {}];
-      const data = { ...mockData, showScNewForm, locations };
+      const data = {
+        ...mockData,
+        showScNewForm,
+        [EVIDENCE_VA]: true,
+        locations,
+      };
       const index = 0;
       const page = setup({
         index,
@@ -420,6 +444,7 @@ describe('<EvidenceVaRecords>', () => {
       const index = 1;
       const data = {
         ...mockData,
+        [EVIDENCE_VA]: true,
         locations: [mockLocation, {}, mockLocation2],
       };
       const page = setup({
@@ -458,7 +483,11 @@ describe('<EvidenceVaRecords>', () => {
     it('should go back and remove empty page', async () => {
       const goSpy = sinon.spy();
       const setDataSpy = sinon.spy();
-      const data = { ...mockData, locations: [mockLocation, {}] };
+      const data = {
+        ...mockData,
+        [EVIDENCE_VA]: true,
+        locations: [mockLocation, {}],
+      };
       const page = setup({
         index: 1,
         goToPath: goSpy,
@@ -482,6 +511,7 @@ describe('<EvidenceVaRecords>', () => {
       const index = 1;
       const data = {
         ...mockData,
+        [EVIDENCE_VA]: true,
         locations: [mockLocation, {}, mockLocation2],
       };
       const page = setup({
@@ -539,6 +569,7 @@ describe('<EvidenceVaRecords>', () => {
       const index = 1;
       const data = {
         ...mockData,
+        [EVIDENCE_VA]: true,
         locations: [mockLocation, { locationAndName: 'foo' }, mockLocation2],
       };
       const page = setup({
@@ -566,6 +597,7 @@ describe('<EvidenceVaRecords>', () => {
       const index = 1;
       const data = {
         ...mockData,
+        [EVIDENCE_VA]: true,
         locations: [mockLocation, { locationAndName: 'foo' }, mockLocation2],
       };
       const page = setup({
@@ -606,6 +638,7 @@ describe('<EvidenceVaRecords>', () => {
         setFormData: setDataSpy,
         data: {
           ...mockData,
+          [EVIDENCE_VA]: true,
           locations: [mockLocation, mockLocation2, { locationAndName: 'foo' }],
         },
       });
@@ -639,6 +672,7 @@ describe('<EvidenceVaRecords>', () => {
         goToPath: goSpy,
         data: {
           ...mockData,
+          [EVIDENCE_VA]: true,
           locations: [mockLocation, { locationAndName: 'foo' }],
         },
       });
@@ -664,7 +698,11 @@ describe('<EvidenceVaRecords>', () => {
       const name = 'abcdef '.repeat(
         MAX_LENGTH.SC_EVIDENCE_LOCATION_AND_NAME / 6,
       );
-      const data = { ...mockData, locations: [{ locationAndName: name }] };
+      const data = {
+        ...mockData,
+        [EVIDENCE_VA]: true,
+        locations: [{ locationAndName: name }],
+      };
       const page = setup({ index: 0, data });
       const { container } = render(page);
 
@@ -682,6 +720,7 @@ describe('<EvidenceVaRecords>', () => {
       const from = parseDateWithOffset({ years: 1 });
       const data = {
         ...mockData,
+        [EVIDENCE_VA]: true,
         locations: [{ evidenceDates: { from } }],
       };
       const page = setup({ index: 0, data });
@@ -703,6 +742,7 @@ describe('<EvidenceVaRecords>', () => {
       const to = parseDateWithOffset({ years: 1 });
       const data = {
         ...mockData,
+        [EVIDENCE_VA]: true,
         locations: [{ evidenceDates: { to } }],
       };
       const page = setup({ index: 0, data });
@@ -724,6 +764,7 @@ describe('<EvidenceVaRecords>', () => {
       const from = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
       const data = {
         ...mockData,
+        [EVIDENCE_VA]: true,
         locations: [{ evidenceDates: { from } }],
       };
       const page = setup({ index: 0, data });
@@ -745,6 +786,7 @@ describe('<EvidenceVaRecords>', () => {
       const to = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
       const data = {
         ...mockData,
+        [EVIDENCE_VA]: true,
         locations: [{ evidenceDates: { to } }],
       };
       const page = setup({ index: 0, data });
@@ -767,6 +809,7 @@ describe('<EvidenceVaRecords>', () => {
       const to = parseDateWithOffset({ years: -10 });
       const data = {
         ...mockData,
+        [EVIDENCE_VA]: true,
         locations: [{ evidenceDates: { from, to } }],
       };
       const page = setup({ index: 0, data });
@@ -782,7 +825,11 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show an error when the issue is not unique', async () => {
-      const data = { ...mockData, locations: [mockLocation, mockLocation] };
+      const data = {
+        ...mockData,
+        [EVIDENCE_VA]: true,
+        locations: [mockLocation, mockLocation],
+      };
       const page = setup({ index: 1, data });
       const { container } = render(page);
 
@@ -800,6 +847,40 @@ describe('<EvidenceVaRecords>', () => {
       expect($('va-checkbox-group', container).textContent).to.contain(
         NO_ISSUES_SELECTED,
       );
+    });
+
+    it('should not move focus after submitting & blurring first input', async () => {
+      const goSpy = sinon.spy();
+      const index = 1;
+      const data = {
+        ...mockData,
+        showScNewForm: true,
+        [EVIDENCE_VA]: true,
+        locations: [mockLocation, {}, mockLocation2],
+      };
+      const page = setup({
+        index,
+        goForward: goSpy,
+        goToPath: goSpy,
+        data,
+      });
+      const { container } = render(page);
+
+      // continue
+      clickContinue(container);
+
+      const input = $('va-text-input', container);
+      fireEvent.blur(input);
+      userEvent.tab(); // ensure focus is not trapped; see #98137
+
+      await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+        expect(goSpy.called).to.be.false;
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
+        expect(document.activeElement).to.not.eq(input);
+        // focus called one additional time when focus shifts back to the error
+        expect(focusElementSpy.args.length).to.be.lessThan(3);
+      });
     });
   });
 });
