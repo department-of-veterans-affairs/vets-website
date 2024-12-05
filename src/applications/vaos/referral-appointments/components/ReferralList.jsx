@@ -3,16 +3,35 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import PendingReferralCard from './PendingReferralCard';
 import { routeToNextReferralPage } from '../flow';
+import InfoAlert from '../../components/InfoAlert';
 
-const ReferralList = ({ referrals }) => {
+const ReferralList = ({ referrals, referralsError }) => {
   const history = useHistory();
   const handleReferralClick = (e, referralId) => {
     e.preventDefault();
     routeToNextReferralPage(history, 'referralsAndRequests', referralId);
   };
-  // return if referrals is empty
+  if (referralsError) {
+    return (
+      <InfoAlert
+        status="error"
+        headline="We’re sorry. We’ve run into a problem"
+      >
+        We’re sorry. We can’t retrieve your community care referrals at this
+        time. Please try again later.
+      </InfoAlert>
+    );
+  }
   if (referrals.length === 0) {
-    return null;
+    return (
+      <InfoAlert
+        status="info"
+        headline="You don’t have any community care referrals"
+      >
+        You don’t have any community care referrals at this time. If you think
+        you should have one, please call your VA health care team.
+      </InfoAlert>
+    );
   }
   return (
     <>
@@ -41,7 +60,8 @@ const ReferralList = ({ referrals }) => {
 };
 
 ReferralList.propTypes = {
-  referrals: PropTypes.arrayOf(PropTypes.string).isRequired,
+  referrals: PropTypes.arrayOf(PropTypes.object).isRequired,
+  referralsError: PropTypes.bool.isRequired,
 };
 
 export default ReferralList;

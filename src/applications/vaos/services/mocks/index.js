@@ -367,6 +367,7 @@ const responses = {
         return false;
       });
     });
+    // return res.json({ data: [], meta})
     return res.json({ data: filteredAppointments, meta });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
@@ -499,6 +500,7 @@ const responses = {
 
   // EPS api
   'GET /vaos/v2/epsApi/referralDetails': (req, res) => {
+    // return res.status(500).json({ error: true });
     return res.json({
       data: referralUtils.createReferrals(3, '2024-12-02'),
     });
