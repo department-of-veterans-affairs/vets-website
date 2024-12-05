@@ -27,7 +27,7 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     );
 
     LabsAndTestsListPage.clickRadiologyDetailsLink(0);
-    const studyId = 4001;
+    const studyId = '453-2487450';
     // BUT THE TEST IS ABLE TO RUN WITHOUT THIS INTERCEPT
     cy.intercept(
       'GET',
