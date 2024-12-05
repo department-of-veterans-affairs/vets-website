@@ -472,8 +472,6 @@ export const generateResultsContent = async (doc, parent, data) => {
 };
 
 const generate = async data => {
-  // console.log('((( generating ))) ', data);
-  // try {
   validate(data);
   const tocPageData = {};
   const doc = createAccessibleDoc(data, config);
@@ -538,9 +536,6 @@ const generate = async data => {
 
   doc.flushPages();
   return doc;
-  // } catch (error) {
-  //   console.log('error: ', error);
-  // }
 };
 
 export { generate };
