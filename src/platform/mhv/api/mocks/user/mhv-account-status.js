@@ -1,5 +1,5 @@
 const accountSuccess = (req, res) => {
-  return res.status(800).json({
+  return res.status(200).json({
     data: {
       id: '12345678',
       type: 'mhv_user_account',
@@ -27,7 +27,33 @@ const eightZeroOne = (req, res) => {
   });
 };
 
+const eightZeroFive = (req, res) => {
+  return res.status(422).json({
+    errors: [
+      {
+        title: 'The server responded with status 422',
+        detail: 'things fall apart',
+        code: '805',
+      },
+    ],
+  });
+};
+
+const eightZeroSix = (req, res) => {
+  return res.status(422).json({
+    errors: [
+      {
+        title: 'The server responded with status 422',
+        detail: 'things fall apart',
+        code: '802',
+      },
+    ],
+  });
+};
+
 module.exports = {
   accountSuccess,
   eightZeroOne,
+  eightZeroFive,
+  eightZeroSix,
 };

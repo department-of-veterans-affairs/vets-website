@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getMHVAccount } from '../utilities/api';
+import {
+  mhvAccountStatusLoading,
+  mhvAccountStatusUserError,
+  hasMhvAccount,
+} from '../selectors';
 
 const AccountHandler = ({ MHVAccountStatusFetchComplete }) => {
-  const accountStatus = useSelector(state => state?.myHealth?.accountStatus);
+  const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
+  const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
+
   const dispatch = useDispatch();
-  const [state] = useState({ complete: false });
+  const userHasMhvAccount = useSelector(hasMhvAccount);
 
   useEffect(
     () => {
-      const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
-        state.user?.profile?.mhvAccountState,
-      );
-
-      if (hasMHVAccount) {
+      if (userHasMhvAccount) {
         dispatch({
           type: 'fetchAccountStatusSuccess',
           data: { error: false },
@@ -30,18 +33,18 @@ const AccountHandler = ({ MHVAccountStatusFetchComplete }) => {
         });
       }
     },
-    [MHVAccountStatusFetchComplete],
+    [userHasMhvAccount, MHVAccountStatusFetchComplete],
   );
 
-  if (accountStatus?.loading) {
+  if (mhvAccountStatusIsLoading) {
     return (
       <div>
         <va-loading-indicator label="Loading" message="thinking..." set-focus />
       </div>
     );
   }
-  if (accountStatus?.data?.errors) {
-    return <div>failed with error {accountStatus?.data.errors[0].code}</div>;
+  if (mhvAccountStatusUserErrors.length > 0) {
+    return <div>failed with error {mhvAccountStatusUserErrors[0].code}</div>;
   }
   return <div>successfully created MHV account</div>;
 };

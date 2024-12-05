@@ -6,6 +6,7 @@ import {
   AlertMhvRegistration,
   AlertUnregistered,
   AlertVerifyAndRegister,
+  AlertMhvUserAction,
 } from '../components/alerts';
 
 import {
@@ -14,6 +15,9 @@ import {
   isAuthenticatedWithSSOe,
   isLOA3,
   isVAPatient,
+  mhvAccountStatusLoading,
+  mhvAccountStatusUserError,
+  mhvAccountStatusUsersuccess,
   showVerifyAndRegisterAlert,
   signInServiceName,
 } from '../selectors';
@@ -27,6 +31,9 @@ const Alerts = () => {
   const renderVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const cspId = useSelector(signInServiceName);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
+  const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
+  const mhvAccountStatusSuccess = useSelector(mhvAccountStatusUsersuccess);
+  const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
 
   if (userHasMhvBasicAccount) {
     return <AlertMhvBasicAccount ssoe={ssoe} />;
@@ -40,7 +47,17 @@ const Alerts = () => {
     return <AlertUnregistered />;
   }
 
-  if (userRegistered && !userHasMhvAccount) {
+  if (mhvAccountStatusUserErrors.length > 0) {
+    return (
+      <AlertMhvUserAction errorCode={mhvAccountStatusUserErrors[0].code} />
+    );
+  }
+  if (
+    userRegistered &&
+    !userHasMhvAccount &&
+    !mhvAccountStatusIsLoading &&
+    !mhvAccountStatusSuccess
+  ) {
     return <AlertMhvRegistration ssoe={ssoe} />;
   }
 

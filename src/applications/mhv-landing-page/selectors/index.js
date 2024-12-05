@@ -23,6 +23,13 @@ import {
 import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
 import { hasMhvBasicAccount } from './hasMhvBasicAccount';
 
+import {
+  mhvAccountStatusLoading,
+  mhvAccountStatusUsersuccess,
+  mhvAccountStatusUserError,
+  mhvAccountStatusNonUserError,
+} from './mhvAccountStatus';
+
 export {
   hasMhvAccount,
   hasMhvBasicAccount,
@@ -33,6 +40,10 @@ export {
   isLoggedIn,
   isProfileLoading,
   isVAPatient,
+  mhvAccountStatusLoading,
+  mhvAccountStatusUsersuccess,
+  mhvAccountStatusUserError,
+  mhvAccountStatusNonUserError,
   mrPhase1Enabled,
   personalizationEnabled,
   selectDrupalStaticData,

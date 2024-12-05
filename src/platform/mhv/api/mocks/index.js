@@ -139,7 +139,8 @@ const responses = {
   'GET /my_health/v1/medical_records/vitals': vitals.all,
 
   // 'GET /v0/user/mhv_user_account': MHVAccountStatus.accountSuccess,
-  'GET /v0/user/mhv_user_account': MHVAccountStatus.eightZeroOne,
+  // 'GET /v0/user/mhv_user_account': MHVAccountStatus.eightZeroOne,
+  'GET /v0/user/mhv_user_account': MHVAccountStatus.eightZeroFive,
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner
