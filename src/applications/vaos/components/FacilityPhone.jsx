@@ -13,6 +13,22 @@ export default function FacilityPhone({
   if (!contact) {
     return null;
   }
+
+  let number = contact;
+  let numberExtension = extension;
+
+  // Extract number and extension from contact if extension not explicitly set and
+  // contact contains an 'x' character, usually in the format "123-456-7890 x1234"
+  if (contact.includes('x')) {
+    const [contactNumber, contactExtension] = contact
+      .split('x')
+      .map(item => item.trim());
+    number = contactNumber;
+    if (!numberExtension) {
+      numberExtension = contactExtension;
+    }
+  }
+
   const isClinic = !!heading.includes('Clinic');
   const Heading = `h${level}`;
 
@@ -32,8 +48,8 @@ export default function FacilityPhone({
         typeof level === 'undefined' &&
         `${heading} `}
       <VaTelephone
-        contact={contact}
-        extension={extension}
+        contact={number}
+        extension={numberExtension}
         data-testid={!isClinic ? 'facility-telephone' : 'clinic-telephone'}
       />
       {!isClinic && (
