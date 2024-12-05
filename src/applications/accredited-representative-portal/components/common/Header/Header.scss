@@ -1,5 +1,10 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+
+.header {
+  min-height: auto;
+}
+
 .nav {
   padding: 1.5px 8px;
   flex-wrap: wrap;
