@@ -24,68 +24,52 @@ const childContent = (
     <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
       To submit your form, follow the steps below
     </h2>
-    <div className="process schemaform-process">
-      <ol>
-        <li
-          className="process-step list-one"
-          itemProp="steps"
-          itemScope=""
-          itemType="http://schema.org/HowToSection"
-        >
-          <div itemProp="name">
-            <h4 className="vads-u-font-size--h5">
-              Download and save your form
-            </h4>
-          </div>
-          <div itemProp="itemListElement">
-            <p>
-              We usually process claims within 30 days. We’ll let you know by
-              mail if we need more information.
-            </p>
-            <p>
-              <va-link
-                href="https://iam.education.va.gov/"
-                text="Download VA Form 22-10216"
-                download
-              />
-            </p>
-          </div>
-        </li>
-
-        <li className="process-step list-two">
-          <div>
-            <h4 className="vads-u-font-size--h5">
-              Upload the form to the VA education portal
-            </h4>
-          </div>
-          <div itemProp="itemListElement">
-            <p>
-              Visit the&nbsp;
-              <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
-                VA Education File Upload Portal (opens in a new tab)
-              </a>
-              , and upload your saved VA Form 22-10216.
-            </p>
-          </div>
-        </li>
-
-        <li
-          className="process-step list-three"
-          itemProp="steps"
-          itemScope=""
-          itemType="http://schema.org/HowToSection"
-        >
-          <div itemProp="name">
-            <h4 className="vads-u-font-size--h5">Submit your form</h4>
-          </div>
-          <div itemProp="itemListElement">
-            <p>Once uploaded, click submit to finalize your request.</p>
-          </div>
-        </li>
-      </ol>
-    </div>
+    <va-process-list uswds>
+      <va-process-list-item header="Check your eligibility">
+        <div itemProp="name">
+          <h4 className="vads-u-font-size--h5">Download and save your form</h4>
+        </div>
+        <div itemProp="itemListElement">
+          <p>
+            We usually process claims within 30 days. We’ll let you know by mail
+            if we need more information.
+          </p>
+          <p>
+            <va-link
+              href="https://iam.education.va.gov/"
+              text="Download VA Form 22-10216"
+              download
+            />
+          </p>
+        </div>
+      </va-process-list-item>
+      <va-process-list-item header="Check your eligibility">
+        <div>
+          <h4 className="vads-u-font-size--h5">
+            Upload the form to the VA education portal
+          </h4>
+        </div>
+        <div itemProp="itemListElement">
+          <p>
+            Visit the&nbsp;
+            <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
+              VA Education File Upload Portal (opens in a new tab)
+            </a>
+            , and upload your saved VA Form 22-10216.
+          </p>
+        </div>
+      </va-process-list-item>
+      <va-process-list-item header="Check your eligibility">
+        <div itemProp="name">
+          <h4 className="vads-u-font-size--h5">Submit your form</h4>
+        </div>
+        <div itemProp="itemListElement">
+          <p>Once uploaded, click submit to finalize your request.</p>
+        </div>
+      </va-process-list-item>
+    </va-process-list>
     <p>
-      <va-button secondary text="Print this page" onClick={() => {}} />
+      <ConfirmationView.PrintThisPage secondary />
     </p>
     <p>
       <va-link href="https://iam.education.va.gov/" text="Back" />
@@ -122,16 +106,6 @@ export const ConfirmationPage = props => {
       submitDate={submitDate}
       pdfUrl={submission.response?.pdfUrl}
     >
-      <ConfirmationView.SubmissionAlert />
-      <ConfirmationView.SavePdfDownload />
-      <ConfirmationView.ChapterSectionCollection />
-      <ConfirmationView.PrintThisPage />
-      <ConfirmationView.WhatsNextProcessList
-        item2Content={`If we need information after reviewing
-            your form, we’ll contact you. After we review your form,
-            you may sign other forms on behalf of the Veteran or
-            non-Veteran claimant you identified in this form.`}
-      />
       {childContent}
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />
