@@ -21,7 +21,8 @@ import { generateConditionContent } from './conditions';
 import { generateVitalsContentByType } from './vitals';
 import { isArrayAndHasItems } from '../helpers';
 import { generateMedicationsContent } from './medications';
-import { generateAppointmentContent } from './appointments';
+import { generateAppointmentsContent } from './appointments';
+import { generateDemographicsContent } from './demographics';
 
 export const generateBlueButtonData = ({
   labsAndTests,
@@ -199,18 +200,29 @@ export const generateBlueButtonData = ({
       records: [
         {
           title: 'Upcoming appointments',
-          ...generateAppointmentContent(upcoming),
+          ...generateAppointmentsContent(upcoming),
         },
         {
           title: 'Past appointments',
-          ...generateAppointmentContent(past),
+          ...generateAppointmentsContent(past),
         },
       ],
     });
   }
 
   if (demographics.length) {
-    // console.log('demographics: ', demographics);
+    data.push({
+      type: blueButtonRecordTypes.DEMOGRAPHICS,
+      title: 'Demographics',
+      subtitles: [
+        'Each of your VA facilities may have different demographic information for you. If you need update your information, contact your facility.',
+      ],
+      records: demographics.map(record => ({
+        title: `VA facility: ${record.facility}`,
+        titleMoveDownAmount: 0.5,
+        ...generateDemographicsContent(record),
+      })),
+    });
   }
 
   if (militaryService.length) {

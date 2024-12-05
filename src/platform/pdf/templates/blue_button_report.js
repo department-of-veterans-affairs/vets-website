@@ -294,7 +294,8 @@ const generateRecordTitle = (doc, parent, record) => {
   const headOptions = { x: 20, paragraphGap: 0 };
   title.add(createHeading(doc, 'H3', config, record.title, headOptions));
 
-  doc.moveDown();
+  if (record.titleMoveDownAmount) doc.moveDown(record.titleMoveDownAmount);
+  else doc.moveDown();
   title.end();
 };
 
@@ -361,7 +362,7 @@ const generateResultItemContent = async (
 ) => {
   const headingOptions = {
     paragraphGap: 10,
-    x: hasH2 || item.indentHeader ? 40 : 20,
+    x: item.headerIndent || (hasH2 ? 40 : 20),
   };
   if (item.header) {
     results.add(
@@ -395,6 +396,7 @@ const generateResultItemContent = async (
   if (hasHorizontalRule) {
     addHorizontalRule(doc, 30, 1.5, 1.5);
   }
+  if (item.spaceResults) doc.moveDown();
 };
 
 export const generateResultsContent = async (doc, parent, data) => {
@@ -403,9 +405,18 @@ export const generateResultsContent = async (doc, parent, data) => {
   });
   parent.add(results);
   if (data.results.header) {
-    const headingOptions = { paragraphGap: 12, x: 30 };
+    const headingOptions = {
+      paragraphGap: 12,
+      x: data.results.headerIndent || 30,
+    };
     results.add(
-      createHeading(doc, 'H4', config, data.results.header, headingOptions),
+      createHeading(
+        doc,
+        data.results.headerType || 'H4',
+        config,
+        data.results.header,
+        headingOptions,
+      ),
     );
   }
 
@@ -514,7 +525,7 @@ const generate = async data => {
   // await generateTableOfContents(doc, wrapper, data, tocPageData);
 
   doc.font(config.text.font).fontSize(config.text.size);
-  await generateFinalHeaderContent(doc, data, config, 2);
+  await generateFinalHeaderContent(doc, data, config);
   await generateFooterContent(doc, wrapper, data, config);
 
   wrapper.end();

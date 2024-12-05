@@ -1,9 +1,9 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
-import { isAfter } from 'date-fns';
+import { format, isAfter } from 'date-fns';
 import { capitalize } from 'lodash';
 import { Actions } from '../util/actionTypes';
-import { medicationTypes } from '../util/constants';
+import { medicationTypes, NA, NONE_RECORDED } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 
 const initialState = {
@@ -34,10 +34,6 @@ const initialState = {
   accountSummary: undefined,
 };
 
-const noneRecorded = 'None recorded';
-const noInfoReported = 'No information reported';
-const na = 'N/A';
-
 /**
  * Convert a non-VA medication resource from the backend into the appropriate model.
  * @param {Object} medication an MHV medication resource
@@ -48,15 +44,15 @@ export const convertNonVaMedication = med => {
     id: med.id,
     type: medicationTypes.NON_VA,
     prescriptionName: med.prescriptionName,
-    medication: med.prescriptionName || na,
-    instructions: med.sig || na,
-    reasonForUse: med.reason || na,
-    status: med.dispStatus || na,
-    startDate: formatDateLong(med.refillDate || med.orderedDate) || na,
-    documentedBy: `${med.providerLastName || na}, ${med.providerFirstName ||
-      na}`,
-    documentedAtFacility: med.facilityName || na,
-    providerNotes: med.remarks || na,
+    medication: med.prescriptionName || NA,
+    instructions: med.sig || NA,
+    reasonForUse: med.reason || NA,
+    status: med.dispStatus || NA,
+    startDate: formatDateLong(med.refillDate || med.orderedDate) || NA,
+    documentedBy: `${med.providerLastName || NA}, ${med.providerFirstName ||
+      NA}`,
+    documentedAtFacility: med.facilityName || NA,
+    providerNotes: med.remarks || NA,
   };
 };
 
@@ -89,7 +85,7 @@ export const convertMedication = med => {
     instructions: attributes.sig || 'No instructions available',
     quantity: attributes.quantity,
     pharmacyPhoneNumber: pharmacyPhoneNumber(med.attributes),
-    indicationForUse: med.indicationForUse || noneRecorded,
+    indicationForUse: med.indicationForUse || NONE_RECORDED,
   };
 };
 
@@ -146,80 +142,118 @@ export const convertAppointment = appt => {
  * @param {Object} info an MHV demographic content item
  * @returns a demographic object that this application can use, or null if the param is null/undefined
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const convertDemographics = info => {
   if (!info) return null;
 
   return {
     id: info.id,
-    facility: info.facilityInfo.name,
+    facility: info.facilityInfo.name || NONE_RECORDED,
     firstName: info.firstName,
-    middleName: info.middleName || noneRecorded,
-    lastName: info.lastName,
-    dateOfBirth: new Date(info.dateOfBirth).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }),
-    age: info.age,
-    gender: info.gender,
-    ethnicity: noneRecorded, // no matching attribute in test user data
-    religion: info.religion || noneRecorded,
-    placeOfBirth: info.placeOfBirth || noneRecorded,
-    maritalStatus: info.maritalStatus || noneRecorded,
+    middleName: info.middleName || NONE_RECORDED,
+    lastName: info.lastName || NONE_RECORDED,
+    dateOfBirth: format(new Date(info.dateOfBirth), 'MMMM d, yyyy'),
+    age: info.age || NONE_RECORDED,
+    gender: info.gender || NONE_RECORDED,
+    ethnicity: NONE_RECORDED, // no matching attribute in test user data
+    religion: info.religion || NONE_RECORDED,
+    placeOfBirth: info.placeOfBirth || NONE_RECORDED,
+    maritalStatus: info.maritalStatus || NONE_RECORDED,
     permanentAddress: {
       street:
         [info.permStreet1, info.permStreet2].filter(Boolean).join(' ') ||
-        undefined,
-      city: info.permCity,
-      state: info.permState,
-      zipcode: info.permZipcode,
-      country: info.permCountry,
+        NONE_RECORDED,
+      city: info.permCity || NONE_RECORDED,
+      state: info.permState || NONE_RECORDED,
+      zipcode: info.permZipcode || NONE_RECORDED,
+      county: info.perCounty || NONE_RECORDED,
+      country: info.permCountry || NONE_RECORDED,
     },
     contactInfo: {
-      homePhone: noneRecorded, // no matching attribute in test user data
-      workPhone: noneRecorded, // no matching attribute in test user data
-      cellPhone: noneRecorded, // no matching attribute in test user data
-      emailAddress: info.permEmailAddress || noneRecorded,
+      homePhone: NONE_RECORDED, // no matching attribute in test user data
+      workPhone: NONE_RECORDED, // no matching attribute in test user data
+      cellPhone: NONE_RECORDED, // no matching attribute in test user data
+      emailAddress: info.permEmailAddress || NONE_RECORDED,
     },
     eligibility: {
-      serviceConnectedPercentage: info.serviceConnPercentage || noneRecorded,
-      meansTestStatus: noneRecorded, // no matching attribute in test user data
-      primaryEligibilityCode: noneRecorded, // no matching attribute in test user data
+      serviceConnectedPercentage: info.serviceConnPercentage || NONE_RECORDED,
+      meansTestStatus: NONE_RECORDED, // no matching attribute in test user data
+      primaryEligibilityCode: NONE_RECORDED, // no matching attribute in test user data
     },
     employment: {
-      occupation: info.employmentStatus || noneRecorded,
-      meansTestStatus: noneRecorded, // no matching attribute in test user data
-      employerName: noneRecorded, // no matching attribute in test user data
+      occupation: info.employmentStatus || NONE_RECORDED,
+      meansTestStatus: NONE_RECORDED, // no matching attribute in test user data
+      employerName: NONE_RECORDED, // no matching attribute in test user data
     },
     primaryNextOfKin: {
-      name: info.nextOfKinName || noneRecorded,
+      name: info.nextOfKinName || NONE_RECORDED,
       address: {
         street:
           [info.nextOfKinStreet1, info.nextOfKinStreet2]
             .filter(Boolean)
-            .join(' ') || undefined,
-        city: info.nextOfKinCity,
-        state: info.nextOfKinState,
-        zipcode: info.nextOfKinZipcode,
+            .join(' ') || NONE_RECORDED,
+        city: info.nextOfKinCity || NONE_RECORDED,
+        state: info.nextOfKinState || NONE_RECORDED,
+        zipcode: info.nextOfKinZipcode || NONE_RECORDED,
       },
-      phone: info.nextOfKinHomePhone || noneRecorded,
+      homePhone: info.nextOfKinHomePhone || NONE_RECORDED,
+      workPhone: info.nextOfKinWorkPhone || NONE_RECORDED,
     },
     emergencyContact: {
-      name: info.emergencyName || noInfoReported,
+      name: info.emergencyName || NONE_RECORDED,
       address: {
         street:
           [info.emergencyStreet1, info.emergencyStreet2]
             .filter(Boolean)
-            .join(' ') || undefined,
-        city: info.emergencyCity,
-        state: info.emergencyState,
-        zipcode: info.emergencyZipcode,
+            .join(' ') || NONE_RECORDED,
+        city: info.emergencyCity || NONE_RECORDED,
+        state: info.emergencyState || NONE_RECORDED,
+        zipcode: info.emergencyZipcode || NONE_RECORDED,
       },
-      phone: info.emergencyHomePhone || noInfoReported,
+      homePhone: info.emergencyHomePhone || NONE_RECORDED,
+      workPhone: info.emergencyHomePhone || NONE_RECORDED,
     },
-    vaGuardian: noInfoReported, // no matching attribute in test user data
-    civilGuardian: noInfoReported, // no matching attribute in test user data
-    activeInsurance: noInfoReported, // no matching attribute in test user data
+    // no matching attribute in test user data
+    vaGuardian: {
+      name: info.vaGuardianName || NONE_RECORDED,
+      address: {
+        street:
+          [info.vaGuardianStreet1, info.vaGuardianStreet2]
+            .filter(Boolean)
+            .join(' ') || NONE_RECORDED,
+        city: info.vaGuardianCity || NONE_RECORDED,
+        state: info.vaGuardianState || NONE_RECORDED,
+        zipcode: info.vaGuardianZipcode || NONE_RECORDED,
+      },
+      homePhone: info.vaGuardianHomePhone || NONE_RECORDED,
+      workPhone: info.vaGuardianHomePhone || NONE_RECORDED,
+    },
+    // no matching attribute in test user data
+    civilGuardian: {
+      name: info.civilGuardianName || NONE_RECORDED,
+      address: {
+        street:
+          [info.civilGuardianStreet1, info.civilGuardianStreet2]
+            .filter(Boolean)
+            .join(' ') || NONE_RECORDED,
+        city: info.civilGuardianCity || NONE_RECORDED,
+        state: info.civilGuardianState || NONE_RECORDED,
+        zipcode: info.civilGuardianZipcode || NONE_RECORDED,
+      },
+      homePhone: info.civilGuardianHomePhone || NONE_RECORDED,
+      workPhone: info.civilGuardianHomePhone || NONE_RECORDED,
+    },
+    // no matching attribute in test user data
+    activeInsurance: {
+      company: info.activeInsuranceCompany || NONE_RECORDED,
+      effectiveDate: info.activeInsuranceEffectiveDate || NONE_RECORDED,
+      expirationDate: info.activeInsuranceExpirationDate || NONE_RECORDED,
+      groupName: info.activeInsuranceGroupName || NONE_RECORDED,
+      groupNumber: info.activeInsuranceGroupNumber || NONE_RECORDED,
+      subscriberId: info.activeInsuranceSubscriberId || NONE_RECORDED,
+      subscriberName: info.activeInsuranceSubscriberName || NONE_RECORDED,
+      relationship: info.activeInsuranceRelationship || NONE_RECORDED,
+    },
   };
 };
 
