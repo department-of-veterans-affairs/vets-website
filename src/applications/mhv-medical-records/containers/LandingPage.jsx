@@ -388,11 +388,18 @@ const LandingPage = () => {
               Where can I find health information I entered myself?
             </h3>
             {phase0p5Flag ? (
-              <p className="vads-u-margin-bottom--2">
-                Download your self-entered health information report.
-              </p>
+              <section>
+                <p className="vads-u-margin-bottom--2">
+                  Download your self-entered health information report.
+                </p>
+                <p className="vads-u-margin-bottom--2">
+                  <Link to="/download">
+                    Go to download your medical records reports
+                  </Link>
+                </p>
+              </section>
             ) : (
-              <>
+              <section>
                 <p className="vads-u-margin-bottom--2">
                   Right now, your records on VA.gov only include health
                   information your VA providers have entered.
@@ -401,21 +408,17 @@ const LandingPage = () => {
                   To find health information you entered yourself, go to your
                   medical records on the My HealtheVet website.
                 </p>
-              </>
+                <p className="vads-u-margin-bottom--2">
+                  <ExternalLink
+                    href={mhvUrl(
+                      isAuthenticatedWithSSOe(fullState),
+                      'download-my-data',
+                    )}
+                    text="Go to your medical records on the My HealtheVet website"
+                  />
+                </p>
+              </section>
             )}
-            <p className="vads-u-margin-bottom--2">
-              <ExternalLink
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'download-my-data',
-                )}
-                text={
-                  phase0p5Flag
-                    ? 'Go to download your medical records reports'
-                    : 'Go to your medical records on the My HealtheVet website'
-                }
-              />
-            </p>
           </va-accordion-item>
           <va-accordion-item bordered="true">
             <h3 className="vads-u-font-size--h6" slot="headline">
