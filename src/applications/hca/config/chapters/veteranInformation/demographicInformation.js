@@ -1,4 +1,4 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import DemographicField from '../../../components/FormFields/DemographicViewField';
 import { DemographicInfoDescription } from '../../../components/FormDescriptions';
 
@@ -10,7 +10,7 @@ const {
   isSpanishHispanicLatino,
   isWhite,
   hasDemographicNoAnswer,
-} = fullSchemaHca.properties;
+} = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
