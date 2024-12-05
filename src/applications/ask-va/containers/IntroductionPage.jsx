@@ -25,7 +25,6 @@ import {
   successIcon,
 } from '../utils/helpers';
 import DashboardCards from './DashboardCards';
-import DashboardCardsMock from './DashboardCardsMock';
 
 const IntroductionPage = props => {
   const { route, toggleLoginModal, loggedIn } = props;
@@ -33,7 +32,6 @@ const IntroductionPage = props => {
   const [inquiryData, setInquiryData] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
-  const [showMockDashboard, setShowMockDashboard] = useState(false);
 
   const getStartPage = () => {
     const data = formData || {};
@@ -147,13 +145,15 @@ const IntroductionPage = props => {
       </p>
 
       <h3 className="vads-u-margin-top--1">
-        If you need personalized information
+        Ask a question or read a reply from VA
       </h3>
       <p className="vads-u-margin-bottom--1">
-        You need to sign in to ask a question about yourself, your family member
-        or another Veteran. Your question can be about many VA-related topics,
-        including education benefits, disability compensation, debt, health care
-        and more.
+        You need to sign in to ask a question about yourself, a family member or
+        another Veteran. This form takes about 10 to 15 minutes to complete.
+      </p>
+      <p className="vads-u-margin-bottom--1">
+        Signing in also lets you track your question and read a reply from VA
+        when it’s ready.
       </p>
 
       <VaAlert
@@ -180,38 +180,14 @@ const IntroductionPage = props => {
         </div>
       </VaAlert>
 
-      <VaAlert
-        close-btn-aria-label="Close notification"
-        status="info"
-        visible
-        uswds
-        className="vads-u-margin-top--3"
-      >
-        <h4 slot="headline">Research Study - Sign in to ask a question</h4>
-        <div>
-          <p className="vads-u-margin-top--0">
-            You’ll need to sign in with a verified{' '}
-            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
-            <span className="vads-u-font-weight--bold">ID.me</span> account or a
-            Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
-            account. If you don’t have any of those accounts, you can create a
-            free <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
-            <span className="vads-u-font-weight--bold">ID.me</span> account now.
-          </p>
-          <VaButton
-            text="Sign in or create an account"
-            onClick={() => setShowMockDashboard(true)}
-          />
-        </div>
-      </VaAlert>
-
       <h3 className="vads-u-margin-top--6">If you need general information</h3>
       <p className="vads-u-margin-bottom--1">
         We recommend that you use the{' '}
         <Link href="https://www.va.gov/contact-us/virtual-agent/">chatbot</Link>{' '}
         or review <Link href="https://www.va.gov/resources/">FAQs</Link> to find
-        general information quickly. Otherwise, you can ask us a question and
-        you may not need to sign in.
+        general information more quickly. Otherwise, there are some questions
+        you can ask without signing in. This form takes about 2 to 5 minutes to
+        complete.
       </p>
       <Link className="vads-c-action-link--blue" to={getStartPage}>
         Start your question without signing in
@@ -310,62 +286,6 @@ const IntroductionPage = props => {
     </>
   );
 
-  const mockDashboard = (
-    <>
-      <va-link-action
-        href="/"
-        message-aria-describedby="Ask a new question"
-        text="Ask a new question"
-      />
-      <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
-        <va-accordion
-          disable-analytics={{
-            value: 'false',
-          }}
-          open-single
-          section-heading={{
-            value: 'null',
-          }}
-          uswds={{
-            value: 'true',
-          }}
-        >
-          <va-accordion-item header="When to use Ask VA" id="first">
-            <p>
-              You can use Ask VA to ask a question online. You can ask about
-              education, disability compensation, health care and many other
-              topics.
-            </p>
-            <p>
-              If you need help now, use one of these urgent communication
-              options:
-            </p>
-            <ul>
-              <li>
-                <strong>
-                  If you’re in crisis or having thoughts of suicide,
-                </strong>{' '}
-                connect with our Veterans Crisis Line. We offer confidential
-                support anytime, day or night.{' '}
-                <a href="https://www.veteranscrisisline.net">
-                  Connect with Veterans Crisis Line
-                </a>
-              </li>
-              <li>
-                <strong>If you think your life or health is in danger,</strong>{' '}
-                call{' '}
-                <va-telephone contact="911" message-aria-describedby="9 1 1" />,
-                or go to the nearest emergency room.
-              </li>
-            </ul>
-          </va-accordion-item>
-        </va-accordion>
-      </div>
-
-      <DashboardCardsMock />
-    </>
-  );
-
   const subTitle =
     'Get answers to your questions about VA benefits and service. You should receive a reply within 7 business days.';
 
@@ -373,9 +293,7 @@ const IntroductionPage = props => {
     <div className="schemaform-intro">
       <FormTitle title={formConfig.title} subTitle={subTitle} />
       {loggedIn && authenticatedUI}
-      {/* Temporary mock dashboard experience for research study */}
-      {!loggedIn && showMockDashboard && mockDashboard}
-      {!loggedIn && !showMockDashboard && unAuthenticatedUI}
+      {!loggedIn && unAuthenticatedUI}
     </div>
   );
 };
