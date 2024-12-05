@@ -1,13 +1,16 @@
 import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import { encryptData } from './encryptParams';
 import content from '../locales/en/content.json';
+
+const key = 'fOBPCm3uMYGUhedQu+fG0gBWKeQQGi25rhxwkHsQQGs=';
 
 const joinAddressParts = (...parts) => {
   return parts.filter(part => part != null).join(', ');
 };
 
-const formatQueryParams = ({
+const formatQueryParams = async ({
   lat,
   long,
   radius,
@@ -24,9 +27,13 @@ const formatQueryParams = ({
     return facilityIdParams;
   };
 
+  // Encrypt lat and long values
+  const encryptedLat = lat ? await encryptData(lat, key) : {};
+  const encryptedLong = long ? await encryptData(long, key) : {};
+
   const params = [
-    lat ? `lat=${lat}` : null,
-    long ? `long=${long}` : null,
+    encryptedLat ? `lat=${encryptedLat}` : null,
+    encryptedLong ? `long=${encryptedLong}` : null,
     radius ? `radius=${radius}` : null,
     page ? `page=${page}` : null,
     perPage ? `per_page=${perPage}` : null,
@@ -53,7 +60,7 @@ export const fetchFacilities = async ({
     environment.API_URL
   }/v0/caregivers_assistance_claims/facilities?type=health`;
 
-  const queryParams = formatQueryParams({
+  const queryParams = await formatQueryParams({
     lat,
     long,
     radius,
