@@ -377,7 +377,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-     'discontinued-incomes-summary': ({ afterHook }) => {
+      'discontinued-incomes-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             let isAddingDiscontinuedIncomes =
@@ -391,14 +391,14 @@ const testConfig = createTestConfig(
               'view:isAddingDiscontinuedIncomes',
               isAddingDiscontinuedIncomes,
             );
-            
+
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()
               .click();
           });
         });
       },
-       'discontinued-incomes/0/amount': ({ afterHook }) => {
+      'discontinued-incomes/0/amount': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { discontinuedIncomes } = data;
@@ -407,7 +407,7 @@ const testConfig = createTestConfig(
             fillStandardTextInput('grossAnnualAmount', grossAnnualAmount);
 
             addedDiscontinuedIncomeItem = true;
-            
+
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()
               .click();
@@ -428,7 +428,7 @@ const testConfig = createTestConfig(
               'view:isAddingIncomeReceiptWaivers',
               isAddingIncomeReceiptWaivers,
             );
-            
+
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()
               .click();
