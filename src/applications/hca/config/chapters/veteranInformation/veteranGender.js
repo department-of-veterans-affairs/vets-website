@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import { SIGIGenderDescription } from '../../../components/FormDescriptions';
 
-const { sigiGenders } = fullSchemaHca.properties;
+const { sigiGenders } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
