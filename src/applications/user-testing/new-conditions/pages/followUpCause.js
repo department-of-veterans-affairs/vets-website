@@ -1,4 +1,3 @@
-// placeholder to preserve options changes
 import {
   radioSchema,
   radioUI,

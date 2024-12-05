@@ -17,7 +17,6 @@ const datePage = {
     // TODO: Why is there the empty option when both are required?
     date: currentOrPastMonthYearDateUI({
       title: 'What’s the approximate date your condition started?',
-      hint: 'For example: January 2004 or 2004',
     }),
   },
   schema: {
