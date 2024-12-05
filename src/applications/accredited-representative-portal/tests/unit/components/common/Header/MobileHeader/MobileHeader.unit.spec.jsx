@@ -1,12 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import MobileHeader from '../../../../../../components/common/Header/MobileHeader/MobileHeader';
+import Header from '../../../../../../components/common/Header/Header';
 import { renderTestApp } from '../../../../helpers';
 
 describe('MobileHeader', () => {
   it('renders header on mobile', () => {
-    const { getByTestId } = renderTestApp(<MobileHeader />);
+    const { getByTestId } = renderTestApp(<Header />);
     expect(getByTestId('mobile-header')).to.exist;
   });
 });

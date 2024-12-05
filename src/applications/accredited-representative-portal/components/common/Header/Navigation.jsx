@@ -1,6 +1,6 @@
 import React from 'react';
 
-import UserNav from '../common/UserNav';
+import UserNav from './UserNav';
 
 export const MobileLogoRow = () => {
   return (
