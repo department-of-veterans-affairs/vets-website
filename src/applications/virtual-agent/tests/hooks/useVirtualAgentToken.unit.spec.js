@@ -11,8 +11,8 @@ import useVirtualAgentToken, {
 } from '../../hooks/useVirtualAgentToken';
 import { ERROR, COMPLETE } from '../../utils/loadingStatus';
 import * as UseWaitForCsrfTokenModule from '../../hooks/useWaitForCsrfToken';
-import * as UseDatadogLoggingModule from '../../hooks/useDatadogLogging';
 import * as LoggingModule from '../../utils/logging';
+import * as UseDatadogLoggingModule from '../../hooks/useDatadogLogging';
 
 describe('useVirtualAgentToken', () => {
   let sandbox;
@@ -85,7 +85,11 @@ describe('useVirtualAgentToken', () => {
 
       let result;
       await act(async () => {
-        result = renderHook(() => useVirtualAgentToken({ timeout: 1 }));
+        result = renderHook(() =>
+          useVirtualAgentToken({
+            timeout: 1,
+          }),
+        );
       });
 
       expect(result.result.current.loadingStatus).to.equal(ERROR);
@@ -138,7 +142,11 @@ describe('useVirtualAgentToken', () => {
 
       let result;
       await act(async () => {
-        result = renderHook(() => useVirtualAgentToken({ timeout: 1 }));
+        result = renderHook(() =>
+          useVirtualAgentToken({
+            timeout: 1,
+          }),
+        );
       });
 
       expect(result.result.current.loadingStatus).to.equal(ERROR);
@@ -179,7 +187,11 @@ describe('useVirtualAgentToken', () => {
 
       let result;
       await act(async () => {
-        result = renderHook(() => useVirtualAgentToken({ timeout: 1 }));
+        result = renderHook(() =>
+          useVirtualAgentToken({
+            timeout: 1,
+          }),
+        );
       });
 
       expect(result.result.current.loadingStatus).to.equal(ERROR);
