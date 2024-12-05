@@ -1,7 +1,7 @@
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import { BASE_URL, CONTACT_INFO_PATH } from '../constants';
-import { CONTESTABLE_ISSUES_API } from '../constants/apis';
+import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 
 import mockV2Data from './fixtures/data/maximal-test.json';
 import { getPastItf, fetchItf } from './995.cypress.helpers';
@@ -23,13 +23,13 @@ describe('995 contact info loop', () => {
     setStoredSubTask({ benefitType: 'compensation' });
     cy.intercept(
       'GET',
-      `/v1${CONTESTABLE_ISSUES_API}compensation`,
+      `/${CONTESTABLE_ISSUES_API.join('')}/compensation`,
       mockContestableIssues,
     ).as('getIssues');
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockV2Data);
 
-    cy.intercept('GET', '/v0/intent_to_file', fetchItf());
+    cy.intercept('GET', `/${ITF_API.join('')}`, fetchItf());
 
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
     cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);

@@ -18,7 +18,12 @@ import {
   EVIDENCE_PRIVATE,
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
-import { CONTESTABLE_ISSUES_API, EVIDENCE_UPLOAD_API } from '../constants/apis';
+import {
+  CONTESTABLE_ISSUES_API,
+  EVIDENCE_UPLOAD_API,
+  ITF_API,
+  SUBMIT_URL,
+} from '../constants/apis';
 
 import cypressSetup from '../../shared/tests/cypress.setup';
 import {
@@ -135,20 +140,20 @@ export const setupPerTest = () => {
 
   setStoredSubTask({ benefitType: 'compensation' });
 
-  cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
-  cy.intercept('GET', '/v0/intent_to_file', fetchItf());
+  cy.intercept('POST', `/${EVIDENCE_UPLOAD_API.join('')}`, mockUpload);
+  cy.intercept('GET', `/${ITF_API.join('')}`, fetchItf());
 
   // Include legacy appeals to mock data for maximal test
   const dataSet = Cypress.currentTest.titlePath[1];
   cy.intercept(
     'GET',
-    `/v1${CONTESTABLE_ISSUES_API}compensation`,
+    `/${CONTESTABLE_ISSUES_API.join('')}/compensation`,
     dataSet === 'maximal-test'
       ? mockContestableIssuesWithLegacyAppeals
       : mockContestableIssues,
   ).as('getIssues');
 
-  cy.intercept('POST', '/v1/supplemental_claims', mockSubmit);
+  cy.intercept('POST', `/${SUBMIT_URL.join('')}`, mockSubmit);
 
   cy.get('@testData').then(() => {
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);

@@ -8,7 +8,7 @@ import downtimeTesting from '../../shared/tests/cypress.downtime';
 
 downtimeTesting({
   baseUrl: SC_BASE_URL,
-  contestableApi: `/v1${CONTESTABLE_ISSUES_API}`,
+  contestableApi: `/${CONTESTABLE_ISSUES_API.join('')}/`,
   formId: '20-0995',
   data: mockData.data,
   inProgressVersion: 1,
