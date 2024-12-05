@@ -8,6 +8,7 @@ import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
 
 const router = createBrowserRouter([
   {
+    path: '/representative',
     element: <App />,
     children: [
       {
