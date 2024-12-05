@@ -191,7 +191,11 @@ export const pageTitles = {
     'Lab And Test Results Details - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
+  CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE:
+    'Care Summaries And Notes Details - Medical Records | Veterans Affairs',
   VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
+  VACCINE_DETAILS_PAGE_TITLE:
+    'Vaccine Details - Medical records | Veterans Affairs',
   ALLERGIES_PAGE_TITLE:
     'Allergies and Reactions - Medical Records | Veterans Affairs',
   HEALTH_CONDITIONS_PAGE_TITLE:
