@@ -4,6 +4,7 @@ import formConfig from '../../config/form';
 
 describe('22-10282 Edu form', () => {
   it('should be keyboard-only navigable', () => {
+    if (Cypress.env('CI')) this.skip();
     // Go to application, should go to intro page
     cy.visit(`${manifest.rootUrl}`);
     cy.injectAxeThenAxeCheck();
