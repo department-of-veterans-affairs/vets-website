@@ -111,7 +111,7 @@ const SelectAccreditedRepresentative = props => {
   };
 
   const handleSelectRepresentative = async selectedRepResult => {
-    if (selectedRepResult === currentSelectedRep) {
+    if (selectedRepResult === currentSelectedRep && isReviewPage) {
       goToPath('/review-and-submit');
     } else {
       const repStatus = await getRepStatus();
@@ -140,18 +140,6 @@ const SelectAccreditedRepresentative = props => {
       handleGoForward({ selectionMade: true });
     }
   };
-
-  // const continueError = () => {
-  //   return (
-  //     <span
-  //       className="usa-input-error-message vads-u-margin-bottom--0p5"
-  //       role="alert"
-  //     >
-  //       <span className="sr-only">Error</span>
-  //       {}
-  //     </span>
-  //   );
-  // };
 
   if (loadingPOA) {
     return <va-loading-indicator set-focus />;
