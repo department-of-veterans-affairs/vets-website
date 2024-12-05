@@ -7,8 +7,7 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 
 .discover-your-benefits .confirmation-page p,
-.discover-your-benefits article p,
-.discover-your-benefits form > div:first-of-type * {
+.discover-your-benefits article p {
   @media (min-width: $medium-screen) {
     width: 75ch !important;
   }
