@@ -17,11 +17,11 @@ import SuppliesUnavailable from '../components/SuppliesUnavailable';
 import {
   selectSupplies,
   selectUnavailableSupplies,
-  showCtaStartOrder,
+  isAlerting,
 } from '../selectors';
 
 const Loading = () => (
-  <div className="vads-u-margin--5" data-testid="reorder-loading">
+  <div className="vads-u-margin--5" data-testid="reorder--loading">
     <va-loading-indicator message="Please wait while we load your information..." />
   </div>
 );
@@ -34,7 +34,7 @@ export const IntroductionPage = ({ route }) => {
     state?.user?.profile?.loading ||
     false;
 
-  const renderCtaStartOrder = useSelector(showCtaStartOrder);
+  const isNotAlerting = !useSelector(isAlerting);
   const supplies = useSelector(selectSupplies);
   const unavailableSupplies = useSelector(selectUnavailableSupplies);
 
@@ -50,10 +50,10 @@ export const IntroductionPage = ({ route }) => {
     <>
       <Breadcrumbs />
       <FormTitle title={TITLE} />
-      <p>{SUBTITLE}</p>
+      <p className="vads-u-font-family--serif">{SUBTITLE}</p>
       <div className="vads-u-margin-bottom--2">
         <Alerts />
-        {renderCtaStartOrder && (
+        {isNotAlerting && (
           <>
             <SuppliesAvailable supplies={supplies} />
             <SaveInProgressIntro

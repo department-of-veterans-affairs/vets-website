@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import { numberOfSuppliesPhrase } from '../utils/helpers';
 
 const SuppliesAvailable = ({ supplies }) => (
-  <va-card background class="vads-u-margin-bottom--2">
+  <va-card
+    background
+    class="vads-u-margin-bottom--2"
+    data-testid="reorder--supplies-available"
+  >
     <h2 className="vads-u-margin-top--0">Available for reorder</h2>
     <p className="vads-u-margin-bottom--0">
       You have {numberOfSuppliesPhrase(supplies?.length)} available for reorder.

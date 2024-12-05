@@ -44,7 +44,10 @@ const SuppliesUnavailable = ({ supplies = [] }) => {
   return (
     <>
       {supplies.length > 0 && (
-        <div className="vads-u-margin-y--5">
+        <div
+          className="vads-u-margin-y--5"
+          data-testid="reorder--supplies-unavailable"
+        >
           <h2 className="vads-u-margin-top--0">Unavailable for reorder</h2>
           <p>
             Showing {supplies.length} medical{' '}
