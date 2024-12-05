@@ -69,7 +69,12 @@ const childContent = (
       </va-process-list-item>
     </va-process-list>
     <p>
-      <ConfirmationView.PrintThisPage secondary />
+      <va-button
+        secondary
+        text="Print this page"
+        onClick={() => window.print()}
+        data-testid="ezr-print-button"
+      />
     </p>
     <p>
       <va-link href="https://iam.education.va.gov/" text="Back" />
