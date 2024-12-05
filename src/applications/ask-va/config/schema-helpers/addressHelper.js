@@ -185,7 +185,7 @@ export function uiSchema(label = 'Address', useStreet3 = true) {
       'ui:autocomplete': 'address-line1',
       'ui:required': () => true,
       'ui:errorMessages': {
-        required: 'Please enter a street address',
+        required: 'Please enter your street address',
       },
     },
     unitNumber: {
@@ -223,7 +223,7 @@ export function uiSchema(label = 'Address', useStreet3 = true) {
       'ui:title': 'City',
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
-        required: 'Please enter a city',
+        required: 'Please enter your city',
       },
       'ui:required': form => !form.onBaseOutsideUS,
       'ui:options': {
@@ -232,7 +232,7 @@ export function uiSchema(label = 'Address', useStreet3 = true) {
     },
     state: {
       'ui:errorMessages': {
-        required: 'Please enter a state/province/region',
+        required: 'Please enter your state',
         'ui:autocomplete': 'address-level1',
       },
       'ui:required': form => !form.onBaseOutsideUS && form.country === 'USA',
@@ -245,7 +245,7 @@ export function uiSchema(label = 'Address', useStreet3 = true) {
       'ui:autocomplete': 'postal-code',
       'ui:required': () => true,
       'ui:errorMessages': {
-        required: 'Please enter a postal code',
+        required: 'Please enter your postal code',
         pattern:
           'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
       },
