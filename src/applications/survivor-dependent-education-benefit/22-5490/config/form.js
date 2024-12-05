@@ -1016,6 +1016,7 @@ const formConfig = {
                   },
                 },
                 state: {
+                  'ui:title': 'State/County/Province',
                   'ui:validations': [
                     (errors, field) => {
                       if (field?.length === 1) {
@@ -1025,24 +1026,6 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:options': {
-                    replaceSchema: formData => {
-                      if (
-                        formData?.mailingAddressInput?.livesOnMilitaryBase ||
-                        formData?.mailingAddressInput?.address?.country ===
-                          'USA'
-                      ) {
-                        return {
-                          title: 'State',
-                          type: 'string',
-                        };
-                      }
-                      return {
-                        title: 'State/County/Province',
-                        type: 'string',
-                      };
-                    },
-                  },
                   'ui:required': formData =>
                     formData?.mailingAddressInput?.livesOnMilitaryBase ||
                     formData?.mailingAddressInput?.address?.country === 'USA',
