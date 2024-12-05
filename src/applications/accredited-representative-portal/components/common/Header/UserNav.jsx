@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router-dom-v5-compat';
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../constants';
 import {
   selectUserProfile,
@@ -77,50 +78,100 @@ const UserNav = ({ isMobile }) => {
     );
   } else if (profile) {
     content = (
-      <div className="va-dropdown" ref={dropdownRef}>
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
-        <button
-          data-testid="user-nav-dropdown-panel-button"
-          className="sign-in-drop-down-panel-button va-btn-withicon va-dropdown-trigger"
-          aria-controls={uniqueId.current}
-          aria-expanded={isDropdownOpen}
-          onClick={toggleDropdown}
-          type="button"
-        >
-          <span>
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              className="vads-u-display--block vads-u-margin-right--0 medium-screen:vads-u-margin-right--0p5 icon"
-              viewBox="0 2 21 21"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill="#fff"
-                d="M12 12c-1.1 0-2.04-.4-2.82-1.18A3.85 3.85 0 0 1 8 8c0-1.1.4-2.04 1.18-2.83A3.85 3.85 0 0 1 12 4c1.1 0 2.04.4 2.82 1.17A3.85 3.85 0 0 1 16 8c0 1.1-.4 2.04-1.18 2.82A3.85 3.85 0 0 1 12 12Zm-8 8v-2.8c0-.57.15-1.09.44-1.56a2.9 2.9 0 0 1 1.16-1.09 13.76 13.76 0 0 1 9.65-1.16c1.07.26 2.12.64 3.15 1.16.48.25.87.61 1.16 1.09.3.47.44 1 .44 1.56V20H4Z"
-              />
-            </svg>
-            <div
-              data-testid="user-nav-user-name"
-              className="user-dropdown-email"
-              data-dd-privacy="mask"
-              data-dd-action-name="First Name"
-            >
-              {`${profile.firstName}${isMobile ? '' : ` ${profile.lastName}`}`}
-            </div>
-          </span>
-        </button>
-        <div
-          className={`va-dropdown-panel ${isDropdownOpen ? '' : 'hidden'}`}
-          id={uniqueId.current}
-        >
-          <ul>
-            <li>
-              <a data-testid="user-nav-sign-out-link" href={SIGN_OUT_URL}>
-                Sign Out
-              </a>
-            </li>
-          </ul>
+      <div className="vads-u-display--flex vads-u-flex-justify--center">
+        <div className="va-dropdown" ref={dropdownRef}>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+          <button
+            data-testid="user-nav-dropdown-panel-button"
+            className="sign-in-drop-down-panel-button va-btn-withicon va-dropdown-trigger"
+            aria-controls={uniqueId.current}
+            aria-expanded={isDropdownOpen}
+            onClick={toggleDropdown}
+            type="button"
+          >
+            <img
+              data-testid="menu-login"
+              className="nav__profile-icon"
+              src="/img/icons/fa-user.svg"
+              alt="profile dropdown"
+            />
+          </button>
+          <div
+            className={`va-dropdown-panel ${isDropdownOpen ? '' : 'hidden'}`}
+            id={uniqueId.current}
+          >
+            <ul>
+              <li>
+                <Link data-testid="user-nav-profile-link" to="/insert-link">
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <Link data-testid="user-nav-sign-out-link" to={SIGN_OUT_URL}>
+                  Sign Out
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="va-dropdown" ref={dropdownRef}>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+          <va-button
+            onClick={function noRefCheck() {}}
+            secondary
+            text="Secondary"
+          />
+          <button
+            data-testid="user-nav-dropdown-panel-button"
+            className="sign-in-drop-down-panel-button va-btn-withicon va-dropdown-trigger"
+            aria-controls={uniqueId.current}
+            aria-expanded={isDropdownOpen}
+            onClick={toggleDropdown}
+            type="button"
+          >
+            <span>
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                className="vads-u-display--block vads-u-margin-right--0 medium-screen:vads-u-margin-right--0p5 icon"
+                viewBox="0 2 21 21"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="#fff"
+                  d="M12 12c-1.1 0-2.04-.4-2.82-1.18A3.85 3.85 0 0 1 8 8c0-1.1.4-2.04 1.18-2.83A3.85 3.85 0 0 1 12 4c1.1 0 2.04.4 2.82 1.17A3.85 3.85 0 0 1 16 8c0 1.1-.4 2.04-1.18 2.82A3.85 3.85 0 0 1 12 12Zm-8 8v-2.8c0-.57.15-1.09.44-1.56a2.9 2.9 0 0 1 1.16-1.09 13.76 13.76 0 0 1 9.65-1.16c1.07.26 2.12.64 3.15 1.16.48.25.87.61 1.16 1.09.3.47.44 1 .44 1.56V20H4Z"
+                />
+              </svg>
+              <div
+                data-testid="user-nav-user-name"
+                className="user-dropdown-email"
+                data-dd-privacy="mask"
+                data-dd-action-name="First Name"
+              >
+                Menu
+              </div>
+            </span>
+          </button>
+          <div
+            className={`va-dropdown-panel ${isDropdownOpen ? '' : 'hidden'}`}
+            id={uniqueId.current}
+          >
+            <ul>
+              <li>
+                <a
+                  data-testid="user-nav-poa-requests-link"
+                  href="/poa-requests"
+                >
+                  POA Requests
+                </a>
+              </li>
+              <li>
+                <a data-testid="user-nav-profile-link" href="/get-help">
+                  Get Help
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     );
