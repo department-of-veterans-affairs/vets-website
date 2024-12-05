@@ -22,7 +22,6 @@ import {
   powConfinementDateRangeValidation,
   powConfinement2DateRangeValidation,
   statementOfTruthFullNamePath,
-  getSubmitterName,
   evidenceConfinementHintUpdateUiSchema,
 } from '../../helpers';
 
@@ -609,35 +608,6 @@ describe('statementOfTruthFullNamePath()', () => {
         formData: { preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN },
       }),
     ).to.equal('thirdPartyFullName');
-  });
-});
-
-describe('getSubmitterName()', () => {
-  it('returns correct name for preparerType', () => {
-    expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.VETERAN,
-        veteranFullName: 'veteranName',
-      }),
-    ).to.equal('veteranName');
-    expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.NON_VETERAN,
-        nonVeteranFullName: 'nonVeteranName',
-      }),
-    ).to.equal('nonVeteranName');
-    expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
-        thirdPartyFullName: 'thirdPartyName',
-      }),
-    ).to.equal('thirdPartyName');
-    expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
-        thirdPartyFullName: 'thirdPartyName',
-      }),
-    ).to.equal('thirdPartyName');
   });
 });
 
