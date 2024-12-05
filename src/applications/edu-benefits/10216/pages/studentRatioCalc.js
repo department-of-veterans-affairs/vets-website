@@ -2,8 +2,8 @@
 // imported above would import and use these common definitions:
 import React from 'react';
 import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
-import PercentageCalc from './PercentageCalc';
-import { ratioCalcInfoHelpText } from './RatioCalc';
+import PercentageCalc from '../components/PercentageCalc';
+import { ratioCalcInfoHelpText } from '../components/RatioCalc';
 
 // Example of an imported schema:
 // import fullSchema from '../22-10216-schema.json';
@@ -22,28 +22,21 @@ export default {
           required:
             'Please enter the number of beneficiary students at your institution',
         },
-        // 'ui:validations': [
-        //   (_, field) => {
-        //     myFunc(field);
-        //   },
-        // ],
-        // },
       },
       numOfStudent: {
         'ui:title': 'Total number of students',
         'ui:errorMessages': {
           required: 'Please enter the total number of students',
         },
-        // 'ui:validations': [
-        //   (_, field) => {
-        //     myFunc(field);
-        //   },
-        // ],
-        // },
       },
       studentPercentageCalc: {
         'ui:title': 'VA beneficiary students percentage (calculated)',
-        'ui:field': () => <PercentageCalc percentage={percentage} />,
+        'ui:field': PercentageCalc,
+        'ui:options': {
+          // viewComponent: props => (
+          //   <PercentageCalc percentage={percentage} props={props} />
+          // ),
+        },
       },
 
       'view:ratioCalcInfoHelpText': {

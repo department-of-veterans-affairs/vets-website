@@ -120,3 +120,57 @@ $error-left-padding-width: 1.5rem;
   vertical-align: middle;
   padding-left: 2rem;
 }
+
+// Base styles for definition lists in Survivor Benefit Application
+.survivor-benefit-definition-list {
+  margin: 0;
+  padding: 0;
+
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  & > dt {
+    float: left;
+    clear: left;
+    font-weight: bold;
+    margin: 0 0 0.125rem; // Further reduce bottom margin for tighter spacing
+  }
+
+  & > dd {
+    float: left;
+    margin: 0 0 0.125rem 1em; // Further reduce bottom margin and adjust left spacing
+    white-space: nowrap; // Prevents wrapping for obfuscated text
+  }
+
+  // Modifier for lighter-weight terms
+  &--normal > dt {
+    font-weight: normal;
+  }
+}
+
+// Scoped styles for DirectDepositViewField
+.survivor-benefit-direct-deposit {
+  .survivor-benefit-definition-list_term {
+    margin-bottom: 0.125rem; // Even tighter space between terms and definitions
+  }
+
+  .survivor-benefit-definition-list_definition {
+    font-size: 1rem;
+    margin-bottom: 0.125rem; // Match the reduced spacing
+  }
+}
+
+// Scoped styles for ObfuscateReviewField
+.survivor-benefit-obfuscate-review {
+  .survivor-benefit-definition-list_term {
+    color: var(--vads-color-gray-dark);
+  }
+
+  .survivor-benefit-definition-list_definition {
+    font-size: 1rem;
+    margin-bottom: 0.125rem; // Match the reduced spacing
+  }
+}
