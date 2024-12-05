@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { standard5103Item } from '../../constants';
 // Not currently being used. Was being used on WhatYouNeedToDo and AdditionalEvidence.
-// Waiting to see if we still need this compoennt or not
+// Waiting to see if we still need this component or not
 function Standard5103Alert({ previousPage = null }) {
   return (
     <va-alert
