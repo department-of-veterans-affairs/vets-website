@@ -15,31 +15,19 @@ const formPdfUrlsReducer = (state = initialState, action) => {
   const { type, guid, url, error } = action;
   switch (type) {
     case FETCH_FORM_PDF_URL_STARTED:
-      return {
-        loading: true,
-        submissions,
-      };
+      return { loading: true, submissions };
     case FETCH_FORM_PDF_URL_SUCCEEDED:
       return {
         loading: false,
-        submissions: {
-          ...submissions,
-          [guid]: { url },
-        },
+        submissions: { ...submissions, [guid]: { url } },
       };
     case FETCH_FORM_PDF_URL_FAILED:
       return {
         loading: false,
-        submissions: {
-          ...submissions,
-          [guid]: { error },
-        },
+        submissions: { ...submissions, [guid]: { error } },
       };
     case FETCH_FORM_STATUS_STARTED:
-      return {
-        loading,
-        submissions: {},
-      };
+      return { loading, submissions: {} };
     default:
       return state;
   }
