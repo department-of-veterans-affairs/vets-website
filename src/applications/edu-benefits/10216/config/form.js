@@ -83,7 +83,7 @@ const formConfig = {
         },
       },
     },
-    studentRatioCalc: {
+    studentRatioCalcChapter: {
       title: 'Student ratio calculation',
       pages: {
         studentRatioCalc: {

@@ -10,11 +10,11 @@ import { ratioCalcInfoHelpText } from './RatioCalc';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
 
-let myValue = {};
+let percentage;
 
 export default {
   uiSchema: {
-    studentRatioCalc: {
+    studentRatioCalcChapter: {
       'ui:title': '35% exemption calculation',
       beneficiaryStudent: {
         'ui:title': 'Number of VA beneficiary students',
@@ -42,8 +42,8 @@ export default {
         // },
       },
       studentPercentageCalc: {
-        'ui:title': '',
-        'ui:field': () => <PercentageCalc myValue={myValue} />,
+        'ui:title': 'VA beneficiary students percentage (calculated)',
+        'ui:field': () => <PercentageCalc percentage={percentage} />,
       },
 
       'view:ratioCalcInfoHelpText': {
@@ -60,17 +60,21 @@ export default {
         }),
       },
       'ui:validations': [
-        (_, field, formData) => {
-          myValue = formData;
+        (_, data) => {
+          percentage =
+            data?.numOfStudent > 0
+              ? ((data?.beneficiaryStudent + data?.numOfStudent) / 100).toFixed(
+                  2,
+                )
+              : '---';
         },
       ],
     },
   },
   schema: {
     type: 'object',
-    required: ['beneficiaryStudent', 'numOfStudent', 'dateOfCalculation'],
     properties: {
-      studentRatioCalc: {
+      studentRatioCalcChapter: {
         type: 'object',
         properties: {
           beneficiaryStudent: { type: 'string' },
@@ -84,6 +88,7 @@ export default {
             type: 'string',
           },
         },
+        required: ['beneficiaryStudent', 'numOfStudent', 'dateOfCalculation'],
       },
     },
   },
