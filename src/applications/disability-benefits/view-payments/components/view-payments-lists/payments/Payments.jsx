@@ -66,7 +66,7 @@ const Payments = ({
           Displaying {from} - {to} of {data.length} payments
         </h3>
 
-        <va-table isFocusable>
+        <va-table>
           <va-table-row slot="headers">
             {fields.map(field => (
               <span key={field.value}>{field.label}</span>
