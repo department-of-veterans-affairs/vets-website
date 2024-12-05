@@ -224,6 +224,7 @@ ${record.results}`;
                   onClick={() => startCounting()}
                   style={{ width: '100%' }}
                   disabled={isRunning || count >= 100}
+                  data-testid="request-images-button"
                 >
                   <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
                     <span className="vads-u-margin-left--0p5">
@@ -277,6 +278,7 @@ ${record.results}`;
                       record.id
                     }/images`}
                     text="View images"
+                    data-testid="radiology-details-view-images"
                   />
                 </va-alert>
               </>

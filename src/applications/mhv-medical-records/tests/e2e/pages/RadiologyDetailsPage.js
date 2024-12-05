@@ -67,6 +67,16 @@ class RadiologyDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="radiology-record-results"]').should('be.visible');
     cy.get('[data-testid="radiology-record-results"]').contains(results);
   };
+
+  clickRequestImages = () => {
+    cy.get('[data-testid="request-images-button"]').click();
+  };
+
+  clickViewImages = () => {
+    cy.get('[data-testid="radiology-details-view-images"]')
+      .contains('View images')
+      .click();
+  };
 }
 
 export default new RadiologyDetailsPage();

@@ -2,12 +2,21 @@ import defaultLabsAndTests from '../fixtures/labs-and-tests/labsAndTests.json';
 import radiologyRecordsMhv from '../fixtures/labs-and-tests/radiologyRecordsMhv.json';
 // import radiologyRecordsMhv from '../../tests/fixtures/labs-and-tests/radiologyRecordsMhv.json';
 import BaseListPage from './BaseListPage';
+import sessionStatus from '../fixtures/session-status.json';
 
 class LabsAndTestsListPage extends BaseListPage {
   goToLabsAndTests = (
     labsAndTests = defaultLabsAndTests,
     waitForLabsAndTests = false,
   ) => {
+    cy.intercept('POST', '/my_health/v1/medical_records/session', {
+      statusCode: 204,
+      body: {},
+    }).as('session');
+    cy.intercept('GET', '/my_health/v1/medical_records/session/status', {
+      statusCode: 200,
+      body: sessionStatus, // status response copied from staging
+    }).as('status');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/labs_and_tests',
