@@ -39,14 +39,14 @@ describe('convertMedication', () => {
     expect(result.id).to.equal('123');
     expect(result.type).to.equal('va');
     expect(result.prescriptionName).to.equal('Aspirin');
-    expect(result.lastFilledOn).to.be.a('string'); // Removed exact date check
+    expect(result.lastFilledOn).to.be.a('string');
     expect(result.status).to.equal('Active');
     expect(result.refillsLeft).to.equal(2);
     expect(result.prescriptionNumber).to.equal('RX123456');
-    expect(result.prescribedOn).to.be.a('string'); // Removed exact date check
+    expect(result.prescribedOn).to.be.a('string');
     expect(result.prescribedBy).to.equal('John Doe');
     expect(result.facility).to.equal('VA Hospital');
-    expect(result.expirationDate).to.be.a('string'); // Removed exact date check
+    expect(result.expirationDate).to.be.a('string');
     expect(result.instructions).to.equal('Take one tablet daily');
     expect(result.quantity).to.equal(30);
     expect(result.pharmacyPhoneNumber).to.equal(UNKNOWN);
@@ -71,12 +71,11 @@ describe('convertMedication', () => {
     expect(result.id).to.equal('123');
     expect(result.type).to.equal('va');
     expect(result.prescriptionName).to.equal('Aspirin');
-    // Just check that lastFilledOn is a string since it's a default value
     expect(result.lastFilledOn).to.equal('Not filled yet');
     expect(result.status).to.equal('Active');
     expect(result.refillsLeft).to.equal(UNKNOWN);
     expect(result.prescriptionNumber).to.equal('RX123456');
-    expect(result.prescribedOn).to.be.a('string'); // No exact date check
+    expect(result.prescribedOn).to.be.a('string');
     expect(result.prescribedBy).to.equal('');
     expect(result.facility).to.equal('VA Hospital');
     expect(result.expirationDate).to.equal(NONE_RECORDED);
@@ -127,7 +126,6 @@ describe('convertAppointment', () => {
     const result = convertAppointment(appt);
     expect(result).to.be.an('object');
     expect(result.id).to.equal('456');
-    // Check date as a string, not exact date/time
     expect(result.date).to.be.a('string');
     expect(result.isUpcoming).to.be.a('boolean');
     expect(result.appointmentType).to.equal('Clinic');
@@ -224,7 +222,6 @@ describe('convertDemographics', () => {
     expect(result.firstName).to.equal('Jane');
     expect(result.middleName).to.equal('A.');
     expect(result.lastName).to.equal('Doe');
-    // Instead of checking exact date, just ensure it's a string
     expect(result.dateOfBirth).to.be.a('string');
     expect(result.age).to.equal(40);
     expect(result.gender).to.equal('Female');
@@ -237,7 +234,6 @@ describe('convertDemographics', () => {
     expect(result.employment).to.be.an('object');
     expect(result.primaryNextOfKin).to.be.an('object');
     expect(result.emergencyContact).to.be.an('object');
-    // No date checks here; already removed
   });
 
   it('should handle missing optional fields', () => {
@@ -264,11 +260,9 @@ describe('convertDemographics', () => {
     expect(result.middleName).to.equal('None recorded');
     expect(result.lastName).to.equal('Doe');
     expect(result.dateOfBirth).to.be.a('string');
-    // No exact date checks here
     expect(result.age).to.equal(40);
     expect(result.gender).to.equal('Female');
     expect(result.ethnicity).to.equal('None recorded');
-    // Rest of the fields checked similarly without date assertions
   });
 });
 
@@ -305,7 +299,6 @@ describe('convertAccountSummary', () => {
     expect(result.authenticationSummary.authenticationStatus).to.equal(
       'Active',
     );
-    // Instead of checking exact date, just ensure it's a string
     expect(result.authenticationSummary.authenticationDate).to.be.a('string');
     expect(result.authenticationSummary.authenticationFacilityName).to.equal(
       'VA Medical Center',
@@ -418,7 +411,6 @@ describe('blueButtonReducer', () => {
       'accountSummary',
     ]);
 
-    // Optionally, you can check some fields exist and are strings instead of exact dates:
     expect(newState.medicationsList).to.be.an('array');
     expect(newState.medicationsList[0])
       .to.have.property('lastFilledOn')
