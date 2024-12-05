@@ -1,10 +1,12 @@
+const { format } = require('date-fns');
+
 const generateCCD = (req, res) => {
   const randomSeed = Math.floor(Math.random() * 2);
 
   // SUCCESSFUL GENERATION
   return res.json([
     {
-      dateGenerated: '2024-10-31T10:28:05.000-0400',
+      dateGenerated: `${format(new Date(), "u-MM-dd'T'HH:mm:ss.SSSXX")}`,
       status: randomSeed > 0 ? 'COMPLETE' : 'IN_PROCESS',
       patientId: '1012740024V936776',
     },
@@ -18,7 +20,7 @@ const generateCCD = (req, res) => {
   // ERROR IN REPORT
   // return res.json([
   //   {
-  //     dateGenerated: '2024-11-25T10:28:05.000-0400',
+  //     dateGenerated: `${format(new Date(), "u-MM-dd'T'HH:mm:ss.SSSXX")}`,
   //     status: 'ERROR',
   //     patientId: '1012740024V936776',
   //   },

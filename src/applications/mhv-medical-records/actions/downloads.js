@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { generateCCD, downloadCCD } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
@@ -15,11 +16,8 @@ export const genAndDownloadCCD = (firstName, lastName) => async dispatch => {
       const timestamp = generate[0].dateGenerated;
       const timestampDate = new Date(timestamp);
       const fileName = `VA-Continuity-of-care-document-${
-        firstName !== null ? `${firstName}-` : ''
-      }${lastName}-${timestampDate.getMonth()}-${timestampDate.getDate()}-${timestampDate.getFullYear()}_${timestampDate.getHours() %
-        12 || 12}${timestampDate.getMinutes()}${timestampDate.getSeconds()}${
-        timestampDate.getHours() > 12 ? 'pm' : 'am'
-      }`;
+        firstName ? `${firstName}-` : ''
+      }${lastName}-${format(timestampDate, 'M-d-u_hhmmssaaa')}`;
 
       // get the xml data from the api
       const xmlString = await downloadCCD(timestamp);

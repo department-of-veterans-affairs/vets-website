@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { add, format, compareAsc } from 'date-fns';
+import { add, compareAsc } from 'date-fns';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import { genAndDownloadCCD } from '../actions/downloads';
-
-const { utcToZonedTime } = require('date-fns-tz');
 
 const DownloadReportPage = () => {
   const dispatch = useDispatch();
@@ -20,10 +18,16 @@ const DownloadReportPage = () => {
       if (errorTimestamp !== null) {
         const retryDate = add(new Date(errorTimestamp), { hours: 24 });
         if (compareAsc(retryDate, new Date()) >= 0) {
-          return format(
-            utcToZonedTime(retryDate, 'America/New_York'),
-            "MMMM dd, yyyy 'at' K:mm aaaa",
-          );
+          const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+            timeZoneName: 'short', // Include the time zone abbreviation
+          };
+          return new Intl.DateTimeFormat('en-US', options).format(retryDate);
         }
       }
       return null;
@@ -60,13 +64,17 @@ const DownloadReportPage = () => {
           close-btn-aria-label="Close notification"
           status="error"
           visible
+          setFocus
         >
           <h2 slot="headline">
             We can’t download your Continuity of Care Document right now
           </h2>
           <p>
             We’re sorry. There’s a problem with our system.{' '}
-            <strong>Try again after 24 hours ({CCDRetryTimestamp} ET).</strong>
+            <strong>
+              Try again after 24 hours ({CCDRetryTimestamp}
+              ).
+            </strong>
           </p>
           <p className="vads-u-margin-bottom--0">
             If it still doesn’t work, call us at{' '}
