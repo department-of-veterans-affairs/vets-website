@@ -7,7 +7,7 @@ export const generateDemographicsContent = record => {
       items: [
         {
           itemsIndent: 40,
-          spaceResults: true,
+          spaceResults: 1,
           items: [
             {
               title: 'First name',
@@ -66,7 +66,7 @@ export const generateDemographicsContent = record => {
           headerIndent: 40,
           headerType: 'H4',
           itemsIndent: 40,
-          spaceResults: true,
+          spaceResults: 1,
           items: [
             {
               title: 'Street address',
@@ -125,7 +125,7 @@ export const generateDemographicsContent = record => {
           headerIndent: 40,
           headerType: 'H4',
           itemsIndent: 40,
-          spaceResults: true,
+          spaceResults: 1,
           items: [
             {
               title: 'Service connected percentage',
@@ -149,7 +149,7 @@ export const generateDemographicsContent = record => {
           headerIndent: 40,
           headerType: 'H4',
           itemsIndent: 40,
-          spaceResults: true,
+          spaceResults: 1,
           items: [
             {
               title: 'Occupation',
@@ -173,7 +173,7 @@ export const generateDemographicsContent = record => {
           headerIndent: 40,
           headerType: 'H4',
           itemsIndent: 40,
-          spaceResults: true,
+          spaceResults: 1,
           items: [
             {
               title: 'Name',
@@ -217,7 +217,7 @@ export const generateDemographicsContent = record => {
           headerIndent: 40,
           headerType: 'H4',
           itemsIndent: 40,
-          spaceResults: true,
+          spaceResults: 1,
           items: [
             {
               title: 'Name',
@@ -261,7 +261,7 @@ export const generateDemographicsContent = record => {
           headerIndent: 40,
           headerType: 'H4',
           itemsIndent: 40,
-          spaceResults: true,
+          spaceResults: 1,
           items: [
             {
               title: 'Name',
@@ -305,7 +305,7 @@ export const generateDemographicsContent = record => {
           headerIndent: 40,
           headerType: 'H4',
           itemsIndent: 40,
-          spaceResults: true,
+          spaceResults: 1,
           items: [
             {
               title: 'Name',
@@ -349,7 +349,7 @@ export const generateDemographicsContent = record => {
           headerIndent: 40,
           headerType: 'H4',
           itemsIndent: 40,
-          spaceResults: true,
+          spaceResults: 1,
           items: [
             {
               title: 'Insurance company',

@@ -125,8 +125,8 @@ export const convertAppointment = appt => {
     what: attributes.serviceName || 'General',
     who: practitionerNames,
     address: [location.name, ...line, `${city}, ${state} ${postalCode}`],
-    location: attributes.physicalLocation || 'Unknown Location',
-    clinicName: attributes.clinic || 'Unknown Clinic',
+    location: attributes.physicalLocation || 'Unknown location',
+    clinicName: attributes.clinic || 'Unknown clinic',
     clinicPhone: clinic.phoneNumber || 'N/A',
     detailsShared: {
       reason: attributes.serviceCategory?.[0]?.text
@@ -288,16 +288,11 @@ export const convertAccountSummary = data => {
     ? {
         source: 'VA',
         authenticationStatus: ipa.status || 'Unknown',
-        authenticationDate: new Date(ipa.authenticationDate).toLocaleDateString(
-          'en-US',
-          {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          },
-        ),
+        authenticationDate: ipa.authenticationDate
+          ? format(new Date(ipa.authenticationDate), 'MMMM d, yyyy')
+          : 'Unknown date',
         authenticationFacilityName:
-          authenticatingFacility?.facilityInfo?.name || 'Unknown Facility',
+          authenticatingFacility?.facilityInfo?.name || 'Unknown facility',
         authenticationFacilityID:
           authenticatingFacility?.facilityInfo?.stationNumber || 'Unknown ID',
       }

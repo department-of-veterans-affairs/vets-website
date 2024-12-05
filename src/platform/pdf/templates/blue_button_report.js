@@ -368,7 +368,7 @@ const generateResultItemContent = async (
   hasH2,
 ) => {
   const headingOptions = {
-    paragraphGap: 10,
+    paragraphGap: item.headerGap ?? 10,
     x: item.headerIndent || (hasH2 ? 40 : 20),
   };
   if (item.header) {
@@ -403,7 +403,7 @@ const generateResultItemContent = async (
   if (hasHorizontalRule) {
     addHorizontalRule(doc, 30, 1.5, 1.5);
   }
-  if (item.spaceResults) doc.moveDown();
+  if (item.spaceResults) doc.moveDown(item.spaceResults);
 };
 
 export const generateResultsContent = async (doc, parent, data) => {
