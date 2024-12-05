@@ -7,7 +7,7 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-// desctruct vets-json-schema constansts
+// destruct vets-json-schema constansts
 const STATES_USA = SCHEMA_CONSTANTS.states.USA;
 const STATES_50_AND_DC = SCHEMA_CONSTANTS.states50AndDC;
 
