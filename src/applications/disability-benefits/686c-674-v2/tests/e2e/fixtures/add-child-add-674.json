@@ -41,7 +41,7 @@
           "currentTermDates": {
             "officialSchoolStartDate": "1991-01-19",
             "expectedStudentStartDate": "2000-02-19",
-            "expectedGraduationDate": "1991-03-19"
+            "expectedGraduationDate": "2030-03-19"
           },
           "isSchoolAccredited": true,
           "view:accredited": {},
@@ -116,14 +116,13 @@
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
         "country": "USA",
-        "street": "1600 Pennslyvania Av",
+        "street": "1600 Fakesville Ave",
         "city": "Washington",
         "state": "DC",
         "postalCode": "20500"
       },
-      "veteranContactInformation": {
-        "phoneNumber": "1231231234"
-      }
+      "phoneNumber": "1231231234",
+      "emailAddress": "nope@nope.org"
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
@@ -138,7 +137,7 @@
     },
     "doesLiveWithSpouse": {},
     "view:additionalEvidenceDescription": {},
-    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}}, "formerSpouseIncome": false },
+    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}}, "spouseIncome": false },
     "view:completedMarriedChild": false,
     "childMarriage": { "fullName": {} },
     "childStoppedAttendingSchool": { "fullName": {} },

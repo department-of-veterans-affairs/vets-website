@@ -30,4 +30,6 @@ export default {
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStepOne.path,
   arrayMultiPageBuilderStepTwo:
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStepTwo.path,
+  multiPageBuilderOptional:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderOptional.path,
 };

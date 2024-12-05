@@ -1,8 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import currencyUI from '~/platform/forms-system/src/js/definitions/currency';
-
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../utils/validation';
 import { LAST_YEAR } from '../../../utils/constants';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import {
   DeductibleExpensesDescription,
   EducationalExpensesDescription,
@@ -13,7 +12,7 @@ const {
   deductibleEducationExpenses,
   deductibleFuneralExpenses,
   deductibleMedicalExpenses,
-} = fullSchemaHca.properties;
+} = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

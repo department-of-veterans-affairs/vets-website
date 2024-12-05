@@ -14,12 +14,10 @@
           "city": "test",
           "postalCode": "34234"
         },
-        "incomeInLastYear": "N",
-        "isBiologicalChild": false,
-        "dateEnteredHousehold": "2000-01-01",
-        "biologicalParentName": {
-          "first": "test",
-          "last": "test"
+        "placeOfBirth": {
+          "isOutsideUs": true,
+          "country": "GTM",
+          "city": "some city"
         },
         "biologicalParentSsn": "432432432",
         "biologicalParentDob": "2000-10-01",
@@ -118,7 +116,7 @@
       "view:marriageTypeInformation": {}
     },
     "spouseInformation": {
-      "spouseLegalName": {
+      "fullName": {
         "first": "jane",
         "last": "doe"
       },
@@ -133,14 +131,13 @@
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
         "country": "USA",
-        "street": "1600 Pennslyvania Av",
+        "street": "1600 Fakesville Ave",
         "city": "Washington",
         "state": "DC",
         "postalCode": "20500"
       },
-      "veteranContactInformation": {
-        "phoneNumber": "1231231234"
-      }
+      "phoneNumber": "1231231234",
+      "emailAddress": "nope@nope.org"
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {

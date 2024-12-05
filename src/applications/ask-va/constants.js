@@ -13,7 +13,7 @@ export const URL = {
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
-  GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
+  GET_INQUIRIES: `${baseURL}/inquiries`, // ?user_mock_data=true
   INQUIRIES: `${baseURL}/inquiries`,
   AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
   DASHBOARD_ID: `/user/dashboard/`,
@@ -75,8 +75,9 @@ export const CategoryHousingAssistanceAndHomeLoans =
 // Topics
 export const TopicVeteranReadinessAndEmploymentChapter31 =
   'Veteran Readiness and Employment (Chapter 31)';
-export const TopicAppraisalsSpeciallyAdapatedHousing =
+export const TopicSpeciallyAdapatedHousing =
   'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
+export const TopicAppraisals = 'Appraisals';
 export const requireSignInCategories = [
   CategoryEducation,
   'Education benefits and work study',
@@ -147,6 +148,8 @@ export const RESPONSE_PAGE = {
     LIST_ITEM_2: 'Your file should be no larger than 25MB',
   },
 };
+
+export const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
 
 export const pronounLabels = {
   heHimHis: 'He/him/his',
@@ -362,7 +365,7 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN: {
-    TITLE: 'Tell us more about your relationship?',
+    TITLE: 'Tell us more about your relationship',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
@@ -502,6 +505,10 @@ export const CHAPTER_3 = {
   },
   STATE_OF_SCHOOL: {
     TITLE: 'State of school',
+    QUESTION_1: 'Select state',
+  },
+  STATE_OF_FACILITY: {
+    TITLE: 'State of facility',
     QUESTION_1: 'Select state',
   },
   SCHOOL_STATE_OR_RESIDENCY: {

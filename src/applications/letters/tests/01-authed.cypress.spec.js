@@ -36,6 +36,11 @@ describe('Authed Letter Test', () => {
     cy.axeCheck();
 
     cy.get('[data-cy="view-letters-button"]')
+      .shadow()
+      .find('button.usa-button')
+      .should('not.have.attr', 'aria-disabled'); // Check for MS Voice Access usability
+
+    cy.get('[data-cy="view-letters-button"]')
       .click()
       .then(() => {
         cy.get('va-accordion-item').should('exist');

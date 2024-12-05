@@ -246,7 +246,7 @@ export const formConfig = {
         spouseNameInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse: Spouse information',
+          title: 'Spouse’s name',
           path: 'add-spouse/current-legal-name',
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
@@ -254,7 +254,7 @@ export const formConfig = {
         spouseNameInformationPartTwo: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse: Spouse information',
+          title: 'Spouse information',
           path: 'add-spouse/personal-information',
           uiSchema: spouseInformationPartTwo.uiSchema,
           schema: spouseInformationPartTwo.schema,
@@ -263,7 +263,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.spouseInformation?.isVeteran,
-          title: 'Information needed to add your spouse: Spouse information',
+          title: 'Spouse information: VA file number',
           path: 'add-spouse/military-service-information',
           uiSchema: spouseInformationPartThree.uiSchema,
           schema: spouseInformationPartThree.schema,
@@ -542,6 +542,7 @@ export const formConfig = {
             schema: studentEducationBenefitsPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavForward: ({
               formData,
               pathname,
@@ -551,10 +552,9 @@ export const formConfig = {
             }) => {
               const index = getArrayIndexFromPathName(pathname);
               const urlParamsString = stringifyUrlParams(urlParams) || '';
+              const item = formData?.[addStudentsOptions.arrayPath]?.[index];
 
-              if (
-                Object.values(formData?.typeOfProgramOrBenefit).includes(true)
-              ) {
+              if (Object.values(item?.typeOfProgramOrBenefit).includes(true)) {
                 goNextPath(urlParams);
               } else {
                 goPath(
@@ -580,6 +580,7 @@ export const formConfig = {
             schema: studentProgramInfoPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavBack: ({
               _formData,
               pathname,
@@ -603,6 +604,7 @@ export const formConfig = {
             schema: studentAttendancePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavForward: ({
               formData,
               pathname,
@@ -612,8 +614,9 @@ export const formConfig = {
             }) => {
               const index = getArrayIndexFromPathName(pathname);
               const urlParamsString = stringifyUrlParams(urlParams) || '';
+              const item = formData?.[addStudentsOptions.arrayPath]?.[index];
 
-              if (!formData?.schoolInformation?.studentIsEnrolledFullTime) {
+              if (!item?.schoolInformation?.studentIsEnrolledFullTime) {
                 goNextPath(urlParams);
               } else {
                 goPath(
@@ -640,6 +643,7 @@ export const formConfig = {
             schema: schoolAccreditationPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavBack: ({
               _formData,
               pathname,
@@ -670,6 +674,7 @@ export const formConfig = {
             schema: previousTermQuestionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavForward: ({
               formData,
               pathname,
@@ -679,8 +684,9 @@ export const formConfig = {
             }) => {
               const index = getArrayIndexFromPathName(pathname);
               const urlParamsString = stringifyUrlParams(urlParams) || '';
+              const item = formData?.[addStudentsOptions.arrayPath]?.[index];
 
-              if (formData?.schoolInformation?.studentDidAttendSchoolLastTerm) {
+              if (item?.schoolInformation?.studentDidAttendSchoolLastTerm) {
                 goNextPath(urlParams);
               } else {
                 goPath(
@@ -705,6 +711,7 @@ export const formConfig = {
             schema: claimsOrReceivesPensionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavForward: ({
               formData,
               pathname,
@@ -714,8 +721,9 @@ export const formConfig = {
             }) => {
               const index = getArrayIndexFromPathName(pathname);
               const urlParamsString = stringifyUrlParams(urlParams) || '';
+              const item = formData?.[addStudentsOptions.arrayPath]?.[index];
 
-              if (formData?.claimsOrReceivesPension) {
+              if (item?.claimsOrReceivesPension) {
                 goNextPath(urlParams);
               } else {
                 goPath(
@@ -723,6 +731,7 @@ export const formConfig = {
                 );
               }
             },
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavBack: ({
               _formData,
               pathname,
@@ -772,6 +781,7 @@ export const formConfig = {
             schema: remarksPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavBack: ({
               _formData,
               pathname,
@@ -792,7 +802,7 @@ export const formConfig = {
     },
 
     reportDivorce: {
-      title: 'Information needed to remove a divorced spouse',
+      title: 'Remove a divorced spouse',
       pages: {
         formerSpouseInformation: {
           depends: formData =>
@@ -822,8 +832,7 @@ export const formConfig = {
     },
 
     reportStepchildNotInHousehold: {
-      title:
-        'Information needed to remove a stepchild who has left your household',
+      title: 'Remove one or more stepchildren who have left your household',
       pages: {
         ...arrayBuilderPages(removeChildHouseholdOptions, pageBuilder => ({
           removeChildHouseholdIntro: pageBuilder.introPage({
@@ -875,6 +884,7 @@ export const formConfig = {
                 formData,
                 TASK_KEYS.reportStepchildNotInHousehold,
               ),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavForward: ({
               formData,
               pathname,
@@ -884,8 +894,10 @@ export const formConfig = {
             }) => {
               const index = getArrayIndexFromPathName(pathname);
               const urlParamsString = stringifyUrlParams(urlParams) || '';
+              const item =
+                formData?.[removeChildHouseholdOptions.arrayPath]?.[index];
 
-              if (formData?.supportingStepchild) {
+              if (item?.supportingStepchild) {
                 goNextPath(urlParams);
               } else {
                 goPath(
@@ -920,6 +932,7 @@ export const formConfig = {
                 formData,
                 TASK_KEYS.reportStepchildNotInHousehold,
               ),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavBack: ({
               _formData,
               pathname,
@@ -953,7 +966,7 @@ export const formConfig = {
     },
 
     deceasedDependents: {
-      title: 'Information needed to remove a dependent who has died',
+      title: 'Remove one or more dependents who have died',
       pages: {
         ...arrayBuilderPages(deceasedDependentOptions, pageBuilder => ({
           dependentAdditionalInformationIntro: pageBuilder.introPage({
@@ -987,15 +1000,17 @@ export const formConfig = {
             schema: deceasedDependentTypePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavForward: ({
               formData,
-              pathname,
               urlParams,
               goPath,
               goNextPath,
+              index,
             }) => {
-              if (formData.dependentType !== 'child') {
-                const index = getArrayIndexFromPathName(pathname);
+              const item =
+                formData?.[deceasedDependentOptions.arrayPath]?.[index];
+              if (item?.dependentType !== 'child') {
                 const urlParamsString = stringifyUrlParams(urlParams) || '';
                 goPath(
                   `/686-report-dependent-death/${index}/date-of-death${urlParamsString}`,
@@ -1021,6 +1036,7 @@ export const formConfig = {
             schema: deceasedDependentDateOfDeathPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+            // TODO: use depends: (formData, index) instead on the dynamic page.
             onNavBack: ({
               _formData,
               pathname,
