@@ -268,13 +268,6 @@ export const isLocationOfResidenceRequired = data => {
     return false;
   }
 
-  if (
-    selectCategory === 'Health care' &&
-    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
-  ) {
-    return false;
-  }
-
   // Guardianship and VR&E rules
   const GuardianshipAndVRE =
     (selectCategory === CategoryGuardianshipCustodianshipFiduciaryIssues ||
@@ -349,7 +342,10 @@ export const isLocationOfResidenceRequired = data => {
 
   // Check general question
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
-  if (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL) {
+  if (
+    (GuardianshipAndVRE || EducationAndVRE) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
+  ) {
     return true;
   }
 
