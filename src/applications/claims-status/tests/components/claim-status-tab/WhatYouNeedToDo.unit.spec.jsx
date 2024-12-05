@@ -13,7 +13,7 @@ const nothingNeededText =
   'There’s nothing we need from you right now. We’ll let you know when there’s an update.';
 
 describe('<WhatYouNeedToDo>', () => {
-  const store = createStore(() => ({}));
+  const getStore = createStore(() => ({}));
 
   it('should render no-documents description when there are no tracked items or standard 5103', () => {
     const claim = {
@@ -32,7 +32,7 @@ describe('<WhatYouNeedToDo>', () => {
     };
 
     const { container, getByText } = render(
-      <Provider store={store}>
+      <Provider store={getStore}>
         <WhatYouNeedToDo claim={claim} />
       </Provider>,
     );
@@ -65,7 +65,7 @@ describe('<WhatYouNeedToDo>', () => {
     };
 
     const { container, queryByText } = renderWithRouter(
-      <Provider store={store}>
+      <Provider store={getStore}>
         <WhatYouNeedToDo claim={claim} />
       </Provider>,
     );
@@ -98,7 +98,7 @@ describe('<WhatYouNeedToDo>', () => {
     };
 
     const { container, queryByText } = renderWithRouter(
-      <Provider store={store}>
+      <Provider store={getStore}>
         <WhatYouNeedToDo claim={claim} />
       </Provider>,
     );
@@ -145,7 +145,7 @@ describe('<WhatYouNeedToDo>', () => {
           queryByText,
           getByTestId,
         } = renderWithRouter(
-          <Provider store={store}>
+          <Provider store={getStore}>
             <WhatYouNeedToDo claim={claim} />
           </Provider>,
         );
