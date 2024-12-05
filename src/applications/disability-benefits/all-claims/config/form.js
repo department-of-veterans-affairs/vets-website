@@ -625,7 +625,7 @@ const formConfig = {
       title: 'Additional Forms',
       pages: {
         additionalFormsChapterWrapper: {
-          title: 'Additional forms to support your claim 2',
+          title: 'Additional forms to support your claim',
           path: 'additional-forms',
           depends: formData => showAdditionalFormsChapter(formData),
           uiSchema: additionalFormsChapterWrapper.uiSchema,

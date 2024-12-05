@@ -14,9 +14,12 @@ import { isClaimingNew } from '.';
  *     - returns false
  */
 export function showForm0781Pages(formData) {
+  const conditions = formData?.mentalHealth?.conditions || {};
   return (
     formData?.syncModern0781Flow === true &&
     isClaimingNew(formData) &&
-    formData.mentalHealth.conditions?.none !== true
+    Object.entries(conditions).some(
+      ([key, value]) => key !== 'none' && value === true,
+    )
   );
 }
