@@ -141,8 +141,8 @@ const VitalDetails = props => {
     () => {
       if (records?.length) {
         updatePageTitle(
-          `${vitalTypeDisplayNames[records[0].type]} - ${
-            pageTitles.VITALS_PAGE_TITLE
+          `${vitalTypeDisplayNames[records[0].type]} Details - ${
+            pageTitles.MEDICAL_RECORDS_PAGE_TITLE
           }`,
         );
 
