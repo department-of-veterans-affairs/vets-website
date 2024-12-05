@@ -3,25 +3,10 @@
 // import fullSchema from '../22-10215-schema.json';
 
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-// import {
-//   arrayBuilderItemFirstPageTitleUI,
-//   arrayBuilderYesNoSchema,
-//   arrayBuilderYesNoUI,
-//   descriptionUI,
-//   selectSchema,
-//   selectUI,
-//   textareaSchema,
-//   textareaUI,
-// } from '~/platform/forms-system/src/js/web-component-patterns';
-
 import manifest from '../manifest.json';
-
+import transform from './transform';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
-// const { } = fullSchema.definitions;
-// const { } = commonDefinitions;
 
 // pages
 import { prepare } from '../pages/prepare';
@@ -33,7 +18,6 @@ const arrayBuilderOptions = {
   nounSingular: '85/15 calculation',
   nounPlural: '85/15 calculations',
   required: true,
-  maxItems: 1000,
   text: {
     getItemName: item => item.programName,
   },
@@ -43,8 +27,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit: transform,
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -65,21 +48,20 @@ const formConfig = {
       pages: arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
         programsIntro: pageBuilder.introPage({
           path: '85/15-calculations',
-          title: '85/15 calculations',
+          title: '[noun plural]',
           uiSchema: prepare.uiSchema,
           schema: prepare.schema,
         }),
         programsSummary: pageBuilder.summaryPage({
-          title: 'Review your 85/15 calculations',
-          path: '85-15-calculations-review',
+          title: 'Review your [noun plural]',
+          path: '85-15-calculations/summary',
           uiSchema: ProgramsTable.uiSchema,
           schema: ProgramsTable.schema,
-          CustomPage: props => ProgramsTable.table(props),
-          CustomPageReview: null,
         }),
         addProgram: pageBuilder.itemPage({
           title: 'Program information',
-          path: '85/15-calculations/:index/program-information',
+          path: '85/15-calculations/:index',
+          showPagePerItem: true,
           uiSchema: programInfo.uiSchema,
           schema: programInfo.schema,
         }),
