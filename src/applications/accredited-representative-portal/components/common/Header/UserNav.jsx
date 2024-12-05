@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
+import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../constants';
 import {
   selectUserProfile,
   selectIsUserLoading,
-} from '../../../../selectors/user';
+} from '../../../selectors/user';
 
 const generateUniqueId = () =>
   `account-menu-${Math.random()

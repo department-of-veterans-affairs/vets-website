@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 
-import UserNav from '../../../../../../components/common/Header/common/UserNav';
+import UserNav from '../../../../../../components/common/Header/UserNav';
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../../../constants';
 import { renderTestApp } from '../../../../helpers';
 import {
