@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 import {
   FETCH_FORM_PDF_URL_STARTED,
   FETCH_FORM_PDF_URL_SUCCEEDED,
@@ -15,7 +16,7 @@ const formPdfUrlsReducer = (state = initialState, action) => {
   const { type, guid, url, error } = action;
   switch (type) {
     case FETCH_FORM_PDF_URL_STARTED:
-      return { loading: true, submissions };
+      return { loading: true, submissions: omit(submissions, guid) };
     case FETCH_FORM_PDF_URL_SUCCEEDED:
       return {
         loading: false,

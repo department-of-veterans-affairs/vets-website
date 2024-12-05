@@ -48,4 +48,15 @@ describe('form pdf urls reducer', () => {
       .map(s => s.submissions);
     expect(results).to.deep.equal([{}, { [MOCK_GUID]: { url: MOCK_URL } }, {}]);
   });
+
+  it('clears guid submission state when request is started', () => {
+    const results = reduceActions([
+      start(MOCK_GUID),
+      success(MOCK_GUID, { url: MOCK_URL }),
+      start(MOCK_GUID),
+    ])(formPdfUrlsReducer)
+      .slice(1)
+      .map(s => s.submissions);
+    expect(results).to.deep.equal([{}, { [MOCK_GUID]: { url: MOCK_URL } }, {}]);
+  });
 });
