@@ -53,9 +53,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Request exemption from the 85/15 Rule reporting requirements',
-  subTitle:
-    '35% exemption request from 85/15 Rule reporting requirements (VA Form 22-10216)',
+  title: 'Complex Form',
   defaultDefinitions: {
     fullName,
     ssn,

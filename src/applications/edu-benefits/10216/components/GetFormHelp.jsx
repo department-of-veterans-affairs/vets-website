@@ -3,19 +3,25 @@ import React from 'react';
 export function GetFormHelp() {
   return (
     <>
-      <p>
-        <strong>If you have trouble using this online form,</strong> call us at
-        1-888-442-4551
+      <p className="help-talk">
+        <strong>If you have trouble using this online form,</strong> call us at{' '}
+        <va-telephone contact="8006982411" /> (
+        <va-telephone contact="711" tty />
+        ).
+        <br />
+        We&rsquo;re here 24/7.
       </p>
-      <p>
+      <p className="help-talk">
         <strong>
           If you need help gathering your information or filling out your form,
         </strong>{' '}
-        <va-link
-          href=""
-          text="visit Education Liaison Representatives- Education and Training."
-        />
+        <br />
+        contact a local Veterans Service Organization (VSO).
       </p>
+      <va-link
+        href="https://va.gov/vso/"
+        text="Find a local Veterans Service Organization"
+      />
     </>
   );
 }
