@@ -111,8 +111,8 @@ class IntroductionPage extends React.Component {
               .
             </p>
           )}
-          {environment.isLocalhost() && (
-            <va-alert slim status="info">
+          {environment.isDev() && (
+            <va-alert status="info">
               <h4 className="vads-u-font-size--h6">
                 Notice of evidence needed
               </h4>

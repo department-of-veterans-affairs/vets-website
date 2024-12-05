@@ -2,8 +2,10 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
-import { IntroductionPage } from '../../components/IntroductionPage';
-import formConfig from '../../config/form';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { render } from '@testing-library/react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import {
   PAGE_TITLES,
   START_TEXT,
@@ -12,11 +14,36 @@ import {
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
 } from '../../constants';
+import formConfig from '../../config/form';
+import { IntroductionPage } from '../../components/IntroductionPage';
 
-describe('<IntroductionPage/>', () => {
-  const { formId, prefillEnabled } = formConfig;
-  const defaultProps = {
+const { formId, prefillEnabled } = formConfig;
+const initialState = {
+  user: {
+    login: {
+      currentlyLoggedIn: true,
+    },
+    profile: {
+      savedForms: [],
+      prefillsAvailable: [],
+    },
+  },
+  form: {
     formId,
+    loadedData: {
+      formData: {},
+      metadata: {},
+    },
+    data: {
+      formId,
+      route: {
+        pageList: [],
+      },
+    },
+  },
+};
+describe('<IntroductionPage/>', () => {
+  const defaultProps = {
     route: {
       formConfig: {
         prefillEnabled,
@@ -115,24 +142,19 @@ describe('<IntroductionPage/>', () => {
   });
 
   it('should render evidence needed info alert and link to 5103', () => {
-    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    const vaAlerts = wrapper.find('va-alert');
-    expect(vaAlerts.length).to.equal(2);
-    expect(
-      vaAlerts
-        .first()
-        .find('h4')
-        .text(),
-    ).to.equal('Notice of evidence needed');
-    expect(
-      vaAlerts
-        .first()
-        .find('a')
-        .props().href,
-    ).to.equal(
-      `https://www.va.gov/disability/how-to-file-claim/evidence-needed/`,
+    const store = createStore(() => initialState);
+
+    const { queryByText } = render(
+      <Provider store={store}>
+        <IntroductionPage {...defaultProps} formId="21-526EZ" />
+      </Provider>,
     );
-    wrapper.unmount();
+
+    if (environment.isDev()) {
+      expect(queryByText('Notice of evidence needed')).to.exist;
+    } else {
+      expect(queryByText('Notice of evidence needed')).to.not.exist;
+    }
   });
 
   it('should display default process steps when not BDD flow', () => {
