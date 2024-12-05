@@ -30,10 +30,11 @@ export function mapRawUserDataToState(json) {
   const {
     data: {
       attributes: {
-        account: { accountUuid, createdAt } = {},
+        account: { accountUuid } = {},
         inProgressForms: savedForms,
         prefillsAvailable,
         profile: {
+          initialSignIn,
           signIn,
           birthDate: dob,
           email,
@@ -62,7 +63,7 @@ export function mapRawUserDataToState(json) {
   const userState = {
     accountType: loa.current,
     accountUuid,
-    createdAt,
+    initialSignIn,
     dob,
     email,
     gender,

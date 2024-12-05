@@ -6,7 +6,9 @@ import ComparePage from './containers/ComparePage';
 import ProfilePage from './containers/ProfilePage';
 import ProgramsList from './containers/ProgramsList';
 import LicenseCertificationSearchResults from './containers/LicenseCertificationSearchResults';
+import LicenseCertificationSearchResult from './containers/LicenseCertificationSearchResult';
 import LicenseCertificationSearch from './components/LicenseCertificationSearch';
+import NationalExamsList from './containers/NationalExamsList';
 
 export const buildRoutes = () => {
   return (
@@ -25,13 +27,23 @@ export const buildRoutes = () => {
           render={({ match }) => <ProfilePage match={match} />}
         />
         <Route
+          exact
           path="/lc-search"
           render={({ match }) => <LicenseCertificationSearch match={match} />}
         />
         <Route
+          exact
           path="/lc-search/results"
           render={({ match }) => (
             <LicenseCertificationSearchResults match={match} />
+          )}
+        />
+        <Route path="/national-exams" component={NationalExamsList} />
+
+        <Route
+          path="/lc-search/results/:type/:id"
+          render={({ match }) => (
+            <LicenseCertificationSearchResult match={match} />
           )}
         />
         <Route

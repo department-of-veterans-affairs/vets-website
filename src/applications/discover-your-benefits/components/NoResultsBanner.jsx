@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const NoResultsBanner = ({ data, handleClick }) => (
+const NoResultsBanner = ({ data, handleBackClick }) => (
   <va-banner
     className="response-no-results"
     headline="No Results Found"
@@ -17,7 +17,7 @@ const NoResultsBanner = ({ data, handleClick }) => (
       <va-link
         data-testid="back-link-banner"
         href="#"
-        onClick={handleClick}
+        onClick={handleBackClick}
         text="Go back review and update your entries"
       />
     </p>
@@ -30,7 +30,7 @@ const NoResultsBanner = ({ data, handleClick }) => (
 
 NoResultsBanner.propTypes = {
   data: PropTypes.array,
-  handleClick: PropTypes.func,
+  handleBackClick: PropTypes.func,
 };
 
 export default NoResultsBanner;
