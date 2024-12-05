@@ -56,7 +56,7 @@ import {
   addDisabilities,
   additionalBehaviorChanges,
   additionalDocuments,
-  additionalFormsChapterWrapper,
+  // additionalFormsChapterWrapper, // wipn
   additionalRemarks781,
   aidAndAttendance,
   alternateNames,
@@ -110,6 +110,7 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
+import * as additionalFormsChapterWrapper from '../pages/additionalFormsChapterWrapper';
 
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 import { form0781PagesConfig } from './form0781/index';
@@ -630,7 +631,7 @@ const formConfig = {
           schema: additionalFormsChapterWrapper.schema,
         },
         ...form0781PagesConfig,
-      }
+      },
     },
     supportingEvidence: {
       title: 'Supporting evidence',

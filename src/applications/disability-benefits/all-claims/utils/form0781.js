@@ -13,11 +13,9 @@ import { isClaimingNew } from '.';
  *   else
  *     - returns false
  */
+
+// TODO: ticket #98450 modifies this top level flipper with a conditional check to a veterans
+// selections on the screener page.
 export function showForm0781Pages(formData) {
-  return (
-    formData?.syncModern0781Flow === true &&
-    isClaimingNew(formData) &&
-    formData?.newDisabilities?.length > 0 &&
-    formData?.wipn == true // [wipn8923] add check from screener page
-  );
+  return formData?.syncModern0781Flow === true && isClaimingNew(formData);
 }

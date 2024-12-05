@@ -8,8 +8,7 @@ import { showForm0781Pages } from '../../utils/form0781';
  */
 export const form0781PagesConfig = {
   workflowChoicePage: {
-    title: 'wipn 3',
-    path: 'mental-health-statement',
+    path: 'additional-forms/mental-health-statement',
     depends: formData => showForm0781Pages(formData),
     uiSchema: workflowChoicePage.uiSchema,
     schema: workflowChoicePage.schema,
