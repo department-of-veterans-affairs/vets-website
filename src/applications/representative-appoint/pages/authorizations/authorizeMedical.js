@@ -3,19 +3,17 @@ import {
   radioSchema,
   radioUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { authorizationNote } from '../../content/authorizeMedical';
-import MedicalAuthorizationDescription from '../../components/MedicalAuthorizationDescription';
 import MedicalAuthorizationPolicy from '../../components/MedicalAuthorizationPolicy';
+import { authorizationNote } from '../../content/authorizeMedical';
 import { getRepType } from '../../utilities/helpers';
+import { MedicalAuthorizationDescription } from '../../components/MedicalAuthorizationDescription';
 
 export const uiSchema = {
-  'ui:description': formData => (
+  'ui:description': ({ formData }) => (
     <MedicalAuthorizationDescription formData={formData} />
   ),
   'view:authorizationPolicy': {
-    'ui:description': formData => (
-      <MedicalAuthorizationPolicy formData={formData} />
-    ),
+    'ui:description': <MedicalAuthorizationPolicy />,
   },
   authorizationRadio: radioUI({
     title:

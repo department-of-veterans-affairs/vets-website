@@ -4,10 +4,10 @@ import {
   checkboxGroupUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { authorizationNote } from '../../content/authorizeMedical';
-import MedicalSelectAuthorizationDescription from '../../components/MedicalSelectAuthorizationDescription';
+import { MedicalSelectAuthorizationDescription } from '../../components/MedicalSelectAuthorizationDescription';
 
 export const uiSchema = {
-  'ui:description': formData => (
+  'ui:description': ({ formData }) => (
     <MedicalSelectAuthorizationDescription formData={formData} />
   ),
   authorizeMedicalSelectCheckbox: checkboxGroupUI({

@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { getRepType } from '../utilities/helpers';
 
 const OutsideVAAuthorizationUnsureNote = props => {
@@ -25,7 +25,6 @@ const mapStateToProps = state => ({
   formData: state.form?.data || {},
 });
 
-export { OutsideVAAuthorizationUnsureNote };
 export default connect(
   mapStateToProps,
   null,

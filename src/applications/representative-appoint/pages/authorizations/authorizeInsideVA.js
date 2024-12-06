@@ -4,13 +4,13 @@ import {
   radioUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { authorizationNote } from '../../content/authorizeMedical';
-import InsideVAAuthorizationDescription from '../../components/InsideVAAuthorizationDescription';
 import { getRepType } from '../../utilities/helpers';
+import { InsideVAAuthorizationDescription } from '../../components/InsideVAAuthorizationDescription';
 
 /** @type {UISchemaOptions} */
 
 export const uiSchema = {
-  'ui:description': formData => (
+  'ui:description': ({ formData }) => (
     <InsideVAAuthorizationDescription formData={formData} />
   ),
   'view:insideVAAuthorizationPolicy': {

@@ -1,11 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getRepType } from '../utilities/helpers';
 
-const MedicalAuthorizationDescription = props => {
-  const { formData } = props;
-
+const MedicalAuthorizationDescription = ({ formData }) => {
   return (
     <>
       <h3>Authorization to access certain medical records</h3>
@@ -28,12 +25,4 @@ MedicalAuthorizationDescription.propTypes = {
   formData: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  formData: state.form?.data || {},
-});
-
 export { MedicalAuthorizationDescription };
-export default connect(
-  mapStateToProps,
-  null,
-)(MedicalAuthorizationDescription);

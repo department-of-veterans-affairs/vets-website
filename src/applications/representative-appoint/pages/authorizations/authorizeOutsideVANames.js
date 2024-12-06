@@ -3,11 +3,11 @@ import {
   textSchema,
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import OutsideVAAuthorizationNameDescription from '../../components/OutsideVAAuthorizationNameDescription';
 import OutsideVAAuthorizationUnsureNote from '../../components/OutsideVAAuthorizationUnsureNote';
+import { OutsideVAAuthorizationNameDescription } from '../../components/OutsideVAAuthorizationNameDescription';
 
 export const uiSchema = {
-  'ui:description': formData => (
+  'ui:description': ({ formData }) => (
     <OutsideVAAuthorizationNameDescription formData={formData} />
   ),
   authorizeNamesTextArea: {
@@ -18,9 +18,7 @@ export const uiSchema = {
     }),
   },
   'view:unsureNote': {
-    'ui:description': formData => (
-      <OutsideVAAuthorizationUnsureNote formData={formData} />
-    ),
+    'ui:description': <OutsideVAAuthorizationUnsureNote />,
   },
 };
 

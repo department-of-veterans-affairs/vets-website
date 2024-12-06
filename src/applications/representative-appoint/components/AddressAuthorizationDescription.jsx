@@ -1,11 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getRepType } from '../utilities/helpers';
 
-const AddressAuthorizationDescription = props => {
-  const { formData } = props;
-
+const AddressAuthorizationDescription = ({ formData }) => {
   return (
     <>
       <h3>Authorization to change your address</h3>
@@ -23,12 +20,4 @@ AddressAuthorizationDescription.propTypes = {
   formData: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  formData: state.form?.data || {},
-});
-
 export { AddressAuthorizationDescription };
-export default connect(
-  mapStateToProps,
-  null,
-)(AddressAuthorizationDescription);

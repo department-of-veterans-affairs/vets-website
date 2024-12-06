@@ -1,15 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   radioSchema,
   radioUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import PropTypes from 'prop-types';
 import { authorizationNote } from '../../content/authorizeMedical';
-import OutsideVAAuthorizationDescription from '../../components/OutsideVAAuthorizationDescription';
 import { getRepType } from '../../utilities/helpers';
+import { OutsideVAAuthorizationDescription } from '../../components/OutsideVAAuthorizationDescription';
 
 export const uiSchema = {
-  'ui:description': formData => (
+  'ui:description': ({ formData }) => (
     <OutsideVAAuthorizationDescription formData={formData} />
   ),
   'view:outsideVAAuthorizationPolicy': {

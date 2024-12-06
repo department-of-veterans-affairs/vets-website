@@ -4,18 +4,16 @@ import {
   radioUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import AddressAuthorizationPolicy from '../../components/AddressAuthorizationPolicy';
-import AddressAuthorizationDescription from '../../components/AddressAuthorizationDescription';
+import { AddressAuthorizationDescription } from '../../components/AddressAuthorizationDescription';
 import { authorizationNote } from '../../content/authorizeMedical';
 import { getRepType } from '../../utilities/helpers';
 
 export const uiSchema = {
-  'ui:description': formData => (
+  'ui:description': ({ formData }) => (
     <AddressAuthorizationDescription formData={formData} />
   ),
   'view:addressAuthorizationPolicy': {
-    'ui:description': formData => (
-      <AddressAuthorizationPolicy formData={formData} />
-    ),
+    'ui:description': <AddressAuthorizationPolicy />,
   },
   authorizeAddressRadio: radioUI({
     title:

@@ -1,69 +1,32 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { agent, attorney, org, vso } from '../fixtures/sparseFormDataExamples';
 import OutsideVAAuthorizationUnsureNote from '../../components/OutsideVAAuthorizationUnsureNote';
 
-const attorney = {
-  type: 'representative',
-  attributes: {
-    individualType: 'attorney',
-  },
-};
-
-const agent = {
-  type: 'representative',
-  attributes: {
-    individualType: 'claim_agents',
-  },
-};
-
-const vso = {
-  type: 'representative',
-  attributes: {
-    individualType: 'veteran_service_officer',
-  },
-};
-
-const org = {
-  type: 'organization',
-};
-
 describe('<OutsideVAAuthorizationUnsureNote>', () => {
-  const getProps = ({
-    submitted = false,
-    setFormData = () => {},
-    rep = {},
-  } = {}) => {
+  const getProps = ({ formData = {} } = {}) => {
     return {
-      props: {
-        formContext: {
-          submitted,
-        },
-        formData: { 'view:selectedRepresentative': rep },
-        setFormData,
-      },
       mockStore: {
         getState: () => ({
           form: {
-            data: { 'view:selectedRepresentative': rep },
+            data: formData,
           },
         }),
         subscribe: () => {},
-        dispatch: () => ({
-          setFormData: () => {},
-        }),
+        dispatch: () => ({}),
       },
     };
   };
 
   it('should render component', () => {
-    const { props, mockStore } = getProps({ rep: vso });
+    const { mockStore } = getProps({ formData: vso });
 
     const { container } = render(
       <Provider store={mockStore}>
-        <OutsideVAAuthorizationUnsureNote {...props} />
+        <OutsideVAAuthorizationUnsureNote />
       </Provider>,
     );
     expect(container).to.exist;
@@ -71,11 +34,11 @@ describe('<OutsideVAAuthorizationUnsureNote>', () => {
 
   context('when the selected representative is an attorney', () => {
     it('should include "Attorney"', () => {
-      const { props, mockStore } = getProps({ rep: attorney });
+      const { mockStore } = getProps({ formData: attorney });
 
       const { container } = render(
         <Provider store={mockStore}>
-          <OutsideVAAuthorizationUnsureNote {...props} />
+          <OutsideVAAuthorizationUnsureNote />
         </Provider>,
       );
 
@@ -87,11 +50,11 @@ describe('<OutsideVAAuthorizationUnsureNote>', () => {
 
   context('when the selected representative is a claims agent', () => {
     it('should include "Claims Agent"', () => {
-      const { props, mockStore } = getProps({ rep: agent });
+      const { mockStore } = getProps({ formData: agent });
 
       const { container } = render(
         <Provider store={mockStore}>
-          <OutsideVAAuthorizationUnsureNote {...props} />
+          <OutsideVAAuthorizationUnsureNote />
         </Provider>,
       );
 
@@ -103,7 +66,7 @@ describe('<OutsideVAAuthorizationUnsureNote>', () => {
 
   context('when the selected representative is a vso representative', () => {
     it('should include "VSO Representative"', () => {
-      const { props, mockStore } = getProps({ rep: vso });
+      const { props, mockStore } = getProps({ formData: vso });
 
       const { container } = render(
         <Provider store={mockStore}>
@@ -119,11 +82,11 @@ describe('<OutsideVAAuthorizationUnsureNote>', () => {
 
   context('when the selected representative is an organization', () => {
     it('should include "Organization"', () => {
-      const { props, mockStore } = getProps({ rep: org });
+      const { mockStore } = getProps({ formData: org });
 
       const { container } = render(
         <Provider store={mockStore}>
-          <OutsideVAAuthorizationUnsureNote {...props} />
+          <OutsideVAAuthorizationUnsureNote />
         </Provider>,
       );
 
@@ -135,11 +98,11 @@ describe('<OutsideVAAuthorizationUnsureNote>', () => {
 
   context('when there is no selected rep', () => {
     it('should include "VSO Representative"', () => {
-      const { props, mockStore } = getProps();
+      const { mockStore } = getProps();
 
       const { container } = render(
         <Provider store={mockStore}>
-          <OutsideVAAuthorizationUnsureNote {...props} formData={{}} />
+          <OutsideVAAuthorizationUnsureNote />
         </Provider>,
       );
 

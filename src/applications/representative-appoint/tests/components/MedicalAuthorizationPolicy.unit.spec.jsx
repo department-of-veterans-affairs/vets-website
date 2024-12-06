@@ -1,61 +1,31 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
+import { agent, attorney, org, vso } from '../fixtures/sparseFormDataExamples';
 import MedicalAuthorizationPolicy from '../../components/MedicalAuthorizationPolicy';
 
-const attorney = {
-  type: 'representative',
-  attributes: {
-    individualType: 'attorney',
-  },
-};
-
-const vso = {
-  type: 'representative',
-  attributes: {
-    individualType: 'veteran_service_officer',
-  },
-};
-
-const org = {
-  type: 'organization',
-};
-
 describe('<MedicalAuthorizationPolicy>', () => {
-  const getProps = ({
-    submitted = false,
-    setFormData = () => {},
-    rep = {},
-  } = {}) => {
+  const getProps = ({ formData = {} } = {}) => {
     return {
-      props: {
-        formContext: {
-          submitted,
-        },
-        formData: { 'view:selectedRepresentative': rep },
-        setFormData,
-      },
       mockStore: {
         getState: () => ({
           form: {
-            data: { 'view:selectedRepresentative': rep },
+            data: formData,
           },
         }),
         subscribe: () => {},
-        dispatch: () => ({
-          setFormData: () => {},
-        }),
+        dispatch: () => ({}),
       },
     };
   };
 
   it('should render component', () => {
-    const { props, mockStore } = getProps({ rep: vso });
+    const { mockStore } = getProps({ formData: vso });
 
     const { container } = render(
       <Provider store={mockStore}>
-        <MedicalAuthorizationPolicy {...props} />
+        <MedicalAuthorizationPolicy />
       </Provider>,
     );
     expect(container).to.exist;
@@ -63,11 +33,11 @@ describe('<MedicalAuthorizationPolicy>', () => {
 
   context('when the selected representative is an organization', () => {
     it('should use the 21-22 policy', () => {
-      const { props, mockStore } = getProps({ rep: org });
+      const { mockStore } = getProps({ formData: org });
 
       const { container } = render(
         <Provider store={mockStore}>
-          <MedicalAuthorizationPolicy {...props} />
+          <MedicalAuthorizationPolicy />
         </Provider>,
       );
 
@@ -85,11 +55,11 @@ describe('<MedicalAuthorizationPolicy>', () => {
 
   context('when the selected representative is a vso representative', () => {
     it('should use the 21-22 policy', () => {
-      const { props, mockStore } = getProps({ rep: vso });
+      const { mockStore } = getProps({ formData: vso });
 
       const { container } = render(
         <Provider store={mockStore}>
-          <MedicalAuthorizationPolicy {...props} />
+          <MedicalAuthorizationPolicy />
         </Provider>,
       );
 
@@ -105,38 +75,57 @@ describe('<MedicalAuthorizationPolicy>', () => {
     });
   });
 
-  context(
-    'when the selected representative is an attorney or claims agent',
-    () => {
-      it('should use the 21-22a policy', () => {
-        const { props, mockStore } = getProps({ rep: attorney });
-
-        const { container } = render(
-          <Provider store={mockStore}>
-            <MedicalAuthorizationPolicy {...props} />
-          </Provider>,
-        );
-
-        const usedPolicy = container.querySelector(
-          '[data-testid="medical-authorization-policy-2122a"]',
-        );
-        const unusedPolicy = container.querySelector(
-          '[data-testid="medical-authorization-policy-2122"]',
-        );
-
-        expect(usedPolicy).to.exist;
-        expect(unusedPolicy).not.to.exist;
-      });
-    },
-  );
-
-  context('when there is no selected representative', () => {
+  context('when the selected representative is an attorney', () => {
     it('should use the 21-22a policy', () => {
-      const { props, mockStore } = getProps();
+      const { mockStore } = getProps({ formData: attorney });
 
       const { container } = render(
         <Provider store={mockStore}>
-          <MedicalAuthorizationPolicy {...props} formData={{}} />
+          <MedicalAuthorizationPolicy />
+        </Provider>,
+      );
+
+      const usedPolicy = container.querySelector(
+        '[data-testid="medical-authorization-policy-2122a"]',
+      );
+      const unusedPolicy = container.querySelector(
+        '[data-testid="medical-authorization-policy-2122"]',
+      );
+
+      expect(usedPolicy).to.exist;
+      expect(unusedPolicy).not.to.exist;
+    });
+  });
+
+  context('when the selected representative is a claims agent', () => {
+    it('should use the 21-22a policy', () => {
+      const { mockStore } = getProps({ formData: agent });
+
+      const { container } = render(
+        <Provider store={mockStore}>
+          <MedicalAuthorizationPolicy />
+        </Provider>,
+      );
+
+      const usedPolicy = container.querySelector(
+        '[data-testid="medical-authorization-policy-2122a"]',
+      );
+      const unusedPolicy = container.querySelector(
+        '[data-testid="medical-authorization-policy-2122"]',
+      );
+
+      expect(usedPolicy).to.exist;
+      expect(unusedPolicy).not.to.exist;
+    });
+  });
+
+  context('when there is no selected representative', () => {
+    it('should use the 21-22a policy', () => {
+      const { mockStore } = getProps();
+
+      const { container } = render(
+        <Provider store={mockStore}>
+          <MedicalAuthorizationPolicy />
         </Provider>,
       );
 

@@ -1,11 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getRepType } from '../utilities/helpers';
 
-const OutsideVAAuthorizationNameDescription = props => {
-  const { formData } = props;
-
+const OutsideVAAuthorizationNameDescription = ({ formData }) => {
   return (
     <>
       <h3>Authorization for access outside of VA’s systems</h3>
@@ -23,12 +20,4 @@ OutsideVAAuthorizationNameDescription.propTypes = {
   formData: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  formData: state.form?.data || {},
-});
-
 export { OutsideVAAuthorizationNameDescription };
-export default connect(
-  mapStateToProps,
-  null,
-)(OutsideVAAuthorizationNameDescription);

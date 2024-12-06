@@ -1,82 +1,27 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import MedicalAuthorizationDescription from '../../components/MedicalAuthorizationDescription';
-
-const attorney = {
-  type: 'representative',
-  attributes: {
-    individualType: 'attorney',
-  },
-};
-
-const agent = {
-  type: 'representative',
-  attributes: {
-    individualType: 'claim_agents',
-  },
-};
-
-const vso = {
-  type: 'representative',
-  attributes: {
-    individualType: 'veteran_service_officer',
-  },
-};
-
-const org = {
-  type: 'organization',
-};
+import { MedicalAuthorizationDescription } from '../../components/MedicalAuthorizationDescription';
+import { agent, attorney, org, vso } from '../fixtures/sparseFormDataExamples';
 
 describe('<MedicalAuthorizationDescription>', () => {
-  const getProps = ({
-    submitted = false,
-    setFormData = () => {},
-    rep = {},
-  } = {}) => {
-    return {
-      props: {
-        formContext: {
-          submitted,
-        },
-        formData: { 'view:selectedRepresentative': rep },
-        setFormData,
-      },
-      mockStore: {
-        getState: () => ({
-          form: {
-            data: { 'view:selectedRepresentative': rep },
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => ({
-          setFormData: () => {},
-        }),
-      },
-    };
-  };
-
   it('should render component', () => {
-    const { props, mockStore } = getProps({ rep: vso });
+    const formData = vso;
 
     const { container } = render(
-      <Provider store={mockStore}>
-        <MedicalAuthorizationDescription {...props} />
-      </Provider>,
+      <MedicalAuthorizationDescription formData={formData} />,
     );
+
     expect(container).to.exist;
   });
 
   context('when the selected representative is an attorney', () => {
     it('should include "Attorney"', () => {
-      const { props, mockStore } = getProps({ rep: attorney });
+      const formData = attorney;
 
       const { container } = render(
-        <Provider store={mockStore}>
-          <MedicalAuthorizationDescription {...props} />
-        </Provider>,
+        <MedicalAuthorizationDescription formData={formData} />,
       );
 
       const content = $('p', container);
@@ -87,12 +32,10 @@ describe('<MedicalAuthorizationDescription>', () => {
 
   context('when the selected representative is a claims agent', () => {
     it('should include "Claims Agent"', () => {
-      const { props, mockStore } = getProps({ rep: agent });
+      const formData = agent;
 
       const { container } = render(
-        <Provider store={mockStore}>
-          <MedicalAuthorizationDescription {...props} />
-        </Provider>,
+        <MedicalAuthorizationDescription formData={formData} />,
       );
 
       const content = $('p', container);
@@ -103,12 +46,10 @@ describe('<MedicalAuthorizationDescription>', () => {
 
   context('when the selected representative is a vso representative', () => {
     it('should include "VSO Representative"', () => {
-      const { props, mockStore } = getProps({ rep: vso });
+      const formData = vso;
 
       const { container } = render(
-        <Provider store={mockStore}>
-          <MedicalAuthorizationDescription {...props} />
-        </Provider>,
+        <MedicalAuthorizationDescription formData={formData} />,
       );
 
       const content = $('p', container);
@@ -119,12 +60,10 @@ describe('<MedicalAuthorizationDescription>', () => {
 
   context('when the selected representative is an organization', () => {
     it('should include "Organization"', () => {
-      const { props, mockStore } = getProps({ rep: org });
+      const formData = org;
 
       const { container } = render(
-        <Provider store={mockStore}>
-          <MedicalAuthorizationDescription {...props} />
-        </Provider>,
+        <MedicalAuthorizationDescription formData={formData} />,
       );
 
       const content = $('p', container);
@@ -135,12 +74,10 @@ describe('<MedicalAuthorizationDescription>', () => {
 
   context('when there is no selected rep', () => {
     it('should include "VSO Representative"', () => {
-      const { props, mockStore } = getProps();
+      const formData = {};
 
       const { container } = render(
-        <Provider store={mockStore}>
-          <MedicalAuthorizationDescription {...props} formData={{}} />
-        </Provider>,
+        <MedicalAuthorizationDescription formData={formData} />,
       );
 
       const content = $('p', container);

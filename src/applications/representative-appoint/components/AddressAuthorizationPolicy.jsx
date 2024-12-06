@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { getFormNumber } from '../utilities/helpers';
 
 const AddressAuthorizationPolicy = props => {
@@ -50,7 +50,6 @@ const mapStateToProps = state => ({
   formData: state.form?.data || {},
 });
 
-export { AddressAuthorizationPolicy };
 export default connect(
   mapStateToProps,
   null,
