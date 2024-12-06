@@ -101,6 +101,7 @@ const WebChat = ({
     userFirstName,
     userUuid,
     setParamLoadingStatus,
+    isDatadogLoggingEnabled,
   });
 
   const store = useWebChatStore({
