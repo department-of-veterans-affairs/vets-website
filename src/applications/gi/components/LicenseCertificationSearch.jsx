@@ -15,9 +15,15 @@ function LicenseCertificationSearch({
   const history = useHistory();
   const location = useLocation();
 
-  useEffect(() => {
-    dispatchFetchLicenseCertificationResults();
-  }, []);
+  useEffect(
+    () => {
+      if (!hasFetchedOnce) {
+        // console.log('fetching results');
+        dispatchFetchLicenseCertificationResults();
+      }
+    },
+    [dispatchFetchLicenseCertificationResults],
+  );
 
   if (fetchingLc) {
     return <h2>Loading</h2>;

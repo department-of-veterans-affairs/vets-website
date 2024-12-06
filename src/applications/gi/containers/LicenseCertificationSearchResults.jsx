@@ -28,9 +28,12 @@ function LicenseCertificationSearchResults({
 
   useEffect(
     () => {
-      dispatchFetchLicenseCertificationResults();
+      if (!hasFetchedOnce) {
+        // console.log('fetching results');
+        dispatchFetchLicenseCertificationResults();
+      }
     },
-    [dispatchFetchLicenseCertificationResults],
+    [dispatchFetchLicenseCertificationResults, hasFetchedOnce],
   );
 
   const handlePageChange = page => {
