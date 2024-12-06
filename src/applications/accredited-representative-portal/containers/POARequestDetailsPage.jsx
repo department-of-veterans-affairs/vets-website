@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useParams, Link } from 'react-router-dom-v5-compat';
+import { useParams, Link } from 'react-router-dom';
 import { formatDateShort } from 'platform/utilities/date/index';
 import usePOARequests from '../hooks/usePOARequests';
 
