@@ -28,9 +28,7 @@ const Form1990Entry = lazy(() =>
 
 import { plugin } from './shared/components/VADXPlugin';
 
-const { VADX } = lazy(() => import('./vadx'));
-
-import { Servers } from './vadx/app/pages/servers/Servers';
+import { VADX, VADXServersRoute } from './vadx';
 
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
 const routeHoc = Component => props => (
@@ -119,7 +117,7 @@ const routes = [
   ...pattern2Routes,
   {
     path: '/vadx',
-    component: routeHoc(Servers),
+    component: routeHoc(VADXServersRoute),
   },
   {
     path: '*',
