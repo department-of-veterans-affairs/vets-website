@@ -1,0 +1,15 @@
+export const ROUTES = Object.freeze({
+  INTRO: 'introduction',
+  CLAIMANT_TYPE: 'claimant-type',
+  REPRESENTATIVE_SELECT: 'representative-select',
+  REPRESENTATIVE_CONTACT: 'representative-contact',
+  REPRESENTATIVE_ORGANIZATION: 'representative-organization',
+  VETERAN_PERSONAL_INFORMATION: 'veteran-personal-information',
+  VETERAN_CONTACT_MAILING: 'veteran-contact-mailing',
+  VETERAN_CONTACT_PHONE_EMAIL: 'veteran-contact-phone-email',
+  VETERAN_IDENTIFICATION: 'veteran-identification',
+  AUTHORIZE_MEDICAL: 'authorize-medical',
+  AUTHORIZE_MEDICAL_SELECT: 'authorize-medical/select',
+  AUTHORIZE_ADDRESS: 'authorize-address',
+  REVIEW_AND_SUBMIT: 'review-and-submit',
+});
