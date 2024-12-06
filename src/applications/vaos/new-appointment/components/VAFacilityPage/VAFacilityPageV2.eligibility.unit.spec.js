@@ -143,7 +143,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         screen.queryByText(/San Diego VA Medical Center/i);
       });
       await screen.findByText(
-        /you need to have had a mental health appointment at this facility within the last 12 months/,
+        /You haven.t had a recent appointment at this facility, so you.ll need to call to schedule instead/,
       );
     });
 
@@ -679,13 +679,17 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       fireEvent.click(screen.getByText(/Continue/));
       await screen.findByTestId('eligibilityModal');
       expect(screen.getByRole('alertdialog')).to.be.ok;
-      expect(screen.baseElement).to.contain.text('last 36 months');
+      expect(screen.baseElement).to.contain.text(
+        'You haven’t had a recent appointment at this facility, so you’ll need to call to schedule instead.',
+      );
       fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
 
       await waitFor(
         () =>
           expect(
-            screen.queryByText(/We can’t find a recent appointment for you/i),
+            screen.queryByText(
+              /We couldn’t find a recent appointment for you/i,
+            ),
           ).to.not.exist,
       );
     });
