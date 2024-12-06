@@ -48,22 +48,6 @@ export const createItemName = (item, capFirstLetter = false) => {
   return condition;
 };
 
-// TODO: Fix causedByCondition functionality on edit
-// formData on add { "conditionByCondition": [{ "condition": "migraines (headaches)"... }] }
-// formData on edit { "condition": "migraines (headaches)"... } - does not include ratedDisabilities or other new conditions
-// TODO: If causedByCondition is 'asthma' asthma is updated to 'emphysema' ensure 'asthma' is cleared as potential cause
-export const getOtherConditions = (formData, currentIndex) => {
-  const ratedDisabilities =
-    formData?.ratedDisabilities?.map(disability => disability.name) || [];
-
-  const otherNewConditions =
-    formData?.conditionByCondition
-      ?.filter((_, index) => index !== currentIndex)
-      ?.map(condition => createItemName(condition)) || [];
-
-  return [...ratedDisabilities, ...otherNewConditions];
-};
-
 /** @type {ArrayBuilderOptions} */
 export const arrayBuilderOptions = {
   arrayPath: 'conditionByCondition',
@@ -94,4 +78,20 @@ export const hasSideOfBody = (formData, index) => {
   );
 
   return conditionObject ? conditionObject.sideOfBody : false;
+};
+
+// TODO: Fix causedByCondition functionality on edit
+// formData on add { "conditionByCondition": [{ "condition": "migraines (headaches)"... }] }
+// formData on edit { "condition": "migraines (headaches)"... } - does not include ratedDisabilities or other new conditions
+// TODO: If causedByCondition is 'asthma' asthma is updated to 'emphysema' ensure 'asthma' is cleared as potential cause
+export const getOtherConditions = (formData, currentIndex) => {
+  const ratedDisabilities =
+    formData?.ratedDisabilities?.map(disability => disability.name) || [];
+
+  const otherNewConditions =
+    formData?.[arrayBuilderOptions.arrayPath]
+      ?.filter((_, index) => index !== currentIndex)
+      ?.map(condition => createItemName(condition)) || [];
+
+  return [...ratedDisabilities, ...otherNewConditions];
 };
