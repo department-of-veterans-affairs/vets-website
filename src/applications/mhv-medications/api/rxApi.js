@@ -66,9 +66,9 @@ export const getAllergies = async () => {
   );
 };
 
-export const getDocumentation = (id, ndcNumber) => {
+export const getDocumentation = id => {
   return apiRequest(
-    `${apiBasePath}/prescriptions/${id}/documentation?ndc=${ndcNumber}`,
+    `${apiBasePath}/prescriptions/${id}/documentation?id=${id}`,
     {
       method: 'GET',
       headers,
