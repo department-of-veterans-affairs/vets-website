@@ -107,6 +107,13 @@ const analyticsEvents = {
       prefix: 'file-input',
     },
   ],
+  'va-language-toggle': [
+    {
+      action: 'change',
+      event: 'nav-language-toggle-click',
+      prefix: 'language-toggle',
+    },
+  ],
   'va-link': [
     {
       action: 'click',

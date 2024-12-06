@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { startOfMonth, format, addMinutes, isWithinInterval } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import CalendarWidget from '../components/calendar/CalendarWidget';
-import FormLayout from '../new-appointment/components/FormLayout';
+import ReferralLayout from './components/ReferralLayout';
 import { onCalendarChange } from '../new-appointment/redux/actions';
 import FormButtons from '../components/FormButtons';
 import { referral } from './temp-data/referral';
@@ -32,7 +32,6 @@ export const ChooseDateAndTime = () => {
   const currentPage = useSelector(selectCurrentPage);
   const startMonth = format(startOfMonth(referral.preferredDate), 'yyyy-MM');
   const [error, setError] = useState('');
-  const pageTitle = 'Schedule an appointment with your provider';
   const latestAvailableSlot = new Date(
     Math.max.apply(
       null,
@@ -198,10 +197,10 @@ export const ChooseDateAndTime = () => {
     );
   }
   return (
-    <FormLayout pageTitle={pageTitle}>
+    <ReferralLayout hasEyebrow>
       <>
         <div>
-          <h1>{pageTitle}</h1>
+          <h1>Schedule an appointment with your provider</h1>
           <p>
             You or your referring VA facility selected to schedule an
             appointment online with this provider:
@@ -307,7 +306,7 @@ export const ChooseDateAndTime = () => {
           loadingText="Page change in progress"
         />
       </>
-    </FormLayout>
+    </ReferralLayout>
   );
 };
 
