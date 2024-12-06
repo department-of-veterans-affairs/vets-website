@@ -1,7 +1,4 @@
 const { defineConfig } = require('cypress');
-// const path = require('path');
-
-// process.env.NYC_CONFIG = path.resolve(__dirname, '../package.json');
 
 const cypressConfig = {
   viewportWidth: 1920,
@@ -19,6 +16,7 @@ const cypressConfig = {
   env: {
     codeCoverage: {
       exclude: ['src/**/*.cypress.spec.js?(x)'],
+      nycFolder: 'config/.nyc_output',
     },
     vaTopMobileViewportsIterateUptoIndex: 0,
     vaTopMobileViewports: [
