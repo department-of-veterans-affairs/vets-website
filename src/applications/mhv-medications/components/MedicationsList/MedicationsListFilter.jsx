@@ -119,7 +119,7 @@ const MedicationsListFilter = props => {
               description={filterOptions[option].description}
               checked={filterOption === option}
               data-dd-action-name={
-                dataDogActionNames.medicationsListPageFilters[option]
+                dataDogActionNames.medicationsListPage[option]
               }
             />
           ))}
@@ -130,7 +130,7 @@ const MedicationsListFilter = props => {
           text="Apply filter"
           data-testid="filter-button"
           data-dd-action-name={
-            dataDogActionNames.medicationsListPageFilters.APPLY_FILTER_BUTTON
+            dataDogActionNames.medicationsListPage.APPLY_FILTER_BUTTON
           }
         />
         <VaButton
@@ -140,7 +140,7 @@ const MedicationsListFilter = props => {
           text="Reset filter"
           data-testid="filter-reset-button"
           data-dd-action-name={
-            dataDogActionNames.medicationsListPageFilters.RESET_FILTER_BUTTON
+            dataDogActionNames.medicationsListPage.RESET_FILTER_BUTTON
           }
         />
       </VaAccordionItem>

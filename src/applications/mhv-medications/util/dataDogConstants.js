@@ -27,8 +27,6 @@ export const dataDogActionNames = {
       pageType.LIST
     }`,
     SORT_MEDICATIONS_BUTTON: `Sort Medications Button - ${pageType.LIST}`,
-  },
-  medicationsListPageFilters: {
     [ALL_MEDICATIONS_FILTER_KEY]: 'All medications filter',
     [ACTIVE_FILTER_KEY]: 'Active filter',
     [RECENTLY_REQUESTED_FILTER_KEY]: 'Recently requested filter',
