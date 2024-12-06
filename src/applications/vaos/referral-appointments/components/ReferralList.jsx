@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import PendingReferralCard from './PendingReferralCard';
 import { routeToNextReferralPage } from '../flow';
 import InfoAlert from '../../components/InfoAlert';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const ReferralList = ({ referrals, referralsError }) => {
   const history = useHistory();
@@ -24,38 +25,31 @@ const ReferralList = ({ referrals, referralsError }) => {
   }
   if (referrals.length === 0) {
     return (
-      <InfoAlert
-        status="info"
-        headline="You don’t have any community care referrals"
-      >
-        You don’t have any community care referrals at this time. If you think
-        you should have one, please call your VA health care team.
-      </InfoAlert>
+      <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
+        <h3>You don’t have any referrals</h3>
+        <p>
+          If you think you should have referrals here, call your
+          <NewTabAnchor href="/find-locations">VA facility</NewTabAnchor>
+        </p>
+      </div>
     );
   }
   return (
-    <>
-      <h2 data-testid="referrals-heading">Community care referrals</h2>
-      <p data-testid="referrals-text">
-        Your care team approved these community care referrals. You can schedule
-        appointments with these providers now.
-      </p>
-      <ul
-        className="vads-u-padding-left--0 vads-u-margin-top--0"
-        data-cy="requested-appointment-list"
-      >
-        {referrals.map((referral, index) => {
-          return (
-            <PendingReferralCard
-              key={index}
-              index={index}
-              referral={referral}
-              handleClick={handleReferralClick}
-            />
-          );
-        })}
-      </ul>
-    </>
+    <ul
+      className="vads-u-padding-left--0 vads-u-margin-top--0"
+      data-cy="requested-appointment-list"
+    >
+      {referrals.map((referral, index) => {
+        return (
+          <PendingReferralCard
+            key={index}
+            index={index}
+            referral={referral}
+            handleClick={handleReferralClick}
+          />
+        );
+      })}
+    </ul>
   );
 };
 

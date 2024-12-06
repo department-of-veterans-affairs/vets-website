@@ -53,6 +53,11 @@ export default function ReferralsAndRequests() {
       <BackendAppointmentServiceAlert />
       <h1>Referrals and requests</h1>
       <p>Find your requested appointments and community care referrals.</p>
+      <h2 data-testid="referrals-heading">Community care referrals</h2>
+      <p data-testid="referrals-text">
+        Your care team approved these community care referrals. You can schedule
+        appointments with these providers now.
+      </p>
       <ReferralList referrals={referrals} referralsError={referralsError} />
       <RequestsList
         appointments={pendingAppointments}
