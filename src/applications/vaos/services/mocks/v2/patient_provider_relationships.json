@@ -29,6 +29,36 @@
           "lastSeen": "2024-11-26T00:32:34.216Z"
         }
       }
+    },
+    {
+      "type": "relationship",
+      "attributes": {
+        "type": "string",
+        "attributes": {
+          "provider": {
+            "cernerId": "Practitioner/1111",
+            "name": "Doe, Mary D, MD"
+          },
+          "location": {
+            "vhaFacilityId": "string",
+            "name": "Marion VA Clinic"
+          },
+          "clinic": {
+            "vistaSite": "534",
+            "ien": "6569",
+            "name": "Zanesville Primary Care"
+          },
+          "serviceType": {
+            "coding": [
+              {
+                "code": "New Problem"
+              }
+            ],
+            "text": "string"
+          },
+          "lastSeen": "2024-10-15T00:32:34.216Z"
+        }
+      }
     }
   ]
 }
