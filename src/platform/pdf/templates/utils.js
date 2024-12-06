@@ -358,7 +358,7 @@ const generateFooterContent = async (
  * @returns {Object} doc
  */
 const createDetailItem = async (doc, config, x, item) => {
-  const paragraphOptions = { lineGap: 6 };
+  const paragraphOptions = { lineGap: item.lineGap ?? 6 };
   let titleText = item.title ?? '';
   const content = [];
   const monospaceFont = config.text.monospaceFont || config.text.font;
@@ -378,7 +378,7 @@ const createDetailItem = async (doc, config, x, item) => {
       }),
     );
   } else {
-    const blockValueOptions = { lineGap: 6 };
+    const blockValueOptions = { lineGap: item.lineGap ?? 6 };
     paragraphOptions.lineGap = 2;
     if (titleText) {
       titleText += ' ';
@@ -425,18 +425,19 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
         doc
           .font(config.text.boldFont)
           .fontSize(config.text.size)
-          .text(titleText, x, doc.y, { lineGap: 2 });
+          .text(titleText, x, doc.y, { lineGap: 2, paragraphGap: 6 });
       }),
     );
   }
 
   for (let i = 0; i < item.value.length; i += 1) {
     const element = item.value[i];
+    let elementTitleText = element.title ?? '';
     const font =
       element.weight === 'bold' ? config.text.boldFont : config.text.font;
     const paragraphOptions = {
       continued: !!element.continued,
-      lineGap: 2,
+      lineGap: item.lineGap || 2,
       ...(i === item.value.length - 1 && {
         paragraphGap: element?.paragraphGap ?? 6,
       }),
@@ -451,13 +452,31 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
     if (Array.isArray(element.value)) {
       content.push(
         doc.struct('List', () => {
-          doc.list(element.value, {
+          doc.font(font).list(element.value, {
             ...paragraphOptions,
             listType: 'bullet',
             bulletRadius: 2,
-            indent: 8,
+            indent: 20,
             baseline: 'hanging',
           });
+        }),
+      );
+    } else if (element.title) {
+      elementTitleText += ': ';
+      content.push(
+        doc.struct('P', () => {
+          doc
+            .font(config.text.boldFont)
+            .fontSize(config.text.size)
+            .text(elementTitleText, x, doc.y, {
+              ...paragraphOptions,
+              continued: true,
+              indent: 20,
+            });
+          doc
+            .font(config.text.font)
+            .fontSize(config.text.size)
+            .text(element.value);
         }),
       );
     } else {
