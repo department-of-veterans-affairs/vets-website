@@ -111,7 +111,7 @@ export function getPatientEligibility(
 export function getPatientRelationships({ locationId, typeOfCareId }) {
   return apiRequestWithUrl(
     `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,
-  ).then(parseApiObject);
+  );
 }
 
 export function getFacilityById(id) {
