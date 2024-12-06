@@ -428,6 +428,12 @@ jobs:
           cd .nyc_output
           ls -a
 
+      - name: List .nyc_output contents
+        run: ls -l config/.nyc_output
+
+      - name: Log full path to out.json
+        run: find . -name "out.json" -exec realpath {} \;
+
       - name: View code coverage summary
         if: ${{ always() }}
         run: npx nyc report --reporter=text-summary
