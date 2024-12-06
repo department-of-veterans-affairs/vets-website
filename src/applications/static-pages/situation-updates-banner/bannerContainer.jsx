@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import SituationUpdateBanner from './situationUpdateBanner';
 import { getDataForPath } from './helpers/getDataForPath';
+import { getOperatingStatusPage } from './helpers/getOperatingStatusPage';
 
 export const BannerContainer = () => {
   const {
@@ -41,5 +42,15 @@ export const BannerContainer = () => {
   if (!bannerState?.id) {
     return null;
   }
-  return <SituationUpdateBanner {...bannerState} />;
+
+  const operatingStatusPage = getOperatingStatusPage(
+    bannerState?.context?.[0]?.entity?.entityUrl?.path,
+  );
+
+  return (
+    <SituationUpdateBanner
+      {...bannerState}
+      operatingStatusPage={operatingStatusPage}
+    />
+  );
 };

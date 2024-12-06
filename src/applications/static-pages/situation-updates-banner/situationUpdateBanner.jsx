@@ -9,6 +9,8 @@ export default function SituationUpdateBanner({
   headline,
   showClose,
   content,
+  operatingStatusCta = false,
+  operatingStatusPage,
 }) {
   return (
     <va-banner
@@ -17,14 +19,23 @@ export default function SituationUpdateBanner({
       type={alertType}
       headline={headline}
       show-close={showClose}
-      disable-analytics
-      onclick={recordEvent({
-        event: 'nav-warning-alert-box-content-link-click',
-        alertBoxHeading: '{{ entity.title }}',
-      })}
     >
       {/* eslint-disable-next-line react/no-danger */}
       <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
+      {operatingStatusCta &&
+        operatingStatusPage && (
+          <p>
+            <va-link
+              disable-analytics
+              onclick={recordEvent({
+                event: 'nav-warning-alert-box-content-link-click',
+                alertBoxHeading: headline,
+              })}
+              href={operatingStatusPage}
+              text="Get updates on affected services and facilities"
+            />
+          </p>
+        )}
     </va-banner>
   );
 }
@@ -34,5 +45,7 @@ SituationUpdateBanner.propTypes = {
   content: PropTypes.node.isRequired,
   headline: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  operatingStatusCta: PropTypes.bool,
+  operatingStatusPage: PropTypes.string,
   showClose: PropTypes.bool,
 };
