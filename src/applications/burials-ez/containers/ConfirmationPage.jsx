@@ -5,17 +5,18 @@ import { ConfirmationView } from 'platform/forms-system/src/js/components/Confir
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { benefitsLabels } from '../utils/labels';
-import formConfig from '../config/form';
 
-const ConfirmationPage = ({ form, isLoggedIn }) => {
-  const { TOGGLE_NAMES } = useFeatureToggle();
+const ConfirmationPage = ({ form, isLoggedIn, route }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const burialsConfirmationPage = useToggleValue(
+    TOGGLE_NAMES.burialConfirmationPage,
+  );
 
   useEffect(() => {
     focusElement('.confirmation-page-title');
     scrollToTop('topScrollElement');
   }, []);
 
-  const burialsConfirmationPage = TOGGLE_NAMES.burialConfirmationPage;
   const response = form?.submission?.response ?? {};
   const {
     'view:claimedBenefits': benefits,
@@ -77,7 +78,7 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
       <ConfirmationView
         submitDate={form?.submission?.timestamp}
         confirmationNumber={response?.confirmationNumber}
-        formConfig={formConfig}
+        formConfig={route?.formConfig}
         pdfUrl={response?.pdfUrl}
         // devOnly={{
         //   showButtons: true,
