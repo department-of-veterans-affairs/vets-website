@@ -1,4 +1,3 @@
-import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
@@ -9,6 +8,7 @@ import { TITLE } from '../constants';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import WelcomeVAContactAdditionalInfo from '../components/WelcomeVAContactAdditionalInfo';
+import IntroductionPage from '../containers/IntroductionPage';
 
 const allContactInformationKeys = ['address', 'email', 'phone'];
 const confirmContactInfoKeys = {
@@ -63,7 +63,7 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'welcome-va-setup-review-information-',
-  introduction: <></>,
+  introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
     showNavLinks: true,
