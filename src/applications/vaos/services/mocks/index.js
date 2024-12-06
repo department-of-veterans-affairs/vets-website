@@ -367,7 +367,6 @@ const responses = {
         return false;
       });
     });
-    // return res.json({ data: [], meta})
     return res.json({ data: filteredAppointments, meta });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
