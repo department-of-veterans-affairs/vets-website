@@ -118,7 +118,9 @@ const MedicationsListFilter = props => {
               value={option}
               description={filterOptions[option].description}
               checked={filterOption === option}
-              data-dd-action-name={filterOptions[option].ddActionName}
+              data-dd-action-name={
+                dataDogActionNames.medicationsListPageFilters[option]
+              }
             />
           ))}
         </VaRadio>
@@ -128,7 +130,7 @@ const MedicationsListFilter = props => {
           text="Apply filter"
           data-testid="filter-button"
           data-dd-action-name={
-            dataDogActionNames.medicationsListPage.APPLY_FILTER_BUTTON
+            dataDogActionNames.medicationsListPageFilters.APPLY_FILTER_BUTTON
           }
         />
         <VaButton
@@ -138,7 +140,7 @@ const MedicationsListFilter = props => {
           text="Reset filter"
           data-testid="filter-reset-button"
           data-dd-action-name={
-            dataDogActionNames.medicationsListPage.RESET_FILTER_BUTTON
+            dataDogActionNames.medicationsListPageFilters.RESET_FILTER_BUTTON
           }
         />
       </VaAccordionItem>
