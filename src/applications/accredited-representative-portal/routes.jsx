@@ -5,6 +5,7 @@ import App from './containers/App';
 import LandingPage from './containers/LandingPage';
 import POARequestsPage from './containers/POARequestsPage';
 import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
+import POARequestDetailsPage from './containers/POARequestDetailsPage';
 
 const router = createBrowserRouter(
   [
@@ -21,6 +22,10 @@ const router = createBrowserRouter(
             {
               path: 'poa-requests',
               element: <POARequestsPage />,
+            },
+            {
+              path: 'poa-requests/:id',
+              element: <POARequestDetailsPage />,
             },
           ],
         },

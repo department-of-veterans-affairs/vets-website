@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import { SpouseBasicInformationDescription } from '../../../components/FormDescriptions';
 
 const {
@@ -9,7 +9,7 @@ const {
   spouseDateOfBirth,
   spouseFullName,
   spouseSocialSecurityNumber,
-} = fullSchemaHca.properties;
+} = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
