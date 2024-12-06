@@ -91,6 +91,17 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'phone-number-and-email': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillTextWebComponent('phoneNumber', data.phoneNumber);
+            fillTextWebComponent('email', data.email);
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
       upload: ({ afterHook }) => {
         afterHook(() => {
           cy.axeCheck('.form-panel');
