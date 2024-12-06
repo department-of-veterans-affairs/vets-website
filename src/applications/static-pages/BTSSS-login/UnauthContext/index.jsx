@@ -13,6 +13,10 @@ const UnauthContext = () => {
 
   return (
     <>
+      <p>
+        You can file a claim online through the Beneficiary Travel Self Service
+        System (BTSSS).
+      </p>
       <va-alert
         close-btn-aria-label="Close notification"
         status="continue"
