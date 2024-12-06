@@ -41,7 +41,6 @@ const conditionsFirstPages = arrayBuilderPages(
           item.sideOfBody = undefined;
         }
 
-        // TODO: Is this the best way to handle this?
         return hasSideOfBody(formData, index)
           ? helpers.navForwardKeepUrlParams(props)
           : helpers.navForwardFinishedItem(props);
