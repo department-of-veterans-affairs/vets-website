@@ -87,6 +87,8 @@ const initialState = {
   facilityDetails: {},
   clinics: {},
   eligibility: {},
+  patientProviderRelationships: [],
+  patientProviderRelationshipsStatus: FETCH_STATUS.notStarted,
   parentFacilities: null,
   ccEnabledSystems: null,
   pageChangeInProgress: false,
