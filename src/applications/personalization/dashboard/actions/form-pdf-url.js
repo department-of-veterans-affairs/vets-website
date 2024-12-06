@@ -74,7 +74,8 @@ export const makeFetchFormPdfUrl = (d = download, r = recordEvent) => (
     const url = validateUrl(response);
     recordSuccess(r);
     // TODO: alternate mode for browsers/devices that don't support downloads or filesystem?
-    d(url, undefined, 'application/pdf');
+    // TODO: determine file naming convention, or pull out of URL w/ RegExp
+    d(url, `Form_${formId}_${submissionGuid}`, 'application/pdf');
     return dispatch(actionSuccess(submissionGuid, response));
   } catch (error) {
     recordFail(r, 'internal error');
