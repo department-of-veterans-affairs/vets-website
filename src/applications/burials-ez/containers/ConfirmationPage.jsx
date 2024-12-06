@@ -1,15 +1,21 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { benefitsLabels } from '../utils/labels';
+import formConfig from '../config/form';
 
 const ConfirmationPage = ({ form, isLoggedIn }) => {
+  const { TOGGLE_NAMES } = useFeatureToggle();
+
   useEffect(() => {
     focusElement('.confirmation-page-title');
     scrollToTop('topScrollElement');
   }, []);
 
+  const burialsConfirmationPage = TOGGLE_NAMES.burialConfirmationPage;
   const response = form?.submission?.response ?? {};
   const {
     'view:claimedBenefits': benefits,
@@ -64,6 +70,21 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
     } else {
       renderedTimestamp = timestamp;
     }
+  }
+
+  if (burialsConfirmationPage) {
+    return (
+      <ConfirmationView
+        submitDate={form?.submission?.timestamp}
+        confirmationNumber={response?.confirmationNumber}
+        formConfig={formConfig}
+        pdfUrl={response?.pdfUrl}
+        // devOnly={{
+        //   showButtons: true,
+        //   mockData,
+        // }}
+      />
+    );
   }
 
   return (

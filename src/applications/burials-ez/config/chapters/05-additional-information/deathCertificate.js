@@ -27,6 +27,8 @@ export default {
           locationIsVaMedicalCenter
         );
       },
+      // Empty items object required for confirmation page
+      items: {},
     },
   },
   schema: {
