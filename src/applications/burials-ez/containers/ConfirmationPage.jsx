@@ -75,32 +75,32 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
 
   const submissionInformation = (
     <div className="inset">
-      <h3 className="vads-u-margin-top--0">Your submission information</h3>
+      <h2 className="vads-u-margin-top--0">Your submission information</h2>
       <ul className="claim-list">
         <li>
-          <h4>Who submitted this form</h4>
+          <h3>Who submitted this form</h3>
           <span>
             {claimantName?.first} {claimantName?.middle} {claimantName?.last}{' '}
             {claimantName?.suffix}
           </span>
         </li>
         <li>
-          <h4>Confirmation number</h4>
+          <h3>Confirmation number</h3>
           <span>{response?.confirmationNumber}</span>
         </li>
         <li>
-          <h4>Date submitted</h4>
+          <h3>Date submitted</h3>
           <span>{renderedTimestamp}</span>
         </li>
         <li>
-          <h4>Deceased Veteran</h4>
+          <h3>Deceased Veteran</h3>
           <span>
             {veteranName.first} {veteranName.middle} {veteranName.last}{' '}
             {veteranName.suffix}
           </span>
         </li>
         <li>
-          <h4>Benefits claimed</h4>
+          <h3>Benefits claimed</h3>
           <ul className="benefits-claimed">
             {Object.entries(benefits).map(([benefitName, isRequested]) => {
               const label = benefitsLabels[benefitName];
@@ -112,7 +112,7 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         </li>
         {hasDocuments && (
           <li>
-            <h4>Documents uploaded</h4>
+            <h3>Documents uploaded</h3>
             {deathCertificate && <p>Death certificate: 1 file</p>}
             {transportationReceipts && (
               <p>
@@ -123,7 +123,7 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
           </li>
         )}
         <li>
-          <h4>Your application was sent to</h4>
+          <h3>Your application was sent to</h3>
           <address className="schemaform-address-view">
             {response?.regionalOffice?.map((line, index) => (
               <p key={index}>{line}</p>
@@ -132,7 +132,7 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         </li>
         {burialsConfirmationPage ? null : (
           <li>
-            <h4>Confirmation for your records</h4>
+            <h3>Confirmation for your records</h3>
             <p>You can print this confirmation page for your records</p>
           </li>
         )}
@@ -147,6 +147,115 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
     </div>
   );
 
+  const submitAdditionalDocuments = (
+    <>
+      <h2>How to submit supporting documents</h2>
+      <p>
+        If you still need to submit additional supporting documents, you can
+        submit copies of them by mail.
+      </p>
+      <p>
+        Write the Veteran’s Social Security number or VA file number (if it’s
+        different than their Social Security number) on the first page of the
+        documents.
+      </p>
+      <p>Mail any supporting documents to this address:</p>
+      <p className="va-address-block">
+        Department of Veterans Affairs <br />
+        Pension Intake Center
+        <br />
+        PO Box 5365
+        <br />
+        Janesville, WI 53547-5365
+        <br />
+      </p>
+      <p>
+        <strong>Note:</strong> Mail us copies of your documents only. Don’t send
+        us your original documents. We can’t return them.
+      </p>
+      <h3>Medical records</h3>
+      <p>
+        If you’re claiming a burial allowance for a service-connected death, we
+        recommend submitting the Veteran’s medical records. How you submit their
+        records depends on if you have access to them right now.
+      </p>
+      <p>
+        <strong>Note:</strong> It’s your choice whether you want to submit the
+        Veteran’s medical records. They’ll help us process your claim and
+        confirm information about the Veteran’s medical history at the time of
+        their death.
+      </p>
+      <h4>If you have access</h4>
+      <p>
+        If you have access to the Veteran’s medical records, you can mail copies
+        of these documents to the address listed on this page.
+      </p>
+      <h4>If you don’t have access</h4>
+      <p>
+        If you don’t have access to the Veteran’s medical records, you’ll need
+        to authorize the release of their records to us. How you release their
+        records depends on where the Veteran was receiving care at the time of
+        their death.
+      </p>
+      <p>
+        Provide details about the records or information you want us to request.
+        This will help us request this information.
+      </p>
+      <p>
+        <strong>
+          If the Veteran was receiving care at a VA health facility at the time
+          of their death,
+        </strong>{' '}
+        you can fill out and submit a statement in support of your claim (VA
+        Form 21-4138). Mail this form to the address listed on this page.
+      </p>
+      <p>
+        <a href="/find-forms/about-form-21-4138/" target="_blank">
+          Get VA Form 21-4138 to download (opens in new tab)
+        </a>
+      </p>
+      <p>
+        <strong>
+          If the deceased Veteran was receiving care at a non-VA private health
+          facility at the time of their death,
+        </strong>
+        we’ll try to locate their medical records for you.
+      </p>
+      <p>You can authorize the release of their medical records online.</p>
+      <p>
+        <a
+          href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/"
+          target="_blank"
+          className="vads-c-action-link--green"
+        >
+          Authorize the release of non-VA medical records (opens in new tab)
+        </a>
+      </p>
+      <p>
+        Or, you can fill out both of these forms and mail them to the address
+        listed on this screen:
+      </p>
+      <ul>
+        <li>
+          Authorization to Disclose Information to the Department of Veterans
+          Affairs (VA Form 21-4142)
+          <br />
+          <a href="/find-forms/about-form-21-4142/" target="_blank">
+            Get VA Form 21-4142 to download (opens in new tab)
+          </a>
+        </li>
+        <li>
+          General Release for Medical Provider Information to the Department of
+          Veterans Affairs (VA Form 21-4142a)
+          <br />
+          <a href="/find-forms/about-form-21-4142a/" target="_blank">
+            Get VA Form 21-4142a to download (opens in new tab)
+          </a>
+        </li>
+      </ul>
+    </>
+  );
+
   if (burialsConfirmationPage) {
     return (
       <ConfirmationView
@@ -156,14 +265,14 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         pdfUrl={response?.pdfUrl}
       >
         <ConfirmationView.SubmissionAlert />
-        <ConfirmationView.SavePdfDownload />
+        {/* <ConfirmationView.SavePdfDownload /> */}
         {submissionInformation}
         <ConfirmationView.PrintThisPage />
         <ConfirmationView.WhatsNextProcessList
           item1Content="This can take up to 10 days. When we receive your form, we'll update the status on My VA."
           item2Content="If we need more information after reviewing your form, we'll contact you by phone, email, or mail. "
         />
-        <ConfirmationView.HowToContact />
+        {submitAdditionalDocuments}
         <ConfirmationView.GoBackLink />
         <ConfirmationView.NeedHelp />
       </ConfirmationView>
@@ -184,131 +293,7 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         </p>
       </va-alert>
       {submissionInformation}
-      <h2>How to submit supporting documents</h2>
-
-      <p>
-        If you still need to submit additional supporting documents, you can
-        submit copies of them by mail.
-      </p>
-
-      <p>
-        Write the Veteran’s Social Security number or VA file number (if it’s
-        different than their Social Security number) on the first page of the
-        documents.
-      </p>
-
-      <p>Mail any supporting documents to this address:</p>
-
-      <p className="va-address-block">
-        Department of Veterans Affairs <br />
-        Pension Intake Center
-        <br />
-        PO Box 5365
-        <br />
-        Janesville, WI 53547-5365
-        <br />
-      </p>
-
-      <p>
-        <strong>Note:</strong> Mail us copies of your documents only. Don’t send
-        us your original documents. We can’t return them.
-      </p>
-
-      <h3>Medical records</h3>
-
-      <p>
-        If you’re claiming a burial allowance for a service-connected death, we
-        recommend submitting the Veteran’s medical records. How you submit their
-        records depends on if you have access to them right now.
-      </p>
-
-      <p>
-        <strong>Note:</strong> It’s your choice whether you want to submit the
-        Veteran’s medical records. They’ll help us process your claim and
-        confirm information about the Veteran’s medical history at the time of
-        their death.
-      </p>
-
-      <h4>If you have access</h4>
-
-      <p>
-        If you have access to the Veteran’s medical records, you can mail copies
-        of these documents to the address listed on this page.
-      </p>
-
-      <h4>If you don’t have access</h4>
-
-      <p>
-        If you don’t have access to the Veteran’s medical records, you’ll need
-        to authorize the release of their records to us. How you release their
-        records depends on where the Veteran was receiving care at the time of
-        their death.
-      </p>
-
-      <p>
-        Provide details about the records or information you want us to request.
-        This will help us request this information.
-      </p>
-
-      <p>
-        <strong>
-          If the Veteran was receiving care at a VA health facility at the time
-          of their death,
-        </strong>{' '}
-        you can fill out and submit a statement in support of your claim (VA
-        Form 21-4138). Mail this form to the address listed on this page.
-      </p>
-
-      <p>
-        <a href="/find-forms/about-form-21-4138/" target="_blank">
-          Get VA Form 21-4138 to download (opens in new tab)
-        </a>
-      </p>
-
-      <p>
-        <strong>
-          If the deceased Veteran was receiving care at a non-VA private health
-          facility at the time of their death,
-        </strong>
-        we’ll try to locate their medical records for you.
-      </p>
-
-      <p>You can authorize the release of their medical records online.</p>
-
-      <p>
-        <a
-          href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/"
-          target="_blank"
-          className="vads-c-action-link--green"
-        >
-          Authorize the release of non-VA medical records (opens in new tab)
-        </a>
-      </p>
-
-      <p>
-        Or, you can fill out both of these forms and mail them to the address
-        listed on this screen:
-      </p>
-
-      <ul>
-        <li>
-          Authorization to Disclose Information to the Department of Veterans
-          Affairs (VA Form 21-4142)
-          <br />
-          <a href="/find-forms/about-form-21-4142/" target="_blank">
-            Get VA Form 21-4142 to download (opens in new tab)
-          </a>
-        </li>
-        <li>
-          General Release for Medical Provider Information to the Department of
-          Veterans Affairs (VA Form 21-4142a)
-          <br />
-          <a href="/find-forms/about-form-21-4142a/" target="_blank">
-            Get VA Form 21-4142a to download (opens in new tab)
-          </a>
-        </li>
-      </ul>
-
+      {submitAdditionalDocuments}
       <h2>What are my next steps?</h2>
 
       <p>
