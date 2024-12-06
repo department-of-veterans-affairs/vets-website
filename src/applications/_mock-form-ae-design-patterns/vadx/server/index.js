@@ -97,8 +97,14 @@ function startProcess(procName, command, args, env = {}, color = 'green') {
 }
 
 function autoStartServers() {
-  // Start Frontend Dev Server
+  // get path to root of the repo
+  const root = path.resolve(__dirname, '..', '..', '..', '..', '..');
+  console.log({ root });
+
+  // Start Frontend Dev Server - modified to run from root
   startProcess('fe-dev-server', 'yarn', [
+    '--cwd',
+    root,
     'watch',
     '--env',
     'entry=mock-form-ae-design-patterns',
@@ -110,9 +116,9 @@ function autoStartServers() {
     'mock-server',
     'node',
     [
-      'src/platform/testing/e2e/mockapi.js',
+      `${root}/src/platform/testing/e2e/mockapi.js`,
       '--responses',
-      'src/applications/_mock-form-ae-design-patterns/mocks/server.js',
+      `${root}/src/applications/_mock-form-ae-design-patterns/mocks/server.js`,
     ],
     { AEDEBUG: 'true' },
     'blue',
@@ -173,7 +179,11 @@ app.post('/update-toggles-file', async (req, res) => {
     // Write the updated content back to the file
     await fs.writeFile(filePath, content, 'utf8');
 
-    res.json({ success: true, message: 'File updated successfully', newDate });
+    res.json({
+      success: true,
+      message: 'File updated successfully',
+      updatedAt: newDate,
+    });
   } catch (error) {
     console.error('Error updating file:', error);
     res.status(500).json({
@@ -202,9 +212,17 @@ app.post('/stop', async (req, res) => {
 
 app.post('/start-fe-dev-server', (req, res) => {
   const { entry, api } = req.body;
+  const root = path.resolve(__dirname, '..', '..', '..', '..', '..');
   const name = 'fe-dev-server';
   const command = 'yarn';
-  const args = ['watch', '--env', `entry=${entry}`, `api=${api}`];
+  const args = [
+    '--cwd',
+    root,
+    'watch',
+    '--env',
+    `entry=${entry}`,
+    `api=${api}`,
+  ];
 
   const result = startProcess(name, command, args);
   res.json(result);
@@ -212,6 +230,9 @@ app.post('/start-fe-dev-server', (req, res) => {
 
 // Modified endpoint for starting the mock server
 app.post('/start-mock-server', (req, res) => {
+  // get path to root of the repo
+  const root = path.resolve(__dirname, '..', '..', '..');
+  console.log({ root });
   const { debug = true, responsesPath } = req.body;
   const name = 'mock-server';
   const command = 'node';

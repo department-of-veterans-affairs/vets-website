@@ -399,7 +399,8 @@
       "src/applications/check-in",
       "src/applications/vaos",
       "src/applications/claims-status",
-      "src/applications/accredited-representative-portal/accreditation/21a"
+      "src/applications/accredited-representative-portal/accreditation/21a",
+      "src/applications/_mock-form-ae-design-patterns"
     ],
     "nohoist": [
       "**/applications/accredited-representative-portal/accreditation/21a/react-router",
