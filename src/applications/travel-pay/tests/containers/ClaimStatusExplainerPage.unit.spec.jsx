@@ -52,4 +52,17 @@ describe('ClaimStatusExplainerPage', () => {
       expect(window.location.replace.calledWith('/')).to.be.true;
     });
   });
+
+  it('shows a loading spinner of toggles are loading', async () => {
+    const screenFeatureToggle = renderWithStoreAndRouter(
+      <ClaimStatusExplainerPage />,
+      {
+        initialState: { ...getState({ featureTogglesAreLoading: true }) },
+      },
+    );
+
+    expect(
+      await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
+    ).to.exist;
+  });
 });
