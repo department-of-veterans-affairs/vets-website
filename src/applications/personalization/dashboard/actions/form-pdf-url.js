@@ -57,6 +57,13 @@ const recordSuccess = (r = recordEvent) =>
     'api-status': 'successful',
   });
 
+const validateUrl = ({ url }) => {
+  if (!url) {
+    throw new Error('Invalid form pdf url');
+  }
+  return url;
+};
+
 export const makeFetchFormPdfUrl = (d = download, r = recordEvent) => (
   formId,
   submissionGuid,
@@ -64,10 +71,7 @@ export const makeFetchFormPdfUrl = (d = download, r = recordEvent) => (
   dispatch(actionStart(submissionGuid));
   try {
     const response = await getFormPdfUrl(formId, submissionGuid);
-    const { url } = response;
-    if (!url) {
-      throw new Error('Invalid form pdf url');
-    }
+    const url = validateUrl(response);
     recordSuccess(r);
     // TODO: alternate mode for browsers/devices that don't support downloads or filesystem?
     d(url, undefined, 'application/pdf');
