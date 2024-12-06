@@ -109,7 +109,7 @@ const analyticsEvents = {
   ],
   'va-language-toggle': [
     {
-      action: 'change',
+      action: 'linkClick',
       event: 'nav-language-toggle-click',
       prefix: 'language-toggle',
     },
