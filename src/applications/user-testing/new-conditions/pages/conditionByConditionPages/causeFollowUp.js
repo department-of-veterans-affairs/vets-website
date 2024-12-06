@@ -9,7 +9,7 @@ import {
 import { conditionOptions } from '../../content/conditionOptions';
 import { createItemName } from './utils';
 
-const createCauseFollowUpTitles = formData => {
+export const createCauseFollowUpTitles = formData => {
   const causeTitle = {
     NEW: `Details of injury or exposure that caused ${createItemName(
       formData,

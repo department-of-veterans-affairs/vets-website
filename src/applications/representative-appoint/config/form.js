@@ -378,7 +378,10 @@ const formConfig = {
         authorizeOutsideVANames: {
           path: 'authorize-outside-va/names',
           depends: formData => {
-            return isAttorneyOrClaimsAgent(formData);
+            return (
+              isAttorneyOrClaimsAgent(formData) &&
+              formData.authorizeOutsideVARadio === 'Yes'
+            );
           },
           title: 'Authorization for Access Outside of VA Systems',
           uiSchema: authorizeOutsideVANames.uiSchema,
