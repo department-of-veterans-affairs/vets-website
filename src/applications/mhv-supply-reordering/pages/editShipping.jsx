@@ -11,14 +11,14 @@ export default {
   uiSchema: {
     ...titleUI('Shipping address'),
     'ui:description': <UnsavedFieldNote fieldName="shipping address" />,
-    permanentAddress: addressUI({
+    shippingAddress: addressUI({
       omit: ['street3'],
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      permanentAddress: addressSchema({
+      shippingAddress: addressSchema({
         omit: ['street3'],
       }),
     },

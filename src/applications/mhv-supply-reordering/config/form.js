@@ -9,8 +9,6 @@ import contactInformation from '../pages/contactInformation';
 import editEmail from '../pages/editEmail';
 import editShipping from '../pages/editShipping';
 
-// import EditAddress from '../components/EditAddress';
-// import EditEmail from '../components/EditEmail';
 import getHelp from '../components/Help';
 
 import introduction from '../containers/IntroductionPage';
@@ -38,6 +36,13 @@ const saveInProgress = {
 };
 
 // https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-form-config-options#customText
+const saveInProgressConfig = {
+  savedFormMessages,
+  saveInProgress,
+  prefillEnabled: true,
+  prefillTransformer,
+};
+
 const customText = {
   // appSavedSuccessfullyMessage: '',
   appType: 'order',
@@ -78,7 +83,7 @@ const chapters = {
         schema: editEmail.schema,
       },
       editShipping: {
-        title: 'Edit shipping address',
+        title: 'Edit shipping',
         taskListHide: true,
         path: 'edit-shipping',
         depends: permanentAddressMissing,
@@ -100,11 +105,7 @@ const formConfig = {
   introduction,
   confirmation,
   formId: VA_FORM_IDS.FORM_VA_2346A,
-  savedFormMessages,
-  saveInProgress,
   version: 0,
-  prefillEnabled: true,
-  prefillTransformer,
   title,
   // subTitle,
   customText,
@@ -113,6 +114,7 @@ const formConfig = {
   getHelp,
   footerContent,
   useTopBackLink: true,
+  ...saveInProgressConfig,
 };
 
 export default formConfig;

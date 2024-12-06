@@ -12,12 +12,10 @@ export function validateAtLeastOneSelected(errors, fieldData, formData) {
 }
 
 export const emailMissing = (formData = {}) => {
-  // console.log({ isEmailMissing });
   return !formData?.emailAddress;
 };
 
-export const permanentAddressMissing = (formData = {}) => {
-  // console.log({ isPermanentAddressMissing });
+export const permanentAddresssMissing = (formData = {}) => {
   return (
     !formData?.permanentAddress?.street ||
     !formData?.permanentAddress?.city ||

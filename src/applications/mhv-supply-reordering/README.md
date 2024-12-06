@@ -98,3 +98,23 @@ How do we access other device types? (e.g. - assistive devices, nebulizers). Are
 The `productGroup` property of a supply can be one of the following values: `['accessories', 'batteries', 'apnea']`. `'assistive devices'` will be added to this list in the near future.
 
 The `deviceName` property of a supply indicates the associated device for the supply.
+
+## Save in progress
+
+Form config for the Save in progress feature:
+
+```js
+const formConfig = {
+  formId: ""
+  prefillEnabled: true,
+  saveInProgress: {
+    inProgress: "",
+    expired: "",
+    saved: "",
+  },
+  savedFormMessages: {
+    notFound: "",
+    noAuth: "",
+  },
+};
+```
