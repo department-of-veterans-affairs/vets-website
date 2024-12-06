@@ -12,6 +12,7 @@ const getFeaturesFromAddress = query => {
         types: MAPBOX_QUERY_TYPES,
         autocomplete: false,
         query,
+        proximity: 'ip',
       })
       .send()
       .then(features => {

@@ -41,11 +41,5 @@ export const recipientNameRequired = (form, index, arrayKey) =>
   get([arrayKey, index, 'recipientRelationship'], form) === 'CUSTODIAN' ||
   get([arrayKey, index, 'recipientRelationship'], form) === 'OTHER';
 
-export const showRecipientName = recipientRelationship =>
-  recipientRelationship === 'CHILD' ||
-  recipientRelationship === 'PARENT' ||
-  recipientRelationship === 'CUSTODIAN' ||
-  recipientRelationship === 'OTHER';
-
 export const surrenderValueRequired = (form, index) =>
   get(['annuities', index, 'canBeLiquidated'], form);

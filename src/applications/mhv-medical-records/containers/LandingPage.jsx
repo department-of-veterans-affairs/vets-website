@@ -24,7 +24,6 @@ import {
   selectVaccinesFlag,
   selectVitalsFlag,
   selectLabsAndTestsFlag,
-  selectSettingsPageFlag,
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
@@ -39,7 +38,6 @@ const LandingPage = () => {
   const displayConditions = useSelector(selectConditionsFlag);
   const displayVitals = useSelector(selectVitalsFlag);
   const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
-  const displayMedicalRecordsSettings = useSelector(selectSettingsPageFlag);
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
   );
@@ -289,7 +287,7 @@ const LandingPage = () => {
           )}
         </section>
       )}
-      {displayMedicalRecordsSettings && (
+      {phase0p5Flag && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
             Manage your medical records settings
@@ -299,10 +297,7 @@ const LandingPage = () => {
             settings.
           </p>
           <Link
-            to={mhvUrl(
-              isAuthenticatedWithSSOe(fullState),
-              'electronic-record-sharing-options',
-            )}
+            to="/settings"
             className="vads-c-action-link--blue"
             data-testid="settings-landing-page-link"
           >
@@ -310,31 +305,55 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
-      <section>
-        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Download your Blue Button report or health summary
-        </h2>
-        <p className="vads-u-margin-bottom--2">
-          We’re working on a way to download all your medical records here as a
-          single file or a summary.
-        </p>
-        <p className="vads-u-margin-bottom--2">
-          For now, you can continue to download your VA Blue Button® report or
-          your VA Health Summary on the previous version of My HealtheVet.
-        </p>
-        <p
-          data-testid="go-to-mhv-download-records"
-          className="vads-u-margin-bottom--2"
-        >
-          <ExternalLink
-            href={mhvUrl(
-              isAuthenticatedWithSSOe(fullState),
-              'download-my-data',
-            )}
-            text="Go back to the previous version of My HealtheVet to download your records"
-          />
-        </p>
-      </section>
+      {phase0p5Flag ? (
+        <section>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Download your medical records reports
+          </h2>
+          <p className="vads-u-margin-bottom--2">
+            Download full reports of your medical records or your self entered
+            health information.
+          </p>
+          <p
+            data-testid="go-to-mhv-download-records"
+            className="vads-u-margin-bottom--2"
+          >
+            <Link
+              to="/download"
+              className="vads-c-action-link--blue"
+              data-testid="go-to-download-mr-reports"
+            >
+              Go to download your medical records reports
+            </Link>
+          </p>
+        </section>
+      ) : (
+        <section>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Download your Blue Button report or health summary
+          </h2>
+          <p className="vads-u-margin-bottom--2">
+            We’re working on a way to download all your medical records here as
+            a single file or a summary.
+          </p>
+          <p className="vads-u-margin-bottom--2">
+            For now, you can continue to download your VA Blue Button® report or
+            your VA Health Summary on the previous version of My HealtheVet.
+          </p>
+          <p
+            data-testid="go-to-mhv-download-records"
+            className="vads-u-margin-bottom--2"
+          >
+            <ExternalLink
+              href={mhvUrl(
+                isAuthenticatedWithSSOe(fullState),
+                'download-my-data',
+              )}
+              text="Go back to the previous version of My HealtheVet to download your records"
+            />
+          </p>
+        </section>
+      )}
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
           What to know as you try out this tool
@@ -368,23 +387,38 @@ const LandingPage = () => {
             <h3 className="vads-u-font-size--h6" slot="headline">
               Where can I find health information I entered myself?
             </h3>
-            <p className="vads-u-margin-bottom--2">
-              Right now, your records on VA.gov only include health information
-              your VA providers have entered.
-            </p>
-            <p className="vads-u-margin-bottom--2">
-              To find health information you entered yourself, go to your
-              medical records on the My HealtheVet website.
-            </p>
-            <p className="vads-u-margin-bottom--2">
-              <ExternalLink
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'download-my-data',
-                )}
-                text="Go to your medical records on the My HealtheVet website"
-              />
-            </p>
+            {phase0p5Flag ? (
+              <div>
+                <p className="vads-u-margin-bottom--2">
+                  Download your self-entered health information report.
+                </p>
+                <p className="vads-u-margin-bottom--2">
+                  <Link to="/download">
+                    Go to download your medical records reports
+                  </Link>
+                </p>
+              </div>
+            ) : (
+              <div>
+                <p className="vads-u-margin-bottom--2">
+                  Right now, your records on VA.gov only include health
+                  information your VA providers have entered.
+                </p>
+                <p className="vads-u-margin-bottom--2">
+                  To find health information you entered yourself, go to your
+                  medical records on the My HealtheVet website.
+                </p>
+                <p className="vads-u-margin-bottom--2">
+                  <ExternalLink
+                    href={mhvUrl(
+                      isAuthenticatedWithSSOe(fullState),
+                      'download-my-data',
+                    )}
+                    text="Go to your medical records on the My HealtheVet website"
+                  />
+                </p>
+              </div>
+            )}
           </va-accordion-item>
           <va-accordion-item bordered="true">
             <h3 className="vads-u-font-size--h6" slot="headline">

@@ -29,7 +29,11 @@ const ItemList = props => {
   }
   if (list?.length === 1) {
     return (
-      <span data-testid="list-item-single" data-dd-privacy="mask">
+      <span
+        data-testid="list-item-single"
+        data-dd-privacy="mask"
+        style={{ whiteSpace: 'pre-line' }}
+      >
         {list[0]}
       </span>
     );

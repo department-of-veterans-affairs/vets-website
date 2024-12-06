@@ -12,6 +12,13 @@ class MedicationsInformationPage {
       'If you’re on a public or shared computer',
     );
   };
+
+  verifyBreadCrumbsTextDoesNotHaveRxName = (breadcrumb, text) => {
+    cy.get('[data-testid="rx-breadcrumb-link"]')
+      .shadow()
+      .should('have.text', breadcrumb)
+      .and('not.have.text', text);
+  };
 }
 
 export default MedicationsInformationPage;

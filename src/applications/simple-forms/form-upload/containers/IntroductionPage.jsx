@@ -53,7 +53,7 @@ const IntroductionPage = ({ route }) => {
             </ul>
           </div>
         </VaProcessListItem>
-        <VaProcessListItem header="Upload your form here" active>
+        <VaProcessListItem header="Upload your form here">
           <div>
             <p>
               When you’re ready to submit your form, you can use the upload tool
