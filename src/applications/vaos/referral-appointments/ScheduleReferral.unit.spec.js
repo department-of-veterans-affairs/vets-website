@@ -8,8 +8,9 @@ import ScheduleReferral from './ScheduleReferral';
 import { createReferral } from './utils/referrals';
 
 describe('scheduleReferral component', () => {
+  const referralDate = '2024-09-09';
   it('should display the subtitle correctly given different numbers of appointments', async () => {
-    const referralOne = createReferral(new Date(), '111');
+    const referralOne = createReferral(referralDate, '111');
     const store = createTestStore();
     const screen = renderWithStoreAndRouter(
       <ScheduleReferral currentReferral={referralOne} />,
@@ -21,7 +22,7 @@ describe('scheduleReferral component', () => {
     expect(subtitle).to.contain.text('1 appointment');
   });
   it('should display the subtitle correctly given 2 appointments', async () => {
-    const referralTwo = createReferral(new Date(), '222');
+    const referralTwo = createReferral(referralDate, '222');
     const store = createTestStore();
     referralTwo.numberOfAppointments = 2;
     const screen = renderWithStoreAndRouter(
