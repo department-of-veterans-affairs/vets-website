@@ -28,7 +28,7 @@ const LandingPageWelcome = ({ firstName = '', children }) => (
             </p>
             <Link
               data-testid="landing-page-bypass-sign-in-link"
-              to="/representative/poa-requests"
+              to="/poa-requests"
               className="vads-c-action-link--white"
             >
               Until sign in is added use this to simulate sign in

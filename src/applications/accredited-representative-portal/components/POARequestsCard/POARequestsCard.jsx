@@ -50,7 +50,7 @@ const POARequestsCard = ({ poaRequests }) => {
             >
               {poaRequest.status}
             </span>
-            <Link to={`/representative/poa-requests/${id}`}>
+            <Link to={`/poa-requests/${id}`}>
               <span className="sr-only">View details for </span>
               <h3
                 data-testid={`poa-request-card-${id}-name`}
