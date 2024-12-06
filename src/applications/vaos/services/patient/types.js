@@ -1,9 +1,9 @@
 /**
  * @summary
- *
- * A Patient Provider Relationship
+ * Patient Provider Relationshp
  *
  * @typedef {Object} PatientProviderRelationship
+ * @global
  *
  * @property {'PatientProviderRelationship'} resourceType Static resource type string
  * @property {String} providerName The full name of the provider
