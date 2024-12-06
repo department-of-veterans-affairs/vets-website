@@ -141,7 +141,9 @@ export const DateAndTimeContent = props => {
   return (
     <>
       <div>
-        <h1>Schedule an appointment with your provider</h1>
+        <h1 data-testid="pick-heading">
+          Schedule an appointment with your provider
+        </h1>
         <p>
           You or your referring VA facility selected to schedule an appointment
           online with this provider:
@@ -213,7 +215,7 @@ export const DateAndTimeContent = props => {
           .
         </p>
       </div>
-      <div>
+      <div data-testid="cal-widget">
         <CalendarWidget
           maxSelections={1}
           availableSlots={provider.slots}
