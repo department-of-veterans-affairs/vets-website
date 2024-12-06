@@ -401,6 +401,9 @@ jobs:
 
       - name: Instrument code
         run: npx nyc instrument --compact=false src ./config/.nyc_output
+      
+      - name: List directories
+        run: ls -a
 
       - name: List directories
         run: |
@@ -424,7 +427,7 @@ jobs:
           cd config
           cd .nyc_output
           ls -a
-          
+
       - name: View code coverage summary
         if: ${{ always() }}
         run: npx nyc report --reporter=text-summary
