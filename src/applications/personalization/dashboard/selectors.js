@@ -18,11 +18,10 @@ export const selectUserCernerFacilityNames = state => {
   }, []);
 };
 
-export const selectPdfUrls = state => state.myVaFormPdfs;
+export const selectPdfs = state => state.myVaFormPdfs;
 
-export const selectPdfUrlError = (state, guid) => {
-  const submission = selectPdfUrls(state).submissions[guid] || {};
-  return !!submission.error;
+export const selectPdf = (state, guid) => {
+  return selectPdfs(state).submissions[guid] || {};
 };
 
-export const selectPdfUrlLoading = state => selectPdfUrls(state).loading;
+export const selectPdfUrlLoading = state => selectPdfs(state).loading;
