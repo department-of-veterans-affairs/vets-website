@@ -36,136 +36,137 @@ describe('<ContactAccreditedRepresentative>', () => {
     expect(container).to.exist;
   });
 
-  it('should navigate to the representative selection page when in review mode', async () => {
-    const { props, mockStore } = getProps();
-
-    const goToPathSpy = sinon.spy();
-
-    // Simulate review mode
-    Object.defineProperty(window, 'location', {
-      value: { search: '?review=true' },
-      writable: true,
+  context('non-review mode', () => {
+    beforeEach(function() {
+      Object.defineProperty(window, 'location', {
+        value: { search: '' },
+        writable: true,
+      });
     });
 
-    const { getByText } = render(
-      <Provider store={mockStore}>
-        <ContactAccreditedRepresentative {...props} goToPath={goToPathSpy} />
-      </Provider>,
-    );
+    it('should call goBack with formData', async () => {
+      const { props, mockStore } = getProps();
 
-    fireEvent.click(getByText('Back'));
+      const goBackSpy = sinon.spy();
 
-    await waitFor(() => {
-      expect(goToPathSpy.calledWith('/representative-select?review=true')).to.be
-        .true;
-    });
-  });
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <ContactAccreditedRepresentative {...props} goBack={goBackSpy} />
+        </Provider>,
+      );
 
-  it('should call goBack with formData when not in review mode', async () => {
-    const { props, mockStore } = getProps();
+      fireEvent.click(getByText('Back'));
 
-    const goBackSpy = sinon.spy();
-
-    Object.defineProperty(window, 'location', {
-      value: { search: '' },
-      writable: true,
+      await waitFor(() => {
+        expect(goBackSpy.calledWith(props.formData)).to.be.true;
+      });
     });
 
-    const { getByText } = render(
-      <Provider store={mockStore}>
-        <ContactAccreditedRepresentative {...props} goBack={goBackSpy} />
-      </Provider>,
-    );
+    it('should call goForward with formData', async () => {
+      const { props, mockStore } = getProps();
 
-    fireEvent.click(getByText('Back'));
+      const goForwardSpy = sinon.spy();
 
-    await waitFor(() => {
-      expect(goBackSpy.calledWith(props.formData)).to.be.true;
-    });
-  });
+      Object.defineProperty(window, 'location', {
+        value: { search: '' },
+        writable: true,
+      });
 
-  it('should navigate to the organization selection page when in review mode and organization selection is required', async () => {
-    const { props, mockStore } = getProps();
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <ContactAccreditedRepresentative
+            {...props}
+            goForward={goForwardSpy}
+          />
+        </Provider>,
+      );
 
-    const goToPathSpy = sinon.spy();
+      fireEvent.click(getByText('Continue'));
 
-    Object.defineProperty(window, 'location', {
-      value: { search: '?review=true' },
-      writable: true,
-    });
-
-    props.formData[
-      'view:selectedRepresentative'
-    ].attributes.accreditedOrganizations = {
-      data: [
-        { attributes: { name: 'Organization 1' } },
-        { attributes: { name: 'Organization 2' } },
-      ],
-    };
-
-    const { getByText } = render(
-      <Provider store={mockStore}>
-        <ContactAccreditedRepresentative {...props} goToPath={goToPathSpy} />
-      </Provider>,
-    );
-
-    fireEvent.click(getByText('Continue'));
-
-    await waitFor(() => {
-      expect(goToPathSpy.calledWith('/representative-organization?review=true'))
-        .to.be.true;
+      await waitFor(() => {
+        expect(goForwardSpy.calledWith(props.formData)).to.be.true;
+      });
     });
   });
 
-  it('should navigate to the review-and-submit page when in review mode and organization selection is not required', async () => {
-    const { props, mockStore } = getProps();
-
-    const goToPathSpy = sinon.spy();
-
-    Object.defineProperty(window, 'location', {
-      value: { search: '?review=true' },
-      writable: true,
+  context('review mode', () => {
+    beforeEach(function() {
+      Object.defineProperty(window, 'location', {
+        value: { search: '?review=true' },
+        writable: true,
+      });
     });
 
-    props.formData[
-      'view:selectedRepresentative'
-    ].attributes.accreditedOrganizations = {
-      data: [{ attributes: { name: 'Organization 1' } }], // Only one organization
-    };
+    it('should navigate to the representative selection page when in review mode', async () => {
+      const { props, mockStore } = getProps();
 
-    const { getByText } = render(
-      <Provider store={mockStore}>
-        <ContactAccreditedRepresentative {...props} goToPath={goToPathSpy} />
-      </Provider>,
-    );
+      const goToPathSpy = sinon.spy();
 
-    fireEvent.click(getByText('Continue'));
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <ContactAccreditedRepresentative {...props} goToPath={goToPathSpy} />
+        </Provider>,
+      );
 
-    await waitFor(() => {
-      expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
-    });
-  });
+      fireEvent.click(getByText('Back'));
 
-  it('should call goForward with formData when not in review mode', async () => {
-    const { props, mockStore } = getProps();
-
-    const goForwardSpy = sinon.spy();
-
-    Object.defineProperty(window, 'location', {
-      value: { search: '' },
-      writable: true,
+      await waitFor(() => {
+        expect(goToPathSpy.calledWith('/representative-select?review=true')).to
+          .be.true;
+      });
     });
 
-    const { getByText } = render(
-      <Provider store={mockStore}>
-        <ContactAccreditedRepresentative {...props} goForward={goForwardSpy} />
-      </Provider>,
-    );
+    it('should navigate to the organization selection page when organization selection is required', async () => {
+      const { props, mockStore } = getProps();
 
-    fireEvent.click(getByText('Continue'));
+      const goToPathSpy = sinon.spy();
 
-    await waitFor(() => {
-      expect(goForwardSpy.calledWith(props.formData)).to.be.true;
+      props.formData[
+        'view:selectedRepresentative'
+      ].attributes.accreditedOrganizations = {
+        data: [
+          { attributes: { name: 'Organization 1' } },
+          { attributes: { name: 'Organization 2' } },
+        ],
+      };
+
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <ContactAccreditedRepresentative {...props} goToPath={goToPathSpy} />
+        </Provider>,
+      );
+
+      fireEvent.click(getByText('Continue'));
+
+      await waitFor(() => {
+        expect(
+          goToPathSpy.calledWith('/representative-organization?review=true'),
+        ).to.be.true;
+      });
+    });
+
+    it('should navigate to the review-and-submit page when organization selection is not required', async () => {
+      const { props, mockStore } = getProps();
+
+      const goToPathSpy = sinon.spy();
+
+      props.formData[
+        'view:selectedRepresentative'
+      ].attributes.accreditedOrganizations = {
+        data: [{ attributes: { name: 'Organization 1' } }], // Only one organization
+      };
+
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <ContactAccreditedRepresentative {...props} goToPath={goToPathSpy} />
+        </Provider>,
+      );
+
+      fireEvent.click(getByText('Continue'));
+
+      await waitFor(() => {
+        expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      });
     });
   });
 });
