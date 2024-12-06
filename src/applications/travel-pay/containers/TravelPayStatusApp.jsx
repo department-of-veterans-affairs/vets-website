@@ -14,6 +14,10 @@ import { intersection, difference } from 'lodash';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { focusElement } from 'platform/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
+import { scrollTo } from 'platform/utilities/ui/scroll';
+
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
@@ -28,6 +32,11 @@ export default function App({ children }) {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
 
   const filterInfoRef = useRef();
+
+  useEffect(() => {
+    focusElement('h1');
+    scrollTo('topScrollElement');
+  });
 
   // TODO: utilize user info for authenticated requests
   // and validating logged in status
@@ -265,10 +274,10 @@ export default function App({ children }) {
   }
 
   return (
-    <>
+    <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
-        <h1 className="vads-u-font-size--h2" tabIndex="-1" data-testid="header">
+        <h1 tabIndex="-1" data-testid="header">
           Check your travel reimbursement claim status
         </h1>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
@@ -379,7 +388,7 @@ export default function App({ children }) {
       </article>
 
       {children}
-    </>
+    </Element>
   );
 }
 

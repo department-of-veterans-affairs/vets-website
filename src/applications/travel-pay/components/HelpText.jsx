@@ -10,7 +10,7 @@ export function HelpTextContent() {
         To manage your travel claims or file a new claim, go to our{' '}
         <va-link
           external
-          className="btsss-portal-link"
+          // className="btsss-portal-link"
           href={BTSSS_PORTAL_URL}
           text="Beneficiary Travel Self Service System (BTSSS) portal"
         />
