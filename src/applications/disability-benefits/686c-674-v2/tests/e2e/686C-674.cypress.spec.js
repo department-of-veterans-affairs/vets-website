@@ -52,7 +52,7 @@ const testConfig = createTestConfig(
             .get('va-button')
             .should('exist');
           cy.get('.help-talk va-telephone:first')
-            .contains('800-827-1000')
+            .contains('800-698-2411')
             .should('have.prop', 'href');
           cy.get('.help-talk va-telephone:last')
             .contains('711')
@@ -165,3 +165,82 @@ const testConfig = createTestConfig(
 );
 
 testForm(testConfig);
+
+// {
+//   "householdIncome": false,
+//   "view:completedDependent": false,
+//   "veteranContactInformation": {
+//     "phoneNumber": "8084361945",
+//     "emailAddress": "nope@nope.com",
+//     "veteranAddress": {
+//       "view:militaryBaseDescription": {},
+//       "country": "USA",
+//       "street": "123 Fake St.",
+//       "city": "Fakesville",
+//       "state": "AL",
+//       "postalCode": "12345"
+//     }
+//   },
+//   "view:selectable686Options": {
+//     "reportDeath": true
+//   },
+//   "view:addOrRemoveDependents": {
+//     "remove": true
+//   },
+//   "spouseInformation": {
+//     "fullName": {}
+//   },
+//   "view:certificateNotice": {},
+//   "doesLiveWithSpouse": {
+//     "address": {
+//       "view:militaryBaseDescription": {}
+//     }
+//   },
+//   "currentMarriageInformation": {
+//     "location": {},
+//     "view:marriageTypeInformation": {}
+//   },
+//   "view:additionalEvidenceDescription": {},
+//   "reportDivorce": {
+//     "fullName": {},
+//     "divorceLocation": {
+//       "location": {}
+//     }
+//   },
+//   "deaths": [
+//     {
+//       "deceasedDependentIncome": false,
+//       "dependentDeathLocation": {
+//         "location": {
+//           "city": "Fakesville",
+//           "state": "CT"
+//         }
+//       },
+//       "dependentDeathDate": "2024-02-19",
+//       "childStatus": {
+//         "childUnder18": true,
+//         "stepChild": true
+//       },
+//       "dependentType": "child",
+//       "fullName": {
+//         "first": "Sean",
+//         "last": "Midgley"
+//       },
+//       "ssn": "333445555",
+//       "birthDate": "1991-02-19"
+//     }
+//   ],
+//   "veteranInformation": {
+//     "fullName": {
+//       "first": "Pauline",
+//       "middle": "E",
+//       "last": "Foster"
+//     },
+//     "ssn": "796330625",
+//     "birthDate": "1976-06-09",
+//     "ssnLastFour": "0625",
+//     "vaFileLastFour": "0625"
+//   },
+//   "useV2": true,
+//   "privacyAgreementAccepted": true
+// }
