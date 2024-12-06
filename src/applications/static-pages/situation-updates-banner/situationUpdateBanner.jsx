@@ -13,7 +13,7 @@ export default function SituationUpdateBanner({
   return (
     <va-banner
       data-testid="situation-update-banner"
-      banner-id={id}
+      banner-id={`situation-update-banner-${id}`}
       type={alertType}
       headline={headline}
       show-close={showClose}
