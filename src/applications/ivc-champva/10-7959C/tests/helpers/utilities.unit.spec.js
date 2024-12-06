@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   isRequiredFile,
   nameWording,
+  nameWordingExt,
   getObjectsWithAttachmentId,
 } from '../../helpers/utilities';
 import { requiredFiles } from '../../config/constants';
@@ -50,6 +51,14 @@ describe('nameWording', () => {
         false, // capitalize
       ),
     ).to.equal('John William Ferrell');
+  });
+});
+
+describe('nameWordingExt', () => {
+  it("should set `beingVerb` to 'you’re' if certifierRole is 'applicant'", () => {
+    expect(nameWordingExt({ certifierRole: 'applicant' }).beingVerb).to.equal(
+      'you’re',
+    );
   });
 });
 
