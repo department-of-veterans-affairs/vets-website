@@ -68,11 +68,11 @@ const LevelThreeLinks = ({
     const linkHtml = (text, href) => {
       return (
         <li
-          className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
+          className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--1 vads-u-width--full vads-u-font-weight--bold"
           key={text}
         >
           <a
-            className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
+            className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--3 vads-u-color--white vads-u-width--full"
             href={updateLinkDomain(href)}
           >
             {text}
@@ -106,7 +106,7 @@ const LevelThreeLinks = ({
           <li className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
             <button
               className={classNames(
-                'back-to-menu header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-align-items--center',
+                'back-to-menu header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--3 vads-u-color--link-default vads-u-align-items--center',
                 { active: isActiveMenu },
               )}
               type="button"
