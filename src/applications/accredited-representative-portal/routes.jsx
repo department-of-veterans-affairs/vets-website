@@ -6,26 +6,30 @@ import LandingPage from './containers/LandingPage';
 import POARequestsPage from './containers/POARequestsPage';
 import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      element: <App />,
+      children: [
+        {
+          index: true,
+          element: <LandingPage />,
+        },
+        {
+          element: <SignedInLayoutWrapper />,
+          children: [
+            {
+              path: 'poa-requests',
+              element: <POARequestsPage />,
+            },
+          ],
+        },
+      ],
+    },
+  ],
   {
-    path: '/representative',
-    element: <App />,
-    children: [
-      {
-        index: true,
-        element: <LandingPage />,
-      },
-      {
-        element: <SignedInLayoutWrapper />,
-        children: [
-          {
-            path: 'poa-requests',
-            element: <POARequestsPage />,
-          },
-        ],
-      },
-    ],
+    basename: '/representative',
   },
-]);
+);
 
 export default router;
