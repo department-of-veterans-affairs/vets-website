@@ -85,6 +85,11 @@ describe(`${appName} -- Status Page`, () => {
 
     cy.get('h1').should('include.text', 'What does my claim status mean?');
 
+    // get the 4th Breadcrumb, test that it is correct for the page
+    cy.get('a')
+      .eq(3)
+      .should('include.text', 'Help: Claim Status Meanings');
+
     // The 3rd Breadcrumb link (since there are 2 with path: "/")
     cy.get('a')
       .eq(2)
