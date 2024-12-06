@@ -19,7 +19,7 @@ export const BannerContainer = () => {
 
   useEffect(() => {
     let pathForSituationUpdate = window.location.pathname;
-     pathForSituationUpdate = pathForSituationUpdate.replace(/\/$/, '');
+    pathForSituationUpdate = pathForSituationUpdate.replace(/\/$/, '');
     if (
       pathForSituationUpdate.includes('health-care') ||
       pathForSituationUpdate.includes('manila-va-clinic')
