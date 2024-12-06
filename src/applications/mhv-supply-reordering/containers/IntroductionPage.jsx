@@ -15,9 +15,9 @@ import Alerts from './Alerts';
 import SuppliesAvailable from '../components/SuppliesAvailable';
 import SuppliesUnavailable from '../components/SuppliesUnavailable';
 import {
+  isAlerting,
   selectSupplies,
   selectUnavailableSupplies,
-  isAlerting,
 } from '../selectors';
 
 const Loading = () => (
