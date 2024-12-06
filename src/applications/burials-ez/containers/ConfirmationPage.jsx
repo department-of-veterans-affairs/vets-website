@@ -73,6 +73,80 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
     }
   }
 
+  const submissionInformation = (
+    <div className="inset">
+      <h3 className="vads-u-margin-top--0">Your submission information</h3>
+      <ul className="claim-list">
+        <li>
+          <h4>Who submitted this form</h4>
+          <span>
+            {claimantName?.first} {claimantName?.middle} {claimantName?.last}{' '}
+            {claimantName?.suffix}
+          </span>
+        </li>
+        <li>
+          <h4>Confirmation number</h4>
+          <span>{response?.confirmationNumber}</span>
+        </li>
+        <li>
+          <h4>Date submitted</h4>
+          <span>{renderedTimestamp}</span>
+        </li>
+        <li>
+          <h4>Deceased Veteran</h4>
+          <span>
+            {veteranName.first} {veteranName.middle} {veteranName.last}{' '}
+            {veteranName.suffix}
+          </span>
+        </li>
+        <li>
+          <h4>Benefits claimed</h4>
+          <ul className="benefits-claimed">
+            {Object.entries(benefits).map(([benefitName, isRequested]) => {
+              const label = benefitsLabels[benefitName];
+              return isRequested && label ? (
+                <li key={benefitName}>{label}</li>
+              ) : null;
+            })}
+          </ul>
+        </li>
+        {hasDocuments && (
+          <li>
+            <h4>Documents uploaded</h4>
+            {deathCertificate && <p>Death certificate: 1 file</p>}
+            {transportationReceipts && (
+              <p>
+                Transportation documentation: {transportationReceipts.length}{' '}
+                {transportationReceipts.length > 1 ? 'files' : 'file'}
+              </p>
+            )}
+          </li>
+        )}
+        <li>
+          <h4>Your application was sent to</h4>
+          <address className="schemaform-address-view">
+            {response?.regionalOffice?.map((line, index) => (
+              <p key={index}>{line}</p>
+            ))}
+          </address>
+        </li>
+        {burialsConfirmationPage ? null : (
+          <li>
+            <h4>Confirmation for your records</h4>
+            <p>You can print this confirmation page for your records</p>
+          </li>
+        )}
+      </ul>
+      {burialsConfirmationPage ? null : (
+        <va-button
+          className="usa-button screen-only"
+          onClick={() => window.print()}
+          text="Print this page"
+        />
+      )}
+    </div>
+  );
+
   if (burialsConfirmationPage) {
     return (
       <ConfirmationView
@@ -80,11 +154,19 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         confirmationNumber={response?.confirmationNumber}
         formConfig={route?.formConfig}
         pdfUrl={response?.pdfUrl}
-        // devOnly={{
-        //   showButtons: true,
-        //   mockData,
-        // }}
-      />
+      >
+        <ConfirmationView.SubmissionAlert />
+        <ConfirmationView.SavePdfDownload />
+        {submissionInformation}
+        <ConfirmationView.PrintThisPage />
+        <ConfirmationView.WhatsNextProcessList
+          item1Content="This can take up to 10 days. When we receive your form, we'll update the status on My VA."
+          item2Content="If we need more information after reviewing your form, we'll contact you by phone, email, or mail. "
+        />
+        <ConfirmationView.HowToContact />
+        <ConfirmationView.GoBackLink />
+        <ConfirmationView.NeedHelp />
+      </ConfirmationView>
     );
   }
 
@@ -101,73 +183,7 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
           send you a letter with more information about your claim.
         </p>
       </va-alert>
-      <div className="inset">
-        <h3 className="vads-u-margin-top--0">Your submission information</h3>
-        <ul className="claim-list">
-          <li>
-            <h4>Who submitted this form</h4>
-            <span>
-              {claimantName?.first} {claimantName?.middle} {claimantName?.last}{' '}
-              {claimantName?.suffix}
-            </span>
-          </li>
-          <li>
-            <h4>Confirmation number</h4>
-            <span>{response?.confirmationNumber}</span>
-          </li>
-          <li>
-            <h4>Date submitted</h4>
-            <span>{renderedTimestamp}</span>
-          </li>
-          <li>
-            <h4>Deceased Veteran</h4>
-            <span>
-              {veteranName.first} {veteranName.middle} {veteranName.last}{' '}
-              {veteranName.suffix}
-            </span>
-          </li>
-          <li>
-            <h4>Benefits claimed</h4>
-            <ul className="benefits-claimed">
-              {Object.entries(benefits).map(([benefitName, isRequested]) => {
-                const label = benefitsLabels[benefitName];
-                return isRequested && label ? (
-                  <li key={benefitName}>{label}</li>
-                ) : null;
-              })}
-            </ul>
-          </li>
-          {hasDocuments && (
-            <li>
-              <h4>Documents uploaded</h4>
-              {deathCertificate && <p>Death certificate: 1 file</p>}
-              {transportationReceipts && (
-                <p>
-                  Transportation documentation: {transportationReceipts.length}{' '}
-                  {transportationReceipts.length > 1 ? 'files' : 'file'}
-                </p>
-              )}
-            </li>
-          )}
-          <li>
-            <h4>Your application was sent to</h4>
-            <address className="schemaform-address-view">
-              {response?.regionalOffice?.map((line, index) => (
-                <p key={index}>{line}</p>
-              ))}
-            </address>
-          </li>
-          <li>
-            <h4>Confirmation for your records</h4>
-            <p>You can print this confirmation page for your records</p>
-          </li>
-        </ul>
-        <va-button
-          className="usa-button screen-only"
-          onClick={() => window.print()}
-          text="Print this page"
-        />
-      </div>
+      {submissionInformation}
       <h2>How to submit supporting documents</h2>
 
       <p>
