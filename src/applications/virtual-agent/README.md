@@ -1,4 +1,10 @@
 # VA Virtual Agent on vets-website Quick Guide
+````
+nvm use
+````
+````
+yarn install
+````
 - To generate an index.html code coverage report for the virtual-agent app
 ```
 yarn test:coverage-app virtual-agent
