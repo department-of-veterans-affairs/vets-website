@@ -5,15 +5,15 @@ import { connect } from 'react-redux';
 const Calcs = ({ data }) => {
   const programIdx = window.location.href.split('?')[0].slice(-1);
   const program = data.programs?.[programIdx];
-  const supported = program?.fte?.supported;
-  const nonSupported = program?.fte?.nonSupported;
-  const total = Number(supported) + Number(nonSupported);
+  const supported = Number(program?.fte?.supported);
+  const nonSupported = Number(program?.fte?.nonSupported);
+  const total = supported + nonSupported;
 
   return (
     <>
       <div className="vads-u-margin-bottom--1">
         <label className="vads-u-margin-bottom--1">Total Enrolled FTE</label>
-        <span>{supported && nonSupported ? total : '--'}</span>
+        <span className="vads-u-font-size--h3 vads-u-font-weight--bold">{supported && nonSupported ? total : '--'}</span>
       </div>
       <va-additional-info trigger="How is Total enrolled FTE calculated?">
         <p>
@@ -29,8 +29,8 @@ const Calcs = ({ data }) => {
         <label className="vads-u-margin-bottom--1">
           Supported student percentage FTE
         </label>
-        <span>
-          {supported && nonSupported ? `${(supported / total) * 100}%` : '--%'}
+        <span className="vads-u-font-size--h3 vads-u-font-weight--bold">
+          {supported && nonSupported ? `${((supported / total) * 100).toFixed(2).replace(/[.,]00$/, "")}%` : '--%'}
         </span>
       </div>
       <va-additional-info trigger="How is Supported student percentage FTE calculated?">
