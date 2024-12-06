@@ -1,20 +1,18 @@
 import _ from 'lodash';
 import {
-  branchOfServiceRuleforCategories,
   CategoryEducation,
-  CategoryVeteranReadinessAndEmployment,
   CHAPTER_2,
   CHAPTER_3,
   healthcareCategoryLabels,
   schoolInYourProfileOptions,
-  TopicVeteranReadinessAndEmploymentChapter31,
-  whoIsYourQuestionAboutLabels,
   yourRoleOptionsEducation,
 } from '../../constants';
 import {
+  isBranchOfServiceRequired,
   isLocationOfResidenceRequired,
   isPostalCodeRequired,
   isStateOfPropertyRequired,
+  isVRERequired,
 } from '../helpers';
 
 // Personal Information
@@ -36,9 +34,9 @@ import relationshipToVeteranPage from '../chapters/personalInformation/relations
 import schoolInYourProfilePage from '../chapters/personalInformation/schoolInYourProfile';
 import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
 import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
+import stateOfFacilityPage from '../chapters/personalInformation/stateOfFacility';
 import stateOfPropertyPage from '../chapters/personalInformation/stateOfProperty';
 import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
-import stateOfFacilityPage from '../chapters/personalInformation/stateOfFacility';
 import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
 import theirVRECounselorPage from '../chapters/personalInformation/theirVRECounselor';
@@ -320,10 +318,7 @@ const ch3Pages = {
     title: CHAPTER_3.YOUR_VRE_INFORMATION.TITLE,
     uiSchema: yourVREInformationPage.uiSchema,
     schema: yourVREInformationPage.schema,
-    depends: form =>
-      form.selectCategory === CategoryVeteranReadinessAndEmployment ||
-      (form.selectCategory === CategoryEducation &&
-        form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31),
+    depends: form => isVRERequired(form),
   },
   yourVRECounselor: {
     title: CHAPTER_3.YOUR_VRE_COUNSELOR.TITLE,
@@ -335,6 +330,7 @@ const ch3Pages = {
     title: CHAPTER_3.THEIR_VRE_INFORMATION.TITLE,
     uiSchema: theirVREInformationPage.uiSchema,
     schema: theirVREInformationPage.schema,
+    depends: form => isVRERequired(form),
   },
   theirVRECounselor: {
     title: CHAPTER_3.THEIR_VRE_COUNSELOR.TITLE,
@@ -351,11 +347,7 @@ const ch3Pages = {
         form.aboutYourself.first &&
         form.aboutYourself.last &&
         form.aboutYourself.socialSecurityNumber;
-      return (
-        (authCheck &&
-          branchOfServiceRuleforCategories.includes(form.selectCategory)) ||
-        form.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
-      );
+      return authCheck && isBranchOfServiceRequired(form);
     },
   },
   stateOfProperty: {

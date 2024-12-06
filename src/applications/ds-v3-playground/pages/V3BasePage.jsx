@@ -24,6 +24,7 @@ import {
   VaProcessListItem,
   VaPagination,
   VaIcon,
+  VaLanguageToggle,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V3BasePage() {
@@ -111,6 +112,15 @@ export default function V3BasePage() {
     document.body.appendChild(el);
   };
   hideHeader();
+
+  const langToggleUrl = new URL(window.parent.location.href);
+  langToggleUrl.hash = 'langToggle';
+
+  const lang = sessionStorage.getItem('va-language-toggle-lang') ?? 'en';
+  function handleLanguageToggle(e) {
+    const { language } = e.detail;
+    sessionStorage.setItem('va-language-toggle-lang', language);
+  }
 
   return (
     <>
@@ -517,6 +527,19 @@ export default function V3BasePage() {
                 </p>
               </VaProcessListItem>
             </VaProcessList>
+          </div>
+        </div>
+        {/* Language Toggle */}
+        <div className="grid-row flex-column border-bottom">
+          <h2 className="grid-col font-ui-md">Language Toggle</h2>
+          <div className="grid-col">
+            <VaLanguageToggle
+              language={lang}
+              enHref={langToggleUrl}
+              esHref={langToggleUrl}
+              tlHref={langToggleUrl}
+              onVaLanguageToggle={handleLanguageToggle}
+            />
           </div>
         </div>
       </div>
