@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
-import { handleUpdateLcFilterDropdowns } from '../utils/helpers';
+import {
+  filterLcResults,
+  handleUpdateLcFilterDropdowns,
+} from '../utils/helpers';
 import LcKeywordSearch from './LcKeywordSearch';
 
 function capitalizeFirstLetter(string) {
@@ -39,21 +42,6 @@ export const dropdownSchema = [
   },
 ];
 
-const filterSuggestions = (suggestions, value, filters) => {
-  const { type } = filters; // destructure state once it's added to the response
-
-  if (!value) {
-    return [];
-  }
-
-  return suggestions.filter(suggestion => {
-    if (type !== suggestion.type && type !== 'all') return false;
-    // TODO add logic to account for state
-
-    return suggestion.name.toLowerCase().includes(value.toLowerCase());
-  });
-};
-
 const resetStateDropdown = dropdowns => {
   return dropdowns.map(dropdown => {
     return dropdown.label === 'state'
@@ -84,7 +72,7 @@ export default function LicenseCertificationSearchForm({
 
   useEffect(
     () => {
-      const newSuggestions = filterSuggestions(suggestions, name, {
+      const newSuggestions = filterLcResults(suggestions, name, {
         type: dropdowns[0].current.optionValue,
       });
 
@@ -215,7 +203,7 @@ export default function LicenseCertificationSearchForm({
       <div className="button-wrapper row vads-u-padding-y--6 vads-u-padding-x--1">
         <va-button
           text="Submit"
-          onClick={() => handleSearch(name, dropdowns[0].current.optionValue)}
+          onClick={() => handleSearch(dropdowns[0].current.optionValue, name)}
         />
         <va-button
           text="Reset Search"

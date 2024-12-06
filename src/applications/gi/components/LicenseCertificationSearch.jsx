@@ -18,7 +18,6 @@ function LicenseCertificationSearch({
   useEffect(
     () => {
       if (!hasFetchedOnce) {
-        // console.log('fetching results');
         dispatchFetchLicenseCertificationResults();
       }
     },
