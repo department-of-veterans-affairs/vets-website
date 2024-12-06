@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DOMPurify from 'dompurify';
+import recordEvent from '~/platform/monitoring/record-event';
 
 export default function SituationUpdateBanner({
   id,
@@ -10,12 +12,19 @@ export default function SituationUpdateBanner({
 }) {
   return (
     <va-banner
+      data-testid="situation-update-banner"
       banner-id={id}
       type={alertType}
       headline={headline}
       show-close={showClose}
+      disable-analytics
+      onclick={recordEvent({
+        event: 'nav-warning-alert-box-content-link-click',
+        alertBoxHeading: '{{ entity.title }}',
+      })}
     >
-      <p>{content}</p>
+      {/* eslint-disable-next-line react/no-danger */}
+      <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
     </va-banner>
   );
 }
