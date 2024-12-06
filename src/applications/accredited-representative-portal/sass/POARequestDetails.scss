@@ -1,0 +1,43 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.poa-request-details {
+  @media (min-width: $small-desktop-screen) {
+    width: 968px;
+  }
+
+  &__divider {
+    border-bottom: 1px solid $vads-color-base-light;
+    width: 100%;
+    margin: 2rem 0;
+    display: flex;
+  }
+
+  &__list {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    flex-direction: column;
+
+    @media (min-width: $small-desktop-screen) {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    &-item {
+      @media (min-width: $small-desktop-screen) {
+        flex: 33%;
+      }
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+  }
+
+  &__subtitle {
+    margin-top: 0;
+  }
+}
