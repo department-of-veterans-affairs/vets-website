@@ -233,6 +233,9 @@ const IntroductionPage = props => {
   const authenticatedUI = (
     <>
       <SaveInProgressIntro
+        // continueMsg="If you're on a public computer, please sign out of your account before you leave so your information is secure."
+        formConfig={formConfig}
+        messages={route.formConfig.savedFormMessages}
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}
         startText="Ask a new question"
@@ -250,7 +253,10 @@ const IntroductionPage = props => {
             value: 'true',
           }}
         >
-          <va-accordion-item header="When to use Ask VA" id="first">
+          <va-accordion-item
+            header="Only use Ask VA for non-urgent questions"
+            id="first"
+          >
             <p>
               You can use Ask VA to ask a question online. You can ask about
               education, disability compensation, health care and many other
