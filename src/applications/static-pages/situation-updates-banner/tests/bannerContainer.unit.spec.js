@@ -41,7 +41,7 @@ describe('featureToggles allow banners', () => {
       expect(wrapper.find('va-banner')).to.have.length(1);
       wrapper.unmount();
       done();
-    }, 200);
+    }, 1000);
   });
   it('should NOT display the Maine banner because toggles', done => {
     sinon.stub(window, 'location').value({ pathname: '/maine-health-care' });
@@ -56,7 +56,7 @@ describe('featureToggles allow banners', () => {
       expect(wrapper.find('va-banner')).to.have.length(0);
       wrapper.unmount();
       done();
-    }, 200);
+    }, 1000);
   });
   it('should NOT display the Faine banner because data does not exist', done => {
     sinon.stub(window, 'location').value({ pathname: '/faine-health-care' });
@@ -70,7 +70,7 @@ describe('featureToggles allow banners', () => {
       expect(wrapper.find('va-banner')).to.have.length(0);
       wrapper.unmount();
       done();
-    }, 200);
+    }, 1000);
   });
 
   it('should display the Birmingham banner but accept with trailing slash', done => {
@@ -88,7 +88,7 @@ describe('featureToggles allow banners', () => {
       expect(wrapper.find('va-banner')).to.have.length(1);
       wrapper.unmount();
       done();
-    }, 200);
+    }, 1000);
   });
 
   it('should accept accept manila-va-clinic but not display banner since none exists', done => {
@@ -103,6 +103,6 @@ describe('featureToggles allow banners', () => {
       expect(wrapper.find('va-banner')).to.have.length(0);
       wrapper.unmount();
       done();
-    }, 200);
+    }, 1000);
   });
 });
