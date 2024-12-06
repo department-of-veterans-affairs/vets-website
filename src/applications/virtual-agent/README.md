@@ -10,3 +10,7 @@ yarn test:coverage-app virtual-agent
 ```
 npm run test:unit -- "path to file"
 ```
+- to run just the virtual agent website
+```
+yarn watch --env entry=static-pages,auth,virtual-agent
+```
