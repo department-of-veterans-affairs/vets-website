@@ -219,4 +219,13 @@ describe(`${appName} -- Status Page`, () => {
       .eq(4)
       .should('include.text', 'August 16, 2023');
   });
+
+  it('redirects help to help/what-does-my-claim-status-mean', () => {
+    cy.visit(`${rootUrl}/help`);
+
+    cy.location('pathname').should(
+      'eq',
+      '/my-health/travel-claim-status/help/what-does-my-claim-status-mean',
+    );
+  });
 });
