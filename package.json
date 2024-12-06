@@ -80,7 +80,7 @@
   },
   "nyc": {
     "report-dir": "coverage",
-    "temp-directory": ".nyc_output",
+    "temp-directory": "config/.nyc_output",
     "all": true,
     "reporter": [
       "json",
