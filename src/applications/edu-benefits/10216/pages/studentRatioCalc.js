@@ -1,42 +1,39 @@
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
-import React from 'react';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
+import {
+  textUI,
+  currentOrPastDateUI,
+  textSchema,
+  currentOrPastDateSchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import PercentageCalc from '../components/PercentageCalc';
 import { ratioCalcInfoHelpText } from '../components/RatioCalc';
-
-// Example of an imported schema:
-// import fullSchema from '../22-10216-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
-
-let percentage;
 
 export default {
   uiSchema: {
     studentRatioCalcChapter: {
-      'ui:title': '35% exemption calculation',
+      ...titleUI('35% exemption calculation'),
       beneficiaryStudent: {
-        'ui:title': 'Number of VA beneficiary students',
-        'ui:errorMessages': {
-          required:
-            'Please enter the number of beneficiary students at your institution',
-        },
+        ...textUI({
+          title: 'Number of VA beneficiary students',
+          errorMessages: {
+            required:
+              'Please enter the number of beneficiary students at your institution',
+          },
+        }),
       },
       numOfStudent: {
-        'ui:title': 'Total number of students',
-        'ui:errorMessages': {
-          required: 'Please enter the total number of students',
-        },
+        ...textUI({
+          title: 'Total number of students',
+          errorMessages: {
+            required: 'Please enter the total number of students',
+          },
+        }),
       },
       studentPercentageCalc: {
         'ui:title': 'VA beneficiary students percentage (calculated)',
-        'ui:field': PercentageCalc,
-        'ui:options': {
-          // viewComponent: props => (
-          //   <PercentageCalc percentage={percentage} props={props} />
-          // ),
-        },
+        'ui:description': PercentageCalc,
       },
 
       'view:ratioCalcInfoHelpText': {
@@ -46,22 +43,12 @@ export default {
         ...currentOrPastDateUI({
           title: 'Date of calculation',
           hint:
-            'Provide the date that 35% calculation was completed. This must be within 30 calendar days of the term start date.',
+            'Provide the date that the 35% calculation was completed. This must be within 30 calendar days of the term start date.',
           errorMessages: {
             required: 'Please enter a date',
           },
         }),
       },
-      'ui:validations': [
-        (_, data) => {
-          percentage =
-            data?.numOfStudent > 0
-              ? ((data?.beneficiaryStudent + data?.numOfStudent) / 100).toFixed(
-                  2,
-                )
-              : '---';
-        },
-      ],
     },
   },
   schema: {
@@ -70,16 +57,14 @@ export default {
       studentRatioCalcChapter: {
         type: 'object',
         properties: {
-          beneficiaryStudent: { type: 'string' },
-          numOfStudent: { type: 'string' },
-          studentPercentageCalc: { type: 'string' },
+          beneficiaryStudent: textSchema,
+          numOfStudent: textSchema,
+          studentPercentageCalc: { type: 'object', properties: {} },
           'view:ratioCalcInfoHelpText': {
             type: 'object',
             properties: {},
           },
-          dateOfCalculation: {
-            type: 'string',
-          },
+          dateOfCalculation: currentOrPastDateSchema,
         },
         required: ['beneficiaryStudent', 'numOfStudent', 'dateOfCalculation'],
       },

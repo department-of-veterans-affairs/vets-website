@@ -30,7 +30,6 @@ export async function addStyleToShadowDomOnPages(
     });
 }
 export const validateFacilityCode = async field => {
-  console.log(field, 'fielddddd');
   try {
     const response = await apiRequest(
       `/gi/institutions/${field?.institutionDetails.facilityCode}`,

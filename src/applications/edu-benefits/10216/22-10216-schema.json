@@ -32,7 +32,25 @@
           "$ref": "#/definitions/date"
         }
       }
+    },
+    "studentRatioCalcChapter": {
+      "type": "object",
+      "required": [
+        "beneficiaryStudent",
+        "numOfStudent",
+        "dateOfCalculation"
+      ],
+      "properties": {
+        "beneficiaryStudent": {
+          "type": "number"
+        },
+        "numOfStudent": {
+          "type": "number"
+        },
+        "dateOfCalculation": {
+          "$ref": "#/definitions/date"
+        }
+      }
     }
   }
 }
-

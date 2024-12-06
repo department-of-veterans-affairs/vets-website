@@ -34,7 +34,7 @@ describe('Form Configuration', () => {
 
     await institutionDetails.onNavForward({ formData, goPath });
 
-    expect(goPath.calledWith('/service-history')).to.be.true;
+    expect(goPath.calledWith('/student-ratio-calculation')).to.be.true;
     validateFacilityCodeStub.restore();
   });
 
