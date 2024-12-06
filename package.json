@@ -401,7 +401,6 @@
       "src/applications/claims-status",
       "src/applications/accredited-representative-portal/accreditation/21a",
       "src/applications/accredited-representative-portal"
-      
     ],
     "nohoist": [
       "**/applications-accredited-representative-portal/accreditation/21a/react-router",
