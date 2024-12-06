@@ -8,7 +8,7 @@ import {
 } from '../tests/mocks/setup';
 import { createReferral } from './utils/referrals';
 
-describe('scheduleReferral component', () => {
+describe('VAOS Component: ScheduleReferral', () => {
   it('should display the subtitle correctly given different numbers of appointments', async () => {
     const referralOne = createReferral(new Date(), '111');
     const store = createTestStore();
