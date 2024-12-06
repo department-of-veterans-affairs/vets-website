@@ -3,12 +3,11 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
-
 import {
-  DefinitionTester,
   submitForm,
   getFormDOM,
-} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+  DefinitionTester,
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
 import { simulateInputChange } from '../../../helpers';
 
