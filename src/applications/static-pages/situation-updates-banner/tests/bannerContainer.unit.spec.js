@@ -9,7 +9,11 @@ import { mount } from 'enzyme';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 
 import { BannerContainer } from '../bannerContainer';
-import { birmingham, maine } from './mocks/mockSituationUpdatesBanner';
+import {
+  birmingham,
+  birminghamWoContext,
+  maine,
+} from './mocks/mockSituationUpdatesBanner';
 
 const getData = ({ isLoading = false, useBanners = true } = {}) => ({
   featureToggles: {
@@ -43,6 +47,28 @@ describe('featureToggles allow banners', () => {
       done();
     }, 1000);
   });
+
+  it('should display the Birmingham banner and display link even without context', done => {
+    sinon.stub(window, 'location').value({
+      pathname:
+        '/birmingham-health-care/locations/birmingham-va-medical-center',
+    });
+    mockApiRequest(birminghamWoContext);
+    const wrapper = mount(
+      <Provider store={mockStore(getData())}>
+        <BannerContainer />
+      </Provider>,
+    );
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('va-banner')).to.have.length(1);
+      const banner = wrapper.find('va-banner');
+      expect(banner.find('va-link')).to.have.length(1);
+      wrapper.unmount();
+      done();
+    }, 1500);
+  });
+
   it('should NOT display the Maine banner because toggles', done => {
     sinon.stub(window, 'location').value({ pathname: '/maine-health-care' });
     mockApiRequest(maine);

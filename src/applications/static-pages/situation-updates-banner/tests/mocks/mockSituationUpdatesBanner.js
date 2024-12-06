@@ -77,3 +77,26 @@ export const maine = {
   path: '/maine-health-care',
   bannerType: 'full_width_banner_alert',
 };
+
+export const birminghamWoContext = {
+  banners: [
+    {
+      id: 28,
+      entityId: 75239,
+      entityBundle: 'full_width_banner_alert',
+      headline: 'Birmingham Outpatient Clinic (Annex) Parking Deck Alert',
+      alertType: 'information',
+      showClose: false,
+      content:
+        '<p>Please be aware of the current renovations for the Birmingham Outpatient Clinic (Annex) Parking deck over the next six to seven months. Contractors will initiate construction from the top of the parking deck, progressing downwards through each floor in the following weeks and months.</p>\n',
+      operatingStatusCta: true,
+      emailUpdatesButton: true,
+      findFacilitiesCta: false,
+      limitSubpageInheritance: false,
+      createdAt: '2024-12-04T17:36:13.306Z',
+      updatedAt: '2024-12-04T17:36:13.306Z',
+    },
+  ],
+  path: '/birmingham-health-care/locations/birmingham-va-medical-center',
+  bannerType: 'full_width_banner_alert',
+};
