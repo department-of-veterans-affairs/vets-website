@@ -8,6 +8,8 @@ import { getVAOSRequestMock } from '../tests/mocks/mock';
 import reducers from '../redux/reducer';
 import { mockVAOSAppointmentsFetch } from '../tests/mocks/helpers';
 import { getTestDate, renderWithStoreAndRouter } from '../tests/mocks/setup';
+import { createReferrals } from './utils/referrals';
+import { FETCH_STATUS } from '../utils/constants';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -17,7 +19,7 @@ const initialStateVAOSService = {
   },
 };
 
-describe('VAOS Component: RequestedAppointmentsList', () => {
+describe('VAOS Component: Referrals and Requests', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
@@ -25,6 +27,113 @@ describe('VAOS Component: RequestedAppointmentsList', () => {
 
   afterEach(() => {
     MockDate.reset();
+  });
+  it('should display referrals if there are referrals', async () => {
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: createReferrals(3, '2024-11-20'),
+        referralsFetchStatus: FETCH_STATUS.succeeded,
+      },
+      appointments: {
+        pending: [],
+        pendingStatus: FETCH_STATUS.succeeded,
+      },
+    };
+    const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
+      initialState,
+    });
+    expect(screen.getByText('Referrals and requests')).to.exist;
+    expect(screen.getByTestId('referral-list')).to.exist;
+  });
+  it('should display error message if both calls fail', async () => {
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: createReferrals(3, '2024-11-20'),
+        referralsFetchStatus: FETCH_STATUS.failed,
+      },
+      appointments: {
+        pending: [],
+        pendingStatus: FETCH_STATUS.failed,
+      },
+    };
+    const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
+      initialState,
+    });
+    expect(screen.getByText('We’re sorry. We’ve run into a problem')).to.exist;
+  });
+  it('should display error message if both calls fail', async () => {
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: [],
+        referralsFetchStatus: FETCH_STATUS.failed,
+      },
+      appointments: {
+        pending: [],
+        pendingStatus: FETCH_STATUS.failed,
+      },
+    };
+    const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
+      initialState,
+    });
+    expect(screen.getByText('We’re sorry. We’ve run into a problem')).to.exist;
+  });
+  it('should display loading if one or more are loading', async () => {
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: [],
+        referralsFetchStatus: FETCH_STATUS.succeeded,
+      },
+      appointments: {
+        pending: [],
+        pendingStatus: FETCH_STATUS.loading,
+      },
+    };
+    const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
+      initialState,
+    });
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+  it('should display referral error message if referrals fail', async () => {
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: [],
+        referralsFetchStatus: FETCH_STATUS.failed,
+      },
+      appointments: {
+        pending: [],
+        pendingStatus: FETCH_STATUS.succeeded,
+      },
+    };
+    const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
+      initialState,
+    });
+    expect(
+      screen.getByText(
+        'We’re sorry. We can’t retrieve your community care referrals at this time. Please try again later.',
+      ),
+    ).to.exist;
+  });
+  it('should display no referrals message if there are no referrals', async () => {
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: [],
+        referralsFetchStatus: FETCH_STATUS.succeeded,
+      },
+      appointments: {
+        pending: [],
+        pendingStatus: FETCH_STATUS.succeeded,
+      },
+    };
+    const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
+      initialState,
+    });
+    expect(screen.getByText('You don’t have any referrals')).to.exist;
   });
 
   it('should display pending and canceled appointments grouped', async () => {

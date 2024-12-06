@@ -29,7 +29,7 @@ const ReferralList = ({ referrals, referralsError }) => {
         <h3>You don’t have any referrals</h3>
         <p>
           If you think you should have referrals here, call your
-          <NewTabAnchor href="/find-locations">VA facility</NewTabAnchor>
+          <NewTabAnchor href="/find-locations">VA health facility</NewTabAnchor>
         </p>
       </div>
     );
@@ -37,7 +37,7 @@ const ReferralList = ({ referrals, referralsError }) => {
   return (
     <ul
       className="vads-u-padding-left--0 vads-u-margin-top--0"
-      data-cy="requested-appointment-list"
+      data-testid="referral-list"
     >
       {referrals.map((referral, index) => {
         return (

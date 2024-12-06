@@ -31,7 +31,7 @@ export default function ReferralsAndRequests() {
 
   if (loading) {
     return (
-      <div className="vads-u-margin-y--8">
+      <div className="vads-u-margin-y--8" data-testid="loading-indicator">
         <va-loading-indicator message="Loading your referrals and appointment requests..." />
       </div>
     );
