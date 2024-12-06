@@ -147,7 +147,7 @@ describe('<ConfirmationPage>', () => {
 
     it('passes the correct props to ConfirmationPageView', () => {
       const confirmationViewProps = wrapper.find('ConfirmationView').props();
-      expect(confirmationViewProps.submitDate).to.equal(1639544400000);
+      expect(confirmationViewProps.submitDate).to.equal(testDate.getTime());
       expect(confirmationViewProps.confirmationNumber).to.equal('V-EBC-177');
     });
   });
