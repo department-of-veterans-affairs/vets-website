@@ -30,7 +30,7 @@ const DownloadFileType = props => {
   const history = useHistory();
   const { runningUnitTest } = props;
   const user = useSelector(state => state.user.profile);
-  const download = useSelector(state => state.mr.download.downloadList);
+  const download = useSelector(state => state.mr.download?.downloadList);
   const refresh = useSelector(state => state.mr.refresh);
   const [downloadStarted, setDownloadStarted] = useState(false);
   const [fileType, setFileType] = useState(null);
@@ -119,19 +119,14 @@ ${download.map(entry => generateDownloadListItemTxt(entry)).join('')}`;
       <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
         <button
           className="usa-button-secondary vads-u-margin-y--0p5"
-          onClick={handleDownload}
+          onClick={() => history.push('/download/record-type')}
         >
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
             <va-icon icon="navigate_far_before" size={2} />
             <span className="vads-u-margin-left--0p5">Back</span>
           </div>
         </button>
-        <button
-          className="vads-u-margin-y--0p5"
-          onClick={() => {
-            history.push('/download');
-          }}
-        >
+        <button className="vads-u-margin-y--0p5" onClick={handleDownload}>
           Download report
         </button>
       </div>
