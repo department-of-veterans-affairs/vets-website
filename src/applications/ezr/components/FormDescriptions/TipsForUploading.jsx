@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TipsForUploading = (
+const TipsForUploading = () => (
   <va-additional-info
     trigger="How to upload files"
     class="vads-u-margin-bottom--3"

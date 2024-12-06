@@ -146,7 +146,7 @@ export function includeAgentOrangeExposureDates(formData) {
 export function includeOtherExposureDates(formData) {
   const { 'view:otherToxicExposures': otherToxicExposures = {} } = formData;
   const exposures = Object.values(otherToxicExposures);
-  return exposures.some(o => o) && includeTeraInformation(formData);
+  return exposures.includes(true) && includeTeraInformation(formData);
 }
 
 /**
