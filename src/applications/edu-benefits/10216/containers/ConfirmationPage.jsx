@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
-
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import formConfig from '../config/form';
 import { GetFormHelp } from '../components/GetFormHelp';
 // import { Alert } from '../components/Alert';
 
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  const { formConfig } = props?.route;
-  const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
+  const submitDate = submission?.timestamp;
+  const confirmationNumber = submission?.response?.confirmationNumber;
 
   const childContent = (
     <div>
@@ -98,7 +97,7 @@ export const ConfirmationPage = props => {
       formConfig={formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
-      pdfUrl={submission.response?.pdfUrl}
+      pdfUrl={submission?.response?.pdfUrl}
     >
       {childContent}
       <va-need-help class="vads-u-margin-top--8">
