@@ -232,6 +232,7 @@ export const selfEnteredTypes = {
   FOOD_JOURNAL: 'food journal',
   ACTIVITY_JOURNAL: 'activity journal',
   MEDICATIONS: 'medications',
+  DEMOGRAPHICS: 'demographics',
 };
 
 export const allergyTypes = {

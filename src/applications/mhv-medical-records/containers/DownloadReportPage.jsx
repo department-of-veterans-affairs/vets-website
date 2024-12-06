@@ -1,7 +1,211 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import {
+  generatePdfScaffold,
+  formatName,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
+import {
+  getSelfEnteredAllergies,
+  getSelfEnteredVitals,
+  getSelfEnteredFamilyHistory,
+  getSelfEnteredVaccines,
+  getSelfEnteredTestEntries,
+  getSelfEnteredMedicalEvents,
+  getSelfEnteredMilitaryHistory,
+  getSelfEnteredProviders,
+  getSelfEnteredHealthInsurance,
+  getSelfEnteredTreatmentFacilities,
+  getSelfEnteredFoodJournal,
+  getSelfEnteredActivityJournal,
+  getSelfEnteredMedications,
+  getSelfEnteredDemographics,
+} from '../actions/selfEnteredData';
+import { allAreDefined, getNameDateAndTime, makePdf } from '../util/helpers';
+import { clearAlerts } from '../actions/alerts';
+import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 
-const DownloadReportPage = () => {
+const DownloadReportPage = ({ runningUnitTest }) => {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user.profile);
+  const name = formatName(user.userFullName);
+  const dob = formatDateLong(user.dob);
+
+  const vitals = useSelector(state => state.mr.selfEntered.vitals);
+  const allergies = useSelector(state => state.mr.selfEntered.allergies);
+  const familyHistory = useSelector(
+    state => state.mr.selfEntered.familyHistory,
+  );
+  const vaccines = useSelector(state => state.mr.selfEntered.vaccines);
+  const testEntries = useSelector(state => state.mr.selfEntered.testEntries);
+  const medicalEvents = useSelector(
+    state => state.mr.selfEntered.medicalEvents,
+  );
+  const militaryHistory = useSelector(
+    state => state.mr.selfEntered.militaryHistory,
+  );
+  const providers = useSelector(state => state.mr.selfEntered.providers);
+  const healthInsurance = useSelector(
+    state => state.mr.selfEntered.healthInsurance,
+  );
+  const treatmentFacilities = useSelector(
+    state => state.mr.selfEntered.treatmentFacilities,
+  );
+  const foodJournal = useSelector(state => state.mr.selfEntered.foodJournal);
+  const activityJournal = useSelector(
+    state => state.mr.selfEntered.activityJournal,
+  );
+  const medications = useSelector(state => state.mr.selfEntered.medications);
+  const demographics = useSelector(state => state.mr.selfEntered.demographics);
+  // const errors = useSelector(state => state.mr.selfEntered.errors);
+
+  // const [downloadStarted, setDownloadStarted] = useState(false);
+  const [selfEnteredInfoRequested, setSelfEnteredInfoRequested] = useState(
+    false,
+  );
+
+  const generatePdf = useCallback(
+    async () => {
+      // setDownloadStarted(true);
+      setSelfEnteredInfoRequested(true);
+      dispatch(clearAlerts());
+      const allDefd = allAreDefined([
+        vitals,
+        allergies,
+        familyHistory,
+        vaccines,
+        testEntries,
+        medicalEvents,
+        militaryHistory,
+        providers,
+        healthInsurance,
+        treatmentFacilities,
+        foodJournal,
+        activityJournal,
+        medications,
+      ]);
+      if (!allDefd) {
+        dispatch(getSelfEnteredVitals());
+        dispatch(getSelfEnteredAllergies());
+        dispatch(getSelfEnteredFamilyHistory());
+        dispatch(getSelfEnteredVaccines());
+        dispatch(getSelfEnteredTestEntries());
+        dispatch(getSelfEnteredMedicalEvents());
+        dispatch(getSelfEnteredMilitaryHistory());
+        dispatch(getSelfEnteredProviders());
+        dispatch(getSelfEnteredHealthInsurance());
+        dispatch(getSelfEnteredTreatmentFacilities());
+        dispatch(getSelfEnteredFoodJournal());
+        dispatch(getSelfEnteredActivityJournal());
+        dispatch(getSelfEnteredMedications());
+        dispatch(getSelfEnteredDemographics());
+      } else {
+        setSelfEnteredInfoRequested(false);
+        const recordData = {
+          vitals,
+          allergies,
+          familyHistory,
+          vaccines,
+          testEntries,
+          medicalEvents,
+          militaryHistory,
+          providers,
+          healthInsurance,
+          treatmentFacilities,
+          foodJournal,
+          activityJournal,
+          medications,
+          demographics,
+        };
+        const title = 'Self-entered information report';
+        const subject = 'VA Medical Record';
+        const scaffold = generatePdfScaffold(user, title, subject);
+        const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
+          user,
+        )}`;
+        const pdfData = {
+          recordSets: generateSelfEnteredData(recordData),
+          ...scaffold,
+          name,
+          dob,
+        };
+        makePdf(
+          pdfName,
+          pdfData,
+          title,
+          runningUnitTest,
+          'selfEnteredInfoReport',
+        );
+      }
+    },
+    [
+      vitals,
+      allergies,
+      familyHistory,
+      vaccines,
+      testEntries,
+      medicalEvents,
+      militaryHistory,
+      providers,
+      healthInsurance,
+      treatmentFacilities,
+      foodJournal,
+      activityJournal,
+      medications,
+      dispatch,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (
+        allAreDefined([
+          vitals,
+          allergies,
+          familyHistory,
+          vaccines,
+          testEntries,
+          medicalEvents,
+          militaryHistory,
+          providers,
+          healthInsurance,
+          treatmentFacilities,
+          foodJournal,
+          activityJournal,
+          medications,
+          demographics,
+        ]) &&
+        selfEnteredInfoRequested
+      ) {
+        generatePdf();
+      }
+    },
+    [
+      vitals,
+      allergies,
+      familyHistory,
+      vaccines,
+      testEntries,
+      medicalEvents,
+      militaryHistory,
+      providers,
+      healthInsurance,
+      treatmentFacilities,
+      foodJournal,
+      activityJournal,
+      medications,
+      demographics,
+      selfEnteredInfoRequested,
+      generatePdf,
+    ],
+  );
+
+  useEffect(() => {
+    generatePdf();
+  }, []);
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -58,7 +262,7 @@ const DownloadReportPage = () => {
             directly. If you want to share this information with your care team,
             print this report and bring it to your next appointment.
           </p>
-          <button className="link-button">
+          <button className="link-button" onClick={generatePdf}>
             <va-icon icon="file_download" size={3} /> Download PDF
           </button>
         </va-accordion-item>
@@ -74,3 +278,7 @@ const DownloadReportPage = () => {
 };
 
 export default DownloadReportPage;
+
+DownloadReportPage.propTypes = {
+  runningUnitTest: PropTypes.bool,
+};

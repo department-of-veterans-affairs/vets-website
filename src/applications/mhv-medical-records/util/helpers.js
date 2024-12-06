@@ -536,3 +536,24 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   const formatted = dateFnsFormat(fromDate, mask);
   return `${formatted}`;
 };
+
+/**
+ * Checks if all elements in an array of arrays are defined or non-empty.
+ *
+ * @param {Array<any>} arrayOfArrays - An array containing elements of varying types to validate.
+ * @returns {boolean} - Returns `true` if all elements are "defined" (non-empty), otherwise `false`.
+ *
+ * Validation rules:
+ * - Objects: Must have at least one key.
+ * - Strings: Must be non-empty.
+ * - Arrays: Must have at least one element.
+ * - All other types are treated as invalid.
+ */
+export const allAreDefined = arrayOfArrays => {
+  return arrayOfArrays.every(
+    data =>
+      (typeof data === 'object' && Object.keys(data || {})?.length) ||
+      (typeof data === 'string' && data?.length) ||
+      (Array.isArray(data) && !!data?.length),
+  );
+};

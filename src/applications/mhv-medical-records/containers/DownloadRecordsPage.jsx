@@ -9,7 +9,12 @@ import {
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { accessAlertTypes, pageTitles } from '../util/constants';
-import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
+import {
+  getNameDateAndTime,
+  makePdf,
+  generateTextFile,
+  allAreDefined,
+} from '../util/helpers';
 import { getTxtContent } from '../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../actions/blueButtonReport';
 import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
@@ -58,15 +63,6 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
     },
     [dispatch],
   );
-
-  const allAreDefined = arrayOfArrays => {
-    return arrayOfArrays.every(
-      data =>
-        (typeof data === 'object' && Object.keys(data)?.length) ||
-        (typeof data === 'string' && data?.length) ||
-        (Array.isArray(data) && !!data?.length),
-    );
-  };
 
   const generatePdf = useCallback(
     async () => {
