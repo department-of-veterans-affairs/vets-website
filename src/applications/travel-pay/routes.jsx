@@ -7,10 +7,7 @@ import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPag
 
 const routes = (
   <Switch>
-    <Route exact path="/">
-      <Redirect to="/claims" />
-    </Route>
-    <Route exact path="/claims" title="TravelPayHome">
+    <Route exact path="/" title="TravelPayHome">
       <MhvSecondaryNav />
       <TravelPayStatusApp />
     </Route>
@@ -18,7 +15,10 @@ const routes = (
       <MhvSecondaryNav />
       <TravelClaimDetails />
     </Route>
-    <Route exact path="/what-does-my-claim-status-mean">
+    <Route exact path="/help">
+      <Redirect to="/help/what-does-my-claim-status-mean" />
+    </Route>
+    <Route exact path="/help/what-does-my-claim-status-mean">
       <MhvSecondaryNav />
       <ClaimStatusExplainerPage />
     </Route>

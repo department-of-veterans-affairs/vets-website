@@ -66,10 +66,7 @@ describe(`${appName} -- Status Page`, () => {
     );
 
     cy.get('.travel-pay-breadcrumb-wrapper .go-back-link').click();
-    cy.location('pathname').should(
-      'eq',
-      '/my-health/travel-claim-status/claims',
-    );
+    cy.location('pathname').should('eq', '/my-health/travel-claim-status/');
   });
 
   it('navigates to the status explainer page and back to status page', () => {
@@ -83,7 +80,7 @@ describe(`${appName} -- Status Page`, () => {
 
     cy.location('pathname').should(
       'eq',
-      '/my-health/travel-claim-status/what-does-my-claim-status-mean',
+      '/my-health/travel-claim-status/help/what-does-my-claim-status-mean',
     );
 
     cy.get('h1').should('include.text', 'What does my claim status mean?');
@@ -92,10 +89,7 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('a')
       .eq(2)
       .click();
-    cy.location('pathname').should(
-      'eq',
-      '/my-health/travel-claim-status/claims',
-    );
+    cy.location('pathname').should('eq', '/my-health/travel-claim-status/');
   });
 
   it('sorts the claims ordered by appointment date ascending on user action', () => {

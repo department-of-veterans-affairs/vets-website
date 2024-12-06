@@ -29,8 +29,8 @@ export default function BreadCrumbs() {
 
   if (isStatusExplainer) {
     breadcrumbList.push({
-      href: '/what-does-my-claim-status-mean',
-      label: 'Claim Status Meanings',
+      href: '/help/what-does-my-claim-status-mean',
+      label: 'Help: Claim Status Meanings',
       isRouterLink: true,
     });
   }

@@ -126,7 +126,7 @@ describe('App', () => {
   it('should render loading state if feature flag is loading', async () => {
     const screenFeatureToggle = renderWithStoreAndRouter(<App />, {
       initialState: getData(),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
     expect(
@@ -141,7 +141,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: false,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
     expect(await screen.findByText('Log in to view your travel claims')).to
@@ -155,7 +155,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -172,7 +172,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -191,7 +191,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -225,7 +225,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -261,7 +261,7 @@ describe('App', () => {
         hasClaimDetailsFeatureFlag: false,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -279,7 +279,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: false,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -295,7 +295,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -352,7 +352,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -408,7 +408,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -440,7 +440,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -482,7 +482,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -564,7 +564,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
@@ -626,7 +626,7 @@ describe('App', () => {
         hasFeatureFlag: true,
         isLoggedIn: true,
       }),
-      path: `/claims`,
+      path: `/`,
       reducers: reducer,
     });
 
