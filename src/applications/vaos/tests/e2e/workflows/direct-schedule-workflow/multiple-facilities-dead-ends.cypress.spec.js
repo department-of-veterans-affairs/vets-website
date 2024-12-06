@@ -272,7 +272,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /We can’t find a recent appointment for you/i,
+            text: /We couldn’t find a recent appointment for you/i,
           });
 
         // Assert
