@@ -1,6 +1,5 @@
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { isClaimingNew, isClaimingIncrease } from '../utils';
+import { isClaimingNew, isClaimingIncrease, show5103Updates } from '../utils';
 
 export const supportingEvidenceOrientation = ({ formData }) => {
   return (
@@ -25,18 +24,18 @@ export const supportingEvidenceOrientation = ({ formData }) => {
           You only need to submit new evidence that VA doesn’t already have.
         </strong>
       </p>
-      {environment.isLocalhost() && (
-        <va-alert slim status="info">
-          <h4 className="vads-u-font-size--h6">Notice of evidence needed</h4>
-          <p className="vads-u-margin-bottom--1">
+      {show5103Updates() && (
+        <va-alert status="info">
+          <h2>Notice of evidence needed</h2>
+          <p>
             We’re required by law to tell you what evidence you’ll need to
             submit to support your disability claim.
           </p>
-          <p className="vads-u-margin-y--1">
+          <p>
             You can review the evidence requirements on our evidence needed for
             your disability claim page.
           </p>
-          <p className="vads-u-margin-bottom--1">
+          <p>
             <va-link
               external
               href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/"

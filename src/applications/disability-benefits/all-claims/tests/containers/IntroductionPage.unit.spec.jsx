@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { render } from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -16,6 +15,7 @@ import {
 } from '../../constants';
 import formConfig from '../../config/form';
 import { IntroductionPage } from '../../components/IntroductionPage';
+import { show5103Updates } from '../../utils';
 
 const { formId, prefillEnabled } = formConfig;
 const initialState = {
@@ -150,7 +150,7 @@ describe('<IntroductionPage/>', () => {
       </Provider>,
     );
 
-    if (environment.isDev()) {
+    if (show5103Updates()) {
       expect(queryByText('Notice of evidence needed')).to.exist;
     } else {
       expect(queryByText('Notice of evidence needed')).to.not.exist;

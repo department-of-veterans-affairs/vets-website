@@ -1,5 +1,7 @@
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
 import { supportingEvidenceOrientation } from '../../content/supportingEvidenceOrientation';
+import { show5103Updates } from '../../utils';
 
 describe('supportingEvidenceOrientation', () => {
   it('should render evidence needed info alert', () => {
@@ -9,9 +11,13 @@ describe('supportingEvidenceOrientation', () => {
         'view:claimingIncrease': true,
       },
     };
-    const result = render(supportingEvidenceOrientation({ formData }));
-    const expectedString = 'Notice of evidence needed';
-    result.getByText(expectedString);
+
+    const { queryByText } = render(supportingEvidenceOrientation({ formData }));
+    if (show5103Updates()) {
+      expect(queryByText('Notice of evidence needed')).to.exist;
+    } else {
+      expect(queryByText('Notice of evidence needed')).to.not.exist;
+    }
   });
 
   it('renders increase message when claiming only an increase', () => {
