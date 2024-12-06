@@ -1,10 +1,8 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 // platform imports
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
-import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import environment from 'platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 // internal imports
 import { prefillTransformer } from './prefill-transformer';
@@ -42,6 +40,7 @@ import {
   collectMedicareInformation,
 } from '../utils/helpers';
 import { SHARED_PATHS } from '../utils/constants';
+import { FULL_SCHEMA } from '../utils/imports';
 import migrations from './migrations';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -124,7 +123,7 @@ import InsuranceInformationPage from '../components/FormPages/InsuranceInformati
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 
 // declare schema definitions
-const { date } = fullSchemaHca.definitions;
+const { date } = FULL_SCHEMA.definitions;
 
 /**
  * NOTE: Prefill message data values can be found in

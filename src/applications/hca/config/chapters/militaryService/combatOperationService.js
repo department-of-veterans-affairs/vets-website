@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import CombatOperationServiceDescription from '../../../components/FormDescriptions/CombatOperationServiceDescription';
 
-const { combatOperationService } = fullSchemaHca.properties;
+const { combatOperationService } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
