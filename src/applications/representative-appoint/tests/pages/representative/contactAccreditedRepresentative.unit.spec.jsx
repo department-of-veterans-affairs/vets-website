@@ -36,12 +36,12 @@ describe('<ContactAccreditedRepresentative>', () => {
     expect(container).to.exist;
   });
 
-  it('should navigate to the representative selection page when on the review page', async () => {
+  it('should navigate to the representative selection page when in review mode', async () => {
     const { props, mockStore } = getProps();
 
     const goToPathSpy = sinon.spy();
 
-    // Simulate being on the review page by mocking window.location.search
+    // Simulate review mode
     Object.defineProperty(window, 'location', {
       value: { search: '?review=true' },
       writable: true,
@@ -53,7 +53,6 @@ describe('<ContactAccreditedRepresentative>', () => {
       </Provider>,
     );
 
-    // Simulate clicking the "Back" button
     fireEvent.click(getByText('Back'));
 
     await waitFor(() => {
@@ -62,12 +61,11 @@ describe('<ContactAccreditedRepresentative>', () => {
     });
   });
 
-  it('should call goBack with formData when not on the review page', async () => {
+  it('should call goBack with formData when not in review mode', async () => {
     const { props, mockStore } = getProps();
 
     const goBackSpy = sinon.spy();
 
-    // Simulate not being on the review page
     Object.defineProperty(window, 'location', {
       value: { search: '' },
       writable: true,
@@ -79,7 +77,6 @@ describe('<ContactAccreditedRepresentative>', () => {
       </Provider>,
     );
 
-    // Simulate clicking the "Back" button
     fireEvent.click(getByText('Back'));
 
     await waitFor(() => {
@@ -87,18 +84,16 @@ describe('<ContactAccreditedRepresentative>', () => {
     });
   });
 
-  it('should navigate to the organization selection page when on the review page and organization selection is required', async () => {
+  it('should navigate to the organization selection page when in review mode and organization selection is required', async () => {
     const { props, mockStore } = getProps();
 
     const goToPathSpy = sinon.spy();
 
-    // Simulate being on the review page
     Object.defineProperty(window, 'location', {
       value: { search: '?review=true' },
       writable: true,
     });
 
-    // Mock organization selection required
     props.formData[
       'view:selectedRepresentative'
     ].attributes.accreditedOrganizations = {
@@ -114,7 +109,6 @@ describe('<ContactAccreditedRepresentative>', () => {
       </Provider>,
     );
 
-    // Simulate clicking the "Continue" button
     fireEvent.click(getByText('Continue'));
 
     await waitFor(() => {
@@ -123,18 +117,16 @@ describe('<ContactAccreditedRepresentative>', () => {
     });
   });
 
-  it('should navigate to the review-and-submit page when on the review page and organization selection is not required', async () => {
+  it('should navigate to the review-and-submit page when in review mode and organization selection is not required', async () => {
     const { props, mockStore } = getProps();
 
     const goToPathSpy = sinon.spy();
 
-    // Simulate being on the review page
     Object.defineProperty(window, 'location', {
       value: { search: '?review=true' },
       writable: true,
     });
 
-    // Mock organization selection not required
     props.formData[
       'view:selectedRepresentative'
     ].attributes.accreditedOrganizations = {
@@ -147,7 +139,6 @@ describe('<ContactAccreditedRepresentative>', () => {
       </Provider>,
     );
 
-    // Simulate clicking the "Continue" button
     fireEvent.click(getByText('Continue'));
 
     await waitFor(() => {
@@ -155,12 +146,11 @@ describe('<ContactAccreditedRepresentative>', () => {
     });
   });
 
-  it('should call goForward with formData when not on the review page', async () => {
+  it('should call goForward with formData when not in review mode', async () => {
     const { props, mockStore } = getProps();
 
     const goForwardSpy = sinon.spy();
 
-    // Simulate not being on the review page
     Object.defineProperty(window, 'location', {
       value: { search: '' },
       writable: true,
@@ -172,7 +162,6 @@ describe('<ContactAccreditedRepresentative>', () => {
       </Provider>,
     );
 
-    // Simulate clicking the "Continue" button
     fireEvent.click(getByText('Continue'));
 
     await waitFor(() => {
