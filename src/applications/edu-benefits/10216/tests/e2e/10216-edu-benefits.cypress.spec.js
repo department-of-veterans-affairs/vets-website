@@ -9,21 +9,21 @@ describe('22-10282 Edu form', () => {
   };
   const checkAccredited = facilityCode => {
     startApplication();
-    cy.get('[name="root_institutionName"]')
+    cy.get('[name="root_institutionDetails_institutionName"]')
       .should('exist')
       .first()
       .type('test', { force: true });
-    cy.get('[name="root_facilityCode"]')
+    cy.get('[name="root_institutionDetails_facilityCode"]')
       .should('exist')
       .first()
       .type(facilityCode, { force: true });
-    cy.get('[name="root_termStartDateMonth"]')
+    cy.get('[name="root_institutionDetails_termStartDateMonth"]')
       .should('exist')
       .select('January', { force: true });
-    cy.get('[name="root_termStartDateDay"]')
+    cy.get('[name="root_institutionDetails_termStartDateDay"]')
       .should('exist')
       .type('1', { force: true });
-    cy.get('[name="root_termStartDateYear"]')
+    cy.get('[name="root_institutionDetails_termStartDateYear"]')
       .should('exist')
       .type('2024', { force: true });
     cy.get('[class="usa-button-primary"]').click({ force: true });
@@ -55,7 +55,7 @@ describe('22-10282 Edu form', () => {
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(100);
     startApplication();
-    cy.get('[name="root_facilityCode"]')
+    cy.get('[name="root_institutionDetails_facilityCode"]')
       .should('exist')
       .first()
       .type('1234567');
@@ -79,5 +79,26 @@ describe('22-10282 Edu form', () => {
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(100);
     checkAccredited('31850932');
+  });
+  it('should perform calculation and show results', () => {
+    cy.injectAxeThenAxeCheck();
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(100);
+    checkAccredited('31850932');
+    cy.get('[name="root_studentRatioCalcChapter_beneficiaryStudent"]')
+      .shadow()
+      .find('input')
+      .should('exist')
+      .type('10', { force: true });
+
+    cy.get('[name="root_studentRatioCalcChapter_numOfStudent"]')
+      .shadow()
+      .find('input')
+      .should('exist')
+      .type('100', { force: true });
+
+    cy.get('[data-testid="percentage-calc"]')
+      .should('exist')
+      .should('contain', '10%');
   });
 });
