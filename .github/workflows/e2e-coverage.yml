@@ -419,8 +419,14 @@ jobs:
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
           CYRESS_CODE_COVERAGE: true
 
+      - name: List directories
+        run: |
+          cd config
+          cd .nyc_output
+          ls -a
+          
       - name: View code coverage summary
-        if: 
+        if: ${{ always() }}
         run: npx nyc report --reporter=text-summary
   
       - name: Create coverage artifact
