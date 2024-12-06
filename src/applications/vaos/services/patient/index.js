@@ -8,8 +8,9 @@ import { captureError } from '../../utils/error';
 import { ELIGIBILITY_REASONS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
-import { getPatientEligibility } from '../vaos';
+import { getPatientEligibility, getPatientRelationships } from '../vaos';
 import { getLongTermAppointmentHistoryV2 } from '../appointment';
+import { transformPatientRelationships } from './transformers';
 
 function createErrorHandler(errorKey) {
   return data => {
@@ -101,6 +102,23 @@ export async function fetchPatientEligibility({
   }
 
   return output;
+}
+
+/**
+ * Fetch the logged in user's patient/provider relationships
+ *
+ * @export
+ * @async
+ * @param {Object} params
+ * @param {TypeOfCare} params.typeOfCare Type of care object for which to check patient relationships
+ * @param {Location} params.location Location of where patient should have relationships checked,
+ * @returns {Array<PatientProviderRelationship} Returns an array of PatientProviderRelationship objects
+ */
+
+export async function fetchPatientRelationships({ typeOfCare, location }) {
+  return transformPatientRelationships(
+    getPatientRelationships(location.id, typeOfCare.idV2),
+  );
 }
 
 function locationSupportsDirectScheduling(location, typeOfCare) {
