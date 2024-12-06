@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 import SearchResult, { deriveLatestIssue } from '../../components/SearchResult';
 import { FORM_MOMENT_PRESENTATION_DATE_FORMAT } from '../../constants';
 import FormTitle from '../../components/FormTitle';
@@ -157,20 +157,19 @@ describe('Find VA Forms <SearchResult />', () => {
 
     const latestDate1 = deriveLatestIssue(date1, date2);
     expect(latestDate1).to.equal(
-      moment(date1).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT),
+      format(parseISO(date1), FORM_MOMENT_PRESENTATION_DATE_FORMAT),
     );
 
     const latestDate2 = deriveLatestIssue(date1, nullDate);
     expect(latestDate2).to.equal(
-      moment(date1).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT),
+      format(parseISO(date1), FORM_MOMENT_PRESENTATION_DATE_FORMAT),
     );
-
     const latestDate3 = deriveLatestIssue(emptyStringDate, nullDate);
     expect(latestDate3).to.equal('N/A');
 
     const latestDate4 = deriveLatestIssue(emptyStringDate, date2);
     expect(latestDate4).to.equal(
-      moment(date2).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT),
+      format(parseISO(date2), FORM_MOMENT_PRESENTATION_DATE_FORMAT),
     );
 
     tree.unmount();

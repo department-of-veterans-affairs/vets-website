@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import { format, parseISO, isAfter } from 'date-fns';
 import PropTypes from 'prop-types';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import environment from '~/platform/utilities/environment';
@@ -27,16 +27,16 @@ const regulateURL = url => {
 
 export const deriveLatestIssue = (d1, d2) => {
   if (!d1 && !d2) return 'N/A';
-  if (!d1) return moment(d2).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT); // null scenarios
-  if (!d2) return moment(d1).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
+  if (!d1) return format(parseISO(d2), FORM_MOMENT_PRESENTATION_DATE_FORMAT);
+  if (!d2) return format(parseISO(d1), FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 
-  const date1Formatted = moment(d1).format(FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT);
-  const date2Formatted = moment(d2).format(FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT);
+  const date1Formatted = parseISO(d1);
+  const date2Formatted = parseISO(d2);
 
-  if (moment(date1Formatted).isAfter(date2Formatted))
-    return moment(date1Formatted).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
+  if (isAfter(date1Formatted, date2Formatted))
+    return format(date1Formatted, FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT);
 
-  return moment(date2Formatted).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
+  return format(date2Formatted, FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT);
 };
 
 const deriveLanguageTranslation = (lang = 'en', whichNode, formName) => {
@@ -173,8 +173,12 @@ const SearchResult = ({
       />
       <div className="vads-u-margin-y--1 vsa-from-last-updated">
         <span className="vads-u-font-weight--bold">Form revision date:</span>{' '}
-        {moment(lastRevisionOn)?.format(FORM_MOMENT_PRESENTATION_DATE_FORMAT) ||
-          'N/A'}
+        {lastRevisionOn
+          ? format(
+              parseISO(lastRevisionOn),
+              FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+            )
+          : 'N/A'}
       </div>
 
       {relatedTo}
