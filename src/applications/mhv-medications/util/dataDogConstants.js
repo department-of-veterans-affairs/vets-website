@@ -19,6 +19,8 @@ export const dataDogActionNames = {
       pageType.LIST
     }`,
     SORT_MEDICATIONS_BUTTON: `Sort Medications Button - ${pageType.LIST}`,
+    APPLY_FILTER_BUTTON: 'Apply filter button',
+    RESET_FILTER_BUTTON: 'Reset filter button',
   },
   landingPage: {
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.ABOUT}`,

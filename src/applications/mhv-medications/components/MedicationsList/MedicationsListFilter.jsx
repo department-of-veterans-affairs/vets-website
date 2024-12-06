@@ -14,6 +14,7 @@ import {
   SESSION_RX_FILTER_OPEN_BY_DEFAULT,
   SESSION_SELECTED_FILTER_OPTION,
 } from '../../util/constants';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MedicationsListFilter = props => {
   const { updateFilter, filterOption, setFilterOption, filterCount } = props;
@@ -117,6 +118,7 @@ const MedicationsListFilter = props => {
               value={option}
               description={filterOptions[option].description}
               checked={filterOption === option}
+              data-dd-action-name={filterOptions[option].ddActionName}
             />
           ))}
         </VaRadio>
@@ -125,6 +127,9 @@ const MedicationsListFilter = props => {
           onClick={handleFilterSubmit}
           text="Apply filter"
           data-testid="filter-button"
+          data-dd-action-name={
+            dataDogActionNames.medicationsListPage.APPLY_FILTER_BUTTON
+          }
         />
         <VaButton
           className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
@@ -132,6 +137,9 @@ const MedicationsListFilter = props => {
           onClick={handleFilterReset}
           text="Reset filter"
           data-testid="filter-reset-button"
+          data-dd-action-name={
+            dataDogActionNames.medicationsListPage.RESET_FILTER_BUTTON
+          }
         />
       </VaAccordionItem>
     </VaAccordion>

@@ -45,6 +45,7 @@ export const filterOptions = {
     description: 'All medications in your VA medical records',
     url: '',
     showingContentDisplayName: '',
+    ddActionName: 'All medications filter',
   },
   [ACTIVE_FILTER_KEY]: {
     label: 'Active',
@@ -53,6 +54,7 @@ export const filterOptions = {
     url:
       '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On hold,Active: Parked,Active: Submitted',
     showingContentDisplayName: ' active',
+    ddActionName: 'Active filter',
   },
   [RECENTLY_REQUESTED_FILTER_KEY]: {
     label: 'Recently requested',
@@ -61,6 +63,7 @@ export const filterOptions = {
     url:
       '&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
     showingContentDisplayName: ' recently requested',
+    ddActionName: 'Recently requested filter',
   },
   [RENEWAL_FILTER_KEY]: {
     label: 'Renewal needed before refill',
@@ -69,6 +72,7 @@ export const filterOptions = {
       'Prescriptions that just ran out of refills or became too old to refill (expired)',
     url: '&filter[[disp_status][eq]]=Active,Expired',
     showingContentDisplayName: ' renewal needed before refill',
+    ddActionName: 'Renewal needed filter',
   },
   [NON_ACTIVE_FILTER_KEY]: {
     label: 'Non-active',
@@ -77,6 +81,7 @@ export const filterOptions = {
       'Prescriptions that are discontinued, expired, or have an unkown status',
     url: '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
     showingContentDisplayName: ' non-active',
+    ddActionName: 'Non-active filter',
   },
 };
 
