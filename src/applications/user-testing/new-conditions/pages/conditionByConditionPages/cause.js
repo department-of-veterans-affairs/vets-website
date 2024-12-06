@@ -18,33 +18,32 @@ export const causeOptions = {
     'My condition was caused by an injury or event that happened when I was receiving VA care.',
 };
 
-export const causeWithoutSecondaryOptions = {
-  NEW:
-    'My condition was caused by an injury or exposure during my military service.',
-  WORSENED:
-    'My condition existed before I served in the military, but it got worse because of my military service.',
-  VA:
-    'My condition was caused by an injury or event that happened when I was receiving VA care.',
+export const getCauseOptions = includeSecondary => {
+  const options = { ...causeOptions };
+
+  if (!includeSecondary) {
+    delete options.SECONDARY;
+  }
+  return options;
 };
 
 // TODO: Get index from path
-const getUiOptions = formData => ({
-  'ui:options': {
-    labels: getOtherConditions(formData, 0).length
-      ? causeOptions
-      : causeWithoutSecondaryOptions,
-  },
-});
+const getUIOptions = formData => {
+  const includeSecondary = getOtherConditions(formData, 0).length > 0;
+
+  return {
+    'ui:options': {
+      labels: getCauseOptions(includeSecondary),
+    },
+  };
+};
 
 // TODO: Get index from path
-const getSchemaOptions = formData =>
-  radioSchema(
-    Object.keys(
-      getOtherConditions(formData, 0).length
-        ? causeOptions
-        : causeWithoutSecondaryOptions,
-    ),
-  );
+const getSchemaOptions = formData => {
+  const includeSecondary = getOtherConditions(formData, 0).length > 0;
+
+  return radioSchema(Object.keys(getCauseOptions(includeSecondary)));
+};
 
 /** @returns {PageSchema} */
 const causePage = {
@@ -55,7 +54,7 @@ const causePage = {
     cause: radioUI({
       title: 'What caused your condition?',
       labels: causeOptions,
-      updateUiSchema: formData => getUiOptions(formData),
+      updateUiSchema: formData => getUIOptions(formData),
       updateSchema: formData => getSchemaOptions(formData),
     }),
     'view:serviceConnectedDisabilityDescription': {

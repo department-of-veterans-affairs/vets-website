@@ -8,7 +8,7 @@ import { CONDITIONS_FIRST } from '../constants';
 import { ServiceConnectedDisabilityDescription } from '../content/newConditions';
 import {
   causeOptions,
-  causeWithoutSecondaryOptions,
+  getCauseOptions,
 } from './conditionByConditionPages/cause';
 import { createItemName } from './conditionsFirstPages/utils';
 
@@ -18,23 +18,22 @@ const hasOtherConditions = (formData, currentIndex) =>
     ?.map(item => createItemName(item)).length;
 
 // TODO: Get index from path
-const getUiOptions = formData => ({
-  'ui:options': {
-    labels: hasOtherConditions(formData, 0)
-      ? causeOptions
-      : causeWithoutSecondaryOptions,
-  },
-});
+const getUIOptions = formData => {
+  const includeSecondary = hasOtherConditions(formData, 0);
+
+  return {
+    'ui:options': {
+      labels: getCauseOptions(includeSecondary),
+    },
+  };
+};
 
 // TODO: Get index from path
-const getSchemaOptions = formData =>
-  radioSchema(
-    Object.keys(
-      hasOtherConditions(formData, 0)
-        ? causeOptions
-        : causeWithoutSecondaryOptions,
-    ),
-  );
+const getSchemaOptions = formData => {
+  const includeSecondary = hasOtherConditions(formData, 0);
+
+  return radioSchema(Object.keys(getCauseOptions(includeSecondary)));
+};
 
 /** @type {PageSchema} */
 export default {
@@ -51,7 +50,7 @@ export default {
         cause: radioUI({
           title: 'What caused your condition?',
           labels: causeOptions,
-          updateUiSchema: formData => getUiOptions(formData),
+          updateUiSchema: formData => getUIOptions(formData),
           updateSchema: formData => getSchemaOptions(formData),
         }),
         'view:serviceConnectedDisabilityDescription': {
