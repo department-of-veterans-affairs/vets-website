@@ -1,10 +1,12 @@
 import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import { encryptData } from './encryptParams';
+import { RSACrypto } from './RSACrypto';
 import content from '../locales/en/content.json';
 
-const key = 'fOBPCm3uMYGUhedQu+fG0gBWKeQQGi25rhxwkHsQQGs=';
+// TODO: Generate new public key and use config instead of hard coding
+const publicKey =
+  '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwviZmpP4bae1g5lAceQQ\ngdmH1F8HnR9N+SjiVyX3jKq20JjCBZ1t8WzS+iji0LeihW5FHoASzAbm8FzM4Ian\nDenCo2Dh8gtVVQoAo4F5Anb3j6JjLGSPnK146MGxbQAqnv3w2ml2Qxq8Uo+Cno1Y\nVWRuHJV6KVnMjnPaYiYkNJJlezPWr6Oyoza/eMf4UyhTczhIilp/rUb7+VILCNMD\nJT+MlWyYMgZQQaVnJmzbnDGWDnbMlsgdDSWjeZCajkPdTq4Rn7Do77DozcnCD9ev\nFgpyukvgEjkdHrcvpQyj7So+U00YYrwVGlyA+2xablxRyzwsJBw1nn/Au/J0FYrM\nvwIDAQAB\n-----END PUBLIC KEY-----\n';
 
 const joinAddressParts = (...parts) => {
   return parts.filter(part => part != null).join(', ');
@@ -28,8 +30,8 @@ const formatQueryParams = async ({
   };
 
   // Encrypt lat and long values
-  const encryptedLat = lat ? await encryptData(lat, key) : {};
-  const encryptedLong = long ? await encryptData(long, key) : {};
+  const encryptedLat = lat ? await RSACrypto.encrypt(lat, publicKey) : {};
+  const encryptedLong = long ? await RSACrypto.encrypt(long, publicKey) : {};
 
   const params = [
     encryptedLat ? `lat=${encryptedLat}` : null,
