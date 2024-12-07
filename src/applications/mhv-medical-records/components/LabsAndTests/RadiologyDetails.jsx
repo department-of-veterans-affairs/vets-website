@@ -142,10 +142,10 @@ ${record.results}`;
   const notificationContent = () =>
     notificationStatus ? (
       <>
-        <h2>Get email notifications for images</h2>
         <p>
-          If you want us to email you when your images are ready, change your
-          notification settings on the previous version of My HealtheVet.
+          <strong>Note: </strong> If you don’t want to get email notifications
+          for images anymore, you can change your notification settings on the
+          previous version of My HealtheVet.
         </p>
         <va-link
           className="vads-u-margin-top--1"
@@ -155,15 +155,15 @@ ${record.results}`;
       </>
     ) : (
       <>
+        <h3>Get email notifications for images</h3>
         <p>
-          <strong>Note: </strong> You have the option to receive an email when
-          the images are ready to review. To change this notification, change
-          your notification settings on the previous version of My HealtheVet.
+          If you want us to email you when your images are ready, change your
+          notification settings on the previous version of My HealtheVet.
         </p>
         <va-link
           className="vads-u-margin-top--1"
           href="#"
-          text="Go back to the previous version of myHealtheVet"
+          text="Go back to the previous version of My HealtheVet"
         />
       </>
     );
@@ -208,22 +208,19 @@ ${record.results}`;
   );
 
   const imageAlertComplete = () => (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="success"
-      visible
-    >
-      <h2 slot="headline">Images ready</h2>
-      <p className="vads-u-margin-y--0">
+    <>
+      <p>
         You have until 12/31/2023 at 4:30 p.m. [timezone] to view and download
         your images. After that, you’ll need to request them again.
       </p>
-      <va-link
-        className="vads-u-margin-top--1"
-        href={`/my-health/medical-records/labs-and-tests/${record.id}/images`}
-        text="View all images"
-      />
-    </va-alert>
+      <p>
+        <va-link
+          href={`/my-health/medical-records/labs-and-tests/${record.id}/images`}
+          text={`View all ${radiologyDetails.imageCount} images`}
+          active
+        />
+      </p>
+    </>
   );
 
   const imageAlertError = imageRequest => (
