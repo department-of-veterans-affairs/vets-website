@@ -1,6 +1,10 @@
 import React from 'react';
 
 const Alert = () => {
+  const isAccredited = JSON.parse(localStorage.getItem('isAccredited'));
+  if (isAccredited) {
+    return null;
+  }
   return (
     <va-alert
       close-btn-aria-label="Close notification"

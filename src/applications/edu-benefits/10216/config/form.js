@@ -74,14 +74,15 @@ const formConfig = {
           title: 'Institution Details',
           onNavForward: async ({ formData, goPath }) => {
             isAccredited = await validateFacilityCode(formData);
+            localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
             if (isAccredited) {
               goPath('/student-ratio-calculation');
             } else {
               goPath('/additional-form');
             }
           },
-          uiSchema: InstitutionDetails.uiSchema,
-          schema: InstitutionDetails.schema,
+          uiSchema: InstitutionDetails().uiSchema,
+          schema: InstitutionDetails().schema,
         },
         additionalErrorChapter: {
           title: 'Institution Details',
@@ -89,7 +90,11 @@ const formConfig = {
           uiSchema: { 'ui:webComponentField': () => <Alert /> },
           schema: {
             type: 'object',
-            properties: {},
+            properties: {
+              isAccredited: {
+                type: 'boolean',
+              },
+            },
           },
         },
       },
@@ -102,6 +107,13 @@ const formConfig = {
           title: '35% exemption calculation',
           uiSchema: studentRatioCalc.uiSchema,
           schema: studentRatioCalc.schema,
+          onNavBack: ({ goPath }) => {
+            if (!isAccredited) {
+              goPath('/additional-form');
+            } else {
+              goPath('/institution-details');
+            }
+          },
         },
       },
     },
