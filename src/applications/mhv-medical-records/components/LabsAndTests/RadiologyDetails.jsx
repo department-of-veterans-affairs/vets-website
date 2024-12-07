@@ -66,7 +66,7 @@ const RadiologyDetails = props => {
         );
       }
     },
-    [imageRequests],
+    [imageRequests, radiologyDetails.studyId],
   );
 
   useEffect(
@@ -85,7 +85,7 @@ const RadiologyDetails = props => {
         }, 2000);
       }
     },
-    [elementRef.current, imageRequests],
+    [dispatch, imageReqData.percentComplete, imageRequests, isRunning],
   );
 
   useEffect(
@@ -139,7 +139,122 @@ ${record.results}`;
     createImagingRequest(radiologyDetails.studyId);
   };
 
-  const content = () => {
+  const imageAlertNone = () => (
+    <>
+      <p>To review and download your images, you’ll need to request them.</p>
+      {/* Request Images button will go here */}
+      <button
+        className="vads-u-margin-y--0p5"
+        onClick={() => makeImageRequest()}
+        style={{ width: '100%' }}
+        disabled={imageRequest.percentComplete < 100}
+        ref={elementRef}
+      >
+        <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
+          <span className="vads-u-margin-left--0p5">Request Images</span>
+        </div>
+      </button>
+      <p>
+        <strong>Note: </strong> You havbe the option to receive an email when
+        the images are ready to review. To change this notification, change your
+        notification settings on the previous version of My HealtheVet.
+      </p>
+      {/* "Go back to previous version of My HealtheVet" */}
+      <va-link
+        className="vads-u-margin-top--1"
+        href="#"
+        text="Go back to the previous version of myHealtheVet"
+      />
+    </>
+  );
+
+  const imageAlertProcessing = imageRequest => (
+    <va-banner
+      close-btn-aria-label="Close notification"
+      status="info"
+      visible
+      iconless="true"
+      ref={elementRef}
+    >
+      <h2 className="vads-u-margin-y--0">Image request</h2>
+      <p>{imageRequest.percentComplete}% complete</p>
+      <va-progress-bar percent={imageRequest.percentComplete} />
+    </va-banner>
+  );
+
+  const imageAlertComplete = () => (
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="success"
+      visible
+    >
+      <h2 slot="headline">Images ready</h2>
+      <p className="vads-u-margin-y--0">
+        You have until 12/31/2023 at 4:30 p.m. [timezone] to view and download
+        your images. After that, you’ll need to request them again.
+      </p>
+      <va-link
+        className="vads-u-margin-top--1"
+        href={`/my-health/medical-records/labs-and-tests/${record.id}/images`}
+        text="View images"
+      />
+    </va-alert>
+  );
+
+  const imageAlertError = imageRequest => (
+    <>
+      <p>To review and download your images, you’ll need to request them.</p>
+      <va-alert
+        class="vads-u-margin-bottom--1"
+        closeable="false"
+        disable-analytics="false"
+        full-width="false"
+        role="alert"
+        status="error"
+        visible="true"
+      >
+        <h2 id="track-your-status-on-mobile" slot="headline">
+          We couldn’t access your images
+        </h2>
+        <p className="vads-u-margin-y--0">
+          We’re sorry. There was a problem with our system. Try requesting your
+          images again.
+        </p>
+        <br />
+        <p className="vads-u-margin-y--0">
+          If it still doesn’t work, call us at{' '}
+          <va-telephone contact="8773270022" /> (
+          <va-telephone tty contact="711" />
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
+      </va-alert>
+      {/* Request Images button will go here */}
+      <button
+        className="vads-u-margin-y--0p5"
+        onClick={() => makeImageRequest()}
+        style={{ width: '100%' }}
+        disabled={imageRequest.percentComplete < 100}
+        ref={elementRef}
+      >
+        <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
+          <span className="vads-u-margin-left--0p5">Request Images</span>
+        </div>
+      </button>
+      <h2>Get email notifications for images</h2>
+      <p>
+        If you want us to email you when your images are ready, change your
+        notification settings on the previous version of My HealtheVet.
+      </p>
+      {/* "Go back to previous version of My HealtheVet" */}
+      <va-link
+        className="vads-u-margin-top--1"
+        href="#"
+        text="Go back to the previous version of My HealtheVet"
+      />
+    </>
+  );
+
+  const imageStatusContent = () => {
     if (imageRequests) {
       const imageRequest = imageRequests.find(
         img => img.studyIdUrn === radiologyDetails.studyId,
@@ -147,135 +262,11 @@ ${record.results}`;
       return (
         <>
           {/* Debug Only: {imageRequest.status} - {imageRequest.percentComplete} */}
-          {imageRequest.status === 'ERROR' && (
-            <>
-              <p>
-                To review and download your images, you’ll need to request them.
-              </p>
-              <va-alert
-                class="vads-u-margin-bottom--1"
-                closeable="false"
-                disable-analytics="false"
-                full-width="false"
-                role="alert"
-                status="error"
-                visible="true"
-              >
-                <h2 id="track-your-status-on-mobile" slot="headline">
-                  We couldn’t access your images
-                </h2>
-                <p className="vads-u-margin-y--0">
-                  We’re sorry. There was a problem with our system. Try
-                  requesting your images again.
-                </p>
-                <br />
-                <p className="vads-u-margin-y--0">
-                  If it still doesn’t work, call us at{' '}
-                  <va-telephone contact="8773270022" /> (
-                  <va-telephone tty contact="711" />
-                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                  ET.
-                </p>
-              </va-alert>
-              {/* Request Images button will go here */}
-              <button
-                className="vads-u-margin-y--0p5"
-                onClick={() => makeImageRequest()}
-                style={{ width: '100%' }}
-                disabled={imageRequest.percentComplete < 100}
-                ref={elementRef}
-              >
-                <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
-                  <span className="vads-u-margin-left--0p5">
-                    Request Images
-                  </span>
-                </div>
-              </button>
-              <h2>Get email notifications for images</h2>
-              <p>
-                If you want us to email you when your images are ready, change
-                your notification settings on the previous version of My
-                HealtheVet.
-              </p>
-              {/* "Go back to previous version of My HealtheVet" */}
-              <va-link
-                className="vads-u-margin-top--1"
-                href="#"
-                text="Go back to the previous version of My HealtheVet"
-              />
-            </>
-          )}
-          {imageRequest.status === 'NONE' && (
-            <>
-              <p>
-                To review and download your images, you’ll need to request them.
-              </p>
-              {/* Request Images button will go here */}
-              <button
-                className="vads-u-margin-y--0p5"
-                onClick={() => makeImageRequest()}
-                style={{ width: '100%' }}
-                disabled={imageRequest.percentComplete < 100}
-                ref={elementRef}
-              >
-                <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
-                  <span className="vads-u-margin-left--0p5">
-                    Request Images
-                  </span>
-                </div>
-              </button>
-              <p>
-                <strong>Note: </strong> You havbe the option to receive an email
-                when the images are ready to review. To change this
-                notification, change your notification settings on the previous
-                version of My HealtheVet.
-              </p>
-              {/* "Go back to previous version of My HealtheVet" */}
-              <va-link
-                className="vads-u-margin-top--1"
-                href="#"
-                text="Go back to the previous version of myHealtheVet"
-              />
-            </>
-          )}
-          {imageRequest.status === 'PROCESSING' && (
-            <>
-              <va-banner
-                close-btn-aria-label="Close notification"
-                status="info"
-                visible
-                iconless="true"
-                ref={elementRef}
-              >
-                <h2 className="vads-u-margin-y--0">Image request</h2>
-                <p>{imageRequest.percentComplete}% complete</p>
-                <va-progress-bar percent={imageRequest.percentComplete} />
-              </va-banner>
-            </>
-          )}
-          {imageRequest.status === 'COMPLETE' && (
-            <>
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="success"
-                visible
-              >
-                <h2 slot="headline">Images ready</h2>
-                <p className="vads-u-margin-y--0">
-                  You have until 12/31/2023 at 4:30 p.m. [timezone] to view and
-                  download your images. After that, you’ll need to request them
-                  again.
-                </p>
-                <va-link
-                  className="vads-u-margin-top--1"
-                  href={`/my-health/medical-records/labs-and-tests/${
-                    record.id
-                  }/images`}
-                  text="View images"
-                />
-              </va-alert>
-            </>
-          )}
+          {imageRequest.status === 'ERROR' && imageAlertError(imageRequest)}
+          {imageRequest.status === 'NONE' && imageAlertNone()}
+          {imageRequest.status === 'PROCESSING' &&
+            imageAlertProcessing(imageRequest)}
+          {imageRequest.status === 'COMPLETE' && imageAlertComplete()}
         </>
       );
     }
@@ -358,7 +349,7 @@ ${record.results}`;
       </div>
 
       <div className="test-results-container">
-        <h2>Results</h2>
+        <h2 className="test-results-header">Results</h2>
         <InfoAlert fullState={fullState} />
         <p
           data-testid="radiology-record-results"
@@ -370,8 +361,8 @@ ${record.results}`;
       </div>
 
       <div className="test-results-container">
-        <h2>Images</h2>
-        {content()}
+        <h2 className="test-results-header">Images</h2>
+        {imageStatusContent()}
       </div>
     </div>
   );

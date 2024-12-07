@@ -167,7 +167,7 @@ Lab comments: ${entry.labComments}\n`,
       </div>
       {/*         RESULTS CARDS            */}
       <div className="test-results-container">
-        <h2>Results</h2>
+        <h2 className="test-results-header">Results</h2>
         <InfoAlert highLowResults fullState={fullState} />
         <div className="print-only">
           <p>
