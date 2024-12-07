@@ -18,7 +18,7 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
-import { pageTitles } from '../../util/constants';
+import { pageTitles, studyJobStatus } from '../../util/constants';
 import {
   formatNameFirstLast,
   generateTextFile,
@@ -45,11 +45,14 @@ const RadiologyDetails = props => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const [downloadStarted, setDownloadStarted] = useState(false);
-  const [isRunning, setIsRunning] = useState(false);
+
+  // State to manage the dynamic backoff polling interval
+  const [pollInterval, setPollInterval] = useState(2000);
+
   const radiologyDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
-  const imageRequests = useSelector(state => state.mr.images.imageStatus);
+  const studyJobs = useSelector(state => state.mr.images.imageStatus);
   const notificationStatus = useSelector(
     state => state.mr.images.notificationStatus,
   );
@@ -63,29 +66,29 @@ const RadiologyDetails = props => {
   );
 
   const studyJob = useMemo(
-    () =>
-      imageRequests?.find(img => img.studyIdUrn === radiologyDetails.studyId) ||
-      null,
-    [imageRequests, radiologyDetails.studyId],
+    () => {
+      return (
+        studyJobs?.find(img => img.studyIdUrn === radiologyDetails.studyId) ||
+        null
+      );
+    },
+    [studyJobs, radiologyDetails.studyId],
   );
 
   useEffect(
     () => {
-      if (elementRef.current) {
-        if (isRunning) return;
-        setIsRunning(true);
-        const processingInterval = setInterval(prevState => {
+      let timeoutId;
+      if (studyJob?.status === studyJobStatus.PROCESSING) {
+        timeoutId = setTimeout(() => {
           dispatch(fetchImageRequestStatus());
-          if (studyJob?.percentComplete >= 100) {
-            clearInterval(processingInterval);
-            setIsRunning(false);
-            return 100;
-          }
-          return prevState;
-        }, 2000);
+          // Increase the polling interval by 5% on each iteration
+          setPollInterval(prevInterval => prevInterval * 1.05);
+        }, pollInterval);
       }
+      // Cleanup interval on component unmount or dependencies change
+      return () => clearTimeout(timeoutId);
     },
-    [dispatch, studyJob?.percentComplete, imageRequests, isRunning],
+    [studyJob?.status, pollInterval, dispatch],
   );
 
   useEffect(
@@ -251,6 +254,7 @@ ${record.results}`;
         </p>
       </va-alert>
       <va-button
+        class="vads-u-margin-top--2"
         onClick={() => makeImageRequest()}
         disabled={imageRequest?.percentComplete < 100}
         ref={elementRef}
@@ -265,11 +269,13 @@ ${record.results}`;
       return (
         <>
           {/* Debug Only: {imageRequest.status} - {imageRequest.percentComplete} */}
-          {(!studyJob || studyJob.status === 'NONE') &&
+          {(!studyJob || studyJob.status === studyJobStatus.NONE) &&
             imagesNotRequested(studyJob)}
-          {studyJob?.status === 'PROCESSING' && imageAlertProcessing(studyJob)}
-          {studyJob?.status === 'COMPLETE' && imageAlertComplete()}
-          {studyJob?.status === 'ERROR' && imageAlertError(studyJob)}
+          {studyJob?.status === studyJobStatus.PROCESSING &&
+            imageAlertProcessing(studyJob)}
+          {studyJob?.status === studyJobStatus.COMPLETE && imageAlertComplete()}
+          {studyJob?.status === studyJobStatus.ERROR &&
+            imageAlertError(studyJob)}
           {notificationContent()}
         </>
       );

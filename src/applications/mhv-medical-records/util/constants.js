@@ -207,6 +207,13 @@ export const allergyTypes = {
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
 };
 
+export const studyJobStatus = {
+  NONE: 'NONE',
+  PROCESSING: 'PROCESSING',
+  COMPLETE: 'COMPLETE',
+  ERROR: 'ERROR',
+};
+
 export const refreshExtractTypes = {
   ALLERGY: 'Allergy',
   IMAGING: 'ImagingStudy',
