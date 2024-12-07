@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { chunk } from 'lodash';
@@ -8,9 +9,12 @@ import PrintHeader from './PrintHeader';
 import DownloadingRecordsInfo from './DownloadingRecordsInfo';
 import DateSubheading from './DateSubheading';
 import GenerateRadiologyPdf from '../LabsAndTests/GenerateRadiologyPdf';
-import { apiImagingPath } from '../../util/helpers';
 
 const ImageGallery = ({ record, imageList, imageCount, study, print }) => {
+  const apiImagingPath = `${
+    environment.API_URL
+  }/my_health/v1/medical_records/imaging`;
+
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.ceil(imageList.length / imageCount);
   const downloadPdf = () => {

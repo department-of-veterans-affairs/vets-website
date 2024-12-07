@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -23,7 +24,6 @@ import {
   formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
-  createImagingRequest,
   formatDateAndTime,
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
@@ -32,6 +32,7 @@ import {
   fetchImageRequestStatus,
   fetchBbmiNotificationStatus,
 } from '../../actions/images';
+import { requestImagingStudy } from '../../api/MrApi';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -137,7 +138,7 @@ ${record.results}`;
   };
 
   const makeImageRequest = async () => {
-    createImagingRequest(radiologyDetails.studyId);
+    requestImagingStudy(radiologyDetails.studyId);
   };
 
   const notificationContent = () =>
@@ -209,7 +210,9 @@ ${record.results}`;
   );
 
   const imageAlertComplete = () => {
-    const endDateParts = formatDateAndTime(new Date(studyJob.endDate));
+    const endDateParts = formatDateAndTime(
+      new Date(studyJob.endDate + 3 * 24 * 60 * 60 * 1000), // Add 3 days
+    );
     return (
       <>
         <p>
@@ -218,13 +221,13 @@ ${record.results}`;
           you’ll need to request them again.
         </p>
         <p>
-          <va-link
-            href={`/my-health/medical-records/labs-and-tests/${
-              record.id
-            }/images`}
-            text={`View all ${radiologyDetails.imageCount} images`}
-            active
-          />
+          <Link
+            to={`/labs-and-tests/${record.id}/images`}
+            className="vads-c-action-link--blue"
+            data-testid="radiology-request-images"
+          >
+            View all {radiologyDetails.imageCount} images
+          </Link>
         </p>
       </>
     );
