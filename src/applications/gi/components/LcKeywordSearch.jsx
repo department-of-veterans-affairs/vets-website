@@ -108,7 +108,7 @@ export default function LcKeywordSearch({
                             <span>
                               {`(${
                                 suggestions.length > 1
-                                  ? suggestions.length
+                                  ? suggestions.length - 1
                                   : 'No'
                               } results)`}
                             </span>

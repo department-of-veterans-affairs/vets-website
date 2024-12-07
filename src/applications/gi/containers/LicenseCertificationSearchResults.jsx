@@ -25,10 +25,10 @@ function LicenseCertificationSearchResults({
   const itemsPerPage = 5;
 
   const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
-  // const currentResults = lcResults.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage,
-  // );
+  const currentResults = filteredResults.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
 
   useEffect(
     () => {
@@ -85,7 +85,7 @@ function LicenseCertificationSearchResults({
               </p>
             </div>
             <div className="row">
-              {filteredResults.map((result, index) => {
+              {currentResults.map((result, index) => {
                 return (
                   <div className="vads-u-padding-bottom--2" key={index}>
                     <va-card class="vads-u-background-color--gray-lightest">
