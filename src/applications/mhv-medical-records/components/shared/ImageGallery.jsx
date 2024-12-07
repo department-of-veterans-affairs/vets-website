@@ -1,27 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { chunk } from 'lodash';
 
-const ImageGallery = ({ imageList, imageCount, studyId }) => {
+const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
   const apiImagingPath = `${
     environment.API_URL
   }/my_health/v1/medical_records/imaging`;
 
   const [currentPage, setCurrentPage] = useState(1);
-  const pageCount = Math.ceil(imageList.length / imageCount);
+  const pageCount = Math.ceil(imageList.length / imagesPerPage);
+
+  const paginatedImages = useMemo(() => chunk(imageList, imagesPerPage), [
+    imageList,
+    imagesPerPage,
+  ]);
 
   const onPageChange = page => {
-    setCurrentPage(page);
+    if (page > 0 && page <= pageCount) {
+      setCurrentPage(page);
+    }
   };
 
   const content = () => {
-    if (imageList.length && studyId) {
+    if (imageList.length && imagesPerPage && studyId) {
       return (
         <>
           <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">
-            {chunk(imageList, imageCount)[currentPage - 1].map((image, idx) => (
+            {paginatedImages[currentPage - 1].map((image, idx) => (
               <div
                 className="image-div vads-l-col--4"
                 data-testid="image-div"
@@ -44,7 +51,7 @@ const ImageGallery = ({ imageList, imageCount, studyId }) => {
               </div>
             ))}
           </div>
-          {imageCount < imageList.length && (
+          <div className="vads-u-margin-bottom--2 no-print">
             <VaPagination
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
@@ -53,7 +60,7 @@ const ImageGallery = ({ imageList, imageCount, studyId }) => {
               showLastPage
               uswds
             />
-          )}
+          </div>
         </>
       );
     }
@@ -74,7 +81,7 @@ const ImageGallery = ({ imageList, imageCount, studyId }) => {
 export default ImageGallery;
 
 ImageGallery.propTypes = {
-  imageCount: PropTypes.number,
   imageList: PropTypes.array,
+  imagesPerPage: PropTypes.number,
   studyId: PropTypes.string,
 };

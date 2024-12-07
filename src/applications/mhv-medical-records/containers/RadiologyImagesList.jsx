@@ -62,7 +62,7 @@ const RadiologyImagesList = () => {
         <ImageGallery
           imageList={imageList}
           studyId={radiologyDetails.studyId}
-          imageCount={radiologyDetails.imageCount}
+          imagesPerPage={10}
         />
       )}
       <h2>How to share images with a non-VA provider</h2>
