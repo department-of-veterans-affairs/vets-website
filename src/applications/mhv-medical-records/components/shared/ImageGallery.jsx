@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { chunk } from 'lodash';
-import PrintHeader from './PrintHeader';
-import DateSubheading from './DateSubheading';
 
-const ImageGallery = ({ record, imageList, imageCount, study }) => {
+const ImageGallery = ({ imageList, imageCount, studyId }) => {
   const apiImagingPath = `${
     environment.API_URL
   }/my_health/v1/medical_records/imaging`;
@@ -19,18 +17,9 @@ const ImageGallery = ({ record, imageList, imageCount, study }) => {
   };
 
   const content = () => {
-    if (imageList.length && study) {
+    if (imageList.length && studyId) {
       return (
         <>
-          <PrintHeader />
-          <h1
-            className="vads-u-margin-bottom--0"
-            aria-describedby="radiology-date"
-          >
-            Images: {record.name}
-          </h1>
-          <DateSubheading date={record?.date} id="radiology-date" />
-
           <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">
             {chunk(imageList, imageCount)[currentPage - 1].map((image, idx) => (
               <div
@@ -46,7 +35,7 @@ const ImageGallery = ({ record, imageList, imageCount, study }) => {
                   aria-label={image.index}
                 >
                   <img
-                    src={`${apiImagingPath}/${study}/images/${
+                    src={`${apiImagingPath}/${studyId}/images/${
                       image.seriesAndImage
                     }`}
                     alt={`${image.index} - ${image.seriesAndImage}`}
@@ -87,6 +76,5 @@ export default ImageGallery;
 ImageGallery.propTypes = {
   imageCount: PropTypes.number,
   imageList: PropTypes.array,
-  record: PropTypes.object,
-  study: PropTypes.string,
+  studyId: PropTypes.string,
 };

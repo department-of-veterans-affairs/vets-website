@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
-
+import PrintHeader from '../components/shared/PrintHeader';
 import ImageGallery from '../components/shared/ImageGallery';
+import DateSubheading from '../components/shared/DateSubheading';
 import { fetchImageList, fetchImageRequestStatus } from '../actions/images';
 
 const RadiologyImagesList = () => {
@@ -15,30 +16,11 @@ const RadiologyImagesList = () => {
   const dispatch = useDispatch();
 
   const { labId } = useParams();
-  // const labAndTestDetails = useSelector(
-  //   state => state.mr.labsAndTests.labsAndTestsDetails,
-  // );
+
   const radiologyDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
-
   const imageList = useSelector(state => state.mr.images.imageList);
-
-  const labAndTestDetails = {
-    name: 'ANKLE LEFT 3 VIEWS',
-    category: 'Radiology',
-    orderedBy: 'DOE, JANE A',
-    reason: 'Injury',
-    clinicalHistory: 'Information',
-    imagingProvider: 'John J. Lydon',
-    id: 122,
-    date: 'April 13, 2022, 5:25 a.m. MDT',
-    imagingLocation:
-      '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    reactions: ['Just this one'],
-    results:
-      'This exam was performed at 673RD MED GRP, Elmendorf AFB. The report is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************',
-  };
 
   useEffect(
     () => {
@@ -66,26 +48,24 @@ const RadiologyImagesList = () => {
     [dispatch],
   );
 
-  const content = () => {
-    if (radiologyDetails) {
-      return (
+  const content = () => (
+    <>
+      <PrintHeader />
+      <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
+        Images: {radiologyDetails.name}
+      </h1>
+      <DateSubheading
+        label="Date and time performed"
+        date={radiologyDetails?.date}
+        id="radiology-date"
+      />
+      {radiologyDetails && (
         <ImageGallery
-          record={labAndTestDetails}
           imageList={imageList}
-          study={radiologyDetails.studyId}
-          imageCount={6}
-          detailsType="labs and tests"
-          id={labId}
-          print={false}
+          studyId={radiologyDetails.studyId}
+          imageCount={radiologyDetails.imageCount}
         />
-      );
-    }
-    return <></>;
-  };
-
-  return (
-    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {content()}
+      )}
       <h2>How to share images with a non-VA provider</h2>
       <p>
         The best way to share these images with a non-VA provider is to ask your
@@ -124,6 +104,22 @@ const RadiologyImagesList = () => {
           />
         )}
       </p>
+    </>
+  );
+
+  return (
+    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
+      {radiologyDetails ? (
+        content()
+      ) : (
+        <div className="vads-u-margin-y--8">
+          <va-loading-indicator
+            message="Loading..."
+            setFocus
+            data-testid="loading-indicator"
+          />
+        </div>
+      )}
     </div>
   );
 };
