@@ -13,18 +13,6 @@ const initialState = {
    * @type {Array}
    */
   imageList: [],
-
-  /**
-   * The last time that the list was fetched and known to be up-to-date
-   * @type {Array}
-   */
-  imageStudies: undefined,
-
-  /**
-   * The last time that the list was fetched and known to be up-to-date
-   * @type {Object}
-   */
-  imageStudy: undefined,
 };
 
 export const imagesReducer = (state = initialState, action) => {
@@ -39,18 +27,6 @@ export const imagesReducer = (state = initialState, action) => {
       return {
         ...state,
         imageList: extractImageAndSeriesIds(action.response),
-      };
-    }
-    case Actions.Images.GET_IMAGE_STUDIES: {
-      return {
-        ...state,
-        imageStudies: action.response,
-      };
-    }
-    case Actions.Images.GET_IMAGE_STUDY: {
-      return {
-        ...state,
-        imageStudy: action.response,
       };
     }
     default:

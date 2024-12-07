@@ -2,6 +2,7 @@ import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
 import {
@@ -10,6 +11,7 @@ import {
   refreshPhases,
   VALID_REFRESH_DURATION,
 } from './constants';
+import { requestImagingStudy } from '../api/MrApi';
 
 /**
  * @param {*} timestamp
@@ -519,6 +521,17 @@ export const formatNameFirstToLast = name => {
   } catch {
     return null;
   }
+};
+
+// Imaging methods ------------
+
+// Imaging pathway.
+export const apiImagingPath = `${
+  environment.API_URL
+}/my_health/v1/medical_records/imaging`;
+
+export const createImagingRequest = studyId => {
+  requestImagingStudy(studyId);
 };
 
 /**

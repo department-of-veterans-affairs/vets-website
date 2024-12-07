@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
@@ -18,7 +18,6 @@ const RadiologyImagesList = () => {
   );
 
   const imageList = useSelector(state => state.mr.images.imageList);
-  const [study] = useState('453-2487450');
 
   const labAndTestDetails = {
     name: 'ANKLE LEFT 3 VIEWS',
@@ -63,12 +62,12 @@ const RadiologyImagesList = () => {
   );
 
   const content = () => {
-    if (labAndTestDetails) {
+    if (radiologyDetails) {
       return (
         <ImageGallery
           record={labAndTestDetails}
           imageList={imageList}
-          study={study}
+          study={radiologyDetails.studyId}
           imageCount={6}
           detailsType="labs and tests"
           id={labId}
