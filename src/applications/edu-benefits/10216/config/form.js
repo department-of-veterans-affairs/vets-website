@@ -23,8 +23,10 @@ import studentRatioCalc from '../pages/studentRatioCalc';
 import { validateFacilityCode } from '../utilities';
 import Alert from '../components/Alert';
 import InstitutionDetails from '../pages/institutionDetails';
+import { transform } from './submit-transformer';
+import submitForm from './submitForm';
 
-const { date, dateRange, usaPhone } = commonDefinitions;
+const { date, dateRange } = commonDefinitions;
 
 const subTitle = (
   <div className="schemaform-subtitle vads-u-color--gray">
@@ -37,8 +39,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: submitForm,
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -62,8 +63,8 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
-    usaPhone,
   },
+  transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
       title: 'Institution Details',

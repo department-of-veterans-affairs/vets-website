@@ -45,3 +45,16 @@ export const validateFacilityCode = async field => {
     return false;
   }
 };
+
+export const calculatedPercentage = formData => {
+  const numOfStudent = Number(formData?.studentRatioCalcChapter?.numOfStudent);
+  const beneficiaryStudent = Number(
+    formData?.studentRatioCalcChapter?.beneficiaryStudent,
+  );
+  return numOfStudent >= 0 && beneficiaryStudent >= 0
+    ? `${((beneficiaryStudent / numOfStudent) * 100).toFixed(1)}%`
+    : '---';
+};
+
+export const isOnReviewPage = () =>
+  window.location.pathname.endsWith('/review-and-submit');

@@ -7,6 +7,15 @@ import { addStyleToShadowDomOnPages } from '../utilities';
 // export const isAccredited = val => val;
 export default function App({ location, children }) {
   useEffect(() => {
+    const label = document.querySelector(
+      'label[id="root_studentRatioCalcChapter_studentPercentageCalc_calculatedPercentage-label"]',
+    );
+    if (label) {
+      const parentDiv = label.closest('.schemaform-field-template');
+      if (parentDiv) {
+        parentDiv.remove(); // This will remove the specific parent div
+      }
+    }
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(

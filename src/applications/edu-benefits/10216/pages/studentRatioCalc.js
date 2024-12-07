@@ -1,21 +1,20 @@
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import {
-  textUI,
   currentOrPastDateUI,
-  textSchema,
   currentOrPastDateSchema,
   titleUI,
+  numberSchema,
+  numberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PercentageCalc from '../components/PercentageCalc';
-import { ratioCalcInfoHelpText } from '../components/RatioCalc';
 
 export default {
   uiSchema: {
     studentRatioCalcChapter: {
       ...titleUI('35% exemption calculation'),
       beneficiaryStudent: {
-        ...textUI({
+        ...numberUI({
           title: 'Number of VA beneficiary students',
           errorMessages: {
             required:
@@ -24,7 +23,7 @@ export default {
         }),
       },
       numOfStudent: {
-        ...textUI({
+        ...numberUI({
           title: 'Total number of students',
           errorMessages: {
             required: 'Please enter the total number of students',
@@ -34,10 +33,6 @@ export default {
       studentPercentageCalc: {
         'ui:title': 'VA beneficiary students percentage (calculated)',
         'ui:description': PercentageCalc,
-      },
-
-      'view:ratioCalcInfoHelpText': {
-        'ui:description': ratioCalcInfoHelpText,
       },
       dateOfCalculation: {
         ...currentOrPastDateUI({
@@ -57,12 +52,13 @@ export default {
       studentRatioCalcChapter: {
         type: 'object',
         properties: {
-          beneficiaryStudent: textSchema,
-          numOfStudent: textSchema,
-          studentPercentageCalc: { type: 'object', properties: {} },
-          'view:ratioCalcInfoHelpText': {
+          beneficiaryStudent: numberSchema,
+          numOfStudent: numberSchema,
+          studentPercentageCalc: {
             type: 'object',
-            properties: {},
+            properties: {
+              calculatedPercentage: { type: 'number' },
+            },
           },
           dateOfCalculation: currentOrPastDateSchema,
         },
