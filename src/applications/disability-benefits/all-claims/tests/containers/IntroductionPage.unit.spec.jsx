@@ -5,6 +5,7 @@ import moment from 'moment';
 import { render } from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   PAGE_TITLES,
   START_TEXT,
@@ -15,7 +16,6 @@ import {
 } from '../../constants';
 import formConfig from '../../config/form';
 import { IntroductionPage } from '../../components/IntroductionPage';
-import { show5103Updates } from '../../utils';
 
 const { formId, prefillEnabled } = formConfig;
 const initialState = {
@@ -141,19 +141,35 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should render evidence needed info alert and link to 5103', () => {
+  it('should conditionally render evidence needed info alert', () => {
     const store = createStore(() => initialState);
 
     const { queryByText } = render(
       <Provider store={store}>
-        <IntroductionPage {...defaultProps} formId="21-526EZ" />
+        <IntroductionPage {...defaultProps} />
       </Provider>,
     );
 
-    if (show5103Updates()) {
+    if (environment.isDev() || environment.isLocalhost()) {
       expect(queryByText('Notice of evidence needed')).to.exist;
     } else {
       expect(queryByText('Notice of evidence needed')).to.not.exist;
+    }
+  });
+
+  it('should conditionally render disability ratings alert', () => {
+    const store = createStore(() => initialState);
+
+    const { queryByText } = render(
+      <Provider store={store}>
+        <IntroductionPage {...defaultProps} />
+      </Provider>,
+    );
+
+    if (environment.isDev() || environment.isLocalhost()) {
+      expect(queryByText('Disability Ratings')).to.not.exist;
+    } else {
+      expect(queryByText('Disability Ratings')).to.exist;
     }
   });
 
