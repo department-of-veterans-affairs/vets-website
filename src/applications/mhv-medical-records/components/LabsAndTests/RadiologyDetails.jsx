@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -43,7 +43,6 @@ const RadiologyDetails = props => {
   const elementRef = useRef(null);
   const [downloadStarted, setDownloadStarted] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
-  const [imageReqData, setImageReqData] = useState({});
   const radiologyDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
@@ -56,16 +55,10 @@ const RadiologyDetails = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      if (imageRequests) {
-        setImageReqData(
-          imageRequests.find(
-            img => img.studyIdUrn === radiologyDetails.studyId,
-          ),
-        );
-      }
-    },
+  const studyJob = useMemo(
+    () =>
+      imageRequests?.find(img => img.studyIdUrn === radiologyDetails.studyId) ||
+      null,
     [imageRequests, radiologyDetails.studyId],
   );
 
@@ -76,7 +69,7 @@ const RadiologyDetails = props => {
         setIsRunning(true);
         const processingInterval = setInterval(prevState => {
           dispatch(setImageRequestStatus());
-          if (imageReqData.percentComplete >= 100) {
+          if (studyJob?.percentComplete >= 100) {
             clearInterval(processingInterval);
             setIsRunning(false);
             return 100;
@@ -85,7 +78,7 @@ const RadiologyDetails = props => {
         }, 2000);
       }
     },
-    [dispatch, imageReqData.percentComplete, imageRequests, isRunning],
+    [dispatch, studyJob.percentComplete, imageRequests, isRunning],
   );
 
   useEffect(
@@ -139,7 +132,7 @@ ${record.results}`;
     createImagingRequest(radiologyDetails.studyId);
   };
 
-  const imageAlertNone = () => (
+  const imagesNotRequested = imageRequest => (
     <>
       <p>To review and download your images, you’ll need to request them.</p>
       {/* Request Images button will go here */}
@@ -255,18 +248,14 @@ ${record.results}`;
   );
 
   const imageStatusContent = () => {
-    if (imageRequests) {
-      const imageRequest = imageRequests.find(
-        img => img.studyIdUrn === radiologyDetails.studyId,
-      );
+    if (studyJob) {
       return (
         <>
           {/* Debug Only: {imageRequest.status} - {imageRequest.percentComplete} */}
-          {imageRequest.status === 'ERROR' && imageAlertError(imageRequest)}
-          {imageRequest.status === 'NONE' && imageAlertNone()}
-          {imageRequest.status === 'PROCESSING' &&
-            imageAlertProcessing(imageRequest)}
-          {imageRequest.status === 'COMPLETE' && imageAlertComplete()}
+          {studyJob.status === 'ERROR' && imageAlertError(studyJob)}
+          {studyJob.status === 'NONE' && imagesNotRequested(studyJob)}
+          {studyJob.status === 'PROCESSING' && imageAlertProcessing(studyJob)}
+          {studyJob.status === 'COMPLETE' && imageAlertComplete()}
         </>
       );
     }
