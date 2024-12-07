@@ -1,32 +1,18 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { chunk } from 'lodash';
-import PrintDownload from './PrintDownload';
 import PrintHeader from './PrintHeader';
-import DownloadingRecordsInfo from './DownloadingRecordsInfo';
 import DateSubheading from './DateSubheading';
-import GenerateRadiologyPdf from '../LabsAndTests/GenerateRadiologyPdf';
 
-const ImageGallery = ({ record, imageList, imageCount, study, print }) => {
+const ImageGallery = ({ record, imageList, imageCount, study }) => {
   const apiImagingPath = `${
     environment.API_URL
   }/my_health/v1/medical_records/imaging`;
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.ceil(imageList.length / imageCount);
-  const downloadPdf = () => {
-    GenerateRadiologyPdf(record);
-  };
-
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
 
   const onPageChange = page => {
     setCurrentPage(page);
@@ -44,16 +30,6 @@ const ImageGallery = ({ record, imageList, imageCount, study, print }) => {
             Images: {record.name}
           </h1>
           <DateSubheading date={record?.date} id="radiology-date" />
-
-          {print && (
-            <div className="no-print">
-              <PrintDownload
-                downloadPdf={downloadPdf}
-                allowTxtDownloads={allowTxtDownloads}
-              />
-              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-            </div>
-          )}
 
           <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">
             {chunk(imageList, imageCount)[currentPage - 1].map((image, idx) => (
@@ -89,45 +65,6 @@ const ImageGallery = ({ record, imageList, imageCount, study, print }) => {
               uswds
             />
           )}
-          <h2>How to share images with a non-VA provider</h2>
-          <p>
-            The best way to share these images with a non-VA provider is to ask
-            your VA care team to share them directly.
-          </p>
-          <p>
-            If you want to try to sharing these images yourself, you can
-            download them as DICOM files in a ZIP folder.
-          </p>
-          <p>Here’s what to know:</p>
-          <ul>
-            <li>
-              Your non-VA provider may not be able to accept these DICOM files
-              from you. They may require your VA care team to share them
-              directly.
-            </li>
-            <li>
-              Providers use special software to view DICOM files, so you may not
-              be able to view them on your device.
-            </li>
-            <li>
-              These are large files that take a lot of storage space on your
-              device. So we recommend downloading on a computer instead of a
-              mobile phone.
-            </li>
-            <li>
-              If you’re using a public or shared computer, remember that
-              downloading saves a copy of your files to the computer you’re
-              using.
-            </li>
-          </ul>
-          <p>
-            <va-link
-              download
-              filetype="ZIP folder"
-              href={`${apiImagingPath}/${study}/dicom`}
-              text="Download DICOM files"
-            />
-          </p>
         </>
       );
     }
@@ -146,3 +83,10 @@ const ImageGallery = ({ record, imageList, imageCount, study, print }) => {
 };
 
 export default ImageGallery;
+
+ImageGallery.propTypes = {
+  imageCount: PropTypes.number,
+  imageList: PropTypes.array,
+  record: PropTypes.object,
+  study: PropTypes.string,
+};
