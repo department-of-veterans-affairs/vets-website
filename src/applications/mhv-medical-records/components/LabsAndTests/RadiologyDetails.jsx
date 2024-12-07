@@ -77,7 +77,10 @@ const RadiologyDetails = props => {
   useEffect(
     () => {
       let timeoutId;
-      if (studyJob?.status === studyJobStatus.PROCESSING) {
+      if (
+        studyJob?.status === studyJobStatus.NEW ||
+        studyJob?.status === studyJobStatus.PROCESSING
+      ) {
         timeoutId = setTimeout(() => {
           dispatch(fetchImageRequestStatus());
           // Increase the polling interval by 5% on each iteration, capped at 30 seconds
@@ -138,7 +141,9 @@ ${record.results}`;
   };
 
   const makeImageRequest = async () => {
-    requestImagingStudy(radiologyDetails.studyId);
+    await requestImagingStudy(radiologyDetails.studyId);
+    // After requesting the study, update the status.
+    dispatch(fetchImageRequestStatus());
   };
 
   const notificationContent = () =>
@@ -204,7 +209,13 @@ ${record.results}`;
       >
         <h2 className="vads-u-margin-y--0">Image request</h2>
         <p>{imageRequest.percentComplete}% complete</p>
-        <va-progress-bar percent={imageRequest.percentComplete} />
+        <va-progress-bar
+          percent={
+            imageRequest.status === studyJobStatus.NEW
+              ? 0
+              : imageRequest.percentComplete
+          }
+        />
       </va-banner>
     </>
   );
@@ -275,10 +286,10 @@ ${record.results}`;
     if (radiologyDetails.studyId) {
       return (
         <>
-          {/* Debug Only: {imageRequest.status} - {imageRequest.percentComplete} */}
           {(!studyJob || studyJob.status === studyJobStatus.NONE) &&
             imagesNotRequested(studyJob)}
-          {studyJob?.status === studyJobStatus.PROCESSING &&
+          {(studyJob?.status === studyJobStatus.NEW ||
+            studyJob?.status === studyJobStatus.PROCESSING) &&
             imageAlertProcessing(studyJob)}
           {studyJob?.status === studyJobStatus.COMPLETE && imageAlertComplete()}
           {studyJob?.status === studyJobStatus.ERROR &&

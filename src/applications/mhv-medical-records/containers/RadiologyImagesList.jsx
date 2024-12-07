@@ -33,7 +33,6 @@ const RadiologyImagesList = () => {
 
   useEffect(
     () => {
-      // dispatch(fetchImageList('453-2487450'));
       if (radiologyDetails) {
         dispatch(fetchImageList(radiologyDetails.studyId));
       }

@@ -209,6 +209,7 @@ export const allergyTypes = {
 
 export const studyJobStatus = {
   NONE: 'NONE',
+  NEW: 'NEW',
   PROCESSING: 'PROCESSING',
   COMPLETE: 'COMPLETE',
   ERROR: 'ERROR',
