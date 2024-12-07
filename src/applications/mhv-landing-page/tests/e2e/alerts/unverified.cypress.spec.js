@@ -23,7 +23,6 @@ describe(appName, () => {
         LandingPage.visit({
           registered: userIsRegistered,
           verified: userIsVerified,
-          showVerifyAndRegisterAlert: false,
         });
         cy.injectAxeThenAxeCheck();
 
