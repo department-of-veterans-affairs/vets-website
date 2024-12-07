@@ -58,6 +58,12 @@ export const getImageList = studyId => {
   );
 };
 
+export const getBbmiNotificationStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/bbmi_notification/status`, {
+    headers,
+  });
+};
+
 export const getMhvRadiologyTests = () => {
   return apiRequest(`${apiBasePath}/medical_records/radiology`, {
     headers,

@@ -2,17 +2,11 @@ import { Actions } from '../util/actionTypes';
 import { extractImageAndSeriesIds } from '../util/helpers';
 
 const initialState = {
-  /**
-   * The last time that the list was fetched and known to be up-to-date
-   * @type {Object}
-   */
   imageStatus: undefined,
 
-  /**
-   * The last time that the list was fetched and known to be up-to-date
-   * @type {Array}
-   */
   imageList: [],
+
+  notificationStatus: undefined,
 };
 
 export const imagesReducer = (state = initialState, action) => {
@@ -29,6 +23,13 @@ export const imagesReducer = (state = initialState, action) => {
         imageList: extractImageAndSeriesIds(action.response),
       };
     }
+    case Actions.Images.GET_NOTIFICATION_STATUS: {
+      return {
+        ...state,
+        notificationStatus: action?.payload?.flag ?? null,
+      };
+    }
+
     default:
       return state;
   }

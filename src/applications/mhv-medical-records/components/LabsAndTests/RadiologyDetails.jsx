@@ -27,7 +27,10 @@ import {
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { setImageRequestStatus } from '../../actions/images';
+import {
+  fetchImageRequestStatus,
+  fetchBbmiNotificationStatus,
+} from '../../actions/images';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -47,10 +50,14 @@ const RadiologyDetails = props => {
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
   const imageRequests = useSelector(state => state.mr.images.imageStatus);
+  const notificationStatus = useSelector(
+    state => state.mr.images.notificationStatus,
+  );
 
   useEffect(
     () => {
-      dispatch(setImageRequestStatus());
+      dispatch(fetchImageRequestStatus());
+      dispatch(fetchBbmiNotificationStatus());
     },
     [dispatch],
   );
@@ -68,7 +75,7 @@ const RadiologyDetails = props => {
         if (isRunning) return;
         setIsRunning(true);
         const processingInterval = setInterval(prevState => {
-          dispatch(setImageRequestStatus());
+          dispatch(fetchImageRequestStatus());
           if (studyJob?.percentComplete >= 100) {
             clearInterval(processingInterval);
             setIsRunning(false);
@@ -132,12 +139,47 @@ ${record.results}`;
     createImagingRequest(radiologyDetails.studyId);
   };
 
+  const notificationContent = () =>
+    notificationStatus ? (
+      <>
+        <h2>Get email notifications for images</h2>
+        <p>
+          If you want us to email you when your images are ready, change your
+          notification settings on the previous version of My HealtheVet.
+        </p>
+        <va-link
+          className="vads-u-margin-top--1"
+          href="#"
+          text="Go back to the previous version of My HealtheVet"
+        />
+      </>
+    ) : (
+      <>
+        <p>
+          <strong>Note: </strong> You have the option to receive an email when
+          the images are ready to review. To change this notification, change
+          your notification settings on the previous version of My HealtheVet.
+        </p>
+        <va-link
+          className="vads-u-margin-top--1"
+          href="#"
+          text="Go back to the previous version of myHealtheVet"
+        />
+      </>
+    );
+
+  const requestNote = () => (
+    <p>
+      After you request images, it may take several hours for us to load them
+      here.
+      {notificationStatus &&
+        ' We’ll send you an email when your images are ready.'}
+    </p>
+  );
+
   const imagesNotRequested = imageRequest => (
     <>
-      <p>
-        After you request images, it may take several hours for us to load them
-        here.
-      </p>
+      {requestNote()}
       <va-button
         onClick={() => makeImageRequest()}
         disabled={imageRequest?.percentComplete < 100}
@@ -145,31 +187,24 @@ ${record.results}`;
         text="Request Images"
         uswds
       />
-      <p>
-        <strong>Note: </strong> You have the option to receive an email when the
-        images are ready to review. To change this notification, change your
-        notification settings on the previous version of My HealtheVet.
-      </p>
-      <va-link
-        className="vads-u-margin-top--1"
-        href="#"
-        text="Go back to the previous version of myHealtheVet"
-      />
     </>
   );
 
   const imageAlertProcessing = imageRequest => (
-    <va-banner
-      close-btn-aria-label="Close notification"
-      status="info"
-      visible
-      iconless="true"
-      ref={elementRef}
-    >
-      <h2 className="vads-u-margin-y--0">Image request</h2>
-      <p>{imageRequest.percentComplete}% complete</p>
-      <va-progress-bar percent={imageRequest.percentComplete} />
-    </va-banner>
+    <>
+      {requestNote()}
+      <va-banner
+        close-btn-aria-label="Close notification"
+        status="info"
+        visible
+        iconless="true"
+        ref={elementRef}
+      >
+        <h2 className="vads-u-margin-y--0">Image request</h2>
+        <p>{imageRequest.percentComplete}% complete</p>
+        <va-progress-bar percent={imageRequest.percentComplete} />
+      </va-banner>
+    </>
   );
 
   const imageAlertComplete = () => (
@@ -186,7 +221,7 @@ ${record.results}`;
       <va-link
         className="vads-u-margin-top--1"
         href={`/my-health/medical-records/labs-and-tests/${record.id}/images`}
-        text="View images"
+        text="View all images"
       />
     </va-alert>
   );
@@ -225,16 +260,6 @@ ${record.results}`;
         text="Request Images"
         uswds
       />
-      <h2>Get email notifications for images</h2>
-      <p>
-        If you want us to email you when your images are ready, change your
-        notification settings on the previous version of My HealtheVet.
-      </p>
-      <va-link
-        className="vads-u-margin-top--1"
-        href="#"
-        text="Go back to the previous version of My HealtheVet"
-      />
     </>
   );
 
@@ -248,6 +273,7 @@ ${record.results}`;
           {studyJob?.status === 'PROCESSING' && imageAlertProcessing(studyJob)}
           {studyJob?.status === 'COMPLETE' && imageAlertComplete()}
           {studyJob?.status === 'ERROR' && imageAlertError(studyJob)}
+          {notificationContent()}
         </>
       );
     }

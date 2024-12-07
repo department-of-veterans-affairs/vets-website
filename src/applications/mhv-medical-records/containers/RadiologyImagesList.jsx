@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 
 import ImageGallery from '../components/shared/ImageGallery';
-import { setImageList, setImageRequestStatus } from '../actions/images';
+import { fetchImageList, fetchImageRequestStatus } from '../actions/images';
 
 const RadiologyImagesList = () => {
   const dispatch = useDispatch();
@@ -46,9 +46,9 @@ const RadiologyImagesList = () => {
 
   useEffect(
     () => {
-      // dispatch(setImageList('453-2487450'));
+      // dispatch(fetchImageList('453-2487450'));
       if (radiologyDetails) {
-        dispatch(setImageList(radiologyDetails.studyId));
+        dispatch(fetchImageList(radiologyDetails.studyId));
       }
     },
     [dispatch, radiologyDetails],
@@ -56,7 +56,7 @@ const RadiologyImagesList = () => {
 
   useEffect(
     () => {
-      dispatch(setImageRequestStatus());
+      dispatch(fetchImageRequestStatus());
     },
     [dispatch],
   );
