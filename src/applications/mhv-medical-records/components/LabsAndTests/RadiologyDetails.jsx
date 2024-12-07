@@ -24,6 +24,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   createImagingRequest,
+  formatDateAndTime,
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
@@ -66,12 +67,9 @@ const RadiologyDetails = props => {
   );
 
   const studyJob = useMemo(
-    () => {
-      return (
-        studyJobs?.find(img => img.studyIdUrn === radiologyDetails.studyId) ||
-        null
-      );
-    },
+    () =>
+      studyJobs?.find(img => img.studyIdUrn === radiologyDetails.studyId) ||
+      null,
     [studyJobs, radiologyDetails.studyId],
   );
 
@@ -81,8 +79,8 @@ const RadiologyDetails = props => {
       if (studyJob?.status === studyJobStatus.PROCESSING) {
         timeoutId = setTimeout(() => {
           dispatch(fetchImageRequestStatus());
-          // Increase the polling interval by 5% on each iteration
-          setPollInterval(prevInterval => prevInterval * 1.05);
+          // Increase the polling interval by 5% on each iteration, capped at 30 seconds
+          setPollInterval(prevInterval => Math.min(prevInterval * 1.05, 30000));
         }, pollInterval);
       }
       // Cleanup interval on component unmount or dependencies change
@@ -210,21 +208,27 @@ ${record.results}`;
     </>
   );
 
-  const imageAlertComplete = () => (
-    <>
-      <p>
-        You have until 12/31/2023 at 4:30 p.m. [timezone] to view and download
-        your images. After that, you’ll need to request them again.
-      </p>
-      <p>
-        <va-link
-          href={`/my-health/medical-records/labs-and-tests/${record.id}/images`}
-          text={`View all ${radiologyDetails.imageCount} images`}
-          active
-        />
-      </p>
-    </>
-  );
+  const imageAlertComplete = () => {
+    const endDateParts = formatDateAndTime(new Date(studyJob.endDate));
+    return (
+      <>
+        <p>
+          You have until {endDateParts.date} at {endDateParts.time}{' '}
+          {endDateParts.timeZone} to view and download your images. After that,
+          you’ll need to request them again.
+        </p>
+        <p>
+          <va-link
+            href={`/my-health/medical-records/labs-and-tests/${
+              record.id
+            }/images`}
+            text={`View all ${radiologyDetails.imageCount} images`}
+            active
+          />
+        </p>
+      </>
+    );
+  };
 
   const imageAlertError = imageRequest => (
     <>
