@@ -78,7 +78,7 @@ const RadiologyDetails = props => {
         }, 2000);
       }
     },
-    [dispatch, studyJob.percentComplete, imageRequests, isRunning],
+    [dispatch, studyJob?.percentComplete, imageRequests, isRunning],
   );
 
   useEffect(
@@ -134,25 +134,22 @@ ${record.results}`;
 
   const imagesNotRequested = imageRequest => (
     <>
-      <p>To review and download your images, you’ll need to request them.</p>
-      {/* Request Images button will go here */}
-      <button
-        className="vads-u-margin-y--0p5"
-        onClick={() => makeImageRequest()}
-        style={{ width: '100%' }}
-        disabled={imageRequest.percentComplete < 100}
-        ref={elementRef}
-      >
-        <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
-          <span className="vads-u-margin-left--0p5">Request Images</span>
-        </div>
-      </button>
       <p>
-        <strong>Note: </strong> You havbe the option to receive an email when
-        the images are ready to review. To change this notification, change your
+        After you request images, it may take several hours for us to load them
+        here.
+      </p>
+      <va-button
+        onClick={() => makeImageRequest()}
+        disabled={imageRequest?.percentComplete < 100}
+        ref={elementRef}
+        text="Request Images"
+        uswds
+      />
+      <p>
+        <strong>Note: </strong> You have the option to receive an email when the
+        images are ready to review. To change this notification, change your
         notification settings on the previous version of My HealtheVet.
       </p>
-      {/* "Go back to previous version of My HealtheVet" */}
       <va-link
         className="vads-u-margin-top--1"
         href="#"
@@ -221,24 +218,18 @@ ${record.results}`;
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </va-alert>
-      {/* Request Images button will go here */}
-      <button
-        className="vads-u-margin-y--0p5"
+      <va-button
         onClick={() => makeImageRequest()}
-        style={{ width: '100%' }}
-        disabled={imageRequest.percentComplete < 100}
+        disabled={imageRequest?.percentComplete < 100}
         ref={elementRef}
-      >
-        <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
-          <span className="vads-u-margin-left--0p5">Request Images</span>
-        </div>
-      </button>
+        text="Request Images"
+        uswds
+      />
       <h2>Get email notifications for images</h2>
       <p>
         If you want us to email you when your images are ready, change your
         notification settings on the previous version of My HealtheVet.
       </p>
-      {/* "Go back to previous version of My HealtheVet" */}
       <va-link
         className="vads-u-margin-top--1"
         href="#"
@@ -248,18 +239,19 @@ ${record.results}`;
   );
 
   const imageStatusContent = () => {
-    if (studyJob) {
+    if (radiologyDetails.studyId) {
       return (
         <>
           {/* Debug Only: {imageRequest.status} - {imageRequest.percentComplete} */}
-          {studyJob.status === 'ERROR' && imageAlertError(studyJob)}
-          {studyJob.status === 'NONE' && imagesNotRequested(studyJob)}
-          {studyJob.status === 'PROCESSING' && imageAlertProcessing(studyJob)}
-          {studyJob.status === 'COMPLETE' && imageAlertComplete()}
+          {(!studyJob || studyJob.status === 'NONE') &&
+            imagesNotRequested(studyJob)}
+          {studyJob?.status === 'PROCESSING' && imageAlertProcessing(studyJob)}
+          {studyJob?.status === 'COMPLETE' && imageAlertComplete()}
+          {studyJob?.status === 'ERROR' && imageAlertError(studyJob)}
         </>
       );
     }
-    return <p>There ar no images attached to this report.</p>;
+    return <p>There are no images attached to this report.</p>;
   };
 
   return (
