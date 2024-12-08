@@ -205,14 +205,13 @@ ${record.results}`;
   const imageAlertProcessing = imageRequest => (
     <>
       {requestNote()}
-      <va-banner
-        close-btn-aria-label="Close notification"
+      <va-alert
         status="info"
         visible
-        iconless="true"
-        ref={elementRef}
+        aria-live="polite"
+        data-testid="image-request-progress-alert"
       >
-        <h2 className="vads-u-margin-y--0">Image request</h2>
+        <h3>Image request</h3>
         <p>{imageRequest.percentComplete}% complete</p>
         <va-progress-bar
           percent={
@@ -221,7 +220,7 @@ ${record.results}`;
               : imageRequest.percentComplete
           }
         />
-      </va-banner>
+      </va-alert>
     </>
   );
 
@@ -253,17 +252,14 @@ ${record.results}`;
     <>
       <p>To review and download your images, you’ll need to request them.</p>
       <va-alert
-        class="vads-u-margin-bottom--1"
-        closeable="false"
-        disable-analytics="false"
-        full-width="false"
-        role="alert"
         status="error"
-        visible="true"
+        visible
+        aria-live="polite"
+        data-testid="image-request-error-alert"
       >
-        <h2 id="track-your-status-on-mobile" slot="headline">
+        <h3 id="track-your-status-on-mobile" slot="headline">
           We couldn’t access your images
-        </h2>
+        </h3>
         <p className="vads-u-margin-y--0">
           We’re sorry. There was a problem with our system. Try requesting your
           images again.
