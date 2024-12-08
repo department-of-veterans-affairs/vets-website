@@ -1,4 +1,6 @@
 import { Actions } from '../util/actionTypes';
+import * as Constants from '../util/constants';
+import { addAlert } from './alerts';
 import {
   getImageRequestStatus,
   getImageList,
@@ -10,7 +12,8 @@ export const fetchImageRequestStatus = () => async dispatch => {
     const response = await getImageRequestStatus();
     dispatch({ type: Actions.Images.GET_IMAGE_REQUEST_STATUS, response });
   } catch (error) {
-    // TODO: How do we handle failure to get the list of study job statuses?
+    dispatch(addAlert(Constants.ALERT_TYPE_IMAGE_STATUS_ERROR, error));
+    throw error;
   }
 };
 
@@ -19,7 +22,8 @@ export const fetchImageList = studyId => async dispatch => {
     const response = await getImageList(studyId);
     dispatch({ type: Actions.Images.GET_IMAGE_LIST, response });
   } catch (error) {
-    // TODO: How do we handle failure to get the image list for a study?
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 

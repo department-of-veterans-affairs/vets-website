@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { chunk } from 'lodash';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { chunk } from 'lodash';
 
 const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
   const apiImagingPath = `${

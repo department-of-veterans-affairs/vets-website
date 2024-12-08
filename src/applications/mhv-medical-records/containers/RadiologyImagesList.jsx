@@ -7,6 +7,9 @@ import PrintHeader from '../components/shared/PrintHeader';
 import ImageGallery from '../components/shared/ImageGallery';
 import DateSubheading from '../components/shared/DateSubheading';
 import { fetchImageList, fetchImageRequestStatus } from '../actions/images';
+import useAlerts from '../hooks/use-alerts';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { accessAlertTypes, ALERT_TYPE_ERROR } from '../util/constants';
 
 const RadiologyImagesList = () => {
   const apiImagingPath = `${
@@ -14,6 +17,8 @@ const RadiologyImagesList = () => {
   }/my_health/v1/medical_records/imaging`;
 
   const dispatch = useDispatch();
+
+  const activeAlert = useAlerts(dispatch);
 
   const { labId } = useParams();
 
@@ -106,6 +111,14 @@ const RadiologyImagesList = () => {
     </>
   );
 
+  if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
+    return (
+      <AccessTroubleAlertBox
+        alertType={accessAlertTypes.IMAGE_STATUS}
+        className="vads-u-margin-bottom--9"
+      />
+    );
+  }
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       {radiologyDetails ? (

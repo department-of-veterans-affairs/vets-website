@@ -19,7 +19,12 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
-import { pageTitles, studyJobStatus } from '../../util/constants';
+import {
+  pageTitles,
+  studyJobStatus,
+  accessAlertTypes,
+  ALERT_TYPE_IMAGE_STATUS_ERROR,
+} from '../../util/constants';
 import {
   formatNameFirstLast,
   generateTextFile,
@@ -33,6 +38,8 @@ import {
   fetchBbmiNotificationStatus,
 } from '../../actions/images';
 import { requestImagingStudy } from '../../api/MrApi';
+import useAlerts from '../../hooks/use-alerts';
+import AccessTroubleAlertBox from '../shared/AccessTroubleAlertBox';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -58,6 +65,8 @@ const RadiologyDetails = props => {
   const notificationStatus = useSelector(
     state => state.mr.images.notificationStatus,
   );
+
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
@@ -284,6 +293,15 @@ ${record.results}`;
 
   const imageStatusContent = () => {
     if (radiologyDetails.studyId) {
+      if (activeAlert && activeAlert.type === ALERT_TYPE_IMAGE_STATUS_ERROR) {
+        return (
+          <AccessTroubleAlertBox
+            alertType={accessAlertTypes.IMAGE_STATUS}
+            className="vads-u-margin-bottom--9"
+          />
+        );
+      }
+
       return (
         <>
           {(!studyJob || studyJob.status === studyJobStatus.NONE) &&

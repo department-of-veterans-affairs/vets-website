@@ -15,6 +15,7 @@ export const accessAlertTypes = {
   LABS_AND_TESTS: 'labs and tests',
   HEALTH_CONDITIONS: 'health conditions',
   BLUE_BUTTON_REPORT: 'Blue Button report',
+  IMAGE_STATUS: 'image',
 };
 
 export const labTypes = {
@@ -180,6 +181,7 @@ export const vitalUnitDisplayText = {
 };
 
 export const ALERT_TYPE_ERROR = 'error';
+export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
 
 export const pageTitles = {
