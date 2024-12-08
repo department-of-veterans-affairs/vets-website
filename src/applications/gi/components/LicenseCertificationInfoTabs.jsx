@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { LC_TABS } from '../constants';
-import LcTestInfo from './LcTestInfo';
-import LcAdminInfo from './LcAdminInfo';
+import LicenseCertificationTestInfo from './LicenseCertificationTestInfo';
+import LicenseCertificationAdminInfo from './LicenseCertificationAdminInfo';
 
 export default function LicenseCertificationInfoTabs({ onChange, tab }) {
   const tabs = {
-    [LC_TABS.test]: <LcTestInfo />,
-    [LC_TABS.admin]: <LcAdminInfo />,
+    [LC_TABS.test]: <LicenseCertificationTestInfo />,
+    [LC_TABS.admin]: <LicenseCertificationAdminInfo />,
   };
 
   // consider exporting original function from SearchTabs component

@@ -7,7 +7,7 @@ import {
   filterLcResults,
   handleUpdateLcFilterDropdowns,
 } from '../utils/helpers';
-import LcKeywordSearch from './LcKeywordSearch';
+import LicenseCertificationKeywordSearch from './LicenseCertificationKeywordSearch';
 
 const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
   return { optionValue: state[0], optionLabel: state[1] };
@@ -188,7 +188,7 @@ export default function LicenseCertificationSearchForm({
         )}
       </Dropdown>
       <div>
-        <LcKeywordSearch
+        <LicenseCertificationKeywordSearch
           inputValue={name}
           suggestions={filteredSuggestions}
           onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}

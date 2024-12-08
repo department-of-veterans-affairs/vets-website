@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LicenseCertificationSearchForm from './LicenseCertificationSearchForm';
+import LicenseCertificationSearchForm from '../components/LicenseCertificationSearchForm';
 import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 import { fetchLicenseCertificationResults } from '../actions';
 
-function LicenseCertificationSearch({
+function LicenseCertificationSearchPage({
   dispatchFetchLicenseCertificationResults,
   lcResults,
   fetchingLc,
@@ -56,7 +56,7 @@ function LicenseCertificationSearch({
   }
 }
 
-LicenseCertificationSearch.propTypes = {
+LicenseCertificationSearchPage.propTypes = {
   dispatchFetchLicenseCertificationResults: PropTypes.func.isRequired,
   fetchingLc: PropTypes.bool.isRequired,
   hasFetchedOnce: PropTypes.bool.isRequired,
@@ -76,4 +76,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LicenseCertificationSearch);
+)(LicenseCertificationSearchPage);

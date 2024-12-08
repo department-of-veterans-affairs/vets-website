@@ -4,7 +4,7 @@ import Downshift from 'downshift';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-export default function LcKeywordSearch({
+export default function LicenseCertificationKeywordSearch({
   inputValue,
   suggestions,
   onSelection,
@@ -126,7 +126,7 @@ export default function LcKeywordSearch({
   );
 }
 
-LcKeywordSearch.propTypes = {
+LicenseCertificationKeywordSearch.propTypes = {
   onSelection: PropTypes.func.isRequired,
   inputValue: PropTypes.string,
   suggestions: PropTypes.array,
