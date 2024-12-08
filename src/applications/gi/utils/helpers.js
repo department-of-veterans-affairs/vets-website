@@ -595,6 +595,14 @@ export const handleLcResultsSearch = (
     : history.push(`/lc-search/results?category=${category}&state=${state}`);
 };
 
+export function capitalizeFirstLetter(string) {
+  if (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  return null;
+}
+
 export const formatProgramType = programType => {
   if (!programType) return '';
 

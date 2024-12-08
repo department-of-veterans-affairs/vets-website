@@ -3,14 +3,11 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
 import {
+  capitalizeFirstLetter,
   filterLcResults,
   handleUpdateLcFilterDropdowns,
 } from '../utils/helpers';
 import LcKeywordSearch from './LcKeywordSearch';
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
   return { optionValue: state[0], optionLabel: state[1] };
