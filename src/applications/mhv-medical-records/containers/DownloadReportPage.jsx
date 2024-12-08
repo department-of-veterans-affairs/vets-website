@@ -34,32 +34,34 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const name = formatName(user.userFullName);
   const dob = formatDateLong(user.dob);
 
-  const vitals = useSelector(state => state.mr.selfEntered.vitals);
+  const activityJournal = useSelector(
+    state => state.mr.selfEntered.activityJournal,
+  );
   const allergies = useSelector(state => state.mr.selfEntered.allergies);
+  const demographics = useSelector(state => state.mr.selfEntered.demographics);
   const familyHistory = useSelector(
     state => state.mr.selfEntered.familyHistory,
   );
-  const vaccines = useSelector(state => state.mr.selfEntered.vaccines);
-  const testEntries = useSelector(state => state.mr.selfEntered.testEntries);
-  const medicalEvents = useSelector(
-    state => state.mr.selfEntered.medicalEvents,
-  );
-  const militaryHistory = useSelector(
-    state => state.mr.selfEntered.militaryHistory,
-  );
+  const foodJournal = useSelector(state => state.mr.selfEntered.foodJournal);
+  // const goals = useSelector(state => state.mr.selfEntered.goals);
   const providers = useSelector(state => state.mr.selfEntered.providers);
   const healthInsurance = useSelector(
     state => state.mr.selfEntered.healthInsurance,
   );
+  const testEntries = useSelector(state => state.mr.selfEntered.testEntries);
+  const medicalEvents = useSelector(
+    state => state.mr.selfEntered.medicalEvents,
+  );
+  const medications = useSelector(state => state.mr.selfEntered.medications);
+  const militaryHistory = useSelector(
+    state => state.mr.selfEntered.militaryHistory,
+  );
   const treatmentFacilities = useSelector(
     state => state.mr.selfEntered.treatmentFacilities,
   );
-  const foodJournal = useSelector(state => state.mr.selfEntered.foodJournal);
-  const activityJournal = useSelector(
-    state => state.mr.selfEntered.activityJournal,
-  );
-  const medications = useSelector(state => state.mr.selfEntered.medications);
-  const demographics = useSelector(state => state.mr.selfEntered.demographics);
+  const vaccines = useSelector(state => state.mr.selfEntered.vaccines);
+  const vitals = useSelector(state => state.mr.selfEntered.vitals);
+
   // const errors = useSelector(state => state.mr.selfEntered.errors);
 
   // const [downloadStarted, setDownloadStarted] = useState(false);
@@ -73,19 +75,21 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       setSelfEnteredInfoRequested(true);
       dispatch(clearAlerts());
       const allDefd = allAreDefined([
-        vitals,
+        activityJournal,
         allergies,
+        demographics,
         familyHistory,
-        vaccines,
-        testEntries,
-        medicalEvents,
-        militaryHistory,
+        foodJournal,
+        // goals,
         providers,
         healthInsurance,
-        treatmentFacilities,
-        foodJournal,
-        activityJournal,
+        testEntries,
+        medicalEvents,
         medications,
+        militaryHistory,
+        treatmentFacilities,
+        vaccines,
+        vitals,
       ]);
       if (!allDefd) {
         dispatch(getSelfEnteredVitals());
@@ -105,20 +109,21 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       } else {
         setSelfEnteredInfoRequested(false);
         const recordData = {
-          vitals,
+          activityJournal,
           allergies,
+          demographics,
           familyHistory,
-          vaccines,
-          testEntries,
-          medicalEvents,
-          militaryHistory,
+          foodJournal,
+          // goals,
           providers,
           healthInsurance,
-          treatmentFacilities,
-          foodJournal,
-          activityJournal,
+          testEntries,
+          medicalEvents,
           medications,
-          demographics,
+          militaryHistory,
+          treatmentFacilities,
+          vaccines,
+          vitals,
         };
         const title = 'Self-entered information report';
         const subject = 'VA Medical Record';
@@ -137,19 +142,21 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       }
     },
     [
-      vitals,
+      activityJournal,
       allergies,
+      demographics,
       familyHistory,
-      vaccines,
-      testEntries,
-      medicalEvents,
-      militaryHistory,
+      foodJournal,
+      // goals,
       providers,
       healthInsurance,
-      treatmentFacilities,
-      foodJournal,
-      activityJournal,
+      testEntries,
+      medicalEvents,
       medications,
+      militaryHistory,
+      treatmentFacilities,
+      vaccines,
+      vitals,
       dispatch,
     ],
   );
@@ -158,20 +165,21 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     () => {
       if (
         allAreDefined([
-          vitals,
+          activityJournal,
           allergies,
+          demographics,
           familyHistory,
-          vaccines,
-          testEntries,
-          medicalEvents,
-          militaryHistory,
+          foodJournal,
+          // goals,
           providers,
           healthInsurance,
-          treatmentFacilities,
-          foodJournal,
-          activityJournal,
+          testEntries,
+          medicalEvents,
           medications,
-          demographics,
+          militaryHistory,
+          treatmentFacilities,
+          vaccines,
+          vitals,
         ]) &&
         selfEnteredInfoRequested
       ) {
@@ -179,20 +187,21 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       }
     },
     [
-      vitals,
+      activityJournal,
       allergies,
+      demographics,
       familyHistory,
-      vaccines,
-      testEntries,
-      medicalEvents,
-      militaryHistory,
+      foodJournal,
+      // goals,
       providers,
       healthInsurance,
-      treatmentFacilities,
-      foodJournal,
-      activityJournal,
+      testEntries,
+      medicalEvents,
       medications,
-      demographics,
+      militaryHistory,
+      treatmentFacilities,
+      vaccines,
+      vitals,
       selfEnteredInfoRequested,
       generatePdf,
     ],
