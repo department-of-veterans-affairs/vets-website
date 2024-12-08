@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   textUI,
   currentOrPastDateUI,
@@ -6,10 +5,8 @@ import {
   currentOrPastDateSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { isOnReviewPage } from '../utilities';
-import Alert from '../components/Alert';
 
-const institutionDetails = isAccredited => ({
+const institutionDetails = () => ({
   uiSchema: {
     institutionDetails: {
       ...titleUI('Tell us about your institution'),
@@ -33,7 +30,6 @@ const institutionDetails = isAccredited => ({
           showFieldLabel: true,
           keepInPageOnReview: true,
         },
-        'ui:widget': () => isOnReviewPage() && !isAccredited && <Alert />,
         'ui:validations': [
           (errors, fieldData) => {
             if (fieldData && !/^\d{8}$/.test(fieldData)) {

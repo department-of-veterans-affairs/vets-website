@@ -74,7 +74,6 @@ const formConfig = {
           title: 'Institution Details',
           onNavForward: async ({ formData, goPath }) => {
             isAccredited = await validateFacilityCode(formData);
-            localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
             if (isAccredited) {
               goPath('/student-ratio-calculation');
             } else {
@@ -108,7 +107,7 @@ const formConfig = {
           uiSchema: studentRatioCalc.uiSchema,
           schema: studentRatioCalc.schema,
           onNavBack: ({ goPath }) => {
-            if (!isAccredited) {
+            if (isAccredited !== true) {
               goPath('/additional-form');
             } else {
               goPath('/institution-details');

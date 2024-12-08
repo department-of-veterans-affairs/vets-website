@@ -40,9 +40,12 @@ export const validateFacilityCode = async field => {
         },
       },
     );
+    if (response.status !== 200) {
+      return 'something went wrong';
+    }
     return response?.data?.attributes?.accredited;
   } catch (error) {
-    return false;
+    return 'Something went wrong';
   }
 };
 
