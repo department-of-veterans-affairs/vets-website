@@ -155,34 +155,30 @@ ${record.results}`;
     dispatch(fetchImageRequestStatus());
   };
 
-  const notificationContent = () =>
-    notificationStatus ? (
-      <>
+  const notificationContent = () => (
+    <>
+      {notificationStatus ? (
         <p>
           <strong>Note: </strong> If you don’t want to get email notifications
           for images anymore, you can change your notification settings on the
           previous version of My HealtheVet.
         </p>
-        <va-link
-          className="vads-u-margin-top--1"
-          href="#"
-          text="Go back to the previous version of My HealtheVet"
-        />
-      </>
-    ) : (
-      <>
-        <h3>Get email notifications for images</h3>
-        <p>
-          If you want us to email you when your images are ready, change your
-          notification settings on the previous version of My HealtheVet.
-        </p>
-        <va-link
-          className="vads-u-margin-top--1"
-          href="#"
-          text="Go back to the previous version of My HealtheVet"
-        />
-      </>
-    );
+      ) : (
+        <>
+          <h3>Get email notifications for images</h3>
+          <p>
+            If you want us to email you when your images are ready, change your
+            notification settings on the previous version of My HealtheVet.
+          </p>
+        </>
+      )}
+      <va-link
+        className="vads-u-margin-top--1"
+        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
+        text="Go back to the previous version of My HealtheVet"
+      />
+    </>
+  );
 
   const requestNote = () => (
     <p>
@@ -376,22 +372,6 @@ ${record.results}`;
         <p data-testid="radiology-imaging-provider" data-dd-privacy="mask">
           {record.imagingProvider}
         </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans no-print">
-          Images
-        </h3>
-        <p data-testid="radiology-image" className="no-print">
-          Images are not yet available in this new medical records tool. To get
-          images, you’ll need to request them in the previous version of medical
-          records on the My HealtheVet website.
-        </p>
-        <va-link
-          href={mhvUrl(
-            isAuthenticatedWithSSOe(fullState),
-            'va-medical-images-and-reports',
-          )}
-          text="Request images on the My HealtheVet website"
-          data-testid="radiology-images-link"
-        />
       </div>
 
       <div className="test-results-container">
