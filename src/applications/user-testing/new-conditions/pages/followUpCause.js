@@ -7,10 +7,13 @@ import {
 import { CONDITIONS_FIRST } from '../constants';
 import { ServiceConnectedDisabilityDescription } from '../content/newConditions';
 import { causeOptions } from './conditionByConditionPages/cause';
-import { createItemName } from './conditionsFirstPages/utils';
+import {
+  arrayBuilderOptions,
+  createItemName,
+} from './conditionsFirstPages/utils';
 
 const getOtherConditions = (formData, currentIndex) => {
-  const otherNewConditions = formData?.conditionsFirst
+  const otherNewConditions = formData?.[arrayBuilderOptions.arrayPath]
     ?.filter((_, index) => index !== currentIndex)
     ?.map(item => createItemName(item));
 

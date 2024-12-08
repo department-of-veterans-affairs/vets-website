@@ -8,11 +8,14 @@ import {
 
 import { CONDITIONS_FIRST } from '../constants';
 import { conditionOptions } from '../content/conditionOptions';
-import { createItemName } from './conditionsFirstPages/utils';
+import {
+  arrayBuilderOptions,
+  createItemName,
+} from './conditionsFirstPages/utils';
 import { createCauseFollowUpTitles } from './conditionByConditionPages/causeFollowUp';
 
 const getOtherConditions = (formData, currentIndex) => {
-  const otherNewConditions = formData?.conditionsFirst
+  const otherNewConditions = formData?.[arrayBuilderOptions.arrayPath]
     ?.filter((_, index) => index !== currentIndex)
     ?.map(item => createItemName(item));
 
@@ -20,7 +23,7 @@ const getOtherConditions = (formData, currentIndex) => {
 };
 
 const createCauseFollowUpConditional = (formData, index, causeType) => {
-  return formData.conditionsFirst[index]?.cause !== causeType;
+  return formData?.[arrayBuilderOptions.arrayPath][index]?.cause !== causeType;
 };
 
 /** @type {PageSchema} */
