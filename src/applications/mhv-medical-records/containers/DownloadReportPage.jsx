@@ -26,6 +26,7 @@ import {
 import { allAreDefined, getNameDateAndTime, makePdf } from '../util/helpers';
 import { clearAlerts } from '../actions/alerts';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
+import { UNKNOWN } from '../util/constants';
 
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -130,14 +131,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ...scaffold,
           name,
           dob,
+          lastUpdated: UNKNOWN,
         };
-        makePdf(
-          pdfName,
-          pdfData,
-          title,
-          runningUnitTest,
-          'selfEnteredInfoReport',
-        );
+        makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo');
       }
     },
     [

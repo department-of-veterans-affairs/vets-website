@@ -20,4 +20,8 @@ templates.veteranStatusNew = () => {
   return require('./veteran_status_new');
 };
 
+templates.selfEnteredInfo = () => {
+  return require('./self_entered_info');
+};
+
 export { templates };

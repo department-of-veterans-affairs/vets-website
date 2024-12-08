@@ -96,7 +96,10 @@ export const generateBlueButtonData = ({
         if (record.type === loincCodes.DISCHARGE_SUMMARY) {
           content = generateDischargeSummaryContent(record);
         }
-        if (record.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE) {
+        if (
+          record.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE ||
+          record.type === loincCodes.CONSULT_RESULT
+        ) {
           content = generateProgressNoteContent(record);
         }
         return { title, ...content };

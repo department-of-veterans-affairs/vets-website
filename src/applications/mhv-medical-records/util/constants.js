@@ -219,20 +219,21 @@ export const pageTitles = {
 };
 
 export const selfEnteredTypes = {
-  VITALS: 'vitals',
-  ALLERGIES: 'allergies',
-  FAMILY_HISTORY: 'family history',
-  VACCINES: 'vaccines',
-  TEST_ENTRIES: 'test entries',
-  MEDICAL_EVENTS: 'medical events',
-  MILITARY_HISTORY: 'military history',
-  HEALTH_PROVIDERS: 'health providers',
-  HEALTH_INSURANCE: 'health insurance',
-  TREATMENT_FACILITIES: 'treatment facilities',
-  FOOD_JOURNAL: 'food journal',
   ACTIVITY_JOURNAL: 'activity journal',
-  MEDICATIONS: 'medications',
+  ALLERGIES: 'allergies',
   DEMOGRAPHICS: 'demographics',
+  FAMILY_HISTORY: 'family health history',
+  FOOD_JOURNAL: 'food journal',
+  GOALS: 'goals', // dont have this
+  HEALTH_PROVIDERS: 'healthcare providers',
+  HEALTH_INSURANCE: 'health insurance',
+  TEST_ENTRIES: 'lab and test results',
+  MEDICAL_EVENTS: 'medical events',
+  MEDICATIONS: 'medications and supplements',
+  MILITARY_HISTORY: 'military health history',
+  TREATMENT_FACILITIES: 'treatment facilities',
+  VACCINES: 'vaccines',
+  VITALS: 'vitals and readings',
 };
 
 export const allergyTypes = {

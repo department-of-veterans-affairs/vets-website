@@ -32,11 +32,13 @@ export const generateAccountSummaryContent = record => {
       ],
     },
     results: {
-      header: 'VA treatment facilites',
+      header: 'VA treatment facilities',
+      headerType: 'H3',
       headerIndent: 20,
       sectionSeparators: false,
       items: vaTreatmentFacilities.map(facility => ({
         header: facility.facilityName,
+        headerType: 'H4',
         headerIndent: 40,
         headerGap: 6,
         itemsIndent: 40,
