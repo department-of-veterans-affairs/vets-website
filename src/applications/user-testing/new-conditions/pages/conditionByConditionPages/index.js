@@ -1,6 +1,4 @@
-import { stringifyUrlParams } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 import causePage from './cause';
 import causeFollowUpPage from './causeFollowUp';
@@ -12,33 +10,33 @@ import summaryPage from './summary';
 import { arrayBuilderOptions, hasSideOfBody } from './utils';
 import { CONDITION_BY_CONDITION } from '../../constants';
 
+const isActiveDemo = formData => formData.demo === 'CONDITION_BY_CONDITION';
+
 const conditionByConditionPages = arrayBuilderPages(
   arrayBuilderOptions,
   (pageBuilder, helpers) => ({
     conditionByConditionIntro: pageBuilder.introPage({
       title: 'New conditions intro',
       path: `new-conditions-${CONDITION_BY_CONDITION}-intro`,
-      depends: formData => formData.demo === 'CONDITION_BY_CONDITION',
+      depends: isActiveDemo,
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
     conditionByConditionSummary: pageBuilder.summaryPage({
       title: 'Review your new conditions',
       path: `new-conditions-${CONDITION_BY_CONDITION}-summary`,
-      depends: formData => formData.demo === 'CONDITION_BY_CONDITION',
+      depends: isActiveDemo,
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     conditionByConditionCondition: pageBuilder.itemPage({
       title: 'Claim a new condition',
       path: `new-conditions-${CONDITION_BY_CONDITION}/:index/condition`,
-      depends: formData => formData.demo === 'CONDITION_BY_CONDITION',
+      depends: isActiveDemo,
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
-      // TODO: use depends: (formData, index) instead on the dynamic page for routing.
       onNavForward: props => {
-        const { formData, urlParams, goPath, index } = props;
-        const urlParamsString = stringifyUrlParams(urlParams) || '';
+        const { formData, index } = props;
         const item = formData?.[arrayBuilderOptions.arrayPath]?.[index];
 
         if (item) {
@@ -48,50 +46,34 @@ const conditionByConditionPages = arrayBuilderPages(
           item.sideOfBody = undefined;
         }
 
-        return hasSideOfBody(item, index)
-          ? helpers.navForwardKeepUrlParams(props)
-          : goPath(
-              `new-conditions-${CONDITION_BY_CONDITION}/${index}/date${urlParamsString}`,
-            );
+        return helpers.navForwardKeepUrlParams(props);
       },
     }),
     conditionByConditionSideOfBody: pageBuilder.itemPage({
       title: 'Side of body of new condition',
       path: `new-conditions-${CONDITION_BY_CONDITION}/:index/side-of-body`,
-      depends: formData => formData.demo === 'CONDITION_BY_CONDITION',
+      depends: isActiveDemo && hasSideOfBody,
       uiSchema: sideOfBodyPage.uiSchema,
       schema: sideOfBodyPage.schema,
     }),
     conditionByConditionDate: pageBuilder.itemPage({
       title: 'Date of new condition',
       path: `new-conditions-${CONDITION_BY_CONDITION}/:index/date`,
-      depends: formData => formData.demo === 'CONDITION_BY_CONDITION',
+      depends: isActiveDemo,
       uiSchema: datePage.uiSchema,
       schema: datePage.schema,
-      // TODO: use depends: (formData, index) instead on the dynamic page.
-      onNavBack: props => {
-        const { formData, pathname, urlParams, goPath } = props;
-        const index = getArrayIndexFromPathName(pathname);
-        const urlParamsString = stringifyUrlParams(urlParams) || '';
-
-        return hasSideOfBody(formData, index)
-          ? helpers.navBackKeepUrlParams(props)
-          : goPath(
-              `new-conditions-${CONDITION_BY_CONDITION}/${index}/condition${urlParamsString}`,
-            );
-      },
     }),
     conditionByConditionCause: pageBuilder.itemPage({
       title: 'Cause of new condition',
       path: `new-conditions-${CONDITION_BY_CONDITION}/:index/cause`,
-      depends: formData => formData.demo === 'CONDITION_BY_CONDITION',
+      depends: isActiveDemo,
       uiSchema: causePage.uiSchema,
       schema: causePage.schema,
     }),
     conditionByConditionCauseFollowUp: pageBuilder.itemPage({
       title: 'Cause follow up for new condition',
       path: `new-conditions-${CONDITION_BY_CONDITION}/:index/cause-follow-up`,
-      depends: formData => formData.demo === 'CONDITION_BY_CONDITION',
+      depends: isActiveDemo,
       uiSchema: causeFollowUpPage.uiSchema,
       schema: causeFollowUpPage.schema,
     }),
