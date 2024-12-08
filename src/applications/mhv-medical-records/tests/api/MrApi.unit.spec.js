@@ -62,7 +62,7 @@ describe('Get radiology tests from MHV api call', () => {
   });
 });
 
-describe('Get radiology detais from MHV api call', () => {
+describe('Get radiology details from MHV api call', () => {
   beforeEach(() => {
     // Create a simple hash function for the mock (non-cryptographic)
     const simpleHash = data => {
