@@ -27,9 +27,9 @@ export const generateSelfEnteredData = ({
       subtitles: [
         `Showing ${activityJournal.length} records, from newest to oldest`,
       ],
-      records: {
-        ...generateActivityJournalContent(activityJournal),
-      },
+      records: activityJournal.map(record =>
+        generateActivityJournalContent(record),
+      ),
     });
   }
 
