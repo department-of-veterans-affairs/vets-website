@@ -230,7 +230,7 @@ describe('findMatchingPhrAndCvixStudies', () => {
     const cvixResponse = [{ id: 'YYYYY', performedDatePrecise: 1700000000000 }];
 
     const record = await findMatchingPhrAndCvixStudies(
-      'rXXXXX-00000000',
+      'rXXXXX-e4fae142',
       phrResponse,
       cvixResponse,
     );
@@ -265,7 +265,7 @@ describe('findMatchingPhrAndCvixStudies', () => {
     const cvixResponse = [{ id: '12345', performedDatePrecise: 1712264604902 }];
 
     const record = await findMatchingPhrAndCvixStudies(
-      'rXXXXX-00000000',
+      'rXXXXX-5c4d0c86',
       null,
       cvixResponse,
     );
