@@ -1,5 +1,6 @@
 import { selfEnteredTypes } from '../../constants';
 import { generateActivityJournalContent } from './activityJournal';
+import { generateAllergiesContent } from './allergies';
 
 export const generateSelfEnteredData = ({
   activityJournal,
@@ -23,7 +24,7 @@ export const generateSelfEnteredData = ({
   if (activityJournal) {
     data.push({
       type: selfEnteredTypes.ACTIVITY_JOURNAL,
-      title: 'Self-entered activity journal',
+      title: `Self-entered ${selfEnteredTypes.ACTIVITY_JOURNAL}`,
       subtitles: [
         `Showing ${activityJournal.length} records, from newest to oldest`,
       ],
@@ -34,7 +35,15 @@ export const generateSelfEnteredData = ({
   }
 
   if (allergies) {
-    // console.log('allergies: ', allergies);
+    data.push({
+      type: selfEnteredTypes.ALLERGIES,
+      title: `Self-entered ${selfEnteredTypes.ALLERGIES}`,
+      subtitles: [
+        'Remember to share all information about your allergies with your health care team',
+        `Showing ${allergies.length} records, from newest to oldest`,
+      ],
+      records: allergies.map(record => generateAllergiesContent(record)),
+    });
   }
 
   if (demographics) {
