@@ -42,6 +42,8 @@ export const arrayBuilderOptions = {
   },
 };
 
+// TODO: Fix formData so that shape is consistent
+// formData changes shape between add and edit which results in the need for the conditional below
 export const hasSideOfBody = (formData, index) => {
   const condition = formData?.[arrayBuilderOptions.arrayPath]
     ? formData?.[arrayBuilderOptions.arrayPath][index]?.condition

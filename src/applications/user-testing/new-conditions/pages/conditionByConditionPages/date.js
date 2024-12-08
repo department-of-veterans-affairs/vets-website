@@ -12,6 +12,9 @@ const datePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `Start date of ${createItemName(formData)}`,
     ),
+    // TODO: Can we make just year required?
+    // Could use month-optional https://design.va.gov/storybook/?path=/story/components-va-date--month-optional
+    // TODO: Why is there the empty option when both are required?
     date: currentOrPastMonthYearDateUI({
       title: 'What’s the approximate date your condition started?',
     }),
