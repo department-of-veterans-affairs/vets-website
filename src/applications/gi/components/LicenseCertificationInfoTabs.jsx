@@ -51,7 +51,7 @@ export default function LicenseCertificationInfoTabs({ onChange, tab }) {
   };
 
   return (
-    <div className="row">
+    <div className="row search-form">
       <div role="tablist" className="vads-u-display--flex">
         {getTab(LC_TABS.test, 'Test Info')}
         {getTab(LC_TABS.admin, 'Admin Info')}
