@@ -25,7 +25,7 @@ const childContent = (
       To submit your form, follow the steps below
     </h2>
     <va-process-list uswds>
-      <va-process-list-item header="Check your eligibility">
+      <va-process-list-item header="Download and save your form">
         <div itemProp="name">
           <h4 className="vads-u-font-size--h5">Download and save your form</h4>
         </div>
@@ -43,7 +43,7 @@ const childContent = (
           </p>
         </div>
       </va-process-list-item>
-      <va-process-list-item header="Check your eligibility">
+      <va-process-list-item header="Upload the form to the VA education portal">
         <div>
           <h4 className="vads-u-font-size--h5">
             Upload the form to the VA education portal
@@ -59,7 +59,7 @@ const childContent = (
           </p>
         </div>
       </va-process-list-item>
-      <va-process-list-item header="Check your eligibility">
+      <va-process-list-item header="Submit your form">
         <div itemProp="name">
           <h4 className="vads-u-font-size--h5">Submit your form</h4>
         </div>
