@@ -3,7 +3,7 @@ import { transformForSubmit as platformTransformForSubmit } from 'platform/forms
 /**
  * @param formConfig {FormConfig}
  * @param form {Object}
- * @returns {string} The form data as a JSON string
+ * @returns {string} The transformed form data as a JSON string
  */
 const transformForSubmit = (formConfig, form) => {
   // We need the form number to send it to the right model

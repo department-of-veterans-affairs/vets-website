@@ -15,6 +15,7 @@ import {
   showReviewField,
   stringifyUrlParams,
   getUrlPathIndex,
+  replaceEscapedCharacters,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1286,6 +1287,14 @@ describe('stringifyUrlParams ', () => {
         rate: 24,
       }),
     ).to.eql('?time=123&rate=24');
+  });
+});
+
+describe('replaceEscapedCharacters', () => {
+  it('replaces double-quotes with single', () => {
+    expect(
+      replaceEscapedCharacters('Jane said, "This is a test," and I agreed.'),
+    ).to.eq("Jane said, 'This is a test,' and I agreed.");
   });
 });
 
