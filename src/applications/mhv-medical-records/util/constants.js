@@ -7,6 +7,19 @@ export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
 };
 
+export const blueButtonRecordTypes = {
+  MEDICATIONS: 'medications',
+  APPOINTMENTS: 'appointments',
+  DEMOGRAPHICS: 'demographics',
+  MILITARY_SERVICE: 'military service',
+  ACCOUNT_SUMMARY: 'account summary',
+};
+
+export const medicationTypes = {
+  VA: 'va',
+  NON_VA: 'non-va',
+};
+
 export const accessAlertTypes = {
   ALLERGY: 'allergy',
   VACCINE: 'vaccine',
@@ -118,6 +131,10 @@ export const interpretationMap = {
 };
 
 export const EMPTY_FIELD = 'None noted';
+export const NONE_RECORDED = 'None recorded';
+export const NO_INFO_REPORTED = 'No information reported';
+export const NA = 'N/A';
+export const UNKNOWN = 'Unknown';
 
 export const IS_TESTING = false;
 
