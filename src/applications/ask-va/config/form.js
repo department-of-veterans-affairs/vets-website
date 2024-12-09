@@ -6,6 +6,7 @@ import {
   relationshipOptionsMyself,
   relationshipOptionsSomeoneElse,
   requiredForSubtopicPage,
+  TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
 import manifest from '../manifest.json';
@@ -140,17 +141,27 @@ const formConfig = {
           CustomPageReview: CustomPageReviewField,
           uiSchema: whoIsYourQuestionAboutPage.uiSchema,
           schema: whoIsYourQuestionAboutPage.schema,
-          // Hidden - EDU Question are always 'General Question'
-          depends: form => form.selectCategory !== CategoryEducation,
+          // Hidden - EDU Question are always 'General Question' unless topic is VR&E
+          depends: form => {
+            if (form.selectCategory !== CategoryEducation) {
+              return form.selectTopic !== 'Education benefits and work study';
+            }
+            return (
+              form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31
+            );
+          },
         },
         relationshipToVeteran: {
           editModeOnReviewPage: false,
           path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
           title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
           CustomPageReview: CustomPageReviewField,
-          depends: form =>
-            form.whoIsYourQuestionAbout !==
-            whoIsYourQuestionAboutLabels.GENERAL,
+          depends: form => {
+            return (
+              form.whoIsYourQuestionAbout !==
+              whoIsYourQuestionAboutLabels.GENERAL
+            );
+          },
           uiSchema: relationshipToVeteranPage.uiSchema,
           schema: relationshipToVeteranPage.schema,
         },
@@ -159,20 +170,26 @@ const formConfig = {
     aboutMyselfRelationshipVeteran: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
-      depends: formData =>
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.MYSELF &&
-        formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN,
+      depends: formData => {
+        return (
+          formData.whoIsYourQuestionAbout ===
+            whoIsYourQuestionAboutLabels.MYSELF &&
+          formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN
+        );
+      },
       pages: { ...aboutMyselfRelationshipVeteranPages },
     },
     aboutMyselfRelationshipFamilyMember: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
-      depends: formData =>
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.MYSELF &&
-        formData.relationshipToVeteran ===
-          relationshipOptionsMyself.FAMILY_MEMBER,
+      depends: formData => {
+        return (
+          formData.whoIsYourQuestionAbout ===
+            whoIsYourQuestionAboutLabels.MYSELF &&
+          formData.relationshipToVeteran ===
+            relationshipOptionsMyself.FAMILY_MEMBER
+        );
+      },
       pages: { ...aboutMyselfRelationshipFamilyMemberPages },
     },
     aboutSomeoneElseRelationshipVeteran: {
@@ -213,7 +230,8 @@ const formConfig = {
       depends: formData =>
         formData.whoIsYourQuestionAbout ===
           whoIsYourQuestionAboutLabels.MYSELF &&
-        formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN,
+        formData.relationshipToVeteran ===
+          relationshipOptionsMyself.FAMILY_MEMBER,
       pages: {
         ...aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
       },
@@ -235,7 +253,7 @@ const formConfig = {
         formData.selectCategory === CategoryEducation &&
         formData.relationshipToVeteran ===
           relationshipOptionsSomeoneElse.WORK &&
-        formData.selectTopic !== 'VEAP (Ch 32)',
+        formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31,
       pages: {
         ...aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
       },
@@ -244,8 +262,6 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout ===
-          whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
         formData.relationshipToVeteran !==
           relationshipOptionsSomeoneElse.WORK &&
         formData.selectCategory === CategoryEducation,

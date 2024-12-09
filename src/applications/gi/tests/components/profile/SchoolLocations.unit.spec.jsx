@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 import SchoolLocations from '../../../components/profile/SchoolLocations';
 import { getDefaultState } from '../../helpers';
 
@@ -84,6 +85,7 @@ describe('<SchoolLocations>', () => {
       profile: {
         ...defaultState.profile,
         attributes: {
+          facilityCode: '100',
           facilityMap: {
             main: {
               institution: {
@@ -300,6 +302,7 @@ describe('<SchoolLocations>', () => {
         calculator={testState.calculator}
         eligibility={testState.eligibility}
         constants={testState.constants}
+        version="1.0.0"
       />,
     );
 
@@ -508,6 +511,7 @@ describe('<SchoolLocations>', () => {
         },
       },
     };
+    const onViewLess = sinon.spy();
 
     const wrapper = shallow(
       <SchoolLocations
@@ -516,6 +520,7 @@ describe('<SchoolLocations>', () => {
         calculator={testState.calculator}
         eligibility={testState.eligibility}
         constants={testState.constants}
+        onViewLess={onViewLess}
       />,
     );
 
@@ -526,15 +531,304 @@ describe('<SchoolLocations>', () => {
     expect(tableRows).to.have.lengthOf(11);
 
     const buttons = wrapper.find('button');
-    expect(buttons).to.have.lengthOf(2);
+    expect(buttons).to.have.lengthOf(1);
 
-    const viewAllButton = buttons.at(1);
-    expect(viewAllButton.text()).to.equal('View all');
+    const showNextButton = buttons.at(0);
+    expect(showNextButton.text()).to.equal('Show next 3');
+    showNextButton.simulate('click');
+
+    const showLessButton = wrapper.find('[data-testid="view-less"]');
+    showLessButton.simulate('click');
+    expect(onViewLess.calledOnce).to.equal(true);
+
+    const viewAllButton = wrapper.find('[data-testid="view-all"]').at(0);
     viewAllButton.simulate('click');
-
     const newTableRows = wrapper.find('tr');
     expect(newTableRows).to.have.lengthOf(14);
 
+    wrapper.unmount();
+  });
+  it('should render view next 10 rows when remaining rows is above 10', () => {
+    const testState = {
+      ...defaultState,
+      profile: {
+        ...defaultState.profile,
+        attributes: {
+          facilityMap: {
+            main: {
+              institution: {
+                institution: 'MAIN FACILITY',
+                type: 'FOR PROFIT',
+                facilityCode: '100',
+                physicalCity: 'Test',
+                physicalState: 'TN',
+                physicalCountry: 'USA',
+                physicalZip: '12345',
+                country: 'USA',
+                dodBah: '100',
+              },
+              extensions: [
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY',
+                  physicalCity: 'Test 1',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 2',
+                  physicalCity: 'Test 2',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 3',
+                  physicalCity: 'Test 3',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 4',
+                  physicalCity: 'Test 4',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 5',
+                  physicalCity: 'Test 5',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 6',
+                  physicalCity: 'Test 6',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 7',
+                  physicalCity: 'Test 7',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 8',
+                  physicalCity: 'Test 8',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 9',
+                  physicalCity: 'Test 9',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 10',
+                  physicalCity: 'Test 10',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 11',
+                  physicalCity: 'Test 11',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 12',
+                  physicalCity: 'Test 12',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 13',
+                  physicalCity: 'Test 13',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 14',
+                  physicalCity: 'Test 14',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 15',
+                  physicalCity: 'Test 15',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 16',
+                  physicalCity: 'Test 16',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 17',
+                  physicalCity: 'Test 17',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 18',
+                  physicalCity: 'Test 18',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 19',
+                  physicalCity: 'Test 19',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+              ],
+              branches: [
+                {
+                  institution: {
+                    type: 'FOR PROFIT',
+                    facilityCode: '101',
+                    institution: 'MAIN BRANCH FACILITY',
+                    physicalCity: 'Test 1',
+                    physicalState: 'KY',
+                    physicalCountry: 'USA',
+                    physicalZip: '12345',
+                    country: 'USA',
+                    dodBah: '150',
+                  },
+                  extensions: [
+                    {
+                      type: 'FOR PROFIT',
+                      facilityCode: '102',
+                      institution: 'BRANCH EXTENSION FACILITY',
+                      physicalCity: 'Test 2',
+                      physicalState: 'OH',
+                      physicalCountry: 'USA',
+                      physicalZip: '12345',
+                      country: 'USA',
+                      dodBah: '200',
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    };
+
+    const wrapper = shallow(
+      <SchoolLocations
+        institution={testState.profile.attributes}
+        facilityMap={testState.profile.attributes.facilityMap}
+        calculator={testState.calculator}
+        eligibility={testState.eligibility}
+        constants={testState.constants}
+      />,
+    );
+    const facilityTable = wrapper.find('table.sl-table');
+    expect(facilityTable).to.have.lengthOf(1);
+    const tableRows = wrapper.find('tr');
+    expect(tableRows).to.have.lengthOf(11);
+    const viewAllButton = wrapper.find('[data-testid="view-all"]').at(0);
+    viewAllButton.simulate('click');
+    const newTableRows = wrapper.find('tr');
+    expect(newTableRows).to.have.lengthOf(23);
     wrapper.unmount();
   });
 });

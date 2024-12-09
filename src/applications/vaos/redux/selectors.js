@@ -65,9 +65,6 @@ export const selectFeatureVAOSServiceVAAppointments = state =>
 export const selectFeatureVAOSServiceCCAppointments = state =>
   toggleValues(state).vaOnlineSchedulingVAOSServiceCCAppointments;
 
-export const selectFeatureFacilitiesServiceV2 = state =>
-  toggleValues(state).vaOnlineSchedulingFacilitiesServiceV2;
-
 export const selectFeatureVaosV2Next = state =>
   toggleValues(state).vaOnlineSchedulingVAOSV2Next;
 
@@ -85,12 +82,6 @@ export const selectFeatureBreadcrumbUrlUpdate = state =>
 
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
-
-export const selectFeatureAfterVisitSummary = state =>
-  toggleValues(state).vaOnlineSchedulingAfterVisitSummary;
-
-export const selectFeatureStartSchedulingLink = state =>
-  toggleValues(state).vaOnlineSchedulingStartSchedulingLink;
 
 export const selectFeatureBookingExclusion = state =>
   toggleValues(state).vaOnlineSchedulingBookingExclusion;
@@ -111,3 +102,12 @@ export const selectFeatureOHDirectSchedule = state =>
 
 export const selectFeatureOHRequest = state =>
   toggleValues(state).vaOnlineSchedulingOhRequest;
+
+export const selectFeatureRemovePodiatry = state =>
+  toggleValues(state).vaOnlineSchedulingRemovePodiatry;
+
+export const selectFeatureTravelPayViewClaimDetails = state =>
+  toggleValues(state).travelPayViewClaimDetails;
+
+export const selectFeatureTravelPaySubmitMileageExpense = state =>
+  toggleValues(state).travelPaySubmitMileageExpense;

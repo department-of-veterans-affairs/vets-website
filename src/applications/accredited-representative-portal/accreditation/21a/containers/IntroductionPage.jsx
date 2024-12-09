@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
-import { selectIsUserLoggedIn } from '../../../selectors/user';
-import { SIGN_IN_URL } from '../../../constants';
+import { SIGN_IN_URL } from '../constants';
+import { selectIsUserLoggedIn } from '../selectors/user';
 
 const SIGN_IN_LINK_PROPS = {
   onClick: undefined,

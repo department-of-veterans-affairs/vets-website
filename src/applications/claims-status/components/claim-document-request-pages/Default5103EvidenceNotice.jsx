@@ -124,7 +124,7 @@ function Default5103EvidenceNotice({
       <Link
         className="active-va-link"
         data-testid="upload-evidence-link"
-        to="../files"
+        to="../files#add-files"
       >
         Upload additional evidence
         <va-icon icon="chevron_right" size={3} aria-hidden="true" />

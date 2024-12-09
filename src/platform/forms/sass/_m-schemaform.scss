@@ -187,7 +187,6 @@ label {
 }
 
 .schemaform-chapter-progress {
-  padding-left: 1.25rem;
   padding-right: 1.25rem;
   margin-bottom: 1.5em;
   @media (max-width: 40.063em) {
@@ -751,3 +750,8 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
 @include header-style("rjsf-wc-header--h2", $h2-font-size, $h3-font-size);
 @include header-style("rjsf-wc-header--h3", $h3-font-size, $h4-font-size);
 @include header-style("rjsf-wc-header--h4", $h4-font-size, $h5-font-size);
+
+/* Edit contact info save button */
+.va-profile-wrapper button[data-action="save-edit"] {
+  padding: 0.45rem 1.25rem;
+}

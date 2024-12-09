@@ -703,7 +703,7 @@ class SearchDropdownComponent extends React.Component {
             {...ariaDescribedProp}
             aria-expanded={isOpen}
             aria-haspopup="listbox"
-            aria-label="Search"
+            aria-label={!mobileResponsive ? 'Search' : ''}
             autoComplete="off"
             className={`vads-u-width--full search-dropdown-input-field ${
               fullWidthSuggestions
@@ -796,7 +796,7 @@ class SearchDropdownComponent extends React.Component {
                 aria-hidden="true"
                 focusable="false"
                 width="18"
-                viewBox="2 0 20 20"
+                viewBox="2 0 20 22"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path

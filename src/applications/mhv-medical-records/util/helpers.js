@@ -25,26 +25,36 @@ export const dateFormat = (timestamp, format = null) => {
 
 /**
  * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
-export const dateFormatWithoutTimezone = datetime => {
+export const dateFormatWithoutTimezone = (
+  datetime,
+  format = 'MMMM d, yyyy, h:mm a',
+) => {
   let withoutTimezone = datetime;
   if (typeof datetime === 'string' && datetime.includes('-')) {
     // Check if datetime has a timezone and strip it off if present
     if (datetime.includes('T')) {
-      withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+      withoutTimezone = datetime
+        .substring(datetime.indexOf('T'), datetime.length)
+        .includes('-')
+        ? datetime.substring(0, datetime.lastIndexOf('-'))
+        : datetime.replace('Z', '');
     } else {
       // Handle the case where the datetime is just a date (e.g., "2000-08-09")
       const parsedDate = parseISO(datetime);
       if (isValid(parsedDate)) {
-        return dateFnsFormat(parsedDate, 'MMMM d, yyyy');
+        return dateFnsFormat(parsedDate, 'MMMM d, yyyy', { in: 'UTC' });
       }
     }
+  } else {
+    withoutTimezone = new Date(datetime).toISOString().replace('Z', '');
   }
 
   const parsedDateTime = parseISO(withoutTimezone);
   if (isValid(parsedDateTime)) {
-    const formattedDate = dateFnsFormat(parsedDateTime, 'MMMM d, yyyy, h:mm a');
+    const formattedDate = dateFnsFormat(parsedDateTime, format, { in: 'UTC' });
     return formattedDate.replace(/AM|PM/, match =>
       match.toLowerCase().replace('m', '.m.'),
     );
@@ -343,7 +353,7 @@ export const formatDate = str => {
     return str;
   }
   if (monthRegex.test(str)) {
-    return dateFnsFormat(parseISO(str), 'MMMM, yyyy');
+    return dateFnsFormat(parseISO(str), 'MMMM, yyyy', { in: 'UTC' });
   }
   return formatDateLong(str);
 };
@@ -353,15 +363,24 @@ export const formatDate = str => {
  *
  * @param {Date} date
  */
-export const formatDateAndTime = date => {
+export const formatDateAndTime = rawDate => {
+  let date = rawDate;
+  if (typeof rawDate === 'string') {
+    date = new Date(rawDate);
+  }
+
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const period = hours >= 12 ? 'p.m.' : 'a.m.';
   const formattedHours = hours % 12 || 12; // Convert to 12-hour format
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const timePart = `${formattedHours}:${formattedMinutes} ${period} ET`;
+  const timePart = `${formattedHours}:${formattedMinutes} ${period}`;
 
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
   const datePart = date.toLocaleDateString('en-US', options);
 
   return {
@@ -417,18 +436,6 @@ export const decodeBase64Report = data => {
   }
   return null;
 };
-const generateHash = async data => {
-  const dataBuffer = new TextEncoder().encode(data);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-};
-
-export const radiologyRecordHash = async record => {
-  const { procedureName, radiologist, stationNumber, eventDate } = record;
-  const dataString = `${procedureName}|${radiologist}|${stationNumber}|${eventDate}`;
-  return (await generateHash(dataString)).substring(0, 8);
-};
 
 /**
  * @function getLastUpdatedText
@@ -466,7 +473,6 @@ export const getLastUpdatedText = (refreshStateStatus, extractType) => {
  * @param {Object} nameObject {first, middle, last, suffix}
  * @returns {String} formatted timestamp
  */
-
 export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
   let returnName = '';
 
@@ -485,10 +491,9 @@ export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
 };
 
 /**
- * @param {Object} nameObject name
+ * @param {Object} name data from FHIR object containing name
  * @returns {String} formatted timestamp
  */
-
 export const formatNameFirstToLast = name => {
   try {
     if (typeof name === 'object') {
@@ -499,8 +504,8 @@ export const formatNameFirstToLast = name => {
       }
 
       const parts = name?.text.split(',');
-      if (parts.length !== 2) {
-        return name;
+      if (parts?.length !== 2) {
+        return name.text;
       }
       const [lastname, firstname] = parts;
       return `${firstname} ${lastname}`;
@@ -514,4 +519,20 @@ export const formatNameFirstToLast = name => {
   } catch {
     return null;
   }
+};
+
+/**
+ * @param {Object} dateParams an object for the date
+ * @param {string} dateParams.date the date to format, in YYYY-MM format
+ * @param {string} dateParams.mask the format to return the date in, using date-fns masks, default is 'MMMM yyyy'
+ * @returns {String} formatted timestamp
+ */
+export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
+  if (!date) return null;
+  const format = /[0-9]{4}-[0-9]{2}/g;
+  if (!date.match(format)) return null;
+  const [year, month] = date.split('-');
+  const fromDate = new Date(year, month - 1, 1);
+  const formatted = dateFnsFormat(fromDate, mask);
+  return `${formatted}`;
 };

@@ -7,9 +7,8 @@ import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
 import { routeToNextReferralPage } from '../flow';
 import { selectCurrentPage } from '../redux/selectors';
-import { referral } from '../temp-data/referral';
 
-function ReferralAppLinkComponent({ linkText }) {
+function ReferralAppLinkComponent({ linkText, id }) {
   const currentPage = useSelector(selectCurrentPage);
   const history = useHistory();
 
@@ -19,7 +18,7 @@ function ReferralAppLinkComponent({ linkText }) {
       recordEvent({
         event: `${GA_PREFIX}-review-upcoming-link`,
       });
-      routeToNextReferralPage(history, currentPage, referral.id);
+      routeToNextReferralPage(history, currentPage, id);
     };
   };
 
@@ -40,7 +39,7 @@ function ReferralAppLinkComponent({ linkText }) {
     // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
     <button
       type="button"
-      className="xsmall-screen:vads-u-margin-bottom--3 vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4"
+      className="mobile:vads-u-margin-bottom--3 vaos-hide-for-print vads-u-margin--0 mobile-lg:vads-u-margin-bottom--4"
       aria-label={linkText}
       id="schedule-button"
       onClick={handleClick()}
@@ -51,9 +50,10 @@ function ReferralAppLinkComponent({ linkText }) {
 }
 
 ReferralAppLinkComponent.propTypes = {
+  id: PropTypes.string.isRequired,
   linkText: PropTypes.string.isRequired,
 };
-export default function ReferralAppLink({ linkText }) {
+export default function ReferralAppLink({ linkText, id }) {
   const location = useLocation();
   // Only display on upcoming appointments page
   if (
@@ -62,9 +62,10 @@ export default function ReferralAppLink({ linkText }) {
   ) {
     return null;
   }
-  return <ReferralAppLinkComponent linkText={linkText} />;
+  return <ReferralAppLinkComponent linkText={linkText} id={id} />;
 }
 
 ReferralAppLink.propTypes = {
+  id: PropTypes.string.isRequired,
   linkText: PropTypes.string.isRequired,
 };

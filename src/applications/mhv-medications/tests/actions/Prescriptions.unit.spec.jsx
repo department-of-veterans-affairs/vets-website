@@ -13,6 +13,7 @@ import {
   fillPrescription,
   setPrescriptionDetails,
   clearFillNotification,
+  getPaginatedFilteredList,
 } from '../../actions/prescriptions';
 
 describe('Get prescription list action', () => {
@@ -25,6 +26,15 @@ describe('Get prescription list action', () => {
         Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
       );
     });
+  });
+  it('should dispatch a paginated filtered list action', async () => {
+    const mockData = prescriptions;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    await getPaginatedFilteredList()(dispatch);
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
+    );
   });
 });
 

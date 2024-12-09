@@ -1,12 +1,7 @@
-import recordEvent from '~/platform/monitoring/record-event';
-import { apiRequest } from '~/platform/utilities/api';
-
+import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
 import { DISABILITY_PREFIX, DISABILITY_RATING_ACTIONS } from '../constants';
-import {
-  isClientError,
-  isServerError,
-  parseResponseErrors,
-} from '../helpers/disability-rating';
+import { isClientError, isServerError, parseResponseErrors } from '../helpers';
 
 /**
  * Action to fetch users total disability rating

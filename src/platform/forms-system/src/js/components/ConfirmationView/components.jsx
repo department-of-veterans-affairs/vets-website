@@ -29,7 +29,10 @@ export const HowToContact = ({ className = '', title, content }) => {
         and topic for the VA benefit this form is related to.
       </p>
       <p>
-        <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
+        <va-link
+          href="https://ask.va.gov/"
+          text="Contact us online through Ask VA"
+        />
       </p>
     </>
   );
@@ -98,6 +101,7 @@ export const GoBackLink = ({ className, text, href }) => {
     <div
       className={classNames(
         'confirmation-go-back-link-section',
+        'screen-only',
         className || 'vads-u-margin-top--4',
       )}
     >
@@ -144,9 +148,11 @@ export const WhatsNextProcessList = ({
       )}
       {item1Actions || (
         <p>
-          <a href="/my-va#benefit-applications" onClick={onCheckVaStatusClick}>
-            Check the status of your form on My VA
-          </a>
+          <va-link
+            href="/my-va#benefit-applications"
+            onClick={onCheckVaStatusClick}
+            text="Check the status of your form on My VA"
+          />
         </p>
       )}
     </VaProcessListItem>
@@ -226,7 +232,12 @@ WhatsNextProcessListWithContext.propTypes = {
   item2Header: PropTypes.string,
 };
 
-export const SavePdfDownload = ({ pdfUrl, trackingPrefix, className }) => {
+export const SavePdfDownload = ({
+  pdfUrl,
+  trackingPrefix,
+  className,
+  formId,
+}) => {
   const onClick = () => {
     recordEvent({
       event: `${trackingPrefix}confirmation-pdf-download`,
@@ -248,7 +259,7 @@ export const SavePdfDownload = ({ pdfUrl, trackingPrefix, className }) => {
         filetype="PDF"
         href={pdfUrl}
         onClick={onClick}
-        text="Download a copy of your VA Form"
+        text={`Download a copy of your VA Form ${formId}`}
       />
     </div>
   ) : null;
@@ -256,6 +267,7 @@ export const SavePdfDownload = ({ pdfUrl, trackingPrefix, className }) => {
 
 SavePdfDownload.propTypes = {
   className: PropTypes.string,
+  formId: PropTypes.string,
   pdfUrl: PropTypes.string,
   trackingPrefix: PropTypes.string,
 };
@@ -268,6 +280,7 @@ export const SavePdfDownloadWithContext = ({ className }) => {
       pdfUrl={pdfUrl}
       trackingPrefix={formConfig.trackingPrefix}
       className={className}
+      formId={formConfig.formId}
     />
   );
 };
@@ -278,7 +291,7 @@ SavePdfDownloadWithContext.propTypes = {
 
 export const PrintOnlyHeader = () => {
   return (
-    <div className="confirmation-print-only-header-section print-only">
+    <div className="confirmation-print-only-header-section vads-u-margin-bottom--2 print-only">
       <img
         src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
         alt="VA logo"

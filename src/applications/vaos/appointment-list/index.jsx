@@ -1,11 +1,13 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
+import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
 
 function AppointmentListSection() {
   useManualScrollRestoration();
@@ -40,13 +42,20 @@ function AppointmentListSection() {
             component={RequestedAppointmentDetailsPage}
           />
           <Route path="/pending" component={AppointmentsPage} />
+          <Route path="/referrals-requests" component={ReferralsAndRequests} />
           <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
           <Route path="/past" component={AppointmentsPage} />
           <Route
+            exact
             path={['/va/:id', '/:id']}
             component={ConfirmedAppointmentDetailsPage}
           />
-          <Route path="/" component={AppointmentsPage} />
+          <Route
+            exact
+            path={['/', '/pending', '/past']}
+            component={AppointmentsPage}
+          />
+          <Route component={PageNotFound} />
         </Switch>
       )}
     </>

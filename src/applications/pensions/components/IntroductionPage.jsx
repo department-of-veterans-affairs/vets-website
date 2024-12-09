@@ -18,7 +18,7 @@ const IntroductionPage = props => {
 
   useEffect(
     () => {
-      focusElement('.va-nav-breadcrumbs-list');
+      focusElement('va-breadcrumbs');
     },
     [props],
   );
@@ -167,11 +167,13 @@ const IntroductionPage = props => {
         retentionPeriodStart="when you start"
         continueMsg={<FormReactivationAlert />}
       />
-      <va-omb-info
-        res-burden={30}
-        omb-number="2900-0002"
-        exp-date="08/31/2025"
-      />
+      <div className="vads-u-margin-top--2">
+        <va-omb-info
+          res-burden={30}
+          omb-number="2900-0002"
+          exp-date="08/31/2025"
+        />
+      </div>
     </article>
   ) : (
     <div className="schemaform-intro">

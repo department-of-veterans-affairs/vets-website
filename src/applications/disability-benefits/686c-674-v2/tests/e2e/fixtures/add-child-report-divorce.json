@@ -58,14 +58,13 @@
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
         "country": "USA",
-        "street": "1600 Pennslyvania Av",
+        "street": "1600 Fakesville Ave",
         "city": "Washington",
         "state": "DC",
         "postalCode": "20500"
       },
-      "veteranContactInformation": {
-        "phoneNumber": "1231231234"
-      }
+      "phoneNumber": "1231231234",
+      "emailAddress": "nope@nope.org"
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
@@ -89,7 +88,9 @@
           "city": "Army Post Office"
         }
       },
-      "reasonMarriageEnded": "Divorce"
+      "reasonMarriageEnded": "Divorce",
+      "birthDate": "1991-05-04",
+      "spouseIncome": false
     },
     "veteranInformation": {
       "fullName": {

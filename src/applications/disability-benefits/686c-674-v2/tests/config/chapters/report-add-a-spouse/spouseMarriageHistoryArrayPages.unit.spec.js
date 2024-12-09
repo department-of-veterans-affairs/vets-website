@@ -65,7 +65,7 @@ describe('spouseMarriageHistoryOptions', () => {
       'former marriages',
     );
     expect(spouseMarriageHistoryOptions.required).to.be.false;
-    expect(spouseMarriageHistoryOptions.maxItems).to.equal(7);
+    expect(spouseMarriageHistoryOptions.maxItems).to.equal(20);
   });
 
   describe('isItemIncomplete', () => {

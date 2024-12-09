@@ -19,8 +19,6 @@ import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
-import referralDetails from '../../services/mocks/epsApi/basicReferralDetails.json';
-import PendingReferralCard from '../../referral-appointments/components/PendingReferralCard';
 import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
@@ -38,8 +36,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const featureCCDirectScheduling = useSelector(
     selectFeatureCCDirectScheduling,
   );
-
-  const pendingReferrals = referralDetails.data.referrals;
 
   useEffect(
     () => {
@@ -133,21 +129,9 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
           </div>
         )}
         {appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
-          <p className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--2">
+          <p className="vaos-hide-for-print mobile:vads-u-margin-bottom--1 mobile-lg:vads-u-margin-bottom--2">
             {paragraphText}
           </p>
-        )}
-        {featureCCDirectScheduling && (
-          <ul
-            className={classNames(
-              'vads-u-padding-left--0 vads-u-margin-top--0',
-            )}
-            data-cy="requested-appointment-list"
-          >
-            {pendingReferrals.map((referral, index) => {
-              return <PendingReferralCard key={index} referral={referral} />;
-            })}
-          </ul>
         )}
         {appointmentsByStatus.map(statusBucket => {
           return (

@@ -144,7 +144,7 @@ const formConfig = {
       pages: {
         page3: {
           path: 'mailing-address',
-          title: 'Mail to',
+          title: 'Mailing address ',
           uiSchema: {
             ...titleUI(
               'Mailing address',
@@ -196,7 +196,7 @@ const formConfig = {
         },
         page4a: {
           path: 'home-address',
-          title: 'Current address ',
+          title: 'Home address ',
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(`Home address`),
@@ -237,7 +237,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['veteranPhoneNumber'],
+            required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
               veteranPhoneNumber: internationalPhoneSchema,
@@ -252,7 +252,7 @@ const formConfig = {
       pages: {
         page6: {
           path: 'payment-selection',
-          title: 'Payment options',
+          title: 'Where to send the payment',
           uiSchema: {
             ...titleUI('Where to send the payment'),
             sendPayment: PaymentSelectionUI(),

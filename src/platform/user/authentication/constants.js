@@ -58,6 +58,7 @@ export const SERVICE_PROVIDERS = {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
     image: <IDMeSVG />,
+    altImage: <IDMeSVG toggleWhite />,
     policy: 'idme',
     className: 'idme-button',
   },
@@ -90,15 +91,6 @@ export const EXTERNAL_APPS = {
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
   ARP: 'arp',
-};
-
-export const SIGNOUT_TYPES = {
-  SLO: 'slo',
-};
-
-export const AUTH_BROKER = {
-  IAM: 'iam',
-  SIS: 'sis',
 };
 
 export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
@@ -169,6 +161,7 @@ export const AUTH_PARAMS = {
   redirectUri: 'redirect_uri',
   scope: 'scope',
   verification: 'verification',
+  operation: 'operation',
 };
 
 export const OCC_MOBILE = {

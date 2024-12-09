@@ -1,0 +1,32 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import POARequestsCard from '../POARequestsCard/POARequestsCard';
+import ErrorMessage from '../common/ErrorMessage';
+
+const POARequestsTableFetcher = ({ usePOARequests }) => {
+  const { isLoading, error, poaRequests } = usePOARequests();
+
+  if (isLoading)
+    return (
+      <va-loading-indicator
+        data-testid="poa-requests-table-fetcher-loading"
+        message="Loading POA requests..."
+      />
+    );
+  if (error) return <ErrorMessage />;
+  if (poaRequests.length === 0)
+    return (
+      <p data-testid="poa-requests-table-fetcher-no-poa-requests">
+        No POA requests found
+      </p>
+    );
+
+  return <POARequestsCard poaRequests={poaRequests} />;
+};
+
+POARequestsTableFetcher.propTypes = {
+  usePOARequests: PropTypes.func.isRequired,
+};
+
+export default POARequestsTableFetcher;

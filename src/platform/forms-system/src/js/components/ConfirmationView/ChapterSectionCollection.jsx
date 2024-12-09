@@ -87,7 +87,12 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
 const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   if (data === undefined || data === null) return null;
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
-  if (schema.properties[key] === undefined || !uiSchema) return null;
+
+  let schemaPropertiesKey = schema.properties?.[key];
+  if (schemaPropertiesKey?.$ref) {
+    schemaPropertiesKey = schemaFromState.properties?.[key];
+  }
+  if (schemaPropertiesKey === undefined || !uiSchema) return null;
 
   const {
     'ui:confirmationField': ConfirmationField,
@@ -120,15 +125,14 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
     refinedData = refinedData ? 'Selected' : '';
   }
 
-  const dataType = schema.properties[key].type;
+  const dataType = schemaPropertiesKey.type;
 
   if (ConfirmationField) {
     if (typeof ConfirmationField === 'function') {
-      const {
-        data: confirmData = refinedData,
-        label: confirmLabel = label,
-      } = ConfirmationField({ formData: refinedData });
-      return reviewEntry(description, key, uiSchema, confirmLabel, confirmData);
+      const { data: confirmData = refinedData } = ConfirmationField({
+        formData: refinedData,
+      });
+      return reviewEntry(description, key, uiSchema, label, confirmData);
     }
 
     if (isReactComponent(ConfirmationField)) {
@@ -173,7 +177,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         objKey,
         objVal,
         data[objKey],
-        schema.properties[key],
+        schemaPropertiesKey,
         schemaFromState?.properties?.[key],
       ),
     );
@@ -194,7 +198,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         arrKey,
         arrVal,
         data[index][arrKey],
-        schema.properties[key].items,
+        schemaPropertiesKey.items,
         schemaFromState?.properties?.[key].items?.[index],
       );
     });
@@ -310,14 +314,11 @@ export const ChapterSectionCollection = ({
           className || 'vads-u-margin-top--2',
         )}
       >
-        <div className="print-only">{content}</div>
-        <div className="screen-only">
-          <VaAccordion bordered open-single uswds>
-            <VaAccordionItem header={header} id="info" bordered uswds>
-              {content}
-            </VaAccordionItem>
-          </VaAccordion>
-        </div>
+        <VaAccordion bordered open-single uswds>
+          <VaAccordionItem header={header} bordered uswds>
+            {content}
+          </VaAccordionItem>
+        </VaAccordion>
       </div>
     );
   }

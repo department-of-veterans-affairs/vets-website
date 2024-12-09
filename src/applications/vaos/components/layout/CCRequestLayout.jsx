@@ -5,7 +5,8 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
-import DetailPageLayout, { Details, Section } from './DetailPageLayout';
+import DetailPageLayout, { CCDetails } from './DetailPageLayout';
+import Section from '../Section';
 import ListBestTimeToCall from '../../appointment-list/components/ListBestTimeToCall';
 import PageLayout from '../../appointment-list/components/PageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
@@ -13,7 +14,6 @@ import { APPOINTMENT_STATUS } from '../../utils/constants';
 export default function CCRequestLayout({ data: appointment }) {
   const { search } = useLocation();
   const {
-    comment,
     email,
     facility,
     isPendingAppointment,
@@ -34,10 +34,7 @@ export default function CCRequestLayout({ data: appointment }) {
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
 
-  // There is no reason for appointment for CC appointment request.
-  // const [reason, otherDetails] = comment?.split(':') || [];
-  const reason = null;
-  const otherDetails = comment;
+  const { patientComments } = appointment;
 
   let heading = 'We have received your request';
   if (isPendingAppointment && !showConfirmMsg)
@@ -83,7 +80,7 @@ export default function CCRequestLayout({ data: appointment }) {
         <Section heading="Language you’d prefer the provider speak">
           {preferredLanguage}
         </Section>
-        <Details reason={reason} otherDetails={otherDetails} request />
+        <CCDetails otherDetails={patientComments} request />
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />

@@ -41,9 +41,12 @@ import {
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
+import useAcceleratedData from '../hooks/useAcceleratedData';
+
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+
   const updatedRecordList = useSelector(
     state => state.mr.allergies.updatedList,
   );
@@ -59,16 +62,23 @@ const Allergies = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+
   const user = useSelector(state => state.user.profile);
+  const { isAcceleratingAllergies } = useAcceleratedData();
+
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatchAction = isCurrent => {
+    return getAllergiesList(isCurrent, isAcceleratingAllergies);
+  };
 
   useListRefresh({
     listState,
     listCurrentAsOf: allergiesCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.ALLERGY,
-    dispatchAction: getAllergiesList,
+    dispatchAction,
     dispatch,
   });
 
@@ -111,13 +121,26 @@ const Allergies = props => {
       lastUpdatedText,
     );
     const scaffold = generatePdfScaffold(user, title, value, subject, preface);
-    const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
+    const pdfData = {
+      ...scaffold,
+      ...generateAllergiesContent(allergies, isAcceleratingAllergies),
+    };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
   const generateAllergyListItemTxt = item => {
     setDownloadStarted(true);
+    if (isAcceleratingAllergies) {
+      return `
+${txtLine}\n\n
+${item.name}\n
+Date entered: ${item.date}\n
+Signs and symptoms: ${item.reaction}\n
+Type of Allergy: ${item.type}\n
+Recorded By: ${item.provider}\n
+Provider notes: ${item.notes}\n`;
+    }
     return `
 ${txtLine}\n\n
 ${item.name}\n
@@ -171,18 +194,20 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.ALLERGY}
-          newRecordsFound={
-            Array.isArray(allergies) &&
-            Array.isArray(updatedRecordList) &&
-            allergies.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!isAcceleratingAllergies && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.ALLERGY}
+            newRecordsFound={
+              Array.isArray(allergies) &&
+              Array.isArray(updatedRecordList) &&
+              allergies.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
 
         <PrintDownload
           list
@@ -191,7 +216,13 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           downloadTxt={generateAllergiesTxt}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        <RecordList records={allergies} type={recordType.ALLERGIES} />
+        <RecordList
+          records={allergies?.map(allergy => ({
+            ...allergy,
+            isOracleHealthData: isAcceleratingAllergies,
+          }))}
+          type={recordType.ALLERGIES}
+        />
       </RecordListSection>
     </div>
   );

@@ -7,7 +7,8 @@ import { useLocation } from 'react-router-dom';
 import { getRealFacilityId } from '../../utils/appointment';
 import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import DetailPageLayout, { Details, Section } from './DetailPageLayout';
+import DetailPageLayout, { Details } from './DetailPageLayout';
+import Section from '../Section';
 import PageLayout from '../../appointment-list/components/PageLayout';
 import Address from '../Address';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
@@ -17,7 +18,6 @@ import NewTabAnchor from '../NewTabAnchor';
 export default function VARequestLayout({ data: appointment }) {
   const { search } = useLocation();
   const {
-    bookingNotes,
     email,
     facility,
     facilityId,
@@ -34,7 +34,7 @@ export default function VARequestLayout({ data: appointment }) {
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
   const preferredModality = appointment?.preferredModality;
-  const [reason, otherDetails] = bookingNotes?.split(':') || [];
+  const { reasonForAppointment, patientComments } = appointment || {};
 
   let heading = 'We have received your request';
   if (isPendingAppointment && !showConfirmMsg)
@@ -104,7 +104,11 @@ export default function VARequestLayout({ data: appointment }) {
           )}
           {!facilityPhone && <>Not available</>}
         </Section>
-        <Details reason={reason} otherDetails={otherDetails} request />
+        <Details
+          reason={reasonForAppointment}
+          otherDetails={patientComments}
+          request
+        />
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />

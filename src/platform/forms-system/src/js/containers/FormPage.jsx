@@ -107,6 +107,7 @@ class FormPage extends React.Component {
   // Navigate to the next page
   onSubmit = ({ formData }) => {
     const { form, route, location } = this.props;
+    let newFormData = formData || form.data;
 
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been
@@ -117,15 +118,19 @@ class FormPage extends React.Component {
       (!route.pageConfig.CustomPage ||
         route.pageConfig.customPageUsesPagePerItemData)
     ) {
-      const newData = this.setArrayIndexedData(formData);
-      this.props.setData(newData);
+      newFormData = this.setArrayIndexedData(formData);
+      this.props.setData(newFormData);
     }
 
-    const path = getNextPagePath(route.pageList, form.data, location.pathname);
+    const path = getNextPagePath(
+      route.pageList,
+      newFormData,
+      location.pathname,
+    );
 
     if (typeof route.pageConfig.onNavForward === 'function') {
       route.pageConfig.onNavForward({
-        formData,
+        formData: newFormData,
         goPath: customPath => this.props.router.push(customPath),
         goNextPath: urlParams => {
           const urlParamsString = stringifyUrlParams(urlParams);
@@ -135,6 +140,7 @@ class FormPage extends React.Component {
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,
+        index: this.props.params?.index,
       });
       return;
     }
@@ -177,7 +183,15 @@ class FormPage extends React.Component {
     }
   };
 
-  formData = () => {
+  /**
+   * @param {Object} [options]
+   * @param {boolean} [options.all] If true, return the entire form data regardless of context
+   */
+  formData = ({ all } = {}) => {
+    if (all) {
+      return this.props.form.data;
+    }
+
     const { pageConfig } = this.props.route;
     // If it's a CustomPage, return the entire form data
     if (pageConfig.CustomPage && !pageConfig.customPageUsesPagePerItemData) {
@@ -212,6 +226,7 @@ class FormPage extends React.Component {
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,
+        index: this.props.params?.index,
       });
       return;
     }
@@ -340,6 +355,7 @@ class FormPage extends React.Component {
             uploadFile={this.props.uploadFile}
             schema={schema}
             uiSchema={uiSchema}
+            getFormData={this.formData}
             goBack={this.goBack}
             goForward={this.onSubmit}
             goToPath={this.goToPath}
@@ -347,6 +363,7 @@ class FormPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             setFormData={this.props.setData}
+            pageContentBeforeButtons={pageContentBeforeButtons}
             contentBeforeButtons={contentBeforeNavButtons}
             contentAfterButtons={contentAfterNavButtons}
             appStateData={appStateData}
@@ -374,6 +391,7 @@ class FormPage extends React.Component {
           uiSchema={uiSchema}
           pagePerItemIndex={params ? params.index : undefined}
           formContext={formContext}
+          getFormData={this.formData}
           trackingPrefix={this.props.form.trackingPrefix}
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}

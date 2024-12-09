@@ -12,6 +12,12 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import {
+  TYPEAHEAD_CLICKED,
+  TYPEAHEAD_LIST,
+  clearGAData,
+  getSearchGADataFromStorage,
+} from 'platform/site-wide/search-analytics';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -69,24 +75,96 @@ const SearchApp = ({
 
   const hasErrors = !!(errors && errors.length > 0);
 
+  // When using search bars that are not on /search, or when using the header search
+  // we set analytics data into localStorage to contextualize the search
+  // This function uses that data to compile GA analytics rather than the data
+  // the /search page itself uses
+  const compileAnalyticsDataFromStorage = (
+    searchAnalyticsLocationData,
+    query,
+  ) => {
+    const typeaheadSuggestionClicked =
+      searchAnalyticsLocationData?.[TYPEAHEAD_CLICKED];
+    const typeaheadList = searchAnalyticsLocationData?.[TYPEAHEAD_LIST];
+    const suggestionsList = typeaheadList
+      ? Array?.from(typeaheadList?.split(','))
+      : undefined;
+
+    let keywordPosition;
+    let keywordSelected;
+
+    if (typeaheadSuggestionClicked) {
+      keywordSelected = query;
+    }
+
+    if (keywordSelected && suggestionsList?.length) {
+      keywordPosition = suggestionsList?.indexOf(query) + 1 || undefined;
+    }
+
+    return {
+      ...searchAnalyticsLocationData,
+      keywordPosition,
+      keywordSelected,
+      suggestionsList,
+      userInput: query,
+    };
+  };
+
+  // This function compiles GA analytics based on a search that happens in the
+  // search bar on the /search page (above the results area)
+  const compileAnalyticsDataFromInPageSearch = query => {
+    const validSuggestions =
+      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
+
+    return {
+      // The typeahead suggestion box doesn't always exist in the DOM. This means we'll always
+      // run into race conditions trying to track whether a typeahead suggestion was clicked before
+      // the form is submitted. keywordPosition and keywordSelected will always be undefined
+      keywordPosition: undefined,
+      keywordSelected: undefined,
+      path: document.location.pathname,
+      searchLocation: 'Search Results Page',
+      searchSelection: 'All VA.gov',
+      searchTypeaheadEnabled: true,
+      sitewideSearch: true,
+      suggestionsList: validSuggestions?.length ? validSuggestions : undefined,
+      userInput: query,
+    };
+  };
+
   // If there's data in userInput when this component loads,
   // it came from the address bar, so we immediately hit the API
   useEffect(() => {
     const initialUserInput = router?.location?.query?.query || '';
+    const searchAnalyticsLocationData = getSearchGADataFromStorage();
+    let compiledAnalyticsData = null;
+
+    // If this value is set, we used another app or context to do a site-wide search
+    // other than the search functionality on /search
+    if (searchAnalyticsLocationData?.path) {
+      compiledAnalyticsData = compileAnalyticsDataFromStorage(
+        searchAnalyticsLocationData,
+        initialUserInput,
+      );
+    } else {
+      compiledAnalyticsData = compileAnalyticsDataFromInPageSearch(
+        initialUserInput,
+      );
+    }
 
     if (initialUserInput && isSearchTermValid(initialUserInput)) {
       setFormWasSubmitted(true);
 
-      fetchSearchResults(initialUserInput, page, {
-        trackEvent: true,
-        eventName: 'onload_view_search_results',
-        path: document.location.pathname,
-        userInput: initialUserInput,
-        keywordSelected: undefined,
-        keywordPosition: undefined,
-        suggestionsList: undefined,
-        sitewideSearch: false,
-      });
+      fetchSearchResults(
+        initialUserInput,
+        page,
+        {
+          trackEvent: true,
+          eventName: 'onload_view_search_results',
+          ...compiledAnalyticsData,
+        },
+        clearGAData,
+      );
     }
   }, []);
 
@@ -156,18 +234,22 @@ const SearchApp = ({
       const nextPage = queryChanged ? 1 : newPage;
 
       updateURL({ query: userInput, page: nextPage });
-      // Fetch new results
-      fetchSearchResults(userInput, nextPage, {
-        trackEvent: queryChanged || isRepeatSearch,
-        eventName: 'view_search_results',
-        path: document.location.pathname,
+
+      const compiledAnalyticsData = compileAnalyticsDataFromInPageSearch(
         userInput,
-        searchLocation: 'Search Results Page',
-        keywordSelected: undefined,
-        keywordPosition: undefined,
-        suggestionsList: undefined,
-        sitewideSearch: false,
-      });
+      );
+
+      // Fetch new results
+      fetchSearchResults(
+        userInput,
+        nextPage,
+        {
+          trackEvent: queryChanged || isRepeatSearch,
+          eventName: 'view_search_results',
+          ...compiledAnalyticsData,
+        },
+        clearGAData,
+      );
 
       // Update query is necessary
       if (queryChanged) {
@@ -183,26 +265,27 @@ const SearchApp = ({
   const onInputSubmit = event => {
     event.preventDefault();
     setFormWasSubmitted(true);
+    clearGAData();
 
     if (!userInput) {
       return;
     }
 
-    const validSuggestions =
-      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
+    const compiledAnalyticsData = compileAnalyticsDataFromInPageSearch(
+      userInput,
+    );
 
     if (isSearchTermValid(userInput)) {
-      fetchSearchResults(userInput, 1, {
-        trackEvent: true,
-        eventName: 'view_search_results',
-        path: document.location.pathname,
+      fetchSearchResults(
         userInput,
-        searchLocation: 'Search Results Page',
-        keywordSelected: undefined,
-        keywordPosition: undefined,
-        suggestionsList: validSuggestions,
-        sitewideSearch: false,
-      });
+        1,
+        {
+          trackEvent: true,
+          eventName: 'view_search_results',
+          ...compiledAnalyticsData,
+        },
+        clearGAData,
+      );
 
       updateQueryInfo({
         query: userInput,
@@ -300,7 +383,7 @@ const SearchApp = ({
     !hasErrors &&
     !searchIsLoading;
 
-  const searchGovIssues =
+  const shouldShowMaintenanceBanner =
     searchGovIssuesWithinMaintenanceWindow || searchGovMaintenance;
 
   return (
@@ -319,10 +402,13 @@ const SearchApp = ({
             appTitle="Search App"
             dependencies={[externalServices.search]}
           >
-            {// Search API returned errors OR
-            // errors with user input before submitting
-            shouldShowErrorMessage && <Errors userInput={userInput} />}
-            {searchGovIssues && (
+            {// Search API returned errors OR errors with user input before
+            //  submitting AND the maintenance banner is NOT going to be displayed
+            shouldShowErrorMessage &&
+              !shouldShowMaintenanceBanner && <Errors userInput={userInput} />}
+            {// Search API is either within the maintenance window AND has returned
+            //  no results OR the search_gov_maintenance Flipper has been enabled
+            shouldShowMaintenanceBanner && (
               <SearchMaintenance unexpectedMaintenance={searchGovMaintenance} />
             )}
             <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-bottom--4">
@@ -332,6 +418,7 @@ const SearchApp = ({
               <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
                 <VaSearchInput
                   class="vads-u-width--full"
+                  disableAnalytics
                   id="search-results-page-dropdown-input-field"
                   data-e2e-id="search-results-page-dropdown-input-field"
                   label="Enter a keyword, phrase, or question"
@@ -343,7 +430,7 @@ const SearchApp = ({
                 />
               </div>
             </div>
-            {!shouldShowErrorMessage && !searchGovIssues && renderResults()}
+            {!shouldShowErrorMessage && renderResults()}
           </DowntimeNotification>
         </div>
         <div className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 usa-width-one-fourth columns">

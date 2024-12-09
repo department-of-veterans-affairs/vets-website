@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import { differenceInYears } from 'date-fns';
 import * as options from 'platform/static-data/options-for-select';
 import {
   questionLabels,
@@ -278,7 +277,7 @@ export const determineBranchOfService = key =>
 
 // Determines if a previous discharge occurred more than 15 years ago.
 export const determineOldDischarge = (dischargeYear, dischargeMonth) =>
-  differenceInYears(new Date(), new Date(dischargeMonth, dischargeYear)) >= 15;
+  new Date() >= new Date(Number(dischargeYear) + 15, dischargeMonth);
 
 // Determines the label used on the review page to provide a full readable answer based on answers in the form.
 export const answerReviewLabel = (key, formValues) => {
@@ -358,9 +357,9 @@ export const determineBoardObj = (formResponses, noDRB) => {
   const intention =
     formResponses[SHORT_NAME_MAP.INTENTION] === RESPONSES.INTENTION_YES;
   const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
-  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 0;
+  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] - 1 || 0;
 
-  const oldDischarge = determineOldDischarge(dischargeMonth, dischargeYear);
+  const oldDischarge = determineOldDischarge(dischargeYear, dischargeMonth);
 
   const failureToExhaust = [
     RESPONSES.FAILURE_TO_EXHAUST_BCMR_YES,
@@ -562,11 +561,6 @@ export const stepHeaderLevel = formResponses => {
   return 2;
 };
 
-export const determineIsAirForceAFRBAPortal = formResponses =>
-  formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
-  determineBoardObj(formResponses).abbr === BCMR &&
-  determineFormData(formResponses).num === 149;
-
 const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
   if (
     ![
@@ -645,16 +639,14 @@ export const getBoardExplanation = formResponses => {
   const prevAppType = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE];
   const prevAppYear = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_YEAR];
   const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
-  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 1;
-  const oldDischarge =
-    new Date().getFullYear() -
-      new Date(dischargeYear, dischargeMonth).getFullYear() >
-    15;
+  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] - 1 || 0;
+  const oldDischarge = determineOldDischarge(dischargeYear, dischargeMonth);
 
   const boardToSubmit = determineBoardObj(formResponses);
   const serviceBranch = determineBranchOfService(
     formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
   );
+
   const { abbr, name } = boardToSubmit;
 
   if (reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214) {
@@ -709,4 +701,108 @@ export const getBoardExplanation = formResponses => {
   }
 
   return '';
+};
+
+export const renderMedicalRecordInfo = formResponses => {
+  const reason = formResponses[SHORT_NAME_MAP.REASON];
+  if (
+    [
+      RESPONSES.REASON_PTSD,
+      RESPONSES.REASON_TBI,
+      RESPONSES.REASON_SEXUAL_ASSAULT,
+    ].indexOf(reason) > -1
+  ) {
+    let requestQuestion;
+    if (parseInt(formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR], 10) >= 1992) {
+      requestQuestion = (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html"
+        >
+          Find out how to request your military medical records (opens in a new
+          tab).
+        </a>
+      );
+    } else {
+      requestQuestion = (
+        <span>
+          Your <strong>military medical records</strong> will be included with
+          the VA medical records you request.
+        </span>
+      );
+    }
+
+    let providerStatement;
+    if (reason === RESPONSES.REASON_PTSD) {
+      providerStatement = (
+        <li>
+          <strong>
+            If you’ve seen a non-VA health care provider for diagnosis or
+            treatment of PTSD or another mental health condition,
+          </strong>{' '}
+          you should also submit private medical treatment records that can
+          provide information about your condition. You’ll need to contact your
+          provider to request copies of your records.
+        </li>
+      );
+    }
+    if (reason === RESPONSES.REASON_TBI) {
+      providerStatement = (
+        <li>
+          <strong>
+            If you’ve seen a non-VA health care provider for diagnosis or
+            treatment of TBI,
+          </strong>{' '}
+          you should also submit private medical treatment records that can
+          provide information about your condition. You’ll need to contact your
+          provider to request copies of your records.
+        </li>
+      );
+    }
+    if (reason === RESPONSES.REASON_SEXUAL_ASSAULT) {
+      providerStatement = (
+        <li>
+          <strong>
+            If you’ve seen a non-VA health care provider for for treatment after
+            your assault or harassment,
+          </strong>{' '}
+          you should also submit records from a non-VA health care provider.
+          You’ll need to contact your provider to request copies of your
+          records.
+        </li>
+      );
+    }
+
+    return (
+      <li>
+        <h3>Medical records</h3>
+        <ul>
+          <li>You’ll need to submit copies of your medical records.</li>
+          <li>
+            <strong>
+              If you need to request copies of your VA medical records,
+            </strong>{' '}
+            fill out and submit a Request for and Authorization to Release
+            Health Information (VA Form 10-5345) to your local VA medical
+            center.
+          </li>
+          <li>
+            {requestQuestion}
+            <br />
+            <a
+              href="https://www.va.gov/find-forms/about-form-10-5345/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get VA Form 10-5345 to download (opens in a new tab)
+            </a>
+          </li>
+
+          {providerStatement}
+        </ul>
+      </li>
+    );
+  }
+  return null;
 };

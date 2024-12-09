@@ -3,23 +3,24 @@ import {
   VaAccordionItem,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import Scroll from 'react-scroll';
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import {
-  getActiveExpandedPages,
-  getPageKeys,
-} from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import {
   setData,
   setEditMode,
   setViewedPages,
   uploadFile,
 } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import {
+  getActiveExpandedPages,
+  getPageKeys,
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import submitTransformer from '../config/submit-transformer';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
+import Scroll from 'react-scroll';
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -27,12 +28,13 @@ import {
 } from '../actions';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
+import submitTransformer from '../config/submit-transformer';
+import { URL, envUrl } from '../constants';
 import {
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
   getPageKeysForReview,
 } from '../utils/reviewPageHelper';
-import { URL, envUrl } from '../constants';
 
 const { scroller } = Scroll;
 
@@ -89,17 +91,23 @@ const ReviewPage = props => {
     };
 
     return apiRequest(url, options)
-      .then(() => {
+      .then(response => {
         setIsDisabled(false);
-        // clear localStorage after post
+        const { inquiryNumber } = response;
         localStorage.removeItem('askVAFiles');
-        props.goForward('/confirmation');
+        props.router.push({
+          pathname: '/confirmation',
+          state: { inquiryNumber },
+        });
       })
       .catch(() => {
         setIsDisabled(false);
         localStorage.removeItem('askVAFiles');
-        // need an error page or message/alert
-        props.goForward('/confirmation');
+        // TODO - need error modal instead of forwarding to confirmation
+        props.router.push({
+          pathname: '/confirmation',
+          state: { inquiryNumber: 'error' },
+        });
       });
   };
 
@@ -114,9 +122,10 @@ const ReviewPage = props => {
     if (props.loggedIn) {
       // auth call
       postFormData(`${envUrl}${URL.AUTH_INQUIRIES}`, transformedData);
+    } else {
+      // no auth call
+      postFormData(`${envUrl}${URL.INQUIRIES}`, transformedData);
     }
-    // no auth call
-    postFormData(`${envUrl}${URL.INQUIRIES}`, transformedData);
   };
 
   return (
@@ -478,6 +487,16 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
+ReviewPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  loggedIn: PropTypes.bool,
+};
+
 const mapDispatchToProps = {
   setData,
   setEditMode,
@@ -488,4 +507,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReviewPage);
+)(withRouter(ReviewPage));

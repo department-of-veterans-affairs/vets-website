@@ -1,49 +1,42 @@
+import React from 'react';
+
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+// application root imports
+import { scrollAndFocusTarget } from 'applications/_mock-form-ae-design-patterns/utils/focus';
+import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
+import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
+import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
+import { VIEW_FIELD_SCHEMA } from 'applications/_mock-form-ae-design-patterns/utils/constants';
+
+// task specific imports
+import { ContactInformationInfoSection } from '../components/ContactInfo';
+import VeteranProfileInformation from '../components/VeteranProfileInformation';
 import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-import { GetFormHelp } from '../components/GetFormHelp';
 import manifest from '../manifest.json';
-import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
-
-// chapter schema imports
-import { applicantInformation } from './chapters/applicant';
-
-import {
-  additionalInformation,
-  mailingAddress,
-} from './chapters/contact-information';
-
-import { serviceStatus, serviceHistory } from './chapters/service';
-
-import { loanScreener, loanHistory } from './chapters/loans';
-
-import { fileUpload } from './chapters/documents';
-
-// TODO: When schema is migrated to vets-json-schema, remove common
-// definitions from form schema and get them from common definitions instead
+import profileContactInfo from './profileContactInfo';
+import ReviewPage from '../../pages/ReviewPage';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/2/task-gray/',
-  submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
-  transformForSubmit: customCOEsubmit,
-  trackingPrefix: '26-1880-',
+  // submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
+  // transformForSubmit: customCOEsubmit,
+  trackingPrefix: 'task-gray',
   customText: {
     appAction: 'your COE request',
     appSavedSuccessfullyMessage: 'Your request has been saved.',
-    appType: 'request',
+    appType: 'form',
     continueAppButtonText: 'Continue your request',
-    finishAppLaterMessage: 'Finish this request later',
+    finishAppLaterMessage: 'Finish this application later',
     startNewAppButtonText: 'Start a new request',
     reviewPageTitle: 'Review your request',
   },
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: Confirmation,
   formId: VA_FORM_IDS.FORM_26_1880,
   version: 0,
   prefillEnabled: true,
@@ -70,76 +63,52 @@ const formConfig = {
     applicantInformationChapter: {
       title: 'Your personal information',
       pages: {
-        applicantInformationSummary: {
+        profileInformation: {
           path: 'applicant-information',
-          title: 'Your personal information on file',
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
+          title: 'Veteran\u2019s personal information',
+          CustomPage: VeteranProfileInformation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: VIEW_FIELD_SCHEMA,
         },
       },
     },
     contactInformationChapter: {
       title: 'Your contact information',
+      reviewTitle: 'Contact information',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: mailingAddress.title,
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-          updateFormData: mailingAddress.updateFormData,
-        },
-        additionalInformation: {
-          path: 'additional-contact-information',
-          title: additionalInformation.title,
-          uiSchema: additionalInformation.uiSchema,
-          schema: additionalInformation.schema,
-        },
+        ...profileContactInfo({
+          contactInfoPageKey: 'confirmContactInfo3',
+          contactPath: 'veteran-information',
+          contactInfoRequiredKeys: ['mailingAddress'],
+          included: ['mailingAddress'],
+          review: props => ({
+            'Contact Information': (() => {
+              return <ContactInformationInfoSection {...props} />;
+            })(),
+          }),
+        }),
       },
     },
-    serviceHistoryChapter: {
-      title: 'Your service history',
+    reviewApp: {
+      title: 'Review Application',
+      reviewTitle: 'Review Application',
       pages: {
-        serviceStatus: {
-          path: 'service-status',
-          title: 'Service status',
-          uiSchema: serviceStatus.uiSchema,
-          schema: serviceStatus.schema,
+        reviewAndSubmit: {
+          hideNavButtons: true,
+          title: 'Review and submit',
+          path: 'review-then-submit',
+          CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            definitions: {},
+            type: 'object',
+            properties: {},
+          },
+          scrollAndFocusTarget,
         },
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service history',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
-        },
-      },
-    },
-    loansChapter: {
-      title: 'Your VA loan history',
-      pages: {
-        loanScreener: {
-          path: 'existing-loan-screener',
-          title: 'Existing loans',
-          uiSchema: loanScreener.uiSchema,
-          schema: loanScreener.schema,
-        },
-        loanHistory: {
-          path: 'loan-history',
-          title: 'VA-backed loan history',
-          uiSchema: loanHistory.uiSchema,
-          schema: loanHistory.schema,
-          depends: formData => formData?.vaLoanIndicator,
-        },
-      },
-    },
-    documentsChapter: {
-      title: 'Your supporting documents',
-      pages: {
-        upload: {
-          path: 'upload-supporting-documents',
-          title: 'Upload your documents',
-          uiSchema: fileUpload.uiSchema,
-          schema: fileUpload.schema,
-        },
+        taskCompletePagePattern2,
       },
     },
   },

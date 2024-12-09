@@ -7,6 +7,7 @@ import {
   arrayBuilderYesNoUI,
   radioUI,
   radioSchema,
+  textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
@@ -16,7 +17,6 @@ import {
   formatCurrency,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
-  showRecipientName,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
 import {
@@ -39,7 +39,8 @@ const options = {
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
-      item && (
+      item?.grossMonthlyIncome &&
+      item?.ownedPortionValue && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Asset type:{' '}
@@ -140,26 +141,34 @@ const ownedAssetRecipientPage = {
           'ownedAssets',
         ),
     },
-    recipientName: {
-      'ui:title': 'Tell us the income recipient’s name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: 'Only needed if child, parent, custodian of child, or other',
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: showRecipientName,
-      },
-      'ui:required': (formData, index) =>
-        recipientNameRequired(formData, index, 'ownedAssets'),
-    },
   },
   schema: {
     type: 'object',
     properties: {
       recipientRelationship: radioSchema(Object.keys(relationshipLabels)),
       otherRecipientRelationshipType: { type: 'string' },
-      recipientName: textSchema,
     },
     required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const recipientNamePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Income and net worth associated with owned assets',
+    ),
+    recipientName: textUI({
+      title: 'Tell us the income recipient’s name',
+      hint: 'Only needed if child, parent, custodian of child, or other',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientName: textSchema,
+    },
+    required: ['recipientName'],
   },
 };
 
@@ -231,6 +240,14 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'owned-assets/:index/income-recipient',
     uiSchema: ownedAssetRecipientPage.uiSchema,
     schema: ownedAssetRecipientPage.schema,
+  }),
+  ownedAssetRecipientNamePage: pageBuilder.itemPage({
+    title: 'Owned Asset recipient name',
+    path: 'owned-assets/:index/recipient-name',
+    depends: (formData, index) =>
+      recipientNameRequired(formData, index, 'ownedAssets'),
+    uiSchema: recipientNamePage.uiSchema,
+    schema: recipientNamePage.schema,
   }),
   ownedAssetTypePage: pageBuilder.itemPage({
     title: 'Owned asset type',

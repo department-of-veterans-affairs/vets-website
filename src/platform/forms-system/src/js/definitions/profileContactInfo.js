@@ -14,8 +14,10 @@ import {
   standardEmailSchema,
   profileAddressSchema,
   blankSchema,
+  getReturnState,
   clearReturnState,
 } from '../utilities/data/profile';
+import { scrollTo, focusElement } from '../../../../utilities/ui';
 
 /**
  * Profile settings
@@ -88,6 +90,8 @@ const profileContactInfo = ({
   depends = null,
   contactInfoUiSchema = {},
   disableMockContactInfo = false,
+  contactSectionHeadingLevel = null,
+  editContactInfoHeadingLevel = null,
 } = {}) => {
   const config = {};
   const wrapperProperties = {};
@@ -100,7 +104,13 @@ const profileContactInfo = ({
     config[`${contactInfoPageKey}EditMailingAddress`] = {
       title: content.editMailingAddress,
       path: `${contactPath}/edit-mailing-address`,
-      CustomPage: props => EditAddress({ ...props, content, contactPath }),
+      CustomPage: props =>
+        EditAddress({
+          ...props,
+          content,
+          contactPath,
+          editContactInfoHeadingLevel,
+        }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
       uiSchema: {},
@@ -115,7 +125,13 @@ const profileContactInfo = ({
     config[`${contactInfoPageKey}EditHomePhone`] = {
       title: content.editHomePhone,
       path: `${contactPath}/edit-home-phone`,
-      CustomPage: props => EditHomePhone({ ...props, content, contactPath }),
+      CustomPage: props =>
+        EditHomePhone({
+          ...props,
+          content,
+          contactPath,
+          editContactInfoHeadingLevel,
+        }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
       uiSchema: {},
@@ -130,7 +146,13 @@ const profileContactInfo = ({
     config[`${contactInfoPageKey}EditMobilePhone`] = {
       title: content.editMobilePhone,
       path: `${contactPath}/edit-mobile-phone`,
-      CustomPage: props => EditMobilePhone({ ...props, content, contactPath }),
+      CustomPage: props =>
+        EditMobilePhone({
+          ...props,
+          content,
+          contactPath,
+          editContactInfoHeadingLevel,
+        }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
       uiSchema: {},
@@ -143,7 +165,13 @@ const profileContactInfo = ({
     config[`${contactInfoPageKey}EditEmailAddress`] = {
       title: content.editEmail,
       path: `${contactPath}/edit-email-address`,
-      CustomPage: props => EditEmail({ ...props, content, contactPath }),
+      CustomPage: props =>
+        EditEmail({
+          ...props,
+          content,
+          contactPath,
+          editContactInfoHeadingLevel,
+        }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
       uiSchema: {},
@@ -164,6 +192,8 @@ const profileContactInfo = ({
           requiredKeys: contactInfoRequiredKeys,
           contactInfoPageKey,
           disableMockContactInfo,
+          contactSectionHeadingLevel,
+          editContactInfoHeadingLevel,
         }),
       CustomPageReview: props =>
         ContactInfoReview({
@@ -189,6 +219,13 @@ const profileContactInfo = ({
       onFormExit: formData => {
         clearReturnState();
         return formData;
+      },
+      // overide scroll & focus header
+      scrollAndFocusTarget: () => {
+        if (!getReturnState()) {
+          scrollTo('topContentElement');
+          focusElement('h3');
+        }
       },
     },
     // edit pages; only accessible via ContactInfo component links

@@ -16,8 +16,7 @@ import { ServerErrorAlert } from '../config/helpers';
 import {
   CHAPTER_1,
   URL,
-  envUrl,
-  requireSignInTopics,
+  getApiUrl,
   requiredForSubtopicPage,
 } from '../constants';
 
@@ -61,7 +60,7 @@ const TopicSelectPage = props => {
       topic => topic.attributes.name === selectedValue,
     );
 
-    if (requireSignInTopics.includes(selectedValue) && !loggedIn) {
+    if (selected.attributes.requiresAuthentication && !loggedIn) {
       setShowModal({ show: true, selected: selectedValue });
     } else {
       dispatch(setTopicID(selected.id));
@@ -84,11 +83,9 @@ const TopicSelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(
-        `${envUrl}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${URL.GET_TOPICS}`,
-      );
+      getApiData(getApiUrl(URL.GET_TOPICS, { PARENT_ID: categoryID }));
     },
-    [loggedIn],
+    [loggedIn, categoryID],
   );
 
   useEffect(
@@ -120,7 +117,7 @@ const TopicSelectPage = props => {
           required
           uswds
         >
-          {apiData.map(topic => (
+          {apiData?.map(topic => (
             <VaRadioOption
               key={topic.id}
               name="select_topic"
@@ -139,7 +136,7 @@ const TopicSelectPage = props => {
       <RequireSignInModal
         onClose={onModalNo}
         show={showModal.show}
-        restrictedItem={showModal.selected}
+        restrictedItem="topic"
       />
     </>
   ) : (
@@ -149,6 +146,10 @@ const TopicSelectPage = props => {
 
 TopicSelectPage.propTypes = {
   categoryID: PropTypes.string,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   id: PropTypes.string,
   loggedIn: PropTypes.bool,
   value: PropTypes.string,

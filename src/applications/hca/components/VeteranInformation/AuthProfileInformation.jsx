@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import AuthenticatedShortFormAlert from '../FormAlerts/AuthenticatedShortFormAlert';
-import { formatDate } from '../../utils/helpers/general';
-import { normalizeFullName } from '../../utils/helpers';
+import { formatDate, normalizeFullName } from '../../utils/helpers';
 import { APP_URLS, HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
+import { CONTACTS } from '../../utils/imports';
 
 const AuthProfileInformation = ({ user }) => {
   const { veteranFullName, veteranDateOfBirth, totalDisabilityRating } = user;

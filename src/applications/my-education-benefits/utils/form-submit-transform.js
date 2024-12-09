@@ -359,7 +359,10 @@ export function createMilitaryClaimant(submissionForm) {
   );
   // Construct And Return the claimant object
   return {
-    claimantId: submissionForm[formFields.claimantId],
+    claimantId:
+      submissionForm[formFields.claimantId] === 100
+        ? ''
+        : submissionForm[formFields.claimantId],
     firstName: userFullName?.first,
     middleName: userFullName?.middle,
     lastName: userFullName?.last,

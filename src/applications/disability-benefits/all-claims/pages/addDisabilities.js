@@ -4,7 +4,7 @@ import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import * as combobox from '../definitions/combobox';
-import AutoComplete from '../components/AutoComplete';
+import Autocomplete from '../components/Autocomplete';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import NewDisability from '../components/NewDisability';
 import ArrayField526 from '../components/ArrayField';
@@ -32,12 +32,13 @@ import {
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 const autocompleteUiSchema = {
-  'ui:title': 'Enter your condition',
+  'ui:reviewField': ({ children }) => children,
   'ui:field': data => (
     <AutoComplete
       availableResults={Object.values(disabilityLabelsRevised)}
       debounceDelay={200}
       id={data.idSchema.$id}
+      label="Enter your condition"
       formData={data.formData}
       onChange={data.onChange}
     />

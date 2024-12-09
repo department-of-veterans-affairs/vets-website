@@ -30,12 +30,13 @@ const records = () => ({
     {
       locationAndName: 'VAMC Location 1',
       issues: ['Test'],
-      evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
+      treatmentDate: '2011-01',
     },
     {
       locationAndName: 'VAMC Location 2',
       issues: ['Test 2'],
-      evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
+      treatmentDate: '',
+      noDate: true,
     },
   ],
   providerFacility: [
@@ -92,6 +93,7 @@ const setupSummary = ({
 
           ...list,
           limitedConsent: limit,
+          showScNewForm: true,
         }}
         goBack={goBack}
         goForward={goForward}
@@ -110,7 +112,8 @@ describe('<EvidenceSummary>', () => {
     const { container } = setupSummary({ limit: 'Pizza addiction' });
 
     expect($$('h3', container).length).to.eq(1);
-    expect($$('h4', container).length).to.eq(4);
+    expect($$('h4', container).length).to.eq(1);
+    expect($$('.va-title, .private-title, .upload-title').length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
@@ -137,7 +140,8 @@ describe('<EvidenceSummary>', () => {
     });
 
     expect($$('h3', container).length).to.eq(1);
-    expect($$('h4', container).length).to.eq(4);
+    expect($$('h4', container).length).to.eq(1);
+    expect($$('.va-title, .private-title, .upload-title').length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
     expect($$('.usa-input-error-message', container).length).to.eq(8);
     expect($('a.vads-c-action-link--green', container)).to.exist;
@@ -408,8 +412,8 @@ describe('<EvidenceSummary>', () => {
     const { container } = setupSummary({ onReviewPage: true });
 
     expect($$('h4', container).length).to.eq(2);
-    // now includes limited consent
-    expect($$('h5', container).length).to.eq(3);
+    expect($$('.private-limitation', container).length).to.eq(1);
+    expect($$('.private-facility', container).length).to.eq(2);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(0);
     expect(

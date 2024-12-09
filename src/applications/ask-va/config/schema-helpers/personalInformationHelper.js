@@ -7,19 +7,17 @@ import {
   serviceNumberUI,
   ssnSchema,
   ssnUI,
+  yesNoSchema,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
-
-const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
-
-const branchesOfService = [
-  'Army',
-  'Navy',
-  'Coast Guard',
-  'Air Force',
-  'Marine Corps',
-];
+import {
+  branchesOfService,
+  CHAPTER_3,
+  suffixes,
+  yesNoOptions,
+} from '../../constants';
 
 const ssnServiceInfo = (
   <>
@@ -34,12 +32,6 @@ const ssnServiceInfo = (
     </span>
   </>
 );
-
-// const validateGroup = (errors, values) => {
-//   if (!Object.keys(values).some(key => values[key])) {
-//     errors.addError(`Please provide an answer`);
-//   }
-// };
 
 const validateSSandSNGroup = (errors, values, formData) => {
   if (
@@ -75,6 +67,7 @@ export const personalInformationFormSchemas = {
   },
   last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
   suffix: selectSchema(suffixes),
+  isVeteranDeceased: yesNoSchema,
   socialOrServiceNum: {
     type: 'object',
     properties: {
@@ -153,6 +146,14 @@ export const personalInformationUiSchemas = {
       hideEmptyValueInReview: true,
     },
   },
+  isVeteranDeceased: yesNoUI({
+    title: CHAPTER_3.VET_DECEASED.TITLE,
+    labels: yesNoOptions,
+    required: () => true,
+    errorMessages: {
+      required: 'Please let us know if the Veteran is deceased',
+    },
+  }),
   socialOrServiceNum: {
     'ui:title': ssnServiceInfo,
     'ui:validations': [validateSSandSNGroup],
