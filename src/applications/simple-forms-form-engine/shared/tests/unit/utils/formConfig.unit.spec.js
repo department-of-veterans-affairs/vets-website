@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
 import * as IntroductionPage from '../../../containers/IntroductionPage';
+import * as submitTransform from '../../../config/submitTransformer';
 import { normalizedForm } from '../../../config/formConfig';
 import {
   createFormConfig,
@@ -24,6 +25,7 @@ const [
 describe('createFormConfig', () => {
   let formConfig;
   let stub;
+  let transformSpy;
 
   beforeEach(() => {
     const FakeComponent = ({ ombInfo }) => (
@@ -42,6 +44,7 @@ describe('createFormConfig', () => {
       }),
     };
     stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
+    transformSpy = sinon.spy(submitTransform, 'default');
 
     formConfig = createFormConfig(normalizedForm, {
       rootUrl: '/root-url',
@@ -51,6 +54,7 @@ describe('createFormConfig', () => {
 
   afterEach(() => {
     stub.restore();
+    transformSpy.restore();
   });
 
   it('returns a properly formatted Form Config object', () => {
@@ -96,6 +100,14 @@ describe('createFormConfig', () => {
 
     expect(statementOfTruth.body).to.eq(statementOfTruthBody);
     expect(statementOfTruth.fullNamePath).to.eq('fullName');
+  });
+
+  it('includes transformForSubmit', () => {
+    const form = { data: {} };
+
+    formConfig.transformForSubmit(formConfig, form);
+
+    expect(transformSpy.calledWith(formConfig, form)).to.eq(true);
   });
 });
 

@@ -7,6 +7,7 @@ import {
   personalInfoPages,
   phoneAndEmailPages,
 } from './digitalFormPatterns';
+import transformForSubmit from '../config/submitTransformer';
 
 const getChapterKey = chapter =>
   chapter.type === 'digital_form_your_personal_info'
@@ -64,7 +65,6 @@ export const createFormConfig = (form, options) => {
       },
     },
     rootUrl,
-    urlPrefix: '/',
     // eslint-disable-next-line no-console
     submit: () => console.log(`Submitted ${subTitle}`),
     introduction: props => <IntroductionPage {...props} ombInfo={ombInfo} />,
@@ -72,6 +72,8 @@ export const createFormConfig = (form, options) => {
     formId,
     saveInProgress: {},
     trackingPrefix,
+    transformForSubmit,
+    urlPrefix: '/',
     version: 0,
     prefillEnabled: true,
     savedFormMessages: {
