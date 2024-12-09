@@ -302,9 +302,7 @@ function isPartialAddress(data) {
  * Create a replacer function for JSON.stringify
  * A replacer function is the second argument to JSON.stringify
  *
- * @param {{
- *  allowPartialAddress?: boolean,
- * }} [options] - Options for the replacer
+ * @param {ReplacerOptions} [options] - Options for the replacer
  */
 export function createStringifyFormReplacer(options) {
   const replacerFn = (key, value) => {
@@ -757,9 +755,7 @@ export const replaceEscapedCharacters = string => {
 /**
  * @param formConfig
  * @param form
- * @param [options] {{
- *  allowPartialAddress?: boolean,
- * } | (key, val) => any | any[] } An object of options for the transform, or a JSON.stringify replacer argument
+ * @param {ReplacerOptions | (key, val) => any | any[]} [options] An object of options for the transform, or a JSON.stringify replacer argument
  */
 export function transformForSubmit(formConfig, form, options) {
   const replacer =
