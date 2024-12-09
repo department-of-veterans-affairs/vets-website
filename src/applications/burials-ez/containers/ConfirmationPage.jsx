@@ -73,6 +73,11 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
     }
   }
 
+  const item1Content =
+    "This can take up to 10 days. When we receive your form, we'll update the status on My VA.";
+  const item2Content =
+    "If we need more information after reviewing your form, we'll contact you by phone, email, or mail.";
+
   const submissionInformation = (
     <div className="inset">
       <h2 className="vads-u-margin-top--0">Your submission information</h2>
@@ -264,14 +269,26 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         formConfig={route?.formConfig}
         pdfUrl={response?.pdfUrl}
       >
-        <ConfirmationView.SubmissionAlert />
-        {/* <ConfirmationView.SavePdfDownload /> */}
+        {isLoggedIn ? (
+          <ConfirmationView.SubmissionAlert />
+        ) : (
+          <ConfirmationView.SubmissionAlert actions={<p />} />
+        )}
         {submissionInformation}
         <ConfirmationView.PrintThisPage />
-        <ConfirmationView.WhatsNextProcessList
-          item1Content="This can take up to 10 days. When we receive your form, we'll update the status on My VA."
-          item2Content="If we need more information after reviewing your form, we'll contact you by phone, email, or mail. "
-        />
+        <br />
+        {isLoggedIn ? (
+          <ConfirmationView.WhatsNextProcessList
+            item1Content={item1Content}
+            item2Content={item2Content}
+          />
+        ) : (
+          <ConfirmationView.WhatsNextProcessList
+            item1Content={item1Content}
+            item1Actions={<p />}
+            item2Content={item2Content}
+          />
+        )}
         {submitAdditionalDocuments}
         <ConfirmationView.GoBackLink />
         <ConfirmationView.NeedHelp />
