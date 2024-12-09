@@ -10,7 +10,7 @@ const routes = (
       <MhvSecondaryNav />
       <TravelPayStatusApp />
     </Route>
-    <Route exact path="/:id">
+    <Route exact path="/claims/:id">
       <MhvSecondaryNav />
       <TravelClaimDetails />
     </Route>
