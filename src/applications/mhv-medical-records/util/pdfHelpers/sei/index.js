@@ -12,6 +12,7 @@ import { generateMilitaryHistoryContent } from './militaryHistory';
 import { generateTestEntriesContent } from './testEntries';
 import { generateTreatmentFacilitiesContent } from './treatmentFacilities';
 import { generateVaccinesContent } from './vaccines';
+import { generateVitalsContent } from './vitals';
 
 export const generateSelfEnteredData = ({
   activityJournal,
@@ -28,7 +29,7 @@ export const generateSelfEnteredData = ({
   militaryHistory,
   treatmentFacilities,
   vaccines,
-  // vitals,
+  vitals,
 }) => {
   const data = [];
 
@@ -197,14 +198,12 @@ export const generateSelfEnteredData = ({
     });
   }
 
-  // if (vitals) {
-  //   console.log('vitals: ', vitals);
-  //   data.push({
-  //     type: selfEnteredTypes.ASDF,
-  //     title: `Self-entered ${selfEnteredTypes.ASDF}`,
-  //     subtitles: [`Showing ${ASDF.length} records, from newest to oldest`],
-  //     records: ASDF.map(record => generateASDFContent(record)),
-  //   });
-  // }
+  if (vitals) {
+    data.push({
+      type: selfEnteredTypes.VITALS,
+      title: `Self-entered ${selfEnteredTypes.VITALS}`,
+      records: generateVitalsContent(vitals),
+    });
+  }
   return data;
 };

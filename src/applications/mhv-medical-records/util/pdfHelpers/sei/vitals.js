@@ -1,11 +1,13 @@
 import { seiVitalTypes } from '../../constants';
 
 const convertBloodPressureRecord = records => ({
-  header: 'Blood Pressure',
-  headerType: 'H3',
-  headerIndent: 20,
   results: {
+    header: 'Blood Pressure',
+    headerType: 'H3',
+    headerIndent: 20,
     preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 20,
+    sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
       headerIndent: 20,
@@ -15,18 +17,20 @@ const convertBloodPressureRecord = records => ({
         { title: 'Time', value: item.time, inline: true },
         { title: 'Systolic', value: item.systolic, inline: true },
         { title: 'Diastolic', value: item.diastolic, inline: true },
-        { title: 'Comments', value: item.comments, inline: true },
+        { title: 'Comments', value: item.comments, inline: true, lineGap: 16 },
       ],
     })),
   },
 });
 
 const convertBloodSugarRecord = records => ({
-  header: 'Blood Sugar',
-  headerType: 'H3',
-  headerIndent: 20,
   results: {
+    header: 'Blood Sugar',
+    headerType: 'H3',
+    headerIndent: 20,
     preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 20,
+    sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
       headerIndent: 20,
@@ -40,18 +44,20 @@ const convertBloodSugarRecord = records => ({
           value: item.bloodSugarCount,
           inline: true,
         },
-        { title: 'Comments', value: item.comments, inline: true },
+        { title: 'Comments', value: item.comments, inline: true, lineGap: 16 },
       ],
     })),
   },
 });
 
 const convertBodyTemperatureRecord = records => ({
-  header: 'Body Temperature',
-  headerType: 'H3',
-  headerIndent: 20,
   results: {
+    header: 'Body Temperature',
+    headerType: 'H3',
+    headerIndent: 20,
     preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 20,
+    sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
       headerIndent: 20,
@@ -65,18 +71,20 @@ const convertBodyTemperatureRecord = records => ({
           inline: true,
         },
         { title: 'Method', value: item.method, inline: true },
-        { title: 'Comments', value: item.comments, inline: true },
+        { title: 'Comments', value: item.comments, inline: true, lineGap: 16 },
       ],
     })),
   },
 });
 
 const convertBodyWeightRecord = records => ({
-  header: 'Body Weight',
-  headerType: 'H3',
-  headerIndent: 20,
   results: {
+    header: 'Body Weight',
+    headerType: 'H3',
+    headerIndent: 20,
     preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 20,
+    sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
       headerIndent: 20,
@@ -89,18 +97,20 @@ const convertBodyWeightRecord = records => ({
           value: `${item.bodyWeight} ${item.measure}`,
           inline: true,
         },
-        { title: 'Comments', value: item.comments, inline: true },
+        { title: 'Comments', value: item.comments, inline: true, lineGap: 16 },
       ],
     })),
   },
 });
 
 const convertCholesterolRecord = records => ({
-  header: 'Cholesterol',
-  headerType: 'H3',
-  headerIndent: 20,
   results: {
+    header: 'Cholesterol',
+    headerType: 'H3',
+    headerIndent: 20,
     preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 20,
+    sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
       headerIndent: 20,
@@ -115,18 +125,20 @@ const convertCholesterolRecord = records => ({
         },
         { title: 'HDL', value: item.hdl, inline: true },
         { title: 'LDL', value: item.ldl, inline: true },
-        { title: 'Comments', value: item.comments, inline: true },
+        { title: 'Comments', value: item.comments, inline: true, lineGap: 16 },
       ],
     })),
   },
 });
 
 const convertHeartRateRecord = records => ({
-  header: 'Heart Rate',
-  headerType: 'H3',
-  headerIndent: 20,
   results: {
+    header: 'Heart Rate',
+    headerType: 'H3',
+    headerIndent: 20,
     preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 20,
+    sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
       headerIndent: 20,
@@ -135,18 +147,20 @@ const convertHeartRateRecord = records => ({
       items: [
         { title: 'Time', value: item.time, inline: true },
         { title: 'Heart Rate', value: item.heartRate, inline: true },
-        { title: 'Comments', value: item.comments, inline: true },
+        { title: 'Comments', value: item.comments, inline: true, lineGap: 16 },
       ],
     })),
   },
 });
 
 const convertInrRecord = records => ({
-  header: 'INR',
-  headerType: 'H3',
-  headerIndent: 20,
   results: {
+    header: 'INR',
+    headerType: 'H3',
+    headerIndent: 20,
     preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 20,
+    sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
       headerIndent: 20,
@@ -165,18 +179,20 @@ const convertInrRecord = records => ({
           value: item.highendTargetRange,
           inline: true,
         },
-        { title: 'Comments', value: item.comments, inline: true },
+        { title: 'Comments', value: item.comments, inline: true, lineGap: 16 },
       ],
     })),
   },
 });
 
 const convertPainRecord = records => ({
-  header: 'Pain',
-  headerType: 'H3',
-  headerIndent: 20,
   results: {
+    header: 'Pain',
+    headerType: 'H3',
+    headerIndent: 20,
     preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 20,
+    sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
       headerIndent: 20,
@@ -185,18 +201,20 @@ const convertPainRecord = records => ({
       items: [
         { title: 'Time', value: item.time, inline: true },
         { title: 'Pain Level', value: item.painLevel, inline: true },
-        { title: 'Comments', value: item.comments, inline: true },
+        { title: 'Comments', value: item.comments, inline: true, lineGap: 16 },
       ],
     })),
   },
 });
 
 const convertPulseOximetryRecord = records => ({
-  header: 'Pulse Oximetry',
-  headerType: 'H3',
-  headerIndent: 20,
   results: {
+    header: 'Pulse Oximetry',
+    headerType: 'H3',
+    headerIndent: 20,
     preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 20,
+    sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
       headerIndent: 20,
@@ -221,7 +239,7 @@ const convertPulseOximetryRecord = records => ({
         },
         { title: 'Symptoms', value: item.symptoms, inline: true },
         { title: 'Other Symptoms', value: item.otherSymptoms, inline: true },
-        { title: 'Comments', value: item.comments, inline: true },
+        { title: 'Comments', value: item.comments, inline: true, lineGap: 16 },
       ],
     })),
   },
@@ -247,7 +265,7 @@ export const generateVitalsContent = vitals => {
     if (recordsOfType.length) {
       const convertFunction = conversionFunctions[type];
       if (convertFunction) {
-        recordSets.push(recordsOfType.map(record => convertFunction(record)));
+        recordSets.push(convertFunction(recordsOfType));
       }
     }
   });

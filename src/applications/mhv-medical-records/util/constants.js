@@ -149,6 +149,18 @@ export const vitalTypes = {
   PAIN_SEVERITY: ['PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED'],
 };
 
+export const seiVitalTypes = {
+  BLOOD_PRESSURE: 'bloodPressure',
+  BLOOD_SUGAR: 'bloodSugar',
+  BODY_TEMPERATURE: 'bodyTemperature',
+  BODY_WEIGHT: 'bodyWeight',
+  CHOLESTEROL: 'cholesterol',
+  HEART_RATE: 'heartRate',
+  INR: 'inr',
+  PAIN: 'pain',
+  PULSE_OXIMETRY: 'pulseOximetry',
+};
+
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
   PULSE: 'Heart rate',
