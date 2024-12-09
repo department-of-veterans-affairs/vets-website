@@ -51,7 +51,7 @@ const plainBody =
   'standard claim process.';
 
 export default function getPreSubmitInfo() {
-  if (show5103Updates()) {
+  if (!show5103Updates()) {
     return preSubmitInfo;
   }
   return {
