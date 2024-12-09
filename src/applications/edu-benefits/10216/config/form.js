@@ -38,7 +38,7 @@ let isAccredited = false;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  submitUrl: '/v0/api',
   submit: submitForm,
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,

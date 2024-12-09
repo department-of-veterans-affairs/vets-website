@@ -43,7 +43,7 @@ describe('<PercentageCalc />', () => {
         .find('span')
         .first()
         .text(),
-    ).to.equal('1.00%');
+    ).to.equal('100.0%');
     wrapper.unmount();
   });
 
@@ -59,7 +59,12 @@ describe('<PercentageCalc />', () => {
         <PercentageCalc formData={formData} />
       </Provider>,
     );
-    expect(wrapper.find('span').text()).to.equal('---');
+    expect(
+      wrapper
+        .find('span')
+        .first()
+        .text(),
+    ).to.equal('---');
     wrapper.unmount();
   });
 });

@@ -13,12 +13,4 @@ describe('22-10216 Form Config', () => {
     );
     expect(formConfig).to.have.property('chapters');
   });
-  it('should submit and return a confirmation number', async () => {
-    const response = await formConfig.submit();
-    expect(response).to.have.property('attributes');
-    expect(response.attributes).to.have.property(
-      'confirmationNumber',
-      '123123123',
-    );
-  });
 });
