@@ -24,7 +24,7 @@ import { validateFacilityCode } from '../utilities';
 import Alert from '../components/Alert';
 import InstitutionDetails from '../pages/institutionDetails';
 import { transform } from './submit-transformer';
-import submitForm from './submitForm';
+// import submitForm from './submitForm';
 
 const { date, dateRange } = commonDefinitions;
 
@@ -39,10 +39,15 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/api',
-  submit: submitForm,
+  // submit: submitForm,
+  submit: async formData => {
+    return new Promise(resolve => {
+      resolve({ status: 201, data: formData });
+    });
+  },
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: () => <ConfirmationPage isAccredited={isAccredited} />,
   formId: '22-10216',
   saveInProgress: {
     // messages: {

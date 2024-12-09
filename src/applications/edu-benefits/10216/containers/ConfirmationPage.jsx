@@ -4,7 +4,7 @@ import { connect, useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import formConfig from '../config/form';
 import { GetFormHelp } from '../components/GetFormHelp';
-// import { Alert } from '../components/Alert';
+import Alert from '../components/Alert';
 
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
@@ -21,8 +21,7 @@ export const ConfirmationPage = props => {
         35% Exemption Request from 85/15 Reporting Requirement (VA Form
         22-10216)
       </p>
-      {/* {props?.isAccredited &&
-           <Alert/>} */}
+      {!props?.isAccredited && <Alert />}
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
         To submit your forms, follow the steps below
       </h2>
@@ -124,6 +123,7 @@ ConfirmationPage.propTypes = {
       timestamp: PropTypes.string,
     }),
   }),
+  isAccredited: PropTypes.bool,
   name: PropTypes.string,
   route: PropTypes.object,
 };
