@@ -9,6 +9,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
+import ProofOfVeteranStatusCard from './ProofOfVeteranStatusCard/ProofOfVeteranStatusCard';
 
 const ProofOfVeteranStatus = ({
   serviceHistory = [],
@@ -189,13 +190,7 @@ const ProofOfVeteranStatus = ({
             ) : null}
             <div className="vads-l-grid-container--full vads-u-padding-y--2">
               <div className="vads-l-row">
-                <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--5 ">
-                  <img
-                    width="100%"
-                    src="/img/proof-of-veteran-status-card-sample.png"
-                    alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
-                  />
-                </div>
+                <ProofOfVeteranStatusCard />
               </div>
             </div>
             <div className="vads-u-font-size--md">
