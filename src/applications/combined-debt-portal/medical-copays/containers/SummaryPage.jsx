@@ -8,7 +8,6 @@ import {
   ALERT_TYPES,
   APP_TYPES,
 } from '../../combined/utils/helpers';
-import { GenericDisasterAlert } from '../../combined/components/DisasterAlert';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
 import OtherVADebts from '../../combined/components/OtherVADebts';
@@ -157,7 +156,6 @@ const OverviewPage = () => {
           of your facilities. Find out how to make payments or request financial
           help.
         </p>
-        <GenericDisasterAlert />
         {renderContent()}
       </div>
     </>
