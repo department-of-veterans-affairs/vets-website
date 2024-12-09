@@ -379,10 +379,10 @@ ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     submission: PropTypes.shape({
       response: PropTypes.shape({}),
-      timestamp: PropTypes.number,
+      timestamp: PropTypes.instanceOf(Date),
     }),
     data: PropTypes.shape({
-      deathCertificate: PropTypes.shape({}),
+      deathCertificate: PropTypes.arrayOf(PropTypes.shape({})),
       transportationReceipts: PropTypes.arrayOf(PropTypes.shape({})),
     }),
   }),
