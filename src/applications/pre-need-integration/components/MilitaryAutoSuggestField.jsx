@@ -10,16 +10,12 @@ function MilitaryAutoSuggest({
 }) {
   const [inputValue, setInputValue] = useState('');
 
-  const [isClicked, setIsClicked] = useState('false');
-
   useEffect(
     () => {
-      if (value === '') {
-        setInputValue('');
-        onSelectionChange(value);
-      } else if (value && value !== inputValue) {
+      if (value && value !== inputValue) {
         setInputValue(value);
       }
+      onSelectionChange(value);
     },
     [value],
   );
@@ -66,15 +62,11 @@ function MilitaryAutoSuggest({
           setInputValue(formattedValue);
           setValue(formattedValue);
           onSelectionChange(selection);
-        } else {
-          setInputValue('');
-          setValue('');
         }
       }}
       itemToString={itemToString}
       inputValue={inputValue}
       onInputValueChange={setInputValue}
-      isOpen={filteredLabels.length > 0 && isClicked === 'false'} // Dynamically control the list visibility
     >
       {({ getInputProps, getItemProps, isOpen, highlightedIndex }) => (
         <div className="relative">
@@ -84,16 +76,9 @@ function MilitaryAutoSuggest({
             {...getInputProps({
               onChange: e => {
                 setInputValue(e.target.value);
-                setIsClicked('false');
               },
               onBlur: () => {
-                if (inputValue.trim() === '') {
-                  setValue('');
-                } else {
-                  setValue(inputValue);
-                }
-                // filteredLabels.length = 0;
-                setIsClicked('true');
+                setValue(inputValue);
               },
             })}
           />
