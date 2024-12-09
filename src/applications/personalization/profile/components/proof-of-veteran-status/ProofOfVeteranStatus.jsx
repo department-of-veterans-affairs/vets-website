@@ -34,20 +34,32 @@ const ProofOfVeteranStatus = ({
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
 
+  const formattedFullName = formatFullName({
+    first,
+    middle,
+    last,
+    suffix,
+  });
+
+  const latestServiceItem = serviceHistory[0];
+  const serviceStartYear = latestServiceItem.beginDate
+    ? latestServiceItem.beginDate.substring(0, 4)
+    : '';
+  const serviceEndYear = latestServiceItem.endDate
+    ? latestServiceItem.endDate.substring(0, 4)
+    : '';
+  const latestServiceDateRange =
+    serviceStartYear.length || serviceEndYear.length
+      ? `${serviceStartYear}–${serviceEndYear}`
+      : '';
+  const latestService = `${getServiceBranchDisplayName(
+    serviceHistory[0].branchOfService,
+  )} • ${latestServiceDateRange}`;
+
   const pdfDataOld = {
-    title: `Veteran status card for ${formatFullName({
-      first,
-      middle,
-      last,
-      suffix,
-    })}`,
+    title: `Veteran status card for ${formattedFullName}`,
     details: {
-      fullName: formatFullName({
-        first,
-        middle,
-        last,
-        suffix,
-      }),
+      fullName: formattedFullName,
       serviceHistory: serviceHistory.map(item => {
         return {
           ...item,
@@ -63,19 +75,9 @@ const ProofOfVeteranStatus = ({
     },
   };
   const pdfDataNew = {
-    title: `Veteran status card for ${formatFullName({
-      first,
-      middle,
-      last,
-      suffix,
-    })}`,
+    title: `Veteran status card for ${formattedFullName}`,
     details: {
-      fullName: formatFullName({
-        first,
-        middle,
-        last,
-        suffix,
-      }),
+      fullName: formattedFullName,
       serviceHistory: serviceHistory.map(item => {
         return {
           ...item,
@@ -188,9 +190,14 @@ const ProofOfVeteranStatus = ({
                 </va-alert>
               </div>
             ) : null}
-            <div className="vads-l-grid-container--full vads-u-padding-y--2">
+            <div className="vads-l-grid-container--full">
               <div className="vads-l-row">
-                <ProofOfVeteranStatusCard />
+                <ProofOfVeteranStatusCard
+                  edipi={edipi}
+                  formattedFullName={formattedFullName}
+                  latestService={latestService}
+                  totalDisabilityRating={totalDisabilityRating}
+                />
               </div>
             </div>
             <div className="vads-u-font-size--md">
