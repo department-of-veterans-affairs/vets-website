@@ -179,4 +179,49 @@ describe('featureToggles allow banners', () => {
       done();
     }, 1000);
   });
+
+  it('should not display and deal with vets-api error when vets-api fails on manila-va-clinic', done => {
+    sinon.stub(window, 'location').value({ pathname: '/manila-va-clinic/' });
+    mockApiRequest({ errors: 'some error' }, false);
+    const wrapper = mount(
+      <Provider store={mockStore(getData())}>
+        <BannerContainer />
+      </Provider>,
+    );
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('va-banner')).to.have.length(0);
+      wrapper.unmount();
+      done();
+    }, 1000);
+  });
+  it('should not display and deal with vets-api error when vets-api fails on health-care', done => {
+    sinon.stub(window, 'location').value({ pathname: '/boston-health-care/' });
+    mockApiRequest({ errors: 'some error' }, false);
+    const wrapper = mount(
+      <Provider store={mockStore(getData())}>
+        <BannerContainer />
+      </Provider>,
+    );
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('va-banner')).to.have.length(0);
+      wrapper.unmount();
+      done();
+    }, 1000);
+  });
+  it('should not display on some other page', done => {
+    sinon.stub(window, 'location').value({ pathname: '/some-other-page/' });
+    const wrapper = mount(
+      <Provider store={mockStore(getData())}>
+        <BannerContainer />
+      </Provider>,
+    );
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('va-banner')).to.have.length(0);
+      wrapper.unmount();
+      done();
+    }, 1000);
+  });
 });
