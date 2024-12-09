@@ -109,6 +109,10 @@ describe('createFormConfig', () => {
 
     expect(transformSpy.calledWith(formConfig, form)).to.eq(true);
   });
+
+  it('does not include a custom submit', () => {
+    expect(formConfig.submit).to.eq(undefined);
+  });
 });
 
 describe('formatPages', () => {

@@ -65,8 +65,6 @@ export const createFormConfig = (form, options) => {
       },
     },
     rootUrl,
-    // eslint-disable-next-line no-console
-    submit: () => console.log(`Submitted ${subTitle}`),
     introduction: props => <IntroductionPage {...props} ombInfo={ombInfo} />,
     confirmation: ConfirmationPage,
     formId,
