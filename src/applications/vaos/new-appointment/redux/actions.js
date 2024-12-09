@@ -59,7 +59,10 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
-import { fetchFlowEligibilityAndClinics } from '../../services/patient';
+import {
+  fetchFlowEligibilityAndClinics,
+  fetchPatientRelationships,
+} from '../../services/patient';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { getCommunityCareV2 } from '../../services/vaos/index';
 
@@ -146,7 +149,7 @@ export const FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED =
 export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS =
   'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS';
 export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED =
-  'newAppointment/FFORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED';
+  'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED';
 export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED =
   'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED';
 
@@ -220,6 +223,35 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 
   return {
     type: START_REQUEST_APPOINTMENT_FLOW,
+  };
+}
+
+export function getPatientProviderRelationships() {
+  let patientProviderRelationships = [];
+
+  return async (dispatch, getState) => {
+    const state = getState();
+    const typeOfCare = getTypeOfCare(state.newAppointment.data);
+    // TODO: Need to determine where location object is coming from in flow
+    // const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
+
+    dispatch({
+      type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
+    });
+
+    try {
+      patientProviderRelationships = await fetchPatientRelationships({
+        typeOfCare,
+        location,
+      });
+    } catch (e) {
+      captureError(e);
+    }
+
+    dispatch({
+      type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED,
+      patientProviderRelationships,
+    });
   };
 }
 
