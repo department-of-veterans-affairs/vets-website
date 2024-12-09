@@ -15,7 +15,7 @@ const transformForSubmit = (formConfig, form) => {
   /** @type {ReplacerOptions} */
   const options = { replaceEscapedCharacters: true };
 
-  const transformedData = platformTransformForSubmit(
+  return platformTransformForSubmit(
     formConfig,
     {
       ...form,
@@ -23,11 +23,6 @@ const transformForSubmit = (formConfig, form) => {
     },
     options,
   );
-
-  // eslint-disable-next-line no-console
-  console.log(transformedData);
-
-  return transformedData;
 };
 
 export default transformForSubmit;
