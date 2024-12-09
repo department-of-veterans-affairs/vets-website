@@ -1,3 +1,4 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 // Footer
 .footer {
   color: var(--vads-color-white);
@@ -156,7 +157,7 @@ body.va-pad-promo-banner .footer-inner {
   margin: 0;
   padding: 16px 8px;
   font-size: 16px;
-  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+  font-family: "Source Sans Pro Web", "Helvetica Neue", "Helvetica", "Roboto",
     "Arial", sans-serif;
   color: var(--vads-color-white);
   background-color: var(--vads-color-primary-dark);
