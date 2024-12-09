@@ -6,7 +6,7 @@ import {
 import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { subMonths, formatISO } from 'date-fns';
+import { subMonths, format } from 'date-fns';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportDateRange } from '../../actions/downloads';
 
@@ -33,8 +33,8 @@ const DownloadDateRange = () => {
         const currentDate = new Date();
         dispatch(
           updateReportDateRange(
-            formatISO(subMonths(currentDate, e.detail.value)),
-            formatISO(currentDate),
+            format(subMonths(currentDate, e.detail.value), 'yyyy-MM-dd'),
+            format(currentDate, 'yyyy-MM-dd'),
           ),
         );
       }
