@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
 import * as IntroductionPage from '../../../containers/IntroductionPage';
-import { normalizedForm } from '../../../_config/formConfig';
+import { normalizedForm } from '../../../config/formConfig';
 import {
   createFormConfig,
   formatPages,
