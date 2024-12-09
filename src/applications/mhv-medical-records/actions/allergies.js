@@ -10,10 +10,10 @@ import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
 import { getListWithRetry } from './common';
 
-export const getAllergiesList = ({
+export const getAllergiesList = (
   isCurrent = false,
   isAccelerating = false,
-} = {}) => async dispatch => {
+) => async dispatch => {
   dispatch({
     type: Actions.Allergies.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,

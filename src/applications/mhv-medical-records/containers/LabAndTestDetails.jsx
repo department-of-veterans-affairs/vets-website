@@ -72,7 +72,10 @@ const LabAndTestDetails = () => {
   if (labAndTestDetails?.type === labTypes.EKG) {
     return <EkgDetails record={labAndTestDetails} />;
   }
-  if (labAndTestDetails?.type === labTypes.RADIOLOGY) {
+  if (
+    labAndTestDetails?.type === labTypes.RADIOLOGY ||
+    labAndTestDetails?.type === labTypes.CVIX_RADIOLOGY
+  ) {
     return (
       <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
     );

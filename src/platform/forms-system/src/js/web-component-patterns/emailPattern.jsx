@@ -81,11 +81,13 @@ const emailUI = options => {
   };
 };
 
-const emailToSendNotificationsUI = emailUI({
-  title: 'Email',
-  hint:
-    'We’ll use this email address to send you notifications about your form submission',
-});
+const emailToSendNotificationsUI = () => {
+  return emailUI({
+    title: 'Email',
+    hint:
+      'We’ll use this email address to send you notifications about your form submission',
+  });
+};
 
 /**
  * ```js
@@ -99,4 +101,11 @@ const emailSchema = {
   maxLength: 256,
 };
 
-export { emailUI, emailToSendNotificationsUI, emailSchema };
+const emailToSendNotificationsSchema = emailSchema;
+
+export {
+  emailUI,
+  emailToSendNotificationsUI,
+  emailSchema,
+  emailToSendNotificationsSchema,
+};

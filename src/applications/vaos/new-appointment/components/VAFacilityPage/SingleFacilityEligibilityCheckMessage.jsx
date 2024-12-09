@@ -1,5 +1,5 @@
 import React from 'react';
-import State from '../../../components/State';
+import PropTypes from 'prop-types';
 import InfoAlert from '../../../components/InfoAlert';
 import getEligibilityMessage from './getEligibilityMessage';
 
@@ -8,8 +8,7 @@ export default function SingleFacilityEligibilityCheckMessage({
   eligibility,
   typeOfCare,
 }) {
-  const title =
-    'We found one facility that accepts online scheduling for this care';
+  const title = 'You can’t schedule this appointment online';
 
   const { content } = getEligibilityMessage({
     eligibility,
@@ -20,13 +19,13 @@ export default function SingleFacilityEligibilityCheckMessage({
   return (
     <div aria-atomic="true" aria-live="assertive">
       <InfoAlert status="warning" headline={title}>
-        <p>
-          <strong>{facility.name}</strong>
-          <br />
-          {facility.address?.city}, <State state={facility.address?.state} />
-        </p>
         {content}
       </InfoAlert>
     </div>
   );
 }
+SingleFacilityEligibilityCheckMessage.propTypes = {
+  eligibility: PropTypes.object,
+  facility: PropTypes.object,
+  typeOfCare: PropTypes.object,
+};

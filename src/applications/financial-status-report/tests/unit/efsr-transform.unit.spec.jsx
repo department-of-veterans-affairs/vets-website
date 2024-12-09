@@ -167,7 +167,6 @@ describe('efsr-fsr transform helper functions', () => {
   describe('efsr-getMonthlyExpenses helper', () => {
     it('should calculate the sum of total monthly expenses for enhanced financial status report', () => {
       const expenses = {
-        'view:enhancedFinancialStatusReport': true,
         expenses: {
           expenseRecords: [{ name: 'Rent', amount: '100' }],
         },
@@ -240,7 +239,6 @@ describe('efsr-fsr transform helper functions', () => {
 
     it('should return a spouses employment history', () => {
       const history = {
-        'view:enhancedFinancialStatusReport': true,
         questions: {
           spouseIsEmployed: true,
           vetIsEmployed: false,

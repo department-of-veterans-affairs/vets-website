@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import POARequestsTable from '../POARequestsTable/POARequestsTable';
+import POARequestsCard from '../POARequestsCard/POARequestsCard';
 import ErrorMessage from '../common/ErrorMessage';
 
 const POARequestsTableFetcher = ({ usePOARequests }) => {
@@ -22,7 +22,7 @@ const POARequestsTableFetcher = ({ usePOARequests }) => {
       </p>
     );
 
-  return <POARequestsTable poaRequests={poaRequests} />;
+  return <POARequestsCard poaRequests={poaRequests} />;
 };
 
 POARequestsTableFetcher.propTypes = {

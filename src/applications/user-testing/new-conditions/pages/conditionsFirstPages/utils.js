@@ -2,7 +2,7 @@ import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/a
 
 import { conditionObjects } from '../../content/conditionOptions';
 
-export const createTitle = (defaultTitle, editTitle) => {
+export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   const search = getArrayUrlSearchParams();
   const isEdit = search.get('edit');
 
@@ -47,10 +47,9 @@ export const arrayBuilderOptions = {
   nounSingular: 'condition',
   nounPlural: 'conditions',
   required: true,
-  isItemIncomplete: item => !item?.condition || !item?.date,
+  isItemIncomplete: item => !item?.condition,
   maxItems: 100,
   text: {
     getItemName: item => createItemName(item, true),
-    cardDescription: item => `Date began: ${item?.date}`,
   },
 };

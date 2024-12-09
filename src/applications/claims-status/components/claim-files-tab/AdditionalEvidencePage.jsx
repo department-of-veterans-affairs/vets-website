@@ -109,7 +109,7 @@ class AdditionalEvidencePage extends React.Component {
         />
       );
     } else {
-      const { message, filesNeeded } = this.props;
+      const { message, filesNeeded, decisionRequested } = this.props;
 
       const standard5103NoticeExists =
         claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
@@ -149,7 +149,8 @@ class AdditionalEvidencePage extends React.Component {
               <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
                 <Toggler.Enabled>
                   {standard5103NoticeExists &&
-                    !automated5103NoticeExists && (
+                    !automated5103NoticeExists &&
+                    !decisionRequested && (
                       <Standard5103Alert previousPage="files" />
                     )}
                 </Toggler.Enabled>
@@ -220,6 +221,7 @@ function mapStateToProps(state) {
     message: claimsState.notifications.additionalEvidenceMessage,
     filesNeeded: getFilesNeeded(trackedItems),
     filesOptional: getFilesOptional(trackedItems),
+    decisionRequested: claimsState.claimAsk.decisionRequested,
     // START lighthouse_migration
     documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
@@ -244,6 +246,7 @@ AdditionalEvidencePage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
+  decisionRequested: PropTypes.bool,
   // START lighthouse_migration
   documentsUseLighthouse: PropTypes.bool,
   // END lighthouse_migration

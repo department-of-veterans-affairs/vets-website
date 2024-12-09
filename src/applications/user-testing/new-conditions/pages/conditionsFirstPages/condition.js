@@ -8,7 +8,7 @@ import Autocomplete from '../../components/Autocomplete';
 import { NULL_CONDITION_STRING } from '../../constants';
 import { conditionOptions } from '../../content/conditionOptions';
 import { conditionInstructions } from '../../content/newConditions';
-import { arrayBuilderOptions, createTitle } from './utils';
+import { arrayBuilderOptions, createDefaultAndEditTitles } from './utils';
 
 const missingConditionMessage =
   'Enter a condition, diagnosis, or short description of your symptoms';
@@ -60,7 +60,7 @@ const conditionPage = {
   uiSchema: {
     ...titleUI(
       () =>
-        createTitle(
+        createDefaultAndEditTitles(
           'Tell us the new condition you want to claim',
           `Edit condition`,
         ),

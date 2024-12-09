@@ -11,6 +11,8 @@ import { sharingReducer } from './sharing';
 import { alertsReducer } from './alerts';
 import { refreshReducer } from './refresh';
 import { pageTrackerReducer } from './pageTracker';
+import { blueButtonReducer } from './blueButton';
+import { selfEnteredReducer } from './selfEnteredData';
 
 const rootReducer = {
   mr: combineReducers({
@@ -25,6 +27,8 @@ const rootReducer = {
     alerts: alertsReducer,
     refresh: refreshReducer,
     pageTracker: pageTrackerReducer,
+    blueButton: blueButtonReducer,
+    selfEntered: selfEnteredReducer,
   }),
 };
 

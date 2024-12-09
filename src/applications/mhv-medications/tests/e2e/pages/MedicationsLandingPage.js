@@ -96,7 +96,7 @@ class MedicationsLandingPage {
   };
 
   verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {
-    cy.intercept('GET', Paths.MED_LIST, emptyPrescriptionsList).as(
+    cy.intercept('GET', Paths.LANDING_LIST, emptyPrescriptionsList).as(
       'emptyPrescriptionsList',
     );
     cy.get('[data-testid="empty-medications-list"]').should(
@@ -124,6 +124,11 @@ class MedicationsLandingPage {
       'contain',
       'Go to your allergies and reactions',
     );
+  };
+
+  visitLandingPageURLforEmptyMedicationsList = () => {
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
+    cy.intercept('GET', Paths.LANDING_LIST, emptyPrescriptionsList);
   };
 }
 export default MedicationsLandingPage;

@@ -46,7 +46,11 @@ export {
 export {
   default as TransitionSuccessModal,
 } from './authentication/components/account-transition/TransitionSuccessModal';
-
+export {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+  VerifyButton,
+} from './authentication/components/VerifyButton';
 export {
   default as CreateAccountLink,
 } from './authentication/components/CreateAccountLink';

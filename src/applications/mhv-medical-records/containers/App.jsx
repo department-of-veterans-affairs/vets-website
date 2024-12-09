@@ -127,11 +127,17 @@ const App = ({ children }) => {
 
   useEffect(
     () => {
-      if (!current) return;
+      if (!current) return () => {};
       const resizeObserver = new ResizeObserver(() => {
         setHeight(current.offsetHeight);
       });
       resizeObserver.observe(current);
+      return () => {
+        if (current) {
+          resizeObserver.unobserve(current);
+        }
+        resizeObserver.disconnect();
+      };
     },
     [current],
   );

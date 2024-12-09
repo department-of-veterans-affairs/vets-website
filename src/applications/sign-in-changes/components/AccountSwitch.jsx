@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LoginButton } from '~/platform/user/exportsFile';
+import { VerifyButton } from '~/platform/user/exportsFile';
 import { maskEmail } from '../helpers';
 
 const CspDisplay = ({ csp, email, name }) => {
@@ -10,7 +10,12 @@ const CspDisplay = ({ csp, email, name }) => {
         We found an existing <strong>{name}</strong> account for your email
         address: <strong>{maskEmail(email)}</strong>
       </p>
-      <LoginButton csp={csp} data-testid={csp} />
+      {/* change line below */}
+      <VerifyButton
+        csp={csp}
+        data-testid={csp}
+        queryParam={{ operation: 'interstitial_verify' }}
+      />
     </>
   );
 };

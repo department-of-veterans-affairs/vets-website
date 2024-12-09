@@ -114,6 +114,7 @@ const LandingPage = () => {
   useEffect(
     () => {
       if (showFilterContent && !filteredList) {
+        setIsPrescriptionsLoading(true);
         const sortOption = selectedSortOption ?? defaultSelectedSortOption;
         const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
         dispatch(
@@ -122,7 +123,9 @@ const LandingPage = () => {
             filterOptions.ALL_MEDICATIONS.url,
             sortEndpoint,
           ),
-        );
+        )
+          .then(() => setIsPrescriptionsLoading(false))
+          .catch(() => setIsPrescriptionsLoading(false));
       }
     },
     // disabled warning: filteredList must be left of out dependency array to avoid infinite loop, and filterOption to avoid on change api fetch

@@ -332,10 +332,6 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CONTINUE).click();
   };
 
-  verifyMoveMessageWithAttachmentSuccessMessage = () => {
-    cy.get('p').contains('Message conversation was successfully moved');
-  };
-
   navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',

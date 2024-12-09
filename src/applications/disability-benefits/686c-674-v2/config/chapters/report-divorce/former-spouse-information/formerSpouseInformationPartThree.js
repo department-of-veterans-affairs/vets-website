@@ -10,7 +10,7 @@ export const schema = {
     reportDivorce: {
       type: 'object',
       properties: {
-        formerSpouseIncome: yesNoSchema,
+        spouseIncome: yesNoSchema,
       },
     },
   },
@@ -19,7 +19,7 @@ export const schema = {
 export const uiSchema = {
   reportDivorce: {
     ...titleUI('Divorced spouse’s income'),
-    formerSpouseIncome: yesNoUI(
+    spouseIncome: yesNoUI(
       'Did this dependent earn an income in the last 365 days? Answer this question only if you are adding this dependent to your pension.',
     ),
   },

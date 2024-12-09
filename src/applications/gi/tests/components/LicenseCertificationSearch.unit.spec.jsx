@@ -1,24 +1,21 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-import sinon from 'sinon';
+import { waitFor } from '@testing-library/react';
+import { renderWithStoreAndRouter } from '../helpers';
 import LicenseCertificationSearch from '../../components/LicenseCertificationSearch';
 
 describe('<LicenseCertificationSearch />', () => {
-  let wrapper;
-  let history;
+  it('should render', async () => {
+    const screen = renderWithStoreAndRouter(<LicenseCertificationSearch />, {
+      initialState: {
+        fetchingLc: true,
+        lcResults: [],
+        hasFetchedOnce: false,
+      },
+    });
 
-  beforeEach(() => {
-    history = { push: sinon.spy() };
-    wrapper = shallow(<LicenseCertificationSearch />);
-    wrapper.setProps({ history });
-  });
-
-  afterEach(() => {
-    wrapper.unmount();
-  });
-
-  it('should render without crashing', () => {
-    expect(wrapper.exists()).to.be.ok;
+    await waitFor(() => {
+      expect(screen).to.not.be.null;
+    });
   });
 });

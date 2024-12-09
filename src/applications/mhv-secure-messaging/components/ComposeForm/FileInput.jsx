@@ -195,6 +195,7 @@ const FileInput = props => {
 };
 
 FileInput.propTypes = {
+  attachmentScanError: PropTypes.bool,
   attachments: PropTypes.array,
   draftSequence: PropTypes.number,
   setAttachFileSuccess: PropTypes.func,

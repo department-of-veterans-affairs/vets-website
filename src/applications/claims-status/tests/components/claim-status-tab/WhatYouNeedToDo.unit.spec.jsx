@@ -13,8 +13,15 @@ const nothingNeededText =
   'There’s nothing we need from you right now. We’ll let you know when there’s an update.';
 
 describe('<WhatYouNeedToDo>', () => {
-  const getStore = (cst5103UpdateEnabled = false) =>
+  const getStore = (cst5103UpdateEnabled = false, decisionRequested = false) =>
     createStore(() => ({
+      disability: {
+        status: {
+          claimAsk: {
+            decisionRequested,
+          },
+        },
+      },
       featureToggles: {
         // eslint-disable-next-line camelcase
         cst_5103_update_enabled: cst5103UpdateEnabled,
@@ -164,39 +171,70 @@ describe('<WhatYouNeedToDo>', () => {
       expect($('va-alert', container)).not.to.exist;
     });
 
-    it('shows standard 5103 alert when are no tracked items and there is a standard 5103', () => {
-      const claim = {
-        id: 1222,
-        attributes: {
-          status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
-          closeDate: null,
-          evidenceWaiverSubmitted5103: false,
-          claimPhaseDates: {
-            latestPhaseType: 'GATHERING_OF_EVIDENCE',
-            previousPhases: {
-              phase1CompleteDate: '2024-01-17',
-              phase2CompleteDate: '2024-01-18',
+    context('when evidence has not been submitted', () => {
+      it('shows standard 5103 alert when are no tracked items and there is a standard 5103', () => {
+        const claim = {
+          id: 1222,
+          attributes: {
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+            closeDate: null,
+            evidenceWaiverSubmitted5103: false,
+            claimPhaseDates: {
+              latestPhaseType: 'GATHERING_OF_EVIDENCE',
+              previousPhases: {
+                phase1CompleteDate: '2024-01-17',
+                phase2CompleteDate: '2024-01-18',
+              },
             },
           },
-        },
-      };
+        };
 
-      const {
-        container,
-        queryByText,
-        getByTestId,
-        getByText,
-      } = renderWithRouter(
-        <Provider store={getStore(true)}>
-          <WhatYouNeedToDo claim={claim} />
-        </Provider>,
-      );
+        const {
+          container,
+          queryByText,
+          getByTestId,
+          getByText,
+        } = renderWithRouter(
+          <Provider store={getStore(true)}>
+            <WhatYouNeedToDo claim={claim} />
+          </Provider>,
+        );
 
-      expect(queryByText(nothingNeededText)).not.to.exist;
-      expect($('va-alert', container)).to.exist;
-      expect(getByTestId('standard-5103-notice-alert')).to.exist;
-      getByText('Review evidence list (5103 notice)');
-      expect(queryByText('Automated 5103 Notice Response')).to.be.null;
+        expect(queryByText(nothingNeededText)).not.to.exist;
+        expect($('va-alert', container)).to.exist;
+        expect(getByTestId('standard-5103-notice-alert')).to.exist;
+        getByText('Review evidence list (5103 notice)');
+        expect(queryByText('Automated 5103 Notice Response')).to.be.null;
+      });
+    });
+
+    context('when evidence has been submitted', () => {
+      it('doesnt show standard 5103 alert when are no tracked items and there is a standard 5103 ', () => {
+        const claim = {
+          id: 1222,
+          attributes: {
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+            closeDate: null,
+            evidenceWaiverSubmitted5103: false,
+            claimPhaseDates: {
+              latestPhaseType: 'GATHERING_OF_EVIDENCE',
+              previousPhases: {
+                phase1CompleteDate: '2024-01-17',
+                phase2CompleteDate: '2024-01-18',
+              },
+            },
+          },
+        };
+
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore(true, true)}>
+            <WhatYouNeedToDo claim={claim} />
+          </Provider>,
+        );
+
+        getByText(nothingNeededText);
+        expect($('va-alert', container)).to.not.exist;
+      });
     });
 
     it('shows va-alert when there is a tracked item', () => {

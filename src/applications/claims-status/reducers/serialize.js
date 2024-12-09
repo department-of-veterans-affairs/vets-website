@@ -1,7 +1,4 @@
-import {
-  getTrackedItemDate,
-  getTrackedItemHumanReadableName,
-} from '../utils/helpers';
+import { getTrackedItemDate } from '../utils/helpers';
 
 // NOTE: In the long term it will make sense to move some of this logic into
 //       the backend, but doing it here for now makes it easier to modify in
@@ -51,21 +48,7 @@ const transformUnassociatedDocs = docs =>
 const transformAssociatedTrackedItems = items =>
   items.map(item => ({
     ...item,
-    // <tempfix>
-    // Override the first-party status of PMR (Private Medical Record) Pending
-    //   requests to third-party by replacing "NEEDED_FROM_YOU" with
-    //   "NEEDED_FROM_OTHERS".
-    // See GH issue for more details:
-    //   https://github.com/department-of-veterans-affairs/va.gov-team/issues/93456
-    // TODO: Remove this <tempfix> block once the Lighthouse API is returning
-    //       PMR Pending requests with more accurate status information.
-    status:
-      item.displayName === 'PMR Pending' ? 'NEEDED_FROM_OTHERS' : item.status,
-    // </tempfix>
     date: getTrackedItemDate(item),
-    // This might need to be removed / moved elsewhere if future application
-    //   logic depends on the original `displayName` of the tracked item.
-    displayName: getTrackedItemHumanReadableName(item.displayName),
   }));
 
 export const serializeClaim = claim => {

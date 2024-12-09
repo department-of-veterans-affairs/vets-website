@@ -40,7 +40,6 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
     store = createTestStore({
       ...initialState,
       featureToggles: {
-        vaOnlineSchedulingFacilitiesServiceV2: true,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
       },
       newAppointment: {

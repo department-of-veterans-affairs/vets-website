@@ -14,6 +14,7 @@ const schoolInYourProfilePage = {
     'ui:objectViewField': PageFieldSummary,
     useSchoolInProfile: radioUI({
       title: 'Do you want to use the school in your profile?',
+      labelHeaderLevel: '4',
       labels: schoolInYourProfileOptions,
     }),
   },

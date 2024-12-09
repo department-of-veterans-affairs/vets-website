@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import { formatDateLong } from 'platform/utilities/date';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+
 import UserInfoSection from '../components/UserInfoSection';
 
 export class PrintPage extends React.Component {
@@ -36,7 +36,7 @@ export class PrintPage extends React.Component {
           <div className="print-screen">
             <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
             <h1 className="section-header">
-              Post-9/11 GI Bill
+              Your Post-9/11 GI Bill
               <sup>&reg;</sup> Statement of Benefits
             </h1>
             <button className="usa-button-primary" onClick={this.printWindow}>
@@ -63,7 +63,6 @@ export class PrintPage extends React.Component {
 }
 
 PrintPage.propTypes = {
-  breadcrumbsUpdated: PropTypes.bool,
   enrollmentData: PropTypes.object,
   router: PropTypes.shape({
     push: PropTypes.func,
@@ -73,8 +72,6 @@ PrintPage.propTypes = {
 function mapStateToProps(state) {
   return {
     enrollmentData: state.post911GIBStatus.enrollmentData,
-    // TO-DO: Remove after correct breadcrumbs classname successfully tested
-    breadcrumbsUpdated: toggleValues(state).sob_print_page_update,
   };
 }
 

@@ -294,7 +294,7 @@ class IntroductionPage extends React.Component {
         <va-omb-info
           res-burden={25}
           omb-number={OMB_CONTROL}
-          exp-date="03/31/2021"
+          exp-date="11/30/2025"
         />
       </div>
     );

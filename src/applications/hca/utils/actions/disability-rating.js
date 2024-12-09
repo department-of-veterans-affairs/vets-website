@@ -1,6 +1,5 @@
-import recordEvent from '~/platform/monitoring/record-event';
-import { apiRequest } from '~/platform/utilities/api';
-
+import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
 import { DISABILITY_PREFIX, DISABILITY_RATING_ACTIONS } from '../constants';
 import {
   isClientError,

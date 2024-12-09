@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { getFilesNeeded, isAutomated5103Notice } from '../../utils/helpers';
 
@@ -13,6 +14,10 @@ function WhatYouNeedToDo({ claim }) {
     trackedItems,
   } = claim.attributes;
 
+  const decisionRequested = useSelector(
+    state => state.disability.status.claimAsk.decisionRequested,
+  );
+
   const filesNeeded = trackedItems
     ? // When user indicates they will not be submitting more evidence by adding a standard or automated 5103 waiver,
       // we will remove the automated 5103 request from the filesNeeded array, preventing the alert from showing.
@@ -21,7 +26,8 @@ function WhatYouNeedToDo({ claim }) {
 
   const standard5103NoticeExists =
     claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
-    evidenceWaiverSubmitted5103 === false;
+    evidenceWaiverSubmitted5103 === false &&
+    !decisionRequested;
   const automated5103NoticeExists = filesNeeded.some(i =>
     isAutomated5103Notice(i.displayName),
   );
